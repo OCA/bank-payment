@@ -24,11 +24,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-print 'Importing account_banking.account_banking'
 import account_banking
-print 'Importing account_banking.parsers'
 import parsers
-print 'Importing account_banking.wizard'
 import wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
