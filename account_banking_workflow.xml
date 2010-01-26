@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) EduSense BV <http://www.edusense.nl>
+  All rights reserved.
+  The licence is in the file __terp__.py
+-->
+<openerp>
+    <data>
+        <!-- New activity for workflow payment order: sent -->
+        <record id="act_sent" model="workflow.activity">
+            <field name="name">sent</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">action_sent()
+write({'state':'sent'})</field>
+            <field name="kind">function</field>
+        </record>
+        <!-- Add new transition sent -> done -->
+        <record id="trans_sent_done" model="workflow.transition">
+            <field name="act_from" ref="act_sent"/>
+            <field name="act_to" ref="account_payment.act_done"/>
+            <field name="signal">done</field>
+        </record>
+        <!-- Rewrite existing open -> done transition to include 'sent' -->
+        <record id="account_payment.trans_open_done" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="act_sent"/>
+            <field name="signal">sent</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) EduSense BV <http://www.edusense.nl>
+  All rights reserved.
+  The licence is in the file __terp__.py
+-->
+<openerp>
+    <data>
+        <!-- Create new submenu in finance/periodical processing -->
+        <menuitem name="Banking"
+            id="account_banking.menu_finance_banking_actions"
+            parent="account.menu_finance_periodical_processing"
+            />
+        <!-- Create new submenu in finance/configuration -->
+        <menuitem name="Banking"
+            id="account_banking.menu_finance_banking_settings"
+            parent="account.menu_finance_configuration"
+            />
+
+        <!-- Create new view on default journals for bank accounts -->
+        <record model="ir.ui.view" id="view_banking_account_settings_form">
+            <field name="name">account.banking.account.settings.form</field>
+            <field name="model">account.banking.account.settings</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Default Import Settings for Bank Account">
+                    <field name="company_id" />
+                    <separator string="Bank Account Details" colspan="4" />
+                    <field name="partner_bank_id" /> <!-- Needs fiddling... domain="[('partner_id','=',company_id.partner_id)]"/-->
+                    <field name="journal_id" domain="[('type','=','cash')]" />
+                    <separator string="Default Accounts for Unknown Movements" colspan="4" />
+                    <field name="default_credit_account_id" />
+                    <field name="default_debit_account_id" />
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_banking_account_settings_tree">
+            <field name="name">account.banking.account.settings.tree</field>
+            <field name="model">account.banking.account.settings</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Default Import Settings for Bank Account">
+                    <field name="company_id" />
+                    <field name="partner_bank_id" /> <!-- Needs fiddling... domain="[('partner_id','=',company_id.partner_id)]"/-->
+                    <field name="journal_id" domain="[('type','=','cash')]" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_account_banking_journals">
+            <field name="name">Default Import Settings for Bank Accounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.banking.account.settings</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Create new submenu for finance configuration -->
+        <menuitem name="Default Import Settings for Bank Accounts"
+            id="menu_action_account_banking_bank_journals"
+            parent="account_banking.menu_finance_banking_settings"
+            action="action_account_banking_journals"
+            sequence="12"
+         />
+        
+        <!-- Create new view on imported statement files -->
+        <record model="ir.ui.view" id="view_account_banking_imported_file_form">
+            <field name="name">account.banking.imported.file.form</field>
+            <field name="model">account.banking.imported.file</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Imported Bank Statements">
+                    <notebook colspan="4">
+                        <page string="Import Details">
+                            <field name="company_id" />
+                            <field name="date" />
+                            <field name="user_id" />
+                            <field name="state" />
+                            <field name="file"/>
+                            <field name="format" />
+                        </page>
+                        <page string="Statements">
+                            <field name="statement_ids" colspan="4"/>
+                        </page>
+                        <page string="Import Log">
+                            <field name="log" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_account_banking_imported_file_tree">
+            <field name="name">account.banking.imported.file.tree</field>
+            <field name="model">account.banking.imported.file</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Imported Bank Statements Files" colors="red:state=='error';blue:state=='unfinished'">
+                    <field name="company_id" />
+                    <field name="date" />
+                    <field name="user_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_account_banking_imported_files">
+            <field name="name">Imported Bank Statements Files</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.banking.imported.file</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Add a menu item for it -->
+        <menuitem name="Imported Bank Statements Files"
+            id="menu_action_account_banking_imported_files"
+            parent="account_banking.menu_finance_banking_actions"
+            action="action_account_banking_imported_files"
+            sequence="12"
+         />
+
+        <!-- Add the import wizard to the menu -->
+        <menuitem name="Import Bank Statements File"
+            id="menu_account_banking_import_wizard"
+            parent="account_banking.menu_finance_banking_actions"
+            type="wizard"
+            action="wizard_account_banking_import_file"
+            sequence="15"/>
+
+        <!-- Create right menu entry to see statements -->
+        <act_window name="Bank Statements File"
+            domain="[('banking_id', '=', active_id)]"
+            res_model="account.banking.imported.file"
+            src_model="account.bank.statement"
+            view_type="form"
+            view_mode="tree,form"
+            id="act_account_payment_account_bank_statement"/>
+
+        <!-- Move period_id from bank_statement form to bank_statement_line form
+        -->
+        <record id="view_banking_bank_statement_tree_1" model="ir.ui.view">
+            <field name="name">account.bank.statement.tree.banking</field>
+            <field name="inherit_id" ref="account.view_bank_statement_tree" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="period_id" position="replace"/>
+            </field>
+        </record>
+        <record id="view_banking_bank_statement_form_1" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-1</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="period_id" position="replace"/>
+            </field>
+        </record>
+        <record id="view_banking_bank_statement_form_2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-2</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Entry encoding']/field/tree/field[@name='type']" position="after">
+                    <field name="period_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_banking_bank_statement_form_3" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-3</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Entry encoding']/field/form/field[@name='type']" position="after">
+                    <field name="period_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Reset trigger on button_confirm to the trigger code in this module -->
+        <record id="view_banking_bank_statement_form_4" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-4</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="button_confirm" position="replace">
+                    <button name="button_confirm" states="draft" string="Confirm" type="object"/>
+                </button>
+            </field>
+        </record>
+
+        <!-- Make buttons on payment order sensitive for 'Sent' state -->
+        <record id="view_banking_payment_order_form_1" model="ir.ui.view">
+            <field name="name">account.payment.order.form.banking-1</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form" />
+            <field name="model">payment.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/button[@string='Select Invoices to Pay']"
+                    position="replace">
+                    <button name="%(account_payment.wizard_populate_payment)s"
+                        colspan="2" type="action" states="draft,open"
+                        string="Select Invoices to Pay"
+                        />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
