@@ -38,7 +38,7 @@ def elfproef(s):
     return (r % 11) == 0
 
 class HeaderRecord(record.Record): #{{{
-   '''ClieOp3 header record'''
+    '''ClieOp3 header record'''
     _fields = [
         record.Filler('recordcode', 4, '0001'),
         record.Filler('variantcode', 1, 'A'),
