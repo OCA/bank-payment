@@ -379,6 +379,7 @@ def _banking_import_statements_file(self, cursor, uid, data, context):
                     )
             else:
                 partner_id = False
+                partner_bank_id = False
 
             # Link accounting period
             period_id = get_period(pool, cursor, uid,
