@@ -21,11 +21,15 @@
 
 __all__ = ['str2date', 'date2str', 'date2date']
 
-import datetime
+try:
+    from datetime import datetime
+    datetime.strptime
+except AttributeError:
+    from mx import DateTime as datetime
 
 def str2date(datestr, format='%d/%m/%y'):
     '''Convert a string to a datatime object'''
-    return datetime.datetime.strptime(datestr, format)
+    return datetime.strptime(datestr, format)
 
 def date2str(date, format='%Y-%m-%d'):
     '''Convert a datetime object to a string'''
