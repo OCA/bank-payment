@@ -385,6 +385,9 @@ def _banking_import_statements_file(self, cursor, uid, data, context):
             period_id = get_period(pool, cursor, uid,
                                    transaction.effective_date, company,
                                    log)
+            if not period_id:
+                no_trans_skipped += 1
+                continue
 
             # Credit means payment... isn't it?
             if transaction.transferred_amount < 0 and payment_lines:
