@@ -207,5 +207,66 @@
             </field>
         </record>
 
+        <!-- Set trigger on IBAN and acc_number fields in res_partner_bank form -->
+        <record id="view_partner_bank_account_banking_form_1" model="ir.ui.view">
+            <field name="name">res.partner.bank.form.account_banking.inherit</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base_iban.view_partner_bank_iban_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="iban" position="replace">
+                    <field name="iban" on_change="onchange_iban(iban, acc_number)"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_partner_bank_account_banking_form_2" model="ir.ui.view">
+            <field name="name">res.partner.bank.form.account_banking.inherit</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base_iban.view_partner_bank_iban_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="acc_number" position="replace">
+                    <field name="acc_number" on_change="onchange_iban(iban, acc_number)"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Set trigger on IBAN and acc_number field in res_partner form -->
+        <record id="view_partner_account_banking_form_1" model="ir.ui.view">
+            <field name="name">res.partner.form.account_banking.inherit-1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_iban.view_partner_iban_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="iban" position="replace">
+                    <field name="iban" on_change="onchange_iban(iban, acc_number)"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_partner_account_banking_form_2" model="ir.ui.view">
+            <field name="name">res.partner.form.account_banking.inherit-2</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_iban.view_partner_iban_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="acc_number" position="replace">
+                    <field name="acc_number" on_change="onchange_iban(iban, acc_number)"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Set trigger on BIC in res_bank form -->
+        <record id="view_res_bank_account_banking_form_1" model="ir.ui.view">
+            <field name="name">res.bank.form.account_banking.inherit-1</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="bic" position="replace">
+                    <field name="bic" on_change="onchange_bic(bic, name)"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

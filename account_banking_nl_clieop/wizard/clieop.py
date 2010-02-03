@@ -21,15 +21,15 @@
 
 from account_banking import record
 
-__all__ = ['IncassoBatch', 'BetalingsBatch', 'Incasso', 'Betaling',
-           'IncassoFile', 'BetalingsFile', 'SalarisFile',
-           'SalarisbetalingsOpdracht', 'BetalingsOpdracht', 'IncassoOpdracht',
-           'OpdrachtenFile',
+__all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
+           'DirectDebitFile', 'PaymentsFile', 'SalaryPaymentsFile',
+           'SalaryPaymentOrder', 'PaymentOrder', 'DirectDebitOrder',
+           'OrdersFile',
           ]
 
-def elfproef(s):
+def eleven_test(s):
     '''
-    Dutch elfproef for validating 9-long local bank account numbers.
+    Dutch eleven-test for validating 9-long local bank account numbers.
     '''
     r = 0
     l = len(s)
@@ -42,19 +42,19 @@ class HeaderRecord(record.Record): #{{{
     _fields = [
         record.Filler('recordcode', 4, '0001'),
         record.Filler('variantcode', 1, 'A'),
-        record.DateField('aanmaakdatum', '%d%m%y', auto=True),
-        record.Filler('bestandsnaam', 8, 'CLIEOP03'),
-        record.Field('inzender_id', 5),
-        record.Field('bestands_id', 4),
-        record.Field('duplicaatcode', 1),
+        record.DateField('creation_date', '%d%m%y', auto=True),
+        record.Filler('filename', 8, 'CLIEOP03'),
+        record.Field('sender_id', 5),
+        record.Field('file_id', 4),
+        record.Field('duplicatecode', 1),
         record.Filler('filler', 21),
     ]
 
     def __init__(self, id='1', volgnr=1, duplicate=False):
         super(HeaderRecord, self).__init__()
-        self.inzender_id = id
-        self.bestands_id = '%02d%02d' % (self.aanmaakdatum.day, volgnr)
-        self.duplicaatcode = duplicate and '2' or '1'
+        self.sender_id = id
+        self.file_id = '%02d%02d' % (self.creation_date.day, volgnr)
+        self.duplicatecode = duplicate and '2' or '1'
 #}}}
 
 class FooterRecord(record.Record):
@@ -70,10 +70,10 @@ class BatchHeaderRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0010'),
         record.Field('variantcode', 1),
-        record.Field('transactiegroep', 2),
-        record.NumberField('rekeningnr_opdrachtgever', 10),
-        record.NumberField('batchvolgnummer', 4),
-        record.Filler('aanlevermuntsoort', 3, 'EUR'),
+        record.Field('transactiongroup', 2),
+        record.NumberField('accountno_sender', 10),
+        record.NumberField('batch_tracer', 4),
+        record.Filler('currency_order', 3, 'EUR'),
         record.Field('batch_id', 16),
         record.Filler('filler', 10),
     ]
@@ -83,112 +83,113 @@ class BatchFooterRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '9990'),
         record.Filler('variantcode', 1, 'A'),
-        record.NumberField('totaalbedrag', 18),
-        record.NumberField('totaal_rekeningnummers', 10),
-        record.NumberField('aantal_posten', 7),
+        record.NumberField('total_amount', 18),
+        record.NumberField('total_accountnos', 10),
+        record.NumberField('nr_posts', 7),
         record.Filler('filler', 10),
     ]
 
-class VasteOmschrijvingRecord(record.Record):
+class FixedMessageRecord(record.Record):
     '''Fixed message'''
     _fields = [
         record.Filler('recordcode', 4, '0020'),
         record.Filler('variantcode', 1, 'A'),
-        record.Field('vaste_omschrijving', 32),
+        record.Field('fixed_message', 32),
         record.Filler('filler', 13),
     ]
 
-class OpdrachtgeverRecord(record.Record):
+class SenderRecord(record.Record):
     '''Ordering party'''
     _fields = [
         record.Filler('recordcode', 4, '0030'),
         record.Filler('variantcode', 1, 'B'),
+        # NAW = Name, Address, Residence
         record.Field('NAWcode', 1),
-        record.DateField('gewenste_verwerkingsdatum', '%d%m%y', auto=True),
-        record.Field('naam_opdrachtgever', 35),
+        record.DateField('preferred_execution_date', '%d%m%y', auto=True),
+        record.Field('name_sender', 35),
         record.Field('testcode', 1),
         record.Filler('filler', 2),
     ]
 
-class TransactieRecord(record.Record):
+class TransactionRecord(record.Record):
     '''Transaction'''
     _fields = [
         record.Filler('recordcode', 4, '0100'),
         record.Filler('variantcode', 1, 'A'),
-        record.NumberField('transactiesoort', 4),
-        record.NumberField('bedrag', 12),
-        record.NumberField('rekeningnr_betaler', 10),
-        record.NumberField('rekeningnr_begunstigde', 10),
+        record.NumberField('transactiontype', 4),
+        record.NumberField('amount', 12),
+        record.NumberField('accountno_payer', 10),
+        record.NumberField('accountno_beneficiary', 10),
         record.Filler('filler', 9),
     ]
 
-class NaamBetalerRecord(record.Record):
+class NamePayerRecord(record.Record):
     '''Name payer'''
     _fields = [
         record.Filler('recordcode', 4, '0110'),
         record.Filler('variantcode', 1, 'B'),
-        record.Field('naam', 35),
+        record.Field('name', 35),
         record.Filler('filler', 10),
     ]
 
-class BetalingskenmerkRecord(record.Record):
+class PaymentReferenceRecord(record.Record):
     '''Payment reference'''
     _fields = [
         record.Filler('recordcode', 4, '0150'),
         record.Filler('variantcode', 1, 'A'),
-        record.Field('betalingskenmerk', 16),
+        record.Field('paymentreference', 16),
         record.Filler('filler', 29),
     ]
 
-class OmschrijvingRecord(record.Record):
+class DescriptionRecord(record.Record):
     '''Description'''
     _fields = [
         record.Filler('recordcode', 4, '0160'),
         record.Filler('variantcode', 1, 'B'),
-        record.Field('omschrijving', 32),
+        record.Field('description', 32),
         record.Filler('filler', 13),
     ]
 
-class NaamBegunstigdeRecord(record.Record):
+class NameBeneficiaryRecord(record.Record):
     '''Name receiving party'''
     _fields = [
         record.Filler('recordcode', 4, '0170'),
         record.Filler('variantcode', 1, 'B'),
-        record.Field('naam', 35),
+        record.Field('name', 35),
         record.Filler('filler', 10),
     ]
 
-class OpdrachtRecord(record.Record):
+class OrderRecord(record.Record):
     '''Order details'''
     _fields = [
         record.Filler('recordcode', 6, 'KAE092'),
-        record.Field('naam_transactiecode', 18),
-        record.NumberField('totaalbedrag', 13),
-        record.Field('rekeningnr_opdrachtgever', 10),
-        record.NumberField('totaal_rekeningnummers', 5),
-        record.NumberField('aantal_posten', 6),
-        record.Field('identificatie', 6),
-        record.DateField('gewenste_verwerkingsdatum', '%y%m%d'),
+        record.Field('name_transactioncode', 18),
+        record.NumberField('total_amount', 13),
+        record.Field('accountno_sender', 10),
+        record.NumberField('total_accountnos', 5),
+        record.NumberField('nr_posts', 6),
+        record.Field('identification', 6),
+        record.DateField('preferred_execution_date', '%y%m%d'),
         record.Field('batch_medium', 18),
-        record.Filler('muntsoort', 3, 'EUR'),
+        record.Filler('currency', 3, 'EUR'),
         record.Field('testcode', 1),
     ]
     def __init__(self, *args, **kwargs):
-        super(OpdrachtRecord, self).__init__(*args, **kwargs)
+        super(OrderRecord, self).__init__(*args, **kwargs)
         self.batch_medium = 'DATACOM'
-        self.naam_transactiecode = self._transactiecode
+        self.name_transactioncode = self._transactioncode
 
-class SalarisbetalingsOpdracht(OpdrachtRecord):
+class SalaryPaymentOrder(OrderRecord):
     '''Salary payment batch record'''
-    _transactiecode = 'SALARIS'
+    _transactioncode = 'SALARIS'
 
-class BetalingsOpdracht(OpdrachtRecord):
+class PaymentOrder(OrderRecord):
     '''Payment batch record'''
-    _transactiecode = 'CREDBET'
+    _transactioncode = 'CREDBET'
 
-class IncassoOpdracht(OpdrachtRecord):
+class DirectDebitOrder(OrderRecord):
     '''Direct debit payments batch record'''
-    _transactiecode = 'INCASSO'
+    _transactioncode = 'INCASSO'
 
 class Optional(object):
     '''Auxilliary class to handle optional records'''
@@ -218,135 +219,135 @@ class Optional(object):
         '''Make sure to adapt'''
         return self._guts.__iter__()
 
-class OpdrachtenFile(object):
+class OrdersFile(object):
     '''A payment orders file'''
     def __init__(self, *args, **kwargs):
-        self.opdrachten = []
+        self.orders = []
 
     @property
     def rawdata(self):
         '''
         Return a writeable file content object
         '''
-        return '\r\n'.join(self.opdrachten)
+        return '\r\n'.join(self.orders)
 
-class Transactie(object):
+class Transaction(object):
     '''Generic transaction class'''
-    def __init__(self, soort=0, naam=None, referentie=None, omschrijvingen=[],
-                 rekeningnr_begunstigde=None, rekeningnr_betaler=None,
-                 bedrag=0
+    def __init__(self, type_=0, name=None, reference=None, messages=[],
+                 accountno_beneficiary=None, accountno_payer=None,
+                 amount=0
                 ):
-        self.transactie = TransactieRecord()
-        self.betalingskenmerk = Optional(BetalingskenmerkRecord)
-        self.omschrijving = Optional(OmschrijvingRecord, 4)
-        self.transactie.transactiesoort = soort
-        self.transactie.rekeningnr_begunstigde = rekeningnr_begunstigde
-        self.transactie.rekeningnr_betaler = rekeningnr_betaler
-        self.transactie.bedrag = int(bedrag * 100)
-        if referentie:
-            self.betalingskenmerk.betalingskenmerk = referentie
-        for oms in omschrijvingen:
-            self.omschrijving.omschrijving = oms
-        self.naam.naam = naam
+        self.transaction = TransactionRecord()
+        self.paymentreference = Optional(PaymentReferenceRecord)
+        self.description = Optional(DescriptionRecord, 4)
+        self.transaction.transactiontype = type_
+        self.transaction.accountno_beneficiary = accountno_beneficiary
+        self.transaction.accountno_payer = accountno_payer
+        self.transaction.amount = int(amount * 100)
+        if reference:
+            self.paymentreference.paymentreference = reference
+        for msg in messages:
+            self.description.description = msg
+        self.name.name = name
 
-class Incasso(Transactie):
+class DirectDebit(Transaction):
     '''Direct Debit Payment transaction'''
     def __init__(self, *args, **kwargs):
-        reknr = kwargs['rekeningnr_betaler']
-        kwargs['soort'] = len(reknr.lstrip('0')) <= 7 and 1002 or 1001
-        self.naam = NaamBetalerRecord()
-        super(Incasso, self).__init__(*args, **kwargs)
+        reknr = kwargs['accountno_payer']
+        kwargs['type_'] = len(reknr.lstrip('0')) <= 7 and 1002 or 1001
+        self.name = NamePayerRecord()
+        super(DirectDebit, self).__init__(*args, **kwargs)
 
     @property
     def rawdata(self):
         '''
         Return self as writeable file content object
         '''
-        items = [str(self.transactie)]
-        if self.naam:
-            items.append(str(self.naam))
-        for kenmerk in self.betalingskenmerk:
+        items = [str(self.transaction)]
+        if self.name:
+            items.append(str(self.name))
+        for kenmerk in self.paymentreference:
             items.append(str(kenmerk))
-        for omschrijving in self.omschrijving:
-            items.append(str(omschrijving))
+        for description in self.description:
+            items.append(str(description))
         return '\r\n'.join(items)
 
-class Betaling(Transactie):
+class Payment(Transaction):
     '''Payment transaction'''
     def __init__(self, *args, **kwargs):
-        reknr = kwargs['rekeningnr_begunstigde']
+        reknr = kwargs['accountno_beneficiary']
         if len(reknr.lstrip('0')) > 7:
-            if not elfproef(reknr):
+            if not eleven_test(reknr):
                 raise ValueError, '%s is not a valid bank account' % reknr
-        kwargs['soort'] = 5
-        self.naam = NaamBegunstigdeRecord()
-        super(Betaling, self).__init__(*args, **kwargs)
+        kwargs['type_'] = 5
+        self.name = NameBeneficiaryRecord()
+        super(Payment, self).__init__(*args, **kwargs)
 
     @property
     def rawdata(self):
         '''
         Return self as writeable file content object
         '''
-        items = [str(self.transactie)]
-        for kenmerk in self.betalingskenmerk:
+        items = [str(self.transaction)]
+        for kenmerk in self.paymentreference:
             items.append(str(kenmerk))
-        if self.naam:
-            items.append(str(self.naam))
-        for omschrijving in self.omschrijving:
-            items.append(str(omschrijving))
+        if self.name:
+            items.append(str(self.name))
+        for description in self.description:
+            items.append(str(description))
         return '\r\n'.join(items)
 
-class SalarisBetaling(Betaling):
+class SalaryPayment(Payment):
     '''Salary Payment transaction'''
     def __init__(self, *args, **kwargs):
-        reknr = kwargs['rekeningnr_begunstigde']
-        kwargs['soort'] = len(reknr.lstrip('0')) <= 7 and 3 or 8
-        super(SalarisBetaling, self).__init__(*args, **kwargs)
+        reknr = kwargs['accountno_beneficiary']
+        kwargs['type_'] = len(reknr.lstrip('0')) <= 7 and 3 or 8
+        super(SalaryPayment, self).__init__(*args, **kwargs)
 
 class Batch(object):
     '''Generic batch class'''
-    transactieclass = None
+    transactionclass = None
 
-    def __init__(self, opdrachtgever, rekeningnr, verwerkingsdatum=None,
-                 test=True, omschrijvingen=[], transactiegroep=None,
-                 batchvolgnummer=1, batch_id=''
+    def __init__(self, sender, rekeningnr, execution_date=None,
+                 test=True, messages=[], transactiongroup=None,
+                 batch_tracer=1, batch_id=''
                 ):
         self.header = BatchHeaderRecord()
-        self.vaste_omschrijving = Optional(VasteOmschrijvingRecord, 4)
-        self.opdrachtgever = OpdrachtgeverRecord()
+        self.fixed_message = Optional(FixedMessageRecord, 4)
+        self.sender = SenderRecord()
         self.footer = BatchFooterRecord()
         self.header.variantcode = batch_id and 'C' or 'B'
-        self.header.transactiegroep = transactiegroep
-        self.header.batchvolgnummer = batchvolgnummer
+        self.header.transactiongroup = transactiongroup
+        self.header.batch_tracer = batch_tracer
         self.header.batch_id = batch_id
-        self.header.rekeningnr_opdrachtgever = rekeningnr
-        self.opdrachtgever.naam_opdrachtgever = opdrachtgever
-        self.opdrachtgever.gewenste_verwerkingsdatum = verwerkingsdatum
-        self.opdrachtgever.NAWcode = 1
-        self.opdrachtgever.testcode = test and 'T' or 'P'
-        self.transacties = []
-        for omschrijving in omschrijvingen:
-            self.vaste_omschrijving.omschrijving = omschrijving
+        self.header.accountno_sender = rekeningnr
+        self.sender.name_sender = sender
+        self.sender.preferred_execution_date = execution_date
+        self.sender.NAWcode = 1
+        self.sender.testcode = test and 'T' or 'P'
+        self.transactions = []
+        for message in messages:
+            self.fixed_message.fixed_message = message
 
     @property
-    def aantal_posten(self):
+    def nr_posts(self):
         '''nr of posts'''
-        return len(self.transacties)
+        return len(self.transactions)
 
     @property
-    def totaalbedrag(self):
+    def total_amount(self):
         '''total amount transferred'''
-        return reduce(lambda x,y: x + int(y.transactie.bedrag),
-                      self.transacties, 0
+        return reduce(lambda x,y: x + int(y.transaction.amount),
+                      self.transactions, 0
                      )
 
     @property
-    def totaal_rekeningnummers(self):
+    def total_accountnos(self):
         '''check number on account numbers'''
         return reduce(lambda x,y: 
-                          x + int(y.transactie.rekeningnr_betaler) + \
-                          int(y.transactie.rekeningnr_begunstigde),
-                      self.transacties, 0
+                          x + int(y.transaction.accountno_payer) + \
+                          int(y.transaction.accountno_beneficiary),
+                      self.transactions, 0
                      )
 
     @property
@@ -354,49 +355,49 @@ class Batch(object):
         '''
         Return self as writeable file content object
         '''
-        self.footer.aantal_posten = self.aantal_posten
-        self.footer.totaalbedrag = self.totaalbedrag
-        self.footer.totaal_rekeningnummers = self.totaal_rekeningnummers
+        self.footer.nr_posts = self.nr_posts
+        self.footer.total_amount = self.total_amount
+        self.footer.total_accountnos = self.total_accountnos
         lines = [str(self.header)]
-        for oms in self.vaste_omschrijving:
-            lines.append(str(oms))
+        for msg in self.fixed_message:
+            lines.append(str(msg))
         lines += [
-            str(self.opdrachtgever),
-            '\r\n'.join([x.rawdata for x in self.transacties]),
+            str(self.sender),
+            '\r\n'.join([x.rawdata for x in self.transactions]),
             str(self.footer)
         ]
         return '\r\n'.join(lines)
 
-    def transactie(self, *args, **kwargs):
+    def transaction(self, *args, **kwargs):
         '''generic factory method'''
-        retval = self.transactieclass(*args, **kwargs)
-        self.transacties.append(retval)
+        retval = self.transactionclass(*args, **kwargs)
+        self.transactions.append(retval)
         return retval
 
-class IncassoBatch(Batch):
+class DirectDebitBatch(Batch):
     '''Direct Debig Payment batch'''
-    transactieclass = Incasso
+    transactionclass = DirectDebit
 
-class BetalingsBatch(Batch):
+class PaymentsBatch(Batch):
     '''Payment batch'''
-    transactieclass = Betaling
+    transactionclass = Payment
 
 class SalarisBatch(Batch):
     '''Salary payment class'''
-    transactieclass = SalarisBetaling
+    transactionclass = SalaryPayment
 
 class ClieOpFile(object):
     '''The grand unifying class'''
-    def __init__(self, identificatie='1', uitvoeringsdatum=None,
-                 naam_opdrachtgever='', rekeningnr_opdrachtgever='',
+    def __init__(self, identification='1', execution_date=None,
+                 name_sender='', accountno_sender='',
                  test=False, **kwargs):
-        self.header = HeaderRecord(id=identificatie,)
+        self.header = HeaderRecord(id=identification,)
         self.footer = FooterRecord()
         self.batches = []
-        self._uitvoeringsdatum = uitvoeringsdatum
-        self._identificatie = identificatie
-        self._naam_opdrachtgever = naam_opdrachtgever
-        self._reknr_opdrachtgever = rekeningnr_opdrachtgever
+        self._execution_date = execution_date
+        self._identification = identification
+        self._name_sender = name_sender
+        self._accno_sender = accountno_sender
         self._test = test
 
     @property
@@ -410,51 +411,51 @@ class ClieOpFile(object):
 
     def batch(self, *args, **kwargs):
         '''Create batch'''
-        kwargs['transactiegroep'] = self.transactiegroep
-        kwargs['batchvolgnummer'] = len(self.batches) +1
-        kwargs['verwerkingsdatum'] = self._uitvoeringsdatum
+        kwargs['transactiongroup'] = self.transactiongroup
+        kwargs['batch_tracer'] = len(self.batches) +1
+        kwargs['execution_date'] = self._execution_date
         kwargs['test'] = self._test
-        args = (self._naam_opdrachtgever, self._reknr_opdrachtgever)
+        args = (self._name_sender, self._accno_sender)
         retval = self.batchclass(*args, **kwargs)
         self.batches.append(retval)
         return retval
 
     @property
-    def opdracht(self):
+    def order(self):
         '''Produce an order to go with the file'''
-        totaal_rekeningnummers = 0
-        totaalbedrag = 0
-        aantal_posten = 0
+        total_accountnos = 0
+        total_amount = 0
+        nr_posts = 0
         for batch in self.batches:
-            totaal_rekeningnummers += batch.totaal_rekeningnummers
-            totaalbedrag += batch.totaalbedrag
-            aantal_posten += batch.aantal_posten
-        retval = self.opdrachtclass()
-        retval.identificatie = self._identificatie
-        retval.rekeningnr_opdrachtgever = self._reknr_opdrachtgever
-        retval.gewenste_verwerkingsdatum = self._uitvoeringsdatum
+            total_accountnos += batch.total_accountnos
+            total_amount += batch.total_amount
+            nr_posts += batch.nr_posts
+        retval = self.orderclass()
+        retval.identification = self._identification
+        retval.accountno_sender = self._accno_sender
+        retval.preferred_execution_date = self._execution_date
         retval.testcode = self._test and 'T' or 'P'
-        retval.totaalbedrag = totaalbedrag
-        retval.aantal_posten = aantal_posten
-        retval.totaal_rekeningnummers = totaal_rekeningnummers
+        retval.total_amount = total_amount
+        retval.nr_posts = nr_posts
+        retval.total_accountnos = total_accountnos
         return retval
 
-class IncassoFile(ClieOpFile):
+class DirectDebitFile(ClieOpFile):
     '''Direct Debit Payments file'''
-    transactiegroep = '10'
-    batchclass = IncassoBatch
-    opdrachtclass = IncassoOpdracht
+    transactiongroup = '10'
+    batchclass = DirectDebitBatch
+    orderclass = DirectDebitOrder
 
-class BetalingsFile(ClieOpFile):
+class PaymentsFile(ClieOpFile):
     '''Payments file'''
-    transactiegroep = '00'
-    batchclass = BetalingsBatch
-    opdrachtclass = BetalingsOpdracht
+    transactiongroup = '00'
+    batchclass = PaymentsBatch
+    orderclass = PaymentOrder
 
-class SalarisFile(BetalingsFile):
+class SalaryPaymentsFile(PaymentsFile):
     '''Salary Payments file'''
     batchclass = SalarisBatch
-    opdrachtclass = SalarisbetalingsOpdracht
+    orderclass = SalaryPaymentOrder
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

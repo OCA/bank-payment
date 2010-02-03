@@ -24,6 +24,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import sepa
+import record
 import account_banking
 import parsers
 import wizard

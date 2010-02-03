@@ -22,9 +22,10 @@
 import wizard
 import pooler
 import base64
+from datetime import datetime, date, timedelta
+from account_banking import sepa
 #from osv import osv
 from tools.translate import _
-from datetime import datetime, date, timedelta
 #import pdb; pdb.set_trace()
 import clieop
 
@@ -102,6 +103,7 @@ file_form = '''<?xml version="1.0"?>
     <field name="no_transactions" />
     <field name="prefered_date" />
     <field name="testcode" />
+    <newline/>
     <field name="file" />
     <field name="log" colspan="4" nolabel="1" />
 </form>'''
@@ -252,60 +254,80 @@ def _create_clieop(self, cursor, uid, data, context):
     payment_orders = payment_order_obj.browse(cursor, uid, data['ids'])
     for payment_order in payment_orders:
         if not clieopfile:
+            # Just once: create clieop file
             our_account_owner = payment_order.mode.bank_id.owner_name
             our_account_nr = payment_order.mode.bank_id.acc_number
-            clieopfile = {'CLIEOPPAY': clieop.BetalingsFile,
-                          'CLIEOPINC': clieop.IncassoFile,
-                          'CLIEOPSAL': clieop.SalarisFile,
+            if not our_account_nr and payment_order.mode.bank_id.iban:
+                our_account_nr = sepa.IBAN(
+                    payment_order.mode.bank_id.iban
+                ).localized_BBAN
+                if not our_account_nr:
+                    raise wizard.except_wizard(
+                        _('Error'),
+                        _('Your bank account has to have a valid account number')
+                    )
+            clieopfile = {'CLIEOPPAY': clieop.PaymentsFile,
+                          'CLIEOPINC': clieop.DirectDebitFile,
+                          'CLIEOPSAL': clieop.SalaryPaymentsFile,
                          }[form['batchtype']](
-                             identificatie = form['reference'],
-                             uitvoeringsdatum = form['execution_date'],
-                             naam_opdrachtgever = our_account_owner,
-                             rekeningnr_opdrachtgever = our_account_nr,
+                             identification = form['reference'],
+                             execution_date = form['execution_date'],
+                             name_sender = our_account_owner,
+                             accountno_sender = our_account_nr,
                              test = form['test']
                          )
 
+        # As payment_orders can have multiple transactions, create a new batch
+        # for each payment_order
         if form['fixed_message']:
-            omschrijvingen = [form['fixed_message']]
+            messages = [form['fixed_message']]
         else:
-            omschrijvingen = []
+            messages = []
         batch = clieopfile.batch(
-            #our_account_owner,
-            #our_account_nr,
-            #verwerkingsdatum = strpdate(form['execution_date']),
-            #test = form['test'],
-            omschrijvingen = omschrijvingen,
+            messages = messages,
             batch_id = payment_order.reference
         )
+
         for line in payment_order.line_ids:
             kwargs = dict(
-                naam = line.bank_id.owner_name,
-                bedrag = line.amount_currency,
-                referentie = line.communication or None,
+                name = line.bank_id.owner_name,
+                amount = line.amount_currency,
+                reference = line.communication or None,
             )
             if line.communication2:
-                kwargs['omschrijvingen'] = [line.communication2]
-            if form['batchtype'] in ['CLIEOPPAY', 'CLIEOPSAL']:
-                kwargs['rekeningnr_begunstigde'] = line.bank_id.acc_number
-                kwargs['rekeningnr_betaler'] = our_account_nr
+                kwargs['messages'] = [line.communication2]
+            other_account_nr = line.bank_id.acc_number
+            iban = sepa.IBAN(other_account_nr)
+            if iban.valid:
+                if iban.countrycode != 'NL':
+                    raise wizard.except_wizard(
+                        _('Error'),
+                        _('You cannot send international bank transfers '
+                          'through ClieOp3!')
+                    )
+                other_account_nr = iban.localized_BBAN
+            if form['batchtype'] == 'CLIEOPINC':
+                kwargs['accountno_beneficiary'] = our_account_nr
+                kwargs['accountno_payer'] = other_account_nr
             else:
-                kwargs['rekeningnr_begunstigde'] = our_account_nr
-                kwargs['rekeningnr_betaler'] = line.bank_id.acc_number
-            transaction = batch.transactie(**kwargs)
+                kwargs['accountno_beneficiary'] = other_account_nr
+                kwargs['accountno_payer'] = our_account_nr
+            transaction = batch.transaction(**kwargs)
 
-    opdracht = clieopfile.opdracht
+    # Generate the specifics of this clieopfile
+    order = clieopfile.order
     values = dict(
-        filetype = opdracht.naam_transactiecode,
-        identification = opdracht.identificatie,
-        prefered_date = strfdate(opdracht.gewenste_verwerkingsdatum),
-        total_amount = int(opdracht.totaalbedrag) / 100.0,
-        check_no_accounts = opdracht.totaal_rekeningnummers,
-        no_transactions = opdracht.aantal_posten,
-        testcode = opdracht.testcode,
+        filetype = order.name_transactioncode,
+        identification = order.identification,
+        prefered_date = strfdate(order.preferred_execution_date),
+        total_amount = int(order.total_amount) / 100.0,
+        check_no_accounts = order.total_accountnos,
+        no_transactions = order.nr_posts,
+        testcode = order.testcode,
         file = base64.encodestring(clieopfile.rawdata),
     )
     form.update(values)
-    values['daynumber'] = int(clieopfile.header.bestands_id[2:])
+    values['daynumber'] = int(clieopfile.header.file_id[2:])
     values['payment_order_ids'] = ','.join(map(str, data['ids']))
     data['file_id'] = pool.get('banking.export.clieop').create(cursor, uid, values)
     data['clieop'] = clieopfile
@@ -313,11 +335,17 @@ def _create_clieop(self, cursor, uid, data, context):
     return form
 
 def _cancel_clieop(self, cursor, uid, data, context):
+    '''
+    Cancel the ClieOp: just drop the file
+    '''
     pool = pooler.get_pool(cursor.dbname)
     pool.get('banking.export.clieop').unlink(cursor, uid, data['file_id'])
     return {'state': 'end'}
 
 def _save_clieop(self, cursor, uid, data, context):
+    '''
+    Save the ClieOp: mark all payments in the file as 'sent'.
+    '''
     pool = pooler.get_pool(cursor.dbname)
     clieop_obj = pool.get('banking.export.clieop')
     payment_order_obj = pool.get('payment.order')

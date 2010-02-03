@@ -19,7 +19,13 @@
 #
 ##############################################################################
 
+import sys
+import datetime
+import re
 from tools.translate import _
+from account_banking.parsers import convert
+from account_banking import sepa
+from account_banking.struct import struct
 
 __all__ = [
     'get_period', 
@@ -27,41 +33,7 @@ __all__ = [
     'get_or_create_partner',
     'get_company_bank_account',
     'create_bank_account',
-    'struct',
 ]
-
-class struct(dict):
-    '''
-    Ease working with dicts. Allow dict.key alongside dict['key']
-    '''
-    def __setattr__(self, item, value):
-        self.__setitem__(item, value)
-
-    def __getattr__(self, item):
-        return self.__getitem__(item)
-
-    def show(self, indent=0, align=False, ralign=False):
-        '''
-        PrettyPrint method. Aligns keys right (ralign) or left (align).
-        '''
-        if align or ralign:
-            width = 0
-            for key in self.iterkeys():
-                width = max(width, len(key))
-            alignment = ''
-            if not ralign:
-                alignment = '-'
-            fmt = '%*.*s%%%s%d.%ds: %%s' % (
-                indent, indent, '', alignment, width, width
-            )
-        else:
-            fmt = '%*.*s%%s: %%s' % (indent, indent, '')
-        for item in self.iteritems():
-            print fmt % item
-
-import datetime
-from account_banking import sepa
-from account_banking.parsers.convert import *
 
 def get_period(pool, cursor, uid, date, company, log):
     '''
@@ -70,9 +42,9 @@ def get_period(pool, cursor, uid, date, company, log):
     fiscalyear_obj = pool.get('account.fiscalyear')
     period_obj = pool.get('account.period')
     if not date:
-        date = date2str(datetime.datetime.today())
+        date = convert.date2str(datetime.datetime.today())
 
-    search_date = date2str(date)
+    search_date = convert.date2str(date)
     fiscalyear_ids = fiscalyear_obj.search(cursor, uid, [
         ('date_start','<=', search_date), ('date_stop','>=', search_date),
         ('state','=','draft'), ('company_id','=',company.id)
@@ -192,41 +164,56 @@ def get_company_bank_account(pool, cursor, uid, account_number,
         results.default_credit_account_id = settings.default_credit_account_id
     return results
 
-def get_iban_bic_NL(bank_acc):
+def get_or_create_bank(pool, cursor, uid, bic, online=True):
     '''
-    Consult the Dutch online banking database to check both the account number
-    and the bank to which it belongs. Will not work offline, is limited to
-    banks operating in the Netherlands and will only convert Dutch local
-    account numbers.
+    Find or create the bank with the provided BIC code.
+    When online, the SWIFT database will be consulted in order to
+    provide for missing information.
     '''
-    import urllib, urllib2
-    from BeautifulSoup import BeautifulSoup
+    bank_obj = pool.get('res.bank')
+    if len(bic) < 8:
+        # search key
+        bank_ids = bank_obj.search(
+            cursor, uid, [
+                ('bic', 'ilike', bic + '%')
+            ])
+    else:
+        bank_ids = bank_obj.search(
+            cursor, uid, [
+                ('bic', '=', bic)
+            ])
+    if bank_ids and len(bank_ids) == 1:
+        return bank_ids[0], bank_ids[0].country
 
-    IBANlink = 'http://www.ibannl.org/iban_check.php'
-    data = urllib.urlencode(dict(number=bank_acc, method='POST'))
-    request = urllib2.Request(IBANlink, data)
-    response = urllib2.urlopen(request)
-    soup = BeautifulSoup(response)
-    result = struct()
-    for _pass, td in enumerate(soup.findAll('td')):
-        if _pass % 2 == 1:
-            result[attr] = td.find('font').contents[0]
+    country_obj = pool.get('res.country')
+    country_ids = country_obj.search(
+        cursor, uid, [('code', '=', bic[4:6])]
+    )
+    if online:
+        info, address = sepa.online.bank_info(bic)
+        if info:
+            bank_id = bank_obj.create(cursor, uid, dict(
+                code = info.code,
+                name = info.name,
+                street = address.street,
+                street2 = address.street2,
+                zip = address.zip,
+                city = address.city,
+                country = country_ids and country_ids[0] or False,
+                bic = info.bic,
+            ))
         else:
-            attr = td.find('strong').contents[0][:4].strip().lower()
-    if result:
-        result.account = bank_acc
-        result.country_id = result.bic[4:6]
-        # Nationalized bank code
-        result.code = result.bic[:6]
-        # All Dutch banks use generic channels
-        result.bic += 'XXX'
-        return result
-    return None
+            bank_id = False
 
-online_account_info = {
-    # TODO: Add more online data banks
-    'NL': get_iban_bic_NL,
-}
+    country_id = country_ids and country_ids[0] or False
+    if not online or not bank_id:
+        bank_id = bank_obj.create(cursor, uid, dict(
+            code = info.code,
+            name = _('Unknown Bank'),
+            country = country_id,
+            bic = bic,
+        ))
+    return bank_id, country_id
 
 def create_bank_account(pool, cursor, uid, partner_id,
                         account_number, holder_name, log
@@ -238,6 +225,9 @@ def create_bank_account(pool, cursor, uid, partner_id,
         partner_id = partner_id,
         owner_name = holder_name,
     )
+    bankcode = None
+    bic = None
+
     # Are we dealing with IBAN?
     iban = sepa.IBAN(account_number)
     if iban.valid:
@@ -250,29 +240,25 @@ def create_bank_account(pool, cursor, uid, partner_id,
             cursor, uid, partner_id).country_id
         values.state = 'bank'
         values.acc_number = account_number
-        if country.code in sepa.IBAN.countries \
-           and country.code in online_account_info \
-           :
-            account_info = online_account_info[country.code](values.acc_number)
-            if account_info and iban in account_info:
+        if country.code in sepa.IBAN.countries:
+            account_info = sepa.online.account_info(country.code,
+                                                    values.acc_number
+                                                   )
+            if account_info:
                 values.iban = iban = account_info.iban
                 values.state = 'iban'
                 bankcode = account_info.code
                 bic = account_info.bic
-            else:
-                bankcode = None
-                bic = None
 
-    if bankcode:
+    if bic:
+        values.bank_id = get_or_create_bank(pool, cursor, uid, bic)
+
+    elif bankcode:
         # Try to link bank
         bank_obj = pool.get('res.bank')
         bank_ids = bank_obj.search(cursor, uid, [
             ('code', 'ilike', bankcode)
         ])
-        if not bank_ids and bic:
-            bank_ids = bank_obj.search(cursor, uid, [
-                ('bic', 'ilike', bic)
-            ])
         if bank_ids:
             # Check BIC on existing banks
             values.bank_id = bank_ids[0]
@@ -283,7 +269,9 @@ def create_bank_account(pool, cursor, uid, partner_id,
             # New bank - create
             values.bank_id = bank_obj.create(cursor, uid, dict(
                 code = account_info.code,
-                bic = account_info.bic,
+                # Only the first eight positions of BIC are used for bank
+                # transfers, so ditch the rest.
+                bic = account_info.bic[:8],
                 name = account_info.bank,
                 country_id = country.id,
             ))

@@ -57,8 +57,11 @@ Modifications are extensive:
     default behavior is to flag the orders as 'sent', not as 'done'.
 '''
 import time
+import sys
+import sepa
 from osv import osv, fields
 from tools.translate import _
+from wizard.banktools import get_or_create_bank
 
 class account_banking_account_settings(osv.osv):
     '''Default Journal for Bank Account'''
@@ -351,7 +354,7 @@ class account_bank_statement_line(osv.osv):
     _description = 'Bank Transaction'
 
     def _get_period(self, cursor, uid, context={}):
-        date = context.get('date') and context['date'] or None
+        date = context.get('date', None)
         periods = self.pool.get('account.period').find(cursor, uid, dt=date)
         return periods and periods[0] or False
 
@@ -381,7 +384,7 @@ class account_bank_statement_line(osv.osv):
                             states={'draft': [('readonly', False)]}),
         'ref': fields.char('Ref.', size=32, readonly=True,
                             states={'draft': [('readonly', False)]}),
-        'name': fields.char('Name', size=64, required=True, readonly=True,
+        'name': fields.char('Name', size=64, required=False, readonly=True,
                             states={'draft': [('readonly', False)]}),
         'date': fields.date('Date', required=True, readonly=True,
                             states={'draft': [('readonly', False)]}),
@@ -749,5 +752,212 @@ class payment_order(osv.osv):
         )
 
 payment_order()
+
+class res_partner_bank(osv.osv):
+    '''
+    This is a hack to circumvent the ugly account/base_iban dependency. The
+    usage of __mro__ requires inside information of inheritence. This code is
+    tested and works - it bypasses base_iban altogether. Be sure to use
+    'super' for inherited classes from here though.
+
+    Extended functionality:
+        1. BBAN and IBAN are considered equal
+        2. Online databases are checked when available
+        3. Banks are created on the fly when using IBAN
+        4. Storage is uppercase, not lowercase
+        5. Presentation is formal IBAN
+        6. BBAN's are generated from IBAN when possible
+    '''
+    _inherit = 'res.partner.bank'
+    _columns = {
+        'iban': fields.char('IBAN', size=34, readonly=True,
+                            help="International Bank Account Number"
+                           ),
+    }
+
+    def create(self, cursor, uid, vals, context={}):
+        '''
+        Create dual function IBAN account for SEPA countries
+        Note: No check on validity IBAN/Country
+        '''
+        if 'iban' in vals and vals['iban']:
+            iban = sepa.IBAN(vals['iban'])
+            vals['iban'] = str(iban)
+            vals['acc_number'] = iban.localized_BBAN
+            return self.__class__.__mro__[4].create(self, cursor, uid, vals,
+                                                    context
+                                                   )
+
+    def write(self, cursor, uid, ids, vals, context={}):
+        '''
+        Create dual function IBAN account for SEPA countries
+        Note: No check on validity IBAN/Country
+        '''
+        if 'iban' in vals and vals['iban']:
+            iban = sepa.IBAN(vals['iban'])
+            vals['iban'] = str(iban)
+            vals['acc_number'] = iban.localized_BBAN
+            return self.__class__.__mro__[4].write(self, cursor, uid, ids,
+                                                   vals, context
+                                                  )
+
+    def read(self, *args, **kwargs):
+        records = self.__class__.__mro__[4].read(self, *args, **kwargs)
+        for record in records:
+            if 'iban' in record and record['iban']:
+                record['iban'] = unicode(sepa.IBAN(record['iban']))
+        return records
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None,
+               context=None, count=False
+              ):
+        '''
+        Extend the search method to search not only on
+            bank type == basic account number,
+        but also on
+            type == iban
+        '''
+        res = self.__class__.__mro__[4].search(self,
+            cr, uid, args, offset, limit, order, context=context, count=count
+        )
+        if filter(lambda x:x[0]=='acc_number' ,args):
+            # get the value of the search
+            iban_value = filter(lambda x: x[0] == 'acc_number', args)[0][2]
+            # get the other arguments of the search
+            args1 =  filter(lambda x:x[0]!='acc_number' ,args)
+            # add the new criterion
+            args1 += [('iban', 'ilike',
+                       iban_value.replace(' ','').replace('-','').replace('/','')
+                      )]
+            # append the results to the older search
+            res += super(res_partner_bank, self).search(
+                cr, uid, args1, offset, limit, order, context=context,
+                count=count
+            )
+        return res
+
+    def check_iban(self, cursor, uid, ids):
+        '''
+        Check IBAN number
+        '''
+        for bank_acc in self.browse(cursor, uid, ids):
+            if not bank_acc.iban:
+                continue
+            iban = sepa.IBAN(bank_acc.iban)
+            if not iban.valid:
+                return False
+        return True
+
+    def get_bban_from_iban(self, cursor, uid, context={}):
+        '''
+        Get the local BBAN from the IBAN
+        '''
+        for record in self.browse(cursor, uid, ids, context):
+            if record.iban:
+                res[record.id] = record.iban.localized_BBAN
+            else:
+                res[record.id] = False
+        return res
+
+    def onchange_iban(self, cursor, uid, ids, iban, acc_number, context={}):
+        '''
+        Trigger to auto complete other fields.
+        '''
+        acc_number = acc_number.strip()
+        country_obj = self.pool.get('res.country')
+        partner_obj = self.pool.get('res.partner')
+        bic = None
+        country_ids = []
+
+        if not iban:
+            # Pre fill country based on company address
+            user_obj = self.pool.get('res.users')
+            user = user_obj.browse(cursor, uid, uid, context)
+            country = partner_obj.browse(cursor, uid,
+                                         user.company_id.partner_id.id
+                                        ).country
+            country_ids = [country.id]
+
+            # Complete data with online database when available
+            if country.code in sepa.IBAN.countries:
+                info = sepa.online.account_info(country.code, acc_number)
+                if info:
+                    bic = info.bic
+                    iban = info.iban
+                else:
+                    return {}
+
+        iban_acc = sepa.IBAN(iban)
+        if iban_acc.valid:
+            bank_id, country_id = get_or_create_bank(
+                self.pool, cursor, uid, bic or iban_acc.BIC_searchkey
+                )
+            return {
+                'value': {
+                    'acc_number': iban_acc.localized_BBAN,
+                    'iban': unicode(iban_acc),
+                    'country':
+                        country_id or
+                        country_ids and country_ids[0] or
+                        False,
+                    'bank':
+                        bank_id or bank_ids and bank_id[0] or False,
+                }
+            }
+        raise osv.except_osv(_('Invalid IBAN account number!'),
+                             _("The IBAN number doesn't seem to be correct")
+                            )
+
+    _constraints = [
+        (check_iban, "The IBAN number doesn't seem to be correct", ["iban"])
+    ]
+    _defaults = {
+        'acc_number': get_bban_from_iban,
+    }
+
+res_partner_bank()
+
+class res_bank(osv.osv):
+    '''
+    Add a on_change trigger to automagically fill bank details from the 
+    online SWIFT database. Allow hand filled names to overrule SWIFT names.
+    '''
+    _inherit = 'res.bank'
+    def onchange_bic(self, cursor, uid, ids, bic, name, context={}):
+        '''
+        Trigger to auto complete other fields.
+        '''
+        if not bic:
+            return {}
+
+        info, address = sepa.online.bank_info(bic)
+        if not info:
+            return {}
+
+        if address and address.country_id:
+            country_id = self.pool.get('res.country').search(
+                cursor, uid, [('code','=',address.country_id)]
+            )
+            country_id = country_id and country_id[0] or False
+        else:
+            country_id = False
+
+        return {
+            'value': {
+                # Only the first eight positions of BIC are used for bank
+                # transfers, so ditch the rest.
+                'bic': info.bic[:8],
+                'code': info.code,
+                'street': address.street,
+                'street2': 
+                    address.has_key('street2') and address.street2 or False,
+                'zip': address.zip,
+                'city': address.city,
+                'country': country_id,
+                'name': name and name or info.name,
+            }
+        }
+
+res_bank()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
