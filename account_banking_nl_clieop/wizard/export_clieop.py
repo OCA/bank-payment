@@ -261,11 +261,11 @@ def _create_clieop(self, cursor, uid, data, context):
                 our_account_nr = sepa.IBAN(
                     payment_order.mode.bank_id.iban
                 ).localized_BBAN
-                if not our_account_nr:
-                    raise wizard.except_wizard(
-                        _('Error'),
-                        _('Your bank account has to have a valid account number')
-                    )
+            if not our_account_nr:
+                raise wizard.except_wizard(
+                    _('Error'),
+                    _('Your bank account has to have a valid account number')
+                )
             clieopfile = {'CLIEOPPAY': clieop.PaymentsFile,
                           'CLIEOPINC': clieop.DirectDebitFile,
                           'CLIEOPSAL': clieop.SalaryPaymentsFile,

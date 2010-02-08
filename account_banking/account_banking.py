@@ -897,9 +897,7 @@ class res_partner_bank(osv.osv):
                     'acc_number': iban_acc.localized_BBAN,
                     'iban': unicode(iban_acc),
                     'country':
-                        country_id or
-                        country_ids and country_ids[0] or
-                        False,
+                        country_id or country_ids and country_ids[0] or False,
                     'bank':
                         bank_id or bank_ids and bank_id[0] or False,
                 }

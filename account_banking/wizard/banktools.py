@@ -170,20 +170,29 @@ def get_or_create_bank(pool, cursor, uid, bic, online=True):
     When online, the SWIFT database will be consulted in order to
     provide for missing information.
     '''
+    import pdb; pdb.set_trace()
     bank_obj = pool.get('res.bank')
+    # Self generated key?
     if len(bic) < 8:
         # search key
         bank_ids = bank_obj.search(
             cursor, uid, [
-                ('bic', 'ilike', bic + '%')
+                ('code', '=', bic[:6])
             ])
+        if not bank_ids:
+            bank_ids = bank_obj.search(
+                cursor, uid, [
+                    ('bic', 'ilike', bic + '%')
+                ])
     else:
         bank_ids = bank_obj.search(
             cursor, uid, [
                 ('bic', '=', bic)
             ])
+
     if bank_ids and len(bank_ids) == 1:
-        return bank_ids[0], bank_ids[0].country
+        banks = bank_obj.browse(cursor, uid, bank_ids)
+        return banks[0].id, banks[0].country.id
 
     country_obj = pool.get('res.country')
     country_ids = country_obj.search(
@@ -200,7 +209,7 @@ def get_or_create_bank(pool, cursor, uid, bic, online=True):
                 zip = address.zip,
                 city = address.city,
                 country = country_ids and country_ids[0] or False,
-                bic = info.bic,
+                bic = info.bic[:8],
             ))
         else:
             bank_id = False
