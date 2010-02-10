@@ -79,7 +79,7 @@
                             <field name="format" />
                         </page>
                         <page string="Statements">
-                            <field name="statement_ids" colspan="4"/>
+                            <field name="statement_ids" colspan="4" nolabel="1"/>
                         </page>
                         <page string="Import Log">
                             <field name="log" colspan="4"/>

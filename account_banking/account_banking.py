@@ -149,15 +149,43 @@ class account_bank_statement(osv.osv):
         3. Added optional relation with imported statements file
     '''
     _inherit = 'account.bank.statement'
+
+    #def _currency(self, cursor, user, ids, name, args, context=None):
+    #    '''
+    #    Calculate currency from contained transactions
+    #    '''
+    #    res = {}
+    #    res_currency_obj = self.pool.get('res.currency')
+    #    res_users_obj = self.pool.get('res.users')
+    #    default_currency = res_users_obj.browse(cursor, user,
+    #            user, context=context).company_id.currency_id
+    #    for statement in self.browse(cursor, user, ids, context=context):
+    #        currency = statement.journal_id.currency
+    #        if not currency:
+    #            currency = default_currency
+    #        res[statement.id] = currency.id
+    #    currency_names = {}
+    #    for currency_id, currency_name in res_currency_obj.name_get(cursor,
+    #            user, res.values(), context=context):
+    #        currency_names[currency_id] = currency_name
+    #    for statement_id in res.keys():
+    #        currency_id = res[statement_id]
+    #        res[statement_id] = (currency_id, currency_names[currency_id])
+    #    return res
+
     _columns = {
         'period_id': fields.many2one('account.period', 'Period',
                                      required=False, readonly=True),
         'banking_id': fields.many2one('account.banking.imported.file',
                                      'Imported File', readonly=True,
                                      ),
+    #    'currency': fields.function(_currency, method=True, string='Currency',
+    #        type='many2one', relation='res.currency'),
     }
+
     _defaults = {
         'period_id': lambda *a: False,
+    #    'currency': _currency,
     }
 
     def _get_period(self, cursor, uid, date, context={}):
@@ -167,6 +195,12 @@ class account_bank_statement(osv.osv):
         period_obj = self.pool.get('account.period')
         periods = period_obj.find(cursor, uid, dt=date, context=context)
         return periods and periods[0] or False
+
+    #def compute(self, cursor, uid, ids, context=None):
+    #    '''
+    #    Compute start and end balance with mixed currencies.
+    #    '''
+    #    return None
 
     def button_confirm(self, cursor, uid, ids, context=None):
         # This is largely a copy of the original code in account
@@ -188,6 +222,8 @@ class account_bank_statement(osv.osv):
         for st in self.browse(cursor, uid, ids, context):
             if not st.state=='draft':
                 continue
+
+            # Calculate statement balance from the contained lines
             end_bal = st.balance_end or 0.0
             if not (abs(end_bal - st.balance_end_real) < 0.0001):
                 raise osv.except_osv(_('Error !'),
@@ -207,10 +243,12 @@ class account_bank_statement(osv.osv):
                         _('The account entries lines are not in valid state.'))
 
             for move in st.line_ids:
+                context.update({'date':move.date})
                 period_id = self._get_period(cursor, uid, move.date, context=context)
                 move_id = account_move_obj.create(cursor, uid, {
                     'journal_id': st.journal_id.id,
                     'period_id': period_id,
+                    'date': move.date,
                 }, context=context)
                 account_bank_statement_line_obj.write(cursor, uid, [move.id], {
                     'move_ids': [(4, move_id, False)]
@@ -253,7 +291,7 @@ class account_bank_statement(osv.osv):
 
                 if move.account_id and move.account_id.currency_id:
                     val['currency_id'] = move.account_id.currency_id.id
-                    if company_currency_id==move.account_id.currency_id.id:
+                    if company_currency_id == move.account_id.currency_id.id:
                         amount_cur = move.amount
                     else:
                         amount_cur = res_currency_obj.compute(cursor, uid, company_currency_id,
@@ -317,8 +355,19 @@ class account_bank_statement(osv.osv):
                     torec += map(lambda x: x.id, move.reconcile_id.line_ids)
                     #try:
                     if abs(move.reconcile_amount-move.amount)<0.0001:
+
+                        writeoff_acc_id = False
+                        #There should only be one write-off account!
+                        for entry in move.reconcile_id.line_new_ids:
+                            writeoff_acc_id = entry.account_id.id
+                            break
+
                         account_move_line_obj.reconcile(
-                            cursor, uid, torec, 'statement', context
+                            cursor, uid, torec, 'statement',
+                            writeoff_acc_id=writeoff_acc_id,
+                            writeoff_period_id=st.period_id.id,
+                            writeoff_journal_id=st.journal_id.id,
+                            context=context
                         )
                     else:
                         account_move_line_obj.reconcile_partial(
@@ -378,6 +427,29 @@ class account_bank_statement_line(osv.osv):
         # company's, its local, else international.
         # TODO: to be done
 
+    #def _reconcile_amount(self, cursor, user, ids, name, args, context=None):
+    #    '''
+    #    Redefinition from the original: don't use the statements currency, but
+    #    the transactions currency.
+    #    '''
+    #    if not ids:
+    #        return {}
+    #    res_currency_obj = self.pool.get('res.currency')
+    #    res_users_obj = self.pool.get('res.users')
+
+    #    res = {}
+    #    company_currency_id = res_users_obj.browse(cursor, user, user,
+    #            context=context).company_id.currency_id.id
+
+    #    for line in self.browse(cursor, user, ids, context=context):
+    #        if line.reconcile_id:
+    #            res[line.id] = res_currency_obj.compute(cursor, user,
+    #                    company_currency_id, line.currency.id,
+    #                    line.reconcile_id.total_entry, context=context)
+    #        else:
+    #            res[line.id] = 0.0
+    #    return res
+
     _columns = {
         # Redefines
         'amount': fields.float('Amount', readonly=True,
@@ -388,6 +460,9 @@ class account_bank_statement_line(osv.osv):
                             states={'draft': [('readonly', False)]}),
         'date': fields.date('Date', required=True, readonly=True,
                             states={'draft': [('readonly', False)]}),
+        #'reconcile_amount': fields.function(_reconcile_amount,
+        #    string='Amount reconciled', method=True, type='float'),
+
         # New columns
         'trans': fields.char('Bank Transaction ID', size=15, required=False,
                             readonly=True,
@@ -399,6 +474,9 @@ class account_bank_statement_line(osv.osv):
                             ),
         'period_id': fields.many2one('account.period', 'Period', required=True,
                             states={'confirm': [('readonly', True)]}),
+        'currency': fields.many2one('res.currency', 'Currency', required=True,
+                            states={'confirm': [('readonly', True)]}),
+
         # Not used yet, but usefull in the future.
         'international': fields.boolean('International Transaction',
                             required=False,
@@ -808,34 +886,6 @@ class res_partner_bank(osv.osv):
                 record['iban'] = unicode(sepa.IBAN(record['iban']))
         return records
 
-    def search(self, cr, uid, args, offset=0, limit=None, order=None,
-               context=None, count=False
-              ):
-        '''
-        Extend the search method to search not only on
-            bank type == basic account number,
-        but also on
-            type == iban
-        '''
-        res = self.__class__.__mro__[4].search(self,
-            cr, uid, args, offset, limit, order, context=context, count=count
-        )
-        if filter(lambda x:x[0]=='acc_number' ,args):
-            # get the value of the search
-            iban_value = filter(lambda x: x[0] == 'acc_number', args)[0][2]
-            # get the other arguments of the search
-            args1 =  filter(lambda x:x[0]!='acc_number' ,args)
-            # add the new criterion
-            args1 += [('iban', 'ilike',
-                       iban_value.replace(' ','').replace('-','').replace('/','')
-                      )]
-            # append the results to the older search
-            res += super(res_partner_bank, self).search(
-                cr, uid, args1, offset, limit, order, context=context,
-                count=count
-            )
-        return res
-
     def check_iban(self, cursor, uid, ids):
         '''
         Check IBAN number
@@ -863,6 +913,9 @@ class res_partner_bank(osv.osv):
         '''
         Trigger to auto complete other fields.
         '''
+        if not iban:
+            return {}
+
         acc_number = acc_number.strip()
         country_obj = self.pool.get('res.country')
         partner_obj = self.pool.get('res.partner')

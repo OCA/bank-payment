@@ -170,8 +170,8 @@ def get_or_create_bank(pool, cursor, uid, bic, online=True):
     When online, the SWIFT database will be consulted in order to
     provide for missing information.
     '''
-    import pdb; pdb.set_trace()
     bank_obj = pool.get('res.bank')
+
     # Self generated key?
     if len(bic) < 8:
         # search key

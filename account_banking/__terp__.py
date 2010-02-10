@@ -30,7 +30,7 @@
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
-    'depends': ['base', 'account', 'account_payment'],
+    'depends': ['base', 'account', 'base_iban', 'account_payment'],
     'init_xml': [],
     'update_xml': [
         #'security/ir.model.access.csv',

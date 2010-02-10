@@ -473,10 +473,11 @@ def _banking_import_statements_file(self, cursor, uid, data, context):
     statement_file_obj.write(cursor, uid, import_id, dict(
         state = state, log = text_log,
     ))
-    return dict(
-        log = text_log,
-        statement_ids = imported_statement_ids
-    )
+    self._nextstate = no_errors and 'view_error' or 'view_statements'
+    self._import_id = import_id
+    self._log = text_log
+    self._statement_ids = imported_statement_ids
+    return {}
 
 banking_import_form = '''<?xml version="1.0"?>
 <form string="Import Bank Transactions File">
@@ -528,7 +529,7 @@ result_form = '''<?xml version="1.0"?>
 '''
 
 result_fields = dict(
-    log = dict(string='Log', type='text')
+    log = dict(string='Log', type='text', readonly=True)
 )
 
 class banking_import(wizard.interface):
@@ -536,6 +537,13 @@ class banking_import(wizard.interface):
     Wizard to import bank statements. Generic code, parsing is done in the
     parser modules.
     '''
+
+    def __init__(self, *args, **kwargs):
+        super(banking_import, self).__init__(*args, **kwargs)
+        self.__state = ''
+
+    def _fill_results(self, cursor, uid, data, context):
+        return {'log': self._log}
 
     def _action_open_window(self, cursor, uid, data, context):
         '''
@@ -555,6 +563,24 @@ class banking_import(wizard.interface):
             res_id = form['statement_ids'],
         )
 
+    def _action_open_import(self, cursor, uid, data, context):
+        '''
+        Open a window with the resulting import in error
+        '''
+        import pdb; pdb.set_trace()
+        form = data['form']
+        return dict(
+            view_type = 'form',
+            view_mode = 'form,tree',
+            res_model = 'account.banking.imported.file',
+            view_id = False,
+            type = 'ir.actions.act_window',
+            res_id = self._import_id
+        )
+
+    def _check_next_state(self, cursor, uid, data, context):
+        return self._nextstate
+
     states = {
         'init' : {
             'actions' : [],
@@ -566,19 +592,45 @@ class banking_import(wizard.interface):
                           ('import', '_Ok', 'gtk-ok'),
                          ]
             }
-         },
-         'import' : {
+        },
+        'import': {
             'actions': [_banking_import_statements_file],
+            'result': {
+                'type': 'choice',
+                'next_state': _check_next_state,
+            }
+        },
+        'view_statements' : {
+            #'actions': [_banking_import_statements_file],
             'result': {
                 'type': 'form',
                 'arch': result_form,
                 'fields': result_fields,
                 'state': [('end', '_Close', 'gtk-close'),
-                          ('open', '_Open Statement', 'gtk-ok'),
+                          ('open_statements', '_View Statements', 'gtk-ok'),
                          ]
             }
         },
-        'open': {
+        'view_error': {
+            'actions': [_fill_results],
+            'result': {
+                'type': 'form',
+                'arch': result_form,
+                'fields': result_fields,
+                'state': [('end', '_Close', 'gtk-close'),
+                          ('open_import', '_View Imported File', 'gtk-ok'),
+                         ]
+            }
+        },
+        'open_import': {
+            'actions': [],
+            'result': {
+                'type': 'action',
+                'action': _action_open_import,
+                'state': 'end'
+            }
+        },
+        'open_statements': {
             'actions': [],
             'result': {
                 'type': 'action',
