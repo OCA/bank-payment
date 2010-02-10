@@ -898,17 +898,6 @@ class res_partner_bank(osv.osv):
                 return False
         return True
 
-    def get_bban_from_iban(self, cursor, uid, context={}):
-        '''
-        Get the local BBAN from the IBAN
-        '''
-        for record in self.browse(cursor, uid, ids, context):
-            if record.iban:
-                res[record.id] = record.iban.localized_BBAN
-            else:
-                res[record.id] = False
-        return res
-
     def onchange_iban(self, cursor, uid, ids, iban, acc_number, context={}):
         '''
         Trigger to auto complete other fields.
@@ -962,9 +951,6 @@ class res_partner_bank(osv.osv):
     _constraints = [
         (check_iban, "The IBAN number doesn't seem to be correct", ["iban"])
     ]
-    _defaults = {
-        'acc_number': get_bban_from_iban,
-    }
 
 res_partner_bank()
 
