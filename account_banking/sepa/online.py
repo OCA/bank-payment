@@ -43,7 +43,7 @@ def get_iban_bic_NL(bank_acc):
     banks operating in the Netherlands and will only convert Dutch local
     account numbers.
     '''
-    data = urllib.urlencode(dict(number=bank_acc, method='POST'))
+    data = urllib.urlencode(dict(number=bank_acc.lstrip('0'), method='POST'))
     request = urllib2.Request(IBANlink_NL, data)
     response = urllib2.urlopen(request)
     soup = BeautifulSoup(response)

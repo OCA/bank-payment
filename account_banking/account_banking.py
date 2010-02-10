@@ -434,6 +434,7 @@ class account_bank_statement_line(osv.osv):
     #    '''
     #    if not ids:
     #        return {}
+
     #    res_currency_obj = self.pool.get('res.currency')
     #    res_users_obj = self.pool.get('res.users')
 
@@ -848,7 +849,7 @@ class res_partner_bank(osv.osv):
     '''
     _inherit = 'res.partner.bank'
     _columns = {
-        'iban': fields.char('IBAN', size=34, readonly=True,
+        'iban': fields.char('IBAN', size=34,
                             help="International Bank Account Number"
                            ),
     }
@@ -862,22 +863,23 @@ class res_partner_bank(osv.osv):
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-            return self.__class__.__mro__[4].create(self, cursor, uid, vals,
-                                                    context
-                                                   )
+        return self.__class__.__mro__[4].create(self, cursor, uid, vals,
+                                                context
+                                               )
 
     def write(self, cursor, uid, ids, vals, context={}):
         '''
         Create dual function IBAN account for SEPA countries
         Note: No check on validity IBAN/Country
         '''
+        import pdb; pdb.set_trace()
         if 'iban' in vals and vals['iban']:
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-            return self.__class__.__mro__[4].write(self, cursor, uid, ids,
-                                                   vals, context
-                                                  )
+        return self.__class__.__mro__[4].write(self, cursor, uid, ids,
+                                               vals, context
+                                              )
 
     def read(self, *args, **kwargs):
         records = self.__class__.__mro__[4].read(self, *args, **kwargs)
@@ -898,41 +900,82 @@ class res_partner_bank(osv.osv):
                 return False
         return True
 
-    def onchange_iban(self, cursor, uid, ids, iban, acc_number, context={}):
+    def get_bban_from_iban(self, cursor, uid, ids, context=None):
         '''
-        Trigger to auto complete other fields.
+        Return the local bank account number aka BBAN from the IBAN.
+        '''
+        for record in self.browse(cursor, uid, ids, context):
+            if not record.iban:
+                res[record.id] = False
+            else:
+                iban_acc = sepa.IBAN(record.iban)
+                try:
+                    res[record.id] = iban_acc.localized_BBAN
+                except NotImplementedError:
+                    res[record_id] = False
+        return res
+
+    def onchange_acc_number(self, cursor, uid, ids, acc_number,
+                            context={}
+                           ):
+        '''
+        Trigger to find IBAN. When found:
+            1. Reformat BBAN
+            2. Autocomplete bank
+        '''
+        if not acc_number:
+            return {}
+
+        values = {}
+        # Pre fill country based on company address
+        country_obj = self.pool.get('res.country')
+        partner_obj = self.pool.get('res.partner')
+        user_obj = self.pool.get('res.users')
+        user = user_obj.browse(cursor, uid, uid, context)
+        country = partner_obj.browse(cursor, uid,
+                                     user.company_id.partner_id.id
+                                    ).country
+        country_ids = [country.id]
+
+        # Complete data with online database when available
+        if country.code in sepa.IBAN.countries:
+            info = sepa.online.account_info(country.code, acc_number)
+            if info:
+                iban_acc = sepa.IBAN(info.iban)
+                if iban_acc.valid:
+                    values['acc_number'] = iban_acc.localized_BBAN
+                    values['iban'] = unicode(iban_acc)
+                    bank_id, country_id = get_or_create_bank(
+                        self.pool, cursor, uid,
+                        info.bic or iban_acc.BIC_searchkey
+                        )
+                    values['country_id'] = country_id or \
+                                           country_ids and country_ids[0] or \
+                                           False
+                    values['bank'] = bank_id or False
+                else:
+                    info = None
+            if not info:
+                values['acc_number'] = acc_number
+        return {'value': values}
+
+    def onchange_iban(self, cursor, uid, ids, iban, context={}):
+        '''
+        Trigger to verify IBAN. When valid:
+            1. Extract BBAN as local account
+            2. Auto complete bank
         '''
         if not iban:
             return {}
 
-        acc_number = acc_number.strip()
         country_obj = self.pool.get('res.country')
         partner_obj = self.pool.get('res.partner')
-        bic = None
         country_ids = []
-
-        if not iban:
-            # Pre fill country based on company address
-            user_obj = self.pool.get('res.users')
-            user = user_obj.browse(cursor, uid, uid, context)
-            country = partner_obj.browse(cursor, uid,
-                                         user.company_id.partner_id.id
-                                        ).country
-            country_ids = [country.id]
-
-            # Complete data with online database when available
-            if country.code in sepa.IBAN.countries:
-                info = sepa.online.account_info(country.code, acc_number)
-                if info:
-                    bic = info.bic
-                    iban = info.iban
-                else:
-                    return {}
 
         iban_acc = sepa.IBAN(iban)
         if iban_acc.valid:
             bank_id, country_id = get_or_create_bank(
-                self.pool, cursor, uid, bic or iban_acc.BIC_searchkey
+                self.pool, cursor, uid, iban_acc.BIC_searchkey
                 )
             return {
                 'value': {
@@ -940,8 +983,7 @@ class res_partner_bank(osv.osv):
                     'iban': unicode(iban_acc),
                     'country':
                         country_id or country_ids and country_ids[0] or False,
-                    'bank':
-                        bank_id or bank_ids and bank_id[0] or False,
+                    'bank': bank_id or False,
                 }
             }
         raise osv.except_osv(_('Invalid IBAN account number!'),
