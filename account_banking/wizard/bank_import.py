@@ -567,7 +567,6 @@ class banking_import(wizard.interface):
         '''
         Open a window with the resulting import in error
         '''
-        import pdb; pdb.set_trace()
         form = data['form']
         return dict(
             view_type = 'form',
