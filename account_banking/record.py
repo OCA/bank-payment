@@ -89,7 +89,7 @@ class RightAlignedField(Field):
     '''Deviation of Field: right aligned'''
     def format(self, value):
         if len(value) > self.length:
-            return value[:self.length]
+            return value[-self.length:]
         return value.rjust(self.length, self.fillchar)
 
     def take(self, buffer):
