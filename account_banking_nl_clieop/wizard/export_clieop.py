@@ -24,7 +24,6 @@ import pooler
 import base64
 from datetime import datetime, date, timedelta
 from account_banking import sepa
-#from osv import osv
 from tools.translate import _
 #import pdb; pdb.set_trace()
 import clieop
@@ -298,6 +297,7 @@ def _create_clieop(self, cursor, uid, data, context):
                 kwargs['messages'] = [line.communication2]
             other_account_nr = line.bank_id.acc_number
             iban = sepa.IBAN(other_account_nr)
+            # Is this an IBAN account?
             if iban.valid:
                 if iban.countrycode != 'NL':
                     raise wizard.except_wizard(

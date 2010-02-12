@@ -277,12 +277,8 @@ class IBAN(str):
         Sanity check: don't offer extensions unless the base is sound.
         '''
         super(IBAN, self).__init__()
-        # Rearrange position of country code and check digits
         if self.countrycode not in self.countries:
             self.BBAN_format = self.unknown_BBAN_format
-            raise Warning, \
-               'Don\'t know how to format BBAN for country %s' % \
-                self.countrycode
         else:
             self.BBAN_format = self.BBAN_formats[self.countrycode]
 
@@ -326,7 +322,8 @@ class IBAN(str):
         Check if the string + check digits deliver a valid checksum
         '''
         _buffer = self[4:] + self[:4]
-        return int(base36_to_base10str(_buffer)) % 97 == 1
+        return self.countrycode in self.countries and \
+                int(base36_to_base10str(_buffer)) % 97 == 1
 
     def __repr__(self):
         '''
