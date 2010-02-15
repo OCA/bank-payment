@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Unset readonly state of acc_number for IBAN accounts.
+             Leaving it will make it impossible to deduce BBAN's from any
+             client.
+        -->
+        <record id="bank_acc_number_field" model="res.partner.bank.type.field">
+            <field name="name">acc_number</field>
+            <field name="bank_type_id" ref="base_iban.bank_iban"/>
+            <field eval="False" name="required"/>
+            <field eval="False" name="readonly"/>
+        </record>
+    </data>
+</openerp>
