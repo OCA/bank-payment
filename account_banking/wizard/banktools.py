@@ -56,14 +56,14 @@ def get_period(pool, cursor, uid, date, company, log):
         ])
     if not fiscalyear_ids:
         log.append(
-            _('No suitable fiscal year found for company %(company_name)s')
-            % dict(company_name=company.name)
+            _('No suitable fiscal year found for date %(date)s and company %(company_name)s')
+            % dict(company_name=company.name, date=date)
         )
         return False
     elif len(fiscalyear_ids) > 1:
         log.append(
-            _('Multiple overlapping fiscal years found for date %(date)s')
-            % dict(date=date)
+            _('Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s')
+            % dict(company_name=company.name, date=date)
         )
         return False
 
@@ -73,13 +73,13 @@ def get_period(pool, cursor, uid, date, company, log):
         ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft')
     ])
     if not period_ids:
-        log.append(_('No suitable period found for date %(date)s')
-                   % dict(date=date)
+        log.append(_('No suitable period found for date %(date)s and company %(company_name)s')
+                   % dict(company_name=company.name, date=date)
         )
         return False
     if len(period_ids) != 1:
-        log.append(_('Multiple overlapping periods for date %(date)s')
-                   % dict(date=date)
+        log.append(_('Multiple overlapping periods for date %(date)s and company %(company_name)s')
+                   % dict(company_name=company.name, date=date)
         )
         return False
     return period_ids[0]
@@ -135,10 +135,11 @@ def get_or_create_partner(pool, cursor, uid, name, log):
         partner_id = partner_ids[0]
     return partner_obj.browse(cursor, uid, partner_id)[0]
 
-def get_company_bank_account(pool, cursor, uid, account_number,
+def get_company_bank_account(pool, cursor, uid, account_number, currency,
                              company, log):
     '''
-    Get the matching bank account for this company.
+    Get the matching bank account for this company. Currency is the ISO code
+    for the requested currency.
     '''
     results = struct()
     bank_account = get_bank_account(pool, cursor, uid, account_number, log,
@@ -154,12 +155,31 @@ def get_company_bank_account(pool, cursor, uid, account_number,
         return False
     results.account = bank_account
     bank_settings_obj = pool.get('account.banking.account.settings')
-    bank_settings_ids = bank_settings_obj.search(cursor, uid, [
-        ('partner_bank_id', '=', bank_account.id)
+    criteria = [('partner_bank_id', '=', bank_account.id)]
+
+    # Find matching journal for currency
+    journal_obj = pool.get('account.journal')
+    journal_ids = journal_obj.search(cursor, uid, [
+        ('type', '=', 'cash'),
+        ('currency', '=', currency or company.currency_id.code)
     ])
+    if not journal_ids and currency == company.currency_id.code:
+        journal_ids = journal_obj.search(cursor, uid, [
+            ('type', '=', 'cash'), ('currency', '=', False)
+        ])
+    if journal_ids:
+        criteria.append(('journal_id', 'in', journal_ids))
+
+    # Find bank account settings
+    bank_settings_ids = bank_settings_obj.search(cursor, uid, criteria)
     if bank_settings_ids:
         settings = bank_settings_obj.browse(cursor, uid, bank_settings_ids)[0]
         results.journal_id = settings.journal_id
+        # Take currency from settings or from company
+        if settings.journal_id.currency.id:
+            results.currency_id = settings.journal_id.currency
+        else:
+            results.currency_id = company.currency_id
         results.default_debit_account_id = settings.default_debit_account_id
         results.default_credit_account_id = settings.default_credit_account_id
     return results

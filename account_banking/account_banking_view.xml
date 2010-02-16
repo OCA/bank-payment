@@ -29,7 +29,7 @@
             id="menu_action_account_banking_bank_accounts"
             parent="account_banking.menu_finance_banking_settings"
             action="action_account_banking_res_partner_banks"
-            sequence="12"
+            sequence="10"
          />
 
         <!-- Create new view on default journals for bank accounts -->
@@ -74,7 +74,7 @@
             id="menu_action_account_banking_bank_journals"
             parent="account_banking.menu_finance_banking_settings"
             action="action_account_banking_journals"
-            sequence="12"
+            sequence="20"
          />
         
         <!-- Create new view on imported statement files -->
@@ -142,7 +142,7 @@
 
         <!-- Create right menu entry to see statements -->
         <act_window name="Bank Statements File"
-            domain="[('banking_id', '=', active_id)]"
+            domain="[('id','=',banking_id)]"
             res_model="account.banking.imported.file"
             src_model="account.bank.statement"
             view_type="form"
@@ -189,6 +189,36 @@
                 <xpath expr="/form/notebook/page[@string='Entry encoding']/field/form/field[@name='type']" position="after">
                     <field name="period_id"/>
                 </xpath>
+            </field>
+        </record>
+
+        <!-- Add invisible column on bank statements tree for identification
+             of import file
+        -->
+        <record id="view_banking_bank_statement_tree_2" model="ir.ui.view">
+            <field name="name">account.bank.statement.tree.banking-2</field>
+            <field name="inherit_id" ref="account.view_bank_statement_tree" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="banking_id" invisible="True" />
+                </field>
+            </field>
+        </record>
+
+        <!-- Add invisible field on bank statements form for identification
+             of import file
+        -->
+        <record id="view_banking_bank_statement_form_4" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-4</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="balance_end_real" position="after">
+                    <field name="banking_id" invisible="True"/>
+                </field>
             </field>
         </record>
 

@@ -111,6 +111,7 @@ class account_banking_imported_file(osv.osv):
     '''Imported Bank Statements File'''
     _name = 'account.banking.imported.file'
     _description = __doc__
+    _rec_name = 'date'
     _columns = {
         'company_id': fields.many2one('res.company', 'Company',
                                       select=True, readonly=True
@@ -147,8 +148,10 @@ class account_bank_statement(osv.osv):
         2. Extended 'button_confirm' trigger to cope with the period per
            statement_line situation.
         3. Added optional relation with imported statements file
+        4. Ordering is based on auto generated id.
     '''
     _inherit = 'account.bank.statement'
+    _order = 'id'
 
     #def _currency(self, cursor, user, ids, name, args, context=None):
     #    '''
