@@ -496,30 +496,32 @@ class account_bank_statement_line(osv.osv):
     def onchange_partner_id(self, cursor, uid, line_id, partner_id, type,
                             currency_id, context={}
                            ):
+        '''
+        Find default accounts when encoding statements by hand
+        '''
         if not partner_id:
             return {}
-        users_obj = self.pool.get('res.users')
-        partner_obj = self.pool.get('res.partner')
-        
-        company_currency_id = users_obj.browse(
-                cursor, uid, uid, context=context
-            ).company_id.currency_id.id
-            
-        if not currency_id:
-            currency_id = company_currency_id
-        
-        partner = partner_obj.browse(cursor, uid, partner_id, context=context)
-        if partner.supplier and not part.customer:
-            account_id = part.property_account_payable.id
-            type = 'supplier'
-        elif partner.supplier and not part.customer:
-            account_id =  part.property_account_receivable.id
-            type = 'customer'
-        else:
-            account_id = 0
-            type = 'general'
 
-        return {'value': {'type': type, 'account_id': account_id}}
+        result = {}
+        if not currency_id:
+            users_obj = self.pool.get('res.users')
+            currency_id = users_obj.browse(
+                    cursor, uid, uid, context=context
+                ).company_id.currency_id.id
+        result['currency_id'] = currency_id
+        
+        partner_obj = self.pool.get('res.partner')
+        partner = partner_obj.browse(cursor, uid, partner_id, context=context)
+        if partner.supplier and not partner.customer:
+            if partner.property_account_payable.id:
+                result['account_id'] = partner.property_account_payable.id
+            result['type'] = 'supplier'
+        elif partner.customer and not partner.supplier:
+            if partner.property_account_receivable.id:
+                result['account_id'] =  partner.property_account_receivable.id
+            result['type'] = 'customer'
+
+        return result and {'value': result} or {}
 
     def write(self, cursor, uid, ids, values, context={}):
         # TODO: Not sure what to do with this, as it seems that most of
@@ -837,10 +839,10 @@ payment_order()
 
 class res_partner_bank(osv.osv):
     '''
-    This is a hack to circumvent the ugly account/base_iban dependency. The
-    usage of __mro__ requires inside information of inheritence. This code is
-    tested and works - it bypasses base_iban altogether. Be sure to use
-    'super' for inherited classes from here though.
+    This is a hack to circumvent the very limited but widely used base_iban
+    dependency. The usage of __mro__ requires inside information of
+    inheritence. This code is tested and works - it bypasses base_iban
+    altogether. Be sure to use 'super' for inherited classes from here though.
 
     Extended functionality:
         1. BBAN and IBAN are considered equal
@@ -857,6 +859,19 @@ class res_partner_bank(osv.osv):
                            ),
     }
 
+    @property
+    def granny(self):
+        '''
+        Return the grand ancestors method of self.
+        Functional identical to super(super()) (which Python does not support).
+        Only tested and validated for the inheritance of
+            1. res_partner_bank
+            2. base_iban.res_partner_bank
+            3. account_banking.res_partner_bank
+        For other inheritance scheme's, you're on your own.
+        '''
+        return self.__class__.__mro__[4]
+
     def create(self, cursor, uid, vals, context={}):
         '''
         Create dual function IBAN account for SEPA countries
@@ -866,9 +881,7 @@ class res_partner_bank(osv.osv):
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-        return self.__class__.__mro__[4].create(self, cursor, uid, vals,
-                                                context
-                                               )
+        return self.granny.create(self, cursor, uid, vals, context)
 
     def write(self, cursor, uid, ids, vals, context={}):
         '''
@@ -879,12 +892,47 @@ class res_partner_bank(osv.osv):
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-        return self.__class__.__mro__[4].write(self, cursor, uid, ids,
-                                               vals, context
-                                              )
+        return self.granny.write(self, cursor, uid, ids, vals, context)
+
+    def search(self, cursor, uid, args, *rest, **kwargs):
+        '''
+        Overwrite search, as both acc_number and iban now can be filled, so
+        the original base_iban 'search and search again fuzzy' tactic now can
+        result in doubled findings. Also there is now enough info to search
+        for local accounts when a valid IBAN was supplied.
+        '''
+        def uniq(lst):
+            '''
+            Create a list of unique elements in lst
+            '''
+            d = dict(zip(lst, lst))
+            return d.keys()
+
+        # Match acc_number searches as IBAN searches
+        extras = [[('iban',) + x[1:] for x in args if x[0] == 'acc_number']]
+
+        # Add local account search for IBAN searches
+        extra = []
+        for x in [x for x in args if x[0] == 'iban' and x[1] in ('=', '==')]:
+            iban = sepa.IBAN(x[2])
+            if iban.valid:
+                # There are countries that have no localized_BBAN
+                try:
+                    extra.append(('acc_number', '=', iban.localized_BBAN))
+                except:
+                    pass
+        if extra:
+            extras.append(extra)
+
+        # Original search (grannies)
+        results = self.granny.search(self, cursor, uid, args, *rest, **kwargs)
+        for extra in extras:
+            results += self.granny.search(self, cursor, uid, extra, *rest,
+                                          **kwargs)
+        return uniq(results)
 
     def read(self, *args, **kwargs):
-        records = self.__class__.__mro__[4].read(self, *args, **kwargs)
+        records = self.granny.read(self, *args, **kwargs)
         for record in records:
             if 'iban' in record and record['iban']:
                 record['iban'] = unicode(sepa.IBAN(record['iban']))

@@ -355,7 +355,16 @@ class banking_import(wizard.interface):
                 no_trans_skipped += len(statement.transactions)
                 continue
 
-            if not statement.local_account in info:
+            # Create fallback currency code
+            currency_code = statement.local_currency or company.currency_id.code
+
+            # Check cache for account info/currency
+            if statement.local_account in info and \
+               currency_code in info[statement.local_account]:
+                account_info = info[statement.local_account][currency_code]
+
+            else:
+                # Pull account info/currency
                 account_info = get_company_bank_account(
                     self.pool, cursor, uid, statement.local_account,
                     statement.local_currency, company, log
@@ -377,10 +386,19 @@ class banking_import(wizard.interface):
                     error_accounts[statement.local_account] = True
                     no_errors += 1
                     continue
-                info[statement.local_account] = account_info
-            else:
-                account_info = info[statement.local_account]
 
+                # Get required currency code
+                currency_code = account_info.currency_id.code
+
+                # Cache results
+                if not statement.local_account in info:
+                    info[statement.local_account] = {
+                        currency_code: account_info
+                    }
+                else:
+                    info[statement.local_account][currency_code] = account_info
+
+            # Final check: no coercion of currencies!
             if statement.local_currency \
                and account_info.currency_id.code != statement.local_currency:
                 # TODO: convert currencies?
