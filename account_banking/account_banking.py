@@ -859,18 +859,19 @@ class res_partner_bank(osv.osv):
                            ),
     }
 
-    @property
-    def granny(self):
+    def __init__(self, *args, **kwargs):
         '''
-        Return the grand ancestors method of self.
-        Functional identical to super(super()) (which Python does not support).
-        Only tested and validated for the inheritance of
-            1. res_partner_bank
-            2. base_iban.res_partner_bank
-            3. account_banking.res_partner_bank
-        For other inheritance scheme's, you're on your own.
+        Locate founder (first non inherited class) in inheritance tree.
+        Defaults to super()
+        Algorithm should prevent moving unknown classes between
+        base.res_partner_bank and this module's res_partner_bank.
         '''
-        return self.__class__.__mro__[4]
+        self._founder = super(res_partner_bank, self)
+        self._founder.__init__(*args, **kwargs)
+        mro = self.__class__.__mro__
+        for i in range(len(mro)):
+            if mro[i].__module__.startswith('base.'):
+                self._founder = mro[i]
 
     def create(self, cursor, uid, vals, context={}):
         '''
@@ -881,7 +882,7 @@ class res_partner_bank(osv.osv):
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-        return self.granny.create(self, cursor, uid, vals, context)
+        return self._founder.create(self, cursor, uid, vals, context)
 
     def write(self, cursor, uid, ids, vals, context={}):
         '''
@@ -892,7 +893,7 @@ class res_partner_bank(osv.osv):
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-        return self.granny.write(self, cursor, uid, ids, vals, context)
+        return self._founder.write(self, cursor, uid, ids, vals, context)
 
     def search(self, cursor, uid, args, *rest, **kwargs):
         '''
@@ -925,14 +926,14 @@ class res_partner_bank(osv.osv):
             extras.append(extra)
 
         # Original search (grannies)
-        results = self.granny.search(self, cursor, uid, args, *rest, **kwargs)
+        results = self._founder.search(self, cursor, uid, args, *rest, **kwargs)
         for extra in extras:
-            results += self.granny.search(self, cursor, uid, extra, *rest,
-                                          **kwargs)
+            results += self._founder.search(self, cursor, uid, extra, *rest,
+                                            **kwargs)
         return uniq(results)
 
     def read(self, *args, **kwargs):
-        records = self.granny.read(self, *args, **kwargs)
+        records = self._founder.read(self, *args, **kwargs)
         for record in records:
             if 'iban' in record and record['iban']:
                 record['iban'] = unicode(sepa.IBAN(record['iban']))
