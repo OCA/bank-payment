@@ -254,7 +254,8 @@ def _create_clieop(self, cursor, uid, data, context):
     for payment_order in payment_orders:
         if not clieopfile:
             # Just once: create clieop file
-            our_account_owner = payment_order.mode.bank_id.owner_name
+            our_account_owner = payment_order.mode.bank_id.owner_name \
+                    or payment_order.mode.bank_id.partner_id.name
             our_account_nr = payment_order.mode.bank_id.acc_number
             if not our_account_nr and payment_order.mode.bank_id.iban:
                 our_account_nr = sepa.IBAN(
@@ -289,7 +290,7 @@ def _create_clieop(self, cursor, uid, data, context):
 
         for line in payment_order.line_ids:
             kwargs = dict(
-                name = line.bank_id.owner_name,
+                name = line.bank_id.owner_name or line.bank_id.partner_id.name,
                 amount = line.amount_currency,
                 reference = line.communication or None,
             )

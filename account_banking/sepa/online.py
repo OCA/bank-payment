@@ -35,6 +35,7 @@ __all__ = [
 ]
 
 IBANlink_NL = 'http://www.ibannl.org/iban_check.php'
+IBANlink_BE = 'http://www.ibanbic.be/Default.aspx'
 
 def get_iban_bic_NL(bank_acc):
     '''
@@ -63,8 +64,47 @@ def get_iban_bic_NL(bank_acc):
         return result
     return None
 
+def get_iban_bic_BE(bank_acc):
+    '''
+    Consult the Belgian online database to check both account number and the
+    bank it belongs to. Will not work offline, is limited to banks operating
+    in Belgium and will only convert Belgian local account numbers.
+    '''
+    def contents(soup, attr):
+        return soup.find('input', {'id': 'textbox%s' % attr}).contents[0].strip()
+
+    if not bank_acc.strip():
+        return None
+
+    # Get empty form with hidden validators
+    agent = URLAgent()
+    request = agent.open(IBANlink_BE)
+
+    # Isolate form and fill it in
+    soup = BeautifulSoup(request)
+    form = SoupForm(soup.find('form', {'id': 'form1'}))
+    form['textboxBBAN'] = bank_acc.strip()
+    form['Convert'] = 'Convert Number'
+
+    # Submit the form
+    response = agent.submit(form)
+
+    # Parse the results
+    soup = BeautifulSoup(response)
+    result = struct()
+    result.iban = contents(soup, 'IBAN')
+    result.bic = contents(soup, 'BIC').replace(' ', '')
+    result.bank = contents(soup, 'BankName')
+
+    # Add substracts
+    result.account = bank_acc
+    result.country_id = result.bic[4:6]
+    result.code = result.bic[:6]
+    return result
+
 _account_info = {
     # TODO: Add more online data banks
+    #'BE': get_iban_bic_BE,
     'NL': get_iban_bic_NL,
 }
 

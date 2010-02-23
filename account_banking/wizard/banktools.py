@@ -184,12 +184,16 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
         results.default_credit_account_id = settings.default_credit_account_id
     return results
 
-def get_or_create_bank(pool, cursor, uid, bic, online=True):
+def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
+                       name=None):
     '''
     Find or create the bank with the provided BIC code.
     When online, the SWIFT database will be consulted in order to
     provide for missing information.
     '''
+    # UPDATE: Free SWIFT databases are since 2/22/2010 hidden behind an
+    #         image challenge/response interface.
+
     bank_obj = pool.get('res.bank')
 
     # Self generated key?
@@ -233,12 +237,14 @@ def get_or_create_bank(pool, cursor, uid, bic, online=True):
             ))
         else:
             bank_id = False
+    else:
+        info = struct(name=name, code=code)
 
     country_id = country_ids and country_ids[0] or False
-    if not online or not bank_id:
+    if info.code and ((not online) or not bank_id):
         bank_id = bank_obj.create(cursor, uid, dict(
             code = info.code,
-            name = _('Unknown Bank'),
+            name = info.name or _('Unknown Bank'),
             country = country_id,
             bic = bic,
         ))

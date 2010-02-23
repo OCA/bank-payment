@@ -578,7 +578,7 @@ msgstr "Details bankrekening"
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Unable to link transaction %(trans)s to invoice: '\n"
-"                  '%(no_candidates)s candidates found; can\'t choose."
+"                  '%(no_candidates)s candidates found; can't choose."
 msgstr "Niet in staat transactie %(trans)s aan factuur te koppelen: '\n"
 "                  '%(no_candidates)s kandidaten gevonden; kan niet kiezen."
 

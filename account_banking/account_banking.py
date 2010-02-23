@@ -92,6 +92,13 @@ class account_banking_account_settings(osv.osv):
                   'movements before confirming them.'
                  ),
         ),
+        #'multi_currency': fields.boolean(
+        #    'Multi Currency Bank Account', required=True,
+        #    help=('Select this if your bank account is able to handle '
+        #          'multiple currencies in parallel without coercing to '
+        #          'a single currency.'
+        #         ),
+        #),
     }
 
     def _default_company(self, cursor, uid, context={}):
@@ -104,6 +111,7 @@ class account_banking_account_settings(osv.osv):
 
     _defaults = {
         'company_id': _default_company,
+        #'multi_currency': lambda *a: False,
     }
 account_banking_account_settings()
 
@@ -872,6 +880,7 @@ class res_partner_bank(osv.osv):
         for i in range(len(mro)):
             if mro[i].__module__.startswith('base.'):
                 self._founder = mro[i]
+                break
 
     def create(self, cursor, uid, vals, context={}):
         '''
@@ -910,7 +919,7 @@ class res_partner_bank(osv.osv):
             return d.keys()
 
         # Match acc_number searches as IBAN searches
-        extras = [[('iban',) + x[1:] for x in args if x[0] == 'acc_number']]
+        extras = [('iban',) + x[1:] for x in args if x[0] == 'acc_number']
 
         # Add local account search for IBAN searches
         extra = []
@@ -925,12 +934,12 @@ class res_partner_bank(osv.osv):
         if extra:
             extras.append(extra)
 
-        # Original search (grannies)
+        # Original search (_founder)
         results = self._founder.search(self, cursor, uid, args, *rest, **kwargs)
         for extra in extras:
             results += self._founder.search(self, cursor, uid, extra, *rest,
                                             **kwargs)
-        return uniq(results)
+        return issubclass(results, list) and uniq(results) or results
 
     def read(self, *args, **kwargs):
         records = self._founder.read(self, *args, **kwargs)
@@ -998,7 +1007,8 @@ class res_partner_bank(osv.osv):
                     values['iban'] = unicode(iban_acc)
                     bank_id, country_id = get_or_create_bank(
                         self.pool, cursor, uid,
-                        info.bic or iban_acc.BIC_searchkey
+                        info.bic or iban_acc.BIC_searchkey,
+                        code = info.code, name = info.bank
                         )
                     values['country_id'] = country_id or \
                                            country_ids and country_ids[0] or \

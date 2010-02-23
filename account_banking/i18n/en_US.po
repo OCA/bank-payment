@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-01-08 15:30:50+0000\n"
-"PO-Revision-Date: 2010-01-08 15:30:50+0000\n"
+"POT-Creation-Date: 2010-02-19 16:17:51+0000\n"
+"PO-Revision-Date: 2010-02-19 16:17:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking
-#: wizard_view:account_banking.banking_import,import:0
+#: wizard_view:account_banking.banking_import,view_error:0
+#: wizard_view:account_banking.banking_import,view_statements:0
 msgid "Results:"
 msgstr ""
 
@@ -37,17 +38,18 @@ msgid "Invalid model name in the action definition."
 msgstr ""
 
 #. module: account_banking
-#: wizard_button:account_banking.banking_import,import,open:0
-msgid "_Open Statement"
-msgstr ""
-
-#. module: account_banking
 #: field:payment.line,date_done:0
 msgid "Date Confirmed"
 msgstr ""
 
 #. module: account_banking
-#: wizard_button:account_banking.banking_import,import,end:0
+#: wizard_button:account_banking.banking_import,view_statements,open_statements:0
+msgid "_View Statements"
+msgstr ""
+
+#. module: account_banking
+#: wizard_button:account_banking.banking_import,view_error,end:0
+#: wizard_button:account_banking.banking_import,view_statements,end:0
 msgid "_Close"
 msgstr ""
 
@@ -106,14 +108,13 @@ msgstr ""
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Statement for account %(bank_account)s uses different '\n"
-"                  'currency than the defined bank journal."
+msgid "Number of statements skipped due to errors"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:0
+#: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "Number of statements skipped due to errors"
+msgid "Invalid IBAN account number!"
 msgstr ""
 
 #. module: account_banking
@@ -149,6 +150,12 @@ msgid "Default debit account"
 msgstr ""
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:0
+#, python-format
+msgid "Unknown Bank"
+msgstr ""
+
+#. module: account_banking
 #: wizard_button:account_banking.banking_import,init,end:0
 msgid "_Cancel"
 msgstr ""
@@ -169,6 +176,12 @@ msgid "Confirmed"
 msgstr ""
 
 #. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.action_account_banking_res_partner_banks
+#: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Default Accounts for Unknown Movements"
 msgstr ""
@@ -179,15 +192,15 @@ msgid "Confirm"
 msgstr ""
 
 #. module: account_banking
-#: field:account.banking.account.settings,default_credit_account_id:0
-msgid "Default credit account"
-msgstr ""
-
-#. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Statements found for account %(bank_account)s, '\n"
-"                      'but no default journal was defined."
+"                          'but no default journal was defined."
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,default_credit_account_id:0
+msgid "Default credit account"
 msgstr ""
 
 #. module: account_banking
@@ -204,6 +217,13 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,trans:0
 msgid "Bank Transaction ID"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid "Unable to link transaction %(trans)s to invoice: '\n"
+"                      '%(no_candidates)s candidates found; can\'t choose."
 msgstr ""
 
 #. module: account_banking
@@ -249,6 +269,18 @@ msgid "The Transactions File to import. Please note that while it is perfectly s
 msgstr ""
 
 #. module: account_banking
+#: field:account.banking.imported.file,state:0
+#: field:payment.line,export_state:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/sepa/bbantoiban.py:0
+#, python-format
+msgid "This is a stub. Please implement your own code"
+msgstr ""
+
+#. module: account_banking
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr ""
@@ -259,8 +291,9 @@ msgid "Imported Bank Statements"
 msgstr ""
 
 #. module: account_banking
-#: wizard_view:account_banking.banking_import,import:0
 #: wizard_view:account_banking.banking_import,init:0
+#: wizard_view:account_banking.banking_import,view_error:0
+#: wizard_view:account_banking.banking_import,view_statements:0
 msgid "Import Bank Transactions File"
 msgstr ""
 
@@ -282,9 +315,10 @@ msgid "More then one possible match found for partner with name %(name)s"
 msgstr ""
 
 #. module: account_banking
-#: field:account.banking.imported.file,state:0
-#: field:payment.line,export_state:0
-msgid "State"
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid "Statement for account %(bank_account)s uses different '\n"
+"                      'currency than the defined bank journal."
 msgstr ""
 
 #. module: account_banking
@@ -294,15 +328,8 @@ msgid "ERROR!"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/banktools.py:0
-#, python-format
-msgid "No suitable period found for date %(date)s"
-msgstr ""
-
-#. module: account_banking
-#: code:addons/account_banking/wizard/banktools.py:0
-#, python-format
-msgid "Multiple overlapping periods for date %(date)s"
+#: field:account.bank.statement.line,currency:0
+msgid "Currency"
 msgstr ""
 
 #. module: account_banking
@@ -313,7 +340,8 @@ msgid "Company"
 msgstr ""
 
 #. module: account_banking
-#: wizard_field:account_banking.banking_import,import,log:0
+#: wizard_field:account_banking.banking_import,view_error,log:0
+#: wizard_field:account_banking.banking_import,view_statements,log:0
 msgid "Log"
 msgstr ""
 
@@ -329,65 +357,6 @@ msgid "Configration Error !"
 msgstr ""
 
 #. module: account_banking
-#: model:ir.module.module,description:account_banking.module_meta_information
-msgid "\n"
-"    Module to do banking.\n"
-"\n"
-"    This modules tries to combine all current banking import and export\n"
-"    schemes. Rationale for this is that it is quite common to have foreign\n"
-"    bank account numbers next to national bank account numbers. The current\n"
-"    approach, which hides the national banking interface schemes in the\n"
-"    l10n_xxx modules, makes it very difficult to use these simultanious.\n"
-"    A more banking oriented approach seems more logical and cleaner.\n"
-"\n"
-"    Changes to default OpenERP:\n"
-"\n"
-"    * Puts focus on the real life messaging with banks:\n"
-"      + Bank statement lines upgraded to independent bank transactions.\n"
-"      + Banking statements have no special accountancy meaning, they're just\n"
-"        message envelopes for a number of bank transactions.\n"
-"      + Bank statements can be either encoded by hand to reflect the document\n"
-"        version of Bank Statements, or created as an optional side effect of\n"
-"        importing Bank Transactions.\n"
-"\n"
-"    * Preparations for SEPA:\n"
-"      + IBAN accounts are the standard in the SEPA countries\n"
-"      + local accounts are derived from SEPA (excluding Turkey) but are\n"
-"        considered to be identical to the corresponding SEPA account.\n"
-"      + Banks are identified with either Country + Bank code + Branch code or BIC\n"
-"      + Each bank can have its own pace in introducing SEPA into their\n"
-"        communication with their customers.\n"
-"      + National online databases can be used to convert BBAN's to IBAN's.\n"
-"\n"
-"    * Adds dropin extensible import facility for bank communication in:\n"
-"      + MultiBank (NL) format transaction files,\n"
-"      - (todo) MT940 (Swift) format transaction files,\n"
-"      - (todo) CODA (BE) format transaction files,\n"
-"      - (wish) SEPA Credits (ISO 200022) messages,\n"
-"\n"
-"    * Extends payments for digital banking:\n"
-"      + Adapted workflow in payments to reflect banking operations\n"
-"      + Relies on account_payment mechanics to extend with export generators.\n"
-"      - ClieOp3 (NL) payment and direct debit orders files available as\n"
-"        account_banking_nl_clieop\n"
-"      - (wish) BTL91 (NL) payment orders files (no format description available),\n"
-"      - (wish) SEPA Direct Debits (ISO 200022) messages\n"
-"\n"
-"    * Additional features for the import/export mechanism:\n"
-"      + Automatic matching and creation of bank accounts, banks and partners,\n"
-"        during import of statements.\n"
-"      + Automatic matching with invoices and payments.\n"
-"      + Sound import mechanism, allowing multiple imports of the same\n"
-"        transactions repeated over multiple files.\n"
-"      + Journal configuration per bank account.\n"
-"      + Business logic and format parsing strictly separated to ease the\n"
-"        development of new parsers.\n"
-"      + No special configuration needed for the parsers, new parsers are\n"
-"        recognized and made available at server (re)start.\n"
-"    "
-msgstr ""
-
-#. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
 msgid "Bank Statements File"
 msgstr ""
@@ -396,6 +365,12 @@ msgstr ""
 #: code:addons/account_banking/parsers/models.py:0
 #, python-format
 msgid "This is a stub. Please implement your own."
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:0
+#, python-format
+msgid "No suitable period found for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
@@ -414,6 +389,12 @@ msgstr ""
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:0
+#, python-format
+msgid "Multiple overlapping periods for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
@@ -440,9 +421,21 @@ msgid "Error"
 msgstr ""
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid "Total number of statements"
+msgstr ""
+
+#. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
 msgid "Unable to reconcile entry \"%s\": %.2f"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:0
+#, python-format
+msgid "No suitable fiscal year found for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
@@ -498,15 +491,26 @@ msgid "Account Banking"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:0
+#: wizard_button:account_banking.banking_import,view_error,open_import:0
+msgid "_View Imported File"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "Total number of statements"
+msgid "The IBAN number doesn't seem to be correct"
 msgstr ""
 
 #. module: account_banking
 #: field:account.banking.imported.file,format:0
 #: wizard_field:account_banking.banking_import,init,parser:0
 msgid "File Format"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:0
+#, python-format
+msgid "Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
@@ -520,21 +524,8 @@ msgid "Finished"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/banktools.py:0
-#, python-format
-msgid "No suitable fiscal year found for company %(company_name)s"
-msgstr ""
-
-#. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Bank Account Details"
-msgstr ""
-
-#. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:0
-#, python-format
-msgid "Unable to link transaction %(trans)s to invoice: '\n"
-"                  '%(no_candidates)s candidates found; can\'t choose."
 msgstr ""
 
 #. module: account_banking
@@ -550,9 +541,72 @@ msgid "Number of transactions loaded"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/banktools.py:0
-#, python-format
-msgid "Multiple overlapping fiscal years found for date %(date)s"
+#: model:ir.module.module,description:account_banking.module_meta_information
+msgid "\n"
+"    Module to do banking.\n"
+"\n"
+"    Note: This module is depending on BeautifulSoup.\n"
+"\n"
+"    This modules tries to combine all current banking import and export\n"
+"    schemes. Rationale for this is that it is quite common to have foreign\n"
+"    bank account numbers next to national bank account numbers. The current\n"
+"    approach, which hides the national banking interface schemes in the\n"
+"    l10n_xxx modules, makes it very difficult to use these simultanious.\n"
+"    A more banking oriented approach seems more logical and cleaner.\n"
+"\n"
+"    Changes to default OpenERP:\n"
+"\n"
+"    * Puts focus on the real life messaging with banks:\n"
+"      + Bank statement lines upgraded to independent bank transactions.\n"
+"      + Banking statements have no special accountancy meaning, they're just\n"
+"        message envelopes for a number of bank transactions.\n"
+"      + Bank statements can be either encoded by hand to reflect the document\n"
+"        version of Bank Statements, or created as an optional side effect of\n"
+"        importing Bank Transactions.\n"
+"\n"
+"    * Preparations for SEPA:\n"
+"      + IBAN accounts are the standard in the SEPA countries\n"
+"      + local accounts are derived from SEPA (excluding Turkey) but are\n"
+"        considered to be identical to the corresponding SEPA account.\n"
+"      + Banks are identified with either Country + Bank code + Branch code or BIC\n"
+"      + Each bank can have its own pace in introducing SEPA into their\n"
+"        communication with their customers.\n"
+"      + National online databases can be used to convert BBAN's to IBAN's.\n"
+"      + The SWIFT database is consulted for bank information.\n"
+"\n"
+"    * Adds dropin extensible import facility for bank communication in:\n"
+"      - Drop-in input parser development.\n"
+"      - MultiBank (NL) format transaction files available as\n"
+"        account_banking_nl_multibank,\n"
+"      - (todo) MT940 (Swift) format transaction files,\n"
+"      - (todo) CODA (BE) format transaction files,\n"
+"      - (wish) SEPA Credits (ISO 200022) messages,\n"
+"\n"
+"    * Extends payments for digital banking:\n"
+"      + Adapted workflow in payments to reflect banking operations\n"
+"      + Relies on account_payment mechanics to extend with export generators.\n"
+"      - ClieOp3 (NL) payment and direct debit orders files available as\n"
+"        account_banking_nl_clieop\n"
+"      - (wish) BTL91 (NL) payment orders files (no format description available),\n"
+"      - (wish) SEPA Direct Debits (ISO 200022) messages\n"
+"\n"
+"    * Additional features for the import/export mechanism:\n"
+"      + Automatic matching and creation of bank accounts, banks and partners,\n"
+"        during import of statements.\n"
+"      + Automatic matching with invoices and payments.\n"
+"      + Sound import mechanism, allowing multiple imports of the same\n"
+"        transactions repeated over multiple files.\n"
+"      + Journal configuration per bank account.\n"
+"      + Business logic and format parsing strictly separated to ease the\n"
+"        development of new parsers.\n"
+"      + No special configuration needed for the parsers, new parsers are\n"
+"        recognized and made available at server (re)start.\n"
+"    "
+msgstr ""
+
+#. module: account_banking
+#: model:res.partner.bank.type.field,name:account_banking.bank_acc_number_field
+msgid "acc_number"
 msgstr ""
 
 #. module: account_banking
