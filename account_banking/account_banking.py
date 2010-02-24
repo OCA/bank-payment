@@ -939,7 +939,7 @@ class res_partner_bank(osv.osv):
         for extra in extras:
             results += self._founder.search(self, cursor, uid, extra, *rest,
                                             **kwargs)
-        return issubclass(results, list) and uniq(results) or results
+        return isinstance(results, list) and uniq(results) or results
 
     def read(self, *args, **kwargs):
         records = self._founder.read(self, *args, **kwargs)
