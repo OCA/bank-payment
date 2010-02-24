@@ -62,6 +62,26 @@ import sepa
 from osv import osv, fields
 from tools.translate import _
 from wizard.banktools import get_or_create_bank
+import pooler
+
+class account_banking_settings(osv.osv):
+    '''Settings for the account_banking module'''
+    _name = 'account.banking.settings'
+    _description = __doc__
+    _columns = {
+        'use_online': fields.boolean('Online Sources',
+                                     help=('Select this if you want to be '
+                                           'able to use the online banking '
+                                           'resources from the internet '
+                                           'to auto complete account and '
+                                           'bank info.')
+                                    ),
+    }
+    _defaults = {
+        'use_online': lambda *a: True,
+    }
+
+account_banking_settings()
 
 class account_banking_account_settings(osv.osv):
     '''Default Journal for Bank Account'''
@@ -882,6 +902,32 @@ class res_partner_bank(osv.osv):
                 self._founder = mro[i]
                 break
 
+    def init(self, cursor):
+        '''
+        Update existing iban accounts to comply to new regime
+        '''
+        cursor.execute('select id, acc_number, iban '
+                       'from res_partner_bank '
+                       'where '
+                         'upper(iban) != iban or '
+                         'acc_number is NULL'
+                      )
+        for id, acc_number, iban in cursor.fetchall():
+            new_iban = new_acc_number = False
+            if iban:
+                iban_acc = sepa.IBAN(iban)
+                if iban_acc.valid:
+                    new_acc_number = iban_acc.localized_BBAN
+                    new_iban = str(iban_acc)
+                elif iban != iban.upper():
+                    new_iban = iban.upper
+            if iban != new_iban or new_acc_number != acc_number:
+                cursor.execute('update res_partner_bank '
+                               'set iban = %s, acc_number = %s '
+                               'where id = %s' % (
+                                   new_iban, new_acc_number, id
+                               ))
+
     def create(self, cursor, uid, vals, context={}):
         '''
         Create dual function IBAN account for SEPA countries
@@ -918,21 +964,25 @@ class res_partner_bank(osv.osv):
             d = dict(zip(lst, lst))
             return d.keys()
 
+        extras = []
+
         # Match acc_number searches as IBAN searches
-        extras = [('iban',) + x[1:] for x in args if x[0] == 'acc_number']
+        iban_equiv = [('iban',) + x[1:] for x in args if x[0] == 'acc_number']
+        if iban_equiv:
+            extras.append(iban_equiv)
 
         # Add local account search for IBAN searches
-        extra = []
+        extra_args = []
         for x in [x for x in args if x[0] == 'iban' and x[1] in ('=', '==')]:
             iban = sepa.IBAN(x[2])
             if iban.valid:
                 # There are countries that have no localized_BBAN
                 try:
-                    extra.append(('acc_number', '=', iban.localized_BBAN))
+                    extra_args.append(('acc_number', '=', iban.localized_BBAN))
                 except:
                     pass
-        if extra:
-            extras.append(extra)
+        if extra_args:
+            extras.append(extra_args)
 
         # Original search (_founder)
         results = self._founder.search(self, cursor, uid, args, *rest, **kwargs)
