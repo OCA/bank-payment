@@ -956,42 +956,88 @@ class res_partner_bank(osv.osv):
         the original base_iban 'search and search again fuzzy' tactic now can
         result in doubled findings. Also there is now enough info to search
         for local accounts when a valid IBAN was supplied.
+        
+        Chosen strategy: create complex filter to find all results in just
+                         one search
         '''
-        def uniq(lst):
+
+        def extended_simple_filter(args):
             '''
-            Create a list of unique elements in lst
+            Extend the simple search filter in args when appropriate.
             '''
-            d = dict(zip(lst, lst))
-            return d.keys()
+            extra_args = None
+            if args[0].lower() == 'iban' and args[1] in ('=', '=='):
+                iban = sepa.IBAN(args[2])
+                if iban.valid:
+                    # Some countries can't convert to BBAN
+                    try:
+                        bban = iban.localized_BBAN
+                        # Prevent empty search filters
+                        if bban:
+                            extra_args = ('acc_number', args[1], bban)
+                    except:
+                        pass
+            if extra_args:
+                return [args, extra_args]
+            return [args]
 
-        extras = []
+        def extended_search_filter(args):
+            '''
+            Extend the search filter in args when appropriate.
+            Is used recursively to allow complex search filters.
+            '''
+            if not args:
+                return []
 
-        # Match acc_number searches as IBAN searches
-        iban_equiv = [('iban',) + x[1:] for x in args if x[0] == 'acc_number']
-        if iban_equiv:
-            extras.append(iban_equiv)
+            all = []
+            if isinstance(args[0], (str, unicode)) and isinstance(args[1], (list, tuple)):
+                # Complex expression
 
-        # Add local account search for IBAN searches
-        extra_args = []
-        for x in [x for x in args if x[0] == 'iban' and x[1] in ('=', '==')]:
-            iban = sepa.IBAN(x[2])
-            if iban.valid:
-                # There are countries that have no localized_BBAN
-                try:
-                    extra_args.append(('acc_number', '=', iban.localized_BBAN))
-                except:
-                    pass
-        if extra_args:
-            extras.append(extra_args)
+                if args[0] == '&':
+                    # For 'and', copy group and 'or' it with the modified one
+                    mod = []
+                    for term in args[1:]:
+                        extra = extended_search_filter(term)
+                        if extra != [term]:
+                            mod.append(['|'] + extra)
+                        else:
+                            mod.append(term)
+                    if mod and mod != [args[1:]]:
+                        all += ['|', args, ['&'] + mod]
 
+                elif args[0] == '|':
+                    # For 'or', just add the modified terms
+                    mod = [args[0]]
+                    for term in args[1:]:
+                        mod += extended_search_filter(term)
+                    all += mod
+
+            else:
+                # Implicit '|'
+                extra = []
+                if isinstance(args, (tuple, list)) and len(args) == 3:
+                    extra += extended_simple_filter(args)
+                else:
+                    for arg in args:
+                        extra += extended_search_filter(arg)
+                if extra:
+                    all += extra
+
+            return all
+
+        # Extend search filter
+        newargs = extended_search_filter(args)
+        
         # Original search (_founder)
-        results = self._founder.search(self, cursor, uid, args, *rest, **kwargs)
-        for extra in extras:
-            results += self._founder.search(self, cursor, uid, extra, *rest,
-                                            **kwargs)
-        return isinstance(results, list) and uniq(results) or results
+        results = self._founder.search(self, cursor, uid, newargs,
+                                       *rest, **kwargs
+                                      )
+        return results
 
     def read(self, *args, **kwargs):
+        '''
+        Convert IBAN electronic format to IBAN display format
+        '''
         records = self._founder.read(self, *args, **kwargs)
         for record in records:
             if 'iban' in record and record['iban']:
@@ -1079,21 +1125,17 @@ class res_partner_bank(osv.osv):
         if not iban:
             return {}
 
-        country_obj = self.pool.get('res.country')
-        partner_obj = self.pool.get('res.partner')
-        country_ids = []
-
         iban_acc = sepa.IBAN(iban)
         if iban_acc.valid:
             bank_id, country_id = get_or_create_bank(
-                self.pool, cursor, uid, iban_acc.BIC_searchkey
+                self.pool, cursor, uid, iban_acc.BIC_searchkey,
+                code=iban_acc.BIC_searchkey
                 )
             return {
                 'value': {
                     'acc_number': iban_acc.localized_BBAN,
                     'iban': unicode(iban_acc),
-                    'country':
-                        country_id or country_ids and country_ids[0] or False,
+                    'country': country_id or False,
                     'bank': bank_id or False,
                 }
             }

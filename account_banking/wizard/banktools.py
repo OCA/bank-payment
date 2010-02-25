@@ -222,6 +222,9 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
     country_ids = country_obj.search(
         cursor, uid, [('code', '=', bic[4:6])]
     )
+    country_id = country_ids and country_ids[0] or False
+    bank_id = False
+
     if online:
         info, address = sepa.online.bank_info(bic)
         if info:
@@ -232,15 +235,12 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
                 street2 = address.street2,
                 zip = address.zip,
                 city = address.city,
-                country = country_ids and country_ids[0] or False,
+                country = country_id,
                 bic = info.bic[:8],
             ))
-        else:
-            bank_id = False
     else:
         info = struct(name=name, code=code)
 
-    country_id = country_ids and country_ids[0] or False
     if info.code and ((not online) or not bank_id):
         bank_id = bank_obj.create(cursor, uid, dict(
             code = info.code,

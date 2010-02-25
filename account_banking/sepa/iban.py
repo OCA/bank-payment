@@ -160,7 +160,9 @@ class BBANFormat(object):
             if self._bban[i] == '%':
                 i += 1
                 parm = self._bban[i]
-                if parm in 'BCDPTVWX':
+                if parm == 'I':
+                    res += unicode(iban)
+                elif parm in 'BCDPTVWX':
                     res += self.__extract__(parm, iban)
                 elif parm == 'A':
                     res += self.account(iban)
