@@ -923,7 +923,7 @@ class res_partner_bank(osv.osv):
                     new_iban = iban.upper
             if iban != new_iban or new_acc_number != acc_number:
                 cursor.execute('update res_partner_bank '
-                               'set iban = %s, acc_number = %s '
+                               'set iban = "%s", acc_number = "%s" '
                                'where id = %s' % (
                                    new_iban, new_acc_number, id
                                ))
@@ -961,72 +961,53 @@ class res_partner_bank(osv.osv):
                          one search
         '''
 
-        def extended_simple_filter(args):
+        def is_term(arg):
+            '''Flag an arg as term or otherwise'''
+            return isinstance(arg, (list, tuple)) and len(arg) == 3
+
+        def extended_filter_term(term):
             '''
-            Extend the simple search filter in args when appropriate.
+            Extend the search criteria in term when appropriate.
             '''
-            extra_args = None
-            if args[0].lower() == 'iban' and args[1] in ('=', '=='):
-                iban = sepa.IBAN(args[2])
+            extra_term = None
+            if term[0].lower() == 'iban' and term[1] in ('=', '=='):
+                iban = sepa.IBAN(term[2])
                 if iban.valid:
                     # Some countries can't convert to BBAN
                     try:
                         bban = iban.localized_BBAN
                         # Prevent empty search filters
                         if bban:
-                            extra_args = ('acc_number', args[1], bban)
+                            extra_args = ('acc_number', term[1], bban)
                     except:
                         pass
-            if extra_args:
-                return [args, extra_args]
-            return [args]
+            if extra_term:
+                return ['|', term, extra_term]
+            return [term]
 
-        def extended_search_filter(args):
+        def extended_search_expression(args):
             '''
-            Extend the search filter in args when appropriate.
-            Is used recursively to allow complex search filters.
+            Extend the search expression in args when appropriate.
+            The expression itself is in reverse polish notation, so recursion
+            is not needed.
             '''
             if not args:
                 return []
 
             all = []
-            if isinstance(args[0], (str, unicode)) and isinstance(args[1], (list, tuple)):
-                # Complex expression
-
-                if args[0] == '&':
-                    # For 'and', copy group and 'or' it with the modified one
-                    mod = []
-                    for term in args[1:]:
-                        extra = extended_search_filter(term)
-                        if extra != [term]:
-                            mod.append(['|'] + extra)
-                        else:
-                            mod.append(term)
-                    if mod and mod != [args[1:]]:
-                        all += ['|', args, ['&'] + mod]
-
-                elif args[0] == '|':
-                    # For 'or', just add the modified terms
-                    mod = [args[0]]
-                    for term in args[1:]:
-                        mod += extended_search_filter(term)
-                    all += mod
-
-            else:
-                # Implicit '|'
-                extra = []
-                if isinstance(args, (tuple, list)) and len(args) == 3:
-                    extra += extended_simple_filter(args)
+            if is_term(args[0]) and len(args) > 1:
+                # Classic filter, implicit '&'
+                all += ['&']
+            
+            for arg in args:
+                if is_term(arg):
+                    all += extended_filter_term(arg)
                 else:
-                    for arg in args:
-                        extra += extended_search_filter(arg)
-                if extra:
-                    all += extra
-
+                    all += arg
             return all
 
         # Extend search filter
-        newargs = extended_search_filter(args)
+        newargs = extended_search_expression(args)
         
         # Original search (_founder)
         results = self._founder.search(self, cursor, uid, newargs,
@@ -1071,8 +1052,8 @@ class res_partner_bank(osv.osv):
                     res[record_id] = False
         return res
 
-    def onchange_acc_number(self, cursor, uid, ids, acc_number,
-                            context={}
+    def onchange_acc_number(self, cursor, uid, ids, acc_number, partner_id,
+                            country_id, context={}
                            ):
         '''
         Trigger to find IBAN. When found:
@@ -1083,15 +1064,15 @@ class res_partner_bank(osv.osv):
             return {}
 
         values = {}
-        # Pre fill country based on company address
+        # Pre fill country based on partners address
         country_obj = self.pool.get('res.country')
         partner_obj = self.pool.get('res.partner')
-        user_obj = self.pool.get('res.users')
-        user = user_obj.browse(cursor, uid, uid, context)
-        country = partner_obj.browse(cursor, uid,
-                                     user.company_id.partner_id.id
-                                    ).country
-        country_ids = [country.id]
+        if not country_id:
+            country = partner_obj.browse(cursor, uid, partner_id).country
+            country_ids = [country.id]
+        else:
+            country = country_obj.browse(cursor, uid, country_id)
+            country_ids = [country_id]
 
         # Complete data with online database when available
         if country.code in sepa.IBAN.countries:

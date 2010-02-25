@@ -271,7 +271,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)" />
                 </field>
             </field>
         </record>
@@ -295,7 +295,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)" />
                 </field>
             </field>
         </record>

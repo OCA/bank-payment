@@ -95,10 +95,12 @@ class SoupForm(object):
         if parent:
             self.soup = soup.parent
 
-        # Harvest input elements
+        # Harvest input elements. 
         self._args = {}
         for item in self.soup.findAll('input'):
-            self._args[str(item.get('name'))] = item.get('value')
+            # Make sure to initialize to '' to avoid None strings to appear
+            # during submit
+            self._args[str(item.get('name'))] = item.get('value') or ''
 
         # Harvest url
         self.scheme, self.host, self.action = urlsplit(self.action)
@@ -107,7 +109,7 @@ class SoupForm(object):
             args = args.split('&')
             for arg in args:
                 attr, value = urllib.splitvalue(arg)
-                self._extra_args[str(attr)] = value
+                self._extra_args[str(attr)] = value or ''
 
     def __setitem__(self, name, value, force=False):
         '''
@@ -178,6 +180,10 @@ class URLAgent(object):
 
         # Create agent
         self.agent = urllib.URLopener()
+
+        # Remove additional and unasked for User-Agent header
+        # Some servers choke on multiple User-Agent headers
+        self.agent.addheaders = []
         headers = self._extra_headers.copy()
         headers.update(self.headers)
         for key, value in headers.iteritems():

@@ -35,7 +35,7 @@ __all__ = [
 ]
 
 IBANlink_NL = 'http://www.ibannl.org/iban_check.php'
-IBANlink_BE = 'http://www.ibanbic.be/Default.aspx'
+IBANlink_BE = 'http://www.ibanbic.be/'
 
 def get_iban_bic_NL(bank_acc):
     '''
@@ -71,7 +71,7 @@ def get_iban_bic_BE(bank_acc):
     in Belgium and will only convert Belgian local account numbers.
     '''
     def contents(soup, attr):
-        return soup.find('input', {'id': 'textbox%s' % attr}).contents[0].strip()
+        return soup.find('input', {'id': 'textbox%s' % attr}).get('value').strip()
 
     if not bank_acc.strip():
         return None
@@ -92,7 +92,7 @@ def get_iban_bic_BE(bank_acc):
     # Parse the results
     soup = BeautifulSoup(response)
     result = struct()
-    result.iban = contents(soup, 'IBAN')
+    result.iban = contents(soup, 'IBAN').replace(' ', '')
     result.bic = contents(soup, 'BIC').replace(' ', '')
     result.bank = contents(soup, 'BankName')
 
@@ -104,7 +104,7 @@ def get_iban_bic_BE(bank_acc):
 
 _account_info = {
     # TODO: Add more online data banks
-    #'BE': get_iban_bic_BE,
+    'BE': get_iban_bic_BE,
     'NL': get_iban_bic_NL,
 }
 
