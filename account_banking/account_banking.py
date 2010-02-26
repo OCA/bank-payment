@@ -978,7 +978,7 @@ class res_partner_bank(osv.osv):
                         bban = iban.localized_BBAN
                         # Prevent empty search filters
                         if bban:
-                            extra_args = ('acc_number', term[1], bban)
+                            extra_term = ('acc_number', term[1], bban)
                     except:
                         pass
             if extra_term:
