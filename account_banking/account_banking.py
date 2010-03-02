@@ -922,9 +922,9 @@ class res_partner_bank(osv.osv):
                 elif iban != iban.upper():
                     new_iban = iban.upper
             if iban != new_iban or new_acc_number != acc_number:
-                cursor.execute('update res_partner_bank '
-                               'set iban = "%s", acc_number = "%s" '
-                               'where id = %s' % (
+                cursor.execute("update res_partner_bank "
+                               "set iban = '%s', acc_number = '%s' "
+                               "where id = %s" % (
                                    new_iban, new_acc_number, id
                                ))
 
