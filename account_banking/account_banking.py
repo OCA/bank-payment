@@ -64,25 +64,6 @@ from tools.translate import _
 from wizard.banktools import get_or_create_bank
 import pooler
 
-class account_banking_settings(osv.osv):
-    '''Settings for the account_banking module'''
-    _name = 'account.banking.settings'
-    _description = __doc__
-    _columns = {
-        'use_online': fields.boolean('Online Sources',
-                                     help=('Select this if you want to be '
-                                           'able to use the online banking '
-                                           'resources from the internet '
-                                           'to auto complete account and '
-                                           'bank info.')
-                                    ),
-    }
-    _defaults = {
-        'use_online': lambda *a: True,
-    }
-
-account_banking_settings()
-
 class account_banking_account_settings(osv.osv):
     '''Default Journal for Bank Account'''
     _name = 'account.banking.account.settings'

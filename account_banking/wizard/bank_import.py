@@ -99,7 +99,7 @@ class banking_import(wizard.interface):
     def _fill_results(self, *args, **kwargs):
         return {'log': self._log}
 
-    def _get_move_info(cursor, uid, move_line):
+    def _get_move_info(self, cursor, uid, move_line):
         reconcile_obj = self.pool.get('account.bank.statement.reconcile')
         type_map = {
             'out_invoice': 'customer',

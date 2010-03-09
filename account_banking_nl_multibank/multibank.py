@@ -69,6 +69,10 @@ class transaction_message(object):
         '''
         Initialize own dict with attributes and coerce values to right type
         '''
+        if len(self.attrnames) != len(values):
+            raise ValueError, \
+                    _('Invalid transaction line: expected %d columns, found %d') \
+                    % (len(self.attrnames), len(values))
         self.__dict__.update(dict(zip(self.attrnames, values)))
         #self.local_account = self.clean_account(self.local_account)
         #self.remote_account = self.clean_account(self.remote_account)
