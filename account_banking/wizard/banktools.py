@@ -133,7 +133,7 @@ def get_or_create_partner(pool, cursor, uid, name, log):
         return False
     else:
         partner_id = partner_ids[0]
-    return partner_obj.browse(cursor, uid, partner_id)[0]
+    return partner_id
 
 def get_company_bank_account(pool, cursor, uid, account_number, currency,
                              company, log):
@@ -262,19 +262,27 @@ def create_bank_account(pool, cursor, uid, partner_id,
     )
     bankcode = None
     bic = None
+    country_obj = pool.get('res.country')
 
     # Are we dealing with IBAN?
     iban = sepa.IBAN(account_number)
     if iban.valid:
+        # Take as much info as possible from IBAN
         values.state = 'iban'
+        values.iban = str(iban)
         values.acc_number = iban.BBAN
         bankcode = iban.bankcode + iban.countrycode
+        country_ids = country_obj.search(cursor, uid,
+                                         [('code', '=', iban.countrycode)]
+                                        )
+        country_id = country_ids[0]
     else:
         # No, try to convert to IBAN
-        country = pool.get('res.partner').browse(
-            cursor, uid, partner_id).country_id
         values.state = 'bank'
         values.acc_number = account_number
+        country = pool.get('res.partner').browse(
+            cursor, uid, partner_id).country_id
+        country_id = country.id
         if country.code in sepa.IBAN.countries:
             account_info = sepa.online.account_info(country.code,
                                                     values.acc_number
@@ -302,14 +310,18 @@ def create_bank_account(pool, cursor, uid, partner_id,
                 bank_obj.write(cursor, uid, values.bank_id, dict(bic=bic))
         else:
             # New bank - create
-            values.bank_id = bank_obj.create(cursor, uid, dict(
-                code = account_info.code,
+            res = struct(country_id=country_id)
+            if account_info:
+                res.code = account_info.code
                 # Only the first eight positions of BIC are used for bank
                 # transfers, so ditch the rest.
-                bic = account_info.bic[:8],
-                name = account_info.bank,
-                country_id = country.id,
-            ))
+                res.bic = account_info.bic[:8]
+                res.name = account_info.bank
+            else:
+                res.code = bankcode
+                res.name = _('Unknown Bank')
+
+            values.bank_id = bank_obj.create(cursor, uid, res)
 
     # Create bank account and return
     return pool.get('res.partner.bank').create(cursor, uid, values)

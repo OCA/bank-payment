@@ -456,7 +456,7 @@ class banking_import(wizard.interface):
                     partner_bank_id = partner_bank.id
                 elif transaction.remote_owner:
                     partner_id = get_or_create_partner(
-                        self.pool, cursor, uid, transaction.remote_owner
+                        self.pool, cursor, uid, transaction.remote_owner, log
                     )
                     if transaction.remote_account:
                         partner_bank_id = create_bank_account(
