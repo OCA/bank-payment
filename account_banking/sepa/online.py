@@ -102,10 +102,24 @@ def get_iban_bic_BE(bank_acc):
     result.code = result.bic[:6]
     return result
 
+def BBAN_is_IBAN(bank_acc):
+    '''
+    Straight copy, valid for SEPA members who switched to SEPA from old
+    standards before SEPA actually started.
+    '''
+    return bank_acc
+
 _account_info = {
     # TODO: Add more online data banks
+    'BA': BBAN_is_IBAN,
     'BE': get_iban_bic_BE,
+    'BG': BBAN_is_IBAN,
     'NL': get_iban_bic_NL,
+    'LV': BBAN_is_IBAN,
+    'LT': BBAN_is_IBAN,
+    'LU': BBAN_is_IBAN,
+    'MU': BBAN_is_IBAN,
+    'SM': BBAN_is_IBAN,
 }
 
 def account_info(iso, bank_acc):

@@ -267,7 +267,7 @@
         <record id="view_partner_bank_account_banking_form_2" model="ir.ui.view">
             <field name="name">res.partner.bank.form.banking-2</field>
             <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base_iban.view_partner_bank_iban_form"/>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
@@ -291,12 +291,23 @@
         <record id="view_partner_account_banking_form_2" model="ir.ui.view">
             <field name="name">res.partner.form.banking-2</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base_iban.view_partner_iban_form"/>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="acc_number" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)" />
-                </field>
+                <xpath expr="/form/notebook/page/field[@name='bank_ids']/form/field[@name='acc_number']" position="replace">
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, active_id, country_id)" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_account_banking_form_3" model="ir.ui.view">
+            <field name="name">res.partner.form.banking-3</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='bank_ids']/tree/field[@name='acc_number']" position="replace">
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, active_id, country_id)" />
+                </xpath>
             </field>
         </record>
         

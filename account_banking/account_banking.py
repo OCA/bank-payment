@@ -832,13 +832,12 @@ class payment_order(osv.osv):
 
     def set_done(self, cr, uid, id, *args):
         '''
-        Extend standard transition to update childs as well.
+        Extend standard transition to update children as well.
         '''
         cr.execute("UPDATE payment_line "
                    "SET export_state = 'done', date_done = '%s' "
                    "WHERE order_id = %s" % (
-                       time.strftime('%Y-%m-%d'),
-                       self.id
+                       time.strftime('%Y-%m-%d'), id
                    ))
         return super(payment_order, self).set_done(
             cr, uid, id, *args
@@ -914,6 +913,7 @@ class res_partner_bank(osv.osv):
         Create dual function IBAN account for SEPA countries
         Note: No check on validity IBAN/Country
         '''
+        import pdb; pdb.set_trace()
         if 'iban' in vals and vals['iban']:
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
@@ -1048,12 +1048,16 @@ class res_partner_bank(osv.osv):
         # Pre fill country based on partners address
         country_obj = self.pool.get('res.country')
         partner_obj = self.pool.get('res.partner')
-        if not country_id:
+        if (not country_id) and partner_id:
             country = partner_obj.browse(cursor, uid, partner_id).country
             country_ids = [country.id]
-        else:
+        elif country_id:
             country = country_obj.browse(cursor, uid, country_id)
             country_ids = [country_id]
+        else:
+            # Without country, there is no way to identify the right online
+            # interface to get IBAN accounts...
+            return {}
 
         # Complete data with online database when available
         if country.code in sepa.IBAN.countries:
