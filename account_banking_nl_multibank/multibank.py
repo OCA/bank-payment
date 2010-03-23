@@ -107,7 +107,7 @@ class transaction(models.mem_bank_transaction):
         transfer_type set to 'PRV'.
         2. Invoices from the bank itself are communicated through statements.
         These too have no remote_account and no remote_owner. They have a
-        transfer_type set to 'KST'.
+        transfer_type set to 'KST' or 'DIV'.
         3. Transfers sent through the 'International Transfers' system get
         their feedback rerouted through a statement, which is not designed to
         hold the extra fields needed. These transfers have their transfer_type
@@ -123,7 +123,7 @@ class transaction(models.mem_bank_transaction):
                 self.effective_date) and (
                     self.remote_account or
                     self.transfer_type in [
-                        'KST', 'PRV', 'BTL', 'BEA', 'OPN'
+                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'DIV'
                     ])
 
 class statement(models.mem_bank_statement):

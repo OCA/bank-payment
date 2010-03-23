@@ -913,7 +913,6 @@ class res_partner_bank(osv.osv):
         Create dual function IBAN account for SEPA countries
         Note: No check on validity IBAN/Country
         '''
-        import pdb; pdb.set_trace()
         if 'iban' in vals and vals['iban']:
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
