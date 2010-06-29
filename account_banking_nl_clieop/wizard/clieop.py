@@ -50,10 +50,10 @@ class HeaderRecord(record.Record): #{{{
         record.Filler('filler', 21),
     ]
 
-    def __init__(self, id='1', volgnr=1, duplicate=False):
+    def __init__(self, id='1', seqno=1, duplicate=False):
         super(HeaderRecord, self).__init__()
         self.sender_id = id
-        self.file_id = '%02d%02d' % (self.creation_date.day, volgnr)
+        self.file_id = '%02d%02d' % (self.creation_date.day, seqno)
         self.duplicatecode = duplicate and '2' or '1'
 #}}}
 
@@ -382,7 +382,7 @@ class PaymentsBatch(Batch):
     '''Payment batch'''
     transactionclass = Payment
 
-class SalarisBatch(Batch):
+class SalaryBatch(Batch):
     '''Salary payment class'''
     transactionclass = SalaryPayment
 
@@ -390,8 +390,8 @@ class ClieOpFile(object):
     '''The grand unifying class'''
     def __init__(self, identification='1', execution_date=None,
                  name_sender='', accountno_sender='',
-                 test=False, **kwargs):
-        self.header = HeaderRecord(id=identification,)
+                 test=False, seqno=1, **kwargs):
+        self.header = HeaderRecord(id=identification, seqno=seqno)
         self.footer = FooterRecord()
         self.batches = []
         self._execution_date = execution_date
@@ -454,7 +454,7 @@ class PaymentsFile(ClieOpFile):
 
 class SalaryPaymentsFile(PaymentsFile):
     '''Salary Payments file'''
-    batchclass = SalarisBatch
+    batchclass = SalaryBatch
     orderclass = SalaryPaymentOrder
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

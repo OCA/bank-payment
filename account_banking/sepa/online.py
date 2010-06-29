@@ -27,6 +27,7 @@ import urllib, urllib2
 from BeautifulSoup import BeautifulSoup
 from account_banking.sepa import postalcode
 from account_banking.sepa.urlagent import URLAgent, SoupForm
+from account_banking.sepa.iban import IBAN
 from account_banking.struct import struct
 
 __all__ = [
@@ -91,8 +92,10 @@ def get_iban_bic_BE(bank_acc):
 
     # Parse the results
     soup = BeautifulSoup(response)
-    result = struct()
-    result.iban = contents(soup, 'IBAN').replace(' ', '')
+    iban = contents(soup, 'IBAN')
+    if iban.lower().startswith('not a'):
+        return None
+    result = struct(iban=iban.replace(' ', ''))
     result.bic = contents(soup, 'BIC').replace(' ', '')
     result.bank = contents(soup, 'BankName')
 
@@ -104,10 +107,19 @@ def get_iban_bic_BE(bank_acc):
 
 def BBAN_is_IBAN(bank_acc):
     '''
-    Straight copy, valid for SEPA members who switched to SEPA from old
+    Intelligent copy, valid for SEPA members who switched to SEPA from old
     standards before SEPA actually started.
     '''
-    return bank_acc
+    if isinstance(bank_acc, IBAN):
+        iban_acc = bank_acc
+    else:
+        iban_acc = IBAN(bank_acc)
+    return struct(
+        account = str(bank_acc),
+        country_id = iban_acc.countrycode,
+        code = iban_acc.BIC_searchkey
+        # Note: BIC can not be constructed here!
+    )
 
 _account_info = {
     # TODO: Add more online data banks
@@ -124,11 +136,15 @@ _account_info = {
 
 def account_info(iso, bank_acc):
     '''
-    Consult the online database for this country or return None
+    Consult the online database for this country to obtain its
+    corresponding IBAN/BIC number and other info available.
+    Raise NotImplemented when no information service could be found.
+    Returns None when a service was found but something went wrong.
+    Returns a dictionary (struct) of information when found.
     '''
     if iso in _account_info:
         return _account_info[iso](bank_acc)
-    return None
+    raise NotImplementedError()
 
 bic_re = re.compile("[^']+'([^']*)'.*")
 SWIFTlink = 'http://www.swift.com/bsl/freequery.do'

@@ -34,6 +34,8 @@ import csv
 
 __all__ = ['parser']
 
+bt = models.mem_bank_transaction
+
 class transaction_message(object):
     '''
     A auxiliary class to validate and coerce read values
@@ -90,6 +92,21 @@ class transaction(models.mem_bank_transaction):
                  'reference', 'message'
                 ]
 
+    type_map = {
+        'ACC': bt.ORDER,
+        'BEA': bt.PAYMENT_TERMINAL,
+        'BTL': bt.ORDER,
+        'DIV': bt.ORDER,
+        'IDB': bt.PAYMENT_TERMINAL,
+        'INC': bt.DIRECT_DEBIT,
+        'IOB': bt.ORDER,
+        'KNT': bt.BANK_COSTS,
+        'KST': bt.BANK_COSTS,
+        'OPN': bt.BANK_TERMINAL,
+        'OVS': bt.ORDER,
+        'PRV': bt.BANK_COSTS,
+    }
+
     def __init__(self, line, *args, **kwargs):
         '''
         Initialize own dict with read values.
@@ -107,7 +124,7 @@ class transaction(models.mem_bank_transaction):
         transfer_type set to 'PRV'.
         2. Invoices from the bank itself are communicated through statements.
         These too have no remote_account and no remote_owner. They have a
-        transfer_type set to 'KST' or 'DIV'.
+        transfer_type set to 'KST' or 'KNT'.
         3. Transfers sent through the 'International Transfers' system get
         their feedback rerouted through a statement, which is not designed to
         hold the extra fields needed. These transfers have their transfer_type
@@ -123,7 +140,7 @@ class transaction(models.mem_bank_transaction):
                 self.effective_date) and (
                     self.remote_account or
                     self.transfer_type in [
-                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'DIV'
+                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT',
                     ])
 
 class statement(models.mem_bank_statement):

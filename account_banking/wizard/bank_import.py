@@ -18,6 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+# Many thanks to our contributors
+#
+# Kaspars Vilkens (KNdati): lenghty discussions, bugreports and bugfixes
+# Stefan Rijnhart (Therp): bugreport and bugfix
+#
 '''
 This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
@@ -26,6 +31,7 @@ use parser.models as a mean of communication with the business logic.
 import pooler
 import time
 import wizard
+import netsvc
 import base64
 from tools import config
 from tools.translate import _
@@ -33,6 +39,8 @@ from account_banking.parsers import models
 from account_banking.parsers.convert import *
 from account_banking.struct import struct
 from banktools import *
+
+bt = models.mem_bank_transaction
 
 def parser_types(*args, **kwargs):
     '''Delay evaluation of parser types until start of wizard, to allow
@@ -57,7 +65,7 @@ class banking_import(wizard.interface):
         log = dict(string='Log', type='text', readonly=True)
     )
 
-    banking_import_form = '''<?xml version="1.0"?>
+    import_form = '''<?xml version="1.0"?>
     <form string="Import Bank Transactions File">
     <separator colspan="4" string="Select the processing details:" />
         <field name="company" colspan="1" />
@@ -66,7 +74,7 @@ class banking_import(wizard.interface):
         <field name="parser"/>
     </form>'''
 
-    banking_import_fields = dict(
+    import_fields = dict(
         company = dict(
             string = 'Company',
             type = 'many2one',
@@ -95,11 +103,14 @@ class banking_import(wizard.interface):
     def __init__(self, *args, **kwargs):
         super(banking_import, self).__init__(*args, **kwargs)
         self.__state = ''
+        self.__linked_invoices = {}
+        self.__linked_payments = {}
 
     def _fill_results(self, *args, **kwargs):
         return {'log': self._log}
 
-    def _get_move_info(self, cursor, uid, move_line):
+    def _get_move_info(self, cursor, uid, move_line, partner_bank_id=False,
+                       partial=False):
         reconcile_obj = self.pool.get('account.bank.statement.reconcile')
         type_map = {
             'out_invoice': 'customer',
@@ -107,7 +118,9 @@ class banking_import(wizard.interface):
             'out_refund': 'customer',
             'in_refund': 'supplier',
         }
-        retval = struct(move_line=move_line)
+        retval = struct(move_line=move_line, partner_id=move_line.partner_id.id,
+                        partner_bank_id=partner_bank_id
+                       )
         retval.reference = move_line.ref
         if move_line.invoice:
             retval.invoice = move_line.invoice
@@ -115,12 +128,16 @@ class banking_import(wizard.interface):
         else:
             retval.type = 'general'
         move_line.reconcile_id = reconcile_obj.create(
-            cursor, uid, {'line_ids': [(6, 0, [move_line.id])]}
+            cursor, uid, {
+                partial and 'line_partial_ids' or 'line_ids': [
+                    (6, 0, [move_line.id])
+                ]
+            }
         )
         return retval
 
     def _link_payment(self, cursor, uid, trans, payment_lines,
-                      partner_id, bank_account_id, log):
+                      partner_ids, bank_account_ids, log):
         '''
         Find the payment order belonging to this reference - if there is one
         This is the easiest part: when sending payments, the returned bank info
@@ -137,18 +154,21 @@ class banking_import(wizard.interface):
                      ]
         if len(candidates) == 1:
             candidate = candidates[0]
-            payment_line_obj = self.pool.get('payment.line')
-            payment_line_obj.write(cursor, uid, [candidate.id], {
-                'export_state': 'done',
-                'date_done': trans.effective_date.strftime('%Y-%m-%d')}
-            )
-            
-            return self._get_move_info(cursor, uid, candidate.move_line_id)
+            # Check cache to prevent multiple matching of a single payment
+            if candidate.id not in self.__linked_payments:
+                self.__linked_payments[candidate.id] = True
+                payment_line_obj = self.pool.get('payment.line')
+                payment_line_obj.write(cursor, uid, [candidate.id], {
+                    'export_state': 'done',
+                    'date_done': trans.effective_date.strftime('%Y-%m-%d')}
+                )
+                
+                return self._get_move_info(cursor, uid, candidate.move_line_id)
 
         return False
 
     def _link_invoice(self, cursor, uid, trans, move_lines,
-                      partner_id, bank_account_id, log):
+                      partner_ids, bank_account_ids, log):
         '''
         Find the invoice belonging to this reference - if there is one
         Use the sales journal to check.
@@ -179,49 +199,188 @@ class banking_import(wizard.interface):
             2. The wrong match was made.
                Statements are encoded in draft. You will have the opportunity to
                manually correct the wrong assumptions. 
+
+        Return values:
+            move_info: the move_line information belonging to the matched
+                       invoice
+            new_trans: the new transaction when the current one was split.
+            This can happen when multiple invoices were paid with a single
+            bank transaction.
         '''
-        # First on partner
-        candidates = [x for x in move_lines if x.partner_id.id == partner_id]
+        def eyecatcher(invoice):
+            '''
+            Return the eyecatcher for an invoice
+            '''
+            return invoice.type.startswith('in_') and invoice.name or \
+                    invoice.number
+
+        def has_id_match(invoice, ref, msg):
+            '''
+            Aid for debugging - way more comprehensible than complex
+            comprehension filters ;-)
+
+            Match on ID of invoice (reference, name or number, whatever
+            available and sensible)
+            '''
+            if invoice.reference:
+                # Reference always comes first, as it is manually set for a
+                # reason.
+                iref = invoice.reference.upper()
+                if iref in ref or iref in msg:
+                    return True
+            if invoice.type.startswith('in_'):
+                # Internal numbering, no likely match on number
+                if invoice.name:
+                    iname = invoice.name.upper()
+                    if iname in ref or iname in msg:
+                        return True
+            elif invoice.type.startswith('out_'):
+                # External id's possible and likely
+                inum = invoice.number.upper()
+                if inum in ref or inum in msg:
+                    return True
+
+            return False
+
+        def _cached(move_line):
+            '''Check if the move_line has been cached'''
+            return move_line.id in self.__linked_invoices
+
+        def _cache(move_line, remaining=0.0):
+            '''Cache the move_line'''
+            self.__linked_invoices[move_line.id] = remaining
+
+        def _remaining(move_line):
+            '''Return the remaining amount for a previously matched move_line
+            '''
+            return self.__linked_invoices[move_line.id]
+
+        def _sign(invoice):
+            '''Return the direction of an invoice'''
+            return {'in_invoice': -1, 
+                    'in_refund': 1,
+                    'out_invoice': 1,
+                    'out_refund': -1
+                   }[invoice.type]
+
+        digits = int(config['price_accuracy'])
+        partial = False
+
+        # Search invoice on partner
+        if partner_ids:
+            candidates = [x for x in move_lines
+                          if x.partner_id.id in partner_ids and
+                          (not _cached(x) or _remaining(x))
+                          ]
+        else:
+            candidates = []
 
         # Next on reference/invoice number. Mind that this uses the invoice
         # itself, as the move_line references have been fiddled with on invoice
         # creation. This also enables us to search for the invoice number in the
         # reference instead of the other way around, as most human interventions
         # *add* text.
-        if not candidates:
+        if len(candidates) > 1 or not candidates:
             ref = trans.reference.upper()
             msg = trans.message.upper()
-            candidates = [x for x in move_lines 
-                          if x.invoice.number.upper() in ref or
-                             x.invoice.number.upper() in msg
+            # The manual usage of the sales journal creates moves that
+            # are not tied to invoices. Thanks to Stefan Rijnhart for
+            # reporting this.
+            candidates = [x for x in candidates or move_lines 
+                          if x.invoice and has_id_match(x.invoice, ref, msg)
+                          and (not _cached(x) or _remaining(x))
                          ]
 
-        if len(candidates) > 1:
+        # Match on amount expected. Limit this kind of search to known
+        # partners.
+        if not candidates and partner_ids:
+            candidates = [x for x in move_lines 
+                          if round(abs(x.credit or x.debit), digits) == 
+                             round(abs(trans.transferred_amount), digits) and 
+                             (not _cached(x) or _remaining(x))
+                         ]
+
+        move_line = False
+        if candidates and len(candidates) > 0:
+            # Now a possible selection of invoices has been found, check the
+            # amounts expected and received.
+            #
             # TODO: currency coercing
-            digits = int(config['price_accuracy'])
-            if trans.transferred_amount < 0:
+            if trans.transferred_amount > 0:
                 func = lambda x, y=abs(trans.transferred_amount), z=digits:\
                         round(x.debit, z) == round(y, z)
             else:
                 func = lambda x, y=abs(trans.transferred_amount), z=digits:\
                         round(x.credit, z) == round(y, z)
-            best = [x for x in move_lines if func(x)]
-            if len(best) != 1:
+            best = [x for x in candidates if func(x)]
+            if len(best) == 1:
+                # Exact match
+                move_line = best[0]
+                invoice = move_line.invoice
+                if _cached(move_line):
+                    partial = True
+                    expected = _remaining(move_line)
+                else:
+                    _cache(move_line)
+
+            elif len(candidates) > 1:
+                # Multiple matches
                 log.append(
-                    _('Unable to link transaction %(trans)s to invoice: '
+                    _('Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '
                       '%(no_candidates)s candidates found; can\'t choose.') % {
                           'trans': trans.id,
-                          'no_candidates': len(best)
+                          'ref': trans.reference,
+                          'no_candidates': len(best) or len(candidates)
                       })
-                return False
+                move_line = False
+                partial = False
 
-        if len(candidates) == 1:
-            return self._get_move_info(cursor, uid, candidates[0])
+            elif len(candidates) == 1:
+                # Mismatch in amounts
+                move_line = candidates[0]
+                invoice = move_line.invoice
+                expected = round(_sign(invoice) * invoice.amount_total, digits)
+                partial = True
 
-        return False
+            trans2 = None
+            if move_line and partial:
+                found = round(trans.transferred_amount, digits)
+                if abs(expected) > abs(found):
+                    # Partial payment, reuse invoice
+                    _cache(move_line, expected - found)
+                elif abs(expected) < abs(found):
+                    # Possible combined payments, need to split transaction to
+                    # verify
+                    _cache(move_line)
+                    trans2 = trans.copy()
+                    trans2.transferred_amount -= expected
+                    trans.transferred_amount = expected
+                    trans.id += 'a'
+                    trans2.id += 'b'
+                    # NOTE: the following is debatable. By copying the
+                    # eyecatcher of the invoice itself, we enhance the
+                    # tracability of the invoices, but we degrade the
+                    # tracability of the bank transactions. When debugging, it
+                    # is wise to disable this line.
+                    trans.reference = eyecatcher(move_line.invoice)
+
+        if move_line:
+            account_ids = [
+                x.id for x in bank_account_ids 
+                if x.partner_id.id == move_line.partner_id.id
+            ]
+            return (
+                self._get_move_info(cursor, uid, move_line, 
+                    account_ids and account_ids[0] or False,
+                    partial = partial and not trans2
+                    ),
+                trans2
+            )
+
+        return (False, False)
 
     def _link_canceled_debit(self, cursor, uid, trans, payment_lines,
-                             partner_id, bank_account_id, log):
+                             partner_ids, bank_account_ids, log):
         '''
         Direct debit transfers can be canceled by the remote owner within a
         legaly defined time period. These 'payments' are most likely
@@ -231,10 +390,78 @@ class banking_import(wizard.interface):
         # TODO: code _link_canceled_debit
         return False
 
-    def _banking_import_statements_file(self, cursor, uid, data, context):
+    def _link_costs(self, cursor, uid, trans, period_id, account_info, log):
+        '''
+        Get or create a costs invoice for the bank and return it with
+        the payment as seen in the transaction (when not already done).
+        '''
+        if not account_info.costs_account_id:
+            return []
+
+        digits = int(config['price_accuracy'])
+        amount = round(abs(trans.transferred_amount), digits)
+
+        # search supplier invoice
+        invoice_obj = self.pool.get('account.invoice')
+        invoice_ids = invoice_obj.search(cursor, uid, [
+            '&',
+            ('type', '=', 'in_invoice'),
+            ('partner_id', '=', account_info.bank_partner_id.id),
+            ('company_id', '=', account_info.company_id.id),
+            ('date_invoice', '=', date2str(trans.effective_date)),
+            ('reference', '=', trans.reference),
+            ('amount_total', '=', amount),
+            ]
+        )
+        if invoice_ids and len(invoice_ids) == 1:
+            invoice = invoice_obj.browse(cursor, uid, invoice_ids)
+        elif not invoice_ids:
+            # create supplier invoice
+            partner_obj = self.pool.get('res.partner')
+            invoice_lines = [(0,0,dict(
+                amount = 1,
+                price_unit = amount,
+                name = trans.message or trans.reference,
+                account_id = account_info.costs_account_id.id
+            ))]
+            invoice_address_id = partner_obj.address_get(
+                cursor, uid, [account_info.bank_partner_id.id], ['invoice']
+            )
+            invoice_id = invoice_obj.create(cursor, uid, dict(
+                type = 'in_invoice',
+                company_id = account_info.company_id.id,
+                partner_id = account_info.bank_partner_id.id,
+                address_invoice_id = invoice_address_id['invoice'],
+                period_id = period_id,
+                journal_id = account_info.invoice_journal_id.id,
+                account_id = account_info.bank_partner_id.property_account_payable.id,
+                date_invoice = date2str(trans.effective_date),
+                reference_type = 'none',
+                reference = trans.reference,
+                name = trans.reference or trans.message,
+                check_total = amount,
+                invoice_line = invoice_lines,
+            ))
+            invoice = invoice_obj.browse(cursor, uid, invoice_id)
+            # Set number
+            invoice.action_number(cursor, uid, [invoice_id])
+            # Create moves
+            invoice.action_move_create(cursor, uid, [invoice_id])
+            # Create workflow
+            wf_service = netsvc.LocalService('workflow')
+            res = wf_service.trg_create(uid, 'account.invoice', invoice.id,
+                                        cursor)
+            # Move to state 'open'
+            wf_service.trg_validate(uid, 'account.invoice', invoice.id,
+                                    'invoice_open', cursor)
+
+        # return move_lines to mix with the rest
+        return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
+
+    def _import_statements_file(self, cursor, uid, data, context):
         '''
         Import bank statements / bank transactions file.
-        This module/function represents the business logic, the parser modules
+        This method represents the business logic, the parser modules
         represent the decoding logic.
         '''
         form = data['form']
@@ -285,19 +512,21 @@ class banking_import(wizard.interface):
         import_id = statement_file_obj.create(cursor, uid, dict(
             company_id = company.id,
             file = statements_file,
-            date = time.strftime('%Y-%m-%d'),
-            user_id = uid,
-            state = 'unfinished'
+            state = 'unfinished',
+            format = parser.name,
         ))
 
         # Results
-        no_stat_loaded = 0
-        no_trans_loaded = 0
-        no_stat_skipped = 0
-        no_trans_skipped = 0
-        no_trans_matched = 0
-        no_errors = 0
-        log = []
+        results = struct(
+            stat_loaded_cnt = 0,
+            trans_loaded_cnt = 0,
+            stat_skipped_cnt = 0,
+            trans_skipped_cnt = 0,
+            trans_matched_cnt = 0,
+            bank_costs_invoice_cnt = 0,
+            error_cnt = 0,
+            log = [],
+        )
 
         # Caching
         error_accounts = {}
@@ -305,20 +534,15 @@ class banking_import(wizard.interface):
         imported_statement_ids = []
 
         if statements:
+            # Get default defaults
+            def_pay_account_id = company.partner_id.property_account_payable.id
+            def_rec_account_id = company.partner_id.property_account_receivable.id
+
             # Get interesting journals once
-            if company:
-                journal_ids = journal_obj.search(cursor, uid, [
-                    ('type', 'in', ('sale','purchase')),
-                    ('company_id', '=', company.id),
-                ])
-            else:
-                journal_ids = None
-            if not journal_ids:
-                journal_ids = journal_obj.search(cursor, uid, [
-                    ('type', 'in', ('sale','purchase')),
-                    ('active', '=', True),
-                    ('company_id', '=', False),
-                ])
+            journal_ids = journal_obj.search(cursor, uid, [
+                ('type', 'in', ('sale','purchase')),
+                ('company_id', '=', company.id),
+            ])
             # Get all unreconciled moves predating the last statement in one big
             # swoop. Assumption: the statements in the file are sorted in ascending
             # order of date.
@@ -351,8 +575,8 @@ class banking_import(wizard.interface):
         for statement in statements:
             if statement.local_account in error_accounts:
                 # Don't repeat messages
-                no_stat_skipped += 1
-                no_trans_skipped += len(statement.transactions)
+                results.stat_skipped_cnt += 1
+                results.trans_skipped_cnt += len(statement.transactions)
                 continue
 
             # Create fallback currency code
@@ -367,24 +591,24 @@ class banking_import(wizard.interface):
                 # Pull account info/currency
                 account_info = get_company_bank_account(
                     self.pool, cursor, uid, statement.local_account,
-                    statement.local_currency, company, log
+                    statement.local_currency, company, results.log
                 )
                 if not account_info:
-                    log.append(
+                    results.log.append(
                         _('Statements found for unknown account %(bank_account)s') %
                         {'bank_account': statement.local_account}
                     )
                     error_accounts[statement.local_account] = True
-                    no_errors += 1
+                    results.error_cnt += 1
                     continue
                 if 'journal_id' not in account_info:
-                    log.append(
+                    results.log.append(
                         _('Statements found for account %(bank_account)s, '
                           'but no default journal was defined.'
                          ) % {'bank_account': statement.local_account}
                     )
                     error_accounts[statement.local_account] = True
-                    no_errors += 1
+                    results.error_cnt += 1
                     continue
 
                 # Get required currency code
@@ -402,13 +626,13 @@ class banking_import(wizard.interface):
             if statement.local_currency \
                and account_info.currency_id.code != statement.local_currency:
                 # TODO: convert currencies?
-                log.append(
+                results.log.append(
                     _('Statement for account %(bank_account)s uses different '
                       'currency than the defined bank journal.') %
                       {'bank_account': statement.local_account}
                 )
                 error_accounts[statement.local_account] = True
-                no_errors += 1
+                results.error_cnt += 1
                 continue
 
             # Check existence of previous statement
@@ -417,7 +641,7 @@ class banking_import(wizard.interface):
                 ('date', '=', date2str(statement.date)),
             ])
             if statement_ids:
-                log.append(
+                results.log.append(
                     _('Statement %(id)s known - skipped') % {
                         'id': statement.id
                     }
@@ -440,66 +664,102 @@ class banking_import(wizard.interface):
             # move each line to the right period and try to match it with an
             # invoice or payment
             subno = 0
-            for transaction in statement.transactions:
+            injected = False
+            i = 0
+            max_trans = len(statement.transactions)
+            while i < max_trans:
                 move_info = False
+                if injected:
+                    transaction, injected = injected, False
+                else:
+                    transaction = statement.transactions[i]
 
                 # Keep a tracer for identification of order in a statement in case
                 # of missing transaction ids.
                 subno += 1
 
-                # Link remote partner, import account when needed
-                partner_bank = get_bank_account(
-                    self.pool, cursor, uid, transaction.remote_account, log, fail=True
-                )
-                if partner_bank:
-                    partner_id = partner_bank.partner_id.id
-                    partner_bank_id = partner_bank.id
-                elif transaction.remote_owner:
-                    partner_id = get_or_create_partner(
-                        self.pool, cursor, uid, transaction.remote_owner, log
-                    )
-                    if transaction.remote_account:
-                        partner_bank_id = create_bank_account(
-                            self.pool, cursor, uid, partner_id,
-                            transaction.remote_account, transaction.remote_owner,
-                            log
-                        )
-                else:
-                    partner_id = False
-                    partner_bank_id = False
-
                 # Link accounting period
                 period_id = get_period(self.pool, cursor, uid,
                                        transaction.effective_date, company,
-                                       log)
+                                       results.log)
                 if not period_id:
-                    no_trans_skipped += 1
+                    results.trans_skipped_cnt += 1
                     continue
+
+                # Allow inclusion of generated bank invoices
+                if transaction.type == bt.BANK_COSTS:
+                    lines = self._link_costs(
+                        cursor, uid, transaction, period_id, account_info,
+                        results.log
+                    )
+                    results.bank_costs_invoice_cnt += bool(lines)
+                    for line in lines:
+                        if not [x for x in move_lines if x.id == line.id]:
+                            move_lines.append(line)
+                    partner_ids = [account_info.bank_partner_id.id]
+                    partner_banks = []
+
+                else:
+                    # Link remote partner, import account when needed
+                    partner_banks = get_bank_accounts(
+                        self.pool, cursor, uid, transaction.remote_account,
+                        results.log, fail=True
+                    )
+                    if partner_banks:
+                        partner_ids = [x.partner_id.id for x in partner_banks]
+                    elif transaction.remote_owner:
+                        partner_id = get_or_create_partner(
+                            self.pool, cursor, uid, transaction.remote_owner,
+                            results.log
+                        )
+                        if transaction.remote_account:
+                            partner_bank_id = create_bank_account(
+                                self.pool, cursor, uid, partner_id,
+                                transaction.remote_account,
+                                transaction.remote_owner, results.log
+                            )
+                        partner_ids = [partner_id]
+                        partner_banks = partner_bank_obj.browse(
+                            cursor, uid, [partner_bank_id]
+                        )
+                    else:
+                        partner_ids = []
+                        partner_banks = []
 
                 # Credit means payment... isn't it?
                 if transaction.transferred_amount < 0 and payment_lines:
                     # Link open payment - if any
                     move_info = self._link_payment(
                         cursor, uid, transaction,
-                        payment_lines, partner_id,
-                        partner_bank_id, log
+                        payment_lines, partner_ids,
+                        partner_banks, results.log
                         )
 
-                # Second guess, invoice
+                # Second guess, invoice -> may split transaction, so beware
                 if not move_info:
                     # Link invoice - if any
-                    move_info = self._link_invoice(
-                        cursor, uid, transaction, move_lines, partner_id,
-                        partner_bank_id, log
+                    move_info, injected = self._link_invoice(
+                        cursor, uid, transaction, move_lines, partner_ids,
+                        partner_banks, results.log
                         )
                 if not move_info:
+                    # Use the default settings, but allow individual partner
+                    # settings to overrule this. Note that you need to change
+                    # the internal type of these accounts to either 'payable'
+                    # or 'receivable' to enable usage like this.
                     if transaction.transferred_amount < 0:
-                        account_id = account_info.default_credit_account_id
+                        if len(partner_banks) == 1:
+                            account_id = partner_banks[0].partner_id.property_account_payable
+                        if len(partner_banks) != 1 or account_id.id == def_pay_account_id:
+                            account_id = account_info.default_credit_account_id
                     else:
-                        account_id = account_info.default_debit_account_id
+                        if len(partner_banks) == 1:
+                            account_id = partner_banks[0].partner_id.property_account_receivable
+                        if len(partner_banks) != 1 or account_id.id == def_rec_account_id:
+                            account_id = account_info.default_debit_account_id
                 else:
                     account_id = move_info.move_line.account_id
-                    no_trans_matched += 1
+                    results.trans_matched_cnt += 1
 
                 values = struct(
                     name = '%s.%s' % (statement.id, transaction.id or subno),
@@ -512,18 +772,25 @@ class banking_import(wizard.interface):
                     period_id = period_id,
                     currency = account_info.currency_id.id,
                 )
-                if partner_id:
-                    values.partner_id = partner_id
-                if partner_bank_id:
-                    values.partner_bank_id = partner_bank_id
                 if move_info:
                     values.type = move_info.type
                     values.reconcile_id = move_info.move_line.reconcile_id
+                    values.partner_id = move_info.partner_id
+                    values.partner_bank_id = move_info.partner_bank_id
+                else:
+                    values.partner_id = values.partner_bank_id = False
+                if not values.partner_id and partner_ids and len(partner_ids) == 1:
+                    values.partner_id = partner_ids[0]
+                if not values.partner_bank_id and partner_banks and \
+                    len(partner_banks) == 1:
+                    values.partner_bank_id = partner_banks[0].id
 
                 statement_line_id = statement_line_obj.create(cursor, uid, values)
-                no_trans_loaded += 1
+                results.trans_loaded_cnt += 1
+                if not injected:
+                    i += 1
 
-            no_stat_loaded += 1
+            results.stat_loaded_cnt += 1
 
         if payment_lines:
             # As payments lines are treated as individual transactions, the
@@ -546,23 +813,25 @@ class banking_import(wizard.interface):
                    )
             )
         report = [
-            '%s: %s' % (_('Total number of statements'), no_stat_skipped + no_stat_loaded),
-            '%s: %s' % (_('Total number of transactions'), no_trans_skipped + no_trans_loaded),
-            '%s: %s' % (_('Number of errors found'), no_errors),
-            '%s: %s' % (_('Number of statements skipped due to errors'), no_stat_skipped),
-            '%s: %s' % (_('Number of transactions skipped due to errors'), no_trans_skipped),
-            '%s: %s' % (_('Number of statements loaded'), no_stat_loaded),
-            '%s: %s' % (_('Number of transactions loaded'), no_trans_loaded),
+            '%s: %s' % (_('Total number of statements'), results.stat_skipped_cnt + results.stat_loaded_cnt),
+            '%s: %s' % (_('Total number of transactions'), results.trans_skipped_cnt + results.trans_loaded_cnt),
+            '%s: %s' % (_('Number of errors found'), results.error_cnt),
+            '%s: %s' % (_('Number of statements skipped due to errors'), results.stat_skipped_cnt),
+            '%s: %s' % (_('Number of transactions skipped due to errors'), results.trans_skipped_cnt),
+            '%s: %s' % (_('Number of statements loaded'), results.stat_loaded_cnt),
+            '%s: %s' % (_('Number of transactions loaded'), results.trans_loaded_cnt),
+            '%s: %s' % (_('Number of transactions matched'), results.trans_matched_cnt),
+            '%s: %s' % (_('Number of bank costs invoices created'), results.bank_costs_invoice_cnt),
             '',
             '%s:' % ('Error report'),
             '',
         ]
-        text_log = '\n'.join(report + log)
-        state = no_errors and 'error' or 'ready'
+        text_log = '\n'.join(report + results.log)
+        state = results.error_cnt and 'error' or 'ready'
         statement_file_obj.write(cursor, uid, import_id, dict(
             state = state, log = text_log,
         ))
-        if no_errors or not imported_statement_ids:
+        if results.error_cnt or not imported_statement_ids:
             self._nextstate = 'view_error'
         else:
             self._nextstate = 'view_statements'
@@ -608,15 +877,15 @@ class banking_import(wizard.interface):
             'actions' : [],
             'result' : {
                 'type' : 'form',
-                'arch' : banking_import_form,
-                'fields': banking_import_fields,
+                'arch' : import_form,
+                'fields': import_fields,
                 'state': [('end', '_Cancel', 'gtk-cancel'),
                           ('import', '_Ok', 'gtk-ok'),
                          ]
             }
         },
         'import': {
-            'actions': [_banking_import_statements_file],
+            'actions': [_import_statements_file],
             'result': {
                 'type': 'choice',
                 'next_state': _check_next_state,

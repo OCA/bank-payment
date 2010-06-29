@@ -76,17 +76,12 @@
       - Drop-in input parser development.
       - MultiBank (NL) format transaction files available as
         account_banking_nl_multibank,
-      - (todo) MT940 (Swift) format transaction files,
-      - (todo) CODA (BE) format transaction files,
-      - (wish) SEPA Credits (ISO 200022) messages,
 
     * Extends payments for digital banking:
       + Adapted workflow in payments to reflect banking operations
       + Relies on account_payment mechanics to extend with export generators.
       - ClieOp3 (NL) payment and direct debit orders files available as
         account_banking_nl_clieop
-      - (wish) BTL91 (NL) payment orders files (no format description available),
-      - (wish) SEPA Direct Debits (ISO 200022) messages
 
     * Additional features for the import/export mechanism:
       + Automatic matching and creation of bank accounts, banks and partners,

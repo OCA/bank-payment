@@ -41,11 +41,15 @@
                 <form string="Default Import Settings for Bank Account">
                     <field name="company_id" />
                     <separator string="Bank Account Details" colspan="4" />
-                    <field name="partner_bank_id" /> <!-- Needs fiddling... domain="[('partner_id','=',company_id.partner_id)]"/-->
+                    <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
                     <field name="journal_id" domain="[('type','=','cash')]" />
                     <separator string="Default Accounts for Unknown Movements" colspan="4" />
                     <field name="default_credit_account_id" />
                     <field name="default_debit_account_id" />
+                    <separator string="Generation of Bank Costs Invoices" colspan="4" />
+                    <field name="bank_partner_id" />
+                    <field name="costs_account_id" attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}" />
+                    <field name="invoice_journal_id" attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}" />
                 </form>
             </field>
         </record>
@@ -56,7 +60,7 @@
             <field name="arch" type="xml">
                 <tree string="Default Import Settings for Bank Account">
                     <field name="company_id" />
-                    <field name="partner_bank_id" /> <!-- Needs fiddling... domain="[('partner_id','=',company_id.partner_id)]"/-->
+                    <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
                     <field name="journal_id" domain="[('type','=','cash')]" />
                 </tree>
             </field>
@@ -207,8 +211,7 @@
             </field>
         </record>
 
-        <!-- Add invisible field on bank statements form for identification
-             of import file
+        <!-- Add invisible field for identification of import file on bank statements
         -->
         <record id="view_banking_bank_statement_form_4" model="ir.ui.view">
             <field name="name">account.bank.statement.form.banking-4</field>
@@ -219,6 +222,33 @@
                 <field name="balance_end_real" position="after">
                     <field name="banking_id" invisible="True"/>
                 </field>
+            </field>
+        </record>
+
+        <!-- Show bank accounts in account_bank_statement_line to enable manual
+             coupling of bank account numbers to statement lines and harvest info
+             for future matching in the process.
+        -->
+        <record id="view_banking_bank_statement_form_5" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-5</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
+                    <field name="partner_bank_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_banking_bank_statement_form_6" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-6</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='line_ids']/form/field[@name='partner_id']" position="after">
+                    <field name="partner_bank_id"/>
+                </xpath>
             </field>
         </record>
 
@@ -235,7 +265,7 @@
             </field>
         </record>
 
-        <!-- Make buttons on payment order sensitive for 'Sent' state -->
+        <!-- Make buttons on payment order sensitive for extra states -->
         <record id="view_banking_payment_order_form_1" model="ir.ui.view">
             <field name="name">account.payment.order.form.banking-1</field>
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
@@ -271,7 +301,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)"/>
                 </field>
             </field>
         </record>
@@ -295,7 +325,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='bank_ids']/form/field[@name='acc_number']" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number, active_id, country_id)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" />
                 </xpath>
             </field>
         </record>
@@ -306,7 +336,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='bank_ids']/tree/field[@name='acc_number']" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number, active_id, country_id)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" />
                 </xpath>
             </field>
         </record>

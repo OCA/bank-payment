@@ -14,11 +14,25 @@
 write({'state':'sent'})</field>
             <field name="kind">function</field>
         </record>
+        <!-- New activity for workflow payment order: rejected -->
+        <record id="act_rejected" model="workflow.activity">
+            <field name="name">rejected</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">action_rejected()
+write({'state':'rejected'})</field>
+            <field name="kind">function</field>
+        </record>
         <!-- Add new transition sent -> done -->
         <record id="trans_sent_done" model="workflow.transition">
             <field name="act_from" ref="act_sent"/>
             <field name="act_to" ref="account_payment.act_done"/>
             <field name="signal">done</field>
+        </record>
+        <!-- Add new transition sent -> rejected -->
+        <record id="trans_sent_rejected" model="workflow.transition">
+            <field name="act_from" ref="act_sent"/>
+            <field name="act_to" ref="act_rejected"/>
+            <field name="signal">rejected</field>
         </record>
         <!-- Rewrite existing open -> done transition to include 'sent' -->
         <record id="account_payment.trans_open_done" model="workflow.transition">

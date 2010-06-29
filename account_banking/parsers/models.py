@@ -71,6 +71,62 @@ class mem_bank_transaction(object):
         'reference', 'message', 'statement_id',
     ]
 
+    # transfer_type's to be used by the business logic.
+    # Depending on the type your parser gives a transaction, different
+    # behavior can be triggered in the business logic.
+    #
+    #   BANK_COSTS          Automated credited costs by the bank.
+    #                       Used to generate an automated invoice from the bank
+    #                       Will be excluded from matching.
+    #   BANK_TERMINAL       A cash withdrawal from a bank terminal.
+    #                       Will be excluded from matching.
+    #   CHECK               A delayed payment. Can be used to trigger extra
+    #                       moves from temporary accounts. (Money away).
+    #                       TODO: No special treatment yet.
+    #                       Will be selected for matching.
+    #   DIRECT_DEBIT        Speaks for itself. When outgoing (credit) and
+    #                       matched, can signal the matched invoice triaged.
+    #                       Will be selected for matching.
+    #   ORDER               Order to the bank. Can work both ways.
+    #                       Will be selected for matching.
+    #   PAYMENT_BATCH       A payment batch. Can work in both directions.
+    #                       Incoming payment batch transactions can't be
+    #                       matched with payments, outgoing can.
+    #                       Will be selected for matching.
+    #   PAYMENT_TERMINAL    A payment with debit/credit card in a (web)shop
+    #                       Invoice numbers and other hard criteria are most
+    #                       likely missing.
+    #                       Will be selected for matching
+    #   PERIODIC_ORDER      An automated payment by the bank on your behalf.
+    #                       Always outgoing.
+    #                       Will be selected for matching.
+    #
+    #   Perhaps more will follow.
+    #
+    # When writing parsers, map other types with similar meaning to these to
+    # prevent cluttering the API. For example: the Dutch ING Bank has a
+    # transfer type Post Office, meaning a cash withdrawal from one of their
+    # agencies. This can be mapped to BANK_TERMINAL without losing any
+    # significance for OpenERP.
+
+    BANK_COSTS = 'BC'
+    BANK_TERMINAL = 'BT'
+    CHECK = 'CK'
+    DIRECT_DEBIT = 'DD'
+    ORDER = 'DO'
+    PAYMENT_BATCH = 'PB'
+    PAYMENT_TERMINAL = 'PT' 
+    PERIODIC_ORDER = 'PO'
+
+    types = [
+        BANK_COSTS, BANK_TERMINAL, CHECK, DIRECT_DEBIT, ORDER,
+        PAYMENT_BATCH, PAYMENT_TERMINAL, PERIODIC_ORDER,
+    ]
+    type_map = {
+        # This can be a translation map of type versus bank type. Each key is
+        # the real transfer_type, each value is the mem_bank_transaction.type
+    }
+
     def __init__(self, *args, **kwargs):
         super(mem_bank_transaction, self).__init__(*args, **kwargs)
         self.id = ''
@@ -86,6 +142,28 @@ class mem_bank_transaction(object):
         self.reference = ''
         self.message = ''
         self.statement_id = ''
+
+    def copy(self):
+        '''
+        Return a copy of self
+        '''
+        retval = mem_bank_transaction()
+        for attr in self.__slots__:
+            setattr(retval, attr, getattr(self, attr))
+        return retval
+
+    def _get_type(self):
+        if self.transfer_type in self.type_map:
+            return self.type_map[self.transfer_type]
+        return self.transfer_type
+
+    def _set_type(self, value):
+        if value in self.types:
+            self.transfer_type = value
+        else:
+            raise ValueError, _('Invalid value for transfer_type')
+
+    type = property(_get_type, _set_type)
 
     def is_valid(self):
         '''

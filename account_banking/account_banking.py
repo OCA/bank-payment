@@ -55,6 +55,7 @@ Modifications are extensive:
     The import of statements matches the payments and reconciles them when
     needed, flagging them 'done'. When no export wizards are found, the
     default behavior is to flag the orders as 'sent', not as 'done'.
+    Rejected payments from the bank receive on import the status 'rejected'.
 '''
 import time
 import sys
@@ -63,6 +64,10 @@ from osv import osv, fields
 from tools.translate import _
 from wizard.banktools import get_or_create_bank
 import pooler
+
+def warning(title, message):
+    '''Convenience routine'''
+    return {'warning': {'title': title, 'message': message}}
 
 class account_banking_account_settings(osv.osv):
     '''Default Journal for Bank Account'''
@@ -93,6 +98,25 @@ class account_banking_account_settings(osv.osv):
                   'movements before confirming them.'
                  ),
         ),
+        'costs_account_id': fields.many2one(
+            'account.account', 'Bank Costs Account', select=True,
+            help=('The account to use when the bank invoices its own costs. '
+                  'Leave it blank to disable automatic invoice generation '
+                  'on bank costs.'
+                 ),
+        ),
+        'invoice_journal_id': fields.many2one(
+            'account.journal', 'Costs Journal', 
+            help=('This is the journal used to create invoices for bank costs.'
+                 ),
+        ),
+        'bank_partner_id': fields.many2one(
+            'res.partner', 'Bank Partner',
+            help=('The partner to use for bank costs. Banks are not partners '
+                  'by default. You will most likely have to create one.'
+                 ),
+        ),
+
         #'multi_currency': fields.boolean(
         #    'Multi Currency Bank Account', required=True,
         #    help=('Select this if your bank account is able to handle '
@@ -102,7 +126,7 @@ class account_banking_account_settings(osv.osv):
         #),
     }
 
-    def _default_company(self, cursor, uid, context={}):
+    def _default_company(self, cursor, uid, context=None):
         user = self.pool.get('res.users').browse(cursor, uid, uid, context=context)
         if user.company_id:
             return user.company_id.id
@@ -125,12 +149,21 @@ class account_banking_imported_file(osv.osv):
         'company_id': fields.many2one('res.company', 'Company',
                                       select=True, readonly=True
                                      ),
-        'date': fields.datetime('Import Date', readonly=False, select=True),
-        'format': fields.char('File Format', size=20, readonly=False),
-        'file': fields.binary('Raw Data', readonly=False),
-        'log': fields.text('Import Log', readonly=False),
+        'date': fields.datetime('Import Date', readonly=True, select=True,
+                                states={'draft': [('unfinished', False)]}
+                               ),
+        'format': fields.char('File Format', size=20, readonly=True,
+                              states={'draft': [('unfinished', False)]}
+                             ),
+        'file': fields.binary('Raw Data', readonly=True,
+                              states={'draft': [('unfinished', False)]}
+                             ),
+        'log': fields.text('Import Log', readonly=True,
+                           states={'draft': [('unfinished', False)]}
+                          ),
         'user_id': fields.many2one('res.users', 'Responsible User',
-                                   readonly=False, select=True
+                                   readonly=True, select=True,
+                                   states={'draft': [('unfinished', False)]}
                                   ),
         'state': fields.selection(
             [('unfinished', 'Unfinished'),
@@ -200,7 +233,7 @@ class account_bank_statement(osv.osv):
     #    'currency': _currency,
     }
 
-    def _get_period(self, cursor, uid, date, context={}):
+    def _get_period(self, cursor, uid, date, context=None):
         '''
         Find matching period for date, not meant for _defaults.
         '''
@@ -414,12 +447,12 @@ class account_bank_statement_line(osv.osv):
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
 
-    def _get_period(self, cursor, uid, context={}):
+    def _get_period(self, cursor, user, context=None):
         date = context.get('date', None)
-        periods = self.pool.get('account.period').find(cursor, uid, dt=date)
+        periods = self.pool.get('account.period').find(cursor, user, dt=date)
         return periods and periods[0] or False
 
-    def _seems_international(self, cursor, uid, context={}):
+    def _seems_international(self, cursor, user, context=None):
         '''
         Some banks have seperate international banking modules which do not
         translate correctly into the national formats. Instead, they
@@ -438,6 +471,17 @@ class account_bank_statement_line(osv.osv):
         # default/invoice addresses country. If it is the same as our
         # company's, its local, else international.
         # TODO: to be done
+
+    def _get_currency(self, cursor, user, context=None):
+        '''
+        Get the default currency (required to allow other modules to function,
+        which assume currency to be a calculated field and thus optional)
+        Remark: this is only a fallback as the real default is in the journal,
+        which is inaccessible from within this method.
+        '''
+        res_users_obj = self.pool.get('res.users')
+        return res_users_obj.browse(cursor, user, user,
+                context=context).company_id.currency_id.id
 
     #def _reconcile_amount(self, cursor, user, ids, name, args, context=None):
     #    '''
@@ -500,10 +544,11 @@ class account_bank_statement_line(osv.osv):
     _defaults = {
         'period_id': _get_period,
         'international': _seems_international,
+        'currency': _get_currency,
     }
 
     def onchange_partner_id(self, cursor, uid, line_id, partner_id, type,
-                            currency_id, context={}
+                            currency_id, context=None
                            ):
         '''
         Find default accounts when encoding statements by hand
@@ -532,70 +577,6 @@ class account_bank_statement_line(osv.osv):
 
         return result and {'value': result} or {}
 
-    def write(self, cursor, uid, ids, values, context={}):
-        # TODO: Not sure what to do with this, as it seems that most of
-        # this code is related to res_partner_bank and not to this class.
-        account_numbers = []
-        bank_obj = self.pool.get('res.partner.bank')
-        statement_line_obj = self.pool.get('account.bank.statement.line')
-
-        if 'partner_id' in values:
-            bank_account_ids = bank_obj.search(cursor, uid,
-                                               [('partner_id','=', values['partner_id'])]
-                                              )
-            bank_accounts = bank_obj.browse(cursor, uid, bank_account_ids)
-            import_account_numbers = statement_line_obj.browse(cursor, uid, ids)
-
-            for accno in bank_accounts:
-                # Allow acc_number and iban to co-exist (SEPA will unite the
-                # two, but - as seen now - in an uneven pace per country)
-                if accno.acc_number:
-                    account_numbers.append(accno.acc_number)
-                if accno.iban:
-                    account_numbers.append(accno.iban)
-
-            if any([x for x in import_account_numbers if x.bank_accnumber in
-                    account_numbers]):
-                for accno in import_account_numbers:
-                    account_data = _get_account_data(accno.bank_accnumber)
-                    if account_data:
-                        bank_id = bank_obj.search(cursor, uid, [
-                            ('name', '=', account_data['bank_name'])
-                        ])
-                        if not bank_id:
-                            bank_id = bank_obj.create(cursor, uid, {
-                                'name': account_data['bank_name'],
-                                'bic': account_data['bic'],
-                                'active': 1,
-                            })
-                        else:
-                            bank_id = bank_id[0]
-
-                        bank_acc = bank_obj.create(cursor, uid, {
-                            'state': 'bank',
-                            'partner_id': values['partner_id'],
-                            'bank': bank_id,
-                            'acc_number': accno.bank_accnumber,
-                        })
-
-                        bank_iban = bank_obj.create(cursor, uid, {
-                            'state': 'iban',
-                            'partner_id': values['partner_id'],
-                            'bank': bank_id,
-                            'iban': account_data['iban'],
-                        })
-
-                    else:
-                        bank_acc = bank_obj.create(cursor, uid, {
-                            'state': 'bank',
-                            'partner_id': values['partner_id'],
-                            'acc_number': accno.bank_accnumber,
-                        })
-
-        return super(account_bank_statement_line, self).write(
-            cursor, uid, ids, values, context
-        )
-
 account_bank_statement_line()
 
 class payment_type(osv.osv):
@@ -621,22 +602,23 @@ class payment_line(osv.osv):
     '''
     Add extra export_state and date_done fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
+    Edit: Payments can be by cash too, which is prohibited by mandatory bank
+    accounts.
     '''
     _inherit = 'payment.line'
     _columns = {
         # New fields
-        'bank_id': fields.many2one('res.partner.bank',
-                                   'Destination Bank account',
-                                   required=True
-                                  ),
         'export_state': fields.selection([
             ('draft', 'Draft'),
             ('open','Confirmed'),
             ('cancel','Cancelled'),
             ('sent', 'Sent'),
+            ('rejected', 'Rejected'),
             ('done','Done'),
             ], 'State', select=True
         ),
+        'msg': fields.char('Message', size=255, required=False, readonly=True),
+
         # Redefined fields: added states
         'date_done': fields.datetime('Date Confirmed', select=True,
                                      readonly=True),
@@ -644,6 +626,7 @@ class payment_line(osv.osv):
             'Your Reference', size=64, required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -655,6 +638,7 @@ class payment_line(osv.osv):
                  ),
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -663,6 +647,7 @@ class payment_line(osv.osv):
             help='The successor message of Communication.',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -676,6 +661,7 @@ class payment_line(osv.osv):
                  ),
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -685,6 +671,7 @@ class payment_line(osv.osv):
             help='Payment amount in the partner currency',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -692,6 +679,7 @@ class payment_line(osv.osv):
             'res.currency', 'Partner Currency', required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -699,6 +687,7 @@ class payment_line(osv.osv):
             'res.partner.bank', 'Destination Bank account',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -707,6 +696,7 @@ class payment_line(osv.osv):
             ondelete='cascade', select=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -715,6 +705,7 @@ class payment_line(osv.osv):
             help='The Ordering Customer',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -725,6 +716,7 @@ class payment_line(osv.osv):
                  ),
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -734,6 +726,7 @@ class payment_line(osv.osv):
             ], 'Communication Type', required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -741,12 +734,13 @@ class payment_line(osv.osv):
     _defaults = {
         'export_state': lambda *a: 'draft',
         'date_done': lambda *a: False,
+        'msg': lambda *a: '',
     }
 payment_line()
 
 class payment_order(osv.osv):
     '''
-    Enable extra state for payment exports
+    Enable extra states for payment exports
     '''
     _inherit = 'payment.order'
     _columns = {
@@ -754,6 +748,7 @@ class payment_order(osv.osv):
             'Scheduled date if fixed',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
             help='Select a date if you have chosen Preferred Date to be fixed.'
@@ -762,6 +757,7 @@ class payment_order(osv.osv):
             'Reference', size=128, required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -769,6 +765,7 @@ class payment_order(osv.osv):
             'payment.mode', 'Payment mode', select=True, required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
             help='Select the Payment Mode to be applied.'
@@ -778,6 +775,7 @@ class payment_order(osv.osv):
             ('open','Confirmed'),
             ('cancel','Cancelled'),
             ('sent', 'Sent'),
+            ('rejected', 'Rejected'),
             ('done','Done'),
             ], 'State', select=True
         ),
@@ -785,6 +783,7 @@ class payment_order(osv.osv):
             'payment.line', 'order_id', 'Payment lines',
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -792,6 +791,7 @@ class payment_order(osv.osv):
             'res.users','User', required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
         ),
@@ -802,6 +802,7 @@ class payment_order(osv.osv):
             ], "Preferred date", change_default=True, required=True,
             states={
                 'sent': [('readonly', True)],
+                'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
             help=("Choose an option for the Payment Order:'Fixed' stands for a "
@@ -812,33 +813,70 @@ class payment_order(osv.osv):
             ),
     }
 
-    def set_to_draft(self, cr, uid, ids, *args):
+    def _write_payment_lines(self, cursor, uid, ids, **kwargs):
+        '''
+        ORM method for setting attributes of corresponding payment.line objects.
+        Note that while this is ORM compliant, it is also very ineffecient due
+        to the absence of filters on writes and hence the requirement to
+        filter on the client(=OpenERP server) side.
+        '''
+        payment_line_obj = self.pool.get('payment.line')
+        line_ids = payment_line_obj.search(
+            cursor, uid, [
+                ('order_id', 'in', ids)
+            ])
+        payment_line_obj.write(cursor, uid, line_ids, kwargs)
+
+    def set_to_draft(self, cursor, uid, ids, *args):
+        self._write_payment_lines(cursor, uid, ids, export_state='draft')
+        '''
         cr.execute("UPDATE payment_line "
                    "SET export_state = 'draft' "
                    "WHERE order_id in (%s)" % (
                        ','.join(map(str, ids))
                    ))
+        '''
         return super(payment_order, self).set_to_draft(
             cr, uid, ids, *args
         )
 
     def action_sent(self, cr, uid, ids, *args):
+        self._write_payment_lines(cursor, uid, ids, export_state='sent')
+        '''
         cr.execute("UPDATE payment_line "
                    "SET export_state = 'sent' "
                    "WHERE order_id in (%s)" % (
                        ','.join(map(str, ids))
                    ))
+        '''
+        return True
+
+    def action_rejected(self, cr, uid, ids, *args):
+        self._write_payment_lines(cursor, uid, ids, export_state='rejected')
+        '''
+        cr.execute("UPDATE payment_line "
+                   "SET export_state = 'rejected' "
+                   "WHERE order_id in (%s)" % (
+                       ','.join(map(str, ids))
+                   ))
+        '''
         return True
 
     def set_done(self, cr, uid, id, *args):
         '''
         Extend standard transition to update children as well.
         '''
+        self._write_payment_lines(cursor, uid, ids,
+                                  export_state='done',
+                                  date_done=time.strftime('%Y-%m-%d')
+                                 )
+        '''
         cr.execute("UPDATE payment_line "
                    "SET export_state = 'done', date_done = '%s' "
                    "WHERE order_id = %s" % (
                        time.strftime('%Y-%m-%d'), id
                    ))
+        '''
         return super(payment_order, self).set_done(
             cr, uid, id, *args
         )
@@ -859,6 +897,8 @@ class res_partner_bank(osv.osv):
         4. Storage is uppercase, not lowercase
         5. Presentation is formal IBAN
         6. BBAN's are generated from IBAN when possible
+        7. In the absence of online databanks, BBAN's are checked on format
+           using IBAN specs.
     '''
     _inherit = 'res.partner.bank'
     _columns = {
@@ -885,12 +925,14 @@ class res_partner_bank(osv.osv):
     def init(self, cursor):
         '''
         Update existing iban accounts to comply to new regime
+        Note that usage of the ORM is not possible here, as the ORM cannot
+        search on values not provided by the client.
         '''
-        cursor.execute('select id, acc_number, iban '
-                       'from res_partner_bank '
-                       'where '
-                         'upper(iban) != iban or '
-                         'acc_number is NULL'
+        cursor.execute('SELECT id, acc_number, iban '
+                       'FROM res_partner_bank '
+                       'WHERE '
+                         'upper(iban) != iban OR '
+                         'acc_number IS NULL'
                       )
         for id, acc_number, iban in cursor.fetchall():
             new_iban = new_acc_number = False
@@ -902,33 +944,39 @@ class res_partner_bank(osv.osv):
                 elif iban != iban.upper():
                     new_iban = iban.upper
             if iban != new_iban or new_acc_number != acc_number:
-                cursor.execute("update res_partner_bank "
-                               "set iban = '%s', acc_number = '%s' "
-                               "where id = %s" % (
+                cursor.execute("UPDATE res_partner_bank "
+                               "SET iban = '%s', acc_number = '%s' "
+                               "WHERE id = %s" % (
                                    new_iban, new_acc_number, id
                                ))
 
-    def create(self, cursor, uid, vals, context={}):
+    @staticmethod
+    def _correct_IBAN(vals):
         '''
-        Create dual function IBAN account for SEPA countries
+        Routine to correct IBAN values and deduce localized values when valid.
         Note: No check on validity IBAN/Country
         '''
         if 'iban' in vals and vals['iban']:
             iban = sepa.IBAN(vals['iban'])
             vals['iban'] = str(iban)
             vals['acc_number'] = iban.localized_BBAN
-        return self._founder.create(self, cursor, uid, vals, context)
+        return vals
 
-    def write(self, cursor, uid, ids, vals, context={}):
+    def create(self, cursor, uid, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
-        Note: No check on validity IBAN/Country
         '''
-        if 'iban' in vals and vals['iban']:
-            iban = sepa.IBAN(vals['iban'])
-            vals['iban'] = str(iban)
-            vals['acc_number'] = iban.localized_BBAN
-        return self._founder.write(self, cursor, uid, ids, vals, context)
+        return self._founder.create(self, cursor, uid,
+                                    self._correct_IBAN(vals), context
+                                   )
+
+    def write(self, cursor, uid, ids, vals, context=None):
+        '''
+        Create dual function IBAN account for SEPA countries
+        '''
+        return self._founder.write(self, cursor, uid, ids,
+                                   self._correct_IBAN(vals), context
+                                  )
 
     def search(self, cursor, uid, args, *rest, **kwargs):
         '''
@@ -1010,11 +1058,10 @@ class res_partner_bank(osv.osv):
         Check IBAN number
         '''
         for bank_acc in self.browse(cursor, uid, ids):
-            if not bank_acc.iban:
-                continue
-            iban = sepa.IBAN(bank_acc.iban)
-            if not iban.valid:
-                return False
+            if bank_acc.iban:
+                iban = sepa.IBAN(bank_acc.iban)
+                if not iban.valid:
+                    return False
         return True
 
     def get_bban_from_iban(self, cursor, uid, ids, context=None):
@@ -1032,8 +1079,8 @@ class res_partner_bank(osv.osv):
                     res[record_id] = False
         return res
 
-    def onchange_acc_number(self, cursor, uid, ids, acc_number, partner_id,
-                            country_id, context={}
+    def onchange_acc_number(self, cursor, uid, ids, acc_number,
+                            partner_id, country_id, context=None
                            ):
         '''
         Trigger to find IBAN. When found:
@@ -1044,44 +1091,92 @@ class res_partner_bank(osv.osv):
             return {}
 
         values = {}
-        # Pre fill country based on partners address
         country_obj = self.pool.get('res.country')
-        partner_obj = self.pool.get('res.partner')
-        if (not country_id) and partner_id:
-            country = partner_obj.browse(cursor, uid, partner_id).country
-            country_ids = [country.id]
-        elif country_id:
+        country_ids = []
+
+        # Pre fill country based on available data. This is just a default
+        # which can be overridden by the user.
+        # 1. Use provided country_id (manually filled)
+        if country_id:
             country = country_obj.browse(cursor, uid, country_id)
             country_ids = [country_id]
-        else:
-            # Without country, there is no way to identify the right online
-            # interface to get IBAN accounts...
-            return {}
+        # 2. Use country_id of found bank accounts
+        # This can be usefull when there is no country set in the partners
+        # addresses, but there was a country set in the address for the bank
+        # account itself before this method was triggered.
+        elif ids and len(ids) == 1:
+            partner_bank_obj = self.pool.get('res.partner.bank')
+            partner_bank_id = partner_bank_obj.browse(cursor, uid, ids[0])
+            if partner_bank_id.country_id:
+                country = partner_bank_id.country_id
+                country_ids = [country.id]
+        # 3. Use country_id of default address of partner
+        # The country_id of a bank account is a one time default on creation.
+        # It originates in the same address we are about to check, but
+        # modifications on that address afterwards are not transfered to the
+        # bank account, hence the additional check.
+        elif partner_id:
+            partner_obj = self.pool.get('res.partner')
+            country = partner_obj.browse(cursor, uid, partner_id).country
+            country_ids = [country.id]
+        # 4. Without any of the above, take the country from the company of
+        # the handling user
+        if not country_ids:
+            user = self.pool.get('res.users').browse(cursor, uid, uid)
+            if user.address_id and user.address_id.country_id:
+                country = user.address_id.country_id
+                country_ids = [country.id]
+            else:
+                # Ok, tried everything, give up and leave it to the user
+                return warning(_('Insufficient data'),
+                               _('Insufficient data to select online '
+                                 'conversion database')
+                              )
 
+        result = {'value': values}
         # Complete data with online database when available
         if country.code in sepa.IBAN.countries:
-            info = sepa.online.account_info(country.code, acc_number)
-            if info:
-                iban_acc = sepa.IBAN(info.iban)
-                if iban_acc.valid:
-                    values['acc_number'] = iban_acc.localized_BBAN
-                    values['iban'] = unicode(iban_acc)
-                    bank_id, country_id = get_or_create_bank(
-                        self.pool, cursor, uid,
-                        info.bic or iban_acc.BIC_searchkey,
-                        code = info.code, name = info.bank
-                        )
-                    values['country_id'] = country_id or \
-                                           country_ids and country_ids[0] or \
-                                           False
-                    values['bank'] = bank_id or False
+            try:
+                info = sepa.online.account_info(country.code, acc_number)
+                if info:
+                    iban_acc = sepa.IBAN(info.iban)
+                    if iban_acc.valid:
+                        values['acc_number'] = iban_acc.localized_BBAN
+                        values['iban'] = unicode(iban_acc)
+                        bank_id, country_id = get_or_create_bank(
+                            self.pool, cursor, uid,
+                            info.bic or iban_acc.BIC_searchkey,
+                            code = info.code, name = info.bank
+                            )
+                        values['country_id'] = country_id or \
+                                               country_ids and country_ids[0] or \
+                                               False
+                        values['bank'] = bank_id or False
+                    else:
+                        info = None
+                if info is None:
+                    result.update(warning(
+                        _('Invalid data'),
+                        _('The account number appears to be invalid for %(country)s')
+                        % {'country': country.name}
+                    ))
+            except NotImplementedError:
+                if country.code in sepa.IBAN.countries:
+                    acc_number_fmt = sepa.BBAN(acc_number, country.code)
+                    if acc_number_fmt.valid:
+                        values['acc_number'] = str(acc_number_fmt)
+                    else:
+                        values['acc_number'] = acc_number
+                        result.update(warning(
+                            _('Invalid format'),
+                            _('The account number has the wrong format for %(country)s')
+                            % {'country': country.name}
+                        ))
                 else:
-                    info = None
-            if not info:
-                values['acc_number'] = acc_number
-        return {'value': values}
+                    values['acc_number'] = acc_number
+        return result
 
-    def onchange_iban(self, cursor, uid, ids, iban, context={}):
+    def onchange_iban(self, cursor, uid, ids, iban, context=None):
         '''
         Trigger to verify IBAN. When valid:
             1. Extract BBAN as local account
@@ -1097,19 +1192,19 @@ class res_partner_bank(osv.osv):
                 code=iban_acc.BIC_searchkey
                 )
             return {
-                'value': {
-                    'acc_number': iban_acc.localized_BBAN,
-                    'iban': unicode(iban_acc),
-                    'country': country_id or False,
-                    'bank': bank_id or False,
-                }
+                'value': dict(
+                    acc_number = iban_acc.localized_BBAN,
+                    iban = unicode(iban_acc),
+                    country = country_id or False,
+                    bank = bank_id or False,
+                )
             }
-        raise osv.except_osv(_('Invalid IBAN account number!'),
-                             _("The IBAN number doesn't seem to be correct")
-                            )
+        return warning(_('Invalid IBAN account number!'),
+                       _("The IBAN number doesn't seem to be correct")
+                      )
 
     _constraints = [
-        (check_iban, "The IBAN number doesn't seem to be correct", ["iban"])
+        (check_iban, _("The IBAN number doesn't seem to be correct"), ["iban"])
     ]
 
 res_partner_bank()
@@ -1120,7 +1215,8 @@ class res_bank(osv.osv):
     online SWIFT database. Allow hand filled names to overrule SWIFT names.
     '''
     _inherit = 'res.bank'
-    def onchange_bic(self, cursor, uid, ids, bic, name, context={}):
+
+    def onchange_bic(self, cursor, uid, ids, bic, name, context=None):
         '''
         Trigger to auto complete other fields.
         '''
@@ -1140,19 +1236,19 @@ class res_bank(osv.osv):
             country_id = False
 
         return {
-            'value': {
+            'value': dict(
                 # Only the first eight positions of BIC are used for bank
                 # transfers, so ditch the rest.
-                'bic': info.bic[:8],
-                'code': info.code,
-                'street': address.street,
-                'street2': 
+                bic = info.bic[:8],
+                code = info.code,
+                street = address.street,
+                street2 = 
                     address.has_key('street2') and address.street2 or False,
-                'zip': address.zip,
-                'city': address.city,
-                'country': country_id,
-                'name': name and name or info.name,
-            }
+                zip = address.zip,
+                city = address.city,
+                country = country_id,
+                name = name and name or info.name,
+            )
         }
 
 res_bank()

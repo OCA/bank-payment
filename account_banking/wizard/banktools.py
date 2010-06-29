@@ -29,7 +29,7 @@ from account_banking.struct import struct
 
 __all__ = [
     'get_period', 
-    'get_bank_account',
+    'get_bank_accounts',
     'get_or_create_partner',
     'get_company_bank_account',
     'create_bank_account',
@@ -84,7 +84,7 @@ def get_period(pool, cursor, uid, date, company, log):
         return False
     return period_ids[0]
 
-def get_bank_account(pool, cursor, uid, account_number, log, fail=False):
+def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
     '''
     Get the bank account with account number account_number
     '''
@@ -107,13 +107,7 @@ def get_bank_account(pool, cursor, uid, account_number, log, fail=False):
                 % dict(account_no=account_number)
             )
         return False
-    elif len(bank_account_ids) != 1:
-        log.append(
-            _('More than one bank account was found with the same number %(account_no)s')
-            % dict(account_no=account_number)
-        )
-        return False
-    return partner_bank_obj.browse(cursor, uid, bank_account_ids)[0]
+    return partner_bank_obj.browse(cursor, uid, bank_account_ids)
 
 def get_or_create_partner(pool, cursor, uid, name, log):
     '''
@@ -142,20 +136,26 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
     for the requested currency.
     '''
     results = struct()
-    bank_account = get_bank_account(pool, cursor, uid, account_number, log,
-                                    fail=True)
-    if not bank_account:
+    bank_accounts = get_bank_accounts(pool, cursor, uid, account_number, log,
+                                      fail=True)
+    if not bank_accounts:
         return False
-    if bank_account.partner_id.id != company.partner_id.id:
+    elif len(bank_accounts) != 1:
+        log.append(
+            _('More than one bank account was found with the same number %(account_no)s')
+            % dict(account_no = account_number)
+        )
+        return False
+    if bank_accounts[0].partner_id.id != company.partner_id.id:
         log.append(
             _('Account %(account_no)s is not owned by %(partner)s')
             % dict(account_no = account_number,
                    partner = company.partner_id.name,
         ))
         return False
-    results.account = bank_account
+    results.account = bank_accounts[0]
     bank_settings_obj = pool.get('account.banking.account.settings')
-    criteria = [('partner_bank_id', '=', bank_account.id)]
+    criteria = [('partner_bank_id', '=', bank_accounts[0].id)]
 
     # Find matching journal for currency
     journal_obj = pool.get('account.journal')
@@ -174,14 +174,19 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
     bank_settings_ids = bank_settings_obj.search(cursor, uid, criteria)
     if bank_settings_ids:
         settings = bank_settings_obj.browse(cursor, uid, bank_settings_ids)[0]
+        results.company_id = company
         results.journal_id = settings.journal_id
         # Take currency from settings or from company
         if settings.journal_id.currency.id:
             results.currency_id = settings.journal_id.currency
         else:
             results.currency_id = company.currency_id
+        # Rest just copy/paste from settings. Why am I doing this?
         results.default_debit_account_id = settings.default_debit_account_id
         results.default_credit_account_id = settings.default_credit_account_id
+        results.costs_account_id = settings.costs_account_id
+        results.invoice_journal_id = settings.invoice_journal_id
+        results.bank_partner_id = settings.bank_partner_id
     return results
 
 def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
@@ -325,5 +330,19 @@ def create_bank_account(pool, cursor, uid, partner_id,
 
     # Create bank account and return
     return pool.get('res.partner.bank').create(cursor, uid, values)
+
+def get_or_create_bank_partner():
+    '''
+    Find the partner belonging to a bank. When not found, create one using the
+    available data.
+    '''
+    pass
+
+def generate_supplier_invoice():
+    '''
+    Create an supplier invoice for a transaction from a bank. Used to create
+    invoices on the fly when parsing bank costs.
+    '''
+    pass
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

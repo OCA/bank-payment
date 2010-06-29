@@ -21,3 +21,4 @@
 import iban
 import online
 IBAN = iban.IBAN
+BBAN = iban.BBAN

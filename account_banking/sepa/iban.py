@@ -421,6 +421,98 @@ class IBAN(str):
         '''
         return self[4:]
 
+class BBAN(object):
+    '''
+    Class to reformat a local BBAN account number to IBAN specs.
+    Simple validation based on length of spec string elements and real data.
+    '''
+    
+    @staticmethod
+    def _get_length(fmt, element):
+        '''
+        Internal method to calculate the length of a parameter in a
+        formatted string
+        '''
+        i = 0; max_i = len(fmt._iban)
+        while i < max_i:
+            if fmt._iban[i] == element:
+                next = i +1
+                while next < max_i and fmt._iban[next] == element:
+                    next += 1
+                return next - i
+            i += 1
+        return 0
+
+    def __init__(self, bban, countrycode):
+        '''
+        Reformat and sanity check on BBAN format.
+        Note that this is not a fail safe check, it merely checks the format of
+        the BBAN following the IBAN specifications.
+        '''
+        if countrycode.upper() in IBAN.countries:
+            self._fmt = IBAN.BBAN_formats[countrycode.upper()]
+            res = ''
+            i = 0; j = 0; max_i = len(self._fmt._bban); max_j = len(bban)
+            while i < max_i and j < max_j:
+                while bban[j] in ' \t' and j < max_j:
+                    j += 1
+                if self._fmt._bban[i] == '%':
+                    i += 1
+                    parm = self._fmt._bban[i]
+                    if parm == 'I':
+                        _bban = IBAN(bban)
+                        if _bban.valid:
+                            self._bban = str(_bban)
+                        else:
+                            self._bban = None
+                        # Valid, so nothing else to do
+                        return
+                    elif parm in 'ABCDPSTVWXZ':
+                        _len = self._get_length(self._fmt, parm)
+                        addon = bban[j:j+_len]
+                        if len(addon) != _len:
+                            # Note that many accounts in the IBAN standard
+                            # are allowed to have leading zeros, so zfill
+                            # to full spec length for visual validation.
+                            # 
+                            # Note 2: this may look funny to some, as most
+                            # local schemes strip leading zeros. It allows
+                            # us however to present the user a visual feedback
+                            # in order to catch simple user mistakes as
+                            # missing digits.
+                            if parm == 'A':
+                                res += addon.zfill(_len)
+                            else:
+                                # Invalid, just drop the work and leave
+                                return
+                        else:
+                            res += addon
+                        j += _len
+                elif self._fmt._bban[i] in [bban[j], ' ', '/', '-', '.']:
+                    res += self._fmt._bban[i]
+                    if self._fmt._bban[i] == bban[j]:
+                        j += 1
+                elif self._fmt._bban[i].isalpha():
+                    res += self._fmt._bban[i]
+                i += 1
+            if i == max_i:
+                self._bban = res
+            else:
+                self._bban = None
+
+    def __str__(self):
+        '''String representation'''
+        return self._bban
+
+    def __unicode__(self):
+        '''Unicode representation'''
+        return unicode(self._bban)
+
+    @property
+    def valid(self):
+        '''Simple check if BBAN is in the right format'''
+        return self._bban and True or False
+
 if __name__ == '__main__':
     import sys
     for arg in sys.argv[1:]:

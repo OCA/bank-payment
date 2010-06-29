@@ -1,37 +1,37 @@
-# Translation of OpenERP Server.
-# This file contains the translation of the following modules:
-#	* account_banking
+# Spanish translation for account-banking
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the account-banking package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.11\n"
+"Project-Id-Version: account-banking\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-06-29 14:33:53+0000\n"
-"PO-Revision-Date: 2010-06-29 14:33:53+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2010-04-28 20:13+0000\n"
+"Last-Translator: Antonio Maldonado <Unknown>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
-#, python-format
+#, fuzzy, python-format
 msgid "Number of bank costs invoices created"
-msgstr ""
+msgstr "Número de transacciones cargadas"
 
 #. module: account_banking
 #: wizard_view:account_banking.banking_import,view_error:0
 #: wizard_view:account_banking.banking_import,view_statements:0
 msgid "Results:"
-msgstr ""
+msgstr "Resultados:"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Number of errors found"
-msgstr ""
+msgstr "Número de errores encontrados"
 
 #. module: account_banking
 #: wizard_view:account_banking.banking_import,init:0
@@ -52,18 +52,18 @@ msgstr ""
 #. module: account_banking
 #: field:payment.line,date_done:0
 msgid "Date Confirmed"
-msgstr ""
+msgstr "Fecha confirmada"
 
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,view_statements,open_statements:0
 msgid "_View Statements"
-msgstr ""
+msgstr "_Ver declaraciones"
 
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,view_error,end:0
 #: wizard_button:account_banking.banking_import,view_statements,end:0
 msgid "_Close"
-msgstr ""
+msgstr "_Cerrar"
 
 #. module: account_banking
 #: field:account.banking.account.settings,bank_partner_id:0
@@ -79,19 +79,20 @@ msgstr ""
 #. module: account_banking
 #: wizard_field:account_banking.banking_import,init,file:0
 msgid "Statements File"
-msgstr ""
+msgstr "Archivo de declaraciones"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "More than one bank account was found with the same number %(account_no)s"
+msgid ""
+"More than one bank account was found with the same number %(account_no)s"
 msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Total number of transactions"
-msgstr ""
+msgstr "Número total de transacciones"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -101,7 +102,10 @@ msgstr ""
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
-msgid "The account to use when an unexpected payment is received. This can be needed when a customer pays in advance or when no matching invoice can be found. Mind that you can correct movements before confirming them."
+msgid ""
+"The account to use when an unexpected payment is received. This can be "
+"needed when a customer pays in advance or when no matching invoice can be "
+"found. Mind that you can correct movements before confirming them."
 msgstr ""
 
 #. module: account_banking
@@ -124,21 +128,24 @@ msgstr ""
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "The expected balance (%.2f) is different '\n"
+msgid ""
+"The expected balance (%.2f) is different '\n"
 "                      'than the computed one. (%.2f)"
 msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
-"                      '%(no_candidates)s candidates found; can't choose."
+msgid ""
+"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
+"                      '%(no_candidates)s candidates found; can\'t choose."
 msgstr ""
 
 #. module: account_banking
 #: field:account.banking.account.settings,invoice_journal_id:0
+#, fuzzy
 msgid "Costs Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
@@ -159,7 +166,11 @@ msgstr ""
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_credit_account_id:0
-msgid "The account to use when an unexpected payment was signaled. This can happen when a direct debit payment is cancelled by a customer, or when no matching payment can be found.  Mind that you can correct movements before confirming them."
+msgid ""
+"The account to use when an unexpected payment was signaled. This can happen "
+"when a direct debit payment is cancelled by a customer, or when no matching "
+"payment can be found.  Mind that you can correct movements before confirming "
+"them."
 msgstr ""
 
 #. module: account_banking
@@ -177,12 +188,13 @@ msgstr ""
 #. module: account_banking
 #: selection:payment.line,export_state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "Insufficient data to select online '\n"
+msgid ""
+"Insufficient data to select online '\n"
 "                                 'conversion database"
 msgstr ""
 
@@ -190,34 +202,34 @@ msgstr ""
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,statement_ids:0
 msgid "Statements"
-msgstr ""
+msgstr "Declaraciones"
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_debit_account_id:0
 msgid "Default debit account"
-msgstr ""
+msgstr "Cuenta de débito por omisión"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
 msgid "Unknown Bank"
-msgstr ""
+msgstr "Banco desconocido"
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
 msgid "Import Date"
-msgstr ""
+msgstr "Fecha de importación"
 
 #. module: account_banking
 #: selection:payment.line,export_state:0
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmado"
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.action_account_banking_res_partner_banks
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Cuentas de banco"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -227,12 +239,13 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement:0
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Statements found for account %(bank_account)s, '\n"
+msgid ""
+"Statements found for account %(bank_account)s, '\n"
 "                          'but no default journal was defined."
 msgstr ""
 
@@ -244,7 +257,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,international:0
 msgid "International Transaction"
-msgstr ""
+msgstr "Transacción internacional"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -255,7 +268,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,trans:0
 msgid "Bank Transaction ID"
-msgstr ""
+msgstr "Identificador de transacción del banco"
 
 #. module: account_banking
 #: help:account.banking.account.settings,invoice_journal_id:0
@@ -271,18 +284,20 @@ msgstr ""
 #. module: account_banking
 #: selection:payment.line,export_state:0
 msgid "Sent"
-msgstr ""
+msgstr "Enviar"
 
 #. module: account_banking
 #: help:account.banking.account.settings,costs_account_id:0
-msgid "The account to use when the bank invoices its own costs. Leave it blank to disable automatic invoice generation on bank costs."
+msgid ""
+"The account to use when the bank invoices its own costs. Leave it blank to "
+"disable automatic invoice generation on bank costs."
 msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
 msgid "Error !"
-msgstr ""
+msgstr "Error !"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -314,9 +329,14 @@ msgstr ""
 
 #. module: account_banking
 #: help:account_banking.banking_import,init,file:0
-msgid "The Transactions File to import. Please note that while it is perfectly safe to reload the same file multiple times or to load in timeframe overlapping statements files, there are formats that may introduce different sequencing, which may create double entries.\n"
+msgid ""
+"The Transactions File to import. Please note that while it is perfectly safe "
+"to reload the same file multiple times or to load in timeframe overlapping "
+"statements files, there are formats that may introduce different sequencing, "
+"which may create double entries.\n"
 "\n"
-"To stay on the safe side, always load bank statements files using the same format."
+"To stay on the safe side, always load bank statements files using the same "
+"format."
 msgstr ""
 
 #. module: account_banking
@@ -338,11 +358,12 @@ msgstr ""
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,init,end:0
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #. module: account_banking
 #: model:ir.module.module,description:account_banking.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "    Module to do banking.\n"
 "\n"
 "    Note: This module is depending on BeautifulSoup.\n"
@@ -358,17 +379,21 @@ msgid "\n"
 "\n"
 "    * Puts focus on the real life messaging with banks:\n"
 "      + Bank statement lines upgraded to independent bank transactions.\n"
-"      + Banking statements have no special accountancy meaning, they're just\n"
+"      + Banking statements have no special accountancy meaning, they're "
+"just\n"
 "        message envelopes for a number of bank transactions.\n"
-"      + Bank statements can be either encoded by hand to reflect the document\n"
-"        version of Bank Statements, or created as an optional side effect of\n"
+"      + Bank statements can be either encoded by hand to reflect the "
+"document\n"
+"        version of Bank Statements, or created as an optional side effect "
+"of\n"
 "        importing Bank Transactions.\n"
 "\n"
 "    * Preparations for SEPA:\n"
 "      + IBAN accounts are the standard in the SEPA countries\n"
 "      + local accounts are derived from SEPA (excluding Turkey) but are\n"
 "        considered to be identical to the corresponding SEPA account.\n"
-"      + Banks are identified with either Country + Bank code + Branch code or BIC\n"
+"      + Banks are identified with either Country + Bank code + Branch code "
+"or BIC\n"
 "      + Each bank can have its own pace in introducing SEPA into their\n"
 "        communication with their customers.\n"
 "      + National online databases can be used to convert BBAN's to IBAN's.\n"
@@ -381,12 +406,14 @@ msgid "\n"
 "\n"
 "    * Extends payments for digital banking:\n"
 "      + Adapted workflow in payments to reflect banking operations\n"
-"      + Relies on account_payment mechanics to extend with export generators.\n"
+"      + Relies on account_payment mechanics to extend with export "
+"generators.\n"
 "      - ClieOp3 (NL) payment and direct debit orders files available as\n"
 "        account_banking_nl_clieop\n"
 "\n"
 "    * Additional features for the import/export mechanism:\n"
-"      + Automatic matching and creation of bank accounts, banks and partners,\n"
+"      + Automatic matching and creation of bank accounts, banks and "
+"partners,\n"
 "        during import of statements.\n"
 "      + Automatic matching with invoices and payments.\n"
 "      + Sound import mechanism, allowing multiple imports of the same\n"
@@ -415,7 +442,7 @@ msgstr ""
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,init,import:0
 msgid "_Ok"
-msgstr ""
+msgstr "Aceptar"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
@@ -427,13 +454,13 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:payment.line,export_state:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "ERROR!"
-msgstr ""
+msgstr "ERROR!"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -444,12 +471,12 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,currency:0
 msgid "Currency"
-msgstr ""
+msgstr "Divisa"
 
 #. module: account_banking
 #: field:account.banking.imported.file,file:0
 msgid "Raw Data"
-msgstr ""
+msgstr "Datos en bruto"
 
 #. module: account_banking
 #: field:payment.line,msg:0
@@ -461,13 +488,13 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: wizard_field:account_banking.banking_import,init,company:0
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #. module: account_banking
 #: wizard_field:account_banking.banking_import,view_error,log:0
 #: wizard_field:account_banking.banking_import,view_statements,log:0
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:0
@@ -479,12 +506,12 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
 msgid "Configration Error !"
-msgstr ""
+msgstr "Error de configuración !"
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
 msgid "Bank Statements File"
-msgstr ""
+msgstr "Archivo de declaraciones bancarias"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:0
@@ -508,25 +535,27 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement,banking_id:0
 msgid "Imported File"
-msgstr ""
+msgstr "Archivo importado"
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
-msgstr ""
+msgstr "Importar registro"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Statement for account %(bank_account)s uses different '\n"
+msgid ""
+"Statement for account %(bank_account)s uses different '\n"
 "                      'currency than the defined bank journal."
 msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "Multiple overlapping periods for date %(date)s and company %(company_name)s"
+msgid ""
+"Multiple overlapping periods for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
@@ -539,24 +568,24 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Number of statements loaded"
-msgstr ""
+msgstr "Número de declaraciónes cargadas"
 
 #. module: account_banking
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_actions
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_settings
 msgid "Banking"
-msgstr ""
+msgstr "Bancario"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Total number of statements"
-msgstr ""
+msgstr "Número total de declaraciones"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -567,49 +596,51 @@ msgstr ""
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "No suitable fiscal year found for date %(date)s and company %(company_name)s"
+msgid ""
+"No suitable fiscal year found for date %(date)s and company %(company_name)s"
 msgstr ""
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
 msgid "Import Details"
-msgstr ""
+msgstr "Importar detalles"
 
 #. module: account_banking
 #: field:account.bank.statement.line,period_id:0
 msgid "Period"
-msgstr ""
+msgstr "Período"
 
 #. module: account_banking
 #: selection:payment.line,export_state:0
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #. module: account_banking
 #: view:payment.order:0
 msgid "Select Invoices to Pay"
-msgstr ""
+msgstr "Seleccionar facturas a pagar"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
 msgid "Responsible User"
-msgstr ""
+msgstr "Usuario responsable"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
 msgid "The statement balance is incorrect !\n"
-msgstr ""
+msgstr "El balance de las declaraciones es incorrecto !\n"
 
 #. module: account_banking
 #: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
 msgstr ""
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Unfinished"
-msgstr ""
+msgstr "Sin terminar"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
@@ -620,12 +651,12 @@ msgstr ""
 #. module: account_banking
 #: model:ir.module.module,shortdesc:account_banking.module_meta_information
 msgid "Account Banking"
-msgstr ""
+msgstr "Cuenta bancaria"
 
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,view_error,open_import:0
 msgid "_View Imported File"
-msgstr ""
+msgstr "_Ver archiv importado"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -637,50 +668,53 @@ msgstr ""
 #: field:account.banking.imported.file,format:0
 #: wizard_field:account_banking.banking_import,init,parser:0
 msgid "File Format"
-msgstr ""
+msgstr "Formato de archivo"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s"
+msgid ""
+"Multiple overlapping fiscal years found for date %(date)s and company %"
+"(company_name)s"
 msgstr ""
 
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: account_banking
 #: field:account.banking.account.settings,costs_account_id:0
+#, fuzzy
 msgid "Bank Costs Account"
-msgstr ""
+msgstr "Cuenta de banco"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
-msgstr ""
+msgstr "Terminando"
 
 #. module: account_banking
 #: selection:payment.line,export_state:0
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Bank Account Details"
-msgstr ""
+msgstr "Detalles de la cuenta bancaria"
 
 #. module: account_banking
 #: field:account.bank.statement.line,partner_bank_id:0
 #: field:account.banking.account.settings,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Cuenta de banco"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Number of transactions loaded"
-msgstr ""
+msgstr "Número de transacciones cargadas"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -691,17 +725,19 @@ msgstr ""
 #. module: account_banking
 #: model:res.partner.bank.type.field,name:account_banking.bank_acc_number_field
 msgid "acc_number"
-msgstr ""
+msgstr "acc_number"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
-#, python-format
+#, fuzzy, python-format
 msgid "Number of transactions matched"
-msgstr ""
+msgstr "Número de transacciones cargadas"
 
 #. module: account_banking
 #: help:account.banking.account.settings,bank_partner_id:0
-msgid "The partner to use for bank costs. Banks are not partners by default. You will most likely have to create one."
+msgid ""
+"The partner to use for bank costs. Banks are not partners by default. You "
+"will most likely have to create one."
 msgstr ""
 
 #. module: account_banking
@@ -714,4 +750,3 @@ msgstr ""
 #: model:ir.model,name:account_banking.model_account_banking_imported_file
 msgid "Imported Bank Statements File"
 msgstr ""
-
