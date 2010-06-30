@@ -202,7 +202,7 @@ class IBAN(str):
         'DK': BBANFormat('CCCCAAAAAAAAAV', '%C %A%V'),
         'EE': BBANFormat('BBCCAAAAAAAAAAAV', '%A%V'),
         'ES': BBANFormat('BBBBCCCCWVAAAAAAAAAA', '%B%C%W%V%A'),
-        'FI': BBANFormat('CCCCTTAAAAAAAV', '%C-%A%V', nolz=True),
+        'FI': BBANFormat('CCCCTTAAAAAAAV', '%C%T-%A%V', nolz=True),
         'FR': BBANFormat('BBBBBCCCCCAAAAAAAAAAAVV', '%B %C %A %V'),
         'FO': BBANFormat('BBBBAAAAAAAAAV', '%B %A%V'),
         # Great Brittain uses a special display for the branch code, which we
@@ -449,6 +449,7 @@ class BBAN(object):
         Note that this is not a fail safe check, it merely checks the format of
         the BBAN following the IBAN specifications.
         '''
+        self._bban = None
         if countrycode.upper() in IBAN.countries:
             self._fmt = IBAN.BBAN_formats[countrycode.upper()]
             res = ''
@@ -497,8 +498,6 @@ class BBAN(object):
                 i += 1
             if i == max_i:
                 self._bban = res
-            else:
-                self._bban = None
 
     def __str__(self):
         '''String representation'''
