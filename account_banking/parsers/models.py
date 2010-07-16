@@ -65,10 +65,116 @@ class mem_bank_transaction(object):
     '''
     # Lock attributes to enable parsers to trigger non-conformity faults
     __slots__ = [
-        'id', 'local_account', 'local_currency', 'execution_date',
-        'effective_date', 'remote_owner', 'remote_account',
-        'remote_currency', 'transferred_amount', 'transfer_type',
-        'reference', 'message', 'statement_id',
+
+        'id',
+        # Message id
+
+        'statement_id',
+        # The bank statement this message was reported on
+
+        'transfer_type',
+        # Action type that initiated this message
+
+        'reference',
+        # A reference to this message for communication
+
+        'local_account',
+        # The account this message was meant for
+
+        'local_currency',
+        # The currency the bank used to process the transferred amount
+
+        'execution_date',
+        # The requested execution date of the action - order date if you like
+
+        'effective_date',
+        # The real execution date of the action
+
+        'remote_account',
+        # The account of the other party
+
+        'remote_currency',
+        # The currency used by the other party
+
+        'exchange_rate',
+        # The exchange rate used for conversion of local_currency and
+        # remote_currency
+
+        'transferred_amount',
+        # The actual amount transferred - 
+        #   negative means sent, positive means received
+        # Most banks use the local_currency to express this amount, but there
+        # may be exceptions I'm unaware of.
+
+        'message',
+        # A direct message from the initiating party to the receiving party
+        #   A lot of banks abuse this to stuff all kinds of structured
+        #   information in this message. It is the task of the parser to split
+        #   this up into the appropriate attributes.
+
+        'remote_owner',
+        # The name of the other party
+
+        'remote_owner_address',
+        # The other parties address lines - the only attribute that is a list
+
+        'remote_owner_city',
+        # The other parties city name belonging to the previous
+
+        'remote_owner_postalcode',
+        # The other parties postal code belonging to the address
+
+        'remote_owner_country_code',
+        # The other parties two letter ISO country code belonging to the previous
+
+        'remote_owner_custno',
+        # The other parties customer number
+
+        # For identification of private other parties, the following attributes
+        # are available and self explaining. Most banks allow only one per
+        # message.
+        'remote_owner_ssn',
+        'remote_owner_tax_id',
+        'remote_owner_employer_id',
+        'remote_owner_passport_no',
+        'remote_owner_idcard_no',
+        'remote_owner_driverslicense_no',
+
+        # Other private party information fields. Not all banks use it, but
+        # at least SEPA messaging allowes it.
+        'remote_owner_birthdate',
+        'remote_owner_cityofbirth',
+        'remote_owner_countryofbirth',
+        'remote_owner_provinceofbirth',
+
+        # For the identification of remote banks, the following attributes are
+        # available and self explaining. Most banks allow only one per
+        # message.
+        'remote_bank_bic',
+        'remote_bank_bei',
+        'remote_bank_ibei',
+        'remote_bank_eangln',
+        'remote_bank_chips_uid',
+        'remote_bank_duns',
+        'remote_bank_tax_id',
+
+        # For other identification purposes: both of the next attributes must
+        # be filled.
+        'remote_bank_proprietary_id',
+        'remote_bank_proprietary_id_issuer',
+
+        # The following attributes are for allowing banks to communicate about
+        # specific transactions. The transferred_amount must include these
+        # costs.
+        # Please make sure that the costs are signed for the right direction.
+        'provision_costs',
+        'provision_costs_currency',
+        'provision_costs_description',
+
+        # An error message for interaction with the user
+        # Only used when mem_transaction.valid returns False.
+        'error_message',
+
     ]
 
     # transfer_type's to be used by the business logic.
@@ -128,20 +234,13 @@ class mem_bank_transaction(object):
     }
 
     def __init__(self, *args, **kwargs):
+        '''
+        Initialize values
+        '''
         super(mem_bank_transaction, self).__init__(*args, **kwargs)
-        self.id = ''
-        self.local_account = ''
-        self.local_currency = ''
-        self.execution_date = ''
-        self.effective_date = ''
-        self.remote_account = ''
-        self.remote_owner = ''
-        self.remote_currency = ''
-        self.transferred_amount = ''
-        self.transfer_type = ''
-        self.reference = ''
-        self.message = ''
-        self.statement_id = ''
+        for attr in self.__slots__:
+            setattr(self, attr, None)
+        self.remote_owner_address = []
 
     def copy(self):
         '''
@@ -218,6 +317,9 @@ class parser(object):
         name -> the name of the parser, shown to the user and
                     translatable.
         code -> the identifier you care to give it. Not translatable
+        country_code -> the two letter ISO code of the country this parser is
+                        built for: used to recreate country when new partners
+                        are auto created
         doc  -> the description of the identifier. Shown to the user.
                     Translatable.
 
@@ -226,6 +328,7 @@ class parser(object):
     __metaclass__ = parser_type
     name = None
     code = None
+    country_code = None
     doc = __doc__
 
     def parse(self, data):

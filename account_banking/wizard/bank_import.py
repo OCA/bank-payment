@@ -38,6 +38,7 @@ from tools.translate import _
 from account_banking.parsers import models
 from account_banking.parsers.convert import *
 from account_banking.struct import struct
+from account_banking import sepa
 from banktools import *
 
 bt = models.mem_bank_transaction
@@ -270,7 +271,8 @@ class banking_import(wizard.interface):
         if partner_ids:
             candidates = [x for x in move_lines
                           if x.partner_id.id in partner_ids and
-                          (not _cached(x) or _remaining(x))
+                          str2date(x.date, '%Y-%m-%d') <= trans.execution_date
+                          and (not _cached(x) or _remaining(x))
                           ]
         else:
             candidates = []
@@ -288,6 +290,7 @@ class banking_import(wizard.interface):
             # reporting this.
             candidates = [x for x in candidates or move_lines 
                           if x.invoice and has_id_match(x.invoice, ref, msg)
+                          and str2date(x.invoice.date_invoice, '%Y-%m-%d') <= trans.execution_date
                           and (not _cached(x) or _remaining(x))
                          ]
 
@@ -297,6 +300,7 @@ class banking_import(wizard.interface):
             candidates = [x for x in move_lines 
                           if round(abs(x.credit or x.debit), digits) == 
                              round(abs(trans.transferred_amount), digits) and 
+                             str2date(x.date, '%Y-%m-%d') <= trans.execution_date and
                              (not _cached(x) or _remaining(x))
                          ]
 
@@ -306,13 +310,11 @@ class banking_import(wizard.interface):
             # amounts expected and received.
             #
             # TODO: currency coercing
-            if trans.transferred_amount > 0:
-                func = lambda x, y=abs(trans.transferred_amount), z=digits:\
-                        round(x.debit, z) == round(y, z)
-            else:
-                func = lambda x, y=abs(trans.transferred_amount), z=digits:\
-                        round(x.credit, z) == round(y, z)
-            best = [x for x in candidates if func(x)]
+            best = [x for x in candidates
+                    if round(abs(x.credit or x.debit), digits) == 
+                       round(abs(trans.transferred_amount), digits) and
+                       str2date(x.date, '%Y-%m-%d') <= trans.execution_date
+                   ]
             if len(best) == 1:
                 # Exact match
                 move_line = best[0]
@@ -324,14 +326,31 @@ class banking_import(wizard.interface):
                     _cache(move_line)
 
             elif len(candidates) > 1:
-                # Multiple matches
-                log.append(
-                    _('Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '
-                      '%(no_candidates)s candidates found; can\'t choose.') % {
-                          'trans': trans.id,
-                          'ref': trans.reference,
-                          'no_candidates': len(best) or len(candidates)
-                      })
+                # Before giving up, check cache for catching duplicate
+                # transfers first
+                paid = [x for x in move_lines 
+                        if x.invoice and has_id_match(x.invoice, ref, msg)
+                        and str2date(x.invoice.date_invoice, '%Y-%m-%d') <= trans.execution_date
+                        and (_cached(x) and not _remaining(x))
+                       ]
+                if paid:
+                    log.append(
+                        _('Unable to link transaction id %(trans)s '
+                          '(ref: %(ref)s) to invoice: '
+                          'invoice %(invoice)s was already paid') % {
+                              'trans': '%s.%s' % (trans.statement_id, trans.id),
+                              'ref': trans.reference,
+                              'invoice': eyecatcher(paid[0].invoice)
+                          })
+                else:
+                    # Multiple matches
+                    log.append(
+                        _('Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '
+                          '%(no_candidates)s candidates found; can\'t choose.') % {
+                              'trans': '%s.%s' % (trans.statement_id, trans.id),
+                              'ref': trans.reference,
+                              'no_candidates': len(best) or len(candidates)
+                          })
                 move_line = False
                 partial = False
 
@@ -400,6 +419,9 @@ class banking_import(wizard.interface):
 
         digits = int(config['price_accuracy'])
         amount = round(abs(trans.transferred_amount), digits)
+        # Make sure to be able to pinpoint our costs invoice for later
+        # matching
+        reference = '%s.%s: %s' % (trans.statement_id, trans.id, trans.reference)
 
         # search supplier invoice
         invoice_obj = self.pool.get('account.invoice')
@@ -409,12 +431,12 @@ class banking_import(wizard.interface):
             ('partner_id', '=', account_info.bank_partner_id.id),
             ('company_id', '=', account_info.company_id.id),
             ('date_invoice', '=', date2str(trans.effective_date)),
-            ('reference', '=', trans.reference),
+            ('reference', '=', reference),
             ('amount_total', '=', amount),
             ]
         )
         if invoice_ids and len(invoice_ids) == 1:
-            invoice = invoice_obj.browse(cursor, uid, invoice_ids)
+            invoice = invoice_obj.browse(cursor, uid, invoice_ids)[0]
         elif not invoice_ids:
             # create supplier invoice
             partner_obj = self.pool.get('res.partner')
@@ -437,7 +459,7 @@ class banking_import(wizard.interface):
                 account_id = account_info.bank_partner_id.property_account_payable.id,
                 date_invoice = date2str(trans.effective_date),
                 reference_type = 'none',
-                reference = trans.reference,
+                reference = reference,
                 name = trans.reference or trans.message,
                 check_total = amount,
                 invoice_line = invoice_lines,
@@ -471,6 +493,7 @@ class banking_import(wizard.interface):
         self.pool = pooler.get_pool(cursor.dbname)
         company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
+        partner_bank_obj = self.pool.get('res.partner.bank')
         journal_obj = self.pool.get('account.journal')
         move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
@@ -627,9 +650,12 @@ class banking_import(wizard.interface):
                and account_info.currency_id.code != statement.local_currency:
                 # TODO: convert currencies?
                 results.log.append(
-                    _('Statement for account %(bank_account)s uses different '
-                      'currency than the defined bank journal.') %
-                      {'bank_account': statement.local_account}
+                    _('Statement %(statement_id)s for account %(bank_account)s' 
+                      ' uses different currency than the defined bank journal.'
+                     ) % {
+                         'bank_account': statement.local_account,
+                         'statement_id': statement.id
+                     }
                 )
                 error_accounts[statement.local_account] = True
                 results.error_cnt += 1
@@ -661,22 +687,22 @@ class banking_import(wizard.interface):
             ))
             imported_statement_ids.append(statement_id)
 
-            # move each line to the right period and try to match it with an
+            # move each transaction to the right period and try to match it with an
             # invoice or payment
             subno = 0
-            injected = False
+            injected = []
             i = 0
             max_trans = len(statement.transactions)
             while i < max_trans:
                 move_info = False
                 if injected:
-                    transaction, injected = injected, False
+                    # Force FIFO behavior
+                    transaction = injected.pop(0)
                 else:
                     transaction = statement.transactions[i]
-
-                # Keep a tracer for identification of order in a statement in case
-                # of missing transaction ids.
-                subno += 1
+                    # Keep a tracer for identification of order in a statement in case
+                    # of missing transaction ids.
+                    subno += 1
 
                 # Link accounting period
                 period_id = get_period(self.pool, cursor, uid,
@@ -685,6 +711,26 @@ class banking_import(wizard.interface):
                 if not period_id:
                     results.trans_skipped_cnt += 1
                     continue
+
+                # When bank costs are part of transaction itself, split it.
+                if transaction.type != bt.BANK_COSTS and transaction.provision_costs:
+                    # Create new transaction for bank costs
+                    costs = transaction.copy()
+                    costs.type = bt.BANK_COSTS
+                    costs.id = '%s-prov' % transaction.id
+                    costs.transferred_amount = transaction.provision_costs
+                    costs.remote_currency = transaction.provision_costs_currency
+                    costs.message = transaction.provision_costs_description
+                    injected.append(costs)
+
+                    # Remove bank costs from current transaction
+                    # Note that this requires that the transferred_amount
+                    # includes the bank costs and that the costs itself are
+                    # signed correctly.
+                    transaction.transferred_amount -= transaction.provision_costs
+                    transaction.provision_costs = None
+                    transaction.provision_costs_currency = None
+                    transaction.provision_costs_description = None
 
                 # Allow inclusion of generated bank invoices
                 if transaction.type == bt.BANK_COSTS:
@@ -708,20 +754,38 @@ class banking_import(wizard.interface):
                     if partner_banks:
                         partner_ids = [x.partner_id.id for x in partner_banks]
                     elif transaction.remote_owner:
+                        iban = sepa.IBAN(transaction.remote_account)
+                        if iban.valid:
+                            country_code = iban.country_code
+                        elif transaction.remote_owner_country_code:
+                            country_code = transaction.remote_owner_country_code
+                        elif hasattr(parser, 'country_code') and parser.country_code:
+                            country_code = parser.country_code
+                        else:
+                            country_code = None
                         partner_id = get_or_create_partner(
                             self.pool, cursor, uid, transaction.remote_owner,
-                            results.log
+                            transaction.remote_owner_address,
+                            transaction.remote_owner_postalcode,
+                            transaction.remote_owner_city,
+                            country_code, results.log
                         )
                         if transaction.remote_account:
                             partner_bank_id = create_bank_account(
                                 self.pool, cursor, uid, partner_id,
                                 transaction.remote_account,
-                                transaction.remote_owner, results.log
+                                transaction.remote_owner, 
+                                transaction.remote_owner_address,
+                                transaction.remote_owner_city,
+                                country_code, results.log
                             )
+                            partner_banks = partner_bank_obj.browse(
+                                cursor, uid, [partner_bank_id]
+                            )
+                        else:
+                            partner_bank_id = None
+                            partner_banks = []
                         partner_ids = [partner_id]
-                        partner_banks = partner_bank_obj.browse(
-                            cursor, uid, [partner_bank_id]
-                        )
                     else:
                         partner_ids = []
                         partner_banks = []
@@ -737,11 +801,16 @@ class banking_import(wizard.interface):
 
                 # Second guess, invoice -> may split transaction, so beware
                 if not move_info:
-                    # Link invoice - if any
-                    move_info, injected = self._link_invoice(
+                    # Link invoice - if any. Although bank costs are not an
+                    # invoice, automatic invoicing on bank costs will create
+                    # these, and invoice matching still has to be done.
+                    move_info, remainder = self._link_invoice(
                         cursor, uid, transaction, move_lines, partner_ids,
                         partner_banks, results.log
                         )
+                    if remainder:
+                        injected.append(remainder)
+
                 if not move_info:
                     # Use the default settings, but allow individual partner
                     # settings to overrule this. Note that you need to change
@@ -787,6 +856,8 @@ class banking_import(wizard.interface):
 
                 statement_line_id = statement_line_obj.create(cursor, uid, values)
                 results.trans_loaded_cnt += 1
+                # Only increase index when all generated transactions are
+                # processed as well
                 if not injected:
                     i += 1
 
@@ -813,15 +884,24 @@ class banking_import(wizard.interface):
                    )
             )
         report = [
-            '%s: %s' % (_('Total number of statements'), results.stat_skipped_cnt + results.stat_loaded_cnt),
-            '%s: %s' % (_('Total number of transactions'), results.trans_skipped_cnt + results.trans_loaded_cnt),
-            '%s: %s' % (_('Number of errors found'), results.error_cnt),
-            '%s: %s' % (_('Number of statements skipped due to errors'), results.stat_skipped_cnt),
-            '%s: %s' % (_('Number of transactions skipped due to errors'), results.trans_skipped_cnt),
-            '%s: %s' % (_('Number of statements loaded'), results.stat_loaded_cnt),
-            '%s: %s' % (_('Number of transactions loaded'), results.trans_loaded_cnt),
-            '%s: %s' % (_('Number of transactions matched'), results.trans_matched_cnt),
-            '%s: %s' % (_('Number of bank costs invoices created'), results.bank_costs_invoice_cnt),
+            '%s: %s' % (_('Total number of statements'),
+                        results.stat_skipped_cnt + results.stat_loaded_cnt),
+            '%s: %s' % (_('Total number of transactions'),
+                        results.trans_skipped_cnt + results.trans_loaded_cnt),
+            '%s: %s' % (_('Number of errors found'),
+                        results.error_cnt),
+            '%s: %s' % (_('Number of statements skipped due to errors'),
+                        results.stat_skipped_cnt),
+            '%s: %s' % (_('Number of transactions skipped due to errors'),
+                        results.trans_skipped_cnt),
+            '%s: %s' % (_('Number of statements loaded'),
+                        results.stat_loaded_cnt),
+            '%s: %s' % (_('Number of transactions loaded'),
+                        results.trans_loaded_cnt),
+            '%s: %s' % (_('Number of transactions matched'),
+                        results.trans_matched_cnt),
+            '%s: %s' % (_('Number of bank costs invoices created'),
+                        results.bank_costs_invoice_cnt),
             '',
             '%s:' % ('Error report'),
             '',

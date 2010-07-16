@@ -235,8 +235,8 @@ def bank_info(bic):
     # We need to split it into two fields...
     if not address.Zip_Code:
         if address.Location:
-            address.Zip_Code, address.Location = \
-                    postalcode.split(full_bic[4:6], address.Location)
+            iso, address.Zip_Code, address.Location = \
+                    postalcode.split(address.Location, full_bic[4:6])
 
     bankaddress = struct(
         street = address.Address.title(),

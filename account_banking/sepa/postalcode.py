@@ -135,15 +135,45 @@ class PostalCode(object):
         _formats[iso] = PostalCodeFormat(formatstr)
 
     @classmethod
-    def split(cls, iso, str_):
+    def split(cls, str_, iso=''):
         '''
         Split string <str_> in (postalcode, remainder) following the specs of
         country <iso>.
-        Returns both the postal code and the remaining part of <str_>
+
+        Returns iso, postal code and the remaining part of <str_>.
+        
+        When iso is filled but postal code remains empty, no postal code could
+        be found according to the rules of iso.
+
+        When iso is empty but postal code is not, a proximity match was
+        made where multiple hits gave similar results. A postal code is
+        likely, but a unique iso code could not be identified.
+
+        When neither iso or postal code are filled, no proximity match could
+        be made.
         '''
         if iso in cls._formats:
-            return cls._formats[iso].split(str_)
-        return ('', str_)
+            return (iso,) + tuple(cls._formats[iso].split(str_))
+
+        # Find optimum (= max length postalcode) when iso code is unknown
+        all = {}
+        opt_iso = ''
+        max_l = 0
+        for key in cls._formats.iterkeys():
+            i, p, c = cls.split(str_, key)
+            l = len(p)
+            if l > max_l:
+                max_l = l
+                opt_iso = i
+            if l in all:
+                all[l].append((i, p, c))
+            else:
+                all[l] = [(i, p, c)]
+        if max_l > 0:
+            if len(all[max_l]) > 1:
+                return ('',) + all[max_l][0][1:]
+            return all[max_l][0]
+        return ('', '', str_)
 
     @classmethod
     def get(cls, iso, str_):
