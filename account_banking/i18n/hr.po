@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: account-banking\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-06-29 14:33:53+0000\n"
+"POT-Creation-Date: 2010-07-16 14:58:26+0000\n"
 "PO-Revision-Date: 2010-02-12 01:28+0000\n"
 "Last-Translator: goranc <goranc@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -37,6 +37,14 @@ msgstr "Broj pronađenih grešaka"
 #: wizard_view:account_banking.banking_import,init:0
 msgid "Select the processing details:"
 msgstr "Odaberite detalje obrade:"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid ""
+"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
+"                          '%(no_candidates)s candidates found; can\'t choose."
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -72,7 +80,6 @@ msgstr ""
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_account_settings
-#: model:ir.model,name:account_banking.model_account_banking_bank_journal
 msgid "Default Journal for Bank Account"
 msgstr "Predefinirana temeljnica za bankovni račun"
 
@@ -139,14 +146,6 @@ msgstr ""
 "                      'od izračunatog. (%.2f)"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:0
-#, python-format
-msgid ""
-"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
-"                      '%(no_candidates)s candidates found; can\'t choose."
-msgstr ""
-
-#. module: account_banking
 #: field:account.banking.account.settings,invoice_journal_id:0
 #, fuzzy
 msgid "Costs Journal"
@@ -188,10 +187,9 @@ msgid "Unable to import parser %(parser)s. Parser class not found."
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:0
-#, python-format
-msgid "Insufficient data"
-msgstr ""
+#: field:account.banking.imported.file,file:0
+msgid "Raw Data"
+msgstr "nepripremljeni podaci"
 
 #. module: account_banking
 #: selection:payment.line,export_state:0
@@ -224,6 +222,16 @@ msgid "Unknown Bank"
 msgstr ""
 
 #. module: account_banking
+#: wizard_button:account_banking.banking_import,init,end:0
+msgid "_Cancel"
+msgstr "_Odustani"
+
+#. module: account_banking
+#: selection:payment.line,export_state:0
+msgid "Draft"
+msgstr "Nedovršeno"
+
+#. module: account_banking
 #: field:account.banking.imported.file,date:0
 msgid "Import Date"
 msgstr "Datum učitavanja"
@@ -252,10 +260,8 @@ msgstr "Potvrdi"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid ""
-"Statements found for account %(bank_account)s, '\n"
-"                          'but no default journal was defined."
-msgstr ""
+msgid "Statements found for account %(bank_account)s, '\n"
+msgstr "                          'but no default journal was defined."
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
@@ -370,11 +376,6 @@ msgid "Imported Bank Statements"
 msgstr "Učitani izvodi banke"
 
 #. module: account_banking
-#: wizard_button:account_banking.banking_import,init,end:0
-msgid "_Cancel"
-msgstr "_Odustani"
-
-#. module: account_banking
 #: model:ir.module.module,description:account_banking.module_meta_information
 msgid ""
 "\n"
@@ -477,6 +478,15 @@ msgid "ERROR!"
 msgstr "Greška!"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid ""
+"Unable to link transaction id %(trans)s '\n"
+"                          '(ref: %(ref)s) to invoice: '\n"
+"                          'invoice %(invoice)s was already paid"
+msgstr ""
+
+#. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
 msgid "The account number has the wrong format for %(country)s"
@@ -486,11 +496,6 @@ msgstr ""
 #: field:account.bank.statement.line,currency:0
 msgid "Currency"
 msgstr ""
-
-#. module: account_banking
-#: field:account.banking.imported.file,file:0
-msgid "Raw Data"
-msgstr "nepripremljeni podaci"
 
 #. module: account_banking
 #: field:payment.line,msg:0
@@ -514,6 +519,12 @@ msgstr "Dnevnik izmjena"
 #: code:addons/account_banking/parsers/models.py:0
 #, python-format
 msgid "Invalid value for transfer_type"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid "Insufficient data"
 msgstr ""
 
 #. module: account_banking
@@ -556,14 +567,6 @@ msgstr "Učitana datoteka"
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
 msgstr "Dnevnik učitavanja"
-
-#. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:0
-#, python-format
-msgid ""
-"Statement for account %(bank_account)s uses different '\n"
-"                      'currency than the defined bank journal."
-msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
@@ -710,11 +713,6 @@ msgid "Finished"
 msgstr "Završeno"
 
 #. module: account_banking
-#: selection:payment.line,export_state:0
-msgid "Draft"
-msgstr "Nedovršeno"
-
-#. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Bank Account Details"
 msgstr "Stavke bankovnih računa"
@@ -765,3 +763,12 @@ msgstr "Stavke ovog računa nisu u valjanom stanju."
 #: model:ir.model,name:account_banking.model_account_banking_imported_file
 msgid "Imported Bank Statements File"
 msgstr "Učitane datoteke bankovnih izvoda"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid ""
+"Statement %(statement_id)s for account %(bank_account)s' \n"
+"                      ' uses different currency than the defined bank "
+"journal."
+msgstr ""
