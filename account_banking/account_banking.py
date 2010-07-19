@@ -837,10 +837,10 @@ class payment_order(osv.osv):
                    ))
         '''
         return super(payment_order, self).set_to_draft(
-            cr, uid, ids, *args
+            cursor, uid, ids, *args
         )
 
-    def action_sent(self, cr, uid, ids, *args):
+    def action_sent(self, cursor, uid, ids, *args):
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
         '''
         cr.execute("UPDATE payment_line "
@@ -851,7 +851,7 @@ class payment_order(osv.osv):
         '''
         return True
 
-    def action_rejected(self, cr, uid, ids, *args):
+    def action_rejected(self, cursor, uid, ids, *args):
         self._write_payment_lines(cursor, uid, ids, export_state='rejected')
         '''
         cr.execute("UPDATE payment_line "
@@ -862,11 +862,11 @@ class payment_order(osv.osv):
         '''
         return True
 
-    def set_done(self, cr, uid, id, *args):
+    def set_done(self, cursor, uid, id, *args):
         '''
         Extend standard transition to update children as well.
         '''
-        self._write_payment_lines(cursor, uid, ids,
+        self._write_payment_lines(cursor, uid, [id],
                                   export_state='done',
                                   date_done=time.strftime('%Y-%m-%d')
                                  )
@@ -878,7 +878,7 @@ class payment_order(osv.osv):
                    ))
         '''
         return super(payment_order, self).set_done(
-            cr, uid, id, *args
+            cursor, uid, id, *args
         )
 
 payment_order()
