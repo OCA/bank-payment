@@ -868,21 +868,49 @@ class banking_import(wizard.interface):
             # batch as a whole is only marked as 'done' when all payment lines
             # have been reconciled.
             cursor.execute(
-                "UPDATE payment_order o "
-                "SET state = 'done', "
-                    "date_done = '%s' "
-                "FROM payment_line l "
+                "SELECT DISTINCT o.id "
+                "FROM payment_order o, payment_line l "
                 "WHERE o.state = 'sent' "
                   "AND o.id = l.order_id "
                   "AND o.id NOT IN ("
-                    "SELECT DISTINCT id FROM payment_line "
+                    "SELECT DISTINCT order_id AS id "
+                    "FROM payment_line "
                     "WHERE date_done IS NULL "
                       "AND id IN (%s)"
-                   ")" % (
-                       time.strftime('%Y-%m-%d'),
-                       ','.join([str(x) for x in payment_line_ids])
-                   )
+                   ")" % (','.join([str(x) for x in payment_line_ids]))
             )
+            order_ids = cursor.fetchall()
+            if order_ids:
+                # Use workflow logics for the orders. Recode logic from
+                # account_payment, in order to increase efficiency.
+                payment_order_obj.set_done(cursor, uid, order_ids,
+                                        {'state': 'done'}
+                                       )
+                wf_service = netsvc.LocalService('workflow')
+                for id in order_ids:
+                    wf_service.trg_validate(uid, 'payment.order', id, 'done',
+                                            cursor
+                                           )
+
+            # Original code. Didn't take workflow logistics into account...
+            #
+            #cursor.execute(
+            #    "UPDATE payment_order o "
+            #    "SET state = 'done', "
+            #        "date_done = '%s' "
+            #    "FROM payment_line l "
+            #    "WHERE o.state = 'sent' "
+            #      "AND o.id = l.order_id "
+            #      "AND l.id NOT IN ("
+            #        "SELECT DISTINCT id FROM payment_line "
+            #        "WHERE date_done IS NULL "
+            #          "AND id IN (%s)"
+            #       ")" % (
+            #           time.strftime('%Y-%m-%d'),
+            #           ','.join([str(x) for x in payment_line_ids])
+            #       )
+            #)
+
         report = [
             '%s: %s' % (_('Total number of statements'),
                         results.stat_skipped_cnt + results.stat_loaded_cnt),

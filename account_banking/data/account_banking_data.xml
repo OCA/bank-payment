@@ -23,5 +23,12 @@
             <field eval="False" name="required"/>
             <field eval="False" name="readonly"/>
         </record>
+        <!-- Add manual bank transfer as default payment option -->
+        <record model="payment.type" id="account_banking.manual_bank_tranfer">
+            <field name="name">Manual Bank Transfer</field>
+            <field name="code">BANKMAN</field>
+            <field name="suitable_bank_types"
+                eval="[(6,0,[ref('base.bank_normal'),ref('base_iban.bank_iban'),])]" />
+        </record>
     </data>
 </openerp>

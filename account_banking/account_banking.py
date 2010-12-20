@@ -64,6 +64,7 @@ from osv import osv, fields
 from tools.translate import _
 from wizard.banktools import get_or_create_bank
 import pooler
+import netsvc
 
 def warning(title, message):
     '''Convenience routine'''
@@ -828,38 +829,34 @@ class payment_order(osv.osv):
         payment_line_obj.write(cursor, uid, line_ids, kwargs)
 
     def set_to_draft(self, cursor, uid, ids, *args):
+        '''
+        Set both self and payment lines to state 'draft'.
+        '''
         self._write_payment_lines(cursor, uid, ids, export_state='draft')
-        '''
-        cr.execute("UPDATE payment_line "
-                   "SET export_state = 'draft' "
-                   "WHERE order_id in (%s)" % (
-                       ','.join(map(str, ids))
-                   ))
-        '''
         return super(payment_order, self).set_to_draft(
             cursor, uid, ids, *args
         )
 
     def action_sent(self, cursor, uid, ids, *args):
+        '''
+        Set both self and payment lines to state 'sent'.
+        '''
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        '''
-        cr.execute("UPDATE payment_line "
-                   "SET export_state = 'sent' "
-                   "WHERE order_id in (%s)" % (
-                       ','.join(map(str, ids))
-                   ))
-        '''
+        self.write(cursor, uid, ids, {'state': 'rejected'})
+        wf_service = netsvc.LocalService('workflow')
+        for id in ids:
+            wf_service.trg_validate(uid, 'payment.order', id, 'sent', cursor)
         return True
 
     def action_rejected(self, cursor, uid, ids, *args):
+        '''
+        Set both self and payment lines to state 'rejected'.
+        '''
         self._write_payment_lines(cursor, uid, ids, export_state='rejected')
-        '''
-        cr.execute("UPDATE payment_line "
-                   "SET export_state = 'rejected' "
-                   "WHERE order_id in (%s)" % (
-                       ','.join(map(str, ids))
-                   ))
-        '''
+        self.write(cursor, uid, ids, {'state': 'rejected'})
+        wf_service = netsvc.LocalService('workflow')
+        for id in ids:
+            wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cursor)
         return True
 
     def set_done(self, cursor, uid, id, *args):
@@ -870,16 +867,20 @@ class payment_order(osv.osv):
                                   export_state='done',
                                   date_done=time.strftime('%Y-%m-%d')
                                  )
-        '''
-        cr.execute("UPDATE payment_line "
-                   "SET export_state = 'done', date_done = '%s' "
-                   "WHERE order_id = %s" % (
-                       time.strftime('%Y-%m-%d'), id
-                   ))
-        '''
         return super(payment_order, self).set_done(
             cursor, uid, id, *args
         )
+
+    def get_wizard(self, type):
+        '''
+        Intercept manual bank payments to include 'sent' state. Default
+        'manual' payments are flagged 'done' immediately.
+        '''
+        if type == 'BANKMAN':
+            # Note that self._module gets overwritten by inheriters, so make
+            # the module name hard coded.
+            return 'account_banking', 'wizard_account_banking_payment_manual'
+        return super(payment_order, self).get_wizard(type)
 
 payment_order()
 

@@ -33,9 +33,10 @@
     'depends': ['base', 'account', 'base_iban', 'account_payment'],
     'init_xml': [],
     'update_xml': [
-        #'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'data/account_banking_data.xml',
         'account_banking_import_wizard.xml',
+        'account_banking_payment_wizard.xml',
         'account_banking_view.xml',
         'account_banking_workflow.xml',
     ],

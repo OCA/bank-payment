@@ -25,7 +25,6 @@ import base64
 from datetime import datetime, date, timedelta
 from account_banking import sepa
 from tools.translate import _
-#import pdb; pdb.set_trace()
 import clieop
 
 def strpdate(arg, format='%Y-%m-%d'):

@@ -27,6 +27,18 @@ __all__ = [
 __doc__ = '''Ease working with fixed length records in files'''
 
 from datetime import datetime, date
+
+# Correct python2.4 issues
+try:
+    datetime.strptime
+    def strpdate(str, format):
+        return datetime.strptime(str, format).date()
+except AttributeError:
+    import time
+    def strpdate(str, format):
+        tm = time.strptime(str, format)
+        return date(tm.tm_year, tm.tm_mon, tm.tm_mday)
+
 import unicodedata
 
 class Field(object):
@@ -74,7 +86,7 @@ class DateField(Field):
     def format(self, value):
         if isinstance(value, (str, unicode)) and \
            len(value.strip()) == self.length:
-            value = datetime.strptime(value, self.dateformat).date()
+            value = strpdate(value, self.dateformat)
         elif not isinstance(value, (datetime, date)):
             value = date.today()
         return value.strftime(self.dateformat)
@@ -82,7 +94,7 @@ class DateField(Field):
     def take(self, buffer):
         value = super(DateField, self).take(buffer)
         if value:
-            return datetime.strptime(value, self.dateformat).date()
+            return strpdate(value, self.dateformat)
         return self.auto and date.today() or None
 
 class RightAlignedField(Field):

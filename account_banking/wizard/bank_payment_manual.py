@@ -18,7 +18,36 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import bank_import
-import bank_payment_manual
+
+'''
+This module contains a single "wizard" for including a 'sent' state for manual
+bank transfers.
+'''
+
+import wizard
+import pooler
+
+class payment_manual(wizard.interface):
+    def _action_set_state_sent(self, cursor, uid, data, context):
+        '''
+        Set the payment order in state 'sent' to reflect money in transfer.
+        '''
+        payment_order_obj = pooler.get_pool(cursor.dbname)\
+                .get('payment.order')
+        payment_order_obj.action_sent(cursor, uid, [data['id']], context)
+        return {}
+        
+    states= {
+        'init' : {
+            'actions': [],
+            'result': {
+                'type':'action',
+                'action': _action_set_state_sent,
+                'state': 'end'
+            }
+        }
+    }
+
+payment_manual('account_banking.payment_manual')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_account_banking_settings","account.banking.account.settings","model_account_banking_account_settings","account.group_account_manager",1,1,1,1
+"access_account_banking_import","account.bankimport","model_account_banking_imported_file","account.group_account_user",1,1,1,1
