@@ -45,7 +45,22 @@ def get_iban_bic_NL(bank_acc):
     banks operating in the Netherlands and will only convert Dutch local
     account numbers.
     '''
-    data = urllib.urlencode(dict(number=bank_acc.lstrip('0'), method='POST'))
+    # sanity check: Dutch 7 scheme uses ING as sink and online convertor
+    # calculates accounts, so no need to consult it - calculate our own
+    number = bank_acc.lstrip('0')
+    if len(number) <= 7:
+        return struct(
+            iban = IBAN(BBAN='INGB' + number.rjust(10, '0'),
+                        countrycode='NL'
+                       ).replace(' ',''),
+            account = iban,
+            bic = 'INGBNL2A',
+            code = 'INGBNL',
+            bank = 'ING Bank N.V.'
+            country_id = 'NL',
+        )
+
+    data = urllib.urlencode(dict(number=number, method='POST'))
     request = urllib2.Request(IBANlink_NL, data)
     response = urllib2.urlopen(request)
     soup = BeautifulSoup(response)

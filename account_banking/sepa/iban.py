@@ -42,7 +42,7 @@
 # account owning banks. Don't use it, unless you are prepared to loose your
 # money. It is for heuristic validation purposes only.
 
-__all__ = ['IBAN']
+__all__ = ['IBAN', 'BBAN']
 
 def modulo_97_base10(abuffer):
     '''
@@ -312,7 +312,7 @@ class IBAN(str):
         format = cls.BBAN_formats[countrycode]
 
         if BBAN:
-            if len(BBAN) == len(formats._iban):
+            if len(BBAN) == len(format._iban):
                 ibanno = cls(countrycode + '00' + BBAN)
                 return cls(countrycode + ibanno.checksum + BBAN)
             raise ValueError, \
