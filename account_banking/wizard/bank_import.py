@@ -120,21 +120,34 @@ class banking_import(wizard.interface):
             'in_refund': 'supplier',
         }
         retval = struct(move_line=move_line, partner_id=move_line.partner_id.id,
-                        partner_bank_id=partner_bank_id
+                        partner_bank_id=partner_bank_id,
+                        reference=move_line.ref
                        )
-        retval.reference = move_line.ref
         if move_line.invoice:
             retval.invoice = move_line.invoice
             retval.type = type_map[move_line.invoice.type]
         else:
             retval.type = 'general'
-        move_line.reconcile_id = reconcile_obj.create(
-            cursor, uid, {
-                partial and 'line_partial_ids' or 'line_ids': [
-                    (6, 0, [move_line.id])
-                ]
-            }
-        )
+
+        if partial:
+            move_line.reconcile_partial_id = reconcile_obj.create(
+                cursor, uid, {'line_partial_ids': [(4, 0, [move_line.id])]}
+            )
+        else:
+            if move_line.reconcile_partial_id:
+                partial_ids = [x.id for x in move_line.reconcile_partial_id]
+            else:
+                partial_ids = []
+            move_line.reconcile_id = reconcile_obj.create(
+                cursor, uid, {
+                    'line_ids': [
+                        (4, x, False) for x in [move_line.id] + partial_ids
+                    ],
+                    'line_partial_ids': [
+                        (3, x, False) for x in partial_ids
+                    ]
+                }
+            )
         return retval
 
     def _link_payment(self, cursor, uid, trans, payment_lines,
@@ -186,13 +199,13 @@ class banking_import(wizard.interface):
         Assumptions for matching:
             1. There are no payments for invoices not sent. These are dealt with
                later on.
-            1. Debit amounts are either customer invoices or credited supplier
+            2. Debit amounts are either customer invoices or credited supplier
                invoices.
-            2. Credit amounts are either supplier invoices or credited customer
+            3. Credit amounts are either supplier invoices or credited customer
                invoices.
-            3. Payments are either below expected amount or only slightly above
+            4. Payments are either below expected amount or only slightly above
                (abs).
-            4. Payments from partners that are matched, pay their own invoices.
+            5. Payments from partners that are matched, pay their own invoices.
         
         Worst case scenario:
             1. No match was made.
@@ -358,13 +371,15 @@ class banking_import(wizard.interface):
                 # Mismatch in amounts
                 move_line = candidates[0]
                 invoice = move_line.invoice
-                expected = round(_sign(invoice) * invoice.amount_total, digits)
+                expected = round(_sign(invoice) * invoice.residual, digits)
                 partial = True
 
             trans2 = None
             if move_line and partial:
                 found = round(trans.transferred_amount, digits)
-                if abs(expected) > abs(found):
+                if abs(expected) == abs(found):
+                    partial = False
+                elif abs(expected) > abs(found):
                     # Partial payment, reuse invoice
                     _cache(move_line, expected - found)
                 elif abs(expected) < abs(found):
@@ -391,7 +406,7 @@ class banking_import(wizard.interface):
             return (
                 self._get_move_info(cursor, uid, move_line, 
                     account_ids and account_ids[0] or False,
-                    partial = partial and not trans2
+                    partial=(partial and not trans2)
                     ),
                 trans2
             )

@@ -232,9 +232,13 @@ class transaction(models.mem_bank_transaction):
                 if length >= 3:
                     self.remote_owner_city = address[2]
                 self.message = self.message[ptr:].rstrip()
-            rest = self.message.split('transactiedatum  ')
-            self.execution_date = str2date(rest[1], '%d %m %Y')
-            self.message = rest[0].rstrip()
+            if self.message.find('transactiedatum') >= 0:
+                rest = self.message.split('transactiedatum')
+                if rest[1].startswith('* '):
+                    self.execution_date = str2date(rest[1][2:], '%d-%m-%Y')
+                else:
+                    self.execution_date = str2date(rest[1][2:], '%d %m %Y')
+                self.message = rest[0].rstrip()
 
         elif self.transfer_type == 'IDB':
             # Payment by iDeal transaction

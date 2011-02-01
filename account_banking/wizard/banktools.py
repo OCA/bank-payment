@@ -109,6 +109,14 @@ def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
         return False
     return partner_bank_obj.browse(cursor, uid, bank_account_ids)
 
+def _has_attr(obj, attr):
+    # Needed for dangling addresses and a weird exception scheme in
+    # OpenERP's orm.
+    try:
+        return bool(getattr(obj, attr))
+    except KeyError:
+        return False
+
 def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
                           country_code, log):
     '''
@@ -138,9 +146,12 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
             filter.append(('zip', 'ilike', postal_code))
         address_ids = address_obj.search(cursor, uid, filter)
         key = name.lower()
+
         partner_ids = [x.partner_id.id
                        for x in address_obj.browse(cursor, uid, address_ids)
-                       if x.partner_id.name.lower() in key
+                       # Beware for dangling addresses
+                       if _has_attr(x.partner_id, 'name') and
+                          x.partner_id.name.lower() in key
                       ]
     if not partner_ids:
         if (not country_code) or not country_id:

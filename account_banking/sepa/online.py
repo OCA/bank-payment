@@ -56,7 +56,7 @@ def get_iban_bic_NL(bank_acc):
             account = iban,
             bic = 'INGBNL2A',
             code = 'INGBNL',
-            bank = 'ING Bank N.V.'
+            bank = 'ING Bank N.V.',
             country_id = 'NL',
         )
 
