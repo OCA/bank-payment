@@ -49,11 +49,12 @@ def get_iban_bic_NL(bank_acc):
     # calculates accounts, so no need to consult it - calculate our own
     number = bank_acc.lstrip('0')
     if len(number) <= 7:
+        iban = IBAN.create(BBAN='INGB' + number.rjust(10, '0'),
+                           countrycode='NL'
+                          )
         return struct(
-            iban = IBAN(BBAN='INGB' + number.rjust(10, '0'),
-                        countrycode='NL'
-                       ).replace(' ',''),
-            account = iban,
+            iban = iban.replace(' ',''),
+            account = iban.BBAN[4:],
             bic = 'INGBNL2A',
             code = 'INGBNL',
             bank = 'ING Bank N.V.',

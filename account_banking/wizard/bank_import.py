@@ -33,6 +33,7 @@ import time
 import wizard
 import netsvc
 import base64
+import datetime
 from tools import config
 from tools.translate import _
 from account_banking.parsers import models
@@ -42,6 +43,10 @@ from account_banking import sepa
 from banktools import *
 
 bt = models.mem_bank_transaction
+
+# This variable is used to match supplier invoices with an invoice date after
+# the real payment date. This can occur with online transactions (web shops).
+payment_window = datetime.timedelta(days=10)
 
 def parser_types(*args, **kwargs):
     '''Delay evaluation of parser types until start of wizard, to allow
@@ -106,6 +111,7 @@ class banking_import(wizard.interface):
         self.__state = ''
         self.__linked_invoices = {}
         self.__linked_payments = {}
+        self.__multiple_matches = []
 
     def _fill_results(self, *args, **kwargs):
         return {'log': self._log}
@@ -135,7 +141,9 @@ class banking_import(wizard.interface):
             )
         else:
             if move_line.reconcile_partial_id:
-                partial_ids = [x.id for x in move_line.reconcile_partial_id]
+                partial_ids = [x.id for x in
+                               move_line.reconcile_partial_id.line_partial_ids
+                              ]
             else:
                 partial_ids = []
             move_line.reconcile_id = reconcile_obj.create(
@@ -284,7 +292,7 @@ class banking_import(wizard.interface):
         if partner_ids:
             candidates = [x for x in move_lines
                           if x.partner_id.id in partner_ids and
-                          str2date(x.date, '%Y-%m-%d') <= trans.execution_date
+                          str2date(x.date, '%Y-%m-%d') <= (trans.execution_date + payment_window)
                           and (not _cached(x) or _remaining(x))
                           ]
         else:
@@ -303,8 +311,9 @@ class banking_import(wizard.interface):
             # reporting this.
             candidates = [x for x in candidates or move_lines 
                           if x.invoice and has_id_match(x.invoice, ref, msg)
-                          and str2date(x.invoice.date_invoice, '%Y-%m-%d') <= trans.execution_date
-                          and (not _cached(x) or _remaining(x))
+                              and str2date(x.invoice.date_invoice, '%Y-%m-%d')
+                                <= (trans.execution_date + payment_window)
+                              and (not _cached(x) or _remaining(x))
                          ]
 
         # Match on amount expected. Limit this kind of search to known
@@ -312,9 +321,10 @@ class banking_import(wizard.interface):
         if not candidates and partner_ids:
             candidates = [x for x in move_lines 
                           if round(abs(x.credit or x.debit), digits) == 
-                             round(abs(trans.transferred_amount), digits) and 
-                             str2date(x.date, '%Y-%m-%d') <= trans.execution_date and
-                             (not _cached(x) or _remaining(x))
+                                round(abs(trans.transferred_amount), digits)
+                              and str2date(x.date, '%Y-%m-%d') <=
+                                (trans.execution_date + payment_window)
+                              and (not _cached(x) or _remaining(x))
                          ]
 
         move_line = False
@@ -325,8 +335,9 @@ class banking_import(wizard.interface):
             # TODO: currency coercing
             best = [x for x in candidates
                     if round(abs(x.credit or x.debit), digits) == 
-                       round(abs(trans.transferred_amount), digits) and
-                       str2date(x.date, '%Y-%m-%d') <= trans.execution_date
+                          round(abs(trans.transferred_amount), digits)
+                        and str2date(x.date, '%Y-%m-%d') <=
+                          (trans.execution_date + payment_window)
                    ]
             if len(best) == 1:
                 # Exact match
@@ -343,8 +354,9 @@ class banking_import(wizard.interface):
                 # transfers first
                 paid = [x for x in move_lines 
                         if x.invoice and has_id_match(x.invoice, ref, msg)
-                        and str2date(x.invoice.date_invoice, '%Y-%m-%d') <= trans.execution_date
-                        and (_cached(x) and not _remaining(x))
+                            and str2date(x.invoice.date_invoice, '%Y-%m-%d')
+                                <= trans.execution_date
+                            and (_cached(x) and not _remaining(x))
                        ]
                 if paid:
                     log.append(
@@ -364,6 +376,14 @@ class banking_import(wizard.interface):
                               'ref': trans.reference,
                               'no_candidates': len(best) or len(candidates)
                           })
+                    log.append('    ' +
+                        _('Candidates: %(candidates)s') % {
+                              'candidates': ', '.join([x.invoice.number
+                                                       for x in best or candidates
+                                                      ])
+                          })
+                    self.__multiple_matches.append((trans, best or
+                                                    candidates))
                 move_line = False
                 partial = False
 
@@ -403,6 +423,15 @@ class banking_import(wizard.interface):
                 x.id for x in bank_account_ids 
                 if x.partner_id.id == move_line.partner_id.id
             ]
+
+            # Re-check the cases with multiple candidates again:
+            # later matches may have removed possible candidates.
+            for trans, candidates in self.__multiple_matches:
+                best = [x for x in candidates if not self._cached(x)]
+                if len(best) == 1:
+                    # Now an exact match can be made
+                    pass
+
             return (
                 self._get_move_info(cursor, uid, move_line, 
                     account_ids and account_ids[0] or False,
@@ -410,6 +439,7 @@ class banking_import(wizard.interface):
                     ),
                 trans2
             )
+
 
         return (False, False)
 
@@ -877,7 +907,7 @@ class banking_import(wizard.interface):
                     i += 1
 
             results.stat_loaded_cnt += 1
-
+            
         if payment_lines:
             # As payments lines are treated as individual transactions, the
             # batch as a whole is only marked as 'done' when all payment lines

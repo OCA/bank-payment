@@ -51,7 +51,7 @@ class Field(object):
     def format(self, value):
         value = str(value)
         if len(value) > self.length:
-            return value[len(value) - self.length:]
+            return value[:self.length]
         return value.ljust(self.length, self.fillchar)
 
     def take(self, buffer):

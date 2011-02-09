@@ -37,6 +37,14 @@ def eleven_test(s):
         r += (l-i) * int(c)
     return (r % 11) == 0
 
+def chunk(str, length):
+    '''
+    Split a string in equal sized substrings of length <length>
+    '''
+    while str:
+        yield str[:length]
+        str = str[length:]
+
 class HeaderRecord(record.Record): #{{{
     '''ClieOp3 header record'''
     _fields = [
@@ -145,7 +153,7 @@ class DescriptionRecord(record.Record):
     '''Description'''
     _fields = [
         record.Filler('recordcode', 4, '0160'),
-        record.Filler('variantcode', 1, 'B'),
+        record.Filler('variantcode', 1, 'A'),
         record.Field('description', 32),
         record.Filler('filler', 13),
     ]
@@ -209,6 +217,17 @@ class Optional(object):
             setattr(newitem, attr, value)
             self._guts.append(newitem)
 
+    def __len__(self):
+        '''Return actual contents'''
+        return len(self._guts)
+
+    def length(self, attr):
+        '''Return length of optional record'''
+        res = [x for x in self._klass._fields if x.name == attr]
+        if res:
+            return res[0].length
+        raise AttributeError(attr)
+
     def __getattr__(self, attr):
         '''Only return if used'''
         if attr[0] == '_':
@@ -246,9 +265,14 @@ class Transaction(object):
         self.transaction.amount = int(amount * 100)
         if reference:
             self.paymentreference.paymentreference = reference
-        for msg in messages:
+        # Allow long message lines to redistribute over multiple message
+        # records
+        for msg in chunk(''.join(messages),
+                         self.description.length('description')
+                        )[:4]:
             self.description.description = msg
         self.name.name = name
+
 
 class DirectDebit(Transaction):
     '''Direct Debit Payment transaction'''
@@ -266,8 +290,8 @@ class DirectDebit(Transaction):
         items = [str(self.transaction)]
         if self.name:
             items.append(str(self.name))
-        for kenmerk in self.paymentreference:
-            items.append(str(kenmerk))
+        for reference in self.paymentreference:
+            items.append(str(reference))
         for description in self.description:
             items.append(str(description))
         return '\r\n'.join(items)
@@ -289,12 +313,12 @@ class Payment(Transaction):
         Return self as writeable file content object
         '''
         items = [str(self.transaction)]
-        for kenmerk in self.paymentreference:
-            items.append(str(kenmerk))
-        if self.name:
-            items.append(str(self.name))
+        for reference in self.paymentreference:
+            items.append(str(reference))
         for description in self.description:
             items.append(str(description))
+        if self.name:
+            items.append(str(self.name))
         return '\r\n'.join(items)
 
 class SalaryPayment(Payment):
