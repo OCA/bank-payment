@@ -268,9 +268,12 @@ class Transaction(object):
         # Allow long message lines to redistribute over multiple message
         # records
         for msg in chunk(''.join(messages),
-                         self.description.length('description')
-                        )[:4]:
-            self.description.description = msg
+                           self.description.length('description')
+                        ):
+            try:
+                self.description.description = msg
+            except ValueError:
+                break
         self.name.name = name
 
 
