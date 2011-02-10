@@ -644,7 +644,7 @@ class payment_line(osv.osv):
             },
         ),
         'communication2': fields.char(
-            'Communication 2', size=64,
+            'Communication 2', size=128,
             help='The successor message of Communication.',
             states={
                 'sent': [('readonly', True)],
