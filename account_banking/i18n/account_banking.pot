@@ -4,15 +4,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Project-Id-Version: OpenERP Server 5.0.15\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-07-16 14:58:26+0000\n"
-"PO-Revision-Date: 2010-07-16 14:58:26+0000\n"
+"POT-Creation-Date: 2011-02-12 13:17:22+0000\n"
+"PO-Revision-Date: 2011-02-12 13:17:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: account_banking
@@ -42,13 +42,12 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
-"                          '%(no_candidates)s candidates found; can't choose."
+"                          '%(no_candidates)s candidates found; can\'t choose."
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:0
-#, python-format
-msgid "Invalid format"
+#: model:ir.model,name:account_banking.model_account_banking_settings
+msgid "Settings for the account_banking module"
 msgstr ""
 
 #. module: account_banking
@@ -130,8 +129,20 @@ msgstr ""
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
+msgid "Free Reference"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
 msgid "The expected balance (%.2f) is different '\n"
 "                      'than the computed one. (%.2f)"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid "Structured Reference"
 msgstr ""
 
 #. module: account_banking
@@ -207,8 +218,9 @@ msgid "_Cancel"
 msgstr ""
 
 #. module: account_banking
-#: selection:payment.line,export_state:0
-msgid "Draft"
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid "Invalid format"
 msgstr ""
 
 #. module: account_banking
@@ -328,6 +340,11 @@ msgid "The Transactions File to import. Please note that while it is perfectly s
 msgstr ""
 
 #. module: account_banking
+#: model:payment.type,name:account_banking.manual_bank_tranfer
+msgid "Manual Bank Transfer"
+msgstr ""
+
+#. module: account_banking
 #: code:addons/account_banking/sepa/bbantoiban.py:0
 #, python-format
 msgid "This is a stub. Please implement your own code"
@@ -418,6 +435,12 @@ msgstr ""
 #. module: account_banking
 #: wizard_button:account_banking.banking_import,init,import:0
 msgid "_Ok"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid "Candidates: %(candidates)s"
 msgstr ""
 
 #. module: account_banking
@@ -515,6 +538,11 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_banking.action_account_banking_imported_files
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_imported_files
 msgid "Imported Bank Statements Files"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.wizard,name:account_banking.wizard_account_banking_payment_manual
+msgid "Manual Bank Payment"
 msgstr ""
 
 #. module: account_banking
@@ -663,6 +691,11 @@ msgstr ""
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
+msgstr ""
+
+#. module: account_banking
+#: selection:payment.line,export_state:0
+msgid "Draft"
 msgstr ""
 
 #. module: account_banking

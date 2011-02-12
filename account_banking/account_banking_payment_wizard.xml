@@ -12,5 +12,11 @@
             model="account_payment.payment.order"
             name="account_banking.payment_manual"
             />
+        <wizard id="account_payment.wizard_populate_payment"
+            menu="False"
+            string="Populate payment"
+            model="payment.order"
+            name="account_payment.populate_payment"
+            />
     </data>
 </openerp>

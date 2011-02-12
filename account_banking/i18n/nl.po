@@ -1,15 +1,16 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_banking
+# 	* account_banking
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.12\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-07-16 14:58:26+0000\n"
+"POT-Creation-Date: 2011-02-12 13:17:22+0000\n"
 "PO-Revision-Date: 2010-07-16 14:58:26+0000\n"
 "Last-Translator: Piueter J. Kersten <p.j.kersten@edusense.nl>\n"
 "Language-Team: Dutch\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,16 +42,19 @@ msgstr "Kies de verwerkings-details:"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
+msgid ""
+"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '\n"
 "                          '%(no_candidates)s candidates found; can\'t choose."
-msgstr "Niet in staat transactie id %(trans)s (ref: %(ref)s) aan factuur te koppelen: '\n"
-"                          '%(no_candidates)s kandidaten gevonden; kan niet kiezen."
+msgstr ""
+"Niet in staat transactie id %(trans)s (ref: %(ref)s) aan factuur te "
+"koppelen: '\n"
+"                          '%(no_candidates)s kandidaten gevonden; kan niet "
+"kiezen."
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:0
-#, python-format
-msgid "Invalid format"
-msgstr "Ongeldig formaat"
+#: model:ir.model,name:account_banking.model_account_banking_settings
+msgid "Settings for the account_banking module"
+msgstr "Instellingen voor de account_banking module"
 
 #. module: account_banking
 #: constraint:ir.actions.act_window:0
@@ -91,8 +95,11 @@ msgstr "Transactiebestand"
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "More than one bank account was found with the same number %(account_no)s"
-msgstr "Meer dan één bankrekening gevonden met hetzelfde rekeningnummer %(account_no)s"
+msgid ""
+"More than one bank account was found with the same number %(account_no)s"
+msgstr ""
+"Meer dan één bankrekening gevonden met hetzelfde rekeningnummer "
+"%(account_no)s"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
@@ -108,8 +115,15 @@ msgstr "Boekingsregel \"%s\" is onjuist."
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
-msgid "The account to use when an unexpected payment is received. This can be needed when a customer pays in advance or when no matching invoice can be found. Mind that you can correct movements before confirming them."
-msgstr "De rekening waarop geboekt moet worden bij onverwachte betalingen. Dit kan nodig zijn als een klant vooruit betaalt of wanneer er geen overeenkomende factuur gevonden kan worden. Merk op dat u altijd boekingen kunt corrigeren voordat u deze bevestigt."
+msgid ""
+"The account to use when an unexpected payment is received. This can be "
+"needed when a customer pays in advance or when no matching invoice can be "
+"found. Mind that you can correct movements before confirming them."
+msgstr ""
+"De rekening waarop geboekt moet worden bij onverwachte betalingen. Dit kan "
+"nodig zijn als een klant vooruit betaalt of wanneer er geen overeenkomende "
+"factuur gevonden kan worden. Merk op dat u altijd boekingen kunt corrigeren "
+"voordat u deze bevestigt."
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
@@ -131,9 +145,22 @@ msgstr "Aantal overgeslagen transacties als gevolg van fouten"
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "The expected balance (%.2f) is different '\n"
+msgid "Free Reference"
+msgstr "Vrije referentie"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid ""
+"The expected balance (%.2f) is different '\n"
 "                      'than the computed one. (%.2f)"
 msgstr "Het verwachte saldo (%.2f) wijkt af van het berekende- (%.2f)."
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid "Structured Reference"
+msgstr "Acceptgiro"
 
 #. module: account_banking
 #: field:account.banking.account.settings,invoice_journal_id:0
@@ -159,14 +186,23 @@ msgstr "Standaardinstellingen voor bankrekeningen"
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_credit_account_id:0
-msgid "The account to use when an unexpected payment was signaled. This can happen when a direct debit payment is cancelled by a customer, or when no matching payment can be found.  Mind that you can correct movements before confirming them."
-msgstr "De te gebruiken rekening bij onverwachte betalingen. Dit kan voorkomen indien een incasso-opdracht door een klant is geannuleerd, of wanneer er geen overeenkomende betaling kan worden gevonden. Merk op dat u altijd boekingen kunt corrigeren voordat u deze bevestigt."
+msgid ""
+"The account to use when an unexpected payment was signaled. This can happen "
+"when a direct debit payment is cancelled by a customer, or when no matching "
+"payment can be found.  Mind that you can correct movements before confirming "
+"them."
+msgstr ""
+"De te gebruiken rekening bij onverwachte betalingen. Dit kan voorkomen "
+"indien een incasso-opdracht door een klant is geannuleerd, of wanneer er "
+"geen overeenkomende betaling kan worden gevonden. Merk op dat u altijd "
+"boekingen kunt corrigeren voordat u deze bevestigt."
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
 msgid "Unable to import parser %(parser)s. Parser class not found."
-msgstr "Niet in staat parser %(parser)s te importeren. Parser class niet gevonden."
+msgstr ""
+"Niet in staat parser %(parser)s te importeren. Parser class niet gevonden."
 
 #. module: account_banking
 #: field:account.banking.imported.file,file:0
@@ -181,9 +217,11 @@ msgstr "Geannuleerd"
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
 #, python-format
-msgid "Insufficient data to select online '\n"
+msgid ""
+"Insufficient data to select online '\n"
 "                                 'conversion database"
-msgstr "Onvoldoende gegevens om on-line'\n"
+msgstr ""
+"Onvoldoende gegevens om on-line'\n"
 "                                 'conversie-database te kiezen"
 
 #. module: account_banking
@@ -209,9 +247,10 @@ msgid "_Cancel"
 msgstr "_Annuleer"
 
 #. module: account_banking
-#: selection:payment.line,export_state:0
-msgid "Draft"
-msgstr "Concept"
+#: code:addons/account_banking/account_banking.py:0
+#, python-format
+msgid "Invalid format"
+msgstr "Ongeldig formaat"
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
@@ -242,9 +281,12 @@ msgstr "Bevestig"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Statements found for account %(bank_account)s, '\n"
+msgid ""
+"Statements found for account %(bank_account)s, '\n"
 "                          'but no default journal was defined."
-msgstr "Afschriften gevonden voor bankrekening %(bank_account)s, maar geen gedefinieerd dagboek gevonden hiervoor."
+msgstr ""
+"Afschriften gevonden voor bankrekening %(bank_account)s, maar geen "
+"gedefinieerd dagboek gevonden hiervoor."
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
@@ -270,7 +312,9 @@ msgstr "Transactie ID bank"
 #. module: account_banking
 #: help:account.banking.account.settings,invoice_journal_id:0
 msgid "This is the journal used to create invoices for bank costs."
-msgstr "Dit is het dagboek dat gebruikt wordt bij het aanmaken van bankkosten-facturen."
+msgstr ""
+"Dit is het dagboek dat gebruikt wordt bij het aanmaken van bankkosten-"
+"facturen."
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
@@ -285,8 +329,13 @@ msgstr "Verzonden"
 
 #. module: account_banking
 #: help:account.banking.account.settings,costs_account_id:0
-msgid "The account to use when the bank invoices its own costs. Leave it blank to disable automatic invoice generation on bank costs."
-msgstr "De te gebruiken grootboekrekening wanneer de bank zijn kosten incasseert. Laat leeg om het automatisch aanmaken van facturen voor bankkosten uit te zetten."
+msgid ""
+"The account to use when the bank invoices its own costs. Leave it blank to "
+"disable automatic invoice generation on bank costs."
+msgstr ""
+"De te gebruiken grootboekrekening wanneer de bank zijn kosten incasseert. "
+"Laat leeg om het automatisch aanmaken van facturen voor bankkosten uit te "
+"zetten."
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -324,12 +373,27 @@ msgstr "Importeer bankafschrift bestand"
 
 #. module: account_banking
 #: help:account_banking.banking_import,init,file:0
-msgid "The Transactions File to import. Please note that while it is perfectly safe to reload the same file multiple times or to load in timeframe overlapping statements files, there are formats that may introduce different sequencing, which may create double entries.\n"
+msgid ""
+"The Transactions File to import. Please note that while it is perfectly safe "
+"to reload the same file multiple times or to load in timeframe overlapping "
+"statements files, there are formats that may introduce different sequencing, "
+"which may create double entries.\n"
 "\n"
-"To stay on the safe side, always load bank statements files using the same format."
-msgstr "Het te importeren transactiebestand. Let alstublieft op: hoewel het zondermeer veilig is om hetzelfde bestand meerdere keren te importeren of om in tijd overlappende bestanden te importeren, zijn er formaten die een ander nummeringsschema introduceren, wat tot problemen kan leiden.\n"
+"To stay on the safe side, always load bank statements files using the same "
+"format."
+msgstr ""
+"Het te importeren transactiebestand. Let alstublieft op: hoewel het "
+"zondermeer veilig is om hetzelfde bestand meerdere keren te importeren of om "
+"in tijd overlappende bestanden te importeren, zijn er formaten die een ander "
+"nummeringsschema introduceren, wat tot problemen kan leiden.\n"
 "\n"
-"Om aan de veilige kant te blijven, importeer altijd transactiebestanden in hetzelfde formaat."
+"Om aan de veilige kant te blijven, importeer altijd transactiebestanden in "
+"hetzelfde formaat."
+
+#. module: account_banking
+#: model:payment.type,name:account_banking.manual_bank_tranfer
+msgid "Manual Bank Transfer"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/sepa/bbantoiban.py:0
@@ -349,7 +413,8 @@ msgstr "Geïmporteerde bankafschriften"
 
 #. module: account_banking
 #: model:ir.module.module,description:account_banking.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "    Module to do banking.\n"
 "\n"
 "    Note: This module is depending on BeautifulSoup.\n"
@@ -365,17 +430,21 @@ msgid "\n"
 "\n"
 "    * Puts focus on the real life messaging with banks:\n"
 "      + Bank statement lines upgraded to independent bank transactions.\n"
-"      + Banking statements have no special accountancy meaning, they're just\n"
+"      + Banking statements have no special accountancy meaning, they're "
+"just\n"
 "        message envelopes for a number of bank transactions.\n"
-"      + Bank statements can be either encoded by hand to reflect the document\n"
-"        version of Bank Statements, or created as an optional side effect of\n"
+"      + Bank statements can be either encoded by hand to reflect the "
+"document\n"
+"        version of Bank Statements, or created as an optional side effect "
+"of\n"
 "        importing Bank Transactions.\n"
 "\n"
 "    * Preparations for SEPA:\n"
 "      + IBAN accounts are the standard in the SEPA countries\n"
 "      + local accounts are derived from SEPA (excluding Turkey) but are\n"
 "        considered to be identical to the corresponding SEPA account.\n"
-"      + Banks are identified with either Country + Bank code + Branch code or BIC\n"
+"      + Banks are identified with either Country + Bank code + Branch code "
+"or BIC\n"
 "      + Each bank can have its own pace in introducing SEPA into their\n"
 "        communication with their customers.\n"
 "      + National online databases can be used to convert BBAN's to IBAN's.\n"
@@ -388,12 +457,14 @@ msgid "\n"
 "\n"
 "    * Extends payments for digital banking:\n"
 "      + Adapted workflow in payments to reflect banking operations\n"
-"      + Relies on account_payment mechanics to extend with export generators.\n"
+"      + Relies on account_payment mechanics to extend with export "
+"generators.\n"
 "      - ClieOp3 (NL) payment and direct debit orders files available as\n"
 "        account_banking_nl_clieop\n"
 "\n"
 "    * Additional features for the import/export mechanism:\n"
-"      + Automatic matching and creation of bank accounts, banks and partners,\n"
+"      + Automatic matching and creation of bank accounts, banks and "
+"partners,\n"
 "        during import of statements.\n"
 "      + Automatic matching with invoices and payments.\n"
 "      + Sound import mechanism, allowing multiple imports of the same\n"
@@ -404,7 +475,8 @@ msgid "\n"
 "      + No special configuration needed for the parsers, new parsers are\n"
 "        recognized and made available at server (re)start.\n"
 "    "
-msgstr "    Module voor bankzaken.\n"
+msgstr ""
+"    Module voor bankzaken.\n"
 "\n"
 "    Waarschuwing: deze module is afhankelijk van BeautifulSoup.\n"
 "\n"
@@ -419,42 +491,53 @@ msgstr "    Module voor bankzaken.\n"
 "    Wijzigingen op standaard OpenERP:\n"
 "\n"
 "    * Legt focus op berichtuitwisseling met banken:\n"
-"      + Bankafschriftregels opgewaardeerd naar onafhankelijke banktransacties.\n"
+"      + Bankafschriftregels opgewaardeerd naar onafhankelijke "
+"banktransacties.\n"
 "      + Bankafschriften hebben geen speciale accountancy-betekenis, ze zijn\n"
 "        slechts enveloppen voor een reeks banktransacties.\n"
-"      + Bankafschriften kunnen hetzij met de hand worden ingevoerd als projectie\n"
+"      + Bankafschriften kunnen hetzij met de hand worden ingevoerd als "
+"projectie\n"
 "        van de papieren versie, of gemaakt worden als neveneffect van het\n"
 "        importeren van banktransacties.\n"
 "\n"
 "    * Voorbereidingen voor SEPA:\n"
 "      + IBAN bankrekeningen zijn de standaard in de SEPA-landen\n"
-"      + lokale bankrekeningen worden afgeleid van SEPA (uitgezonderd Turkije)\n"
-"        maar worden beschouwd als identiek aan de corresponderende IBAN-rekening.\n"
-"      + Banken worden geïdentificeerd met hetzij land + bankcode + branchcode of BIC\n"
+"      + lokale bankrekeningen worden afgeleid van SEPA (uitgezonderd "
+"Turkije)\n"
+"        maar worden beschouwd als identiek aan de corresponderende IBAN-"
+"rekening.\n"
+"      + Banken worden geïdentificeerd met hetzij land + bankcode + "
+"branchcode of BIC\n"
 "      + Elke bank kan in zijn eigen tempo SEPA invoeren in diens \n"
 "        communicatie met de klant.\n"
 "      + Nationale online databases kunnen gebruikt worden om BBAN's naar\n"
 "        IBAN's te converteren.\n"
 "\n"
-"    * Geeft dropin uitbreidbare importvoorzieningen voor bankcommunicatie in:\n"
+"    * Geeft dropin uitbreidbare importvoorzieningen voor bankcommunicatie "
+"in:\n"
 "      + MultiBank (NL) formaat transactiebestanden,\n"
 "\n"
 "    * Breidt betalingen uit voor digitaal bankieren:\n"
 "      + Werkstroom in betalingen aangepast voor bank-operaties\n"
-"      + Bouwt op account_payment mechanieken voor uitbreidingen met export generatoren.\n"
+"      + Bouwt op account_payment mechanieken voor uitbreidingen met export "
+"generatoren.\n"
 "      - ClieOp3 (NL) betalings- en incasso-opdrachten beschikbaar in de\n"
 "        account_banking_nl_clieop module\n"
 "\n"
 "    * Toegevoegde mogelijkheden voor het import/export mechanisme:\n"
-"      + Automatische koppeling en aanmaken van bankrekeningen, banken en relaties\n"
+"      + Automatische koppeling en aanmaken van bankrekeningen, banken en "
+"relaties\n"
 "        tijdens het importeren van transacties.\n"
 "      + Automatisch koppelen met facturen en betalingen.\n"
-"      + Solide importmechanisme dat meerdere imports van dezelfde transacties over\n"
+"      + Solide importmechanisme dat meerdere imports van dezelfde "
+"transacties over\n"
 "        over meerdere bestanden toestaat.\n"
 "      + Dagboek-instellingen per bankrekening.\n"
-"      + Business logica en bestands-parsing strikt gescheiden om de ontwikkeling\n"
+"      + Business logica en bestands-parsing strikt gescheiden om de "
+"ontwikkeling\n"
 "        van nieuwe parsers te vergemakkelijken\n"
-"      + Geen speciale configuratie nodig voor de parsers, nieuwe parsers worden\n"
+"      + Geen speciale configuratie nodig voor de parsers, nieuwe parsers "
+"worden\n"
 "        herkend en beschikbaar gemaakt voor gebuikers bij server(her)start.\n"
 "    "
 
@@ -477,6 +560,12 @@ msgid "_Ok"
 msgstr "_Ok"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:0
+#, python-format
+msgid "Candidates: %(candidates)s"
+msgstr "Kandidaten: %(candidate)s"
+
+#. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
 msgid "More then one possible match found for partner with name %(name)s"
@@ -497,10 +586,12 @@ msgstr "FOUT!"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Unable to link transaction id %(trans)s '\n"
+msgid ""
+"Unable to link transaction id %(trans)s '\n"
 "                          '(ref: %(ref)s) to invoice: '\n"
 "                          'invoice %(invoice)s was already paid"
-msgstr "Niet in staat transactie id %(trans)s '\n"
+msgstr ""
+"Niet in staat transactie id %(trans)s '\n"
 "                          '(ref: %(ref)s) met factuur te koppelen: '\n"
 "                          'factuur %(invoice)s was al betaald"
 
@@ -566,7 +657,9 @@ msgstr "Dit is een stub. Maak alstublieft uw eigen versie."
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
 msgid "No suitable period found for date %(date)s and company %(company_name)s"
-msgstr "Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf %(company_name)s"
+msgstr ""
+"Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf "
+"%(company_name)s"
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
@@ -574,6 +667,11 @@ msgstr "Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf %(company
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_imported_files
 msgid "Imported Bank Statements Files"
 msgstr "Geïmporteerde bankafschrift bestanden"
+
+#. module: account_banking
+#: model:ir.actions.wizard,name:account_banking.wizard_account_banking_payment_manual
+msgid "Manual Bank Payment"
+msgstr "Handmatige betaling via bank"
 
 #. module: account_banking
 #: field:account.bank.statement,banking_id:0
@@ -589,8 +687,11 @@ msgstr "Import log"
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "Multiple overlapping periods for date %(date)s and company %(company_name)s"
-msgstr "Meerdere overlappende periodes gevonden voor datum %(date)s en bedrijf %(company_name)s"
+msgid ""
+"Multiple overlapping periods for date %(date)s and company %(company_name)s"
+msgstr ""
+"Meerdere overlappende periodes gevonden voor datum %(date)s en bedrijf "
+"%(company_name)s"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
@@ -630,8 +731,11 @@ msgstr "Niet in staat boeking af te letteren \"%s\": %.2f"
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "No suitable fiscal year found for date %(date)s and company %(company_name)s"
-msgstr "Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf %(company_name)s"
+msgid ""
+"No suitable fiscal year found for date %(date)s and company %(company_name)s"
+msgstr ""
+"Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf "
+"%(company_name)s"
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
@@ -666,8 +770,10 @@ msgstr "Het saldo van het afschrift klopt niet !"
 
 #. module: account_banking
 #: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr "De objectnaam moet beginnen met x_ en mag geen speciale karakters bevatten !"
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"De objectnaam moet beginnen met x_ en mag geen speciale karakters bevatten !"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
@@ -705,8 +811,12 @@ msgstr "Bestandsformaat"
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:0
 #, python-format
-msgid "Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s"
-msgstr "Meerdere overlappende boekjaren gevonden voor datum %(date)s en bedrijf %(company_name)s"
+msgid ""
+"Multiple overlapping fiscal years found for date %(date)s and company "
+"%(company_name)s"
+msgstr ""
+"Meerdere overlappende boekjaren gevonden voor datum %(date)s en bedrijf "
+"%(company_name)s"
 
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
@@ -722,6 +832,11 @@ msgstr "Bankkosten-rekening"
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
 msgstr "Gereed"
+
+#. module: account_banking
+#: selection:payment.line,export_state:0
+msgid "Draft"
+msgstr "Concept"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -759,8 +874,12 @@ msgstr "Aantal transacties herkend"
 
 #. module: account_banking
 #: help:account.banking.account.settings,bank_partner_id:0
-msgid "The partner to use for bank costs. Banks are not partners by default. You will most likely have to create one."
-msgstr "De relatie om te gebruiken voor bankkosten. Banken zijn standaard geen relatie. U zult hoogstwaarschijnlijk één moeten aanmaken."
+msgid ""
+"The partner to use for bank costs. Banks are not partners by default. You "
+"will most likely have to create one."
+msgstr ""
+"De relatie om te gebruiken voor bankkosten. Banken zijn standaard geen "
+"relatie. U zult hoogstwaarschijnlijk één moeten aanmaken."
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:0
@@ -776,8 +895,11 @@ msgstr "Geïmporteerd bankafschrift bestand"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:0
 #, python-format
-msgid "Statement %(statement_id)s for account %(bank_account)s' \n"
-"                      ' uses different currency than the defined bank journal."
-msgstr "Bankafschrift %(statement_id)s voor bankrekening %(bank_account)s' \n"
-"                      ' gebruikt een andere valuta dan in het opgegeven bankdagboek."
-
+msgid ""
+"Statement %(statement_id)s for account %(bank_account)s' \n"
+"                      ' uses different currency than the defined bank "
+"journal."
+msgstr ""
+"Bankafschrift %(statement_id)s voor bankrekening %(bank_account)s' \n"
+"                      ' gebruikt een andere valuta dan in het opgegeven "
+"bankdagboek."

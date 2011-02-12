@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Project-Id-Version: OpenERP Server 5.0.15\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-01-08 15:36:23+0000\n"
-"PO-Revision-Date: 2010-01-08 15:36:23+0000\n"
+"POT-Creation-Date: 2011-02-12 13:29:33+0000\n"
+"PO-Revision-Date: 2011-02-12 13:29:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,16 @@ msgid "Direct Debits"
 msgstr ""
 
 #. module: account_banking_nl_clieop
+#: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
+#, python-format
+msgid "There is insufficient information.\r\n'\n"
+"                          'Both destination address and account '\n"
+"                          'number must be provided"
+msgstr ""
+
+#. module: account_banking_nl_clieop
 #: selection:account_banking_nl_clieop.banking_export_clieop,create,testcode:0
-#: code:addons/account_banking_nl_clieop/account_banking_clieop.py:0
+#: code:addons/account_banking_nl_clieop/account_banking_nl_clieop.py:0
 #: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
 #: selection:banking.export.clieop,testcode:0
 #, python-format
@@ -145,6 +153,12 @@ msgid "Reconciled"
 msgstr ""
 
 #. module: account_banking_nl_clieop
+#: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
+#, python-format
+msgid "Your bank account has to have a valid account number"
+msgstr ""
+
+#. module: account_banking_nl_clieop
 #: wizard_view:account_banking_nl_clieop.banking_export_clieop,init:0
 msgid "Reference for further communication"
 msgstr ""
@@ -194,7 +208,14 @@ msgstr ""
 #. module: account_banking_nl_clieop
 #: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
 #, python-format
-msgid "You can\'t create ClieOp orders more than 30 days in advance."
+msgid "You cannot send international bank transfers '\n"
+"                              'through ClieOp3!"
+msgstr ""
+
+#. module: account_banking_nl_clieop
+#: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
+#, python-format
+msgid "You cant create ClieOp orders more than 30 days in advance."
 msgstr ""
 
 #. module: account_banking_nl_clieop
@@ -315,7 +336,7 @@ msgstr ""
 
 #. module: account_banking_nl_clieop
 #: selection:account_banking_nl_clieop.banking_export_clieop,create,testcode:0
-#: code:addons/account_banking_nl_clieop/account_banking_clieop.py:0
+#: code:addons/account_banking_nl_clieop/account_banking_nl_clieop.py:0
 #: code:addons/account_banking_nl_clieop/wizard/export_clieop.py:0
 #: selection:banking.export.clieop,testcode:0
 #, python-format

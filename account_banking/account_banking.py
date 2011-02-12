@@ -632,7 +632,7 @@ class payment_line(osv.osv):
             },
         ),
         'communication': fields.char(
-            'Communication', size=64, required=True, 
+            'Communication', size=64, required=False, 
             help=("Used as the message between ordering customer and current "
                   "company. Depicts 'What do you want to say to the recipient"
                   " about this order ?'"
@@ -737,6 +737,20 @@ class payment_line(osv.osv):
         'date_done': lambda *a: False,
         'msg': lambda *a: '',
     }
+
+    def fields_get(self, cr, uid, fields=None, context=None):
+        res = super(payment_line, self).fields_get(cr, uid, fields, context)
+        if 'communication' in res:
+            res['communication'].setdefault('states', {})
+            res['communication']['states']['structured'] = [('required', True)]
+        if 'communication2' in res:
+            res['communication2'].setdefault('states', {})
+            res['communication2']['states']['structured'] = [('readonly', True)]
+            res['communication2']['states']['normal'] = [('readonly', False)]
+
+        return res
+
+
 payment_line()
 
 class payment_order(osv.osv):
@@ -1253,5 +1267,21 @@ class res_bank(osv.osv):
         }
 
 res_bank()
+
+class invoice(osv.osv):
+    _inherit = 'account.invoice'
+
+    def _get_reference_type(self, cr, uid, context=None):
+        return [('none', _('Free Reference')),
+                ('structured', _('Structured Reference')),
+               ]
+
+    _columns = {
+        'reference_type': fields.selection(_get_reference_type,
+                                           'Reference Type', required=True
+                                          )
+    }
+
+invoice()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -297,6 +297,15 @@ class wizard_banking_export_clieop(wizard.interface):
                 )
 
             for line in payment_order.line_ids:
+                # Check on missing partner of bank account (this can happen!)
+                if not line.bank_id or not line.bank_id.partner_id:
+                    raise wizard.except_wizard(
+                        _('Error'),
+                        _('There is insufficient information.\r\n'
+                          'Both destination address and account '
+                          'number must be provided'
+                         )
+                    )
                 kwargs = dict(
                     name = line.bank_id.owner_name or line.bank_id.partner_id.name,
                     amount = line.amount_currency,
