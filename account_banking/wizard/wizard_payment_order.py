@@ -27,7 +27,7 @@ import pooler
 from tools.misc import UpdateableStr
 from tools.translate import _
 from account_banking.struct import struct
-from account_banking.parsers.convert import str2date, date2str
+from account_banking.parsers import convert
 
 __doc__ = '''
 This module is a slightly modified version of the identical named payment
@@ -42,6 +42,10 @@ been from the start.
 '''
 
 today = datetime.date.today
+
+def str2date(str):
+    dt = convert.str2date(str, '%Y-%m-%d')
+    return datetime.date(dt.year, dt.month, dt.day)
 
 class wizard_payment_order(wizard.interface):
     '''
@@ -67,7 +71,7 @@ class wizard_payment_order(wizard.interface):
             'string': 'Due Date',
             'type': 'date',
             'required': True,
-            'default': lambda *a: date2str(today()),
+            'default': lambda *a: convert.date2str(today()),
         },
     }
     arch_duedate='''<?xml version="1.0"?>
@@ -145,12 +149,12 @@ class wizard_payment_order(wizard.interface):
                 date_to_pay = False
             elif payment.date_prefered == 'due':
                 date_to_pay = line.date_maturity and \
-                              line.date_maturity > _today and \
-                              line.date_maturity or False
+                           str2date(line.date_maturity) > _today\
+                           and line.date_maturity or False
             elif payment.date_prefered == 'fixed':
                 date_to_pay = payment.date_planned and \
-                              payment.date_planned > _today and \
-                              payment.date_planned or False
+                           str2date(payment.date_planned) > _today\
+                           and payment.date_planned or False
             values = struct(
                 move_line_id = line.id,
                 amount_currency = line.amount_to_pay,
