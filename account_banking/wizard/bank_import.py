@@ -427,7 +427,7 @@ class banking_import(wizard.interface):
             # Re-check the cases with multiple candidates again:
             # later matches may have removed possible candidates.
             for trans, candidates in self.__multiple_matches:
-                best = [x for x in candidates if not self._cached(x)]
+                best = [x for x in candidates if not _cached(x)]
                 if len(best) == 1:
                     # Now an exact match can be made
                     pass
