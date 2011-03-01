@@ -19,7 +19,9 @@
 #
 ##############################################################################
 
-__all__ = ['str2date', 'date2str', 'date2date']
+import unicodedata
+
+__all__ = ['str2date', 'date2str', 'date2date', 'to_swift']
 
 try:
     from datetime import datetime
@@ -41,5 +43,18 @@ def date2date(datestr, fromfmt='%d/%m/%y', tofmt='%Y-%m-%d'):
     format
     '''
     return date2str(str2date(datestr, fromfmt), tofmt)
+
+_SWIFT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-?:().,'+ "
+
+def to_swift(astr):
+    '''
+    Reduce a string to SWIFT format
+    '''
+    if not isinstance(astr, unicode):
+        astr = unicode(astr, 'utf-8')
+    s = [x in _SWIFT and x or ' '
+         for x in unicodedata.normalize('NFKD', astr).encode('ascii', 'ignore')
+        ]
+    return ''.join(s)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

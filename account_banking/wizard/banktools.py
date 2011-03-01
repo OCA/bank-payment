@@ -26,6 +26,7 @@ from tools.translate import _
 from account_banking.parsers import convert
 from account_banking import sepa
 from account_banking.struct import struct
+import unicodedata
 
 __all__ = [
     'get_period', 

@@ -399,6 +399,12 @@ class banking_import(wizard.interface):
                 found = round(trans.transferred_amount, digits)
                 if abs(expected) == abs(found):
                     partial = False
+                    # Last partial payment will not flag invoice paid without
+                    # manual assistence
+                    invoice_obj = self.pool.get('account.invoice')
+                    invoice_obj.write(cursor, uid, [invoice.id], {
+                        'state': 'paid'
+                    })
                 elif abs(expected) > abs(found):
                     # Partial payment, reuse invoice
                     _cache(move_line, expected - found)
@@ -423,14 +429,6 @@ class banking_import(wizard.interface):
                 x.id for x in bank_account_ids 
                 if x.partner_id.id == move_line.partner_id.id
             ]
-
-            # Re-check the cases with multiple candidates again:
-            # later matches may have removed possible candidates.
-            for trans, candidates in self.__multiple_matches:
-                best = [x for x in candidates if not _cached(x)]
-                if len(best) == 1:
-                    # Now an exact match can be made
-                    pass
 
             return (
                 self._get_move_info(cursor, uid, move_line, 
@@ -864,12 +862,12 @@ class banking_import(wizard.interface):
                     if transaction.transferred_amount < 0:
                         if len(partner_banks) == 1:
                             account_id = partner_banks[0].partner_id.property_account_payable
-                        if len(partner_banks) != 1 or account_id.id == def_pay_account_id:
+                        if len(partner_banks) != 1 or not account_id or account_id.id == def_pay_account_id:
                             account_id = account_info.default_credit_account_id
                     else:
                         if len(partner_banks) == 1:
                             account_id = partner_banks[0].partner_id.property_account_receivable
-                        if len(partner_banks) != 1 or account_id.id == def_rec_account_id:
+                        if len(partner_banks) != 1 or not account_id or account_id.id == def_rec_account_id:
                             account_id = account_info.default_debit_account_id
                 else:
                     account_id = move_info.move_line.account_id

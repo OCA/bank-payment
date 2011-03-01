@@ -37,9 +37,13 @@ Assumptions:
     2. new transactions are appended after previously known transactions of
        the same date
     3. banks maintain order in transaction lists within a single date
+    4. the data comes from the SWIFT-network (limited ASCII)
+
+Assumption 4 seems not always true, leading to wrong character conversions.
+As a counter measure, all imported data is converted to SWIFT-format before usage.
 '''
 from account_banking.parsers import models
-from account_banking.parsers.convert import str2date
+from account_banking.parsers.convert import str2date, to_swift
 from tools.translate import _
 import csv
 
@@ -58,6 +62,15 @@ class transaction_message(object):
     ]
 
     ids = {}
+
+    def __setattribute__(self, attr, value):
+        if attr != 'attrnames' and attr in self.attrnames:
+            value = to_swift(value)
+        super(transaction_message, self).__setattribute__(attr, val)
+
+    def __getattribute__(self, attr):
+        retval = super(transaction_message, self).__getattribute__(attr)
+        return attr != 'attrnames' and attr in self.attrnames and to_swift(retval) or retval
 
     def genid(self):
         '''
