@@ -30,10 +30,10 @@ __all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
 
 class StringField(record.Field):
     def take(self, buffer):
-        return convert.to_swift(super(Field, self).take(buffer))
+        return convert.to_swift(super(StringField, self).take(buffer))
     
     def format(self, value):
-        return convert.to_swift(super(Field, self).format(value))
+        return convert.to_swift(super(StringField, self).format(value))
 
 def eleven_test(s):
     '''
