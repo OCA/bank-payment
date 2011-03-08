@@ -25,7 +25,7 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.50',
+    'version': '0.51',
     'license': 'GPL-3',
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',

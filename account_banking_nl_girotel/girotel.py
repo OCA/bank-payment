@@ -60,17 +60,27 @@ class transaction_message(object):
         'remote_account', 'remote_owner', 'u2', 'transferred_amount',
         'direction', 'u3', 'message', 'remote_currency',
     ]
+    # Attributes with possible non-ASCII string content
+    strattrs = [
+        'remote_owner', 'message'
+    ]
 
     ids = {}
 
     def __setattribute__(self, attr, value):
-        if attr != 'attrnames' and attr in self.attrnames:
+        '''
+        Convert values for string content to SWIFT-allowable content
+        '''
+        if attr != 'attrnames' and attr in self.strattrs:
             value = to_swift(value)
-        super(transaction_message, self).__setattribute__(attr, val)
+        super(transaction_message, self).__setattribute__(attr, value)
 
     def __getattribute__(self, attr):
+        '''
+        Convert values from string content to SWIFT-allowable content
+        '''
         retval = super(transaction_message, self).__getattribute__(attr)
-        return attr != 'attrnames' and attr in self.attrnames and to_swift(retval) or retval
+        return attr != 'attrnames' and attr in self.strattrs and to_swift(retval) or retval
 
     def genid(self):
         '''
