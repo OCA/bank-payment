@@ -71,7 +71,7 @@ class transaction_message(object):
         '''
         Convert values for string content to SWIFT-allowable content
         '''
-        if attr != 'attrnames' and attr in self.strattrs:
+        if attr != 'strattrs' and attr in self.strattrs:
             value = to_swift(value)
         super(transaction_message, self).__setattribute__(attr, value)
 
@@ -80,7 +80,7 @@ class transaction_message(object):
         Convert values from string content to SWIFT-allowable content
         '''
         retval = super(transaction_message, self).__getattribute__(attr)
-        return attr != 'attrnames' and attr in self.strattrs and to_swift(retval) or retval
+        return attr != 'strattrs' and attr in self.strattrs and to_swift(retval) or retval
 
     def genid(self):
         '''
