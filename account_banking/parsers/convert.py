@@ -46,12 +46,20 @@ def date2date(datestr, fromfmt='%d/%m/%y', tofmt='%Y-%m-%d'):
 
 _SWIFT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-?:().,'+ "
 
-def to_swift(astr):
+def to_swift(astr, schemes=['utf-8', 'latin-1', 'ascii']):
     '''
     Reduce a string to SWIFT format
     '''
     if not isinstance(astr, unicode):
-        astr = unicode(astr, 'utf-8')
+        for scheme in schemes:
+            try:
+                astr = unicode(astr, scheme)
+                break
+            except UnicodeDecodeError:
+                pass
+        if not isinstance(astr, unicode):
+            return astr
+
     s = [x in _SWIFT and x or ' '
          for x in unicodedata.normalize('NFKD', astr).encode('ascii', 'ignore')
         ]

@@ -25,7 +25,7 @@
 ##############################################################################
 {
     'name': 'Account Banking - Girotel',
-    'version': '0.52',
+    'version': '0.53',
     'license': 'GPL-3',
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',
