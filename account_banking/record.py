@@ -95,7 +95,7 @@ class DateField(Field):
     def take(self, buffer):
         value = super(DateField, self).take(buffer)
         if value:
-            return self.cast(strpdate(value, self.dateformat))
+            return strpdate(value, self.dateformat)
         return self.auto and date.today() or None
 
 class RightAlignedField(Field):
