@@ -28,12 +28,20 @@ __all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
            'OrdersFile',
           ]
 
-class StringField(record.Field):
-    def take(self, buffer):
-        return convert.to_swift(super(StringField, self).take(buffer))
+class SWIFTField(record.Field):
+    '''
+    A SWIFTField does not assume 'ascii' data. It actively converts data to
+    SWIFT-specs.
+    '''
+    def __init__(self, *args, **kwargs):
+        kwargs['cast'] = convert.to_swift
+        super(SWIFTField, self).__init__(*args, **kwargs)
+
+    #def take(self, buffer):
+    #    return convert.to_swift(super(SWIFTField, self).take(buffer))
     
-    def format(self, value):
-        return convert.to_swift(super(StringField, self).format(value))
+    #def format(self, value):
+    #    return convert.to_swift(super(SWIFTField, self).format(value))
 
 def eleven_test(s):
     '''
@@ -60,7 +68,7 @@ class HeaderRecord(record.Record): #{{{
         record.Filler('variantcode', 1, 'A'),
         record.DateField('creation_date', '%d%m%y', auto=True),
         record.Filler('filename', 8, 'CLIEOP03'),
-        StringField('sender_id', 5),
+        SWIFTField('sender_id', 5),
         record.Field('file_id', 4),
         record.Field('duplicatecode', 1),
         record.Filler('filler', 21),
@@ -90,7 +98,7 @@ class BatchHeaderRecord(record.Record):
         record.NumberField('accountno_sender', 10),
         record.NumberField('batch_tracer', 4),
         record.Filler('currency_order', 3, 'EUR'),
-        StringField('batch_id', 16),
+        SWIFTField('batch_id', 16),
         record.Filler('filler', 10),
     ]
 
@@ -110,7 +118,7 @@ class FixedMessageRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0020'),
         record.Filler('variantcode', 1, 'A'),
-        StringField('fixed_message', 32),
+        SWIFTField('fixed_message', 32),
         record.Filler('filler', 13),
     ]
 
@@ -122,7 +130,7 @@ class SenderRecord(record.Record):
         # NAW = Name, Address, Residence
         record.Field('NAWcode', 1),
         record.DateField('preferred_execution_date', '%d%m%y', auto=True),
-        StringField('name_sender', 35),
+        SWIFTField('name_sender', 35),
         record.Field('testcode', 1),
         record.Filler('filler', 2),
     ]
@@ -144,7 +152,7 @@ class NamePayerRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0110'),
         record.Filler('variantcode', 1, 'B'),
-        StringField('name', 35),
+        SWIFTField('name', 35),
         record.Filler('filler', 10),
     ]
 
@@ -153,7 +161,7 @@ class PaymentReferenceRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0150'),
         record.Filler('variantcode', 1, 'A'),
-        StringField('paymentreference', 16),
+        SWIFTField('paymentreference', 16),
         record.Filler('filler', 29),
     ]
 
@@ -162,7 +170,7 @@ class DescriptionRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0160'),
         record.Filler('variantcode', 1, 'A'),
-        StringField('description', 32),
+        SWIFTField('description', 32),
         record.Filler('filler', 13),
     ]
 
@@ -171,7 +179,7 @@ class NameBeneficiaryRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0170'),
         record.Filler('variantcode', 1, 'B'),
-        StringField('name', 35),
+        SWIFTField('name', 35),
         record.Filler('filler', 10),
     ]
 
@@ -179,7 +187,7 @@ class OrderRecord(record.Record):
     '''Order details'''
     _fields = [
         record.Filler('recordcode', 6, 'KAE092'),
-        StringField('name_transactioncode', 18),
+        SWIFTField('name_transactioncode', 18),
         record.NumberField('total_amount', 13),
         record.Field('accountno_sender', 10),
         record.NumberField('total_accountnos', 5),

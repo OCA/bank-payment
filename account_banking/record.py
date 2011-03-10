@@ -43,20 +43,21 @@ import unicodedata
 
 class Field(object):
     '''Base Field class - fixed length left aligned string field in a record'''
-    def __init__(self, name, length=1, fillchar=' '):
+    def __init__(self, name, length=1, fillchar=' ', cast=str):
         self.name = name.replace(' ', '_')
         self.length = length
         self.fillchar = fillchar
+        self.cast = cast
 
     def format(self, value):
-        value = str(value)
+        value = self.cast(value)
         if len(value) > self.length:
             return value[:self.length]
         return value.ljust(self.length, self.fillchar)
 
     def take(self, buffer):
         offset = hasattr(self, 'offset') and self.offset or 0
-        return buffer[offset:offset + self.length].rstrip(self.fillchar)
+        return self.cast(buffer[offset:offset + self.length].rstrip(self.fillchar))
 
     def __repr__(self):
         return '%s "%s"' % (self.__class__.__name__, self.name)
@@ -64,7 +65,7 @@ class Field(object):
 class Filler(Field):
     '''Constant value field'''
     def __init__(self, name, length=1, value=' '):
-        super(Filler, self).__init__(name, length)
+        super(Filler, self).__init__(name, length, cast=str)
         self.value = str(value)
 
     def take(self, buffer):
@@ -77,9 +78,9 @@ class Filler(Field):
 
 class DateField(Field):
     '''Variable date field'''
-    def __init__(self, name, format='%Y-%m-%d', auto=False):
+    def __init__(self, name, format='%Y-%m-%d', auto=False, cast=str):
         length = len(date.today().strftime(format))
-        super(DateField, self).__init__(name, length)
+        super(DateField, self).__init__(name, length, cast=cast)
         self.dateformat = format
         self.auto = auto
 
@@ -94,7 +95,7 @@ class DateField(Field):
     def take(self, buffer):
         value = super(DateField, self).take(buffer)
         if value:
-            return strpdate(value, self.dateformat)
+            return self.cast(strpdate(value, self.dateformat))
         return self.auto and date.today() or None
 
 class RightAlignedField(Field):
@@ -106,7 +107,7 @@ class RightAlignedField(Field):
 
     def take(self, buffer):
         offset = hasattr(self, 'offset') and self.offset or 0
-        return buffer[offset:offset + self.length].lstrip(self.fillchar)
+        return self.cast(buffer[offset:offset + self.length].lstrip(self.fillchar))
 
 class NumberField(RightAlignedField):
     '''Deviation of Field: left zero filled'''
@@ -115,7 +116,7 @@ class NumberField(RightAlignedField):
         super(NumberField, self).__init__(*args, **kwargs)
 
     def format(self, value):
-        return super(NumberField, self).format(value and str(value) or '')
+        return super(NumberField, self).format(self.cast(value or ''))
 
 class RecordType(object):
     fields = []
@@ -186,7 +187,7 @@ class Record(object):
         return self._recordtype.format(self._value)
 
     def __unicode__(self):
-        return unicode(str(self))
+        return unicode(self.cast(self))
 
 def asciify(str):
     return unicodedata.normalize('NFKD', str).encode('ascii', 'ignore')
