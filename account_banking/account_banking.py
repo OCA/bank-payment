@@ -195,6 +195,22 @@ class account_bank_statement(osv.osv):
     '''
     _inherit = 'account.bank.statement'
     _order = 'id'
+    _abf_others = []
+    _abf_others_loaded = False
+
+    def __init__(self, *args, **kwargs):
+        '''
+        See where we stand in the order of things
+        '''
+        super(account_bank_statement, self).__init__(*args, **kwargs)
+        if not self._abf_others_loaded:
+            self._abf_others_loaded = True
+            self._abf_others = [x for x in self.__class__.__mro__
+                                   if x.__module__.split('.')[0] not in [
+                                       'osv', 'account', 'account_banking',
+                                       '__builtin__'
+                                   ]
+                               ]
 
     #def _currency(self, cursor, user, ids, name, args, context=None):
     #    '''
@@ -249,6 +265,27 @@ class account_bank_statement(osv.osv):
     #    return None
 
     def button_confirm(self, cursor, uid, ids, context=None):
+        '''
+        Trigger function for button 'Confirm'
+        As this function completely replaces the old one in account, other
+        modules who wish to alter behavior of this function but want to
+        cooperate with account_banking, should move their functionality to 
+
+            on_button_confirm(self, cursor, uid, ids, context=None)
+
+        and drop any calls to super() herein.
+        In order to allow usage with and without account_banking, one could
+        use 
+
+            def on_button_confirm(...):
+                # Your code here
+
+            def button_confirm(...):
+                super(my_class, self).button_confirm(...)
+                self.on_button_confirm(...)
+
+        This way, code duplication is minimized.
+        '''
         # This is largely a copy of the original code in account
         # As there is no valid inheritance mechanism for large actions, this
         # is the only option to add functionality to existing actions.
@@ -290,9 +327,11 @@ class account_bank_statement(osv.osv):
 
             for move in st.line_ids:
                 context.update({'date':move.date})
+                # Essence of the change is here...
                 period_id = self._get_period(cursor, uid, move.date, context=context)
                 move_id = account_move_obj.create(cursor, uid, {
                     'journal_id': st.journal_id.id,
+                    # .. and here
                     'period_id': period_id,
                     'date': move.date,
                 }, context=context)
@@ -334,16 +373,18 @@ class account_bank_statement(osv.osv):
                 amount = res_currency_obj.compute(cursor, uid, st.currency.id,
                         company_currency_id, move.amount, context=context,
                         account=acc_cur)
-
-                if move.account_id and move.account_id.currency_id:
-                    val['currency_id'] = move.account_id.currency_id.id
-                    if company_currency_id == move.account_id.currency_id.id:
-                        amount_cur = move.amount
-                    else:
-                        amount_cur = res_currency_obj.compute(cursor, uid, company_currency_id,
-                                move.account_id.currency_id.id, amount, context=context,
+                if st.currency.id != company_currency_id:
+                    amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
+                                st.currency.id, amount, context=context,
                                 account=acc_cur)
-                    val['amount_currency'] = amount_cur
+                    val['amount_currency'] = -amount_cur
+
+                if move.account_id and move.account_id.currency_id and move.account_id.currency_id.id != company_currency_id:
+                    val['currency_id'] = move.account_id.currency_id.id
+                    amount_cur = res_currency_obj.compute(cursor, uid, company_currency_id,
+                            move.account_id.currency_id.id, amount, context=context,
+                            account=acc_cur)
+                    val['amount_currency'] = -amount_cur
 
                 torec.append(account_move_line_obj.create(cursor, uid, val , context=context))
 
@@ -398,6 +439,13 @@ class account_bank_statement(osv.osv):
                         )
 
                 if move.reconcile_id and move.reconcile_id.line_ids:
+                    ## Search if move has already a partial reconciliation
+                    previous_partial = False
+                    for line_reconcile_move in move.reconcile_id.line_ids:
+                        if line_reconcile_move.reconcile_partial_id:
+                            previous_partial = True
+                            break
+                    ##
                     torec += map(lambda x: x.id, move.reconcile_id.line_ids)
                     #try:
                     if abs(move.reconcile_amount-move.amount)<0.0001:
@@ -407,29 +455,36 @@ class account_bank_statement(osv.osv):
                         for entry in move.reconcile_id.line_new_ids:
                             writeoff_acc_id = entry.account_id.id
                             break
-
-                        account_move_line_obj.reconcile(
-                            cursor, uid, torec, 'statement',
-                            writeoff_acc_id=writeoff_acc_id,
-                            writeoff_period_id=st.period_id.id,
-                            writeoff_journal_id=st.journal_id.id,
-                            context=context
-                        )
+                        ## If we have already a partial reconciliation
+                        ## We need to make a partial reconciliation
+                        ## To add this amount to previous paid amount
+                        if previous_partial:
+                            account_move_line_obj.reconcile_partial(cr, uid, torec, 'statement', context)
+                        ## If it's the first reconciliation, we do a full reconciliation as regular
+                        else:
+                            account_move_line_obj.reconcile(
+                                cursor, uid, torec, 'statement',
+                                writeoff_acc_id=writeoff_acc_id,
+                                writeoff_period_id=st.period_id.id,
+                                writeoff_journal_id=st.journal_id.id,
+                                context=context
+                            )
                     else:
                         account_move_line_obj.reconcile_partial(
                             cursor, uid, torec, 'statement', context
                         )
-                    #except:
-                    #    raise osv.except_osv(
-                    #        _('Error !'),
-                    #        _('Unable to reconcile entry "%s": %.2f') %
-                    #        (move.name, move.amount)
-                    #    )
 
                 if st.journal_id.entry_posted:
                     account_move_obj.write(cursor, uid, [move_id], {'state':'posted'})
             done.append(st.id)
         self.write(cursor, uid, done, {'state':'confirm'}, context=context)
+
+        # Be nice to other modules as well, relay button_confirm calls to
+        # on_button_confirm calls.
+        for other in self._abf_others:
+            if hasattr(other, 'on_button_confirm'):
+                other.on_button_confirm(self, cursor, uid, ids, context=context)
+
         return True
 
 account_bank_statement()
@@ -1269,9 +1324,25 @@ class res_bank(osv.osv):
 res_bank()
 
 class invoice(osv.osv):
+    '''
+    Create other reference types as well.
+
+    Descendant classes can extend this function to add more reference
+    types, ie.
+
+    def _get_reference_type(self, cr, uid, context=None):
+        return super(my_class, self)._get_reference_type(cr, uid,
+            context=context) + [('my_ref', _('My reference')]
+
+    Don't forget to redefine the column "reference_type" as below or
+    your method will never be triggered.
+    '''
     _inherit = 'account.invoice'
 
     def _get_reference_type(self, cr, uid, context=None):
+        '''
+        Return the list of reference types
+        '''
         return [('none', _('Free Reference')),
                 ('structured', _('Structured Reference')),
                ]
