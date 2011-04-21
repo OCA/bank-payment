@@ -192,6 +192,11 @@ class transaction(models.mem_bank_transaction):
         Parse the message as sent by the bank. Most messages are composed
         of chunks of 32 characters, but there are exceptions.
         '''
+        if self.transfer_type == 'VZ':
+            # Credit bank costs (interest) gets a special treatment.
+            if self.remote_owner.starswith('RC AFREK.  REK. '):
+                self.transfer_type = 'DV'
+
         if self.transfer_type == 'DV':
             # Bank costs.
             # Title of action is in remote_owner, message contains additional
