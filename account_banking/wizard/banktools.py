@@ -147,27 +147,30 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
             filter.append(('zip', 'ilike', postal_code))
         address_ids = address_obj.search(cursor, uid, filter)
         key = name.lower()
-
-        partner_ids = [x.partner_id.id
+        partner_ids = list(set([x.partner_id.id
                        for x in address_obj.browse(cursor, uid, address_ids)
                        # Beware for dangling addresses
                        if _has_attr(x.partner_id, 'name') and
                           x.partner_id.name.lower() in key
-                      ]
+                      ]))
     if not partner_ids:
         if (not country_code) or not country_id:
-            country_id = pool.get('res.user').browse(cursor, uid, uid)\
-                    .company_id.partner_id.country.id
-        partner_id = partner_obj.create(cursor, uid, dict(
-            name=name, active=True, comment='Generated from Bank Statements Import',
-            address=[(0,0,{
-                'street': address and address[0] or '',
-                'street2': len(address) > 1 and address[1] or '',
-                'city': city,
-                'zip': postal_code or '',
-                'country_id': country_id,
-            })],
-        ))
+            user = pool.get('res.user').browse(cursor, uid, uid)
+            country_id = (user.company_id and user.company_id.partner_id and
+                          user.company_id.partner_id.country and
+                          user.company_id.partner_id.country.id or False)
+        partner_id = partner_obj.create(
+            cursor, uid, dict(
+                name=name, active=True,
+                comment='Generated from Bank Statements Import',
+                address=[(0,0,{
+                            'street': address and address[0] or '',
+                            'street2': len(address) > 1 and address[1] or '',
+                            'city': city,
+                            'zip': postal_code or '',
+                            'country_id': country_id,
+                            })],)
+            )
     elif len(partner_ids) > 1:
         log.append(
             _('More then one possible match found for partner with name %(name)s')
@@ -209,12 +212,12 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
     # Find matching journal for currency
     journal_obj = pool.get('account.journal')
     journal_ids = journal_obj.search(cursor, uid, [
-        ('type', '=', 'cash'),
-        ('currency', '=', currency or company.currency_id.code)
+        ('type', '=', 'bank'),
+        ('currency', '=', currency or company.currency_id.name)
     ])
-    if not journal_ids and currency == company.currency_id.code:
+    if not journal_ids and currency == company.currency_id.name:
         journal_ids = journal_obj.search(cursor, uid, [
-            ('type', '=', 'cash'), ('currency', '=', False)
+            ('type', '=', 'bank'), ('currency', '=', False)
         ])
     if journal_ids:
         criteria.append(('journal_id', 'in', journal_ids))
@@ -295,9 +298,9 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
     else:
         info = struct(name=name, code=code)
 
-    if info.code and ((not online) or not bank_id):
+    if not online or not bank_id:
         bank_id = bank_obj.create(cursor, uid, dict(
-            code = info.code,
+            code = info.code or 'UNKNOW',
             name = info.name or _('Unknown Bank'),
             country = country_id,
             bic = bic,
@@ -334,12 +337,18 @@ def create_bank_account(pool, cursor, uid, partner_id,
             cursor, uid, partner_id).country
         country_code = country.code
         country_id = country.id
-    elif iban.valid:
-        country_ids = country_obj.search(cursor, uid,
-                                         [('code', '=', iban.countrycode)]
-                                        )
+    else:
+        if iban.valid:
+            country_ids = country_obj.search(cursor, uid,
+                                             [('code', '=', iban.countrycode)]
+                                             )
+        else:
+            country_ids = country_obj.search(cursor, uid,
+                                             [('code', '=', country_code)]
+                                             )
         country_id = country_ids[0]
     
+    account_info = False
     if not iban.valid:
         # No, try to convert to IBAN
         values.state = 'bank'
@@ -355,9 +364,11 @@ def create_bank_account(pool, cursor, uid, partner_id,
                 bic = account_info.bic
 
     if bic:
-        values.bank_id = get_or_create_bank(pool, cursor, uid, bic)
+        values.bank = get_or_create_bank(pool, cursor, uid, bic)[0]
 
-    elif bankcode:
+    else:
+        if not bankcode:
+            bankcode = "UNKNOW"
         # Try to link bank
         bank_obj = pool.get('res.bank')
         bank_ids = bank_obj.search(cursor, uid, [
@@ -365,10 +376,10 @@ def create_bank_account(pool, cursor, uid, partner_id,
         ])
         if bank_ids:
             # Check BIC on existing banks
-            values.bank_id = bank_ids[0]
-            bank = bank_obj.browse(cursor, uid, values.bank_id)
+            values.bank = bank_ids[0]
+            bank = bank_obj.browse(cursor, uid, values.bank)
             if not bank.bic:
-                bank_obj.write(cursor, uid, values.bank_id, dict(bic=bic))
+                bank_obj.write(cursor, uid, values.bank, dict(bic=bic))
         else:
             # New bank - create
             res = struct(country_id=country_id)
@@ -382,7 +393,7 @@ def create_bank_account(pool, cursor, uid, partner_id,
                 res.code = bankcode
                 res.name = _('Unknown Bank')
 
-            values.bank_id = bank_obj.create(cursor, uid, res)
+            values.bank = bank_obj.create(cursor, uid, res)
 
     # Create bank account and return
     return pool.get('res.partner.bank').create(cursor, uid, values)

@@ -41,6 +41,7 @@ from account_banking.parsers.convert import *
 from account_banking.struct import struct
 from account_banking import sepa
 from banktools import *
+import decimal_precision as dp
 
 bt = models.mem_bank_transaction
 
@@ -118,7 +119,7 @@ class banking_import(wizard.interface):
 
     def _get_move_info(self, cursor, uid, move_line, partner_bank_id=False,
                        partial=False):
-        reconcile_obj = self.pool.get('account.bank.statement.reconcile')
+        reconcile_obj = self.pool.get('account.move.reconcile')
         type_map = {
             'out_invoice': 'customer',
             'in_invoice': 'supplier',
@@ -137,7 +138,10 @@ class banking_import(wizard.interface):
 
         if partial:
             move_line.reconcile_partial_id = reconcile_obj.create(
-                cursor, uid, {'line_partial_ids': [(4, 0, [move_line.id])]}
+                cursor, uid, {
+                    'type': 'auto',
+                    'line_partial_ids': [(4, 0, [move_line.id])]
+                    }
             )
         else:
             if move_line.reconcile_partial_id:
@@ -148,6 +152,7 @@ class banking_import(wizard.interface):
                 partial_ids = []
             move_line.reconcile_id = reconcile_obj.create(
                 cursor, uid, {
+                    'type': 'auto',
                     'line_ids': [
                         (4, x, False) for x in [move_line.id] + partial_ids
                     ],
@@ -167,13 +172,14 @@ class banking_import(wizard.interface):
         '''
         # TODO: Not sure what side effects are created when payments are done
         # for credited customer invoices, which will be matched later on too.
-        digits = int(config['price_accuracy'])
-        candidates = [x for x in payment_lines
-                      if x.communication == trans.reference 
-                      and round(x.amount, digits) == -round(trans.transferred_amount, digits)
-                      and trans.remote_account in (x.bank_id.acc_number,
-                                                   x.bank_id.iban)
-                     ]
+        digits = dp.get_precision('Account')(cursor)[1]
+        candidates = [x for x in payment_lines if (
+                x.communication == trans.reference and
+                round(x.amount, digits) == -round(
+                    trans.transferred_amount, digits) and
+                trans.remote_account in (x.bank_id.acc_number,
+                                         x.bank_id.iban)
+                )]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
@@ -285,7 +291,7 @@ class banking_import(wizard.interface):
                     'out_refund': -1
                    }[invoice.type]
 
-        digits = int(config['price_accuracy'])
+        digits = dp.get_precision('Account')(cursor)[1]
         partial = False
 
         # Search invoice on partner
@@ -460,7 +466,7 @@ class banking_import(wizard.interface):
         if not account_info.costs_account_id:
             return []
 
-        digits = int(config['price_accuracy'])
+        digits = dp.get_precision('Account')(cursor)[1]
         amount = round(abs(trans.transferred_amount), digits)
         # Make sure to be able to pinpoint our costs invoice for later
         # matching
@@ -507,19 +513,14 @@ class banking_import(wizard.interface):
                 check_total = amount,
                 invoice_line = invoice_lines,
             ))
-            invoice = invoice_obj.browse(cursor, uid, invoice_id)
-            # Set number
-            invoice.action_number(cursor, uid, [invoice_id])
-            # Create moves
-            invoice.action_move_create(cursor, uid, [invoice_id])
             # Create workflow
+            invoice_obj.button_compute(cursor, uid, [invoice_id], 
+                                       {'type': 'in_invoice'}, set_total=True)
             wf_service = netsvc.LocalService('workflow')
-            res = wf_service.trg_create(uid, 'account.invoice', invoice.id,
-                                        cursor)
             # Move to state 'open'
-            wf_service.trg_validate(uid, 'account.invoice', invoice.id,
+            wf_service.trg_validate(uid, 'account.invoice', invoice_id,
                                     'invoice_open', cursor)
-
+            invoice = invoice_obj.browse(cursor, uid, invoice_id)
         # return move_lines to mix with the rest
         return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
 
@@ -544,7 +545,7 @@ class banking_import(wizard.interface):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
         #account_obj = self.pool.get('account.account')
-        #payment_order_obj = self.pool.get('payment.order')
+        payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
 
         # get the parser to parse the file
@@ -567,7 +568,6 @@ class banking_import(wizard.interface):
 
         # Parse the file
         statements = parser.parse(data)
-
         if any([x for x in statements if not x.is_valid()]):
             raise wizard.except_wizard(
                 _('ERROR!'),
@@ -646,7 +646,7 @@ class banking_import(wizard.interface):
                 continue
 
             # Create fallback currency code
-            currency_code = statement.local_currency or company.currency_id.code
+            currency_code = statement.local_currency or company.currency_id.name
 
             # Check cache for account info/currency
             if statement.local_account in info and \
@@ -678,7 +678,7 @@ class banking_import(wizard.interface):
                     continue
 
                 # Get required currency code
-                currency_code = account_info.currency_id.code
+                currency_code = account_info.currency_id.name
 
                 # Cache results
                 if not statement.local_account in info:
@@ -690,7 +690,7 @@ class banking_import(wizard.interface):
 
             # Final check: no coercion of currencies!
             if statement.local_currency \
-               and account_info.currency_id.code != statement.local_currency:
+               and account_info.currency_id.name != statement.local_currency:
                 # TODO: convert currencies?
                 results.log.append(
                     _('Statement %(statement_id)s for account %(bank_account)s' 
@@ -730,8 +730,8 @@ class banking_import(wizard.interface):
             ))
             imported_statement_ids.append(statement_id)
 
-            # move each transaction to the right period and try to match it with an
-            # invoice or payment
+            # move each transaction to the right period and try to match it
+            # with an invoice or payment
             subno = 0
             injected = []
             i = 0
@@ -743,8 +743,8 @@ class banking_import(wizard.interface):
                     transaction = injected.pop(0)
                 else:
                     transaction = statement.transactions[i]
-                    # Keep a tracer for identification of order in a statement in case
-                    # of missing transaction ids.
+                    # Keep a tracer for identification of order in a statement
+                    # in case of missing transaction ids.
                     subno += 1
 
                 # Link accounting period
@@ -753,6 +753,7 @@ class banking_import(wizard.interface):
                                        results.log)
                 if not period_id:
                     results.trans_skipped_cnt += 1
+                    i += 1
                     continue
 
                 # When bank costs are part of transaction itself, split it.
@@ -797,15 +798,16 @@ class banking_import(wizard.interface):
                     if partner_banks:
                         partner_ids = [x.partner_id.id for x in partner_banks]
                     elif transaction.remote_owner:
-                        iban = sepa.IBAN(transaction.remote_account)
-                        if iban.valid:
-                            country_code = iban.country_code
+                        iban = None
+                        country_code = None
+                        if transaction.remote_account:
+                            iban = sepa.IBAN(transaction.remote_account)
+                        if iban and iban.valid:
+                            country_code = iban.countrycode
                         elif transaction.remote_owner_country_code:
                             country_code = transaction.remote_owner_country_code
                         elif hasattr(parser, 'country_code') and parser.country_code:
                             country_code = parser.country_code
-                        else:
-                            country_code = None
                         partner_id = get_or_create_partner(
                             self.pool, cursor, uid, transaction.remote_owner,
                             transaction.remote_owner_address,
@@ -922,18 +924,18 @@ class banking_import(wizard.interface):
                       "AND id IN (%s)"
                    ")" % (','.join([str(x) for x in payment_line_ids]))
             )
-            order_ids = cursor.fetchall()
+            order_ids = [x[0] for x in cursor.fetchall()]
             if order_ids:
                 # Use workflow logics for the orders. Recode logic from
                 # account_payment, in order to increase efficiency.
                 payment_order_obj.set_done(cursor, uid, order_ids,
                                         {'state': 'done'}
-                                       )
+                                           )
                 wf_service = netsvc.LocalService('workflow')
                 for id in order_ids:
                     wf_service.trg_validate(uid, 'payment.order', id, 'done',
                                             cursor
-                                           )
+                                            )
 
             # Original code. Didn't take workflow logistics into account...
             #

@@ -196,6 +196,11 @@ class wizard_banking_export_clieop(wizard.interface):
         pool = pooler.get_pool(cursor.dbname)
         payment_order_obj = pool.get('payment.order')
 
+        # Can get id from context. Seems necessary due to lack of support for
+        # old style wizards in the GTK client
+        if 'ids' not in data and context.get('payment_order_id', False):
+            data['ids'] = [context['payment_order_id']]
+
         runs = {}
         # Only orders of same type can be combined
         payment_orders = payment_order_obj.browse(cursor, uid, data['ids'])
@@ -362,15 +367,16 @@ class wizard_banking_export_clieop(wizard.interface):
 
     def _save_clieop(self, cursor, uid, data, context):
         '''
-        Save the ClieOp: mark all payments in the file as 'sent'.
+        Save the ClieOp: mark all payments in the file as 'sent', if not a test
         '''
-        pool = pooler.get_pool(cursor.dbname)
-        clieop_obj = pool.get('banking.export.clieop')
-        payment_order_obj = pool.get('payment.order')
-        clieop_file = clieop_obj.write(
-            cursor, uid, data['file_id'], {'state':'sent'}
-        )
-        payment_order_obj.write(cursor, uid, data['ids'], {'state': 'sent'})
+        if 'test' not in data['form'] or not data['form']['test']:
+            pool = pooler.get_pool(cursor.dbname)
+            clieop_obj = pool.get('banking.export.clieop')
+            payment_order_obj = pool.get('payment.order')
+            clieop_file = clieop_obj.write(
+                cursor, uid, data['file_id'], {'state':'sent'}
+                )
+            payment_order_obj.action_sent(cursor, uid, data['ids'])
         return {'state': 'end'}
 
     states = {
@@ -394,7 +400,7 @@ class wizard_banking_export_clieop(wizard.interface):
                 'fields': file_fields,
                 'state': [
                     ('cancel', 'Cancel', 'gtk-cancel'),
-                    ('save', 'Save', 'gtk-save'),
+                    ('save', 'Finish', 'gtk-ok'),
                 ]
             },
         },

@@ -42,7 +42,7 @@
                     <field name="company_id" />
                     <separator string="Bank Account Details" colspan="4" />
                     <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
-                    <field name="journal_id" domain="[('type','=','cash')]" />
+                    <field name="journal_id" domain="[('type','=','bank')]" />
                     <separator string="Default Accounts for Unknown Movements" colspan="4" />
                     <field name="default_credit_account_id" />
                     <field name="default_debit_account_id" />
@@ -61,7 +61,7 @@
                 <tree string="Default Import Settings for Bank Account">
                     <field name="company_id" />
                     <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
-                    <field name="journal_id" domain="[('type','=','cash')]" />
+                    <field name="journal_id" domain="[('type','=','bank')]" />
                 </tree>
             </field>
         </record>
@@ -170,7 +170,15 @@
             <field name="model">account.bank.statement</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="period_id" position="replace"/>
+                <data>
+                    <field name="period_id" position="replace"/>
+                    <xpath expr="/form/notebook/page[@string='Transaction']/field/tree/field[@name='name']" position="replace">
+                        <field name="name" required="1"/>
+                    </xpath>
+                    <xpath expr="/form/notebook/page[@string='Transaction']/field/form/field[@name='name']" position="replace">
+                        <field name="name" required="1"/>
+                    </xpath>
+                </data>
             </field>
         </record>
         <record id="view_banking_bank_statement_form_2" model="ir.ui.view">
@@ -179,7 +187,7 @@
             <field name="model">account.bank.statement</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Entry encoding']/field/tree/field[@name='type']" position="after">
+                <xpath expr="/form/notebook/page[@string='Transaction']/field/tree/field[@name='ref']" position="after">
                     <field name="period_id"/>
                 </xpath>
             </field>
@@ -190,7 +198,7 @@
             <field name="model">account.bank.statement</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Entry encoding']/field/form/field[@name='type']" position="after">
+                <xpath expr="/form/notebook/page[@string='Transaction']/field/form/field[@name='ref']" position="after">
                     <field name="period_id"/>
                 </xpath>
             </field>
@@ -235,9 +243,19 @@
             <field name="model">account.bank.statement</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
-                    <field name="partner_bank_id"/>
-                </xpath>
+                <data>
+                    <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
+                        <field name="partner_bank_id"/>
+                    </xpath>
+                    <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='amount']" position="after">
+                        <field name="invoice_id"/>
+                        <field name="reconcile_id"/>
+                    </xpath>
+                    <xpath expr="/form/notebook/page/field[@name='line_ids']/form/field[@name='amount']" position="after">
+                        <field name="invoice_id"/>
+                        <field name="reconcile_id"/>
+                    </xpath>
+                </data>
             </field>
         </record>
         <record id="view_banking_bank_statement_form_6" model="ir.ui.view">
@@ -252,33 +270,31 @@
             </field>
         </record>
 
-        <!-- Reset trigger on button_confirm to the trigger code in this module -->
-        <record id="view_banking_bank_statement_form_4" model="ir.ui.view">
-            <field name="name">account.bank.statement.form.banking-4</field>
-            <field name="inherit_id" ref="account.view_bank_statement_form" />
-            <field name="model">account.bank.statement</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <button name="button_confirm" position="replace">
-                    <button name="button_confirm" states="draft" string="Confirm" type="object"/>
-                </button>
-            </field>
-        </record>
+        <!-- Make buttons on payment order sensitive for extra states,
+             restore wizard functionality when making payments
+          -->
 
-        <!-- Make buttons on payment order sensitive for extra states -->
         <record id="view_banking_payment_order_form_1" model="ir.ui.view">
             <field name="name">account.payment.order.form.banking-1</field>
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
             <field name="model">payment.order</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="/form/button[@string='Select Invoices to Pay']"
-                    position="replace">
-                    <button name="%(account_payment.wizard_populate_payment)s"
-                        colspan="2" type="action" states="draft,open"
-                        string="Select Invoices to Pay"
-                        />
-                </xpath>
+                <data>
+                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                           position="replace">
+                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
+                                string="Select Invoices to Pay" type="action" states="draft,open"
+                                icon="gtk-find"
+                                />
+                    </xpath>
+                    <xpath expr="/form/group/button[@string='Make Payments']"
+                           position="replace">
+                        <field name="id_proxy" invisible="1"/>
+                        <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute" context="{'payment_order_id': id_proxy}"/>
+                        <newline/>
+                    </xpath>
+                </data>
             </field>
         </record>
 
@@ -336,7 +352,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='bank_ids']/tree/field[@name='acc_number']" position="replace">
-                    <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" />
+                    <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" select="1" />
                 </xpath>
             </field>
         </record>
@@ -354,5 +370,30 @@
             </field>
         </record>
 
+        <!-- Insert payment_mode.type -->
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="type"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_payment_mode_tree_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.tree.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_payment.view_payment_mode_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="type"/>
+                </field>
+            </field>
+        </record>
+
+        
     </data>
 </openerp>

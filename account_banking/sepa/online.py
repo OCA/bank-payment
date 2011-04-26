@@ -126,15 +126,19 @@ def BBAN_is_IBAN(bank_acc):
     Intelligent copy, valid for SEPA members who switched to SEPA from old
     standards before SEPA actually started.
     '''
+    iban_acc = False
     if isinstance(bank_acc, IBAN):
         iban_acc = bank_acc
     else:
         iban_acc = IBAN(bank_acc)
     return struct(
+        iban = iban_acc,
         account = str(bank_acc),
         country_id = iban_acc.countrycode,
-        code = iban_acc.BIC_searchkey
+        code = iban_acc.BIC_searchkey,
         # Note: BIC can not be constructed here!
+        bic = False,
+        bank = False,
     )
 
 _account_info = {

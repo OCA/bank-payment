@@ -63,6 +63,7 @@ import sepa
 from osv import osv, fields
 from tools.translate import _
 from wizard.banktools import get_or_create_bank
+import decimal_precision as dp
 import pooler
 import netsvc
 
@@ -183,6 +184,49 @@ class account_banking_imported_file(osv.osv):
     }
 account_banking_imported_file()
 
+class payment_mode_type(osv.osv):
+    _name= 'payment.mode.type'
+    _description= 'Payment Mode Type'
+    _columns= {
+        'name': fields.char(
+            'Name', size=64, required=True,
+            help='Payment Type'
+            ),
+        'code': fields.char(
+            'Code', size=64, required=True,
+            help='Specify the Code for Payment Type'
+            ),
+    }
+
+payment_mode_type()
+
+class payment_mode(osv.osv):
+    ''' Restoring the payment type from version 5,
+    used to select the export wizard (if any) '''
+    _inherit = "payment.mode"
+
+    def suitable_bank_types(self, cr, uid, payment_code=None, context=None):
+        """Return all bank types when no payment_code is given (which is
+        currently always the case when selecting invoices for payment orders.
+        See " t = None " line in
+        account_payment/wizard/account_payment_order.py.
+        TODO: find the logical error for this and file bug report accordingly
+        """
+        if not payment_code:
+            cr.execute(""" SELECT DISTINCT state FROM res_partner_bank """)
+            return [x[0] for x in cr.fetchall()]
+        return super(payment_mode, self).suitable_bank_types(
+            cr, uid, payment_code, context)
+
+
+    _columns = {
+        'type': fields.many2one(
+            'payment.mode.type', 'Payment type',
+            help='Select the Payment Type for the Payment Mode.'
+            ),
+        }
+payment_mode()
+
 class account_bank_statement(osv.osv):
     '''
     Extensions from account_bank_statement:
@@ -264,228 +308,139 @@ class account_bank_statement(osv.osv):
     #    '''
     #    return None
 
-    def button_confirm(self, cursor, uid, ids, context=None):
-        '''
-        Trigger function for button 'Confirm'
-        As this function completely replaces the old one in account, other
-        modules who wish to alter behavior of this function but want to
-        cooperate with account_banking, should move their functionality to 
-
-            on_button_confirm(self, cursor, uid, ids, context=None)
-
-        and drop any calls to super() herein.
-        In order to allow usage with and without account_banking, one could
-        use 
-
-            def on_button_confirm(...):
-                # Your code here
-
-            def button_confirm(...):
-                super(my_class, self).button_confirm(...)
-                self.on_button_confirm(...)
-
-        This way, code duplication is minimized.
-        '''
+    def create_move_from_st_line(self, cr, uid, st_line_id,
+                                 company_currency_id, st_line_number,
+                                 context=None):
         # This is largely a copy of the original code in account
+        # Modifications are marked with AB
         # As there is no valid inheritance mechanism for large actions, this
         # is the only option to add functionality to existing actions.
         # WARNING: when the original code changes, this trigger has to be
         # updated in sync.
-        done = []
+        if context is None:
+            context = {}
         res_currency_obj = self.pool.get('res.currency')
-        res_users_obj = self.pool.get('res.users')
         account_move_obj = self.pool.get('account.move')
         account_move_line_obj = self.pool.get('account.move.line')
-        account_bank_statement_line_obj = \
-                self.pool.get('account.bank.statement.line')
+        account_bank_statement_line_obj = self.pool.get(
+            'account.bank.statement.line')
+        st_line = account_bank_statement_line_obj.browse(cr, uid, st_line_id,
+                                                         context=context)
+        st = st_line.statement_id
 
-        company_currency_id = res_users_obj.browse(cursor, uid, uid,
-                context=context).company_id.currency_id.id
+        context.update({'date': st_line.date})
+        period_id = self._get_period(
+            cr, uid, st_line.date, context=context) # AB
 
-        for st in self.browse(cursor, uid, ids, context):
-            if not st.state=='draft':
-                continue
+        move_id = account_move_obj.create(cr, uid, {
+            'journal_id': st.journal_id.id,
+            'period_id': period_id, # AB
+            'date': st_line.date,
+            'name': st_line_number,
+        }, context=context)
+        account_bank_statement_line_obj.write(cr, uid, [st_line.id], {
+            'move_ids': [(4, move_id, False)]
+        })
 
-            # Calculate statement balance from the contained lines
-            end_bal = st.balance_end or 0.0
-            if not (abs(end_bal - st.balance_end_real) < 0.0001):
+        if st_line.amount >= 0:
+            account_id = st.journal_id.default_credit_account_id.id
+        else:
+            account_id = st.journal_id.default_debit_account_id.id
+
+        acc_cur = ((st_line.amount <= 0 and
+                    st.journal_id.default_debit_account_id) or
+                   st_line.account_id)
+        context.update({
+                'res.currency.compute.account': acc_cur,
+            })
+        amount = res_currency_obj.compute(cr, uid, st.currency.id,
+                company_currency_id, st_line.amount, context=context)
+
+        val = {
+            'name': st_line.name,
+            'date': st_line.date,
+            'ref': st_line.ref,
+            'move_id': move_id,
+            'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
+                           False),
+            'account_id': (st_line.account_id) and st_line.account_id.id,
+            'credit': ((amount>0) and amount) or 0.0,
+            'debit': ((amount<0) and -amount) or 0.0,
+            'statement_id': st.id,
+            'journal_id': st.journal_id.id,
+            'period_id': period_id, # AB
+            'currency_id': st.currency.id,
+            'analytic_account_id': (st_line.analytic_account_id and
+                                    st_line.analytic_account_id.id or
+                                    False),
+        }
+
+        if st.currency.id <> company_currency_id:
+            amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
+                        st.currency.id, amount, context=context)
+            val['amount_currency'] = -amount_cur
+
+        if (st_line.account_id and st_line.account_id.currency_id and
+            st_line.account_id.currency_id.id <> company_currency_id):
+            val['currency_id'] = st_line.account_id.currency_id.id
+            amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
+                    st_line.account_id.currency_id.id, amount, context=context)
+            val['amount_currency'] = -amount_cur
+
+        move_line_id = account_move_line_obj.create(
+            cr, uid, val, context=context)
+        torec = move_line_id
+
+        # Fill the secondary amount/currency
+        # if currency is not the same than the company
+        amount_currency = False
+        currency_id = False
+        if st.currency.id <> company_currency_id:
+            amount_currency = st_line.amount
+            currency_id = st.currency.id
+        account_move_line_obj.create(cr, uid, {
+            'name': st_line.name,
+            'date': st_line.date,
+            'ref': st_line.ref,
+            'move_id': move_id,
+            'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
+                           False),
+            'account_id': account_id,
+            'credit': ((amount < 0) and -amount) or 0.0,
+            'debit': ((amount > 0) and amount) or 0.0,
+            'statement_id': st.id,
+            'journal_id': st.journal_id.id,
+            'period_id': period_id, # AB
+            'amount_currency': amount_currency,
+            'currency_id': currency_id,
+            }, context=context)
+
+        for line in account_move_line_obj.browse(cr, uid, [x.id for x in
+                account_move_obj.browse(cr, uid, move_id,
+                    context=context).line_id],
+                context=context):
+            if line.state <> 'valid':
                 raise osv.except_osv(_('Error !'),
-                    _('The statement balance is incorrect !\n') +
-                    _('The expected balance (%.2f) is different '
-                      'than the computed one. (%.2f)') % (
-                          st.balance_end_real, st.balance_end
-                      ))
-            if (not st.journal_id.default_credit_account_id) \
-                    or (not st.journal_id.default_debit_account_id):
-                raise osv.except_osv(_('Configration Error !'),
-                    _('Please verify that an account is defined in the journal.'))
+                        _('Journal Item "%s" is not valid') % line.name)
 
-            for line in st.move_line_ids:
-                if line.state != 'valid':
-                    raise osv.except_osv(_('Error !'),
-                        _('The account entries lines are not in valid state.'))
+        # Bank statements will not consider boolean on journal entry_posted
+        account_move_obj.post(cr, uid, [move_id], context=context)
+        
+        """ 
+        Account-banking:
+        - Write stored reconcile_id
+        - Pay invoices through workflow 
+        """
+        if st_line.reconcile_id:
+            account_move_line_obj.write(cr, uid, [torec], {
+                    'reconcile_id': st_line.reconcile_id.id }, context=context)
+            for move_line in (st_line.reconcile_id.line_id or []) + (
+                st_line.reconcile_id.line_partial_ids or []):
+                netsvc.LocalService("workflow").trg_trigger(
+                    uid, 'account.move.line', move_line.id, cr)
+        """ End account-banking """
 
-            for move in st.line_ids:
-                context.update({'date':move.date})
-                # Essence of the change is here...
-                period_id = self._get_period(cursor, uid, move.date, context=context)
-                move_id = account_move_obj.create(cursor, uid, {
-                    'journal_id': st.journal_id.id,
-                    # .. and here
-                    'period_id': period_id,
-                    'date': move.date,
-                }, context=context)
-                account_bank_statement_line_obj.write(cursor, uid, [move.id], {
-                    'move_ids': [(4, move_id, False)]
-                })
-                if not move.amount:
-                    continue
-
-                torec = []
-                if move.amount >= 0:
-                    account_id = st.journal_id.default_credit_account_id.id
-                else:
-                    account_id = st.journal_id.default_debit_account_id.id
-                acc_cur = ((move.amount<=0) and st.journal_id.default_debit_account_id) \
-                          or move.account_id
-                amount = res_currency_obj.compute(cursor, uid, st.currency.id,
-                        company_currency_id, move.amount, context=context,
-                        account=acc_cur)
-                if move.reconcile_id and move.reconcile_id.line_new_ids:
-                    for newline in move.reconcile_id.line_new_ids:
-                        amount += newline.amount
-
-                val = {
-                    'name': move.name,
-                    'date': move.date,
-                    'ref': move.ref,
-                    'move_id': move_id,
-                    'partner_id': ((move.partner_id) and move.partner_id.id) or False,
-                    'account_id': (move.account_id) and move.account_id.id,
-                    'credit': ((amount>0) and amount) or 0.0,
-                    'debit': ((amount<0) and -amount) or 0.0,
-                    'statement_id': st.id,
-                    'journal_id': st.journal_id.id,
-                    'period_id': period_id,
-                    'currency_id': st.currency.id,
-                }
-
-                amount = res_currency_obj.compute(cursor, uid, st.currency.id,
-                        company_currency_id, move.amount, context=context,
-                        account=acc_cur)
-                if st.currency.id != company_currency_id:
-                    amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
-                                st.currency.id, amount, context=context,
-                                account=acc_cur)
-                    val['amount_currency'] = -amount_cur
-
-                if move.account_id and move.account_id.currency_id and move.account_id.currency_id.id != company_currency_id:
-                    val['currency_id'] = move.account_id.currency_id.id
-                    amount_cur = res_currency_obj.compute(cursor, uid, company_currency_id,
-                            move.account_id.currency_id.id, amount, context=context,
-                            account=acc_cur)
-                    val['amount_currency'] = -amount_cur
-
-                torec.append(account_move_line_obj.create(cursor, uid, val , context=context))
-
-                if move.reconcile_id and move.reconcile_id.line_new_ids:
-                    for newline in move.reconcile_id.line_new_ids:
-                        account_move_line_obj.create(cursor, uid, {
-                            'name': newline.name or move.name,
-                            'date': move.date,
-                            'ref': move.ref,
-                            'move_id': move_id,
-                            'partner_id': ((move.partner_id) and move.partner_id.id) or False,
-                            'account_id': (newline.account_id) and newline.account_id.id,
-                            'debit': newline.amount>0 and newline.amount or 0.0,
-                            'credit': newline.amount<0 and -newline.amount or 0.0,
-                            'statement_id': st.id,
-                            'journal_id': st.journal_id.id,
-                            'period_id': period_id,
-                        }, context=context)
-
-                # Fill the secondary amount/currency
-                # if currency is not the same than the company
-                amount_currency = False
-                currency_id = False
-                if st.currency.id <> company_currency_id:
-                    amount_currency = move.amount
-                    currency_id = st.currency.id
-
-                account_move_line_obj.create(cursor, uid, {
-                    'name': move.name,
-                    'date': move.date,
-                    'ref': move.ref,
-                    'move_id': move_id,
-                    'partner_id': ((move.partner_id) and move.partner_id.id) or False,
-                    'account_id': account_id,
-                    'credit': ((amount < 0) and -amount) or 0.0,
-                    'debit': ((amount > 0) and amount) or 0.0,
-                    'statement_id': st.id,
-                    'journal_id': st.journal_id.id,
-                    'period_id': period_id,
-                    'amount_currency': amount_currency,
-                    'currency_id': currency_id,
-                    }, context=context)
-
-                for line in account_move_line_obj.browse(cursor, uid, [x.id for x in 
-                        account_move_obj.browse(cursor, uid, move_id, context=context).line_id
-                        ], context=context):
-                    if line.state != 'valid':
-                        raise osv.except_osv(
-                            _('Error !'),
-                            _('Account move line "%s" is not valid')
-                            % line.name
-                        )
-
-                if move.reconcile_id and move.reconcile_id.line_ids:
-                    ## Search if move has already a partial reconciliation
-                    previous_partial = False
-                    for line_reconcile_move in move.reconcile_id.line_ids:
-                        if line_reconcile_move.reconcile_partial_id:
-                            previous_partial = True
-                            break
-                    ##
-                    torec += map(lambda x: x.id, move.reconcile_id.line_ids)
-                    #try:
-                    if abs(move.reconcile_amount-move.amount)<0.0001:
-
-                        writeoff_acc_id = False
-                        #There should only be one write-off account!
-                        for entry in move.reconcile_id.line_new_ids:
-                            writeoff_acc_id = entry.account_id.id
-                            break
-                        ## If we have already a partial reconciliation
-                        ## We need to make a partial reconciliation
-                        ## To add this amount to previous paid amount
-                        if previous_partial:
-                            account_move_line_obj.reconcile_partial(cr, uid, torec, 'statement', context)
-                        ## If it's the first reconciliation, we do a full reconciliation as regular
-                        else:
-                            account_move_line_obj.reconcile(
-                                cursor, uid, torec, 'statement',
-                                writeoff_acc_id=writeoff_acc_id,
-                                writeoff_period_id=st.period_id.id,
-                                writeoff_journal_id=st.journal_id.id,
-                                context=context
-                            )
-                    else:
-                        account_move_line_obj.reconcile_partial(
-                            cursor, uid, torec, 'statement', context
-                        )
-
-                if st.journal_id.entry_posted:
-                    account_move_obj.write(cursor, uid, [move_id], {'state':'posted'})
-            done.append(st.id)
-        self.write(cursor, uid, done, {'state':'confirm'}, context=context)
-
-        # Be nice to other modules as well, relay button_confirm calls to
-        # on_button_confirm calls.
-        for other in self._abf_others:
-            if hasattr(other, 'on_button_confirm'):
-                other.on_button_confirm(self, cursor, uid, ids, context=context)
-
-        return True
+        return move_id
 
 account_bank_statement()
 
@@ -563,9 +518,23 @@ class account_bank_statement_line(osv.osv):
     #            res[line.id] = 0.0
     #    return res
 
+    def _get_invoice_id(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for st_line in self.browse(cr, uid, ids, context):
+            res[st_line.id] = False
+            for move_line in (st_line.reconcile_id and
+                              (st_line.reconcile_id.line_id or []) +
+                              (st_line.reconcile_id.line_partial_ids or []) or
+                              []):
+                if move_line.invoice:
+                    res[st_line.id] = move_line.invoice.id
+                    continue
+        return res
+
     _columns = {
         # Redefines
-        'amount': fields.float('Amount', readonly=True,
+        'amount': fields.float('Amount', readonly=True, 
+                            digits_compute=dp.get_precision('Account'),
                             states={'draft': [('readonly', False)]}),
         'ref': fields.char('Ref.', size=32, readonly=True,
                             states={'draft': [('readonly', False)]}),
@@ -595,6 +564,13 @@ class account_bank_statement_line(osv.osv):
                             required=False,
                             states={'confirm': [('readonly', True)]},
                             ),
+        'reconcile_id': fields.many2one(
+            'account.move.reconcile', 'Reconciliation', readonly=True
+            ),
+        'invoice_id': fields.function(
+            _get_invoice_id, method=True, string='Linked Invoice',
+            type='many2one', relation='account.invoice'
+            ),
     }
 
     _defaults = {
@@ -603,56 +579,7 @@ class account_bank_statement_line(osv.osv):
         'currency': _get_currency,
     }
 
-    def onchange_partner_id(self, cursor, uid, line_id, partner_id, type,
-                            currency_id, context=None
-                           ):
-        '''
-        Find default accounts when encoding statements by hand
-        '''
-        if not partner_id:
-            return {}
-
-        result = {}
-        if not currency_id:
-            users_obj = self.pool.get('res.users')
-            currency_id = users_obj.browse(
-                    cursor, uid, uid, context=context
-                ).company_id.currency_id.id
-        result['currency_id'] = currency_id
-        
-        partner_obj = self.pool.get('res.partner')
-        partner = partner_obj.browse(cursor, uid, partner_id, context=context)
-        if partner.supplier and not partner.customer:
-            if partner.property_account_payable.id:
-                result['account_id'] = partner.property_account_payable.id
-            result['type'] = 'supplier'
-        elif partner.customer and not partner.supplier:
-            if partner.property_account_receivable.id:
-                result['account_id'] =  partner.property_account_receivable.id
-            result['type'] = 'customer'
-
-        return result and {'value': result} or {}
-
 account_bank_statement_line()
-
-class payment_type(osv.osv):
-    '''
-    Make description field translatable #, add country context
-    '''
-    _inherit = 'payment.type'
-    _columns = {
-        'name': fields.char('Name', size=64, required=True, translate=True,
-                            help='Payment Type'
-                           ),
-        #'country_id': fields.many2one('res.country', 'Country',
-        #                    required=False,
-        #                    help='Use this to limit this type to a specific country'
-        #                   ),
-    }
-    #_defaults = {
-    #    'country_id': lambda *a: False,
-    #}
-payment_type()
 
 class payment_line(osv.osv):
     '''
@@ -813,8 +740,42 @@ class payment_order(osv.osv):
     Enable extra states for payment exports
     '''
     _inherit = 'payment.order'
+
+    def _get_id_proxy(self, cr, uid, ids, name, args, context=None):
+        return dict([(id, id) for id in ids])
+
     _columns = {
-        'date_planned': fields.date(
+        #
+        # 'id_proxy' is simply a reference to the resource's id
+        # for the following reason:
+        #
+        # The GTK client 6.0 lacks necessary support for old style wizards.
+        # It does not pass the resource's id if the wizard is called from
+        # a button on a form.
+        #
+        # As a workaround, we pass the payment order id in the context
+        # Evaluating 'id' in the context in the webclient on a form
+        # in readonly mode dies with an error "Invalid Syntax", because 'id'
+        # evaluates to "<built-in function id>" and the resource's field
+        # values are not passed to eval in readonly mode at all.
+        # See /addons/openerp/static/javascript/form.js line 308
+        #
+        # Evaluating any other variable in the webclient on a form in
+        # readonly mode fails silently. That is actually ok, because the
+        # webclient still supports passing the resource id when an old style
+        # wizard is called.
+        #
+        # Therefore, if we want to pass the id in the context safely we have to
+        # pass it under a different name.
+        #
+        'id_proxy': fields.function(
+            _get_id_proxy, method=True, string='Copy ID', type='integer',
+            store={
+                'payment.order': (
+                    lambda self,cr,uid,ids,c=None:ids, ['id'], 10)
+                }
+            ),
+        'date_scheduled': fields.date(
             'Scheduled date if fixed',
             states={
                 'sent': [('readonly', True)],
@@ -883,6 +844,33 @@ class payment_order(osv.osv):
             ),
     }
 
+    def launch_wizard(self, cr, uid, ids, context=None):
+        """
+        Search for a wizard to launch according to the type.
+        If type is manual. just confirm the order.
+        Previously (pre-v6) in account_payment/wizard/wizard_pay.py
+        """
+        result = {}
+        obj_model = self.pool.get('ir.model.data')
+        order = self.browse(cr, uid, ids[0], context)
+        t = order.mode and order.mode.type.code or 'manual'
+        res_id = False
+        if t != 'manual':
+            gw = self.get_wizard(t)
+            if gw:
+                module, wizard = gw
+                wiz_id = obj_model._get_id(cr, uid, module, wizard)
+                if wiz_id:
+                    res_id = obj_model.read(
+                        cr, uid, [wiz_id], ['res_id'])[0]['res_id']
+        if res_id:
+            result = self.pool.get('ir.actions.wizard').read(
+                cr, uid, [res_id])[0]
+        else:
+            self.action_sent(cr, uid, ids, context)
+        result['nodestroy'] = True
+        return result
+
     def _write_payment_lines(self, cursor, uid, ids, **kwargs):
         '''
         ORM method for setting attributes of corresponding payment.line objects.
@@ -890,6 +878,8 @@ class payment_order(osv.osv):
         to the absence of filters on writes and hence the requirement to
         filter on the client(=OpenERP server) side.
         '''
+        if isinstance(ids, (int, long)):
+            ids = [ids]
         payment_line_obj = self.pool.get('payment.line')
         line_ids = payment_line_obj.search(
             cursor, uid, [
@@ -911,7 +901,6 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'sent'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        self.write(cursor, uid, ids, {'state': 'rejected'})
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
             wf_service.trg_validate(uid, 'payment.order', id, 'sent', cursor)
@@ -922,17 +911,17 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'rejected'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='rejected')
-        self.write(cursor, uid, ids, {'state': 'rejected'})
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
-            wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cursor)
+            wf_service.trg_validate(
+                uid, 'payment.order', id, 'rejected', cursor)
         return True
 
     def set_done(self, cursor, uid, id, *args):
         '''
         Extend standard transition to update children as well.
         '''
-        self._write_payment_lines(cursor, uid, [id],
+        self._write_payment_lines(cursor, uid, id, 
                                   export_state='done',
                                   date_done=time.strftime('%Y-%m-%d')
                                  )
@@ -1188,7 +1177,7 @@ class res_partner_bank(osv.osv):
         elif partner_id:
             partner_obj = self.pool.get('res.partner')
             country = partner_obj.browse(cursor, uid, partner_id).country
-            country_ids = [country.id]
+            country_ids = country and [country.id] or []
         # 4. Without any of the above, take the country from the company of
         # the handling user
         if not country_ids:
@@ -1197,12 +1186,15 @@ class res_partner_bank(osv.osv):
                 country = user.address_id.country_id
                 country_ids = [country.id]
             else:
-                # Ok, tried everything, give up and leave it to the user
-                return warning(_('Insufficient data'),
-                               _('Insufficient data to select online '
-                                 'conversion database')
-                              )
-
+                if (user.company_id and user.company_id.partner_id and
+                    user.company_id.partner_id.country):
+                    country_ids =  [user.company_id.partner_id.country.id]
+                else:
+                    # Ok, tried everything, give up and leave it to the user
+                    return warning(_('Insufficient data'),
+                                   _('Insufficient country information to ' 
+                                     'select online conversion database')
+                                   )
         result = {'value': values}
         # Complete data with online database when available
         if country.code in sepa.IBAN.countries:
@@ -1218,17 +1210,17 @@ class res_partner_bank(osv.osv):
                             info.bic or iban_acc.BIC_searchkey,
                             code = info.code, name = info.bank
                             )
-                        values['country_id'] = country_id or \
-                                               country_ids and country_ids[0] or \
-                                               False
+                        values['country_id'] = (
+                            country_id or country_ids and country_ids[0] or
+                            False)
                         values['bank'] = bank_id or False
                     else:
                         info = None
                 if info is None:
                     result.update(warning(
                         _('Invalid data'),
-                        _('The account number appears to be invalid for %(country)s')
-                        % {'country': country.name}
+                        _('Could not verify the account number\'s validity '
+                          'for %(country)s') % {'country': country.name}
                     ))
             except NotImplementedError:
                 if country.code in sepa.IBAN.countries:
@@ -1239,8 +1231,8 @@ class res_partner_bank(osv.osv):
                         values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
-                            _('The account number has the wrong format for %(country)s')
-                            % {'country': country.name}
+                            _('The account number has the wrong format for '
+                              '%(country)s') % {'country': country.name}
                         ))
                 else:
                     values['acc_number'] = acc_number
