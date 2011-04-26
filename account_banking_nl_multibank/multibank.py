@@ -155,7 +155,7 @@ class transaction(models.mem_bank_transaction):
                 self.effective_date) and (
                     self.remote_account or
                     self.transfer_type in [
-                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT',
+                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV',
                     ]
                 and not self.error_message
                 )
@@ -306,6 +306,7 @@ to Bank Statements.
         # Probe first record to find out which format we are parsing.
         if lines and lines[0].count(',') > lines[0].count(';'):
             dialect.delimiter = ','
+        if lines and lines[0].count("'") > lines[0].count('"'):
             dialect.quotechar = "'"
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
