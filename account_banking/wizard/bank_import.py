@@ -753,6 +753,8 @@ class banking_import(wizard.interface):
                                        results.log)
                 if not period_id:
                     results.trans_skipped_cnt += 1
+                    if not injected:
+                        i += 1
                     continue
 
                 # When bank costs are part of transaction itself, split it.
@@ -922,7 +924,7 @@ class banking_import(wizard.interface):
                       "AND id IN (%s)"
                    ")" % (','.join([str(x) for x in payment_line_ids]))
             )
-            order_ids = cursor.fetchall()
+            order_ids = [x[0] for x in cursor.fetchall()]
             if order_ids:
                 # Use workflow logics for the orders. Recode logic from
                 # account_payment, in order to increase efficiency.

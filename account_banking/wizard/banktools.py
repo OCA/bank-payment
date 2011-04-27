@@ -148,16 +148,23 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
         address_ids = address_obj.search(cursor, uid, filter)
         key = name.lower()
 
-        partner_ids = [x.partner_id.id
+        # Make sure to get a unique list
+        partner_ids = list(set([x.partner_id.id
                        for x in address_obj.browse(cursor, uid, address_ids)
                        # Beware for dangling addresses
                        if _has_attr(x.partner_id, 'name') and
                           x.partner_id.name.lower() in key
-                      ]
+                      ]))
     if not partner_ids:
         if (not country_code) or not country_id:
-            country_id = pool.get('res.user').browse(cursor, uid, uid)\
-                    .company_id.partner_id.country.id
+            user = pool.get('res.user').browse(cursor, uid, uid)
+            country_id = (
+                user.company_id and
+                user.company_id.partner_id and
+                user.company_id.partner_id.country and 
+                user.company_id.partner_id.country.id or
+                False
+            )
         partner_id = partner_obj.create(cursor, uid, dict(
             name=name, active=True, comment='Generated from Bank Statements Import',
             address=[(0,0,{

@@ -890,6 +890,8 @@ class payment_order(osv.osv):
         to the absence of filters on writes and hence the requirement to
         filter on the client(=OpenERP server) side.
         '''
+        if not hasattr(ids, '__iter__'):
+            ids = [ids]
         payment_line_obj = self.pool.get('payment.line')
         line_ids = payment_line_obj.search(
             cursor, uid, [
@@ -911,7 +913,6 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'sent'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        self.write(cursor, uid, ids, {'state': 'rejected'})
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
             wf_service.trg_validate(uid, 'payment.order', id, 'sent', cursor)
@@ -922,22 +923,21 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'rejected'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='rejected')
-        self.write(cursor, uid, ids, {'state': 'rejected'})
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
             wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cursor)
         return True
 
-    def set_done(self, cursor, uid, id, *args):
+    def set_done(self, cursor, uid, ids, *args):
         '''
         Extend standard transition to update children as well.
         '''
-        self._write_payment_lines(cursor, uid, [id],
+        self._write_payment_lines(cursor, uid, ids,
                                   export_state='done',
                                   date_done=time.strftime('%Y-%m-%d')
                                  )
         return super(payment_order, self).set_done(
-            cursor, uid, id, *args
+            cursor, uid, ids, *args
         )
 
     def get_wizard(self, type):
@@ -1188,14 +1188,21 @@ class res_partner_bank(osv.osv):
         elif partner_id:
             partner_obj = self.pool.get('res.partner')
             country = partner_obj.browse(cursor, uid, partner_id).country
-            country_ids = [country.id]
+            country_ids = country and [country.id] or []
         # 4. Without any of the above, take the country from the company of
         # the handling user
         if not country_ids:
             user = self.pool.get('res.users').browse(cursor, uid, uid)
+            # Try users address first
             if user.address_id and user.address_id.country_id:
                 country = user.address_id.country_id
                 country_ids = [country.id]
+            # Last try user companies partner
+            elif (user.company_id and
+                  user.company_id.partner_id and
+                  user.company_id.partner_id.country
+                 ):
+                country_ids = [user.company_id.partner_id.country.id]
             else:
                 # Ok, tried everything, give up and leave it to the user
                 return warning(_('Insufficient data'),
