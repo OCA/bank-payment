@@ -148,7 +148,7 @@ class banking_import(wizard.interface):
                 partial_ids = []
             move_line.reconcile_id = reconcile_obj.create(
                 cursor, uid, {
-                    'line_ids': [
+                    'line_id': [
                         (4, x, False) for x in [move_line.id] + partial_ids
                     ],
                     'line_partial_ids': [
