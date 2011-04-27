@@ -34,12 +34,6 @@ from account_banking.sepa import postalcode
 from tools.translate import _
 from osv import osv
 
-try:
-    from datetime import datetime
-    datetime.strftime
-except AttributeError:
-    from mx import DateTime as datetime
-
 import re
 import csv
 

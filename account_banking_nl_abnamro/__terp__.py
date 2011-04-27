@@ -1,0 +1,1 @@
+__openerp__.py
