@@ -239,7 +239,7 @@ class mem_bank_transaction(object):
         '''
         super(mem_bank_transaction, self).__init__(*args, **kwargs)
         for attr in self.__slots__:
-            setattr(self, attr, None)
+            setattr(self, attr, '')
         self.remote_owner_address = []
 
     def copy(self):
@@ -344,6 +344,16 @@ class parser(object):
         numbers or bank statements ids on your own - stick with those provided
         by your bank. Doing so enables the users to re-load old transaction
         files without creating multiple identical bank statements.
+
+        If your bank does not provide transaction ids, take a high resolution
+        and a repeatable algorithm for the numbering. For example the date can
+        be used as a prefix. Adding a tracer (day resolution) can create
+        uniqueness. Adding unique statement ids can add to the robustness of
+        your transaction numbering.
+        
+        Just mind that users can create random (file)containers with
+        transactions in it. Try not to depend on order of appearance within
+        these files. If in doubt: sort.
         '''
         raise NotImplementedError(
             _('This is a stub. Please implement your own.')

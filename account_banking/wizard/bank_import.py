@@ -544,7 +544,7 @@ class banking_import(wizard.interface):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
         #account_obj = self.pool.get('account.account')
-        #payment_order_obj = self.pool.get('payment.order')
+        payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
 
         # get the parser to parse the file

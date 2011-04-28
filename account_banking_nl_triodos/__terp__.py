@@ -27,7 +27,7 @@
 ##############################################################################
 {
     'name': 'Triodos (NL) Bank Statements Import',
-    'version': '0.60',
+    'version': '0.61',
     'license': 'GPL-3',
     'author': 'Therp BV / EduSense BV',
     'website': 'https://launchpad.net/account-banking',
