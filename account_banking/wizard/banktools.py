@@ -147,6 +147,8 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
             filter.append(('zip', 'ilike', postal_code))
         address_ids = address_obj.search(cursor, uid, filter)
         key = name.lower()
+
+        # Make sure to get a unique list
         partner_ids = list(set([x.partner_id.id
                        for x in address_obj.browse(cursor, uid, address_ids)
                        # Beware for dangling addresses
@@ -156,21 +158,23 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
     if not partner_ids:
         if (not country_code) or not country_id:
             user = pool.get('res.user').browse(cursor, uid, uid)
-            country_id = (user.company_id and user.company_id.partner_id and
-                          user.company_id.partner_id.country and
-                          user.company_id.partner_id.country.id or False)
-        partner_id = partner_obj.create(
-            cursor, uid, dict(
-                name=name, active=True,
-                comment='Generated from Bank Statements Import',
-                address=[(0,0,{
-                            'street': address and address[0] or '',
-                            'street2': len(address) > 1 and address[1] or '',
-                            'city': city,
-                            'zip': postal_code or '',
-                            'country_id': country_id,
-                            })],)
+            country_id = (
+                user.company_id and
+                user.company_id.partner_id and
+                user.company_id.partner_id.country and 
+                user.company_id.partner_id.country.id or
+                False
             )
+        partner_id = partner_obj.create(cursor, uid, dict(
+            name=name, active=True, comment='Generated from Bank Statements Import',
+            address=[(0,0,{
+                'street': address and address[0] or '',
+                'street2': len(address) > 1 and address[1] or '',
+                'city': city,
+                'zip': postal_code or '',
+                'country_id': country_id,
+            })],
+        ))
     elif len(partner_ids) > 1:
         log.append(
             _('More then one possible match found for partner with name %(name)s')

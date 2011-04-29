@@ -1,6 +1,7 @@
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#    Copyright (C) 2009 - 2011 EduSense BV (<http://www.edusense.nl>)
+#                              and Therp BV (<http://therp.nl>)
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -8,6 +9,7 @@
 #    consequences resulting from its eventual inadequacies and bugs
 #    End users who are looking for a ready-to-use solution with commercial
 #    garantees and support are strongly adviced to contract EduSense BV
+#    or Therp BV
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,26 +26,32 @@
 #
 ##############################################################################
 {
-    'name': 'Account Banking NL ClieOp',
-    'version': '0.61',
+    'name': 'Triodos (NL) Bank Statements Import',
+    'version': '0.1',
     'license': 'GPL-3',
-    'author': 'EduSense BV',
-    'website': 'http://www.edusense.nl',
+    'author': 'Therp BV / EduSense BV',
+    'website': 'https://launchpad.net/account-banking',
     'category': 'Account Banking',
     'depends': ['account_banking'],
     'init_xml': [],
     'update_xml': [
         #'security/ir.model.access.csv',
-        'account_banking_nl_clieop.xml',
-        'account_banking_export_wizard.xml',
-        'data/banking_export_clieop.xml',
     ],
     'demo_xml': [],
     'description': '''
-    Module to export payment orders in ClieOp format.
+Module to import Dutch Triodos bank format transation files (CSV format).
 
-    ClieOp format is used by Dutch banks to batch national bank transfers.
-    This module uses the account_banking logic.
+As the Triodos bank does not provide detailed specification concerning possible
+values and their meaning for the fields in the CSV file format, the statements
+are parsed according to an educated guess based on incomplete information.
+You can contact the account-banking developers through their launchpad page and
+help improve the performance of this import filter on
+https://launchpad.net/account-banking.
+
+Note that imported bank transfers are organized in statements covering periods
+of one week, even if the imported files cover a different period.
+
+This modules contains no logic, just an import filter for account_banking.
     ''',
     'active': False,
     'installable': True,

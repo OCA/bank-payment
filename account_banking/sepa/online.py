@@ -132,7 +132,7 @@ def BBAN_is_IBAN(bank_acc):
     else:
         iban_acc = IBAN(bank_acc)
     return struct(
-        iban = iban_acc,
+        iban = str(iban_acc),
         account = str(bank_acc),
         country_id = iban_acc.countrycode,
         code = iban_acc.BIC_searchkey,

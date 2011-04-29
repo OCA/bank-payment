@@ -753,7 +753,8 @@ class banking_import(wizard.interface):
                                        results.log)
                 if not period_id:
                     results.trans_skipped_cnt += 1
-                    i += 1
+                    if not injected:
+                        i += 1
                     continue
 
                 # When bank costs are part of transaction itself, split it.

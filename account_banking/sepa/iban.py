@@ -198,7 +198,7 @@ class IBAN(str):
         'CS': BBANFormat('BBBAAAAAAAAAAAAAVV', '%B-%A-%V'),
         'CY': BBANFormat('BBBCCCCCAAAAAAAAAAAAAAAA', '%B%C%A'),
         'CZ': BBANFormat('BBBBPPPPPPAAAAAAAAAA', '%B-%P/%A'),
-        'DE': BBANFormat('BBBBBBBBAAAAAAAAAA', '%A BLZ %B'),
+        'DE': BBANFormat('BBBBBBBBAAAAAAAAAAV', '%A BLZ %B'),
         'DK': BBANFormat('CCCCAAAAAAAAAV', '%C %A%V'),
         'EE': BBANFormat('BBCCAAAAAAAAAAAV', '%A%V'),
         'ES': BBANFormat('BBBBCCCCWVAAAAAAAAAA', '%B%C%W%V%A'),
