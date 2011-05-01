@@ -772,10 +772,9 @@ class payment_order(osv.osv):
         #
         'id_proxy': fields.function(
             _get_id_proxy, method=True, string='Copy ID', type='integer',
-            store={
-                'payment.order': (
-                    lambda self,cr,uid,ids,c=None:ids, ['id'], 10)
-                }
+            # Would have used store={}, but the system does not seem to
+            # generate triggers on the field 'id'.
+            store=False,
             ),
         'date_scheduled': fields.date(
             'Scheduled date if fixed',
