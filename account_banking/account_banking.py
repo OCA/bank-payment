@@ -533,7 +533,7 @@ class account_bank_statement_line(osv.osv):
 
     _columns = {
         # Redefines
-        'amount': fields.float('Amount', readonly=True, 
+        'amount': fields.float('Amount', readonly=True,
                             digits_compute=dp.get_precision('Account'),
                             states={'draft': [('readonly', False)]}),
         'ref': fields.char('Ref.', size=32, readonly=True,
@@ -768,6 +768,8 @@ class payment_order(osv.osv):
         # Therefore, if we want to pass the id in the context safely we have to
         # pass it under a different name.
         #
+        # TODO: migrate old style wizards to osv_memory
+        #
         'id_proxy': fields.function(
             _get_id_proxy, method=True, string='Copy ID', type='integer',
             store={
@@ -913,8 +915,7 @@ class payment_order(osv.osv):
         self._write_payment_lines(cursor, uid, ids, export_state='rejected')
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
-            wf_service.trg_validate(
-                uid, 'payment.order', id, 'rejected', cursor)
+            wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cursor)
         return True
 
     def set_done(self, cursor, uid, ids, *args):
@@ -1199,8 +1200,8 @@ class res_partner_bank(osv.osv):
                 else:
                     # Ok, tried everything, give up and leave it to the user
                     return warning(_('Insufficient data'),
-                                   _('Insufficient country information to ' 
-                                     'select online conversion database')
+                                   _('Insufficient data to select online '
+                                     'conversion database')
                                    )
         result = {'value': values}
         # Complete data with online database when available
@@ -1217,17 +1218,17 @@ class res_partner_bank(osv.osv):
                             info.bic or iban_acc.BIC_searchkey,
                             code = info.code, name = info.bank
                             )
-                        values['country_id'] = (
-                            country_id or country_ids and country_ids[0] or
-                            False)
+                        values['country_id'] = country_id or \
+                                               country_ids and country_ids[0] or \
+                                               False
                         values['bank'] = bank_id or False
                     else:
                         info = None
                 if info is None:
                     result.update(warning(
                         _('Invalid data'),
-                        _('Could not verify the account number\'s validity '
-                          'for %(country)s') % {'country': country.name}
+                        _('The account number appears to be invalid for %(country)s')
+                        % {'country': country.name}
                     ))
             except NotImplementedError:
                 if country.code in sepa.IBAN.countries:
@@ -1238,8 +1239,8 @@ class res_partner_bank(osv.osv):
                         values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
-                            _('The account number has the wrong format for '
-                              '%(country)s') % {'country': country.name}
+                            _('The account number has the wrong format for %(country)s')
+                            % {'country': country.name}
                         ))
                 else:
                     values['acc_number'] = acc_number
