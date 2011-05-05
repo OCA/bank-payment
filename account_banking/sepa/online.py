@@ -134,7 +134,7 @@ def BBAN_is_IBAN(bank_acc):
         iban = str(iban_acc),
         account = str(bank_acc),
         country_id = iban_acc.countrycode,
-        code = iban_acc.BIC_searchkey
+        code = iban_acc.BIC_searchkey,
         # Note: BIC can not be constructed here!
         bic = False,
         bank = False,

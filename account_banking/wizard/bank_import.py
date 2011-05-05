@@ -801,7 +801,7 @@ class banking_import(wizard.interface):
                     elif transaction.remote_owner:
                         iban = sepa.IBAN(transaction.remote_account)
                         if iban.valid:
-                            country_code = iban.country_code
+                            country_code = iban.countrycode
                         elif transaction.remote_owner_country_code:
                             country_code = transaction.remote_owner_country_code
                         elif hasattr(parser, 'country_code') and parser.country_code:
