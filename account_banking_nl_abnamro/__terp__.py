@@ -27,7 +27,7 @@
 ##############################################################################
 {
     'name': 'abnamro (NL) Bank Statements Import',
-    'version': '0.61',
+    'version': '0.62',
     'license': 'GPL-3',
     'author': 'Therp BV / EduSense BV',
     'website': 'https://launchpad.net/account-banking',
