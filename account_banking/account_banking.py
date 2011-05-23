@@ -196,28 +196,81 @@ class payment_mode_type(osv.osv):
             'Code', size=64, required=True,
             help='Specify the Code for Payment Type'
             ),
+        # Setting suitable_bank_types to required pending
+        # https://bugs.launchpad.net/openobject-addons/+bug/786845
+        'suitable_bank_types': fields.many2many(
+            'res.partner.bank.type',
+            'bank_type_payment_type_rel',
+            'pay_type_id','bank_type_id',
+            'Suitable bank types', required=True),
     }
 
 payment_mode_type()
+
+class payment_order_create(osv.osv_memory):
+    _inherit = "payment.order.create"
+
+    def create_payment(self, cr, uid, ids, context=None):
+        """ This method is equal to the one in 
+        account_payment/wizard/account_payment_order.py
+        except for a fix in passing the payment mode to line2bank()
+        """
+        order_obj = self.pool.get('payment.order')
+        line_obj = self.pool.get('account.move.line')
+        payment_obj = self.pool.get('payment.line')
+        if context is None:
+            context = {}
+        data = self.read(cr, uid, ids, [], context=context)[0]
+        line_ids = data['entries']
+        if not line_ids:
+            return {'type': 'ir.actions.act_window_close'}
+
+        payment = order_obj.browse(cr, uid, context['active_id'], context=context)
+        ### account banking
+        # t = None
+        # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
+        line2bank = line_obj.line2bank(cr, uid, line_ids, payment.mode.id, context)
+        ### end account banking
+
+        ## Finally populate the current payment with new lines:                                                                                                                                                  
+        for line in line_obj.browse(cr, uid, line_ids, context=context):
+            if payment.date_prefered == "now":
+                #no payment date => immediate payment                                                                                                                                                            
+                date_to_pay = False
+            elif payment.date_prefered == 'due':
+                date_to_pay = line.date_maturity
+            elif payment.date_prefered == 'fixed':
+                date_to_pay = payment.date_scheduled
+            payment_obj.create(cr, uid,{
+                'move_line_id': line.id,
+                'amount_currency': line.amount_to_pay,
+                'bank_id': line2bank.get(line.id),
+                'order_id': payment.id,
+                'partner_id': line.partner_id and line.partner_id.id or False,
+                'communication': line.ref or '/',
+                'date': date_to_pay,
+                'currency': line.invoice and line.invoice.currency_id.id or False,
+                }, context=context)
+        return {'type': 'ir.actions.act_window_close'}
+
+payment_order_create()
 
 class payment_mode(osv.osv):
     ''' Restoring the payment type from version 5,
     used to select the export wizard (if any) '''
     _inherit = "payment.mode"
 
-    def suitable_bank_types(self, cr, uid, payment_code=None, context=None):
-        """Return all bank types when no payment_code is given (which is
-        currently always the case when selecting invoices for payment orders.
-        See " t = None " line in
-        account_payment/wizard/account_payment_order.py.
-        TODO: find the logical error for this and file bug report accordingly
+    def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):
+        """ Reinstates functional code for suitable bank type filtering.
+        Current code in account_payment is disfunctional.
         """
-        if not payment_code:
-            cr.execute(""" SELECT DISTINCT state FROM res_partner_bank """)
-            return [x[0] for x in cr.fetchall()]
-        return super(payment_mode, self).suitable_bank_types(
-            cr, uid, payment_code, context)
-
+        res = []
+        payment_mode = self.browse(
+            cr, uid, payment_mode_id, context)
+        if (payment_mode and payment_mode.type and
+            payment_mode.type.suitable_bank_types):
+            res = [type.code for type in payment_mode.type.suitable_bank_types]
+        return res
 
     _columns = {
         'type': fields.many2one(

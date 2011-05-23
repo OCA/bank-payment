@@ -394,6 +394,18 @@
             </field>
         </record>
 
-        
+	<!-- basic view for payment mode type -->
+        <record model="ir.ui.view" id="view_payment_mode_type_form">
+            <field name="name">view.payment.mode.type.form</field>
+            <field name="model">payment.mode.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+		    <field name="name" />
+		    <field name="code" />
+		    <field name="suitable_bank_types"/>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>
