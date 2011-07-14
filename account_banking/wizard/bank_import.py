@@ -28,9 +28,8 @@ This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
 use parser.models as a mean of communication with the business logic.
 '''
-import pooler
+from osv import osv, fields
 import time
-import wizard
 import netsvc
 import base64
 import datetime
@@ -55,67 +54,8 @@ def parser_types(*args, **kwargs):
     '''
     return models.parser_type.get_parser_types()
 
-class banking_import(wizard.interface):
-    '''
-    Wizard to import bank statements. Generic code, parsing is done in the
-    parser modules.
-    '''
-
-    result_form = '''<?xml version="1.0"?>
-    <form string="Import Bank Transactions File">
-        <separator colspan="4" string="Results:" />
-        <field name="log" colspan="4" nolabel="1" width="500"/>
-    </form>
-    '''
-
-    result_fields = dict(
-        log = dict(string='Log', type='text', readonly=True)
-    )
-
-    import_form = '''<?xml version="1.0"?>
-    <form string="Import Bank Transactions File">
-    <separator colspan="4" string="Select the processing details:" />
-        <field name="company" colspan="1" />
-        <field name="file"/>
-        <newline />
-        <field name="parser"/>
-    </form>'''
-
-    import_fields = dict(
-        company = dict(
-            string = 'Company',
-            type = 'many2one',
-            relation = 'res.company',
-            required = True,
-        ),
-        file = dict(
-            string = 'Statements File',
-            type = 'binary',
-            required = True,
-            help = ('The Transactions File to import. Please note that while it is '
-            'perfectly safe to reload the same file multiple times or to load in '
-            'timeframe overlapping statements files, there are formats that may '
-            'introduce different sequencing, which may create double entries.\n\n'
-            'To stay on the safe side, always load bank statements files using the '
-            'same format.')
-        ),
-        parser = dict(
-            string = 'File Format',
-            type = 'selection',
-            selection = parser_types,
-            required = True,
-        ),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(banking_import, self).__init__(*args, **kwargs)
-        self.__state = ''
-        self.__linked_invoices = {}
-        self.__linked_payments = {}
-        self.__multiple_matches = []
-
-    def _fill_results(self, *args, **kwargs):
-        return {'log': self._log}
+class banking_import(osv.osv_memory):
+    _name = 'account.banking.bank.import'
 
     def _get_move_info(self, cursor, uid, move_line, partner_bank_id=False,
                        partial=False):
@@ -164,7 +104,7 @@ class banking_import(wizard.interface):
         return retval
 
     def _link_payment(self, cursor, uid, trans, payment_lines,
-                      partner_ids, bank_account_ids, log):
+                      partner_ids, bank_account_ids, log, linked_payments):
         '''
         Find the payment order belonging to this reference - if there is one
         This is the easiest part: when sending payments, the returned bank info
@@ -182,8 +122,8 @@ class banking_import(wizard.interface):
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
-            if candidate.id not in self.__linked_payments:
-                self.__linked_payments[candidate.id] = True
+            if candidate.id not in linked_payments:
+                linked_payments[candidate.id] = True
                 payment_line_obj = self.pool.get('payment.line')
                 payment_line_obj.write(cursor, uid, [candidate.id], {
                     'export_state': 'done',
@@ -195,7 +135,7 @@ class banking_import(wizard.interface):
         return False
 
     def _link_invoice(self, cursor, uid, trans, move_lines,
-                      partner_ids, bank_account_ids, log):
+                      partner_ids, bank_account_ids, log, linked_invoices):
         '''
         Find the invoice belonging to this reference - if there is one
         Use the sales journal to check.
@@ -271,16 +211,16 @@ class banking_import(wizard.interface):
 
         def _cached(move_line):
             '''Check if the move_line has been cached'''
-            return move_line.id in self.__linked_invoices
+            return move_line.id in linked_invoices
 
         def _cache(move_line, remaining=0.0):
             '''Cache the move_line'''
-            self.__linked_invoices[move_line.id] = remaining
+            linked_invoices[move_line.id] = remaining
 
         def _remaining(move_line):
             '''Return the remaining amount for a previously matched move_line
             '''
-            return self.__linked_invoices[move_line.id]
+            return linked_invoices[move_line.id]
 
         def _sign(invoice):
             '''Return the direction of an invoice'''
@@ -387,8 +327,6 @@ class banking_import(wizard.interface):
                                                        for x in best or candidates
                                                       ])
                           })
-                    self.__multiple_matches.append((trans, best or
-                                                    candidates))
                 move_line = False
                 partial = False
 
@@ -524,17 +462,16 @@ class banking_import(wizard.interface):
         # return move_lines to mix with the rest
         return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
 
-    def _import_statements_file(self, cursor, uid, data, context):
+    def import_statements_file(self, cursor, uid, ids, context):
         '''
         Import bank statements / bank transactions file.
         This method represents the business logic, the parser modules
         represent the decoding logic.
         '''
-        form = data['form']
-        statements_file = form['file']
+        banking_import = self.browse(cursor, uid, ids, context)[0]
+        statements_file = banking_import.file
         data = base64.decodestring(statements_file)
 
-        self.pool = pooler.get_pool(cursor.dbname)
         company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
         partner_bank_obj = self.pool.get('res.partner.bank')
@@ -544,33 +481,28 @@ class banking_import(wizard.interface):
         statement_obj = self.pool.get('account.bank.statement')
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
-        #account_obj = self.pool.get('account.account')
         payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
 
         # get the parser to parse the file
-        parser_code = form['parser']
+        parser_code = banking_import.parser
         parser = models.create_parser(parser_code)
         if not parser:
-            raise wizard.except_wizard(
+            raise osv.except_osv(
                 _('ERROR!'),
                 _('Unable to import parser %(parser)s. Parser class not found.') %
-                {'parser':parser_code}
+                {'parser': parser_code}
             )
 
         # Get the company
-        company = form['company']
-        if not company:
-            user_data = user_obj.browse(cursor, uid, uid, context)
-        company = company_obj.browse(
-            cursor, uid, company or user_data.company_id.id, context
-        )
+        company = (banking_import.company or
+                   user_obj.browse(cursor, uid, uid, context).company_id)
 
         # Parse the file
         statements = parser.parse(data)
 
         if any([x for x in statements if not x.is_valid()]):
-            raise wizard.except_wizard(
+            raise osv.except_osv(
                 _('ERROR!'),
                 _('The imported statements appear to be invalid! Check your file.')
             )
@@ -599,6 +531,8 @@ class banking_import(wizard.interface):
         error_accounts = {}
         info = {}
         imported_statement_ids = []
+        linked_payments = {}
+        linked_invoices = {}
 
         if statements:
             # Get default defaults
@@ -842,7 +776,7 @@ class banking_import(wizard.interface):
                     move_info = self._link_payment(
                         cursor, uid, transaction,
                         payment_lines, partner_ids,
-                        partner_banks, results.log
+                        partner_banks, results.log, linked_payments,
                         )
 
                 # Second guess, invoice -> may split transaction, so beware
@@ -852,7 +786,7 @@ class banking_import(wizard.interface):
                     # these, and invoice matching still has to be done.
                     move_info, remainder = self._link_invoice(
                         cursor, uid, transaction, move_lines, partner_ids,
-                        partner_banks, results.log
+                        partner_banks, results.log, linked_invoices,
                         )
                     if remainder:
                         injected.append(remainder)
@@ -984,107 +918,70 @@ class banking_import(wizard.interface):
         state = results.error_cnt and 'error' or 'ready'
         statement_file_obj.write(cursor, uid, import_id, dict(
             state = state, log = text_log,
-        ))
-        if results.error_cnt or not imported_statement_ids:
-            self._nextstate = 'view_error'
-        else:
-            self._nextstate = 'view_statements'
-        self._import_id = import_id
-        self._log = text_log
-        self._statement_ids = imported_statement_ids
-        return {}
+            ), context)
+        if not imported_statement_ids:
+            # file state can be 'ready' while import state is 'error'
+            state = 'error'
+        self.write(cursor, uid, [ids[0]], dict(
+                import_id = import_id, log = text_log, state = state,
+                statement_ids = [[6, 0, imported_statement_ids]],
+                ), context)
+        return {
+            'name': _('Import Bank Transactions File'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': False,
+            'res_model': self._name,
+            'domain': [],
+            'context': dict(context, active_ids=ids),
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'res_id': ids[0] or False,
+        }
 
-    def _action_open_window(self, cursor, uid, data, context):
-        '''
-        Open a window with the resulting bank statements
-        '''
-        # TODO: this needs fiddling. The resulting window is informative,
-        # but not very usefull...
-        module_obj = self.pool.get('ir.model.data')
-        action_obj = self.pool.get('ir.actions.act_window')
-        result = module_obj._get_id(
-            cursor, uid, 'account', 'action_bank_statement_tree'
-        )
-        id = module_obj.read(cursor, uid, [result], ['res_id'])[0]['res_id']
-        result = action_obj.read(cursor, uid, [id])[0]
-        result['context'] = str({'banking_id': self._import_id})
-        return result
+    _columns = {
+        'company': fields.many2one(
+            'res.company', 'Company', required=True,
+            states={
+                'ready': [('readonly', True)],
+                'error': [('readonly', True)],
+                },
+            ),
+        'file': fields.binary(
+            'Statements File', required=True,
+            help = ('The Transactions File to import. Please note that while it is '
+            'perfectly safe to reload the same file multiple times or to load in '
+            'timeframe overlapping statements files, there are formats that may '
+            'introduce different sequencing, which may create double entries.\n\n'
+            'To stay on the safe side, always load bank statements files using the '
+            'same format.'),
+            states={
+                'ready': [('readonly', True)],
+                'error': [('readonly', True)],
+                },
+            ),
+        'parser': fields.selection(
+            parser_types, 'File Format', required=True,
+            states={
+                'ready': [('readonly', True)],
+                'error': [('readonly', True)],
+                },
+            ),
+        'log': fields.text('Log', readonly=True),
+        'state': fields.selection(
+            [('init', 'init'), ('ready', 'ready'),
+             ('error', 'error')],
+            'State', readonly=True),
+        'import_id': fields.many2one(
+            'account.banking.imported.file', 'Import File'),
+        'statement_ids': fields.many2many(
+            'account.bank.statement', 'rel_wiz_statements', 'wizard_id',
+            'statement_id', 'Imported Bank Statements'),
+        }
 
-    def _action_open_import(self, cursor, uid, data, context):
-        '''
-        Open a window with the resulting import in error
-        '''
-        return dict(
-            view_type = 'form',
-            view_mode = 'form,tree',
-            res_model = 'account.banking.imported.file',
-            view_id = False,
-            type = 'ir.actions.act_window',
-            res_id = self._import_id
-        )
-
-    def _check_next_state(self, cursor, uid, data, context):
-        return self._nextstate
-
-    states = {
-        'init' : {
-            'actions' : [],
-            'result' : {
-                'type' : 'form',
-                'arch' : import_form,
-                'fields': import_fields,
-                'state': [('end', '_Cancel', 'gtk-cancel'),
-                          ('import', '_Ok', 'gtk-ok'),
-                         ]
-            }
-        },
-        'import': {
-            'actions': [_import_statements_file],
-            'result': {
-                'type': 'choice',
-                'next_state': _check_next_state,
-            }
-        },
-        'view_statements' : {
-            'actions': [_fill_results],
-            'result': {
-                'type': 'form',
-                'arch': result_form,
-                'fields': result_fields,
-                'state': [('end', '_Close', 'gtk-close'),
-                          ('open_statements', '_View Statements', 'gtk-ok'),
-                         ]
-            }
-        },
-        'view_error': {
-            'actions': [_fill_results],
-            'result': {
-                'type': 'form',
-                'arch': result_form,
-                'fields': result_fields,
-                'state': [('end', '_Close', 'gtk-close'),
-                          ('open_import', '_View Imported File', 'gtk-ok'),
-                         ]
-            }
-        },
-        'open_import': {
-            'actions': [],
-            'result': {
-                'type': 'action',
-                'action': _action_open_import,
-                'state': 'end'
-            }
-        },
-        'open_statements': {
-            'actions': [],
-            'result': {
-                'type': 'action',
-                'action': _action_open_window,
-                'state': 'end'
-            }
-        },
-    }
-
-banking_import('account_banking.banking_import')
+    _defaults = {
+        'state': 'init',
+        }
+banking_import()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

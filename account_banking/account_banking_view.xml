@@ -140,7 +140,6 @@
         <menuitem name="Import Bank Statements File"
             id="menu_account_banking_import_wizard"
             parent="account_banking.menu_finance_banking_actions"
-            type="wizard"
             action="wizard_account_banking_import_file"
             sequence="15"/>
 

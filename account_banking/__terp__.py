@@ -37,6 +37,7 @@
         'data/account_banking_data.xml',
         'account_banking_import_wizard.xml',
         'account_banking_payment_wizard.xml',
+        'wizard/bank_import_view.xml',
         'account_banking_view.xml',
         'account_banking_workflow.xml',
     ],

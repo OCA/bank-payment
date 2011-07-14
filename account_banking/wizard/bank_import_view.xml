@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_banking_import" model="ir.ui.view">
+            <field name="name">account.banking.bank.import</field>
+            <field name="model">account.banking.bank.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		<form string="Import Bank Transactions File">
+		    <group colspan="4">
+			<separator colspan="4" string="Select the processing details:"/>
+			<field name="company" colspan="1"/>
+			<field name="file"/>
+			<newline />
+			<field name="parser"/>
+			<field name="state" invisible="1"/>
+		    </group>
+		    <group colspan="4" states="ready,error">
+			<separator colspan="4" string="Results:"/>
+			<field name="log" colspan="4" nolabel="1" width="500"/>
+		    </group>
+		    <group colspan="4" states="ready">
+			<field name="statement_ids" colspan="4" nolabel="1"/>
+		    </group>
+		    <group colspan="2" states="init">
+			<button icon="gtk-cancel"
+				special="cancel"
+				string="Cancel"/>
+			<button icon="gtk-ok"
+				string="Import" 
+				name="import_statements_file"
+				type="object"/>
+		    </group>
+		    <button icon="gtk-close"
+			    special="cancel"
+			    string="Close"
+			    states="ready,error"/>
+		</form>
+	    </field>
+        </record>
+
+        <record id="wizard_account_banking_import_file" model="ir.actions.act_window">
+            <field name="name">Import Bank Statements File</field>
+	    <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.banking.bank.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_banking_import"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
