@@ -76,7 +76,7 @@ class HeaderRecord(record.Record): #{{{
 
     def __init__(self, id='1', seqno=1, duplicate=False):
         super(HeaderRecord, self).__init__()
-        self.sender_id = id
+        self.sender_id = id or ''
         self.file_id = '%02d%02d' % (self.creation_date.day, seqno)
         self.duplicatecode = duplicate and '2' or '1'
 #}}}
@@ -362,7 +362,7 @@ class Batch(object):
         self.header.variantcode = batch_id and 'C' or 'B'
         self.header.transactiongroup = transactiongroup
         self.header.batch_tracer = batch_tracer
-        self.header.batch_id = batch_id
+        self.header.batch_id = batch_id or ''
         self.header.accountno_sender = rekeningnr
         self.sender.name_sender = sender
         self.sender.preferred_execution_date = execution_date

@@ -22,25 +22,19 @@ from osv import osv, fields
 from datetime import date
 from tools.translate import _
 
-class payment_order(osv.osv):
-    '''
-    Attach export_clieop wizard to payment order and allow traceability
-    '''
-    _inherit = 'payment.order'
-    def get_wizard(self, type):
-        if type in ['CLIEOPPAY', 'CLIEOPINC', 'CLIEOPSAL']:
-            return self._module, 'wizard_account_banking_export_clieop'
-        return super(payment_order, self).get_wizard(type)
-payment_order()
-
 class clieop_export(osv.osv):
     '''ClieOp3 Export'''
     _name = 'banking.export.clieop'
     _description = __doc__
+    _rec_name = 'identification'
 
     _columns = {
-        'payment_order_ids':
-            fields.text('Payment Orders'),
+        'payment_order_ids': fields.many2many(
+            'payment.order',
+            'account_payment_order_clieop_rel',
+            'banking_export_clieop_id', 'account_order_id',
+            'Payment Orders',
+            readonly=True),
         'testcode':
             fields.selection([('T', _('Yes')), ('P', _('No'))],
                              'Test Run', readonly=True),

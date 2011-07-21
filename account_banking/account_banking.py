@@ -203,57 +203,15 @@ class payment_mode_type(osv.osv):
             'bank_type_payment_type_rel',
             'pay_type_id','bank_type_id',
             'Suitable bank types', required=True),
+        'ir_model_id': fields.many2one(
+            'ir.model', 'Payment wizard',
+            help=('Select the Payment Wizard for payments of this type. '
+                  'Leave empty for manual processing'),
+            domain=[('osv_memory', '=', True)],
+            ),
     }
 
 payment_mode_type()
-
-class payment_order_create(osv.osv_memory):
-    _inherit = "payment.order.create"
-
-    def create_payment(self, cr, uid, ids, context=None):
-        """ This method is equal to the one in 
-        account_payment/wizard/account_payment_order.py
-        except for a fix in passing the payment mode to line2bank()
-        """
-        order_obj = self.pool.get('payment.order')
-        line_obj = self.pool.get('account.move.line')
-        payment_obj = self.pool.get('payment.line')
-        if context is None:
-            context = {}
-        data = self.read(cr, uid, ids, [], context=context)[0]
-        line_ids = data['entries']
-        if not line_ids:
-            return {'type': 'ir.actions.act_window_close'}
-
-        payment = order_obj.browse(cr, uid, context['active_id'], context=context)
-        ### account banking
-        # t = None
-        # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
-        line2bank = line_obj.line2bank(cr, uid, line_ids, payment.mode.id, context)
-        ### end account banking
-
-        ## Finally populate the current payment with new lines:                                                                                                                                                  
-        for line in line_obj.browse(cr, uid, line_ids, context=context):
-            if payment.date_prefered == "now":
-                #no payment date => immediate payment                                                                                                                                                            
-                date_to_pay = False
-            elif payment.date_prefered == 'due':
-                date_to_pay = line.date_maturity
-            elif payment.date_prefered == 'fixed':
-                date_to_pay = payment.date_scheduled
-            payment_obj.create(cr, uid,{
-                'move_line_id': line.id,
-                'amount_currency': line.amount_to_pay,
-                'bank_id': line2bank.get(line.id),
-                'order_id': payment.id,
-                'partner_id': line.partner_id and line.partner_id.id or False,
-                'communication': line.ref or '/',
-                'date': date_to_pay,
-                'currency': line.invoice and line.invoice.currency_id.id or False,
-                }, context=context)
-        return {'type': 'ir.actions.act_window_close'}
-
-payment_order_create()
 
 class payment_mode(osv.osv):
     ''' Restoring the payment type from version 5,
@@ -794,41 +752,7 @@ class payment_order(osv.osv):
     '''
     _inherit = 'payment.order'
 
-    def _get_id_proxy(self, cr, uid, ids, name, args, context=None):
-        return dict([(id, id) for id in ids])
-
     _columns = {
-        #
-        # 'id_proxy' is simply a reference to the resource's id
-        # for the following reason:
-        #
-        # The GTK client 6.0 lacks necessary support for old style wizards.
-        # It does not pass the resource's id if the wizard is called from
-        # a button on a form.
-        #
-        # As a workaround, we pass the payment order id in the context
-        # Evaluating 'id' in the context in the webclient on a form
-        # in readonly mode dies with an error "Invalid Syntax", because 'id'
-        # evaluates to "<built-in function id>" and the resource's field
-        # values are not passed to eval in readonly mode at all.
-        # See /addons/openerp/static/javascript/form.js line 308
-        #
-        # Evaluating any other variable in the webclient on a form in
-        # readonly mode fails silently. That is actually ok, because the
-        # webclient still supports passing the resource id when an old style
-        # wizard is called.
-        #
-        # Therefore, if we want to pass the id in the context safely we have to
-        # pass it under a different name.
-        #
-        # TODO: migrate old style wizards to osv_memory
-        #
-        'id_proxy': fields.function(
-            _get_id_proxy, method=True, string='Copy ID', type='integer',
-            # Would have used store={}, but the system does not seem to
-            # generate triggers on the field 'id'.
-            store=False,
-            ),
         'date_scheduled': fields.date(
             'Scheduled date if fixed',
             states={
@@ -904,25 +828,39 @@ class payment_order(osv.osv):
         If type is manual. just confirm the order.
         Previously (pre-v6) in account_payment/wizard/wizard_pay.py
         """
+        if context == None:
+            context={}
         result = {}
-        obj_model = self.pool.get('ir.model.data')
-        order = self.browse(cr, uid, ids[0], context)
-        t = order.mode and order.mode.type.code or 'manual'
-        res_id = False
-        if t != 'manual':
-            gw = self.get_wizard(t)
-            if gw:
-                module, wizard = gw
-                wiz_id = obj_model._get_id(cr, uid, module, wizard)
-                if wiz_id:
-                    res_id = obj_model.read(
-                        cr, uid, [wiz_id], ['res_id'])[0]['res_id']
-        if res_id:
-            result = self.pool.get('ir.actions.wizard').read(
-                cr, uid, [res_id])[0]
+        orders = self.browse(cr, uid, ids, context)
+        order = orders[0]
+        # check if a wizard is defined for the first order
+        if order.mode.type and order.mode.type.ir_model_id:
+            context['active_ids'] = ids
+            wizard_model = order.mode.type.ir_model_id.model
+            wizard_obj = self.pool.get(wizard_model)
+            wizard_id = wizard_obj.create(cr, uid, {}, context)
+            result = {
+                'name': wizard_obj._description or 'Payment Order Export',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': wizard_model,
+                'domain': [],
+                'context': context,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'res_id': wizard_id,
+                'nodestroy': True,
+                }
         else:
+            # should all be manual orders without type or wizard model
+            for order in orders[1:]:
+                if order.mode.type and order.mode.type.ir_model_id:
+                    raise osv.except_osv(
+                        _('Error'),
+                        _('You can only combine payment orders of the same type')
+                        )
+            # process manual payments
             self.action_sent(cr, uid, ids, context)
-        result['nodestroy'] = True
         return result
 
     def _write_payment_lines(self, cursor, uid, ids, **kwargs):

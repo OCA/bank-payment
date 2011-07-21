@@ -974,6 +974,7 @@ class banking_import(osv.osv_memory):
             'State', readonly=True),
         'import_id': fields.many2one(
             'account.banking.imported.file', 'Import File'),
+        # osv_memory does not seem to support one2many
         'statement_ids': fields.many2many(
             'account.bank.statement', 'rel_wiz_statements', 'wizard_id',
             'statement_id', 'Imported Bank Statements'),

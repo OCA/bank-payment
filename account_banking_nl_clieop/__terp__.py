@@ -33,10 +33,10 @@
     'depends': ['account_banking'],
     'init_xml': [],
     'update_xml': [
-        #'security/ir.model.access.csv',
         'account_banking_nl_clieop.xml',
-        'account_banking_export_wizard.xml',
+        'wizard/export_clieop_view.xml',
         'data/banking_export_clieop.xml',
+        'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''

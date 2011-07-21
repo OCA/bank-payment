@@ -19,12 +19,11 @@
 #
 ##############################################################################
 
-import wizard
-import pooler
 import base64
 from datetime import datetime, date, timedelta
-from account_banking import sepa
+from osv import osv, fields
 from tools.translate import _
+from account_banking import sepa
 import clieop
 
 def strpdate(arg, format='%Y-%m-%d'):
@@ -35,151 +34,131 @@ def strfdate(arg, format='%Y-%m-%d'):
     '''shortcut'''
     return arg.strftime(format)
 
-class wizard_banking_export_clieop(wizard.interface):
-    form = '''<?xml version="1.0"?>
-<form string="Client Opdrachten Export">
-    <separator colspan="4" string="Processing Details" />
-    <field name="batchtype" />
-    <field name="execution_date" />
-    <field name="test" />
-    <separator colspan="4" string="Reference for further communication" />
-    <field name="reference" colspan="2" />
-    <separator colspan="4" string="Additional message for all transactions" />
-    <field name="fixed_message" />
-</form>'''
-
-    fields = {
-        'reference' : {
-            'string': 'Reference',
-            'type': 'char',
-            'size': 5,
-            'required': False,
-            'help': ('The bank will use this reference in feedback communication '
-                     'to refer to this run. Only five characters are available.'
-                    )
-        },
-        'batchtype': {
-            'string': 'Type',
-            'type': 'selection',
-            'selection': [
+class banking_export_clieop_wizard(osv.osv_memory):
+    _name = 'banking.export.clieop.wizard'
+    _description = 'Client Opdrachten Export'
+    _columns = {
+        'state': fields.selection(
+            [
+                ('create', 'Create'),
+                ('finish', 'Finish')
+                ],
+            'State',
+            readonly=True,
+        ),
+        'reference': fields.char(
+            'Reference', size=5,
+            help=('The bank will use this reference in feedback communication '
+                  'to refer to this run. Only five characters are available.'
+                  ),
+            ),
+        'batchtype': fields.selection(
+            [
                 ('CLIEOPPAY', 'Payments'),
                 ('CLIEOPSAL', 'Salary Payments'),
                 ('CLIEOPINC', 'Direct Debits'),
-            ],
-            'readonly': True,
-        },
-        'execution_date': {
-            'string': 'Execution Date',
-            'type': 'date',
-            'required': False,
-            'help': ('This is the date the file should be processed by the bank. '
-                     'Don\'t choose a date beyond the nearest date in your '
-                     'payments. The latest allowed date is 30 days from now.\n'
-                     'Please keep in mind that banks only execute on working days '
-                     'and typically use a delay of two days between execution date '
-                     'and effective transfer date.'
-                    ),
-        },
-        'test': {
-            'string': 'Test Run',
-            'type': 'boolean',
-            'required': True,
-            'default': True,
-            'help': ('Select this if you want your bank to run a test process '
-                     'rather then execute your orders for real.'
-                    )
-        },
-        'fixed_message': {
-            'string': 'Fixed Message',
-            'type': 'char',
-            'size': 32,
-            'required': False,
-            'default': '',
-            'help': ('A fixed message to apply to all transactions in addition to '
-                     'the individual messages.'
-                    ),
-        },
-    }
-
-    file_form = '''<?xml version="1.0"?>
-<form string="Client Opdrachten Export">
-    <field name="filetype" />
-    <field name="identification" />
-    <field name="total_amount" />
-    <field name="check_no_accounts" />
-    <field name="no_transactions" />
-    <field name="prefered_date" />
-    <field name="testcode" />
-    <newline/>
-    <field name="file" />
-    <field name="log" colspan="4" nolabel="1" />
-</form>'''
-
-    file_fields = {
-        'testcode': {
-            'string': 'Test Run',
-            'type': 'selection',
-            'selection': [('T', _('Yes')), ('P', _('No'))],
-            'required': False,
-            'readonly': True,
-        },
-        'prefered_date': {
-            'string': 'Prefered Processing Date',
-            'type': 'date',
-            'required': False,
-            'readonly': True,
-        },
-        'no_transactions': {
-            'string': 'Number of Transactions',
-            'type': 'int',
-            'required': False,
-            'readonly': True,
-        },
-        'check_no_accounts': {
-            'string': 'Check Number Accounts',
-            'type': 'char',
-            'size': 5,
-            'required': False,
-            'readonly': True,
-        },
-        'total_amount': {
-            'string': 'Total Amount',
-            'type': 'float',
-            'required': False,
-            'readonly': True,
-        },
-        'identification': {
-            'string': 'Identification',
-            'type': 'char',
-            'size': 6,
-            'required': False,
-            'readonly': True,
-        },
-        'filetype': {
-            'string': 'File Type',
-            'type': 'selection',
-            'selection': [
+            ], 'Type', readonly=True,
+            ),
+        'execution_date': fields.date(
+            'Execution Date',
+            help=('This is the date the file should be processed by the bank. '
+                  'Don\'t choose a date beyond the nearest date in your '
+                  'payments. The latest allowed date is 30 days from now.\n'
+                  'Please keep in mind that banks only execute on working days '
+                  'and typically use a delay of two days between execution date '
+                  'and effective transfer date.'
+                  ),
+            ),
+        'test': fields.boolean(
+            'Test Run',
+            help=('Select this if you want your bank to run a test process '
+                  'rather then execute your orders for real.'
+                  ),
+            ),
+        'fixed_message': fields.char(
+            'Fixed Message', size=32,
+            help=('A fixed message to apply to all transactions in addition to '
+                  'the individual messages.'
+                  ),
+            ),
+        # file fields
+        'file_id': fields.many2one(
+            'banking.export.clieop',
+            'ClieOp File',
+            readonly=True
+            ),
+        # fields.related does not seem to support 
+        # fields of type selection
+        'testcode': fields.selection(
+            [('T', _('Yes')), ('P', _('No'))],
+            'Test Run', readonly=True,
+            ),
+        'filetype': fields.selection(
+            [
                 ('CREDBET', 'Payment Batch'),
                 ('SALARIS', 'Salary Payment Batch'),
                 ('INCASSO', 'Direct Debit Batch'),
-            ],
-            'required': False,
-            'readonly': True,
-        },
-        'file': {
-            'string': 'ClieOp File',
-            'type': 'binary',
-            'required': False,
-            'readonly': True,
-        },
-        'log': {
-            'string': 'Log',
-            'type': 'text',
-            'readonly': True,
-        },
-    }
+                ],
+            'File Type',
+            readonly=True,
+            ),
+        'prefered_date': fields.related(
+            'file_id', 'prefered_date',
+            type='date',
+            string='Prefered Processing Date',
+            readonly=True,
+            ),
+        'no_transactions': fields.related(
+            'file_id', 'no_transactions',
+            type ='integer',
+            string='Number of Transactions',
+            readonly=True,
+            ),
+        'check_no_accounts': fields.related(
+            'file_id', 'check_no_accounts',
+            type='char', size=5,
+            string='Check Number Accounts',
+            readonly=True,
+            ),
+        'total_amount': fields.related(
+            'file_id', 'total_amount',
+            type='float',
+            string='Total Amount',
+            readonly=True,
+            ),
+        'identification': fields.related(
+            'file_id', 'identification',
+            type='char', size=6,
+            string='Identification',
+            readonly=True,
+            ),
+        'file': fields.related(
+            'file_id', 'file', type='binary',
+            readonly=True,
+            string='File',
+            ),
+        'payment_order_ids': fields.many2many(
+            'payment.order', 'rel_wiz_payorders', 'wizard_id',
+            'payment_order_id', 'Payment Orders',
+            readonly=True,
+            ),
+        }
+    
+    _defaults = {
+        'test': True,
+        }
 
-    def _check_orders(self, cursor, uid, data, context):
+    def create(self, cursor, uid, vals, context=None):
+        '''
+        Retrieve a sane set of default values based on the payment orders
+        from the context.
+        '''
+        if 'batchtype' not in vals:
+            self.check_orders(cursor, uid, vals, context)
+        return super(banking_export_clieop_wizard, self).create(
+            cursor, uid, vals, context)
+
+    def check_orders(self, cursor, uid, vals, context):
         '''
         Check payment type for all orders.
 
@@ -191,19 +170,14 @@ class wizard_banking_export_clieop(wizard.interface):
         Also mind that rates for batches are way higher than those for
         transactions. It pays to limit the number of batches.
         '''
-        form = data['form']
         today = date.today()
-        pool = pooler.get_pool(cursor.dbname)
-        payment_order_obj = pool.get('payment.order')
+        payment_order_obj = self.pool.get('payment.order')
 
-        # Can get id from context. Seems necessary due to lack of support for
-        # old style wizards in the GTK client
-        if 'ids' not in data and context.get('payment_order_id', False):
-            data['ids'] = [context['payment_order_id']]
-
+        # Payment order ids are provided in the context
+        payment_order_ids = context.get('active_ids', [])
         runs = {}
         # Only orders of same type can be combined
-        payment_orders = payment_order_obj.browse(cursor, uid, data['ids'])
+        payment_orders = payment_order_obj.browse(cursor, uid, payment_order_ids)
         for payment_order in payment_orders:
 
             payment_type = payment_order.mode.type.code
@@ -231,34 +205,33 @@ class wizard_banking_export_clieop(wizard.interface):
                     else:
                         execution_date = today
                 if execution_date and execution_date >= max_date:
-                    raise wizard.except_wizard(
+                    raise osv.except_osv(
                         _('Error'),
                         _('You can\'t create ClieOp orders more than 30 days in advance.')
                     )
-            # Sanity check: can't process in the past
-            form['execution_date'] = strfdate(max(execution_date, today))
-
         if len(runs) != 1:
-            raise wizard.except_wizard(
+            raise osv.except_osv(
                 _('Error'),
                 _('You can only combine payment orders of the same type')
             )
 
-        form['batchtype'] = type = runs.keys()[0]
-        form['reference'] = runs[type][0].reference[-5:]
-        return form
+        type = runs.keys()[0]
+        vals.update({
+            'execution_date': strfdate(max(execution_date, today)),
+            'batchtype': type,
+            'reference': runs[type][0].reference[-5:],
+            'payment_order_ids': [[6, 0, payment_order_ids]],
+            'state': 'create',
+            })
 
-    def _create_clieop(self, cursor, uid, data, context):
+    def create_clieop(self, cursor, uid, ids, context):
         '''
         Wizard to actually create the ClieOp3 file
         '''
-        pool = pooler.get_pool(cursor.dbname)
-        payment_order_obj = pool.get('payment.order')
-        form = data['form']
-
+        payment_order_obj = self.pool.get('payment.order')
+        clieop_export = self.browse(cursor, uid, ids, context)[0]
         clieopfile = None
-        payment_orders = payment_order_obj.browse(cursor, uid, data['ids'])
-        for payment_order in payment_orders:
+        for payment_order in clieop_export.payment_order_ids:
             if not clieopfile:
                 # Just once: create clieop file
                 our_account_owner = payment_order.mode.bank_id.owner_name \
@@ -269,19 +242,19 @@ class wizard_banking_export_clieop(wizard.interface):
                         payment_order.mode.bank_id.iban
                     ).localized_BBAN
                 if not our_account_nr:
-                    raise wizard.except_wizard(
+                    raise osv.except_osv(
                         _('Error'),
                         _('Your bank account has to have a valid account number')
                     )
                 clieopfile = {'CLIEOPPAY': clieop.PaymentsFile,
                               'CLIEOPINC': clieop.DirectDebitFile,
                               'CLIEOPSAL': clieop.SalaryPaymentsFile,
-                             }[form['batchtype']](
-                                 identification = form['reference'],
-                                 execution_date = form['execution_date'],
+                             }[clieop_export['batchtype']](
+                                 identification = clieop_export['reference'],
+                                 execution_date = clieop_export['execution_date'],
                                  name_sender = our_account_owner,
                                  accountno_sender = our_account_nr,
-                                 test = form['test']
+                                 test = clieop_export['test']
                              )
 
                 # ClieOp3 files can contain multiple batches, but we put all
@@ -290,21 +263,21 @@ class wizard_banking_export_clieop(wizard.interface):
                 # cheaper to combine than it is to split. As we split out all
                 # reported errors afterwards, there is no additional gain in
                 # using multiple batches.
-                if form['fixed_message']:
-                    messages = [form['fixed_message']]
+                if clieop_export['fixed_message']:
+                    messages = [clieop_export['fixed_message']]
                 else:
                     messages = []
                 # The first payment order processed sets the reference of the
                 # batch.
                 batch = clieopfile.batch(
                     messages = messages,
-                    batch_id = payment_order.reference
+                    batch_id = clieop_export['reference']
                 )
 
             for line in payment_order.line_ids:
                 # Check on missing partner of bank account (this can happen!)
                 if not line.bank_id or not line.bank_id.partner_id:
-                    raise wizard.except_wizard(
+                    raise osv.except_osv(
                         _('Error'),
                         _('There is insufficient information.\r\n'
                           'Both destination address and account '
@@ -323,13 +296,13 @@ class wizard_banking_export_clieop(wizard.interface):
                 # Is this an IBAN account?
                 if iban.valid:
                     if iban.countrycode != 'NL':
-                        raise wizard.except_wizard(
+                        raise osv.except_osv(
                             _('Error'),
                             _('You cannot send international bank transfers '
                               'through ClieOp3!')
                         )
                     other_account_nr = iban.localized_BBAN
-                if form['batchtype'] == 'CLIEOPINC':
+                if clieop_export['batchtype'] == 'CLIEOPINC':
                     kwargs['accountno_beneficiary'] = our_account_nr
                     kwargs['accountno_payer'] = other_account_nr
                 else:
@@ -339,87 +312,63 @@ class wizard_banking_export_clieop(wizard.interface):
 
         # Generate the specifics of this clieopfile
         order = clieopfile.order
-        values = dict(
-            filetype = order.name_transactioncode,
-            identification = order.identification,
-            prefered_date = strfdate(order.preferred_execution_date),
-            total_amount = int(order.total_amount) / 100.0,
-            check_no_accounts = order.total_accountnos,
-            no_transactions = order.nr_posts,
-            testcode = order.testcode,
-            file = base64.encodestring(clieopfile.rawdata),
-        )
-        form.update(values)
-        values['daynumber'] = int(clieopfile.header.file_id[2:])
-        values['payment_order_ids'] = ','.join(map(str, data['ids']))
-        data['file_id'] = pool.get('banking.export.clieop').create(cursor, uid, values)
-        data['clieop'] = clieopfile
-        form['log'] = ''
-        return form
+        file_id = self.pool.get('banking.export.clieop').create(
+            cursor, uid, dict(
+                filetype = order.name_transactioncode,
+                identification = order.identification,
+                prefered_date = strfdate(order.preferred_execution_date),
+                total_amount = int(order.total_amount) / 100.0,
+                check_no_accounts = order.total_accountnos,
+                no_transactions = order.nr_posts,
+                testcode = order.testcode,
+                file = base64.encodestring(clieopfile.rawdata),
+                daynumber = int(clieopfile.header.file_id[2:]),
+                payment_order_ids = [
+                    [6, 0, [x.id for x in clieop_export['payment_order_ids']]]
+                     ],
+                    ), context)
+        self.write(cursor, uid, [ids[0]], dict(
+                filetype = order.name_transactioncode,
+                testcode = order.testcode,
+                file_id = file_id,
+                state = 'finish',
+                ), context)
+        return {
+            'name': _('Client Opdrachten Export'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self._name,
+            'domain': [],
+            'context': dict(context, active_ids=ids),
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'res_id': ids[0] or False,
+        }
 
-    def _cancel_clieop(self, cursor, uid, data, context):
+    def cancel_clieop(self, cursor, uid, ids, context):
         '''
         Cancel the ClieOp: just drop the file
         '''
-        pool = pooler.get_pool(cursor.dbname)
-        pool.get('banking.export.clieop').unlink(cursor, uid, data['file_id'])
-        return {'state': 'end'}
+        clieop_export = self.read(cursor, uid, ids, ['file_id'], context)[0]
+        self.pool.get('banking.export.clieop').unlink(cursor, uid, clieop_export['file_id'])
+        return {'type': 'ir.actions.act_window_close'}
 
-    def _save_clieop(self, cursor, uid, data, context):
+    def save_clieop(self, cursor, uid, ids, context):
         '''
         Save the ClieOp: mark all payments in the file as 'sent', if not a test
         '''
-        if 'test' not in data['form'] or not data['form']['test']:
-            pool = pooler.get_pool(cursor.dbname)
-            clieop_obj = pool.get('banking.export.clieop')
-            payment_order_obj = pool.get('payment.order')
+        clieop_export = self.browse(
+            cursor, uid, ids, context)[0]
+        if not clieop_export['test']:
+            clieop_obj = self.pool.get('banking.export.clieop')
+            payment_order_obj = self.pool.get('payment.order')
             clieop_file = clieop_obj.write(
-                cursor, uid, data['file_id'], {'state':'sent'}
+                cursor, uid, clieop_export['file_id'].id, {'state':'sent'}
                 )
-            payment_order_obj.action_sent(cursor, uid, data['ids'])
-        return {'state': 'end'}
+            payment_order_obj.action_sent(
+                cursor, uid, [x.id for x in clieop_export['payment_order_ids']])
+        return {'type': 'ir.actions.act_window_close'}
 
-    states = {
-        'init': {
-            'actions': [_check_orders],
-            'result': {
-                'type': 'form',
-                'arch': form,
-                'fields' : fields,
-                'state': [
-                    ('end', 'Cancel', 'gtk-cancel'),
-                    ('create', 'Create', 'gtk-ok'),
-                ]
-            }
-        },
-        'create': {
-            'actions': [_create_clieop],
-            'result': {
-                'type': 'form',
-                'arch': file_form,
-                'fields': file_fields,
-                'state': [
-                    ('cancel', 'Cancel', 'gtk-cancel'),
-                    ('save', 'Finish', 'gtk-ok'),
-                ]
-            },
-        },
-        'cancel': {
-            'actions': [_cancel_clieop],
-            'result': {
-                'type': 'state',
-                'state': 'end'
-            }
-        },
-        'save': {
-            'actions': [_save_clieop],
-            'result': {
-                'type': 'state',
-                'state': 'end'
-            },
-        }
-    }
-
-wizard_banking_export_clieop('account_banking_nl_clieop.banking_export_clieop')
+banking_export_clieop_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

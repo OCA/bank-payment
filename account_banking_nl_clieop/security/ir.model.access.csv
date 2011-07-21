@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_banking_export_clieop","banking.export.clieop","model_banking_export_clieop","account_payment.group_account_payment",1,1,1,1

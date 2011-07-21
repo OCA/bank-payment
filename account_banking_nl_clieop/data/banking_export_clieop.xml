@@ -6,6 +6,8 @@
             <field name="code">CLIEOPINC</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base_iban.bank_iban'),ref('base.bank_normal'),])]" />
+	    <field name="ir_model_id"
+		ref="account_banking_nl_clieop.model_banking_export_clieop_wizard"/>
         </record>
 
         <record model="payment.mode.type" id="account_banking_nl_clieop.export_clieop_pay">
@@ -13,6 +15,8 @@
             <field name="code">CLIEOPPAY</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base_iban.bank_iban'),ref('base.bank_normal'),])]" />
+	    <field name="ir_model_id"
+		ref="account_banking_nl_clieop.model_banking_export_clieop_wizard"/>
         </record>
 
         <record model="payment.mode.type" id="account_banking_nl_clieop.export_clieop_sal">
@@ -20,6 +24,8 @@
             <field name="code">CLIEOPSAL</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base_iban.bank_iban'),ref('base.bank_normal'),])]" />
+	    <field name="ir_model_id"
+		ref="account_banking_nl_clieop.model_banking_export_clieop_wizard"/>
         </record>
     </data>
 </openerp>
