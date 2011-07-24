@@ -68,6 +68,9 @@ class transaction_message(object):
         # Set statement_id based on week number
         self.statement_id = self.effective_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
+        # Normalize basic account numbers
+        self.remote_account = self.remote_account.replace('.', '').zfill(10)
+        self.local_account = self.local_account.replace('.', '').zfill(10)
 
 class transaction(models.mem_bank_transaction):
     '''
