@@ -541,7 +541,8 @@ class banking_import(osv.osv_memory):
 
             # Get interesting journals once
             journal_ids = journal_obj.search(cursor, uid, [
-                ('type', 'in', ('sale','purchase')),
+                ('type', 'in', ('sale','purchase',
+                                'purchase_refund','sale_refund')),
                 ('company_id', '=', company.id),
             ])
             # Get all unreconciled moves predating the last statement in one big
