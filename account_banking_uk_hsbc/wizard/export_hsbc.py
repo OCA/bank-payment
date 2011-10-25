@@ -149,11 +149,15 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             )
             transaction_kwargs = {
                 'charges': paymul.CHARGES_EACH_OWN,
-                'means': paymul.MEANS_EZONE,
             }
         elif oe_account.country_id.code == 'GB':
-            sortcode, accountno = oe_account.acc_number.split(" ", 2)
-
+            split = oe_account.acc_number.split(" ", 2)
+            if len(split) == 2:
+                sortcode, accountno = split
+            else:
+                raise osv.except_osv(
+                    _('Error'),
+                    "Invalid GB acccount number '%s'" % oe_account.acc_number)
             paymul_account = paymul.UKAccount(
                 number=accountno,
                 sortcode=sortcode,
@@ -162,7 +166,6 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             )
             transaction_kwargs = {
                 'charges': paymul.CHARGES_PAYEE,
-                'means': paymul.MEANS_ACH,
             }
         else:
             raise osv.except_osv(
@@ -183,20 +186,19 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                     )
             )
 
-        try:
-            dest_account, transaction_kwargs = self._create_account(
-                line.bank_id)
-        except ValueError as exc:
-            raise osv.except_osv(
-                _('Error'),
-                _('Destination account invalid: ') + str(exc)
-            )
+        dest_account, transaction_kwargs = self._create_account(line.bank_id)
+
+        means = {'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
+                 'Faster Payment': paymul.MEANS_FASTER_PAYMENT}.get(line.order_id.mode.type.name)
+        if means is None:
+            raise osv.except_osv('Error', "Invalid payment type mode for HSBC '%s'" % line.order_id.mode.type.name)
 
         try:
             return paymul.Transaction(
                 amount=Decimal(str(line.amount_currency)),
                 currency=line.currency.name,
                 account=dest_account,
+                means=means,
                 name_address=line.info_partner,
                 customer_reference=line.name,
                 payment_reference=line.name,
