@@ -21,4 +21,5 @@
 
 import account_banking_uk_hsbc
 import wizard
+import hsbc_mt940
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
