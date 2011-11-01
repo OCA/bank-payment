@@ -533,6 +533,7 @@ class banking_import(osv.osv_memory):
         imported_statement_ids = []
         linked_payments = {}
         linked_invoices = {}
+        payment_lines = []
 
         if statements:
             # Get default defaults
@@ -571,8 +572,6 @@ class banking_import(osv.osv_memory):
             payment_line_ids = [x[0] for x in cursor.fetchall()]
             if payment_line_ids:
                 payment_lines = payment_line_obj.browse(cursor, uid, payment_line_ids)
-            else:
-                payment_lines = []
 
         for statement in statements:
             if statement.local_account in error_accounts:
