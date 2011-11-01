@@ -598,6 +598,7 @@ class banking_import(wizard.interface):
         error_accounts = {}
         info = {}
         imported_statement_ids = []
+        payment_lines = []
 
         if statements:
             # Get default defaults
@@ -635,8 +636,6 @@ class banking_import(wizard.interface):
             payment_line_ids = [x[0] for x in cursor.fetchall()]
             if payment_line_ids:
                 payment_lines = payment_line_obj.browse(cursor, uid, payment_line_ids)
-            else:
-                payment_lines = []
 
         for statement in statements:
             if statement.local_account in error_accounts:
