@@ -85,6 +85,8 @@ class transaction_message(object):
         self.execution_date = str2date(self.execution_date, '%d-%m-%Y')
         self.effective_date = str2date(self.effective_date, '%d-%m-%Y')
         self.id = str(subno).zfill(4)
+        self.statement_id = '-'.join([str(self.execution_date.year),
+                                      self.statement_id])
         # Map outgoing payment batches from general payments. They are
         # distinguished from normal payments with type_id '9722'
         if self.transfer_type == 'OVB' and self.transfer_type_id == '9722':

@@ -115,6 +115,19 @@ class banking_import(wizard.interface):
         # TODO: reprocess multiple matched invoices and payments afterwards
         self.__multiple_matches = []
 
+    def _cached(self, move_line):
+        '''Check if the move_line has been cached'''
+        return move_line.id in self.__linked_invoices
+
+    def _cache(self, move_line, remaining=0.0):
+        '''Cache the move_line'''
+        self.__linked_invoices[move_line.id] = remaining
+
+    def _remaining(self, move_line):
+        '''Return the remaining amount for a previously matched move_line
+        '''
+        return self.__linked_invoices[move_line.id]
+
     def _fill_results(self, *args, **kwargs):
         return {'log': self._log}
 
@@ -218,14 +231,26 @@ class banking_import(wizard.interface):
                       partner_ids, bank_account_ids, log):
         '''
         Find the payment order belonging to this reference - if there is one
-        This is the easiest part: when sending payments, the returned bank info
-        should be identical to ours.
+        When sending payments, the returned bank info should be identical to
+        ours.
         '''
-        # TODO: Not sure what side effects are created when payments are done
-        # for credited customer invoices, which will be matched later on too.
+        # TODO:
+        #    1. Not sure what side effects are created when payments are done
+        #       for credited customer invoices, which will be matched later on
+        #       too.
+        #    2. Have to include possible combinations of partial payments by
+        #       both payment order and by hand.
+
         digits = int(config['price_accuracy'])
+        
+        # Check both cache of payment_lines as move_lines, as both are
+        # intertwined. Ignoring this causes double processing of the same
+        # payment line.
+
         candidates = [x for x in payment_lines
-            if ((x.communication and x.communication == trans.reference) or
+            if x.id not in self.__linked_payments and
+               (not self._cached(x.move_line_id)) and 
+               ((x.communication and x.communication == trans.reference) or
                 (x.communication2 and x.communication2 == trans.message))
                 and round(x.amount, digits) == 
                       -round(trans.transferred_amount, digits)
@@ -235,19 +260,18 @@ class banking_import(wizard.interface):
             ]
         if len(candidates) == 1:
             candidate = candidates[0]
-            # Check cache to prevent multiple matching of a single payment
-            if candidate.id not in self.__linked_payments:
-                self.__linked_payments[candidate.id] = True
-                payment_line_obj = self.pool.get('payment.line')
-                payment_line_obj.write(cursor, uid, [candidate.id], {
-                    'export_state': 'done',
-                    'date_done': trans.effective_date.strftime('%Y-%m-%d')}
+            self.__linked_payments[candidate.id] = True
+            self._cache(candidate.move_line_id)
+            payment_line_obj = self.pool.get('payment.line')
+            payment_line_obj.write(cursor, uid, [candidate.id], {
+                'export_state': 'done',
+                'date_done': trans.effective_date.strftime('%Y-%m-%d')}
+            )
+            return self._get_move_info(
+                cursor, uid, candidate.move_line_id,
+                partner_bank_id=\
+                    bank_account_ids and bank_account_ids[0].id or False
                 )
-                return self._get_move_info(
-                    cursor, uid, candidate.move_line_id,
-                    partner_bank_id=\
-                        bank_account_ids and bank_account_ids[0].id or False
-                    )
 
         return False
 
@@ -306,38 +330,35 @@ class banking_import(wizard.interface):
             Match on ID of invoice (reference, name or number, whatever
             available and sensible)
             '''
+            lref = len(ref); lmsg = len(msg)
             if invoice.reference:
                 # Reference always comes first, as it is manually set for a
                 # reason.
                 iref = invoice.reference.upper()
-                if iref in ref or iref in msg:
+                liref = len(iref)
+                if iref in ref or iref in msg or \
+                   (liref > lref and ref in iref) or \
+                   (liref > lmsg and msg in iref):
                     return True
             if invoice.type.startswith('in_'):
                 # Internal numbering, no likely match on number
                 if invoice.name:
                     iname = invoice.name.upper()
-                    if iname in ref or iname in msg:
+                    liname = len(iname)
+                    if iname in ref or iname in msg or \
+                       (liname > lref and ref in iname) or \
+                       (liname > lmsg and msg in iname):
                         return True
             elif invoice.type.startswith('out_'):
                 # External id's possible and likely
                 inum = invoice.number.upper()
-                if inum in ref or inum in msg:
+                linum = len(inum)
+                if inum in ref or inum in msg or \
+                   (linum > lref and ref in inum) or \
+                   (linum > lmsg and msg in inum):
                     return True
 
             return False
-
-        def _cached(move_line):
-            '''Check if the move_line has been cached'''
-            return move_line.id in self.__linked_invoices
-
-        def _cache(move_line, remaining=0.0):
-            '''Cache the move_line'''
-            self.__linked_invoices[move_line.id] = remaining
-
-        def _remaining(move_line):
-            '''Return the remaining amount for a previously matched move_line
-            '''
-            return self.__linked_invoices[move_line.id]
 
         def _sign(invoice):
             '''Return the direction of an invoice'''
@@ -355,7 +376,7 @@ class banking_import(wizard.interface):
             candidates = [x for x in move_lines
                           if x.partner_id.id in partner_ids and
                           str2date(x.date, '%Y-%m-%d') <= (trans.execution_date + payment_window)
-                          and (not _cached(x) or _remaining(x))
+                          and (not self._cached(x) or self._remaining(x))
                           ]
         else:
             candidates = []
@@ -375,18 +396,18 @@ class banking_import(wizard.interface):
                           if x.invoice and has_id_match(x.invoice, ref, msg)
                               and str2date(x.invoice.date_invoice, '%Y-%m-%d')
                                 <= (trans.execution_date + payment_window)
-                              and (not _cached(x) or _remaining(x))
+                              and (not self._cached(x) or self._remaining(x))
                          ]
 
         # Match on amount expected. Limit this kind of search to known
         # partners.
         if not candidates and partner_ids:
             candidates = [x for x in move_lines 
-                          if round(abs(x.credit or x.debit), digits) == 
-                                round(abs(trans.transferred_amount), digits)
+                          if round(x.credit and -x.credit or x.debit, digits) == 
+                                round(trans.transferred_amount, digits)
                               and str2date(x.date, '%Y-%m-%d') <=
                                 (trans.execution_date + payment_window)
-                              and (not _cached(x) or _remaining(x))
+                              and (not self._cached(x) or self._remaining(x))
                          ]
 
         move_line = False
@@ -396,8 +417,8 @@ class banking_import(wizard.interface):
             #
             # TODO: currency coercing
             best = [x for x in candidates
-                    if round(abs(x.credit or x.debit), digits) == 
-                          round(abs(trans.transferred_amount), digits)
+                    if round(x.credit and -x.credit or x.debit, digits) == 
+                          round(trans.transferred_amount, digits)
                         and str2date(x.date, '%Y-%m-%d') <=
                           (trans.execution_date + payment_window)
                    ]
@@ -405,11 +426,11 @@ class banking_import(wizard.interface):
                 # Exact match
                 move_line = best[0]
                 invoice = move_line.invoice
-                if _cached(move_line):
+                if self._cached(move_line):
                     partial = True
-                    expected = _remaining(move_line)
+                    expected = self._remaining(move_line)
                 else:
-                    _cache(move_line)
+                    self._cache(move_line)
 
             elif len(candidates) > 1:
                 # Before giving up, check cache for catching duplicate
@@ -418,7 +439,7 @@ class banking_import(wizard.interface):
                         if x.invoice and has_id_match(x.invoice, ref, msg)
                             and str2date(x.invoice.date_invoice, '%Y-%m-%d')
                                 <= trans.execution_date
-                            and (_cached(x) and not _remaining(x))
+                            and (self._cached(x) and not self._remaining(x))
                        ]
                 if paid:
                     log.append(
@@ -469,11 +490,11 @@ class banking_import(wizard.interface):
                     })
                 elif abs(expected) > abs(found):
                     # Partial payment, reuse invoice
-                    _cache(move_line, expected - found)
+                    self._cache(move_line, expected - found)
                 elif abs(expected) < abs(found):
                     # Possible combined payments, need to split transaction to
                     # verify
-                    _cache(move_line)
+                    self._cache(move_line)
                     trans2 = trans.copy()
                     trans2.transferred_amount -= expected
                     trans.transferred_amount = expected
@@ -889,9 +910,7 @@ class banking_import(wizard.interface):
 
                 # Easiest match: customer id
                 elif transaction.remote_owner_custno:
-                    partner_ids = partner_obj.browse(
-                        cursor, uid, [transaction.remote_owner_custno]
-                    )
+                    partner_ids = [transaction.remote_owner_custno]
                     iban_acc = sepa.IBAN(transaction.remote_account)
                     if iban_acc.valid:
                         domain = [('iban','=',str(iban_acc))]
@@ -991,8 +1010,8 @@ class banking_import(wizard.interface):
                     amount = transaction.transferred_amount,
                     account_id = account_id.id,
                     statement_id = statement_id,
-                    note = transaction.message,
-                    ref = transaction.reference,
+                    note = transaction.reference and transaction.message or '',
+                    ref = transaction.reference or transaction.message,
                     period_id = period_id,
                     currency = account_info.currency_id.id,
                 )
