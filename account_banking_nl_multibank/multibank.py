@@ -44,8 +44,9 @@ class transaction_message(object):
     attrnames = [
         'date', 'local_account', 'remote_account', 'remote_owner', 'u1', 'u2',
         'u3', 'local_currency', 'start_balance', 'remote_currency',
-        'transferred_amount', 'execution_date', 'effective_date', 'nr1',
-        'transfer_type', 'nr2', 'reference', 'message', 'statement_id'
+        'transferred_amount', 'execution_date', 'effective_date',
+        'transfer_type_id', 'transfer_type', 'nr2', 'reference', 'message',
+        'statement_id'
     ]
 
     @staticmethod
@@ -55,7 +56,7 @@ class transaction_message(object):
         get prefixed by zeroes as in BBAN. Convert those to 'old' local
         account numbers
 
-        Edit: All account number now follow the BBAN scheme. As SNS Bank,
+        Edit: All account numbers now follow the BBAN scheme. As SNS Bank,
         from which this module was re-engineered, follows the Dutch
         Banking Tools regulations, it is considered to be used by all banks
         in the Netherlands which comply to it. If not, please notify us.
@@ -84,6 +85,10 @@ class transaction_message(object):
         self.execution_date = str2date(self.execution_date, '%d-%m-%Y')
         self.effective_date = str2date(self.effective_date, '%d-%m-%Y')
         self.id = str(subno).zfill(4)
+        # Map outgoing payment batches from general payments. They are
+        # distinguished from normal payments with type_id '9722'
+        if self.transfer_type == 'OVB' and self.transfer_type_id == '9722':
+            self.transfer_type = 'VZB'
 
 class transaction(models.mem_bank_transaction):
     '''
@@ -109,6 +114,7 @@ class transaction(models.mem_bank_transaction):
         'OVS': bt.ORDER,
         'PRV': bt.BANK_COSTS,
         'TEL': bt.ORDER,
+        'VZB': bt.PAYMENT_BATCH,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -150,12 +156,16 @@ class transaction(models.mem_bank_transaction):
         5. Cash withdrawals from banks are too not seen as a transfer between
         two accounts - the cash exits the banking system. These withdrawals
         have their transfer_type set to 'OPN'.
+
+        6. Payment batches are reported back in condensed format, meaning that
+        there is no individual transaction information, just a signal that the
+        total amount of the batch has been sent.
         '''
         return (self.transferred_amount and self.execution_date and
                 self.effective_date) and (
                     self.remote_account or
                     self.transfer_type in [
-                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV',
+                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV', 'VZB'
                     ]
                 and not self.error_message
                 )
@@ -243,7 +253,7 @@ class transaction(models.mem_bank_transaction):
         elif self.transfer_type == 'IDB':
             # Payment by iDeal transaction
             # Remote owner can be part of message, while remote_owner can be
-            # set to the intermediate party, which we don't need.
+            # set to an intermediate party, which we don't need.
             parts = self.message.split('  ')
             # Second part: structured id, date & time
             subparts = parts[1].split()
@@ -261,6 +271,15 @@ class transaction(models.mem_bank_transaction):
                 self.remote_owner = parts[-1].rstrip()
                 parts = parts[:-1]
             self.message = ' '.join(parts)
+
+        elif self.transfer_type == 'VZB':
+            # Payment batch, condensed format.
+            # NOTE: This has only been tested with ClieOp3 payment batches.
+            # If your milage varies, please inform us of your findings.
+            parts = self.message.split('.')[1].split()
+            self.payment_batch_no_transactions = int(parts[0])
+            self.message = ' '.join(parts[1:])
+            self.payment_batch_id = parts[2][-4:]
 
 class statement(models.mem_bank_statement):
     '''

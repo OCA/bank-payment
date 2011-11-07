@@ -65,6 +65,7 @@ from tools.translate import _
 from wizard.banktools import get_or_create_bank
 import pooler
 import netsvc
+from tools import config
 
 def warning(title, message):
     '''Convenience routine'''
@@ -810,9 +811,57 @@ payment_line()
 
 class payment_order(osv.osv):
     '''
-    Enable extra states for payment exports
+    Enable extra states for payment exports and add extra functionality.
     '''
     _inherit = 'payment.order'
+
+    def __no_transactions(self, cursor, uid, ids, field_name, arg=None,
+                          context=None):
+        '''
+        Return the number of payment lines in this order.
+        Don't bother using the ORM, as it is very inefficient in this respect.
+        '''
+        if not hasattr(ids, '__iter__'):
+            ids = [ids]
+        cursor.execute('SELECT o.id, count(*) '
+                       'FROM payment_order o, payment_line l '
+                       'WHERE o.id = l.order_id '
+                        ' AND o.id in (%s)'
+                       'GROUP BY o.id' % (','.join([str(x) for x in ids]))
+                      )
+        return dict(cursor.fetchall())
+
+    def __amount(self, cursor, uid, ids, field_name, arg=None, context=None):
+        '''
+        Calculation routine for balance of payment order. Grasps all
+        payment_order_lines and summarize the total amount of the order.
+        '''
+        payment_line_obj = self.pool.get('payment.line')
+        line_ids = payment_line_obj.search(
+            cursor, uid, [('order_id', 'in', ids)], context=context
+        )
+        order_lines = payment_line_obj.browse(cursor, ids, line_ids)
+        result = {}
+        for line in order_lines:
+            if line.order_id.id in result:
+                result[line.payment_id] += line.amount_currency
+            else:
+                result[line.payment_id] = line.amount_currency
+        return result
+
+    def __handler(self, cursor, uid, ids, field_name, arg=None, context=None):
+        '''
+        Return the payment generator ID from the payment_type. As this hops two
+        relations, fields.relation won't do.
+        '''
+        query = ("SELECT o.id, t.code "
+                 "FROM payment_order o, payment_mode m, payment_type t "
+                 "WHERE o.mode = m.id AND m.type = t.id AND "
+                 "o.id in (%s)" % ','.join([str(id) for id in ids])
+                )
+        cursor.execute(query)
+        return dict(cursor.fetchall())
+
     _columns = {
         'date_planned': fields.date(
             'Scheduled date if fixed',
@@ -881,6 +930,15 @@ class payment_order(osv.osv):
                   "execution."
                  )
             ),
+        'amount': fields.function(
+            __amount, digits=(16, int(config['price_accuracy'])),
+            method=True, string='Amount Total'
+            ),
+        'handler': fields.function(__handler, method=True, string='Handler'),
+        'no_transactions': fields.function(
+            __no_transactions, type='integer', method=True,
+            string='No Transactions'
+            ),
     }
 
     def _write_payment_lines(self, cursor, uid, ids, **kwargs):
@@ -930,15 +988,19 @@ class payment_order(osv.osv):
 
     def set_done(self, cursor, uid, ids, *args):
         '''
-        Extend standard transition to update children as well.
+        Extend standard transition to update children as well and to handle
+        list of ids.
         '''
+        if not hasattr(ids, '__iter__'):
+            ids = [ids]
         self._write_payment_lines(cursor, uid, ids,
                                   export_state='done',
                                   date_done=time.strftime('%Y-%m-%d')
                                  )
-        return super(payment_order, self).set_done(
-            cursor, uid, ids, *args
-        )
+        for id in ids:
+            if not super(payment_order, self).set_done(cursor, uid, id, *args):
+                return False
+        return True
 
     def get_wizard(self, type):
         '''

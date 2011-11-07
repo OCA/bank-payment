@@ -253,8 +253,8 @@
         </record>
 
         <!-- Reset trigger on button_confirm to the trigger code in this module -->
-        <record id="view_banking_bank_statement_form_4" model="ir.ui.view">
-            <field name="name">account.bank.statement.form.banking-4</field>
+        <record id="view_banking_bank_statement_form_7" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-7</field>
             <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="model">account.bank.statement</field>
             <field name="type">form</field>
@@ -277,6 +277,23 @@
                     <button name="%(account_payment.wizard_populate_payment)s"
                         colspan="2" type="action" states="draft,open"
                         string="Select Invoices to Pay"
+                        />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Make payment lines import button sensitive for extra states -->
+        <record id="view_banking_bank_statement_form_8" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.banking-8</field>
+            <field name="inherit_id" ref="account_payment.view_bank_statement_form"/>
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/button[@string='Import payment lines']"
+                    position="replace">
+                    <button name="%(account_payment.wizard_populate_payment)d"
+                        type="action" states="draft,open"
+                        string="Import payment lines" 
                         />
                 </xpath>
             </field>

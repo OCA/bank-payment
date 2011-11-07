@@ -49,7 +49,7 @@ class mem_bank_statement(object):
     def is_valid(self):
         '''
         Final check: ok if calculated end_balance and parsed end_balance are
-        identical and perform a heuristic check on the transactions.
+        identical and survive a heuristic check on the transactions.
         '''
         if any([x for x in self.transactions if not x.is_valid()]):
             return False
@@ -70,7 +70,7 @@ class mem_bank_transaction(object):
         # Message id
 
         'statement_id',
-        # The bank statement this message was reported on
+        # The id of the bank statement this message was reported on
 
         'transfer_type',
         # Action type that initiated this message
@@ -128,7 +128,10 @@ class mem_bank_transaction(object):
         # The other parties two letter ISO country code belonging to the previous
 
         'remote_owner_custno',
-        # The other parties customer number
+        # The other parties customer number. Right now, this is expected to be
+        # the OpenERP partner_id. Without access to the database, that is a
+        # bit difficult to fill, so please leave this untouched until further
+        # notice.
 
         # For identification of private other parties, the following attributes
         # are available and self explaining. Most banks allow only one per
@@ -171,6 +174,11 @@ class mem_bank_transaction(object):
         'provision_costs_currency',
         'provision_costs_description',
 
+        # When banks use transactions to report back on payment batches, the
+        # following two attributes should be used.
+        'payment_batch_id',
+        'payment_batch_no_transactions',
+
         # An error message for interaction with the user
         # Only used when mem_transaction.valid returns False.
         'error_message',
@@ -195,10 +203,15 @@ class mem_bank_transaction(object):
     #                       Will be selected for matching.
     #   ORDER               Order to the bank. Can work both ways.
     #                       Will be selected for matching.
-    #   PAYMENT_BATCH       A payment batch. Can work in both directions.
-    #                       Incoming payment batch transactions can't be
-    #                       matched with payments, outgoing can.
-    #                       Will be selected for matching.
+    #   PAYMENT_BATCH       A payment batch. Can work in both directions, but
+    #                       only outgoing payment batch transactions can be
+    #                       matched with payments. Reserved for condensed
+    #                       reporting (only batch id, execution date, number
+    #                       of transactions and total transfered amount are
+    #                       used). The business logic will match payment orders
+    #                       instead of payment order lines and substitute the
+    #                       transaction with fake transactions generated from
+    #                       the lines of the matched payment order.
     #   PAYMENT_TERMINAL    A payment with debit/credit card in a (web)shop
     #                       Invoice numbers and other hard criteria are most
     #                       likely missing.
@@ -214,6 +227,11 @@ class mem_bank_transaction(object):
     # transfer type Post Office, meaning a cash withdrawal from one of their
     # agencies. This can be mapped to BANK_TERMINAL without losing any
     # significance for OpenERP.
+    #
+    # Also, most banks differentiate between an incoming order and an incoming
+    # line from a payment batch. To the receiving party (us), there is no
+    # significance in the difference. You are required to map these lines to ORDER
+    # instead of marking them as PAYMENT_BATCH.
 
     BANK_COSTS = 'BC'
     BANK_TERMINAL = 'BT'

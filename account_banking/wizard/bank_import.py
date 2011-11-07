@@ -46,6 +46,7 @@ bt = models.mem_bank_transaction
 
 # This variable is used to match supplier invoices with an invoice date after
 # the real payment date. This can occur with online transactions (web shops).
+# TODO: Convert this to a proper configuration variable
 payment_window = datetime.timedelta(days=10)
 
 def parser_types(*args, **kwargs):
@@ -111,6 +112,7 @@ class banking_import(wizard.interface):
         self.__state = ''
         self.__linked_invoices = {}
         self.__linked_payments = {}
+        # TODO: reprocess multiple matched invoices and payments afterwards
         self.__multiple_matches = []
 
     def _fill_results(self, *args, **kwargs):
@@ -125,9 +127,10 @@ class banking_import(wizard.interface):
             'out_refund': 'customer',
             'in_refund': 'supplier',
         }
-        retval = struct(move_line=move_line, partner_id=move_line.partner_id.id,
-                        partner_bank_id=partner_bank_id,
-                        reference=move_line.ref
+        retval = struct(move_line = move_line,
+                        partner_id = move_line.partner_id.id,
+                        partner_bank_id = partner_bank_id,
+                        reference = move_line.ref
                        )
         if move_line.invoice:
             retval.invoice = move_line.invoice
@@ -137,7 +140,7 @@ class banking_import(wizard.interface):
 
         if partial:
             move_line.reconcile_partial_id = reconcile_obj.create(
-                cursor, uid, {'line_partial_ids': [(4, 0, [move_line.id])]}
+                cursor, uid, {'line_partial_ids': [(6, 0, [move_line.id])]}
             )
         else:
             if move_line.reconcile_partial_id:
@@ -148,7 +151,7 @@ class banking_import(wizard.interface):
                 partial_ids = []
             move_line.reconcile_id = reconcile_obj.create(
                 cursor, uid, {
-                    'line_id': [
+                    'line_ids': [
                         (4, x, False) for x in [move_line.id] + partial_ids
                     ],
                     'line_partial_ids': [
@@ -156,7 +159,60 @@ class banking_import(wizard.interface):
                     ]
                 }
             )
+
         return retval
+
+    def _link_payment_batch(self, cursor, uid, trans, payment_lines,
+                            payment_orders, log
+                           ):
+        '''
+        Find a matching payment batch hiding several payments and inject these
+        into the matching sequence.
+        '''
+        digits = int(config['price_accuracy'])
+        candidates = [x for x in payment_orders
+                      if str2date(x['object'].date_created, '%Y-%m-%d') <= \
+                            trans.execution_date and
+                         trans.payment_batch_no_transactions == \
+                            x['object'].no_transactions and
+                         round(x['amount_currency'], digits) == \
+                            round(-trans.transferred_amount, digits)
+                     ]
+        if candidates:
+            if len(candidates) == 1:
+                # Order found, now substitute with generated transactions
+                payment_order = candidates[0]['object']
+                injected = []
+                for line in [x for x in payment_lines if x.order_id.id ==
+                             payment_order.id]:
+                    transaction = trans.copy()
+                    transaction.type = bt.ORDER
+                    transaction.id = '%s-%s' % (trans.id, line.id)
+                    # Reminder: we were paying, so decreasing bank funds
+                    transaction.transferred_amount = -line.amount_currency
+                    transaction.remote_currency = line.currency
+                    transaction.remote_owner = line.partner_id.name
+                    transaction.remote_owner_custno = line.partner_id.id
+                    if line.bank_id.iban:
+                        transaction.remote_account = sepa.IBAN(line.bank_id.iban)
+                    else:
+                        transaction.remote_account = line.bank_id.acc_number
+                    transaction.remote_bank_bic = line.bank_id.bank.bic
+                    transaction.reference = line.communication
+                    transaction.message = line.communication2
+                    transaction.provision_costs = None
+                    transaction.provision_costs_currency = None
+                    transaction.provision_costs_description = None
+                    injected.append(transaction)
+                return injected
+            else:
+                log.append(_('Found multiple matching payment batches: %s.'
+                             'Can\'t choose') % 
+                                ', '.join([x.name for x in candidates])
+                          )
+        else:
+            log.append(_('Found unknown payment batch: %s') % trans.message)
+        return []
 
     def _link_payment(self, cursor, uid, trans, payment_lines,
                       partner_ids, bank_account_ids, log):
@@ -169,11 +225,14 @@ class banking_import(wizard.interface):
         # for credited customer invoices, which will be matched later on too.
         digits = int(config['price_accuracy'])
         candidates = [x for x in payment_lines
-                      if x.communication == trans.reference 
-                      and round(x.amount, digits) == -round(trans.transferred_amount, digits)
-                      and trans.remote_account in (x.bank_id.acc_number,
-                                                   x.bank_id.iban)
-                     ]
+            if ((x.communication and x.communication == trans.reference) or
+                (x.communication2 and x.communication2 == trans.message))
+                and round(x.amount, digits) == 
+                      -round(trans.transferred_amount, digits)
+                and trans.remote_account in (
+                    x.bank_id.acc_number, sepa.IBAN(x.bank_id.iban)
+                )
+            ]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
@@ -184,8 +243,11 @@ class banking_import(wizard.interface):
                     'export_state': 'done',
                     'date_done': trans.effective_date.strftime('%Y-%m-%d')}
                 )
-                
-                return self._get_move_info(cursor, uid, candidate.move_line_id)
+                return self._get_move_info(
+                    cursor, uid, candidate.move_line_id,
+                    partner_bank_id=\
+                        bank_account_ids and bank_account_ids[0].id or False
+                    )
 
         return False
 
@@ -234,7 +296,7 @@ class banking_import(wizard.interface):
             Return the eyecatcher for an invoice
             '''
             return invoice.type.startswith('in_') and invoice.name or \
-                    invoice.number
+                    '%s (%s)' % (invoice.number, invoice.name)
 
         def has_id_match(invoice, ref, msg):
             '''
@@ -373,7 +435,7 @@ class banking_import(wizard.interface):
                         _('Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: '
                           '%(no_candidates)s candidates found; can\'t choose.') % {
                               'trans': '%s.%s' % (trans.statement_id, trans.id),
-                              'ref': trans.reference,
+                              'ref': trans.reference or trans.message,
                               'no_candidates': len(best) or len(candidates)
                           })
                     log.append('    ' +
@@ -536,6 +598,7 @@ class banking_import(wizard.interface):
         self.pool = pooler.get_pool(cursor.dbname)
         company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
+        partner_obj = self.pool.get('res.partner')
         partner_bank_obj = self.pool.get('res.partner.bank')
         journal_obj = self.pool.get('account.journal')
         move_line_obj = self.pool.get('account.move.line')
@@ -543,9 +606,9 @@ class banking_import(wizard.interface):
         statement_obj = self.pool.get('account.bank.statement')
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
-        #account_obj = self.pool.get('account.account')
         payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
+        digits = int(config['price_accuracy'])
 
         # get the parser to parse the file
         parser_code = form['parser']
@@ -627,16 +690,35 @@ class banking_import(wizard.interface):
             # No filtering can be done, as empty dates carry value for C2B
             # communication. Most likely there are much less sent payments
             # than reconciled and open/draft payments.
+            payment_lines = []
+            payment_orders = []
             cursor.execute("SELECT l.id FROM payment_order o, payment_line l "
                            "WHERE l.order_id = o.id AND "
                                  "o.state = 'sent' AND "
                                  "l.date_done IS NULL"
                           )
-            payment_line_ids = [x[0] for x in cursor.fetchall()]
-            if payment_line_ids:
-                payment_lines = payment_line_obj.browse(cursor, uid, payment_line_ids)
-            else:
-                payment_lines = []
+            line_ids = [x[0] for x in cursor.fetchall()]
+            if line_ids:
+                # Get payment_orders and calculated total amounts as well in
+                # order to be able to match condensed transaction feedbacks.
+                # Use SQL for this, as it is way more efficient than server
+                # side processing.
+                payment_lines = payment_line_obj.browse(cursor, uid, line_ids)
+                cursor.execute("SELECT o.id, l.currency, SUM(l.amount_currency)"
+                              " FROM payment_order o, payment_line l "
+                               "WHERE l.order_id = o.id AND "
+                                     "o.state = 'sent' AND "
+                                     "l.date_done IS NULL "
+                               "GROUP BY o.id, l.currency"
+                              )
+                order_totals = dict([(x[0], round(x[2], digits))
+                                     for x in cursor.fetchall()])
+                payment_orders = [
+                    dict(id=x.id, object=x, amount_currency=order_totals[x.id])
+                    for x in list(payment_order_obj.browse(cursor, uid,
+                         order_totals.keys()
+                        ))
+                    ]
 
         for statement in statements:
             if statement.local_account in error_accounts:
@@ -777,6 +859,21 @@ class banking_import(wizard.interface):
                     transaction.provision_costs_currency = None
                     transaction.provision_costs_description = None
 
+                # Check on payments batches, as they are able to replace
+                # the current transaction by generated ones.
+                if transaction.type == bt.PAYMENT_BATCH:
+                    payments = self._link_payment_batch(
+                        cursor, uid, transaction, payment_lines,
+                        payment_orders, results.log
+                    )
+                    if payments:
+                        transaction = payments[0]
+                        injected += payments[1:]
+                    else:
+                        results.trans_skipped_cnt += 1
+                        i += 1
+                        continue
+
                 # Allow inclusion of generated bank invoices
                 if transaction.type == bt.BANK_COSTS:
                     lines = self._link_costs(
@@ -789,6 +886,22 @@ class banking_import(wizard.interface):
                             move_lines.append(line)
                     partner_ids = [account_info.bank_partner_id.id]
                     partner_banks = []
+
+                # Easiest match: customer id
+                elif transaction.remote_owner_custno:
+                    partner_ids = partner_obj.browse(
+                        cursor, uid, [transaction.remote_owner_custno]
+                    )
+                    iban_acc = sepa.IBAN(transaction.remote_account)
+                    if iban_acc.valid:
+                        domain = [('iban','=',str(iban_acc))]
+                    else:
+                        domain = [('acc_number','=',transaction.remote_account)]
+                    partner_banks = partner_bank_obj.browse(
+                        cursor, uid, partner_bank_obj.search(
+                            cursor, uid, domain
+                            )
+                        )
 
                 else:
                     # Link remote partner, import account when needed
@@ -831,9 +944,6 @@ class banking_import(wizard.interface):
                             partner_bank_id = None
                             partner_banks = []
                         partner_ids = [partner_id]
-                    else:
-                        partner_ids = []
-                        partner_banks = []
 
                 # Credit means payment... isn't it?
                 if transaction.transferred_amount < 0 and payment_lines:
@@ -922,39 +1032,14 @@ class banking_import(wizard.interface):
                     "FROM payment_line "
                     "WHERE date_done IS NULL "
                       "AND id IN (%s)"
-                   ")" % (','.join([str(x) for x in payment_line_ids]))
+                   ")" % (','.join([str(x) for x in line_ids]))
             )
             order_ids = [x[0] for x in cursor.fetchall()]
             if order_ids:
-                # Use workflow logics for the orders. Recode logic from
-                # account_payment, in order to increase efficiency.
+                # Use workflow logics for the orders.
                 payment_order_obj.set_done(cursor, uid, order_ids,
                                         {'state': 'done'}
                                        )
-                wf_service = netsvc.LocalService('workflow')
-                for id in order_ids:
-                    wf_service.trg_validate(uid, 'payment.order', id, 'done',
-                                            cursor
-                                           )
-
-            # Original code. Didn't take workflow logistics into account...
-            #
-            #cursor.execute(
-            #    "UPDATE payment_order o "
-            #    "SET state = 'done', "
-            #        "date_done = '%s' "
-            #    "FROM payment_line l "
-            #    "WHERE o.state = 'sent' "
-            #      "AND o.id = l.order_id "
-            #      "AND l.id NOT IN ("
-            #        "SELECT DISTINCT id FROM payment_line "
-            #        "WHERE date_done IS NULL "
-            #          "AND id IN (%s)"
-            #       ")" % (
-            #           time.strftime('%Y-%m-%d'),
-            #           ','.join([str(x) for x in payment_line_ids])
-            #       )
-            #)
 
         report = [
             '%s: %s' % (_('Total number of statements'),
