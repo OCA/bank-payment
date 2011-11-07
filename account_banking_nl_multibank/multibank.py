@@ -111,6 +111,7 @@ class transaction(models.mem_bank_transaction):
         'KNT': bt.BANK_COSTS,
         'KST': bt.BANK_COSTS,
         'OPN': bt.BANK_TERMINAL,
+        'OVB': bt.ORDER,
         'OVS': bt.ORDER,
         'PRV': bt.BANK_COSTS,
         'TEL': bt.ORDER,
