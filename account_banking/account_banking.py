@@ -1180,6 +1180,8 @@ class res_partner_bank(osv.osv):
         Convert IBAN electronic format to IBAN display format
         '''
         records = self._founder.read(self, *args, **kwargs)
+        if not hasattr(records, '__iter__'):
+            records = [records]
         for record in records:
             if 'iban' in record and record['iban']:
                 record['iban'] = unicode(sepa.IBAN(record['iban']))
