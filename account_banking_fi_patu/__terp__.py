@@ -26,7 +26,7 @@
 ##############################################################################
 {
     'name': 'Account Banking PATU module',
-    'version': '0.67',
+    'version': '0.68',
     'license': 'GPL-3',
     'author': 'Sami Haahtinen',
     'website': 'http://ressukka.net',
