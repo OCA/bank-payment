@@ -128,9 +128,9 @@ class HSBCParser(object):
             if len(line) <= 1:
                 continue
             if line[0] == ':' and len(line) > 1:
-                records.append(line[:-1])
+                records.append(line)
             else:
-                records[-1] = records[-1] + '\n' + line[:-1]
+                records[-1] = '\n'.join([records[-1], line])
 
         output = []
         for rec in records:
