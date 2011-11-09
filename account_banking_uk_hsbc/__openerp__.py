@@ -20,8 +20,8 @@
 ##############################################################################
 {
     'name': 'HSBC Account Banking',
-    'version': '0.1',
-    'license': 'GPL-3',
+    'version': '0.2',
+    'license': 'AGPL-3',
     'author': 'credativ Ltd',
     'website': 'http://www.credativ.co.uk',
     'category': 'Account Banking',
