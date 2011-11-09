@@ -138,11 +138,15 @@ class parser_hsbc_mt940(models.parser):
 
     def parse(self, data):
         result = []
-        statement_list = [st.splitlines() for st in re.split('\n(?=:20:)', data)]
+        parser = HSBCParser()
+        # Split into statements
+        statements = [st for st in re.split('[\r\n]*(?=:20:)', data)]
+        # Split by records
+        statement_list = [re.split('[\r\n ]*(?=:\d\d[\w]?:)', st) for st in statements]
 
         for statement_lines in statement_list:
             stmnt = statement()
-            records = HSBCParser().parse(statement_lines)
+            records = [parser.parse_record(record) for record in statement_lines]
             [stmnt.import_record(r) for r in records if r is not None]
 
 
