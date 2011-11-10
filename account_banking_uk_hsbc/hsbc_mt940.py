@@ -85,7 +85,7 @@ class statement(models.mem_bank_statement):
             self.id = '-'.join([self.id, self.local_account, record['statementnr']])
         def _opening_balance():
             self.start_balance = record2float(record,'startingbalance')
-            self.currency_code = record['currencycode']
+            self.local_currency = record['currencycode']
         def _closing_balance():
             self.end_balance = record2float(record, 'endingbalance')
             self.date = record['bookingdate']
