@@ -167,6 +167,29 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             transaction_kwargs = {
                 'charges': paymul.CHARGES_PAYEE,
             }
+        elif oe_account.country_id.code in ('US','CA'):
+            split = oe_account.acc_number.split(' ', 2)
+            if len(split) == 2:
+                sortcode, accountno = split
+            else:
+                raise osv.except_osv(
+                    _('Error'),
+                    "Invalid %s acccount number '%s'" % (oe_account.country_id.code,oe_account.acc_number))
+            paymul_account = paymul.NorthAmericanAccount(
+                number=accountno,
+                sortcode=sortcode,
+                holder=holder,
+                currency=currency,
+                swiftcode=oe_account.bank.bic,
+                country=oe_account.country_id.code,
+                #origin_country=origin_country
+            )
+            transaction_kwargs = {
+                'charges': paymul.CHARGES_PAYEE,
+            }
+            transaction_kwargs = {
+                'charges': paymul.CHARGES_PAYEE,
+            }
         else:
             raise osv.except_osv(
                 _('Error'),

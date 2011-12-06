@@ -47,6 +47,10 @@ def edifact_digits(val, digits, mindigits=None):
     pattern = r'^[0-9]{' + str(mindigits) + ',' + str(digits) + r'}$'
     return bool(re.match(pattern, str(val)))
 
+def edifact_isalnum_size(val, digits):
+    pattern = r'^[A-Za-z0-9 ]{' + str(digits) + ',' + str(digits) + r'}$'
+    return bool(re.match(pattern, str(val)))
+
 class HasCurrency(object):
     def _get_currency(self):
         return self._currency
@@ -154,6 +158,52 @@ class UKAccount(HasCurrency):
 
     def fii_or_segment(self):
         return _fii_segment(self, 'OR')
+
+
+class NorthAmericanAccount(UKAccount):
+
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+        super(NorthAmericanAccount,self).__init__(number, holder, currency, sortcode)
+        self.country = country
+        self.bic = swiftcode
+        self.origin_country = origin_country
+        self.institution_identification = self._set_account_ident()
+
+    def _set_account_ident(self):
+        if self.origin_country in ('US','CA'):
+            # Use the routing number
+            account_ident = ['', '', '', self.sortcode, 155, 114]
+        else:
+            # Using the BIC/Swift Code
+            account_ident = [self.bic, 25, 5, '', '', '']
+        return account_ident
+
+    def _set_sortcode(self, sortcode):
+        if not edifact_digits(sortcode, 9):
+            raise ValueError("Account routing number must be 9 digits long: " +
+                             str(sortcode))
+
+        
+        self._sortcode = sortcode
+
+    def _get_sortcode(self):
+        return self._sortcode
+
+    sortcode = property(_get_sortcode, _set_sortcode)
+
+    def _set_bic(self, bic):
+        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
+                             str(bic))
+        self._bic = bic
+
+    def _get_bic(self):
+        return self._bic
+
+    bic = property(_get_bic, _set_bic)
+
+
+
 
 class IBANAccount(HasCurrency):
     def _get_iban(self):
