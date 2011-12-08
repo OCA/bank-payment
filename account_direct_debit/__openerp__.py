@@ -24,26 +24,29 @@
 #
 ##############################################################################
 {
-    'name': 'Account Banking NL ClieOp',
-    'version': '0.64',
+    'name': 'Direct Debit',
+    'version': '6.0.1.64',
     'license': 'GPL-3',
-    'author': 'EduSense BV',
-    'website': 'http://www.edusense.nl',
-    'category': 'Account Banking',
+    'author': 'Therp BV',
+    'website': 'http://www.therp.nl',
+    'category': 'Banking addons',
     'depends': ['account_banking'],
     'init_xml': [],
     'update_xml': [
-        'account_banking_nl_clieop.xml',
-        'wizard/export_clieop_view.xml',
-        'data/banking_export_clieop.xml',
-        'security/ir.model.access.csv',
+        'account_payment_view.xml',
     ],
     'demo_xml': [],
     'description': '''
-    Module to export payment orders in ClieOp format.
+This module adds support for direct debit orders, analogous to payment orders.
+A new entry in the Accounting/Payment menu allow you to create a direct debit order that
+helps you to select any customer invoices for you to collect.
 
-    ClieOp format is used by Dutch banks to batch national bank transfers.
-    This module uses the account_banking logic.
+This module depends on and is part of the banking addons for OpenERP. This set of
+modules helps you to provide support for communications with your local banking
+institutions. See https://launchpad.net/banking-addons.
+
+The banking addons are a continuation of Account Banking Framework by Edusense BV.
+See https://launchpad.net/account-banking.
     ''',
     'active': False,
     'installable': True,

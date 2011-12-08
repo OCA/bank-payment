@@ -209,7 +209,15 @@ class payment_mode_type(osv.osv):
                   'Leave empty for manual processing'),
             domain=[('osv_memory', '=', True)],
             ),
+        'payment_order_type': fields.selection(
+            [('payment', 'Payment'),('debit', 'Direct debit')],
+            'Payment order type', required=True,
+            ),
     }
+
+    _defaults = {
+        'payment_order_type': lambda *a: 'payment',
+        }
 
 payment_mode_type()
 
@@ -777,7 +785,7 @@ class payment_order(osv.osv):
                 'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
             },
-            help='Select the Payment Mode to be applied.'
+            help='Select the Payment Mode to be applied.',
         ),
         'state': fields.selection([
             ('draft', 'Draft'),
@@ -820,7 +828,15 @@ class payment_order(osv.osv):
                   "execution."
                  )
             ),
+        'payment_order_type': fields.selection(
+            [('payment', 'Payment'),('debit', 'Direct debit')],
+            'Payment order type', required=True,
+            ),
     }
+
+    _defaults = {
+        'payment_order_type': lambda *a: 'payment',
+        }
 
     def launch_wizard(self, cr, uid, ids, context=None):
         """

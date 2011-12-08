@@ -423,6 +423,7 @@
 		    <field name="name" />
 		    <field name="code" />
 		    <field name="suitable_bank_types"/>
+		    <field name="payment_order_type"/>
 		    <field name="ir_model_id"/>
                 </form>
             </field>

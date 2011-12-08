@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- distinguish between payment orders and debit orders in the menu -->
+        <record id="account_payment.action_payment_order_tree" model="ir.actions.act_window">
+            <field name="domain">[('payment_order_type', '=', 'payment')]</field>
+            <field name="context">{'search_payment_order_type': 'payment'}</field>
+        </record>
+        <record id="action_debit_order_tree" model="ir.actions.act_window">
+            <field name="name">Direct Debit Orders</field>
+            <field name="res_model">payment.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_payment_order_type': 'debit'}</field>
+            <field name="search_view_id" ref="account_payment.view_payment_order_search"/>
+            <field name="domain">[('payment_order_type', '=', 'debit')]</field>
+            <field name="help">A debit order is a debit request from your company to collect customer invoices. Here you can register all debit orders that should be done, keep track of all debit orders and mention the invoice reference and the partner the withdrawal should be done for.</field>
+        </record>
+        
+        <menuitem action="action_debit_order_tree" id="menu_action_debit_order_form" parent="account_payment.menu_main_payment" sequence="4"/>
+	<!-- not needed I hope 
+        <record id="view_create_payment_order" model="ir.ui.view">
+            <field name="name">payment.order.create.form</field>
+            <field name="model">payment.order.create</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_payment.view_create_payment_order"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='search_entries']" position="attributes">
+                    <attribute name="name">search_entries</attribute>
+                </xpath>
+            </field>
+        </record>
+	-->
+        <record id="view_payment_order_form" model="ir.ui.view">
+            <field name="name">payment.order.form</field>
+            <field name="model">payment.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+            <field name="priority" eval="60"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="reference" position="after">
+                        <field name="payment_order_type"/>
+                    </field>
+                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                           position="attributes">
+                        <attribute name="attrs">
+                            {'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'payment')]}
+                        </attribute>
+                    </xpath>
+                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                           position="after">
+                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
+                                string="Select Invoices to Collect" type="action" 
+                                attrs="{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'debit')]}"
+                                icon="gtk-find"
+                                />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

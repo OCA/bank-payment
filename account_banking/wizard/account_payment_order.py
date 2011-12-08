@@ -91,11 +91,17 @@ class payment_order_create(osv.osv_memory):
                 else:
                     state = 'normal'
                     communication2 = line.invoice.reference
+            # support debit orders when enabled
+            if (payment.payment_order_type == 'debit' and
+                'amount_to_receive' in line):
+                amount_currency = line.amount_to_receive
+            else:
+                amount_currency = line.amount_to_pay
             ### end account_banking
 
             payment_obj.create(cr, uid,{
                 'move_line_id': line.id,
-                'amount_currency': line.amount_to_pay,
+                'amount_currency': amount_currency,
                 'bank_id': line2bank.get(line.id),
                 'order_id': payment.id,
                 'partner_id': line.partner_id and line.partner_id.id or False,
