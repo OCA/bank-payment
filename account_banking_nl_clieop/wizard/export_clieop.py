@@ -23,6 +23,7 @@ import base64
 from datetime import datetime, date, timedelta
 from osv import osv, fields
 from tools.translate import _
+import netsvc
 from account_banking import sepa
 import clieop
 
@@ -365,8 +366,9 @@ class banking_export_clieop_wizard(osv.osv_memory):
             clieop_file = clieop_obj.write(
                 cursor, uid, clieop_export['file_id'].id, {'state':'sent'}
                 )
-            payment_order_obj.action_sent(
-                cursor, uid, [x.id for x in clieop_export['payment_order_ids']])
+            wf_service = netsvc.LocalService('workflow')
+            for order in clieop_export['payment_order_ids']:
+                wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cursor)
         return {'type': 'ir.actions.act_window_close'}
 
 banking_export_clieop_wizard()

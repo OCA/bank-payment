@@ -876,7 +876,9 @@ class payment_order(osv.osv):
                         _('You can only combine payment orders of the same type')
                         )
             # process manual payments
-            self.action_sent(cr, uid, ids, context)
+            wf_service = netsvc.LocalService('workflow')
+            for order_id in ids:
+                wf_service.trg_validate(uid, 'payment.order', order_id, 'sent', cr)
         return result
 
     def _write_payment_lines(self, cursor, uid, ids, **kwargs):
@@ -909,9 +911,7 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'sent'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        wf_service = netsvc.LocalService('workflow')
-        for id in ids:
-            wf_service.trg_validate(uid, 'payment.order', id, 'sent', cursor)
+        self.write(cursor, uid, ids, {'state':'sent'})
         return True
 
     def action_rejected(self, cursor, uid, ids, *args):

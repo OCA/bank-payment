@@ -10,8 +10,7 @@
         <record id="act_sent" model="workflow.activity">
             <field name="name">sent</field>
             <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
-            <field name="action">action_sent()
-write({'state':'sent'})</field>
+            <field name="action">action_sent())</field>
             <field name="kind">function</field>
         </record>
         <!-- New activity for workflow payment order: rejected -->
