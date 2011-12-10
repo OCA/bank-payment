@@ -33,7 +33,9 @@
     'depends': ['account_banking'],
     'init_xml': [],
     'update_xml': [
-        'account_payment_view.xml',
+        'view/account_payment.xml',
+        'view/account_invoice.xml',
+        'workflow/account_invoice.xml',
     ],
     'demo_xml': [],
     'description': '''

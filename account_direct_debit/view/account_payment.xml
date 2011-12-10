@@ -6,6 +6,7 @@
             <field name="domain">[('payment_order_type', '=', 'payment')]</field>
             <field name="context">{'search_payment_order_type': 'payment'}</field>
         </record>
+
         <record id="action_debit_order_tree" model="ir.actions.act_window">
             <field name="name">Direct Debit Orders</field>
             <field name="res_model">payment.order</field>
@@ -18,19 +19,7 @@
         </record>
         
         <menuitem action="action_debit_order_tree" id="menu_action_debit_order_form" parent="account_payment.menu_main_payment" sequence="4"/>
-	<!-- not needed I hope 
-        <record id="view_create_payment_order" model="ir.ui.view">
-            <field name="name">payment.order.create.form</field>
-            <field name="model">payment.order.create</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="account_payment.view_create_payment_order"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='search_entries']" position="attributes">
-                    <attribute name="name">search_entries</attribute>
-                </xpath>
-            </field>
-        </record>
-	-->
+
         <record id="view_payment_order_form" model="ir.ui.view">
             <field name="name">payment.order.form</field>
             <field name="model">payment.order</field>
@@ -59,5 +48,19 @@
                 </data>
             </field>
         </record>
+
+	<!-- Add transfer account for debit type modes -->
+	<record model="ir.ui.view" id="view_payment_mode_form">
+	  <field name="name">payment.mode.form add transfer account</field>
+	  <field name="model">payment.mode</field>
+	  <field name="inherit_id" ref="account_banking.view_payment_mode_form_inherit"/>
+	  <field name="type">form</field>
+	  <field name="arch" type="xml">
+	    <field name="type" position="after">
+	      <field name="transfer_account_id"/>
+	      <field name="transfer_journal_id"/>
+	    </field>
+	  </field>
+	</record>
     </data>
 </openerp>

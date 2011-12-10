@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <!-- 
+                         Add new state 'debit_denied' to applicable buttons.
+                         Maybe apply trick in fields_view_get instead, for
+                         better compatibility with other modules?
+                    -->
+                    <button name="invoice_open" position="attributes">
+                        <attribute name="states">draft,proforma2,debit_denied</attribute>
+                    </button>
+                    <button string='Re-Open' position="attributes">
+                        <attribute name="states">paid,debit_denied</attribute>
+                        <!--
+                            unintentional fix of
+                            https://bugs.launchpad.net/openobject-addons/+bug/807543
+                        -->
+                        <attribute name="groups"/>
+                    </button>
+                    <button name="invoice_open" position="after">
+                        <button name="invoice_debit_denied" states="paid"
+                                string="Debit Denied" icon="gtk-cancel"/>
+                    </button>
+               </data>
+            </field>
+        </record>
+    </data>
+</openerp>

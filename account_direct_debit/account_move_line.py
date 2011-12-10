@@ -44,6 +44,7 @@ class account_move_line(osv.osv):
                             INNER JOIN payment_order po
                                 ON (pl.order_id = po.id)
                         WHERE move_line_id = ml.id
+                        AND pl.storno is false
                         AND po.state != 'cancel') AS amount
                     FROM account_move_line ml
                     WHERE id IN %s""", (tuple(ids),))
@@ -63,6 +64,7 @@ class account_move_line(osv.osv):
         FROM payment_line pl
         INNER JOIN payment_order po ON (pl.order_id = po.id)
         WHERE move_line_id = l.id
+        AND pl.storno is false
         AND po.state != 'cancel'
         ) %(operator)s %%s ''' % {'operator': x[1]}, args))
         sql_args = tuple(map(itemgetter(2), args))
