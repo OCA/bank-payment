@@ -832,6 +832,7 @@ class payment_order(osv.osv):
             [('payment', 'Payment'),('debit', 'Direct debit')],
             'Payment order type', required=True,
             ),
+        'date_sent': fields.date('Send date', readonly=True),
     }
 
     _defaults = {
@@ -911,7 +912,8 @@ class payment_order(osv.osv):
         Set both self and payment lines to state 'sent'.
         '''
         self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        self.write(cursor, uid, ids, {'state':'sent'})
+        self.write(cursor, uid, ids, {'state':'sent',
+                                      'date_sent': time.strftime('%Y-%m-%d')})
         return True
 
     def action_rejected(self, cursor, uid, ids, *args):
@@ -946,6 +948,14 @@ class payment_order(osv.osv):
             # the module name hard coded.
             return 'account_banking', 'wizard_account_banking_payment_manual'
         return super(payment_order, self).get_wizard(type)
+
+    def debit_reconcile_transfer(self, cr, uid, payment_order_id, 
+                                 amount, log, context=None):
+        """
+        Hook for the account_direct_debit module. When not installed,
+        do nothing and make sure that the caller ignores the result.
+        """
+        return False
 
 payment_order()
 

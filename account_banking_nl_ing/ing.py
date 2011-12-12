@@ -70,7 +70,7 @@ class transaction_message(object):
             re.sub(',', '.', self.transferred_amount))
         if self.debcred == 'Af':
             self.transferred_amount = -self.transferred_amount
-        self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d')
+        self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d') 
         # Set statement_id based on week number
         self.statement_id = self.effective_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
@@ -96,7 +96,7 @@ class transaction(models.mem_bank_transaction):
     type_map = {
         
         'AC': bt.ORDER, # Acceptgiro
-        'BA': bt.PAYMENT_TERMNINAL, # Betaalautomaattransactie
+        'BA': bt.PAYMENT_TERMINAL, # Betaalautomaattransactie
         'CH': bt.ORDER, # Cheque
         'DV': bt.ORDER, # Diversen
         'FL': bt.BANK_TERMINAL, # Filiaalboeking, concernboeking
@@ -109,6 +109,7 @@ class transaction(models.mem_bank_transaction):
         'PO': bt.ORDER, # Periodieke overschrijving
         'ST': bt.BANK_TERMINAL, # Storting (eigen rekening of derde)
         'VZ': bt.ORDER, # Verzamelbetaling
+        'NO': bt.STORNO, # Storno
         }
 
     def __init__(self, line, *args, **kwargs):
@@ -118,14 +119,28 @@ class transaction(models.mem_bank_transaction):
         super(transaction, self).__init__(*args, **kwargs)
         # Copy attributes from auxiliary class to self.
         for attr in self.attrnames:
-            setattr(self, attr, getattr(line, attr))
-        self.message = ''
+            if attr == 'reference':
+                setattr(self, 'reference', False)
+            else:
+                setattr(self, attr, getattr(line, attr))
+        # self.message = ''
         # Decompose structured messages
         self.parse_message()
-        if (self.transfer_type == 'OV' and
-            not self.remote_account and
-            not self.remote_owner):
-            self.transfer_type = 'KN'
+        # Adaptations to direct debit orders ands stornos
+        if self.transfer_type == 'DV':
+            res = self.ref_expr.search(self.remote_owner)
+            if res:
+                self.transfer_type = 'NO'
+                self.reference = res.group(1)
+                self.remote_owner = False
+            else:
+                res = self.ref_expr.search(self.message)
+                if res:
+                    self.transfer_type = 'NO'
+                    self.reference = res.group(1)
+        if self.transfer_type == 'IC':
+            self.reference = self.remote_owner
+            self.remote_owner = False
 
     def is_valid(self):
         if not self.error_message:
@@ -146,15 +161,6 @@ class transaction(models.mem_bank_transaction):
         Parse structured message parts into appropriate attributes.
         No processing done here for Triodos, maybe later.
         '''
-        if self.transfer_type == 'DV':
-            res = self.ref_expr.search(self.remote_owner)
-            if res:
-                self.reference = res.group(1)
-                self.remote_owner = False
-            else:
-                res = self.ref_expr.search(self.message)
-                if res:
-                    self.reference = res.group(1)
 
 class statement(models.mem_bank_statement):
     '''
@@ -167,7 +173,7 @@ class statement(models.mem_bank_statement):
         super(statement, self).__init__(*args, **kwargs)
         self.id = msg.statement_id
         self.local_account = msg.local_account
-        self.date = str2date(msg.date, '%d-%m-%Y')
+        self.date = str2date(msg.date, '%Y%m%d')
         self.start_balance = self.end_balance = 0 # msg.start_balance
         self.import_transaction(msg)
 

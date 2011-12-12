@@ -9,7 +9,8 @@ class payment_mode(osv.osv):
     _columns = {
         'transfer_account_id': fields.many2one(
             'account.account', 'Transfer account',
-            domain=[('type', '=', 'other')],
+            domain=[('type', '=', 'other'),
+                    ('reconcile', '=', True)],
             help=('Pay off lines in sent orders with a ' +
                   'move on this account. For debit type modes only'),
             ),
@@ -49,6 +50,42 @@ class payment_order(osv.osv):
                 # also update the domain
                 res['fields']['mode']['domain'] = domain
         return res
+
+    def debit_reconcile_transfer(self, cr, uid, payment_order_id, 
+                        amount, log, context=None):
+        """
+        During import of bank statements, create the reconcile on the transfer
+        account containing all the move lines on the transfer account.
+        """
+        move_line_obj = self.pool.get('account.move.line')
+
+        def get_balance(line_ids):
+            total = 0.0
+            for line in move_line_obj.read(
+                cr, uid, line_ids, ['debit', 'credit'], context=context):
+                total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
+            return total
+
+        def is_zero(move_line, total):
+            return self.pool.get('res.currency').is_zero(
+                cr, uid, move_line.company_id.currency_id, total)
+
+        order = self.browse(cr, uid, payment_order_id, context)
+        line_ids = []
+        reconcile_id = False
+        for order_line in order.line_ids:
+            for line in order_line.debit_move_line_id.move_id.line_id:
+                if line.account_id.type == 'other' and not line.reconcile_id:
+                    line_ids.append(line.id)
+        import pdb
+        pdb.set_trace()
+        if is_zero(order.line_ids[0].debit_move_line_id,
+                   get_balance(line_ids) - amount):
+            reconcile_id = self.pool.get('account.move.reconcile').create(
+                cr, uid, 
+                {'type': 'auto', 'line_id': [(6, 0, line_ids)]},
+                context)
+        return reconcile_id
 
     def action_sent(self, cr, uid, ids, context=None):
         """ 

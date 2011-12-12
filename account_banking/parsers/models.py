@@ -223,10 +223,11 @@ class mem_bank_transaction(object):
     PAYMENT_BATCH = 'PB'
     PAYMENT_TERMINAL = 'PT' 
     PERIODIC_ORDER = 'PO'
+    STORNO = 'ST'
 
     types = [
         BANK_COSTS, BANK_TERMINAL, CHECK, DIRECT_DEBIT, ORDER,
-        PAYMENT_BATCH, PAYMENT_TERMINAL, PERIODIC_ORDER,
+        PAYMENT_BATCH, PAYMENT_TERMINAL, PERIODIC_ORDER, STORNO,
     ]
     type_map = {
         # This can be a translation map of type versus bank type. Each key is

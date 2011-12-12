@@ -103,6 +103,42 @@ class banking_import(osv.osv_memory):
             )
         return retval
 
+    def _link_debit_order(
+        self, cr, uid, trans, account_info, log, context=None):
+
+        def is_zero(total):
+            return self.pool.get('res.currency').is_zero(
+                cr, uid, account_info.currency_id, total)
+
+        payment_order_obj = self.pool.get('payment.order')
+        order_ids = payment_order_obj.search(
+            cr, uid, [('payment_order_type', '=', 'debit'),
+                      ('state', '=', 'sent'),
+                      ('date_sent', '<=', trans.execution_date)],
+            limit=0, context=context)
+        orders = payment_order_obj.browse(cr, uid, order_ids, context)
+        candidates = [x.id for x in orders if
+                      is_zero(x.total - trans.transferred_amount)]
+        if len(candidates) == 1:
+            # this action generates a reconcile object
+            # with all the payment order's move lines 
+            # on the transfer account
+            reconcile_id = payment_order_obj.debit_reconcile_transfer(
+                cr, uid, candidates[0], trans.transferred_amount, log, context)
+            if reconcile_id:
+                # the move_line is only used for the account
+                # and the reconcile_ids, so we return the first.
+                move_line = self.pool.get('account.move.reconcile').browse(
+                    cr, uid, reconcile_id, context).line_id[0]
+                return struct(
+                    move_line=move_line,
+                    partner_id=False,
+                    partner_bank_id=False,
+                    reference=False,
+                    type='general',
+                    )
+        return False
+
     def _link_payment(self, cursor, uid, trans, payment_lines,
                       partner_ids, bank_account_ids, log, linked_payments):
         '''
@@ -541,8 +577,9 @@ class banking_import(osv.osv_memory):
             def_rec_account_id = company.partner_id.property_account_receivable.id
 
             # Get interesting journals once
+            # Added type 'general' to capture fund transfers
             journal_ids = journal_obj.search(cursor, uid, [
-                ('type', 'in', ('sale','purchase',
+                ('type', 'in', ('general', 'sale','purchase',
                                 'purchase_refund','sale_refund')),
                 ('company_id', '=', company.id),
             ])
@@ -711,7 +748,11 @@ class banking_import(osv.osv_memory):
                     transaction.provision_costs = None
                     transaction.provision_costs_currency = None
                     transaction.provision_costs_description = None
-
+    
+                # Match full direct debit orders
+                if transaction.type == bt.DIRECT_DEBIT:
+                    move_info = self._link_debit_order(
+                        cursor, uid, transaction, account_info, results.log, context)
                 # Allow inclusion of generated bank invoices
                 if transaction.type == bt.BANK_COSTS:
                     lines = self._link_costs(
@@ -724,7 +765,6 @@ class banking_import(osv.osv_memory):
                             move_lines.append(line)
                     partner_ids = [account_info.bank_partner_id.id]
                     partner_banks = []
-
                 else:
                     # Link remote partner, import account when needed
                     partner_banks = get_bank_accounts(
@@ -771,7 +811,8 @@ class banking_import(osv.osv_memory):
                         partner_banks = []
 
                 # Credit means payment... isn't it?
-                if transaction.transferred_amount < 0 and payment_lines:
+                if (not move_info
+                    and transaction.transferred_amount < 0 and payment_lines):
                     # Link open payment - if any
                     move_info = self._link_payment(
                         cursor, uid, transaction,
@@ -823,7 +864,7 @@ class banking_import(osv.osv_memory):
                 )
                 if move_info:
                     values.type = move_info.type
-                    values.reconcile_id = move_info.move_line.reconcile_id
+                    values.reconcile_id = move_info.move_line.reconcile_id.id
                     values.partner_id = move_info.partner_id
                     values.partner_bank_id = move_info.partner_bank_id
                 else:
