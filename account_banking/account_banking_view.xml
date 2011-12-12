@@ -428,5 +428,13 @@
                 </form>
             </field>
         </record>
+
+        <!-- fixes https://bugs.launchpad.net/openobject-addons/+bug/903156 for 6.0 
+             Note that 6.1 does not suffer from the problem 
+        -->
+        <record id="account_payment.action_create_payment_order" model="ir.actions.act_window">
+            <field name="view_id" ref="account_payment.view_create_payment_order"/>
+        </record>
+
     </data>
 </openerp>
