@@ -77,28 +77,29 @@ class banking_import(osv.osv_memory):
             retval.type = 'general'
 
         if partial:
-            move_line.reconcile_partial_id = reconcile_obj.create(
+            reconcile_obj.create(
                 cursor, uid, {
                     'type': 'auto',
-                    'line_partial_ids': [(4, 0, [move_line.id])]
+                    'line_partial_ids': [(6, 0, [move_line.id])]
                     }
             )
         else:
             if move_line.reconcile_partial_id:
                 partial_ids = [x.id for x in
                                move_line.reconcile_partial_id.line_partial_ids
-                              ]
+                               ]
+                reconcile_obj.write(
+                    cursor, uid, move_line.reconcile_partial_id.id, {
+                        'type': 'auto',
+                        'line_id': [(6, 0, [move_line.id] + partial_ids)],
+                        'line_partial_ids': [(6, 0, [])],
+                        }
+                    )
             else:
-                partial_ids = []
-            move_line.reconcile_id = reconcile_obj.create(
-                cursor, uid, {
-                    'type': 'auto',
-                    'line_id': [
-                        (4, x, False) for x in [move_line.id] + partial_ids
-                    ],
-                    'line_partial_ids': [
-                        (3, x, False) for x in partial_ids
-                    ]
+                reconcile_obj.create(
+                    cursor, uid, {
+                        'type': 'auto',
+                        'line_id': [(6, 0, [move_line.id])],
                 }
             )
         return retval
@@ -823,8 +824,13 @@ class banking_import(osv.osv_memory):
                 )
                 if move_info:
                     values.type = move_info.type
-                    values.reconcile_id = move_info.move_line.reconcile_id
-                    values.partner_id = move_info.partner_id
+                    values.reconcile_id = (
+                        move_info.move_line.reconcile_id and
+                        move_info.move_line.reconcile_id.id or
+                        move_info.move_line.reconcile_partial_id and
+                        move_info.move_line.reconcile_partial_id.id
+                        )
+                    values.partner_id = move_info.partner_id 
                     values.partner_bank_id = move_info.partner_bank_id
                 else:
                     values.partner_id = values.partner_bank_id = False
