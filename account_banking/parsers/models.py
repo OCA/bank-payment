@@ -174,6 +174,10 @@ class mem_bank_transaction(object):
         # An error message for interaction with the user
         # Only used when mem_transaction.valid returns False.
         'error_message',
+        
+        # Storno attribute. When True, make the cancelled debit eligible for
+        # a next direct debit run
+        'storno_retry',
 
     ]
 
@@ -206,6 +210,10 @@ class mem_bank_transaction(object):
     #   PERIODIC_ORDER      An automated payment by the bank on your behalf.
     #                       Always outgoing.
     #                       Will be selected for matching.
+    #   STORNO              A failed or reversed attempt at direct debit.
+    #                       Either due to an action on the payer's side
+    #                       or a failure observed by the bank (lack of 
+    #                       credit for instance)
     #
     #   Perhaps more will follow.
     #

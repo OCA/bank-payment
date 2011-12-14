@@ -77,10 +77,10 @@ class banking_import(osv.osv_memory):
             retval.type = 'general'
 
         if partial:
-            move_line.reconcile_partial_id = reconcile_obj.create(
+            reconcile_obj.create(
                 cursor, uid, {
                     'type': 'auto',
-                    'line_partial_ids': [(4, 0, [move_line.id])]
+                    'line_partial_ids': [(4, 0, [move_line.id])],
                     }
             )
         else:
@@ -90,19 +90,56 @@ class banking_import(osv.osv_memory):
                               ]
             else:
                 partial_ids = []
-            move_line.reconcile_id = reconcile_obj.create(
+            reconcile_obj.create(
                 cursor, uid, {
                     'type': 'auto',
-                    'line_id': [
-                        (4, x, False) for x in [move_line.id] + partial_ids
-                    ],
-                    'line_partial_ids': [
-                        (3, x, False) for x in partial_ids
-                    ]
+                    'line_id': [(6, 0, [move_line.id] + partial_ids)],
+                    'line_partial_ids': [(6, 0, [])],
                 }
             )
         return retval
 
+    def _link_storno(
+        self, cr, uid, trans, account_info, log, context=None):
+        payment_line_obj = self.pool.get('payment.line')
+        move_line_obj = self.pool.get('account.move.line')
+        line_ids = payment_line_obj.search(
+            cr, uid, [
+                ('order_id.payment_order_type', '=', 'debit'),
+                ('order_id.state', 'in', ['sent', 'done']),
+                ('communication', '=', trans.reference)
+                ], context=context)
+        if len(line_ids) == 1:
+            reconcile_id = payment_line_obj.debit_storno(
+                cr, uid, line_ids[0], trans.transferred_amount,
+                account_info.currency_id, trans.storno_retry, context=None)
+            if reconcile_id:
+                # we need to retrieve the move line as per consistency
+                # but it is only used to retrieve the account_id to book
+                # the transfer to. By necessity, we can use any of the 
+                # move lines from the reconcile as all of them should have
+                # the same account.
+                move_line_ids = move_line_obj.search(
+                    cr, uid, 
+                    [
+                        '|', ('reconcile_id', '=', reconcile_id),
+                        ('reconcile_partial_id', '=', reconcile_id),
+                        ]
+                    , context=context)
+                if move_line_ids:
+                    move_line=move_line_obj.browse(
+                        cr, uid, move_line_ids[0], context=context)
+                    return struct(
+                        move_line=move_line,
+                        partner_id=False,
+                        partner_bank_id=False,
+                        reference=False,
+                        type='general',
+                        )  
+        # TODO log the reason why there is no result for transfers marked
+        # as storno
+        return False
+                
     def _link_debit_order(
         self, cr, uid, trans, account_info, log, context=None):
 
@@ -309,6 +346,7 @@ class banking_import(osv.osv_memory):
                          ]
 
         move_line = False
+
         if candidates and len(candidates) > 0:
             # Now a possible selection of invoices has been found, check the
             # amounts expected and received.
@@ -753,6 +791,9 @@ class banking_import(osv.osv_memory):
                 if transaction.type == bt.DIRECT_DEBIT:
                     move_info = self._link_debit_order(
                         cursor, uid, transaction, account_info, results.log, context)
+                if transaction.type == bt.STORNO:
+                    move_info = self._link_storno(
+                        cursor, uid, transaction, account_info, results.log, context)
                 # Allow inclusion of generated bank invoices
                 if transaction.type == bt.BANK_COSTS:
                     lines = self._link_costs(
@@ -864,7 +905,12 @@ class banking_import(osv.osv_memory):
                 )
                 if move_info:
                     values.type = move_info.type
-                    values.reconcile_id = move_info.move_line.reconcile_id.id
+                    values.reconcile_id = (
+                        move_info.move_line.reconcile_id and
+                        move_info.move_line.reconcile_id.id or
+                        move_info.move_line.reconcile_partial_id and
+                        move_info.move_line.reconcile_partial_id.id
+                        )
                     values.partner_id = move_info.partner_id
                     values.partner_bank_id = move_info.partner_bank_id
                 else:

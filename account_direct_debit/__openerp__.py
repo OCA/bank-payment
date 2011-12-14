@@ -36,6 +36,7 @@
         'view/account_payment.xml',
         'view/account_invoice.xml',
         'workflow/account_invoice.xml',
+        'data/account_payment_term.xml',
     ],
     'demo_xml': [],
     'description': '''

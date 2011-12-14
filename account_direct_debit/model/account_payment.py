@@ -19,6 +19,21 @@ class payment_mode(osv.osv):
             help=('Journal to write payment entries when confirming ' +
                   'a debit order of this mode'),
             ),
+        'reference_filter': fields.char(
+            'Reference filter', size=16,
+            help=(
+                'Optional substring filter on move line references. ' +
+                'You can use this in combination with a specific journal ' +
+                'for items that you want to handle with this mode. Use ' +
+                'a separate sequence for the journal with a distinguished ' +
+                'prefix or suffix and enter that character string here.'),
+            ),
+#        'payment_term_ids': fields.many2many(
+#            'account.payment.term', 'account_payment_order_terms_rel', 
+#            'mode_id', 'term_id', 'Payment terms',
+#            help=('Limit selected invoices to invoices with these payment ' +
+#                  'terms')
+#            ),
         }
 payment_mode()
 
@@ -77,14 +92,17 @@ class payment_order(osv.osv):
             for line in order_line.debit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other' and not line.reconcile_id:
                     line_ids.append(line.id)
-        import pdb
-        pdb.set_trace()
         if is_zero(order.line_ids[0].debit_move_line_id,
                    get_balance(line_ids) - amount):
             reconcile_id = self.pool.get('account.move.reconcile').create(
                 cr, uid, 
                 {'type': 'auto', 'line_id': [(6, 0, line_ids)]},
                 context)
+            # set direct debit order to finished state
+            wf_service = netsvc.LocalService('workflow')
+            wf_service.trg_validate(
+                uid, 'payment.order', payment_order_id, 'done', cr)
+
         return reconcile_id
 
     def action_sent(self, cr, uid, ids, context=None):
@@ -165,86 +183,99 @@ payment_order()
 class payment_line(osv.osv):
     _inherit = 'payment.line'
 
-    def debit_storno(self, cr, uid, payment_line_id, storno_move_line_id, context=None):
+    def debit_storno(self, cr, uid, payment_line_id, amount,
+                     currency_id, storno_retry=True, context=None):
         """
-        Process a payment line from a direct debit order which has
-        been canceled by the bank or by the user:
-        - Undo the reconciliation of the payment line with the move
-        line that it originated from, and re-reconciliated with
-        the credit payment in the bank journal of the same amount and
-        on the same account.
-        - Mark the payment line for being reversed.
-        
-        :param payment_line_id: the single id of the canceled payment line
-        :param storno_move_line_id: the credit payment in the bank journal
+        The processing of a storno is triggered by a debit
+        transfer on one of the company's bank accounts.
+        This method offers to re-reconcile the original debit
+        payment. For this purpose, we have registered that
+        payment move on the payment line.
+
+        Return the (now incomplete) reconcile id. The caller MUST
+        re-reconcile this reconcile with the bank transfer and
+        re-open the associated invoice.
+
+        :param payment_line_id: the single payment line id
+        :param amount: the (signed) amount debited from the bank account
+        :param currency_id: the bank account's currency id
+        :param boolean storno_retry: when True, attempt to reopen the invoice, \
+        set the invoice to 'Debit denied' otherwise.
+        :return: an incomplete reconcile for the caller to fill
+        :rtype: database id of an account.move.reconcile resource.
         """
 
-        if isinstance(payment_line_id, (list, tuple)):
-            payment_line_id = payment_line_id[0]
-        reconcile_obj = self.pool.get('account.move.reconcile')
         move_line_obj = self.pool.get('account.move.line')
-        payment_line = self.browse(cr, uid, payment_line_id, context=context)
-
-        debit_move_line = payment_line.debit_move_line_id
-        if (not debit_move_line):
-            raise osv.except_osv(
-                _('Can not process storno'),
-                _('No move line for line %s') % payment_line.name)
-        if payment_line.storno:
-            raise osv.except_osv(
-                _('Can not process storno'),
-                _('Cancelation of payment line \'%s\' has already been ' +
-                  'processed') % payment_line.name)
-
-        def is_zero(total):
-            return self.pool.get('res.currency').is_zero(
-                cr, uid, debit_move_line.company_id.currency_id, total)
-
-        # check validity of the proposed move line
-        torec_move_line = move_line_obj.browse(
-            cr, uid, storno_move_line_id, context=context)
-        if not (is_zero(torec_move_line.debit - debit_move_line.debit) and
-                is_zero(torec_move_line.credit - debit_move_line.credit) and
-                torec_move_line.account_id.id == debit_move_line.account_id.id):
-            raise osv.except_osv(
-                _('Can not process storno'),
-                _('%s is not a drop-in replacement for %s') % (
-                    torec_move_line.name, debit_move_line.name))
-        if payment_line.storno:
-            raise osv.except_osv(
-                _('Can not process storno'),
-                _('Debit order line %s has already been cancelled') % (
-                    payment_line.name))
-
-        # replace move line in reconciliation
+        reconcile_obj = self.pool.get('account.move.reconcile')
+        line = self.browse(cr, uid, payment_line_id)
         reconcile_id = False
-        if (payment_line.move_line_id.reconcile_partial_id and 
-            debit_move_line_id.id in
-            payment_line.move_line_id.reconcile_partial_id.line_partial_ids):
-            reconcile_id = payment_line.move_line_id.reconcile_partial_id
-            vals = {
-                'line_partial_ids': 
-                [(3, debit_move_line_id.id), (4, torec_move_line.id)],
-                }
-        elif (payment_line.move_line_id.reconcile_id and 
-              debit_move_line_id.id in
-              payment_line.move_line_id.reconcile_id.line_id):
-            reconcile_id = payment_line.move_line_id.reconcile_id
-            vals = {
-                'line_id':
-                    [(3, debit_move_line_id.id), (4, torec_move_line.id)]
-                }
-        if not reconcile_id:
-            raise osv.except_osv(
-                _('Can not perform storno'),
-                _('Debit order line %s does not occur in the list of '
-                  'reconciliation move lines of its origin') % 
-                debit_move_line_id.name)
-        reconcile_obj.write(cr, uid, reconcile_id, vals, context=context)
-        self.write(cr, uid, payment_line_id, {'storno': True}, context=context)
-        #for line_id in line_ids:
-        #    netsvc.LocalService("workflow").trg_trigger(
-        #        uid, 'account.move.line', line_id, cr)
+        if (line.debit_move_line_id and not line.storno and
+            self.pool.get('res.currency').is_zero(
+                cr, uid, currency_id, (
+                    (line.debit_move_line_id.credit or 0.0) -
+                    (line.debit_move_line_id.debit or 0.0) + amount))):
+            # Two different cases, full and partial
+            # Both cases differ subtly in the procedure to follow
+            # Needs refractoring, but why is this not in the OpenERP API?
+            if line.debit_move_line_id.reconcile_partial_id:
+                reconcile_id = line.debit_move_line_id.reconcile_partial_id.id
+                attribute = 'reconcile_partial_id'
+                if len(line.debit_move_line_id.reconcile_id.line_partial_ids) == 2:
+                    # reuse the simple reconcile for the storno transfer
+                    reconcile_obj.write(
+                        cr, uid, reconcile_id, {
+                            'line_id': [(6, 0, line.debit_move_line_id.id)],
+                            'line_partial_ids': [(6, 0, [])],
+                            }, context=context)
+                else:
+                    # split up the original reconcile in a partial one
+                    # and a new one for reconciling the storno transfer
+                    reconcile_obj.write(
+                        cr, uid, reconcile_id, {
+                            'line_partial_ids': [(3, line.debit_move_line_id.id)],
+                            }, context=context)
+                    reconcile_id = reconcile_obj.create(
+                        cr, uid, {
+                            'type': 'auto',
+                            'line_id': [(6, 0, line.debit_move_line_id.id)],
+                            }, context=context)
+            elif line.debit_move_line_id.reconcile_id:
+                reconcile_id = line.debit_move_line_id.reconcile_id.id
+                if len(line.debit_move_line_id.reconcile_id.line_id) == 2:
+                    # reuse the simple reconcile for the storno transfer
+                    reconcile_obj.write(
+                        cr, uid, reconcile_id, {
+                            'line_id': [(6, 0, [line.debit_move_line_id.id])]
+                            }, context=context)
+                else:
+                    # split up the original reconcile in a partial one
+                    # and a new one for reconciling the storno transfer
+                    partial_ids = [ 
+                        x.id for x in line.debit_move_line_id.reconcile_id.line_id
+                        if x.id != line.debit_move_line_id.id
+                        ]
+                    reconcile_obj.write(
+                        cr, uid, reconcile_id, {
+                            'line_partial_ids': [(6, 0, partial_ids)],
+                            'line_id': [(6, 0, [])],
+                            }, context=context)
+                    reconcile_id = reconcile_obj.create(
+                        cr, uid, {
+                            'type': 'auto',
+                            'line_id': [(6, 0, line.debit_move_line_id.id)],
+                            }, context=context)
+            # mark the payment line for storno processed
+            if reconcile_id:
+                self.write(cr, uid, [payment_line_id],
+                           {'storno': True}, context=context)
+                # put forth the invoice workflow
+                if line.move_line_id.invoice:
+                    activity = (storno_retry and 'open_test'
+                                or 'invoice_debit_denied')
+                    netsvc.LocalService("workflow").trg_validate(
+                        uid, 'account.invoice', line.move_line_id.invoice.id,
+                        activity, cr)
+        return reconcile_id
 
     def debit_reconcile(self, cr, uid, payment_line_id, context=None):
         """
@@ -356,9 +387,29 @@ class payment_order_create(osv.osv_memory):
         payment = self.pool.get('payment.order').browse(cr, uid, context['active_id'], context=context)
         # Search for move line to pay:
         if payment.payment_order_type == 'debit':
-            domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'receivable'), ('amount_to_receive', '>', 0)]
+            domain = [
+                ('reconcile_id', '=', False),
+                ('account_id.type', '=', 'receivable'),
+                ('amount_to_receive', '>', 0),
+                ]
+            # cannot filter on properties of (searchable)
+            # function fields. Needs work in expression.expression.parse()
+            # Currently gives an SQL error.
+#            # apply payment term filter
+#            if payment.mode.payment_term_ids:
+#                term_ids = [term.id for term in payment.mode.payment_term_ids]
+#                domain = domain + [
+#                    '|', ('invoice', '=', False),
+#                    ('invoice.payment_term', 'in', term_ids),
+#                    ]
         else:
-            domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('amount_to_pay', '>', 0)]
+            domain = [
+                ('reconcile_id', '=', False),
+                ('account_id.type', '=', 'payable'),
+                ('amount_to_pay', '>', 0)
+                ]
+        if payment.mode.reference_filter:
+            domain.append(('ref', 'ilike', payment.mode.reference_filter))
         # domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('amount_to_pay', '>', 0)]
         ### end account_direct_debit ###
 

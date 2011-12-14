@@ -54,8 +54,6 @@ class transaction_message(object):
 #        'remote_owner', 'remote_account', 'transfer_type', 'reference',
     ]
 
-    ref_expr = re.compile('REF[\*:]([0-9A-Z-z_-]+)')
-
     def __init__(self, values, subno):
         '''
         Initialize own dict with attributes and coerce values to right type
@@ -85,7 +83,7 @@ class transaction(models.mem_bank_transaction):
     attrnames = ['local_account', 'remote_account',
                  'remote_owner', 'transferred_amount',
                  'execution_date', 'effective_date', 'transfer_type',
-                 'reference', 'id',
+                 'id', #'reference', 
                 ]
 
     """
@@ -112,6 +110,9 @@ class transaction(models.mem_bank_transaction):
         'NO': bt.STORNO, # Storno
         }
 
+    # global expression for matching storno references
+    ref_expr = re.compile('REF[\*:]([0-9A-Z-z_-]+)')
+
     def __init__(self, line, *args, **kwargs):
         '''
         Initialize own dict with read values.
@@ -119,15 +120,15 @@ class transaction(models.mem_bank_transaction):
         super(transaction, self).__init__(*args, **kwargs)
         # Copy attributes from auxiliary class to self.
         for attr in self.attrnames:
-            if attr == 'reference':
-                setattr(self, 'reference', False)
-            else:
-                setattr(self, attr, getattr(line, attr))
+            #if attr == 'reference':
+            #    setattr(self, 'reference', False)
+            #else:
+            setattr(self, attr, getattr(line, attr))
         # self.message = ''
         # Decompose structured messages
         self.parse_message()
         # Adaptations to direct debit orders ands stornos
-        if self.transfer_type == 'DV':
+        if self.transfer_type == 'DV' and self.transferred_amount < 0:
             res = self.ref_expr.search(self.remote_owner)
             if res:
                 self.transfer_type = 'NO'
@@ -139,7 +140,15 @@ class transaction(models.mem_bank_transaction):
                     self.transfer_type = 'NO'
                     self.reference = res.group(1)
         if self.transfer_type == 'IC':
-            self.reference = self.remote_owner
+            if self.transferred_amount > 0:
+                self.reference = self.remote_owner
+            else:
+                self.transfer_type = 'NO'
+                self.message = self.remote_owner + self.message
+                res = self.ref_expr.search(self.message)
+                if res:
+                    self.reference = res.group(1)
+                    self.storno_retry = True
             self.remote_owner = False
 
     def is_valid(self):

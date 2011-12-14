@@ -751,6 +751,26 @@ class payment_line(osv.osv):
 
         return res
 
+    def debit_storno(self, cr, uid, payment_line_id, amount,
+                     currency_id, storno_retry=True, context=None):
+        """
+        Hook for handling a canceled item of a direct debit order.
+        Presumably called from a bank statement import routine.
+
+        Decide on the direction that the invoice's workflow needs to take.
+        You may optionally return an incomplete reconcile for the caller
+        to reconcile the now void payment.
+
+        :param payment_line_id: the single payment line id
+        :param amount: the (negative) amount debited from the bank account
+        :param currency_id: the bank account's currency id
+        :param boolean storno_retry: whether the storno is considered fatal \
+        or not.
+        :return: an incomplete reconcile for the caller to fill
+        :rtype: database id of an account.move.reconcile resource.
+        """
+
+        return False
 
 payment_line()
 
