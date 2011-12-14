@@ -54,6 +54,53 @@ def parser_types(*args, **kwargs):
     '''
     return models.parser_type.get_parser_types()
 
+class banking_import_line(osv.osv_memory):
+    _name = 'banking.import.line'
+    _description = 'Bank import lines'
+    _columns = {
+        'name': fields.char('Name', size=64),
+        'date': fields.date('Date', readonly=True),
+        'amount': fields.float('Amount', digits_compute=dp.get_precision('Account')),
+        'statement_line_id': fields.many2one(
+            'account.bank.statement.line',
+            'Resulting statement line', readonly=True),
+        'type': fields.selection([
+            ('supplier','Supplier'),
+            ('customer','Customer'),
+            ('general','General')
+            ], 'Type', required=True),
+        'partner_id': fields.many2one('res.partner', 'Partner'),
+        'statement_id': fields.many2one('account.bank.statement', 'Statement',
+            select=True, required=True, ondelete='cascade'),
+        'ref': fields.char('Reference', size=32),
+        'note': fields.text('Notes'),
+        'period_id': fields.many2one('account.period', 'Period'),
+        'currency': fields.many2one('res.currency', 'Currency'),
+        'banking_import_id': fields.many2one(
+            'account.banking.bank.import', 'Bank import',
+            readonly=True, ondelete='cascade'),
+        'reconcile_id': fields.many2one(
+            'account.move.reconcile', 'Reconciliaton'),
+        'account_id': fields.many2one('account.account', 'Account'),
+        'invoice_ids': fields.many2many(
+            'account.invoice', 'banking_import_line_invoice_rel',
+            'line_id', 'invoice_id'),
+        'payment_order_id': fields.many2one('payment.order', 'Payment order'),
+        'partner_bank_id': fields.many2one('res.partner.bank', 'Bank Account'),
+        'transaction_type': fields.selection([
+                # TODO: payment terminal etc...
+                ('invoice', 'Invoice payment'),
+                ('payment_order_line', 'Payment from a payment order'),
+                ('payment_order', 'Aggregate payment order'),
+                ('storno', 'Canceled debit order'),
+                ('bank_costs', 'Bank costs'),
+                ('unknown', 'Unknown'),
+                ], 'Transaction type'),
+        'duplicate': fields.boolean('Duplicate'),
+        }
+banking_import_line()
+    
+
 class banking_import(osv.osv_memory):
     _name = 'account.banking.bank.import'
 
@@ -545,6 +592,7 @@ class banking_import(osv.osv_memory):
         banking_import = self.browse(cursor, uid, ids, context)[0]
         statements_file = banking_import.file
         data = base64.decodestring(statements_file)
+        line_ids = []
 
         company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
@@ -554,6 +602,7 @@ class banking_import(osv.osv_memory):
         payment_line_obj = self.pool.get('payment.line')
         statement_obj = self.pool.get('account.bank.statement')
         statement_line_obj = self.pool.get('account.bank.statement.line')
+        import_line_obj = self.pool.get('banking.import.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
         payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
@@ -921,7 +970,10 @@ class banking_import(osv.osv_memory):
                     len(partner_banks) == 1:
                     values.partner_bank_id = partner_banks[0].id
 
-                statement_line_id = statement_line_obj.create(cursor, uid, values)
+                line_values = values.copy()
+                line_values['banking_import_id'] = banking_import.id
+                line_ids.append(import_line_obj.create(
+                    cursor, uid, line_values, context=context))
                 results.trans_loaded_cnt += 1
                 # Only increase index when all generated transactions are
                 # processed as well
@@ -1002,19 +1054,68 @@ class banking_import(osv.osv_memory):
             '',
         ]
         text_log = '\n'.join(report + results.log)
-        state = results.error_cnt and 'error' or 'ready'
+        state = results.error_cnt and 'error' or 'review' # ready
         statement_file_obj.write(cursor, uid, import_id, dict(
             state = state, log = text_log,
             ), context)
-        if not imported_statement_ids:
+        if not imported_statement_ids or not line_ids:
             # file state can be 'ready' while import state is 'error'
             state = 'error'
         self.write(cursor, uid, [ids[0]], dict(
                 import_id = import_id, log = text_log, state = state,
-                statement_ids = [[6, 0, imported_statement_ids]],
+                statement_ids = [(6, 0, imported_statement_ids)],
                 ), context)
         return {
-            'name': _('Import Bank Transactions File'),
+            'name': (state == 'review' and _('Review Bank Transactions') or
+                     _('Error')),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': False,
+            'res_model': self._name,
+            'domain': [],
+            'context': dict(context, active_ids=ids),
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'res_id': ids[0] or False,
+        }
+ 
+       
+    def create_statement_lines(self, cr, uid, ids, context):
+        """
+        Create bank statement lines from banking import lines
+        Update state on source and target
+        """
+
+        banking_import = self.browse(cr, uid, ids, context)[0]
+        statement_line_obj = self.pool.get('account.bank.statement.line')
+        statement_file_obj = self.pool.get('account.banking.imported.file')
+        for line in banking_import.line_ids:
+            values = dict(
+                amount = line.amount,
+                account_id = line.account_id and line.account_id.id,
+                currency = line.currency and line.currency.id,
+                date = line.date,
+                name = line.name,
+                note = line.note,
+                partner_id = line.partner_id and line.partner_id.id,
+                period_id = line.period_id and line.period_id.id,
+                reconcile_id = line.reconcile_id and line.reconcile_id.id,
+                ref = line.ref,
+                statement_id = line.statement_id and line.statement_id.id,
+                type = line.type)
+            statement_line_id = statement_line_obj.create(cr, uid, values)
+            statement_file_obj.write(
+                cr, uid, line.id, 
+                {'statement_line_id': statement_line_id}, context=context
+                )
+        state = 'ready'
+        statement_file_obj.write(cr, uid, banking_import.import_id.id, dict(
+                state = state), context)
+        self.write(cr, uid, [ids[0]], dict(
+                state = state), context)
+
+        return {
+            'name': _('Finish Bank Transaction File Import'),
             'view_type': 'form',
             'view_mode': 'form',
             'view_id': False,
@@ -1057,7 +1158,7 @@ class banking_import(osv.osv_memory):
         'log': fields.text('Log', readonly=True),
         'state': fields.selection(
             [('init', 'init'), ('ready', 'ready'),
-             ('error', 'error')],
+             ('review', 'review'), ('error', 'error')],
             'State', readonly=True),
         'import_id': fields.many2one(
             'account.banking.imported.file', 'Import File'),
@@ -1065,6 +1166,9 @@ class banking_import(osv.osv_memory):
         'statement_ids': fields.many2many(
             'account.bank.statement', 'rel_wiz_statements', 'wizard_id',
             'statement_id', 'Imported Bank Statements'),
+        'line_ids': fields.one2many(
+            'banking.import.line', 'banking_import_id', 'Transactions',
+            ),
         }
 
     _defaults = {

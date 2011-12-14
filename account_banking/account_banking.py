@@ -170,6 +170,7 @@ class account_banking_imported_file(osv.osv):
         'state': fields.selection(
             [('unfinished', 'Unfinished'),
              ('error', 'Error'),
+             ('review', 'Review'),
              ('ready', 'Finished'),
             ], 'State', select=True, readonly=True
         ),

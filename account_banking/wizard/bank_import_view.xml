@@ -7,7 +7,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
 		<form string="Import Bank Transactions File">
-		    <group colspan="4">
+		    <group colspan="4" states="init,ready,error">
 			<separator colspan="4" string="Select the processing details:"/>
 			<field name="company" colspan="1"/>
 			<field name="file"/>
@@ -15,26 +15,53 @@
 			<field name="parser"/>
 			<field name="state" invisible="1"/>
 		    </group>
-		    <group colspan="4" states="ready,error">
-			<separator colspan="4" string="Results:"/>
-			<field name="log" colspan="4" nolabel="1" width="500"/>
-		    </group>
-		    <group colspan="4" states="ready">
-			<field name="statement_ids" colspan="4" nolabel="1"/>
-		    </group>
-		    <group colspan="2" states="init">
+                    <notebook colspan="4">
+                        <page attrs="{'invisible': [('state', '!=', 'review')]}" string="Transactions">
+                            <field name="line_ids" colspan="4" nolabel="1">
+                                <tree string="Transaction" min_rows="20" colors="red:duplicate;blue:reconcile_id">
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="ref"/>
+                                    <field name="partner_bank_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="account_id"/>
+                                    <field name="reconcile_id"/>
+                                    <field name="duplicate"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">
+                            <field name="statement_ids" colspan="4" nolabel="1"/>
+                        </page>
+                        <page attrs="{'invisible': [('state', '=', 'init'')]}" string="Log">
+                            <field name="log" colspan="4" nolabel="1" width="500"/>
+                        </page>
+                    </notebook>
+		    <group colspan="2" >
 			<button icon="gtk-cancel"
 				special="cancel"
+                                states="init"
 				string="Cancel"/>
 			<button icon="gtk-ok"
-				string="Import" 
+				string="Import"
+                                states="init" 
 				name="import_statements_file"
 				type="object"/>
+                        <button icon="gtk-close"
+                                special="cancel"
+                                string="Close"
+                                states="ready,error"/>
+                        <button icon="gtk-close"
+                                name="cancel_statement_lines"
+                                type="object" 
+                                string="Cancel"
+                                states="review"/>
+                        <button icon="gtk-ok"
+                                name="create_statement_lines"
+                                type="object" 
+                                string="Confirm"
+                                states="review"/>
 		    </group>
-		    <button icon="gtk-close"
-			    special="cancel"
-			    string="Close"
-			    states="ready,error"/>
 		</form>
 	    </field>
         </record>
