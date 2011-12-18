@@ -19,21 +19,21 @@ class payment_mode(osv.osv):
             help=('Journal to write payment entries when confirming ' +
                   'a debit order of this mode'),
             ),
-        'reference_filter': fields.char(
-            'Reference filter', size=16,
-            help=(
-                'Optional substring filter on move line references. ' +
-                'You can use this in combination with a specific journal ' +
-                'for items that you want to handle with this mode. Use ' +
-                'a separate sequence for the journal with a distinguished ' +
-                'prefix or suffix and enter that character string here.'),
-            ),
-#        'payment_term_ids': fields.many2many(
-#            'account.payment.term', 'account_payment_order_terms_rel', 
-#            'mode_id', 'term_id', 'Payment terms',
-#            help=('Limit selected invoices to invoices with these payment ' +
-#                  'terms')
+#        'reference_filter': fields.char(
+#            'Reference filter', size=16,
+#            help=(
+#                'Optional substring filter on move line references. ' +
+#                'You can use this in combination with a specific journal ' +
+#                'for items that you want to handle with this mode. Use ' +
+#                'a separate sequence for the journal with a distinguished ' +
+#                'prefix or suffix and enter that character string here.'),
 #            ),
+        'payment_term_ids': fields.many2many(
+            'account.payment.term', 'account_payment_order_terms_rel', 
+            'mode_id', 'term_id', 'Payment terms',
+            help=('Limit selected invoices to invoices with these payment ' +
+                  'terms')
+            ),
         }
 payment_mode()
 
@@ -418,21 +418,19 @@ class payment_order_create(osv.osv_memory):
             # cannot filter on properties of (searchable)
             # function fields. Needs work in expression.expression.parse()
             # Currently gives an SQL error.
-#            # apply payment term filter
-#            if payment.mode.payment_term_ids:
-#                term_ids = [term.id for term in payment.mode.payment_term_ids]
-#                domain = domain + [
-#                    '|', ('invoice', '=', False),
-#                    ('invoice.payment_term', 'in', term_ids),
-#                    ]
+            # apply payment term filter
+            if payment.mode.payment_term_ids:
+                term_ids = [term.id for term in payment.mode.payment_term_ids]
+                domain = domain + [
+                    '|', ('invoice', '=', False),
+                    ('payment_term_id', 'in', term_ids),
+                    ]
         else:
             domain = [
                 ('reconcile_id', '=', False),
                 ('account_id.type', '=', 'payable'),
                 ('amount_to_pay', '>', 0)
                 ]
-        if payment.mode.reference_filter:
-            domain.append(('ref', 'ilike', payment.mode.reference_filter))
         # domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('amount_to_pay', '>', 0)]
         ### end account_direct_debit ###
 

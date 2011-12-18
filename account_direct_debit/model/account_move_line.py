@@ -83,10 +83,42 @@ class account_move_line(osv.osv):
             return [('id', '=', '0')]
         return [('id', 'in', map(lambda x:x[0], res))]
 
+    def _dummy(self, cr, user, ids, name, arg, context=None):
+        res = {}
+        if ids:
+            res = dict([(x.id, False) for x in ids])
+        return res
+
+    def _invoice_payment_term_id_search(self, cr, uid, obj, name, args, context=None):
+        if not args:
+            return []
+        invoice_obj = self.pool.get('account.invoice')
+        invoice_ids = invoice_obj.search(
+            cr, uid, [('payment_term', args[0][1], args[0][2])],
+            context=context)
+        operator = (args[0][1] not in ['in', '=', '==', 'like', 'ilike']
+                    and 'not in' or 'in')
+        if not invoice_ids:
+            return [('id', operator, [])]
+        cr.execute('SELECT l.id ' \
+                'FROM account_move_line l, account_invoice i ' \
+                'WHERE l.move_id = i.move_id AND i.id in %s', (tuple(invoice_ids),))
+        res = cr.fetchall()
+        if not res:
+            return [('id', '=', False)]
+        return [('id', operator, [x[0] for x in res])]
+        
     _columns = {
-        'amount_to_receive': fields.function(amount_to_receive, method=True,
-            type='float', string='Amount to receive', fnct_search=_to_receive_search),
-    }
+        'amount_to_receive': fields.function(
+            amount_to_receive, method=True,
+            type='float', string='Amount to receive',
+            fnct_search=_to_receive_search),
+        'payment_term_id': fields.function(
+            _dummy, method=True,
+            string='Select by invoice payment term',
+            type='many2one', relation='account.payment.term',
+            fnct_search=_invoice_payment_term_id_search),
+        }
 
 account_move_line()
 

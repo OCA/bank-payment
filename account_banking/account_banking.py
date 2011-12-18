@@ -542,10 +542,13 @@ class account_bank_statement_line(osv.osv):
         res = {}
         for st_line in self.browse(cr, uid, ids, context):
             res[st_line.id] = False
-            for move_line in (st_line.reconcile_id and
-                              (st_line.reconcile_id.line_id or []) +
-                              (st_line.reconcile_id.line_partial_ids or []) or
-                              []):
+            for move_line in (
+                    st_line.reconcile_id and
+                    (st_line.reconcile_id.line_id or
+                     st_line.reconcile_id.line_partial_ids) or
+                    st_line.import_transaction_id and 
+                    st_line.import_transaction_id.move_line_id and
+                    [st_line.import_transaction_id.move_line_id] or []):
                 if move_line.invoice:
                     res[st_line.id] = move_line.invoice.id
                     continue

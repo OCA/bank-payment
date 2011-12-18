@@ -436,10 +436,16 @@ class banking_import_transaction(osv.osv):
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
             cr, uid, currency, amount)
         move_line = move_line_obj.browse(cr, uid, move_line_id, context=context)
-        reconcile = move_line.reconcile_id or move_line.reconcile_partial_id
+        if move_line.reconcile_id:
+            raise osv.except_osv(
+                _('Entry is already reconciled'),
+                _("You cannot reconcile the bank transaction with this entry, " +
+                  "it is already reconciled")
+                )
+        reconcile = move_line.reconcile_partial_id
         line_ids = [move_line_id] + (
-            [x.id for x in reconcile and (
-                    reconcile.line_id or reconcile.line_partial_ids) or []])
+            [x.id for x in reconcile and ( # reconcile.line_id or 
+                    reconcile.line_partial_ids) or []])
         if not reconcile:
             reconcile_id = reconcile_obj.create(
                 cr, uid, {'type': 'auto' }, context=context)
@@ -448,10 +454,15 @@ class banking_import_transaction(osv.osv):
             move_line_obj.get_balance(cr, uid, line_ids) - amount)
         # we should not have to check whether there is a surplus writeoff
         # as any surplus amount *should* have been split off in the matching routine
+        if full:
+            line_partial_ids = []
+        else:
+            line_partial_ids = line_ids[:]
+            line_ids = []
         reconcile_obj.write(
             cr, uid, reconcile_id, 
-            { 'line_id': [(6, 0, full and line_ids or [])],
-              'line_partial_ids': [(6, 0, full and [] or line_ids)],
+            { 'line_id': [(6, 0, line_ids)],
+              'line_partial_ids': [(6, 0, line_partial_ids)],
               }, context=context)
         return reconcile_id
 
@@ -466,10 +477,15 @@ class banking_import_transaction(osv.osv):
         line_ids.remove(move_line_id)
         if len(line_ids) > 1:
             full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
+            if full:
+                line_partial_ids = []
+            else:
+                line_partial_ids = line_ids.copy()
+                line_ids = []
             reconcile_obj.write(
                 cr, uid, reconcile.id,
-                { 'line_partial_ids': [(6, 0, full and [] or line_ids)],
-                  'line_id': [(6, 0, full and line_ids or [])],
+                { 'line_partial_ids': [(6, 0, line_ids)],
+                  'line_id': [(6, 0, line_partial_ids)],
                   }, context=context)
         else:
             reconcile_obj.unlink(cr, uid, reconcile.id, context=context)
@@ -483,24 +499,27 @@ class banking_import_transaction(osv.osv):
         self, cr, uid, transaction_id, context=None):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
-        move_line_id = transaction.move_line_id.id
         if not transaction.move_line_id:
             if transaction.match_type == 'invoice':
-                osv.except_osv(
+                raise osv.except_osv(
                     _("Cannot link transaction %s with invoice") %
                     transaction.statement_line_id.name,
                     (transaction.invoice_ids and
-                     _("Please select one of the matches") or
-                     _("No match found"))
-                    )
+                     (_("Please select one of the matches in transaction %s.%s") or
+                     _("No match found for transaction %s.%s")) % (
+                            transaction.statement_line_id.statement_id.name,
+                            transaction.statement_line_id.name
+                     )))
             else:
-                osv.except_osv(
+                raise osv.except_osv(
                     _("Cannot link transaction %s with accounting entry") %
                     transaction.statement_line_id.name,
                     (transaction.move_line_ids and
-                     _("Please select one of the matches") or
-                     _("No match found"))
-                    )
+                     (_("Please select one of the matches in transaction %s.%s") or
+                     _("No match found for transaction %s.%s")) % (
+                            transaction.statement_line_id.statement_id.name,
+                            transaction.statement_line_id.name
+                     )))
         currency = (transaction.statement_line_id.statement_id.journal_id.currency or
                     transaction.statement_line_id.statement_id.company_id.currency_id)
         reconcile_id = self._do_move_reconcile(
@@ -1121,17 +1140,15 @@ class banking_import_transaction(osv.osv):
                                                    len(move_info['payment_order_ids']) == 1 and
                                                    move_info['payment_order_ids'][0]
                                                    )
+                self_values['move_line_id'] = (move_info.get('move_line_ids', False) and
+                                               len(move_info['move_line_ids']) == 1 and
+                                               move_info['move_line_ids'][0]
+                                               )
                 if move_info['match_type'] == 'invoice':
-                    self_values['move_line_id'] = False
                     self_values['invoice_id'] = (move_info.get('invoice_ids', False) and
                                                  len(move_info['invoice_ids']) == 1 and
                                                  move_info['invoice_ids'][0]
                                                  )
-                else:
-                    self_values['move_line_id'] = (move_info.get('move_line_ids', False) and
-                                                   len(move_info['move_line_ids']) == 1 and
-                                                   move_info['move_line_ids'][0]
-                                                   )
                 values['partner_id'] = move_info['partner_id']
                 values['partner_bank_id'] = move_info['partner_bank_id']
                 values['type'] = move_info['type']
@@ -1201,7 +1218,7 @@ class banking_import_transaction(osv.osv):
                 
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
         """
-        Indicate that multiple matches have been found
+        Indicate in the wizard that multiple matches have been found
         and that the user has not yet made a choice between them.
         """
         if not ids:
@@ -1326,10 +1343,46 @@ class banking_transaction_wizard(osv.osv_memory):
             context=context)['import_transaction_id'][0] # many2one tuple
         
         import_transaction_obj.match(cr, uid, [trans_id], context=context)
-        return self.create_act_window(cr, uid, ids, context=context)
+        return True
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        res = super(banking_transaction_wizard, self).write(
+            cr, uid, ids, vals, context=context)
+        if vals and 'invoice_id' in vals:
+            statement_line_obj = self.pool.get('account.bank.statement.line')
+            transaction_obj = self.pool.get('banking.import.transaction')
+            for wiz in self.browse(cr, uid, ids, context=context):
+                if (wiz.import_transaction_id.match_type == 'invoice' and
+                    wiz.import_transaction_id.invoice_id):
+                    if (wiz.move_line_id and wiz.move_line_id.invoice and
+                        wiz.move_line_id.invoice.id == wiz.invoice_id.id):
+                        found = True
+                        continue
+                    for move_line in wiz.import_transaction_id.move_line_ids:
+                        if (move_line.invoice.id ==
+                            wiz.import_transaction_id.invoice_id.id):
+                            transaction_obj.write(
+                                cr, uid, wiz.import_transaction_id.id,
+                                { 'move_line_id': move_line.id, }, context=context)
+                            statement_line_obj.write(
+                                cr, uid, wiz.import_transaction_id.statement_line_id.id,
+                                { 'partner_id': move_line.invoice.partner_id.id,
+                                  'account_id': move_line.account_id.id,
+                                  }, context=context)
+                            found = True
+                            break
+                    if not found:
+                        transaction_obj.write(
+                            cr, uid, wiz.import_transaction_id.id,
+                            { 'invoice_id': False, }, context=context)
+                    #                osv.except_osv(
+                    #                    _("No entry found for the selected invoice"),
+                    #                    _("Please file a bug and resort to manual matching."))
 
     def select_match(self, cr, uid, ids, context=None):
+        return True
         # TODO: indicate residual
+        # The procedure below has been moved to write()
         if isinstance(ids, (int, float)):
             ids = [ids]
         transaction_obj = self.pool.get('banking.import.transaction')

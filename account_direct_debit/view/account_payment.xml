@@ -63,7 +63,7 @@
 	    <field name="type" position="after">
 	      <field name="transfer_account_id"/>
 	      <field name="transfer_journal_id"/>
-              <field name="reference_filter"/>
+              <field name="payment_term_ids"/>
 	    </field>
 	  </field>
 	</record>
