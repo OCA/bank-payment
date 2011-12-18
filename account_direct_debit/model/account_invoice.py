@@ -89,6 +89,20 @@ Two cases need to be distinguisted:
 
    Actual fatal errors need to be dealt with manually by checking open invoices
    by invoice- or due date. 
+
+Reconciliation
+==============
+The first reconciliation is between the invoice move line (this is payment_line.move_line_id)
+and the transfer move line (stored as payment_line.debit_move_line_id). The invoice
+may have already been partially recognized, so that the payment line.move_line_id does not cover
+the whole account. In that case, add the transfer move line to an existing?! partial reconciliation.
+Implementation of the reconciliation in payment_line.debit_reconcile()
+
+
+
+
+
+
 """ 
 
 class account_invoice(osv.osv):
@@ -121,6 +135,16 @@ class account_invoice(osv.osv):
         for inv_id, name in self.name_get(cr, uid, ids, context=context):
             message = _("Invoice '%s': direct debit is denied.") % name
             self.log(cr, uid, inv_id, message)
+        return True
+
+    def test_undo_debit_denied(self, cr, uid, ids, context=None):
+        """ 
+        Called from the workflow. Used to unset paid state on
+        invoices that were paid with bank transfers which are being cancelled 
+        """
+        for invoice in self.read(cr, uid, ids, ['reconciled'], context):
+            if not invoice['reconciled']:
+                return False
         return True
 
 account_invoice()

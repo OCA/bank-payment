@@ -465,6 +465,8 @@ class banking_import(osv.osv_memory):
                     partial = False
                     # Last partial payment will not flag invoice paid without
                     # manual assistence
+                    # TODO: it should if we convert the partial reconciliation
+                    # to a complete one
                     invoice_obj = self.pool.get('account.invoice')
                     invoice_obj.write(cursor, uid, [invoice.id], {
                         'state': 'paid'
@@ -486,7 +488,8 @@ class banking_import(osv.osv_memory):
                     # tracability of the invoices, but we degrade the
                     # tracability of the bank transactions. When debugging, it
                     # is wise to disable this line.
-                    trans.reference = eyecatcher(move_line.invoice)
+                    # Stefan: disabled for interactive mode
+                    # trans.reference = eyecatcher(move_line.invoice)
 
         if move_line:
             account_ids = [
@@ -516,72 +519,6 @@ class banking_import(osv.osv_memory):
         # TODO: code _link_canceled_debit
         return False
 
-    def _link_costs(self, cursor, uid, trans, period_id, account_info, log):
-        '''
-        Get or create a costs invoice for the bank and return it with
-        the payment as seen in the transaction (when not already done).
-        '''
-        if not account_info.costs_account_id:
-            return []
-
-        digits = dp.get_precision('Account')(cursor)[1]
-        amount = round(abs(trans.transferred_amount), digits)
-        # Make sure to be able to pinpoint our costs invoice for later
-        # matching
-        reference = '%s.%s: %s' % (trans.statement_id, trans.id, trans.reference)
-
-        # search supplier invoice
-        invoice_obj = self.pool.get('account.invoice')
-        invoice_ids = invoice_obj.search(cursor, uid, [
-            '&',
-            ('type', '=', 'in_invoice'),
-            ('partner_id', '=', account_info.bank_partner_id.id),
-            ('company_id', '=', account_info.company_id.id),
-            ('date_invoice', '=', date2str(trans.effective_date)),
-            ('reference', '=', reference),
-            ('amount_total', '=', amount),
-            ]
-        )
-        if invoice_ids and len(invoice_ids) == 1:
-            invoice = invoice_obj.browse(cursor, uid, invoice_ids)[0]
-        elif not invoice_ids:
-            # create supplier invoice
-            partner_obj = self.pool.get('res.partner')
-            invoice_lines = [(0,0,dict(
-                amount = 1,
-                price_unit = amount,
-                name = trans.message or trans.reference,
-                account_id = account_info.costs_account_id.id
-            ))]
-            invoice_address_id = partner_obj.address_get(
-                cursor, uid, [account_info.bank_partner_id.id], ['invoice']
-            )
-            invoice_id = invoice_obj.create(cursor, uid, dict(
-                type = 'in_invoice',
-                company_id = account_info.company_id.id,
-                partner_id = account_info.bank_partner_id.id,
-                address_invoice_id = invoice_address_id['invoice'],
-                period_id = period_id,
-                journal_id = account_info.invoice_journal_id.id,
-                account_id = account_info.bank_partner_id.property_account_payable.id,
-                date_invoice = date2str(trans.effective_date),
-                reference_type = 'none',
-                reference = reference,
-                name = trans.reference or trans.message,
-                check_total = amount,
-                invoice_line = invoice_lines,
-            ))
-            invoice = invoice_obj.browse(cursor, uid, invoice_id)
-            # Create workflow
-            invoice_obj.button_compute(cursor, uid, [invoice_id], 
-                                       {'type': 'in_invoice'}, set_total=True)
-            wf_service = netsvc.LocalService('workflow')
-            # Move to state 'open'
-            wf_service.trg_validate(uid, 'account.invoice', invoice.id,
-                                    'invoice_open', cursor)
-
-        # return move_lines to mix with the rest
-        return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
 
     def import_statements_file(self, cursor, uid, ids, context):
         '''
@@ -592,8 +529,8 @@ class banking_import(osv.osv_memory):
         banking_import = self.browse(cursor, uid, ids, context)[0]
         statements_file = banking_import.file
         data = base64.decodestring(statements_file)
-        line_ids = []
 
+        # TODO: we do not use all of these anymore now
         company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
         partner_bank_obj = self.pool.get('res.partner.bank')
@@ -606,6 +543,7 @@ class banking_import(osv.osv_memory):
         statement_file_obj = self.pool.get('account.banking.imported.file')
         payment_order_obj = self.pool.get('payment.order')
         currency_obj = self.pool.get('res.currency')
+        import_transaction_obj = self.pool.get('banking.import.transaction')
 
         # get the parser to parse the file
         parser_code = banking_import.parser
@@ -658,45 +596,7 @@ class banking_import(osv.osv_memory):
         linked_invoices = {}
         payment_lines = []
 
-        if statements:
-            # Get default defaults
-            def_pay_account_id = company.partner_id.property_account_payable.id
-            def_rec_account_id = company.partner_id.property_account_receivable.id
-
-            # Get interesting journals once
-            # Added type 'general' to capture fund transfers
-            journal_ids = journal_obj.search(cursor, uid, [
-                ('type', 'in', ('general', 'sale','purchase',
-                                'purchase_refund','sale_refund')),
-                ('company_id', '=', company.id),
-            ])
-            # Get all unreconciled moves predating the last statement in one big
-            # swoop. Assumption: the statements in the file are sorted in ascending
-            # order of date.
-            move_line_ids = move_line_obj.search(cursor, uid, [
-                ('reconcile_id', '=', False),
-                ('journal_id', 'in', journal_ids),
-                ('account_id.reconcile', '=', True),
-                ('date', '<=', date2str(statements[-1].date)),
-            ])
-            if move_line_ids:
-                move_lines = move_line_obj.browse(cursor, uid, move_line_ids)
-            else:
-                move_lines = []
-
-            # Get all unreconciled sent payment lines in one big swoop.
-            # No filtering can be done, as empty dates carry value for C2B
-            # communication. Most likely there are much less sent payments
-            # than reconciled and open/draft payments.
-            cursor.execute("SELECT l.id FROM payment_order o, payment_line l "
-                           "WHERE l.order_id = o.id AND "
-                                 "o.state = 'sent' AND "
-                                 "l.date_done IS NULL"
-                          )
-            payment_line_ids = [x[0] for x in cursor.fetchall()]
-            if payment_line_ids:
-                payment_lines = payment_line_obj.browse(cursor, uid, payment_line_ids)
-
+        transaction_ids = []
         for statement in statements:
             if statement.local_account in error_accounts:
                 # Don't repeat messages
@@ -764,6 +664,9 @@ class banking_import(osv.osv_memory):
                 continue
 
             # Check existence of previous statement
+            # Less well defined formats can resort to a 
+            # dynamically generated statement identification
+            # (e.g. a datetime string of the moment of import)
             statement_ids = statement_obj.search(cursor, uid, [
                 ('name', '=', statement.id),
                 ('date', '=', date2str(statement.date)),
@@ -789,247 +692,28 @@ class banking_import(osv.osv_memory):
             ))
             imported_statement_ids.append(statement_id)
 
-            # move each transaction to the right period and try to match it with an
-            # invoice or payment
             subno = 0
-            injected = []
-            i = 0
-            max_trans = len(statement.transactions)
-            while i < max_trans:
-                move_info = False
-                if injected:
-                    # Force FIFO behavior
-                    transaction = injected.pop(0)
+            for transaction in statement.transactions:
+                subno += 1
+                if not transaction.id:
+                    transaction.id = str(subno)
+                values = {}
+                for attr in transaction.__slots__ + ['type']:
+                    if attr in import_transaction_obj.column_map:
+                        values[import_transaction_obj.column_map[attr]] = eval('transaction.%s' % attr)
+                    elif attr in import_transaction_obj._columns:
+                        values[attr] = eval('transaction.%s' % attr)
+                values['statement_id'] = statement_id
+                transaction_id = import_transaction_obj.create(cursor, uid, values, context=context)
+                if transaction_id:
+                    transaction_ids.append(transaction_id)
                 else:
-                    transaction = statement.transactions[i]
-                    # Keep a tracer for identification of order in a statement in case
-                    # of missing transaction ids.
-                    subno += 1
-
-                # Link accounting period
-                period_id = get_period(self.pool, cursor, uid,
-                                       transaction.effective_date, company,
-                                       results.log)
-                if not period_id:
-                    results.trans_skipped_cnt += 1
-                    if not injected:
-                        i += 1
-                    continue
-
-                # When bank costs are part of transaction itself, split it.
-                if transaction.type != bt.BANK_COSTS and transaction.provision_costs:
-                    # Create new transaction for bank costs
-                    costs = transaction.copy()
-                    costs.type = bt.BANK_COSTS
-                    costs.id = '%s-prov' % transaction.id
-                    costs.transferred_amount = transaction.provision_costs
-                    costs.remote_currency = transaction.provision_costs_currency
-                    costs.message = transaction.provision_costs_description
-                    injected.append(costs)
-
-                    # Remove bank costs from current transaction
-                    # Note that this requires that the transferred_amount
-                    # includes the bank costs and that the costs itself are
-                    # signed correctly.
-                    transaction.transferred_amount -= transaction.provision_costs
-                    transaction.provision_costs = None
-                    transaction.provision_costs_currency = None
-                    transaction.provision_costs_description = None
-    
-                # Match full direct debit orders
-                if transaction.type == bt.DIRECT_DEBIT:
-                    move_info = self._link_debit_order(
-                        cursor, uid, transaction, account_info, results.log, context)
-                if transaction.type == bt.STORNO:
-                    move_info = self._link_storno(
-                        cursor, uid, transaction, account_info, results.log, context)
-                # Allow inclusion of generated bank invoices
-                if transaction.type == bt.BANK_COSTS:
-                    lines = self._link_costs(
-                        cursor, uid, transaction, period_id, account_info,
-                        results.log
-                    )
-                    results.bank_costs_invoice_cnt += bool(lines)
-                    for line in lines:
-                        if not [x for x in move_lines if x.id == line.id]:
-                            move_lines.append(line)
-                    partner_ids = [account_info.bank_partner_id.id]
-                    partner_banks = []
-                else:
-                    # Link remote partner, import account when needed
-                    partner_banks = get_bank_accounts(
-                        self.pool, cursor, uid, transaction.remote_account,
-                        results.log, fail=True
-                    )
-                    if partner_banks:
-                        partner_ids = [x.partner_id.id for x in partner_banks]
-                    elif transaction.remote_owner:
-                        iban = sepa.IBAN(transaction.remote_account)
-                        if iban.valid:
-                            country_code = iban.countrycode
-                        elif transaction.remote_owner_country_code:
-                            country_code = transaction.remote_owner_country_code
-                        elif hasattr(parser, 'country_code') and parser.country_code:
-                            country_code = parser.country_code
-                        else:
-                            country_code = None
-                        partner_id = get_or_create_partner(
-                            self.pool, cursor, uid, transaction.remote_owner,
-                            transaction.remote_owner_address,
-                            transaction.remote_owner_postalcode,
-                            transaction.remote_owner_city,
-                            country_code, results.log
-                        )
-                        if transaction.remote_account:
-                            partner_bank_id = create_bank_account(
-                                self.pool, cursor, uid, partner_id,
-                                transaction.remote_account,
-                                transaction.remote_owner, 
-                                transaction.remote_owner_address,
-                                transaction.remote_owner_city,
-                                country_code, results.log
-                            )
-                            partner_banks = partner_bank_obj.browse(
-                                cursor, uid, [partner_bank_id]
-                            )
-                        else:
-                            partner_bank_id = None
-                            partner_banks = []
-                        partner_ids = [partner_id]
-                    else:
-                        partner_ids = []
-                        partner_banks = []
-
-                # Credit means payment... isn't it?
-                if (not move_info
-                    and transaction.transferred_amount < 0 and payment_lines):
-                    # Link open payment - if any
-                    move_info = self._link_payment(
-                        cursor, uid, transaction,
-                        payment_lines, partner_ids,
-                        partner_banks, results.log, linked_payments,
-                        )
-
-                # Second guess, invoice -> may split transaction, so beware
-                if not move_info:
-                    # Link invoice - if any. Although bank costs are not an
-                    # invoice, automatic invoicing on bank costs will create
-                    # these, and invoice matching still has to be done.
-                    move_info, remainder = self._link_invoice(
-                        cursor, uid, transaction, move_lines, partner_ids,
-                        partner_banks, results.log, linked_invoices,
-                        )
-                    if remainder:
-                        injected.append(remainder)
-
-                if not move_info:
-                    # Use the default settings, but allow individual partner
-                    # settings to overrule this. Note that you need to change
-                    # the internal type of these accounts to either 'payable'
-                    # or 'receivable' to enable usage like this.
-                    if transaction.transferred_amount < 0:
-                        if len(partner_banks) == 1:
-                            account_id = partner_banks[0].partner_id.property_account_payable
-                        if len(partner_banks) != 1 or not account_id or account_id.id == def_pay_account_id:
-                            account_id = account_info.default_credit_account_id
-                    else:
-                        if len(partner_banks) == 1:
-                            account_id = partner_banks[0].partner_id.property_account_receivable
-                        if len(partner_banks) != 1 or not account_id or account_id.id == def_rec_account_id:
-                            account_id = account_info.default_debit_account_id
-                else:
-                    account_id = move_info.move_line.account_id
-                    results.trans_matched_cnt += 1
-
-                values = struct(
-                    name = '%s.%s' % (statement.id, transaction.id or subno),
-                    date = transaction.effective_date,
-                    amount = transaction.transferred_amount,
-                    account_id = account_id.id,
-                    statement_id = statement_id,
-                    note = transaction.message,
-                    ref = transaction.reference,
-                    period_id = period_id,
-                    currency = account_info.currency_id.id,
-                )
-                if move_info:
-                    values.type = move_info.type
-                    values.reconcile_id = (
-                        move_info.move_line.reconcile_id and
-                        move_info.move_line.reconcile_id.id or
-                        move_info.move_line.reconcile_partial_id and
-                        move_info.move_line.reconcile_partial_id.id
-                        )
-                    values.partner_id = move_info.partner_id
-                    values.partner_bank_id = move_info.partner_bank_id
-                else:
-                    values.partner_id = values.partner_bank_id = False
-                if not values.partner_id and partner_ids and len(partner_ids) == 1:
-                    values.partner_id = partner_ids[0]
-                if not values.partner_bank_id and partner_banks and \
-                    len(partner_banks) == 1:
-                    values.partner_bank_id = partner_banks[0].id
-
-                line_values = values.copy()
-                line_values['banking_import_id'] = banking_import.id
-                line_ids.append(import_line_obj.create(
-                    cursor, uid, line_values, context=context))
-                results.trans_loaded_cnt += 1
-                # Only increase index when all generated transactions are
-                # processed as well
-                if not injected:
-                    i += 1
-
-            results.stat_loaded_cnt += 1
+                    osv.except_osv('Failed to create an import transaction resource','')
             
-        if payment_lines:
-            # As payments lines are treated as individual transactions, the
-            # batch as a whole is only marked as 'done' when all payment lines
-            # have been reconciled.
-            cursor.execute(
-                "SELECT DISTINCT o.id "
-                "FROM payment_order o, payment_line l "
-                "WHERE o.state = 'sent' "
-                  "AND o.id = l.order_id "
-                  "AND o.id NOT IN ("
-                    "SELECT DISTINCT order_id AS id "
-                    "FROM payment_line "
-                    "WHERE date_done IS NULL "
-                      "AND id IN (%s)"
-                   ")" % (','.join([str(x) for x in payment_line_ids]))
-            )
-            order_ids = [x[0] for x in cursor.fetchall()]
-            if order_ids:
-                # Use workflow logics for the orders. Recode logic from
-                # account_payment, in order to increase efficiency.
-                payment_order_obj.set_done(cursor, uid, order_ids,
-                                        {'state': 'done'}
-                                       )
-                wf_service = netsvc.LocalService('workflow')
-                for id in order_ids:
-                    wf_service.trg_validate(uid, 'payment.order', id, 'done',
-                                            cursor
-                                           )
+            results.stat_loaded_cnt += 1
 
-            # Original code. Didn't take workflow logistics into account...
-            #
-            #cursor.execute(
-            #    "UPDATE payment_order o "
-            #    "SET state = 'done', "
-            #        "date_done = '%s' "
-            #    "FROM payment_line l "
-            #    "WHERE o.state = 'sent' "
-            #      "AND o.id = l.order_id "
-            #      "AND l.id NOT IN ("
-            #        "SELECT DISTINCT id FROM payment_line "
-            #        "WHERE date_done IS NULL "
-            #          "AND id IN (%s)"
-            #       ")" % (
-            #           time.strftime('%Y-%m-%d'),
-            #           ','.join([str(x) for x in payment_line_ids])
-            #       )
-            #)
-
+        import_transaction_obj.match(cursor, uid, transaction_ids, results=results, context=context)
+            
         report = [
             '%s: %s' % (_('Total number of statements'),
                         results.stat_skipped_cnt + results.stat_loaded_cnt),
@@ -1054,11 +738,11 @@ class banking_import(osv.osv_memory):
             '',
         ]
         text_log = '\n'.join(report + results.log)
-        state = results.error_cnt and 'error' or 'review' # ready
+        state = results.error_cnt and 'error' or 'ready' # ready
         statement_file_obj.write(cursor, uid, import_id, dict(
             state = state, log = text_log,
             ), context)
-        if not imported_statement_ids or not line_ids:
+        if not imported_statement_ids or not results.trans_loaded_cnt:
             # file state can be 'ready' while import state is 'error'
             state = 'error'
         self.write(cursor, uid, [ids[0]], dict(
@@ -1066,7 +750,7 @@ class banking_import(osv.osv_memory):
                 statement_ids = [(6, 0, imported_statement_ids)],
                 ), context)
         return {
-            'name': (state == 'review' and _('Review Bank Transactions') or
+            'name': (state == 'ready' and _('Review Bank Statements') or
                      _('Error')),
             'view_type': 'form',
             'view_mode': 'form',

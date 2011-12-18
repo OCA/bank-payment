@@ -752,6 +752,20 @@ class payment_line(osv.osv):
 
         return res
 
+    def get_storno_account_id(self, cr, uid, payment_line_id, amount,
+                     currency_id, context=None):
+        """
+        Hook for verifying a match of the payment line with the amount.
+        Return the account associated with the storno.
+        Used in account_banking interactive mode
+        :param payment_line_id: the single payment line id
+        :param amount: the (signed) amount debited from the bank account
+        :param currency_id: the bank account's currency id
+        :return: an account if there is a full match, False otherwise
+        :rtype: database id of an account.account resource.
+        """
+        return False
+
     def debit_storno(self, cr, uid, payment_line_id, amount,
                      currency_id, storno_retry=True, context=None):
         """
@@ -1378,6 +1392,16 @@ class invoice(osv.osv):
     '''
     _inherit = 'account.invoice'
 
+    def test_undo_paid(self, cr, uid, ids, context=None):
+        """ 
+        Called from the workflow. Used to unset paid state on
+        invoices that were paid with bank transfers which are being cancelled 
+        """
+        for invoice in self.read(cr, uid, ids, ['reconciled'], context):
+            if invoice['reconciled']:
+                return False
+        return True
+
     def _get_reference_type(self, cr, uid, context=None):
         '''
         Return the list of reference types
@@ -1393,5 +1417,22 @@ class invoice(osv.osv):
     }
 
 invoice()
+
+class account_move_line(osv.osv):
+    _inherit = "account.move.line"
+
+    def get_balance(self, cr, uid, ids, context=None):
+        """ 
+        Return the balance of any set of move lines.
+        Surely this exists somewhere in account base, but I missed it.
+        """
+        total = 0.0
+        if not ids:
+            total
+        for line in self.read(
+            cr, uid, ids, ['debit', 'credit'], context=context):
+            total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
+        return total
+account_move_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

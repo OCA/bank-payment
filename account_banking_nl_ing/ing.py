@@ -27,6 +27,7 @@ from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
 from account_banking.sepa import postalcode
 from tools.translate import _
+from datetime import datetime
 
 import re
 import csv
@@ -209,24 +210,26 @@ Statements.
         stmnt = None
         dialect = csv.excel()
         dialect.quotechar = '"'
-        dialect.delimiter = ';'
+        dialect.delimiter = ','
         lines = data.split('\n')
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
+        # fixed statement id based on import timestamp
+        statement_id = datetime.now().strftime('%Y-%m-%d %H:%M')
         for line in csv.reader(lines, dialect=dialect):
             # Skip empty (last) lines
             if not line:
                 continue
+            # Skip header line
+            if line[0] == 'Datum':
+                continue
             subno += 1
             msg = transaction_message(line, subno)
-            if stmnt and stmnt.id != msg.statement_id:
-                result.append(stmnt)
-                stmnt = None
-                subno = 0
-            if not stmnt:
-                stmnt = statement(msg)
-            else:
+            msg.statement_id = statement_id
+            if stmnt:
                 stmnt.import_transaction(msg)
+            else:
+                stmnt = statement(msg)
         result.append(stmnt)
         return result
 

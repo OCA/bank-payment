@@ -74,13 +74,6 @@ class payment_order(osv.osv):
         """
         move_line_obj = self.pool.get('account.move.line')
 
-        def get_balance(line_ids):
-            total = 0.0
-            for line in move_line_obj.read(
-                cr, uid, line_ids, ['debit', 'credit'], context=context):
-                total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
-            return total
-
         def is_zero(move_line, total):
             return self.pool.get('res.currency').is_zero(
                 cr, uid, move_line.company_id.currency_id, total)
@@ -93,7 +86,7 @@ class payment_order(osv.osv):
                 if line.account_id.type == 'other' and not line.reconcile_id:
                     line_ids.append(line.id)
         if is_zero(order.line_ids[0].debit_move_line_id,
-                   get_balance(line_ids) - amount):
+                   move_line_obj.get_balance(cr, uid, line_ids) - amount):
             reconcile_id = self.pool.get('account.move.reconcile').create(
                 cr, uid, 
                 {'type': 'auto', 'line_id': [(6, 0, line_ids)]},
@@ -184,7 +177,7 @@ class payment_line(osv.osv):
     _inherit = 'payment.line'
 
     def debit_storno(self, cr, uid, payment_line_id, amount,
-                     currency_id, storno_retry=True, context=None):
+                     currency, storno_retry=True, context=None):
         """
         The processing of a storno is triggered by a debit
         transfer on one of the company's bank accounts.
@@ -198,7 +191,7 @@ class payment_line(osv.osv):
 
         :param payment_line_id: the single payment line id
         :param amount: the (signed) amount debited from the bank account
-        :param currency_id: the bank account's currency id
+        :param currency: the bank account's currency *browse object*
         :param boolean storno_retry: when True, attempt to reopen the invoice, \
         set the invoice to 'Debit denied' otherwise.
         :return: an incomplete reconcile for the caller to fill
@@ -211,12 +204,15 @@ class payment_line(osv.osv):
         reconcile_id = False
         if (line.debit_move_line_id and not line.storno and
             self.pool.get('res.currency').is_zero(
-                cr, uid, currency_id, (
+                cr, uid, currency, (
                     (line.debit_move_line_id.credit or 0.0) -
                     (line.debit_move_line_id.debit or 0.0) + amount))):
             # Two different cases, full and partial
             # Both cases differ subtly in the procedure to follow
             # Needs refractoring, but why is this not in the OpenERP API?
+            # Actually, given the nature of a direct debit order and storno,
+            # we should not need to take partial into account on the side of
+            # the debit_move_line.
             if line.debit_move_line_id.reconcile_partial_id:
                 reconcile_id = line.debit_move_line_id.reconcile_partial_id.id
                 attribute = 'reconcile_partial_id'
@@ -277,6 +273,30 @@ class payment_line(osv.osv):
                         activity, cr)
         return reconcile_id
 
+    def get_storno_account_id(self, cr, uid, payment_line_id, amount,
+                     currency, context=None):
+        """
+        Check the match of the arguments, and return the account associated
+        with the storno.
+        Used in account_banking interactive mode
+
+        :param payment_line_id: the single payment line id
+        :param amount: the (signed) amount debited from the bank account
+        :param currency: the bank account's currency *browse object*
+        :return: an account if there is a full match, False otherwise
+        :rtype: database id of an account.account resource.
+        """
+
+        line = self.browse(cr, uid, payment_line_id)
+        account_id = False
+        if (line.debit_move_line_id and not line.storno and
+            self.pool.get('res.currency').is_zero(
+                cr, uid, currency, (
+                    (line.debit_move_line_id.credit or 0.0) -
+                    (line.debit_move_line_id.debit or 0.0) + amount))):
+            account_id = line.debit_move_line_id.account_id.id
+        return account_id
+
     def debit_reconcile(self, cr, uid, payment_line_id, context=None):
         """
         Reconcile a debit order's payment line with the the move line
@@ -306,42 +326,36 @@ class payment_line(osv.osv):
             raise osv.except_osv(
                 _('Can not reconcile'),
                 _('No move line for line %s') % payment_line.name)     
-        if torec_move_line.reconcile_id or torec_move_line.reconcile_partial_id:
+        if torec_move_line.reconcile_id: # torec_move_line.reconcile_partial_id:
             raise osv.except_osv(
                 _('Error'),
                 _('Move line %s has already been reconciled') % 
                 torec_move_line.name
                 )
-        if torec_move_line.reconcile_id or torec_move_line.reconcile_partial_id:
+        if debit_move_line.reconcile_id or debit_move_line.reconcile_partial_id:
             raise osv.except_osv(
                 _('Error'),
                 _('Move line %s has already been reconciled') % 
-                torec_move_line.name
+                debit_move_line.name
                 )
-        
-        def get_balance(line_ids):
-            total = 0.0
-            for line in move_line_obj.read(
-                cr, uid, line_ids, ['debit', 'credit'], context=context):
-                total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
-            return total
 
         def is_zero(total):
             return self.pool.get('res.currency').is_zero(
                 cr, uid, debit_move_line.company_id.currency_id, total)
 
         line_ids = [debit_move_line.id, torec_move_line.id]
-        if debit_move_line.reconcile_partial_id:
+        if torec_move_line.reconcile_partial_id:
             line_ids = [
                 x.id for x in debit_move_line.reconcile_partial_id.line_partial_ids] + [torec_move_line_id]
 
-        total = get_balance(line_ids)
+        total = move_line_obj.get_balance(cr, uid, line_ids)
         vals = {
             'type': 'auto',
             'line_id': is_zero(total) and [(6, 0, line_ids)] or [(6, 0, [])],
             'line_partial_ids': is_zero(total) and [(6, 0, [])] or [(6, 0, line_ids)],
             }
-        if debit_move_line.reconcile_partial_id:
+
+        if torec_move_line.reconcile_partial_id:
             reconcile_obj.write(
                 cr, uid, debit_move_line.reconcile_partial_id.id,
                 vals, context=context)
@@ -351,6 +365,15 @@ class payment_line(osv.osv):
         for line_id in line_ids:
             netsvc.LocalService("workflow").trg_trigger(
                 uid, 'account.move.line', line_id, cr)
+
+        # If a bank transaction of a storno was first confirmed
+        # and now canceled (the invoice is now in state 'debit_denied'
+        if torec_move_line.invoice:
+            netsvc.LocalService("workflow").trg_validate(
+                uid, 'account.invoice', torec_move_line.invoice.id,
+                'undo_debit_denied', cr)
+
+
 
     _columns = {
         'debit_move_line_id': fields.many2one(
