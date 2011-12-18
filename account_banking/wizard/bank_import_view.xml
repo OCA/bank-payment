@@ -30,11 +30,11 @@
                                 </tree>
                             </field>
                         </page>
-                        <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">
-                            <field name="statement_ids" colspan="4" nolabel="1"/>
-                        </page>
                         <page attrs="{'invisible': [('state', '=', 'init'')]}" string="Log">
                             <field name="log" colspan="4" nolabel="1" width="500"/>
+                        </page>
+                        <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">
+                            <field name="statement_ids" colspan="4" nolabel="1"/>
                         </page>
                     </notebook>
 		    <group colspan="2" >

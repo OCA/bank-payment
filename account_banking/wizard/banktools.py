@@ -136,11 +136,12 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
             )
             country_id = country_ids and country_ids[0] or False
             filter.append(('country_id', '=', country_id))
-        if address:
+        # disable for now. Apparently, address is an array of lines.
+        if address and False:
             if len(address) >= 1:
-                filter.append(('street', 'ilike', addres[0]))
+                filter.append(('street', 'ilike', address[0]))
             if len(address) > 1:
-                filter.append(('street2', 'ilike', addres[1]))
+                filter.append(('street2', 'ilike', address[1]))
         if city:
             filter.append(('city', 'ilike', city))
         if postal_code:

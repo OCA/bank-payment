@@ -138,15 +138,16 @@ class banking_import_transaction(osv.osv):
         candidates = [x for x in orders if
                       is_zero(x.total - trans.transferred_amount)]
         if len(candidates) > 0:
+            # retrieve the common account_id, if any
             account_id = False
             for order in candidates:
-                for line in order_line.debit_move_line_id.move_id.line_id:
+                for line in order.line_ids[0].debit_move_line_id.move_id.line_id:
                     if line.account_id.type == 'other':
-                        if account_id != line.account_id.id:
+                        if account_id and account_id != line.account_id.id:
                             account_id = False
                             break
                         else:
-                            account_id = line.account_id
+                            account_id = line.account_id.id
 
             # TODO at statement line confirm
             # this action generates a reconcile object
@@ -536,7 +537,7 @@ class banking_import_transaction(osv.osv):
         payment_line_obj = self.pool.get('payment.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_line_id:
-            osv.except_osv(
+            raise osv.except_osv(
                 _("Cannot link with storno"),
                 _("No direct debit order item"))
         return payment_line_obj.debit_storno(
@@ -546,6 +547,49 @@ class banking_import_transaction(osv.osv):
             transaction.statement_line_id.currency,
             transaction.storno_retry,
             context=context)
+
+    def _reconcile_payment_order(
+        self, cr, uid, transaction_id, context=None):
+        """
+        Creation of the reconciliation has been delegated to
+        *a* direct debit module, to allow for various direct debit styles
+        """
+        payment_order_obj = self.pool.get('payment.order')
+        transaction = self.browse(cr, uid, transaction_id, context=context)
+        if not transaction.payment_order_id:
+            raise osv.except_osv(
+                _("Cannot reconcile"),
+                _("Cannot reconcile: no direct debit order"))
+        if transaction.payment_order_id.payment_order_type != 'debit':
+            raise osv.except_osv(
+                _("Cannot reconcile"),
+                _("Reconcile payment order not implemented"))
+        return payment_order_obj.debit_reconcile_transfer(
+            cr, uid,
+            transaction.payment_order_id.id,
+            transaction.statement_line_id.amount,
+            transaction.statement_line_id.currency,
+            context=context)
+
+    def _cancel_payment_order(
+        self, cr, uid, transaction_id, context=None):
+        """
+        """
+        payment_order_obj = self.pool.get('payment.order')
+        transaction = self.browse(cr, uid, transaction_id, context=context)
+        if not transaction.payment_order_id:
+            raise osv.except_osv(
+                _("Cannot unreconcile"),
+                _("Cannot unreconcile: no direct debit order"))
+        if transaction.payment_order_id.payment_order_type != 'debit':
+            raise osv.except_osv(
+                _("Cannot unreconcile"),
+                _("Unreconcile payment order not implemented"))
+        return payment_order_obj.debit_unreconcile_transfer(
+            cr, uid, transaction.payment_order_id.id,
+            transaction.statement_line_id.reconcile_id.id,
+            transaction.statement_line_id.amount,
+            transaction.statement_line_id.currency)
 
     def _cancel_move(
         self, cr, uid, transaction_id, context=None):
@@ -572,11 +616,11 @@ class banking_import_transaction(osv.osv):
         transaction = self.browse(cr, uid, transaction_id, context=context)
         
         if not transaction.payment_line_id:
-            osv.except_osv(
+            raise osv.except_osv(
                 _("Cannot cancel link with storno"),
                 _("No direct debit order item"))
         if not transaction.payment_line_id.storno:
-            osv.except_osv(
+            raise osv.except_osv(
                 _("Cannot cancel link with storno"),
                 _("The direct debit order item is not marked for storno"))
 
@@ -591,7 +635,7 @@ class banking_import_transaction(osv.osv):
                 cancel_line = line
                 break
         if not cancel_line: # debug
-            osv.except_osv(
+            raise osv.except_osv(
                 _("Cannot cancel link with storno"),
                 _("Line id not found"))
         reconcile = cancel_line.reconcile_id or cancel_line.reconcile_partial_id
@@ -618,13 +662,14 @@ class banking_import_transaction(osv.osv):
         'storno': _cancel_storno,
         'invoice': _cancel_move,
         'move': _cancel_move,
+        'payment_order': _cancel_payment_order,
         }
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
         for transaction in self.browse(cr, uid, ids, context):
             if transaction.match_type not in self.cancel_map:
-                osv.except_osv(
+                raise osv.except_osv(
                     _("Cannot cancel type %s" % transaction.match_type),
                     _("No method found to cancel this type"))
             self.cancel_map[transaction.match_type](self, cr, uid, transaction.id, context)
@@ -633,6 +678,7 @@ class banking_import_transaction(osv.osv):
     reconcile_map = {
         'storno': _reconcile_storno,
         'invoice': _reconcile_move,
+        'payment_order': _reconcile_payment_order,
         'move': _reconcile_move,
         }
     def reconcile(self, cr, uid, ids, context=None):
@@ -640,7 +686,7 @@ class banking_import_transaction(osv.osv):
             ids = [ids]
         for transaction in self.browse(cr, uid, ids, context):
             if transaction.match_type not in self.reconcile_map:
-                osv.except_osv(
+                raise osv.except_osv(
                     _("Cannot reconcile type %s" % transaction.match_type),
                     _("No method found to reconcile this type"))
             # run the method that is appropriate for this match type
@@ -731,7 +777,7 @@ class banking_import_transaction(osv.osv):
                            for key in self.signal_duplicate_keys]
             ids = self.search(cr, uid, search_vals, context=context)
             if len(ids) < 1:
-                osv.except_osv(_('Cannot check for duplicate'),
+                raise osv.except_osv(_('Cannot check for duplicate'),
                                _("I can't find myself..."))
             if len(ids) > 1:
                 self.write(
@@ -1050,8 +1096,12 @@ class banking_import_transaction(osv.osv):
                         country_code = iban.countrycode
                     elif transaction.remote_owner_country_code:
                         country_code = transaction.remote_owner_country_code
-                    elif hasattr(parser, 'country_code') and parser.country_code:
-                        country_code = parser.country_code
+                    # TODO: pass the parser's local country code to the transaction
+                    #  elif hasattr(parser, 'country_code') and parser.country_code:
+                    #      country_code = parser.country_code
+                    # For now, substituted by the company's country
+                    elif company.partner_id and company.partner_id.country:
+                        country_code = company.partner_id.country.code
                     else:
                         country_code = None
                     partner_id = get_or_create_partner(
@@ -1104,7 +1154,8 @@ class banking_import_transaction(osv.osv):
                 if remainder:
                     injected.append(remainder)
 
-            if not move_info:
+            account_id = move_info and move_info.get('account_id', False)
+            if not account_id:
                 # Use the default settings, but allow individual partner
                 # settings to overrule this. Note that you need to change
                 # the internal type of these accounts to either 'payable'
@@ -1125,17 +1176,15 @@ class banking_import_transaction(osv.osv):
                     if len(partner_banks) != 1 or not account_id or account_id == def_rec_account_id:
                         account_id = (account_info.default_debit_account_id and
                                       account_info.default_debit_account_id.id)
-            else:
-                account_id = move_info['account_id']
-                results['trans_matched_cnt'] += 1
             values = {}
             self_values = {}
             if move_info:
+                results['trans_matched_cnt'] += 1
                 self_values['match_type'] = move_info['match_type']
                 self_values['payment_line_id'] = move_info.get('payment_line_id', False)
-                self_values['move_line_ids'] = [(6, 0, move_info.get('move_line_ids', []))]
-                self_values['invoice_ids'] = [(6, 0, move_info.get('invoice_ids', []))]
-                self_values['payment_order_ids'] = [(6, 0, move_info.get('payment_order_ids', []))]
+                self_values['move_line_ids'] = [(6, 0, move_info.get('move_line_ids') or [])]
+                self_values['invoice_ids'] = [(6, 0, move_info.get('invoice_ids') or [])]
+                self_values['payment_order_ids'] = [(6, 0, move_info.get('payment_order_ids') or [])]
                 self_values['payment_order_id'] = (move_info.get('payment_order_ids', False) and 
                                                    len(move_info['payment_order_ids']) == 1 and
                                                    move_info['payment_order_ids'][0]
@@ -1254,7 +1303,7 @@ class banking_import_transaction(osv.osv):
         'transferred_amount': fields.float('transferred_amount'),
         'message': fields.char('message', size=1024),
         'remote_owner': fields.char('remote_owner', size=24),
-        'remote_address': fields.char('remote_address', size=24),
+        'remote_owner_address': fields.char('remote_owner_address', size=24),
         'remote_owner_city': fields.char('remote_owner_city', size=24),
         'remote_owner_postalcode': fields.char('remote_owner_postalcode', size=24),
         'remote_owner_country_code': fields.char('remote_owner_country_code', size=24),
@@ -1592,7 +1641,7 @@ class account_bank_statement_line(osv.osv):
             if st_line.state != 'confirmed':
                 continue
             if st_line.statement_id.state != 'draft':
-                osv.except_osv(
+                raise osv.except_osv(
                     _("Cannot cancel bank transaction"),
                     _("The bank statement that this transaction belongs to has " +
                       "already been confirmed"))

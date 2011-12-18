@@ -519,7 +519,6 @@ class banking_import(osv.osv_memory):
         # TODO: code _link_canceled_debit
         return False
 
-
     def import_statements_file(self, cursor, uid, ids, context):
         '''
         Import bank statements / bank transactions file.

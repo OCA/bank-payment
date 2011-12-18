@@ -19,15 +19,6 @@ class payment_mode(osv.osv):
             help=('Journal to write payment entries when confirming ' +
                   'a debit order of this mode'),
             ),
-#        'reference_filter': fields.char(
-#            'Reference filter', size=16,
-#            help=(
-#                'Optional substring filter on move line references. ' +
-#                'You can use this in combination with a specific journal ' +
-#                'for items that you want to handle with this mode. Use ' +
-#                'a separate sequence for the journal with a distinguished ' +
-#                'prefix or suffix and enter that character string here.'),
-#            ),
         'payment_term_ids': fields.many2many(
             'account.payment.term', 'account_payment_order_terms_rel', 
             'mode_id', 'term_id', 'Payment terms',
@@ -67,17 +58,12 @@ class payment_order(osv.osv):
         return res
 
     def debit_reconcile_transfer(self, cr, uid, payment_order_id, 
-                        amount, log, context=None):
+                                 amount, currency, context=None):
         """
         During import of bank statements, create the reconcile on the transfer
-        account containing all the move lines on the transfer account.
+        account containing all the open move lines on the transfer account.
         """
         move_line_obj = self.pool.get('account.move.line')
-
-        def is_zero(move_line, total):
-            return self.pool.get('res.currency').is_zero(
-                cr, uid, move_line.company_id.currency_id, total)
-
         order = self.browse(cr, uid, payment_order_id, context)
         line_ids = []
         reconcile_id = False
@@ -85,8 +71,9 @@ class payment_order(osv.osv):
             for line in order_line.debit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other' and not line.reconcile_id:
                     line_ids.append(line.id)
-        if is_zero(order.line_ids[0].debit_move_line_id,
-                   move_line_obj.get_balance(cr, uid, line_ids) - amount):
+        if self.pool.get('res.currency').is_zero(
+            cr, uid, currency,
+            move_line_obj.get_balance(cr, uid, line_ids) - amount):
             reconcile_id = self.pool.get('account.move.reconcile').create(
                 cr, uid, 
                 {'type': 'auto', 'line_id': [(6, 0, line_ids)]},
@@ -95,9 +82,44 @@ class payment_order(osv.osv):
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(
                 uid, 'payment.order', payment_order_id, 'done', cr)
-
         return reconcile_id
 
+    def debit_unreconcile_transfer(self, cr, uid, payment_order_id, reconcile_id,
+                                 amount, currency, context=None):
+        """
+        Due to a cancelled bank statements import, unreconcile the move on
+        the transfer account. Delegate the conditions to the workflow, but
+        rip out the reconcile first or the workflow may not allow the undo.
+        Raise on failure for rollback.
+        """
+        self.pool.get('account.move.reconcile').unlink(
+            cr, uid, reconcile_id, context=context)
+        wkf_ok = netsvc.LocalService('workflow').trg_validate(
+            uid, 'payment.order', payment_order_id, 'undo_done', cr)
+        if not wkf_ok:
+            raise osv.except_osv(
+                _("Cannot unreconcile"),
+                _("Cannot unreconcile debit order: "+
+                  "Workflow will not allow it."))
+        
+        return True
+
+    def test_undo_done(self, cr, uid, ids, context=None):
+        """ 
+        Called from the workflow. Used to unset done state on
+        payment orders that were reconciled with bank transfers
+        which are being cancelled 
+        """
+        for order in self.browse(cr, uid, ids, context=context):
+            if order.payment_order_type == 'debit':
+                for line in order.line_ids:
+                    if line.storno:
+                        return False
+            else:
+                # TODO: define conditions for 'payment' orders
+                return False
+        return True
+        
     def action_sent(self, cr, uid, ids, context=None):
         """ 
         Create the moves that pay off the move lines from
@@ -407,7 +429,8 @@ class payment_order_create(osv.osv_memory):
         search_due_date = data['duedate']
         
         ### start account_direct_debit ###
-        payment = self.pool.get('payment.order').browse(cr, uid, context['active_id'], context=context)
+        payment = self.pool.get('payment.order').browse(
+            cr, uid, context['active_id'], context=context)
         # Search for move line to pay:
         if payment.payment_order_type == 'debit':
             domain = [
@@ -415,21 +438,18 @@ class payment_order_create(osv.osv_memory):
                 ('account_id.type', '=', 'receivable'),
                 ('amount_to_receive', '>', 0),
                 ]
-            # cannot filter on properties of (searchable)
-            # function fields. Needs work in expression.expression.parse()
-            # Currently gives an SQL error.
-            # apply payment term filter
-            if payment.mode.payment_term_ids:
-                term_ids = [term.id for term in payment.mode.payment_term_ids]
-                domain = domain + [
-                    '|', ('invoice', '=', False),
-                    ('payment_term_id', 'in', term_ids),
-                    ]
         else:
             domain = [
                 ('reconcile_id', '=', False),
                 ('account_id.type', '=', 'payable'),
                 ('amount_to_pay', '>', 0)
+                ]
+        # apply payment term filter
+        if payment.mode.payment_term_ids:
+            domain = domain + [
+                ('payment_term_id', 'in', 
+                 [term.id for term in payment.mode.payment_term_ids]
+                 )
                 ]
         # domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('amount_to_pay', '>', 0)]
         ### end account_direct_debit ###
@@ -439,7 +459,7 @@ class payment_order_create(osv.osv_memory):
         context.update({'line_ids': line_ids})
         model_data_ids = mod_obj.search(cr, uid,[('model', '=', 'ir.ui.view'), ('name', '=', 'view_create_payment_order_lines')], context=context)
         resource_id = mod_obj.read(cr, uid, model_data_ids, fields=['res_id'], context=context)[0]['res_id']
-        return {'name': ('Entrie Lines'),
+        return {'name': ('Entry Lines'),
                 'context': context,
                 'view_type': 'form',
                 'view_mode': 'form',

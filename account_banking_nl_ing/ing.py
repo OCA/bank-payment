@@ -50,9 +50,6 @@ class transaction_message(object):
         'date', 'remote_owner', 'local_account', 'remote_account',
         'transfer_type', 'debcred', 'transferred_amount',
         'transfer_type_verbose', 'message'
-
-#        'date', 'local_account', 'transferred_amount', 'debcred',
-#        'remote_owner', 'remote_account', 'transfer_type', 'reference',
     ]
 
     def __init__(self, values, subno):
@@ -70,9 +67,9 @@ class transaction_message(object):
         if self.debcred == 'Af':
             self.transferred_amount = -self.transferred_amount
         self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d') 
-        # Set statement_id based on week number
-        self.statement_id = self.effective_date.strftime('%Yw%W')
+        self.statement_id = '' #self.effective_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
+        self.reference = ''
         # Normalize basic account numbers
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
         self.local_account = self.local_account.replace('.', '').zfill(10)             
@@ -84,7 +81,7 @@ class transaction(models.mem_bank_transaction):
     attrnames = ['local_account', 'remote_account',
                  'remote_owner', 'transferred_amount',
                  'execution_date', 'effective_date', 'transfer_type',
-                 'id', #'reference', 
+                 'id', 'reference', 'statement_id', 'message',
                 ]
 
     """
@@ -121,9 +118,6 @@ class transaction(models.mem_bank_transaction):
         super(transaction, self).__init__(*args, **kwargs)
         # Copy attributes from auxiliary class to self.
         for attr in self.attrnames:
-            #if attr == 'reference':
-            #    setattr(self, 'reference', False)
-            #else:
             setattr(self, attr, getattr(line, attr))
         # self.message = ''
         # Decompose structured messages
