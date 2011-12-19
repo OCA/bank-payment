@@ -171,7 +171,8 @@ class banking_import_transaction(osv.osv):
         return False
 
     def _match_invoice(self, cr, uid, trans, move_lines,
-                      partner_ids, bank_account_ids, log, linked_invoices):
+                       partner_ids, bank_account_ids, log, linked_invoices,
+                       context=None):
         '''
         Find the invoice belonging to this reference - if there is one
         Use the sales journal to check.
@@ -405,17 +406,15 @@ class banking_import_transaction(osv.osv):
                     dict(
                             transferred_amount = trans.transferred_amount - expected,
                             transaction = trans.transaction + 'b',
+                            parent_id = trans.id,
                             ), context=context)
+                    # update the current record
                     self.write(cr, uid, trans.id, dict(
-                        transaction = trans.transaction + 'a'), context)
-                    # NOTE: the following is debatable. By copying the
-                    # eyecatcher of the invoice itself, we enhance the
-                    # tracability of the invoices, but we degrade the
-                    # tracability of the bank transactions. When debugging, it
-                    # is wise to disable this line.
-                    # Stefan: disabled for interactive mode
-                    # trans.reference = eyecatcher(move_line.invoice)
-
+                            transferred_amount = expected,
+                            transaction = trans.transaction + 'a',
+                            ), context)
+                    # rebrowse the current record after writing
+                    trans=self.browse(cr, uid, trans.id, context=context)
             if move_line:
                 account_ids = [
                     x.id for x in bank_account_ids 
@@ -691,8 +690,16 @@ class banking_import_transaction(osv.osv):
                 continue
             if transaction.match_type not in self.reconcile_map:
                 raise osv.except_osv(
-                    _("Cannot reconcile type %s" % transaction.match_type),
-                    _("No method found to reconcile this type"))
+                    _("Cannot reconcile"),
+                    _("Cannot reconcile type %s. No method found to reconcile this type") %
+                    transaction.match_type
+                    )
+            if transaction.residual and transaction.writeoff_account_id:
+                raise osv.except_osv(
+                    _("Cannot reconcile"),
+                    _("Bank transaction %s has a residual amount, and a write-off account. Write off not implemented.") %
+                    transaction.statement_line_id.name
+                    )
             # run the method that is appropriate for this match type
             reconcile_id = self.reconcile_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
@@ -1049,6 +1056,7 @@ class banking_import_transaction(osv.osv):
                         transferred_amount = transaction.provision_costs,
                         remote_currency = transaction.provision_costs_currency,
                         message = transaction.provision_costs_description,
+                        parent_id = transaction.id,
                         ), context)
                 
                 injected.append(self.browse(cr, uid, cost_id, context))
@@ -1066,7 +1074,8 @@ class banking_import_transaction(osv.osv):
                         provision_costs_currency = False,
                         provision_costs_description = False,
                         ), context=context)
-                
+                # rebrowse the current record after writing
+                transaction=self.browse(cr, uid, transaction.id, context=context)
             # Match full direct debit orders
             if transaction.type == bt.DIRECT_DEBIT:
                 move_info = self._match_debit_order( # TODO reconcile preservation
@@ -1154,9 +1163,9 @@ class banking_import_transaction(osv.osv):
                 move_info, remainder = self._match_invoice(
                     cr, uid, transaction, move_lines, partner_ids,
                     partner_banks, results['log'], linked_invoices,
-                    )
+                    context=context)
                 if remainder:
-                    injected.append(remainder)
+                    injected.append(self.browse(cr, uid, remainder, context))
 
             account_id = move_info and move_info.get('account_id', False)
             if not account_id:
@@ -1269,6 +1278,38 @@ class banking_import_transaction(osv.osv):
         'id': 'transaction'
         }
                 
+    def _get_residual(self, cr, uid, ids, name, args, context=None):
+        """
+        Calculate the residual against the candidate reconciliation.
+        When 
+              - residual > 0 and transferred amount > 0, or
+              - residual < 0 and transferred amount < 0
+
+        the result is a partial reconciliation. In the other cases,
+        a new statement line can be split off.
+
+        We should give users the option to reconcile with writeoff
+        or partial reconciliation / new statement line
+        """
+
+        if not ids:
+            return {}
+        res = dict([(x, False) for x in ids])
+        move_line_obj = self.pool.get('account.move.line')
+        for transaction in self.browse(cr, uid, ids, context):
+            if (transaction.match_type in 
+                [('invoice'), ('move'), ('manual')]):
+                rec_moves = (
+                    transaction.move_line_id.reconcile_id and 
+                    transaction.move_line_id.reconcile_id.line_id or
+                    transaction.move_line_id.reconcile_partial_id and
+                    transaction.move_line_id.reconcile_partial_id.line_partial_ids or
+                    [transaction.move_line_id])
+                res[transaction.id] = (
+                    move_line_obj.get_balance(cr, uid, [x.id for x in rec_moves])
+                    - transaction.transferred_amount)
+        return res
+        
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
         """
         Indicate in the wizard that multiple matches have been found
@@ -1333,11 +1374,13 @@ class banking_import_transaction(osv.osv):
             'account.bank.statement.line', 'Statement line'),
         'statement_id': fields.many2one(
             'account.bank.statement', 'Statement'),
-
+        'parent_id': fields.many2one(
+            'banking.import.transaction', 'Split off from this transaction'),
         # match fields
         'match_type': fields.selection(
-            [('move','Move'), ('invoice', 'Invoice'), ('payment', 'Payment'),
-             ('payment_order', 'Payment order'), ('storno', 'Storno')],
+            [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
+             ('payment', 'Payment'), ('payment_order', 'Payment order'),
+             ('storno', 'Storno')],
             'Match type'),
         'match_multi': fields.function(
             _get_match_multi, method=True, string='Multi match',
@@ -1359,6 +1402,12 @@ class banking_import_transaction(osv.osv):
         'invoice_id': fields.many2one(
             'account.invoice', 'Invoice to reconcile'),
         'payment_line_id': fields.many2one('payment.line', 'Payment line'),
+        'residual': fields.function(
+            _get_residual, method=True, string='Residual', type='float'),
+        'writeoff_account_id': fields.many2one(
+            'account.account', 'Write off account'),
+        'writeoff_move_line_id': fields.many2one(
+            'account.move.line', 'Write off move line'),
         }
     _defaults = {
         'company_id': lambda s,cr,uid,c:
@@ -1377,6 +1426,9 @@ class account_bank_statement_line(osv.osv):
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', type='boolean',
             string='Multi match'),
+        'residual': fields.related(
+            'import_transaction_id', 'residual', type='float', 
+            string='Residual'),
         'duplicate': fields.related(
             'import_transaction_id', 'duplicate', type='boolean',
             string='Possible duplicate import'),

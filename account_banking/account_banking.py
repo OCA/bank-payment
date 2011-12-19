@@ -453,7 +453,9 @@ class account_bank_statement(osv.osv):
         """
         if st_line.reconcile_id:
             account_move_line_obj.write(cr, uid, [torec], {
-                    'reconcile_id': st_line.reconcile_id.id }, context=context)
+                    (st_line.reconcile_id.line_partial_ids and 
+                     'reconcile_partial_id' or 'reconcile_id'): 
+                    st_line.reconcile_id.id }, context=context)
             for move_line in (st_line.reconcile_id.line_id or []) + (
                 st_line.reconcile_id.line_partial_ids or []):
                 netsvc.LocalService("workflow").trg_trigger(

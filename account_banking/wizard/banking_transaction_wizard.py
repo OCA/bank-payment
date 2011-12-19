@@ -113,10 +113,27 @@ class banking_transaction_wizard(osv.osv_memory):
                             _("No entry found for the selected invoice. " +
                               "Try manual reconciliation."))
 
-    def select_match(self, cr, uid, ids, context=None):
+    def trigger_write(self, cr, uid, ids, context=None):
         """
         Just a button that triggers a write.
         """
+        return True
+
+    def disable_match(self, cr, uid, ids, context=None):
+        vals = (dict([(x, False) for x in [
+                    'match_type',
+                    'move_line_id', 
+                    'invoice_id', 
+                    'manual_invoice_id', 
+                    'manual_move_line_id',
+                    'payment_line_id',
+                    ]] +
+                     [(x, [(6, 0, [])]) for x in [
+                        'move_line_ids',
+                        'invoice_ids',
+                        'payment_order_ids',
+                        ]]))
+        self.write(cr, uid, ids, vals, context=context)
         return True
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
@@ -144,7 +161,7 @@ class banking_transaction_wizard(osv.osv_memory):
         return {'nodestroy': False, 'type': 'ir.actions.act_window_close'}        
 
     _defaults = {
-        'match_type': _get_default_match_type,
+#        'match_type': _get_default_match_type,
         }
 
     _columns = {
@@ -162,6 +179,10 @@ class banking_transaction_wizard(osv.osv_memory):
         'residual': fields.related(
             'import_transaction_id', 'residual', type='float', 
             string='Residual'),
+        'writeoff_account_id': fields.related(
+            'import_transaction_id', 'writeoff_account_id',
+            type='many2one', relation='account.account',
+            string='Write off account'),
         'payment_line_id': fields.related(
             'import_transaction_id', 'payment_line_id', string="Matching payment or storno", 
             type='many2one', relation='payment.line'),
@@ -189,10 +210,9 @@ class banking_transaction_wizard(osv.osv_memory):
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', 
             type="boolean", string='Multiple matches'),
-        'match_type': fields.selection(
-            [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
-             ('payment', 'Payment'), ('payment_order', 'Payment order'),
-             ('storno', 'Storno')], 'Match type', readonly=True),
+        'match_type': fields.related(
+            'import_transaction_id', 'match_type', 
+            type="char", size=16, string='Match type', readonly=True),
         'manual_invoice_id': fields.many2one(
             'account.invoice', 'Match this invoice',
             domain=[('state', '=', 'open')]),
