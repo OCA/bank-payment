@@ -1330,6 +1330,27 @@ class banking_import_transaction(osv.osv):
                     transaction.payment_order_id):
                         res[transaction.id] = True
         return res
+    
+    def clear_and_write(self, cr, uid, ids, vals=None, context=None):
+        """
+        Write values in argument 'vals', but clear all match
+        related values first
+        """
+        write_vals = (dict([(x, False) for x in [
+                    'match_type',
+                    'move_line_id', 
+                    'invoice_id', 
+                    'manual_invoice_id', 
+                    'manual_move_line_id',
+                    'payment_line_id',
+                    ]] +
+                     [(x, [(6, 0, [])]) for x in [
+                        'move_line_ids',
+                        'invoice_ids',
+                        'payment_order_ids',
+                        ]]))
+        write_vals.update(vals or {})
+        return self.write(cr, uid, ids, write_vals, context=context)
 
     _columns = {
         # start mem_bank_transaction atributes
@@ -1613,12 +1634,13 @@ class account_bank_statement(osv.osv):
         """ inject the statement line workflow here """
         done = []
         account_move_obj = self.pool.get('account.move')
-        line_obj = self.pool.get('account.bank.statement.line')
+        #line_obj = self.pool.get('account.bank.statement.line')
         for st in self.browse(cr, uid, ids, context=context):
             if st.state=='draft':
                 continue
             self.write(cr, uid, [st.id], {'state':'draft'}, context=context)
-            line_obj.cancel(cr, uid, [line.id for line in st.line_ids], context)
+            # Do not actually cancel all the lines on the statement,
+            # line_obj.cancel(cr, uid, [line.id for line in st.line_ids], context)
 
     _columns = {
         # override this field *only* to link it to the 

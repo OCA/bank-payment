@@ -31,7 +31,7 @@
 
                         <group colspan="2" col="2">
 
-                            <separator string="System Match" colspan="2"/>
+                            <separator string="Current match" colspan="2"/>
                             <field name="match_type"/>
                             <group attrs="{'invisible': [('match_multi', '=', False)]}">
                                 <label colspan="2" string="Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below." />
@@ -40,16 +40,21 @@
                                    attrs="{'invisible': [('match_type', 'not in', [('payment', 'storno')])]}"
                                    />
                             <group attrs="{'readonly': [('match_multi', '!=' True)]}">
+                                <!-- show if we have an invoice type match (but the user may need to select from multiple options)
+                                     or whenever there is an invoice_id (e.g. in case of a manual match) 
+                                -->
                                 <field name='invoice_id'
-                                       attrs="{'invisible': [('match_type', '!=', 'invoice')]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'invoice'),('invoice_id', '=', False)]}"
                                        domain="[('id', 'in', invoice_ids[0][2])]"
                                        />
+                                <!-- show if we have a move type match or a manual match without an invoice_id
+                                -->
                                 <field name='move_line_id'
-                                       attrs="{'invisible': [('match_type', '!=', 'move')]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': ['|',('match_type', '!=', 'move'),('match_type', '=', 'manual'),('invoice_id', '!=', False)]}"
                                        domain="[('id', 'in', move_line_ids[0][2])]"
                                        />
                                 <field name='payment_order_id'
-                                       attrs="{'invisible': [('match_type', '!=', 'payment_order')]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'payment_order')]}"
                                        domain="[('id', 'in', payment_order_ids[0][2])]"
                                        />
                             </group>
@@ -60,6 +65,29 @@
                                     string="Select"/>
                             <newline/>
 
+                            <!-- residual and write off -->
+                            
+                            <group attrs="{'invisible': [('residual', '=', False)]}" colspan="2" col="2">
+                                <separator string="Residual write-off"/>
+                                <label string="You must set a write-off account for the residual of this reconciliation"  colspan="2"/>
+                                <field name="residual"/>
+                                <field name="writeoff_account_id"
+                                       attrs="{'required': [('residual', '!=', False)]}"/>
+                                <button colspan="1"
+                                        name="trigger_write"
+                                        type="object"
+                                        string="Set write-off account"/>
+                            </group>                                
+
+                            <!-- Redo automatic match -->
+                        
+                            <separator string="System match"/>
+                            <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
+                            <newline/>                           
+                            <button colspan="1"
+                                    name="trigger_match"
+                                    type="object"
+                                    string="Match again"/>
                             <!-- Manual selection -->
 
                             <separator string="Manual match" colspan="2"/>
@@ -67,34 +95,11 @@
                             <field name="manual_move_line_id"/>
                             <newline/>
                             <button colspan="1"
-                                    name="match_manual"
+                                    name="trigger_write"
                                     type="object"
                                     string="Match"/>
                         </group>
 
-                        <!-- residual and write off -->
-                            
-                        <group attrs="{'invisible': [('residual', '=', False)]}" colspan="2" col="2">
-                            <separator string="Residual write-off"/>
-                            <field name="residual"/><field name="writeoff_account_id"/>
-                            <label string="You can set a write-off account for the residual of this reconciliation"  colspan="2"/>
-                            <button colspan="1"
-                                    name="trigger_write"
-                                    type="object"
-                                    string="Set write-off account"/>
-                        </group>                                
-
-                        <!-- Redo automatic match -->
-
-                        <group colspan="2" col="2">
-                            <separator string="Retry system match"/>
-                            <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
-                            <newline/>                           
-                            <button colspan="1"
-                                    name="trigger_match"
-                                    type="object"
-                                    string="Match again"/>
-                        </group>
                         <group attrs="{'invisible': [('match_type', '==', False)]}" colspan="2" col="2">
                             <separator string="Disable reconciliation"/>
                             <label string="You can disable the reconciliation of this bank transfer"  colspan="2"/>
