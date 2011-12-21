@@ -3,3 +3,5 @@
 "access_account_banking_settings_user","account.banking.account.settings user","model_account_banking_account_settings","account.group_account_user",1,0,0,0
 "access_account_banking_import","account.bankimport","model_account_banking_imported_file","account.group_account_user",1,1,1,1
 "access_payment_mode_type","payment.mode.type","model_payment_mode_type","account_payment.group_account_payment",1,1,1,1
+"access_banking_import_transaction","Banking addons - Bank import transaction","model_banking_import_transaction","account.group_account_user",1,1,1,1
+"access_banking_transaction_wizard","Banking addons - Transaction wizard","model_banking_transaction_wizard","account.group_account_user",1,1,1,1
