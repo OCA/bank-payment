@@ -38,7 +38,7 @@
                                 <label colspan="2" string="Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below." />
                             </group>
                             <field name='payment_line_id'
-                                   attrs="{'invisible': [('match_type', 'not in', [('payment', 'storno')])]}"
+                                   attrs="{'invisible': [('match_type', '!=', 'storno'),('match_type', '!=', 'payment')]}"
                                    />
                             <group attrs="{'readonly': [('match_multi', '!=' True)]}">
                                 <!-- show if we have an invoice type match (but the user may need to select from multiple options)
@@ -51,7 +51,7 @@
                                 <!-- show if we have a move type match or a manual match without an invoice_id
                                 -->
                                 <field name='move_line_id'
-                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': ['|',('match_type', '!=', 'move'),('match_type', '=', 'manual'),('invoice_id', '!=', False)]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'move'),('invoice_id', '=', False)]}"
                                        domain="[('id', 'in', move_line_ids[0][2])]"
                                        />
                                 <field name='payment_order_id'

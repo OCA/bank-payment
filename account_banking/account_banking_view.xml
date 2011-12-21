@@ -267,6 +267,7 @@
                     </xpath>
                     <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='amount']" position="after">
                         <field name="match_type"/>
+                        <field name="residual"/>
                         <button name="match_wizard" states="draft"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"
@@ -482,6 +483,7 @@
                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting" domain="[('company_id', '=', parent.company_id), ('type', '&lt;&gt;', 'view')]"/>
                     <field name="amount"/>
                         <field name="match_type"/>
+                        <field name="residual"/>
                         <button name="match_wizard" states="draft"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"

@@ -31,5 +31,16 @@
                </data>
             </field>
         </record>
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.invoice.select direct debit</field>
+            <field name="model">account.invoice</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <filter name="invoices" position="after">
+                    <filter name="debit_denied" icon="terp-dolar_ok!" string="Debit denied" domain="[('state','=','debit_denied')]" help="Show only invoices with state Debit denied"/>
+                </filter>
+            </field>
+        </record>
     </data>
 </openerp>

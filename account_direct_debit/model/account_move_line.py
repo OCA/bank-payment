@@ -96,8 +96,27 @@ class account_move_line(osv.osv):
         invoice_ids = invoice_obj.search(
             cr, uid, [('payment_term', args[0][1], args[0][2])],
             context=context)
-        operator = (args[0][1] not in ['in', '=', '==', 'like', 'ilike']
-                    and 'not in' or 'in')
+        operator = 'in' # (args[0][1] not in ['in', '=', '==', 'like', 'ilike']
+                        # and 'not in' or 'in')
+        if not invoice_ids:
+            return [('id', operator, [])]
+        cr.execute('SELECT l.id ' \
+                'FROM account_move_line l, account_invoice i ' \
+                'WHERE l.move_id = i.move_id AND i.id in %s', (tuple(invoice_ids),))
+        res = cr.fetchall()
+        if not res:
+            return [('id', '=', False)]
+        return [('id', operator, [x[0] for x in res])]
+
+    def _invoice_state_search(self, cr, uid, obj, name, args, context=None):
+        if not args:
+            return []
+        invoice_obj = self.pool.get('account.invoice')
+        invoice_ids = invoice_obj.search(
+            cr, uid, [('state', args[0][1], args[0][2])],
+            context=context)
+        operator = 'in' # (args[0][1] not in ['in', '=', '==', 'like', 'ilike']
+                        # and 'not in' or 'in')
         if not invoice_ids:
             return [('id', operator, [])]
         cr.execute('SELECT l.id ' \
@@ -118,6 +137,11 @@ class account_move_line(osv.osv):
             string='Select by invoice payment term',
             type='many2one', relation='account.payment.term',
             fnct_search=_invoice_payment_term_id_search),
+        'invoice_state': fields.function(
+            _dummy, method=True,
+            string='Select by invoice state',
+            type='char', size=24,
+            fnct_search=_invoice_state_search),
         }
 
 account_move_line()

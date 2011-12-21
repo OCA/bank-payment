@@ -254,7 +254,7 @@ class banking_transaction_wizard(osv.osv_memory):
             string='Write-off journal'),
         'payment_line_id': fields.related(
             'import_transaction_id', 'payment_line_id', string="Matching payment or storno", 
-            type='many2one', relation='payment.line'),
+            type='many2one', relation='payment.line', readonly=True),
         'payment_order_ids': fields.related(
             'import_transaction_id', 'payment_order_ids', string="Matching payment orders", 
             type='many2many', relation='payment.order'),

@@ -12,7 +12,9 @@ class payment_mode(osv.osv):
             domain=[('type', '=', 'other'),
                     ('reconcile', '=', True)],
             help=('Pay off lines in sent orders with a ' +
-                  'move on this account. For debit type modes only'),
+                  'move on this account. For debit type modes only. ' +
+                  'You can only select accounts of type regular that ' +
+                  'are marked for reconciliation'),
             ),
         'transfer_journal_id': fields.many2one(
             'account.journal', 'Transfer journal',
@@ -436,6 +438,7 @@ class payment_order_create(osv.osv_memory):
             domain = [
                 ('reconcile_id', '=', False),
                 ('account_id.type', '=', 'receivable'),
+                ('invoice_state', '!=', 'debit_denied'),
                 ('amount_to_receive', '>', 0),
                 ]
         else:

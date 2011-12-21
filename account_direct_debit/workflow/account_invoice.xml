@@ -20,8 +20,8 @@
         </record>
         <record id="debit_denied_to_open" model="workflow.transition">
             <field name="act_from" ref="act_debit_denied"/>
-            <field name="act_to" ref="account.act_open_test"/>
-            <field name="signal">open_test</field>
+            <field name="act_to" ref="account.act_open"/>
+            <field name="signal">invoice_open</field>
         </record>
     </data>
 </openerp>

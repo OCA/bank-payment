@@ -1334,7 +1334,7 @@ class banking_import_transaction(osv.osv):
                 values['partner_id'] = move_info['partner_id']
                 values['partner_bank_id'] = move_info['partner_bank_id']
                 values['type'] = move_info['type']
-                values['match_type'] = move_info['match_type']
+                # values['match_type'] = move_info['match_type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
             if not values['partner_id'] and partner_ids and len(partner_ids) == 1:
@@ -1421,7 +1421,8 @@ class banking_import_transaction(osv.osv):
         res = dict([(x, False) for x in ids])
         move_line_obj = self.pool.get('account.move.line')
         for transaction in self.browse(cr, uid, ids, context):
-            if (transaction.match_type in 
+            if (transaction.statement_line_id.state == 'draft'
+                and transaction.match_type in 
                 [('invoice'), ('move'), ('manual')]):
                 rec_moves = (
                     transaction.move_line_id.reconcile_id and 
@@ -1580,11 +1581,16 @@ class account_bank_statement_line(osv.osv):
         'duplicate': fields.related(
             'import_transaction_id', 'duplicate', type='boolean',
             string='Possible duplicate import'),
-        'match_type': fields.selection(
-            [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
+        'match_type': fields.related(
+            'import_transaction_id', 'match_type', type='selection',
+            selection=[('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
              ('payment', 'Payment'), ('payment_order', 'Payment order'),
-             ('storno', 'Storno'),
-             ], 'Match type', readonly=True),
+             ('storno', 'Storno')], string='Match type', readonly=True,
+            ),
+        'residual': fields.related(
+            'import_transaction_id', 'residual', type='float',
+            string='Residual', readonly=True,
+            ),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
             readonly=True, required=True),
