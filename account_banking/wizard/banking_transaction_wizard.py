@@ -246,7 +246,11 @@ class banking_transaction_wizard(osv.osv_memory):
         'writeoff_account_id': fields.related(
             'import_transaction_id', 'writeoff_account_id',
             type='many2one', relation='account.account',
-            string='Write off account'),
+            string='Write-off account'),
+        'writeoff_journal_id': fields.related(
+            'import_transaction_id', 'writeoff_journal_id',
+            type='many2one', relation='account.journal',
+            string='Write-off journal'),
         'payment_line_id': fields.related(
             'import_transaction_id', 'payment_line_id', string="Matching payment or storno", 
             type='many2one', relation='payment.line'),

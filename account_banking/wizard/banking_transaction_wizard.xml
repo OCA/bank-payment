@@ -13,6 +13,7 @@
                     <field name="move_line_ids" invisible="True"/>
                     <field name="match_multi" invisible="True"/>
                     <field name="duplicate" invisible="True"/>
+                    <field name="amount" invisible="True"/>
 
                     <group colspan="2" col="2">
 
@@ -69,10 +70,13 @@
                             
                             <group attrs="{'invisible': [('residual', '=', False)]}" colspan="2" col="2">
                                 <separator string="Residual write-off"/>
-                                <label string="You must set a write-off account for the residual of this reconciliation"  colspan="2"/>
+                                <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
                                 <field name="residual"/>
+                                <!-- no luck with these lt/gt calculations in attrs -->
                                 <field name="writeoff_account_id"
-                                       attrs="{'required': [('residual', '!=', False)]}"/>
+                                       attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                <field name="writeoff_journal_id"
+                                       attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
                                 <button colspan="1"
                                         name="trigger_write"
                                         type="object"

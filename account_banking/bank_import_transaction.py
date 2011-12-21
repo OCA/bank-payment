@@ -429,23 +429,48 @@ class banking_import_transaction(osv.osv):
         return (False, False)
 
     def _do_move_reconcile(
-        self, cr, uid, move_line_id, currency, amount, context=None):
+        self, cr, uid, move_line_ids, currency, amount, context=None):
+        """
+        Prepare a reconciliation for a bank transaction of the given
+        amount. The caller MUST add the move line associated with the
+        bank transaction to the returned reconciliation resource.
+
+        If adding the amount does not make the total add up,
+        prepare a partial reconciliation. An existing reconciliation on
+        the move lines will be taken into account.
+
+        :param move_line_ids: List of ids. This will usually be the move
+        line of an associated invoice or payment, plus optionally the
+        move line of a writeoff. 
+        :param currency: A res.currency *browse* object to perform math
+        operations on the amounts.
+        :param amount: the amount of the bank transaction. Amount < 0 in
+        case of a credit move on the bank account.
+        """
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
         statement_line_obj = self.pool.get('account.bank.statement.line')
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
             cr, uid, currency, amount)
-        move_line = move_line_obj.browse(cr, uid, move_line_id, context=context)
-        if move_line.reconcile_id:
-            raise osv.except_osv(
-                _('Entry is already reconciled'),
-                _("You cannot reconcile the bank transaction with this entry, " +
-                  "it is already reconciled")
-                )
-        reconcile = move_line.reconcile_partial_id
-        line_ids = [move_line_id] + (
-            [x.id for x in reconcile and ( # reconcile.line_id or 
-                    reconcile.line_partial_ids) or []])
+        move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
+        reconcile = False
+        for move_line in move_lines:
+            if move_line.reconcile_id:
+                raise osv.except_osv(
+                    _('Entry is already reconciled'),
+                    _("You cannot reconcile the bank transaction with this entry, " +
+                      "it is already reconciled")
+                    )
+            if move_line.reconcile_partial_id:
+                if reconcile and reconcile.id != move_line.reconcile_partial_id.id:
+                    raise osv.except_osv(
+                        _('Cannot reconcile'),
+                        _('Move lines are already partially reconciled, ' +
+                          'but not with each other.'))
+                reconcile = move_line.reconcile_partial_id
+        line_ids = list(set(move_line_ids + (
+                    [x.id for x in reconcile and ( # reconcile.line_id or 
+                            reconcile.line_partial_ids) or []])))
         if not reconcile:
             reconcile_id = reconcile_obj.create(
                 cr, uid, {'type': 'auto' }, context=context)
@@ -466,15 +491,27 @@ class banking_import_transaction(osv.osv):
               }, context=context)
         return reconcile_id
 
-    def _do_move_unreconcile(self, cr, uid, move_line_id, currency, context=None):
+    def _do_move_unreconcile(self, cr, uid, move_line_ids, currency, context=None):
+        """
+        Undo a reconciliation, removing the given move line ids. If no
+        meaningful (partial) reconciliation remains, delete it.
+
+        :param move_line_ids: List of ids. This will usually be the move
+        line of an associated invoice or payment, plus optionally the
+        move line of a writeoff. 
+        :param currency: A res.currency *browse* object to perform math
+        operations on the amounts.
+        """
+
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
             cr, uid, currency, amount)
-        move_line = move_line_obj.browse(cr, uid, move_line_id, context=context)
-        reconcile = move_line.reconcile_id or move_line.reconcile_partial_id
+        move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
+        reconcile = move_lines[0].reconcile_id or move_lines[0].reconcile_partial_id
         line_ids = [x.id for x in reconcile.line_id or reconcile.line_partial_ids]
-        line_ids.remove(move_line_id)
+        for move_line_id in move_line_ids:
+                line_ids.remove(move_line_id)
         if len(line_ids) > 1:
             full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
             if full:
@@ -489,10 +526,11 @@ class banking_import_transaction(osv.osv):
                   }, context=context)
         else:
             reconcile_obj.unlink(cr, uid, reconcile.id, context=context)
-        if move_line.invoice:
-            # reopening the invoice
-            netsvc.LocalService('workflow').trg_validate(
-                uid, 'account.invoice', move_line.invoice.id, 'undo_paid', cr)
+        for move_line in move_lines:
+            if move_line.invoice:
+                # reopening the invoice
+                netsvc.LocalService('workflow').trg_validate(
+                    uid, 'account.invoice', move_line.invoice.id, 'undo_paid', cr)
         return True
 
     def _reconcile_move(
@@ -522,8 +560,11 @@ class banking_import_transaction(osv.osv):
                      )))
         currency = (transaction.statement_line_id.statement_id.journal_id.currency or
                     transaction.statement_line_id.statement_id.company_id.currency_id)
+        line_ids = [transaction.move_line_id.id]
+        if transaction.writeoff_move_line_id:
+            line_ids.append(transaction.writeoff_move_line_id.id)
         reconcile_id = self._do_move_reconcile(
-            cr, uid, transaction.move_line_id.id, currency,
+            cr, uid, line_ids, currency,
             transaction.transferred_amount, context=context)
         return reconcile_id
 
@@ -597,8 +638,11 @@ class banking_import_transaction(osv.osv):
         move_line_id = transaction.move_line_id.id
         currency = (transaction.statement_line_id.statement_id.journal_id.currency or
                     transaction.statement_line_id.statement_id.company_id.currency_id)
+        line_ids = [transaction.move_line_id.id]
+        if transaction.writeoff_move_line_id:
+            line_ids.append(transaction.writeoff_move_line_id.id)
         self._do_move_unreconcile(
-            cr, uid, transaction.move_line_id.id, currency, context=context)
+            cr, uid, line_ids, currency, context=context)
         statement_line_obj.write(
             cr, uid, transaction.statement_line_id.id,
             {'reconcile_id': False}, context=context)
@@ -660,12 +704,14 @@ class banking_import_transaction(osv.osv):
     cancel_map = {
         'storno': _cancel_storno,
         'invoice': _cancel_move,
+        'manual': _cancel_move,
         'move': _cancel_move,
         'payment_order': _cancel_payment_order,
         }
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
+        move_obj = self.pool.get('account.move')
         for transaction in self.browse(cr, uid, ids, context):
             if not transaction.match_type:
                 continue
@@ -673,12 +719,22 @@ class banking_import_transaction(osv.osv):
                 raise osv.except_osv(
                     _("Cannot cancel type %s" % transaction.match_type),
                     _("No method found to cancel this type"))
-            self.cancel_map[transaction.match_type](self, cr, uid, transaction.id, context)
+            self.cancel_map[transaction.match_type](
+                self, cr, uid, transaction.id, context)
+            # clear up the writeoff move
+            if transaction.writeoff_move_line_id:
+                move_obj.button_cancel(
+                    cr, uid, [transaction.writeoff_move_line_id.move_id.id],
+                    context=context)
+                move_obj.unlink(
+                    cr, uid, [transaction.writeoff_move_line_id.move_id.id],
+                    context=context)
         return True
 
     reconcile_map = {
         'storno': _reconcile_storno,
         'invoice': _reconcile_move,
+        'manual': _reconcile_move,
         'payment_order': _reconcile_payment_order,
         'move': _reconcile_move,
         }
@@ -691,15 +747,20 @@ class banking_import_transaction(osv.osv):
             if transaction.match_type not in self.reconcile_map:
                 raise osv.except_osv(
                     _("Cannot reconcile"),
-                    _("Cannot reconcile type %s. No method found to reconcile this type") %
+                    _("Cannot reconcile type %s. No method found to " +
+                      "reconcile this type") %
                     transaction.match_type
                     )
-            if transaction.residual and transaction.writeoff_account_id:
-                raise osv.except_osv(
-                    _("Cannot reconcile"),
-                    _("Bank transaction %s has a residual amount, and a write-off account. Write off not implemented.") %
-                    transaction.statement_line_id.name
-                    )
+            if (transaction.residual and transaction.writeoff_account_id):
+                if transaction.match_type not in ('invoice', 'move', 'manual'):
+                    raise osv.except_osv(
+                        _("Cannot reconcile"),
+                        _("Bank transaction %s: write off not implemented for " +
+                          "this match type.") %
+                        transaction.statement_line_id.name
+                        )
+                self._generate_writeoff_move(
+                    cr, uid, transaction.id, context=context)
             # run the method that is appropriate for this match type
             reconcile_id = self.reconcile_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
@@ -717,6 +778,64 @@ class banking_import_transaction(osv.osv):
         ][0]
         """
         return True
+
+    
+    def _generate_writeoff_move(self, cr, uid, ids, context):
+        if ids and isinstance(ids, (int, float)):
+            ids = [ids]
+        move_line_obj = self.pool.get('account.move.line')
+        move_obj = self.pool.get('account.move')
+        for trans in self.browse(cr, uid, ids, context=context):
+            periods = self.pool.get('account.period').find(
+                cr, uid, trans.statement_line_id.date)
+            period_id =  periods and periods[0] or False
+            move_id = move_obj.create(cr, uid, {
+                    'journal_id': trans.writeoff_journal_id.id,
+                    'period_id': period_id,
+                    'date': trans.statement_line_id.date,
+                    'name': '(write-off) %s' % (
+                        trans.move_line_id.move_id.name or '')
+                    }, context=context)
+            writeoff_debit = False
+            writeoff_credit = False
+            if trans.statement_line_id.amount > 0:
+                if trans.residual > 0:
+                    writeoff_debit = trans.residual
+                else:
+                    writeoff_credit = - trans.residual
+            else:
+                if trans.residual > 0:
+                    writeoff_credit = trans.residual
+                else:
+                    writeoff_debit = - trans.residual
+            vals = {
+                'name': trans.statement_line_id.name,
+                'date': trans.statement_line_id.date,
+                'ref': trans.statement_line_id.ref,
+                'move_id': move_id,
+                'partner_id': (trans.statement_line_id.partner_id and
+                               trans.statement_line_id.partner_id.id or False),
+                'account_id': trans.statement_line_id.account_id.id,
+                'credit': writeoff_debit,
+                'debit': writeoff_credit,
+                'journal_id': trans.writeoff_journal_id.id,
+                'period_id': period_id,
+                'currency_id': trans.statement_line_id.statement_id.currency.id,
+                }
+            move_line_id = move_line_obj.create(
+                cr, uid, vals, context=context)
+            self.write(
+                cr, uid, trans.id, 
+                {'writeoff_move_line_id': move_line_id}, context=context)
+            vals.update({
+                    'account_id': trans.writeoff_account_id.id,
+                    'credit': writeoff_credit,
+                    'debit': writeoff_debit,
+                    })
+            move_line_obj.create(
+                cr, uid, vals, context=context)
+            move_obj.post(
+                cr, uid, [move_id], context=context)
 
     def _match_storno(
         self, cr, uid, trans, account_info, log, context=None):
@@ -1282,6 +1401,10 @@ class banking_import_transaction(osv.osv):
         """
         Calculate the residual against the candidate reconciliation.
         When 
+              
+              55 debiteuren, 50 binnen: amount > 0, residual > 0
+              -55 crediteuren, -50 binnen: amount = -60 residual -55 - -50
+              
               - residual > 0 and transferred amount > 0, or
               - residual < 0 and transferred amount < 0
 
@@ -1426,7 +1549,10 @@ class banking_import_transaction(osv.osv):
         'residual': fields.function(
             _get_residual, method=True, string='Residual', type='float'),
         'writeoff_account_id': fields.many2one(
-            'account.account', 'Write off account'),
+            'account.account', 'Write-off account',
+             domain=[('type', '!=', 'view')]),
+        'writeoff_journal_id': fields.many2one(
+            'account.journal', 'Write-off journal'),
         'writeoff_move_line_id': fields.many2one(
             'account.move.line', 'Write off move line'),
         }
