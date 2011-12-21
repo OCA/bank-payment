@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #    Refractoring (C) 2011 Therp BV (<http://therp.nl>).
+#                 (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify

@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2011 Smile (<http://smile.fr>).
 #    Copyright (C) 2011 Therp BV (<http://therp.nl>).
 #
 #    Based on the multibank module by EduSense BV

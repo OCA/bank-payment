@@ -27,10 +27,10 @@
 ##############################################################################
 {
     'name': 'ING (NL) Bank Statements Import',
-    'version': '0.1',
+    'version': '0.1.89',
     'license': 'GPL-3',
-    'author': 'Therp BV / EduSense BV',
-    'website': 'http://therp.nl',
+    'author': 'Smile / Therp BV / EduSense BV',
+    'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
     'init_xml': [],
@@ -38,6 +38,7 @@
     ],
     'demo_xml': [],
     'description': '''
+
 Module to import Dutch ING bank format transation files (CSV format).
 
 As the ING bank does not provide detailed specification concerning possible

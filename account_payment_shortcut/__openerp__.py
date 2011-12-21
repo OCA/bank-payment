@@ -1,6 +1,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2011 Therp BV (<http://therp.nl>).
+#                  2011 Smile BV (<http://smile.fr>).
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -25,10 +26,10 @@
 ##############################################################################
 {
     'name': 'Account Payment Invoice Selection Shortcut',
-    'version': '6.0.1.64',
+    'version': '6.0.1.89',
     'license': 'GPL-3',
-    'author': 'Therp BV',
-    'website': 'http://therp.nl',
+    'author': 'Smile / Therp BV',
+    'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_payment'],
     'init_xml': [],

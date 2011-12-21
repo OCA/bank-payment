@@ -1,6 +1,7 @@
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#    Copyright (C) 2011 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -25,10 +26,10 @@
 ##############################################################################
 {
     'name': 'Direct Debit',
-    'version': '6.0.1.64',
+    'version': '6.0.1.89',
     'license': 'GPL-3',
-    'author': 'Therp BV',
-    'website': 'http://www.therp.nl',
+    'author': 'Therp BV / Smile',
+    'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
     'init_xml': [],

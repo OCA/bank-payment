@@ -1,6 +1,8 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#    Copyright (C) 2011 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -25,11 +27,11 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.1.62',
+    'version': '0.1.89',
     'license': 'GPL-3',
-    'author': 'EduSense BV',
-    'website': 'http://www.edusense.nl',
-    'category': 'Account Banking',
+    'author': 'EduSense BV / Therp BV / Smile',
+    'website': 'https://launchpad.net/banking-addons',
+    'category': 'Banking addons',
     'depends': ['base', 'account', 'base_iban', 'account_payment'],
     'init_xml': [],
     'update_xml': [
