@@ -1,7 +1,11 @@
 ##############################################################################
 #
-#    Copyright (C) 2009 - 2011 EduSense BV (<http://www.edusense.nl>)
-#                              and Therp BV (<http://therp.nl>)
+#    Copyright (C) 2011 Therp BV (<http://therp.nl>)
+#              (C) 2011 Smile BV (<http://smile.fr>)
+#
+#    Based on account-banking 
+#              (C) 2009 - 2011 EduSense BV (<http://www.edusense.nl>)
+#                              
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -27,7 +31,7 @@
 ##############################################################################
 {
     'name': 'ING (NL) Bank Statements Import',
-    'version': '0.1.89',
+    'version': '0.1.92',
     'license': 'GPL-3',
     'author': 'Smile / Therp BV / EduSense BV',
     'website': 'https://launchpad.net/banking-addons',
@@ -38,7 +42,7 @@
     ],
     'demo_xml': [],
     'description': '''
-Module to import Dutch ING bank format transation files (CSV format).
+Module to import Dutch ING bank format transaction files (CSV format).
 
 As the ING bank does not provide detailed specification concerning possible
 values and their meaning for the fields in the CSV file format, the statements

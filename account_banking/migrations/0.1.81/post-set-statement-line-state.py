@@ -18,16 +18,16 @@
 #
 ##############################################################################
 
-""" r64: introduction of the payment_mode_type in order to support of debit orders
+""" r81: introduction of bank statement line state
 """
-__name__ = "payment.mode.type:: set payment_mode_type to 'debit' for Clieop incasso export"
+__name__ = ("account.bank.statement.line:: set new field 'state' to "
+            "confirmed for all statement lines belonging to confirmed "
+            "statements")
 
 def migrate(cr, version):
-    cr.execute ("UPDATE payment_mode_type"
-                " SET payment_order_type = 'debit'"
-                " FROM ir_model_data "
-                " WHERE res_id = payment_mode_type.id"
-                " AND module = 'account_banking_nl_clieop'"
-                " AND model = 'payment.mode.type'"
-                " AND ir_model_data.name = 'export_clieop_inc'"
+    cr.execute ("UPDATE account_bank_statement_line as sl "
+                " SET state = 'confirmed'"
+                " FROM account_bank_statement as s "
+                " WHERE sl.statement_id = s.id "
+                " AND s.state = 'confirm' "
                 )

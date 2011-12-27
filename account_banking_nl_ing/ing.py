@@ -24,11 +24,11 @@
 #
 ##############################################################################
 
+from datetime import datetime
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
 from account_banking.sepa import postalcode
 from tools.translate import _
-from datetime import datetime
 
 import re
 import csv

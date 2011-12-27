@@ -27,7 +27,7 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.1.90',
+    'version': '0.1.92',
     'license': 'GPL-3',
     'author': 'EduSense BV / Therp BV / Smile',
     'website': 'https://launchpad.net/banking-addons',

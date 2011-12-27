@@ -1,0 +1,36 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_banking_nl_ing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-12-26 07:52+0000\n"
+"PO-Revision-Date: 2011-12-26 07:52+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_banking_nl_ing
+#: model:ir.module.module,shortdesc:account_banking_nl_ing.module_meta_information
+msgid "ING (NL) Bank Statements Import"
+msgstr "ING (NL) Bankafschriften importeren "
+
+#. module: account_banking_nl_ing
+#: model:ir.module.module,description:account_banking_nl_ing.module_meta_information
+msgid "Module to import Dutch ING bank format transaction files (CSV format).As the ING bank does not provide detailed specification concerning possiblevalues and their meaning for the fields in the CSV file format, the statementsare parsed according to an educated guess based on incomplete information.You can contact the banking-addons developers through their launchpad page andhelp improve the performance of this import filter onhttps://launchpad.net/banking-addons.Note that imported bank transfers are organized in statements covering periodsof one week, even if the imported files cover a different period.This modules contains no logic, just an import filter for account_banking.    "
+msgstr "Module voor het importeren van bankafschriften van de Nederlandse ING bank in\n"
+"CSV formaat.\n\nGezien het feit dat de ING geen enkele vorm van specificaties\n"
+"beschikbaar stelt, is de importroutine samengesteld op basis van \n"
+"voorbeeldbestanden, en kan volledige dekking niet worden gegarandeerd. U\n"
+"kunt, om de werking van de importroutine te helpen verbeteren, de ontwikkelaars\n"
+"van het banking-addons project uit de OpenERP community benaderen via het\n"
+"Launchpadproject. Zie https://launchpad.net/banking-addons.\n"
+"\n"
+"Deze module bevat geen bedrijfslogica, maar moet gebruikt worden als\n"
+"filtermodule voor de module 'account_banking'\n"
+

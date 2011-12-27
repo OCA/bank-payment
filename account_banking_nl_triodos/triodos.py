@@ -28,6 +28,7 @@ Dutch Banking Tools uses the concept of 'Afschrift' or Bank Statement.
 Every transaction is bound to a Bank Statement. As such, this module generates
 Bank Statements along with Bank Transactions.
 '''
+from datetime import datetime
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
 from account_banking.sepa import postalcode
@@ -65,8 +66,7 @@ class transaction_message(object):
             self.transferred_amount = -self.transferred_amount
         self.execution_date = str2date(self.date, '%d-%m-%Y')
         self.effective_date = str2date(self.date, '%d-%m-%Y')
-        # Set statement_id based on week number
-        self.statement_id = self.effective_date.strftime('%Yw%W')
+        self.statement_id = '' # self.effective_date.strftime('%Yw%W') # Set statement_id based on week number
         self.id = str(subno).zfill(4)
         # Normalize basic account numbers
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
@@ -196,20 +196,19 @@ Statements.
         lines = data.split('\n')
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
+        # fixed statement id based on import timestamp
+        statement_id = datetime.now().strftime('%Y-%m-%d %H:%M')
         for line in csv.reader(lines, dialect=dialect):
             # Skip empty (last) lines
             if not line:
                 continue
             subno += 1
             msg = transaction_message(line, subno)
-            if stmnt and stmnt.id != msg.statement_id:
-                result.append(stmnt)
-                stmnt = None
-                subno = 0
-            if not stmnt:
-                stmnt = statement(msg)
-            else:
+            msg.statement_id = statement_id
+            if stmnt:
                 stmnt.import_transaction(msg)
+            else:
+                stmnt = statement(msg)
         result.append(stmnt)
         return result
 

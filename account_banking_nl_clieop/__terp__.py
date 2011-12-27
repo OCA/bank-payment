@@ -25,7 +25,7 @@
 ##############################################################################
 {
     'name': 'Account Banking NL ClieOp',
-    'version': '0.64',
+    'version': '0.92',
     'license': 'GPL-3',
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',

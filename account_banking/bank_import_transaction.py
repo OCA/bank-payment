@@ -1574,19 +1574,20 @@ class account_bank_statement_line(osv.osv):
             ondelete='CASCADE'),
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', type='boolean',
-            string='Multi match'),
+            string='Multi match', readonly=True),
         'residual': fields.related(
             'import_transaction_id', 'residual', type='float', 
             string='Residual'),
         'duplicate': fields.related(
             'import_transaction_id', 'duplicate', type='boolean',
-            string='Possible duplicate import'),
+            string='Possible duplicate import', readonly=True),
         'match_type': fields.related(
             'import_transaction_id', 'match_type', type='selection',
-            selection=[('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
-             ('payment', 'Payment'), ('payment_order', 'Payment order'),
-             ('storno', 'Storno')], string='Match type', readonly=True,
-            ),
+            selection=[('manual', 'Manual'), ('move','Move'),
+                       ('invoice', 'Invoice'), ('payment', 'Payment'),
+                       ('payment_order', 'Payment order'),
+                       ('storno', 'Storno')], 
+            string='Match type', readonly=True,),
         'residual': fields.related(
             'import_transaction_id', 'residual', type='float',
             string='Residual', readonly=True,
@@ -1626,10 +1627,17 @@ class account_bank_statement_line(osv.osv):
             if st_line.state != 'draft':
                 continue
             if st_line.duplicate:
-                raise osv.except_osv(_('Bank transfer flagged as duplicate'),_("You cannot confirm a bank transfer marked as a duplicate (%s.%s)") % (st_line.statement_id.name, st_line.name,))
+                raise osv.except_osv(
+                    _('Bank transfer flagged as duplicate'),
+                    _("You cannot confirm a bank transfer marked as a "
+                      "duplicate (%s.%s)") % 
+                    (st_line.statement_id.name, st_line.name,))
             if st_line.analytic_account_id:
                 if not st_line.statement_id.journal_id.analytic_journal_id:
-                    raise osv.except_osv(_('No Analytic Journal !'),_("You have to define an analytic journal on the '%s' journal!") % (st_line.statement_id.journal_id.name,))
+                    raise osv.except_osv(
+                        _('No Analytic Journal !'),
+                        _("You have to define an analytic journal on the '%s' "
+                          "journal!") % (st_line.statement_id.journal_id.name,))
             if not st_line.amount:
                 continue
             if st_line.import_transaction_id:
@@ -1640,18 +1648,24 @@ class account_bank_statement_line(osv.osv):
                 st_number = st_line.statement_id.name
             else:
                 if st_line.statement_id.journal_id.sequence_id:
-                    c = {'fiscalyear_id': st_line.statement_id.period_id.fiscalyear_id.id}
+                    c = {'fiscalyear_id': 
+                         st_line.statement_id.period_id.fiscalyear_id.id}
                     st_number = obj_seq.get_id(
-                        cr, uid, st_line.statement_id.journal_id.sequence_id.id, context=c)
+                        cr, uid, 
+                        st_line.statement_id.journal_id.sequence_id.id, 
+                        context=c)
                 else:
                     st_number = obj_seq.get(cr, uid, 'account.bank.statement')
                 statement_obj.write(
                     cr, uid, [st_line.statement_id.id], 
                     {'name': st_number}, context=context)
 
-            st_line_number = statement_obj.get_next_st_line_number(cr, uid, st_number, st_line, context)
+            st_line_number = statement_obj.get_next_st_line_number(
+                cr, uid, st_number, st_line, context)
             company_currency_id = st_line.statement_id.journal_id.company_id.currency_id.id
-            move_id = statement_obj.create_move_from_st_line(cr, uid, st_line.id, company_currency_id, st_line_number, context)
+            move_id = statement_obj.create_move_from_st_line(
+                cr, uid, st_line.id, company_currency_id, 
+                st_line_number, context)
             self.write(
                 cr, uid, st_line.id, 
                 {'state': 'confirmed', 'move_id': move_id}, context)
@@ -1673,12 +1687,18 @@ class account_bank_statement_line(osv.osv):
             if st_line.statement_id.state != 'draft':
                 raise osv.except_osv(
                     _("Cannot cancel bank transaction"),
-                    _("The bank statement that this transaction belongs to has " +
+                    _("The bank statement that this transaction belongs to has "
                       "already been confirmed"))
             if st_line.import_transaction_id:
                 transaction_cancel_ids.append(st_line.import_transaction_id.id)
             if st_line.move_id:
                 move_unlink_ids.append(st_line.move_id.id)
+            else:
+                raise osv.except_osv(
+                    _("Cannot cancel bank transaction"),
+                    _("Cannot cancel this bank transaction. The information "
+                      "needed to undo the accounting entries has not been "
+                      "recorded"))
             set_draft_ids.append(st_line.id)
         # perform actions
         import_transaction_obj.cancel(
@@ -1759,7 +1779,8 @@ class account_bank_statement(osv.osv):
                             _('The account entries lines are not in valid state.'))
 
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
-            self.log(cr, uid, st.id, _('Statement %s is confirmed, journal items are created.') % (st.name,))
+            self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
+                                       'items are created.') % (st.name,))
             done.append(st.id)
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
 
