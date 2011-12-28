@@ -41,7 +41,11 @@ bt = models.mem_bank_transaction
 
 class banking_import_transaction(osv.osv):
     """ orm representation of mem_bank_transaction() for interactive and posthoc
-    reconciliation in the bank statement view.
+    configuration of reconciliation in the bank statement view.
+
+    Possible refractoring in OpenERP 6.1:
+    merge with bank_statement_line, using sparse fields
+
     """
     _name = 'banking.import.transaction'
     _description = 'Bank import transaction'
@@ -612,6 +616,23 @@ class banking_import_transaction(osv.osv):
             transaction.statement_line_id.currency,
             context=context)
 
+    def _reconcile_payment(
+        self, cr, uid, transaction_id, context=None):
+        """
+        Do some housekeeping on the payment line
+        then pass on to _reconcile_move
+        """
+        transaction = self.browse(cr, uid, transaction_id, context=context)
+        payment_line_obj = self.pool.get('payment.line')
+        payment_line_obj.write(
+            cr, uid, transaction.payment_line_id.id, {
+                'export_state': 'done',
+                'date_done': transaction.effective_date,
+                }
+            )
+        return _reconcile_move(
+            self, cr, uid, transaction_id, context=context)
+        
     def _cancel_payment_order(
         self, cr, uid, transaction_id, context=None):
         """
@@ -737,6 +758,7 @@ class banking_import_transaction(osv.osv):
         'invoice': _reconcile_move,
         'manual': _reconcile_move,
         'payment_order': _reconcile_payment_order,
+        'payment': _reconcile_payment,
         'move': _reconcile_move,
         }
     def reconcile(self, cr, uid, ids, context=None):
@@ -874,6 +896,7 @@ class banking_import_transaction(osv.osv):
         Find the payment order belonging to this reference - if there is one
         This is the easiest part: when sending payments, the returned bank info
         should be identical to ours.
+        This also means that we do not allow for multiple candidates.
         '''
         # TODO: Not sure what side effects are created when payments are done
         # for credited customer invoices, which will be matched later on too.
@@ -889,13 +912,12 @@ class banking_import_transaction(osv.osv):
             # Check cache to prevent multiple matching of a single payment
             if candidate.id not in linked_payments:
                 linked_payments[candidate.id] = True
-                payment_line_obj = self.pool.get('payment.line')
-                payment_line_obj.write(cr, uid, [candidate.id], {
-                    'export_state': 'done',
-                    'date_done': trans.effective_date.strftime('%Y-%m-%d')}
-                )
-                
-                return self._get_move_info(cr, uid, candidate.move_line_id)
+                move_info = self._get_move_info(cr, uid, [candidate.move_line_id.id])
+                move_info.update({
+                        'match_type': 'payment',
+                        'payment_line_id': candidate.id,
+                        })
+                return move_info
 
         return False
 
@@ -1423,7 +1445,8 @@ class banking_import_transaction(osv.osv):
         for transaction in self.browse(cr, uid, ids, context):
             if (transaction.statement_line_id.state == 'draft'
                 and transaction.match_type in 
-                [('invoice'), ('move'), ('manual')]):
+                [('invoice'), ('move'), ('manual')]
+                and transaction.move_line_id):
                 rec_moves = (
                     transaction.move_line_id.reconcile_id and 
                     transaction.move_line_id.reconcile_id.line_id or
