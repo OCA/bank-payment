@@ -162,13 +162,6 @@ class UKAccount(HasCurrency):
 
 class NorthAmericanAccount(UKAccount):
 
-    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
-        super(NorthAmericanAccount,self).__init__(number, holder, currency, sortcode)
-        self.country = country
-        self.bic = swiftcode
-        self.origin_country = origin_country
-        self.institution_identification = self._set_account_ident()
-
     def _set_account_ident(self):
         if self.origin_country in ('US','CA'):
             # Use the routing number
@@ -202,7 +195,28 @@ class NorthAmericanAccount(UKAccount):
 
     bic = property(_get_bic, _set_bic)
 
+    def _set_number(self, number):
+        if not edifact_digits(number, 9):
+            raise ValueError("Account number must be 9 digits long: " +
+                             str(number))
 
+        self._number = number
+
+    def _get_number(self):
+        return self._number
+
+    number = property(_get_number, _set_number)
+
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+        #super(NorthAmericanAccount,self).__init__(number, holder, currency, sortcode)
+        self.number = number
+        self.holder = holder
+        self.currency = currency
+        self.sortcode = sortcode
+        self.country = country
+        self.bic = swiftcode
+        self.origin_country = origin_country
+        self.institution_identification = self._set_account_ident()
 
 
 class IBANAccount(HasCurrency):
@@ -374,13 +388,13 @@ class Batch(LogicalSection):
         ])
 
         currencies = set([x.currency for x in self.transactions])
-        if len(currencies) > 1:
-            raise ValueError("All transactions in a batch must have the same currency")
+        #if len(currencies) > 1:
+        #    raise ValueError("All transactions in a batch must have the same currency")
 
-        segments.append([
-            ['MOA'],
-            [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
-        ])
+        #segments.append([
+        #    ['MOA'],
+        #    [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
+        #])
         segments.append(self.debit_account.fii_or_segment())
         segments.append([
             ['NAD'],
