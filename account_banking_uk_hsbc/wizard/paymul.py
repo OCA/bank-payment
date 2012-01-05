@@ -40,7 +40,9 @@ The standard says alphanumeric characters, but spaces are also allowed
 def edifact_isalnum(s):
     return bool(re.match(r'^[A-Za-z0-9 ]*$', s))
 
-def edifact_digits(val, digits, mindigits=None):
+def edifact_digits(val, digits=None, mindigits=None):
+    if digits is None:
+        digits = ''
     if mindigits is None:
         mindigits = digits
 
@@ -196,8 +198,8 @@ class NorthAmericanAccount(UKAccount):
     bic = property(_get_bic, _set_bic)
 
     def _set_number(self, number):
-        if not edifact_digits(number, 9):
-            raise ValueError("Account number must be 9 digits long: " +
+        if not edifact_digits(number, mindigits=1):
+            raise ValueError("Account number is invalid: " +
                              str(number))
 
         self._number = number
@@ -208,7 +210,6 @@ class NorthAmericanAccount(UKAccount):
     number = property(_get_number, _set_number)
 
     def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
-        #super(NorthAmericanAccount,self).__init__(number, holder, currency, sortcode)
         self.number = number
         self.holder = holder
         self.currency = currency
