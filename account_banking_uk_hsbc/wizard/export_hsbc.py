@@ -225,7 +225,8 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         dest_account, transaction_kwargs = self._create_account(line.bank_id)
 
         means = {'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
-                 'Faster Payment': paymul.MEANS_FASTER_PAYMENT}.get(line.order_id.mode.type.name)
+                 'Faster Payment': paymul.MEANS_FASTER_PAYMENT,
+                 'Priority Payment': paymul.MEANS_PRIORITY_PAYMENT}.get(line.order_id.mode.type.name)
         if means is None:
             raise osv.except_osv('Error', "Invalid payment type mode for HSBC '%s'" % line.order_id.mode.type.name)
 

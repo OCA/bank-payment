@@ -373,39 +373,76 @@ class Batch(LogicalSection):
         if not edifact_digits(index, 6, 1):
             raise ValueError("Index must be 6 digits or less: " + str(index))
 
+        # Store the payment means
+        means = None
+        if len(self.transactions)>0:
+            means = self.transactions[0].means
+
         segments = []
 
-        segments.append([
-            ['LIN'],
-            [index],
-        ])
-        segments.append([
-            ['DTM'],
-            [203, self.exec_date.strftime('%Y%m%d'), 102],
-        ])
-        segments.append([
-            ['RFF'],
-            ['AEK', self.reference],
-        ])
-
-        #currencies = set([x.currency for x in self.transactions])
-        #if len(currencies) > 1:
-        #    raise ValueError("All transactions in a batch must have the same currency")
-
-        #segments.append([
-        #    ['MOA'],
-        #    [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
-        #])
-        segments.append(self.debit_account.fii_or_segment())
-        segments.append([
-            ['NAD'],
-            ['OY'],
-            [''],
-            self.name_address.upper().split("\n")[0:5],
-        ])
+        if means != MEANS_PRIORITY_PAYMENT:
+            segments.append([
+                ['LIN'],
+                [index],
+            ])
+            segments.append([
+                ['DTM'],
+                [203, self.exec_date.strftime('%Y%m%d'), 102],
+            ])
+            segments.append([
+                ['RFF'],
+                ['AEK', self.reference],
+            ])
+             
+            currencies = set([x.currency for x in self.transactions])
+            if len(currencies) > 1:
+                raise ValueError("All transactions in a batch must have the same currency")
+             
+            segments.append([
+                ['MOA'],
+                [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
+            ])
+            segments.append(self.debit_account.fii_or_segment())
+            segments.append([
+                ['NAD'],
+                ['OY'],
+                [''],
+                self.name_address.upper().split("\n")[0:5],
+            ])
 
         for index, transaction in enumerate(self.transactions):
-            segments += transaction.segments(index + 1)
+            if transaction.means == MEANS_PRIORITY_PAYMENT:
+                # Need a debit-credit format for Priority Payments
+                segments.append([
+                    ['LIN'],
+                    [index+1],
+                ])
+                segments.append([
+                    ['DTM'],
+                    [203, self.exec_date.strftime('%Y%m%d'), 102],
+                ])
+                segments.append([
+                    ['RFF'],
+                    ['AEK', self.reference],
+                ])
+                
+                # Use the transaction amount and currency for the debit line
+                segments.append([
+                    ['MOA'],
+                    [9, transaction.amount.quantize(Decimal('0.00')), transaction.currency],
+                ])
+                segments.append(self.debit_account.fii_or_segment())
+                segments.append([
+                    ['NAD'],
+                    ['OY'],
+                    [''],
+                    self.name_address.upper().split("\n")[0:5],
+                ])
+                use_index = 1
+            else:
+                use_index = index + 1
+                 
+            segments += transaction.segments(use_index)
 
         return segments
 
