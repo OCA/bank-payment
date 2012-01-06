@@ -274,12 +274,12 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                   "account number (not IBAN)" + str(type(src_account)))
             )
 
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO, 'Create transactions...')
-        transactions = []
-        for po in payment_orders:
-            transactions += [self._create_transaction(l) for l in po.line_ids]
-
         try:
+            self.logger.notifyChannel('paymul', netsvc.LOG_INFO, 'Create transactions...')
+            transactions = []
+            for po in payment_orders:
+                transactions += [self._create_transaction(l) for l in po.line_ids]
+
             batch = paymul.Batch(
                 exec_date=strpdate(wizard_data.execution_date_create),
                 reference=wizard_data.reference,

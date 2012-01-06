@@ -132,16 +132,16 @@ class UKAccount(HasCurrency):
         holder_parts = split_account_holder(holder)
 
         if not len(holder_parts[0]) <= 35:
-            raise ValueError("Account holder must be <= 35 characters long")
+            raise ValueError("Account holder must be <= 35 characters long: " + str(holder_parts[0]))
 
         if not len(holder_parts[1]) <= 35:
-            raise ValueError("Second line of account holder must be <= 35 characters long")
+            raise ValueError("Second line of account holder must be <= 35 characters long: " + str(holder_parts[1]))
 
         if not edifact_isalnum(holder_parts[0]):
-            raise ValueError("Account holder must be alphanumeric")
+            raise ValueError("Account holder must be alphanumeric: " + str(holder_parts[0]))
 
         if not edifact_isalnum(holder_parts[1]):
-            raise ValueError("Second line of account holder must be alphanumeric")
+            raise ValueError("Second line of account holder must be alphanumeric: " + str(holder_parts[1]))
 
         self._holder = holder.upper()
 
@@ -227,7 +227,7 @@ class IBANAccount(HasCurrency):
     def _set_iban(self, iban):
         iban_obj = sepa.IBAN(iban)
         if not iban_obj.valid:
-            raise ValueError("IBAN is invalid")
+            raise ValueError("IBAN is invalid: " + str(iban))
 
         self._iban = iban
         self.country = iban_obj.countrycode
@@ -251,10 +251,10 @@ class Interchange(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 15:
-            raise ValueError("Reference must be <= 15 characters long")
+            raise ValueError("Reference must be <= 15 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -291,10 +291,10 @@ class Message(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 35:
-            raise ValueError("Reference must be <= 35 characters long")
+            raise ValueError("Reference must be <= 35 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -350,10 +350,10 @@ class Batch(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 18:
-            raise ValueError("Reference must be <= 18 characters long")
+            raise ValueError("Reference must be <= 18 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -371,7 +371,7 @@ class Batch(LogicalSection):
 
     def segments(self, index):
         if not edifact_digits(index, 6, 1):
-            raise ValueError("Index must be 6 digits or less")
+            raise ValueError("Index must be 6 digits or less: " + str(index))
 
         segments = []
 
@@ -388,7 +388,7 @@ class Batch(LogicalSection):
             ['AEK', self.reference],
         ])
 
-        currencies = set([x.currency for x in self.transactions])
+        #currencies = set([x.currency for x in self.transactions])
         #if len(currencies) > 1:
         #    raise ValueError("All transactions in a batch must have the same currency")
 
@@ -432,7 +432,7 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_amount(self, amount):
         if len(str(amount)) > 18:
-            raise ValueError("Amount must be shorter than 18 bytes")
+            raise ValueError("Amount must be shorter than 18 bytes: " + str(amount))
 
         self._amount = amount
 
@@ -443,10 +443,10 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_payment_reference(self, payment_reference):
         if not len(payment_reference) <= 18:
-            raise ValueError("Payment reference must be <= 18 characters long")
+            raise ValueError("Payment reference must be <= 18 characters long: " + str(payment_reference))
 
         if not edifact_isalnum(payment_reference):
-            raise ValueError("Payment reference must be alphanumeric")
+            raise ValueError("Payment reference must be alphanumeric: " + str(payment_reference))
 
         self._payment_reference = payment_reference.upper()
 
@@ -457,10 +457,10 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_customer_reference(self, customer_reference):
         if not len(customer_reference) <= 18:
-            raise ValueError("Customer reference must be <= 18 characters long")
+            raise ValueError("Customer reference must be <= 18 characters long: " + str(customer_reference))
 
         if not edifact_isalnum(customer_reference):
-            raise ValueError("Customer reference must be alphanumeric")
+            raise ValueError("Customer reference must be alphanumeric: " + str(customer_reference))
 
         self._customer_reference = customer_reference.upper()
 
