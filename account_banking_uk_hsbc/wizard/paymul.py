@@ -86,7 +86,7 @@ class LogicalSection(object):
 
 def _fii_segment(self, party_qualifier):
     holder = split_account_holder(self.holder)
-    account_identification = [self.number, holder[0]]
+    account_identification = [self.number.replace(' ',''), holder[0]]
     if holder[1] or self.currency:
         account_identification.append(holder[1])
     if self.currency: 
