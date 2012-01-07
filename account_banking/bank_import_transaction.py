@@ -630,9 +630,15 @@ class banking_import_transaction(osv.osv):
                 'date_done': transaction.effective_date,
                 }
             )
-        return _reconcile_move(
-            self, cr, uid, transaction_id, context=context)
+        return self._reconcile_move(cr, uid, transaction_id, context=context)
         
+    def _cancel_payment(
+        self, cr, uid, transaction_id, context=None):
+        raise osv.except_osv(
+            _("Cannot unreconcile"),
+            _("Cannot unreconcile: this operation is not yet supported for "
+              "match type 'payment'"))
+
     def _cancel_payment_order(
         self, cr, uid, transaction_id, context=None):
         """
@@ -729,6 +735,7 @@ class banking_import_transaction(osv.osv):
         'manual': _cancel_move,
         'move': _cancel_move,
         'payment_order': _cancel_payment_order,
+        'payment': _cancel_payment,
         }
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
@@ -1540,7 +1547,8 @@ class banking_import_transaction(osv.osv):
             'res.company', 'Company', required=True),
         'duplicate': fields.boolean('duplicate'),
         'statement_line_id': fields.many2one(
-            'account.bank.statement.line', 'Statement line'),
+            'account.bank.statement.line', 'Statement line',
+            ondelete='CASCADE'),
         'statement_id': fields.many2one(
             'account.bank.statement', 'Statement'),
         'parent_id': fields.many2one(
