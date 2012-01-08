@@ -160,6 +160,10 @@ class banking_import(osv.osv_memory):
             format = parser.name,
         ))
 
+        bank_country_code = False
+        if hasattr(parser, 'country_code'):
+            bank_country_code = parser.country_code
+
         # Results
         results = struct(
             stat_loaded_cnt = 0,
@@ -251,6 +255,8 @@ class banking_import(osv.osv_memory):
             # Less well defined formats can resort to a 
             # dynamically generated statement identification
             # (e.g. a datetime string of the moment of import)
+            # and have potential duplicates flagged by the 
+            # matching procedure
             statement_ids = statement_obj.search(cursor, uid, [
                 ('name', '=', statement.id),
                 ('date', '=', date2str(statement.date)),
@@ -288,6 +294,7 @@ class banking_import(osv.osv_memory):
                     elif attr in import_transaction_obj._columns:
                         values[attr] = eval('transaction.%s' % attr)
                 values['statement_id'] = statement_id
+                values['bank_country_code'] = bank_country_code
                 transaction_id = import_transaction_obj.create(cursor, uid, values, context=context)
                 if transaction_id:
                     transaction_ids.append(transaction_id)

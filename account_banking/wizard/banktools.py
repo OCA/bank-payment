@@ -160,8 +160,6 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
         if (not country_code) or not country_id:
             user = pool.get('res.user').browse(cursor, uid, uid)
             country_id = (
-                user.company_id and
-                user.company_id.partner_id and
                 user.company_id.partner_id.country and 
                 user.company_id.partner_id.country.id or
                 False

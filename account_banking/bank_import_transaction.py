@@ -51,6 +51,7 @@ class banking_import_transaction(osv.osv):
     _name = 'banking.import.transaction'
     _description = 'Bank import transaction'
     _rec_name = 'transaction'
+
     signal_duplicate_keys = [
         'execution_date', 'local_account', 'remote_account',
         'remote_owner', 'reference', 'message', 'transferred_amount'
@@ -126,11 +127,11 @@ class banking_import_transaction(osv.osv):
         return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
 
     def _match_debit_order(
-        self, cr, uid, trans, account_info, log, context=None):
+        self, cr, uid, trans, log, context=None):
 
         def is_zero(total):
             return self.pool.get('res.currency').is_zero(
-                cr, uid, account_info.currency_id, total)
+                cr, uid, trans.statement_id.currency_id, total)
 
         payment_order_obj = self.pool.get('payment.order')
         order_ids = payment_order_obj.search(
@@ -146,38 +147,25 @@ class banking_import_transaction(osv.osv):
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
-            for order in candidates:
-                for line in order.line_ids[0].debit_move_line_id.move_id.line_id:
-                    if line.account_id.type == 'other':
-                        if account_id and account_id != line.account_id.id:
-                            account_id = False
-                            break
-                        else:
-                            account_id = line.account_id.id
-
-            # TODO at statement line confirm
-            # this action generates a reconcile object
-            # with all the payment order's move lines 
-            # on the transfer account
-            # reconcile_id = payment_order_obj.debit_reconcile_transfer(
-            #    cr, uid, candidates[0].id, trans.transferred_amount, log, context)
-            # if reconcile_id:
-            # the move_line is only used for the account
-            # and the reconcile_ids, so we return the first.
-                return dict(
-                    move_line_ids = False,
-                    match_type = 'payment_order',
-                    payment_order_ids = [x.id for x in candidates],
-                    account_id = account_id,
-                    partner_id = False,
-                    partner_bank_id = False,
-                    reference = False,
-                    type='general',
-                    )
+            for line in candidate[0].line_ids[0].debit_move_line_id.move_id.line_id:
+                if line.account_id.type == 'other':
+                    account_id = line.account_id.id
+                    break
+            return dict(
+                move_line_ids = False,
+                match_type = 'payment_order',
+                payment_order_ids = [x.id for x in candidates],
+                account_id = account_id,
+                partner_id = False,
+                partner_bank_id = False,
+                reference = False,
+                type='general',
+                )
         return False
 
     def _match_invoice(self, cr, uid, trans, move_lines,
-                       partner_ids, bank_account_ids, log, linked_invoices,
+                       partner_ids, bank_account_ids,
+                       log, linked_invoices,
                        context=None):
         '''
         Find the invoice belonging to this reference - if there is one
@@ -277,7 +265,7 @@ class banking_import_transaction(osv.osv):
 
         def is_zero(move_line, total):
             return self.pool.get('res.currency').is_zero(
-                cr, uid, move_line.company_id.currency_id, total)
+                cr, uid, trans.statement_id.currency, total)
 
         digits = dp.get_precision('Account')(cr)[1]
         partial = False
@@ -393,8 +381,8 @@ class banking_import_transaction(osv.osv):
                     partial = False
                     # Last partial payment will not flag invoice paid without
                     # manual assistence
-                    # TODO Stefan: disable this now for the interactive method
-                    #   Solve this with proper handling of partial reconciliation 
+                    # TODO Stefan: disable this here for the interactive method
+                    #   Handled this with proper handling of partial reconciliation 
                     #   and the workflow service
                     # invoice_obj = self.pool.get('account.invoice')
                     # invoice_obj.write(cr, uid, [invoice.id], {
@@ -564,8 +552,7 @@ class banking_import_transaction(osv.osv):
                             transaction.statement_line_id.statement_id.name,
                             transaction.statement_line_id.name
                      )))
-        currency = (transaction.statement_line_id.statement_id.journal_id.currency or
-                    transaction.statement_line_id.statement_id.company_id.currency_id)
+        currency = transaction.statement_line_id.statement_id.currency
         line_ids = [transaction.move_line_id.id]
         if transaction.writeoff_move_line_id:
             line_ids.append(transaction.writeoff_move_line_id.id)
@@ -665,8 +652,7 @@ class banking_import_transaction(osv.osv):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         move_line_id = transaction.move_line_id.id
-        currency = (transaction.statement_line_id.statement_id.journal_id.currency or
-                    transaction.statement_line_id.statement_id.company_id.currency_id)
+        currency = transaction.statement_line_id.statement_id.currency
         line_ids = [transaction.move_line_id.id]
         if transaction.writeoff_move_line_id:
             line_ids.append(transaction.writeoff_move_line_id.id)
@@ -869,7 +855,7 @@ class banking_import_transaction(osv.osv):
                 cr, uid, [move_id], context=context)
 
     def _match_storno(
-        self, cr, uid, trans, account_info, log, context=None):
+        self, cr, uid, trans, log, context=None):
         payment_line_obj = self.pool.get('payment.line')
         move_line_obj = self.pool.get('account.move.line')
         line_ids = payment_line_obj.search(
@@ -882,7 +868,7 @@ class banking_import_transaction(osv.osv):
         if len(line_ids) == 1:
             account_id = payment_line_obj.get_storno_account_id(
                 cr, uid, line_ids[0], trans.transferred_amount,
-                account_info.currency_id, context=None)
+                trans.statement_id.currency, context=None)
             if account_id:
                 return dict(
                     account_id = account_id,
@@ -1047,7 +1033,7 @@ class banking_import_transaction(osv.osv):
         error_accounts = {}
         info = {}
         linked_payments = {}
-        # TODO: harvest linked invoices from draft statement lines
+        # TODO: harvest linked invoices from draft statement lines?
         linked_invoices = {}
         payment_lines = []
 
@@ -1055,7 +1041,7 @@ class banking_import_transaction(osv.osv):
         # No filtering can be done, as empty dates carry value for C2B
         # communication. Most likely there are much less sent payments
         # than reconciled and open/draft payments.
-        # TODO: Don't payment_orders have a company nowadays?
+        # Strangely, payment_orders still do not have company_id
         cr.execute("SELECT l.id FROM payment_order o, payment_line l "
                        "WHERE l.order_id = o.id AND "
                        "o.state = 'sent' AND "
@@ -1072,18 +1058,19 @@ class banking_import_transaction(osv.osv):
         i = 0
         max_trans = len(transactions)
         while i < max_trans:
-            move_info = False # TODO: this at statement_line confirmation time?
+            move_info = False
             if injected:
                 # Force FIFO behavior
                 transaction = injected.pop(0)
             else:
                 transaction = transactions[i]
 
-            if transaction.statement_line_id:
-                # TODO check state
-                # and undo any reconciliation
-                pass
-
+            if (transaction.statement_line_id and
+                transaction.statement_line_id.state == 'confirmed'):
+                raise osv.except_osv(
+                    _("Cannot perform match"),
+                    _("Cannot perform match on a confirmed transction"))
+            
             if transaction.local_account in error_accounts:
                 results['trans_skipped_cnt'] += 1
                 if not injected:
@@ -1228,11 +1215,11 @@ class banking_import_transaction(osv.osv):
                 transaction=self.browse(cr, uid, transaction.id, context=context)
             # Match full direct debit orders
             if transaction.type == bt.DIRECT_DEBIT:
-                move_info = self._match_debit_order( # TODO reconcile preservation
-                    cr, uid, transaction, account_info, results['log'], context)
+                move_info = self._match_debit_order(
+                    cr, uid, transaction, results['log'], context)
             if transaction.type == bt.STORNO:
-                move_info = self._match_storno( # TODO reconcile preservation
-                    cr, uid, transaction, account_info, results['log'], context)
+                move_info = self._match_storno(
+                    cr, uid, transaction, results['log'], context)
             # Allow inclusion of generated bank invoices
             if transaction.type == bt.BANK_COSTS:
                 lines = self._match_costs(
@@ -1259,10 +1246,9 @@ class banking_import_transaction(osv.osv):
                         country_code = iban.countrycode
                     elif transaction.remote_owner_country_code:
                         country_code = transaction.remote_owner_country_code
-                    # TODO: pass the parser's local country code to the transaction
-                    #  elif hasattr(parser, 'country_code') and parser.country_code:
-                    #      country_code = parser.country_code
-                    # For now, substituted by the company's country
+                    # fallback on the import parsers country code
+                    elif transaction.bank_country_code:
+                        country_code = transaction.bank_country_code
                     elif company.partner_id and company.partner_id.country:
                         country_code = company.partner_id.country.code
                     else:
@@ -1423,11 +1409,6 @@ class banking_import_transaction(osv.osv):
                     wf_service.trg_validate(
                         uid, 'payment.order', id, 'done', cr)
 
-    column_map = {
-        'statement_id': 'statement',
-        'id': 'transaction'
-        }
-                
     def _get_residual(self, cr, uid, ids, name, args, context=None):
         """
         Calculate the residual against the candidate reconciliation.
@@ -1508,6 +1489,12 @@ class banking_import_transaction(osv.osv):
         write_vals.update(vals or {})
         return self.write(cr, uid, ids, write_vals, context=context)
 
+    column_map = {
+        # used in bank_import.py, converting non-osv transactions
+        'statement_id': 'statement',
+        'id': 'transaction'
+        }
+                
     _columns = {
         # start mem_bank_transaction atributes
         # see parsers/models.py
@@ -1542,8 +1529,12 @@ class banking_import_transaction(osv.osv):
         'provision_costs_description': fields.char('provision_costs_description', size=24),
         'error_message': fields.char('error_message', size=1024),
         'storno_retry': fields.boolean('storno_retry'),
-
         # end of mem_bank_transaction_fields
+        'bank_country_code': fields.char(
+            'Bank country code', size=2,
+            help=("Fallback default country for new partner records, "
+                  "as defined by the import parser"),
+            readonly=True,),
         'company_id': fields.many2one(
             'res.company', 'Company', required=True),
         'duplicate': fields.boolean('duplicate'),
@@ -1747,8 +1738,8 @@ class account_bank_statement(osv.osv):
 
     def _end_balance(self, cursor, user, ids, name, attr, context=None):
         """
-        This method taken from account/account_bank_statement.py
-        to take the statement line subflow into account
+        This method taken from account/account_bank_statement.py and
+        altered to take the statement line subflow into account
         """
 
         res_currency_obj = self.pool.get('res.currency')
