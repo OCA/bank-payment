@@ -2,8 +2,11 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#                  Contributions by Kaspars Vilkens (KNdati):
+#                  lenghty discussions, bugreports and bugfixes
 #    Refractoring (C) 2011 Therp BV (<http://therp.nl>).
 #                 (C) 2011 Smile (<http://smile.fr>).
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,8 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# Contributions by Kaspars Vilkens (KNdati):
-# lenghty discussions, bugreports and bugfixes
 
 from osv import osv, fields
 import time
@@ -951,7 +952,7 @@ class banking_import_transaction(osv.osv):
     def combine(self, cr, uid, ids, context=None):
         # todo. Check equivalence of primary key
         pass
-
+    
     def _get_move_info(self, cr, uid, move_line_ids, partner_bank_id=False,
                        partial=False, match_type = False):
         type_map = {
