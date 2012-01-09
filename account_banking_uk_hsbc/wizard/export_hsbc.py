@@ -230,6 +230,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         if means is None:
             raise osv.except_osv('Error', "Invalid payment type mode for HSBC '%s'" % line.order_id.mode.type.name)
 
+        if not line.info_partner:
+            raise osv.except_osv('Error', "No default address for transaction '%s'" % line.name)
+
         try:
             return paymul.Transaction(
                 amount=Decimal(str(line.amount_currency)),

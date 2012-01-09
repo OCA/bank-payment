@@ -23,6 +23,10 @@ from account_banking import sepa
 from decimal import Decimal
 import datetime
 import re
+import unicodedata
+
+def strip_accents(string):
+    return unicodedata.normalize('NFKD', unicode(string)).encode('ASCII', 'ignore')
 
 def split_account_holder(holder):
     holder_parts = holder.split("\n")
@@ -79,7 +83,7 @@ class LogicalSection(object):
         segments = self.segments()
 
         def format_segment(segment):
-            return '+'.join([':'.join([str(y) for y in x]) for x in segment]) + "'"
+            return '+'.join([':'.join([str(strip_accents(y)) for y in x]) for x in segment]) + "'"
 
         return "\n".join([format_segment(s) for s in segments])
 
@@ -574,3 +578,4 @@ class Transaction(LogicalSection, HasCurrency):
         segments.append(nad_segment)
 
         return segments
+
