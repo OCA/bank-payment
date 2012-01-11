@@ -202,11 +202,28 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_PAYEE,
             }
         else:
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'Unsupported Account: %s' % (oe_account.country_id.code))
-            raise osv.except_osv(
-                _('Error'),
-                _('%s: only UK, US, Canada accounts and IBAN are supported') % (holder)
+            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'SWIFT Account: %s' % (oe_account.country_id.code))
+            split = oe_account.acc_number.split(' ', 2)
+            if len(split) == 2:
+                sortcode, accountno = split
+            else:
+                raise osv.except_osv(
+                    _('Error'),
+                    "Invalid %s account number '%s'" % (oe_account.country_id.code,oe_account.acc_number))
+            paymul_account = paymul.SWIFTAccount(
+                number=accountno,
+                sortcode=sortcode,
+                holder=holder,
+                currency=currency,
+                swiftcode=oe_account.bank.bic,
+                country=oe_account.country_id.code,
             )
+            transaction_kwargs = {
+                'charges': paymul.CHARGES_PAYEE,
+            }
+            transaction_kwargs = {
+                'charges': paymul.CHARGES_PAYEE,
+            }
 
         return paymul_account, transaction_kwargs
 

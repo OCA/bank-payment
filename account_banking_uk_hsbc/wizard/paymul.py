@@ -224,6 +224,54 @@ class NorthAmericanAccount(UKAccount):
         self.institution_identification = self._set_account_ident()
 
 
+class SWIFTAccount(UKAccount):
+
+    def _set_account_ident(self):
+        # Using the BIC/Swift Code
+        return [self.bic, 25, 5, '', '', '']
+
+    def _set_sortcode(self, sortcode):
+        self._sortcode = sortcode
+
+    def _get_sortcode(self):
+        return self._sortcode
+
+    sortcode = property(_get_sortcode, _set_sortcode)
+
+    def _set_bic(self, bic):
+        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
+                             str(bic))
+        self._bic = bic
+
+    def _get_bic(self):
+        return self._bic
+
+    bic = property(_get_bic, _set_bic)
+
+    def _set_number(self, number):
+        if not edifact_digits(number, mindigits=1):
+            raise ValueError("Account number is invalid: " +
+                             str(number))
+
+        self._number = number
+
+    def _get_number(self):
+        return self._number
+
+    number = property(_get_number, _set_number)
+
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+        self.number = number
+        self.holder = holder
+        self.currency = currency
+        self.sortcode = sortcode
+        self.country = country
+        self.bic = swiftcode
+        self.origin_country = origin_country
+        self.institution_identification = self._set_account_ident()
+
+
 class IBANAccount(HasCurrency):
     def _get_iban(self):
         return self._iban
