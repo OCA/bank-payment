@@ -107,26 +107,16 @@ class banking_import(osv.osv_memory):
     def import_statements_file(self, cursor, uid, ids, context):
         '''
         Import bank statements / bank transactions file.
-        This method represents the business logic, the parser modules
-        represent the decoding logic.
+        This method is a wrapper for the business logic on the transaction.
+        The parser modules represent the decoding logic.
         '''
         banking_import = self.browse(cursor, uid, ids, context)[0]
         statements_file = banking_import.file
         data = base64.decodestring(statements_file)
 
-        # TODO: we do not use all of these anymore now
-        company_obj = self.pool.get('res.company')
         user_obj = self.pool.get('res.user')
-        partner_bank_obj = self.pool.get('res.partner.bank')
-        journal_obj = self.pool.get('account.journal')
-        move_line_obj = self.pool.get('account.move.line')
-        payment_line_obj = self.pool.get('payment.line')
         statement_obj = self.pool.get('account.bank.statement')
-        statement_line_obj = self.pool.get('account.bank.statement.line')
-        import_line_obj = self.pool.get('banking.import.line')
         statement_file_obj = self.pool.get('account.banking.imported.file')
-        payment_order_obj = self.pool.get('payment.order')
-        currency_obj = self.pool.get('res.currency')
         import_transaction_obj = self.pool.get('banking.import.transaction')
 
         # get the parser to parse the file
@@ -180,9 +170,6 @@ class banking_import(osv.osv_memory):
         error_accounts = {}
         info = {}
         imported_statement_ids = []
-        linked_payments = {}
-        linked_invoices = {}
-        payment_lines = []
 
         transaction_ids = []
         for statement in statements:
@@ -343,19 +330,6 @@ class banking_import(osv.osv_memory):
         return {
             'name': (state == 'ready' and _('Review Bank Statements') or
                      _('Error')),
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': False,
-            'res_model': self._name,
-            'domain': [],
-            'context': dict(context, active_ids=ids),
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-            'res_id': ids[0] or False,
-        }
- 
-    return {
-            'name': _('Finish Bank Transaction File Import'),
             'view_type': 'form',
             'view_mode': 'form',
             'view_id': False,

@@ -381,8 +381,8 @@ class banking_import_transaction(osv.osv):
                     partial = False
                     # Last partial payment will not flag invoice paid without
                     # manual assistence
-                    # TODO Stefan: disable this here for the interactive method
-                    #   Handled this with proper handling of partial reconciliation 
+                    # Stefan: disabled this here for the interactive method
+                    # Handled this with proper handling of partial reconciliation 
                     #   and the workflow service
                     # invoice_obj = self.pool.get('account.invoice')
                     # invoice_obj.write(cr, uid, [invoice.id], {
@@ -443,7 +443,6 @@ class banking_import_transaction(osv.osv):
         """
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
-        statement_line_obj = self.pool.get('account.bank.statement.line')
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
             cr, uid, currency, amount)
         move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
@@ -505,7 +504,7 @@ class banking_import_transaction(osv.osv):
         reconcile = move_lines[0].reconcile_id or move_lines[0].reconcile_partial_id
         line_ids = [x.id for x in reconcile.line_id or reconcile.line_partial_ids]
         for move_line_id in move_line_ids:
-                line_ids.remove(move_line_id)
+            line_ids.remove(move_line_id)
         if len(line_ids) > 1:
             full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
             if full:
@@ -529,7 +528,6 @@ class banking_import_transaction(osv.osv):
 
     def _reconcile_move(
         self, cr, uid, transaction_id, context=None):
-        statement_line_obj = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.move_line_id:
             if transaction.match_type == 'invoice':
@@ -857,7 +855,6 @@ class banking_import_transaction(osv.osv):
     def _match_storno(
         self, cr, uid, trans, log, context=None):
         payment_line_obj = self.pool.get('payment.line')
-        move_line_obj = self.pool.get('account.move.line')
         line_ids = payment_line_obj.search(
             cr, uid, [
                 ('order_id.payment_order_type', '=', 'debit'),
@@ -1006,17 +1003,12 @@ class banking_import_transaction(osv.osv):
             return True
 
         company_obj = self.pool.get('res.company')
-        user_obj = self.pool.get('res.user')
         partner_bank_obj = self.pool.get('res.partner.bank')
         journal_obj = self.pool.get('account.journal')
         move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
-        statement_obj = self.pool.get('account.bank.statement')
         statement_line_obj = self.pool.get('account.bank.statement.line')
-        import_line_obj = self.pool.get('banking.import.line')
-        statement_file_obj = self.pool.get('account.banking.imported.file')
         payment_order_obj = self.pool.get('payment.order')
-        currency_obj = self.pool.get('res.currency')
 
         # Results
         if results is None:
@@ -1465,7 +1457,7 @@ class banking_import_transaction(osv.osv):
             elif transaction.match_type == 'payment_order':
                 if (transaction.payment_order_ids and not
                     transaction.payment_order_id):
-                        res[transaction.id] = True
+                    res[transaction.id] = True
         return res
     
     def clear_and_write(self, cr, uid, ids, vals=None, context=None):
@@ -1697,9 +1689,7 @@ class account_bank_statement_line(osv.osv):
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
-        statement_obj = self.pool.get('account.bank.statement')
         import_transaction_obj = self.pool.get('banking.import.transaction')
-        account_move_obj = self.pool.get('account.move')
         transaction_cancel_ids = []
         move_unlink_ids = []
         set_draft_ids = []
@@ -1780,7 +1770,6 @@ class account_bank_statement(osv.osv):
 
     def button_confirm_bank(self, cr, uid, ids, context=None):
         """ Inject the statement line workflow here """
-        done = []
         if context is None:
             context = {}
         line_obj = self.pool.get('account.bank.statement.line')
@@ -1804,26 +1793,20 @@ class account_bank_statement(osv.osv):
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
             self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
                                        'items are created.') % (st.name,))
-            done.append(st.id)
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
-        """ inject the statement line workflow here """
-        done = []
-        account_move_obj = self.pool.get('account.move')
-        #line_obj = self.pool.get('account.bank.statement.line')
-        for st in self.browse(cr, uid, ids, context=context):
-            if st.state=='draft':
-                continue
-            self.write(cr, uid, [st.id], {'state':'draft'}, context=context)
-            # Do not actually cancel all the lines on the statement,
-            # line_obj.cancel(cr, uid, [line.id for line in st.line_ids], context)
+        """ 
+        Do nothing but write the state. Delegate all actions to the statement
+        line workflow instead.
+        """
+        self.write(cr, uid, ids, {'state':'draft'}, context=context)
 
     _columns = {
-        # override this field *only* to link it to the 
-        # function method from this module
+        # override this field *only* to replace the 
+        # function method with the one from this module.
         # Note that it is defined twice, both in
-        # account/account_bank_statement.py and
+        # account/account_bank_statement.py (without 'store') and
         # account/account_cash_statement.py (with store=True)
         
         'balance_end': fields.function(
@@ -1831,4 +1814,3 @@ class account_bank_statement(osv.osv):
         }
 
 account_bank_statement()
-
