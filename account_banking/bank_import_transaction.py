@@ -131,7 +131,7 @@ class banking_import_transaction(osv.osv):
 
         def is_zero(total):
             return self.pool.get('res.currency').is_zero(
-                cr, uid, trans.statement_id.currency_id, total)
+                cr, uid, trans.statement_id.currency, total)
 
         payment_order_obj = self.pool.get('payment.order')
         order_ids = payment_order_obj.search(
@@ -147,7 +147,7 @@ class banking_import_transaction(osv.osv):
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
-            for line in candidate[0].line_ids[0].debit_move_line_id.move_id.line_id:
+            for line in candidates[0].line_ids[0].debit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other':
                     account_id = line.account_id.id
                     break
@@ -1689,6 +1689,7 @@ class account_bank_statement_line(osv.osv):
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
+        account_move_obj = self.pool.get('account.move')
         import_transaction_obj = self.pool.get('banking.import.transaction')
         transaction_cancel_ids = []
         move_unlink_ids = []
