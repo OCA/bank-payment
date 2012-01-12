@@ -4,6 +4,7 @@
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #    This module additional (C) 2011 Therp BV (<http://therp.nl>).
+#                           (C) 2011 Smile Benelux (<http://smile.fr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -28,9 +29,11 @@ class account_move_line(osv.osv):
     _inherit = "account.move.line"
 
     def amount_to_receive(self, cr, uid, ids, name, arg={}, context=None):
-        """ Return the amount still to receive regarding all the payemnt orders
-        (excepting cancelled orders)
-        This is the reverse from account_payment/account_move_line.py
+        """ 
+        Return the amount still to receive regarding all the debit orders
+        (excepting canceled orders).
+        This is the reverse from amount_to_pay() in
+        account_payment/account_move_line.py
         """
         if not ids:
             return {}
@@ -89,7 +92,12 @@ class account_move_line(osv.osv):
             res = dict([(x.id, False) for x in ids])
         return res
 
-    def _invoice_payment_term_id_search(self, cr, uid, obj, name, args, context=None):
+    def _invoice_payment_term_id_search(
+        self, cr, uid, obj, name, args, context=None):
+        """
+        Allow to search move lines associated with an invoice with
+        a particular payment term
+        """
         if not args:
             return []
         invoice_obj = self.pool.get('account.invoice')
@@ -145,4 +153,3 @@ class account_move_line(osv.osv):
         }
 
 account_move_line()
-

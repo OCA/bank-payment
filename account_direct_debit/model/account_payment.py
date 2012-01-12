@@ -36,12 +36,14 @@ class payment_order(osv.osv):
     def fields_view_get(self, cr, user, view_id=None, view_type='form',
                         context=None, toolbar=False, submenu=False):
         """ 
-        Pretty awful workaround for no dynamic domain possible on 
-        widget='selection'
+        We use the same form for payment and debit orders, but they
+        are accessible through different menu items. The user should only
+        be allowed to select a payment mode that applies to the type of order
+        i.e. payment or debit.
 
-        The domain is encoded in the context
-
-        Uhmm, are these results are cached?
+        A pretty awful workaround is needed for the fact that no dynamic
+        domain is possible on the selection widget. This domain is encoded
+        in the context of the menu item.
         """
         if not context:
             context = {}
@@ -90,8 +92,7 @@ class payment_order(osv.osv):
                                  amount, currency, context=None):
         """
         Due to a cancelled bank statements import, unreconcile the move on
-        the transfer account. Delegate the conditions to the workflow, but
-        rip out the reconcile first or the workflow may not allow the undo.
+        the transfer account. Delegate the conditions to the workflow.
         Raise on failure for rollback.
         """
         self.pool.get('account.move.reconcile').unlink(
@@ -156,7 +157,7 @@ class payment_order(osv.osv):
                         'reference': 'DEB%s' % line.move_line_id.move_id.name,
                         }, context=context)
 
-                # TODO: multicurrency
+                # TODO: take multicurrency into account
                 
                 # create the debit move line on the transfer account
                 vals = {
@@ -324,7 +325,7 @@ class payment_line(osv.osv):
     def debit_reconcile(self, cr, uid, payment_line_id, context=None):
         """
         Reconcile a debit order's payment line with the the move line
-        that it is based on.
+        that it is based on. Called from payment_order.action_sent().
         As the amount is derived directly from the counterpart move line,
         we do not expect a write off. Take partially reconcilions into
         account though.

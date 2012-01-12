@@ -3,6 +3,11 @@ from osv import osv, fields
 from tools.translate import _
 
 """
+This module adds support for Direct debit orders as applicable
+in the Netherlands. Debit orders are advanced in total by the bank.
+Amounts that cannot be debited or are canceled by account owners are
+credited afterwards. Such a creditation is called a storno.
+
 Invoice workflow:
 
 1 the sale leads to 
@@ -24,12 +29,14 @@ Balance:
    Bank     100 |
    Sales        | 2000
 
-This module considers the following diversion:
+This module implements the following diversion:
 
-2a the invoice is included in a direct debit order. When the order is confirmed:
-   2000 Transfer account 100
-   1300 Debtors              100
-   Reconciliation takes place between 1 and 2a
+2a the invoice is included in a direct debit order. When the order is
+   confirmed, a move is created per invoice:
+
+   2000 Transfer account 100 |
+   1300 Debtors              | 100
+   Reconciliation takes place between 1 and 2a. 
    The invoice gets set to state 'paid', and 'reconciled' = True
 
 Balance:
@@ -62,13 +69,13 @@ Balance:
    Sales                 | 2000
 
    The reconciliation of 2a is undone. The booking of 2a is reconciled 
-   with the booking of 4 instead (is this problematic?).
-   The payment line attribute 'storno' is set to True
+   with the booking of 4 instead.
+   The payment line attribute 'storno' is set to True and the invoice
+   state is no longer 'paid'.
 
 Two cases need to be distinguisted:
    1) If the storno is a manual storno from the partner, the invoice is set to
-      state 'debit_denied',
-      with 'reconciled' = False 
+      state 'debit_denied', with 'reconciled' = False 
       This module implements this option by allowing the bank module to call
      
           netsvc.LocalService("workflow").trg_validate(
@@ -87,22 +94,8 @@ Two cases need to be distinguisted:
       If not for that funny comment
       "#TODO: implement messages system"  in account/invoice.py
 
-   Actual fatal errors need to be dealt with manually by checking open invoices
-   by invoice- or due date. 
-
-Reconciliation
-==============
-The first reconciliation is between the invoice move line (this is payment_line.move_line_id)
-and the transfer move line (stored as payment_line.debit_move_line_id). The invoice
-may have already been partially recognized, so that the payment line.move_line_id does not cover
-the whole account. In that case, add the transfer move line to an existing?! partial reconciliation.
-Implementation of the reconciliation in payment_line.debit_reconcile()
-
-
-
-
-
-
+   Repeating non-fatal fatal errors need to be dealt with manually by checking
+   open invoices with a matured invoice- or due date.
 """ 
 
 class account_invoice(osv.osv):

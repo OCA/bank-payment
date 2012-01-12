@@ -26,7 +26,7 @@
 ##############################################################################
 {
     'name': 'Direct Debit',
-    'version': '6.0.1.92',
+    'version': '6.0.1.98',
     'license': 'GPL-3',
     'author': 'Therp BV / Smile',
     'website': 'https://launchpad.net/banking-addons',
@@ -43,15 +43,19 @@
     'demo_xml': [],
     'description': '''
 This module adds support for direct debit orders, analogous to payment orders.
-A new entry in the Accounting/Payment menu allow you to create a direct debit order that
-helps you to select any customer invoices for you to collect.
+A new entry in the Accounting/Payment menu allow you to create a direct debit
+order that helps you to select any customer invoices for you to collect.
 
-This module depends on and is part of the banking addons for OpenERP. This set of
-modules helps you to provide support for communications with your local banking
-institutions. See https://launchpad.net/banking-addons.
+This module explicitely implements direct debit orders as applicable
+in the Netherlands. Debit orders are advanced in total by the bank.
+Amounts that cannot be debited or are canceled by account owners are
+credited afterwards. Such a creditation is called a storno. This style of
+direct debit order may not apply to your country.
 
-The banking addons are a continuation of Account Banking Framework by Edusense BV.
-See https://launchpad.net/account-banking.
+This module depends on and is part of the banking addons for OpenERP. This set
+of modules helps you to provide support for communications with your local
+banking institutions. The banking addons are a continuation of Account Banking
+Framework by Edusense BV. See https://launchpad.net/banking-addons.
     ''',
     'active': False,
     'installable': True,

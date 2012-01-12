@@ -757,6 +757,10 @@ class payment_line(osv.osv):
 
         return res
 
+    """
+    Hooks for processing direct debit orders, such as implemented in
+    account_direct_debit module.
+    """
     def get_storno_account_id(self, cr, uid, payment_line_id, amount,
                      currency_id, context=None):
         """
@@ -765,10 +769,11 @@ class payment_line(osv.osv):
         Used in account_banking interactive mode
         :param payment_line_id: the single payment line id
         :param amount: the (signed) amount debited from the bank account
-        :param currency_id: the bank account's currency id
+        :param currency: the bank account's currency *browse object*
         :return: an account if there is a full match, False otherwise
         :rtype: database id of an account.account resource.
         """
+
         return False
 
     def debit_storno(self, cr, uid, payment_line_id, amount,
@@ -783,7 +788,7 @@ class payment_line(osv.osv):
 
         :param payment_line_id: the single payment line id
         :param amount: the (negative) amount debited from the bank account
-        :param currency_id: the bank account's currency id
+        :param currency: the bank account's currency *browse object*
         :param boolean storno_retry: whether the storno is considered fatal \
         or not.
         :return: an incomplete reconcile for the caller to fill
@@ -989,13 +994,29 @@ class payment_order(osv.osv):
             return 'account_banking', 'wizard_account_banking_payment_manual'
         return super(payment_order, self).get_wizard(type)
 
-    def debit_reconcile_transfer(self, cr, uid, payment_order_id, 
-                                 amount, log, context=None):
+    """
+    Hooks for processing direct debit orders, such as implemented in
+    account_direct_debit module.
+    """
+    def debit_reconcile_transfer(
+        self, cr, uid, payment_order_id, amount, currency, context=None):
         """
-        Hook for the account_direct_debit module. When not installed,
-        do nothing and make sure that the caller ignores the result.
+        Reconcile the payment order if the amount is correct. Return the 
+        id of the reconciliation.
         """
-        return False
+        raise osv.except_osv(
+            _("Cannot reconcile"),
+            _("Cannot reconcile debit order: "+
+              "Not implemented."))
+
+    def debit_unreconcile_transfer(
+        self, cr, uid, payment_order_id, reconcile_id, amount, currency,
+        context=None):
+        """ Unreconcile the payment_order if at all possible """
+        raise osv.except_osv(
+            _("Cannot unreconcile"),
+            _("Cannot unreconcile debit order: "+
+              "Not implemented."))
 
 payment_order()
 
