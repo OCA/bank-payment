@@ -4,7 +4,7 @@
 #              (C) 2011 Therp BV (<http://therp.nl>).
 #              (C) 2011 Smile (<http://smile.fr>).
 #            
-#    All other contributions are (C) by their own contributors
+#    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
 #
@@ -30,7 +30,7 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.1.99',
+    'version': '0.1.100',
     'license': 'GPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',

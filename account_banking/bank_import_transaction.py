@@ -52,11 +52,6 @@ class banking_import_transaction(osv.osv):
     _description = 'Bank import transaction'
     _rec_name = 'transaction'
 
-    signal_duplicate_keys = [
-        'execution_date', 'local_account', 'remote_account',
-        'remote_owner', 'reference', 'message', 'transferred_amount'
-        ]
-
     payment_window = datetime.timedelta(days=10)
 
     def _match_costs(self, cr, uid, trans, period_id, account_info, log):
@@ -200,7 +195,9 @@ class banking_import_transaction(osv.osv):
 
         TODO: REVISE THIS DOC
         #Return values:
-        #move_info: the move_line information belonging to the matched
+        # old_trans: this function can modify and rebrowse the modified
+        # transaction.
+        # move_info: the move_line information belonging to the matched
         #               invoice
         #    new_trans: the new transaction when the current one was split.
         #    This can happen when multiple invoices were paid with a single
@@ -361,7 +358,7 @@ class banking_import_transaction(osv.osv):
                 else:
                     # Multiple matches
                     # TODO select best bank account in this case
-                    return (self._get_move_info(
+                    return (trans, self._get_move_info(
                             cr, uid, [x.id for x in candidates]),
                             False)
                 move_line = False
@@ -408,19 +405,19 @@ class banking_import_transaction(osv.osv):
                             transaction = trans.transaction + 'a',
                             ), context)
                     # rebrowse the current record after writing
-                    trans=self.browse(cr, uid, trans.id, context=context)
+                    trans = self.browse(cr, uid, trans.id, context=context)
             if move_line:
                 account_ids = [
                     x.id for x in bank_account_ids 
                     if x.partner_id.id == move_line.partner_id.id
                     ]
                 
-            return (self._get_move_info(
+            return (trans, self._get_move_info(
                     cr, uid, [move_line.id],
                     account_ids and account_ids[0] or False),
                     trans2)
 
-        return (False, False)
+        return trans, False, False
 
     def _do_move_reconcile(
         self, cr, uid, move_line_ids, currency, amount, context=None):
@@ -782,6 +779,7 @@ class banking_import_transaction(osv.osv):
             self.pool.get('account.bank.statement.line').write(
                 cr, uid, transaction.statement_line_id.id, 
                 {'reconcile_id': reconcile_id}, context=context)
+
         # TODO
         # update the statement line bank account reference
         # as follows (from _match_invoice)
@@ -912,6 +910,13 @@ class banking_import_transaction(osv.osv):
 
         return False
 
+    signal_duplicate_keys = [
+        # does not include float values
+        # such as transferred_amount
+        'execution_date', 'local_account', 'remote_account',
+        'remote_owner', 'reference', 'message',
+        ]
+
     def create(self, cr, uid, vals, context=None):
         res = super(banking_import_transaction, self).create(
             cr, uid, vals, context)
@@ -920,10 +925,20 @@ class banking_import_transaction(osv.osv):
             search_vals = [(key, '=', me[key]) 
                            for key in self.signal_duplicate_keys]
             ids = self.search(cr, uid, search_vals, context=context)
-            if len(ids) < 1:
+            dupes = []
+            # Test for transferred_amount seperately
+            # due to float representation and rounding difficulties
+            for trans in self.browse(cr, uid, ids, context=context):
+                if self.pool.get('res.currency').is_zero(
+                    cr, uid, 
+                    trans.statement_id.currency,
+                    me['transferred_amount'] - trans.transferred_amount):
+                    dupes.append(trans.id)
+            if len(dupes) < 1:
                 raise osv.except_osv(_('Cannot check for duplicate'),
-                               _("I can't find myself..."))
-            if len(ids) > 1:
+                               _("Cannot check for duplicate. "
+                                 "I can't find myself."))
+            if len(dupes) > 1:
                 self.write(
                     cr, uid, res, {'duplicate': True}, context=context)
         return res
@@ -1288,7 +1303,7 @@ class banking_import_transaction(osv.osv):
                 # invoice, automatic invoicing on bank costs will create
                 # these, and invoice matching still has to be done.
                 
-                move_info, remainder = self._match_invoice(
+                transaction, move_info, remainder = self._match_invoice(
                     cr, uid, transaction, move_lines, partner_ids,
                     partner_banks, results['log'], linked_invoices,
                     context=context)

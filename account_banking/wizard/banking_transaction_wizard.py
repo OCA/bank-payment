@@ -81,8 +81,38 @@ class banking_transaction_wizard(osv.osv_memory):
         manual_invoice_id = vals.pop('manual_invoice_id', False)
         manual_move_line_id = vals.pop('manual_move_line_id', False)
 
+        # Support for writing fields.related is still flakey:
+        # https://bugs.launchpad.net/openobject-server/+bug/915975
+        # Will do so myself.
+
+        if not vals:
+            return True
+
+        # Separate the related fields
+        transaction_vals = {}
+        wizard_vals = vals.copy()
+        for key in vals.keys():
+            field = self._columns[key]
+            if (isinstance(field, fields.related) and
+                field._arg[0] == 'import_transaction_id'):
+                transaction_vals[field._arg[1]] = vals[key]
+                del wizard_vals[key]
+
+        # write the related fields on the transaction model
+        for wizard in self.read(
+            cr, uid, ids, ['import_transaction_id'], context=context):
+            if wizard['import_transaction_id']:
+                transaction_obj.write(
+                    cr, uid, wizard['import_transaction_id'][0],
+                    transaction_vals, context=context)
+
+        # write other fields to the wizard model
         res = super(banking_transaction_wizard, self).write(
-            cr, uid, ids, vals, context=context)
+            cr, uid, ids, wizard_vals, context=context)
+
+        # End of workaround for lp:915975
+        
+        """ Process the logic of the written values """
 
         # An invoice is selected from multiple candidates
         if vals and 'invoice_id' in vals:
