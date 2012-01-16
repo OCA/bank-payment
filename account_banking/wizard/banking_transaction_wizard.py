@@ -267,6 +267,16 @@ class banking_transaction_wizard(osv.osv_memory):
         'amount': fields.related(
             'statement_line_id', 'amount', type='float',
             string="Amount", readonly=True),
+        'date': fields.related(
+            'statement_line_id', 'date', type='date',
+            string="Date", readonly=True),
+        'ref': fields.related(
+            'statement_line_id', 'ref', type='char', size=32,
+            string="Reference", readonly=True),
+        'partner_id': fields.related(
+            'statement_line_id', 'partner_id',
+            type='many2one', relation='res.partner',
+            string="Partner", readonly=True),
         'import_transaction_id': fields.related(
             'statement_line_id', 'import_transaction_id', 
             string="Import transaction",

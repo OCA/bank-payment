@@ -52,6 +52,9 @@ class banking_import_transaction(osv.osv):
     _description = 'Bank import transaction'
     _rec_name = 'transaction'
 
+    # This variable is used to match supplier invoices with an invoice date after
+    # the real payment date. This can occur with online transactions (web shops).
+    # TODO: Convert this to a proper configuration variable
     payment_window = datetime.timedelta(days=10)
 
     def _match_costs(self, cr, uid, trans, period_id, account_info, log):
@@ -240,6 +243,10 @@ class banking_import_transaction(osv.osv):
             return False
 
         def _cached(move_line):
+            # Disabled, we allow for multiple matches in
+            # the interactive wizard
+            return False
+
             '''Check if the move_line has been cached'''
             return move_line.id in linked_invoices
 
@@ -389,6 +396,10 @@ class banking_import_transaction(osv.osv):
                     # Partial payment, reuse invoice
                     _cache(move_line, expected - found)
                 elif abs(expected) < abs(found):
+                    # Disabled splitting transactions for now
+                    # TODO allow splitting in the interactive wizard
+                    pass
+
                     # Possible combined payments, need to split transaction to
                     # verify
                     _cache(move_line)
@@ -1649,6 +1660,9 @@ class account_bank_statement_line(osv.osv):
         return res
         
     def confirm(self, cr, uid, ids, context=None):
+        # TODO: a confirmed transaction should remove its reconciliation target
+        # from other transactions where it is one of multiple candidates or
+        # even the proposed reconciliation target.
         statement_obj = self.pool.get('account.bank.statement')
         obj_seq = self.pool.get('ir.sequence')
         import_transaction_obj = self.pool.get('banking.import.transaction')

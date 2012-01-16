@@ -13,9 +13,14 @@
                     <field name="move_line_ids" invisible="True"/>
                     <field name="match_multi" invisible="True"/>
                     <field name="duplicate" invisible="True"/>
-                    <field name="amount" invisible="True"/>
-
                     <group colspan="2" col="2">
+                        <group colspan="2" col="4">
+                            <separator string="Transaction data"/>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="ref"/>
+                            <field name="partner_id"/>
+                        </group>
 
                         <!-- Duplicate flagging -->
                         <group colspan="2" col="2" attrs="{'invisible': [('duplicate', '=', False)]}">
@@ -34,7 +39,8 @@
 
                             <separator string="Current match" colspan="2"/>
                             <field name="match_type"/>
-                            <group attrs="{'invisible': [('match_multi', '=', False)]}">
+                            <group attrs="{'invisible': [('match_multi', '=', False)]}" colspan="2" col="2">
+                                <separator string="Multiple matches" colspan="2"/>
                                 <label colspan="2" string="Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below." />
                             </group>
                             <field name='payment_line_id'

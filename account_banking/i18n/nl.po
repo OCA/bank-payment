@@ -36,9 +36,42 @@ msgid "Entry lines"
 msgstr "Boekingsregels"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:310
+#, python-format
+msgid "Number of bank costs invoices created"
+msgstr "Aantal bankkosten-facturen aangemaakt"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1017
+#: code:addons/account_banking/banking_import_transaction.py:632
+#: code:addons/account_banking/banking_import_transaction.py:644
+#: code:addons/account_banking/banking_import_transaction.py:648
+#, python-format
+msgid "Cannot unreconcile"
+msgstr "Kan niet afletteren"
+
+#. module: account_banking
 #: selection:banking.import.line,transaction_type:0
 msgid "Unknown"
 msgstr "Onbekend"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:950
+#, python-format
+msgid "Cannot check for duplicate. I can't find myself."
+msgstr "Kan niet controleren op duplicaten, ik kan de eigen mutatie niet terugvinden."
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:298
+#, python-format
+msgid "Number of errors found"
+msgstr "Aantal gevonden fouten"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:229
+#, python-format
+msgid "Statement %(statement_id)s for account %(bank_account)s uses different currency than the defined bank journal."
+msgstr "Afschrift %(statement_id)s voor rekening %(bank_account)s gebruikt een andere valuta dan het ingestelde bankboek."
 
 #. module: account_banking
 #: view:account.bank.statement:0
@@ -50,6 +83,23 @@ msgstr "Transactie annuleren"
 #: view:account.banking.bank.import:0
 msgid "Select the processing details:"
 msgstr "Selecteer de verwerkingsdetails:"
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+msgid "Group By..."
+msgstr "Groepeer op..."
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:198
+#, python-format
+msgid "Statements found for unknown account %(bank_account)s"
+msgstr "Afschriften gevonden voor onbekende bankrekening %(bank_account)s"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1320
+#, python-format
+msgid "Invalid format"
+msgstr "Ongeldig formaat"
 
 #. module: account_banking
 #: field:banking.import.line,banking_import_id:0
@@ -66,6 +116,12 @@ msgstr "Afschrift"
 #: view:account.bank.statement.line:0
 msgid "Statement lines"
 msgstr "Afschriftregels"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:605
+#, python-format
+msgid "Reconcile payment order not implemented"
+msgstr "Afletteren betaalopdracht nog niet geïmplementeerd"
 
 #. module: account_banking
 #: selection:banking.import.line,type:0
@@ -106,6 +162,18 @@ msgstr "Standaard dagboek voor bankrekening"
 #: field:account.banking.bank.import,file:0
 msgid "Statements File"
 msgstr "Bankafschriftbestand"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:601
+#, python-format
+msgid "Cannot reconcile: no direct debit order"
+msgstr "Kan niet afletteren: geen incasso-opdracht"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1321
+#, python-format
+msgid "The account number has the wrong format for %(country)s"
+msgstr "Het rekeningnummer heeft het verkeerde formaat voor %(country)s"
 
 #. module: account_banking
 #: field:account.banking.bank.import,import_id:0
@@ -150,6 +218,12 @@ msgid "Linked Invoice"
 msgstr "Gerelateerde factuur"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:107
+#, python-format
+msgid "Bank account %(account_no)s was not found in the database"
+msgstr "Bankrekening %(account_no)s niet gevonden in de database"
+
+#. module: account_banking
 #: selection:account.banking.bank.import,state:0
 msgid "init"
 msgstr "init"
@@ -166,6 +240,12 @@ msgid "Bank Transactions"
 msgstr "Bankmutaties"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1676
+#, python-format
+msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
+msgstr "Een bankmutatie gemarkeerd als duplicaat kan niet worden bevestigd (%s.%s)"
+
+#. module: account_banking
 #: field:banking.import.line,statement_line_id:0
 msgid "Resulting statement line"
 msgstr "Bankafschriftregel"
@@ -175,6 +255,12 @@ msgstr "Bankafschriftregel"
 #: field:banking.transaction.wizard,invoice_ids:0
 msgid "Matching invoices"
 msgstr "Gematchte facturen"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1435
+#, python-format
+msgid "Free Reference"
+msgstr "Vrije referentie"
 
 #. module: account_banking
 #: field:banking.import.line,reconcile_id:0
@@ -205,6 +291,24 @@ msgstr "Kostendagboek"
 #: field:banking.import.transaction,remote_currency:0
 msgid "remote_currency"
 msgstr "remote_currency"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:300
+#, python-format
+msgid "Number of statements skipped due to errors"
+msgstr "Aantal afschriften overgeslagen door fouten"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:949
+#, python-format
+msgid "Cannot check for duplicate"
+msgstr "Kan niet controleren op duplicaten"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1351
+#, python-format
+msgid "Invalid IBAN account number!"
+msgstr "Ongeldig IBAN-rekeningnummer"
 
 #. module: account_banking
 #: constraint:account.move.line:0
@@ -239,11 +343,22 @@ msgid "Amount"
 msgstr "Bedrag"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:704
+#, python-format
+msgid "Line id not found"
+msgstr "Regel id niet gevonden"
+
+#. module: account_banking
 #: field:account.bank.statement.line,match_type:0
 #: field:banking.import.transaction,match_type:0
 #: field:banking.transaction.wizard,match_type:0
 msgid "Match type"
 msgstr "Matchtype"
+
+#. module: account_banking
+#: help:banking.import.transaction,bank_country_code:0
+msgid "Fallback default country for new partner records, as defined by the import parser"
+msgstr "Achtervang-standaardland voor nieuwe relaties, zoals ingegeven door de invoerparser"
 
 #. module: account_banking
 #: sql_constraint:account.move.line:0
@@ -279,6 +394,12 @@ msgid "Matching payment or storno"
 msgstr "Gevonden betaling of storno"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:128
+#, python-format
+msgid "Unable to import parser %(parser)s. Parser class not found."
+msgstr "Niet in staat parser %(parser)s te importeren. Parser class niet gevonden."
+
+#. module: account_banking
 #: model:ir.model,name:account_banking.model_account_bank_statement_line
 msgid "Bank Statement Line"
 msgstr "Bankafschriftregel"
@@ -294,6 +415,12 @@ msgid "Reference"
 msgstr "Referentie"
 
 #. module: account_banking
+#: code:addons/account_banking/account_banking.py:444
+#, python-format
+msgid "Journal Item \"%s\" is not valid"
+msgstr "Journaalpost \"%s\" is niet geldig"
+
+#. module: account_banking
 #: field:account.banking.account.settings,default_debit_account_id:0
 msgid "Default debit account"
 msgstr "Standaard debetrekening"
@@ -306,9 +433,22 @@ msgid "Move"
 msgstr "Boeking"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:307
+#: code:addons/account_banking/wizard/banktools.py:397
+#, python-format
+msgid "Unknown Bank"
+msgstr "Onbekende bank"
+
+#. module: account_banking
 #: selection:banking.import.line,transaction_type:0
 msgid "Invoice payment"
 msgstr "Factuurbetaling"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1673
+#, python-format
+msgid "Bank transfer flagged as duplicate"
+msgstr "Bankmutatie is gemarkeerd als duplicaat"
 
 #. module: account_banking
 #: field:banking.import.transaction,writeoff_move_line_id:0
@@ -330,6 +470,18 @@ msgstr "Match deze mutatie"
 #: sql_constraint:payment.line:0
 msgid "The payment line name must be unique!"
 msgstr "De betaalregelnaam moet uniek zijn!"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1309
+#, python-format
+msgid "The account number appears to be invalid for %(country)s"
+msgstr "Het bankrekeningnummer lijkt ongeldig te zijn voor %(country)s"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:633
+#, python-format
+msgid "Cannot unreconcile: this operation is not yet supported for match type 'payment'"
+msgstr "Kan niet afletteren: deze bewerking wordt noge niet ondersteund voor matches van het type 'betaling'"
 
 #. module: account_banking
 #: field:banking.import.line,partner_id:0
@@ -444,6 +596,12 @@ msgid "Type"
 msgstr "Type"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:251
+#, python-format
+msgid "Statement %(id)s known - skipped"
+msgstr "Afschrift %(id)s al bekend - overgeslagen"
+
+#. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."
 msgstr "Als het bedrag van de mutatie de gevonden match overschrijdt, moet er een grootboekrekening en een dagboek worden opgegeven om het restbedrag van de aflettering af te schrijven. Dit is optioneel als het bedrag van de mutatie kleiner is dan de gevonden match. Als u in dit geval geen afschrijving mogelijk maakt, zal het systeem een gedeeltelijke aflettering aanmaken."
@@ -457,6 +615,34 @@ msgstr "Boekingsregel"
 #: selection:banking.import.line,transaction_type:0
 msgid "Payment from a payment order"
 msgstr "Betaling uit een betaalopdracht"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1732
+#: code:addons/account_banking/banking_import_transaction.py:1741
+#, python-format
+msgid "Cannot cancel bank transaction"
+msgstr "Kan de bankmutatie niet annuleren"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:443
+#: code:addons/account_banking/banking_import_transaction.py:1818
+#, python-format
+msgid "Error !"
+msgstr "Fout !"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1308
+#, python-format
+msgid "Invalid data"
+msgstr "Ongeldige gegevens"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:684
+#: code:addons/account_banking/banking_import_transaction.py:688
+#: code:addons/account_banking/banking_import_transaction.py:703
+#, python-format
+msgid "Cannot cancel link with storno"
+msgstr "Kan de relatie met de storno niet annuleren"
 
 #. module: account_banking
 #: selection:account.banking.bank.import,state:0
@@ -509,14 +695,32 @@ msgid "Payment order to reconcile"
 msgstr "Betaalopdracht ter aflettering"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1742
+#, python-format
+msgid "Cannot cancel this bank transaction. The information needed to undo the accounting entries has not been recorded"
+msgstr "Kan de bankmutatie niet annuleren. De benodigde informatie om de boekingen teniet te doen is niet beschikbaar"
+
+#. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Duplicate flag"
 msgstr "Duplicaatkenmerk"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:461
+#, python-format
+msgid "Entry is already reconciled"
+msgstr "Boeking is al afgeletterd"
+
+#. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Transaction"
 msgstr "Mutatie"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1282
+#, python-format
+msgid "Insufficient data to select online conversion database"
+msgstr "Onvoldoende gegevens om een online conversiebestand te selecteren"
 
 #. module: account_banking
 #: field:account.banking.bank.import,statement_ids:0
@@ -660,6 +864,28 @@ msgid "Manual"
 msgstr "Handmatig"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1733
+#, python-format
+msgid "The bank statement that this transaction belongs to has already been confirmed"
+msgstr "Het bankafschrift waar deze mutatie toe behoort is al bevestigd"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:127
+#: code:addons/account_banking/wizard/bank_import.py:141
+#, python-format
+msgid "ERROR!"
+msgstr "FOUT!"
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+#: field:account.bank.statement.line,state:0
+#: field:account.banking.bank.import,state:0
+#: field:account.banking.imported.file,state:0
+#: field:payment.line,export_state:0
+msgid "State"
+msgstr "Staat"
+
+#. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Import Bank Transactions File"
 msgstr "Bankmutatiebestand import"
@@ -668,6 +894,18 @@ msgstr "Bankmutatiebestand import"
 #: view:payment.order:0
 msgid "Make Payments"
 msgstr "Maak betalingen"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:206
+#, python-format
+msgid "Account %(account_no)s is not owned by %(partner)s"
+msgstr "Rekening %(account_no)s is geen eigendom van %(partner)s"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1414
+#, python-format
+msgid "My reference"
+msgstr "Mijn referentie"
 
 #. module: account_banking
 #: field:banking.import.transaction,statement_line_id:0
@@ -689,6 +927,17 @@ msgstr "Afschrijven restbedrag"
 #: field:banking.import.transaction,effective_date:0
 msgid "effective_date"
 msgstr "effective_date"
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+msgid "Search Bank Transactions "
+msgstr "Zoek bankmutaties"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:179
+#, python-format
+msgid "More then one possible match found for partner with name %(name)s"
+msgstr "Meer dan één mogelijke match gevonden voor partner met naam %(name)s"
 
 #. module: account_banking
 #: field:payment.order,date_sent:0
@@ -718,6 +967,11 @@ msgid "Currency"
 msgstr "Valuta"
 
 #. module: account_banking
+#: field:banking.import.transaction,bank_country_code:0
+msgid "Bank country code"
+msgstr "Bank country code"
+
+#. module: account_banking
 #: help:payment.mode.type,ir_model_id:0
 msgid "Select the Payment Wizard for payments of this type. Leave empty for manual processing"
 msgstr "Selecteer de wizard voor het verwerken van betalingen van dit type. Laat leeg voor handmatige verwerking."
@@ -739,6 +993,30 @@ msgid "Log"
 msgstr "Log"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:553
+#, python-format
+msgid "Cannot link transaction %s with accounting entry"
+msgstr "Kan mutatie %s niet koppelen aan een journaalboeking"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1177
+#, python-format
+msgid "transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s uses different currency than the defined bank journal."
+msgstr "Mutatie %(statement_id)s.%(transaction_id)s van bankrekening %(bank_account)s gebruikt een andere valuta dan het ingestelde bankboek."
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:580
+#, python-format
+msgid "Cannot link with storno"
+msgstr "Kan niet koppelen met een storno"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:543
+#, python-format
+msgid "Cannot link transaction %s with invoice"
+msgstr "Kan mutatie %s niet koppelen aan een factuur"
+
+#. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Review"
 msgstr "Herzien"
@@ -754,9 +1032,27 @@ msgid "Payment Type"
 msgstr "Betaaltype"
 
 #. module: account_banking
+#: code:addons/account_banking/account_banking.py:1281
+#, python-format
+msgid "Insufficient data"
+msgstr "Onvoldoende gegevens"
+
+#. module: account_banking
 #: field:account.banking.imported.file,file:0
 msgid "Raw Data"
 msgstr "Ruwe data"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1813
+#, python-format
+msgid "Please verify that an account is defined in the journal."
+msgstr "Er is een standaardrekening niet ingesteld op het dagboek."
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:649
+#, python-format
+msgid "Unreconcile payment order not implemented"
+msgstr "Unreconcile payment order not implemented"
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
@@ -770,6 +1066,12 @@ msgid "Payment order type"
 msgstr "Type betaalopdracht"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:296
+#, python-format
+msgid "Total number of transactions"
+msgstr "Totaal aantal transacties"
+
+#. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
 msgid "exchange_rate"
 msgstr "exchange_rate"
@@ -778,6 +1080,18 @@ msgstr "exchange_rate"
 #: field:banking.import.line,duplicate:0
 msgid "Duplicate"
 msgstr "Duplicaat"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1683
+#, python-format
+msgid "You have to define an analytic journal on the '%s' journal!"
+msgstr "Er moet een analytisch journaal worden ingesteld op het '%s' journaal!"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1812
+#, python-format
+msgid "Configuration Error !"
+msgstr "Configuratiefout !"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,state:0
@@ -794,6 +1108,12 @@ msgstr "Afletteren ongedaan maken"
 #: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
 msgid "Bank Statements File"
 msgstr "Bankafschriftbestand"
+
+#. module: account_banking
+#: code:addons/account_banking/parsers/models.py:368
+#, python-format
+msgid "This is a stub. Please implement your own."
+msgstr "Dit is een stub. Maak alstublieft uw eigen versie."
 
 #. module: account_banking
 #: field:banking.import.transaction,type:0
@@ -906,9 +1226,53 @@ msgid "Import transaction"
 msgstr "Geïmporteerde mutatie"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:60
+#, python-format
+msgid "No suitable fiscal year found for date %(date)s and company %(company_name)s"
+msgstr "Geen geschikt boekjaar gevonden voor datum %(date)s en bedrijf %(company_name)s"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:153
+#, python-format
+msgid "No entry found for the selected invoice. \" +\n"
+"                              \"Try manual reconciliation."
+msgstr "Geen boeking gevonden voor de geselecteerde factuur. \" +\n"
+"                              \"Probeer handmatig af te letteren."
+
+#. module: account_banking
 #: field:banking.import.transaction,error_message:0
 msgid "error_message"
 msgstr "error_message"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:82
+#, python-format
+msgid "Multiple overlapping periods for date %(date)s and company %(company_name)s"
+msgstr "Meerdere overlappende periodes gevonden voor datum %(date)s en bedrijf %(company_name)s"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:142
+#, python-format
+msgid "The imported statements appear to be invalid! Check your file."
+msgstr "De geïmporteerde afschriften lijken onjuist! Controleer uw bestand."
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:304
+#, python-format
+msgid "Number of statements loaded"
+msgstr "Aantal geladen afschriften"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:302
+#, python-format
+msgid "Number of transactions skipped due to errors"
+msgstr "Aantal overgeslagen transacties als gevolg van fouten"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1822
+#, python-format
+msgid "Statement %s is confirmed, journal items are created."
+msgstr "Afschrift %s is bevestigd, journaalposten worden aangemaakt."
 
 #. module: account_banking
 #: field:banking.import.transaction,statement:0
@@ -952,10 +1316,34 @@ msgid "Set write-off account"
 msgstr "Stel de grootboekrekening in ter afschrijving"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:152
+#, python-format
+msgid "No entry found for the selected invoice"
+msgstr "Geen boeking gevonden voor de geselecteerde factuur"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:358
+#, python-format
+msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: invoice %(invoice)s was already paid"
+msgstr "Kan de mutatie met id %(trans)s (referentie: %(ref)s) niet aan factuur %(invoice)s koppelen, deze is al betaald"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1090
+#, python-format
+msgid "Cannot perform match on a confirmed transction"
+msgstr "Kan geen match uitvoeren op een bevestigde mutatie"
+
+#. module: account_banking
 #: field:banking.import.transaction,invoice_id:0
 #: field:banking.transaction.wizard,invoice_id:0
 msgid "Invoice to reconcile"
 msgstr "Factuur ter aflettering"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:294
+#, python-format
+msgid "Total number of statements"
+msgstr "Totaal aantal afschriften"
 
 #. module: account_banking
 #: field:banking.import.transaction,provision_costs_description:0
@@ -971,6 +1359,14 @@ msgstr "Code"
 #: view:banking.transaction.wizard:0
 msgid "Manual match"
 msgstr "Handmatige match"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1018
+#, python-format
+msgid "Cannot unreconcile debit order: \"+\n"
+"              \"Not implemented."
+msgstr "Kan aflettering van een incasso-opdracht niet ongedaa maken: \"+\n"
+"              \"Niet geïmplementeerd."
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -1021,6 +1417,12 @@ msgid "Invoice"
 msgstr "Factuur"
 
 #. module: account_banking
+#: code:addons/account_banking/parsers/models.py:272
+#, python-format
+msgid "Invalid value for transfer_type"
+msgstr "Ongeldige waarde voor transfer_type"
+
+#. module: account_banking
 #: view:payment.order:0
 msgid "Select Invoices to Pay"
 msgstr "Kies te betalen facturen"
@@ -1051,9 +1453,27 @@ msgid "Responsible User"
 msgstr "Verantwoordelijk gebruiker"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1680
+#, python-format
+msgid "No Analytic Journal !"
+msgstr "Geen analytisch dagboek !"
+
+#. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Unfinished"
 msgstr "Niet gereed"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:176
+#, python-format
+msgid "Cannot select for reconcilion"
+msgstr "Kan niet selecteren voor afletteren"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1089
+#, python-format
+msgid "Cannot perform match"
+msgstr "Kan de match niet uitvoeren"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_payment_order
@@ -1066,9 +1486,26 @@ msgid "Account Banking"
 msgstr "Account Banking"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:781
+#, python-format
+msgid "Bank transaction %s: write off not implemented for \" +\n"
+"                          \"this match type."
+msgstr "Bankmutatie %s: afschrijven niet geïmplementeerd voor \" +\n"
+"                          \"dit matchtype."
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:645
+#, python-format
+msgid "Cannot unreconcile: no direct debit order"
+msgstr "Kan niet afletteren: geen incasso-opdracht"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1352
+#: code:addons/account_banking/account_banking.py:1356
 #: constraint:res.partner.bank:0
+#, python-format
 msgid "The IBAN number doesn't seem to be correct"
-msgstr "Het IBAN lijkt niet correct te zijn."
+msgstr "Het IBAN-nummer lijkt niet correct te zijn"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -1087,6 +1524,12 @@ msgid "remote_owner_city"
 msgstr "remote_owner_city"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1142
+#, python-format
+msgid "Transaction found for unknown account %(bank_account)s"
+msgstr "Mutatie gevonden voor onbekende bankrekening %(bank_account)s"
+
+#. module: account_banking
 #: selection:account.banking.bank.import,state:0
 msgid "ready"
 msgstr "ready"
@@ -1101,6 +1544,18 @@ msgstr "Overeenkomende boekingsregels"
 #: field:account.banking.imported.file,format:0
 msgid "File Format"
 msgstr "Bestandsformaat"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:922
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr "Alleen betaalopdrachten van hetzelfde type kunnen worden gecombineerd"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:66
+#, python-format
+msgid "Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s"
+msgstr "Meerdere overlappende boekjaren gevonden voor datum %(date)s en bedrijf %(company_name)s"
 
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
@@ -1156,6 +1611,17 @@ msgid "Customer"
 msgstr "Klant"
 
 #. module: account_banking
+#: code:addons/account_banking/account_banking.py:1008
+#: code:addons/account_banking/banking_import_transaction.py:468
+#: code:addons/account_banking/banking_import_transaction.py:600
+#: code:addons/account_banking/banking_import_transaction.py:604
+#: code:addons/account_banking/banking_import_transaction.py:772
+#: code:addons/account_banking/banking_import_transaction.py:780
+#, python-format
+msgid "Cannot reconcile"
+msgstr "Kan niet afletteren"
+
+#. module: account_banking
 #: field:banking.import.line,name:0
 #: field:banking.transaction.wizard,name:0
 #: field:payment.mode.type,name:0
@@ -1168,11 +1634,29 @@ msgid "The account to use when the bank invoices its own costs. Leave it blank t
 msgstr "De grootboekrekening waarop facturen met bankkosten kunnen worden geboekt. Laat leeg om het genereren van dergelijke facturen uit te schakelen."
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:206
+#, python-format
+msgid "Statements found for account %(bank_account)s, but no default journal was defined."
+msgstr "Bankafschriften gevonden voor bankrekening %(bank_account)s, maar er is geen standaard dagboek ingesteld."
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:329
+#, python-format
+msgid "Review Bank Statements"
+msgstr "Inzage bankafschriften"
+
+#. module: account_banking
 #: field:account.bank.statement.line,partner_bank_id:0
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
 msgstr "Bankrekening"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:306
+#, python-format
+msgid "Number of transactions loaded"
+msgstr "Aantal geladen transacties"
 
 #. module: account_banking
 #: field:banking.import.transaction,payment_order_ids:0
@@ -1185,9 +1669,30 @@ msgid "System match"
 msgstr "Automatische match"
 
 #. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:581
+#: code:addons/account_banking/banking_import_transaction.py:685
+#, python-format
+msgid "No direct debit order item"
+msgstr "Geen onderdeel van een incasso-opdracht"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:689
+#, python-format
+msgid "The direct debit order item is not marked for storno"
+msgstr "Dit item uit de incasso-opdracht is niet gemarkeerd als storno"
+
+#. module: account_banking
 #: model:ir.model,name:account_banking.model_payment_order_create
 msgid "payment.order.create"
 msgstr "payment.order.create"
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:1009
+#, python-format
+msgid "Cannot reconcile debit order: \"+\n"
+"              \"Not implemented."
+msgstr "Kan een incasso-opdracht niet afletteren: \"+\n"
+"              \"Niet geïmplementeerd."
 
 #. module: account_banking
 #: field:banking.import.transaction,local_currency:0
@@ -1210,9 +1715,21 @@ msgid "Payment type"
 msgstr "Betaaltype"
 
 #. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:308
+#, python-format
+msgid "Number of transactions matched"
+msgstr "Aantal transacties herkend"
+
+#. module: account_banking
 #: field:banking.import.transaction,transaction:0
 msgid "transaction"
-msgstr "transaction"
+msgstr "mutatie"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:200
+#, python-format
+msgid "More than one bank account was found with the same number %(account_no)s"
+msgstr "Meer dan één bankrekening gevonden met hetzelfde rekeningnummer %(account_no)s"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_account:0

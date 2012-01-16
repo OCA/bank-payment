@@ -26,7 +26,7 @@
 ##############################################################################
 import sepa
 import record
-import bank_import_transaction
+import banking_import_transaction
 import account_banking
 import parsers
 import wizard

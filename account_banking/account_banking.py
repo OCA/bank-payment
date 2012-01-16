@@ -580,14 +580,14 @@ class account_bank_statement_line(osv.osv):
                             states={'draft':[('readonly', False)]},
                             ),
         'period_id': fields.many2one('account.period', 'Period', required=True,
-                            states={'confirm': [('readonly', True)]}),
+                            states={'confirmed': [('readonly', True)]}),
         'currency': fields.many2one('res.currency', 'Currency', required=True,
-                            states={'confirm': [('readonly', True)]}),
+                            states={'confirmed': [('readonly', True)]}),
 
         # Not used yet, but usefull in the future.
         'international': fields.boolean('International Transaction',
                             required=False,
-                            states={'confirm': [('readonly', True)]},
+                            states={'confirmed': [('readonly', True)]},
                             ),
         'reconcile_id': fields.many2one(
             'account.move.reconcile', 'Reconciliation', readonly=True
