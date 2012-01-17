@@ -1611,8 +1611,7 @@ class account_bank_statement_line(osv.osv):
     _columns = {
         'import_transaction_id': fields.many2one(
             'banking.import.transaction', 
-            'Import transaction', readonly=True,
-            ondelete='CASCADE'),
+            'Import transaction', readonly=True),
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', type='boolean',
             string='Multi match', readonly=True),
