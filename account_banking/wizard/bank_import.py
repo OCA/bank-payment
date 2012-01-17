@@ -134,7 +134,7 @@ class banking_import(osv.osv_memory):
                    user_obj.browse(cursor, uid, uid, context).company_id)
 
         # Parse the file
-        statements = parser.parse(data)
+        statements = parser.parse(cursor, data)
 
         if any([x for x in statements if not x.is_valid()]):
             raise osv.except_osv(

@@ -296,7 +296,7 @@ Both formats are covered with this parser. All transactions are tied
 to Bank Statements.
 ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         stmnt = None
         dialect = csv.excel()

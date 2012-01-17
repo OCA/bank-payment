@@ -340,7 +340,20 @@ class parser(object):
     country_code = None
     doc = __doc__
 
-    def parse(self, data):
+    def get_unique_statement_id(self, cr, base):
+        name = base
+        suffix = 1
+        while True:
+            cr.execute(
+                "select id from account_bank_statement where name = %s",
+                (name,))
+            if not cr.rowcount:
+                break
+            suffix += 1
+            name = "%s-%d" % (base, suffix)
+        return name
+
+    def parse(self, cr, data):
         '''
         Parse data.
         

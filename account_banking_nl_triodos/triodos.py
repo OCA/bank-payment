@@ -187,7 +187,7 @@ distinct from the Dutch multibank format. Transactions are not tied to Bank
 Statements.
 ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         stmnt = None
         dialect = csv.excel()
@@ -197,13 +197,16 @@ Statements.
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
         # fixed statement id based on import timestamp
-        statement_id = datetime.now().strftime('%Y-%m-%d %H:%M')
+        statement_id = False
         for line in csv.reader(lines, dialect=dialect):
             # Skip empty (last) lines
             if not line:
                 continue
             subno += 1
             msg = transaction_message(line, subno)
+            if not statement_id:
+                statement_id = self.get_unique_statement_id(
+                    cr, msg.effective_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)

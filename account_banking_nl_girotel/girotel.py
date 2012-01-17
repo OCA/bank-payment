@@ -312,7 +312,7 @@ class parser(models.parser):
 The Dutch Girotel - Kommagescheiden format is basicly a MS Excel CSV format.
 ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         stmnt = None
         dialect = csv.excel()

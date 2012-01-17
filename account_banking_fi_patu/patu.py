@@ -118,7 +118,7 @@ PATU statement format defines one or more statements in each file. This parser
 will parse all statements in a file and import them to OpenERP
 ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         stmnt = None
         patuparser = PatuParser()

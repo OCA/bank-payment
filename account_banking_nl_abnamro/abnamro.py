@@ -261,26 +261,27 @@ format. Transactions are not explicitely tied to bank statements, although
 each file covers a period of two weeks.
 ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         stmnt = None
         lines = data.split('\n')
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
+        statement_id = False
         for line in csv.reader(lines, delimiter = '\t', quoting=csv.QUOTE_NONE):
             # Skip empty (last) lines
             if not line:
                 continue
             subno += 1
             msg = transaction_message(line, subno)
-            if stmnt and stmnt.id != msg.statement_id:
-                result.append(stmnt)
-                stmnt = None
-                subno = 0
-            if not stmnt:
-                stmnt = statement(msg)
-            else:
+            if not statement_id:
+                statement_id = self.get_unique_statement_id(
+                    cr, msg.effective_date.strftime('%Yw%W'))
+            msg.statement_id = statement_id
+            if stmnt:
                 stmnt.import_transaction(msg)
+            else:
+                stmnt = statement(msg)
         result.append(stmnt)
         return result
 
