@@ -21,25 +21,15 @@
                             <field name="ref"/>
                             <field name="partner_id"/>
                         </group>
-
-                        <!-- Duplicate flagging -->
-                        <group colspan="2" col="2" attrs="{'invisible': [('duplicate', '=', False)]}">
-                            <separator string="Duplicate flag"/>
-                            <label colspan="2" string="This bank transfer was marked as a duplicate. You can either confirm that this is not the case, or remove the bank transfer from the system."/>
-                            <newline/>
-                            <button colspan="1"
-                                    name="reverse_duplicate"
-                                    type="object"
-                                    string="Remove duplicate flag"/>
-                        </group>
-
+                        
                         <!-- (semi-) automatic matching and selection -->
+                        
+                        <group colspan="2" col="4">
 
-                        <group colspan="2" col="2">
-
-                            <separator string="Current match" colspan="2"/>
+                            <separator string="Current match" colspan="4"/>
                             <field name="match_type"/>
-                            <group attrs="{'invisible': [('match_multi', '=', False)]}" colspan="2" col="2">
+                            <field name="residual"/>
+                            <group attrs="{'invisible': [('match_multi', '=', False)]}" colspan="4" col="2">
                                 <separator string="Multiple matches" colspan="2"/>
                                 <label colspan="2" string="Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below." />
                             </group>
@@ -74,51 +64,63 @@
 
                             <!-- residual and write off -->
                             
-                            <group attrs="{'invisible': [('residual', '=', False)]}" colspan="2" col="2">
-                                <separator string="Residual write-off"/>
-                                <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
-                                <field name="residual"/>
-                                <!-- no luck with these lt/gt calculations in attrs -->
-                                <field name="writeoff_account_id"
-                                       attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
-                                <field name="writeoff_journal_id"
-                                       attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                        </group>
+                        <notebook>
+                            <!-- Duplicate flagging -->
+                            <page string="Duplicate" attrs="{'invisible': [('duplicate', '=', False)]}">
+                                <group  colspan="2" col="2">
+                                    <label colspan="2" string="This bank transfer was marked as a duplicate. You can either confirm that this is not the case, or remove the bank transfer from the system."/>
+                                    <newline/>
+                                    <button colspan="1"
+                                            name="reverse_duplicate"
+                                            type="object"
+                                            string="Remove duplicate flag"/>
+                                </group>
+                            </page>
+                            <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
+                                <group colspan="2" col="2">
+                                    <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
+                                    <!-- no luck with these lt/gt calculations in attrs -->
+                                    <field name="writeoff_account_id"
+                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                    <field name="writeoff_journal_id"
+                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                    <button colspan="1"
+                                            name="trigger_write"
+                                            type="object"
+                                            string="Set write-off account"/>
+                                </group>                                
+                            </page>
+                            <!-- Redo automatic match -->
+                            <page string="Match again">
+                                <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
+                                <newline/>                           
+                                <button colspan="1"
+                                        name="trigger_match"
+                                        type="object"
+                                        string="Match again"/>
+                                <!-- Manual selection -->
+                            </page>
+                            <page string="Manual match">
+                                <field name="manual_invoice_id"/>
+                                <field name="manual_move_line_id"/>
+                                <newline/>
                                 <button colspan="1"
                                         name="trigger_write"
                                         type="object"
-                                        string="Set write-off account"/>
-                            </group>                                
-
-                            <!-- Redo automatic match -->
-                        
-                            <separator string="System match"/>
-                            <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
-                            <newline/>                           
-                            <button colspan="1"
-                                    name="trigger_match"
-                                    type="object"
-                                    string="Match again"/>
-                            <!-- Manual selection -->
-
-                            <separator string="Manual match" colspan="2"/>
-                            <field name="manual_invoice_id"/>
-                            <field name="manual_move_line_id"/>
-                            <newline/>
-                            <button colspan="1"
-                                    name="trigger_write"
-                                    type="object"
-                                    string="Match"/>
-                        </group>
-
-                        <group attrs="{'invisible': [('match_type', '==', False)]}" colspan="2" col="2">
-                            <separator string="Disable reconciliation"/>
-                            <label string="You can disable the reconciliation of this bank transfer"  colspan="2"/>
-                            <newline/>                           
-                            <button colspan="1"
-                                    name="disable_match"
-                                    type="object"
-                                    string="Disable reconciliation"/>
-                        </group>
+                                        string="Match"/>
+                            </page>
+                            <page string="Disable reconciliation" attrs="{'invisible': [('match_type', '==', False)]}">
+                                <group colspan="2" col="2">
+                                    <label string="You can disable the reconciliation of this bank transfer"  colspan="2"/>
+                                    <newline/>                           
+                                    <button colspan="1"
+                                            name="disable_match"
+                                            type="object"
+                                            string="Disable reconciliation"/>
+                                </group>
+                            </page>
+                        </notebook>
                         <group colspan="2">
                             <separator/>
                             <button icon="gtk-ok" string="Done" special="cancel"/>

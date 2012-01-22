@@ -75,6 +75,9 @@ class banking_transaction_wizard(osv.osv_memory):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         transaction_obj = self.pool.get('banking.import.transaction')
 
+        if not vals:
+            return True
+
         # The following fields get never written
         # they are just triggers for manual matching
         # which populates regular fields on the transaction
@@ -84,9 +87,6 @@ class banking_transaction_wizard(osv.osv_memory):
         # Support for writing fields.related is still flakey:
         # https://bugs.launchpad.net/openobject-server/+bug/915975
         # Will do so myself.
-
-        if not vals:
-            return True
 
         # Separate the related fields
         transaction_vals = {}
