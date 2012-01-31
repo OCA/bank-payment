@@ -22,9 +22,10 @@ msgstr "ING (NL) Bankafschriften importeren "
 
 #. module: account_banking_nl_ing
 #: model:ir.module.module,description:account_banking_nl_ing.module_meta_information
-msgid "Module to import Dutch ING bank format transaction files (CSV format).As the ING bank does not provide detailed specification concerning possiblevalues and their meaning for the fields in the CSV file format, the statementsare parsed according to an educated guess based on incomplete information.You can contact the banking-addons developers through their launchpad page andhelp improve the performance of this import filter onhttps://launchpad.net/banking-addons.Note that imported bank transfers are organized in statements covering periodsof one week, even if the imported files cover a different period.This modules contains no logic, just an import filter for account_banking.    "
-msgstr "Module voor het importeren van bankafschriften van de Nederlandse ING bank in\n"
-"CSV formaat.\n\nGezien het feit dat de ING geen enkele vorm van specificaties\n"
+msgid "Module to import Dutch ING bank format transaction files. The format covered is the CSV format with 'ddmmyy' date syntax.As the ING bank does not provide detailed specification concerning possiblevalues and their meaning for the fields in the CSV file format, the statementsare parsed according to an educated guess based on incomplete information.You can contact the banking-addons developers through their launchpad page andhelp improve the performance of this import filter onhttps://launchpad.net/banking-addons.Note that imported bank transfers are organized in statements covering periodsof one week, even if the imported files cover a different period.This modules contains no logic, just an import filter for account_banking.    "
+msgstr "Module voor het importeren van bankafschriften van de Nederlandse ING bank.\n"
+"Bestanden in het CSV-formaat met datumindeling 'ddmmjj' kunnen worden verwerkt.\n\n"
+"Gezien het feit dat de ING geen enkele vorm van specificaties\n"
 "beschikbaar stelt, is de importroutine samengesteld op basis van \n"
 "voorbeeldbestanden, en kan volledige dekking niet worden gegarandeerd. U\n"
 "kunt, om de werking van de importroutine te helpen verbeteren, de ontwikkelaars\n"
