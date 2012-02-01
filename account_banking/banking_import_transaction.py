@@ -274,6 +274,10 @@ class banking_import_transaction(osv.osv):
         digits = dp.get_precision('Account')(cr)[1]
         partial = False
 
+        # Disabled splitting transactions for now
+        # TODO allow splitting in the interactive wizard
+        allow_splitting = False
+
         # Search invoice on partner
         if partner_ids:
             candidates = [
@@ -395,11 +399,7 @@ class banking_import_transaction(osv.osv):
                 elif abs(expected) > abs(found):
                     # Partial payment, reuse invoice
                     _cache(move_line, expected - found)
-                elif abs(expected) < abs(found):
-                    # Disabled splitting transactions for now
-                    # TODO allow splitting in the interactive wizard
-                    pass
-
+                elif abs(expected) < abs(found) and allow_splitting:
                     # Possible combined payments, need to split transaction to
                     # verify
                     _cache(move_line)
