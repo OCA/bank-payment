@@ -243,6 +243,7 @@ class account_bank_statement(osv.osv):
     Extensions from account_bank_statement:
         1. Removed period_id (transformed to optional boolean) - as it is no
            longer needed.
+           NB! because of #1. changes required to account_voucher!
         2. Extended 'button_confirm' trigger to cope with the period per
            statement_line situation.
         3. Added optional relation with imported statements file
@@ -453,7 +454,38 @@ class account_bank_statement(osv.osv):
 
         return move_id
 
+    def button_confirm_bank(self, cr, uid, ids, context=None):
+        if context is None: context = {}
+        obj_seq = self.pool.get('ir.sequence')
+        if not isinstance(ids, list): ids = [ids]
+        noname_ids = self.search(cr, uid, [('id','in',ids),('name','=','/')])
+        for st in self.browse(cr, uid, noname_ids, context=context):
+                if st.journal_id.sequence_id:
+                    year = self.pool.get('account.period').browse(cr, uid, self._get_period(cr, uid, st.date)).fiscalyear_id.id
+                    c = {'fiscalyear_id': year}
+                    st_number = obj_seq.get_id(cr, uid, st.journal_id.sequence_id.id, context=c)
+                    self.write(cr, uid, ids, {'name': st_number})
+        
+        return super(account_bank_statement, self).button_confirm_bank(cr, uid, ids, context)
+
 account_bank_statement()
+
+class account_voucher(osv.osv):
+    _inherit = 'account.voucher'
+
+    def _get_period(self, cr, uid, context=None):
+        if context is None: context = {}
+        if not context.get('period_id') and context.get('move_line_ids'):
+            res = self.pool.get('account.move.line').browse(cr, uid , context.get('move_line_ids'))[0].period_id.id
+            context['period_id'] = res
+        return super(account_voucher, self)._get_period(cr, uid, context)
+
+    def create(self, cr, uid, values, context=None):
+        if values.get('period_id') == False and context.get('move_line_ids'):
+            values['period_id'] = self._get_period(cr, uid, context)
+        return super(account_voucher, self).create(cr, uid, values, context)
+
+account_voucher()
 
 class account_bank_statement_line(osv.osv):
     '''
