@@ -384,7 +384,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="bic" position="replace">
-                    <field name="bic" on_change="onchange_bic(bic, name)"/>
+                    <field name="bic" />
                 </field>
             </field>
         </record>

@@ -23,6 +23,10 @@ from account_banking import sepa
 from decimal import Decimal
 import datetime
 import re
+import unicodedata
+
+def strip_accents(string):
+    return unicodedata.normalize('NFKD', unicode(string)).encode('ASCII', 'ignore')
 
 def split_account_holder(holder):
     holder_parts = holder.split("\n")
@@ -40,11 +44,17 @@ The standard says alphanumeric characters, but spaces are also allowed
 def edifact_isalnum(s):
     return bool(re.match(r'^[A-Za-z0-9 ]*$', s))
 
-def edifact_digits(val, digits, mindigits=None):
+def edifact_digits(val, digits=None, mindigits=None):
+    if digits is None:
+        digits = ''
     if mindigits is None:
         mindigits = digits
 
     pattern = r'^[0-9]{' + str(mindigits) + ',' + str(digits) + r'}$'
+    return bool(re.match(pattern, str(val)))
+
+def edifact_isalnum_size(val, digits):
+    pattern = r'^[A-Za-z0-9 ]{' + str(digits) + ',' + str(digits) + r'}$'
     return bool(re.match(pattern, str(val)))
 
 class HasCurrency(object):
@@ -73,14 +83,14 @@ class LogicalSection(object):
         segments = self.segments()
 
         def format_segment(segment):
-            return '+'.join([':'.join([str(y) for y in x]) for x in segment]) + "'"
+            return '+'.join([':'.join([str(strip_accents(y)) for y in x]) for x in segment]) + "'"
 
         return "\n".join([format_segment(s) for s in segments])
 
 
 def _fii_segment(self, party_qualifier):
     holder = split_account_holder(self.holder)
-    account_identification = [self.number, holder[0]]
+    account_identification = [self.number.replace(' ',''), holder[0]]
     if holder[1] or self.currency:
         account_identification.append(holder[1])
     if self.currency: 
@@ -126,16 +136,16 @@ class UKAccount(HasCurrency):
         holder_parts = split_account_holder(holder)
 
         if not len(holder_parts[0]) <= 35:
-            raise ValueError("Account holder must be <= 35 characters long")
+            raise ValueError("Account holder must be <= 35 characters long: " + str(holder_parts[0]))
 
         if not len(holder_parts[1]) <= 35:
-            raise ValueError("Second line of account holder must be <= 35 characters long")
+            raise ValueError("Second line of account holder must be <= 35 characters long: " + str(holder_parts[1]))
 
         if not edifact_isalnum(holder_parts[0]):
-            raise ValueError("Account holder must be alphanumeric")
+            raise ValueError("Account holder must be alphanumeric: " + str(holder_parts[0]))
 
         if not edifact_isalnum(holder_parts[1]):
-            raise ValueError("Second line of account holder must be alphanumeric")
+            raise ValueError("Second line of account holder must be alphanumeric: " + str(holder_parts[1]))
 
         self._holder = holder.upper()
 
@@ -155,6 +165,113 @@ class UKAccount(HasCurrency):
     def fii_or_segment(self):
         return _fii_segment(self, 'OR')
 
+
+class NorthAmericanAccount(UKAccount):
+
+    def _set_account_ident(self):
+        if self.origin_country in ('US','CA'):
+            # Use the routing number
+            account_ident = ['', '', '', self.sortcode, 155, 114]
+        else:
+            # Using the BIC/Swift Code
+            account_ident = [self.bic, 25, 5, '', '', '']
+        return account_ident
+
+    def _set_sortcode(self, sortcode):
+        if not edifact_digits(sortcode, 9):
+            raise ValueError("Account routing number must be 9 digits long: " +
+                             str(sortcode))
+
+        
+        self._sortcode = sortcode
+
+    def _get_sortcode(self):
+        return self._sortcode
+
+    sortcode = property(_get_sortcode, _set_sortcode)
+
+    def _set_bic(self, bic):
+        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
+                             str(bic))
+        self._bic = bic
+
+    def _get_bic(self):
+        return self._bic
+
+    bic = property(_get_bic, _set_bic)
+
+    def _set_number(self, number):
+        if not edifact_digits(number, mindigits=1):
+            raise ValueError("Account number is invalid: " +
+                             str(number))
+
+        self._number = number
+
+    def _get_number(self):
+        return self._number
+
+    number = property(_get_number, _set_number)
+
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+        self.number = number
+        self.holder = holder
+        self.currency = currency
+        self.sortcode = sortcode
+        self.country = country
+        self.bic = swiftcode
+        self.origin_country = origin_country
+        self.institution_identification = self._set_account_ident()
+
+
+class SWIFTAccount(UKAccount):
+
+    def _set_account_ident(self):
+        # Using the BIC/Swift Code
+        return [self.bic, 25, 5, '', '', '']
+
+    def _set_sortcode(self, sortcode):
+        self._sortcode = sortcode
+
+    def _get_sortcode(self):
+        return self._sortcode
+
+    sortcode = property(_get_sortcode, _set_sortcode)
+
+    def _set_bic(self, bic):
+        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
+                             str(bic))
+        self._bic = bic
+
+    def _get_bic(self):
+        return self._bic
+
+    bic = property(_get_bic, _set_bic)
+
+    def _set_number(self, number):
+        if not edifact_digits(number, mindigits=1):
+            raise ValueError("Account number is invalid: " +
+                             str(number))
+
+        self._number = number
+
+    def _get_number(self):
+        return self._number
+
+    number = property(_get_number, _set_number)
+
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+        self.number = number
+        self.holder = holder
+        self.currency = currency
+        self.sortcode = sortcode
+        self.country = country
+        self.bic = swiftcode
+        self.origin_country = origin_country
+        self.institution_identification = self._set_account_ident()
+
+
 class IBANAccount(HasCurrency):
     def _get_iban(self):
         return self._iban
@@ -162,7 +279,7 @@ class IBANAccount(HasCurrency):
     def _set_iban(self, iban):
         iban_obj = sepa.IBAN(iban)
         if not iban_obj.valid:
-            raise ValueError("IBAN is invalid")
+            raise ValueError("IBAN is invalid: " + str(iban))
 
         self._iban = iban
         self.country = iban_obj.countrycode
@@ -186,10 +303,10 @@ class Interchange(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 15:
-            raise ValueError("Reference must be <= 15 characters long")
+            raise ValueError("Reference must be <= 15 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -226,10 +343,10 @@ class Message(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 35:
-            raise ValueError("Reference must be <= 35 characters long")
+            raise ValueError("Reference must be <= 35 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -285,10 +402,10 @@ class Batch(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 18:
-            raise ValueError("Reference must be <= 18 characters long")
+            raise ValueError("Reference must be <= 18 characters long: " + str(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric")
+            raise ValueError("Reference must be alphanumeric: " + str(reference))
 
         self._reference = reference.upper()
 
@@ -306,41 +423,78 @@ class Batch(LogicalSection):
 
     def segments(self, index):
         if not edifact_digits(index, 6, 1):
-            raise ValueError("Index must be 6 digits or less")
+            raise ValueError("Index must be 6 digits or less: " + str(index))
+
+        # Store the payment means
+        means = None
+        if len(self.transactions)>0:
+            means = self.transactions[0].means
 
         segments = []
 
-        segments.append([
-            ['LIN'],
-            [index],
-        ])
-        segments.append([
-            ['DTM'],
-            [203, self.exec_date.strftime('%Y%m%d'), 102],
-        ])
-        segments.append([
-            ['RFF'],
-            ['AEK', self.reference],
-        ])
-
-        currencies = set([x.currency for x in self.transactions])
-        if len(currencies) > 1:
-            raise ValueError("All transactions in a batch must have the same currency")
-
-        segments.append([
-            ['MOA'],
-            [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
-        ])
-        segments.append(self.debit_account.fii_or_segment())
-        segments.append([
-            ['NAD'],
-            ['OY'],
-            [''],
-            self.name_address.upper().split("\n")[0:5],
-        ])
+        if means != MEANS_PRIORITY_PAYMENT:
+            segments.append([
+                ['LIN'],
+                [index],
+            ])
+            segments.append([
+                ['DTM'],
+                [203, self.exec_date.strftime('%Y%m%d'), 102],
+            ])
+            segments.append([
+                ['RFF'],
+                ['AEK', self.reference],
+            ])
+             
+            currencies = set([x.currency for x in self.transactions])
+            if len(currencies) > 1:
+                raise ValueError("All transactions in a batch must have the same currency")
+             
+            segments.append([
+                ['MOA'],
+                [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
+            ])
+            segments.append(self.debit_account.fii_or_segment())
+            segments.append([
+                ['NAD'],
+                ['OY'],
+                [''],
+                self.name_address.upper().split("\n")[0:5],
+            ])
 
         for index, transaction in enumerate(self.transactions):
-            segments += transaction.segments(index + 1)
+            if transaction.means == MEANS_PRIORITY_PAYMENT:
+                # Need a debit-credit format for Priority Payments
+                segments.append([
+                    ['LIN'],
+                    [index+1],
+                ])
+                segments.append([
+                    ['DTM'],
+                    [203, self.exec_date.strftime('%Y%m%d'), 102],
+                ])
+                segments.append([
+                    ['RFF'],
+                    ['AEK', self.reference],
+                ])
+                
+                # Use the transaction amount and currency for the debit line
+                segments.append([
+                    ['MOA'],
+                    [9, transaction.amount.quantize(Decimal('0.00')), transaction.currency],
+                ])
+                segments.append(self.debit_account.fii_or_segment())
+                segments.append([
+                    ['NAD'],
+                    ['OY'],
+                    [''],
+                    self.name_address.upper().split("\n")[0:5],
+                ])
+                use_index = 1
+            else:
+                use_index = index + 1
+                 
+            segments += transaction.segments(use_index)
 
         return segments
 
@@ -367,7 +521,7 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_amount(self, amount):
         if len(str(amount)) > 18:
-            raise ValueError("Amount must be shorter than 18 bytes")
+            raise ValueError("Amount must be shorter than 18 bytes: " + str(amount))
 
         self._amount = amount
 
@@ -378,10 +532,10 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_payment_reference(self, payment_reference):
         if not len(payment_reference) <= 18:
-            raise ValueError("Payment reference must be <= 18 characters long")
+            raise ValueError("Payment reference must be <= 18 characters long: " + str(payment_reference))
 
         if not edifact_isalnum(payment_reference):
-            raise ValueError("Payment reference must be alphanumeric")
+            raise ValueError("Payment reference must be alphanumeric: " + str(payment_reference))
 
         self._payment_reference = payment_reference.upper()
 
@@ -392,10 +546,10 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_customer_reference(self, customer_reference):
         if not len(customer_reference) <= 18:
-            raise ValueError("Customer reference must be <= 18 characters long")
+            raise ValueError("Customer reference must be <= 18 characters long: " + str(customer_reference))
 
         if not edifact_isalnum(customer_reference):
-            raise ValueError("Customer reference must be alphanumeric")
+            raise ValueError("Customer reference must be alphanumeric: " + str(customer_reference))
 
         self._customer_reference = customer_reference.upper()
 
@@ -472,3 +626,4 @@ class Transaction(LogicalSection, HasCurrency):
         segments.append(nad_segment)
 
         return segments
+
