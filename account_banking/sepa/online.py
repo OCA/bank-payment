@@ -175,7 +175,16 @@ def bank_info(bic):
     requests to make. In total three HTTP requests are made per function call.
     In theory one request could be stripped, but the SWIFT terms of use prevent
     automated usage, so user like behavior is required.
+
+    Update January 2012: Always return None, as the SWIFT page to retrieve the
+    information does no longer exist. 
+    If demand exists, maybe bite the bullet and integrate with a paid web
+    service such as http://www.iban-rechner.de.
+    lp914922 additionally suggests to make online lookup optional.
     '''
+
+    return None, None
+
     def harvest(soup):
         retval = struct()
         for trsoup in soup('tr'):

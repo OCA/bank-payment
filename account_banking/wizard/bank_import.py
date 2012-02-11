@@ -848,7 +848,11 @@ class banking_import(osv.osv_memory):
                     i += 1
 
             results.stat_loaded_cnt += 1
-            
+
+        #recompute statement end_balance for validation
+        statement_obj.button_dummy(
+            cursor, uid, imported_statement_ids, context=context)
+
         if payment_lines:
             # As payments lines are treated as individual transactions, the
             # batch as a whole is only marked as 'done' when all payment lines
