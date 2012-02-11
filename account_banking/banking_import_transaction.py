@@ -1034,7 +1034,9 @@ class banking_import_transaction(osv.osv):
         move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
         statement_line_obj = self.pool.get('account.bank.statement.line')
+        statement_obj = self.pool.get('account.bank.statement')
         payment_order_obj = self.pool.get('payment.order')
+        imported_statement_ids = []
 
         # Results
         if results is None:
@@ -1392,12 +1394,19 @@ class banking_import_transaction(osv.osv):
                 statement_line_id = statement_line_obj.create(cr, uid, values, context)
                 results['trans_loaded_cnt'] += 1
                 self_values['statement_line_id'] = statement_line_id
+                if transaction.statement_id.id not in imported_statement_ids:
+                    imported_statement_ids.append(transaction.statement_id.id)
             else:
                 statement_line_obj.write(
                     cr, uid, transaction.statement_line_id.id, values, context)
             self.write(cr, uid, transaction.id, self_values, context)
             if not injected:
                 i += 1
+
+        #recompute statement end_balance for validation
+        if imported_statement_ids:
+            statement_obj.button_dummy(
+                cr, uid, imported_statement_ids, context=context)
 
         if payment_lines:
             # As payments lines are treated as individual transactions, the
