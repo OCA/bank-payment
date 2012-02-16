@@ -6,18 +6,27 @@
             <field name="code">UKACH</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base_iban.bank_iban'),ref('base.bank_normal'),])]" />
+            <field name="ir_model_id"
+                ref="account_banking_uk_hsbc.model_banking_export_hsbc_wizard"/>
         </record>
         <record model="payment.type" id="export_faster_payment">
             <field name="name">Faster Payment</field>
             <field name="code">UKFP</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base.bank_normal'),])]" />
+            <field name="ir_model_id"
+                ref="account_banking_uk_hsbc.model_banking_export_hsbc_wizard"/>
         </record>
         <record model="payment.type" id="export_priority_payment">
             <field name="name">Priority Payment</field>
             <field name="code">UKPP</field>
             <field name="suitable_bank_types"
                 eval="[(6,0,[ref('base_iban.bank_iban'),ref('base.bank_normal'),])]" />
+            <field name="ir_model_id"
+                ref="account_banking_uk_hsbc.model_banking_export_hsbc_wizard"/>
         </record>
     </data>
 </openerp>
+
+
+
