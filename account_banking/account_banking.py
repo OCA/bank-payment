@@ -649,6 +649,12 @@ class payment_type(osv.osv):
         #                    required=False,
         #                    help='Use this to limit this type to a specific country'
         #                   ),
+        'ir_model_id': fields.many2one(
+            'ir.model', 'Payment wizard',
+            help=('Select the Payment Wizard for payments of this type. '
+                  'Leave empty for manual processing'),
+            domain=[('osv_memory', '=', True)],
+            ),
     }
     #_defaults = {
     #    'country_id': lambda *a: False,
@@ -1012,6 +1018,47 @@ class payment_order(osv.osv):
             # the module name hard coded.
             return 'account_banking', 'wizard_account_banking_payment_manual'
         return super(payment_order, self).get_wizard(type)
+
+    def launch_wizard(self, cr, uid, ids, context=None):
+        """
+        Search for a wizard to launch according to the type.
+        If type is manual. just confirm the order.
+        Previously (pre-v6) in account_payment/wizard/wizard_pay.py
+        """
+        if context == None:
+            context={}
+        result = {}
+        orders = self.browse(cr, uid, ids, context)
+        order = orders[0]
+        # check if a wizard is defined for the first order
+        if order.mode.type and order.mode.type.ir_model_id:
+            context['active_ids'] = ids
+            wizard_model = order.mode.type.ir_model_id.model
+            wizard_obj = self.pool.get(wizard_model)
+            wizard_id = wizard_obj.create(cr, uid, {}, context)
+            result = {
+                'name': wizard_obj._description or 'Payment Order Export',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': wizard_model,
+                'domain': [],
+                'context': context,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'res_id': wizard_id,
+                'nodestroy': True,
+                }
+        else:
+            # should all be manual orders without type or wizard model
+            for order in orders[1:]:
+                if order.mode.type and order.mode.type.ir_model_id:
+                    raise osv.except_osv(
+                        _('Error'),
+                        _('You can only combine payment orders of the same type')
+                        )
+            # process manual payments
+            self.action_sent(cr, uid, ids, context)
+        return result
 
 payment_order()
 
