@@ -120,6 +120,16 @@
                 </tree>
             </field>
         </record>
+        <record id="view_account_banking_imported_line_search" model="ir.ui.view">
+            <field name="name">account.banking.imported.line.search</field>
+            <field name="model">account.bank.imported.line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Bank Statement files">
+                  <field name="company_id" />
+                </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_account_banking_imported_files">
             <field name="name">Imported Bank Statements Files</field>
             <field name="type">ir.actions.act_window</field>
@@ -345,7 +355,7 @@
         </record>
 
         <!-- Set trigger on IBAN and acc_number fields in res_partner_bank form -->
-        <record id="view_partner_bank_account_banking_form_1" model="ir.ui.view">
+        <!--record id="view_partner_bank_account_banking_form_1" model="ir.ui.view">
             <field name="name">res.partner.bank.form.banking-1</field>
             <field name="model">res.partner.bank</field>
             <field name="inherit_id" ref="base_iban.view_partner_bank_iban_form"/>
@@ -355,7 +365,7 @@
                     <field name="iban" on_change="onchange_iban(iban)" />
                 </field>
             </field>
-        </record>
+        </record-->
         <record id="view_partner_bank_account_banking_form_2" model="ir.ui.view">
             <field name="name">res.partner.bank.form.banking-2</field>
             <field name="model">res.partner.bank</field>
@@ -364,12 +374,15 @@
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
                     <field name="acc_number" on_change="onchange_acc_number(acc_number, partner_id, country_id)"/>
+                    <newline />
+                    <field name="iban" on_change="onchange_iban(iban)" />
+                    <newline />
                 </field>
             </field>
         </record>
 
         <!-- Set trigger on IBAN and acc_number field in res_partner form -->
-        <record id="view_partner_account_banking_form_1" model="ir.ui.view">
+        <!--record id="view_partner_account_banking_form_1" model="ir.ui.view">
             <field name="name">res.partner.form.banking-1</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base_iban.view_partner_iban_form"/>
@@ -379,7 +392,7 @@
                     <field name="iban" on_change="onchange_iban(iban)" /> 
                 </field>
             </field>
-        </record>
+        </record-->
         <record id="view_partner_account_banking_form_2" model="ir.ui.view">
             <field name="name">res.partner.form.banking-2</field>
             <field name="model">res.partner</field>
@@ -388,7 +401,10 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='bank_ids']/form/field[@name='acc_number']" position="replace">
                     <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" />
-                </xpath>
+                    <newline />
+                    <field name="iban" on_change="onchange_iban(iban)" />
+                    <newline />
+               </xpath>
             </field>
         </record>
         <record id="view_partner_account_banking_form_3" model="ir.ui.view">
@@ -399,6 +415,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='bank_ids']/tree/field[@name='acc_number']" position="replace">
                     <field name="acc_number" on_change="onchange_acc_number(acc_number, parent.id, country_id)" select="1" />
+                    <field name="iban" on_change="onchange_iban(iban)" />
                 </xpath>
             </field>
         </record>

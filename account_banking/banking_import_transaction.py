@@ -1378,6 +1378,7 @@ class banking_import_transaction(osv.osv):
             if (not values['partner_bank_id'] and partner_banks and
                 len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
+
             if not transaction.statement_line_id:
                 values.update(dict(
                         name = '%s.%s' % (transaction.statement, transaction.transaction),
@@ -1391,6 +1392,7 @@ class banking_import_transaction(osv.osv):
                         account_id = account_id,
                         import_transaction_id = transaction.id,
                         ))
+
                 statement_line_id = statement_line_obj.create(cr, uid, values, context)
                 results['trans_loaded_cnt'] += 1
                 self_values['statement_line_id'] = statement_line_id

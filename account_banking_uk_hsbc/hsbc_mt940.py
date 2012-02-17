@@ -121,7 +121,7 @@ class statement(models.mem_bank_statement):
 
         transaction = self.transactions[-1]
 
-        transaction.id = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(1,5)] if record.has_key(k)])
+        transaction.reference = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(1,5)] if record.has_key(k)])
 
 def raise_error(message, line):
     raise osv.except_osv(_('Import error'),
@@ -136,7 +136,7 @@ class parser_hsbc_mt940(models.parser):
             the HSBC web interface.
             ''')
 
-    def parse(self, data):
+    def parse(self, cr, data):
         result = []
         parser = HSBCParser()
         # Split into statements
@@ -155,6 +155,7 @@ class parser_hsbc_mt940(models.parser):
             else:
                 print "Invalid Statement:"
                 print records[0]
+
 
         return result
 

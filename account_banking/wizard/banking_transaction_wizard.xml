@@ -36,7 +36,7 @@
                             <field name='payment_line_id'
                                    attrs="{'invisible': [('match_type', '!=', 'storno'),('match_type', '!=', 'payment')]}"
                                    />
-                            <group attrs="{'readonly': [('match_multi', '!=' True)]}">
+                            <group attrs="{'readonly': [('match_multi', '!=', True)]}">
                                 <!-- show if we have an invoice type match (but the user may need to select from multiple options)
                                      or whenever there is an invoice_id (e.g. in case of a manual match) 
                                 -->

@@ -124,7 +124,7 @@ class HSBCParser(object):
 
         return matchdict
 
-    def parse(self, data):
+    def parse(self, cr, data):
         records = []
         # Some records are multiline
         for line in data:

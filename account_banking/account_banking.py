@@ -1135,7 +1135,7 @@ class res_partner_bank(osv.osv):
         '''
         Create dual function IBAN account for SEPA countries
         '''
-        return self._founder.create(self, cursor, uid,
+        return self._founder.create(cursor, uid,
                                     self._correct_IBAN(vals), context
                                    )
 
@@ -1143,7 +1143,7 @@ class res_partner_bank(osv.osv):
         '''
         Create dual function IBAN account for SEPA countries
         '''
-        return self._founder.write(self, cursor, uid, ids,
+        return self._founder.write(cursor, uid, ids,
                                    self._correct_IBAN(vals), context
                                   )
 
@@ -1207,7 +1207,7 @@ class res_partner_bank(osv.osv):
         newargs = extended_search_expression(args)
         
         # Original search (_founder)
-        results = self._founder.search(self, cursor, uid, newargs,
+        results = self._founder.search(cursor, uid, newargs,
                                        *rest, **kwargs
                                       )
         return results
@@ -1216,7 +1216,7 @@ class res_partner_bank(osv.osv):
         '''
         Convert IBAN electronic format to IBAN display format
         '''
-        records = self._founder.read(self, *args, **kwargs)
+        records = self._founder.read(*args, **kwargs)
 	if not isinstance(records, list):
             records = [records,]
         for record in records:
@@ -1239,6 +1239,7 @@ class res_partner_bank(osv.osv):
         '''
         Return the local bank account number aka BBAN from the IBAN.
         '''
+        res = {}
         for record in self.browse(cursor, uid, ids, context):
             if not record.iban:
                 res[record.id] = False
@@ -1247,7 +1248,7 @@ class res_partner_bank(osv.osv):
                 try:
                     res[record.id] = iban_acc.localized_BBAN
                 except NotImplementedError:
-                    res[record_id] = False
+                    res[record.id] = False
         return res
 
     def onchange_acc_number(self, cursor, uid, ids, acc_number,
@@ -1264,6 +1265,7 @@ class res_partner_bank(osv.osv):
         values = {}
         country_obj = self.pool.get('res.country')
         country_ids = []
+        country = False
 
         # Pre fill country based on available data. This is just a default
         # which can be overridden by the user.
@@ -1294,12 +1296,8 @@ class res_partner_bank(osv.osv):
         # the handling user
         if not country_ids:
             user = self.pool.get('res.users').browse(cursor, uid, uid)
-            # Try users address first
-            if user.address_id and user.address_id.country_id:
-                country = user.address_id.country_id
-                country_ids = [country.id]
-            # Last try user companies partner
-            elif (user.company_id and
+            # Try user companies partner (user no longer has address in 6.1)
+            if (user.company_id and
                   user.company_id.partner_id and
                   user.company_id.partner_id.country
                  ):
@@ -1316,7 +1314,7 @@ class res_partner_bank(osv.osv):
                                    )
         result = {'value': values}
         # Complete data with online database when available
-        if country.code in sepa.IBAN.countries:
+        if partner_id and country.code in sepa.IBAN.countries:
             try:
                 info = sepa.online.account_info(country.code, acc_number)
                 if info:

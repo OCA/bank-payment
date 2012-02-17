@@ -118,6 +118,7 @@ class banking_import(osv.osv_memory):
         statement_obj = self.pool.get('account.bank.statement')
         statement_file_obj = self.pool.get('account.banking.imported.file')
         import_transaction_obj = self.pool.get('banking.import.transaction')
+        period_obj = self.pool.get('account.period')
 
         # get the parser to parse the file
         parser_code = banking_import.parser
@@ -256,6 +257,12 @@ class banking_import(osv.osv_memory):
                 )
                 continue
 
+            # Get the period for the statement (as bank statement object checks this)
+            period_ids = period_obj.search(cursor, uid, [('company_id','=',company.id),
+                                                         ('date_start','<=',statement.date),
+                                                         ('date_stop','>=',statement.date)])
+
+            # Create the bank statement record
             statement_id = statement_obj.create(cursor, uid, dict(
                 name = statement.id,
                 journal_id = account_info.journal_id.id,
@@ -266,6 +273,8 @@ class banking_import(osv.osv_memory):
                 state = 'draft',
                 user_id = uid,
                 banking_id = import_id,
+                company_id = company.id,
+                period_id = period_ids[0],
             ))
             imported_statement_ids.append(statement_id)
 
@@ -282,6 +291,8 @@ class banking_import(osv.osv_memory):
                         values[attr] = eval('transaction.%s' % attr)
                 values['statement_id'] = statement_id
                 values['bank_country_code'] = bank_country_code
+                values['local_account'] = statement.local_account
+
                 transaction_id = import_transaction_obj.create(cursor, uid, values, context=context)
                 if transaction_id:
                     transaction_ids.append(transaction_id)
@@ -292,6 +303,30 @@ class banking_import(osv.osv_memory):
 
         import_transaction_obj.match(cursor, uid, transaction_ids, results=results, context=context)
             
+        #recompute statement end_balance for validation
+        statement_obj.button_dummy(
+            cursor, uid, imported_statement_ids, context=context)
+
+
+            # Original code. Didn't take workflow logistics into account...
+            #
+            #cursor.execute(
+            #    "UPDATE payment_order o "
+            #    "SET state = 'done', "
+            #        "date_done = '%s' "
+            #    "FROM payment_line l "
+            #    "WHERE o.state = 'sent' "
+            #      "AND o.id = l.order_id "
+            #      "AND l.id NOT IN ("
+            #        "SELECT DISTINCT id FROM payment_line "
+            #        "WHERE date_done IS NULL "
+            #          "AND id IN (%s)"
+            #       ")" % (
+            #           time.strftime('%Y-%m-%d'),
+            #           ','.join([str(x) for x in payment_line_ids])
+            #       )
+            #)
+
         report = [
             '%s: %s' % (_('Total number of statements'),
                         results.stat_skipped_cnt + results.stat_loaded_cnt),

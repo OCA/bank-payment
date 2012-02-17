@@ -18,7 +18,7 @@
                     <notebook colspan="4">
                         <page attrs="{'invisible': [('state', '!=', 'review')]}" string="Transactions">
                             <field name="line_ids" colspan="4" nolabel="1">
-                                <tree string="Transaction" min_rows="20" colors="red:duplicate;blue:reconcile_id">
+                                <tree string="Transaction" colors="red:duplicate;blue:reconcile_id">
                                     <field name="date"/>
                                     <field name="amount"/>
                                     <field name="ref"/>
@@ -30,7 +30,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page attrs="{'invisible': [('state', '=', 'init'')]}" string="Log">
+                        <page attrs="{'invisible': [('state', '=', 'init')]}" string="Log">
                             <field name="log" colspan="4" nolabel="1" width="500"/>
                         </page>
                         <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">

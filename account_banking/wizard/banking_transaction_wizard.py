@@ -38,7 +38,7 @@ class banking_transaction_wizard(osv.osv_memory):
         """ 
         Return a popup window for this model
         """
-        if isinstance(ids, (int, float)):
+        if isinstance(ids, (int,long)):
             ids = [ids]
         return {
             'name': self._description,

@@ -242,6 +242,7 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
         results.costs_account_id = settings.costs_account_id
         results.invoice_journal_id = settings.invoice_journal_id
         results.bank_partner_id = settings.bank_partner_id
+
     return results
 
 def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
@@ -261,7 +262,7 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
         # search key
         bank_ids = bank_obj.search(
             cursor, uid, [
-                ('code', '=', bic[:6])
+                ('bic', '=', bic[:6])
             ])
         if not bank_ids:
             bank_ids = bank_obj.search(

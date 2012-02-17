@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <!-- Add the HSBC Client ID to the Payment Order -->
+    <record id="view_payment_order_form" model="ir.ui.view">
+        <field name="name">payment.order.form</field>
+        <field name="model">payment.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+        <field name="arch" type="xml">
+          <field name="date_scheduled" position="after">
+            <field name="hsbc_clientid_id" />
+          </field>
+        </field>
+    </record>
+
+
+    <!-- Form view for HSBC Client ID -->
+    <record id="banking_hsbc_clientid_form" model="ir.ui.view">
+        <field name="name">banking.hsbc.clientid.form</field>
+        <field name="model">banking.hsbc.clientid</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="HSBC Client ID">
+            <group colspan="4">
+                <field name="name" />
+                <field name="company_id" />
+                <field name="clientid" />
+            </group>
+          </form>
+        </field>
+    </record>
+
+    <!-- Tree view for HSBC Client ID -->    
+    <record id="banking_hsbc_clientid_tree" model="ir.ui.view">
+        <field name="name">banking.hsbc.clientid.tree</field>
+        <field name="model">banking.hsbc.clientid</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="HSBC Client IDs">
+                <field name="name" />
+                <field name="company_id" />
+                <field name="clientid" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search view for HSBC Client ID -->
+    <record id="banking_hsbc_clientid_filter" model="ir.ui.view">
+       <field name="name">banking.hsbc.clientid.filter</field>
+       <field name="model">banking.hsbc.clientid</field>
+       <field name="type">search</field>
+       <field name="arch" type="xml">
+           <search string="HSBC Client IDs">
+               <field name="name"/>
+               <field name="company_id" />
+               <field name="clientid" />
+           </search>
+        </field>
+    </record>
+
+    <!-- Action for HSBC Client ID -->
+    <record id="banking_hsbc_clientid_action" model="ir.actions.act_window">
+        <field name="name">HSBC Client ID</field>
+        <field name="res_model">banking.hsbc.clientid</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="banking_hsbc_clientid_filter"/>
+    </record>
+
+    <!-- Menu for HSBC Client ID -->
+    <menuitem action="banking_hsbc_clientid_action" id="banking_hsbc_clientid_menu" parent="account.menu_configuration_misc"/>
+
+  </data>
+</openerp>

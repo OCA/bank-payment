@@ -29,8 +29,10 @@
     'init_xml': [],
     'update_xml': [
         'account_banking_uk_hsbc.xml',
+        'hsbc_clientid_view.xml',
         'data/banking_export_hsbc.xml',
         'wizard/export_hsbc_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''
