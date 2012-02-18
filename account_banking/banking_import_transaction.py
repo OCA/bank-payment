@@ -486,11 +486,11 @@ class banking_import_transaction(osv.osv):
             line_partial_ids = line_ids[:]
             line_ids = []
         reconcile_obj.write(
-            cr, uid, reconcile_id, 
+            cr, uid, reconcile.id, 
             { 'line_id': [(6, 0, line_ids)],
               'line_partial_ids': [(6, 0, line_partial_ids)],
               }, context=context)
-        return reconcile_id
+        return reconcile.id
 
     def _do_move_unreconcile(self, cr, uid, move_line_ids, currency, context=None):
         """
@@ -820,18 +820,12 @@ class banking_import_transaction(osv.osv):
                     'name': '(write-off) %s' % (
                         trans.move_line_id.move_id.name or '')
                     }, context=context)
-            writeoff_debit = False
-            writeoff_credit = False
-            if trans.statement_line_id.amount > 0:
-                if trans.residual > 0:
-                    writeoff_debit = trans.residual
-                else:
-                    writeoff_credit = - trans.residual
+            if trans.residual > 0:
+                writeoff_debit = trans.residual
+                writeoff_credit = False
             else:
-                if trans.residual > 0:
-                    writeoff_credit = trans.residual
-                else:
-                    writeoff_debit = - trans.residual
+                writeoff_debit = False
+                writeoff_credit = - trans.residual
             vals = {
                 'name': trans.statement_line_id.name,
                 'date': trans.statement_line_id.date,
