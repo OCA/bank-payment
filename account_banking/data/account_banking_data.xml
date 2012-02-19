@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!-- Re-introduce changes that were removed in 6.1 -->
-        <record id="bank_iban_field" model="res.partner.bank.type.field">
-            <field name="name">iban</field>
-            <field name="bank_type_id" ref="base_iban.bank_iban"/>
-            <field eval="True" name="required"/>
-            <field eval="False" name="readonly"/>
-        </record>
-
-        <!-- Unset readonly state of acc_number for IBAN accounts.
-             Leaving it will make it impossible to deduce BBAN's from any
-             client.
-        -->
-        <record id="bank_acc_number_field" model="res.partner.bank.type.field">
-            <field name="name">acc_number</field>
-            <field name="bank_type_id" ref="base_iban.bank_iban"/>
-            <field eval="False" name="required"/>
-            <field eval="False" name="readonly"/>
-        </record>
         <!-- Unset readonly state of country_id for ordinary account.
              Leaving it will make it impossible to use bank accounts with
              addresses outside the companies country.

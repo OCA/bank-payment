@@ -66,6 +66,7 @@ from wizard.banktools import get_or_create_bank
 import decimal_precision as dp
 import pooler
 import netsvc
+from openerp import SUPERUSER_ID
 
 def warning(title, message):
     '''Convenience routine'''
@@ -1070,11 +1071,6 @@ class res_partner_bank(osv.osv):
            using IBAN specs.
     '''
     _inherit = 'res.partner.bank'
-    _columns = {
-        'iban': fields.char('IBAN', size=34,
-                            help="International Bank Account Number"
-                           ),
-    }
 
     def __init__(self, *args, **kwargs):
         '''
@@ -1091,61 +1087,64 @@ class res_partner_bank(osv.osv):
                 self._founder = mro[i]
                 break
 
-    def init(self, cursor):
+    def init(self, cr):
         '''
         Update existing iban accounts to comply to new regime
         Note that usage of the ORM is not possible here, as the ORM cannot
         search on values not provided by the client.
         '''
-        cursor.execute('SELECT id, acc_number, iban '
-                       'FROM res_partner_bank '
-                       'WHERE '
-                         'upper(iban) != iban OR '
-                         'acc_number IS NULL'
-                      )
-        for id, acc_number, iban in cursor.fetchall():
-            new_iban = new_acc_number = False
-            if iban:
-                iban_acc = sepa.IBAN(iban)
+        
+        partner_bank_obj = self.pool.get('res.partner.bank')
+        bank_ids = partner_bank_obj.search(
+            cr, SUPERUSER_ID, [('state', '=', 'iban')], limit=0)
+        for bank in partner_bank_obj.read(cr, SUPERUSER_ID, bank_ids):
+            write_vals = {}
+            if bank['state'] == 'iban':
+                iban_acc = sepa.IBAN(bank['acc_number'])
                 if iban_acc.valid:
-                    new_acc_number = iban_acc.localized_BBAN
-                    new_iban = str(iban_acc)
-                elif iban != iban.upper():
-                    new_iban = iban.upper
-            if iban != new_iban or new_acc_number != acc_number:
-                cursor.execute("UPDATE res_partner_bank "
-                               "SET iban = '%s', acc_number = '%s' "
-                               "WHERE id = %s" % (
-                                   new_iban, new_acc_number, id
-                               ))
+                    write_vals['acc_number_domestic'] = iban_acc.localized_BBAN
+                    write_vals['acc_number'] = str(iban_acc)
+                elif bank['acc_number'] != bank['acc_number'].upper():
+                    write_vals['acc_number'] = bank['acc_number'].upper()
+                if write_vals:
+                    partner_bank_obj.write(
+                        cr, SUPERUSER_ID, bank['id'], write_vals)
 
     @staticmethod
-    def _correct_IBAN(vals):
+    def _correct_IBAN(acc_number):
         '''
         Routine to correct IBAN values and deduce localized values when valid.
         Note: No check on validity IBAN/Country
         '''
-        if 'iban' in vals and vals['iban']:
-            iban = sepa.IBAN(vals['iban'])
-            vals['iban'] = str(iban)
-            vals['acc_number'] = iban.localized_BBAN
-        return vals
+        iban = sepa.IBAN(acc_number)
+        return (str(iban), iban.localized_BBAN)
 
     def create(self, cursor, uid, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
         '''
-        return self._founder.create(cursor, uid,
-                                    self._correct_IBAN(vals), context
-                                   )
+        if vals['state'] == 'iban':
+            vals['acc_number'], vals['acc_number_domestic'] = (
+                self._correct_IBAN(vals['acc_number']))
+        return self._founder.create(cursor, uid, vals, context)
 
-    def write(self, cursor, uid, ids, vals, context=None):
+    def write(self, cr, uid, ids, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
         '''
-        return self._founder.write(cursor, uid, ids,
-                                   self._correct_IBAN(vals), context
-                                  )
+        if ids and isinstance(ids, (int, long)):
+            ids = [ids]
+        for account in self.read(
+            cr, uid, ids, ['state', 'acc_number']):
+            if 'state' in vals or 'acc_number' in vals:
+                account.update(vals)
+                if 'state' in vals and vals['state'] == 'iban':
+                    vals['acc_number'], vals['acc_number_domestic'] = (
+                        self._correct_IBAN(account['acc_number']))
+                else:
+                    vals['acc_number_domestic'] = False
+            self._founder.write(cr, uid, account['id'], vals, context)
+        return True
 
     def search(self, cursor, uid, args, *rest, **kwargs):
         '''
@@ -1167,7 +1166,7 @@ class res_partner_bank(osv.osv):
             Extend the search criteria in term when appropriate.
             '''
             extra_term = None
-            if term[0].lower() == 'iban' and term[1] in ('=', '=='):
+            if term[0].lower() == 'acc_number' and term[1] in ('=', '=='):
                 iban = sepa.IBAN(term[2])
                 if iban.valid:
                     # Some countries can't convert to BBAN
@@ -1175,7 +1174,7 @@ class res_partner_bank(osv.osv):
                         bban = iban.localized_BBAN
                         # Prevent empty search filters
                         if bban:
-                            extra_term = ('acc_number', term[1], bban)
+                            extra_term = ('acc_number_domestic', term[1], bban)
                     except:
                         pass
             if extra_term:
@@ -1212,25 +1211,33 @@ class res_partner_bank(osv.osv):
                                       )
         return results
 
-    def read(self, *args, **kwargs):
+    def read(
+        self, cr, uid, ids, fields=None, context=None, load='_classic_read'):
         '''
         Convert IBAN electronic format to IBAN display format
+        SR 2012-02-19: do we really need this? Fields are converted upon write already.
         '''
-        records = self._founder.read(*args, **kwargs)
+        if fields and 'state' not in fields:
+            fields.append('state')
+        records = self._founder.read(cr, uid, ids, fields, context, load)
+        is_list = True
 	if not isinstance(records, list):
             records = [records,]
+            is_list = False
         for record in records:
-            if 'iban' in record and record['iban']:
-                record['iban'] = unicode(sepa.IBAN(record['iban']))
-        return records
+            if 'acc_number' in record and record['state'] == 'iban':
+                record['acc_number'] = unicode(sepa.IBAN(record['acc_number']))
+        if is_list:
+            return records
+        return records[0]
 
     def check_iban(self, cursor, uid, ids):
         '''
         Check IBAN number
         '''
         for bank_acc in self.browse(cursor, uid, ids):
-            if bank_acc.iban:
-                iban = sepa.IBAN(bank_acc.iban)
+            if bank_acc.state == 'iban' and bank_acc.acc_number:
+                iban = sepa.IBAN(bank_acc.acc_number)
                 if not iban.valid:
                     return False
         return True
@@ -1241,19 +1248,33 @@ class res_partner_bank(osv.osv):
         '''
         res = {}
         for record in self.browse(cursor, uid, ids, context):
-            if not record.iban:
+            if not record.state == 'iban':
                 res[record.id] = False
             else:
-                iban_acc = sepa.IBAN(record.iban)
+                iban_acc = sepa.IBAN(record.acc_number)
                 try:
                     res[record.id] = iban_acc.localized_BBAN
                 except NotImplementedError:
                     res[record.id] = False
         return res
 
-    def onchange_acc_number(self, cursor, uid, ids, acc_number,
-                            partner_id, country_id, context=None
-                           ):
+    def onchange_acc_number(
+        self, cr, uid, ids, acc_number, acc_number_domestic,
+        state, partner_id, country_id, context=None):
+        if state == 'iban':
+            return self.onchange_iban(
+                cr, uid, ids, acc_number, acc_number_domestic,
+                state, partner_id, country_id, context=None
+                )
+        else:
+            return self.onchange_domestic(
+                cr, uid, ids, acc_number,
+                partner_id, country_id, context=None
+                )
+
+    def onchange_domestic(
+        self, cursor, uid, ids, acc_number,
+        partner_id, country_id, context=None):
         '''
         Trigger to find IBAN. When found:
             1. Reformat BBAN
@@ -1314,14 +1335,18 @@ class res_partner_bank(osv.osv):
                                    )
         result = {'value': values}
         # Complete data with online database when available
-        if partner_id and country.code in sepa.IBAN.countries:
+        if country_ids:
+            country = country_obj.browse(
+                cursor, uid, country_ids[0], context=context)
+        if country and country.code in sepa.IBAN.countries:
             try:
                 info = sepa.online.account_info(country.code, acc_number)
                 if info:
                     iban_acc = sepa.IBAN(info.iban)
                     if iban_acc.valid:
-                        values['acc_number'] = iban_acc.localized_BBAN
-                        values['iban'] = unicode(iban_acc)
+                        values['acc_number_domestic'] = iban_acc.localized_BBAN
+                        values['acc_number'] = unicode(iban_acc)
+                        values['state'] = 'iban'
                         bank_id, country_id = get_or_create_bank(
                             self.pool, cursor, uid,
                             info.bic or iban_acc.BIC_searchkey,
@@ -1355,25 +1380,27 @@ class res_partner_bank(osv.osv):
                     values['acc_number'] = acc_number
         return result
 
-    def onchange_iban(self, cursor, uid, ids, iban, context=None):
+    def onchange_iban(
+        self, cr, uid, ids, acc_number, acc_number_domestic,
+        state, partner_id, country_id, context=None):
         '''
         Trigger to verify IBAN. When valid:
             1. Extract BBAN as local account
             2. Auto complete bank
         '''
-        if not iban:
+        if not acc_number:
             return {}
 
-        iban_acc = sepa.IBAN(iban)
+        iban_acc = sepa.IBAN(acc_number)
         if iban_acc.valid:
             bank_id, country_id = get_or_create_bank(
-                self.pool, cursor, uid, iban_acc.BIC_searchkey,
+                self.pool, cr, uid, iban_acc.BIC_searchkey,
                 code=iban_acc.BIC_searchkey
                 )
             return {
                 'value': dict(
-                    acc_number = iban_acc.localized_BBAN,
-                    iban = unicode(iban_acc),
+                    acc_number_domestic = iban_acc.localized_BBAN,
+                    acc_number = unicode(iban_acc),
                     country = country_id or False,
                     bank = bank_id or False,
                 )
@@ -1383,7 +1410,7 @@ class res_partner_bank(osv.osv):
                       )
 
     _constraints = [
-        (check_iban, _("The IBAN number doesn't seem to be correct"), ["iban"])
+        (check_iban, _("The IBAN number doesn't seem to be correct"), ["acc_number"])
     ]
 
 res_partner_bank()

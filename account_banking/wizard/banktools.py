@@ -98,8 +98,10 @@ def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
         ('acc_number', '=', account_number)
     ])
     if not bank_account_ids:
+        # SR 2012-02-19 does the search() override in res_partner_bank
+        # provides this result on the previous query?
         bank_account_ids = partner_bank_obj.search(cursor, uid, [
-            ('iban', '=', account_number)
+            ('acc_number_domestic', '=', account_number)
         ])
     if not bank_account_ids:
         if not fail:
@@ -331,8 +333,8 @@ def create_bank_account(pool, cursor, uid, partner_id,
     if iban.valid:
         # Take as much info as possible from IBAN
         values.state = 'iban'
-        values.iban = str(iban)
-        values.acc_number = iban.BBAN
+        values.acc_number = str(iban)
+        values.acc_number_domestic = iban.BBAN
         bankcode = iban.bankcode + iban.countrycode
         country_code = iban.countrycode
 
@@ -356,13 +358,13 @@ def create_bank_account(pool, cursor, uid, partner_id,
     if not iban.valid:
         # No, try to convert to IBAN
         values.state = 'bank'
-        values.acc_number = account_number
+        values.acc_number = values.acc_number_domestic = account_number
         if country_code in sepa.IBAN.countries:
             account_info = sepa.online.account_info(country_code,
                                                     values.acc_number
                                                    )
             if account_info:
-                values.iban = iban = account_info.iban
+                values.acc_number = iban = account_info.iban
                 values.state = 'iban'
                 bankcode = account_info.code
                 bic = account_info.bic
