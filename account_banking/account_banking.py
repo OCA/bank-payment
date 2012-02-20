@@ -152,20 +152,20 @@ class account_banking_imported_file(osv.osv):
                                       select=True, readonly=True
                                      ),
         'date': fields.datetime('Import Date', readonly=True, select=True,
-                                states={'draft': [('unfinished', False)]}
+                                states={'draft': [('readonly', False)]}
                                ),
         'format': fields.char('File Format', size=20, readonly=True,
-                              states={'draft': [('unfinished', False)]}
+                              states={'draft': [('readonly', False)]}
                              ),
         'file': fields.binary('Raw Data', readonly=True,
-                              states={'draft': [('unfinished', False)]}
+                              states={'draft': [('readonly', False)]}
                              ),
         'log': fields.text('Import Log', readonly=True,
-                           states={'draft': [('unfinished', False)]}
+                           states={'draft': [('readonly', False)]}
                           ),
         'user_id': fields.many2one('res.users', 'Responsible User',
                                    readonly=True, select=True,
-                                   states={'draft': [('unfinished', False)]}
+                                   states={'draft': [('readonly', False)]}
                                   ),
         'state': fields.selection(
             [('unfinished', 'Unfinished'),
