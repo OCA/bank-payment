@@ -351,8 +351,10 @@ class account_bank_statement(osv.osv):
         st = st_line.statement_id
 
         context.update({'date': st_line.date})
+        ctxt = context.copy()                       # AB
+        ctxt['company_id'] = st_line.company_id.id  # AB
         period_id = self._get_period(
-            cr, uid, st_line.date, context=context) # AB
+            cr, uid, st_line.date, context=ctxt)    # AB
 
         move_id = account_move_obj.create(cr, uid, {
             'journal_id': st.journal_id.id,
@@ -364,6 +366,7 @@ class account_bank_statement(osv.osv):
             'move_ids': [(4, move_id, False)]
         })
 
+        torec = []
         if st_line.amount >= 0:
             account_id = st.journal_id.default_credit_account_id.id
         else:
@@ -411,7 +414,7 @@ class account_bank_statement(osv.osv):
 
         move_line_id = account_move_line_obj.create(
             cr, uid, val, context=context)
-        torec = move_line_id
+        torec.append(move_line_id)
 
         # Fill the secondary amount/currency
         # if currency is not the same than the company
@@ -454,7 +457,7 @@ class account_bank_statement(osv.osv):
         - Pay invoices through workflow 
         """
         if st_line.reconcile_id:
-            account_move_line_obj.write(cr, uid, [torec], {
+            account_move_line_obj.write(cr, uid, torec, {
                     (st_line.reconcile_id.line_partial_ids and 
                      'reconcile_partial_id' or 'reconcile_id'): 
                     st_line.reconcile_id.id }, context=context)

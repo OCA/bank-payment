@@ -36,7 +36,7 @@
                             <field name='payment_line_id'
                                    attrs="{'invisible': [('match_type', '!=', 'storno'),('match_type', '!=', 'payment')]}"
                                    />
-                            <group attrs="{'readonly': [('match_multi', '!=', True)]}">
+                            <group attrs="{'readonly': [('match_multi', '!=', True)]}" col="8">
                                 <!-- show if we have an invoice type match (but the user may need to select from multiple options)
                                      or whenever there is an invoice_id (e.g. in case of a manual match) 
                                 -->
@@ -54,6 +54,7 @@
                                        attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'payment_order')]}"
                                        domain="[('id', 'in', payment_order_ids[0][2])]"
                                        />
+                                <field name='analytic_account_id' />
                             </group>
                             <button colspan="1"
                                     name="trigger_write"
@@ -77,20 +78,6 @@
                                             string="Remove duplicate flag"/>
                                 </group>
                             </page>
-                            <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
-                                <group colspan="2" col="2">
-                                    <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
-                                    <!-- no luck with these lt/gt calculations in attrs -->
-                                    <field name="writeoff_account_id"
-                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
-                                    <field name="writeoff_journal_id"
-                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
-                                    <button colspan="1"
-                                            name="trigger_write"
-                                            type="object"
-                                            string="Set write-off account"/>
-                                </group>                                
-                            </page>
                             <!-- Redo automatic match -->
                             <page string="Match again">
                                 <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
@@ -109,6 +96,21 @@
                                         name="trigger_write"
                                         type="object"
                                         string="Match"/>
+                            </page>
+                            <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
+                                <group colspan="2" col="2">
+                                    <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
+                                    <!-- no luck with these lt/gt calculations in attrs -->
+                                    <field name="writeoff_account_id"
+                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                    <field name="writeoff_journal_id"
+                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                    <field name="writeoff_analytic_id" />
+                                    <button colspan="1"
+                                            name="trigger_write"
+                                            type="object"
+                                            string="Set write-off account"/>
+                                </group>                                
                             </page>
                             <page string="Disable reconciliation" attrs="{'invisible': [('match_type', '==', False)]}">
                                 <group colspan="2" col="2">

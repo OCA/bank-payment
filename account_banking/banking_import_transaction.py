@@ -810,15 +810,19 @@ class banking_import_transaction(osv.osv):
         move_line_obj = self.pool.get('account.move.line')
         move_obj = self.pool.get('account.move')
         for trans in self.browse(cr, uid, ids, context=context):
+            # Get the period for the company and date
+            ctxt = context.copy()
+            ctxt['company_id'] = trans.company_id.id
             periods = self.pool.get('account.period').find(
-                cr, uid, trans.statement_line_id.date)
+                cr, uid, trans.statement_line_id.date, context=ctxt)
             period_id =  periods and periods[0] or False
+
             move_id = move_obj.create(cr, uid, {
                     'journal_id': trans.writeoff_journal_id.id,
                     'period_id': period_id,
                     'date': trans.statement_line_id.date,
                     'name': '(write-off) %s' % (
-                        trans.move_line_id.move_id.name or '')
+                        trans.move_line_id.move_id.name or ''),
                     }, context=context)
             if trans.residual > 0:
                 writeoff_debit = trans.residual
@@ -839,6 +843,7 @@ class banking_import_transaction(osv.osv):
                 'journal_id': trans.writeoff_journal_id.id,
                 'period_id': period_id,
                 'currency_id': trans.statement_line_id.statement_id.currency.id,
+                'analytic_account_id': trans.writeoff_analytic_id.id,                
                 }
             move_line_id = move_line_obj.create(
                 cr, uid, vals, context=context)
@@ -1143,7 +1148,7 @@ class banking_import_transaction(osv.osv):
                     if not injected:
                         i += 1
                     continue
-                if 'journal_id' not in account_info:
+                if 'journal_id' not in account_info.keys():
                     results['log'].append(
                         _('Transaction found for account %(bank_account)s, '
                           'but no default journal was defined.'
@@ -1603,6 +1608,8 @@ class banking_import_transaction(osv.osv):
             'account.journal', 'Write-off journal'),
         'writeoff_move_line_id': fields.many2one(
             'account.move.line', 'Write off move line'),
+        'writeoff_analytic_id': fields.many2one(
+            'account.analytic.account', 'Write off analytic account'),
         }
     _defaults = {
         'company_id': lambda s,cr,uid,c:
@@ -1707,7 +1714,7 @@ class account_bank_statement_line(osv.osv):
                 statement_obj.write(
                     cr, uid, [st_line.statement_id.id], 
                     {'name': st_number}, context=context)
-
+            
             st_line_number = statement_obj.get_next_st_line_number(
                 cr, uid, st_number, st_line, context)
             company_currency_id = st_line.statement_id.journal_id.company_id.currency_id.id

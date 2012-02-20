@@ -329,9 +329,17 @@ class banking_transaction_wizard(osv.osv_memory):
             'account.move.line', 'Or match this entry',
             domain=[('account_id.reconcile', '=', True),
                     ('reconcile_id', '=', False)],
+            ),
+        'writeoff_analytic_id': fields.related(
+            'import_transaction_id', 'writeoff_analytic_id',
+            type='many2one', relation='account.analytic.account',
+            string='Write-off analytic account'),
+        'analytic_account_id': fields.related(
+            'statement_line_id', 'analytic_account_id',
+            type='many2one', relation='account.analytic.account',
+            string="Analytic Account"),
         #'manual_payment_order_id': fields.many2one(
         #    'payment.order', "Payment order to reconcile"),
-            ),
         }
 banking_transaction_wizard()
 

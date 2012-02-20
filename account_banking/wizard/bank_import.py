@@ -202,7 +202,7 @@ class banking_import(osv.osv_memory):
                     error_accounts[statement.local_account] = True
                     results.error_cnt += 1
                     continue
-                if 'journal_id' not in account_info:
+                if 'journal_id' not in account_info.keys():
                     results.log.append(
                         _('Statements found for account %(bank_account)s, '
                           'but no default journal was defined.'
@@ -292,6 +292,7 @@ class banking_import(osv.osv_memory):
                 values['statement_id'] = statement_id
                 values['bank_country_code'] = bank_country_code
                 values['local_account'] = statement.local_account
+                values['local_currency'] = statement.local_currency
 
                 transaction_id = import_transaction_obj.create(cursor, uid, values, context=context)
                 if transaction_id:
