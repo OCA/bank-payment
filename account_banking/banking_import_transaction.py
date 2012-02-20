@@ -905,7 +905,7 @@ class banking_import_transaction(osv.osv):
                       if x.communication == trans.reference 
                       and round(x.amount, digits) == -round(trans.transferred_amount, digits)
                       and trans.remote_account in (x.bank_id.acc_number,
-                                                   x.bank_id.iban)
+                                                   x.bank_id.acc_number_domestic)
                      ]
         if len(candidates) == 1:
             candidate = candidates[0]

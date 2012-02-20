@@ -35,7 +35,8 @@
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
-    'depends': ['base', 'account', 'base_iban', 'account_payment'],
+    'depends': ['base', 'account', 'base_iban', 'account_payment',
+                'account_iban_preserve_domestic'],
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
@@ -47,6 +48,9 @@
         'workflow/account_invoice.xml',
     ],
     'demo_xml': [],
+    'external_dependencies': {
+        'python' : ['BeautifulSoup'],
+    },
     'description': '''
     Module to do banking.
 
