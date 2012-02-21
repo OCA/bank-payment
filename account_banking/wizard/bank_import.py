@@ -425,7 +425,11 @@ class banking_import(osv.osv_memory):
 
     _defaults = {
         'state': 'init',
+        'company': lambda s,cr,uid,c:
+            s.pool.get('res.company')._company_default_get(
+            cr, uid, 'bank.import.transaction', context=c),
         }
+
 banking_import()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

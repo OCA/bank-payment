@@ -220,22 +220,21 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
         ('type', '=', 'bank'),
         ('currency.name', '=', currency or company.currency_id.name)
     ])
-    print "---journal_ids:", account_number, journal_ids
-    if not journal_ids and currency == company.currency_id.name:
-        journal_ids = journal_obj.search(cursor, uid, [
+    if currency == company.currency_id.name:
+        journal_ids_no_curr = journal_obj.search(cursor, uid, [
             ('type', '=', 'bank'), ('currency', '=', False)
         ])
+        journal_ids.extend(journal_ids_no_curr)
     if journal_ids:
         criteria.append(('journal_id', 'in', journal_ids))
 
     # Find bank account settings
-    print "---criteria:", criteria
     bank_settings_ids = bank_settings_obj.search(cursor, uid, criteria)
     if bank_settings_ids:
         settings = bank_settings_obj.browse(cursor, uid, bank_settings_ids)[0]
         results.company_id = company
         results.journal_id = settings.journal_id
-        print "---journal_id", settings.journal_id
+
         # Take currency from settings or from company
         if settings.journal_id.currency.id:
             results.currency_id = settings.journal_id.currency

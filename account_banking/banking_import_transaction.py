@@ -1611,11 +1611,13 @@ class banking_import_transaction(osv.osv):
         'writeoff_analytic_id': fields.many2one(
             'account.analytic.account', 'Write off analytic account'),
         }
+
     _defaults = {
         'company_id': lambda s,cr,uid,c:
             s.pool.get('res.company')._company_default_get(
             cr, uid, 'bank.import.transaction', context=c),
         }
+
 banking_import_transaction()
 
 class account_bank_statement_line(osv.osv):
@@ -1623,7 +1625,7 @@ class account_bank_statement_line(osv.osv):
     _columns = {
         'import_transaction_id': fields.many2one(
             'banking.import.transaction', 
-            'Import transaction', readonly=True),
+            'Import transaction', readonly=True, delete='cascade'),
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', type='boolean',
             string='Multi match', readonly=True),
@@ -1762,6 +1764,19 @@ class account_bank_statement_line(osv.osv):
         self.write(
             cr, uid, set_draft_ids, {'state': 'draft'}, context=context)
         return True
+
+
+    def unlink(self, cr, uid, ids, context=None):
+        """
+        Don't allow deletion of a confirmed statement line
+        """
+        if type(ids) is int:
+            ids = [ids]
+        for line in self.browse(cr, uid, ids, context=context):
+            if line.state == 'confirmed':
+                raise osv.except_osv(_('Confirmed Statement Line'), _("You cannot delete a confirmed Statement Line: '%s'" % line.name))
+        return super(account_bank_statement,self).unlink(cr, uid, ids, context=context)
+
 account_bank_statement_line()
 
 class account_bank_statement(osv.osv):
@@ -1842,6 +1857,18 @@ class account_bank_statement(osv.osv):
         line workflow instead.
         """
         self.write(cr, uid, ids, {'state':'draft'}, context=context)
+
+    def unlink(self, cr, uid, ids, context=None):
+        """
+        Don't allow deletion of statement with confirmed bank statement lines.
+        """
+        if type(ids) is int:
+            ids = [ids]
+        for st in self.browse(cr, uid, ids, context=context):
+            for line in st.line_ids:
+                if line.state == 'confirmed':
+                    raise osv.except_osv(_('Confirmed Statement Lines'), _("You cannot delete a Statement with confirmed Statement Lines: '%s'" % st.name))
+        return super(account_bank_statement,self).unlink(cr, uid, ids, context=context)
 
     _columns = {
         # override this field *only* to replace the 

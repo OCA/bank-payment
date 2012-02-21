@@ -341,5 +341,6 @@ class banking_transaction_wizard(osv.osv_memory):
         #'manual_payment_order_id': fields.many2one(
         #    'payment.order', "Payment order to reconcile"),
         }
+
 banking_transaction_wizard()
 

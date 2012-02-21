@@ -100,11 +100,8 @@
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
                                     <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
-                                    <!-- no luck with these lt/gt calculations in attrs -->
-                                    <field name="writeoff_account_id"
-                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
-                                    <field name="writeoff_journal_id"
-                                           attrs="{'required': ['|','&amp;',('residual', '&lt;', 0),('amount', '&gt;', 0),'&amp;',('residual', '&gt;', 0),('amount', '&lt;', 0)]}"/>
+                                    <field name="writeoff_account_id" />
+                                    <field name="writeoff_journal_id" />
                                     <field name="writeoff_analytic_id" />
                                     <button colspan="1"
                                             name="trigger_write"
