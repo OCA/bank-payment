@@ -21,14 +21,14 @@
 ##############################################################################
 
 import base64
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from osv import osv, fields
 from tools.translate import _
 from decimal import Decimal
 import paymul
 import string
 import random
-import netsvc
+import logging
 
 def strpdate(arg, format='%Y-%m-%d'):
     '''shortcut'''
@@ -99,7 +99,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             ),
         }
 
-    logger = netsvc.Logger()
+    logger = logging.getLogger('export_hsbc')
 
     def create(self, cursor, uid, wizard_data, context=None):
         '''
@@ -142,16 +142,14 @@ class banking_export_hsbc_wizard(osv.osv_memory):
     def _create_account(self, oe_account):
         currency = None # let the receiving bank select the currency from the batch
         holder = oe_account.owner_name or oe_account.partner_id.name
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'Create account %s' % (holder))
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'-- %s' % (oe_account.country_id.code))
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'-- %s' % (oe_account.acc_number))
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'-- %s' % (oe_account.iban))
+        self.logger.info('Create account %s' % (holder))
+        self.logger.info('-- %s' % (oe_account.country_id.code))
+        self.logger.info('-- %s' % (oe_account.acc_number))
 
-
-        if oe_account.iban:
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'IBAN: %s' % (oe_account.iban))
+        if oe_account.state == 'iban':
+            self.logger.info('IBAN: %s' % (oe_account.acc_number))
             paymul_account = paymul.IBANAccount(
-                iban=oe_account.iban,
+                iban=oe_account.acc_number,
                 bic=oe_account.bank.bic,
                 holder=holder,
                 currency=currency,
@@ -160,7 +158,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_EACH_OWN,
             }
         elif oe_account.country_id.code == 'GB':
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'GB: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
+            self.logger.info('GB: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
             split = oe_account.acc_number.split(" ", 2)
             if len(split) == 2:
                 sortcode, accountno = split
@@ -178,7 +176,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_PAYEE,
             }
         elif oe_account.country_id.code in ('US','CA'):
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'US/CA: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
+            self.logger.info('US/CA: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
             split = oe_account.acc_number.split(' ', 2)
             if len(split) == 2:
                 sortcode, accountno = split
@@ -202,7 +200,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_PAYEE,
             }
         else:
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'SWIFT Account: %s' % (oe_account.country_id.code))
+            self.logger.info('SWIFT Account: %s' % (oe_account.country_id.code))
             split = oe_account.acc_number.split(' ', 2)
             if len(split) == 2:
                 sortcode, accountno = split
@@ -238,7 +236,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                     )
             )
         
-        self.logger.notifyChannel('paymul', netsvc.LOG_INFO, '====')
+        self.logger.info('====')
         dest_account, transaction_kwargs = self._create_account(line.bank_id)
 
         means = {'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
@@ -278,7 +276,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
 
 
         try:
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO,'Source - %s (%s) %s' % (payment_orders[0].mode.bank_id.partner_id.name, payment_orders[0].mode.bank_id.acc_number, payment_orders[0].mode.bank_id.country_id.code))
+            self.logger.info('Source - %s (%s) %s' % (payment_orders[0].mode.bank_id.partner_id.name, payment_orders[0].mode.bank_id.acc_number, payment_orders[0].mode.bank_id.country_id.code))
             src_account = self._create_account(
                 payment_orders[0].mode.bank_id,
             )[0]
@@ -296,7 +294,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             )
 
         try:
-            self.logger.notifyChannel('paymul', netsvc.LOG_INFO, 'Create transactions...')
+            self.logger.info('Create transactions...')
             transactions = []
             hsbc_clientid = ''
             for po in payment_orders:
