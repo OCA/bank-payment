@@ -1454,25 +1454,12 @@ class banking_import_transaction(osv.osv):
         We should give users the option to reconcile with writeoff
         or partial reconciliation / new statement line
         """
-
         if not ids:
             return {}
-        res = dict([(x, False) for x in ids])
-        move_line_obj = self.pool.get('account.move.line')
+        res = {}
         for transaction in self.browse(cr, uid, ids, context):
-            if (transaction.statement_line_id.state == 'draft'
-                and transaction.match_type in 
-                [('invoice'), ('move'), ('manual')]
-                and transaction.move_line_id):
-                rec_moves = (
-                    transaction.move_line_id.reconcile_id and 
-                    transaction.move_line_id.reconcile_id.line_id or
-                    transaction.move_line_id.reconcile_partial_id and
-                    transaction.move_line_id.reconcile_partial_id.line_partial_ids or
-                    [transaction.move_line_id])
-                res[transaction.id] = (
-                    move_line_obj.get_balance(cr, uid, [x.id for x in rec_moves])
-                    - transaction.transferred_amount)
+            res[transaction.id] = abs(transaction.transferred_amount) - abs(transaction.move_currency_amount)
+
         return res
         
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
@@ -1516,6 +1503,33 @@ class banking_import_transaction(osv.osv):
                         ]]))
         write_vals.update(vals or {})
         return self.write(cr, uid, ids, write_vals, context=context)
+
+    def _get_move_amount(self, cr, uid, ids, name, args, context=None):
+        """
+        Need to get the residual amount on the move (invoice) in the bank statement currency.
+        This will be used to calculate the write-off amount (in statement currency).
+        """
+        if not ids:
+           return {}
+
+        stline_pool = self.pool.get('account.bank.statement.line')
+
+        res = {}
+        
+        for transaction in self.browse(cr, uid, ids, context):
+
+            if transaction.move_line_id:
+                move_line_amount = transaction.move_line_id.amount_residual_currency
+                to_curr_id = transaction.statement_id.journal_id.currency and transaction.statement_id.journal_id.currency.id or transaction.statement_line_id.statement_id.company_id.currency_id.id
+                from_curr_id = transaction.move_line_id.currency_id and transaction.move_line_id.currency_id.id or transaction.statement_id.company_id.currency_id.id
+                if from_curr_id != to_curr_id:
+                    amount_currency = stline_pool._convert_currency(cr, uid, from_curr_id, to_curr_id, move_line_amount, round=True,
+                                                             date=time.strftime('%Y-%m-%d'), context=context)
+                else:
+                    amount_currency = move_line_amount
+                res[transaction.id] = amount_currency
+
+        return res
 
     column_map = {
         # used in bank_import.py, converting non-osv transactions
@@ -1604,18 +1618,22 @@ class banking_import_transaction(osv.osv):
         'writeoff_account_id': fields.many2one(
             'account.account', 'Write-off account',
              domain=[('type', '!=', 'view')]),
-        'writeoff_journal_id': fields.many2one(
-            'account.journal', 'Write-off journal'),
+        'payment_option':fields.selection([('without_writeoff', 'Keep Open'),('with_writeoff', 'Reconcile Payment Balance')], 'Payment Difference', 
+                                          required=True, help="This field helps you to choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment(s)"),
+        'writeoff_amount': fields.float('Difference Amount'),
         'writeoff_move_line_id': fields.many2one(
             'account.move.line', 'Write off move line'),
         'writeoff_analytic_id': fields.many2one(
             'account.analytic.account', 'Write off analytic account'),
+        'move_currency_amount': fields.function(
+            _get_move_amount, method=True, string='Match Amount', type='float'),
         }
 
     _defaults = {
         'company_id': lambda s,cr,uid,c:
             s.pool.get('res.company')._company_default_get(
             cr, uid, 'bank.import.transaction', context=c),
+        'payment_option': 'without_writeoff',
         }
 
 banking_import_transaction()
@@ -1671,14 +1689,28 @@ class account_bank_statement_line(osv.osv):
                 cr, uid, {'statement_line_id': ids[0]}, context=context)
             res = wizard_obj.create_act_window(cr, uid, res_id, context=context)
         return res
-        
-    def confirm(self, cr, uid, ids, context=None):
-        # TODO: a confirmed transaction should remove its reconciliation target
-        # from other transactions where it is one of multiple candidates or
-        # even the proposed reconciliation target.
-        statement_obj = self.pool.get('account.bank.statement')
-        obj_seq = self.pool.get('ir.sequence')
-        import_transaction_obj = self.pool.get('banking.import.transaction')
+
+
+    def _convert_currency(self, cr, uid, from_curr_id, to_curr_id, from_amount, round=False, date=None, context=None):
+        """Convert currency amount using the company rate on a specific date"""
+        curr_obj = self.pool.get('res.currency')
+        if context:
+            ctxt = context.copy()
+        else:
+            ctxt = {}
+        if date:
+            ctxt["date"] = date
+
+        amount = curr_obj.compute(cr, uid, from_curr_id, to_curr_id, from_amount, round=round, context=ctxt)
+        return amount
+
+
+    def confirm_with_voucher(self, cr, uid, ids, context=None):
+        """
+        Create (or update) a voucher for each statement line, and then generate
+        the moves by posting the voucher.
+        """
+        voucher_pool = self.pool.get('account.voucher')
 
         for st_line in self.browse(cr, uid, ids, context):
             if st_line.state != 'draft':
@@ -1697,36 +1729,142 @@ class account_bank_statement_line(osv.osv):
                           "journal!") % (st_line.statement_id.journal_id.name,))
             if not st_line.amount:
                 continue
-            if st_line.import_transaction_id:
-                import_transaction_obj.reconcile(
-                    cr, uid, st_line.import_transaction_id.id, context)
-                
-            if not st_line.statement_id.name == '/':
-                st_number = st_line.statement_id.name
+
+            # Check if a voucher has already been created
+            if st_line.voucher_id:
+                # There's an existing voucher on the statement line which was probably created
+                # manually. This may have been done because it was a single payment for multiple
+                # invoices. Just get the voucher ID.
+                voucher_id = st_line.voucher_id.id
             else:
-                if st_line.statement_id.journal_id.sequence_id:
-                    c = {'fiscalyear_id': 
-                         st_line.statement_id.period_id.fiscalyear_id.id}
-                    st_number = obj_seq.get_id(
-                        cr, uid, 
-                        st_line.statement_id.journal_id.sequence_id.id, 
-                        context=c)
-                else:
-                    st_number = obj_seq.get(cr, uid, 'account.bank.statement')
-                statement_obj.write(
-                    cr, uid, [st_line.statement_id.id], 
-                    {'name': st_number}, context=context)
-            
-            st_line_number = statement_obj.get_next_st_line_number(
-                cr, uid, st_number, st_line, context)
-            company_currency_id = st_line.statement_id.journal_id.company_id.currency_id.id
-            move_id = statement_obj.create_move_from_st_line(
-                cr, uid, st_line.id, company_currency_id, 
-                st_line_number, context)
-            self.write(
-                cr, uid, st_line.id, 
-                {'state': 'confirmed', 'move_id': move_id}, context)
+                # Create a voucher and store the ID on the statement line
+                voucher_id = self._create_voucher(cr, uid, ids, st_line, context=context)
+                self.pool.get('account.bank.statement.line').write(cr,uid,st_line.id,{'voucher_id':voucher_id} , context=context)
+
+            # If the voucher is in draft mode, then post it
+            voucher = voucher_pool.browse(cr, uid, voucher_id, context=context)
+            if voucher.state in ('draft','proforma'):
+                voucher.action_move_line_create()
+
+            # Update the statement line to indicate that it has been posted
+            # ... no longer need to set the move_id on the voucher?
+            #self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
+                
         return True
+
+
+    def _create_voucher(self, cr, uid, ids, st_line, context):
+
+        journal = st_line.statement_id.journal_id
+        if st_line.amount < 0.0:
+            voucher_type = 'payment'
+            account_id = journal.default_debit_account_id and journal.default_debit_account_id.id or False
+        else:
+            voucher_type = 'receipt'
+            account_id = journal.default_credit_account_id and journal.default_credit_account_id.id or False
+
+        # Convert the move line amount to the journal currency
+        move_line_amount = st_line.import_transaction_id.move_line_id.amount_residual_currency
+        to_curr_id = st_line.statement_id.journal_id.currency and st_line.statement_id.journal_id.currency.id or st_line.statement_id.company_id.currency_id.id
+        from_curr_id = st_line.import_transaction_id.move_line_id.currency_id and st_line.import_transaction_id.move_line_id.currency_id.id or st_line.statement_id.company_id.currency_id.id
+        if from_curr_id != to_curr_id:
+            amount_currency = self._convert_currency(cr, uid, from_curr_id, to_curr_id, move_line_amount, round=True,
+                                                     date=time.strftime('%Y-%m-%d'), context=context)
+        else:
+            amount_currency = move_line_amount
+
+        # Check whether this is a full or partial reconciliation
+        if st_line.import_transaction_id.payment_option=='with_writeoff':
+            writeoff = abs(st_line.amount)-abs(amount_currency)
+        else:
+            writeoff = 0.0
+        
+        # Define the voucher
+        voucher = {
+            'journal_id': st_line.statement_id.journal_id.id,
+            'partner_id': st_line.partner_id.id,
+            'company_id': st_line.company_id.id,
+            'type':voucher_type,
+            'company_id': st_line.company_id.id,
+            'account_id': account_id,
+            'amount': abs(st_line.amount),
+            'writeoff_amount': writeoff,
+            'payment_option': st_line.import_transaction_id.payment_option,
+            'writeoff_acc_id': st_line.import_transaction_id.writeoff_account_id.id,
+            'analytic_id': st_line.import_transaction_id.writeoff_analytic_id.id,
+            }
+
+        # Define the voucher line
+        vch_line = {
+            #'voucher_id': v_id,
+            'move_line_id': st_line.import_transaction_id.move_line_id.id,
+            'reconcile': True,
+            'amount': abs(amount_currency),
+            'account_id': st_line.import_transaction_id.move_line_id.account_id.id,
+            'type': st_line.import_transaction_id.move_line_id.credit and 'dr' or 'cr',
+            }
+        voucher['line_ids'] = [(0,0,vch_line)]
+        v_id = self.pool.get('account.voucher').create(cr, uid, voucher, context=context)
+        
+        return v_id
+
+
+    def confirm(self, cr, uid, ids, context=None):
+        return self.confirm_with_voucher(cr, uid, ids, context=context)
+        # TODO: a confirmed transaction should remove its reconciliation target
+        # from other transactions where it is one of multiple candidates or
+        # even the proposed reconciliation target.        
+        #statement_obj = self.pool.get('account.bank.statement')
+        #obj_seq = self.pool.get('ir.sequence')
+        #import_transaction_obj = self.pool.get('banking.import.transaction')
+        # 
+        #for st_line in self.browse(cr, uid, ids, context):
+        #    if st_line.state != 'draft':
+        #        continue
+        #    if st_line.duplicate:
+        #        raise osv.except_osv(
+        #            _('Bank transfer flagged as duplicate'),
+        #            _("You cannot confirm a bank transfer marked as a "
+        #              "duplicate (%s.%s)") % 
+        #            (st_line.statement_id.name, st_line.name,))
+        #    if st_line.analytic_account_id:
+        #        if not st_line.statement_id.journal_id.analytic_journal_id:
+        #            raise osv.except_osv(
+        #                _('No Analytic Journal !'),
+        #                _("You have to define an analytic journal on the '%s' "
+        #                  "journal!") % (st_line.statement_id.journal_id.name,))
+        #    if not st_line.amount:
+        #        continue
+        #    if st_line.import_transaction_id:
+        #        import_transaction_obj.reconcile(
+        #            cr, uid, st_line.import_transaction_id.id, context)
+        #        
+        #    if not st_line.statement_id.name == '/':
+        #        st_number = st_line.statement_id.name
+        #    else:
+        #        if st_line.statement_id.journal_id.sequence_id:
+        #            c = {'fiscalyear_id': 
+        #                 st_line.statement_id.period_id.fiscalyear_id.id}
+        #            st_number = obj_seq.get_id(
+        #                cr, uid, 
+        #                st_line.statement_id.journal_id.sequence_id.id, 
+        #                context=c)
+        #        else:
+        #            st_number = obj_seq.get(cr, uid, 'account.bank.statement')
+        #        statement_obj.write(
+        #            cr, uid, [st_line.statement_id.id], 
+        #            {'name': st_number}, context=context)
+        #    
+        #    st_line_number = statement_obj.get_next_st_line_number(
+        #        cr, uid, st_number, st_line, context)
+        #    company_currency_id = st_line.statement_id.journal_id.company_id.currency_id.id
+        #    move_id = statement_obj.create_move_from_st_line(
+        #        cr, uid, st_line.id, company_currency_id, 
+        #        st_line_number, context)
+        #    self.write(
+        #        cr, uid, st_line.id, 
+        #        {'state': 'confirmed', 'move_id': move_id}, context)
+        #return True
 
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):

@@ -330,6 +330,8 @@ class banking_transaction_wizard(osv.osv_memory):
             domain=[('account_id.reconcile', '=', True),
                     ('reconcile_id', '=', False)],
             ),
+        'payment_option': fields.related('import_transaction_id','payment_option', string='Payment Difference', type='selection', required=True,
+                                         selection=[('without_writeoff', 'Keep Open'),('with_writeoff', 'Reconcile Payment Balance')]),
         'writeoff_analytic_id': fields.related(
             'import_transaction_id', 'writeoff_analytic_id',
             type='many2one', relation='account.analytic.account',
@@ -338,6 +340,8 @@ class banking_transaction_wizard(osv.osv_memory):
             'statement_line_id', 'analytic_account_id',
             type='many2one', relation='account.analytic.account',
             string="Analytic Account"),
+        'move_currency_amount': fields.related('import_transaction_id','move_currency_amount',
+            type='float', string='Match Currency Amount', readonly=True),
         #'manual_payment_order_id': fields.many2one(
         #    'payment.order', "Payment order to reconcile"),
         }

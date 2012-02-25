@@ -15,11 +15,11 @@
                     <field name="duplicate" invisible="True"/>
                     <group colspan="2" col="2">
                         <group colspan="2" col="4">
-                            <separator string="Transaction data"/>
-                            <field name="date"/>
-                            <field name="amount"/>
-                            <field name="ref"/>
+                            <separator string="Transaction data" colspan="4"/>
                             <field name="partner_id"/>
+                            <field name="date"/>
+                            <field name="ref"/>
+                            <field name="amount"/>
                         </group>
                         
                         <!-- (semi-) automatic matching and selection -->
@@ -28,6 +28,9 @@
 
                             <separator string="Current match" colspan="4"/>
                             <field name="match_type"/>
+                            <newline />
+                            <field name="move_currency_amount" />
+                            <newline />
                             <field name="residual"/>
                             <group attrs="{'invisible': [('match_multi', '=', False)]}" colspan="4" col="2">
                                 <separator string="Multiple matches" colspan="2"/>
@@ -99,10 +102,10 @@
                             </page>
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
-                                    <label string="If the amount exceeds the match, you must set a write-off account and journal for the residual of this reconciliation. If the amount is smaller than the match, this is optional. If you do not set a write-off account in this case, the result will be a partial reconciliation."  colspan="2"/>
-                                    <field name="writeoff_account_id" />
-                                    <field name="writeoff_journal_id" />
-                                    <field name="writeoff_analytic_id" />
+                                    <label string="Choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment."  colspan="2"/>
+                                    <field name="payment_option" />
+                                    <field name="writeoff_account_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
+                                    <field name="writeoff_analytic_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
                                     <button colspan="1"
                                             name="trigger_write"
                                             type="object"

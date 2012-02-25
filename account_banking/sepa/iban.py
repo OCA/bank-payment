@@ -267,11 +267,12 @@ class IBAN(str):
         in 'C' implemented class, this can't be done in __init__.
         '''
         init = ''
-        for item in arg.upper():
-            if item.isalnum():
-                init += item
-            elif item not in ' \t.-':
-                raise ValueError, 'Invalid chars found in IBAN number'
+        if arg:
+            for item in arg.upper():
+                if item.isalnum():
+                    init += item
+                elif item not in ' \t.-':
+                    raise ValueError, 'Invalid chars found in IBAN number'
         return str.__new__(cls, init)
 
     def __init__(self, *args, **kwargs):
