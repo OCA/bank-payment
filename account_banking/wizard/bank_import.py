@@ -963,6 +963,10 @@ class banking_import(wizard.interface):
                             partner_bank_id = None
                             partner_banks = []
                         partner_ids = [partner_id]
+                    else:
+                        partner_ids = []
+                        partner_banks = []
+
 
                 # Credit means payment... isn't it?
                 if transaction.transferred_amount < 0 and payment_lines:
