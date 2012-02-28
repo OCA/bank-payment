@@ -1748,7 +1748,7 @@ class account_bank_statement_line(osv.osv):
 
             # Update the statement line to indicate that it has been posted
             # ... no longer need to set the move_id on the voucher?
-            #self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
+            self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
                 
         return True
 
@@ -1776,8 +1776,10 @@ class account_bank_statement_line(osv.osv):
         # Check whether this is a full or partial reconciliation
         if st_line.import_transaction_id.payment_option=='with_writeoff':
             writeoff = abs(st_line.amount)-abs(amount_currency)
+            line_amount = abs(amount_currency)
         else:
             writeoff = 0.0
+            line_amount = abs(st_line.amount)
         
         # Define the voucher
         voucher = {
@@ -1799,7 +1801,7 @@ class account_bank_statement_line(osv.osv):
             #'voucher_id': v_id,
             'move_line_id': st_line.import_transaction_id.move_line_id.id,
             'reconcile': True,
-            'amount': abs(amount_currency),
+            'amount': line_amount,
             'account_id': st_line.import_transaction_id.move_line_id.account_id.id,
             'type': st_line.import_transaction_id.move_line_id.credit and 'dr' or 'cr',
             }
@@ -1871,7 +1873,9 @@ class account_bank_statement_line(osv.osv):
             ids = [ids]
         account_move_obj = self.pool.get('account.move')
         import_transaction_obj = self.pool.get('banking.import.transaction')
+        voucher_pool = self.pool.get('account.voucher')
         transaction_cancel_ids = []
+        voucher_cancel_ids = []
         move_unlink_ids = []
         set_draft_ids = []
         # harvest ids for various actions
@@ -1883,18 +1887,29 @@ class account_bank_statement_line(osv.osv):
                     _("Cannot cancel bank transaction"),
                     _("The bank statement that this transaction belongs to has "
                       "already been confirmed"))
-            if st_line.import_transaction_id:
-                transaction_cancel_ids.append(st_line.import_transaction_id.id)
-            if st_line.move_id:
-                move_unlink_ids.append(st_line.move_id.id)
+
+            # Check if the transaction has a voucher
+            if st_line.voucher_id:
+                voucher_cancel_ids.append(st_line.voucher_id.id)
             else:
-                raise osv.except_osv(
-                    _("Cannot cancel bank transaction"),
-                    _("Cannot cancel this bank transaction. The information "
-                      "needed to undo the accounting entries has not been "
-                      "recorded"))
+                if st_line.import_transaction_id:
+                    transaction_cancel_ids.append(st_line.import_transaction_id.id)
+                if st_line.move_id:
+                    move_unlink_ids.append(st_line.move_id.id)
+                else:
+                    raise osv.except_osv(
+                        _("Cannot cancel bank transaction"),
+                        _("Cannot cancel this bank transaction. The information "
+                          "needed to undo the accounting entries has not been "
+                          "recorded"))
             set_draft_ids.append(st_line.id)
-        # perform actions
+
+        # Cancel and delete the vouchers
+        voucher_pool.cancel_voucher(cr, uid, voucher_cancel_ids, context=context)
+        voucher_pool.action_cancel_draft(cr, uid, voucher_cancel_ids, context=context)
+        voucher_pool.unlink(cr, uid, voucher_cancel_ids, context=context)
+
+        # Perform actions
         import_transaction_obj.cancel(
             cr, uid, transaction_cancel_ids, context=context)
         account_move_obj.button_cancel(cr, uid, move_unlink_ids, context)

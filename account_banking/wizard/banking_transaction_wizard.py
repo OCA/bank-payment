@@ -218,10 +218,12 @@ class banking_transaction_wizard(osv.osv_memory):
         """
         if isinstance(ids, (int, float)):
             ids = [ids]
-#        self.write(cr, uid, ids,
-#                   {'manual_invoice_id': False,
+        self.write(cr, uid, ids,
+                   {'partner_id': False,
+#                    'manual_invoice_id': False,
 #                    'manual_move_line_id': False,
-#                    }, context=context)
+                    }, context=context)
+        
         wizs = self.read(
             cr, uid, ids, ['import_transaction_id'], context=context)
         trans_ids = [x['import_transaction_id'][0] for x in wizs
