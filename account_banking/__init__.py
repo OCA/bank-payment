@@ -24,6 +24,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import browse_record
 import sepa
 import record
 import account_banking
