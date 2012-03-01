@@ -38,6 +38,11 @@ def split_account_holder(holder):
 
     return holder_parts[0], line2
 
+def address_truncate(name_address):
+    addr_line = name_address.upper().split("\n")[0:5]
+    addr_line = [s[:35] for s in addr_line]
+    return addr_line
+
 """
 The standard says alphanumeric characters, but spaces are also allowed
 """
@@ -459,7 +464,7 @@ class Batch(LogicalSection):
                 ['NAD'],
                 ['OY'],
                 [''],
-                self.name_address.upper().split("\n")[0:5],
+                address_truncate(self.name_address),
             ])
 
         for index, transaction in enumerate(self.transactions):
@@ -488,7 +493,7 @@ class Batch(LogicalSection):
                     ['NAD'],
                     ['OY'],
                     [''],
-                    self.name_address.upper().split("\n")[0:5],
+                    address_truncate(self.name_address),
                 ])
                 use_index = 1
             else:
@@ -618,11 +623,11 @@ class Transaction(LogicalSection, HasCurrency):
             [''],
         ]
         if self.name_address:
-            nad_segment.append(self.name_address.upper().split("\n")[0:5])
+            nad_segment.append(address_truncate(self.name_address))
         else:
             nad_segment.append('')
         if self.party_name:
-            nad_segment.append(self.party_name.upper().split("\n")[0:5])
+            nad_segment.append(address_truncate(self.party_name))
         segments.append(nad_segment)
 
         return segments
