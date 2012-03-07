@@ -451,21 +451,23 @@ class account_bank_statement(osv.osv):
         # Bank statements will not consider boolean on journal entry_posted
         account_move_obj.post(cr, uid, [move_id], context=context)
         
-        """ 
-        Account-banking:
-        - Write stored reconcile_id
-        - Pay invoices through workflow 
-        """
-        if st_line.reconcile_id:
-            account_move_line_obj.write(cr, uid, torec, {
-                    (st_line.reconcile_id.line_partial_ids and 
-                     'reconcile_partial_id' or 'reconcile_id'): 
-                    st_line.reconcile_id.id }, context=context)
-            for move_line in (st_line.reconcile_id.line_id or []) + (
-                st_line.reconcile_id.line_partial_ids or []):
-                netsvc.LocalService("workflow").trg_trigger(
-                    uid, 'account.move.line', move_line.id, cr)
-        """ End account-banking """
+        # Shouldn't now be needed as payment and reconciliation of invoices
+        # is done through account_voucher
+        #""" 
+        #Account-banking:
+        #- Write stored reconcile_id
+        #- Pay invoices through workflow 
+        #"""
+        #if st_line.reconcile_id:
+        #    account_move_line_obj.write(cr, uid, torec, {
+        #            (st_line.reconcile_id.line_partial_ids and 
+        #             'reconcile_partial_id' or 'reconcile_id'): 
+        #            st_line.reconcile_id.id }, context=context)
+        #    for move_line in (st_line.reconcile_id.line_id or []) + (
+        #        st_line.reconcile_id.line_partial_ids or []):
+        #        netsvc.LocalService("workflow").trg_trigger(
+        #            uid, 'account.move.line', move_line.id, cr)
+        #""" End account-banking """
 
         return move_id
 

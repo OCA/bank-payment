@@ -1705,12 +1705,17 @@ class account_bank_statement_line(osv.osv):
         return amount
 
 
-    def confirm_with_voucher(self, cr, uid, ids, context=None):
+    def confirm(self, cr, uid, ids, context=None):
         """
         Create (or update) a voucher for each statement line, and then generate
         the moves by posting the voucher.
+        If a line does not have a move line against it, but has an account, then 
+        generate a journal entry that moves the line amount to the specified account.
         """
         voucher_pool = self.pool.get('account.voucher')
+        statement_pool = self.pool.get('account.bank.statement')
+        obj_seq = self.pool.get('ir.sequence')
+        move_pool = self.pool.get('account.move')
 
         for st_line in self.browse(cr, uid, ids, context):
             if st_line.state != 'draft':
@@ -1730,31 +1735,79 @@ class account_bank_statement_line(osv.osv):
             if not st_line.amount:
                 continue
 
-            # Check if a voucher has already been created
-            if st_line.voucher_id:
-                # There's an existing voucher on the statement line which was probably created
-                # manually. This may have been done because it was a single payment for multiple
-                # invoices. Just get the voucher ID.
-                voucher_id = st_line.voucher_id.id
+            # Generate the statement number, if it is not already done
+            st = st_line.statement_id
+            if not st.name == '/':
+                st_number = st.name
             else:
-                # Create a voucher and store the ID on the statement line
-                voucher_id = self._create_voucher(cr, uid, ids, st_line, context=context)
-                self.pool.get('account.bank.statement.line').write(cr,uid,st_line.id,{'voucher_id':voucher_id} , context=context)
+                if st.journal_id.sequence_id:
+                    c = {'fiscalyear_id': st.period_id.fiscalyear_id.id}
+                    st_number = obj_seq.next_by_id(cr, uid, st.journal_id.sequence_id.id, context=c)
+                else:
+                    st_number = obj_seq.next_by_code(cr, uid, 'account.bank.statement')
+                statement_obj.write(cr, uid, [st.id], {'name': st_number}, context=context)
 
-            # If the voucher is in draft mode, then post it
-            voucher = voucher_pool.browse(cr, uid, voucher_id, context=context)
-            if voucher.state in ('draft','proforma'):
-                voucher.action_move_line_create()
+            # Check if this line has been matched against a journal item
+            if st_line.import_transaction_id.move_line_id:
+                # Line has been matched, so post it via a voucher
+                self._post_with_voucher(cr, uid, ids, st_line, voucher_pool, move_pool, context=context)
 
-            # Update the statement line to indicate that it has been posted
-            # ... no longer need to set the move_id on the voucher?
-            self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
-                
+            else:
+                # Check to see if the line has an account that can be used to generate a journal entry
+                if st_line.account_id:
+                    # Generate a journal for the entry using the standard bank statement code
+                    self._create_move(cr, uid, st_line, statement_pool, st, st_number, context=context)
+                else:
+                    raise osv.except_osv(
+                        _('Statement line has no account'),
+                        _("You cannot confirm a bank statement line that has no account against it (%s.%s)") % 
+                        (st_line.statement_id.name, st_line.name,))
+                    
         return True
+
+    def _create_move(self, cr, uid, st_line, statement_pool, st, st_number, context):
+        """
+        The line is not matched against a move, but the account has been defined for the line.
+        Generate a journal entry for the statement line that transfers the full amount against the account.
+        """
+        st_line_number = statement_pool.get_next_st_line_number(cr, uid, st_number, st_line, context)
+        company_currency_id = st.journal_id.company_id.currency_id.id
+        move_id = statement_pool.create_move_from_st_line(cr, uid, st_line.id, company_currency_id, st_line_number, context)
+        self.write(cr, uid, st_line.id, {'state': 'confirmed', 'move_id': move_id}, context)               
+
+
+    def _post_with_voucher(self, cr, uid, ids, st_line, voucher_pool, move_pool, context):
+        # Check if a voucher has already been created
+        if st_line.voucher_id:
+            # There's an existing voucher on the statement line which was probably created
+            # manually. This may have been done because it was a single payment for multiple
+            # invoices. Just get the voucher ID.
+            voucher_id = st_line.voucher_id.id
+        else:
+            # Create a voucher and store the ID on the statement line
+            voucher_id = self._create_voucher(cr, uid, ids, st_line, context=context)
+            self.pool.get('account.bank.statement.line').write(cr,uid,st_line.id,{'voucher_id':voucher_id} , context=context)
+         
+        # If the voucher is in draft mode, then post it
+        voucher = voucher_pool.browse(cr, uid, voucher_id, context=context)
+        if voucher.state in ('draft','proforma'):
+            voucher.action_move_line_create()
+         
+        # Update the statement line to indicate that it has been posted
+        # ... no longer need to set the move_id on the voucher?
+        self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
+
+        # The voucher journal isn't automatically posted, so post it (if needed)
+        if not voucher.journal_id.entry_posted:
+            voucher = voucher_pool.browse(cr, uid, voucher_id, context=context)
+            move_pool.post(cr, uid, [voucher.move_id.id], context={})
 
 
     def _create_voucher(self, cr, uid, ids, st_line, context):
-
+        """
+        The line is matched against a move (invoice), so generate a payment voucher with the write-off settings that the
+        user requested. The move lines will be generated by the voucher, handling rounding and currency conversion.
+        """
         journal = st_line.statement_id.journal_id
         if st_line.amount < 0.0:
             voucher_type = 'payment'
@@ -1762,6 +1815,13 @@ class account_bank_statement_line(osv.osv):
         else:
             voucher_type = 'receipt'
             account_id = journal.default_credit_account_id and journal.default_credit_account_id.id or False
+
+        # Use the statement line's date determine the period
+        ctxt = context.copy()
+        ctxt['company_id'] = st_line.company_id.id
+        if 'period_id' in ctxt:
+            del ctxt['period_id']
+        period_id = self.pool.get('account.period').find(cr, uid, st_line.date, context=ctxt)[0]
 
         # Convert the move line amount to the journal currency
         move_line_amount = st_line.import_transaction_id.move_line_id.amount_residual_currency
@@ -1794,6 +1854,9 @@ class account_bank_statement_line(osv.osv):
             'payment_option': st_line.import_transaction_id.payment_option,
             'writeoff_acc_id': st_line.import_transaction_id.writeoff_account_id.id,
             'analytic_id': st_line.import_transaction_id.writeoff_analytic_id.id,
+            'date': st_line.date,
+            'date_due': st_line.date,
+            'period_id': period_id,
             }
 
         # Define the voucher line
@@ -1810,63 +1873,6 @@ class account_bank_statement_line(osv.osv):
         
         return v_id
 
-
-    def confirm(self, cr, uid, ids, context=None):
-        return self.confirm_with_voucher(cr, uid, ids, context=context)
-        # TODO: a confirmed transaction should remove its reconciliation target
-        # from other transactions where it is one of multiple candidates or
-        # even the proposed reconciliation target.        
-        #statement_obj = self.pool.get('account.bank.statement')
-        #obj_seq = self.pool.get('ir.sequence')
-        #import_transaction_obj = self.pool.get('banking.import.transaction')
-        # 
-        #for st_line in self.browse(cr, uid, ids, context):
-        #    if st_line.state != 'draft':
-        #        continue
-        #    if st_line.duplicate:
-        #        raise osv.except_osv(
-        #            _('Bank transfer flagged as duplicate'),
-        #            _("You cannot confirm a bank transfer marked as a "
-        #              "duplicate (%s.%s)") % 
-        #            (st_line.statement_id.name, st_line.name,))
-        #    if st_line.analytic_account_id:
-        #        if not st_line.statement_id.journal_id.analytic_journal_id:
-        #            raise osv.except_osv(
-        #                _('No Analytic Journal !'),
-        #                _("You have to define an analytic journal on the '%s' "
-        #                  "journal!") % (st_line.statement_id.journal_id.name,))
-        #    if not st_line.amount:
-        #        continue
-        #    if st_line.import_transaction_id:
-        #        import_transaction_obj.reconcile(
-        #            cr, uid, st_line.import_transaction_id.id, context)
-        #        
-        #    if not st_line.statement_id.name == '/':
-        #        st_number = st_line.statement_id.name
-        #    else:
-        #        if st_line.statement_id.journal_id.sequence_id:
-        #            c = {'fiscalyear_id': 
-        #                 st_line.statement_id.period_id.fiscalyear_id.id}
-        #            st_number = obj_seq.get_id(
-        #                cr, uid, 
-        #                st_line.statement_id.journal_id.sequence_id.id, 
-        #                context=c)
-        #        else:
-        #            st_number = obj_seq.get(cr, uid, 'account.bank.statement')
-        #        statement_obj.write(
-        #            cr, uid, [st_line.statement_id.id], 
-        #            {'name': st_number}, context=context)
-        #    
-        #    st_line_number = statement_obj.get_next_st_line_number(
-        #        cr, uid, st_number, st_line, context)
-        #    company_currency_id = st_line.statement_id.journal_id.company_id.currency_id.id
-        #    move_id = statement_obj.create_move_from_st_line(
-        #        cr, uid, st_line.id, company_currency_id, 
-        #        st_line_number, context)
-        #    self.write(
-        #        cr, uid, st_line.id, 
-        #        {'state': 'confirmed', 'move_id': move_id}, context)
-        #return True
 
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
@@ -1940,39 +1946,17 @@ class account_bank_statement(osv.osv):
         This method taken from account/account_bank_statement.py and
         altered to take the statement line subflow into account
         """
-
-        res_currency_obj = self.pool.get('res.currency')
-        res_users_obj = self.pool.get('res.users')
         res = {}
-
-        company_currency_id = res_users_obj.browse(cursor, user, user,
-                context=context).company_id.currency_id.id
-
+    
         statements = self.browse(cursor, user, ids, context=context)
         for statement in statements:
             res[statement.id] = statement.balance_start
-            currency_id = statement.currency.id
-            for line in statement.move_line_ids:
-                if line.debit > 0:
-                    if line.account_id.id == \
-                            statement.journal_id.default_debit_account_id.id:
-                        res[statement.id] += res_currency_obj.compute(cursor,
-                                user, company_currency_id, currency_id,
-                                line.debit, context=context)
-                else:
-                    if line.account_id.id == \
-                            statement.journal_id.default_credit_account_id.id:
-                        res[statement.id] -= res_currency_obj.compute(cursor,
-                                user, company_currency_id, currency_id,
-                                line.credit, context=context)
-            if statement.state == 'draft':
-                for line in statement.line_ids:
-                    ### start modifications banking-addons ###
-                    # res[statement.id] += line.amount
-                    if line.state == 'draft':
-                        res[statement.id] += line.amount
-                    ### end modifications banking-addons ###
 
+            # Calculate the balance based on the statement line amounts
+            # ..they are in the statement currency, no conversion needed.
+            for line in statement.line_ids:
+                res[statement.id] += line.amount
+     
         for r in res:
             res[r] = round(res[r], 2)
         return res
