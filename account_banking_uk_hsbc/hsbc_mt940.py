@@ -22,12 +22,14 @@
 #
 
 from account_banking.parsers import models
-from account_banking.parsers.convert import str2date
 from tools.translate import _
 from mt940_parser import HSBCParser
 import re
+import osv
+import logging
 
 bt = models.mem_bank_transaction
+logger = logging.getLogger('hsbc_mt940')
 
 def record2float(record, value):
     if record['creditmarker'][-1] == 'C':
@@ -46,7 +48,10 @@ class transaction(models.mem_bank_transaction):
     }
 
     type_map = {
-        'TRF': bt.ORDER,
+        'NTRF': bt.ORDER,
+        'NMSC': bt.ORDER,
+        'NPAY': bt.PAYMENT_BATCH,
+        'NCHK': bt.CHECK,
     }
 
     def __init__(self, record, *args, **kwargs):
@@ -60,9 +65,15 @@ class transaction(models.mem_bank_transaction):
 
         self.transferred_amount = record2float(record, 'amount')
 
-        #print record.get('bookingcode')
+        # Set the transfer type based on the bookingcode
+        if record.get('bookingcode','ignore') in self.type_map:
+            self.transfer_type = self.type_map[record['bookingcode']]
+        else:
+            # Default to the generic order, so it will be eligible for matching
+            self.transfer_type = bt.ORDER
+
         if not self.is_valid():
-            print "Invalid: %s" % record
+            logger.info("Invalid: %s", record)
     def is_valid(self):
         '''
         We don't have remote_account so override base
@@ -94,7 +105,7 @@ class statement(models.mem_bank_statement):
         def _transaction_info():
             self.transaction_info(record)
         def _not_used():
-            print "Didn't use record: %s" % (record,)
+            logger.info("Didn't use record: %s", record)
 
         rectypes = {
             '20' : _transmission_number,
@@ -121,7 +132,7 @@ class statement(models.mem_bank_statement):
 
         transaction = self.transactions[-1]
 
-        transaction.reference = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(1,5)] if record.has_key(k)])
+        transaction.id = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(2,5)] if record.has_key(k)])
 
 def raise_error(message, line):
     raise osv.except_osv(_('Import error'),
@@ -153,9 +164,8 @@ class parser_hsbc_mt940(models.parser):
             if stmnt.is_valid():
                 result.append(stmnt)
             else:
-                print "Invalid Statement:"
-                print records[0]
-
+                logger.info("Invalid Statement:")
+                logger.info(records[0])
 
         return result
 

@@ -99,11 +99,12 @@ class banking_transaction_wizard(osv.osv_memory):
                 del wizard_vals[key]
 
         # write the related fields on the transaction model
-        for wizard in self.read(
-            cr, uid, ids, ['import_transaction_id'], context=context):
-            if wizard['import_transaction_id']:
+        if isinstance(ids, int):
+            ids = [ids]
+        for wizard in self.browse(cr, uid, ids, context=context):
+            if wizard.import_transaction_id:
                 transaction_obj.write(
-                    cr, uid, wizard['import_transaction_id'][0],
+                    cr, uid, wizard.import_transaction_id.id,
                     transaction_vals, context=context)
 
         # write other fields to the wizard model
@@ -216,20 +217,34 @@ class banking_transaction_wizard(osv.osv_memory):
         """
         Clear manual and automatic match information
         """
+        settings_pool = self.pool.get('account.banking.account.settings')
+        statement_pool = self.pool.get('account.bank.statement.line')
+
         if isinstance(ids, (int, float)):
             ids = [ids]
-        self.write(cr, uid, ids,
-                   {'partner_id': False,
-#                    'manual_invoice_id': False,
-#                    'manual_move_line_id': False,
-                    }, context=context)
-        
-        wizs = self.read(
-            cr, uid, ids, ['import_transaction_id'], context=context)
-        trans_ids = [x['import_transaction_id'][0] for x in wizs
-                     if x['import_transaction_id']]
-        return self.pool.get('banking.import.transaction').clear_and_write(
-            cr, uid, trans_ids, context=context)
+
+        for wiz in self.browse(cr, uid, ids, context=context):
+            # Get the bank account setting record, to reset the account
+            account_id = False
+            journal_id = wiz.statement_line_id.statement_id.journal_id.id
+            setting_ids = settings_pool.find(cr, uid, journal_id, context=context)
+            if len(setting_ids)>0:
+                setting = settings_pool.browse(cr, uid, setting_ids[0], context=context)
+                if wiz.amount < 0:
+                    account_id = setting.default_credit_account_id and setting.default_credit_account_id.id
+                else:
+                    account_id = setting.default_debit_account_id and setting.default_debit_account_id.id
+                statement_pool.write(cr, uid, wiz.statement_line_id.id, {'account_id':account_id})
+            
+            self.write(cr, uid, wiz.id, {'partner_id': False}, context=context)
+            
+            wizs = self.read(
+                cr, uid, ids, ['import_transaction_id'], context=context)
+            trans_ids = [x['import_transaction_id'][0] for x in wizs
+                         if x['import_transaction_id']]
+            self.pool.get('banking.import.transaction').clear_and_write(
+                cr, uid, trans_ids, context=context)
+        return True
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
         if isinstance(ids, (int, float)):

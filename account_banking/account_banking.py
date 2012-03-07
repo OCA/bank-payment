@@ -137,6 +137,12 @@ class account_banking_account_settings(osv.osv):
                                                    [('parent_id', '=', False)]
                                                   )[0]
 
+    def find(self, cr, uid, journal_id, partner_bank_id=False, context=None):
+        domain = [('journal_id','=',journal_id)]
+        if partner_bank_id:
+            domain.append(('partner_bank_id','=',partner_bank_id))
+        return self.search(cr, uid, domain, context=context)
+
     _defaults = {
         'company_id': _default_company,
         #'multi_currency': lambda *a: False,
