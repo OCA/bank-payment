@@ -297,6 +297,7 @@
                         <field name="reconcile_id"/>
                     </xpath>
                     <xpath expr="/form/notebook/page/field[@name='line_ids']/form/field[@name='amount']" position="after">
+                        <field name="state"/>
                         <field name="invoice_id"/>
                         <field name="reconcile_id"/>
                     </xpath>
