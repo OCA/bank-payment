@@ -102,6 +102,7 @@ class banking_import(osv.osv_memory):
                         'line_id': [(6, 0, [move_line.id])],
                 }
             )
+        move_line.refresh()
         return retval
 
     def _link_payment(self, cursor, uid, trans, payment_lines,
