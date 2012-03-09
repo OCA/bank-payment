@@ -62,4 +62,72 @@ class hsbc_export(osv.osv):
     }
 hsbc_export()
 
+
+class payment_line(osv.osv):
+    '''
+    The standard payment order is using a mixture of details from the partner record
+    and the res.partner.bank record. For, instance, the account holder name is coming
+    from the res.partner.bank record, but the company name and address are coming from
+    the partner address record. This is problematic because the HSBC payment format
+    is validating for alphanumeric characters in the company name and address. So,
+    "Great Company Ltd." and "Great Company s.a." will cause an error because they have
+    full-stops in the name.
+
+    A better approach is to use the name and address details from the res.partner.bank
+    record always. This way, the address details can be sanitized for the payments, 
+    whilst being able to print the proper name and address throughout the rest of the
+    system e.g. on invoices.
+    '''
+    _name = 'payment.line'
+    _inherit = 'payment.line'
+
+    def info_owner(self, cr, uid, ids, name=None, args=None, context=None):
+        if not ids: return {}
+
+        result = {}
+        info=''
+        for line in self.browse(cr, uid, ids, context=context):
+            owner = line.order_id.mode.bank_id
+
+            name = owner.owner_name or owner.partner_id.name
+            st = owner.street and owner.street or ''
+            st1 = '' #no street2 in res.partner.bank
+            zip = owner.zip and owner.zip or ''
+            city = owner.city and owner.city or  ''
+            zip_city = zip + ' ' + city
+            cntry = owner.country_id and owner.country_id.name or ''
+            info = name + "\n" + st + " " + st1 + "\n" + zip_city + "\n" +cntry
+            result[line.id] = info
+        return result
+
+    def info_partner(self, cr, uid, ids, name=None, args=None, context=None):
+        if not ids: return {}
+        result = {}
+        info = ''
+
+        for line in self.browse(cr, uid, ids, context=context):
+            partner = line.order_id.mode.bank_id
+
+            name = partner.owner_name or partner.partner_id.name
+            st = partner.street and partner.street or ''
+            st1 = '' #no street2 in res.partner.bank
+            zip = partner.zip and partner.zip or ''
+            city = partner.city and partner.city or  ''
+            zip_city = zip + ' ' + city
+            cntry = partner.country_id and partner.country_id.name or ''
+            info = name + "\n" + st + " " + st1 + "\n" + zip_city + "\n" +cntry
+            result[line.id] = info
+
+        return result
+
+
+    # Define the info_partner and info_owner so we can override the methods
+    _columns = {
+        'info_owner': fields.function(info_owner, string="Owner Account", type="text", help='Address of the Main Partner'),
+        'info_partner': fields.function(info_partner, string="Destination Account", type="text", help='Address of the Ordering Customer.'),
+    }
+
+payment_line()
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
