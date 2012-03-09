@@ -1457,7 +1457,6 @@ class res_bank(osv.osv):
                 # Only the first eight positions of BIC are used for bank
                 # transfers, so ditch the rest.
                 bic = info.bic[:8],
-                code = info.code,
                 street = address.street,
                 street2 = 
                     address.has_key('street2') and address.street2 or False,

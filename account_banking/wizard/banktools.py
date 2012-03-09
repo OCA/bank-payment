@@ -374,35 +374,6 @@ def create_bank_account(pool, cursor, uid, partner_id,
     if bic:
         values.bank = get_or_create_bank(pool, cursor, uid, bic)[0]
 
-    else:
-        if not bankcode:
-            bankcode = "UNKNOW"
-        # Try to link bank
-        bank_obj = pool.get('res.bank')
-        bank_ids = bank_obj.search(cursor, uid, [
-            ('code', 'ilike', bankcode)
-        ])
-        if bank_ids:
-            # Check BIC on existing banks
-            values.bank = bank_ids[0]
-            bank = bank_obj.browse(cursor, uid, values.bank)
-            if not bank.bic:
-                bank_obj.write(cursor, uid, values.bank, dict(bic=bic))
-        else:
-            # New bank - create
-            res = struct(country_id=country_id)
-            if account_info:
-                res.code = account_info.code
-                # Only the first eight positions of BIC are used for bank
-                # transfers, so ditch the rest.
-                res.bic = account_info.bic[:8]
-                res.name = account_info.bank
-            else:
-                res.code = bankcode
-                res.name = _('Unknown Bank')
-
-            values.bank = bank_obj.create(cursor, uid, res)
-
     # Create bank account and return
     return pool.get('res.partner.bank').create(cursor, uid, values)
 
