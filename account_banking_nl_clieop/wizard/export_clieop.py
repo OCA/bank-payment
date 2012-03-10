@@ -237,11 +237,15 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 # Just once: create clieop file
                 our_account_owner = payment_order.mode.bank_id.owner_name \
                         or payment_order.mode.bank_id.partner_id.name
-                our_account_nr = payment_order.mode.bank_id.acc_number
-                if not our_account_nr and payment_order.mode.bank_id.iban:
-                    our_account_nr = sepa.IBAN(
-                        payment_order.mode.bank_id.iban
-                    ).localized_BBAN
+
+                if payment_order.mode.bank_id.state == 'iban':
+                    our_account_nr = payment_order.mode.bank_id.acc_number_domestic
+                    if not our_account_nr:
+                        our_account_nr = sepa.IBAN(
+                            payment_order.mode.bank_id.acc_number
+                            ).localized_BBAN
+                else:
+                    our_account_nr = payment_order.mode.bank_id.acc_number
                 if not our_account_nr:
                     raise osv.except_osv(
                         _('Error'),
@@ -255,6 +259,9 @@ class banking_export_clieop_wizard(osv.osv_memory):
                                  execution_date = clieop_export['execution_date'],
                                  name_sender = our_account_owner,
                                  accountno_sender = our_account_nr,
+                                 seqno = self.pool.get(
+                                     'banking.export.clieop').get_daynr(
+                                     cursor, uid, context=context),
                                  test = clieop_export['test']
                              )
 
@@ -292,7 +299,11 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 )
                 if line.communication2:
                     kwargs['messages'] = [line.communication2]
-                other_account_nr = line.bank_id.acc_number
+                other_account_nr = (
+                    line.bank_id.state == 'iban' and
+                    line.bank_id.acc_number_domestic or
+                    line.bank_id.acc_number
+                    )
                 iban = sepa.IBAN(other_account_nr)
                 # Is this an IBAN account?
                 if iban.valid:
@@ -351,7 +362,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
         Cancel the ClieOp: just drop the file
         '''
         clieop_export = self.read(cursor, uid, ids, ['file_id'], context)[0]
-        self.pool.get('banking.export.clieop').unlink(cursor, uid, clieop_export['file_id'])
+        self.pool.get('banking.export.clieop').unlink(cursor, uid, clieop_export['file_id'][0])
         return {'type': 'ir.actions.act_window_close'}
 
     def save_clieop(self, cursor, uid, ids, context):
