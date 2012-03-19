@@ -298,8 +298,10 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         try:
             self.logger.notifyChannel('paymul', netsvc.LOG_INFO, 'Create transactions...')
             transactions = []
+            hsbc_clientid = ''
             for po in payment_orders:
                 transactions += [self._create_transaction(l) for l in po.line_ids]
+                hsbc_clientid = po.hsbc_clientid_id.clientid
 
             batch = paymul.Batch(
                 exec_date=strpdate(wizard_data.execution_date_create),
@@ -328,7 +330,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
 
         message = paymul.Message(reference=ref)
         message.batches.append(batch)
-        interchange = paymul.Interchange(client_id='CLIENTID',
+        interchange = paymul.Interchange(client_id=hsbc_clientid,
                                          reference=ref,
                                          message=message)
 
