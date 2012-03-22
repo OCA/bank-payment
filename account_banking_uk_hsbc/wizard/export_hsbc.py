@@ -139,7 +139,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         return super(banking_export_hsbc_wizard, self).create(
             cursor, uid, wizard_data, context)
 
-    def _create_account(self, oe_account):
+    def _create_account(self, oe_account, origin_country=None, is_origin_account=False):
         currency = None # let the receiving bank select the currency from the batch
         holder = oe_account.owner_name or oe_account.partner_id.name
         self.logger.info('Create account %s' % (holder))
@@ -191,7 +191,8 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 currency=currency,
                 swiftcode=oe_account.bank.bic,
                 country=oe_account.country_id.code,
-                #origin_country=origin_country
+                origin_country=origin_country,
+                is_origin_account=is_origin_account
             )
             transaction_kwargs = {
                 'charges': paymul.CHARGES_PAYEE,
@@ -237,7 +238,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             )
         
         self.logger.info('====')
-        dest_account, transaction_kwargs = self._create_account(line.bank_id)
+        dest_account, transaction_kwargs = self._create_account(line.bank_id, line.order_id.mode.bank_id.country_id.code)
 
         means = {'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
                  'Faster Payment': paymul.MEANS_FASTER_PAYMENT,
@@ -278,7 +279,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         try:
             self.logger.info('Source - %s (%s) %s' % (payment_orders[0].mode.bank_id.partner_id.name, payment_orders[0].mode.bank_id.acc_number, payment_orders[0].mode.bank_id.country_id.code))
             src_account = self._create_account(
-                payment_orders[0].mode.bank_id,
+                payment_orders[0].mode.bank_id, payment_orders[0].mode.bank_id.country_id.code, is_origin_account=True
             )[0]
         except ValueError as exc:
             raise osv.except_osv(
