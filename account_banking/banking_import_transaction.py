@@ -1857,6 +1857,7 @@ class account_bank_statement_line(osv.osv):
             'date': st_line.date,
             'date_due': st_line.date,
             'period_id': period_id,
+            'payment_rate_currency_id':to_curr_id,
             }
 
         # Define the voucher line
