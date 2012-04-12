@@ -1135,8 +1135,9 @@ class res_partner_bank(osv.osv):
         Create dual function IBAN account for SEPA countries
         '''
         if vals['state'] == 'iban':
+            iban = vals.get('acc_number',False) or vals.get('acc_number_domestic',False)
             vals['acc_number'], vals['acc_number_domestic'] = (
-                self._correct_IBAN(vals['acc_number']))
+                self._correct_IBAN(iban))
         return self._founder.create(cursor, uid, vals, context)
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -1421,7 +1422,9 @@ class res_partner_bank(osv.osv):
                       )
 
     _constraints = [
-        (check_iban, _("The IBAN number doesn't seem to be correct"), ["acc_number"])
+        # Cannot have this as a constraint as it is rejecting valid numbers from GB and DE
+        # It works much better without this constraint!
+        #(check_iban, _("The IBAN number doesn't seem to be correct"), ["acc_number"])
     ]
 
 res_partner_bank()
