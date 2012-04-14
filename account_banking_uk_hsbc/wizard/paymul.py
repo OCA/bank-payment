@@ -183,10 +183,13 @@ class NorthAmericanAccount(UKAccount):
         return account_ident
 
     def _set_sortcode(self, sortcode):
-        if not edifact_digits(sortcode, 9):
-            raise ValueError("Account routing number must be 9 digits long: " +
-                             str(sortcode))
-
+        if self.origin_country == 'CA' and self.is_origin_account:
+            expected_digits = 6
+        else:
+            expected_digits = 9
+        if not edifact_digits(sortcode, expected_digits):
+            raise ValueError("Account routing number must be %d digits long: %s" %
+                             (expected_digits, str(sortcode)))
         
         self._sortcode = sortcode
 
@@ -218,14 +221,15 @@ class NorthAmericanAccount(UKAccount):
 
     number = property(_get_number, _set_number)
 
-    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None, is_origin_account=False):
+        self.origin_country = origin_country
+        self.is_origin_account = is_origin_account
         self.number = number
         self.holder = holder
         self.currency = currency
         self.sortcode = sortcode
         self.country = country
         self.bic = swiftcode
-        self.origin_country = origin_country
         self.institution_identification = self._set_account_ident()
 
 
@@ -266,14 +270,15 @@ class SWIFTAccount(UKAccount):
 
     number = property(_get_number, _set_number)
 
-    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None):
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None, is_origin_account=False):
+        self.origin_country = origin_country
+        self.is_origin_account = is_origin_account
         self.number = number
         self.holder = holder
         self.currency = currency
         self.sortcode = sortcode
         self.country = country
         self.bic = swiftcode
-        self.origin_country = origin_country
         self.institution_identification = self._set_account_ident()
 
 

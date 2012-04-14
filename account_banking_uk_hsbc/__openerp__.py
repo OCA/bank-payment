@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'HSBC Account Banking',
-    'version': '0.4',
+    'version': '0.5',
     'license': 'AGPL-3',
     'author': 'credativ Ltd',
     'website': 'http://www.credativ.co.uk',
@@ -45,7 +45,7 @@
     This module adds above import/export filter to the account_banking module.
     All business logic is in account_banking module.
 
-    Initial release of this module was co-sponsored by canonical.
+    Initial release of this module was co-sponsored by Canonical.
     ''',
     'active': False,
     'installable': True,

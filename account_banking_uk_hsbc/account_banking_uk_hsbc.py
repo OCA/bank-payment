@@ -106,7 +106,7 @@ class payment_line(osv.osv):
         info = ''
 
         for line in self.browse(cr, uid, ids, context=context):
-            partner = line.order_id.mode.bank_id
+            partner = line.bank_id
 
             name = partner.owner_name or partner.partner_id.name
             st = partner.street and partner.street or ''
