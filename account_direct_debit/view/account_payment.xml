@@ -12,7 +12,8 @@
             <field name="res_model">payment.order</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'search_payment_order_type': 'debit'}</field>
+            <field name="context">{'search_payment_order_type': 'debit',
+                                   'default_payment_order_type': 'debit'}</field>
             <field name="search_view_id" ref="account_payment.view_payment_order_search"/>
             <field name="domain">[('payment_order_type', '=', 'debit')]</field>
             <field name="help">A debit order is a debit request from your company to collect customer invoices. Here you can register all debit orders that should be done, keep track of all debit orders and mention the invoice reference and the partner the withdrawal should be done for.</field>
@@ -45,10 +46,11 @@
                                 icon="gtk-find"
                                 />
                     </xpath>
-                    <xpath expr="//tree[@string='Payment Line']" position="inside">
-                        <!-- the attrs do not work like this, apparently -->
-                        <field name="storno" attrs="{'invisible': [(parent.payment_order_type, '!=', 'debit')]}"/>
-                    </xpath>
+                    <!-- the attrs do not work like this, apparently
+                         <xpath expr="//tree[@string='Payment Line']" position="inside">
+                             <field name="storno" attrs="{'invisible': [(parent.payment_order_type, '!=', 'debit')]}"/>
+                         </xpath>
+                    -->
                 </data>
             </field>
         </record>

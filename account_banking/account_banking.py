@@ -1142,6 +1142,9 @@ class res_partner_bank(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
+        
+        Update the domestic account number when the IBAN is
+        written, or clear the domestic number on regular account numbers.
         '''
         if ids and isinstance(ids, (int, long)):
             ids = [ids]
@@ -1149,7 +1152,7 @@ class res_partner_bank(osv.osv):
             cr, uid, ids, ['state', 'acc_number']):
             if 'state' in vals or 'acc_number' in vals:
                 account.update(vals)
-                if 'state' in vals and vals['state'] == 'iban':
+                if account['state'] == 'iban':
                     vals['acc_number'], vals['acc_number_domestic'] = (
                         self._correct_IBAN(account['acc_number']))
                 else:
@@ -1361,12 +1364,14 @@ class res_partner_bank(osv.osv):
                         bank_id, country_id = get_or_create_bank(
                             self.pool, cursor, uid,
                             info.bic or iban_acc.BIC_searchkey,
-                            code = info.code, name = info.bank
+                            name = info.bank
                             )
                         values['country_id'] = country_id or \
                                                country_ids and country_ids[0] or \
                                                False
                         values['bank'] = bank_id or False
+                        if info.bic:
+                            values['bank_bic'] = info.bic
                     else:
                         info = None
                 if info is None:

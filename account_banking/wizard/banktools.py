@@ -373,6 +373,7 @@ def create_bank_account(pool, cursor, uid, partner_id,
 
     if bic:
         values.bank = get_or_create_bank(pool, cursor, uid, bic)[0]
+        values.bank_bic = bic
 
     # Create bank account and return
     return pool.get('res.partner.bank').create(cursor, uid, values)

@@ -7,6 +7,3 @@ class res_partner_bank(osv.osv):
         'acc_number_domestic': fields.char(
             'Domestic Account Number', size=64)
         }
-
-res_partner_bank()
-

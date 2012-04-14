@@ -1934,7 +1934,7 @@ class account_bank_statement_line(osv.osv):
         for line in self.browse(cr, uid, ids, context=context):
             if line.state == 'confirmed':
                 raise osv.except_osv(_('Confirmed Statement Line'), _("You cannot delete a confirmed Statement Line: '%s'" % line.name))
-        return super(account_bank_statement,self).unlink(cr, uid, ids, context=context)
+        return super(account_bank_statement_line,self).unlink(cr, uid, ids, context=context)
 
 account_bank_statement_line()
 
