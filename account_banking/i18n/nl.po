@@ -1192,7 +1192,7 @@ msgstr "remote_owner_custno"
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
-msgstr "Impotlog"
+msgstr "Importlog"
 
 #. module: account_banking
 #: field:banking.import.line,date:0
