@@ -1515,7 +1515,7 @@ class banking_import_transaction(osv.osv):
         stline_pool = self.pool.get('account.bank.statement.line')
 
         res = {}
-        
+
         for transaction in self.browse(cr, uid, ids, context):
 
             if transaction.move_line_id:
@@ -1844,7 +1844,7 @@ class account_bank_statement_line(osv.osv):
         # Define the voucher
         voucher = {
             'journal_id': st_line.statement_id.journal_id.id,
-            'partner_id': st_line.partner_id and st_line.partner_id.id,
+            'partner_id': st_line.partner_id and st_line.partner_id.id or False,
             'company_id': st_line.company_id.id,
             'type':voucher_type,
             'company_id': st_line.company_id.id,
