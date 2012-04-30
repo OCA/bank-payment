@@ -59,7 +59,7 @@ class clieop_export(osv.osv):
                 ('INCASSO', 'Direct Debit Batch'),
                 ], 'File Type', size=7, readonly=True, select=True),
         'date_generated':
-            fields.datetime('Generation Date', readonly=True, select=True),
+            fields.date('Generation Date', readonly=True, select=True),
         'file':
             fields.binary('ClieOp File', readonly=True),
         'state':
@@ -69,24 +69,26 @@ class clieop_export(osv.osv):
                 ('done', 'Reconciled'),
             ], 'State', readonly=True),
     }
-    def _get_daynr(self, cursor, uid, ids, context):
+    def get_daynr(self, cr, uid, context=None):
         '''
         Return highest day number
         '''
-        last = cursor.execute('SELECT max(daynumber) '
-                              'FROM banking_export_clieop '
-                              'WHERE date_generated = "%s"' % 
-                              date.today().strftime('%Y-%m-%d')
-                             ).fetchone()
-        if last:
-            return int(last) +1
-        return 1
+        last = 1
+        last_ids = self.search(cr, uid, [
+                ('date_generated', '=', 
+                 fields.date.context_today(cr,uid,context))
+                ], context=context)
+        if last_ids:
+            last = 1 + max([x['daynumber'] for x in self.read(
+                        cr, uid, last_ids, ['daynumber'],
+                        context=context)])
+        return last
 
     _defaults = {
-        'date_generated': lambda *a: date.today().strftime('%Y-%m-%d'),
-        'duplicates': lambda *a: 1,
-        'state': lambda *a: 'draft',
-        'daynumber': _get_daynr,
+        'date_generated': fields.date.context_today,
+        'duplicates': 1,
+        'state': 'draft',
+        'daynumber': get_daynr,
     }
 clieop_export()
 
