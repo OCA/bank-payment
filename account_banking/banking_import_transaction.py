@@ -430,114 +430,12 @@ class banking_import_transaction(osv.osv):
 
         return trans, False, False
 
-    def _do_move_reconcile(
-        self, cr, uid, move_line_ids, currency, amount, context=None):
+    def _confirm_move(self, cr, uid, transaction_id, context=None):
         """
-        Prepare a reconciliation for a bank transaction of the given
-        amount. The caller MUST add the move line associated with the
-        bank transaction to the returned reconciliation resource.
-
-        If adding the amount does not make the total add up,
-        prepare a partial reconciliation. An existing reconciliation on
-        the move lines will be taken into account.
-
-        :param move_line_ids: List of ids. This will usually be the move
-        line of an associated invoice or payment, plus optionally the
-        move line of a writeoff. 
-        :param currency: A res.currency *browse* object to perform math
-        operations on the amounts.
-        :param amount: the amount of the bank transaction. Amount < 0 in
-        case of a credit move on the bank account.
-        """
-        move_line_obj = self.pool.get('account.move.line')
-        reconcile_obj = self.pool.get('account.move.reconcile')
-        is_zero = lambda amount: self.pool.get('res.currency').is_zero(
-            cr, uid, currency, amount)
-        move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
-        reconcile = False
-        for move_line in move_lines:
-            if move_line.reconcile_id:
-                raise osv.except_osv(
-                    _('Entry is already reconciled'),
-                    _("You cannot reconcile the bank transaction with this entry, " +
-                      "it is already reconciled")
-                    )
-            if move_line.reconcile_partial_id:
-                if reconcile and reconcile.id != move_line.reconcile_partial_id.id:
-                    raise osv.except_osv(
-                        _('Cannot reconcile'),
-                        _('Move lines are already partially reconciled, ' +
-                          'but not with each other.'))
-                reconcile = move_line.reconcile_partial_id
-        line_ids = list(set(move_line_ids + (
-                    [x.id for x in reconcile and ( # reconcile.line_id or 
-                            reconcile.line_partial_ids) or []])))
-        if not reconcile:
-            reconcile_id = reconcile_obj.create(
-                cr, uid, {'type': 'auto' }, context=context)
-            reconcile = reconcile_obj.browse(cr, uid, reconcile_id, context=context)
-        full = is_zero(
-            move_line_obj.get_balance(cr, uid, line_ids) - amount)
-        # we should not have to check whether there is a surplus writeoff
-        # as any surplus amount *should* have been split off in the matching routine
-        if full:
-            line_partial_ids = []
-        else:
-            line_partial_ids = line_ids[:]
-            line_ids = []
-        reconcile_obj.write(
-            cr, uid, reconcile.id, 
-            { 'line_id': [(6, 0, line_ids)],
-              'line_partial_ids': [(6, 0, line_partial_ids)],
-              }, context=context)
-        return reconcile.id
-
-    def _do_move_unreconcile(self, cr, uid, move_line_ids, currency, context=None):
-        """
-        Undo a reconciliation, removing the given move line ids. If no
-        meaningful (partial) reconciliation remains, delete it.
-
-        :param move_line_ids: List of ids. This will usually be the move
-        line of an associated invoice or payment, plus optionally the
-        move line of a writeoff. 
-        :param currency: A res.currency *browse* object to perform math
-        operations on the amounts.
-        """
-
-        move_line_obj = self.pool.get('account.move.line')
-        reconcile_obj = self.pool.get('account.move.reconcile')
-        is_zero = lambda amount: self.pool.get('res.currency').is_zero(
-            cr, uid, currency, amount)
-        move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
-        reconcile = move_lines[0].reconcile_id or move_lines[0].reconcile_partial_id
-        line_ids = [x.id for x in reconcile.line_id or reconcile.line_partial_ids]
-        for move_line_id in move_line_ids:
-            line_ids.remove(move_line_id)
-        if len(line_ids) > 1:
-            full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
-            if full:
-                line_partial_ids = []
-            else:
-                line_partial_ids = line_ids.copy()
-                line_ids = []
-            reconcile_obj.write(
-                cr, uid, reconcile.id,
-                { 'line_partial_ids': [(6, 0, line_ids)],
-                  'line_id': [(6, 0, line_partial_ids)],
-                  }, context=context)
-        else:
-            reconcile_obj.unlink(cr, uid, reconcile.id, context=context)
-        for move_line in move_lines:
-            if move_line.invoice:
-                # reopening the invoice
-                netsvc.LocalService('workflow').trg_validate(
-                    uid, 'account.invoice', move_line.invoice.id, 'undo_paid', cr)
-        return True
-
-    def _create_voucher_move(self, cr, uid, transaction_id, context=None):
-        """
-        The line is matched against a move (invoice), so generate a payment voucher with the write-off settings that the
-        user requested. The move lines will be generated by the voucher, handling rounding and currency conversion.
+        The line is matched against a move (invoice), so generate a payment
+        voucher with the write-off settings that the user requested. The move
+        lines will be generated by the voucher, handling rounding and currency
+        conversion.
         """
         if context is None:
             context = {}
@@ -638,50 +536,46 @@ class banking_import_transaction(osv.osv):
             'type': transaction.move_line_id.credit and 'dr' or 'cr',
             }
         voucher['line_ids'] = [(0,0,vch_line)]
-        v_id = self.pool.get('account.voucher').create(
+        voucher_id = self.pool.get('account.voucher').create(
             cr, uid, voucher, context=context)
-        
-        return v_id
+        statement_line_pool.write(
+            cr, uid, st_line.id, 
+            {'voucher_id': voucher_id}, context=context)
+        transaction.refresh()
 
-    def _reconcile_move(
-        self, cr, uid, transaction_id, context=None):
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        currency = transaction.statement_line_id.statement_id.currency
-        line_ids = [transaction.move_line_id.id]
-        if transaction.writeoff_move_line_id:
-            line_ids.append(transaction.writeoff_move_line_id.id)
-        reconcile_id = self._do_move_reconcile(
-            cr, uid, line_ids, currency,
-            transaction.transferred_amount, context=context)
-        return reconcile_id
-
-    def _reconcile_storno(
+    def _confirm_storno(
         self, cr, uid, transaction_id, context=None):
         """
         Creation of the reconciliation has been delegated to
         *a* direct debit module, to allow for various direct debit styles
         """
-        payment_line_obj = self.pool.get('payment.line')
+        payment_line_pool = self.pool.get('payment.line')
+        statement_line_pool = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_line_id:
             raise osv.except_osv(
                 _("Cannot link with storno"),
                 _("No direct debit order item"))
-        return payment_line_obj.debit_storno(
+        reconcile_id = payment_line_pool.debit_storno(
             cr, uid,
             transaction.payment_line_id.id, 
             transaction.statement_line_id.amount,
             transaction.statement_line_id.currency,
             transaction.storno_retry,
             context=context)
+        statement_line_pool.write(
+            cr, uid, transaction.statement_line_id.id, 
+            {'reconcile_id': reconcile_id}, context=context)
+        transaction.refresh()
 
-    def _reconcile_payment_order(
+    def _confirm_payment_order(
         self, cr, uid, transaction_id, context=None):
         """
         Creation of the reconciliation has been delegated to
         *a* direct debit module, to allow for various direct debit styles
         """
         payment_order_obj = self.pool.get('payment.order')
+        statement_line_pool = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_order_id:
             raise osv.except_osv(
@@ -691,14 +585,17 @@ class banking_import_transaction(osv.osv):
             raise osv.except_osv(
                 _("Cannot reconcile"),
                 _("Reconcile payment order not implemented"))
-        return payment_order_obj.debit_reconcile_transfer(
+        reconcile_id = payment_order_obj.debit_reconcile_transfer(
             cr, uid,
             transaction.payment_order_id.id,
             transaction.statement_line_id.amount,
             transaction.statement_line_id.currency,
             context=context)
+        statement_line_pool.write(
+            cr, uid, transaction.statement_line_id.id, 
+            {'reconcile_id': reconcile_id}, context=context)
 
-    def _reconcile_payment(
+    def _confirm_payment(
         self, cr, uid, transaction_id, context=None):
         """
         Do some housekeeping on the payment line
@@ -712,7 +609,7 @@ class banking_import_transaction(osv.osv):
                 'date_done': transaction.effective_date,
                 }
             )
-        return self._reconcile_move(cr, uid, transaction_id, context=context)
+        self._confirm_move(cr, uid, transaction_id, context=context)
         
     def _cancel_payment(
         self, cr, uid, transaction_id, context=None):
@@ -755,7 +652,6 @@ class banking_import_transaction(osv.osv):
         :param currency: A res.currency *browse* object to perform math
         operations on the amounts.
         """
-
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
@@ -867,7 +763,7 @@ class banking_import_transaction(osv.osv):
             if line.account_id.id != account_id:
                 cancel_line = line
                 break
-        if not cancel_line: # debug
+        if not cancel_line:
             raise osv.except_osv(
                 _("Cannot cancel link with storno"),
                 _("Line id not found"))
@@ -903,7 +799,7 @@ class banking_import_transaction(osv.osv):
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
-        move_obj = self.pool.get('account.move')
+        move_pool = self.pool.get('account.move')
         for transaction in self.browse(cr, uid, ids, context):
             if not transaction.match_type:
                 continue
@@ -918,28 +814,28 @@ class banking_import_transaction(osv.osv):
                 # We allow for people canceling and removing
                 # the associated payments, which can lead to confirmed
                 # statement lines without an associated move
-                account_move_obj.button_cancel(
-                    cr, uid, [transaction.statement_line_id.move_id], context)
-                account_move_obj.unlink(
-                    cr, uid, [transaction.statement_line_id.move_id], context)
+                move_pool.button_cancel(
+                    cr, uid, [transaction.statement_line_id.move_id.id], context)
+                move_pool.unlink(
+                    cr, uid, [transaction.statement_line_id.move_id.id], context)
         return True
 
-    create_voucher_map = {
-#        'storno': _create_voucher_storno,
-        'invoice': _create_voucher_move,
-        'manual': _create_voucher_move,
-#        'payment_order': _create_voucher_payment_order,
-#        'payment': _create_voucher_payment,
-        'move': _create_voucher_move,
+    confirm_map = {
+        'storno': _confirm_storno,
+        'invoice': _confirm_move,
+        'manual': _confirm_move,
+        'payment_order': _confirm_payment_order,
+        'payment': _confirm_payment,
+        'move': _confirm_move,
         }
 
-    def create_voucher(self, cr, uid, ids, context=None):
+    def confirm(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
         for transaction in self.browse(cr, uid, ids, context):
             if not transaction.match_type:
                 continue
-            if transaction.match_type not in self.create_voucher_map:
+            if transaction.match_type not in self.confirm_map:
                 raise osv.except_osv(
                     _("Cannot reconcile"),
                     _("Cannot reconcile type %s. No method found to " +
@@ -954,16 +850,11 @@ class banking_import_transaction(osv.osv):
                           "this match type.") %
                         transaction.statement_line_id.name
                         )
-            voucher_id = self.create_voucher_map[transaction.match_type](
+            # Generalize this bit and move to the confirmation
+            # methods that actually do create a voucher?
+            self.confirm_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
-            self.pool.get('account.bank.statement.line').write(
-                cr, uid, transaction.statement_line_id.id, 
-                {'voucher_id': voucher_id}, context=context)
 
-        # TODO
-        # update the statement line bank account reference
-        # as follows (from _match_invoice)
-        
         """
         account_ids = [
         x.id for x in bank_account_ids 
@@ -1568,10 +1459,15 @@ class banking_import_transaction(osv.osv):
         """
         if not ids:
             return {}
-        res = {}
+        res = dict([(x, False) for x in ids])
         for transaction in self.browse(cr, uid, ids, context):
-            res[transaction.id] = abs(transaction.transferred_amount) - abs(transaction.move_currency_amount)
-
+            res[transaction.id] = (
+                not(transaction.move_currency_amount is False)
+                and (
+                    transaction.transferred_amount - 
+                    transaction.move_currency_amount
+                    )
+                or False)
         return res
         
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
@@ -1623,10 +1519,9 @@ class banking_import_transaction(osv.osv):
         """
         if not ids:
            return {}
+        res = dict([(x, False) for x in ids])
 
         stline_pool = self.pool.get('account.bank.statement.line')
-
-        res = {}
 
         for transaction in self.browse(cr, uid, ids, context):
 
@@ -1874,9 +1769,9 @@ class account_bank_statement_line(osv.osv):
                 statement_obj.write(cr, uid, [st.id], {'name': st_number}, context=context)
 
             if st_line.import_transaction_id:
-                import_transaction_obj.create_voucher(
+                import_transaction_obj.confirm(
                     cr, uid, st_line.import_transaction_id.id, context)
-            st_line.refresh()    
+            st_line.refresh()
             if st_line.voucher_id:
                 
                 # Check if this line has been matched against a journal item
@@ -1896,16 +1791,20 @@ class account_bank_statement_line(osv.osv):
                     
         return True
 
-    def _create_move(self, cr, uid, st_line, statement_pool, st, st_number, context):
+    def _create_move(
+        self, cr, uid, st_line, statement_pool, st, st_number, context):
         """
-        The line is not matched against a move, but the account has been defined for the line.
-        Generate a journal entry for the statement line that transfers the full amount against the account.
+        The line is not matched against a move, but the account has been
+        defined for the line. Generate a journal entry for the statement
+        line that transfers the full amount against the account.
         """
-        st_line_number = statement_pool.get_next_st_line_number(cr, uid, st_number, st_line, context)
+        st_line_number = statement_pool.get_next_st_line_number(
+            cr, uid, st_number, st_line, context)
         company_currency_id = st.journal_id.company_id.currency_id.id
-        move_id = statement_pool.create_move_from_st_line(cr, uid, st_line.id, company_currency_id, st_line_number, context)
-        self.write(cr, uid, st_line.id, {'state': 'confirmed', 'move_id': move_id}, context)               
-
+        move_id = statement_pool.create_move_from_st_line(
+            cr, uid, st_line.id, company_currency_id, st_line_number, context)
+        self.write(
+            cr, uid, st_line.id, {'state': 'confirmed', 'move_id': move_id}, context)
 
     def _post_voucher(self, cr, uid, ids, st_line, move_pool, context):
         # If the voucher is in draft mode, then post it

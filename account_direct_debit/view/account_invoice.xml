@@ -13,9 +13,9 @@
                          Maybe apply trick in fields_view_get instead, for
                          better compatibility with other modules?
                     -->
-                    <button name="invoice_open" position="attributes">
+                    <!-- button name="invoice_open" position="attributes">
                         <attribute name="states">draft,proforma2,debit_denied</attribute>
-                    </button>
+                    </button -->
                     <button string='Re-Open' position="attributes">
                         <attribute name="states">paid,debit_denied</attribute>
                         <!--

@@ -104,7 +104,6 @@ class payment_order(osv.osv):
                 _("Cannot unreconcile"),
                 _("Cannot unreconcile debit order: "+
                   "Workflow will not allow it."))
-        
         return True
 
     def test_undo_done(self, cr, uid, ids, context=None):
