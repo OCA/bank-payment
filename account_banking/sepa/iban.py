@@ -219,7 +219,7 @@ class IBAN(str):
         # Iceland uses an extra identification number, split in two on
         # display. Coded here as %P%V.
         'IS': BBANFormat('CCCCTTAAAAAAPPPPPPVVVV', '%C-%T-%A-%P-%V'),
-        'IT': BBANFormat('WBBBBBCCCCCCAAAAAAAAAAAAV', '%W/%B/%C/%A%V'),
+        #'IT': BBANFormat('WBBBBBCCCCCCAAAAAAAAAAAAV', '%W/%B/%C/%A%V'),
         'LV': BBANFormat('BBBBAAAAAAAAAAAAA', '%I'),
         'LI': BBANFormat('CCCCCAAAAAAAAAAAA', '%C %A', nolz=True),
         'LT': BBANFormat('BBBBBAAAAAAAAAAA', '%I'),

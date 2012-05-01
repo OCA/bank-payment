@@ -128,14 +128,14 @@ class statement(models.mem_bank_statement):
         '''
         # Additional information for previous transaction
         if len(self.transactions) < 1:
-            raise_error('Received additional information for non existent transaction', record)
-
-        transaction = self.transactions[-1]
-
-        transaction.id = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(2,5)] if record.has_key(k)])
+            logger.info("Received additional information for non existent transaction:")
+            logger.info(record)
+        else:
+            transaction = self.transactions[-1]
+            transaction.id = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(2,5)] if record.has_key(k)])
 
 def raise_error(message, line):
-    raise osv.except_osv(_('Import error'),
+    raise osv.osv.except_osv(_('Import error'),
         'Error in import:%s\n\n%s' % (message, line))
 
 class parser_hsbc_mt940(models.parser):
