@@ -131,9 +131,41 @@ class account_banking_account_settings(osv.osv):
         user = self.pool.get('res.users').browse(cursor, uid, uid, context=context)
         if user.company_id:
             return user.company_id.id
-        return self.pool.get('res.company').search(cursor, uid,
-                                                   [('parent_id', '=', False)]
-                                                  )[0]
+        company_ids = self.pool.get('res.company').search(
+            cursor, uid, [('parent_id', '=', False)])
+        return len(company_ids) == 1 and company_ids[0] or False
+
+    def _default_journal(self, cr, uid, context=None):
+        domain = [('type', '=', 'bank')]
+        user = self.pool.get('res.users').read(
+            cr, uid, uid, ['company_id'], context=context)
+        if user['company_id']:
+            domain.append(('company_id', '=', user['company_id'][0]))
+        journal_ids = self.pool.get('account.journal').search(
+            cr, uid, domain)
+        return len(journal_ids) == 1 and journal_ids[0] or False
+
+    def _default_partner_bank_id(self, cr, uid, context=None):
+        user = self.pool.get('res.users').read(
+            cr, uid, uid, ['company_id'], context=context)
+        if user['company_id']:
+            bank_ids = self.pool.get('res.partner.bank').search(
+                cr, uid, [('company_id', '=', user['company_id'][0])])
+            if len(bank_ids) == 1:
+                return bank_ids[0]
+        return False
+
+    def _default_debit_account_id(self, cr, uid, context=None):
+        account_def = self.pool.get('ir.property').get(
+            cr, uid, 'property_account_receivable',
+            'res.partner', context=context)
+        return account_def and account_def.id or False
+
+    def _default_credit_account_id(self, cr, uid, context=None):
+        account_def = self.pool.get('ir.property').get(
+            cr, uid, 'property_account_payable',
+            'res.partner', context=context)
+        return account_def and account_def.id or False
 
     def find(self, cr, uid, journal_id, partner_bank_id=False, context=None):
         domain = [('journal_id','=',journal_id)]
@@ -143,6 +175,10 @@ class account_banking_account_settings(osv.osv):
 
     _defaults = {
         'company_id': _default_company,
+        'journal_id': _default_journal,
+        'default_debit_account_id': _default_debit_account_id,
+        'default_credit_account_id': _default_credit_account_id,
+        'partner_bank_id': _default_partner_bank_id,
         #'multi_currency': lambda *a: False,
     }
 account_banking_account_settings()
