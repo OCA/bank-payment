@@ -320,6 +320,26 @@ class account_bank_statement(osv.osv):
     #    'currency': _currency,
     }
 
+    def _check_company_id(self, cr, uid, ids, context=None):
+        """
+        Adapt this constraint method from the account module to reflect the
+        move of period_id to the statement line
+        """
+        for statement in self.browse(cr, uid, ids, context=context):
+            if (statement.period_id and
+                statement.company_id.id != statement.period_id.company_id.id):
+                return False
+            for line in statement.line_ids:
+                if (line.period_id and
+                    statement.company_id.id != line.period_id.company_id.id):
+                    return False
+        return True
+    
+    # Redefine the constraint, or it still refer to the original method
+    _constraints = [
+        (_check_company_id, 'The journal and period chosen have to belong to the same company.', ['journal_id','period_id']),
+    ]
+
     def _get_period(self, cursor, uid, date, context=None):
         '''
         Find matching period for date, not meant for _defaults.
@@ -339,10 +359,12 @@ class account_bank_statement(osv.osv):
                                  context=None):
         # This is largely a copy of the original code in account
         # Modifications are marked with AB
+        # Modifications by account_voucher are merged below.
         # As there is no valid inheritance mechanism for large actions, this
         # is the only option to add functionality to existing actions.
         # WARNING: when the original code changes, this trigger has to be
         # updated in sync.
+
         if context is None:
             context = {}
         res_currency_obj = self.pool.get('res.currency')
@@ -350,8 +372,36 @@ class account_bank_statement(osv.osv):
         account_move_line_obj = self.pool.get('account.move.line')
         account_bank_statement_line_obj = self.pool.get(
             'account.bank.statement.line')
-        st_line = account_bank_statement_line_obj.browse(cr, uid, st_line_id,
-                                                         context=context)
+        st_line = account_bank_statement_line_obj.browse(
+            cr, uid, st_line_id, context=context)
+        # Start account voucher
+        # Post the voucher and update links between statement and moves
+        if st_line.voucher_id:
+            voucher_pool = self.pool.get('account.voucher')
+            wf_service = netsvc.LocalService("workflow")
+            voucher_pool.write(
+                cr, uid, [st_line.voucher_id.id], {'number': st_line_number}, context=context)
+            if st_line.voucher_id.state == 'cancel':
+                voucher_pool.action_cancel_draft(
+                    cr, uid, [st_line.voucher_id.id], context=context)
+            wf_service.trg_validate(
+                uid, 'account.voucher', st_line.voucher_id.id, 'proforma_voucher', cr)
+            v = voucher_pool.browse(
+                cr, uid, st_line.voucher_id.id, context=context)
+            account_bank_statement_line_obj.write(cr, uid, [st_line_id], {
+                    'move_ids': [(4, v.move_id.id, False)]
+                    })
+            account_move_line_obj.write(
+                cr, uid, [x.id for x in v.move_ids],
+                {'statement_id': st_line.statement_id.id}, context=context)
+            # End of account_voucher
+            st_line.refresh()
+
+            # AB: The voucher journal isn't automatically posted, so post it (if needed)
+            if not st_line.voucher_id.journal_id.entry_posted:
+                account_move_obj.post(cr, uid, [st_line.voucher_id.move_id.id], context={})
+            return True
+
         st = st_line.statement_id
 
         context.update({'date': st_line.date})
@@ -1133,7 +1183,7 @@ class res_partner_bank(osv.osv):
         '''
         Create dual function IBAN account for SEPA countries
         '''
-        if vals['state'] == 'iban':
+        if vals.get('state') == 'iban':
             iban = vals.get('acc_number',False) or vals.get('acc_number_domestic',False)
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))

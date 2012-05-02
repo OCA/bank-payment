@@ -722,7 +722,13 @@ class banking_import_transaction(osv.osv):
         st_line = transaction.statement_line_id
         if transaction.match_type:
             if st_line.voucher_id:
-                # Cancel and delete the vouchers
+                # Although vouchers can be associated with statement lines
+                # in standard OpenERP, we consider ourselves owner of the voucher
+                # if the line has an associated transaction
+                # Upon canceling of the statement line/transaction,
+                # we cancel and delete the vouchers.
+                # Otherwise, the statement line will leave the voucher
+                # unless the statement line itself is deleted.
                 voucher_pool.cancel_voucher(
                     cr, uid, [st_line.voucher_id.id], context=context)
                 voucher_pool.action_cancel_draft(
@@ -730,7 +736,7 @@ class banking_import_transaction(osv.osv):
                 voucher_pool.unlink(
                     cr, uid, [st_line.voucher_id.id], context=context)
             # Allow canceling of legacy entries
-            elif st_line.reconcile_id:
+            if not st_line.voucher_id and st_line.reconcile_id:
                 self._legacy_cancel_move(cr, uid, transaction, context=context)
 
         return True
@@ -760,7 +766,11 @@ class banking_import_transaction(osv.osv):
         else:
             account_id = journal.default_debit_account_id.id
         cancel_line = False
-        for line in transaction.statement_line_id.move_id.line_id:
+        move_lines = [
+            # There should usually be just one move, I think
+            move.line_id for move in transaction.statement_line_id.move_ids
+            ]
+        for line in move_lines:
             if line.account_id.id != account_id:
                 cancel_line = line
                 break
@@ -800,7 +810,6 @@ class banking_import_transaction(osv.osv):
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
-        move_pool = self.pool.get('account.move')
         for transaction in self.browse(cr, uid, ids, context):
             if not transaction.match_type:
                 continue
@@ -811,14 +820,6 @@ class banking_import_transaction(osv.osv):
             self.cancel_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
             self._legacy_clear_up_writeoff(cr, uid, transaction, context=context)
-            if transaction.statement_line_id.move_id:
-                # We allow for people canceling and removing
-                # the associated payments, which can lead to confirmed
-                # statement lines without an associated move
-                move_pool.button_cancel(
-                    cr, uid, [transaction.statement_line_id.move_id.id], context)
-                move_pool.unlink(
-                    cr, uid, [transaction.statement_line_id.move_id.id], context)
         return True
 
     confirm_map = {
@@ -1682,9 +1683,6 @@ class account_bank_statement_line(osv.osv):
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
             readonly=True, required=True),
-        'move_id': fields.many2one(
-            'account.move', 'Move', readonly=True,
-            help="The accounting move associated with this line"),
         }
 
     _defaults = {
@@ -1751,14 +1749,21 @@ class account_bank_statement_line(osv.osv):
                           "journal!") % (st_line.statement_id.journal_id.name,))
             if not st_line.amount:
                 continue
-
+            if not st_line.period_id:
+                self.write(
+                    cr, uid, [st_line.id], {
+                        'period_id': self._get_period(
+                            cr, uid, {'date': st_line.date})
+                        })
+                st_line.refresh()
             # Generate the statement number, if it is not already done
             st = st_line.statement_id
             if not st.name == '/':
                 st_number = st.name
             else:
                 if st.journal_id.sequence_id:
-                    c = {'fiscalyear_id': st.period_id.fiscalyear_id.id}
+                    period = st.period_id or st_line.period_id
+                    c = {'fiscalyear_id': period.fiscalyear_id.id}
                     st_number = obj_seq.next_by_id(cr, uid, st.journal_id.sequence_id.id, context=c)
                 else:
                     st_number = obj_seq.next_by_code(cr, uid, 'account.bank.statement')
@@ -1768,59 +1773,23 @@ class account_bank_statement_line(osv.osv):
                 import_transaction_obj.confirm(
                     cr, uid, st_line.import_transaction_id.id, context)
             st_line.refresh()
-            if st_line.voucher_id:
-                
-                # Check if this line has been matched against a journal item
-                # Line has been matched, so post it via a voucher
-                self._post_voucher(cr, uid, ids, st_line, move_pool, context=context)
-
-            else:
-                # Check to see if the line has an account that can be used to generate a journal entry
-                if st_line.account_id:
-                    # Generate a journal for the entry using the standard bank statement code
-                    self._create_move(cr, uid, st_line, statement_pool, st, st_number, context=context)
-                else:
-                    raise osv.except_osv(
-                        _('Statement line has no account'),
-                        _("You cannot confirm a bank statement line that has no account against it (%s.%s)") % 
-                        (st_line.statement_id.name, st_line.name,))
-                    
+            st_line_number = statement_pool.get_next_st_line_number(
+                cr, uid, st_number, st_line, context)
+            company_currency_id = st.journal_id.company_id.currency_id.id
+            statement_pool.create_move_from_st_line(
+                cr, uid, st_line.id, company_currency_id, st_line_number, context)
+            self.write(
+                cr, uid, st_line.id, {'state': 'confirmed'}, context)
         return True
-
-    def _create_move(
-        self, cr, uid, st_line, statement_pool, st, st_number, context):
-        """
-        The line is not matched against a move, but the account has been
-        defined for the line. Generate a journal entry for the statement
-        line that transfers the full amount against the account.
-        """
-        st_line_number = statement_pool.get_next_st_line_number(
-            cr, uid, st_number, st_line, context)
-        company_currency_id = st.journal_id.company_id.currency_id.id
-        move_id = statement_pool.create_move_from_st_line(
-            cr, uid, st_line.id, company_currency_id, st_line_number, context)
-        self.write(
-            cr, uid, st_line.id, {'state': 'confirmed', 'move_id': move_id}, context)
-
-    def _post_voucher(self, cr, uid, ids, st_line, move_pool, context):
-        # If the voucher is in draft mode, then post it
-        if st_line.voucher_id.state in ('draft','proforma'):
-            st_line.voucher_id.action_move_line_create()
-            st_line.voucher_id.refresh()
-        # Update the statement line to indicate that it has been posted
-        # ... no longer need to set the move_id on the voucher?
-        self.write(cr, uid, st_line.id, {'state': 'confirmed'}, context)
-
-        # The voucher journal isn't automatically posted, so post it (if needed)
-        if not st_line.voucher_id.journal_id.entry_posted:
-            move_pool.post(cr, uid, [st_line.voucher_id.move_id.id], context={})
 
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
         import_transaction_obj = self.pool.get('banking.import.transaction')
+        move_pool = self.pool.get('account.move')
         transaction_cancel_ids = []
         set_draft_ids = []
+        move_unlink_ids = []
         # harvest ids for various actions
         for st_line in self.browse(cr, uid, ids, context):
             if st_line.state != 'confirmed':
@@ -1832,19 +1801,22 @@ class account_bank_statement_line(osv.osv):
                       "already been confirmed"))
 
             if st_line.import_transaction_id:
-                transaction_cancel_ids.append(st_line.import_transaction_id.id)
-            else:
-                if not st_line.move_id:
-                    raise osv.except_osv(
-                        _("Cannot cancel bank transaction"),
-                        _("Cannot cancel this bank transaction. The information "
-                          "needed to undo the accounting entries has not been "
-                          "recorded"))
+                # Cancel transaction immediately.
+                # If it has voucher, this will clean up
+                # the moves on the st_line.
+                import_transaction_obj.cancel(
+                    cr, uid, [st_line.import_transaction_id.id], context=context)
+            st_line.refresh()
+            for line in st_line.move_ids:
+                # We allow for people canceling and removing
+                # the associated payments, which can lead to confirmed
+                # statement lines without an associated move
+                move_unlink_ids.append(line.id)
             set_draft_ids.append(st_line.id)
 
-        # Perform actions
-        import_transaction_obj.cancel(
-            cr, uid, transaction_cancel_ids, context=context)
+        move_pool.button_cancel(
+            cr, uid, move_unlink_ids, context=context)
+        move_pool.unlink(cr, uid, move_unlink_ids, context=context)
         self.write(
             cr, uid, set_draft_ids, {'state': 'draft'}, context=context)
         return True
