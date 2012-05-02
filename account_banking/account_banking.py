@@ -58,13 +58,11 @@ Modifications are extensive:
     Rejected payments from the bank receive on import the status 'rejected'.
 '''
 import time
-import sys
 import sepa
 from osv import osv, fields
 from tools.translate import _
 from wizard.banktools import get_or_create_bank
 import decimal_precision as dp
-import pooler
 import netsvc
 from openerp import SUPERUSER_ID
 
@@ -936,7 +934,7 @@ class payment_order(osv.osv):
         Previously (pre-v6) in account_payment/wizard/wizard_pay.py
         """
         if context == None:
-            context={}
+            context = {}
         result = {}
         orders = self.browse(cr, uid, ids, context)
         order = orders[0]
@@ -1237,7 +1235,7 @@ class res_partner_bank(osv.osv):
             fields.append('state')
         records = self._founder.read(cr, uid, ids, fields, context, load)
         is_list = True
-	if not isinstance(records, list):
+        if not isinstance(records, list):
             records = [records,]
             is_list = False
         for record in records:
@@ -1530,7 +1528,7 @@ class account_move_line(osv.osv):
         """
         total = 0.0
         if not ids:
-            total
+            return total
         for line in self.read(
             cr, uid, ids, ['debit', 'credit'], context=context):
             total += (line['debit'] or 0.0) - (line['credit'] or 0.0)

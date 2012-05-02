@@ -88,7 +88,7 @@ class banking_import_transaction(osv.osv):
         elif not invoice_ids:
             # create supplier invoice
             partner_obj = self.pool.get('res.partner')
-            invoice_lines = [(0,0,dict(
+            invoice_lines = [(0, 0, dict(
                 amount = 1,
                 price_unit = amount,
                 name = trans.message or trans.reference,
@@ -247,8 +247,8 @@ class banking_import_transaction(osv.osv):
             # the interactive wizard
             return False
 
-            '''Check if the move_line has been cached'''
-            return move_line.id in linked_invoices
+            #'''Check if the move_line has been cached'''
+            #return move_line.id in linked_invoices
 
         def _cache(move_line, remaining=0.0):
             '''Cache the move_line'''
@@ -500,8 +500,8 @@ class banking_import_transaction(osv.osv):
             amount_currency = move_line_amount
 
         # Check whether this is a full or partial reconciliation
-        if transaction.payment_option=='with_writeoff':
-            writeoff = abs(st_line.amount)-abs(amount_currency)
+        if transaction.payment_option == 'with_writeoff':
+            writeoff = abs(st_line.amount) - abs(amount_currency)
             line_amount = abs(amount_currency)
         else:
             writeoff = 0.0
@@ -535,7 +535,7 @@ class banking_import_transaction(osv.osv):
             'account_id': transaction.move_line_id.account_id.id,
             'type': transaction.move_line_id.credit and 'dr' or 'cr',
             }
-        voucher['line_ids'] = [(0,0,vch_line)]
+        voucher['line_ids'] = [(0, 0, vch_line)]
         voucher_id = self.pool.get('account.voucher').create(
             cr, uid, voucher, context=context)
         statement_line_pool.write(
@@ -689,10 +689,11 @@ class banking_import_transaction(osv.osv):
         clear up the writeoff move
         """
         if transaction.writeoff_move_line_id:
-            move_obj.button_cancel(
+            move_pool = self.pool.get('account.move')
+            move_pool.button_cancel(
                 cr, uid, [transaction.writeoff_move_line_id.move_id.id],
                 context=context)
-            move_obj.unlink(
+            move_pool.unlink(
                 cr, uid, [transaction.writeoff_move_line_id.move_id.id],
                 context=context)
         return True
@@ -703,9 +704,9 @@ class banking_import_transaction(osv.osv):
         Legacy method to support upgrades from older installations
         of the interactive wizard branch.
         """
-        move_line_id = transaction.move_line_id.id
         currency = transaction.statement_line_id.statement_id.currency
         line_ids = [transaction.move_line_id.id]
+        statement_line_obj = self.pool.get('account.bank.statement.line')
         if transaction.writeoff_move_line_id:
             line_ids.append(transaction.writeoff_move_line_id.id)
         self._legacy_do_move_unreconcile(
@@ -1234,7 +1235,7 @@ class banking_import_transaction(osv.osv):
                         provision_costs_description = False,
                         ), context=context)
                 # rebrowse the current record after writing
-                transaction=self.browse(cr, uid, transaction.id, context=context)
+                transaction = self.browse(cr, uid, transaction.id, context=context)
             # Match full direct debit orders
             if transaction.type == bt.DIRECT_DEBIT:
                 move_info = self._match_debit_order(
@@ -1518,7 +1519,7 @@ class banking_import_transaction(osv.osv):
         This will be used to calculate the write-off amount (in statement currency).
         """
         if not ids:
-           return {}
+            return {}
         res = dict([(x, False) for x in ids])
 
         stline_pool = self.pool.get('account.bank.statement.line')
@@ -1619,7 +1620,6 @@ class banking_import_transaction(osv.osv):
             'invoice_id', 'transaction_id', 'Matching invoices'),
         'invoice_id': fields.many2one(
             'account.invoice', 'Invoice to reconcile'),
-        'payment_line_id': fields.many2one('payment.line', 'Payment line'),
         'residual': fields.function(
             _get_residual, method=True, string='Residual', type='float'),
         'writeoff_account_id': fields.many2one(
@@ -1666,8 +1666,9 @@ class account_bank_statement_line(osv.osv):
             'import_transaction_id', 'match_multi', type='boolean',
             string='Multi match', readonly=True),
         'residual': fields.related(
-            'import_transaction_id', 'residual', type='float', 
-            string='Residual'),
+            'import_transaction_id', 'residual', type='float',
+            string='Residual', readonly=True,
+            ),
         'duplicate': fields.related(
             'import_transaction_id', 'duplicate', type='boolean',
             string='Possible duplicate import', readonly=True),
@@ -1678,10 +1679,6 @@ class account_bank_statement_line(osv.osv):
                        ('payment_order', 'Payment order'),
                        ('storno', 'Storno')], 
             string='Match type', readonly=True,),
-        'residual': fields.related(
-            'import_transaction_id', 'residual', type='float',
-            string='Residual', readonly=True,
-            ),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
             readonly=True, required=True),
@@ -1732,7 +1729,6 @@ class account_bank_statement_line(osv.osv):
         If a line does not have a move line against it, but has an account, then 
         generate a journal entry that moves the line amount to the specified account.
         """
-        voucher_pool = self.pool.get('account.voucher')
         statement_pool = self.pool.get('account.bank.statement')
         obj_seq = self.pool.get('ir.sequence')
         move_pool = self.pool.get('account.move')
@@ -1766,7 +1762,7 @@ class account_bank_statement_line(osv.osv):
                     st_number = obj_seq.next_by_id(cr, uid, st.journal_id.sequence_id.id, context=c)
                 else:
                     st_number = obj_seq.next_by_code(cr, uid, 'account.bank.statement')
-                statement_obj.write(cr, uid, [st.id], {'name': st_number}, context=context)
+                statement_pool.write(cr, uid, [st.id], {'name': st_number}, context=context)
 
             if st_line.import_transaction_id:
                 import_transaction_obj.confirm(
@@ -1822,12 +1818,8 @@ class account_bank_statement_line(osv.osv):
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
             ids = [ids]
-        account_move_obj = self.pool.get('account.move')
         import_transaction_obj = self.pool.get('banking.import.transaction')
-        voucher_pool = self.pool.get('account.voucher')
         transaction_cancel_ids = []
-        voucher_cancel_ids = []
-        move_unlink_ids = []
         set_draft_ids = []
         # harvest ids for various actions
         for st_line in self.browse(cr, uid, ids, context):
@@ -1866,8 +1858,12 @@ class account_bank_statement_line(osv.osv):
             ids = [ids]
         for line in self.browse(cr, uid, ids, context=context):
             if line.state == 'confirmed':
-                raise osv.except_osv(_('Confirmed Statement Line'), _("You cannot delete a confirmed Statement Line: '%s'" % line.name))
-        return super(account_bank_statement_line,self).unlink(cr, uid, ids, context=context)
+                raise osv.except_osv(
+                    _('Confirmed Statement Line'),
+                    _("You cannot delete a confirmed Statement Line"
+                      ": '%s'" % line.name))
+        return super(account_bank_statement_line, self).unlink(
+            cr, uid, ids, context=context)
 
 account_bank_statement_line()
 
@@ -1912,7 +1908,7 @@ class account_bank_statement(osv.osv):
 
             # protect against misguided manual changes
             for line in st.move_line_ids:
-                if line.state <> 'valid':
+                if line.state != 'valid':
                     raise osv.except_osv(_('Error !'),
                             _('The account entries lines are not in valid state.'))
 
