@@ -766,10 +766,10 @@ class banking_import_transaction(osv.osv):
         else:
             account_id = journal.default_debit_account_id.id
         cancel_line = False
-        move_lines = [
+        move_lines = []
+        for move in transaction.statement_line_id.move_ids:
             # There should usually be just one move, I think
-            move.line_id for move in transaction.statement_line_id.move_ids
-            ]
+            move_lines += move.line_id
         for line in move_lines:
             if line.account_id.id != account_id:
                 cancel_line = line
