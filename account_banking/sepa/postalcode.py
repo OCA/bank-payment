@@ -46,9 +46,7 @@ class PostalCode(object):
             '''
             # Sort formats on length, longest first
             formats = [(len(x), x) for x in format.split('|')]
-            formats.sort()
-            formats.reverse()
-            formats = [x[1] for x in formats]
+            formats = [x[1] for x in sorted(formats, lambda x,y: -cmp(x,y))]
             self.res = [re.compile(x.replace('#', '\\d').replace('@','[A-Z]'))
                         for x in formats
                        ]
