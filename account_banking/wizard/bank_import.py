@@ -423,11 +423,16 @@ class banking_import(osv.osv_memory):
             ),
         }
 
+    def _default_parser_type(self, cr, uid, context=None):
+        types = models.parser_type.get_parser_types()
+        return types and types[0][0] or False
+
     _defaults = {
         'state': 'init',
         'company': lambda s,cr,uid,c:
             s.pool.get('res.company')._company_default_get(
             cr, uid, 'bank.import.transaction', context=c),
+        'parser': _default_parser_type,
         }
 
 banking_import()

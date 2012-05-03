@@ -1057,7 +1057,7 @@ msgstr "Unreconcile payment order not implemented"
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
 msgid "The account to use when an unexpected payment is received. This can be needed when a customer pays in advance or when no matching invoice can be found. Mind that you can correct movements before confirming them."
-msgstr "De grootboekrekening waarop een onverwachte betaling kan worden geboekt, bijvoorbeeld in het geval van eeen klant die vooruitbetaalt of als er geen overeenkomende factuur kan worden gevonden in het systeem. Merk op dat er voor het bevestigen van de boekingen nog wijzigingen kunnen worden aangebracht."
+msgstr "De grootboekrekening waarop een onverwachte betaling kan worden geboekt, bijvoorbeeld in het geval van een klant die vooruitbetaalt of als er geen overeenkomende factuur kan worden gevonden in het systeem. Merk op dat er voor het bevestigen van de boekingen nog wijzigingen kunnen worden aangebracht."
 
 #. module: account_banking
 #: field:payment.mode.type,payment_order_type:0
