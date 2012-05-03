@@ -28,7 +28,7 @@
 ##############################################################################
 {
     'name': 'Domestic bank account number',
-    'version': '0.1.108',
+    'version': '0.1.134',
     'license': 'AGPL-3',
     'author': 'Therp BV',
     'website': 'https://launchpad.net/banking-addons',

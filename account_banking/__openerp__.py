@@ -30,7 +30,7 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.1.106',
+    'version': '0.1.134',
     'license': 'GPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',

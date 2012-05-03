@@ -26,7 +26,7 @@
 ##############################################################################
 {
     'name': 'Account Payment Invoice Selection Shortcut',
-    'version': '6.0.1.89',
+    'version': '6.1.1.134',
     'license': 'GPL-3',
     'author': 'Smile / Therp BV',
     'website': 'https://launchpad.net/banking-addons',

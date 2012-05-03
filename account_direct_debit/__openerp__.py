@@ -26,7 +26,7 @@
 ##############################################################################
 {
     'name': 'Direct Debit',
-    'version': '6.0.1.98',
+    'version': '6.1.1.134',
     'license': 'GPL-3',
     'author': 'Therp BV / Smile',
     'website': 'https://launchpad.net/banking-addons',
