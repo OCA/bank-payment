@@ -192,7 +192,7 @@
                 <data>
                     <field name="period_id" position="replace"/>
                     <xpath expr="/form/notebook/page[@string='Transaction']/field/tree" position="attributes">
-                        <attribute name="colors">black:state == 'confirmed';darkmagenta:match_multi == True;grey:state=='draft';crimson:duplicate == True;</attribute>
+                        <attribute name="colors">black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate == True;grey:state == 'draft';</attribute>
                     </xpath>
                     <xpath expr="/form/notebook/page[@string='Transaction']/field/tree/field[@name='name']" position="replace">
                         <field name="name" required="1"/>

@@ -21,6 +21,7 @@
 #
 ##############################################################################
 from osv import osv, fields
+from openerp.tools.translate import _
 
 """
 
@@ -38,7 +39,7 @@ class banking_transaction_wizard(osv.osv_memory):
         """ 
         Return a popup window for this model
         """
-        if isinstance(ids, (int,long)):
+        if isinstance(ids, (int, long)):
             ids = [ids]
         return {
             'name': self._description,
@@ -160,9 +161,7 @@ class banking_transaction_wizard(osv.osv_memory):
             statement_line_obj = self.pool.get('account.bank.statement.line')
             for wiz in self.browse(
                 cr, uid, ids, context=context):
-                invoice_ids = False
                 move_line_id = False
-                move_line_ids = False
                 invoice_id = manual_invoice_id
                 if invoice_id:
                     invoice = invoice_obj.browse(
