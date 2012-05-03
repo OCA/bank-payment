@@ -703,10 +703,33 @@ class banking_import_transaction(osv.osv):
         """
         Legacy method to support upgrades from older installations
         of the interactive wizard branch.
+
+        Undo the reconciliation of a transaction with a move line
+        in the system: Retrieve the move line from the bank statement line's
+        move that is reconciled with the matching move line recorded
+        on the transaction. Do not actually remove the latter from the
+        reconciliation, as it may be further reconciled.
+        Unreconcile the bank statement move line and the optional
+        write-off move line
         """
-        currency = transaction.statement_line_id.statement_id.currency
-        line_ids = [transaction.move_line_id.id]
         statement_line_obj = self.pool.get('account.bank.statement.line')
+        currency = transaction.statement_line_id.statement_id.currency
+        reconcile_id = (
+            transaction.move_line_id.reconcile_id and
+            transaction.move_line_id.reconcile_id.id or
+            transaction.move_line_id.reconcile_partial_id and
+            transaction.move_line_id.reconcile_partial_id.id
+            )
+        move_lines = []
+        for move in transaction.statement_line_id.move_ids:
+            move_lines += move.line_id
+        for line in move_lines:
+            line_reconcile = line.reconcile_id or line.reconcile_partial_id
+            if line_reconcile and line_reconcile.id == reconcile_id:
+                st_line_line = line
+                break
+        line_ids = [st_line_line.id]
+        # Add the write off line
         if transaction.writeoff_move_line_id:
             line_ids.append(transaction.writeoff_move_line_id.id)
         self._legacy_do_move_unreconcile(
