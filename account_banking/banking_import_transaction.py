@@ -758,6 +758,11 @@ class banking_import_transaction(osv.osv):
                     cr, uid, [st_line.voucher_id.id], context=context)
                 voucher_pool.unlink(
                     cr, uid, [st_line.voucher_id.id], context=context)
+                if transaction.move_line_id and transaction.move_line_id.invoice:
+                    # reopening the invoice
+                    netsvc.LocalService('workflow').trg_validate(
+                        uid, 'account.invoice',
+                        transaction.move_line_id.invoice.id, 'undo_paid', cr)
             # Allow canceling of legacy entries
             if not st_line.voucher_id and st_line.reconcile_id:
                 self._legacy_cancel_move(cr, uid, transaction, context=context)
@@ -1486,13 +1491,12 @@ class banking_import_transaction(osv.osv):
             return {}
         res = dict([(x, False) for x in ids])
         for transaction in self.browse(cr, uid, ids, context):
-            res[transaction.id] = (
-                not(transaction.move_currency_amount is False)
-                and (
-                    transaction.transferred_amount - 
-                    transaction.move_currency_amount
+            if (transaction.statement_line_id.state == 'draft' and
+                not(transaction.move_currency_amount is False)):
+                res[transaction.id] = (
+                    transaction.move_currency_amount -
+                    transaction.transferred_amount
                     )
-                or False)
         return res
         
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
@@ -1559,7 +1563,14 @@ class banking_import_transaction(osv.osv):
                                                              date=time.strftime('%Y-%m-%d'), context=context)
                 else:
                     amount_currency = move_line_amount
-                res[transaction.id] = amount_currency
+                sign = 1
+                if transaction.move_line_id.currency_id:
+                    if transaction.move_line_id.amount_currency < 0:
+                        sign = -1
+                else:
+                    if (transaction.move_line_id.debit - transaction.move_line_id.credit) < 0:
+                        sign = -1
+                res[transaction.id] = sign * amount_currency
 
         return res
 

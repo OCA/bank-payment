@@ -10,7 +10,7 @@
         -->
         <record id="paid_to_open" model="workflow.transition">
             <field name="act_from" ref="account.act_paid"/>
-            <field name="act_to" ref="account.act_open"/>
+            <field name="act_to" ref="account.act_open_test"/>
             <field name="condition">test_undo_paid()</field>
             <field name="signal">undo_paid</field>
         </record>
