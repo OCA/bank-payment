@@ -26,7 +26,7 @@
 
 from osv import osv, fields
 import base64
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from tools.translate import _
 from lxml import etree
 import decimal_precision as dp
@@ -134,6 +134,10 @@ class banking_export_sepa_wizard(osv.osv_memory):
         else:
             my_batch_booking = 'false'
         my_msg_identification = sepa_export.msg_identification
+        if sepa_export.prefered_exec_date:
+            my_requested_exec_date = sepa_export.prefered_exec_date
+        else:
+            my_requested_exec_date = datetime.strftime(datetime.today() + timedelta(days=1), '%Y-%m-%d')
 
         root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(root, 'CstmrCdtTrfInitn')
@@ -157,10 +161,10 @@ class banking_export_sepa_wizard(osv.osv_memory):
         payment_info_identification.text = self._limit_size(cr, uid, my_msg_identification, 35, context=context)
         payment_method = etree.SubElement(payment_info, 'PmtMtd')
         payment_method.text = 'TRF'
-        batch_booking = etree.SubElement(group_header, 'BtchBookg') # Was in "Group header with pain.001.001.02
+        batch_booking = etree.SubElement(payment_info, 'BtchBookg') # Was in "Group header with pain.001.001.02
         batch_booking.text = my_batch_booking
         requested_exec_date = etree.SubElement(payment_info, 'ReqdExctnDt')
-        requested_exec_date.text = '2010-12-08'  # TODO
+        requested_exec_date.text = my_requested_exec_date
         debtor = etree.SubElement(payment_info, 'Dbtr')
         debtor_name = etree.SubElement(debtor, 'Nm')
         debtor_name.text = self._limit_size(cr, uid, my_company_name, 140, context=context) # size 70 -> 140 with pain.001.001.03
