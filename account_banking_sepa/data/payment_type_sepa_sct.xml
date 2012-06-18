@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+<record id="export_sepa_sct" model="payment.mode.type">
+    <field name="name">SEPA Credit Transfer</field>
+    <field name="code">pain.001.001.02</field>
+    <!-- TODO In the suitable_bank_types field, we should restrict to IBAN type and Rib+IBAN of l10n_fr_rib ? -->
+    <field name="suitable_bank_types"></field>
+    <!-- TODO what's this ir_model_id for ?? -->
+    <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
+    <field name="payment_order_type">payment</field>
+</record>
+
+
+</data>
+</openerp>
