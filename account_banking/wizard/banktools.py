@@ -69,9 +69,12 @@ def get_period(pool, cursor, uid, date, company, log):
         return False
 
     fiscalyear_id = fiscalyear_ids[0]
+    import pdb
+    pdb.set_trace()
     period_ids = period_obj.search(cursor, uid, [
         ('date_start','<=',search_date), ('date_stop','>=',search_date),
-        ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft')
+        ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft'),
+        ('special', '=', False),
     ])
     if not period_ids:
         log.append(_('No suitable period found for date %(date)s and company %(company_name)s')
