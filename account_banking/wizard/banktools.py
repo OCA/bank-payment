@@ -69,8 +69,6 @@ def get_period(pool, cursor, uid, date, company, log):
         return False
 
     fiscalyear_id = fiscalyear_ids[0]
-    import pdb
-    pdb.set_trace()
     period_ids = period_obj.search(cursor, uid, [
         ('date_start','<=',search_date), ('date_stop','>=',search_date),
         ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft'),
