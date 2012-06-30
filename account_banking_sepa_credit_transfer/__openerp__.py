@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    SEPA PAIN module for OpenERP
+#    SEPA Credit Transfer module for OpenERP
 #    Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Account Banking SEPA',
+    'name': 'Account Banking SEPA Credit Transfer',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Akretion',
@@ -37,7 +37,7 @@
     'description': '''
 Module to export payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SCT (SEPA Credit Transfer), more specifically PAIN version 001.001.04.
+SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Credit Transfer (SCT), more specifically PAIN version 001.001.04.
 
 It is part of the ISO 20022 standard, available on www.iso20022.org.
 

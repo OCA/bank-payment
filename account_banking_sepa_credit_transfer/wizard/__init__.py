@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    SEPA SCT module for OpenERP
+#    SEPA Credit Transfer module for OpenERP
 #    Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
