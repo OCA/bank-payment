@@ -194,7 +194,7 @@ class transaction(models.mem_bank_transaction):
         '''
         if self.transfer_type == 'VZ':
             # Credit bank costs (interest) gets a special treatment.
-            if self.remote_owner.starswith('RC AFREK.  REK. '):
+            if self.remote_owner.startswith('RC AFREK.  REK. '):
                 self.transfer_type = 'DV'
 
         if self.transfer_type == 'DV':
