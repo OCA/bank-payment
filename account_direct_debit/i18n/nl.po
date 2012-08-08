@@ -58,7 +58,7 @@ msgstr "Incasso geweigerd"
 #. module: account_direct_debit
 #: help:payment.mode,transfer_account_id:0
 msgid "Pay off lines in sent orders with a move on this account. For debit type modes only. You can only select accounts of type regular that are marked for reconciliation"
-msgstr "Betaal op het moment van versturen de openstaande posten met een boeking op deze rekening. Alleen van toepassing op een incassomodus. Alleen rekeningen van type 'normaal' kunnen hier worden geselecteerd, die ook voorzien zijn van kemnerk 'afletteren'.
+msgstr "Betaal op het moment van versturen de openstaande posten met een boeking op deze rekening. Alleen van toepassing op een incassomodus. Alleen rekeningen van type 'normaal' kunnen hier worden geselecteerd, die ook voorzien zijn van kenmerk 'afletteren'.
 
 #. module: account_direct_debit
 #: field:account.move.line,invoice_state:0
