@@ -181,7 +181,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
         debtor_account_iban.text = my_company_iban
         debtor_agent = etree.SubElement(payment_info, 'DbtrAgt')
         debtor_agent_institution = etree.SubElement(debtor_agent, 'FinInstnId')
-        debtor_agent_bic = etree.SubElement(debtor_agent_institution, 'BIC')
+        debtor_agent_bic = etree.SubElement(debtor_agent_institution, 'BICFI')
         debtor_agent_bic.text = my_company_bic
 
         transactions_count = 0
@@ -206,7 +206,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 charge_bearer.text = sepa_export.charge_bearer
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
-                creditor_agent_bic = etree.SubElement(creditor_agent_institution, 'BIC')
+                creditor_agent_bic = etree.SubElement(creditor_agent_institution, 'BICFI')
                 creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
@@ -237,14 +237,13 @@ class banking_export_sepa_wizard(osv.osv_memory):
         _logger.debug(xml_string)
         official_pain_schema = etree.XMLSchema(etree.fromstring(pain_001_001_04_xsd.pain_001_001_04_xsd))
 
-# TODO make XSD validation work !
-#        try:
-#            official_pain_schema.assertValid(root)
-#        except Exception, e:
-#            _logger.warning("The XML file is invalid against the XML Schema Definition")
-#            _logger.warning(xml_string)
-#            _logger.warning(e)
-#            raise osv.except_osv(_('Error :'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
+        try:
+            official_pain_schema.assertValid(root)
+        except Exception, e:
+            _logger.warning("The XML file is invalid against the XML Schema Definition")
+            _logger.warning(xml_string)
+            _logger.warning(e)
+            raise osv.except_osv(_('Error :'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
 
         # CREATE the banking.export.sepa record
         file_id = self.pool.get('banking.export.sepa').create(cr, uid,
