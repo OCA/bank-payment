@@ -67,7 +67,10 @@ class transaction_message(object):
             re.sub(',', '.', self.transferred_amount))
         if self.debcred == 'Af':
             self.transferred_amount = -self.transferred_amount
-        self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d') 
+        try:
+            self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d')
+        except ValueError:
+            self.execution_date = self.effective_date = str2date(self.date, '%d-%m-%Y')
         self.statement_id = '' #self.effective_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
         self.reference = ''
@@ -178,7 +181,10 @@ class statement(models.mem_bank_statement):
         super(statement, self).__init__(*args, **kwargs)
         self.id = msg.statement_id
         self.local_account = msg.local_account
-        self.date = str2date(msg.date, '%Y%m%d')
+        try:
+            self.date = str2date(msg.date, '%Y%m%d')
+        except ValueError:
+            self.date = str2date(msg.date, '%d-%m-%Y')
         self.start_balance = self.end_balance = 0 # msg.start_balance
         self.import_transaction(msg)
 
