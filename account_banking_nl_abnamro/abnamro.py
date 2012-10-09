@@ -88,6 +88,7 @@ class transaction(models.mem_bank_transaction):
         'GIRO': bt.ORDER,
         'INTL': bt.ORDER, # international order
         'UNKN': bt.ORDER, # everything else
+        'SEPA': bt.ORDER,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -134,10 +135,24 @@ class transaction(models.mem_bank_transaction):
             size = 33
             res = []
             while(len(line) > col * size):
-                if line[col * size : (col + 1) * size - 1].strip():
-                    res.append(line[col * size : (col + 1) * size - 1])
+                separation = (col + 1) * size - 1
+                if line[col * size : separation].strip():
+                    part = line[col * size : separation]
+                    # If the separation character is not a space, add it anyway
+                    # presumably for sepa feedback strings only
+                    if (len(line) > separation
+                        and line[separation] != ' '):
+                        part += line[separation]
+                    res.append(part)
                 col += 1
             return res
+
+        def get_sepa_dict(field):
+            items = field[1:].split('/') # skip leading slash
+            sepa_dict = {}
+            while items:
+                sepa_dict[items.pop(0)] = items.pop(1).strip()
+            return sepa_dict
 
         def parse_type(field):
             # here we process the first field, which identifies the statement type
@@ -145,7 +160,9 @@ class transaction(models.mem_bank_transaction):
             transfer_type = 'UNKN'
             remote_account = False
             remote_owner = False
-            if field.startswith('GIRO '):
+            if field.startswith('/TRTP/'):
+                transfer_type = 'SEPA'
+            elif field.startswith('GIRO '):
                 transfer_type = 'GIRO'
                 # columns 6 to 14 contain the left or right aligned account number
                 remote_account = field[:15].strip().zfill(10)
@@ -176,8 +193,18 @@ class transaction(models.mem_bank_transaction):
         fields = split_blob(self.blob)
         (self.transfer_type, self.remote_account, self.remote_owner) = parse_type(fields[0])
 
+        if self.transfer_type == 'SEPA':
+            sepa_dict = get_sepa_dict(''.join(fields))
+            sepa_type = sepa_dict.get('TRTP')
+            if sepa_type != 'SEPA OVERBOEKING':
+                raise ValueError,_('Sepa transaction type %s not handled yet')
+            self.remote_account = sepa_dict.get('IBAN',False)
+            self.remote_bank_bic = sepa_dict.get('BIC', False)
+            self.remote_owner = sepa_dict.get('NAME', False)
+            self.reference = sepa_dict.get('REMI', False)
+
         # extract other information depending on type
-        if self.transfer_type == 'GIRO':
+        elif self.transfer_type == 'GIRO':
             self.message = ' '.join(field.strip() for field in fields[1:])
 
         elif self.transfer_type == 'BEA':
