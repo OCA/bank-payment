@@ -148,10 +148,35 @@ class transaction(models.mem_bank_transaction):
             return res
 
         def get_sepa_dict(field):
+            """
+            Parses a subset of SEPA feedback strings as occur
+            in this non-SEPA csv format.
+
+            The string consists of slash separated KEY/VALUE pairs,
+            but the slash is allowed to and known to occur in VALUE as well!
+            """
             items = field[1:].split('/') # skip leading slash
             sepa_dict = {}
+            prev_key = False
+            known_keys = ['TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF',
+                          'SWOC', 'REMI', ]
             while items:
-                sepa_dict[items.pop(0)] = items.pop(1).strip()
+                if len(items) == 1:
+                    raise osv.except_osv(
+                        _('Error !'),
+                        _("unable to parse SEPA string: %s") % field)
+                key = items.pop(0)
+                if key not in known_keys:
+                    # either an unknown key or a value containing a slash
+                    if prev_key:
+                        sepa_dict[prev_key] = sepa_dict[prev_key] + '/' + key
+                    else:
+                        raise osv.except_osv(
+                            _('Error !'),
+                            _("unable to parse SEPA string: %s") % field)
+                else:
+                    sepa_dict[key] = items.pop(0).strip()
+                    prev_key = key
             return sepa_dict
 
         def parse_type(field):
@@ -201,7 +226,7 @@ class transaction(models.mem_bank_transaction):
             self.remote_account = sepa_dict.get('IBAN',False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)
-            self.reference = sepa_dict.get('REMI', False)
+            self.reference = sepa_dict.get('REMI', '')
 
         # extract other information depending on type
         elif self.transfer_type == 'GIRO':
