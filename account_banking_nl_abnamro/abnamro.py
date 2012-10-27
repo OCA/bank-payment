@@ -189,11 +189,16 @@ class transaction(models.mem_bank_transaction):
                 transfer_type = 'SEPA'
             elif field.startswith('GIRO '):
                 transfer_type = 'GIRO'
-                # columns 6 to 14 contain the left or right aligned account number
-                remote_account = field[:15].strip().zfill(10)
-                # column 15 contains a space
-                # columns 16 to 31 contain remote owner
-                remote_owner = field[16:32].strip() or False
+                # field has markup 'GIRO ACCOUNT OWNER'
+                # separated by clusters of space of varying size
+                account_match = re.match('\s*([0-9]+)\s(.*)$', field[5:])
+                if account_match:
+                    remote_account = account_match.group(1).zfill(10)
+                    remote_owner = account_match.group(2).strip() or ''
+                else:
+                    raise osv.except_osv(
+                        _('Error !'),
+                        _('unable to parse GIRO string: %s') % field)
             elif field.startswith('BEA '):
                 transfer_type = 'BEA'
                 # columns 6 to 16 contain the terminal identifier
@@ -230,6 +235,10 @@ class transaction(models.mem_bank_transaction):
 
         # extract other information depending on type
         elif self.transfer_type == 'GIRO':
+            if not self.remote_owner and len(fields) > 1:
+                # OWNER is listed in the second field if not in the first
+                self.remote_owner = fields[1].strip() or False
+                fields = [fields[0]] + fields[2:]
             self.message = ' '.join(field.strip() for field in fields[1:])
 
         elif self.transfer_type == 'BEA':
@@ -271,11 +280,12 @@ class transaction(models.mem_bank_transaction):
         if not self.reference:
             # the reference is sometimes flagged by the prefix "BETALINGSKENM."
             # but can be any numeric line really
-            refexpr = re.compile("^\s*(BETALINGSKENM\.)?\s*([0-9]+ ?)+\s*$")
             for field in fields[1:]:
-                m = refexpr.match(field)
+                m = re.match(
+                    "^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+([ /][0-9]+)*)\s*$",
+                    field)
                 if m:
-                    self.reference = m.group(2)
+                    self.reference = m.group(4)
                     break
 
 class statement(models.mem_bank_statement):
