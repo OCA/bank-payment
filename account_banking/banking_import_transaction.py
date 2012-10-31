@@ -25,7 +25,6 @@
 ##############################################################################
 
 from osv import osv, fields
-import time
 import netsvc
 import base64
 import datetime
