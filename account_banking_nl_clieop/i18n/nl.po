@@ -1,0 +1,345 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* account_banking_nl_clieop
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-01 16:23+0000\n"
+"PO-Revision-Date: 2012-11-01 18:11+0100\n"
+"Last-Translator: Erwin van der Ploeg | Endian Solutions "
+"<erwin@endiansolutions.nl>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop.wizard,batchtype:0
+msgid "Direct Debits"
+msgstr "Incasso opdrachten"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\account_banking_nl_clieop.py:39
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:94
+#: selection:banking.export.clieop,testcode:0
+#: selection:banking.export.clieop.wizard,testcode:0
+#, python-format
+msgid "No"
+msgstr "Nee"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:290
+#, python-format
+msgid "There is insufficient information"
+msgstr "Er is onvoldoende informatie"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+#: selection:banking.export.clieop.wizard,state:0
+msgid "Create"
+msgstr "Nieuw"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,no_transactions:0
+#: field:banking.export.clieop.wizard,no_transactions:0
+msgid "Number of Transactions"
+msgstr "Aantal transacties"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:211
+#, python-format
+msgid "You can't create ClieOp orders more than 30 days in advance."
+msgstr ""
+"Het is niet mogelijk een ClieOp betaalopdracht te maken, 30 dagen van te "
+"voren."
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,state:0
+#: field:banking.export.clieop.wizard,state:0
+msgid "State"
+msgstr "Status"
+
+#. module: account_banking_nl_clieop
+#: help:banking.export.clieop.wizard,test:0
+msgid ""
+"Select this if you want your bank to run a test process rather then execute "
+"your orders for real."
+msgstr ""
+"Selecteer dit indien u wilt dat uw bank een test uitvoert in plaats van een "
+"werkelijke verwerking."
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,identification:0
+#: field:banking.export.clieop.wizard,identification:0
+msgid "Identification"
+msgstr "Identificatie"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop:0
+msgid "Processing Information"
+msgstr "Verwerkingsinformatie"
+
+#. module: account_banking_nl_clieop
+#: help:banking.export.clieop.wizard,fixed_message:0
+msgid ""
+"A fixed message to apply to all transactions in addition to the individual "
+"messages."
+msgstr ""
+"Een vast bericht dat alle transacties betreft, als toevoeging op de "
+"Individuele berichten."
+
+#. module: account_banking_nl_clieop
+#: model:ir.model,name:account_banking_nl_clieop.model_banking_export_clieop
+msgid "banking.export.clieop"
+msgstr "banking.export.clieop"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,check_no_accounts:0
+#: field:banking.export.clieop.wizard,check_no_accounts:0
+msgid "Check Number Accounts"
+msgstr "Controlegetal rekeningen"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop.wizard,batchtype:0
+msgid "Type"
+msgstr "Type"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,state:0
+msgid "Sent"
+msgstr "Verzonden"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop:0
+msgid "ClieOp Information"
+msgstr "ClieOp-informatie"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+#: selection:banking.export.clieop.wizard,state:0
+msgid "Finish"
+msgstr "Gereed"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:216
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr "U kunt alleen maar betaalopdrachten van hetzelfde type combineren."
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,filetype:0
+#: selection:banking.export.clieop.wizard,filetype:0
+msgid "Salary Payment Batch"
+msgstr "Salarisbetalingsbatch"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,state:0
+msgid "Reconciled"
+msgstr "Afgeletterd"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:252
+#, python-format
+msgid "Your bank account has to have a valid account number"
+msgstr "Uw bankrekening moet een geldig rekeningnummer hebben."
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+msgid "Reference for further communication"
+msgstr "Referentie voor verdere communicatie"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,duplicates:0
+msgid "Number of Duplicates"
+msgstr "Aantal duplicaten"
+
+#. module: account_banking_nl_clieop
+#: help:banking.export.clieop.wizard,reference:0
+msgid ""
+"The bank will use this reference in feedback communication to refer to this "
+"run. Only five characters are available."
+msgstr ""
+"De bank zal deze referentie gebruiken in de teruggekoppelde communicatie "
+"betreffende deze batch. Er zijn maar 5 karakters beschikbaar."
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+msgid "Processing Details"
+msgstr "Verwerking details"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,testcode:0
+#: field:banking.export.clieop.wizard,test:0
+#: field:banking.export.clieop.wizard,testcode:0
+msgid "Test Run"
+msgstr "Testverwerking"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,filetype:0
+#: selection:banking.export.clieop.wizard,filetype:0
+msgid "Direct Debit Batch"
+msgstr "Incassobatch"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,prefered_date:0
+#: field:banking.export.clieop.wizard,prefered_date:0
+msgid "Prefered Processing Date"
+msgstr "Gewenste verwerkingsdatum"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,file:0
+#: field:banking.export.clieop.wizard,file_id:0
+msgid "ClieOp File"
+msgstr "ClieOp-bestand"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop.wizard,file:0
+msgid "File"
+msgstr "Bestand"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:312
+#, python-format
+msgid "You cannot send international bank transfers through ClieOp3!"
+msgstr ""
+"Het is niet mogelijk om een internationale betaling te doen met behulp van "
+"ClieOp3!"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop.wizard,execution_date:0
+msgid "Execution Date"
+msgstr "Uitvoeringsdatum"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop.wizard,fixed_message:0
+msgid "Fixed Message"
+msgstr "Vast bericht"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,filetype:0
+#: field:banking.export.clieop.wizard,filetype:0
+msgid "File Type"
+msgstr "Bestandsformaat"
+
+#. module: account_banking_nl_clieop
+#: model:ir.actions.act_window,name:account_banking_nl_clieop.act_banking_export_clieop_payment_order
+#: model:ir.actions.act_window,name:account_banking_nl_clieop.action_account_banking_clieops
+#: model:ir.ui.menu,name:account_banking_nl_clieop.menu_action_account_banking_exported_clieop_files
+msgid "Generated ClieOp3 Files"
+msgstr "Gegenereerde ClieOp3-bestanden"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop.wizard,batchtype:0
+msgid "Payments"
+msgstr "Betalingen"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:210
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:215
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:251
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:289
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:311
+#, python-format
+msgid "Error"
+msgstr "Fout"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop.wizard,batchtype:0
+msgid "Salary Payments"
+msgstr "Salaris betalingen"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:348
+#: view:banking.export.clieop:0 view:banking.export.clieop.wizard:0
+#: model:ir.model,name:account_banking_nl_clieop.model_banking_export_clieop_wizard
+#, python-format
+msgid "Client Opdrachten Export"
+msgstr "Betaalopdrachten export"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+msgid "Additional message for all transactions"
+msgstr "Additionele berichten voor alle transacties"
+
+#. module: account_banking_nl_clieop
+#: help:banking.export.clieop.wizard,execution_date:0
+msgid ""
+"This is the date the file should be processed by the bank. Don't choose a "
+"date beyond the nearest date in your payments. The latest allowed date is 30 "
+"days from now.\n"
+"Please keep in mind that banks only execute on working days and typically "
+"use a delay of two days between execution date and effective transfer date."
+msgstr ""
+"Dit si de datum waarop het bestand moet worden verwerkt door de bank. Kies "
+"geen datum verder dan de dichtsbijzijnde datum in uw betalingen. De laatst "
+"toegestane datum is 30 fagen vanaf nu. \n"
+"Houd u er rekening mee dat banken alleen bestanden verwerken op werkdagen en "
+"normaliter een vertraging hanteren van twee dagen tussen de uitvoeringsdatum "
+"en de effectieve overboekingsdatum."
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,total_amount:0
+#: field:banking.export.clieop.wizard,total_amount:0
+msgid "Total Amount"
+msgstr "Totaalbedrag"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop.wizard,reference:0
+msgid "Reference"
+msgstr "Referentie"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop:0
+msgid "Payment order"
+msgstr "Betaalopdracht"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop:0
+#: field:banking.export.clieop,payment_order_ids:0
+#: field:banking.export.clieop.wizard,payment_order_ids:0
+msgid "Payment Orders"
+msgstr "Betalingsopdrachten"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop:0
+msgid "General Information"
+msgstr "Algemene informatie"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,daynumber:0
+msgid "ClieOp Transaction nr of the Day"
+msgstr "ClieOp dagtransactienummer"
+
+#. module: account_banking_nl_clieop
+#: view:banking.export.clieop.wizard:0
+msgid "Cancel"
+msgstr "Annuleren"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,state:0
+msgid "Draft"
+msgstr "Concept"
+
+#. module: account_banking_nl_clieop
+#: code:addons\account_banking_nl_clieop\account_banking_nl_clieop.py:39
+#: code:addons\account_banking_nl_clieop\wizard\export_clieop.py:94
+#: selection:banking.export.clieop,testcode:0
+#: selection:banking.export.clieop.wizard,testcode:0
+#, python-format
+msgid "Yes"
+msgstr "Ja"
+
+#. module: account_banking_nl_clieop
+#: selection:banking.export.clieop,filetype:0
+#: selection:banking.export.clieop.wizard,filetype:0
+msgid "Payment Batch"
+msgstr "Betalingsbatch"
+
+#. module: account_banking_nl_clieop
+#: field:banking.export.clieop,date_generated:0
+msgid "Generation Date"
+msgstr "Aanmaakdatum"
