@@ -41,7 +41,7 @@ msgstr "Er is onvoldoende informatie"
 #: view:banking.export.clieop.wizard:0
 #: selection:banking.export.clieop.wizard,state:0
 msgid "Create"
-msgstr "Nieuw"
+msgstr "Aanmaken"
 
 #. module: account_banking_nl_clieop
 #: field:banking.export.clieop,no_transactions:0
