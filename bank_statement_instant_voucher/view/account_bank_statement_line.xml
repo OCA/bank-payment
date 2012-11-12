@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_banking_bank_statement_form" model="ir.ui.view">
+            <field name="name">Add instant voucher button to bank statement line on statement form</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='voucher_id']"
+                       position="before">
+                    <button name="create_instant_voucher" states="draft"
+                            string="Create matching voucher"
+                            icon="terp-gtk-jump-to-ltr"
+                            type="object"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
