@@ -1919,6 +1919,7 @@ class account_bank_statement(osv.osv):
                             _('The account entries lines are not in valid state.'))
 
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
+            st.refresh()
             self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
                                        'items are created.') % (st.name,))
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
