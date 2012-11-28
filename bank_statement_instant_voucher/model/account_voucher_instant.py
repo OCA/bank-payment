@@ -93,6 +93,7 @@ class instant_voucher(osv.osv_memory):
             cr, uid, ids[0], 
             {'voucher_id': voucher_id,
              'state': 'ready',
+             'type': voucher_type,
              }, context=context)
         return {
             'name': self._description,
@@ -268,6 +269,10 @@ class instant_voucher(osv.osv_memory):
              ('ready', 'ready'),
              ('confirm', 'confirm')],
             'State'),
+        'type': fields.selection(
+            [('sale', 'Sale'),
+             ('purchase', 'Purchase')],
+            'Voucher type'),
         }
 
     _defaults = {'state': 'init'}

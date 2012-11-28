@@ -12,7 +12,7 @@
                        position="before">
                     <button name="create_instant_voucher" states="draft"
                             string="Create matching voucher"
-                            icon="terp-gtk-jump-to-ltr"
+                            icon="STOCK_COPY"
                             type="object"/>
                 </xpath>
             </field>
