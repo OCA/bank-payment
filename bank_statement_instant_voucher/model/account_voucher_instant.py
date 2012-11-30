@@ -40,6 +40,19 @@ class instant_voucher(osv.osv_memory):
                 cr, uid, [instant.voucher_id.id], context=context)
         return {'type': 'ir.actions.act_window_close'}
 
+    def update_voucher_defaults(
+        self, cr, uid, vals, context=None):
+        """ Update conditional defaults """
+        values_pool = self.pool.get('ir.values')
+        voucher_pool = self.pool.get('account.voucher')
+        for (key, val) in vals.items():
+            if val and voucher_pool._all_columns[key].column.change_default:
+                defaults = values_pool.get_defaults(
+                    cr, uid, 'account.voucher', '%s=%s' % (key, val))
+                for default in defaults:
+                    if default[1] not in vals:
+                        vals[default[1]] = default[2]
+
     def create_voucher(self, cr, uid, ids, context=None):
         """
         Create a fully fledged voucher counterpart for the
@@ -87,6 +100,8 @@ class instant_voucher(osv.osv_memory):
             period_ids = period_pool.find(cr, uid, vals['date'], context=context)
             if period_ids:
                 vals['period_id'] = period_ids[0]
+        self.update_voucher_defaults(cr, uid, vals, context=context)
+
         voucher_id = voucher_pool.create(
             cr, uid, vals, context=context)
         self.write(
