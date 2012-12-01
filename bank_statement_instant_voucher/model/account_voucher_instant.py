@@ -233,12 +233,15 @@ class instant_voucher(osv.osv_memory):
         # Banking addons integration:
         # Gather the info needed to match the bank statement line
         # and trigger its posting and reconciliation.
-        if ('import_transaction_id' in statement_line_obj._columns
-            and instant.statement_line_id.import_transaction_id):
+        if 'import_transaction_id' in statement_line_obj._columns:
             if instant.statement_line_id.state == 'confirmed':
                 raise osv.except_osv(
                     _("Error"),
                     _("Cannot match a confirmed statement line"))
+            if not instant.statement_line_id.import_transaction_id:
+                statement_line_obj.create_instant_transaction(
+                    cr, uid, instant.statement_line_id.id, context=context)
+                instant.statement_line_id.refresh()
             for line in instant.voucher_id.move_ids:
                 if line.account_id.id == instant.statement_line_id.account_id.id:
                     self.pool.get('banking.import.transaction').write(
