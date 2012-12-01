@@ -1902,6 +1902,8 @@ class account_bank_statement_line(osv.osv):
         import_transaction_pool = self.pool.get('banking.import.transaction')
         if ids and isinstance(ids, (int, long)):
             ids = [ids]
+        if context = None:
+            context = {}
         localcontext = context.copy()
         localcontext['transaction_no_duplicate_search'] = True
         for line in self.browse(
