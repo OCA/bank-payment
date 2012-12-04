@@ -177,13 +177,12 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
                 'country_id': country_id,
             })],
         ))
-    elif len(partner_ids) > 1:
-        log.append(
-            _('More then one possible match found for partner with name %(name)s')
-            % {'name': name}
-        )
-        return False
     else:
+        if len(partner_ids) > 1:
+            log.append(
+                _('More then one possible match found for partner with name %(name)s')
+                % {'name': name}
+                )
         partner_id = partner_ids[0]
     return partner_id
 
