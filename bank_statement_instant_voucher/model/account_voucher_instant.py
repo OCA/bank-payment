@@ -19,12 +19,12 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
 
-import decimal_precision as dp
 
-class instant_voucher(osv.osv_memory):
+class instant_voucher(osv.TransientModel):
     _name = 'account.voucher.instant'
     _description = 'Instant Voucher'
 
@@ -32,6 +32,7 @@ class instant_voucher(osv.osv_memory):
         """
         Delete the voucher and close window
         """
+        assert len(ids) == 1, "Will only take one resource id"
         instant = self.browse(cr, uid, ids[0], context=context)
         if instant.voucher_id:
             self.pool.get('account.voucher').cancel_voucher(
@@ -40,18 +41,24 @@ class instant_voucher(osv.osv_memory):
                 cr, uid, [instant.voucher_id.id], context=context)
         return {'type': 'ir.actions.act_window_close'}
 
-    def update_voucher_defaults(
+    def get_voucher_defaults(
         self, cr, uid, vals, context=None):
-        """ Update conditional defaults """
+        """
+        Gather conditional defaults based on given key, value pairs
+
+        :param vals: dictionary of key, value pairs
+        :returns: dictionary of default values for fields not in vals
+        """
         values_pool = self.pool.get('ir.values')
         voucher_pool = self.pool.get('account.voucher')
-        for (key, val) in vals.items():
+        res = {}
+        for (key, val) in vals.iteritems():
             if val and voucher_pool._all_columns[key].column.change_default:
-                defaults = values_pool.get_defaults(
-                    cr, uid, 'account.voucher', '%s=%s' % (key, val))
-                for default in defaults:
+                for default in values_pool.get_defaults(
+                    cr, uid, 'account.voucher', '%s=%s' % (key, val)):
                     if default[1] not in vals:
-                        vals[default[1]] = default[2]
+                        res[default[1]] = default[2]
+        return res
 
     def create_voucher(self, cr, uid, ids, context=None):
         """
@@ -59,6 +66,7 @@ class instant_voucher(osv.osv_memory):
         statement line. User only needs to process taxes and may
         adapt cost/income account.
         """
+        assert len(ids) == 1, "Will only take one resource id"
         voucher_pool = self.pool.get('account.voucher')
         period_pool = self.pool.get('account.period')
         instant = self.browse(cr, uid, ids[0], context=context)
@@ -94,13 +102,13 @@ class instant_voucher(osv.osv_memory):
                                  'name': line.ref or False,
                                  })],
             'amount': line.amount and abs(line.amount) or res.get('amount', False),
-                'journal_id': journal_ids[0],
-            }        
+            'journal_id': journal_ids[0],
+            }
         if vals['date']:
             period_ids = period_pool.find(cr, uid, vals['date'], context=context)
             if period_ids:
                 vals['period_id'] = period_ids[0]
-        self.update_voucher_defaults(cr, uid, vals, context=context)
+        vals.update(self.get_voucher_defaults(cr, uid, vals, context=context))
 
         voucher_id = voucher_pool.create(
             cr, uid, vals, context=context)
@@ -164,7 +172,7 @@ class instant_voucher(osv.osv_memory):
 
     def _get_balance(self, cr, uid, ids, field_name, args, context=None):
         """
-        Compute the expected residual 
+        Compute the expected residual
         TODO: currency conversion
         """
         res = {}
@@ -190,9 +198,11 @@ class instant_voucher(osv.osv_memory):
         Post the voucher's move lines if necessary
         Sanity checks on currency and residual = 0.0
         
-        If Banking Addons are installed, perform matching and reconciliation.
-        If not, the user is left to manual reconciliation of OpenERP.
+        If the account_banking module is installed, perform matching
+        and reconciliation. If not, the user is left to manual
+        reconciliation of OpenERP.
         """
+        assert len(ids) == 1, "Will only take one resource id"
         statement_line_obj = self.pool.get('account.bank.statement.line')
         voucher_obj = self.pool.get('account.voucher')
         move_obj = self.pool.get('account.move')
@@ -230,7 +240,7 @@ class instant_voucher(osv.osv_memory):
                 _("The amount on the bank statement line needs to be the "
                   "same as on the voucher. Write-off is not yet "
                   "supported."))
-        # Banking addons integration:
+        # Banking Addons integration:
         # Gather the info needed to match the bank statement line
         # and trigger its posting and reconciliation.
         if 'import_transaction_id' in statement_line_obj._columns:

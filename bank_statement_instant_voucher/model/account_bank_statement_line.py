@@ -19,8 +19,10 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-class account_bank_statement_line(osv.osv):
+from openerp.osv import osv, fields
+
+
+class account_bank_statement_line(osv.Model):
     _inherit = 'account.bank.statement.line'
     def create_instant_voucher(self, cr, uid, ids, context=None):
         res = False
@@ -30,7 +32,7 @@ class account_bank_statement_line(osv.osv):
             if context is None:
                 context = {}
             local_context = context.copy()
-            context['active_id'] = ids[0]
+            local_context['active_id'] = ids[0]
             wizard_obj = self.pool.get('account.voucher.instant')
             res = {
                 'name': wizard_obj._description,
@@ -38,11 +40,10 @@ class account_bank_statement_line(osv.osv):
                 'view_mode': 'form',
                 'res_model': wizard_obj._name,
                 'domain': [],
-                'context': context,
+                'context': local_context,
                 'type': 'ir.actions.act_window',
                 'target': 'new',
                 'res_id': False,
                 'nodestroy': False,
                 }
         return res
-        
