@@ -263,6 +263,16 @@ class banking_import(osv.osv_memory):
                                                          ('date_stop','>=',statement.date),
                                                          ('special', '=', False)])
 
+            if not period_ids:
+                results.log.append(
+                    _('No period found covering statement date %(date)s, '
+                      'statement %(id)s skipped') % {
+                        'date': statement.date,
+                        'id': statement.id,
+                    }
+                )
+                continue
+
             # Create the bank statement record
             statement_id = statement_obj.create(cursor, uid, dict(
                 name = statement.id,
