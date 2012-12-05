@@ -125,6 +125,9 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
                           country_code, log):
     '''
     Get or create the partner belonging to the account holders name <name>
+
+    If multiple partners are found with the same name, select the first and
+    add a warning to the import log.
     '''
     partner_obj = pool.get('res.partner')
     partner_ids = partner_obj.search(cursor, uid, [('name', 'ilike', name)])
@@ -180,7 +183,7 @@ def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
     else:
         if len(partner_ids) > 1:
             log.append(
-                _('More then one possible match found for partner with name %(name)s')
+                _('More than one possible match found for partner with name %(name)s')
                 % {'name': name}
                 )
         partner_id = partner_ids[0]
