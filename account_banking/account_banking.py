@@ -410,13 +410,19 @@ class account_bank_statement(osv.osv):
             'account.bank.statement.line')
         st_line = account_bank_statement_line_obj.browse(
             cr, uid, st_line_id, context=context)
+        period_id = self._get_period(
+            cr, uid, st_line.date, context=context)    # AB
         # Start account voucher
         # Post the voucher and update links between statement and moves
         if st_line.voucher_id:
             voucher_pool = self.pool.get('account.voucher')
             wf_service = netsvc.LocalService("workflow")
             voucher_pool.write(
-                cr, uid, [st_line.voucher_id.id], {'number': st_line_number}, context=context)
+                cr, uid, [st_line.voucher_id.id], {
+                    'number': st_line_number,
+                    'date': st_line.date,
+                    'period_id': period_id, # AB
+                }, context=context)
             if st_line.voucher_id.state == 'cancel':
                 voucher_pool.action_cancel_draft(
                     cr, uid, [st_line.voucher_id.id], context=context)
@@ -443,8 +449,6 @@ class account_bank_statement(osv.osv):
         context.update({'date': st_line.date})
         ctxt = context.copy()                       # AB
         ctxt['company_id'] = st_line.company_id.id  # AB
-        period_id = self._get_period(
-            cr, uid, st_line.date, context=ctxt)    # AB
 
         move_id = account_move_obj.create(cr, uid, {
             'journal_id': st.journal_id.id,
