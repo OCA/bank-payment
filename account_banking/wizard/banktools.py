@@ -320,7 +320,7 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
 
 def create_bank_account(pool, cursor, uid, partner_id,
                         account_number, holder_name, address, city,
-                        country_code, log
+                        country_code, log, bic=False,
                         ):
     '''
     Create a matching bank account with this holder for this partner.
@@ -330,7 +330,6 @@ def create_bank_account(pool, cursor, uid, partner_id,
         owner_name = holder_name,
     )
     bankcode = None
-    bic = None
     country_obj = pool.get('res.country')
 
     # Are we dealing with IBAN?
