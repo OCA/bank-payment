@@ -25,7 +25,6 @@
 ##############################################################################
 
 from osv import osv, fields
-import time
 import netsvc
 import base64
 import datetime
@@ -494,7 +493,7 @@ class banking_import_transaction(osv.osv):
         if from_curr_id != to_curr_id:
             amount_currency = statement_line_pool._convert_currency(
                 cr, uid, from_curr_id, to_curr_id, move_line_amount,
-                round=True, date=time.strftime('%Y-%m-%d'),
+                round=True, date=transaction.move_line_id.date,
                 context=context)
         else:
             amount_currency = move_line_amount
@@ -1573,7 +1572,7 @@ class banking_import_transaction(osv.osv):
                     )
                 if from_curr_id != to_curr_id:
                     amount_currency = stline_pool._convert_currency(cr, uid, from_curr_id, to_curr_id, move_line_amount, round=True,
-                                                             date=time.strftime('%Y-%m-%d'), context=context)
+                                                             date=transaction.statement_line_id.date, context=context)
                 else:
                     amount_currency = move_line_amount
                 sign = 1
