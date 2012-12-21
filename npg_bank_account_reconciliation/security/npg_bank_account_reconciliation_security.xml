@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<!-- Groups - Bank Stmt Preparer , Bank Stmt Verifier -->
+
+		<record id="group_bank_stmt_preparer" model="res.groups">
+        	<field name="name">Bank Statement Preparer</field>
+    	</record>
+
+    	<record id="group_bank_stmt_verifier" model="res.groups">
+        	<field name="name">Bank Statement Verifier</field>
+    	</record>
+
+    	<!-- Security Rule for Bank Rec Stmts -->
+
+    	<record id="npg_bank_account_reconciliation_comp_rule" model="ir.rule">
+        <field name="name">Bank Statements</field>
+        <field ref="model_bank_acc_rec_statement" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    	</record>
+
+    </data>
+</openerp>
