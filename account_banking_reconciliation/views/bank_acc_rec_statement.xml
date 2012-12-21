@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- Bank Account Reconciliation Statement -->
+
+	<record id="view_bank_acc_rec_statement_tree" model="ir.ui.view">
+	    <field name="name">bank.acc.rec.statement.tree</field>
+	    <field name="model">bank.acc.rec.statement</field>
+	    <field name="priority">2</field>
+	    <field name="arch" type="xml">
+	        <tree string="Bank Account Reconciliation Statements" colors="grey:state=='cancel';blue:state in ('to_be_reviewed')">
+	            <field name="name"/>
+	            <field name="ending_date"/>
+	            <field name="account_id"/>
+	            <field name="verified_by_user_id"/>
+	            <field name="state"/>
+	        </tree>
+	    </field>
+	</record>
+
+    <record id="view_bank_acc_rec_statement_form" model="ir.ui.view">
+		<field name="name">bank.acc.rec.statement.form</field>
+        <field name="model">bank.acc.rec.statement</field>
+        <field name="arch" type="xml">
+			<form string="Bank Account Reconciliation Statement" version="7.0">
+			    <header>
+                    <button name="action_cancel" type="object" states="draft,to_be_reviewed" string="Cancel" icon="gtk-cancel"/>
+                    <button name="action_review" type="object" states="draft" string="Ready for Review" icon="gtk-go-forward"/>
+                    <button name="action_process" type="object" states="to_be_reviewed" string="Process" icon="gtk-apply"/>
+                    <button name="action_cancel_draft" states="cancel,done" string="Set to Draft" type="object" icon="gtk-convert"/>
+                    <button name='refresh_record' string='Refresh' type='object' states="draft"/>
+                    <field name="state" widget="statusbar" nolabel="1"/>
+			    </header>
+			    <sheet>
+            <group col="4" colspan="4">
+                <field name="multi_currency" invisible="1" />
+				        <field name="account_id" placeholder="Enter Account Name" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
+                <field name="name" placeholder="Enter Name"/>
+				        <field name="ending_date" placeholder="Enter ending date" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
+                <field name="starting_balance" placeholder="Enter Starting Balance"/>
+                <field name="starting_balance_in_currency" placeholder="Enter Starting Balance"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  />
+				        <field name="ending_balance" placeholder="Enter Ending Balance"/>
+                <field name="ending_balance_in_currency" placeholder="Enter Ending Balance"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  />
+                <field name="exchange_date" placeholder="Currency Exchange date"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  on_change="onchange_exchange_date(exchange_date, account_id, context)" />
+                <field name="currency_rate"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  />
+                <field name="currency_rate_label" nolabel="1"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  class="oe_grey" readonly="1" colspan="2"/>
+				        <field name="company_id" groups="base.group_multi_company" placeholder="Enter Company Name"/>
+				        <field name="suppress_ending_date_filter" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
+				        <field name="keep_previous_uncleared_entries" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
+				    </group>
+			        <notebook colspan="5">
+			            <page string="Journal Items">
+			            	<label for='account_label' string='Deposits, Credits, and Interest'/>
+			                <field colspan="4" mode="tree" name="debit_move_line_ids" nolabel="1" widget="one2many_list" height="300">
+			                    <form string="Deposits, Credits, and Interest" version="7.0">
+			                    	<field name="cleared_bank_account"/>
+			                    	<field name="date"/>
+			                        <field name="name"/>
+			                        <field name="ref"/>
+			                        <field name="partner_id"/>
+			                        <field name="amount"/>
+			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
+			                        <field name="research_required"/>
+			                    </form>
+			                    <tree string="Deposits, Credits, and Interest" editable="top">
+			                    	<field name="cleared_bank_account"/>
+			                    	<field name="date"/>
+			                        <field name="name"/>
+			                        <field name="ref"/>
+			                        <field name="partner_id"/>
+			                        <field name="amount"/>
+			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
+						<field name="research_required"/>
+						<field name="move_line_id"/>
+			                    </tree>
+			                </field>
+			                <label for='account_label2' string='Checks, Withdrawals, Debits, and Service Charges'/>
+		                    <field colspan="4" mode="tree" name="credit_move_line_ids" nolabel="1" widget="one2many_list" height="300">
+			                    <form string="Checks, Withdrawals, Debits, and Service Charges" version="7.0">
+			                    	<field name="cleared_bank_account"/>
+			                    	<field name="date"/>
+			                        <field name="name"/>
+			                        <field name="ref"/>
+			                        <field name="partner_id"/>
+			                        <field name="amount"/>
+			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
+			                        <field name="research_required"/>
+			                    </form>
+			                    <tree string="Checks, Withdrawals, Debits, and Service Charges" editable="top">
+			                    	<field name="cleared_bank_account"/>
+			                    	<field name="date"/>
+			                        <field name="name"/>
+			                        <field name="ref"/>
+			                        <field name="partner_id"/>
+			                        <field name="amount"/>
+			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
+						<field name="research_required"/>
+						<field name="move_line_id"/>
+			                    </tree>
+				            </field>
+			                <group col="2" colspan="1" groups="account_banking_reconciliation.group_bank_stmt_verifier">
+			                    <button name="action_select_all" type="object" states="draft,to_be_reviewed" string="Select All" icon="gtk-go-forward"/>
+			                    <button name="action_unselect_all" type="object" states="draft,to_be_reviewed" string="Unselect All" icon="gtk-cancel"/>
+			                </group>
+			                <newline/>
+			                	<group name="calculation1" col="3" colspan="2">
+                          <separator string="Totals Area - cleared entries" colspan="2"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+				                    <field name="sum_of_debits" colspan="2"/>
+                            <field name="sum_of_debits_in_currency"
+                              attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              colspan="1" nolabel="1"
+                                />
+                            <newline />
+                            <field name="sum_of_debits_lines" colspan="2"/>
+                            <newline />
+				                    <field name="sum_of_credits" colspan="2"/>
+                            <field name="sum_of_credits_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_credits_lines" colspan="2"/>
+				                </group>
+			                	<group name="calculation_unclear1" col="3" colspan="2">
+				                	<separator string="Totals Area - uncleared entries" colspan="2"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+				                    <field name="sum_of_debits_unclear" colspan="2"/>
+                            <field name="sum_of_debits_unclear_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_debits_lines_unclear" colspan="2"/>
+                            <newline />
+				                    <field name="sum_of_credits_unclear" colspan="2"/>
+                            <field name="sum_of_credits_unclear_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_credits_lines_unclear" colspan="2"/>
+				                </group>
+                        <group col="3" colspan="2">
+                          <separator string="Balance Area" colspan="2"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+                              <field name="cleared_balance" colspan="2"/>
+                              <field name="cleared_balance_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
+                              <newline />
+                              <field name="difference" colspan="2"/>
+                              <field name="difference_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
+                              <newline />
+                              <field name="uncleared_balance" colspan="2"/>
+                              <field name="uncleared_balance_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
+                          </group>
+                        <separator string="General Ledger" />
+                        <group name="gen_ledger" col="2" colspan="2">
+                          <field name="general_ledger_balance" colspan="2"/>
+                          <field name="registered_balance" />
+                          <field name="adjustment_move_id" readonly="1"
+                            attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                          <button name="action_adjust_ending_balance" type="object" string="Adjust Ending balance in GL"
+                            attrs="{'invisible':['|', ('adjustment_move_id', '!=', False),('multi_currency', '=', False)]}"
+                            />
+                        </group>
+			            </page>
+			            <page string="Other Information">
+		            	 	<separator string="Tracking Information" colspan="4"/>
+							<group colspan="2" col="2">
+	                        	<field name="verified_by_user_id" placeholder="Enter user whoever varified"/>
+	                        </group>
+	                        <group colspan="2" col="2">
+	                        	<field name="verified_date" placeholder="Enter date of varification"/>
+	                        </group>
+			            </page>
+			            <page string="Notes">
+			            	<field name="notes" nolabel="1" placeholder="Enter notes about reconciliation"/>
+			            </page>
+			        </notebook>
+			     </sheet>
+			</form>
+		</field>
+	</record>
+
+    <record id="view_bank_acc_rec_statement_filter" model="ir.ui.view">
+        <field name="name">bank.acc.rec.statement.select</field>
+        <field name="model">bank.acc.rec.statement</field>
+        <field name="arch" type="xml">
+            <search string="Search Bank Account Reconciliation Statements">
+                <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Statements that haven't yet been confirmed"/>
+                <filter icon="terp-dolar" string="To be Reviewed" domain="[('state','=','to_be_reviewed')]" help="Statements that are ready for review"/>
+                <filter icon="terp-check" string="Done" domain="[('state','=','done')]" help="Statements that have been processed"/>
+                <separator orientation="vertical"/>
+                <field name="name" select="1"/>
+                <field name="ending_date" select="1" string="Ending Date" />
+                <field name="account_id" select="1"/>
+                <field name="verified_by_user_id" select="1">
+                    <filter domain="[('verified_by_user_id','=',uid)]" help="Verified by me" icon="terp-personal"/>
+                </field>
+                <newline/>
+                <group expand="0" string="Group By..." colspan="11" col="11" groups="base.group_extended">
+                    <filter string="Account" icon="terp-personal" domain="[]" context="{'group_by':'account_id'}"/>
+                    <separator orientation="vertical"/>
+                    <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record id="action_bank_acc_rec_statement" model="ir.actions.act_window">
+        <field name="name">Reconcile Bank Account and Statement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.acc.rec.statement</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_bank_acc_rec_statement_filter"/>
+    </record>
+
+   <menuitem
+    icon="STOCK_JUSTIFY_FILL"
+    action="action_bank_acc_rec_statement"
+    id="account_banking_rec_statement_menu"
+    parent="account.menu_finance_bank_and_cash"
+    sequence="5"/>
+
+	<act_window
+    id="act_account_move_line_to_add"
+    name="Journal Items"
+    res_model="account.move.line"
+    src_model="bank.acc.rec.statement"/>
+
+    <act_window
+    id="act_supplier_payment_to_add"
+    name="Supplier Payment"
+    domain="[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','receipt')]"
+    context="{'type':'payment'}"
+    res_model="account.voucher"
+    src_model="bank.acc.rec.statement"/>
+
+    <act_window
+    id="act_customer_payment_to_add"
+    name="Customer Payment"
+    domain="[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','receipt')]"
+    context="{'type':'receipt'}"
+    res_model="account.voucher"
+    src_model="bank.acc.rec.statement"/>
+
+    </data>
+</openerp>

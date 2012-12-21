@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <report id="report_reconciliation_summary"
+            model="bank.acc.rec.statement"
+            auto="False"
+            name="detailed.reconciliation.webkit"
+            file="account_banking_reconciliation/report/detailed_reconciliation.mako"
+            string="Reconciliation detailed"
+            report_type="webkit"/>
+
+    <report id="report_reconciliation_detailed"
+            model="bank.acc.rec.statement"
+            auto="False"
+            name="summary.reconciliation.webkit"
+            file="account_banking_reconciliation/report/summary_reconciliation.mako"
+            string="Reconciliation summary"
+            report_type="webkit"/>
+
+  </data>
+</openerp>
