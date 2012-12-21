@@ -4,8 +4,6 @@ class res_partner_bank(osv.osv):
     _inherit = "res.partner.bank"
 
     def _get_domestic(self, cr, uid, ids, prop, unknow_none, context=None):
-        import pdb
-        pdb.set_trace()
         res = dict(
             [(x['id'], x['acc_number'])
              for x in self.read(cr, uid, ids, ['acc_number'], context=context)
