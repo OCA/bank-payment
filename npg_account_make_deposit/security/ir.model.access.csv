@@ -1,7 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_deposit_ticket_preparer","access.deposit.ticket.preparer","model_deposit_ticket","group_make_deposits_preparer",1,1,1,1
-"access_deposit_ticket_verifier","access.deposit.ticket.verifier","model_deposit_ticket","group_make_deposits_verifier",1,1,1,1
-"access_deposit_ticket_line_preparer","access.deposit.ticket.line.preparer","model_deposit_ticket_line","group_make_deposits_preparer",1,1,1,1
-"access_deposit_ticket_line_verifier","access.deposit.ticket.line.verifier","model_deposit_ticket_line","group_make_deposits_verifier",1,0,0,0
-"access_deposit_method_user","access.deposit.method.user","model_deposit_method","account.group_account_user",1,0,0,0
-"access_deposit_method_manager","access.deposit.method.manager","model_deposit_method","account.group_account_manager",1,1,1,1

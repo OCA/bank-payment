@@ -1,5 +1,0 @@
-1.0 Rima - Added initial module
-1.1 Rima - Fixes
-1.2 Serpent - Added webkit report
-1.3 Rima - Improvements in the certification information in report/deposit_ticket.py and fix in the report
-1.4 Rima - Fix
