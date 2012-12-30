@@ -143,8 +143,11 @@ class banking_export_clieop_wizard(osv.osv_memory):
             'payment_order_id', 'Payment Orders',
             readonly=True,
             ),
+        'filename': fields.char(
+            'File Name', size=32,
+            ),
         }
-    
+
     _defaults = {
         'test': True,
         }
@@ -334,6 +337,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 no_transactions = order.nr_posts,
                 testcode = order.testcode,
                 file = base64.encodestring(clieopfile.rawdata),
+                filename = 'Clieop03-{0}.txt'.format(order.identification),
                 daynumber = int(clieopfile.header.file_id[2:]),
                 payment_order_ids = [
                     [6, 0, [x.id for x in clieop_export['payment_order_ids']]]
@@ -343,6 +347,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 filetype = order.name_transactioncode,
                 testcode = order.testcode,
                 file_id = file_id,
+                filename = 'Clieop03-{0}.txt'.format(order.identification),
                 state = 'finish',
                 ), context)
         return {
@@ -375,7 +380,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
             clieop_obj = self.pool.get('banking.export.clieop')
             payment_order_obj = self.pool.get('payment.order')
             clieop_file = clieop_obj.write(
-                cursor, uid, clieop_export['file_id'].id, {'state':'sent'}
+		cursor, uid, clieop_export['file_id'].id, {'state': 'sent'}
                 )
             wf_service = netsvc.LocalService('workflow')
             for order in clieop_export['payment_order_ids']:

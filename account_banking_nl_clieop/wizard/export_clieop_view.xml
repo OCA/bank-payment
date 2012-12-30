@@ -37,8 +37,9 @@
 			<field name="prefered_date" />
 			<field name="testcode" />
 			<newline/>
+			<field name="filename" invisible="True"/>
 			<field name="file_id" />
-			<field name="file" />
+			<field name="file" filename="filename"/>
 			<newline/>
 			<button icon="gtk-close"
 				string="Cancel" 
