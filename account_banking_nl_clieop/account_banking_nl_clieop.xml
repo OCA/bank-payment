@@ -14,33 +14,34 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Client Opdrachten Export">
-		    <notebook>
-			<page string="General Information">
-			    <field name="filetype" />
-			    <field name="identification" />
-			    <separator string="ClieOp Information" colspan="4" />
-			    <field name="total_amount" />
-			    <field name="check_no_accounts" />
-			    <field name="no_transactions" />
-			    <separator string="Processing Information" colspan="4" />
-			    <field name="prefered_date" />
-			    <field name="date_generated" />
-			    <field name="testcode" />
-			    <newline />
-			    <field name="file" colspan="4" />
-			</page>
-			<page string="Payment Orders">
-			    <field name="payment_order_ids" colspan="4" nolabel="1">
-				<tree colors="blue:state in ('draft');gray:state in ('cancel','done');black:state in ('open')" string="Payment order">
-				    <field name="reference"/>
-				    <field name="date_created"/>
-				    <field name="date_done"/>
-				    <field name="total"/>
-				    <field name="state"/>
-				</tree>
-			    </field>
-			</page>
-		    </notebook>
+                    <notebook>
+                        <page string="General Information">
+                            <field name="filetype" />
+                            <field name="identification" />
+                            <separator string="ClieOp Information" colspan="4" />
+                            <field name="total_amount" />
+                            <field name="check_no_accounts" />
+                            <field name="no_transactions" />
+                            <separator string="Processing Information" colspan="4" />
+                            <field name="prefered_date" />
+                            <field name="date_generated" />
+                            <field name="testcode" />
+                            <newline />
+                            <field name="filename" invisible="True"/>
+                            <field name="file" colspan="4" filename="filename"/>
+                        </page>
+                        <page string="Payment Orders">
+                            <field name="payment_order_ids" colspan="4" nolabel="1">
+                                <tree colors="blue:state in ('draft');gray:state in ('cancel','done');black:state in ('open')" string="Payment order">
+                                    <field name="reference"/>
+                                    <field name="date_created"/>
+                                    <field name="date_done"/>
+                                    <field name="total"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
