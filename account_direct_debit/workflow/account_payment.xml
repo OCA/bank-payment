@@ -12,7 +12,7 @@
             another state, 'sent_wait' between sent and done.
         -->
         <record id="account_payment.act_done" model="workflow.activity">
-            <field name="flow_stop">False</field>
+            <field name="flow_stop" eval="False"/>
         </record>
 
         <record id="trans_done_sent" model="workflow.transition">
