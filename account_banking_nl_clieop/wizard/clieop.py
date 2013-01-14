@@ -278,7 +278,7 @@ class Transaction(object):
         self.transaction.transactiontype = type_
         self.transaction.accountno_beneficiary = accountno_beneficiary
         self.transaction.accountno_payer = accountno_payer
-        self.transaction.amount = int(amount * 100)
+        self.transaction.amount = round(amount * 100)
         if reference:
             self.paymentreference.paymentreference = reference
         # Allow long message lines to redistribute over multiple message
