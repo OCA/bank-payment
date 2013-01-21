@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--- Journal Items -->
+
+       <record id="view_account_move_line_bank_acc_rec_statement_id" model="ir.ui.view">
+            <field name="name">account.move.line.bank.acc.rec.statement.id</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <field name="period_id" position="after">
+                    <field name="bank_acc_rec_statement_id"/>
+                </field>
+                <field name="move_id" position="before">
+                    <filter icon="terp-document-new" string="Uncleared Bank Account" domain="[('cleared_bank_account','=',False)]" help="Journal Entries not cleared"/>
+                    <separator orientation="vertical"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_move_line_bank_acc_rec_statement_id_form" model="ir.ui.view">
+            <field name="name">account.move.line.bank.acc.rec.statement.id.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="statement_id" position="after">
+                    <field name="bank_acc_rec_statement_id"/>
+                </field>
+                <field name="blocked" position="after">
+                    <field name="cleared_bank_account"/>
+                </field>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>
