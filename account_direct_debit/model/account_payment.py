@@ -447,6 +447,7 @@ class payment_order_create(osv.osv_memory):
                 ('account_id.type', '=', 'payable'),
                 ('amount_to_pay', '>', 0)
                 ]
+        domain.append(('company_id', '=', payment.mode.company_id.id))
         # apply payment term filter
         if payment.mode.payment_term_ids:
             domain = domain + [
