@@ -39,17 +39,31 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Default Import Settings for Bank Account">
-                    <field name="company_id" />
+                    <field name="company_id"
+                           widget='selection'
+                           groups="base.group_multi_company"
+                           on_change="onchange_company_id(company_id)" />
                     <separator string="Bank Account Details" colspan="4" />
-                    <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
-                    <field name="journal_id" domain="[('type','=','bank')]" />
+                    <field name="partner_id" invisible="1"/>
+                    <field name="partner_bank_id"
+                           domain="[('partner_id', '=', partner_id)]"
+                           on_change="onchange_partner_bank_id(partner_bank_id)" />
+                    <field name="journal_id"
+                           domain="[('type','=','bank'),
+                                    ('company_id', '=', company_id)]" />
                     <separator string="Default Accounts for Unknown Movements" colspan="4" />
-                    <field name="default_credit_account_id" />
-                    <field name="default_debit_account_id" />
+                    <field name="default_credit_account_id"
+                           domain="[('company_id', '=', company_id)]" />
+                    <field name="default_debit_account_id"
+                           domain="[('company_id', '=', company_id)]" />
                     <separator string="Generation of Bank Costs Invoices" colspan="4" />
                     <field name="bank_partner_id" />
-                    <field name="costs_account_id" attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}" />
-                    <field name="invoice_journal_id" attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}" />
+                    <field name="costs_account_id"
+                           attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}"
+                           domain="[('company_id', '=', company_id)]" />
+                    <field name="invoice_journal_id"
+                           attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}"
+                           domain="[('company_id', '=', company_id)]" />
                 </form>
             </field>
         </record>
@@ -60,8 +74,8 @@
             <field name="arch" type="xml">
                 <tree string="Default Import Settings for Bank Account">
                     <field name="company_id" />
-                    <field name="partner_bank_id" /> <!-- Needs domain for used companies /-->
-                    <field name="journal_id" domain="[('type','=','bank')]" />
+                    <field name="partner_bank_id" />
+                    <field name="journal_id" />
                 </tree>
             </field>
         </record>
