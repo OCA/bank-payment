@@ -320,7 +320,7 @@ class Payment(Transaction):
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
         if len(reknr.lstrip('0P')) > 7:
-            if not eleven_test(reknr):
+            if not eleven_test(reknr.lstrip('P')):
                 raise ValueError, '%s is not a valid bank account' % reknr
         kwargs['type_'] = 5
         self.name = NameBeneficiaryRecord()
