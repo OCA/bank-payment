@@ -25,7 +25,6 @@
 ##############################################################################
 
 from osv import osv, fields
-import time
 import netsvc
 import base64
 import datetime
@@ -494,7 +493,7 @@ class banking_import_transaction(osv.osv):
         if from_curr_id != to_curr_id:
             amount_currency = statement_line_pool._convert_currency(
                 cr, uid, from_curr_id, to_curr_id, move_line_amount,
-                round=True, date=time.strftime('%Y-%m-%d'),
+                round=True, date=transaction.move_line_id.date,
                 context=context)
         else:
             amount_currency = move_line_amount
@@ -606,7 +605,7 @@ class banking_import_transaction(osv.osv):
         payment_line_obj.write(
             cr, uid, transaction.payment_line_id.id, {
                 'export_state': 'done',
-                'date_done': transaction.effective_date,
+                'date_done': transaction.statement_line_id.date,
                 }
             )
         self._confirm_move(cr, uid, transaction_id, context=context)
@@ -961,9 +960,14 @@ class banking_import_transaction(osv.osv):
         ]
 
     def create(self, cr, uid, vals, context=None):
+        """
+        Search for duplicates of the newly created transaction
+        and mark them as such unless a context key
+        'transaction_no_duplicate_search' is defined and true.
+        """
         res = super(banking_import_transaction, self).create(
             cr, uid, vals, context)
-        if res:
+        if res and not context.get('transaction_no_duplicate_search'):
             me = self.browse(cr, uid, res, context)
             search_vals = [(key, '=', me[key]) 
                            for key in self.signal_duplicate_keys]
@@ -1319,7 +1323,8 @@ class banking_import_transaction(osv.osv):
                             transaction.remote_owner, 
                             transaction.remote_owner_address,
                             transaction.remote_owner_city,
-                            country_code, results['log']
+                            country_code, results['log'],
+                            bic=transaction.remote_bank_bic
                             )
                         partner_banks = partner_bank_obj.browse(
                             cr, uid, [partner_bank_id]
@@ -1556,11 +1561,19 @@ class banking_import_transaction(osv.osv):
 
             if transaction.move_line_id:
                 move_line_amount = transaction.move_line_id.amount_residual_currency
-                to_curr_id = transaction.statement_id.journal_id.currency and transaction.statement_id.journal_id.currency.id or transaction.statement_line_id.statement_id.company_id.currency_id.id
-                from_curr_id = transaction.move_line_id.currency_id and transaction.move_line_id.currency_id.id or transaction.statement_id.company_id.currency_id.id
+                to_curr_id = (
+                    transaction.statement_line_id.statement_id.journal_id.currency
+                    and transaction.statement_line_id.statement_id.journal_id.currency.id
+                    or transaction.statement_line_id.statement_id.company_id.currency_id.id
+                    )
+                from_curr_id = (
+                    transaction.move_line_id.currency_id
+                    and transaction.move_line_id.currency_id.id
+                    or transaction.statement_line_id.statement_id.company_id.currency_id.id
+                    )
                 if from_curr_id != to_curr_id:
                     amount_currency = stline_pool._convert_currency(cr, uid, from_curr_id, to_curr_id, move_line_amount, round=True,
-                                                             date=time.strftime('%Y-%m-%d'), context=context)
+                                                             date=transaction.statement_line_id.date, context=context)
                 else:
                     amount_currency = move_line_amount
                 sign = 1
@@ -1871,6 +1884,42 @@ class account_bank_statement_line(osv.osv):
         return super(account_bank_statement_line, self).unlink(
             cr, uid, ids, context=context)
 
+    def create_instant_transaction(
+        self, cr, uid, ids, context=None):
+        """
+        Check for existance of import transaction on the
+        bank statement lines. Create instant items if appropriate.
+
+        This way, the matching wizard works on manually
+        encoded statements.
+
+        The transaction is only filled with the most basic
+        information. The use of the transaction at this point
+        is rather to store matching data rather than to 
+        provide data about the transaction which have all been
+        transferred to the bank statement line.
+        """
+        import_transaction_pool = self.pool.get('banking.import.transaction')
+        if ids and isinstance(ids, (int, long)):
+            ids = [ids]
+        if context is None:
+            context = {}
+        localcontext = context.copy()
+        localcontext['transaction_no_duplicate_search'] = True
+        for line in self.browse(
+            cr, uid, ids, context=context):
+            if line.state != 'confirmed' and not line.import_transaction_id:
+                res = import_transaction_pool.create(
+                    cr, uid, {
+                        'company_id': line.statement_id.company_id.id,
+                        'statement_line_id': line.id,
+                        },
+                    context=localcontext)
+                self.write(
+                    cr, uid, line.id, {
+                        'import_transaction_id': res},
+                    context=context)
+
 account_bank_statement_line()
 
 class account_bank_statement(osv.osv):
@@ -1919,6 +1968,7 @@ class account_bank_statement(osv.osv):
                             _('The account entries lines are not in valid state.'))
 
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
+            st.refresh()
             self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
                                        'items are created.') % (st.name,))
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)

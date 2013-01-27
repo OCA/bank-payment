@@ -35,6 +35,18 @@ class banking_transaction_wizard(osv.osv_memory):
     _name = 'banking.transaction.wizard'
     _description = 'Match transaction'
 
+    def create(self, cr, uid, vals, context=None):
+        """
+        Make sure that the statement line has an import transaction
+        """
+        res = super(banking_transaction_wizard, self).create(
+            cr, uid, vals, context=context)
+        if res and vals.get('statement_line_id'):
+            line_pool = self.pool.get('account.bank.statement.line')
+            line_pool.create_instant_transaction(
+                cr, uid, vals['statement_line_id'], context=context)
+        return res
+
     def create_act_window(self, cr, uid, ids, nodestroy=True, context=None):
         """ 
         Return a popup window for this model

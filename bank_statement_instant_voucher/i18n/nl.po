@@ -1,0 +1,158 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* bank_statement_instant_voucher
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-12 10:42+0000\n"
+"PO-Revision-Date: 2012-11-12 10:42+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Confirm"
+msgstr "Bevestig"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:71
+#, python-format
+msgid "Voucher for statement line %s.%s"
+msgstr "Journaalbon voor bankafschrift %s.%s"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,state:0
+msgid "State"
+msgstr "Status"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:201
+#, python-format
+msgid "The voucher could not be posted."
+msgstr "De journaalbon kon niet worden bevestigd."
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "ready"
+msgstr "ready"
+
+#. module: bank_statement_instant_voucher
+#: model:ir.model,name:bank_statement_instant_voucher.model_account_voucher_instant
+msgid "Instant Voucher"
+msgstr "Instant journaalbon"
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "confirm"
+msgstr "confirm"
+
+#. module: bank_statement_instant_voucher
+#: view:account.bank.statement:0
+#: model:ir.actions.act_window,name:bank_statement_instant_voucher.act_instant_voucher
+msgid "Create matching voucher"
+msgstr "Bijpassende journaalbon aanmaken"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:137
+#, python-format
+msgid "Cannot determine statement line"
+msgstr "Kan de bankafschriftregel niet afleiden"
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "init"
+msgstr "init"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:209
+#, python-format
+msgid "The voucher's move line could not be posted."
+msgstr "De journaalposten van de journaalbon konden niet geboekt worden"
+
+#. module: bank_statement_instant_voucher
+#: model:ir.model,name:bank_statement_instant_voucher.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Bankafschriftregel"
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Create voucher"
+msgstr "Journaalbon aanmaken"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:214
+#, python-format
+msgid "The amount on the bank statement line needs to be the same as on the voucher. Write-off is not yet supported."
+msgstr "Het bedrag op het bankafschrift dient gelijk te zijn aan het bedrag op de journaalbon. Afschrijven is nog niet ondersteund."
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:59
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:136
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:190
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:200
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:208
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:213
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:224
+#, python-format
+msgid "Error"
+msgstr "Fout"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:60
+#, python-format
+msgid "No %s journal defined"
+msgstr "Geen %s-dagboek ingesteld"
+
+#. module: bank_statement_instant_voucher
+#: constraint:account.bank.statement.line:0
+msgid "The amount of the voucher must be the same amount as the one on the statement line"
+msgstr "Het bedrag op de bon moet hetzelfde bedrag zijn dat vermeld staat op de afschriftregel"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,balance:0
+msgid "Balance"
+msgstr "Balans"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,statement_line_id:0
+msgid "Bank statement line"
+msgstr "Bankafschriftregel"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,ref:0
+msgid "Reference"
+msgstr "Referentie"
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:191
+#, python-format
+msgid "Currency on the bank statement line needs to be the same as on the voucher. Currency conversion is not yet supported."
+msgstr "De valuta van de bankafschriftregel dient gelijk te zijn aan die op de journaalbon. Omrekenen tussen valuta is nog niet ondersteund."
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:225
+#, python-format
+msgid "Cannot match a confirmed statement line"
+msgstr "Kan een bevestigde bankafschriftregel niet afletteren"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,voucher_id:0
+msgid "Voucher"
+msgstr "Journaalbon"
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Cancel"
+msgstr "Annuleer"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,partner_id:0
+msgid "Partner"
+msgstr "Relatie"
+

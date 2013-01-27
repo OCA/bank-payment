@@ -93,7 +93,21 @@
                             </page>
                             <page string="Manual match">
                                 <field name="manual_invoice_id"/>
-                                <field name="manual_move_line_id"/>
+                                <!-- 
+                                     Specify alternative tree_view_ref as a
+                                     workaround for lp:1073521 in OpenERP 6.1
+                                     Need to also define 'view_mode' to prevent
+                                     an instant editable tree view
+                                     reconstruction by account.move.line's
+                                     fields_view_get().
+                                     Both are not needed in OpenERP 6.0 or 7.0.
+                                -->
+                                <field name="manual_move_line_id"
+                                       context="{
+                                                'tree_view_ref': 'account.view_move_line_tax_tree',
+                                                'view_mode': 'yes'
+                                                }"
+                                       />
                                 <newline/>
                                 <button colspan="1"
                                         name="trigger_write"
