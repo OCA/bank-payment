@@ -319,7 +319,7 @@ class Payment(Transaction):
     '''Payment transaction'''
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
-        if len(reknr.lstrip('0')) > 7:
+        if len(reknr.lstrip('0P')) > 7:
             if not eleven_test(reknr):
                 raise ValueError, '%s is not a valid bank account' % reknr
         kwargs['type_'] = 5
@@ -388,8 +388,8 @@ class Batch(object):
     def total_accountnos(self):
         '''check number on account numbers'''
         return reduce(lambda x,y: 
-                          x + int(y.transaction.accountno_payer if not y.transaction.accountno_payer[0:1]=='P' else y.transaction.accountno_payer[1:]) + \
-                          int(y.transaction.accountno_beneficiary),
+                          x + int(y.transaction.accountno_payer.lstrip('P')) + \
+                          int(y.transaction.accountno_beneficiary.lstrip('P')),
                       self.transactions, 0
                      )
 
