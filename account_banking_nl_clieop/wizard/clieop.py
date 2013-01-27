@@ -388,7 +388,7 @@ class Batch(object):
     def total_accountnos(self):
         '''check number on account numbers'''
         return reduce(lambda x,y: 
-                          x + int(y.transaction.accountno_payer) + \
+                          x + int(y.transaction.accountno_payer if not y.transaction.accountno_payer[0:1]=='P' else y.transaction.accountno_payer[1:]) + \
                           int(y.transaction.accountno_beneficiary),
                       self.transactions, 0
                      )
