@@ -276,8 +276,8 @@ class Transaction(object):
         self.paymentreference = Optional(PaymentReferenceRecord)
         self.description = Optional(DescriptionRecord, 4)
         self.transaction.transactiontype = type_
-        self.transaction.accountno_beneficiary = accountno_beneficiary
-        self.transaction.accountno_payer = accountno_payer
+        self.transaction.accountno_beneficiary = accountno_beneficiary.lstrip('P')
+        self.transaction.accountno_payer = accountno_payer.lstrip('P')
         self.transaction.amount = int(round(amount * 100))
         if reference:
             self.paymentreference.paymentreference = reference
@@ -319,8 +319,8 @@ class Payment(Transaction):
     '''Payment transaction'''
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
-        if len(reknr.lstrip('0P')) > 7:
-            if not eleven_test(reknr.lstrip('P')):
+        if len(reknr.lstrip('0')) > 7:
+            if not eleven_test(reknr):
                 raise ValueError, '%s is not a valid bank account' % reknr
         kwargs['type_'] = 5
         self.name = NameBeneficiaryRecord()
@@ -388,8 +388,8 @@ class Batch(object):
     def total_accountnos(self):
         '''check number on account numbers'''
         return reduce(lambda x,y: 
-                          x + int(y.transaction.accountno_payer.lstrip('P')) + \
-                          int(y.transaction.accountno_beneficiary.lstrip('P')),
+                          x + int(y.transaction.accountno_payer) + \
+                          int(y.transaction.accountno_beneficiary),
                       self.transactions, 0
                      )
 
