@@ -85,12 +85,20 @@ class payment_order_create(osv.osv_memory):
             state = communication2 = False
             communication = line.ref or '/'
             if line.invoice:
-                if line.invoice.reference_type == 'structured':
-                    state = 'structured'
-                    communication = line.invoice.reference
+                if line.invoice.type in ('in_invoice', 'in_refund'):
+                    if line.invoice.reference_type == 'structured':
+                        state = 'structured'
+                        communication = line.invoice.reference
+                    else:
+                        state = 'normal'
+                        communication2 = line.invoice.reference
                 else:
-                    state = 'normal'
-                    communication2 = line.invoice.reference
+                    # Make sure that the communication includes the
+                    # customer invoice number (in the case of debit order)
+                    communication = line.invoice.number.replace('/', '')
+                    state = 'structured'
+                    if communication != line.ref:
+                        communication2 = line.ref
             # support debit orders when enabled
             if (payment.payment_order_type == 'debit' and
                 'amount_to_receive' in line):
