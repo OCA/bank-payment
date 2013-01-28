@@ -276,8 +276,8 @@ class Transaction(object):
         self.paymentreference = Optional(PaymentReferenceRecord)
         self.description = Optional(DescriptionRecord, 4)
         self.transaction.transactiontype = type_
-        self.transaction.accountno_beneficiary = accountno_beneficiary.lstrip('P')
-        self.transaction.accountno_payer = accountno_payer.lstrip('P')
+        self.transaction.accountno_beneficiary = accountno_beneficiary.replace('P', '0')
+        self.transaction.accountno_payer = accountno_payer.replace('P', '0')
         self.transaction.amount = int(round(amount * 100))
         if reference:
             self.paymentreference.paymentreference = reference
