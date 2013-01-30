@@ -59,10 +59,10 @@
                     <separator string="Generation of Bank Costs Invoices" colspan="4" />
                     <field name="bank_partner_id" />
                     <field name="costs_account_id"
-                           attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}"
+                           attrs="{'required': [('bank_partner_id', '!=', False)]}"
                            domain="[('company_id', '=', company_id)]" />
                     <field name="invoice_journal_id"
-                           attrs="{'required': [('bank_partner_id', '&lt;&gt;', False)]}"
+                           attrs="{'required': [('bank_partner_id', '!=', False)]}"
                            domain="[('company_id', '=', company_id)]" />
                 </form>
             </field>

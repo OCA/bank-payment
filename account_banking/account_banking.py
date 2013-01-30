@@ -81,7 +81,7 @@ class account_banking_account_settings(osv.osv):
                                            select=True, required=True),
         'journal_id': fields.many2one('account.journal', 'Journal',
                                       required=True),
-        'partner_id':fields.related(
+        'partner_id': fields.related(
             'company_id', 'partner_id',
             type='many2one', relation='res.partner',
             string='Partner'),
@@ -131,13 +131,17 @@ class account_banking_account_settings(osv.osv):
         #),
     }
 
-    def _default_company(self, cursor, uid, context=None, company_id=False):
+    def _default_company(self, cr, uid, context=None):
+        """
+        Return the user's company or the first company found
+        in the database
+        """
         user = self.pool.get('res.users').read(
-            cursor, uid, uid, ['company_id'], context=context)
-        return (
-            user['company_id'] and user['company_id'][0] or
-            self.pool.get('res.company').search(
-                cursor, uid, [('parent_id', '=', False)])[0])
+            cr, uid, uid, ['company_id'], context=context)
+        if user['company_id']:
+            return user['company_id'][0]
+        return self.pool.get('res.company').search(
+            cr, uid, [('parent_id', '=', False)])[0]
     
     def _default_partner_id(self, cr, uid, context=None, company_id=False):
         if not company_id:
