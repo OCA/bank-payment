@@ -129,28 +129,31 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
     If multiple partners are found with the same name, select the first and
     add a warning to the import log.
  
-    TODO: revive the search by address components other than country
+    TODO: revive the search by lines from the address argument
     '''
     partner_obj = pool.get('res.partner')
     partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)])
     if not partner_ids:
         # Try brute search on address and then match reverse
-        filter_ = []
+        criteria = []
         if country_code:
             country_obj = pool.get('res.country')
             country_ids = country_obj.search(
                 cr, uid, [('code','=',country_code.upper())]
             )
             country_id = country_ids and country_ids[0] or False
-            filter_.append(('address.country_id', '=', country_id))
+            criteria.append(('address.country_id', '=', country_id))
+        if city:
+            criteria.append(('address.city', 'ilike', city))
+        if postal_code:
+            criteria.append(('address.zip', 'ilike', postal_code))
         partner_search_ids = partner_obj.search(
-            cr, uid, filter_)
+            cr, uid, criteria)
         key = name.lower()
         partners = partner_obj.read(cr, uid, partner_search_ids, ['name'])
         partner_ids = [x['id'] for x in partners if (
                 len(x['name']) > 3 and
                 x['name'].lower() in key)]
-        print "Found partner_ids %s" % partner_ids
     if not partner_ids:
         if (not country_code) or not country_id:
             user = pool.get('res.user').browse(cr, uid, uid)
