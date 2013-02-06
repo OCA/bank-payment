@@ -155,28 +155,51 @@ class transaction(models.mem_bank_transaction):
             The string consists of slash separated KEY/VALUE pairs,
             but the slash is allowed to and known to occur in VALUE as well!
             """
+            other_keys = [
+                'ADDR', 'BIC', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF', 'NRTX',
+                'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP', 'SVCL',
+                'SWOD'
+            ]
+            # Patch keys with embedded double slashes, but first check,
+            # for performance reasons, wether this problem might occur at all.
+            if  '//' in field:
+                patch_double_slash_keys = [
+                    '/BENM//ID/', '/ORDP//ID/', '/ORDP//RID/', '/ORIG//CSID/',
+                    '/ORIG//MARF/', '/ULTD//NAME/', '/ULTD//ID/',
+                    '/ULTB//NAME/', '/ULTB//ID/'
+                ]
+                for pdsk in patch_double_slash_keys:
+                    psdk_key = pdsk.replace('//', '~~')
+                    field = field.replace(pdsk, psdk_key)
+                    other_keys.append(psdk_key.replace('/', ''))
             items = field[1:].split('/') # skip leading slash
             sepa_dict = {}
-            prev_key = False
             known_keys = ['TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF',
                           'SWOC', 'REMI', ]
+            # There should be at least two items, a key and a value,
+            # and the first item should be a valid key. (But it will be, as
+            # we only get here when field starts with /TRTP !!)
+            if len(items) < 2:
+                raise osv.except_osv(
+                    _('Error !'),
+                    _('unable to parse SEPA string: %s - %s') %
+                    (field, _('too few items')))
+            sepa_key = items[0]
+            if  not (sepa_key in known_keys or sepa_key in other_keys):
+                raise osv.except_osv(
+                    _('Error !'),
+                    _('unable to parse SEPA string: %s - %s') %
+                    (field, _('First key %s unknown') % sepa_key))
+            sepa_values = None
             while items:
-                if len(items) == 1:
-                    raise osv.except_osv(
-                        _('Error !'),
-                        _("unable to parse SEPA string: %s") % field)
-                key = items.pop(0)
-                if key not in known_keys:
-                    # either an unknown key or a value containing a slash
-                    if prev_key:
-                        sepa_dict[prev_key] = sepa_dict[prev_key] + '/' + key
-                    else:
-                        raise osv.except_osv(
-                            _('Error !'),
-                            _("unable to parse SEPA string: %s") % field)
+                item = items.pop(0)
+                if  item in known_keys or item in other_keys:
+                    if  not sepa_values is None:
+                        sepa_dict[sepa_key] = '/'.join(sepa_values)
+                    sepa_key = item
+                    sepa_values = []
                 else:
-                    sepa_dict[key] = items.pop(0).strip()
-                    prev_key = key
+                    sepa_values.append(item.strip())
             return sepa_dict
 
         def parse_type(field):
