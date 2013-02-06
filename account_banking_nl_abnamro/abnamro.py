@@ -155,51 +155,46 @@ class transaction(models.mem_bank_transaction):
             The string consists of slash separated KEY/VALUE pairs,
             but the slash is allowed to and known to occur in VALUE as well!
             """
-            other_keys = [
+            items = field[1:].split('/')  # skip leading slash
+            assert len(items) > 1, (
+                _('unable to parse SEPA string: %s - %s') %
+                (field, _('too few items')))
+            known_keys = [
+                'TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF', 'SWOC', 'REMI',
                 'ADDR', 'BIC', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF', 'NRTX',
                 'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP', 'SVCL',
                 'SWOD'
             ]
-            # Patch keys with embedded double slashes, but first check,
-            # for performance reasons, wether this problem might occur at all.
-            if  '//' in field:
-                patch_double_slash_keys = [
-                    '/BENM//ID/', '/ORDP//ID/', '/ORDP//RID/', '/ORIG//CSID/',
-                    '/ORIG//MARF/', '/ULTD//NAME/', '/ULTD//ID/',
-                    '/ULTB//NAME/', '/ULTB//ID/'
-                ]
-                for pdsk in patch_double_slash_keys:
-                    psdk_key = pdsk.replace('//', '~~')
-                    field = field.replace(pdsk, psdk_key)
-                    other_keys.append(psdk_key.replace('/', ''))
-            items = field[1:].split('/') # skip leading slash
+            # Xtended keys have an extra part, separated from the first part
+            # with a double slash. For example: 'ORIG//CSID'.
+            # The double slash will make that the first part in items is
+            # followed by an empty string item, and then the other part of the
+            # key.
+            extended_keys = [
+                'BENM', 'ORDP', 'ORIG', 'ULTD', 'ULTB'
+            ]
+            known_keys.extend(extended_keys)
+            assert items[0] in known_keys, (
+                _('unable to parse SEPA string: %s - %s') %
+                (field, _('First key unknown %s') % items[0]))
             sepa_dict = {}
-            known_keys = ['TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF',
-                          'SWOC', 'REMI', ]
-            # There should be at least two items, a key and a value,
-            # and the first item should be a valid key. (But it will be, as
-            # we only get here when field starts with /TRTP !!)
-            if len(items) < 2:
-                raise osv.except_osv(
-                    _('Error !'),
-                    _('unable to parse SEPA string: %s - %s') %
-                    (field, _('too few items')))
-            sepa_key = items[0]
-            if  not (sepa_key in known_keys or sepa_key in other_keys):
-                raise osv.except_osv(
-                    _('Error !'),
-                    _('unable to parse SEPA string: %s - %s') %
-                    (field, _('First key %s unknown') % sepa_key))
-            sepa_values = None
-            while items:
-                item = items.pop(0)
-                if  item in known_keys or item in other_keys:
-                    if  not sepa_values is None:
-                        sepa_dict[sepa_key] = '/'.join(sepa_values)
-                    sepa_key = item
-                    sepa_values = []
-                else:
-                    sepa_values.append(item.strip())
+            item_index = 0
+            items_len = len(items)
+            while item_index < items_len:
+                sepa_key = items[item_index]
+                sepa_values = []
+                if  sepa_key in extended_keys:
+                    item_index += 2
+                    assert item_index < items_len, (
+                        _('SEPA key %s missing extention') % sepa_key)
+                    # For the moment no test on validity of extension
+                    sepa_key = '//'.join([sepa_key, items[item_index]])
+                item_index += 1
+                while (item_index < items_len
+                  and  items[item_index] not in known_keys):
+                    sepa_values.append(items[item_index].strip())
+                    item_index += 1
+                sepa_dict[sepa_key] = '/'.join(sepa_values)
             return sepa_dict
 
         def parse_type(field):
