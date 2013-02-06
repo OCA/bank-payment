@@ -121,56 +121,45 @@ def _has_attr(obj, attr):
     except KeyError:
         return False
 
-def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
+def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                           country_code, log):
     '''
     Get or create the partner belonging to the account holders name <name>
 
     If multiple partners are found with the same name, select the first and
     add a warning to the import log.
+ 
+    TODO: revive the search by address components other than country
     '''
     partner_obj = pool.get('res.partner')
-    partner_ids = partner_obj.search(cursor, uid, [('name', 'ilike', name)])
+    partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)])
     if not partner_ids:
         # Try brute search on address and then match reverse
-        address_obj = pool.get('res.partner.address')
-        filter = [('partner_id', '<>', None)]
+        filter_ = []
         if country_code:
             country_obj = pool.get('res.country')
             country_ids = country_obj.search(
-                cursor, uid, [('code','=',country_code.upper())]
+                cr, uid, [('code','=',country_code.upper())]
             )
             country_id = country_ids and country_ids[0] or False
-            filter.append(('country_id', '=', country_id))
-        # disable for now. Apparently, address is an array of lines.
-        if address and False:
-            if len(address) >= 1:
-                filter.append(('street', 'ilike', address[0]))
-            if len(address) > 1:
-                filter.append(('street2', 'ilike', address[1]))
-        if city:
-            filter.append(('city', 'ilike', city))
-        if postal_code:
-            filter.append(('zip', 'ilike', postal_code))
-        address_ids = address_obj.search(cursor, uid, filter)
+            filter_.append(('address.country_id', '=', country_id))
+        partner_search_ids = partner_obj.search(
+            cr, uid, filter_)
         key = name.lower()
-
-        # Make sure to get a unique list
-        partner_ids = list(set([x.partner_id.id
-                       for x in address_obj.browse(cursor, uid, address_ids)
-                       # Beware for dangling addresses
-                       if _has_attr(x.partner_id, 'name') and
-                          x.partner_id.name.lower() in key
-                      ]))
+        partners = partner_obj.read(cr, uid, partner_search_ids, ['name'])
+        partner_ids = [x['id'] for x in partners if (
+                len(x['name']) > 3 and
+                x['name'].lower() in key)]
+        print "Found partner_ids %s" % partner_ids
     if not partner_ids:
         if (not country_code) or not country_id:
-            user = pool.get('res.user').browse(cursor, uid, uid)
+            user = pool.get('res.user').browse(cr, uid, uid)
             country_id = (
                 user.company_id.partner_id.country and 
                 user.company_id.partner_id.country.id or
                 False
             )
-        partner_id = partner_obj.create(cursor, uid, dict(
+        partner_id = partner_obj.create(cr, uid, dict(
             name=name, active=True, comment='Generated from Bank Statements Import',
             address=[(0,0,{
                 'street': address and address[0] or '',
