@@ -1315,7 +1315,6 @@ class banking_import_transaction(osv.osv):
                         transaction.remote_owner_postalcode,
                         transaction.remote_owner_city,
                         country_code, results['log'], context=context)
-                        )
                     if transaction.remote_account:
                         partner_bank_id = create_bank_account(
                             self.pool, cr, uid, partner_id,
