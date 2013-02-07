@@ -19,14 +19,11 @@
 #
 ##############################################################################
 
-import sys
 import datetime
-import re
 from tools.translate import _
 from account_banking.parsers import convert
 from account_banking import sepa
 from account_banking.struct import struct
-import unicodedata
 
 __all__ = [
     'get_period', 
@@ -122,7 +119,7 @@ def _has_attr(obj, attr):
         return False
 
 def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
-                          country_code, log):
+                          country_code, log, context=None):
     '''
     Get or create the partner belonging to the account holders name <name>
 
@@ -132,15 +129,17 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
     TODO: revive the search by lines from the address argument
     '''
     partner_obj = pool.get('res.partner')
-    partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)])
+    partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)],
+                                     context=context)
+    country_id = False
     if not partner_ids:
         # Try brute search on address and then match reverse
         criteria = []
         if country_code:
             country_obj = pool.get('res.country')
             country_ids = country_obj.search(
-                cr, uid, [('code','=',country_code.upper())]
-            )
+                cr, uid, [('code', '=', country_code.upper())],
+                context=context)
             country_id = country_ids and country_ids[0] or False
             criteria.append(('address.country_id', '=', country_id))
         if city:
@@ -148,36 +147,38 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
         if postal_code:
             criteria.append(('address.zip', 'ilike', postal_code))
         partner_search_ids = partner_obj.search(
-            cr, uid, criteria)
+            cr, uid, criteria, context=context)
         key = name.lower()
-        partners = partner_obj.read(cr, uid, partner_search_ids, ['name'])
-        partner_ids = [x['id'] for x in partners if (
-                len(x['name']) > 3 and
-                x['name'].lower() in key)]
+        partners = []
+        for partner in partner_obj.read(
+            cr, uid, partner_search_ids, ['name'], context=context):
+            if (len(partner['name']) > 3 and partner['name'].lower() in key):
+                partners.append(partner)
+        partners.sort(key=lambda x: len(x['name']), reverse=True)
+        partner_ids = [x['id'] for x in partners]
     if not partner_ids:
-        if (not country_code) or not country_id:
-            user = pool.get('res.user').browse(cr, uid, uid)
+        if not country_id:
+            user = pool.get('res.user').browse(cr, uid, uid, context=context)
             country_id = (
                 user.company_id.partner_id.country and 
                 user.company_id.partner_id.country.id or
                 False
             )
         partner_id = partner_obj.create(cr, uid, dict(
-            name=name, active=True, comment='Generated from Bank Statements Import',
+            name=name, active=True,
+            comment='Generated from Bank Statements Import',
             address=[(0,0,{
                 'street': address and address[0] or '',
                 'street2': len(address) > 1 and address[1] or '',
                 'city': city,
                 'zip': postal_code or '',
                 'country_id': country_id,
-            })],
-        ))
+            })]), context=context)
     else:
         if len(partner_ids) > 1:
             log.append(
-                _('More than one possible match found for partner with name %(name)s')
-                % {'name': name}
-                )
+                _('More than one possible match found for partner with '
+                  'name %(name)s') % {'name': name})
         partner_id = partner_ids[0]
     return partner_id
 
