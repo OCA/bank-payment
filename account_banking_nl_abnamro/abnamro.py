@@ -155,46 +155,53 @@ class transaction(models.mem_bank_transaction):
             The string consists of slash separated KEY/VALUE pairs,
             but the slash is allowed to and known to occur in VALUE as well!
             """
-            items = field[1:].split('/')  # skip leading slash
-            assert len(items) > 1, (
-                _('unable to parse SEPA string: %s - %s') %
-                (field, _('too few items')))
-            known_keys = [
-                'TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF', 'SWOC', 'REMI',
-                'ADDR', 'BIC', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF', 'NRTX',
-                'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP', 'SVCL',
-                'SWOD'
-            ]
-            # Xtended keys have an extra part, separated from the first part
-            # with a double slash. For example: 'ORIG//CSID'.
-            # The double slash will make that the first part in items is
-            # followed by an empty string item, and then the other part of the
-            # key.
-            extended_keys = [
-                'BENM', 'ORDP', 'ORIG', 'ULTD', 'ULTB'
-            ]
-            known_keys.extend(extended_keys)
-            assert items[0] in known_keys, (
-                _('unable to parse SEPA string: %s - %s') %
-                (field, _('First key unknown %s') % items[0]))
+            def _sepa_message(field, reason):
+                return _(
+                    'unable to parse SEPA string: %s - %s' % (field, reason))
+
+            def _get_next_key(items, start):
+                '''Find next key, starting from start, returns the key found,
+                the start position in the array and the end position + 1'''
+                known_keys = [
+                    'TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF', 'SWOC',
+                    'REMI', 'ADDR', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF',
+                    'NRTX', 'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP',
+                    'SVCL', 'SWOD', 'BENM//ID', 'ORDP//ID', 'ORDP//RID',
+                    'ORIG//CSID', 'ORIG//MARF', 'ULTD//NAME', 'ULTD//ID',
+                    'ULTB//NAME', 'ULTB//ID'
+                ]
+                items_len = len(items)
+                si = start
+                # Search until start after end of items
+                while si < items_len:
+                    ei = si + 1
+                    while ei < items_len:
+                        key = '/'.join(items[si:ei])
+                        if  key in known_keys:
+                            return (key, si, ei)
+                        ei += 1
+                    si += 1
+                return False
+
+            items = field[1:].split('/')
+            assert len(items) > 1, _sepa_message(field, _('too few items'))
             sepa_dict = {}
             item_index = 0
             items_len = len(items)
-            while item_index < items_len:
-                sepa_key = items[item_index]
-                sepa_values = []
-                if  sepa_key in extended_keys:
-                    item_index += 2
-                    assert item_index < items_len, (
-                        _('SEPA key %s missing extention') % sepa_key)
-                    # For the moment no test on validity of extension
-                    sepa_key = '//'.join([sepa_key, items[item_index]])
-                item_index += 1
-                while (item_index < items_len
-                  and  items[item_index] not in known_keys):
-                    sepa_values.append(items[item_index].strip())
-                    item_index += 1
-                sepa_dict[sepa_key] = '/'.join(sepa_values)
+            key_info = _get_next_key(items, item_index)
+            assert key_info, _sepa_message(
+                field, _('no key found for start %d') % item_index)
+            assert key_info[1] == 0, _sepa_message(
+                field, _('invalid data found before key %s') % key_info[0])
+            while key_info:
+                sepa_key = key_info[0]
+                item_index = key_info[2]
+                # Find where next key - if any - starts
+                key_info = _get_next_key(items, item_index)
+                ve = (key_info and key_info[1]) or items_len
+                sepa_value = (
+                    (ve > item_index) and '/'.join(items[item_index:ve])) or ''
+                sepa_dict[sepa_key] = sepa_value
             return sepa_dict
 
         def parse_type(field):
