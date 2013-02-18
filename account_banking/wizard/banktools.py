@@ -19,14 +19,11 @@
 #
 ##############################################################################
 
-import sys
 import datetime
-import re
 from tools.translate import _
 from account_banking.parsers import convert
 from account_banking import sepa
 from account_banking.struct import struct
-import unicodedata
 
 __all__ = [
     'get_period', 
@@ -121,71 +118,67 @@ def _has_attr(obj, attr):
     except KeyError:
         return False
 
-def get_or_create_partner(pool, cursor, uid, name, address, postal_code, city,
-                          country_code, log):
+def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
+                          country_code, log, context=None):
     '''
     Get or create the partner belonging to the account holders name <name>
 
     If multiple partners are found with the same name, select the first and
     add a warning to the import log.
+ 
+    TODO: revive the search by lines from the address argument
     '''
     partner_obj = pool.get('res.partner')
-    partner_ids = partner_obj.search(cursor, uid, [('name', 'ilike', name)])
+    partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)],
+                                     context=context)
+    country_id = False
     if not partner_ids:
         # Try brute search on address and then match reverse
-        address_obj = pool.get('res.partner.address')
-        filter = [('partner_id', '<>', None)]
+        criteria = []
         if country_code:
             country_obj = pool.get('res.country')
             country_ids = country_obj.search(
-                cursor, uid, [('code','=',country_code.upper())]
-            )
+                cr, uid, [('code', '=', country_code.upper())],
+                context=context)
             country_id = country_ids and country_ids[0] or False
-            filter.append(('country_id', '=', country_id))
-        # disable for now. Apparently, address is an array of lines.
-        if address and False:
-            if len(address) >= 1:
-                filter.append(('street', 'ilike', address[0]))
-            if len(address) > 1:
-                filter.append(('street2', 'ilike', address[1]))
+            criteria.append(('address.country_id', '=', country_id))
         if city:
-            filter.append(('city', 'ilike', city))
+            criteria.append(('address.city', 'ilike', city))
         if postal_code:
-            filter.append(('zip', 'ilike', postal_code))
-        address_ids = address_obj.search(cursor, uid, filter)
+            criteria.append(('address.zip', 'ilike', postal_code))
+        partner_search_ids = partner_obj.search(
+            cr, uid, criteria, context=context)
         key = name.lower()
-
-        # Make sure to get a unique list
-        partner_ids = list(set([x.partner_id.id
-                       for x in address_obj.browse(cursor, uid, address_ids)
-                       # Beware for dangling addresses
-                       if _has_attr(x.partner_id, 'name') and
-                          x.partner_id.name.lower() in key
-                      ]))
+        partners = []
+        for partner in partner_obj.read(
+            cr, uid, partner_search_ids, ['name'], context=context):
+            if (len(partner['name']) > 3 and partner['name'].lower() in key):
+                partners.append(partner)
+        partners.sort(key=lambda x: len(x['name']), reverse=True)
+        partner_ids = [x['id'] for x in partners]
     if not partner_ids:
-        if (not country_code) or not country_id:
-            user = pool.get('res.user').browse(cursor, uid, uid)
+        if not country_id:
+            user = pool.get('res.user').browse(cr, uid, uid, context=context)
             country_id = (
                 user.company_id.partner_id.country and 
                 user.company_id.partner_id.country.id or
                 False
             )
-        partner_id = partner_obj.create(cursor, uid, dict(
-            name=name, active=True, comment='Generated from Bank Statements Import',
+        partner_id = partner_obj.create(cr, uid, dict(
+            name=name, active=True,
+            comment='Generated from Bank Statements Import',
             address=[(0,0,{
                 'street': address and address[0] or '',
                 'street2': len(address) > 1 and address[1] or '',
                 'city': city,
                 'zip': postal_code or '',
                 'country_id': country_id,
-            })],
-        ))
+            })]), context=context)
     else:
         if len(partner_ids) > 1:
             log.append(
-                _('More than one possible match found for partner with name %(name)s')
-                % {'name': name}
-                )
+                _('More than one possible match found for partner with '
+                  'name %(name)s') % {'name': name})
         partner_id = partner_ids[0]
     return partner_id
 
