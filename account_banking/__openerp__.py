@@ -107,5 +107,5 @@
         recognized and made available at server (re)start.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

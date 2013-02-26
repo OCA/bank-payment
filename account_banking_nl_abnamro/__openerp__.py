@@ -49,5 +49,5 @@ Imported bank transfers are organized in statements covering periods of one week
 even if the imported files cover a different period.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

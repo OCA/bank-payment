@@ -57,5 +57,5 @@ your system, unless you installed the 6.0 version of this
 module prior to the upgrade to OpenERP 6.1. 
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

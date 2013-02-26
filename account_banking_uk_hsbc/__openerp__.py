@@ -48,5 +48,5 @@
     Initial release of this module was co-sponsored by Canonical.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

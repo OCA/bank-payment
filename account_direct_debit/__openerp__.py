@@ -58,5 +58,5 @@ banking institutions. The banking addons are a continuation of Account Banking
 Framework by Edusense BV. See https://launchpad.net/banking-addons.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }
