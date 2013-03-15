@@ -21,8 +21,8 @@
 ##############################################################################
 import time
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 import decimal_precision as dp
 
 class bank_acc_rec_statement(osv.osv):
@@ -186,7 +186,10 @@ class bank_acc_rec_statement(osv.osv):
             res[statement.id]['cleared_balance'] = round(res[statement.id]['sum_of_debits'] - res[statement.id]['sum_of_credits'], account_precision)
             res[statement.id]['difference'] = round((statement.ending_balance - statement.starting_balance) - res[statement.id]['cleared_balance'], account_precision)
         return res
-
+    
+    def refresh_record(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {}, context=context)
+    
     def onchange_account_id(self, cr, uid, ids, account_id, ending_date, suppress_ending_date_filter, context=None):
         account_move_line_obj = self.pool.get('account.move.line')
         statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
@@ -300,8 +303,7 @@ class bank_acc_rec_statement_line(osv.osv):
         # Prevent manually adding new statement line.
         # This would allow only onchange method to pre-populate statement lines based on the filter rules.
         if not vals.get('move_line_id', False):
-            raise osv.except_osv(_('Processing Error'),\
-                                  _('You cannot add any new bank statement line manually as of this revision!'))
+            raise osv.except_osv(_('Processing Error'),_('You cannot add any new bank statement line manually as of this revision!'))
         account_move_line_obj.write(cr, uid, [vals['move_line_id']], {'draft_assigned_to_statement': True}, context=context)
         return super(bank_acc_rec_statement_line, self).create(cr, uid, vals, context=context)
 

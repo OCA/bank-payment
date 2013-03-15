@@ -31,6 +31,7 @@
                     <button name="action_review" type="object" states="draft" string="Ready for Review" icon="gtk-go-forward"/>
                     <button name="action_process" type="object" states="to_be_reviewed" string="Process" icon="gtk-apply"/>
                     <button name="action_cancel_draft" states="cancel,done" string="Set to Draft" type="object" icon="gtk-convert"/>
+                    <button name='refresh_record' string='Refresh' type='object'/>
                     <field name="state" widget="statusbar" nolabel="1"/>
 			    </header>
 			    <sheet>
@@ -45,6 +46,7 @@
 				    </group>
 			        <notebook colspan="5">
 			            <page string="Journal Items">
+			            	<label for='account_label' string='Deposits, Credits, and Interest'/>
 			                <field colspan="4" mode="tree" name="debit_move_line_ids" nolabel="1" widget="one2many_list" height="300">
 			                    <form string="Deposits, Credits, and Interest" version="7.0">
 			                    	<field name="cleared_bank_account"/>
@@ -68,6 +70,7 @@
 									<field name="move_line_id"/>
 			                    </tree>
 			                </field>
+			                <label for='account_label2' string='Checks, Withdrawals, Debits, and Service Charges'/>
 		                    <field colspan="4" mode="tree" name="credit_move_line_ids" nolabel="1" widget="one2many_list" height="300">
 			                    <form string="Checks, Withdrawals, Debits, and Service Charges" version="7.0">
 			                    	<field name="cleared_bank_account"/>
