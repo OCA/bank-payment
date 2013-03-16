@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Make buttons on payment order sensitive for extra states,
+             restore wizard functionality when making payments
+          -->
+
+        <record id="view_banking_payment_order_form_1" model="ir.ui.view">
+            <field name="name">account.payment.order.form.banking-1</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form" />
+            <field name="model">payment.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                           position="replace">
+                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
+                                string="Select Invoices to Pay" type="action" 
+				attrs="{'invisible':[('state','!=','draft')]}"
+                                icon="gtk-find"
+                                />
+                    </xpath>
+                    <xpath expr="/form/group/button[@string='Make Payments']"
+                           position="replace">
+                        <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
+                        <newline/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_banking_payment_order_tree_1" model="ir.ui.view">
+            <field name="name">account.payment.order.tree.banking-1</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_tree" />
+            <field name="model">payment.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+		<button string="Make Payments" position="replace">
+                    <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

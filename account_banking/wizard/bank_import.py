@@ -85,13 +85,10 @@ class banking_import_line(osv.osv_memory):
         'invoice_ids': fields.many2many(
             'account.invoice', 'banking_import_line_invoice_rel',
             'line_id', 'invoice_id'),
-        'payment_order_id': fields.many2one('payment.order', 'Payment order'),
         'partner_bank_id': fields.many2one('res.partner.bank', 'Bank Account'),
         'transaction_type': fields.selection([
                 # TODO: payment terminal etc...
                 ('invoice', 'Invoice payment'),
-                ('payment_order_line', 'Payment from a payment order'),
-                ('payment_order', 'Aggregate payment order'),
                 ('storno', 'Canceled debit order'),
                 ('bank_costs', 'Bank costs'),
                 ('unknown', 'Unknown'),

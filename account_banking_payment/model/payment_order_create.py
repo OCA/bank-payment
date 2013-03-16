@@ -2,25 +2,29 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#            
+#    All other contributions are (C) by their respective contributors
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 import datetime
-from osv import osv
+from openerp.osv import orm
 from account_banking.struct import struct
 from account_banking.parsers import convert
 
@@ -30,7 +34,7 @@ def str2date(str):
     dt = convert.str2date(str, '%Y-%m-%d')
     return datetime.date(dt.year, dt.month, dt.day)
 
-class payment_order_create(osv.osv_memory):
+class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def create_payment(self, cr, uid, ids, context=None):
@@ -123,5 +127,3 @@ class payment_order_create(osv.osv_memory):
                 'currency': line.invoice and line.invoice.currency_id.id or line.journal_id.currency.id or line.journal_id.company_id.currency_id.id,
                 }, context=context)
         return {'type': 'ir.actions.act_window_close'}
-
-payment_order_create()

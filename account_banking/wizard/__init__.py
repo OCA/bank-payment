@@ -19,8 +19,6 @@
 #
 ##############################################################################
 import bank_import
-import bank_payment_manual
-import account_payment_order
 import banking_transaction_wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

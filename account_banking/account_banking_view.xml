@@ -330,45 +330,6 @@
             </field>
         </record>
 
-        <!-- Make buttons on payment order sensitive for extra states,
-             restore wizard functionality when making payments
-          -->
-
-        <record id="view_banking_payment_order_form_1" model="ir.ui.view">
-            <field name="name">account.payment.order.form.banking-1</field>
-            <field name="inherit_id" ref="account_payment.view_payment_order_form" />
-            <field name="model">payment.order</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
-                           position="replace">
-                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
-                                string="Select Invoices to Pay" type="action" 
-				attrs="{'invisible':[('state','!=','draft')]}"
-                                icon="gtk-find"
-                                />
-                    </xpath>
-                    <xpath expr="/form/group/button[@string='Make Payments']"
-                           position="replace">
-                        <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
-                        <newline/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
-        <record id="view_banking_payment_order_tree_1" model="ir.ui.view">
-            <field name="name">account.payment.order.tree.banking-1</field>
-            <field name="inherit_id" ref="account_payment.view_payment_order_tree" />
-            <field name="model">payment.order</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-		<button string="Make Payments" position="replace">
-                    <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
-                </button>
-            </field>
-        </record>
-
         <!-- Set trigger on IBAN and acc_number fields in res_partner_bank form -->
         <!--record id="view_partner_bank_account_banking_form_1" model="ir.ui.view">
             <field name="name">res.partner.bank.form.banking-1</field>
@@ -459,54 +420,6 @@
             </field>
         </record>
 
-        <!-- Insert payment_mode.type -->
-        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
-            <field name="name">payment.mode.form.inherit</field>
-            <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="company_id" position="after">
-                    <field name="type"/>
-                </field>
-            </field>
-        </record>
-        <record id="view_payment_mode_tree_inherit" model="ir.ui.view">
-            <field name="name">payment.mode.tree.inherit</field>
-            <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_payment.view_payment_mode_tree"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <field name="company_id" position="after">
-                    <field name="type"/>
-                </field>
-            </field>
-        </record>
-
-	<!-- basic view for payment mode type -->
-        <record model="ir.ui.view" id="view_payment_mode_type_form">
-            <field name="name">view.payment.mode.type.form</field>
-            <field name="model">payment.mode.type</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form>
-		    <field name="name" />
-		    <field name="code" />
-		    <field name="suitable_bank_types"/>
-		    <field name="payment_order_type"/>
-		    <field name="ir_model_id"/>
-                </form>
-            </field>
-        </record>
-
-        <!-- fixes https://bugs.launchpad.net/openobject-addons/+bug/903156 for 6.0 
-             Note that 6.1 does not suffer from the problem 
-        -->
-        <record id="account_payment.action_create_payment_order" model="ir.actions.act_window">
-            <field name="view_id" ref="account_payment.view_create_payment_order"/>
-        </record>
-
-        
         <record model="ir.ui.view" id="view_bank_statement_line_tree">
             <field name="name">Bank statement line tree view</field>
             <field name="model">account.bank.statement.line</field>
