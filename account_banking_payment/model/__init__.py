@@ -7,4 +7,4 @@ import banking_import_transaction
 import account_bank_statement_line
 import banking_transaction_wizard
 import bank_payment_manual
-
+import banking_import_line

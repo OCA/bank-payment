@@ -24,6 +24,8 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp import netsvc
 
 
 class payment_order(orm.Model):
@@ -144,7 +146,7 @@ class payment_order(orm.Model):
             # should all be manual orders without type or wizard model
             for order in orders[1:]:
                 if order.mode.type and order.mode.type.ir_model_id:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error'),
                         _('You can only combine payment orders of the same type')
                         )
@@ -154,7 +156,7 @@ class payment_order(orm.Model):
                 wf_service.trg_validate(uid, 'payment.order', order_id, 'sent', cr)
         return result
 
-    def _write_payment_lines(self, cursor, uid, ids, **kwargs):
+    def _write_payment_lines(self, cr, uid, ids, **kwargs):
         '''
         ORM method for setting attributes of corresponding payment.line objects.
         Note that while this is ORM compliant, it is also very ineffecient due
@@ -165,49 +167,52 @@ class payment_order(orm.Model):
             ids = [ids]
         payment_line_obj = self.pool.get('payment.line')
         line_ids = payment_line_obj.search(
-            cursor, uid, [
+            cr, uid, [
                 ('order_id', 'in', ids)
             ])
-        payment_line_obj.write(cursor, uid, line_ids, kwargs)
+        payment_line_obj.write(cr, uid, line_ids, kwargs)
 
-    def set_to_draft(self, cursor, uid, ids, *args):
+    def set_to_draft(self, cr, uid, ids, *args):
         '''
         Set both self and payment lines to state 'draft'.
         '''
-        self._write_payment_lines(cursor, uid, ids, export_state='draft')
+        self._write_payment_lines(cr, uid, ids, export_state='draft')
         return super(payment_order, self).set_to_draft(
-            cursor, uid, ids, *args
+            cr, uid, ids, *args
         )
 
-    def action_sent(self, cursor, uid, ids, *args):
+    def action_sent(self, cr, uid, ids, context=None):
         '''
         Set both self and payment lines to state 'sent'.
         '''
-        self._write_payment_lines(cursor, uid, ids, export_state='sent')
-        self.write(cursor, uid, ids, {'state':'sent',
-                                      'date_sent': time.strftime('%Y-%m-%d')})
+        self._write_payment_lines(cr, uid, ids, export_state='sent')
+        self.write(cr, uid, ids, {
+                'state':'sent',
+                'date_sent': fields.date.context_today(
+                    self, cr, uid, context=context),
+                }, context=context)
         return True
 
-    def action_rejected(self, cursor, uid, ids, *args):
+    def action_rejected(self, cr, uid, ids, *args):
         '''
         Set both self and payment lines to state 'rejected'.
         '''
-        self._write_payment_lines(cursor, uid, ids, export_state='rejected')
+        self._write_payment_lines(cr, uid, ids, export_state='rejected')
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
-            wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cursor)
+            wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cr)
         return True
 
-    def set_done(self, cursor, uid, ids, *args):
+    def set_done(self, cr, uid, ids, *args):
         '''
         Extend standard transition to update children as well.
         '''
-        self._write_payment_lines(cursor, uid, ids,
-                                  export_state='done',
-                                  date_done=time.strftime('%Y-%m-%d')
-                                 )
+        self._write_payment_lines(
+            cr, uid, ids,
+            export_state='done',
+            date_done=fields.date.context_today(self, cr, uid))
         return super(payment_order, self).set_done(
-            cursor, uid, ids, *args
+            cr, uid, ids, *args
         )
 
     def get_wizard(self, type):
@@ -231,7 +236,7 @@ class payment_order(orm.Model):
         Reconcile the payment order if the amount is correct. Return the 
         id of the reconciliation.
         """
-        raise osv.except_osv(
+        raise orm.except_orm(
             _("Cannot reconcile"),
             _("Cannot reconcile debit order: "+
               "Not implemented."))
@@ -240,7 +245,7 @@ class payment_order(orm.Model):
         self, cr, uid, payment_order_id, reconcile_id, amount, currency,
         context=None):
         """ Unreconcile the payment_order if at all possible """
-        raise osv.except_osv(
+        raise orm.except_orm(
             _("Cannot unreconcile"),
             _("Cannot unreconcile debit order: "+
               "Not implemented."))

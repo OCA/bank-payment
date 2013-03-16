@@ -27,27 +27,16 @@ bank transfers.
 import wizard
 import pooler
 
-class payment_manual(wizard.interface):
-    def _action_set_state_sent(self, cursor, uid, data, context):
-        '''
-        Set the payment order in state 'sent' to reflect money in transfer.
-        '''
-        payment_order_obj = pooler.get_pool(cursor.dbname)\
-                .get('payment.order')
-        payment_order_obj.action_sent(cursor, uid, [data['id']], context)
-        return {}
-        
-    states= {
-        'init' : {
-            'actions': [],
-            'result': {
-                'type':'action',
-                'action': _action_set_state_sent,
-                'state': 'end'
-            }
-        }
-    }
 
-payment_manual('account_banking.payment_manual')
+class payment_manual(osv.Model):
+    _name = 'payment.manual'
+    _description = 'Set payment orders to \'sent\' manually'
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    def default_get(self, cr, uid, fields_list, context=None):
+        if context and context.get('active_ids'):
+            payment_order_obj = self.pool.get('payment.order')
+            for res_id in context['active_ids']:
+                payment_order_obj.action_sent(
+                    cr, uid, [res_id], context=context)
+        return super(payment_manual, self).default_get(
+            cr, uid, fields_list, context=None)

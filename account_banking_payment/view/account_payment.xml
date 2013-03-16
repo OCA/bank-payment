@@ -9,7 +9,6 @@
             <field name="name">account.payment.order.form.banking-1</field>
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
             <field name="model">payment.order</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/group/button[@string='Select Invoices to Pay']"

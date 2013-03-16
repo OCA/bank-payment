@@ -30,7 +30,7 @@
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
-    'depends': ['account_banking'],
+    'depends': ['account_banking_payment'],
     'init_xml': [],
     'update_xml': [
         'account_banking_nl_clieop.xml',
