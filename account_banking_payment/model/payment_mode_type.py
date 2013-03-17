@@ -27,9 +27,9 @@ from openerp.osv import orm, fields
 
 
 class payment_mode_type(orm.Model):
-    _name= 'payment.mode.type'
-    _description= 'Payment Mode Type'
-    _columns= {
+    _name = 'payment.mode.type'
+    _description = 'Payment Mode Type'
+    _columns = {
         'name': fields.char(
             'Name', size=64, required=True,
             help='Payment Type'
@@ -58,5 +58,5 @@ class payment_mode_type(orm.Model):
     }
 
     _defaults = {
-        'payment_order_type': lambda *a: 'payment',
+        'payment_order_type': 'payment',
         }

@@ -110,7 +110,7 @@ class payment_order(orm.Model):
     }
 
     _defaults = {
-        'payment_order_type': lambda *a: 'payment',
+        'payment_order_type': 'payment',
         }
 
     def launch_wizard(self, cr, uid, ids, context=None):

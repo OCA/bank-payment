@@ -24,30 +24,13 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
+from openerp import netsvc
+from openerp.tools.translate import _
 from openerp.addons.account_banking.parsers.convert import str2date
 
 
 class banking_import_transaction(orm.Model):
     _inherit = 'banking.import.transaction'
-
-    confirm_map = {
-        # Add storno and payment types
-        'storno': _confirm_storno,
-        'invoice': _confirm_move,
-        'manual': _confirm_move,
-        'payment_order': _confirm_payment_order,
-        'payment': _confirm_payment,
-        'move': _confirm_move,
-        }
-
-    cancel_map = {
-        'storno': _cancel_storno,
-        'invoice': _cancel_voucher,
-        'manual': _cancel_voucher,
-        'move': _cancel_voucher,
-        'payment_order': _cancel_payment_order,
-        'payment': _cancel_payment,
-        }
 
     def _match_debit_order(
         self, cr, uid, trans, log, context=None):
@@ -127,18 +110,21 @@ class banking_import_transaction(orm.Model):
         # TODO: Not sure what side effects are created when payments are done
         # for credited customer invoices, which will be matched later on too.
         digits = dp.get_precision('Account')(cr)[1]
-        candidates = [x for x in payment_lines
-                      if x.communication == trans.reference 
-                      and round(x.amount, digits) == -round(trans.transferred_amount, digits)
-                      and trans.remote_account in (x.bank_id.acc_number,
-                                                   x.bank_id.acc_number_domestic)
-                     ]
+        candidates = [
+            x for x in payment_lines
+            if x.communication == trans.reference 
+            and round(x.amount, digits) == -round(
+                trans.transferred_amount, digits)
+            and trans.remote_account in (x.bank_id.acc_number,
+                                         x.bank_id.acc_number_domestic)
+            ]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
             if candidate.id not in linked_payments:
                 linked_payments[candidate.id] = True
-                move_info = self._get_move_info(cr, uid, [candidate.move_line_id.id])
+                move_info = self._get_move_info(
+                    cr, uid, [candidate.move_line_id.id])
                 move_info.update({
                         'match_type': 'payment',
                         'payment_line_id': candidate.id,
@@ -157,7 +143,7 @@ class banking_import_transaction(orm.Model):
         statement_line_pool = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_line_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot link with storno"),
                 _("No direct debit order item"))
         reconcile_id = payment_line_pool.debit_storno(
@@ -182,11 +168,11 @@ class banking_import_transaction(orm.Model):
         statement_line_pool = self.pool.get('account.bank.statement.line')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_order_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot reconcile"),
                 _("Cannot reconcile: no direct debit order"))
         if transaction.payment_order_id.payment_order_type != 'debit':
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot reconcile"),
                 _("Reconcile payment order not implemented"))
         reconcile_id = payment_order_obj.debit_reconcile_transfer(
@@ -217,7 +203,7 @@ class banking_import_transaction(orm.Model):
         
     def _cancel_payment(
         self, cr, uid, transaction_id, context=None):
-        raise osv.except_osv(
+        raise orm.except_orm(
             _("Cannot unreconcile"),
             _("Cannot unreconcile: this operation is not yet supported for "
               "match type 'payment'"))
@@ -229,11 +215,11 @@ class banking_import_transaction(orm.Model):
         payment_order_obj = self.pool.get('payment.order')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         if not transaction.payment_order_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot unreconcile"),
                 _("Cannot unreconcile: no direct debit order"))
         if transaction.payment_order_id.payment_order_type != 'debit':
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot unreconcile"),
                 _("Unreconcile payment order not implemented"))
         return payment_order_obj.debit_unreconcile_transfer(
@@ -253,11 +239,11 @@ class banking_import_transaction(orm.Model):
         transaction = self.browse(cr, uid, transaction_id, context=context)
         
         if not transaction.payment_line_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot cancel link with storno"),
                 _("No direct debit order item"))
         if not transaction.payment_line_id.storno:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot cancel link with storno"),
                 _("The direct debit order item is not marked for storno"))
 
@@ -276,7 +262,7 @@ class banking_import_transaction(orm.Model):
                 cancel_line = line
                 break
         if not cancel_line:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Cannot cancel link with storno"),
                 _("Line id not found"))
         reconcile = cancel_line.reconcile_id or cancel_line.reconcile_partial_id
@@ -289,7 +275,8 @@ class banking_import_transaction(orm.Model):
             reconcile_obj.write(
                 cr, uid, reconcile.id, 
                 {'line_partial_ids': 
-                 [(6, 0, [x.id for x in lines_reconcile if x.id != cancel_line.id])],
+                 [(6, 0, [x.id for x in lines_reconcile
+                          if x.id != cancel_line.id])],
                  'line_id': [(6, 0, [])],
                  }, context)
         # redo the original payment line reconciliation with the invoice
@@ -341,7 +328,7 @@ class banking_import_transaction(orm.Model):
                 },
             context=context)
 
-    def move_info2values(move_info):
+    def move_info2values(self, move_info):
         vals = super(banking_import_transaction, self).move_info2values
         vals['payment_line_id'] = move_info.get('payment_line_id', False)
         vals['payment_order_ids'] = [
@@ -383,3 +370,16 @@ class banking_import_transaction(orm.Model):
                 wf_service.trg_validate(
                     uid, 'payment.order', id, 'done', cr)
         return res
+
+    def __init__(self, pool, cr):
+        super(banking_import_transaction, self).__init__(pool, cr)
+        self.confirm_map.update({
+                'storno': self._confirm_storno,
+                'payment_order': self._confirm_payment_order,
+                'payment': self._confirm_payment,
+                })                
+        self.cancel_map.update({
+                'storno': self._cancel_storno,
+                'payment_order': self._cancel_payment_order,
+                'payment': self._cancel_payment,
+                })

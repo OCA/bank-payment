@@ -49,4 +49,3 @@ class payment_mode(orm.Model):
             help='Select the Payment Type for the Payment Mode.'
             ),
         }
-payment_mode()

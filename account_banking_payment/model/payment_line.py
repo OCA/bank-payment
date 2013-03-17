@@ -26,7 +26,7 @@
 from openerp.osv import orm, fields
 
 
-class payment_line(osv.osv):
+class payment_line(orm.Model):
     '''
     Add extra export_state and date_done fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
@@ -160,9 +160,9 @@ class payment_line(osv.osv):
         ),
     }
     _defaults = {
-        'export_state': lambda *a: 'draft',
-        'date_done': lambda *a: False,
-        'msg': lambda *a: '',
+        'export_state': 'draft',
+        'date_done': False,
+        'msg': '',
     }
 
     def fields_get(self, cr, uid, fields=None, context=None):
@@ -216,6 +216,3 @@ class payment_line(osv.osv):
         """
 
         return False
-
-payment_line()
-

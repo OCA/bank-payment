@@ -30,12 +30,16 @@ class banking_transaction_wizard(orm.TransientModel):
     _inherit = 'banking.transaction.wizard'
     _columns = {
         'payment_line_id': fields.related(
-            'import_transaction_id', 'payment_line_id', string="Matching payment or storno", 
-            type='many2one', relation='payment.line', readonly=True),
+            'import_transaction_id', 'payment_line_id',
+            string="Matching payment or storno", 
+            type='many2one', relation='payment.line',
+            readonly=True),
         'payment_order_ids': fields.related(
-            'import_transaction_id', 'payment_order_ids', string="Matching payment orders", 
+            'import_transaction_id', 'payment_order_ids',
+            string="Matching payment orders", 
             type='many2many', relation='payment.order'),
         'payment_order_id': fields.related(
-            'import_transaction_id', 'payment_order_id', string="Payment order to reconcile", 
+            'import_transaction_id', 'payment_order_id',
+            string="Payment order to reconcile", 
             type='many2one', relation='payment.order'),
         }

@@ -23,16 +23,8 @@
 #
 ##############################################################################
 
-import datetime
-from openerp.osv import orm
-from account_banking.struct import struct
-from account_banking.parsers import convert
+from openerp.osv import orm, fields
 
-today = datetime.date.today
-
-def str2date(str):
-    dt = convert.str2date(str, '%Y-%m-%d')
-    return datetime.date(dt.year, dt.month, dt.day)
 
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
@@ -62,7 +54,7 @@ class payment_order_create(orm.TransientModel):
         # t = None
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
         line2bank = line_obj.line2bank(cr, uid, line_ids, payment.mode.id, context)
-        _today = today()
+        _today = fields.date.context_today(self, cr, uid, context=context)
         ### end account banking
 
         ## Finally populate the current payment with new lines:
@@ -73,16 +65,16 @@ class payment_order_create(orm.TransientModel):
             elif payment.date_prefered == 'due':
                 ### account_banking
                 # date_to_pay = line.date_maturity
-                date_to_pay = line.date_maturity and \
-                           str2date(line.date_maturity) > _today\
-                           and line.date_maturity or False
+                date_to_pay = (
+                    line.date_maturity if line.date_maturity
+                    and line.date_maturity > _today else False)
                 ### end account banking
             elif payment.date_prefered == 'fixed':
                 ### account_banking
                 # date_to_pay = payment.date_planned
-                date_to_pay = payment.date_planned and \
-                           str2date(payment.date_planned) > _today\
-                           and payment.date_planned or False
+                date_to_pay = (
+                    payment.date_planned if payment.date_planned
+                    and payment.date_planned > _today else False)
                 ### end account banking
 
             ### account_banking
@@ -111,7 +103,7 @@ class payment_order_create(orm.TransientModel):
                 amount_currency = line.amount_to_pay
             ### end account_banking
 
-            payment_obj.create(cr, uid,{
+            payment_obj.create(cr, uid, {
                 'move_line_id': line.id,
                 'amount_currency': amount_currency,
                 'bank_id': line2bank.get(line.id),

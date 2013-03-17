@@ -805,7 +805,7 @@ class banking_import_transaction(osv.osv):
             retval['type'] = type_map[move_lines[0].invoice.type]
         return retval
 
-    def move_info2values(move_info):
+    def move_info2values(self, move_info):
         vals = {}
         vals['match_type'] = move_info['match_type']
         vals['move_line_ids'] = [(6, 0, move_info.get('move_line_ids') or [])]
