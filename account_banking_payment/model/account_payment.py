@@ -187,7 +187,7 @@ class payment_order(orm.Model):
         '''
         self._write_payment_lines(cr, uid, ids, export_state='sent')
         self.write(cr, uid, ids, {
-                'state':'sent',
+                'state': 'sent',
                 'date_sent': fields.date.context_today(
                     self, cr, uid, context=context),
                 }, context=context)
