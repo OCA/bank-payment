@@ -26,6 +26,7 @@
 from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
 from openerp.addons.account_banking.parsers.convert import str2date
 
 
@@ -200,9 +201,24 @@ class banking_import_transaction(orm.Model):
                 }
             )
         self._confirm_move(cr, uid, transaction_id, context=context)
-        
+        # Check if the payment order is 'done'
+        order_id = transaction.payment_line_id.order_id.id
+        other_lines = payment_line_obj.search(
+            cr, uid, [
+                ('order_id', '=', order_id),
+                ('date_done', '=', False),
+                ], context=context)
+        if not other_lines:
+            wf_service = netsvc.LocalService('workflow')
+            wf_service.trg_validate(
+                uid, 'payment.order', order_id, 'done', cr)
+
     def _cancel_payment(
         self, cr, uid, transaction_id, context=None):
+        """
+        Do not support cancelling individual lines yet, because the workflow
+        of the payment order does not support reopening.
+        """
         raise orm.except_orm(
             _("Cannot unreconcile"),
             _("Cannot unreconcile: this operation is not yet supported for "
@@ -329,7 +345,8 @@ class banking_import_transaction(orm.Model):
             context=context)
 
     def move_info2values(self, move_info):
-        vals = super(banking_import_transaction, self).move_info2values
+        vals = super(banking_import_transaction, self).move_info2values(
+            move_info)
         vals['payment_line_id'] = move_info.get('payment_line_id', False)
         vals['payment_order_ids'] = [
             (6, 0, move_info.get('payment_order_ids') or [])]
@@ -344,42 +361,30 @@ class banking_import_transaction(orm.Model):
         res = super(banking_import_transaction, self).match(
             cr, uid, ids, results=results, context=context)
 
-        # As payments lines are treated as individual transactions, the
-        # batch as a whole is only marked as 'done' when all payment lines
-        # have been reconciled.
-        cr.execute(
-            "SELECT DISTINCT o.id "
-            "FROM payment_order o, payment_line l "
-            "WHERE o.state = 'sent' "
-            "AND o.id = l.order_id "
-            "AND o.id NOT IN ("
-            "SELECT DISTINCT order_id AS id "
-            "FROM payment_line "
-            "WHERE date_done IS NULL "
-            "AND id IN (%s)"
-            ")" % (','.join([str(x) for x in payment_line_ids]))
-            )
-        order_ids = [x[0] for x in cr.fetchall()]
-        if order_ids:
-            # Use workflow logics for the orders. Recode logic from
-            # account_payment, in order to increase efficiency.
-            payment_order_obj.set_done(
-                cr, uid, order_ids, {'state': 'done'})
-            wf_service = netsvc.LocalService('workflow')
-            for id in order_ids:
-                wf_service.trg_validate(
-                    uid, 'payment.order', id, 'done', cr)
         return res
 
     def __init__(self, pool, cr):
+        """
+        Updating the function maps to handle the match types that this
+        module adds. While creating the map in the super object was
+        straightforward, the fact that these are now functions rather than
+        method requires the awkward way of updating it with the methods'
+        function objects.
+
+        As noted above, another implication is that any addon that inherits
+        one of these methods needs to overwrite the entry in the function
+        maps in the same way as is done below.
+        """
         super(banking_import_transaction, self).__init__(pool, cr)
+
         self.confirm_map.update({
-                'storno': self._confirm_storno,
-                'payment_order': self._confirm_payment_order,
-                'payment': self._confirm_payment,
-                })                
+                'storno': self._confirm_storno.__func__,
+                'payment_order': self._confirm_payment_order.__func__,
+                'payment': self._confirm_payment.__func__,
+                })
+
         self.cancel_map.update({
-                'storno': self._cancel_storno,
-                'payment_order': self._cancel_payment_order,
-                'payment': self._cancel_payment,
+                'storno': self._cancel_storno.__func__,
+                'payment_order': self._cancel_payment_order.__func__,
+                'payment': self._cancel_payment.__func__,
                 })
