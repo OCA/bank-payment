@@ -223,7 +223,7 @@ class payment_order(orm.Model):
         if type == 'BANKMAN':
             # Note that self._module gets overwritten by inheriters, so make
             # the module name hard coded.
-            return 'account_banking', 'wizard_account_banking_payment_manual'
+            return 'account_banking_payment', 'model_payment_manual'
         return super(payment_order, self).get_wizard(type)
 
     """
