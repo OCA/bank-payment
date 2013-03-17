@@ -36,7 +36,9 @@
         ],
     'data': [
         'view/account_payment.xml',
+        'view/banking_transaction_wizard.xml',
         'view/payment_mode_type.xml',
+        'view/bank_payment_manual.xml',
         'data/payment_mode_type.xml',
         'workflow/account_payment.xml',
         'security/ir.model.access.csv',

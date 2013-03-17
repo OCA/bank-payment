@@ -28,10 +28,10 @@ This module contains a single "wizard" for including a 'sent' state for manual
 bank transfers.
 '''
 
-from openerp.osv import orm
+from openerp.osv import orm, fields
 
 
-class payment_manual(orm.Model):
+class payment_manual(orm.TransientModel):
     _name = 'payment.manual'
     _description = 'Set payment orders to \'sent\' manually'
 
@@ -43,3 +43,9 @@ class payment_manual(orm.Model):
                     cr, uid, [res_id], context=context)
         return super(payment_manual, self).default_get(
             cr, uid, fields_list, context=None)
+
+    _columns = {
+        # dummy field, to trigger a call to default_get
+        'name': fields.char('Name', size=1),
+        }
+

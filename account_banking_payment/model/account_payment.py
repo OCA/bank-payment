@@ -215,17 +215,6 @@ class payment_order(orm.Model):
             cr, uid, ids, *args
         )
 
-    def get_wizard(self, type):
-        '''
-        Intercept manual bank payments to include 'sent' state. Default
-        'manual' payments are flagged 'done' immediately.
-        '''
-        if type == 'BANKMAN':
-            # Note that self._module gets overwritten by inheriters, so make
-            # the module name hard coded.
-            return 'account_banking_payment', 'model_payment_manual'
-        return super(payment_order, self).get_wizard(type)
-
     """
     Hooks for processing direct debit orders, such as implemented in
     account_direct_debit module.
