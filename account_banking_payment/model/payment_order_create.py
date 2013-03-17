@@ -23,7 +23,9 @@
 #
 ##############################################################################
 
+from datetime import datetime
 from openerp.osv import orm, fields
+from openerp.misc import DEFAULT_SERVER_DATE_FORMAT
 
 
 class payment_order_create(orm.TransientModel):
@@ -53,8 +55,9 @@ class payment_order_create(orm.TransientModel):
         ### account banking
         # t = None
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
-        line2bank = line_obj.line2bank(cr, uid, line_ids, payment.mode.id, context)
-        _today = fields.date.context_today(self, cr, uid, context=context)
+        line2bank = line_obj.line2bank(
+            cr, uid, line_ids, payment.mode.id, context)
+        _today = datetime.utcnow().strftime(DEFAULT_SERVER_DATE_FORMAT)
         ### end account banking
 
         ## Finally populate the current payment with new lines:

@@ -27,7 +27,6 @@ from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
-from openerp.addons.account_banking.parsers.convert import str2date
 
 
 class banking_import_transaction(orm.Model):
@@ -45,8 +44,7 @@ class banking_import_transaction(orm.Model):
         order_ids = payment_order_obj.search(
             cr, uid, [('payment_order_type', '=', 'debit'),
                       ('state', '=', 'sent'),
-                      ('date_sent', '<=', str2date(trans.execution_date,
-                                                   '%Y-%m-%d'))
+                      ('date_sent', '<=', trans.execution_date),
                       ],
             limit=0, context=context)
         orders = payment_order_obj.browse(cr, uid, order_ids, context)
