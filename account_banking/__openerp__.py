@@ -35,8 +35,10 @@
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
-    'depends': ['base', 'account', 'base_iban', 'account_payment',
-                'account_iban_preserve_domestic'],
+    'depends': [
+        'account',
+        'account_iban_preserve_domestic',
+        ],
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
