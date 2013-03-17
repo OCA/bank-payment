@@ -36,7 +36,7 @@
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': [
-        'account',
+        'account_voucher',
         'account_iban_preserve_domestic',
         ],
     'init_xml': [],
