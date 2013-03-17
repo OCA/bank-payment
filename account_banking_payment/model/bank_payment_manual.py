@@ -29,6 +29,7 @@ bank transfers.
 '''
 
 from openerp.osv import orm, fields
+from openerp import netsvc
 
 
 class payment_manual(orm.TransientModel):
@@ -38,9 +39,10 @@ class payment_manual(orm.TransientModel):
     def default_get(self, cr, uid, fields_list, context=None):
         if context and context.get('active_ids'):
             payment_order_obj = self.pool.get('payment.order')
-            for res_id in context['active_ids']:
-                payment_order_obj.action_sent(
-                    cr, uid, [res_id], context=context)
+            wf_service = netsvc.LocalService('workflow')
+            for order_id in context['active_ids']:
+                wf_service.trg_validate(
+                    uid, 'payment.order', order_id, 'sent', cr)
         return super(payment_manual, self).default_get(
             cr, uid, fields_list, context=None)
 
