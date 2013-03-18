@@ -1,20 +1,24 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#            
+#    All other contributions are (C) by their respective contributors
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
@@ -302,37 +306,12 @@ class account_bank_statement(osv.osv):
                                    ]
                                ]
 
-    #def _currency(self, cursor, user, ids, name, args, context=None):
-    #    '''
-    #    Calculate currency from contained transactions
-    #    '''
-    #    res = {}
-    #    res_currency_obj = self.pool.get('res.currency')
-    #    res_users_obj = self.pool.get('res.users')
-    #    default_currency = res_users_obj.browse(cursor, user,
-    #            user, context=context).company_id.currency_id
-    #    for statement in self.browse(cursor, user, ids, context=context):
-    #        currency = statement.journal_id.currency
-    #        if not currency:
-    #            currency = default_currency
-    #        res[statement.id] = currency.id
-    #    currency_names = {}
-    #    for currency_id, currency_name in res_currency_obj.name_get(cursor,
-    #            user, res.values(), context=context):
-    #        currency_names[currency_id] = currency_name
-    #    for statement_id in res.keys():
-    #        currency_id = res[statement_id]
-    #        res[statement_id] = (currency_id, currency_names[currency_id])
-    #    return res
-
     _columns = {
         'period_id': fields.many2one('account.period', 'Period',
                                      required=False, readonly=True),
         'banking_id': fields.many2one('account.banking.imported.file',
                                      'Imported File', readonly=True,
                                      ),
-    #    'currency': fields.function(_currency, method=True, string='Currency',
-    #        type='many2one', relation='res.currency'),
     }
 
     _defaults = {
@@ -367,12 +346,6 @@ class account_bank_statement(osv.osv):
         period_obj = self.pool.get('account.period')
         periods = period_obj.find(cursor, uid, dt=date, context=context)
         return periods and periods[0] or False
-
-    #def compute(self, cursor, uid, ids, context=None):
-    #    '''
-    #    Compute start and end balance with mixed currencies.
-    #    '''
-    #    return None
 
     def create_move_from_st_line(self, cr, uid, st_line_id,
                                  company_currency_id, st_line_number,
