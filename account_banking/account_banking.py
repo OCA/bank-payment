@@ -61,20 +61,21 @@ Modifications are extensive:
     default behavior is to flag the orders as 'sent', not as 'done'.
     Rejected payments from the bank receive on import the status 'rejected'.
 '''
+
 import time
-import sepa
-from osv import osv, fields
-from tools.translate import _
-from wizard.banktools import get_or_create_bank
-import decimal_precision as dp
-import netsvc
-from openerp import SUPERUSER_ID
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp import netsvc, SUPERUSER_ID
+from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.addons.account_banking import sepa
+from openerp.addons.account_banking.wizard.banktools import get_or_create_bank
 
 def warning(title, message):
     '''Convenience routine'''
     return {'warning': {'title': title, 'message': message}}
 
-class account_banking_account_settings(osv.osv):
+
+class account_banking_account_settings(orm.Model):
     '''Default Journal for Bank Account'''
     _name = 'account.banking.account.settings'
     _description = __doc__
@@ -233,7 +234,8 @@ class account_banking_account_settings(osv.osv):
     }
 account_banking_account_settings()
 
-class account_banking_imported_file(osv.osv):
+
+class account_banking_imported_file(orm.Model):
     '''Imported Bank Statements File'''
     _name = 'account.banking.imported.file'
     _description = __doc__
@@ -276,7 +278,8 @@ class account_banking_imported_file(osv.osv):
     }
 account_banking_imported_file()
 
-class account_bank_statement(osv.osv):
+
+class account_bank_statement(orm.Model):
     '''
     Extensions from account_bank_statement:
         1. Removed period_id (transformed to optional boolean) - as it is no
@@ -496,7 +499,7 @@ class account_bank_statement(osv.osv):
                     context=context).line_id],
                 context=context):
             if line.state <> 'valid':
-                raise osv.except_osv(_('Error !'),
+                raise orm.except_orm(_('Error !'),
                         _('Journal Item "%s" is not valid') % line.name)
 
         # Bank statements will not consider boolean on journal entry_posted
@@ -539,7 +542,8 @@ class account_bank_statement(osv.osv):
 
 account_bank_statement()
 
-class account_voucher(osv.osv):
+
+class account_voucher(orm.Model):
     _inherit = 'account.voucher'
 
     def _get_period(self, cr, uid, context=None):
@@ -556,7 +560,8 @@ class account_voucher(osv.osv):
 
 account_voucher()
 
-class account_bank_statement_line(osv.osv):
+
+class account_bank_statement_line(orm.Model):
     '''
     Extension on basic class:
         1. Extra links to account.period and res.partner.bank for tracing and
@@ -697,7 +702,7 @@ class account_bank_statement_line(osv.osv):
 account_bank_statement_line()
 
 
-class res_partner_bank(osv.osv):
+class res_partner_bank(orm.Model):
     '''
     This is a hack to circumvent the very limited but widely used base_iban
     dependency. The usage of __mro__ requires inside information of
@@ -1067,7 +1072,7 @@ class res_partner_bank(osv.osv):
 
 res_partner_bank()
 
-class res_bank(osv.osv):
+class res_bank(orm.Model):
     '''
     Add a on_change trigger to automagically fill bank details from the 
     online SWIFT database. Allow hand filled names to overrule SWIFT names.
@@ -1110,7 +1115,8 @@ class res_bank(osv.osv):
 
 res_bank()
 
-class invoice(osv.osv):
+
+class invoice(orm.Model):
     '''
     Create other reference types as well.
 
@@ -1152,7 +1158,8 @@ class invoice(osv.osv):
 
 invoice()
 
-class account_move_line(osv.osv):
+
+class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
     def get_balance(self, cr, uid, ids, context=None):
