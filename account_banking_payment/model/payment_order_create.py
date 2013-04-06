@@ -57,7 +57,7 @@ class payment_order_create(orm.TransientModel):
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
         line2bank = line_obj.line2bank(
             cr, uid, line_ids, payment.mode.id, context)
-        _today = datetime.utcnow().strftime(DEFAULT_SERVER_DATE_FORMAT)
+        _today = fields.date.context_today(self, cr, uid, context=context)
         ### end account banking
 
         ## Finally populate the current payment with new lines:
@@ -69,15 +69,17 @@ class payment_order_create(orm.TransientModel):
                 ### account_banking
                 # date_to_pay = line.date_maturity
                 date_to_pay = (
-                    line.date_maturity if line.date_maturity
-                    and line.date_maturity > _today else False)
+                    line.date_maturity
+                    if line.date_maturity and line.date_maturity > _today
+                    else False)
                 ### end account banking
             elif payment.date_prefered == 'fixed':
                 ### account_banking
                 # date_to_pay = payment.date_planned
                 date_to_pay = (
-                    payment.date_planned if payment.date_planned
-                    and payment.date_planned > _today else False)
+                    payment.date_planned
+                    if payment.date_planned and payment.date_planned > _today
+                    else False)
                 ### end account banking
 
             ### account_banking
