@@ -329,7 +329,7 @@ class account_bank_statement(orm.Model):
         Add the statement line's period to the move, overwriting
         the period on the statement
         """
-        res = super(account_bank_statement_line, self)._prepare_move(
+        res = super(account_bank_statement, self)._prepare_move(
             cr, uid, st_line, st_line_number, context=context)
         if context and context.get('period_id'):
             res['period_id'] = context['period_id']
@@ -343,7 +343,7 @@ class account_bank_statement(orm.Model):
         Add the statement line's period to the move lines, overwriting
         the period on the statement
         """
-        res = super(account_bank_statement_line, self)._prepare_move_line_vals(
+        res = super(account_bank_statement, self)._prepare_move_line_vals(
             cr, uid, st_line, move_id, debit, credit, currency_id=currency_id,
             amount_currency=amount_currency, account_id=account_id,
             analytic_id=analytic_id, partner_id=partner_id, context=context)
@@ -415,18 +415,30 @@ class account_bank_statement(orm.Model):
         return res
 
     def button_confirm_bank(self, cr, uid, ids, context=None):
-        if context is None: context = {}
+        """
+        Assign journal sequence to statements without a name
+        """
+        if context is None:
+            context = {}
         obj_seq = self.pool.get('ir.sequence')
-        if not isinstance(ids, list): ids = [ids]
-        noname_ids = self.search(cr, uid, [('id','in',ids),('name','=','/')])
+        if ids and isinstance(ids, (int, long)):
+            ids = [ids]
+        noname_ids = self.search(
+            cr, uid, [('id', 'in', ids),('name', '=', '/')],
+            context=context)
         for st in self.browse(cr, uid, noname_ids, context=context):
-                if st.journal_id.sequence_id:
-                    year = self.pool.get('account.period').browse(cr, uid, self._get_period(cr, uid, st.date)).fiscalyear_id.id
-                    c = {'fiscalyear_id': year}
-                    st_number = obj_seq.get_id(cr, uid, st.journal_id.sequence_id.id, context=c)
-                    self.write(cr, uid, ids, {'name': st_number})
+            if st.journal_id.sequence_id:
+                period_id = self._get_period(cr, uid, st.date)
+                year = self.pool.get('account.period').browse(
+                    cr, uid, period_id, context=context).fiscalyear_id.id
+                c = {'fiscalyear_id': year}
+                st_number = obj_seq.get_id(
+                    cr, uid, st.journal_id.sequence_id.id, context=c)
+                self.write(
+                    cr, uid, ids, {'name': st_number}, context=context)
         
-        return super(account_bank_statement, self).button_confirm_bank(cr, uid, ids, context)
+        return super(account_bank_statement, self).button_confirm_bank(
+            cr, uid, ids, context)
 
 account_bank_statement()
 
