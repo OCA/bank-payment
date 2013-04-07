@@ -303,14 +303,12 @@ class account_bank_statement(orm.Model):
         move of period_id to the statement line
         """
         for statement in self.browse(cr, uid, ids, context=context):
-            if (statement.period_id and
-                statement.company_id.id != statement.period_id.company_id.id):
-                return False
             for line in statement.line_ids:
                 if (line.period_id and
                     statement.company_id.id != line.period_id.company_id.id):
                     return False
-        return True
+        return super(account_bank_statement, self)._check_company_id(
+            cr, uid, ids, context=context)
     
     # Redefine the constraint, or it still refer to the original method
     _constraints = [
