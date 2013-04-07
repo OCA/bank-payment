@@ -323,6 +323,34 @@ class account_bank_statement(orm.Model):
         periods = period_obj.find(cursor, uid, dt=date, context=context)
         return periods and periods[0] or False
 
+    def _prepare_move(
+            self, cr, uid, st_line, st_line_number, context=None):
+        """
+        Add the statement line's period to the move, overwriting
+        the period on the statement
+        """
+        res = super(account_bank_statement_line, self)._prepare_move(
+            cr, uid, st_line, st_line_number, context=context)
+        if context and context.get('period_id'):
+            res['period_id'] = context['period_id']
+        return res
+
+    def _prepare_move_line_vals(
+            self, cr, uid, st_line, move_id, debit, credit, currency_id=False,
+            amount_currency=False, account_id=False, analytic_id=False,
+            partner_id=False, context=None):
+        """
+        Add the statement line's period to the move lines, overwriting
+        the period on the statement
+        """
+        res = super(account_bank_statement_line, self)._prepare_move_line_vals(
+            cr, uid, st_line, move_id, debit, credit, currency_id=currency_id,
+            amount_currency=amount_currency, account_id=account_id,
+            analytic_id=analytic_id, partner_id=partner_id, context=context)
+        if context and context.get('period_id'):
+            res['period_id'] = context['period_id']
+        return res
+
     def create_move_from_st_line(self, cr, uid, st_line_id,
                                  company_currency_id, st_line_number,
                                  context=None):
@@ -343,161 +371,48 @@ class account_bank_statement(orm.Model):
             'account.bank.statement.line')
         st_line = account_bank_statement_line_obj.browse(
             cr, uid, st_line_id, context=context)
-        period_id = self._get_period(
-            cr, uid, st_line.date, context=context)    # AB
-        # Start account voucher
-        # Post the voucher and update links between statement and moves
-        if st_line.voucher_id:
-            voucher_pool = self.pool.get('account.voucher')
-            wf_service = netsvc.LocalService("workflow")
-            voucher_pool.write(
-                cr, uid, [st_line.voucher_id.id], {
-                    'number': st_line_number,
-                    'date': st_line.date,
-                    'period_id': period_id, # AB
-                }, context=context)
-            if st_line.voucher_id.state == 'cancel':
-                voucher_pool.action_cancel_draft(
-                    cr, uid, [st_line.voucher_id.id], context=context)
-            wf_service.trg_validate(
-                uid, 'account.voucher', st_line.voucher_id.id, 'proforma_voucher', cr)
-            v = voucher_pool.browse(
-                cr, uid, st_line.voucher_id.id, context=context)
-            account_bank_statement_line_obj.write(cr, uid, [st_line_id], {
-                    'move_ids': [(4, v.move_id.id, False)]
-                    })
-            account_move_line_obj.write(
-                cr, uid, [x.id for x in v.move_ids],
-                {'statement_id': st_line.statement_id.id}, context=context)
-            # End of account_voucher
-            st_line.refresh()
-
-            # AB: The voucher journal isn't automatically posted, so post it (if needed)
-            if not st_line.voucher_id.journal_id.entry_posted:
-                account_move_obj.post(cr, uid, [st_line.voucher_id.move_id.id], context={})
-            return True
-
         st = st_line.statement_id
 
-        context.update({'date': st_line.date})
-        ctxt = context.copy()                       # AB
-        ctxt['company_id'] = st_line.company_id.id  # AB
+        # AB: take period from statement line and write to context
+        # this will be picked up by the _prepare_move* methods
+        period_id = self._get_period(
+            cr, uid, st_line.date, context=context)
+        localctx = context.copy()
+        localctx['period_id'] = period_id
+        # --AB
 
-        move_id = account_move_obj.create(cr, uid, {
-            'journal_id': st.journal_id.id,
-            'period_id': period_id, # AB
-            'date': st_line.date,
-            'name': st_line_number,
-        }, context=context)
-        account_bank_statement_line_obj.write(cr, uid, [st_line.id], {
-            'move_ids': [(4, move_id, False)]
-        })
+        # AB: Take account_voucher into account:
+        # Write date & period on the voucher, delegate to account_voucher's
+        # override of this method. Then post the related move and return.
+        if st_line.voucher_id:
+            voucher_pool = self.pool.get('account.voucher')
+            voucher_pool.write(
+                cr, uid, [st_line.voucher_id.id], {
+                    'date': st_line.date,
+                    'period_id': period_id,
+                }, context=context)
 
-        torec = []
-        if st_line.amount >= 0:
-            account_id = st.journal_id.default_credit_account_id.id
+        res = super(account_bank_statement, self).create_move_from_st_line(
+            cr, uid, st_line_id, company_currency_id, st_line_number,
+            context=localctx)
+
+        st_line.refresh()
+        if st_line.voucher_id:
+            if not st_line.voucher_id.journal_id.entry_posted:
+                account_move_obj.post(
+                    cr, uid, [st_line.voucher_id.move_id.id], context={})
         else:
-            account_id = st.journal_id.default_debit_account_id.id
-
-        acc_cur = ((st_line.amount <= 0 and
-                    st.journal_id.default_debit_account_id) or
-                   st_line.account_id)
-        context.update({
-                'res.currency.compute.account': acc_cur,
-            })
-        amount = res_currency_obj.compute(cr, uid, st.currency.id,
-                company_currency_id, st_line.amount, context=context)
-
-        val = {
-            'name': st_line.name,
-            'date': st_line.date,
-            'ref': st_line.ref,
-            'move_id': move_id,
-            'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
-                           False),
-            'account_id': (st_line.account_id) and st_line.account_id.id,
-            'credit': ((amount>0) and amount) or 0.0,
-            'debit': ((amount<0) and -amount) or 0.0,
-            'statement_id': st.id,
-            'journal_id': st.journal_id.id,
-            'period_id': period_id, # AB
-            'currency_id': st.currency.id,
-            'analytic_account_id': (st_line.analytic_account_id and
-                                    st_line.analytic_account_id.id or
-                                    False),
-        }
-
-        if st.currency.id <> company_currency_id:
-            amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
-                        st.currency.id, amount, context=context)
-            val['amount_currency'] = -amount_cur
-
-        if (st_line.account_id and st_line.account_id.currency_id and
-            st_line.account_id.currency_id.id <> company_currency_id):
-            val['currency_id'] = st_line.account_id.currency_id.id
-            amount_cur = res_currency_obj.compute(cr, uid, company_currency_id,
-                    st_line.account_id.currency_id.id, amount, context=context)
-            val['amount_currency'] = -amount_cur
-
-        move_line_id = account_move_line_obj.create(
-            cr, uid, val, context=context)
-        torec.append(move_line_id)
-
-        # Fill the secondary amount/currency
-        # if currency is not the same than the company
-        amount_currency = False
-        currency_id = False
-        if st.currency.id <> company_currency_id:
-            amount_currency = st_line.amount
-            currency_id = st.currency.id
-        account_move_line_obj.create(cr, uid, {
-            'name': st_line.name,
-            'date': st_line.date,
-            'ref': st_line.ref,
-            'move_id': move_id,
-            'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
-                           False),
-            'account_id': account_id,
-            'credit': ((amount < 0) and -amount) or 0.0,
-            'debit': ((amount > 0) and amount) or 0.0,
-            'statement_id': st.id,
-            'journal_id': st.journal_id.id,
-            'period_id': period_id, # AB
-            'amount_currency': amount_currency,
-            'currency_id': currency_id,
-            }, context=context)
-
-        for line in account_move_line_obj.browse(cr, uid, [x.id for x in
-                account_move_obj.browse(cr, uid, move_id,
-                    context=context).line_id],
-                context=context):
-            if line.state <> 'valid':
-                raise orm.except_orm(_('Error !'),
-                        _('Journal Item "%s" is not valid') % line.name)
-
-        # Bank statements will not consider boolean on journal entry_posted
-        account_move_obj.post(cr, uid, [move_id], context=context)
-        
-        """
-        Account-banking:
-        - Write stored reconcile_id
-        - Pay invoices through workflow 
-
-        Does not apply to voucher integration, but only to
-        payments and payment orders
-        """
-        if st_line.reconcile_id:
-            account_move_line_obj.write(cr, uid, torec, {
-                    (st_line.reconcile_id.line_partial_ids and 
-                     'reconcile_partial_id' or 'reconcile_id'): 
-                    st_line.reconcile_id.id }, context=context)
-            for move_line in (st_line.reconcile_id.line_id or []) + (
-                st_line.reconcile_id.line_partial_ids or []):
-                netsvc.LocalService("workflow").trg_trigger(
-                    uid, 'account.move.line', move_line.id, cr)
-        #""" End account-banking """
-
-        return move_id
+            # Write stored reconcile_id and pay invoices through workflow 
+            if st_line.reconcile_id:
+                account_move_line_obj.write(cr, uid, torec, {
+                        (st_line.reconcile_id.line_partial_ids and 
+                         'reconcile_partial_id' or 'reconcile_id'): 
+                        st_line.reconcile_id.id }, context=context)
+                for move_line in (st_line.reconcile_id.line_id or []) + (
+                    st_line.reconcile_id.line_partial_ids or []):
+                    netsvc.LocalService("workflow").trg_trigger(
+                        uid, 'account.move.line', move_line.id, cr)
+        return res
 
     def button_confirm_bank(self, cr, uid, ids, context=None):
         if context is None: context = {}
