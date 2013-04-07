@@ -127,13 +127,6 @@ class account_banking_account_settings(orm.Model):
                  ),
         ),
 
-        #'multi_currency': fields.boolean(
-        #    'Multi Currency Bank Account', required=True,
-        #    help=('Select this if your bank account is able to handle '
-        #          'multiple currencies in parallel without coercing to '
-        #          'a single currency.'
-        #         ),
-        #),
     }
 
     def _default_company(self, cr, uid, context=None):
@@ -230,7 +223,6 @@ class account_banking_account_settings(orm.Model):
         'default_debit_account_id': _default_debit_account_id,
         'default_credit_account_id': _default_credit_account_id,
         'partner_bank_id': _default_partner_bank_id,
-        #'multi_currency': lambda *a: False,
     }
 account_banking_account_settings()
 
@@ -273,7 +265,7 @@ class account_banking_imported_file(orm.Model):
                                   ),
     }
     _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'date': fields.date.context_today,
         'user_id': lambda self, cursor, uid, context: uid,
     }
 account_banking_imported_file()
@@ -292,22 +284,6 @@ class account_bank_statement(orm.Model):
     '''
     _inherit = 'account.bank.statement'
     _order = 'id'
-    _abf_others = []
-    _abf_others_loaded = False
-
-    def __init__(self, *args, **kwargs):
-        '''
-        See where we stand in the order of things
-        '''
-        super(account_bank_statement, self).__init__(*args, **kwargs)
-        if not self._abf_others_loaded:
-            self._abf_others_loaded = True
-            self._abf_others = [x for x in self.__class__.__mro__
-                                   if x.__module__.split('.')[0] not in [
-                                       'osv', 'account', 'account_banking',
-                                       '__builtin__'
-                                   ]
-                               ]
 
     _columns = {
         'period_id': fields.many2one('account.period', 'Period',
@@ -318,8 +294,7 @@ class account_bank_statement(orm.Model):
     }
 
     _defaults = {
-        'period_id': lambda *a: False,
-    #    'currency': _currency,
+        'period_id': False,
     }
 
     def _check_company_id(self, cr, uid, ids, context=None):
@@ -567,10 +542,7 @@ class account_bank_statement_line(orm.Model):
         1. Extra links to account.period and res.partner.bank for tracing and
            matching.
         2. Extra 'trans' field to carry the transaction id of the bank.
-        3. Extra 'international' flag to indicate the missing of a remote
-           account number. Some banks use seperate international banking
-           modules that do not integrate with the standard transaction files.
-        4. Readonly states for most fields except when in draft.
+        3. Readonly states for most fields except when in draft.
     '''
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
@@ -579,26 +551,6 @@ class account_bank_statement_line(orm.Model):
         date = context.get('date', None)
         periods = self.pool.get('account.period').find(cursor, user, dt=date)
         return periods and periods[0] or False
-
-    def _seems_international(self, cursor, user, context=None):
-        '''
-        Some banks have seperate international banking modules which do not
-        translate correctly into the national formats. Instead, they
-        leave key fields blank and signal this anomaly with a special
-        transfer type.
-        With the introduction of SEPA, this may worsen greatly, as SEPA
-        payments are considered to be analogous to international payments
-        by most local formats.
-        '''
-        # Quick and dirty check: if remote bank account is missing, assume
-        # international transfer
-        return not (
-            context.get('partner_bank_id') and context['partner_bank_id']
-        )
-        # Not so dirty check: check if partner_id is set. If it is, check the
-        # default/invoice addresses country. If it is the same as our
-        # company's, its local, else international.
-        # TODO: to be done
 
     def _get_currency(self, cursor, user, context=None):
         '''
@@ -610,30 +562,6 @@ class account_bank_statement_line(orm.Model):
         res_users_obj = self.pool.get('res.users')
         return res_users_obj.browse(cursor, user, user,
                 context=context).company_id.currency_id.id
-
-    #def _reconcile_amount(self, cursor, user, ids, name, args, context=None):
-    #    '''
-    #    Redefinition from the original: don't use the statements currency, but
-    #    the transactions currency.
-    #    '''
-    #    if not ids:
-    #        return {}
-
-    #    res_currency_obj = self.pool.get('res.currency')
-    #    res_users_obj = self.pool.get('res.users')
-
-    #    res = {}
-    #    company_currency_id = res_users_obj.browse(cursor, user, user,
-    #            context=context).company_id.currency_id.id
-
-    #    for line in self.browse(cursor, user, ids, context=context):
-    #        if line.reconcile_id:
-    #            res[line.id] = res_currency_obj.compute(cursor, user,
-    #                    company_currency_id, line.currency.id,
-    #                    line.reconcile_id.total_entry, context=context)
-    #        else:
-    #            res[line.id] = 0.0
-    #    return res
 
     def _get_invoice_id(self, cr, uid, ids, name, args, context=None):
         res = {}
@@ -678,12 +606,6 @@ class account_bank_statement_line(orm.Model):
                             states={'confirmed': [('readonly', True)]}),
         'currency': fields.many2one('res.currency', 'Currency', required=True,
                             states={'confirmed': [('readonly', True)]}),
-
-        # Not used yet, but usefull in the future.
-        'international': fields.boolean('International Transaction',
-                            required=False,
-                            states={'confirmed': [('readonly', True)]},
-                            ),
         'reconcile_id': fields.many2one(
             'account.move.reconcile', 'Reconciliation', readonly=True
             ),
@@ -695,7 +617,6 @@ class account_bank_statement_line(orm.Model):
 
     _defaults = {
         'period_id': _get_period,
-        'international': _seems_international,
         'currency': _get_currency,
     }
 
