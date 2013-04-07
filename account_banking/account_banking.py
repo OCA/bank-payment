@@ -447,16 +447,12 @@ class account_voucher(orm.Model):
     _inherit = 'account.voucher'
 
     def _get_period(self, cr, uid, context=None):
-        if context is None: context = {}
+        if context is None:
+            context = {}
         if not context.get('period_id') and context.get('move_line_ids'):
-            res = self.pool.get('account.move.line').browse(cr, uid , context.get('move_line_ids'))[0].period_id.id
-            context['period_id'] = res
+            return self.pool.get('account.move.line').browse(
+                cr, uid , context.get('move_line_ids'))[0].period_id.id
         return super(account_voucher, self)._get_period(cr, uid, context)
-
-    def create(self, cr, uid, values, context=None):
-        if values.get('period_id') == False and context.get('move_line_ids'):
-            values['period_id'] = self._get_period(cr, uid, context)
-        return super(account_voucher, self).create(cr, uid, values, context)
 
 account_voucher()
 
