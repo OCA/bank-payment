@@ -23,11 +23,9 @@
 #
 ##############################################################################
 
-import base64
 import datetime
 from openerp.osv import orm, fields
 from openerp import netsvc
-from openerp.tools import config
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 from openerp.addons.account_banking.parsers import models
@@ -474,7 +472,6 @@ class banking_import_transaction(orm.Model):
             'partner_id': st_line.partner_id and st_line.partner_id.id or False,
             'company_id': st_line.company_id.id,
             'type':voucher_type,
-            'company_id': st_line.company_id.id,
             'account_id': account_id,
             'amount': abs(st_line.amount),
             'writeoff_amount': writeoff,
@@ -688,12 +685,6 @@ class banking_import_transaction(orm.Model):
             self.confirm_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
 
-        """
-        account_ids = [
-        x.id for x in bank_account_ids 
-        if x.partner_id.id == move_line.partner_id.id
-        ][0]
-        """
         return True
    
     signal_duplicate_keys = [
@@ -832,7 +823,6 @@ class banking_import_transaction(orm.Model):
         has_payment = bool(payment_line_obj)
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_obj = self.pool.get('account.bank.statement')
-        payment_order_obj = self.pool.get('payment.order')
         imported_statement_ids = []
 
         # Results
@@ -1483,7 +1473,6 @@ class account_bank_statement_line(orm.Model):
         """
         statement_pool = self.pool.get('account.bank.statement')
         obj_seq = self.pool.get('ir.sequence')
-        move_pool = self.pool.get('account.move')
         import_transaction_obj = self.pool.get('banking.import.transaction')
 
         for st_line in self.browse(cr, uid, ids, context):
@@ -1541,7 +1530,6 @@ class account_bank_statement_line(orm.Model):
             ids = [ids]
         import_transaction_obj = self.pool.get('banking.import.transaction')
         move_pool = self.pool.get('account.move')
-        transaction_cancel_ids = []
         set_draft_ids = []
         move_unlink_ids = []
         # harvest ids for various actions
@@ -1699,8 +1687,12 @@ class account_bank_statement(orm.Model):
         for st in self.browse(cr, uid, ids, context=context):
             for line in st.line_ids:
                 if line.state == 'confirmed':
-                    raise orm.except_orm(_('Confirmed Statement Lines'), _("You cannot delete a Statement with confirmed Statement Lines: '%s'" % st.name))
-        return super(account_bank_statement,self).unlink(cr, uid, ids, context=context)
+                    raise orm.except_orm(
+                        _('Confirmed Statement Lines'),
+                        _("You cannot delete a Statement with confirmed "
+                          "Statement Lines: '%s'" % st.name))
+        return super(account_bank_statement, self).unlink(
+            cr, uid, ids, context=context)
 
     _columns = {
         # override this field *only* to replace the 
