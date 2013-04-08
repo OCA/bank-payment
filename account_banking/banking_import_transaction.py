@@ -551,7 +551,7 @@ class banking_import_transaction(orm.Model):
     def _legacy_clear_up_writeoff(self, cr, uid, transaction, context=None):
         """
         Legacy method to support upgrades older installations of the
-        interactive wizard branch. To be removed after 6.2
+        interactive wizard branch. To be removed after 7.0
         clear up the writeoff move
         """
         if transaction.writeoff_move_line_id:
@@ -1393,7 +1393,7 @@ class banking_import_transaction(orm.Model):
                   "or reconcile it with the payment(s)"),
             ),
         'writeoff_amount': fields.float('Difference Amount'),
-        # Legacy field: to be removed after 6.2
+        # Legacy field: to be removed after 7.0
         'writeoff_move_line_id': fields.many2one(
             'account.move.line', 'Write off move line'),
         'writeoff_analytic_id': fields.many2one(
@@ -1677,8 +1677,10 @@ class account_bank_statement(orm.Model):
 
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
             st.refresh()
-            self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
-                                       'items are created.') % (st.name,))
+            self.message_post(
+                cr, uid, [st.id],
+                body=_('Statement %s confirmed, journal items were created.')
+                % (st.name,), context=context)
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
