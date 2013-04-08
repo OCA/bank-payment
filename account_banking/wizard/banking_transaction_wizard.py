@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 Therp BV (<http://therp.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #              (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
@@ -20,7 +20,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+
+from osv import orm, fields
 from openerp.tools.translate import _
 
 """
@@ -31,7 +32,8 @@ multiple matches or select a manual match.
 
 """
 
-class banking_transaction_wizard(osv.osv_memory):
+
+class banking_transaction_wizard(orm.TransientModel):
     _name = 'banking.transaction.wizard'
     _description = 'Match transaction'
 
@@ -162,7 +164,7 @@ class banking_transaction_wizard(osv.osv_memory):
                         # transaction_obj.write(
                         #   cr, uid, wiz.import_transaction_id.id,
                         #   { 'invoice_id': False, }, context=context)
-                        osv.except_osv(
+                        orm.except_orm(
                             _("No entry found for the selected invoice"),
                             _("No entry found for the selected invoice. " +
                               "Try manual reconciliation."))
@@ -184,7 +186,7 @@ class banking_transaction_wizard(osv.osv_memory):
                                 move_line_id = line.id
                                 break
                     if not move_line_id:
-                        osv.except_osv(
+                        orm.except_orm(
                             _("Cannot select for reconcilion"),
                             _("No entry found for the selected invoice. "))
                 else:

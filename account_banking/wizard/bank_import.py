@@ -28,19 +28,15 @@ This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
 use parser.models as a mean of communication with the business logic.
 '''
-from osv import osv, fields
-import time
-import netsvc
+from osv import orm, fields
 import base64
 import datetime
-from tools import config
-from tools.translate import _
-from account_banking.parsers import models
-from account_banking.parsers.convert import *
-from account_banking.struct import struct
-from account_banking import sepa
-from banktools import *
-import decimal_precision as dp
+from openerp.tools.translate import _
+from openerp.addons.account_banking.parsers import models
+from openerp.addons.account_banking.parsers.convert import *
+from openerp.addons.account_banking.struct import struct
+from openerp.addons.account_banking.wizard.banktools import *
+from openerp.addons.decimal_precision import decimal_precision as dp
 
 bt = models.mem_bank_transaction
 
@@ -54,7 +50,8 @@ def parser_types(*args, **kwargs):
     '''
     return models.parser_type.get_parser_types()
 
-class banking_import_line(osv.osv_memory):
+
+class banking_import_line(orm.TransientModel):
     _name = 'banking.import.line'
     _description = 'Bank import lines'
     _columns = {
@@ -98,7 +95,7 @@ class banking_import_line(osv.osv_memory):
 banking_import_line()
     
 
-class banking_import(osv.osv_memory):
+class banking_import(orm.TransientModel):
     _name = 'account.banking.bank.import'
 
     def import_statements_file(self, cursor, uid, ids, context):
@@ -121,7 +118,7 @@ class banking_import(osv.osv_memory):
         parser_code = banking_import.parser
         parser = models.create_parser(parser_code)
         if not parser:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('ERROR!'),
                 _('Unable to import parser %(parser)s. Parser class not found.') %
                 {'parser': parser_code}
@@ -135,7 +132,7 @@ class banking_import(osv.osv_memory):
         statements = parser.parse(cursor, data)
 
         if any([x for x in statements if not x.is_valid()]):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('ERROR!'),
                 _('The imported statements appear to be invalid! Check your file.')
             )
@@ -255,11 +252,14 @@ class banking_import(osv.osv_memory):
                 continue
 
             # Get the period for the statement (as bank statement object checks this)
-            period_ids = period_obj.search(cursor, uid, [('company_id','=',company.id),
-                                                         ('date_start','<=',statement.date),
-                                                         ('date_stop','>=',statement.date),
-                                                         ('special', '=', False)])
-
+            period_ids = period_obj.search(
+                cursor, uid, [
+                    ('company_id', '=', company.id),
+                    ('date_start', '<=', statement.date),
+                    ('date_stop', '>=', statement.date),
+                    ('special', '=', False),
+                    ], context=context)
+            
             if not period_ids:
                 results.log.append(
                     _('No period found covering statement date %(date)s, '
@@ -302,11 +302,9 @@ class banking_import(osv.osv_memory):
                 values['local_account'] = statement.local_account
                 values['local_currency'] = statement.local_currency
 
-                transaction_id = import_transaction_obj.create(cursor, uid, values, context=context)
-                if transaction_id:
-                    transaction_ids.append(transaction_id)
-                else:
-                    osv.except_osv('Failed to create an import transaction resource','')
+                transaction_id = import_transaction_obj.create(
+                    cursor, uid, values, context=context)
+                transaction_ids.append(transaction_id)
             
             results.stat_loaded_cnt += 1
 
@@ -422,7 +420,6 @@ class banking_import(osv.osv_memory):
             'State', readonly=True),
         'import_id': fields.many2one(
             'account.banking.imported.file', 'Import File'),
-        # osv_memory does not seem to support one2many
         'statement_ids': fields.many2many(
             'account.bank.statement', 'rel_wiz_statements', 'wizard_id',
             'statement_id', 'Imported Bank Statements'),
