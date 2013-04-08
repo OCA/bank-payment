@@ -501,7 +501,7 @@ class account_bank_statement_line(orm.Model):
         return res
 
     _columns = {
-        # Redefines
+        # Redefines. Todo: refactor away to view attrs
         'amount': fields.float('Amount', readonly=True,
                             digits_compute=dp.get_precision('Account'),
                             states={'draft': [('readonly', False)]}),
@@ -511,8 +511,6 @@ class account_bank_statement_line(orm.Model):
                             states={'draft': [('readonly', False)]}),
         'date': fields.date('Date', required=True, readonly=True,
                             states={'draft': [('readonly', False)]}),
-        #'reconcile_amount': fields.function(_reconcile_amount,
-        #    string='Amount reconciled', method=True, type='float'),
 
         # New columns
         'trans': fields.char('Bank Transaction ID', size=15, required=False,
@@ -574,15 +572,13 @@ class res_partner_bank(orm.Model):
         self._founder.__init__(*args, **kwargs)
         mro = self.__class__.__mro__
         for i in range(len(mro)):
-            if mro[i].__module__.startswith('base.'):
+            if mro[i].__module__.startswith('openerp.addons.base.'):
                 self._founder = mro[i]
                 break
 
     def init(self, cr):
         '''
         Update existing iban accounts to comply to new regime
-        Note that usage of the ORM is not possible here, as the ORM cannot
-        search on values not provided by the client.
         '''
         
         partner_bank_obj = self.pool.get('res.partner.bank')
@@ -615,7 +611,7 @@ class res_partner_bank(orm.Model):
         Create dual function IBAN account for SEPA countries
         '''
         if vals.get('state') == 'iban':
-            iban = vals.get('acc_number',False) or vals.get('acc_number_domestic',False)
+            iban = vals.get('acc_number') or vals.get('acc_number_domestic', False)
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
         return self._founder.create(cursor, uid, vals, context)
@@ -906,13 +902,8 @@ class res_partner_bank(orm.Model):
                        _("The IBAN number doesn't seem to be correct")
                       )
 
-    _constraints = [
-        # Cannot have this as a constraint as it is rejecting valid numbers from GB and DE
-        # It works much better without this constraint!
-        #(check_iban, _("The IBAN number doesn't seem to be correct"), ["acc_number"])
-    ]
-
 res_partner_bank()
+
 
 class res_bank(orm.Model):
     '''
@@ -971,6 +962,9 @@ class invoice(orm.Model):
 
     Don't forget to redefine the column "reference_type" as below or
     your method will never be triggered.
+
+    TODO: move 'structured' part to account_banking_payment module
+    where it belongs
     '''
     _inherit = 'account.invoice'
 
@@ -1007,7 +1001,9 @@ class account_move_line(orm.Model):
     def get_balance(self, cr, uid, ids, context=None):
         """ 
         Return the balance of any set of move lines.
-        Surely this exists somewhere in account base, but I missed it.
+
+        Not to be confused with the 'balance' field on this model, which
+        returns the account balance that the move line applies to.
         """
         total = 0.0
         if not ids:
