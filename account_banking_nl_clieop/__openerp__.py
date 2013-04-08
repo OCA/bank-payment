@@ -1,7 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2009 - 2011 EduSense BV (<http://www.edusense.nl>)
-#                              and Therp BV (<http://therp.nl>)
+#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -9,7 +8,6 @@
 #    consequences resulting from its eventual inadequacies and bugs
 #    End users who are looking for a ready-to-use solution with commercial
 #    garantees and support are strongly adviced to contract EduSense BV
-#    or Therp BV
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,28 +24,27 @@
 #
 ##############################################################################
 {
-    'name': 'abnamro (NL) Bank Statements Import',
-    'version': '0.62',
+    'name': 'Account Banking NL ClieOp',
+    'version': '0.92',
     'license': 'GPL-3',
-    'author': 'Therp BV / EduSense BV',
-    'website': 'https://launchpad.net/account-banking',
+    'author': 'EduSense BV',
+    'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
-    'depends': ['account_banking'],
+    'depends': ['account_banking_payment'],
     'init_xml': [],
     'update_xml': [
-        #'security/ir.model.access.csv',
+        'account_banking_nl_clieop.xml',
+        'wizard/export_clieop_view.xml',
+        'data/banking_export_clieop.xml',
+        'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''
-Import filter for abnamro (NL) bank transaction files (txt/tab format).
+    Module to export payment orders in ClieOp format.
 
-No formal specifications of the file layout are released by abnamro. You can
-help improve the performance of this import filter on
-https://launchpad.net/account-banking.
-
-Imported bank transfers are organized in statements covering periods of one week,
-even if the imported files cover a different period.
+    ClieOp format is used by Dutch banks to batch national bank transfers.
+    This module uses the account_banking logic.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

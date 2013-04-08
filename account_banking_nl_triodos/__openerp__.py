@@ -54,5 +54,5 @@ of one week, even if the imported files cover a different period.
 This modules contains no logic, just an import filter for account_banking.
     ''',
     'active': False,
-    'installable': False,
+    'installable': True,
 }
