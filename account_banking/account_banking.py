@@ -62,7 +62,6 @@ Modifications are extensive:
     Rejected payments from the bank receive on import the status 'rejected'.
 '''
 
-import time
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import netsvc, SUPERUSER_ID
@@ -160,7 +159,8 @@ class account_banking_account_settings(orm.Model):
         if not company_id:
             company_id = self._default_company(cr, uid, context=context)
         partner_id = self.pool.get('res.company').read(
-            cr, uid, company_id, ['partner_id'], context=context)['partner_id'][0]
+            cr, uid, company_id, ['partner_id'],
+            context=context)['partner_id'][0]
         bank_ids = self.pool.get('res.partner.bank').search(
             cr, uid, [('partner_id', '=', partner_id)], context=context)
         return bank_ids and bank_ids[0] or False
@@ -175,7 +175,8 @@ class account_banking_account_settings(orm.Model):
             'res.partner', context=localcontext)
         return account_def and account_def.id or False
 
-    def _default_credit_account_id(self, cr, uid, context=None, company_id=False):
+    def _default_credit_account_id(
+            self, cr, uid, context=None, company_id=False):
         localcontext = context and context.copy() or {}
         localcontext['force_company'] = (
             company_id or self._default_company(cr, uid, context=context))
@@ -185,9 +186,9 @@ class account_banking_account_settings(orm.Model):
         return account_def and account_def.id or False
 
     def find(self, cr, uid, journal_id, partner_bank_id=False, context=None):
-        domain = [('journal_id','=',journal_id)]
+        domain = [('journal_id', '=', journal_id)]
         if partner_bank_id:
-            domain.append(('partner_bank_id','=',partner_bank_id))
+            domain.append(('partner_bank_id', '=', partner_bank_id))
         return self.search(cr, uid, domain, context=context)
 
     def onchange_partner_bank_id(
@@ -312,8 +313,10 @@ class account_bank_statement(orm.Model):
     
     # Redefine the constraint, or it still refer to the original method
     _constraints = [
-        (_check_company_id, 'The journal and period chosen have to belong to the same company.', ['journal_id','period_id']),
-    ]
+        (_check_company_id,
+         'The journal and period chosen have to belong to the same company.',
+         ['journal_id','period_id']),
+        ]
 
     def _get_period(self, cursor, uid, date, context=None):
         '''
@@ -364,14 +367,12 @@ class account_bank_statement(orm.Model):
 
         if context is None:
             context = {}
-        res_currency_obj = self.pool.get('res.currency')
         account_move_obj = self.pool.get('account.move')
         account_move_line_obj = self.pool.get('account.move.line')
         account_bank_statement_line_obj = self.pool.get(
             'account.bank.statement.line')
         st_line = account_bank_statement_line_obj.browse(
             cr, uid, st_line_id, context=context)
-        st = st_line.statement_id
 
         # AB: take period from statement line and write to context
         # this will be picked up by the _prepare_move* methods
@@ -404,6 +405,12 @@ class account_bank_statement(orm.Model):
         else:
             # Write stored reconcile_id and pay invoices through workflow 
             if st_line.reconcile_id:
+                move_ids = [move.id for move in st_line.move_ids]
+                torec = account_move_obj.search(
+                    cr, uid, [
+                        ('move_id', 'in', move_ids),
+                        ('account_id', '=', st_line.account_id.id)],
+                    context=context)
                 account_move_line_obj.write(cr, uid, torec, {
                         (st_line.reconcile_id.line_partial_ids and 
                          'reconcile_partial_id' or 'reconcile_id'): 
@@ -611,7 +618,8 @@ class res_partner_bank(orm.Model):
         Create dual function IBAN account for SEPA countries
         '''
         if vals.get('state') == 'iban':
-            iban = vals.get('acc_number') or vals.get('acc_number_domestic', False)
+            iban = (vals.get('acc_number')
+                    or vals.get('acc_number_domestic', False))
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
         return self._founder.create(cursor, uid, vals, context)
@@ -770,6 +778,9 @@ class res_partner_bank(orm.Model):
         Trigger to find IBAN. When found:
             1. Reformat BBAN
             2. Autocomplete bank
+
+        TODO: prevent unnecessary assignment of country_ids and
+        browsing of the country
         '''
         if not acc_number:
             return {}
@@ -829,6 +840,7 @@ class res_partner_bank(orm.Model):
         if country_ids:
             country = country_obj.browse(
                 cursor, uid, country_ids[0], context=context)
+            values['country_id'] = country_ids[0]
         if country and country.code in sepa.IBAN.countries:
             try:
                 info = sepa.online.account_info(country.code, acc_number)
@@ -843,9 +855,8 @@ class res_partner_bank(orm.Model):
                             info.bic or iban_acc.BIC_searchkey,
                             name = info.bank
                             )
-                        values['country_id'] = country_id or \
-                                               country_ids and country_ids[0] or \
-                                               False
+                        if country_id:
+                            values['country_id'] = country_id
                         values['bank'] = bank_id or False
                         if info.bic:
                             values['bank_bic'] = info.bic
@@ -854,8 +865,8 @@ class res_partner_bank(orm.Model):
                 if info is None:
                     result.update(warning(
                         _('Invalid data'),
-                        _('The account number appears to be invalid for %(country)s')
-                        % {'country': country.name}
+                        _('The account number appears to be invalid for %s')
+                        % country.name
                     ))
             except NotImplementedError:
                 if country.code in sepa.IBAN.countries:
@@ -866,8 +877,8 @@ class res_partner_bank(orm.Model):
                         values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
-                            _('The account number has the wrong format for %(country)s')
-                            % {'country': country.name}
+                            _('The account number has the wrong format for %s')
+                            % country.name
                         ))
                 else:
                     values['acc_number'] = acc_number
