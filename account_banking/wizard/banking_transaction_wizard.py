@@ -80,7 +80,7 @@ class banking_transaction_wizard(orm.TransientModel):
             cr, uid, ids[0], ['import_transaction_id'],
             context=context)['import_transaction_id'][0] # many2one tuple
         import_transaction_obj.match(cr, uid, [trans_id], context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
     
     def write(self, cr, uid, ids, vals, context=None):
         """
@@ -224,7 +224,7 @@ class banking_transaction_wizard(orm.TransientModel):
         """
         Just a button that triggers a write.
         """
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def disable_match(self, cr, uid, ids, context=None):
         """
@@ -257,7 +257,7 @@ class banking_transaction_wizard(orm.TransientModel):
                          if x['import_transaction_id']]
             self.pool.get('banking.import.transaction').clear_and_write(
                 cr, uid, trans_ids, context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
         if isinstance(ids, (int, float)):
@@ -269,7 +269,7 @@ class banking_transaction_wizard(orm.TransientModel):
             transaction_obj.write(
                 cr, uid, wiz['import_transaction_id'][0], 
                 {'duplicate': not wiz['duplicate']}, context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def _get_default_match_type(self, cr, uid, context=None):
         """
