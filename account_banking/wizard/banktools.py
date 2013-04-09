@@ -119,7 +119,8 @@ def _has_attr(obj, attr):
         return False
 
 def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
-                          country_code, log, context=None):
+                          country_code, log, supplier=False, customer=False,
+                          context=None):
     '''
     Get or create the partner belonging to the account holders name <name>
 
@@ -141,11 +142,11 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                 cr, uid, [('code', '=', country_code.upper())],
                 context=context)
             country_id = country_ids and country_ids[0] or False
-            criteria.append(('address.country_id', '=', country_id))
+            criteria.append(('country_id', '=', country_id))
         if city:
-            criteria.append(('address.city', 'ilike', city))
+            criteria.append(('city', 'ilike', city))
         if postal_code:
-            criteria.append(('address.zip', 'ilike', postal_code))
+            criteria.append(('zip', 'ilike', postal_code))
         partner_search_ids = partner_obj.search(
             cr, uid, criteria, context=context)
         key = name.lower()
@@ -164,16 +165,20 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                 user.company_id.partner_id.country.id or
                 False
             )
-        partner_id = partner_obj.create(cr, uid, dict(
-            name=name, active=True,
-            comment='Generated from Bank Statements Import',
-            address=[(0,0,{
+        partner_id = partner_obj.create(
+            cr, uid, {
+                'name': name,
+                'active': True,
+                'comment': 'Generated from Bank Statements Import',
                 'street': address and address[0] or '',
                 'street2': len(address) > 1 and address[1] or '',
                 'city': city,
                 'zip': postal_code or '',
                 'country_id': country_id,
-            })]), context=context)
+                'is_company': True,
+                'supplier': supplier,
+                'customer': customer,
+                }, context=context)
     else:
         if len(partner_ids) > 1:
             log.append(

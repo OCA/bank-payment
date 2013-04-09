@@ -200,7 +200,11 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
-
+                    <page string="Transactions" position="after">
+                        <page string="Journal Entries" name="move_live_ids">
+                            <field colspan="4" name="move_line_ids" nolabel="1"/>
+                        </page>
+                    </page>
                     <field name="period_id" position="replace"/>
 
                     <xpath expr="//page[@string='Transactions']/field/tree"

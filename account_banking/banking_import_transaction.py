@@ -1066,7 +1066,10 @@ class banking_import_transaction(orm.Model):
                         transaction.remote_owner_address,
                         transaction.remote_owner_postalcode,
                         transaction.remote_owner_city,
-                        country_code, results['log'], context=context)
+                        country_code, results['log'],
+                        customer=transaction.transferred_amount > 0,
+                        supplier=transaction.transferred_amount < 0,
+                        context=context)
                     if transaction.remote_account:
                         partner_bank_id = create_bank_account(
                             self.pool, cr, uid, partner_id,
@@ -1345,7 +1348,8 @@ class banking_import_transaction(orm.Model):
             'account.bank.statement.line', 'Statement line',
             ondelete='CASCADE'),
         'statement_id': fields.many2one(
-            'account.bank.statement', 'Statement'),
+            'account.bank.statement', 'Statement',
+            ondelete='CASCADE'),
         'parent_id': fields.many2one(
             'banking.import.transaction', 'Split off from this transaction'),
         # match fields
