@@ -706,7 +706,7 @@ class res_partner_bank(orm.Model):
         
         # Original search
         results = super(res_partner_bank, self).search(
-            self, cursor, uid, newargs, *rest, **kwargs)
+            cursor, uid, newargs, *rest, **kwargs)
         return results
 
     def read(
