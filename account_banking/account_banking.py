@@ -622,7 +622,7 @@ class res_partner_bank(orm.Model):
                     or vals.get('acc_number_domestic', False))
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
-        return self._founder.create(cursor, uid, vals, context)
+        return self._founder.create(self, cursor, uid, vals, context)
 
     def write(self, cr, uid, ids, vals, context=None):
         '''
@@ -642,7 +642,7 @@ class res_partner_bank(orm.Model):
                         self._correct_IBAN(account['acc_number']))
                 else:
                     vals['acc_number_domestic'] = False
-            self._founder.write(cr, uid, account['id'], vals, context)
+            self._founder.write(self, cr, uid, account['id'], vals, context)
         return True
 
     def search(self, cursor, uid, args, *rest, **kwargs):
@@ -704,10 +704,9 @@ class res_partner_bank(orm.Model):
         # Extend search filter
         newargs = extended_search_expression(args)
         
-        # Original search (_founder)
-        results = self._founder.search(cursor, uid, newargs,
-                                       *rest, **kwargs
-                                      )
+        # Original search
+        results = super(res_partner_bank, self).search(
+            self, cursor, uid, newargs, *rest, **kwargs)
         return results
 
     def read(
@@ -718,7 +717,7 @@ class res_partner_bank(orm.Model):
         '''
         if fields and 'state' not in fields:
             fields.append('state')
-        records = self._founder.read(cr, uid, ids, fields, context, load)
+        records = self._founder.read(self, cr, uid, ids, fields, context, load)
         is_list = True
         if not isinstance(records, list):
             records = [records,]

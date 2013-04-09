@@ -20,10 +20,10 @@
 ##############################################################################
 
 import datetime
-from tools.translate import _
-from account_banking.parsers import convert
-from account_banking import sepa
-from account_banking.struct import struct
+from openerp.tools.translate import _
+from openerp.addons.account_banking.parsers import convert
+from openerp.addons.account_banking import sepa
+from openerp.addons.account_banking.struct import struct
 
 __all__ = [
     'get_period', 
