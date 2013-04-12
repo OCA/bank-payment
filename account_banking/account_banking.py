@@ -308,6 +308,8 @@ class account_bank_statement(orm.Model):
                 if (line.period_id and
                     statement.company_id.id != line.period_id.company_id.id):
                     return False
+                if not statement.period_id:
+                    statement.write({'period_id': line.period_id.id})
         return super(account_bank_statement, self)._check_company_id(
             cr, uid, ids, context=context)
     
