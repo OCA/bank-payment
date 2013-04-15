@@ -4,12 +4,6 @@
 #                  2011 Smile BV (<http://smile.fr>).
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -32,13 +26,8 @@
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_payment'],
-    'init_xml': [],
-    'update_xml': [
-    ],
-    'demo_xml': [],
     'description': '''
 When composing a payment order, select all candidates by default (in the second step of the "Select invoices to pay" wizard).
     ''',
-    'active': False,
     'installable': False,
 }

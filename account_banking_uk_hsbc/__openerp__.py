@@ -26,15 +26,13 @@
     'website': 'http://www.credativ.co.uk',
     'category': 'Account Banking',
     'depends': ['account_banking'],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'account_banking_uk_hsbc.xml',
         'hsbc_clientid_view.xml',
         'data/banking_export_hsbc.xml',
         'wizard/export_hsbc_view.xml',
         'security/ir.model.access.csv',
     ],
-    'demo_xml': [],
     'description': '''
     Module to import HSBC format transation files (S.W.I.F.T MT940) and to export payments for HSBC.net (PAYMUL).
 
@@ -47,6 +45,5 @@
 
     Initial release of this module was co-sponsored by Canonical.
     ''',
-    'active': False,
     'installable': True,
 }

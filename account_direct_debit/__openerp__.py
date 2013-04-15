@@ -4,12 +4,6 @@
 #    Copyright (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -32,15 +26,13 @@
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'view/account_payment.xml',
         'view/account_invoice.xml',
         'workflow/account_invoice.xml',
         'workflow/account_payment.xml',
         'data/account_payment_term.xml',
     ],
-    'demo_xml': [],
     'description': '''
 This module adds support for direct debit orders, analogous to payment orders.
 A new entry in the Accounting/Payment menu allow you to create a direct debit
@@ -57,6 +49,5 @@ of modules helps you to provide support for communications with your local
 banking institutions. The banking addons are a continuation of Account Banking
 Framework by Edusense BV. See https://launchpad.net/banking-addons.
     ''',
-    'active': False,
     'installable': False,
 }

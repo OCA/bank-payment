@@ -3,12 +3,6 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -31,20 +25,17 @@
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
     'depends': ['account_banking_payment'],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'account_banking_nl_clieop.xml',
         'wizard/export_clieop_view.xml',
         'data/banking_export_clieop.xml',
         'security/ir.model.access.csv',
     ],
-    'demo_xml': [],
     'description': '''
     Module to export payment orders in ClieOp format.
 
     ClieOp format is used by Dutch banks to batch national bank transfers.
     This module uses the account_banking logic.
     ''',
-    'active': False,
     'installable': False,
 }

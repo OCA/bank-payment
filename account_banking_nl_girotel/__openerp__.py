@@ -3,12 +3,6 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -31,16 +25,13 @@
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
     'depends': ['account_banking'],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         #'security/ir.model.access.csv',
     ],
-    'demo_xml': [],
     'description': '''
     Module to import Dutch Girotel format transation files.
 
     This modules contains no logic, just an import filter for account_banking.
     ''',
-    'active': False,
     'installable': True,
 }

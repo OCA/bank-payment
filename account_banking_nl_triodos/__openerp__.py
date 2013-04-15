@@ -4,13 +4,6 @@
 #                              and Therp BV (<http://therp.nl>)
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#    or Therp BV
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -29,15 +22,10 @@
     'name': 'Triodos (NL) Bank Statements Import',
     'version': '0.92',
     'license': 'AGPL-3',
-    'author': 'Therp BV / EduSense BV',
+    'author': ['Therp BV', 'EduSense BV'],
     'website': 'https://launchpad.net/account-banking',
     'category': 'Account Banking',
     'depends': ['account_banking'],
-    'init_xml': [],
-    'update_xml': [
-        #'security/ir.model.access.csv',
-    ],
-    'demo_xml': [],
     'description': '''
 Module to import Dutch Triodos bank format transation files (CSV format).
 
@@ -53,6 +41,5 @@ of one week, even if the imported files cover a different period.
 
 This modules contains no logic, just an import filter for account_banking.
     ''',
-    'active': False,
     'installable': True,
 }
