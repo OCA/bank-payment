@@ -1,21 +1,22 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>)
 #                  2011 Therp BV (<http://therp.nl>)
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
@@ -28,11 +29,11 @@ Dutch Banking Tools uses the concept of 'Afschrift' or Bank Statement.
 Every transaction is bound to a Bank Statement. As such, this module generates
 Bank Statements along with Bank Transactions.
 '''
-from account_banking.parsers import models
-from account_banking.parsers.convert import str2date
-from account_banking.sepa import postalcode
-from tools.translate import _
-from osv import osv
+from openerp.addons.account_banking.parsers import models
+from openerp.addons.account_banking.parsers.convert import str2date
+from openerp.addons.account_banking.sepa import postalcode
+from openerp.tools.translate import _
+from openerp.osv import orm
 
 import re
 import csv
@@ -120,7 +121,7 @@ class transaction(models.mem_bank_transaction):
                 self.error_message = _('No remote account for transaction type '
                                        '%s') % self.transfer_type
         if self.error_message:
-            raise osv.except_osv(_('Error !'), _(self.error_message))
+            raise orm.except_orm(_('Error !'), _(self.error_message))
         return not self.error_message
 
     def parse_message(self):
@@ -162,7 +163,7 @@ class transaction(models.mem_bank_transaction):
                           'SWOC', 'REMI', ]
             while items:
                 if len(items) == 1:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error !'),
                         _("unable to parse SEPA string: %s") % field)
                 key = items.pop(0)
@@ -171,7 +172,7 @@ class transaction(models.mem_bank_transaction):
                     if prev_key:
                         sepa_dict[prev_key] = sepa_dict[prev_key] + '/' + key
                     else:
-                        raise osv.except_osv(
+                        raise orm.except_orm(
                             _('Error !'),
                             _("unable to parse SEPA string: %s") % field)
                 else:
@@ -196,7 +197,7 @@ class transaction(models.mem_bank_transaction):
                     remote_account = account_match.group(1).zfill(10)
                     remote_owner = account_match.group(2).strip() or ''
                 else:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error !'),
                         _('unable to parse GIRO string: %s') % field)
             elif field.startswith('BEA '):

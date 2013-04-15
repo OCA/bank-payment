@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -26,7 +27,7 @@
 {
     'name': 'Account Banking',
     'version': '0.1.136',
-    'license': 'GPL-3',
+    'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
@@ -34,8 +35,7 @@
         'account_voucher',
         'account_iban_preserve_domestic',
         ],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',
         'data/account_banking_data.xml',
         'wizard/bank_import_view.xml',
@@ -43,7 +43,6 @@
         'wizard/banking_transaction_wizard.xml',
         'workflow/account_invoice.xml',
     ],
-    'demo_xml': [],
     'external_dependencies': {
         'python' : ['BeautifulSoup'],
     },
@@ -102,6 +101,5 @@
       + No special configuration needed for the parsers, new parsers are
         recognized and made available at server (re)start.
     ''',
-    'active': False,
     'installable': True,
 }
