@@ -9,6 +9,7 @@
                 <form string="Match transaction">
                     <!-- fields used for form logic -->
                     <field name="payment_order_ids" invisible="True"/>
+                    <field name="statement_line_parent_id" invisible="True"/>
                     <field name="invoice_ids" invisible="True"/>
                     <field name="move_line_ids" invisible="True"/>
                     <field name="match_multi" invisible="True"/>
@@ -113,6 +114,13 @@
                                         name="trigger_write"
                                         type="object"
                                         string="Match"/>
+                            </page>
+                            <page string="Multiple manual matches" attrs="{'invisible': ['|', ('match_type', '!=', False), ('statement_line_parent_id', '!=', False)]}">
+                                <field name="manual_invoice_ids" colspan="4"/>
+                                <field name="manual_move_line_ids" colspan="4"/>
+                                <button name="trigger_write"
+                                        type="object"
+                                        string="Match" />
                             </page>
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
