@@ -171,16 +171,16 @@ class transaction(models.mem_bank_transaction):
                     'ULTB//NAME', 'ULTB//ID'
                 ]
                 items_len = len(items)
-                si = start
+                start_index = start
                 # Search until start after end of items
-                while si < items_len:
-                    ei = si + 1
-                    while ei < items_len:
-                        key = '/'.join(items[si:ei])
+                while start_index < items_len:
+                    end_index = start_index + 1
+                    while end_index < items_len:
+                        key = '/'.join(items[start_index:end_index])
                         if  key in known_keys:
-                            return (key, si, ei)
-                        ei += 1
-                    si += 1
+                            return (key, start_index, end_index)
+                        end_index += 1
+                    start_index += 1
                 return False
 
             items = field[1:].split('/')
@@ -198,9 +198,11 @@ class transaction(models.mem_bank_transaction):
                 item_index = key_info[2]
                 # Find where next key - if any - starts
                 key_info = _get_next_key(items, item_index)
-                ve = (key_info and key_info[1]) or items_len
+                value_end_index = (key_info and key_info[1]) or items_len
                 sepa_value = (
-                    (ve > item_index) and '/'.join(items[item_index:ve])) or ''
+                    ((value_end_index > item_index)
+                    and '/'.join(items[item_index:value_end_index]))
+                    or '')
                 sepa_dict[sepa_key] = sepa_value
             return sepa_dict
 
