@@ -155,28 +155,55 @@ class transaction(models.mem_bank_transaction):
             The string consists of slash separated KEY/VALUE pairs,
             but the slash is allowed to and known to occur in VALUE as well!
             """
-            items = field[1:].split('/') # skip leading slash
+            def _sepa_message(field, reason):
+                return _(
+                    'unable to parse SEPA string: %s - %s' % (field, reason))
+
+            def _get_next_key(items, start):
+                '''Find next key, starting from start, returns the key found,
+                the start position in the array and the end position + 1'''
+                known_keys = [
+                    'TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF', 'SWOC',
+                    'REMI', 'ADDR', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF',
+                    'NRTX', 'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP',
+                    'SVCL', 'SWOD', 'BENM//ID', 'ORDP//ID', 'ORDP//RID',
+                    'ORIG//CSID', 'ORIG//MARF', 'ULTD//NAME', 'ULTD//ID',
+                    'ULTB//NAME', 'ULTB//ID'
+                ]
+                items_len = len(items)
+                start_index = start
+                # Search until start after end of items
+                while start_index < items_len:
+                    end_index = start_index + 1
+                    while end_index < items_len:
+                        key = '/'.join(items[start_index:end_index])
+                        if  key in known_keys:
+                            return (key, start_index, end_index)
+                        end_index += 1
+                    start_index += 1
+                return False
+
+            items = field[1:].split('/')
+            assert len(items) > 1, _sepa_message(field, _('too few items'))
             sepa_dict = {}
-            prev_key = False
-            known_keys = ['TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF',
-                          'SWOC', 'REMI', ]
-            while items:
-                if len(items) == 1:
-                    raise osv.except_osv(
-                        _('Error !'),
-                        _("unable to parse SEPA string: %s") % field)
-                key = items.pop(0)
-                if key not in known_keys:
-                    # either an unknown key or a value containing a slash
-                    if prev_key:
-                        sepa_dict[prev_key] = sepa_dict[prev_key] + '/' + key
-                    else:
-                        raise osv.except_osv(
-                            _('Error !'),
-                            _("unable to parse SEPA string: %s") % field)
-                else:
-                    sepa_dict[key] = items.pop(0).strip()
-                    prev_key = key
+            item_index = 0
+            items_len = len(items)
+            key_info = _get_next_key(items, item_index)
+            assert key_info, _sepa_message(
+                field, _('no key found for start %d') % item_index)
+            assert key_info[1] == 0, _sepa_message(
+                field, _('invalid data found before key %s') % key_info[0])
+            while key_info:
+                sepa_key = key_info[0]
+                item_index = key_info[2]
+                # Find where next key - if any - starts
+                key_info = _get_next_key(items, item_index)
+                value_end_index = (key_info and key_info[1]) or items_len
+                sepa_value = (
+                    ((value_end_index > item_index)
+                    and '/'.join(items[item_index:value_end_index]))
+                    or '')
+                sepa_dict[sepa_key] = sepa_value
             return sepa_dict
 
         def parse_type(field):
