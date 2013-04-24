@@ -1295,6 +1295,21 @@ class banking_import_transaction(orm.Model):
 
         return res
 
+    def unlink(self, cr, uid, ids, context=None):
+        """
+        Unsplit if this if a split transaction
+        """
+        for this in self.browse(cr, uid, ids, context):
+            if this.parent_id:
+                this.parent_id.write(
+                        {'transferred_amount':
+                            this.parent_id.transferred_amount + \
+                                    this.transferred_amount,
+                        })
+                this.parent_id.refresh()
+        return super(banking_import_transaction, self).unlink(
+                cr, uid, ids, context=context)
+
     column_map = {
         # used in bank_import.py, converting non-osv transactions
         'statement_id': 'statement',
@@ -1346,7 +1361,7 @@ class banking_import_transaction(orm.Model):
         'duplicate': fields.boolean('duplicate'),
         'statement_line_id': fields.many2one(
             'account.bank.statement.line', 'Statement line',
-            ondelete='CASCADE'),
+            ondelete='cascade'),
         'statement_id': fields.many2one(
             'account.bank.statement', 'Statement',
             ondelete='CASCADE'),
@@ -1411,7 +1426,7 @@ class account_bank_statement_line(orm.Model):
     _columns = {
         'import_transaction_id': fields.many2one(
             'banking.import.transaction', 
-            'Import transaction', readonly=True, delete='cascade'),
+            'Import transaction', readonly=True, ondelete='cascade'),
         'match_multi': fields.related(
             'import_transaction_id', 'match_multi', type='boolean',
             string='Multi match', readonly=True),
@@ -1431,6 +1446,8 @@ class account_bank_statement_line(orm.Model):
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
             readonly=True, required=True),
+        'parent_id': fields.many2one('account.bank.statement.line',
+            'Parent'),
         }
 
     _defaults = {
@@ -1571,6 +1588,8 @@ class account_bank_statement_line(orm.Model):
     def unlink(self, cr, uid, ids, context=None):
         """
         Don't allow deletion of a confirmed statement line
+        If this statement line comes from a split transaction, give the
+        amount back
         """
         if type(ids) is int:
             ids = [ids]
@@ -1580,6 +1599,12 @@ class account_bank_statement_line(orm.Model):
                     _('Confirmed Statement Line'),
                     _("You cannot delete a confirmed Statement Line"
                       ": '%s'" % line.name))
+            if line.parent_id:
+                line.parent_id.write(
+                        {
+                            'amount': line.parent_id.amount + line.amount,
+                        })
+                line.parent_id.refresh()
         return super(account_bank_statement_line, self).unlink(
             cr, uid, ids, context=context)
 
@@ -1619,7 +1644,45 @@ class account_bank_statement_line(orm.Model):
                         'import_transaction_id': res},
                     context=context)
 
-account_bank_statement_line()
+    def split_off(self, cr, uid, ids, amount, context=None):
+        """
+        Create a child statement line with amount, deduce that from this line,
+        change transactions accordingly
+        """
+        if context is None:
+            context = {}
+
+        transaction_pool = self.pool.get('banking.import.transaction')
+    
+        child_statement_ids = []
+        for this in self.browse(cr, uid, ids, context):
+            transaction_data = transaction_pool.copy_data(
+                    cr, uid, this.import_transaction_id.id)
+            transaction_data['transferred_amount'] = amount
+            transaction_data['message'] = (
+                    (transaction_data['message'] or '') + _(' (split)'))
+            transaction_data['parent_id'] = this.import_transaction_id.id
+            transaction_id = transaction_pool.create(
+                    cr,
+                    uid,
+                    transaction_data,
+                    context=dict(
+                        context, transaction_no_duplicate_search=True))
+
+            statement_line_data = self.copy_data(
+                    cr, uid, this.id)
+            statement_line_data['amount'] = amount
+            statement_line_data['name'] = (
+                    (statement_line_data['name'] or '') + _(' (split)'))
+            statement_line_data['import_transaction_id'] = transaction_id
+            statement_line_data['parent_id'] = this.id
+
+            child_statement_ids.append(
+                    self.create(cr, uid, statement_line_data,
+                        context=context))
+            this.write({'amount': this.amount - amount})
+
+        return child_statement_ids
 
 
 class account_bank_statement(orm.Model):

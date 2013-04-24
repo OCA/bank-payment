@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Match transaction">
                     <!-- fields used for form logic -->
+                    <field name="statement_line_parent_id" invisible="True"/>
                     <field name="invoice_ids" invisible="True"/>
                     <field name="move_line_ids" invisible="True"/>
                     <field name="match_multi" invisible="True"/>
@@ -84,7 +85,9 @@
                                 <!-- Manual selection -->
                             </page>
                             <page string="Manual match">
-                                <field name="manual_invoice_id"/>
+                                <field name="manual_invoice_id"
+                                       context="{'search_default_partner_id': partner_id}"
+                                       />
                                 <!-- 
                                      Specify alternative tree_view_ref as a
                                      workaround for lp:1073521 in OpenERP 6.1
@@ -96,8 +99,9 @@
                                 -->
                                 <field name="manual_move_line_id"
                                        context="{
-                                                'tree_view_ref': 'account.view_move_line_tax_tree',
-                                                'view_mode': 'yes'
+                                                    'search_default_partner_id': partner_id,
+                                                    'tree_view_ref': 'account.view_move_line_tax_tree',
+                                                    'view_mode': 'yes'
                                                 }"
                                        />
                                 <newline/>
@@ -105,6 +109,17 @@
                                         name="trigger_write"
                                         type="object"
                                         string="Match"/>
+                            </page>
+                            <page string="Multiple manual matches" attrs="{'invisible': ['|', ('match_type', '!=', False), ('statement_line_parent_id', '!=', False)]}">
+                                <field name="manual_invoice_ids" colspan="4"
+                                       context="{'search_default_partner_id': partner_id}"
+                                       />
+                                <field name="manual_move_line_ids" colspan="4"
+                                       context="{'search_default_partner_id': partner_id}"
+                                       />
+                                <button name="trigger_write"
+                                        type="object"
+                                        string="Match" />
                             </page>
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
