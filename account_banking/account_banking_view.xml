@@ -292,6 +292,12 @@
                     <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='amount']" position="after">
                         <field name="match_type"/>
                         <field name="residual"/>
+                        <field name="parent_id" invisible="1" />
+                        <button name="action_unlink"
+                            string="Remove split transaction"
+                            type="object"
+                            icon="STOCK_REMOVE"
+                            attrs="{'invisible': ['|', ('parent_id', '=', False), ('state', '!=', 'draft')]}" />
                         <button name="match_wizard" states="draft"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"
