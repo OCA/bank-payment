@@ -342,12 +342,8 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
-                           position="replace">
-                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
-                                string="Select Invoices to Pay" type="action" 
-				attrs="{'invisible':[('state','!=','draft')]}"
-                                icon="gtk-find"
-                                />
+                        position="attributes">
+                        <attribute name="attrs">{'invisible':[('state','!=','draft')]}</attribute>
                     </xpath>
                     <xpath expr="/form/group/button[@string='Make Payments']"
                            position="replace">
