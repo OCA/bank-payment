@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="link_partner_view">
+            <field name="name">Link partner wizard view</field>
+            <field name="type">form</field>
+            <field name="model">banking.link_partner</field>
+            <field name="arch" type="xml">
+                <form string="Link partner">
+                    <group colspan="4" col="6">
+                        <field name="name"
+                               attrs="{'readonly': [('partner_id', '!=', False)]}" />
+                        <field name="partner_id"/>
+                        <field name="remote_account" />
+                    </group>
+                    <group colspan="4"
+                           string="Address"
+                           attrs="{'invisible': [('partner_id', '!=', False)]}">
+                        <group colspan="2" col="2">
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                        </group>
+                        <group colspan="2" col="2">
+                            <field name="phone"/>
+                            <field name="fax"/>
+                            <field name="mobile"/>
+                            <field name="email" widget="email"/>
+                        </group>
+                    </group>
+                    <button icon="gtk-cancel" string="Cancel" special="cancel" />
+                    <button icon="gtk-ok" string="Create partner"
+                            name="link_partner" type="object"
+                            attrs="{'invisible': [('partner_id', '!=', False)]}"
+                            />
+                    <button icon="gtk-ok" string="Link existing partner"
+                            name="link_partner" type="object"
+                            attrs="{'invisible': [('partner_id', '==', False)]}"
+                            />
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

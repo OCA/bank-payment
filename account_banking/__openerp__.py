@@ -45,6 +45,7 @@
         'account_banking_view.xml',
         'account_banking_workflow.xml',
         'wizard/banking_transaction_wizard.xml',
+        'wizard/link_partner.xml',
         'workflow/account_invoice.xml',
     ],
     'demo_xml': [],
