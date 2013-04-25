@@ -24,7 +24,7 @@ from openerp.tools.translate import _
 from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.wizard import banktools
 
-class link_partner(orm.Model):
+class link_partner(orm.TransientModel):
     _name = 'banking.link_partner'
     _inherit = 'res.partner.address'
     _description = 'Link partner'
