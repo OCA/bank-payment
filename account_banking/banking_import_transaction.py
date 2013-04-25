@@ -1318,8 +1318,7 @@ class banking_import_transaction(osv.osv):
                                 transaction.remote_owner, 
                                 transaction.remote_owner_address,
                                 transaction.remote_owner_city,
-                                country_id, results['log'],
-                                bic=transaction.remote_bank_bic
+                                country_id, bic=transaction.remote_bank_bic,
                                 )
                             partner_banks = partner_bank_obj.browse(
                                 cr, uid, [partner_bank_id]
