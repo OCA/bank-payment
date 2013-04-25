@@ -1986,10 +1986,6 @@ class account_bank_statement_line(osv.osv):
 
         return child_statement_ids
 
-    def action_unlink(self, cr, uid, ids, context=None):
-        self.unlink(cr, uid, ids, context=context)
-        return True
-
 account_bank_statement_line()
 
 class account_bank_statement(osv.osv):
