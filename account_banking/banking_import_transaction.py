@@ -222,7 +222,7 @@ class banking_import_transaction(osv.osv):
             Match on ID of invoice (reference, name or number, whatever
             available and sensible)
             '''
-            if invoice.reference:
+            if invoice.reference and len(invoice.reference) > 2:
                 # Reference always comes first, as it is manually set for a
                 # reason.
                 iref = invoice.reference.upper()
@@ -230,7 +230,7 @@ class banking_import_transaction(osv.osv):
                     return True
             if invoice.type.startswith('in_'):
                 # Internal numbering, no likely match on number
-                if invoice.name:
+                if invoice.name and len(invoice.name) > 2:
                     iname = invoice.name.upper()
                     if iname in ref or iname in msg:
                         return True
