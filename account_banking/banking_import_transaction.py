@@ -1703,7 +1703,7 @@ class account_bank_statement_line(osv.osv):
         """
         res = {}
         for line in self.browse(cr, uid, ids, context):
-            res[line.id] = (
+            res[line.id] = bool(
                 line.state == 'draft'
                 and not line.partner_id
                 and line.import_transaction_id
