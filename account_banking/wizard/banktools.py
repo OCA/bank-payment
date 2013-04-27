@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -19,9 +19,7 @@
 #
 ##############################################################################
 
-import datetime
 from openerp.tools.translate import _
-from openerp.addons.account_banking.parsers import convert
 from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.struct import struct
 
@@ -33,54 +31,23 @@ __all__ = [
     'create_bank_account',
 ]
 
-def get_period(pool, cursor, uid, date, company, log):
+def get_period(pool, cr, uid, date, company, log=None):
     '''
-    Get a suitable period for the given date range and the given company.
+    Wrapper over account_period.find() to log exceptions of
+    missing periods instead of raising.
     '''
-    fiscalyear_obj = pool.get('account.fiscalyear')
-    period_obj = pool.get('account.period')
-    if not date:
-        date = convert.date2str(datetime.datetime.today())
-
-    search_date = convert.date2str(date)
-    fiscalyear_ids = fiscalyear_obj.search(cursor, uid, [
-        ('date_start','<=', search_date), ('date_stop','>=', search_date),
-        ('state','=','draft'), ('company_id','=',company.id)
-    ])
-    if not fiscalyear_ids:
-        fiscalyear_ids = fiscalyear_obj.search(cursor, uid, [
-            ('date_start','<=',search_date), ('date_stop','>=',search_date),
-            ('state','=','draft'), ('company_id','=',None)
-        ])
-    if not fiscalyear_ids:
-        log.append(
-            _('No suitable fiscal year found for date %(date)s and company %(company_name)s')
-            % dict(company_name=company.name, date=date)
-        )
-        return False
-    elif len(fiscalyear_ids) > 1:
-        log.append(
-            _('Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s')
-            % dict(company_name=company.name, date=date)
-        )
-        return False
-
-    fiscalyear_id = fiscalyear_ids[0]
-    period_ids = period_obj.search(cursor, uid, [
-        ('date_start','<=',search_date), ('date_stop','>=',search_date),
-        ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft'),
-        ('special', '=', False),
-    ])
-    if not period_ids:
-        log.append(_('No suitable period found for date %(date)s and company %(company_name)s')
-                   % dict(company_name=company.name, date=date)
-        )
-        return False
-    if len(period_ids) != 1:
-        log.append(_('Multiple overlapping periods for date %(date)s and company %(company_name)s')
-                   % dict(company_name=company.name, date=date)
-        )
-        return False
+    context = {'account_period_prefer_normal': True}
+    if company:
+        context['company_id'] = company.id
+    try:
+        period_ids = pool.get('account.period').find(
+            cr, uid, dt=date, context=context)
+    except Exception, e:
+        if log is None:
+            raise
+        else:
+            log.append(e)
+            return False
     return period_ids[0]
 
 def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):

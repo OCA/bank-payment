@@ -29,9 +29,9 @@ from openerp import netsvc
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 from openerp.addons.account_banking.parsers import models
-from openerp.addons.account_banking.parsers.convert import *
+from openerp.addons.account_banking.parsers import convert
 from openerp.addons.account_banking import sepa
-from openerp.addons.account_banking.wizard.banktools import *
+from openerp.addons.account_banking.wizard import banktools
 
 bt = models.mem_bank_transaction
 
@@ -242,8 +242,8 @@ class banking_import_transaction(orm.Model):
             candidates = [
                 x for x in move_lines
                 if x.partner_id.id in partner_ids and
-                (str2date(x.date, '%Y-%m-%d') <=
-                 (str2date(trans.execution_date, '%Y-%m-%d') +
+                (convert.str2date(x.date, '%Y-%m-%d') <=
+                 (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                   self.payment_window))
                 and (not _cached(x) or _remaining(x))
                 ]
@@ -264,8 +264,8 @@ class banking_import_transaction(orm.Model):
             candidates = [
                 x for x in candidates or move_lines 
                 if (x.invoice and has_id_match(x.invoice, ref, msg) and
-                    str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
-                    (str2date(trans.execution_date, '%Y-%m-%d') +
+                    convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
+                    (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                      self.payment_window)
                     and (not _cached(x) or _remaining(x)))
                 ]
@@ -277,8 +277,8 @@ class banking_import_transaction(orm.Model):
                     x for x in move_lines 
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
                                 trans.transferred_amount)
-                        and str2date(x.date, '%Y-%m-%d') <=
-                        (str2date(trans.execution_date, '%Y-%m-%d')  +
+                        and convert.str2date(x.date, '%Y-%m-%d') <=
+                        (convert.str2date(trans.execution_date, '%Y-%m-%d')  +
                          self.payment_window)
                         and (not _cached(x) or _remaining(x)))
                     ]
@@ -293,8 +293,8 @@ class banking_import_transaction(orm.Model):
             best = [x for x in candidates
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
                                 trans.transferred_amount)
-                        and str2date(x.date, '%Y-%m-%d') <=
-                        (str2date(trans.execution_date, '%Y-%m-%d') +
+                        and convert.str2date(x.date, '%Y-%m-%d') <=
+                        (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                          self.payment_window))
                    ]
             if len(best) == 1:
@@ -312,8 +312,8 @@ class banking_import_transaction(orm.Model):
                 # transfers first
                 paid = [x for x in move_lines 
                         if x.invoice and has_id_match(x.invoice, ref, msg)
-                            and str2date(x.invoice.date_invoice, '%Y-%m-%d')
-                                <= str2date(trans.execution_date, '%Y-%m-%d')
+                            and convert.str2date(x.invoice.date_invoice, '%Y-%m-%d')
+                                <= convert.str2date(trans.execution_date, '%Y-%m-%d')
                             and (_cached(x) and not _remaining(x))
                        ]
                 if paid:
@@ -923,7 +923,7 @@ class banking_import_transaction(orm.Model):
                 account_info = info[transaction.local_account][currency_code]
             else:
                 # Pull account info/currency
-                account_info = get_company_bank_account(
+                account_info = banktools.get_company_bank_account(
                     self.pool, cr, uid, transaction.local_account,
                     transaction.local_currency, company, results['log']
                 )
@@ -980,10 +980,9 @@ class banking_import_transaction(orm.Model):
                 continue
 
             # Link accounting period
-            period_id = get_period(
-                self.pool, cr, uid,
-                str2date(transaction.effective_date,'%Y-%m-%d'), company,
-                results['log'])
+            period_id = banktools.get_period(
+                self.pool, cr, uid, transaction.effective_date,
+                company, results['log'])
             if not period_id:
                 results['trans_skipped_cnt'] += 1
                 if not injected:
@@ -1042,7 +1041,7 @@ class banking_import_transaction(orm.Model):
                 partner_banks = []
             else:
                 # Link remote partner, import account when needed
-                partner_banks = get_bank_accounts(
+                partner_banks = banktools.get_bank_accounts(
                     self.pool, cr, uid, transaction.remote_account,
                     results['log'], fail=True
                     )
@@ -1061,7 +1060,7 @@ class banking_import_transaction(orm.Model):
                         country_code = company.partner_id.country.code
                     else:
                         country_code = None
-                    partner_id = get_or_create_partner(
+                    partner_id = banktools.get_or_create_partner(
                         self.pool, cr, uid, transaction.remote_owner,
                         transaction.remote_owner_address,
                         transaction.remote_owner_postalcode,
@@ -1071,7 +1070,7 @@ class banking_import_transaction(orm.Model):
                         supplier=transaction.transferred_amount < 0,
                         context=context)
                     if transaction.remote_account:
-                        partner_bank_id = create_bank_account(
+                        partner_bank_id = banktools.create_bank_account(
                             self.pool, cr, uid, partner_id,
                             transaction.remote_account,
                             transaction.remote_owner, 
