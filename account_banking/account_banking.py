@@ -1045,16 +1045,13 @@ class res_partner_bank(osv.osv):
                 if country.code in sepa.IBAN.countries:
                     acc_number_fmt = sepa.BBAN(acc_number, country.code)
                     if acc_number_fmt.valid:
-                        values['acc_number'] = str(acc_number_fmt)
+                        values['acc_number_domestic'] = str(acc_number_fmt)
                     else:
-                        values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
                             _('The account number has the wrong format for %(country)s')
                             % {'country': country.name}
                         ))
-                else:
-                    values['acc_number'] = acc_number
         return result
 
     def onchange_iban(
