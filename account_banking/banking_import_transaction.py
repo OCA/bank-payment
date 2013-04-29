@@ -1763,55 +1763,60 @@ class account_bank_statement_line(osv.osv):
         Get the appropriate partner or fire a wizard to create
         or link one
         """
-        res = False
-        if ids:
-            if isinstance(ids, (int, float)):
-                ids = [ids]
+        if not ids:
+            return False
 
-            # Check if the partner is already known but not shown
-            # because the screen was not refreshed yet
-            statement_line = self.browse(
-                cr, uid, ids[0], context=context)
-            if statement_line.partner_id:
-                return True
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+                
+        # Check if the partner is already known but not shown
+        # because the screen was not refreshed yet
+        statement_line = self.browse(
+            cr, uid, ids[0], context=context)
+        if statement_line.partner_id:
+            return True
+
+        # Reuse the bank's partner if any
+        if (statement_line.partner_bank_id and
+                statement_line.partner_bank_id.partner_id):
+            statement_line.write(
+                {'partner_id': statement_line.partner_bank_id.partner_id.id})
+            return True
+
+        if (not statement_line.import_transaction_id or
+            not statement_line.import_transaction_id.remote_account):
+            raise osv.except_osv(
+                _("Error"),
+                _("No bank account available to link partner to"))
             
-            # Check if the bank account was already been linked
-            # manually to another transaction
-            remote_account = statement_line.import_transaction_id.remote_account
-            source_line_ids = self.search(
+        # Check if the bank account was already been linked
+        # manually to another transaction
+        remote_account = statement_line.import_transaction_id.remote_account
+        source_line_ids = self.search(
+            cr, uid,
+            [('import_transaction_id.remote_account', '=', remote_account),
+             ('partner_bank_id.partner_id', '!=', False),
+             ], limit=1, context=context)
+        if source_line_ids:
+            source_line = self.browse(
+                cr, uid, source_line_ids[0], context=context)
+            target_line_ids = self.search(
                 cr, uid,
                 [('import_transaction_id.remote_account', '=', remote_account),
-                 ('partner_bank_id.partner_id', '!=', False),
-                 ], limit=1, context=context)
-            if source_line_ids:
-                source_line = self.browse(
-                    cr, uid, source_line_ids[0], context=context)
-                target_line_ids = statement_line_obj.search(
-                    cr, uid,
-                    [('import_transaction_id.remote_account', '=', remote_account),
-                     ('partner_bank_id', '=', False),
-                     ('state', '=', 'draft')], context=context)
-                self.write(
-                    cr, uid, statement_line_ids,
-                    {'partner_bank_id': source_line.partner_bank_id.id,
-                     'partner_id': source_line.partner_bank_id.partner_id.id,
-                     }, context=context)
-                return True
+                 ('partner_bank_id', '=', False),
+                 ('state', '=', 'draft')], context=context)
+            self.write(
+                cr, uid, target_line_ids,
+                {'partner_bank_id': source_line.partner_bank_id.id,
+                 'partner_id': source_line.partner_bank_id.partner_id.id,
+                 }, context=context)
+            return True
                 
-            # Reuse the bank's partner if any
-            if (statement_line.partner_bank_id and
-                    statement_line.partner_bank_id.partner_id):
-                statement_line.write(
-                    {'partner_id': statement_line.partner_bank_id.partner_id.id})
-                return True
-
-            # Or fire the wizard to link partner and account
-            wizard_obj = self.pool.get('banking.link_partner')
-            res_id = wizard_obj.create(
-                cr, uid, {'statement_line_id': ids[0]}, context=context)
-            res = wizard_obj.create_act_window(cr, uid, res_id, context=context)
-
-        return res
+        # Or fire the wizard to link partner and account
+        wizard_obj = self.pool.get('banking.link_partner')
+        res_id = wizard_obj.create(
+            cr, uid, {'statement_line_id': ids[0]}, context=context)
+        return wizard_obj.create_act_window(cr, uid, res_id, context=context)
 
     def _convert_currency(
         self, cr, uid, from_curr_id, to_curr_id, from_amount,

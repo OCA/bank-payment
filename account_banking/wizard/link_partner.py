@@ -102,6 +102,7 @@ class link_partner(orm.TransientModel):
                 cr, uid, ids[0], context=context, load='_classic_write')
             address_fields = self.pool.get(
                 'res.partner.address')._columns.keys()
+            address_vals = {}
             for field in self._columns.keys():
                 # NB: wizard model contains 'partner_id' like the address
                 # but in this code path it is False
