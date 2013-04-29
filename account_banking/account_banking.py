@@ -359,14 +359,6 @@ class account_bank_statement(orm.Model):
     def create_move_from_st_line(self, cr, uid, st_line_id,
                                  company_currency_id, st_line_number,
                                  context=None):
-        # This is largely a copy of the original code in account
-        # Modifications are marked with AB
-        # Modifications by account_voucher are merged below.
-        # As there is no valid inheritance mechanism for large actions, this
-        # is the only option to add functionality to existing actions.
-        # WARNING: when the original code changes, this trigger has to be
-        # updated in sync.
-
         if context is None:
             context = {}
         account_move_obj = self.pool.get('account.move')
@@ -376,15 +368,13 @@ class account_bank_statement(orm.Model):
         st_line = account_bank_statement_line_obj.browse(
             cr, uid, st_line_id, context=context)
 
-        # AB: take period from statement line and write to context
+        # Take period from statement line and write to context
         # this will be picked up by the _prepare_move* methods
         period_id = self._get_period(
             cr, uid, st_line.date, context=context)
         localctx = context.copy()
         localctx['period_id'] = period_id
-        # --AB
 
-        # AB: Take account_voucher into account:
         # Write date & period on the voucher, delegate to account_voucher's
         # override of this method. Then post the related move and return.
         if st_line.voucher_id:
@@ -873,16 +863,13 @@ class res_partner_bank(orm.Model):
                 if country.code in sepa.IBAN.countries:
                     acc_number_fmt = sepa.BBAN(acc_number, country.code)
                     if acc_number_fmt.valid:
-                        values['acc_number'] = str(acc_number_fmt)
+                        values['acc_number_domestic'] = str(acc_number_fmt)
                     else:
-                        values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
                             _('The account number has the wrong format for %s')
                             % country.name
                         ))
-                else:
-                    values['acc_number'] = acc_number
         return result
 
     def onchange_iban(

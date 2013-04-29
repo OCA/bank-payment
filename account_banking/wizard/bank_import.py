@@ -33,9 +33,9 @@ import base64
 import datetime
 from openerp.tools.translate import _
 from openerp.addons.account_banking.parsers import models
-from openerp.addons.account_banking.parsers.convert import *
+from openerp.addons.account_banking.parsers import convert
 from openerp.addons.account_banking.struct import struct
-from openerp.addons.account_banking.wizard.banktools import *
+from openerp.addons.account_banking.wizard import banktools
 from openerp.addons.decimal_precision import decimal_precision as dp
 
 bt = models.mem_bank_transaction
@@ -92,7 +92,6 @@ class banking_import_line(orm.TransientModel):
                 ], 'Transaction type'),
         'duplicate': fields.boolean('Duplicate'),
         }
-banking_import_line()
     
 
 class banking_import(orm.TransientModel):
@@ -184,7 +183,7 @@ class banking_import(orm.TransientModel):
 
             else:
                 # Pull account info/currency
-                account_info = get_company_bank_account(
+                account_info = banktools.get_company_bank_account(
                     self.pool, cursor, uid, statement.local_account,
                     statement.local_currency, company, results.log
                 )
@@ -241,7 +240,7 @@ class banking_import(orm.TransientModel):
             # matching procedure
             statement_ids = statement_obj.search(cursor, uid, [
                 ('name', '=', statement.id),
-                ('date', '=', date2str(statement.date)),
+                ('date', '=', convert.date2str(statement.date)),
             ])
             if statement_ids:
                 results.log.append(
@@ -274,7 +273,7 @@ class banking_import(orm.TransientModel):
             statement_id = statement_obj.create(cursor, uid, dict(
                 name = statement.id,
                 journal_id = account_info.journal_id.id,
-                date = date2str(statement.date),
+                date = convert.date2str(statement.date),
                 balance_start = statement.start_balance,
                 balance_end_real = statement.end_balance,
                 balance_end = statement.end_balance,
@@ -439,7 +438,3 @@ class banking_import(orm.TransientModel):
             cr, uid, 'bank.import.transaction', context=c),
         'parser': _default_parser_type,
         }
-
-banking_import()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
