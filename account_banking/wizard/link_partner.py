@@ -21,7 +21,6 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.wizard import banktools
 
 class link_partner(orm.TransientModel):
@@ -99,14 +98,19 @@ class link_partner(orm.TransientModel):
                     'customer': wiz.customer,
                     'supplier': wiz.supplier, 
                     }, context=context)
-            address_vals = {'type': 'default'}
             wiz_read = self.read(
                 cr, uid, ids[0], context=context, load='_classic_write')
             address_fields = self.pool.get(
                 'res.partner.address')._columns.keys()
             for field in self._columns.keys():
+                # NB: wizard model contains 'partner_id' like the address
+                # but in this code path it is False
                 if field in address_fields:
                     address_vals[field] = wiz_read[field]
+            address_vals.update({
+                    'partner_id': partner_id,
+                    'type': 'default',
+                    })
             self.pool.get('res.partner.address').create(
                 cr, uid, address_vals, context=context)
             
