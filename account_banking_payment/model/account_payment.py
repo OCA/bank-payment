@@ -131,7 +131,7 @@ class payment_order(orm.Model):
             wizard_obj = self.pool.get(wizard_model)
             wizard_id = wizard_obj.create(cr, uid, {}, context)
             result = {
-                'name': wizard_obj._description or 'Payment Order Export',
+                'name': wizard_obj._description or _('Payment Order Export'),
                 'view_type': 'form',
                 'view_mode': 'form',
                 'res_model': wizard_model,
