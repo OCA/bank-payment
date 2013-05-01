@@ -334,7 +334,7 @@ class banking_import_transaction(orm.Model):
                 move_line = False
                 partial = False
 
-            elif len(candidates) == 1:
+            elif len(candidates) == 1 and candidates[0].invoice:
                 # Mismatch in amounts
                 move_line = candidates[0]
                 invoice = move_line.invoice
@@ -382,10 +382,10 @@ class banking_import_transaction(orm.Model):
                     if x.partner_id.id == move_line.partner_id.id
                     ]
                 
-            return (trans, self._get_move_info(
-                    cr, uid, [move_line.id],
-                    account_ids and account_ids[0] or False),
-                    trans2)
+                return (trans, self._get_move_info(
+                        cr, uid, [move_line.id],
+                        account_ids and account_ids[0] or False),
+                        trans2)
 
         return trans, False, False
 
@@ -791,7 +791,7 @@ class banking_import_transaction(orm.Model):
         if move_lines and len(move_lines) == 1:
             retval['reference'] = move_lines[0].ref
         if retval['match_type'] == 'invoice':
-            retval['invoice_ids'] = [x.invoice.id for x in move_lines]
+            retval['invoice_ids'] = list(set([x.invoice.id for x in move_lines]))
             retval['type'] = type_map[move_lines[0].invoice.type]
         return retval
 

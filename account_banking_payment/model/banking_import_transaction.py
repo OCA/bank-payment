@@ -49,7 +49,8 @@ class banking_import_transaction(orm.Model):
             limit=0, context=context)
         orders = payment_order_obj.browse(cr, uid, order_ids, context)
         candidates = [x for x in orders if
-                      is_zero(x.total - trans.transferred_amount)]
+                      is_zero(x.total - trans.transferred_amount) and
+                      x.line_ids and x.line_ids[0].debit_move_line_id]
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
