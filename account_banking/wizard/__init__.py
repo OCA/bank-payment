@@ -20,5 +20,6 @@
 ##############################################################################
 import bank_import
 import banking_transaction_wizard
+import link_partner
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

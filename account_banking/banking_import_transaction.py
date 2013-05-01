@@ -885,6 +885,9 @@ class banking_import_transaction(orm.Model):
                     i += 1
                 continue
             
+            partner_banks = []
+            partner_ids = []
+
             # TODO: optimize by ordering transactions per company, 
             # and perform the stanza below only once per company.
             # In that case, take newest transaction date into account
@@ -1027,6 +1030,7 @@ class banking_import_transaction(orm.Model):
             if transaction.type == bt.STORNO and has_payment:
                 move_info = self._match_storno(
                     cr, uid, transaction, results['log'], context)
+
             # Allow inclusion of generated bank invoices
             if transaction.type == bt.BANK_COSTS:
                 lines = self._match_costs(
@@ -1038,7 +1042,6 @@ class banking_import_transaction(orm.Model):
                     if not [x for x in move_lines if x.id == line.id]:
                         move_lines.append(line)
                 partner_ids = [account_info.bank_partner_id.id]
-                partner_banks = []
             else:
                 # Link remote partner, import account when needed
                 partner_banks = banktools.get_bank_accounts(
@@ -1048,47 +1051,28 @@ class banking_import_transaction(orm.Model):
                 if partner_banks:
                     partner_ids = [x.partner_id.id for x in partner_banks]
                 elif transaction.remote_owner:
-                    iban = sepa.IBAN(transaction.remote_account)
-                    if iban.valid:
-                        country_code = iban.countrycode
-                    elif transaction.remote_owner_country_code:
-                        country_code = transaction.remote_owner_country_code
-                    # fallback on the import parsers country code
-                    elif transaction.bank_country_code:
-                        country_code = transaction.bank_country_code
-                    elif company.partner_id and company.partner_id.country:
-                        country_code = company.partner_id.country.code
-                    else:
-                        country_code = None
-                    partner_id = banktools.get_or_create_partner(
+                    country_id = banktools.get_country_id(
+                        self.pool, cr, uid, transaction, context=context)
+                    partner_id = banktools.get_partner(
                         self.pool, cr, uid, transaction.remote_owner,
                         transaction.remote_owner_address,
                         transaction.remote_owner_postalcode,
                         transaction.remote_owner_city,
-                        country_code, results['log'],
-                        customer=transaction.transferred_amount > 0,
-                        supplier=transaction.transferred_amount < 0,
+                        country_id, results['log'],
                         context=context)
-                    if transaction.remote_account:
-                        partner_bank_id = banktools.create_bank_account(
-                            self.pool, cr, uid, partner_id,
-                            transaction.remote_account,
-                            transaction.remote_owner, 
-                            transaction.remote_owner_address,
-                            transaction.remote_owner_city,
-                            country_code, results['log'],
-                            bic=transaction.remote_bank_bic
-                            )
-                        partner_banks = partner_bank_obj.browse(
-                            cr, uid, [partner_bank_id]
-                            )
-                    else:
-                        partner_bank_id = None
-                        partner_banks = []
-                    partner_ids = [partner_id]
-                else:
-                    partner_ids = []
-                    partner_banks = []
+                    if partner_id:
+                        partner_ids = [partner_id]
+                        if transaction.remote_account:
+                            partner_bank_id = banktools.create_bank_account(
+                                self.pool, cr, uid, partner_id,
+                                transaction.remote_account,
+                                transaction.remote_owner, 
+                                transaction.remote_owner_address,
+                                transaction.remote_owner_city,
+                                country_id, bic=transaction.remote_bank_bic,
+                                context=context)
+                            partner_banks = partner_bank_obj.browse(
+                                cr, uid, [partner_bank_id], context=context)
 
             # Credit means payment... isn't it?
             if (not move_info
@@ -1422,6 +1406,24 @@ banking_import_transaction()
 
 class account_bank_statement_line(orm.Model):
     _inherit = 'account.bank.statement.line'
+
+    def _get_link_partner_ok(
+            self, cr, uid, ids, name, args, context=None):
+        """
+        Deliver the values of the function field that
+        determines if the 'link partner' wizard is show on the 
+        bank statement line
+        """
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            res[line.id] = bool(
+                line.state == 'draft'
+                and not line.partner_id
+                and line.import_transaction_id
+                and line.import_transaction_id.remote_owner
+                and line.import_transaction_id.remote_account)
+        return res
+
     _columns = {
         'import_transaction_id': fields.many2one(
             'banking.import.transaction', 
@@ -1447,6 +1449,9 @@ class account_bank_statement_line(orm.Model):
             readonly=True, required=True),
         'parent_id': fields.many2one('account.bank.statement.line',
             'Parent'),
+        'link_partner_ok': fields.function(
+            _get_link_partner_ok, type='boolean',
+            string='Can link partner'),
         }
 
     _defaults = {
@@ -1466,6 +1471,66 @@ class account_bank_statement_line(orm.Model):
                 cr, uid, {'statement_line_id': ids[0]}, context=context)
             res = wizard_obj.create_act_window(cr, uid, res_id, context=context)
         return res
+
+    def link_partner(self, cr, uid, ids, context=None):
+        """
+        Get the appropriate partner or fire a wizard to create
+        or link one
+        """
+        if not ids:
+            return False
+
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+                
+        # Check if the partner is already known but not shown
+        # because the screen was not refreshed yet
+        statement_line = self.browse(
+            cr, uid, ids[0], context=context)
+        if statement_line.partner_id:
+            return True
+
+        # Reuse the bank's partner if any
+        if (statement_line.partner_bank_id and
+                statement_line.partner_bank_id.partner_id):
+            statement_line.write(
+                {'partner_id': statement_line.partner_bank_id.partner_id.id})
+            return True
+
+        if (not statement_line.import_transaction_id or
+            not statement_line.import_transaction_id.remote_account):
+            raise osv.except_osv(
+                _("Error"),
+                _("No bank account available to link partner to"))
+            
+        # Check if the bank account was already been linked
+        # manually to another transaction
+        remote_account = statement_line.import_transaction_id.remote_account
+        source_line_ids = self.search(
+            cr, uid,
+            [('import_transaction_id.remote_account', '=', remote_account),
+             ('partner_bank_id.partner_id', '!=', False),
+             ], limit=1, context=context)
+        if source_line_ids:
+            source_line = self.browse(
+                cr, uid, source_line_ids[0], context=context)
+            target_line_ids = self.search(
+                cr, uid,
+                [('import_transaction_id.remote_account', '=', remote_account),
+                 ('partner_bank_id', '=', False),
+                 ('state', '=', 'draft')], context=context)
+            self.write(
+                cr, uid, target_line_ids,
+                {'partner_bank_id': source_line.partner_bank_id.id,
+                 'partner_id': source_line.partner_bank_id.partner_id.id,
+                 }, context=context)
+            return True
+                
+        # Or fire the wizard to link partner and account
+        wizard_obj = self.pool.get('banking.link_partner')
+        res_id = wizard_obj.create(
+            cr, uid, {'statement_line_id': ids[0]}, context=context)
+        return wizard_obj.create_act_window(cr, uid, res_id, context=context)
 
     def _convert_currency(
         self, cr, uid, from_curr_id, to_curr_id, from_amount,
