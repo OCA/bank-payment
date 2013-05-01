@@ -295,7 +295,7 @@ class transaction(models.mem_bank_transaction):
                 if fields[2].startswith('/'):
                     self.remote_account = fields[2][1:].strip()
                 else:
-                    self.message += ' ' + fields[2].strip()
+                    self.remote_account = fields[2].strip()
                 # fourth column contains remote owner
                 self.remote_owner = (len(fields) > 3 and fields[3].strip() or
                                      False)
