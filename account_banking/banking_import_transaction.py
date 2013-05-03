@@ -1675,10 +1675,14 @@ class account_bank_statement_line(orm.Model):
                     (statement_line_data['name'] or '') + _(' (split)'))
             statement_line_data['import_transaction_id'] = transaction_id
             statement_line_data['parent_id'] = this.id
+            statement_line_id = self.create(
+                cr, uid, statement_line_data, context=context)
 
-            child_statement_ids.append(
-                    self.create(cr, uid, statement_line_data,
-                        context=context))
+            child_statement_ids.append(statement_line_id)
+            transaction_pool.write(
+                cr, uid, transaction_id, {
+                    'statement_line_id': statement_line_id,
+                    }, context=context)
             this.write({'amount': this.amount - amount})
 
         return child_statement_ids
