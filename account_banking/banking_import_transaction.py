@@ -1048,6 +1048,7 @@ class banking_import_transaction(osv.osv):
                         break
                 else:
                     retval['match_type'] = 'invoice'
+                retval['type'] = type_map[move_line.invoice.type]
             else:
                 if retval['match_type']: 
                     retval['match_type'] = False
@@ -1057,8 +1058,8 @@ class banking_import_transaction(osv.osv):
         if move_lines and len(move_lines) == 1:
             retval['reference'] = move_lines[0].ref
         if retval['match_type'] == 'invoice':
-            retval['invoice_ids'] = list(set([x.invoice.id for x in move_lines]))
-            retval['type'] = type_map[move_lines[0].invoice.type]
+            retval['invoice_ids'] = list(set(
+                [x.invoice.id for x in move_lines if x.invoice]))
         return retval
     
     def match(self, cr, uid, ids, results=None, context=None):
