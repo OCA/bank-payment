@@ -1578,7 +1578,7 @@ class account_bank_statement_line(orm.Model):
                 raise orm.except_orm(
                     _('Confirmed Statement Line'),
                     _("You cannot delete a confirmed Statement Line"
-                      ": '%s'" % line.name))
+                      ": '%s'") % line.name)
         return super(account_bank_statement_line, self).unlink(
             cr, uid, ids, context=context)
 
@@ -1693,7 +1693,7 @@ class account_bank_statement(orm.Model):
                     raise orm.except_orm(
                         _('Confirmed Statement Lines'),
                         _("You cannot delete a Statement with confirmed "
-                          "Statement Lines: '%s'" % st.name))
+                          "Statement Lines: '%s'") % st.name)
         return super(account_bank_statement, self).unlink(
             cr, uid, ids, context=context)
 
