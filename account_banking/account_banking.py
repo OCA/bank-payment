@@ -81,6 +81,10 @@ class account_banking_account_settings(osv.osv):
                                            select=True, required=True),
         'journal_id': fields.many2one('account.journal', 'Journal',
                                       required=True),
+        'partner_id': fields.related(
+            'company_id', 'partner_id',
+            type='many2one', relation='res.partner',
+            string='Partner'),
         'default_credit_account_id': fields.many2one(
             'account.account', 'Default credit account', select=True,
             help=('The account to use when an unexpected payment was signaled. '
@@ -127,44 +131,59 @@ class account_banking_account_settings(osv.osv):
         #),
     }
 
-    def _default_company(self, cursor, uid, context=None):
-        user = self.pool.get('res.users').browse(cursor, uid, uid, context=context)
-        if user.company_id:
-            return user.company_id.id
-        company_ids = self.pool.get('res.company').search(
-            cursor, uid, [('parent_id', '=', False)])
-        return len(company_ids) == 1 and company_ids[0] or False
-
-    def _default_journal(self, cr, uid, context=None):
-        domain = [('type', '=', 'bank')]
+    def _default_company(self, cr, uid, context=None):
+        """
+        Return the user's company or the first company found
+        in the database
+        """
         user = self.pool.get('res.users').read(
             cr, uid, uid, ['company_id'], context=context)
         if user['company_id']:
-            domain.append(('company_id', '=', user['company_id'][0]))
+            return user['company_id'][0]
+        return self.pool.get('res.company').search(
+            cr, uid, [('parent_id', '=', False)])[0]
+    
+    def _default_partner_id(self, cr, uid, context=None, company_id=False):
+        if not company_id:
+            company_id = self._default_company(cr, uid, context=context)
+        return self.pool.get('res.company').read(
+            cr, uid, company_id, ['partner_id'],
+            context=context)['partner_id'][0]
+
+    def _default_journal(self, cr, uid, context=None, company_id=False):
+        if not company_id:
+            company_id = self._default_company(cr, uid, context=context)
         journal_ids = self.pool.get('account.journal').search(
-            cr, uid, domain)
-        return len(journal_ids) == 1 and journal_ids[0] or False
+            cr, uid, [('type', '=', 'bank'), ('company_id', '=', company_id)])
+        return journal_ids and journal_ids[0] or False
 
-    def _default_partner_bank_id(self, cr, uid, context=None):
-        user = self.pool.get('res.users').read(
-            cr, uid, uid, ['company_id'], context=context)
-        if user['company_id']:
-            bank_ids = self.pool.get('res.partner.bank').search(
-                cr, uid, [('company_id', '=', user['company_id'][0])])
-            if len(bank_ids) == 1:
-                return bank_ids[0]
-        return False
+    def _default_partner_bank_id(
+            self, cr, uid, context=None, company_id=False):
+        if not company_id:
+            company_id = self._default_company(cr, uid, context=context)
+        partner_id = self.pool.get('res.company').read(
+            cr, uid, company_id, ['partner_id'], context=context)['partner_id'][0]
+        bank_ids = self.pool.get('res.partner.bank').search(
+            cr, uid, [('partner_id', '=', partner_id)], context=context)
+        return bank_ids and bank_ids[0] or False
 
-    def _default_debit_account_id(self, cr, uid, context=None):
+    def _default_debit_account_id(
+            self, cr, uid, context=None, company_id=False):
+        localcontext = context and context.copy() or {}
+        localcontext['force_company'] = (
+            company_id or self._default_company(cr, uid, context=context))
         account_def = self.pool.get('ir.property').get(
             cr, uid, 'property_account_receivable',
-            'res.partner', context=context)
+            'res.partner', context=localcontext)
         return account_def and account_def.id or False
 
-    def _default_credit_account_id(self, cr, uid, context=None):
+    def _default_credit_account_id(self, cr, uid, context=None, company_id=False):
+        localcontext = context and context.copy() or {}
+        localcontext['force_company'] = (
+            company_id or self._default_company(cr, uid, context=context))
         account_def = self.pool.get('ir.property').get(
             cr, uid, 'property_account_payable',
-            'res.partner', context=context)
+            'res.partner', context=localcontext)
         return account_def and account_def.id or False
 
     def find(self, cr, uid, journal_id, partner_bank_id=False, context=None):
@@ -173,8 +192,35 @@ class account_banking_account_settings(osv.osv):
             domain.append(('partner_bank_id','=',partner_bank_id))
         return self.search(cr, uid, domain, context=context)
 
+    def onchange_partner_bank_id(
+            self, cr, uid, ids, partner_bank_id, context=None):
+        values = {}
+        if partner_bank_id:
+            bank = self.pool.get('res.partner.bank').read(
+                cr, uid, partner_bank_id, ['journal_id'], context=context)
+            if bank['journal_id']:
+                values['journal_id'] = bank['journal_id'][0]
+        return {'value': values}
+
+    def onchange_company_id (
+            self, cr, uid, ids, company_id=False, context=None):
+        if not company_id:
+            return {}
+        result = {
+            'partner_id': self._default_partner_id(
+                cr, uid, company_id=company_id, context=context),
+            'journal_id': self._default_journal(
+                cr, uid, company_id=company_id, context=context),
+            'default_debit_account_id': self._default_debit_account_id(
+                cr, uid, company_id=company_id, context=context),
+            'default_credit_account_id': self._default_credit_account_id(
+                cr, uid, company_id=company_id, context=context),
+            }
+        return {'value': result}
+
     _defaults = {
         'company_id': _default_company,
+        'partner_id': _default_partner_id,
         'journal_id': _default_journal,
         'default_debit_account_id': _default_debit_account_id,
         'default_credit_account_id': _default_credit_account_id,
@@ -410,13 +456,19 @@ class account_bank_statement(osv.osv):
             'account.bank.statement.line')
         st_line = account_bank_statement_line_obj.browse(
             cr, uid, st_line_id, context=context)
+        period_id = self._get_period(
+            cr, uid, st_line.date, context=context)    # AB
         # Start account voucher
         # Post the voucher and update links between statement and moves
         if st_line.voucher_id:
             voucher_pool = self.pool.get('account.voucher')
             wf_service = netsvc.LocalService("workflow")
             voucher_pool.write(
-                cr, uid, [st_line.voucher_id.id], {'number': st_line_number}, context=context)
+                cr, uid, [st_line.voucher_id.id], {
+                    'number': st_line_number,
+                    'date': st_line.date,
+                    'period_id': period_id, # AB
+                }, context=context)
             if st_line.voucher_id.state == 'cancel':
                 voucher_pool.action_cancel_draft(
                     cr, uid, [st_line.voucher_id.id], context=context)
@@ -443,8 +495,6 @@ class account_bank_statement(osv.osv):
         context.update({'date': st_line.date})
         ctxt = context.copy()                       # AB
         ctxt['company_id'] = st_line.company_id.id  # AB
-        period_id = self._get_period(
-            cr, uid, st_line.date, context=ctxt)    # AB
 
         move_id = account_move_obj.create(cr, uid, {
             'journal_id': st.journal_id.id,
@@ -1470,16 +1520,13 @@ class res_partner_bank(osv.osv):
                 if country.code in sepa.IBAN.countries:
                     acc_number_fmt = sepa.BBAN(acc_number, country.code)
                     if acc_number_fmt.valid:
-                        values['acc_number'] = str(acc_number_fmt)
+                        values['acc_number_domestic'] = str(acc_number_fmt)
                     else:
-                        values['acc_number'] = acc_number
                         result.update(warning(
                             _('Invalid format'),
                             _('The account number has the wrong format for %(country)s')
                             % {'country': country.name}
                         ))
-                else:
-                    values['acc_number'] = acc_number
         return result
 
     def onchange_iban(

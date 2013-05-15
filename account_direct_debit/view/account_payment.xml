@@ -63,8 +63,14 @@
 	  <field name="type">form</field>
 	  <field name="arch" type="xml">
 	    <field name="type" position="after">
-	      <field name="transfer_account_id"/>
-	      <field name="transfer_journal_id"/>
+	      <field name="transfer_account_id"
+                     domain="[('type', '=', 'other'),
+                              ('reconcile', '=', True),
+                              ('company_id', '=', company_id)]"
+                     />
+	      <field name="transfer_journal_id"
+                     domain="[('company_id', '=', company_id)]"
+                     />
               <field name="payment_term_ids"/>
 	    </field>
 	  </field>

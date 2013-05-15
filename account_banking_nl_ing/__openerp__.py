@@ -31,9 +31,9 @@
 ##############################################################################
 {
     'name': 'ING (NL) Bank Statements Import',
-    'version': '0.1.105',
+    'version': '0.1.140',
     'license': 'GPL-3',
-    'author': 'Smile / Therp BV / EduSense BV',
+    'author': ['Smile', 'Therp BV', 'EduSense BV'],
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
@@ -43,7 +43,7 @@
     'demo_xml': [],
     'description': '''
 Module to import Dutch ING bank format transaction files. The format covered
-is the CSV format with 'ddmmyy' date syntax.
+is the CSV format with either 'dd-mm-yyyy' or 'yyyymmdd' date syntax.
 
 As the ING bank does not provide detailed specification concerning possible
 values and their meaning for the fields in the CSV file format, the statements

@@ -43,6 +43,11 @@ class SWIFTField(record.Field):
     #def format(self, value):
     #    return convert.to_swift(super(SWIFTField, self).format(value))
 
+class SWIFTFieldNoLeadingWhitespace(SWIFTField):
+    def format(self, value):
+        return super(SWIFTFieldNoLeadingWhitespace, self).format(
+            self.cast(value).lstrip())
+
 def eleven_test(s):
     '''
     Dutch eleven-test for validating 9-long local bank account numbers.
@@ -161,7 +166,7 @@ class PaymentReferenceRecord(record.Record):
     _fields = [
         record.Filler('recordcode', 4, '0150'),
         record.Filler('variantcode', 1, 'A'),
-        SWIFTField('paymentreference', 16),
+        SWIFTFieldNoLeadingWhitespace('paymentreference', 16),
         record.Filler('filler', 29),
     ]
 
@@ -276,9 +281,10 @@ class Transaction(object):
         self.paymentreference = Optional(PaymentReferenceRecord)
         self.description = Optional(DescriptionRecord, 4)
         self.transaction.transactiontype = type_
-        self.transaction.accountno_beneficiary = accountno_beneficiary
-        self.transaction.accountno_payer = accountno_payer
-        self.transaction.amount = int(amount * 100)
+        # Remove Postbank account marker 'P'
+        self.transaction.accountno_beneficiary = accountno_beneficiary.replace('P', '0')
+        self.transaction.accountno_payer = accountno_payer.replace('P', '0')
+        self.transaction.amount = int(round(amount * 100))
         if reference:
             self.paymentreference.paymentreference = reference
         # Allow long message lines to redistribute over multiple message

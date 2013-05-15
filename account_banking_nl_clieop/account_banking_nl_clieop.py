@@ -61,7 +61,10 @@ class clieop_export(osv.osv):
         'date_generated':
             fields.date('Generation Date', readonly=True, select=True),
         'file':
-            fields.binary('ClieOp File', readonly=True),
+            fields.binary('ClieOp File', readonly=True,),
+        'filename': fields.char(
+            'File Name', size=32,
+        ),
         'state':
             fields.selection([
                 ('draft', 'Draft'),
@@ -69,6 +72,7 @@ class clieop_export(osv.osv):
                 ('done', 'Reconciled'),
             ], 'State', readonly=True),
     }
+
     def get_daynr(self, cr, uid, context=None):
         '''
         Return highest day number

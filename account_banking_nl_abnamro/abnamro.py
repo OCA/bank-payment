@@ -88,6 +88,7 @@ class transaction(models.mem_bank_transaction):
         'GIRO': bt.ORDER,
         'INTL': bt.ORDER, # international order
         'UNKN': bt.ORDER, # everything else
+        'SEPA': bt.ORDER,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -134,10 +135,76 @@ class transaction(models.mem_bank_transaction):
             size = 33
             res = []
             while(len(line) > col * size):
-                if line[col * size : (col + 1) * size - 1].strip():
-                    res.append(line[col * size : (col + 1) * size - 1])
+                separation = (col + 1) * size - 1
+                if line[col * size : separation].strip():
+                    part = line[col * size : separation]
+                    # If the separation character is not a space, add it anyway
+                    # presumably for sepa feedback strings only
+                    if (len(line) > separation
+                        and line[separation] != ' '):
+                        part += line[separation]
+                    res.append(part)
                 col += 1
             return res
+
+        def get_sepa_dict(field):
+            """
+            Parses a subset of SEPA feedback strings as occur
+            in this non-SEPA csv format.
+
+            The string consists of slash separated KEY/VALUE pairs,
+            but the slash is allowed to and known to occur in VALUE as well!
+            """
+            def _sepa_message(field, reason):
+                return _(
+                    'unable to parse SEPA string: %s - %s' % (field, reason))
+
+            def _get_next_key(items, start):
+                '''Find next key, starting from start, returns the key found,
+                the start position in the array and the end position + 1'''
+                known_keys = [
+                    'TRTP', 'IBAN', 'BIC', 'NAME', 'RTRN', 'EREF', 'SWOC',
+                    'REMI', 'ADDR', 'CPRP', 'CREF', 'CSID', 'ISDT', 'MARF',
+                    'NRTX', 'NRTXR', 'PREF', 'PURP', 'REFOB', 'RREF', 'RTYP',
+                    'SVCL', 'SWOD', 'BENM//ID', 'ORDP//ID', 'ORDP//RID',
+                    'ORIG//CSID', 'ORIG//MARF', 'ULTD//NAME', 'ULTD//ID',
+                    'ULTB//NAME', 'ULTB//ID'
+                ]
+                items_len = len(items)
+                start_index = start
+                # Search until start after end of items
+                while start_index < items_len:
+                    end_index = start_index + 1
+                    while end_index < items_len:
+                        key = '/'.join(items[start_index:end_index])
+                        if  key in known_keys:
+                            return (key, start_index, end_index)
+                        end_index += 1
+                    start_index += 1
+                return False
+
+            items = field[1:].split('/')
+            assert len(items) > 1, _sepa_message(field, _('too few items'))
+            sepa_dict = {}
+            item_index = 0
+            items_len = len(items)
+            key_info = _get_next_key(items, item_index)
+            assert key_info, _sepa_message(
+                field, _('no key found for start %d') % item_index)
+            assert key_info[1] == 0, _sepa_message(
+                field, _('invalid data found before key %s') % key_info[0])
+            while key_info:
+                sepa_key = key_info[0]
+                item_index = key_info[2]
+                # Find where next key - if any - starts
+                key_info = _get_next_key(items, item_index)
+                value_end_index = (key_info and key_info[1]) or items_len
+                sepa_value = (
+                    ((value_end_index > item_index)
+                    and '/'.join(items[item_index:value_end_index]))
+                    or '')
+                sepa_dict[sepa_key] = sepa_value
+            return sepa_dict
 
         def parse_type(field):
             # here we process the first field, which identifies the statement type
@@ -145,13 +212,20 @@ class transaction(models.mem_bank_transaction):
             transfer_type = 'UNKN'
             remote_account = False
             remote_owner = False
-            if field.startswith('GIRO '):
+            if field.startswith('/TRTP/'):
+                transfer_type = 'SEPA'
+            elif field.startswith('GIRO '):
                 transfer_type = 'GIRO'
-                # columns 6 to 14 contain the left or right aligned account number
-                remote_account = field[:15].strip().zfill(10)
-                # column 15 contains a space
-                # columns 16 to 31 contain remote owner
-                remote_owner = field[16:32].strip() or False
+                # field has markup 'GIRO ACCOUNT OWNER'
+                # separated by clusters of space of varying size
+                account_match = re.match('\s*([0-9]+)\s(.*)$', field[5:])
+                if account_match:
+                    remote_account = account_match.group(1).zfill(10)
+                    remote_owner = account_match.group(2).strip() or ''
+                else:
+                    raise osv.except_osv(
+                        _('Error !'),
+                        _('unable to parse GIRO string: %s') % field)
             elif field.startswith('BEA '):
                 transfer_type = 'BEA'
                 # columns 6 to 16 contain the terminal identifier
@@ -176,8 +250,22 @@ class transaction(models.mem_bank_transaction):
         fields = split_blob(self.blob)
         (self.transfer_type, self.remote_account, self.remote_owner) = parse_type(fields[0])
 
+        if self.transfer_type == 'SEPA':
+            sepa_dict = get_sepa_dict(''.join(fields))
+            sepa_type = sepa_dict.get('TRTP')
+            if sepa_type != 'SEPA OVERBOEKING':
+                raise ValueError,_('Sepa transaction type %s not handled yet')
+            self.remote_account = sepa_dict.get('IBAN',False)
+            self.remote_bank_bic = sepa_dict.get('BIC', False)
+            self.remote_owner = sepa_dict.get('NAME', False)
+            self.reference = sepa_dict.get('REMI', '')
+
         # extract other information depending on type
-        if self.transfer_type == 'GIRO':
+        elif self.transfer_type == 'GIRO':
+            if not self.remote_owner and len(fields) > 1:
+                # OWNER is listed in the second field if not in the first
+                self.remote_owner = fields[1].strip() or False
+                fields = [fields[0]] + fields[2:]
             self.message = ' '.join(field.strip() for field in fields[1:])
 
         elif self.transfer_type == 'BEA':
@@ -206,7 +294,7 @@ class transaction(models.mem_bank_transaction):
                 if fields[2].startswith('/'):
                     self.remote_account = fields[2][1:].strip()
                 else:
-                    self.message += ' ' + fields[2].strip()
+                    self.remote_account = fields[2].strip()
                 # fourth column contains remote owner
                 self.remote_owner = (len(fields) > 3 and fields[3].strip() or
                                      False)
@@ -219,11 +307,12 @@ class transaction(models.mem_bank_transaction):
         if not self.reference:
             # the reference is sometimes flagged by the prefix "BETALINGSKENM."
             # but can be any numeric line really
-            refexpr = re.compile("^\s*(BETALINGSKENM\.)?\s*([0-9]+ ?)+\s*$")
             for field in fields[1:]:
-                m = refexpr.match(field)
+                m = re.match(
+                    "^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+([ /][0-9]+)*)\s*$",
+                    field)
                 if m:
-                    self.reference = m.group(2)
+                    self.reference = m.group(4)
                     break
 
 class statement(models.mem_bank_statement):

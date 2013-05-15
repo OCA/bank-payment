@@ -89,7 +89,7 @@ class account_move_line(osv.osv):
     def _dummy(self, cr, user, ids, name, arg, context=None):
         res = {}
         if ids:
-            res = dict([(x.id, False) for x in ids])
+            res = dict([(x, False) for x in ids])
         return res
 
     def _invoice_payment_term_id_search(
