@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
-#    Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,15 @@
 #
 ##############################################################################
 
-# TODO :
-# What about if we have to pay 2 invoices for the same supplier
-# -> creates 2 payment lines :-(
 
 from osv import osv, fields
 import base64
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from tools.translate import _
+import tools
 from lxml import etree
-import decimal_precision as dp
 import logging
-import netsvc # not for logs, but for workflow
-import pain_001_001_04_xsd
+import netsvc
 
 _logger = logging.getLogger(__name__)
 
@@ -64,6 +60,8 @@ class banking_export_sepa_wizard(osv.osv_memory):
         'file_id': fields.many2one('banking.export.sepa', 'SEPA XML file', readonly=True),
         'file': fields.related('file_id', 'file', string="File", type='binary',
             readonly=True),
+        'filename': fields.related('file_id', 'filename', string="Filename",
+            type='char', size=256, readonly=True),
         'payment_order_ids': fields.many2many('payment.order',
             'wiz_sepa_payorders_rel', 'wizard_id', 'payment_order_id',
             'Payment orders', readonly=True),
@@ -84,30 +82,19 @@ class banking_export_sepa_wizard(osv.osv_memory):
     def _validate_iban(self, cr, uid, iban, context=None):
         '''if IBAN is valid, returns IBAN
         if IBAN is NOT valid, raises an error message'''
-        partner_bank_obj = self.pool.get('res.partner.bank')
-        if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
-            return iban.replace(' ', '')
-        else:
-            raise osv.except_osv(_('Error :'), _("This IBAN is not valid : %s" % iban))
+        #partner_bank_obj = self.pool.get('res.partner.bank')
+        #if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
+        return iban.replace(' ', '')
+        #else:
+        #    raise osv.except_osv(_('Error :'), _("This IBAN is not valid : %s" % iban))
 
     def create(self, cr, uid, vals, context=None):
-        self.check_orders(cr, uid, vals, context=context)
-        return super(banking_export_sepa_wizard, self).create(cr, uid,
-            vals, context=context)
-
-    def check_orders(self, cr, uid, vals, context=None):
-        payment_order_ids = context.get('active_ids')
-        # TODO : finish this code
-        #runs = {}
-        #for payment_order in self.pool.get('payment.order').browse(cr, uid, payment_order_ids, context=context):
-        #    payment_type = payment_order.mode.type.code
-        #    if payment_type in runs:
-        #        runs[payment_type].append(payment_order)
-        #    else:
-        #        runs[payment_type] = [payment_order]
+        payment_order_ids = context.get('active_ids', [])
         vals.update({
             'payment_order_ids': [[6, 0, payment_order_ids]],
         })
+        return super(banking_export_sepa_wizard, self).create(cr, uid,
+            vals, context=context)
 
 
     def create_sepa(self, cr, uid, ids, context=None):
@@ -118,17 +105,28 @@ class banking_export_sepa_wizard(osv.osv_memory):
 
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
-        pain_ns = {
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.04',
-            }
-
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
         my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.iban, context=context)
         my_company_bic = sepa_export.payment_order_ids[0].mode.bank_id.bank.bic
-        my_company_country_code = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].country_id.code
-        my_company_city = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].city
-        my_company_street1 = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].street
+        #my_company_country_code = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].country_id.code
+        #my_company_city = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].city
+        #my_company_street1 = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].street
+        pain_flavor = sepa_export.payment_order_ids[0].mode.type.code
+        if pain_flavor == 'pain.001.001.02':
+            bic_xml_tag = 'BIC'
+            name_maxsize = 70
+            root_xml_tag = 'pain.001.001.02'
+        elif pain_flavor == 'pain.001.001.03':
+            bic_xml_tag = 'BIC'
+            # size 70 -> 140 for <Nm> with pain.001.001.03
+            name_maxsize = 140
+            root_xml_tag = 'CstmrCdtTrfInitn'
+        elif pain_flavor == 'pain.001.001.04':
+            bic_xml_tag = 'BICFI'
+            name_maxsize = 140
+            root_xml_tag = 'CstmrCdtTrfInitn'
+        else:
+            raise osv.except_osv(_('Error :'), _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' and 'pain.001.001.04'.") % pain_flavor)
         if sepa_export.batch_booking:
             my_batch_booking = 'true'
         else:
@@ -139,35 +137,49 @@ class banking_export_sepa_wizard(osv.osv_memory):
         else:
             my_requested_exec_date = datetime.strftime(datetime.today() + timedelta(days=1), '%Y-%m-%d')
 
+        pain_ns = {
+            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+            None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
+            }
+
         root = etree.Element('Document', nsmap=pain_ns)
-        pain_root = etree.SubElement(root, 'CstmrCdtTrfInitn')
+        pain_root = etree.SubElement(root, root_xml_tag)
         # A. Group header
         group_header = etree.SubElement(pain_root, 'GrpHdr')
         message_identification = etree.SubElement(group_header, 'MsgId')
         message_identification.text = self._limit_size(cr, uid, my_msg_identification, 35, context=context)
         creation_date_time = etree.SubElement(group_header, 'CreDtTm')
         creation_date_time.text = datetime.strftime(datetime.today(), '%Y-%m-%dT%H:%M:%S')
+        if pain_flavor == 'pain.001.001.02':
+            # batch_booking is in "Group header" with pain.001.001.02
+            # and in "Payment info" in pain.001.001.03/04
+            batch_booking = etree.SubElement(group_header, 'BtchBookg')
+            batch_booking.text = my_batch_booking
         nb_of_transactions = etree.SubElement(group_header, 'NbOfTxs')
         control_sum = etree.SubElement(group_header, 'CtrlSum')
         # Grpg removed in pain.001.001.03
-        #grouping = etree.SubElement(group_header, 'Grpg')
-        #grouping.text = 'GRPD'
+        if pain_flavor == 'pain.001.001.02':
+            grouping = etree.SubElement(group_header, 'Grpg')
+            grouping.text = 'GRPD'
         initiating_party = etree.SubElement(group_header, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party, 'Nm')
-        initiating_party_name.text = self._limit_size(cr, uid, my_company_name, 70, context=context)
+        initiating_party_name.text = self._limit_size(cr, uid, my_company_name, name_maxsize, context=context)
         # B. Payment info
         payment_info = etree.SubElement(pain_root, 'PmtInf')
         payment_info_identification = etree.SubElement(payment_info, 'PmtInfId')
         payment_info_identification.text = self._limit_size(cr, uid, my_msg_identification, 35, context=context)
         payment_method = etree.SubElement(payment_info, 'PmtMtd')
         payment_method.text = 'TRF'
-        batch_booking = etree.SubElement(payment_info, 'BtchBookg') # Was in "Group header with pain.001.001.02
-        batch_booking.text = my_batch_booking
+        if pain_flavor in ['pain.001.001.03', 'pain.001.001.04']:
+            # batch_booking is in "Group header" with pain.001.001.02
+            # and in "Payment info" in pain.001.001.03/04
+            batch_booking = etree.SubElement(payment_info, 'BtchBookg')
+            batch_booking.text = my_batch_booking
         requested_exec_date = etree.SubElement(payment_info, 'ReqdExctnDt')
         requested_exec_date.text = my_requested_exec_date
         debtor = etree.SubElement(payment_info, 'Dbtr')
         debtor_name = etree.SubElement(debtor, 'Nm')
-        debtor_name.text = self._limit_size(cr, uid, my_company_name, 140, context=context) # size 70 -> 140 with pain.001.001.03
+        debtor_name.text = self._limit_size(cr, uid, my_company_name, name_maxsize, context=context)
 #        debtor_address = etree.SubElement(debtor, 'PstlAdr')
 #        debtor_street = etree.SubElement(debtor_address, 'AdrLine')
 #        debtor_street.text = my_company_street1
@@ -181,17 +193,18 @@ class banking_export_sepa_wizard(osv.osv_memory):
         debtor_account_iban.text = my_company_iban
         debtor_agent = etree.SubElement(payment_info, 'DbtrAgt')
         debtor_agent_institution = etree.SubElement(debtor_agent, 'FinInstnId')
-        debtor_agent_bic = etree.SubElement(debtor_agent_institution, 'BICFI')
+        debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
         debtor_agent_bic.text = my_company_bic
 
         transactions_count = 0
         total_amount = 0.0
+        amount_control_sum = 0.0
         # Iterate on payment orders
         for payment_order in sepa_export.payment_order_ids:
             total_amount = total_amount + payment_order.total
             # Iterate each payment lines
             for line in payment_order.line_ids:
-                transactions_count = transactions_count + 1
+                transactions_count += 1
                 # C. Credit Transfer Transaction Info
                 credit_transfer_transaction_info = etree.SubElement(payment_info, 'CdtTrfTxInf')
                 payment_identification = etree.SubElement(credit_transfer_transaction_info, 'PmtId')
@@ -200,17 +213,18 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 end2end_identification = etree.SubElement(payment_identification, 'EndToEndId')
                 end2end_identification.text = self._limit_size(cr, uid, line.communication, 35, context=context)
                 amount = etree.SubElement(credit_transfer_transaction_info, 'Amt')
-                instructed_amount = etree.SubElement(amount, 'InstdAmt', Ccy=line.company_currency.name)
-                instructed_amount.text = '%.2f' % line.amount
+                instructed_amount = etree.SubElement(amount, 'InstdAmt', Ccy=line.currency.name)
+                instructed_amount.text = '%.2f' % line.amount_currency
+                amount_control_sum += line.amount_currency
                 charge_bearer = etree.SubElement(credit_transfer_transaction_info, 'ChrgBr')
                 charge_bearer.text = sepa_export.charge_bearer
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
-                creditor_agent_bic = etree.SubElement(creditor_agent_institution, 'BICFI')
+                creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
                 creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
-                creditor_name.text = self._limit_size(cr, uid, line.partner_id.name, 140, context=context) # size 70 -> 140 with pain.001.001.03
+                creditor_name.text = self._limit_size(cr, uid, line.partner_id.name, name_maxsize, context=context)
 # I don't think they want it
 # If they want it, we need to implement full spec p26 appendix
 #                creditor_address = etree.SubElement(creditor, 'PstlAdr')
@@ -225,20 +239,20 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 creditor_account_iban = etree.SubElement(creditor_account_id, 'IBAN')
                 creditor_account_iban.text = self._validate_iban(cr, uid, line.bank_id.iban, context=context)
                 remittance_info = etree.SubElement(credit_transfer_transaction_info, 'RmtInf')
-                # TODO : switch to Structured RmtInf ?
+                # switch to Structured (Strdr) ? If we do it, beware that the format is not the same between pain 02 and pain 03
                 remittance_info_unstructured = etree.SubElement(remittance_info, 'Ustrd')
                 remittance_info_unstructured.text = self._limit_size(cr, uid, line.communication, 140, context=context)
 
         nb_of_transactions.text = str(transactions_count)
-        control_sum.text = '%.2f' % total_amount
+        control_sum.text = '%.2f' % amount_control_sum
 
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         _logger.debug("Generated SEPA XML file below")
         _logger.debug(xml_string)
-        official_pain_schema = etree.XMLSchema(etree.fromstring(pain_001_001_04_xsd.pain_001_001_04_xsd))
+        official_pain_schema = etree.XMLSchema(etree.parse(tools.file_open('account_banking_sepa_credit_transfer/data/%s.xsd' % pain_flavor)))
 
         try:
-            official_pain_schema.assertValid(root)
+            official_pain_schema.validate(root)
         except Exception, e:
             _logger.warning("The XML file is invalid against the XML Schema Definition")
             _logger.warning(xml_string)
@@ -260,7 +274,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
             ],
             }, context=context)
 
-        self.write(cr, uid, ids[0], {
+        self.write(cr, uid, ids, {
             'file_id': file_id,
             'state': 'finish',
             }, context=context)

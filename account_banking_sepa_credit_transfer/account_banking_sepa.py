@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
-#    Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 ##############################################################################
 
 from osv import osv, fields
-from datetime import date
+import time
 from tools.translate import _
 import decimal_precision as dp
 
@@ -30,6 +30,12 @@ class banking_export_sepa(osv.osv):
     _name = 'banking.export.sepa'
     _description = __doc__
     _rec_name = 'msg_identification'
+
+    def _generate_filename(self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for sepa_file in self.browse(cr, uid, ids, context=context):
+            res[sepa_file.id] = 'sepa_' + (sepa_file.msg_identification or '') + '.xml'
+        return res
 
     _columns = {
         'payment_order_ids': fields.many2many(
@@ -56,6 +62,8 @@ class banking_export_sepa(osv.osv):
         'generation_date': fields.datetime('Generation date',
             readonly=True),
         'file': fields.binary('SEPA XML file', readonly=True),
+        'filename': fields.function(_generate_filename, type='char', size=256,
+            method=True, string='Filename', readonly=True),
         'state': fields.selection([
                 ('draft', 'Draft'),
                 ('sent', 'Sent'),
@@ -64,7 +72,7 @@ class banking_export_sepa(osv.osv):
     }
 
     _defaults = {
-        'generation_date': lambda *a: date.today().strftime('%Y-%m-%d'),
+        'generation_date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
         'state': 'draft',
     }
 

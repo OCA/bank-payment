@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
+  Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
@@ -24,7 +24,8 @@
                     <field name="charge_bearer"/>
                     <field name="generation_date" />
                     <newline />
-                    <field name="file" colspan="4" />
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="True"/>
                 </page>
                 <page string="Payment orders">
                     <field name="payment_order_ids" colspan="4" nolabel="1">
