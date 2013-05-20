@@ -1016,49 +1016,34 @@ class banking_import_transaction(osv.osv):
                   'account_id': False,
                   }
         move_lines = self.pool.get('account.move.line').browse(cr, uid, move_line_ids)
-        for move_line in move_lines:
-            if move_line.partner_id:
-                if retval['partner_id']:
-                    if retval['partner_id'] != move_line.partner_id.id:
-                        retval['partner_id'] = False
-                        break
-                else:
-                    retval['partner_id'] = move_line.partner_id.id
-            else:
-                if retval['partner_id']: 
-                    retval['partner_id'] = False
-                    break
-        for move_line in move_lines:
-            if move_line.account_id:
-                if retval['account_id']:
-                    if retval['account_id'] != move_line.account_id.id:
-                        retval['account_id'] = False
-                        break
-                else:
-                    retval['account_id'] = move_line.account_id.id
-            else:
-                if retval['account_id']: 
-                    retval['account_id'] = False
-                    break
-        for move_line in move_lines:
-            if move_line.invoice:
-                if retval['match_type']:
-                    if retval['match_type'] != 'invoice':
-                        retval['match_type'] = False
-                        break
-                else:
-                    retval['match_type'] = 'invoice'
-            else:
-                if retval['match_type']: 
-                    retval['match_type'] = False
-                    break
-        if move_lines and not retval['match_type']:
-            retval['match_type'] = 'move'
-        if move_lines and len(move_lines) == 1:
-            retval['reference'] = move_lines[0].ref
-        if retval['match_type'] == 'invoice':
-            retval['invoice_ids'] = list(set([x.invoice.id for x in move_lines]))
+
+        if not move_lines:
+            return retval
+
+        if move_lines[0].partner_id and all(
+                [move_line.partner_id == move_lines[0].partner_id
+                    for move_line in move_lines]):
+            retval['partner_id'] = move_lines[0].partner_id.id
+
+        if move_lines[0].account_id and all(
+                [move_line.account_id == move_lines[0].account_id
+                    for move_line in move_lines]):
+            retval['account_id'] = move_lines[0].account_id.id
+
+        if move_lines[0].invoice and all(
+                [move_line.invoice == move_lines[0].invoice
+                    for move_line in move_lines]):
+            retval['match_type'] = 'invoice'
             retval['type'] = type_map[move_lines[0].invoice.type]
+            retval['invoice_ids'] = list(
+                set([x.invoice.id for x in move_lines]))
+
+        if not retval['match_type']:
+            retval['match_type'] = 'move'
+
+        if len(move_lines) == 1:
+            retval['reference'] = move_lines[0].ref
+
         return retval
     
     def match(self, cr, uid, ids, results=None, context=None):
