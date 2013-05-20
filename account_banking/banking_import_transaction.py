@@ -1022,7 +1022,7 @@ class banking_import_transaction(osv.osv):
 
         if move_lines[0].partner_id and all(
                 [move_line.partner_id == move_lines[0].partner_id
-                    for move_line in move_lines):
+                    for move_line in move_lines]):
             retval['partner_id'] = move_lines[0].partner_id.id
 
         if move_lines[0].account_id and all(
@@ -1036,7 +1036,7 @@ class banking_import_transaction(osv.osv):
             retval['match_type'] = 'invoice'
             retval['type'] = type_map[move_lines[0].invoice.type]
             retval['invoice_ids'] = list(
-                set([x.invoice.id for x in move_lines))
+                set([x.invoice.id for x in move_lines]))
 
         if not retval['match_type']:
             retval['match_type'] = 'move'
