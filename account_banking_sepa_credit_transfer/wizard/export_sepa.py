@@ -68,7 +68,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
         }
 
     _defaults = {
-        'charge_bearer': 'SHAR',
+        'charge_bearer': 'SLEV',
         'state': 'create',
         }
 
