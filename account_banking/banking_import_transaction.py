@@ -468,10 +468,12 @@ class banking_import_transaction(osv.osv):
         journal = st_line.statement_id.journal_id
         if st_line.amount < 0.0:
             voucher_type = 'payment'
+            voucher_line_type = 'dr'
             account_id = (journal.default_debit_account_id and
                           journal.default_debit_account_id.id or False)
         else:
             voucher_type = 'receipt'
+            voucher_line_type = 'cr'
             account_id = (journal.default_credit_account_id and
                           journal.default_credit_account_id.id or False)
 
@@ -533,7 +535,7 @@ class banking_import_transaction(osv.osv):
             'reconcile': True,
             'amount': line_amount,
             'account_id': transaction.move_line_id.account_id.id,
-            'type': transaction.move_line_id.credit and 'dr' or 'cr',
+            'type': voucher_line_type,
             }
         voucher['line_ids'] = [(0, 0, vch_line)]
         voucher_id = self.pool.get('account.voucher').create(
