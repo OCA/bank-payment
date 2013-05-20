@@ -119,7 +119,12 @@ class banking_export_sepa_wizard(osv.osv_memory):
         elif pain_flavor == 'pain.001.001.03':
             bic_xml_tag = 'BIC'
             # size 70 -> 140 for <Nm> with pain.001.001.03
-            name_maxsize = 140
+            # BUT the European Payment Council, in the document
+            # "SEPA Credit Transfer Scheme Customer-to-bank Implementation guidelines" v6.0
+            # available on http://www.europeanpaymentscouncil.eu/knowledge_bank.cfm
+            # says that 'Nm' should be limited to 70
+            # so we follow the "European Payment Council" and we put 70 and not 140
+            name_maxsize = 70
             root_xml_tag = 'CstmrCdtTrfInitn'
         elif pain_flavor == 'pain.001.001.04':
             bic_xml_tag = 'BICFI'
@@ -175,6 +180,10 @@ class banking_export_sepa_wizard(osv.osv_memory):
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(payment_info, 'BtchBookg')
             batch_booking.text = my_batch_booking
+        payment_type_info = etree.SubElement(payment_info, 'PmtTpInf')
+        service_level = etree.SubElement(payment_type_info, 'SvcLvl')
+        service_level_code = etree.SubElement(service_level, 'Code')
+        service_level_code.text = 'SEPA'
         requested_exec_date = etree.SubElement(payment_info, 'ReqdExctnDt')
         requested_exec_date.text = my_requested_exec_date
         debtor = etree.SubElement(payment_info, 'Dbtr')
@@ -195,6 +204,8 @@ class banking_export_sepa_wizard(osv.osv_memory):
         debtor_agent_institution = etree.SubElement(debtor_agent, 'FinInstnId')
         debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
         debtor_agent_bic.text = my_company_bic
+        charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
+        charge_bearer.text = sepa_export.charge_bearer
 
         transactions_count = 0
         total_amount = 0.0
@@ -216,8 +227,6 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 instructed_amount = etree.SubElement(amount, 'InstdAmt', Ccy=line.currency.name)
                 instructed_amount.text = '%.2f' % line.amount_currency
                 amount_control_sum += line.amount_currency
-                charge_bearer = etree.SubElement(credit_transfer_transaction_info, 'ChrgBr')
-                charge_bearer.text = sepa_export.charge_bearer
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
                 creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
