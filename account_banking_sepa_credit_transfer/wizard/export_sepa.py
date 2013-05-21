@@ -160,8 +160,8 @@ class banking_export_sepa_wizard(osv.osv_memory):
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(group_header, 'BtchBookg')
             batch_booking.text = my_batch_booking
-        nb_of_transactions = etree.SubElement(group_header, 'NbOfTxs')
-        control_sum = etree.SubElement(group_header, 'CtrlSum')
+        nb_of_transactions_grphdr = etree.SubElement(group_header, 'NbOfTxs')
+        control_sum_grphdr = etree.SubElement(group_header, 'CtrlSum')
         # Grpg removed in pain.001.001.03
         if pain_flavor == 'pain.001.001.02':
             grouping = etree.SubElement(group_header, 'Grpg')
@@ -180,6 +180,15 @@ class banking_export_sepa_wizard(osv.osv_memory):
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(payment_info, 'BtchBookg')
             batch_booking.text = my_batch_booking
+        # It may seem surprising, but the
+        # "SEPA Credit Transfer Scheme Customer-to-bank Implementation guidelines"
+        # v6.0 says that control sum and nb_of_transactions should be present
+        # at both "group header" level and "payment info" level
+        # This seems to be confirmed by the tests carried out at
+        # BNP Paribas in PAIN v001.001.03
+        if pain_flavor in ['pain.001.001.03', 'pain.001.001.04']:
+            nb_of_transactions_pmtinf = etree.SubElement(payment_info, 'NbOfTxs')
+            control_sum_pmtinf = etree.SubElement(payment_info, 'CtrlSum')
         payment_type_info = etree.SubElement(payment_info, 'PmtTpInf')
         service_level = etree.SubElement(payment_type_info, 'SvcLvl')
         service_level_code = etree.SubElement(service_level, 'Code')
@@ -252,8 +261,13 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 remittance_info_unstructured = etree.SubElement(remittance_info, 'Ustrd')
                 remittance_info_unstructured.text = self._limit_size(cr, uid, line.communication, 140, context=context)
 
-        nb_of_transactions.text = str(transactions_count)
-        control_sum.text = '%.2f' % amount_control_sum
+        if pain_flavor in ['pain.001.001.03', 'pain.001.001.04']:
+            nb_of_transactions_grphdr.text = nb_of_transactions_pmtinf.text = str(transactions_count)
+            control_sum_grphdr.text = control_sum_pmtinf.text = '%.2f' % amount_control_sum
+        else:
+            nb_of_transactions_grphdr.text = str(transactions_count)
+            control_sum_grphdr.text = '%.2f' % amount_control_sum
+
 
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         _logger.debug("Generated SEPA XML file below")
