@@ -23,7 +23,7 @@
                 <field name="msg_identification" />
                 <newline />
                 <button icon="gtk-close" special="cancel" string="Cancel" colspan="2"/>
-                <button icon="gtk-ok" string="Create" name="create_sepa" type="object" colspan="2"/>
+                <button icon="gtk-ok" string="Generate" name="create_sepa" type="object" colspan="2"/>
             </group>
             <group states="finish">
                 <field name="total_amount" />
@@ -38,7 +38,7 @@
                 <field name="filename" invisible="True"/>
                 <newline />
                 <button icon="gtk-cancel" string="Cancel" name="cancel_sepa" type="object" colspan="2"/>
-                <button icon="gtk-ok" string="Finish" name="save_sepa" type="object" colspan="2"/>
+                <button icon="gtk-ok" string="Validate" name="save_sepa" type="object" colspan="2"/>
             </group>
         </form>
     </field>
