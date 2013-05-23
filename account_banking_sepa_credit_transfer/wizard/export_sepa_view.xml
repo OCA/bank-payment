@@ -20,7 +20,7 @@
                 <field name="prefered_exec_date" />
                 <field name="charge_bearer" />
                 <separator colspan="4" string="Reference for further communication" />
-                <field name="msg_identification" />
+                <field name="msg_identification" required="True" />
                 <newline />
                 <button icon="gtk-close" special="cancel" string="Cancel" colspan="2"/>
                 <button icon="gtk-ok" string="Generate" name="create_sepa" type="object" colspan="2"/>

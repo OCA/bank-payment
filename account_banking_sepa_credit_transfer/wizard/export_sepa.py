@@ -40,7 +40,8 @@ class banking_export_sepa_wizard(osv.osv_memory):
         'state': fields.selection([('create', 'Create'), ('finish', 'Finish')],
             'State', readonly=True),
         'msg_identification': fields.char('Message identification', size=35,
-            required=True,
+            # Can't set required=True on the field because it blocks
+            # the launch of the wizard -> I set it as required in the view
             help='This is the message identification of the entire SEPA XML file. 35 characters max.'),
         'batch_booking': fields.boolean('Batch booking',
             help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
