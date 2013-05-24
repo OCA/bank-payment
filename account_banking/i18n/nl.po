@@ -139,9 +139,9 @@ msgid "remote_bank_bic"
 msgstr "remote_bank_bic"
 
 #. module: account_banking
-#: field:banking.transaction.wizard,manual_invoice_id:0
-msgid "Match this invoice"
-msgstr "Match deze factuur"
+#: field:banking.transaction.wizard,manual_invoice_ids:0
+msgid "Match one or more invoices"
+msgstr "Match een of meerdere facturen"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_ibei:0
@@ -1022,9 +1022,9 @@ msgid "Review"
 msgstr "Herzien"
 
 #. module: account_banking
-#: field:banking.transaction.wizard,manual_move_line_id:0
-msgid "Or match this entry"
-msgstr "Of koppel deze boekingsregel"
+#: field:banking.transaction.wizard,manual_move_line_ids:0
+msgid "Or match one or more entries"
+msgstr "Of koppel deze boekingsregel(s)"
 
 #. module: account_banking
 #: help:payment.mode.type,name:0
