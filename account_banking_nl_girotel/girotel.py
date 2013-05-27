@@ -45,6 +45,7 @@ As a counter measure, all imported data is converted to SWIFT-format before usag
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date, to_swift
 from tools.translate import _
+import re
 import csv
 
 bt = models.mem_bank_transaction
@@ -105,6 +106,13 @@ class transaction_message(object):
         self.date = str2date(self.date, '%Y%m%d')
         if self.direction == 'A':
             self.transferred_amount = -float(self.transferred_amount)
+            if (self.transfer_type == 'VZ'
+                    and (not self.remote_account or self.remote_account == '0')
+                    and (not self.message or re.match('^\s*$', self.message))
+                    and self.remote_owner.startswith('TOTAAL ')):
+                self.transfer_type = 'PB'
+                self.message = self.remote_owner
+                self.remove_owner = False
         else:
             self.transferred_amount = float(self.transferred_amount)
         self.local_account = self.local_account.zfill(10)
@@ -140,7 +148,8 @@ class transaction(models.mem_bank_transaction):
         'GT': bt.ORDER,
         'IC': bt.DIRECT_DEBIT,
         'OV': bt.ORDER,
-        'VZ': bt.PAYMENT_BATCH,
+        'VZ': bt.ORDER,
+        'PB': bt.PAYMENT_BATCH,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -171,11 +180,14 @@ class transaction(models.mem_bank_transaction):
         4. Cash withdrawals from banks are too not seen as a transfer between
         two accounts - the cash exits the banking system. These withdrawals
         have their transfer_type set to 'GM'.
+        5. Aggregated payment batches. These transactions have transfer type
+        'VZ' natively but are changed to 'PB' while parsing. These transactions
+        have no remote account.
         '''
         return bool(self.transferred_amount and self.execution_date and (
                     self.remote_account or
                     self.transfer_type in [
-                        'DV', 'BT', 'BA', 'GM',
+                        'DV', 'PB', 'BT', 'BA', 'GM',
                     ]))
 
     def refold_message(self, message):

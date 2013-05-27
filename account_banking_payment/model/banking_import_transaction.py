@@ -32,24 +32,30 @@ from openerp.addons.decimal_precision import decimal_precision as dp
 class banking_import_transaction(orm.Model):
     _inherit = 'banking.import.transaction'
 
-    def _match_debit_order(
-        self, cr, uid, trans, log, context=None):
+    def _match_payment_order(
+        self, cr, uid, trans, log, order_type='payment', context=None):
 
-        def is_zero(total):
+        def equals_order_amount(payment_order, transferred_amount):
+            if (not hasattr(payment_order, 'payment_order_type')
+                    or payment_order.payment_order_type == 'payment'):
+                sign = 1
+            else:
+                sign = -1
+            total = payment_order.total + sign * transferred_amount
             return self.pool.get('res.currency').is_zero(
                 cr, uid, trans.statement_id.currency, total)
 
         payment_order_obj = self.pool.get('payment.order')
 
         order_ids = payment_order_obj.search(
-            cr, uid, [('payment_order_type', '=', 'debit'),
+            cr, uid, [('payment_order_type', '=', order_type),
                       ('state', '=', 'sent'),
                       ('date_sent', '<=', trans.execution_date),
                       ],
             limit=0, context=context)
         orders = payment_order_obj.browse(cr, uid, order_ids, context)
         candidates = [x for x in orders if
-                      is_zero(x.total - trans.transferred_amount)]
+                      equals_order_amount(x.total - trans.transferred_amount)]
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
@@ -170,10 +176,6 @@ class banking_import_transaction(orm.Model):
             raise orm.except_orm(
                 _("Cannot reconcile"),
                 _("Cannot reconcile: no direct debit order"))
-        if transaction.payment_order_id.payment_order_type != 'debit':
-            raise orm.except_orm(
-                _("Cannot reconcile"),
-                _("Reconcile payment order not implemented"))
         reconcile_id = payment_order_obj.debit_reconcile_transfer(
             cr, uid,
             transaction.payment_order_id.id,
@@ -231,11 +233,7 @@ class banking_import_transaction(orm.Model):
         if not transaction.payment_order_id:
             raise orm.except_orm(
                 _("Cannot unreconcile"),
-                _("Cannot unreconcile: no direct debit order"))
-        if transaction.payment_order_id.payment_order_type != 'debit':
-            raise orm.except_orm(
-                _("Cannot unreconcile"),
-                _("Unreconcile payment order not implemented"))
+                _("Cannot unreconcile: no payment or direct debit order"))
         return payment_order_obj.debit_unreconcile_transfer(
             cr, uid, transaction.payment_order_id.id,
             transaction.statement_line_id.reconcile_id.id,
@@ -355,11 +353,25 @@ class banking_import_transaction(orm.Model):
             )
         return vals
 
-    def match(self, cr, uid, ids, results=None, context=None):
-        res = super(banking_import_transaction, self).match(
-            cr, uid, ids, results=results, context=context)
-
-        return res
+    def hook_match_payment(cr, uid, transaction, log, context=None):
+        """
+        Called from match() in the core module.
+        Match payment batches, direct debit orders and stornos
+        """
+        move_info = False
+        if transaction.type == bt.PAYMENT_BATCH:
+            move_info = self._match_payment_order(
+                cr, uid, transaction, log,
+                order_type='payment', context=context)
+        elif transaction.type == bt.DIRECT_DEBIT:
+            move_info = self._match_payment_order(
+                cr, uid, transaction, log,
+                order_type='debit', context=context)
+        elif transaction.type == bt.STORNO:
+            move_info = self._match_storno(
+                cr, uid, transaction, log,
+                context=context)
+        return move_info
 
     def __init__(self, pool, cr):
         """

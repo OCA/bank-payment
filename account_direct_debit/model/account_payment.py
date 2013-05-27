@@ -102,7 +102,7 @@ class payment_order(osv.osv):
         if not wkf_ok:
             raise osv.except_osv(
                 _("Cannot unreconcile"),
-                _("Cannot unreconcile debit order: "+
+                _("Cannot unreconcile payment order: "+
                   "Workflow will not allow it."))
         return True
 
@@ -119,7 +119,7 @@ class payment_order(osv.osv):
                         return False
             else:
                 # TODO: define conditions for 'payment' orders
-                return False
+                return True
         return True
         
     def action_sent(self, cr, uid, ids, context=None):
@@ -135,8 +135,6 @@ class payment_order(osv.osv):
         account_move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
         for order in self.browse(cr, uid, ids, context=context):
-            if order.payment_order_type != 'debit':
-                continue
             for line in order.line_ids:
                 # basic checks
                 if not line.move_line_id:
@@ -152,23 +150,28 @@ class payment_order(osv.osv):
 
                 move_id = account_move_obj.create(cr, uid, {
                         'journal_id': order.mode.transfer_journal_id.id,
-                        'name': 'Debit order %s' % line.move_line_id.move_id.name,
-                        'reference': 'DEB%s' % line.move_line_id.move_id.name,
+                        'name': '%s order %s' % (order.payment_order_type, 
+                                                 line.move_line_id.move_id.name),
+                        'reference': '%s%s' % (order.payment_order_type[:3].upper(),
+                                               line.move_line_id.move_id.name),
                         }, context=context)
 
                 # TODO: take multicurrency into account
                 
                 # create the debit move line on the transfer account
                 vals = {
-                    'name': 'Debit order for %s' % (
+                    'name': '%s order for %s' % (
+                        order.payment_order_type,
                         line.move_line_id.invoice and 
                         line.move_line_id.invoice.number or 
                         line.move_line_id.name),
                     'move_id': move_id,
                     'partner_id': line.partner_id.id,
                     'account_id': order.mode.transfer_account_id.id,
-                    'credit': 0.0,
-                    'debit': line.amount,
+                    'credit': (order.payment_order_type == 'payment'
+                               and line.amount or 0.0),
+                    'debit': (order.payment_order_type == 'debit'
+                              and line.amount or 0.0),
                     'date': time.strftime('%Y-%m-%d'),
                     }
                 transfer_move_line_id = account_move_line_obj.create(
@@ -177,8 +180,10 @@ class payment_order(osv.osv):
                 # create the debit move line on the receivable account
                 vals.update({
                         'account_id': line.move_line_id.account_id.id,
-                        'credit': line.amount,
-                        'debit': 0.0,
+                        'credit': (order.payment_order_type == 'debit'
+                                   and line.amount or 0.0),
+                        'debit': (order.payment_order_type == 'payment'
+                                   and line.amount or 0.0),
                         })               
                 reconcile_move_line_id = account_move_line_obj.create(
                     cr, uid, vals, context=context)
