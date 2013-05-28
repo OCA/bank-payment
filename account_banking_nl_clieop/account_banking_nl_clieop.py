@@ -1,6 +1,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,11 +19,12 @@
 #
 ##############################################################################
 
-from osv import osv, fields
 from datetime import date
-from tools.translate import _
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
-class clieop_export(osv.osv):
+
+class clieop_export(orm.Model):
     '''ClieOp3 Export'''
     _name = 'banking.export.clieop'
     _description = __doc__
@@ -94,6 +96,3 @@ class clieop_export(osv.osv):
         'state': 'draft',
         'daynumber': get_daynr,
     }
-clieop_export()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

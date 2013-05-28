@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2012 Therp BV (<http://therp.nl>).
+#    This module copyright (C) 2012 - 2013 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,12 +19,12 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 
 
-class instant_voucher(osv.TransientModel):
+class instant_voucher(orm.TransientModel):
     _name = 'account.voucher.instant'
     _description = 'Instant Voucher'
 
@@ -76,7 +76,7 @@ class instant_voucher(osv.TransientModel):
             cr, uid, [('company_id', '=', line.company_id.id),
                       ('type', '=', voucher_type)])
         if not journal_ids:
-            osv.exept_osv(
+            orm.exept_orm(
                 _('Error'),
                 _('No %s journal defined') % voucher_type)
                
@@ -156,7 +156,7 @@ class instant_voucher(osv.TransientModel):
                 context.get('active_id') or
                 context.get('active_ids') and context.get('active_ids')[0])
             if not res['statement_line_id']:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error'),
                     _('Cannot determine statement line'))
             line = self.pool.get('account.bank.statement.line').browse(
@@ -212,7 +212,7 @@ class instant_voucher(osv.TransientModel):
                             instant.voucher_id.company_id.currency_id)
         if (instant.statement_line_id.statement_id.currency.id !=
             voucher_currency.id):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Error"),
                 _("Currency on the bank statement line needs to be the "
                   "same as on the voucher. Currency conversion is not yet "
@@ -222,7 +222,7 @@ class instant_voucher(osv.TransientModel):
                 cr, uid, [instant.voucher_id.id], context=context)
             instant.refresh()
             if instant.voucher_id.state != 'posted':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Error"),
                     _("The voucher could not be posted."))
         if instant.voucher_id.move_id.state != 'posted':
@@ -230,12 +230,12 @@ class instant_voucher(osv.TransientModel):
                 cr, uid, [instant.voucher_id.move_id.id], context=context)
             instant.refresh()
             if instant.voucher_id.move_id.state != 'posted':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Error"),
                     _("The voucher's move line could not be posted."))
         if not self.pool.get('res.currency').is_zero(
             cr, uid, voucher_currency, instant.balance):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Error"),
                 _("The amount on the bank statement line needs to be the "
                   "same as on the voucher. Write-off is not yet "
@@ -245,7 +245,7 @@ class instant_voucher(osv.TransientModel):
         # and trigger its posting and reconciliation.
         if 'import_transaction_id' in statement_line_obj._columns:
             if instant.statement_line_id.state == 'confirmed':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Error"),
                     _("Cannot match a confirmed statement line"))
             if not instant.statement_line_id.import_transaction_id:

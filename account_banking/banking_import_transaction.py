@@ -1630,14 +1630,14 @@ account_bank_statement_line()
 class account_bank_statement(orm.Model):
     _inherit = 'account.bank.statement'
 
-    def _end_balance(self, cursor, user, ids, name, attr, context=None):
+    def _end_balance(self, cr, uid, ids, name, attr, context=None):
         """
         This method taken from account/account_bank_statement.py and
         altered to take the statement line subflow into account
         """
         res = {}
     
-        statements = self.browse(cursor, user, ids, context=context)
+        statements = self.browse(cr, uid, ids, context=context)
         for statement in statements:
             res[statement.id] = statement.balance_start
 

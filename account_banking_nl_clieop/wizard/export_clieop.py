@@ -2,6 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#                  2011 - 2013 Therp BV (<http://therp.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,11 +22,11 @@
 
 import base64
 from datetime import datetime, date, timedelta
-from osv import osv, fields
-from tools.translate import _
-import netsvc
-from account_banking import sepa
-import clieop
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp import netsvc
+from openerp.addons.account_banking import sepa
+from openerp.addons.account_banking_nl_clieop.wizard import clieop
 
 def strpdate(arg, format='%Y-%m-%d'):
     '''shortcut'''
@@ -35,7 +36,7 @@ def strfdate(arg, format='%Y-%m-%d'):
     '''shortcut'''
     return arg.strftime(format)
 
-class banking_export_clieop_wizard(osv.osv_memory):
+class banking_export_clieop_wizard(orm.TransientModel):
     _name = 'banking.export.clieop.wizard'
     _description = 'Client Opdrachten Export'
     _columns = {
@@ -155,17 +156,17 @@ class banking_export_clieop_wizard(osv.osv_memory):
         'test': True,
         }
 
-    def create(self, cursor, uid, vals, context=None):
+    def create(self, cr, uid, vals, context=None):
         '''
         Retrieve a sane set of default values based on the payment orders
         from the context.
         '''
         if 'batchtype' not in vals:
-            self.check_orders(cursor, uid, vals, context)
+            self.check_orders(cr, uid, vals, context)
         return super(banking_export_clieop_wizard, self).create(
-            cursor, uid, vals, context)
+            cr, uid, vals, context)
 
-    def check_orders(self, cursor, uid, vals, context):
+    def check_orders(self, cr, uid, vals, context):
         '''
         Check payment type for all orders.
 
@@ -177,14 +178,14 @@ class banking_export_clieop_wizard(osv.osv_memory):
         Also mind that rates for batches are way higher than those for
         transactions. It pays to limit the number of batches.
         '''
-        today = date.today()
+        today = fields.date.context_date(self, cr, uid, context=context)
         payment_order_obj = self.pool.get('payment.order')
 
         # Payment order ids are provided in the context
         payment_order_ids = context.get('active_ids', [])
         runs = {}
         # Only orders of same type can be combined
-        payment_orders = payment_order_obj.browse(cursor, uid, payment_order_ids)
+        payment_orders = payment_order_obj.browse(cr, uid, payment_order_ids)
         for payment_order in payment_orders:
 
             payment_type = payment_order.mode.type.code
@@ -212,12 +213,12 @@ class banking_export_clieop_wizard(osv.osv_memory):
                     else:
                         execution_date = today
                 if execution_date and execution_date >= max_date:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error'),
                         _('You can\'t create ClieOp orders more than 30 days in advance.')
                     )
         if len(runs) != 1:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
                 _('You can only combine payment orders of the same type')
             )
@@ -231,12 +232,12 @@ class banking_export_clieop_wizard(osv.osv_memory):
             'state': 'create',
             })
 
-    def create_clieop(self, cursor, uid, ids, context):
+    def create_clieop(self, cr, uid, ids, context):
         '''
         Wizard to actually create the ClieOp3 file
         '''
         payment_order_obj = self.pool.get('payment.order')
-        clieop_export = self.browse(cursor, uid, ids, context)[0]
+        clieop_export = self.browse(cr, uid, ids, context)[0]
         clieopfile = None
         for payment_order in clieop_export.payment_order_ids:
             if not clieopfile:
@@ -253,7 +254,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 else:
                     our_account_nr = payment_order.mode.bank_id.acc_number
                 if not our_account_nr:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error'),
                         _('Your bank account has to have a valid account number')
                     )
@@ -267,7 +268,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                                  accountno_sender = our_account_nr,
                                  seqno = self.pool.get(
                                      'banking.export.clieop').get_daynr(
-                                     cursor, uid, context=context),
+                                     cr, uid, context=context),
                                  test = clieop_export['test']
                              )
 
@@ -291,7 +292,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
             for line in payment_order.line_ids:
                 # Check on missing partner of bank account (this can happen!)
                 if not line.bank_id or not line.bank_id.partner_id:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Error'),
                         _('There is insufficient information.\r\n'
                           'Both destination address and account '
@@ -314,7 +315,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 # Is this an IBAN account?
                 if iban.valid:
                     if iban.countrycode != 'NL':
-                        raise osv.except_osv(
+                        raise orm.except_orm(
                             _('Error'),
                             _('You cannot send international bank transfers '
                               'through ClieOp3!')
@@ -331,7 +332,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
         # Generate the specifics of this clieopfile
         order = clieopfile.order
         file_id = self.pool.get('banking.export.clieop').create(
-            cursor, uid, dict(
+            cr, uid, dict(
                 filetype = order.name_transactioncode,
                 identification = order.identification,
                 prefered_date = strfdate(order.preferred_execution_date),
@@ -346,7 +347,7 @@ class banking_export_clieop_wizard(osv.osv_memory):
                     [6, 0, [x.id for x in clieop_export['payment_order_ids']]]
                      ],
                     ), context)
-        self.write(cursor, uid, [ids[0]], dict(
+        self.write(cr, uid, [ids[0]], dict(
                 filetype = order.name_transactioncode,
                 testcode = order.testcode,
                 file_id = file_id,
@@ -364,31 +365,27 @@ class banking_export_clieop_wizard(osv.osv_memory):
             'res_id': ids[0] or False,
         }
 
-    def cancel_clieop(self, cursor, uid, ids, context):
+    def cancel_clieop(self, cr, uid, ids, context):
         '''
         Cancel the ClieOp: just drop the file
         '''
-        clieop_export = self.read(cursor, uid, ids, ['file_id'], context)[0]
-        self.pool.get('banking.export.clieop').unlink(cursor, uid, clieop_export['file_id'][0])
+        clieop_export = self.read(cr, uid, ids, ['file_id'], context)[0]
+        self.pool.get('banking.export.clieop').unlink(cr, uid, clieop_export['file_id'][0])
         return {'type': 'ir.actions.act_window_close'}
 
-    def save_clieop(self, cursor, uid, ids, context):
+    def save_clieop(self, cr, uid, ids, context):
         '''
         Save the ClieOp: mark all payments in the file as 'sent', if not a test
         '''
         clieop_export = self.browse(
-            cursor, uid, ids, context)[0]
+            cr, uid, ids, context)[0]
         if not clieop_export['test']:
             clieop_obj = self.pool.get('banking.export.clieop')
             payment_order_obj = self.pool.get('payment.order')
             clieop_file = clieop_obj.write(
-                cursor, uid, clieop_export['file_id'].id, {'state': 'sent'}
+                cr, uid, clieop_export['file_id'].id, {'state': 'sent'}
                 )
             wf_service = netsvc.LocalService('workflow')
             for order in clieop_export['payment_order_ids']:
-                wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cursor)
+                wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
         return {'type': 'ir.actions.act_window_close'}
-
-banking_export_clieop_wizard()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
