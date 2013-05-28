@@ -6,7 +6,6 @@
             <field name="model">banking.transaction.wizard</field>
             <field name="inherit_id"
                    ref="account_banking.transaction_wizard_first" />
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="invoice_ids" position="before">
                     <field name="payment_order_ids" invisible="True"/>

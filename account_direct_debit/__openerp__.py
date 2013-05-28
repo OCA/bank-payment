@@ -22,7 +22,7 @@
     'name': 'Direct Debit',
     'version': '7.0.2.134',
     'license': 'AGPL-3',
-    'author': '['Therp BV', 'Smile']',
+    'author': ['Therp BV', 'Smile'],
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
@@ -48,5 +48,5 @@ of modules helps you to provide support for communications with your local
 banking institutions. The banking addons are a continuation of Account Banking
 Framework by Edusense BV. See https://launchpad.net/banking-addons.
     ''',
-    'installable': False,
+    'installable': True,
 }

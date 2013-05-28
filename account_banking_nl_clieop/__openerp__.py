@@ -37,5 +37,5 @@
     ClieOp format is used by Dutch banks to batch national bank transfers.
     This module uses the account_banking logic.
     ''',
-    'installable': False,
+    'installable': True,
 }

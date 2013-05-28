@@ -9,7 +9,6 @@
             <field name="name">account.payment.order.form.banking-1</field>
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
             <field name="model">payment.order</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
@@ -22,7 +21,8 @@
                     </xpath>
                     <xpath expr="/form/group/button[@string='Make Payments']"
                            position="replace">
-                        <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
+                        <button name="launch_wizard" states="open"
+                                string="Make Payments" type="object" icon="gtk-execute"/>
                         <newline/>
                     </xpath>
                 </data>
@@ -33,34 +33,13 @@
             <field name="name">account.payment.order.tree.banking-1</field>
             <field name="inherit_id" ref="account_payment.view_payment_order_tree" />
             <field name="model">payment.order</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
 		<button string="Make Payments" position="replace">
-                    <button name="launch_wizard" states="open" string="Make Payments" type="object" icon="gtk-execute"/>
+                    <button name="launch_wizard" states="open"
+                            string="Make Payments" type="object" icon="gtk-execute"/>
                 </button>
             </field>
         </record>
-
-	<!-- Add transfer settings -->
-	<record model="ir.ui.view" id="view_payment_mode_form">
-	  <field name="name">payment.mode.form add transfer account</field>
-	  <field name="model">payment.mode</field>
-	  <field name="inherit_id" ref="account_banking.view_payment_mode_form_inherit"/>
-	  <field name="type">form</field>
-	  <field name="arch" type="xml">
-	    <field name="type" position="after">
-	      <field name="transfer_account_id"
-                     domain="[('type', '=', 'other'),
-                              ('reconcile', '=', True),
-                              ('company_id', '=', company_id)]"
-                     />
-	      <field name="transfer_journal_id"
-                     domain="[('company_id', '=', company_id)]"
-                     />
-              <field name="payment_term_ids"/>
-	    </field>
-	  </field>
-	</record>
 
     </data>
 </openerp>

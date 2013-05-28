@@ -4,7 +4,6 @@
         <record id="instant_voucher_form" model="ir.ui.view">
             <field name="name">Instant voucher form view</field>
             <field name="model">account.voucher.instant</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form>
                     <field name="state" invisible="1" readonly="1"/>

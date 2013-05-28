@@ -4,7 +4,6 @@
         <record id="view_banking_import" model="ir.ui.view">
             <field name="name">account.banking.bank.import</field>
             <field name="model">account.banking.bank.import</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
 		<form string="Import Bank Transactions File">
 		    <group colspan="4" states="init,ready,error">

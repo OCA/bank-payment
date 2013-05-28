@@ -36,7 +36,6 @@
         <record model="ir.ui.view" id="view_banking_account_settings_form">
             <field name="name">account.banking.account.settings.form</field>
             <field name="model">account.banking.account.settings</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Default Import Settings for Bank Account">
                     <field name="company_id"
@@ -70,7 +69,6 @@
         <record model="ir.ui.view" id="view_banking_account_settings_tree">
             <field name="name">account.banking.account.settings.tree</field>
             <field name="model">account.banking.account.settings</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Default Import Settings for Bank Account">
                     <field name="company_id" />
@@ -99,7 +97,6 @@
         <record model="ir.ui.view" id="view_account_banking_imported_file_form">
             <field name="name">account.banking.imported.file.form</field>
             <field name="model">account.banking.imported.file</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Imported Bank Statements">
                     <notebook colspan="4">
@@ -124,7 +121,6 @@
         <record model="ir.ui.view" id="view_account_banking_imported_file_tree">
             <field name="name">account.banking.imported.file.tree</field>
             <field name="model">account.banking.imported.file</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Imported Bank Statements Files" colors="red:state=='error';blue:state=='unfinished'">
                     <field name="company_id" />
@@ -182,7 +178,6 @@
             <field name="name">account.bank.statement.tree.banking</field>
             <field name="inherit_id" ref="account.view_bank_statement_tree" />
             <field name="model">account.bank.statement</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <!-- Remove period from bank statement -->
                 <field name="period_id" position="replace">
@@ -197,7 +192,6 @@
             <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="model">account.bank.statement</field>
             <field name="sequence" eval="60"/>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
                     <page string="Transactions" position="after">
@@ -281,7 +275,6 @@
             <field name="name">res.partner.bank.form.banking-2</field>
             <field name="model">res.partner.bank</field>
             <field name="inherit_id" ref="base.view_partner_bank_form"/>
-            <field name="type">form</field>
             <field name="priority" eval="24"/>
             <field name="arch" type="xml">
                 <data>
@@ -300,7 +293,6 @@
             <field name="name">res.bank.form.banking-1</field>
             <field name="model">res.bank</field>
             <field name="inherit_id" ref="base.view_res_bank_form"/>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="bic" position="replace">
                     <field name="bic" on_change="onchange_bic(bic, name)"/>
@@ -311,7 +303,6 @@
         <record model="ir.ui.view" id="view_bank_statement_line_tree">
             <field name="name">Bank statement line tree view</field>
             <field name="model">account.bank.statement.line</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Statement lines" colors="black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate == True;grey:state=='draft';">
                     <field name="sequence" readonly="1" invisible="1"/>

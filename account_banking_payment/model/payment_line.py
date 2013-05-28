@@ -47,10 +47,10 @@ class payment_line(orm.Model):
             ], 'State', select=True
         ),
         'msg': fields.char('Message', size=255, required=False, readonly=True),
+        'date_done': fields.date(
+            'Date Confirmed', select=True, readonly=True),
 
         # Redefined fields: added states
-        'date_done': fields.datetime('Date Confirmed', select=True,
-                                     readonly=True),
         'name': fields.char(
             'Your Reference', size=64, required=True,
             states={
@@ -159,12 +159,19 @@ class payment_line(orm.Model):
                 'done': [('readonly', True)]
             },
         ),
-    }
+        'transit_move_line_id': fields.many2one(
+            # this line is part of the credit side of move 2a 
+            # from the documentation
+            'account.move.line', 'Debit move line',
+            readonly=True,
+            help="Move line through which the debit order pays the invoice",
+            ),
+        }
+
     _defaults = {
         'export_state': 'draft',
-        'date_done': False,
         'msg': '',
-    }
+        }
 
     def fields_get(self, cr, uid, fields=None, context=None):
         res = super(payment_line, self).fields_get(cr, uid, fields, context)
@@ -290,13 +297,3 @@ class payment_line(orm.Model):
             netsvc.LocalService("workflow").trg_validate(
                 uid, 'account.invoice', torec_move_line.invoice.id,
                 'undo_debit_denied', cr)
-
-
-    _columns = {
-        'transit_move_line_id': fields.many2one(
-            # this line is part of the credit side of move 2a 
-            # from the documentation
-            'account.move.line', 'Debit move line',
-            readonly=True,
-            help="Move line through which the debit order pays the invoice"),
-        }
