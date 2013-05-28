@@ -34,5 +34,27 @@ write({'state':'rejected'})</field>
             <field name="act_to" ref="account_banking.act_sent"/>
             <field name="signal">sent</field>
         </record>
+
+        <!--
+            Transition to undo the payment order and reset to
+            sent, triggered by cancelling a bank transaction
+            with which the order was reconciled.
+            For this, we need to cancel the flow stop on the done state,
+            unfortunately.
+            TODO: what is below is not enough. We need to inject
+            another state, 'sent_wait' between sent and done.
+        -->
+        <record id="account_payment.act_done" model="workflow.activity">
+            <field name="flow_stop" eval="False"/>
+        </record>
+
+        <!-- Cancel the reconciled payment order -->
+        <record id="trans_done_sent" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_done"/>
+            <field name="act_to" ref="account_banking.act_sent"/>
+            <field name="condition">test_undo_done()</field>
+            <field name="signal">undo_done</field>
+        </record>
+
     </data>
 </openerp>
