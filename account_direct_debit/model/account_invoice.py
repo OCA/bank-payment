@@ -1,6 +1,29 @@
 # -*- coding: utf-8 -*-
-from osv import osv, fields
-from tools.translate import _
+##############################################################################
+#
+#    Copyright (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#            
+#    All other contributions are (C) by their respective contributors
+#
+#    All Rights Reserved
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 """
 This module adds support for Direct debit orders as applicable
@@ -98,7 +121,7 @@ Two cases need to be distinguisted:
    open invoices with a matured invoice- or due date.
 """ 
 
-class account_invoice(osv.osv):
+class account_invoice(orm.Model):
     _inherit = "account.invoice"
 
     def __init__(self, pool, cr):
@@ -139,5 +162,3 @@ class account_invoice(osv.osv):
             if not invoice['reconciled']:
                 return False
         return True
-
-account_invoice()
