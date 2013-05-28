@@ -443,7 +443,7 @@ class payment_order_create(osv.osv_memory):
             domain = [
                 ('reconcile_id', '=', False),
                 ('account_id.type', '=', 'receivable'),
-                ('invoice_state', '!=', 'debit_denied'),
+                ('invoice.state', '!=', 'debit_denied'),
                 ('amount_to_receive', '>', 0),
                 ]
         else:
@@ -456,7 +456,7 @@ class payment_order_create(osv.osv_memory):
         # apply payment term filter
         if payment.mode.payment_term_ids:
             domain = domain + [
-                ('payment_term_id', 'in', 
+                ('invoice.payment_term', 'in', 
                  [term.id for term in payment.mode.payment_term_ids]
                  )
                 ]
