@@ -25,11 +25,77 @@
 
 from datetime import datetime
 from openerp.osv import orm, fields
-from openerp.misc import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools.translate import _
 
 
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
+
+    def extend_payment_order_domain(
+            self, cr, uid, payment_order, domain, context=None):
+        if payment_order.payment_order_type == 'payment':
+            domain += [
+                ('reconcile_id', '=', False),
+                ('account_id.type', '=', 'payable'),
+                ('amount_to_pay', '>', 0)
+                ]
+        return True
+
+    def search_entries(self, cr, uid, ids, context=None):
+        """
+        This method taken from account_payment module.
+        We adapt the domain based on the payment_order_type
+        """
+        line_obj = self.pool.get('account.move.line')
+        mod_obj = self.pool.get('ir.model.data')
+        if context is None:
+            context = {}
+        data = self.read(cr, uid, ids, ['duedate'], context=context)[0]
+        search_due_date = data['duedate']
+        
+        ### start account_banking_payment ###
+        payment = self.pool.get('payment.order').browse(
+            cr, uid, context['active_id'], context=context)
+        # Search for move line to pay:
+        domain = [
+            ('reconcile_id', '=', False),
+            ('company_id', '=', payment.mode.company_id.id),
+            ]
+        # apply payment term filter
+        if payment.mode.payment_term_ids:
+            domain += [
+                ('invoice.payment_term', 'in', 
+                 [term.id for term in payment.mode.payment_term_ids]
+                 )
+                ]
+        self.extend_payment_order_domain(
+            cr, uid, payment, domain, context=context)
+        ### end account_direct_debit ###
+
+        domain = domain + [
+            '|', ('date_maturity', '<=', search_due_date),
+            ('date_maturity', '=', False)
+            ]
+        line_ids = line_obj.search(cr, uid, domain, context=context)
+        context.update({'line_ids': line_ids})
+        model_data_ids = mod_obj.search(
+            cr, uid,[
+                ('model', '=', 'ir.ui.view'),
+                ('name', '=', 'view_create_payment_order_lines')],
+            context=context)
+        resource_id = mod_obj.read(
+            cr, uid, model_data_ids, fields=['res_id'],
+            context=context)[0]['res_id']
+        return {'name': _('Entry Lines'),
+                'context': context,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'payment.order.create',
+                'views': [(resource_id, 'form')],
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+        }
 
     def create_payment(self, cr, uid, ids, context=None):
         '''
@@ -51,7 +117,8 @@ class payment_order_create(orm.TransientModel):
         if not line_ids:
             return {'type': 'ir.actions.act_window_close'}
 
-        payment = order_obj.browse(cr, uid, context['active_id'], context=context)
+        payment = order_obj.browse(
+            cr, uid, context['active_id'], context=context)
         ### account banking
         # t = None
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
@@ -75,10 +142,10 @@ class payment_order_create(orm.TransientModel):
                 ### end account banking
             elif payment.date_prefered == 'fixed':
                 ### account_banking
-                # date_to_pay = payment.date_planned
+                # date_to_pay = payment.date_scheduled
                 date_to_pay = (
-                    payment.date_planned
-                    if payment.date_planned and payment.date_planned > _today
+                    payment.date_scheduled
+                    if payment.date_scheduled and payment.date_scheduled > _today
                     else False)
                 ### end account banking
 
@@ -121,6 +188,8 @@ class payment_order_create(orm.TransientModel):
                 'state': state,
                 ### end account banking
                 'date': date_to_pay,
-                'currency': line.invoice and line.invoice.currency_id.id or line.journal_id.currency.id or line.journal_id.company_id.currency_id.id,
+                'currency': (line.invoice and line.invoice.currency_id.id
+                             or line.journal_id.currency.id
+                             or line.journal_id.company_id.currency_id.id),
                 }, context=context)
         return {'type': 'ir.actions.act_window_close'}
