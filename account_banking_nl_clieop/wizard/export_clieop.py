@@ -194,8 +194,8 @@ class banking_export_clieop_wizard(osv.osv_memory):
                 runs[payment_type] = [payment_order]
 
             if payment_order.date_prefered == 'fixed':
-                if payment_order.date_planned:
-                    execution_date = strpdate(payment_order.date_planned)
+                if payment_order.date_scheduled:
+                    execution_date = strpdate(payment_order.date_scheduled)
                 else:
                     execution_date = today
             elif payment_order.date_prefered == 'now':
