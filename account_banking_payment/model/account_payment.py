@@ -214,7 +214,7 @@ class payment_order(orm.Model):
         line_ids = []
         reconcile_id = False
         for order_line in order.line_ids:
-            for line in order_line.debit_move_line_id.move_id.line_id:
+            for line in order_line.transit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other' and not line.reconcile_id:
                     line_ids.append(line.id)
         if self.pool.get('res.currency').is_zero(
@@ -330,7 +330,7 @@ class payment_order(orm.Model):
                 # and call reconciliation on it
                 payment_line_obj.write(
                     cr, uid, line.id,
-                    {'debit_move_line_id': reconcile_move_line_id},
+                    {'transit_move_line_id': reconcile_move_line_id},
                     context=context)
 
                 payment_line_obj.debit_reconcile(

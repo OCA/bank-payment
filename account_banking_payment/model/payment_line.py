@@ -235,10 +235,10 @@ class payment_line(orm.Model):
         move_line_obj = self.pool.get('account.move.line')
         payment_line = self.browse(cr, uid, payment_line_id, context=context)
 
-        debit_move_line = payment_line.debit_move_line_id
+        transit_move_line = payment_line.transit_move_line_id
         torec_move_line = payment_line.move_line_id
 
-        if (not debit_move_line or not torec_move_line):
+        if (not transit_move_line or not torec_move_line):
             raise orm.except_orm(
                 _('Can not reconcile'),
                 _('No move line for line %s') % payment_line.name)     
@@ -248,22 +248,22 @@ class payment_line(orm.Model):
                 _('Move line %s has already been reconciled') % 
                 torec_move_line.name
                 )
-        if debit_move_line.reconcile_id or debit_move_line.reconcile_partial_id:
+        if transit_move_line.reconcile_id or transit_move_line.reconcile_partial_id:
             raise orm.except_orm(
                 _('Error'),
                 _('Move line %s has already been reconciled') % 
-                debit_move_line.name
+                transit_move_line.name
                 )
 
         def is_zero(total):
             return self.pool.get('res.currency').is_zero(
-                cr, uid, debit_move_line.company_id.currency_id, total)
+                cr, uid, transit_move_line.company_id.currency_id, total)
 
-        line_ids = [debit_move_line.id, torec_move_line.id]
+        line_ids = [transit_move_line.id, torec_move_line.id]
         if torec_move_line.reconcile_partial_id:
             line_ids = [
                 x.id for x in 
-                debit_move_line.reconcile_partial_id.line_partial_ids
+                transit_move_line.reconcile_partial_id.line_partial_ids
                 ] + [torec_move_line.id]
 
         total = move_line_obj.get_balance(cr, uid, line_ids)
@@ -275,7 +275,7 @@ class payment_line(orm.Model):
 
         if torec_move_line.reconcile_partial_id:
             reconcile_obj.write(
-                cr, uid, debit_move_line.reconcile_partial_id.id,
+                cr, uid, transit_move_line.reconcile_partial_id.id,
                 vals, context=context)
         else:
             reconcile_obj.create(
@@ -293,7 +293,7 @@ class payment_line(orm.Model):
 
 
     _columns = {
-        'debit_move_line_id': fields.many2one(
+        'transit_move_line_id': fields.many2one(
             # this line is part of the credit side of move 2a 
             # from the documentation
             'account.move.line', 'Debit move line',

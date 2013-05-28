@@ -59,7 +59,7 @@ class banking_import_transaction(orm.Model):
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
-            for line in candidates[0].line_ids[0].debit_move_line_id.move_id.line_id:
+            for line in candidates[0].line_ids[0].transit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other':
                     account_id = line.account_id.id
                     break

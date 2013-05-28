@@ -175,7 +175,7 @@ msgid "The payment line name must be unique!"
 msgstr "De betaalregelnaam moet uniek zijn!"
 
 #. module: account_direct_debit
-#: field:payment.line,debit_move_line_id:0
+#: field:payment.line,transit_move_line_id:0
 msgid "Debit move line"
 msgstr "Debetboeking"
 
@@ -200,7 +200,7 @@ msgid "Invoice"
 msgstr "Factuur"
 
 #. module: account_direct_debit
-#: help:payment.line,debit_move_line_id:0
+#: help:payment.line,transit_move_line_id:0
 msgid "Move line through which the debit order pays the invoice"
 msgstr "Dagboekregel waarmee de incasso-opdracht de factuur voldoet"
 
