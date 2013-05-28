@@ -41,5 +41,26 @@
             </field>
         </record>
 
+	<!-- Add transfer settings -->
+	<record model="ir.ui.view" id="view_payment_mode_form">
+	  <field name="name">payment.mode.form add transfer account</field>
+	  <field name="model">payment.mode</field>
+	  <field name="inherit_id" ref="account_banking.view_payment_mode_form_inherit"/>
+	  <field name="type">form</field>
+	  <field name="arch" type="xml">
+	    <field name="type" position="after">
+	      <field name="transfer_account_id"
+                     domain="[('type', '=', 'other'),
+                              ('reconcile', '=', True),
+                              ('company_id', '=', company_id)]"
+                     />
+	      <field name="transfer_journal_id"
+                     domain="[('company_id', '=', company_id)]"
+                     />
+              <field name="payment_term_ids"/>
+	    </field>
+	  </field>
+	</record>
+
     </data>
 </openerp>

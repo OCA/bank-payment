@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
         <!-- distinguish between payment orders and debit orders in the menu -->
         <record id="account_payment.action_payment_order_tree" model="ir.actions.act_window">
             <field name="domain">[('payment_order_type', '=', 'payment')]</field>
@@ -46,35 +47,9 @@
                                 icon="gtk-find"
                                 />
                     </xpath>
-                    <!-- the attrs do not work like this, apparently
-                         <xpath expr="//tree[@string='Payment Line']" position="inside">
-                             <field name="storno" attrs="{'invisible': [(parent.payment_order_type, '!=', 'debit')]}"/>
-                         </xpath>
-                    -->
                 </data>
             </field>
         </record>
-
-	<!-- Add transfer account for debit type modes -->
-	<record model="ir.ui.view" id="view_payment_mode_form">
-	  <field name="name">payment.mode.form add transfer account</field>
-	  <field name="model">payment.mode</field>
-	  <field name="inherit_id" ref="account_banking.view_payment_mode_form_inherit"/>
-	  <field name="type">form</field>
-	  <field name="arch" type="xml">
-	    <field name="type" position="after">
-	      <field name="transfer_account_id"
-                     domain="[('type', '=', 'other'),
-                              ('reconcile', '=', True),
-                              ('company_id', '=', company_id)]"
-                     />
-	      <field name="transfer_journal_id"
-                     domain="[('company_id', '=', company_id)]"
-                     />
-              <field name="payment_term_ids"/>
-	    </field>
-	  </field>
-	</record>
 
         <record id="view_payment_line_tree" model="ir.ui.view">
             <field name="name">Payment Lines</field>
@@ -88,5 +63,6 @@
                 </field>
             </field>
         </record>
+
     </data>
 </openerp>
