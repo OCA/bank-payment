@@ -46,6 +46,7 @@ class payment_mode(orm.Model):
     _columns = {
         'type': fields.many2one(
             'payment.mode.type', 'Payment type',
+            required=True,
             help='Select the Payment Type for the Payment Mode.'
             ),
         'transfer_account_id': fields.many2one(
