@@ -1358,9 +1358,16 @@ class banking_import_transaction(orm.Model):
         'parent_id': fields.many2one(
             'banking.import.transaction', 'Split off from this transaction'),
         # match fields
-        'match_type': fields.selection(
-            [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
-             ], 'Match type'),
+        'match_type': fields.selection([
+                ('move','Move'),
+                ('invoice', 'Invoice'),
+                ('payment', 'Payment line'),
+                ('payment_order', 'Payment order'),
+                ('storno', 'Storno'),
+                ('manual', 'Manual'),
+                ('payment_manual', 'Payment line (manual)'),
+                ('payment_order_manual', 'Payment order (manual)'),
+                ], 'Match type'),
         'match_multi': fields.function(
             _get_match_multi, method=True, string='Multi match',
             type='boolean'),
@@ -1429,9 +1436,16 @@ class account_bank_statement_line(orm.Model):
             string='Possible duplicate import', readonly=True),
         'match_type': fields.related(
             'import_transaction_id', 'match_type', type='selection',
-            selection=[('manual', 'Manual'), ('move','Move'),
-                       ('invoice', 'Invoice'),
-                       ], 
+            selection=[
+                ('move','Move'),
+                ('invoice', 'Invoice'),
+                ('payment', 'Payment line'),
+                ('payment_order', 'Payment order'),
+                ('storno', 'Storno'),
+                ('manual', 'Manual'),
+                ('payment_manual', 'Payment line (manual)'),
+                ('payment_order_manual', 'Payment order (manual)'),
+                ], 
             string='Match type', readonly=True,),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',

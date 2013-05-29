@@ -28,6 +28,35 @@ from openerp.osv import orm, fields
 
 class banking_transaction_wizard(orm.TransientModel):
     _inherit = 'banking.transaction.wizard'
+
+    def write(self, cr, uid, ids, vals, context=None):
+        """
+        Check for manual payment orders or lines
+        """
+        if not vals:
+            return True
+        manual_payment_order_id = vals.pop('manual_payment_order_id', False)
+        manual_payment_line_id = vals.pop('manual_payment_line_id', False)
+        res = super(banking_transaction_wizard, self).write(
+            cr, uid, ids, vals, context=context)
+        if manual_payment_order_id or manual_payment_line_id:
+            transaction_id = self.read(
+                cr, uid, ids[0], 
+                ['import_transaction_id'],
+                context=context)['import_transaction_id'][0]
+            write_vals = {}
+            if manual_payment_order_id:
+                write_vals.update(
+                    {'payment_order_id': manual_payment_order_id,
+                     'match_type': 'payment_order_manual'})
+            else:
+                write_vals.update(
+                    {'payment_line_id': manual_payment_line_id,
+                     'match_type': 'payment_manual'})
+            self.pool.get('banking.import.transaction').clear_and_write(
+                cr, uid, transaction_id, write_vals, context=context)
+        return res
+
     _columns = {
         'payment_line_id': fields.related(
             'import_transaction_id', 'payment_line_id',
@@ -42,4 +71,13 @@ class banking_transaction_wizard(orm.TransientModel):
             'import_transaction_id', 'payment_order_id',
             string="Payment order to reconcile", 
             type='many2one', relation='payment.order'),
+        'manual_payment_order_id': fields.many2one(
+            'payment.order', 'Match this payment order',
+            domain=[('state', '=', 'sent')]),
+        'manual_payment_line_id': fields.many2one(
+            'payment.line', 'Match this payment line',
+            domain=[
+                ('order_id.state', '=', 'sent'),
+                ('date_done', '=', False),
+                ]),
         }

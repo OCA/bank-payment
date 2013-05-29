@@ -8,6 +8,13 @@
             <field name="action">action_sent()</field>
             <field name="kind">function</field>
         </record>
+        <!-- New activity for workflow payment order: sent -->
+        <record id="account_banking.act_sent_wait" model="workflow.activity">
+            <field name="name">sent_wait</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">write({'state': 'sent'})</field>
+            <field name="kind">function</field>
+        </record>
         <!-- New activity for workflow payment order: rejected -->
         <record id="account_banking.act_rejected" model="workflow.activity">
             <field name="name">rejected</field>
@@ -16,33 +23,35 @@
 write({'state':'rejected'})</field>
             <field name="kind">function</field>
         </record>
-        <!-- Add new transition sent -> done -->
-        <record id="account_banking.trans_sent_done" model="workflow.transition">
-            <field name="act_from" ref="account_banking.act_sent"/>
-            <field name="act_to" ref="account_payment.act_done"/>
-            <field name="signal">done</field>
-        </record>
-        <!-- Add new transition sent -> rejected -->
-        <record id="account_banking.trans_sent_rejected" model="workflow.transition">
-            <field name="act_from" ref="account_banking.act_sent"/>
-            <field name="act_to" ref="account_banking.act_rejected"/>
-            <field name="signal">rejected</field>
-        </record>
-        <!-- Rewrite existing open -> done transition to include 'sent' -->
+        <!-- Rewrite existing open -> done transition to include 'sent' stage -->
         <record id="account_payment.trans_open_done" model="workflow.transition">
             <field name="act_from" ref="account_payment.act_open"/>
             <field name="act_to" ref="account_banking.act_sent"/>
             <field name="signal">sent</field>
         </record>
-
+        <!-- From sent straight to sent_wait -->
+        <record id="account_banking.trans_sent_sent_wait" model="workflow.transition">
+            <field name="act_from" ref="account_banking.act_sent"/>
+            <field name="act_to" ref="account_banking.act_sent_wait"/>
+        </record>
+        <!-- Reconciliation from the banking statement leads to done state -->
+        <record id="account_banking.trans_sent_done" model="workflow.transition">
+            <field name="act_from" ref="account_banking.act_sent_wait"/>
+            <field name="act_to" ref="account_payment.act_done"/>
+            <field name="signal">done</field>
+        </record>
+        <!-- Rejected by the bank -->
+        <record id="account_banking.trans_sent_rejected" model="workflow.transition">
+            <field name="act_from" ref="account_banking.act_sent"/>
+            <field name="act_to" ref="account_banking.act_rejected"/>
+            <field name="signal">rejected</field>
+        </record>
         <!--
             Transition to undo the payment order and reset to
             sent, triggered by cancelling a bank transaction
             with which the order was reconciled.
             For this, we need to cancel the flow stop on the done state,
             unfortunately.
-            TODO: what is below is not enough. We need to inject
-            another state, 'sent_wait' between sent and done.
         -->
         <record id="account_payment.act_done" model="workflow.activity">
             <field name="flow_stop" eval="False"/>
@@ -51,7 +60,7 @@ write({'state':'rejected'})</field>
         <!-- Cancel the reconciled payment order -->
         <record id="trans_done_sent" model="workflow.transition">
             <field name="act_from" ref="account_payment.act_done"/>
-            <field name="act_to" ref="account_banking.act_sent"/>
+            <field name="act_to" ref="account_banking.act_sent_wait"/>
             <field name="condition">test_undo_done()</field>
             <field name="signal">undo_done</field>
         </record>

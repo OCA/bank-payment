@@ -298,17 +298,6 @@ class banking_import_transaction(orm.Model):
             cr, uid, transaction.payment_line_id.id, context)
 
     _columns = {
-        'match_type': fields.selection(
-            # Add payment and storno types
-            [
-                ('manual', 'Manual'),
-                ('move','Move'),
-                ('invoice', 'Invoice'),
-                ('payment', 'Payment'),
-                ('payment_order', 'Payment order'),
-                ('storno', 'Storno'),
-                ],
-            'Match type'),
         'payment_order_ids': fields.many2many(
             'payment.order', 'banking_transaction_payment_order_rel',
             'order_id', 'transaction_id', 'Payment orders'),
@@ -390,10 +379,14 @@ class banking_import_transaction(orm.Model):
                 'storno': self._confirm_storno.__func__,
                 'payment_order': self._confirm_payment_order.__func__,
                 'payment': self._confirm_payment.__func__,
+                'payment_order_manual': self._confirm_payment_order.__func__,
+                'payment_manual': self._confirm_payment.__func__,
                 })
 
         self.cancel_map.update({
                 'storno': self._cancel_storno.__func__,
                 'payment_order': self._cancel_payment_order.__func__,
                 'payment': self._cancel_payment.__func__,
+                'payment_order_manual': self._cancel_payment_order.__func__,
+                'payment_manual': self._cancel_payment.__func__,
                 })

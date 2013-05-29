@@ -398,7 +398,7 @@ class account_bank_statement(orm.Model):
             # Write stored reconcile_id and pay invoices through workflow 
             if st_line.reconcile_id:
                 move_ids = [move.id for move in st_line.move_ids]
-                torec = account_move_obj.search(
+                torec = account_move_line_obj.search(
                     cr, uid, [
                         ('move_id', 'in', move_ids),
                         ('account_id', '=', st_line.account_id.id)],

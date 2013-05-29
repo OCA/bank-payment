@@ -227,12 +227,17 @@ class payment_order(orm.Model):
         Due to a cancelled bank statements import, unreconcile the move on
         the transfer account. Delegate the conditions to the workflow.
         Raise on failure for rollback.
+
+        Workflow appears to return False even on success so we just check
+        the order's state that we know to be set to 'sent' in that case.
         """
         self.pool.get('account.move.reconcile').unlink(
-            cr, uid, reconcile_id, context=context)
-        wkf_ok = netsvc.LocalService('workflow').trg_validate(
+            cr, uid, [reconcile_id], context=context)
+        netsvc.LocalService('workflow').trg_validate(
             uid, 'payment.order', payment_order_id, 'undo_done', cr)
-        if not wkf_ok:
+        state = self.pool.get('payment.order').read(
+            cr, uid, payment_order_id, ['state'], context=context)['state']
+        if state != 'sent':
             raise orm.except_orm(
                 _("Cannot unreconcile"),
                 _("Cannot unreconcile payment order: "+
@@ -245,9 +250,19 @@ class payment_order(orm.Model):
         payment orders that were reconciled with bank transfers
         which are being cancelled.
 
-        The debit module actually enforces a criterium in its
-        override of this method for debit orders.
+        Test if the payment order has not been reconciled. Depends
+        on the restriction that transit move lines should use an
+        account of type 'other', and on the restriction of payment
+        and debit orders that they only take moves on accounts
+        payable/receivable.
         """
+        for order in self.browse(cr, uid, ids, context=context):
+            for order_line in order.line_ids:
+                if order_line.transit_move_line_id.move_id:
+                    for line in order_line.transit_move_line_id.move_id.line_id:
+                        if (line.account_id.type == 'other' and
+                                line.reconcile_id):
+                            return False
         return True
         
     def action_sent(self, cr, uid, ids, context=None):
@@ -325,10 +340,12 @@ class payment_order(orm.Model):
                     cr, uid, line.id, context=context)
                 account_move_obj.post(cr, uid, [move_id], context=context)
 
+        # State field is written by act_sent_wait
         self.write(cr, uid, ids, {
-                'state': 'sent',
                 'date_sent': fields.date.context_today(
                     self, cr, uid, context=context),
                 }, context=context)
 
         return True
+
+

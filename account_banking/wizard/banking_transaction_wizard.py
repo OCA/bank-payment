@@ -300,8 +300,18 @@ class banking_transaction_wizard(orm.TransientModel):
             'import_transaction_id', 'match_multi', 
             type="boolean", string='Multiple matches'),
         'match_type': fields.related(
-            'import_transaction_id', 'match_type', 
-            type="char", size=16, string='Match type', readonly=True),
+            'import_transaction_id', 'match_type', type='selection',
+            selection=[
+                ('move','Move'),
+                ('invoice', 'Invoice'),
+                ('payment', 'Payment line'),
+                ('payment_order', 'Payment order'),
+                ('storno', 'Storno'),
+                ('manual', 'Manual'),
+                ('payment_manual', 'Payment line (manual)'),
+                ('payment_order_manual', 'Payment order (manual)'),
+                ], 
+            string='Match type', readonly=True),
         'manual_invoice_id': fields.many2one(
             'account.invoice', 'Match this invoice',
             domain=[('reconciled', '=', False)]),

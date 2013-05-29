@@ -13,19 +13,22 @@
                 <xpath expr="//group/separator[@string='Multiple matches']/.."
                        position="after">
                     <field name='payment_line_id'
-                           attrs="{'invisible': [
-                                  ('match_type', '!=', 'storno'),
-                                  ('match_type', '!=', 'payment')]
-                                  }" />
+                           attrs="{'invisible': [('match_type', 'not in', 
+                                       ('storno', 'payment', 'payment_manual'))]}"
+                           />
                 </xpath>
                 <field name="move_line_id" position="after">
                     <field name='payment_order_id'
-                           attrs="{'readonly': [
-                                  ('match_multi', '=', False)],
-                                  'invisible': [
-                                  ('match_type', '!=', 'payment_order')]}"
+                           attrs="{'readonly': [('match_multi', '=', False)],
+                                   'invisible': [('match_type', 'not in', 
+                                       ('payment_order', 'payment_order_manual'))]
+                                  }"
                            domain="[('id', 'in', payment_order_ids[0][2])]"
                            />
+                </field>
+                <field name="manual_move_line_id" position="after">
+                    <field name="manual_payment_line_id"/>
+                    <field name="manual_payment_order_id"/>
                 </field>
             </field>
         </record>
