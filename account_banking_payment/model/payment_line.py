@@ -66,18 +66,6 @@ class payment_line(orm.Model):
         'msg': '',
         }
 
-    def fields_get(self, cr, uid, fields=None, context=None):
-        res = super(payment_line, self).fields_get(cr, uid, fields, context)
-        if 'communication' in res:
-            res['communication'].setdefault('states', {})
-            res['communication']['states']['structured'] = [('required', True)]
-        if 'communication2' in res:
-            res['communication2'].setdefault('states', {})
-            res['communication2']['states']['structured'] = [('readonly', True)]
-            res['communication2']['states']['normal'] = [('readonly', False)]
-
-        return res
-
     """
     Hooks for processing direct debit orders, such as implemented in
     account_direct_debit module.
