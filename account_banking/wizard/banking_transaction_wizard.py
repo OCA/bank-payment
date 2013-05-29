@@ -99,36 +99,10 @@ class banking_transaction_wizard(orm.TransientModel):
         manual_invoice_id = vals.pop('manual_invoice_id', False)
         manual_move_line_id = vals.pop('manual_move_line_id', False)
 
-        # Support for writing fields.related is still flakey:
-        # https://bugs.launchpad.net/openobject-server/+bug/915975
-        # Will do so myself.
-
-        # Separate the related fields
-        transaction_vals = {}
-        wizard_vals = vals.copy()
-        for key in vals.keys():
-            field = self._columns[key]
-            if (isinstance(field, fields.related) and
-                field._arg[0] == 'import_transaction_id'):
-                transaction_vals[field._arg[1]] = vals[key]
-                del wizard_vals[key]
-
-        # write the related fields on the transaction model
-        if isinstance(ids, int):
-            ids = [ids]
-        for wizard in self.browse(cr, uid, ids, context=context):
-            if wizard.import_transaction_id:
-                transaction_obj.write(
-                    cr, uid, wizard.import_transaction_id.id,
-                    transaction_vals, context=context)
-
-        # write other fields to the wizard model
         res = super(banking_transaction_wizard, self).write(
-            cr, uid, ids, wizard_vals, context=context)
+            cr, uid, ids, vals, context=context)
 
-        # End of workaround for lp:915975
-        
-        """ Process the logic of the written values """
+        # Process the logic of the written values
 
         # An invoice is selected from multiple candidates
         if vals and 'invoice_id' in vals:
@@ -271,23 +245,8 @@ class banking_transaction_wizard(orm.TransientModel):
                 {'duplicate': not wiz['duplicate']}, context=context)
         return self.create_act_window(cr, uid, ids, context=None)
 
-    def _get_default_match_type(self, cr, uid, context=None):
-        """
-        Take initial value for the match type from the statement line
-        """
-        res = False
-        if context and 'statement_line_id' in context:
-            res = self.pool.get('account.bank.statement.line').read(
-                cr, uid, context['statement_line_id'],
-                ['match_type'], context=context)['match_type']
-        return res
-
     def button_done(self, cr, uid, ids, context=None):
         return {'nodestroy': False, 'type': 'ir.actions.act_window_close'}        
-
-    _defaults = {
-#        'match_type': _get_default_match_type,
-        }
 
     _columns = {
         'name': fields.char('Name', size=64),
@@ -363,8 +322,6 @@ class banking_transaction_wizard(orm.TransientModel):
             string="Analytic Account"),
         'move_currency_amount': fields.related('import_transaction_id','move_currency_amount',
             type='float', string='Match Currency Amount', readonly=True),
-        #'manual_payment_order_id': fields.many2one(
-        #    'payment.order', "Payment order to reconcile"),
         }
 
 banking_transaction_wizard()
