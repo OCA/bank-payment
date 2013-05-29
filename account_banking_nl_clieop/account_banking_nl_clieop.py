@@ -82,7 +82,7 @@ class clieop_export(orm.Model):
         last = 1
         last_ids = self.search(cr, uid, [
                 ('date_generated', '=', 
-                 fields.date.context_today(cr,uid,context))
+                 fields.date.context_today(self, cr,uid,context))
                 ], context=context)
         if last_ids:
             last = 1 + max([x['daynumber'] for x in self.read(

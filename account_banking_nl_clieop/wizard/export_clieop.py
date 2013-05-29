@@ -25,16 +25,17 @@ from datetime import datetime, date, timedelta
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import netsvc
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking_nl_clieop.wizard import clieop
 
-def strpdate(arg, format='%Y-%m-%d'):
+def strpdate(arg):
     '''shortcut'''
-    return datetime.strptime(arg, format).date()
+    return datetime.strptime(arg, DEFAULT_SERVER_DATE_FORMAT).date()
 
-def strfdate(arg, format='%Y-%m-%d'):
+def strfdate(arg):
     '''shortcut'''
-    return arg.strftime(format)
+    return arg.strftime(DEFAULT_SERVER_DATE_FORMAT)
 
 class banking_export_clieop_wizard(orm.TransientModel):
     _name = 'banking.export.clieop.wizard'
@@ -178,7 +179,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
         Also mind that rates for batches are way higher than those for
         transactions. It pays to limit the number of batches.
         '''
-        today = fields.date.context_date(self, cr, uid, context=context)
+        today = strpdate(fields.date.context_today(self, cr, uid, context=context))
         payment_order_obj = self.pool.get('payment.order')
 
         # Payment order ids are provided in the context

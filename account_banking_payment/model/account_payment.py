@@ -256,9 +256,6 @@ class payment_order(orm.Model):
         the debit order. This happens when the debit order file is
         generated.
         """
-        res = super(payment_order, self).action_sent(
-            cr, uid, ids, context)
-
         account_move_obj = self.pool.get('account.move')
         account_move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
@@ -334,4 +331,4 @@ class payment_order(orm.Model):
                     self, cr, uid, context=context),
                 }, context=context)
 
-        return res
+        return True
