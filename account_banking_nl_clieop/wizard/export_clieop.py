@@ -153,10 +153,6 @@ class banking_export_clieop_wizard(orm.TransientModel):
             ),
         }
 
-    _defaults = {
-        'test': True,
-        }
-
     def create(self, cr, uid, vals, context=None):
         '''
         Retrieve a sane set of default values based on the payment orders
