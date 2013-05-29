@@ -29,7 +29,7 @@ from openerp.tools.translate import _
 
 class payment_line(orm.Model):
     '''
-    Add extra export_state and date_done fields; make destination bank account
+    Add some fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
     Edit: Payments can be by cash too, which is prohibited by mandatory bank
     accounts.
@@ -37,127 +37,21 @@ class payment_line(orm.Model):
     _inherit = 'payment.line'
     _columns = {
         # New fields
-        'export_state': fields.selection([
-            ('draft', 'Draft'),
-            ('open','Confirmed'),
-            ('cancel','Cancelled'),
-            ('sent', 'Sent'),
-            ('rejected', 'Rejected'),
-            ('done','Done'),
-            ], 'State', select=True
-        ),
         'msg': fields.char('Message', size=255, required=False, readonly=True),
         'date_done': fields.date(
             'Date Confirmed', select=True, readonly=True),
-
-        # Redefined fields: added states
-        'name': fields.char(
-            'Your Reference', size=64, required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
+        # Communication: required is dependend on the mode
         'communication': fields.char(
             'Communication', size=64, required=False, 
             help=("Used as the message between ordering customer and current "
                   "company. Depicts 'What do you want to say to the recipient"
                   " about this order ?'"
                  ),
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
         ),
+        # Communication2: enlarge to 128
         'communication2': fields.char(
             'Communication 2', size=128,
             help='The successor message of Communication.',
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'move_line_id': fields.many2one(
-            'account.move.line', 'Entry line',
-            domain=[('reconcile_id','=', False),
-                    ('account_id.type', '=','payable')
-                   ],
-            help=('This Entry Line will be referred for the information of '
-                  'the ordering customer.'
-                 ),
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'amount_currency': fields.float(
-            'Amount in Partner Currency', digits=(16,2),
-            required=True,
-            help='Payment amount in the partner currency',
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'currency': fields.many2one(
-            'res.currency', 'Partner Currency', required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'bank_id': fields.many2one(
-            'res.partner.bank', 'Destination Bank account',
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'order_id': fields.many2one(
-            'payment.order', 'Order', required=True,
-            ondelete='cascade', select=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'partner_id': fields.many2one(
-            'res.partner', string="Partner", required=True,
-            help='The Ordering Customer',
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'date': fields.date(
-            'Payment Date',
-            help=("If no payment date is specified, the bank will treat this "
-                  "payment line directly"
-                 ),
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'state': fields.selection([
-            ('normal','Free'),
-            ('structured','Structured')
-            ], 'Communication Type', required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
         ),
         'transit_move_line_id': fields.many2one(
             # this line is part of the credit side of move 2a 
@@ -169,7 +63,6 @@ class payment_line(orm.Model):
         }
 
     _defaults = {
-        'export_state': 'draft',
         'msg': '',
         }
 

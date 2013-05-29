@@ -196,7 +196,6 @@ class banking_import_transaction(orm.Model):
         payment_line_obj = self.pool.get('payment.line')
         payment_line_obj.write(
             cr, uid, transaction.payment_line_id.id, {
-                'export_state': 'done',
                 'date_done': transaction.statement_line_id.date,
                 }
             )

@@ -73,6 +73,8 @@ class payment_order(orm.Model):
         'line_ids': fields.one2many(
             'payment.line', 'order_id', 'Payment lines',
             states={
+                'open': [('readonly', True)],
+                'cancel': [('readonly', True)],
                 'sent': [('readonly', True)],
                 'rejected': [('readonly', True)],
                 'done': [('readonly', True)]
@@ -172,20 +174,10 @@ class payment_order(orm.Model):
             ])
         payment_line_obj.write(cr, uid, line_ids, kwargs)
 
-    def set_to_draft(self, cr, uid, ids, *args):
-        '''
-        Set both self and payment lines to state 'draft'.
-        '''
-        self._write_payment_lines(cr, uid, ids, export_state='draft')
-        return super(payment_order, self).set_to_draft(
-            cr, uid, ids, *args
-        )
-
     def action_rejected(self, cr, uid, ids, *args):
         '''
         Set both self and payment lines to state 'rejected'.
         '''
-        self._write_payment_lines(cr, uid, ids, export_state='rejected')
         wf_service = netsvc.LocalService('workflow')
         for id in ids:
             wf_service.trg_validate(uid, 'payment.order', id, 'rejected', cr)
@@ -197,7 +189,6 @@ class payment_order(orm.Model):
         '''
         self._write_payment_lines(
             cr, uid, ids,
-            export_state='done',
             date_done=fields.date.context_today(self, cr, uid))
         return super(payment_order, self).set_done(
             cr, uid, ids, *args
@@ -337,7 +328,6 @@ class payment_order(orm.Model):
                     cr, uid, line.id, context=context)
                 account_move_obj.post(cr, uid, [move_id], context=context)
 
-        self._write_payment_lines(cr, uid, ids, export_state='sent')
         self.write(cr, uid, ids, {
                 'state': 'sent',
                 'date_sent': fields.date.context_today(
