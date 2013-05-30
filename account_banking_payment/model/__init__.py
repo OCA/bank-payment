@@ -4,7 +4,6 @@ import payment_mode
 import payment_mode_type
 import payment_order_create
 import banking_import_transaction
-import account_bank_statement_line
 import banking_transaction_wizard
 import bank_payment_manual
 import banking_import_line

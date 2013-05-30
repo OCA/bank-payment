@@ -324,6 +324,7 @@ class banking_import_transaction(orm.Model):
         return self.write(
             cr, uid, ids, {
                 'payment_line_id': False,
+                'payment_order_id': False,
                 'payment_order_ids': [(6, 0, [])],
                 },
             context=context)
