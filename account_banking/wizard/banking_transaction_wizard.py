@@ -221,7 +221,7 @@ class banking_transaction_wizard(osv.osv_memory):
 
                     if len(todo) > 0:
                         statement_line_id = wiz.statement_line_id.split_off(
-                                move_line.credit or move_line.debit)[0]
+                                move_line.debit or -move_line.credit)[0]
                         transaction_id = statement_line_obj.browse(
                                 cr,
                                 uid,
@@ -285,7 +285,12 @@ class banking_transaction_wizard(osv.osv_memory):
                     account_id = setting.default_debit_account_id and setting.default_debit_account_id.id
                 statement_pool.write(cr, uid, wiz.statement_line_id.id, {'account_id':account_id})
             
-            wiz.write({'partner_id': False})
+            # Restore partner id from the bank account or else reset
+            partner_id = False
+            if (wiz.statement_line_id.partner_bank_id and
+                    wiz.statement_line_id.partner_bank_id.partner_id):
+                partner_id = wiz.statement_line_id.partner_bank_id.partner_id.id
+            wiz.write({'partner_id': partner_id})
             
             if wiz.statement_line_id:
                 #delete splits causing an unsplit if this is a split
