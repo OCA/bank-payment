@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -8,46 +9,40 @@
 #
 #    All Rights Reserved
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
-#    End users who are looking for a ready-to-use solution with commercial
-#    garantees and support are strongly adviced to contract EduSense BV
-#
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     'name': 'Account Banking',
     'version': '0.1.136',
-    'license': 'GPL-3',
+    'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
-    'depends': ['base', 'account', 'base_iban', 'account_payment',
-                'account_iban_preserve_domestic'],
-    'init_xml': [],
-    'update_xml': [
+    'depends': [
+        'account_voucher',
+        'account_iban_preserve_domestic',
+        ],
+    'data': [
         'security/ir.model.access.csv',
         'data/account_banking_data.xml',
         'wizard/bank_import_view.xml',
         'account_banking_view.xml',
-        'account_banking_workflow.xml',
         'wizard/banking_transaction_wizard.xml',
         'workflow/account_invoice.xml',
     ],
-    'demo_xml': [],
     'external_dependencies': {
         'python' : ['BeautifulSoup'],
     },
@@ -106,6 +101,5 @@
       + No special configuration needed for the parsers, new parsers are
         recognized and made available at server (re)start.
     ''',
-    'active': False,
-    'installable': False,
+    'installable': True,
 }

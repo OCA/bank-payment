@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="transaction_wizard">
+            <field name="name">transaction.wizard</field>
+            <field name="model">banking.transaction.wizard</field>
+            <field name="inherit_id"
+                   ref="account_banking.transaction_wizard_first" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="invoice_ids" position="before">
+                    <field name="payment_order_ids" invisible="True"/>
+                </field>
+                <xpath expr="//group/separator[@string='Multiple matches']/.."
+                       position="after">
+                    <field name='payment_line_id'
+                           attrs="{'invisible': [
+                                  ('match_type', '!=', 'storno'),
+                                  ('match_type', '!=', 'payment')]
+                                  }" />
+                </xpath>
+                <field name="move_line_id" position="after">
+                    <field name='payment_order_id'
+                           attrs="{'readonly': [
+                                  ('match_multi', '=', False)],
+                                  'invisible': [
+                                  ('match_type', '!=', 'payment_order')]}"
+                           domain="[('id', 'in', payment_order_ids[0][2])]"
+                           />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
+
+

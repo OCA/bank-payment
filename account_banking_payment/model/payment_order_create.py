@@ -2,35 +2,33 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#            
+#    All other contributions are (C) by their respective contributors
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-import datetime
-from osv import osv
-from account_banking.struct import struct
-from account_banking.parsers import convert
+from datetime import datetime
+from openerp.osv import orm, fields
+from openerp.misc import DEFAULT_SERVER_DATE_FORMAT
 
-today = datetime.date.today
 
-def str2date(str):
-    dt = convert.str2date(str, '%Y-%m-%d')
-    return datetime.date(dt.year, dt.month, dt.day)
-
-class payment_order_create(osv.osv_memory):
+class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def create_payment(self, cr, uid, ids, context=None):
@@ -57,8 +55,9 @@ class payment_order_create(osv.osv_memory):
         ### account banking
         # t = None
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
-        line2bank = line_obj.line2bank(cr, uid, line_ids, payment.mode.id, context)
-        _today = today()
+        line2bank = line_obj.line2bank(
+            cr, uid, line_ids, payment.mode.id, context)
+        _today = fields.date.context_today(self, cr, uid, context=context)
         ### end account banking
 
         ## Finally populate the current payment with new lines:
@@ -69,16 +68,18 @@ class payment_order_create(osv.osv_memory):
             elif payment.date_prefered == 'due':
                 ### account_banking
                 # date_to_pay = line.date_maturity
-                date_to_pay = line.date_maturity and \
-                           str2date(line.date_maturity) > _today\
-                           and line.date_maturity or False
+                date_to_pay = (
+                    line.date_maturity
+                    if line.date_maturity and line.date_maturity > _today
+                    else False)
                 ### end account banking
             elif payment.date_prefered == 'fixed':
                 ### account_banking
                 # date_to_pay = payment.date_planned
-                date_to_pay = payment.date_planned and \
-                           str2date(payment.date_planned) > _today\
-                           and payment.date_planned or False
+                date_to_pay = (
+                    payment.date_planned
+                    if payment.date_planned and payment.date_planned > _today
+                    else False)
                 ### end account banking
 
             ### account_banking
@@ -107,7 +108,7 @@ class payment_order_create(osv.osv_memory):
                 amount_currency = line.amount_to_pay
             ### end account_banking
 
-            payment_obj.create(cr, uid,{
+            payment_obj.create(cr, uid, {
                 'move_line_id': line.id,
                 'amount_currency': amount_currency,
                 'bank_id': line2bank.get(line.id),
@@ -123,5 +124,3 @@ class payment_order_create(osv.osv_memory):
                 'currency': line.invoice and line.invoice.currency_id.id or line.journal_id.currency.id or line.journal_id.company_id.currency_id.id,
                 }, context=context)
         return {'type': 'ir.actions.act_window_close'}
-
-payment_order_create()

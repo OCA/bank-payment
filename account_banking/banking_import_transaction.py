@@ -1,45 +1,42 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#                  Contributions by Kaspars Vilkens (KNdati):
-#                  lenghty discussions, bugreports and bugfixes
-#    Refractoring (C) 2011 Therp BV (<http://therp.nl>).
-#                 (C) 2011 Smile (<http://smile.fr>).
+#              (C) 2011 Therp BV (<http://therp.nl>).
+#              (C) 2011 Smile (<http://smile.fr>).
+#            
+#    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-from osv import osv, fields
-import netsvc
-import base64
 import datetime
-from tools import config
-from tools.translate import _
-from parsers import models
-from parsers.convert import *
-# from account_banking.struct import struct
-from account_banking import sepa
-from wizard.banktools import *
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp import netsvc
+from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.addons.account_banking.parsers import models
+from openerp.addons.account_banking.parsers import convert
+from openerp.addons.account_banking import sepa
+from openerp.addons.account_banking.wizard import banktools
 
 bt = models.mem_bank_transaction
 
-class banking_import_transaction(osv.osv):
+
+class banking_import_transaction(orm.Model):
     """ orm representation of mem_bank_transaction() for interactive and posthoc
     configuration of reconciliation in the bank statement view.
 
@@ -122,43 +119,6 @@ class banking_import_transaction(osv.osv):
 
         # return move_lines to mix with the rest
         return [x for x in invoice.move_id.line_id if x.account_id.reconcile]
-
-    def _match_debit_order(
-        self, cr, uid, trans, log, context=None):
-
-        def is_zero(total):
-            return self.pool.get('res.currency').is_zero(
-                cr, uid, trans.statement_id.currency, total)
-
-        payment_order_obj = self.pool.get('payment.order')
-        order_ids = payment_order_obj.search(
-            cr, uid, [('payment_order_type', '=', 'debit'),
-                      ('state', '=', 'sent'),
-                      ('date_sent', '<=', str2date(trans.execution_date,
-                                                   '%Y-%m-%d'))
-                      ],
-            limit=0, context=context)
-        orders = payment_order_obj.browse(cr, uid, order_ids, context)
-        candidates = [x for x in orders if
-                      is_zero(x.total - trans.transferred_amount)]
-        if len(candidates) > 0:
-            # retrieve the common account_id, if any
-            account_id = False
-            for line in candidates[0].line_ids[0].debit_move_line_id.move_id.line_id:
-                if line.account_id.type == 'other':
-                    account_id = line.account_id.id
-                    break
-            return dict(
-                move_line_ids = False,
-                match_type = 'payment_order',
-                payment_order_ids = [x.id for x in candidates],
-                account_id = account_id,
-                partner_id = False,
-                partner_bank_id = False,
-                reference = False,
-                type='general',
-                )
-        return False
 
     def _match_invoice(self, cr, uid, trans, move_lines,
                        partner_ids, bank_account_ids,
@@ -282,8 +242,8 @@ class banking_import_transaction(osv.osv):
             candidates = [
                 x for x in move_lines
                 if x.partner_id.id in partner_ids and
-                (str2date(x.date, '%Y-%m-%d') <=
-                 (str2date(trans.execution_date, '%Y-%m-%d') +
+                (convert.str2date(x.date, '%Y-%m-%d') <=
+                 (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                   self.payment_window))
                 and (not _cached(x) or _remaining(x))
                 ]
@@ -304,8 +264,8 @@ class banking_import_transaction(osv.osv):
             candidates = [
                 x for x in candidates or move_lines 
                 if (x.invoice and has_id_match(x.invoice, ref, msg) and
-                    str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
-                    (str2date(trans.execution_date, '%Y-%m-%d') +
+                    convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
+                    (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                      self.payment_window)
                     and (not _cached(x) or _remaining(x)))
                 ]
@@ -317,8 +277,8 @@ class banking_import_transaction(osv.osv):
                     x for x in move_lines 
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
                                 trans.transferred_amount)
-                        and str2date(x.date, '%Y-%m-%d') <=
-                        (str2date(trans.execution_date, '%Y-%m-%d')  +
+                        and convert.str2date(x.date, '%Y-%m-%d') <=
+                        (convert.str2date(trans.execution_date, '%Y-%m-%d')  +
                          self.payment_window)
                         and (not _cached(x) or _remaining(x)))
                     ]
@@ -333,8 +293,8 @@ class banking_import_transaction(osv.osv):
             best = [x for x in candidates
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
                                 trans.transferred_amount)
-                        and str2date(x.date, '%Y-%m-%d') <=
-                        (str2date(trans.execution_date, '%Y-%m-%d') +
+                        and convert.str2date(x.date, '%Y-%m-%d') <=
+                        (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                          self.payment_window))
                    ]
             if len(best) == 1:
@@ -352,8 +312,8 @@ class banking_import_transaction(osv.osv):
                 # transfers first
                 paid = [x for x in move_lines 
                         if x.invoice and has_id_match(x.invoice, ref, msg)
-                            and str2date(x.invoice.date_invoice, '%Y-%m-%d')
-                                <= str2date(trans.execution_date, '%Y-%m-%d')
+                            and convert.str2date(x.invoice.date_invoice, '%Y-%m-%d')
+                                <= convert.str2date(trans.execution_date, '%Y-%m-%d')
                             and (_cached(x) and not _remaining(x))
                        ]
                 if paid:
@@ -443,7 +403,7 @@ class banking_import_transaction(osv.osv):
         transaction = self.browse(cr, uid, transaction_id, context)
         if not transaction.move_line_id:
             if transaction.match_type == 'invoice':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot link transaction %s with invoice") %
                     transaction.statement_line_id.name,
                     (transaction.invoice_ids and
@@ -453,7 +413,7 @@ class banking_import_transaction(osv.osv):
                             transaction.statement_line_id.name
                      )))
             else:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot link transaction %s with accounting entry") %
                     transaction.statement_line_id.name,
                     (transaction.move_line_ids and
@@ -512,7 +472,6 @@ class banking_import_transaction(osv.osv):
             'partner_id': st_line.partner_id and st_line.partner_id.id or False,
             'company_id': st_line.company_id.id,
             'type':voucher_type,
-            'company_id': st_line.company_id.id,
             'account_id': account_id,
             'amount': abs(st_line.amount),
             'writeoff_amount': writeoff,
@@ -541,101 +500,6 @@ class banking_import_transaction(osv.osv):
             cr, uid, st_line.id, 
             {'voucher_id': voucher_id}, context=context)
         transaction.refresh()
-
-    def _confirm_storno(
-        self, cr, uid, transaction_id, context=None):
-        """
-        Creation of the reconciliation has been delegated to
-        *a* direct debit module, to allow for various direct debit styles
-        """
-        payment_line_pool = self.pool.get('payment.line')
-        statement_line_pool = self.pool.get('account.bank.statement.line')
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        if not transaction.payment_line_id:
-            raise osv.except_osv(
-                _("Cannot link with storno"),
-                _("No direct debit order item"))
-        reconcile_id = payment_line_pool.debit_storno(
-            cr, uid,
-            transaction.payment_line_id.id, 
-            transaction.statement_line_id.amount,
-            transaction.statement_line_id.currency,
-            transaction.storno_retry,
-            context=context)
-        statement_line_pool.write(
-            cr, uid, transaction.statement_line_id.id, 
-            {'reconcile_id': reconcile_id}, context=context)
-        transaction.refresh()
-
-    def _confirm_payment_order(
-        self, cr, uid, transaction_id, context=None):
-        """
-        Creation of the reconciliation has been delegated to
-        *a* direct debit module, to allow for various direct debit styles
-        """
-        payment_order_obj = self.pool.get('payment.order')
-        statement_line_pool = self.pool.get('account.bank.statement.line')
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        if not transaction.payment_order_id:
-            raise osv.except_osv(
-                _("Cannot reconcile"),
-                _("Cannot reconcile: no direct debit order"))
-        if transaction.payment_order_id.payment_order_type != 'debit':
-            raise osv.except_osv(
-                _("Cannot reconcile"),
-                _("Reconcile payment order not implemented"))
-        reconcile_id = payment_order_obj.debit_reconcile_transfer(
-            cr, uid,
-            transaction.payment_order_id.id,
-            transaction.statement_line_id.amount,
-            transaction.statement_line_id.currency,
-            context=context)
-        statement_line_pool.write(
-            cr, uid, transaction.statement_line_id.id, 
-            {'reconcile_id': reconcile_id}, context=context)
-
-    def _confirm_payment(
-        self, cr, uid, transaction_id, context=None):
-        """
-        Do some housekeeping on the payment line
-        then pass on to _reconcile_move
-        """
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        payment_line_obj = self.pool.get('payment.line')
-        payment_line_obj.write(
-            cr, uid, transaction.payment_line_id.id, {
-                'export_state': 'done',
-                'date_done': transaction.statement_line_id.date,
-                }
-            )
-        self._confirm_move(cr, uid, transaction_id, context=context)
-        
-    def _cancel_payment(
-        self, cr, uid, transaction_id, context=None):
-        raise osv.except_osv(
-            _("Cannot unreconcile"),
-            _("Cannot unreconcile: this operation is not yet supported for "
-              "match type 'payment'"))
-
-    def _cancel_payment_order(
-        self, cr, uid, transaction_id, context=None):
-        """
-        """
-        payment_order_obj = self.pool.get('payment.order')
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        if not transaction.payment_order_id:
-            raise osv.except_osv(
-                _("Cannot unreconcile"),
-                _("Cannot unreconcile: no direct debit order"))
-        if transaction.payment_order_id.payment_order_type != 'debit':
-            raise osv.except_osv(
-                _("Cannot unreconcile"),
-                _("Unreconcile payment order not implemented"))
-        return payment_order_obj.debit_unreconcile_transfer(
-            cr, uid, transaction.payment_order_id.id,
-            transaction.statement_line_id.reconcile_id.id,
-            transaction.statement_line_id.amount,
-            transaction.statement_line_id.currency)
 
     def _legacy_do_move_unreconcile(self, cr, uid, move_line_ids, currency, context=None):
         """
@@ -684,7 +548,7 @@ class banking_import_transaction(osv.osv):
     def _legacy_clear_up_writeoff(self, cr, uid, transaction, context=None):
         """
         Legacy method to support upgrades older installations of the
-        interactive wizard branch. To be removed after 6.2
+        interactive wizard branch. To be removed after 7.0
         clear up the writeoff move
         """
         if transaction.writeoff_move_line_id:
@@ -768,70 +632,10 @@ class banking_import_transaction(osv.osv):
 
         return True
 
-    def _cancel_storno(
-        self, cr, uid, transaction_id, context=None):
-        """
-        TODO: delegate unreconciliation to the direct debit module,
-        to allow for various direct debit styles
-        """
-        payment_line_obj = self.pool.get('payment.line')
-        reconcile_obj = self.pool.get('account.move.reconcile')
-        transaction = self.browse(cr, uid, transaction_id, context=context)
-        
-        if not transaction.payment_line_id:
-            raise osv.except_osv(
-                _("Cannot cancel link with storno"),
-                _("No direct debit order item"))
-        if not transaction.payment_line_id.storno:
-            raise osv.except_osv(
-                _("Cannot cancel link with storno"),
-                _("The direct debit order item is not marked for storno"))
-
-        journal = transaction.statement_line_id.statement_id.journal_id
-        if transaction.statement_line_id.amount >= 0:
-            account_id = journal.default_credit_account_id.id
-        else:
-            account_id = journal.default_debit_account_id.id
-        cancel_line = False
-        move_lines = []
-        for move in transaction.statement_line_id.move_ids:
-            # There should usually be just one move, I think
-            move_lines += move.line_id
-        for line in move_lines:
-            if line.account_id.id != account_id:
-                cancel_line = line
-                break
-        if not cancel_line:
-            raise osv.except_osv(
-                _("Cannot cancel link with storno"),
-                _("Line id not found"))
-        reconcile = cancel_line.reconcile_id or cancel_line.reconcile_partial_id
-        lines_reconcile = reconcile.line_id or reconcile.line_partial_ids
-        if len(lines_reconcile) < 3:
-            # delete the full reconciliation
-            reconcile_obj.unlink(cr, uid, reconcile.id, context)
-        else:
-            # we are left with a partial reconciliation
-            reconcile_obj.write(
-                cr, uid, reconcile.id, 
-                {'line_partial_ids': 
-                 [(6, 0, [x.id for x in lines_reconcile if x.id != cancel_line.id])],
-                 'line_id': [(6, 0, [])],
-                 }, context)
-        # redo the original payment line reconciliation with the invoice
-        payment_line_obj.write(
-            cr, uid, transaction.payment_line_id.id, 
-            {'storno': False}, context)
-        payment_line_obj.debit_reconcile(
-            cr, uid, transaction.payment_line_id.id, context)
-
     cancel_map = {
-        'storno': _cancel_storno,
         'invoice': _cancel_voucher,
         'manual': _cancel_voucher,
         'move': _cancel_voucher,
-        'payment_order': _cancel_payment_order,
-        'payment': _cancel_payment,
         }
 
     def cancel(self, cr, uid, ids, context=None):
@@ -841,7 +645,7 @@ class banking_import_transaction(osv.osv):
             if not transaction.match_type:
                 continue
             if transaction.match_type not in self.cancel_map:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot cancel type %s" % transaction.match_type),
                     _("No method found to cancel this type"))
             self.cancel_map[transaction.match_type](
@@ -850,11 +654,8 @@ class banking_import_transaction(osv.osv):
         return True
 
     confirm_map = {
-        'storno': _confirm_storno,
         'invoice': _confirm_move,
         'manual': _confirm_move,
-        'payment_order': _confirm_payment_order,
-        'payment': _confirm_payment,
         'move': _confirm_move,
         }
 
@@ -865,7 +666,7 @@ class banking_import_transaction(osv.osv):
             if not transaction.match_type:
                 continue
             if transaction.match_type not in self.confirm_map:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot reconcile"),
                     _("Cannot reconcile type %s. No method found to " +
                       "reconcile this type") %
@@ -873,7 +674,7 @@ class banking_import_transaction(osv.osv):
                     )
             if (transaction.residual and transaction.writeoff_account_id):
                 if transaction.match_type not in ('invoice', 'move', 'manual'):
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _("Cannot reconcile"),
                         _("Bank transaction %s: write off not implemented for " +
                           "this match type.") %
@@ -884,74 +685,8 @@ class banking_import_transaction(osv.osv):
             self.confirm_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
 
-        """
-        account_ids = [
-        x.id for x in bank_account_ids 
-        if x.partner_id.id == move_line.partner_id.id
-        ][0]
-        """
         return True
    
-    def _match_storno(
-        self, cr, uid, trans, log, context=None):
-        payment_line_obj = self.pool.get('payment.line')
-        line_ids = payment_line_obj.search(
-            cr, uid, [
-                ('order_id.payment_order_type', '=', 'debit'),
-                ('order_id.state', 'in', ['sent', 'done']),
-                ('communication', '=', trans.reference)
-                ], context=context)
-        # stornos MUST have an exact match
-        if len(line_ids) == 1:
-            account_id = payment_line_obj.get_storno_account_id(
-                cr, uid, line_ids[0], trans.transferred_amount,
-                trans.statement_id.currency, context=None)
-            if account_id:
-                return dict(
-                    account_id = account_id,
-                    match_type = 'storno',
-                    payment_line_id = line_ids[0],
-                    move_line_ids=False,
-                    partner_id=False,
-                    partner_bank_id=False,
-                    reference=False,
-                    type='customer',
-                    )
-        # TODO log the reason why there is no result for transfers marked
-        # as storno
-        return False
-
-    def _match_payment(self, cr, uid, trans, payment_lines,
-                      partner_ids, bank_account_ids, log, linked_payments):
-        '''
-        Find the payment order belonging to this reference - if there is one
-        This is the easiest part: when sending payments, the returned bank info
-        should be identical to ours.
-        This also means that we do not allow for multiple candidates.
-        '''
-        # TODO: Not sure what side effects are created when payments are done
-        # for credited customer invoices, which will be matched later on too.
-        digits = dp.get_precision('Account')(cr)[1]
-        candidates = [x for x in payment_lines
-                      if x.communication == trans.reference 
-                      and round(x.amount, digits) == -round(trans.transferred_amount, digits)
-                      and trans.remote_account in (x.bank_id.acc_number,
-                                                   x.bank_id.acc_number_domestic)
-                     ]
-        if len(candidates) == 1:
-            candidate = candidates[0]
-            # Check cache to prevent multiple matching of a single payment
-            if candidate.id not in linked_payments:
-                linked_payments[candidate.id] = True
-                move_info = self._get_move_info(cr, uid, [candidate.move_line_id.id])
-                move_info.update({
-                        'match_type': 'payment',
-                        'payment_line_id': candidate.id,
-                        })
-                return move_info
-
-        return False
-
     signal_duplicate_keys = [
         # does not include float values
         # such as transferred_amount
@@ -982,7 +717,7 @@ class banking_import_transaction(osv.osv):
                     me['transferred_amount'] - trans.transferred_amount):
                     dupes.append(trans.id)
             if len(dupes) < 1:
-                raise osv.except_osv(_('Cannot check for duplicate'),
+                raise orm.except_orm(_('Cannot check for duplicate'),
                                _("Cannot check for duplicate. "
                                  "I can't find myself."))
             if len(dupes) > 1:
@@ -1059,6 +794,22 @@ class banking_import_transaction(osv.osv):
             retval['invoice_ids'] = [x.invoice.id for x in move_lines]
             retval['type'] = type_map[move_lines[0].invoice.type]
         return retval
+
+    def move_info2values(self, move_info):
+        vals = {}
+        vals['match_type'] = move_info['match_type']
+        vals['move_line_ids'] = [(6, 0, move_info.get('move_line_ids') or [])]
+        vals['invoice_ids'] = [(6, 0, move_info.get('invoice_ids') or [])]
+        vals['move_line_id'] = (move_info.get('move_line_ids', False) and
+                                       len(move_info['move_line_ids']) == 1 and
+                                       move_info['move_line_ids'][0]
+                                       )
+        if move_info['match_type'] == 'invoice':
+            vals['invoice_id'] = (move_info.get('invoice_ids', False) and
+                                         len(move_info['invoice_ids']) == 1 and
+                                         move_info['invoice_ids'][0]
+                                         )
+        return vals
     
     def match(self, cr, uid, ids, results=None, context=None):
         if not ids:
@@ -1069,9 +820,9 @@ class banking_import_transaction(osv.osv):
         journal_obj = self.pool.get('account.journal')
         move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
+        has_payment = bool(payment_line_obj)
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_obj = self.pool.get('account.bank.statement')
-        payment_order_obj = self.pool.get('payment.order')
         imported_statement_ids = []
 
         # Results
@@ -1098,14 +849,15 @@ class banking_import_transaction(osv.osv):
         # communication. Most likely there are much less sent payments
         # than reconciled and open/draft payments.
         # Strangely, payment_orders still do not have company_id
-        cr.execute("SELECT l.id FROM payment_order o, payment_line l "
-                       "WHERE l.order_id = o.id AND "
-                       "o.state = 'sent' AND "
-                       "l.date_done IS NULL"
-                       )
-        payment_line_ids = [x[0] for x in cr.fetchall()]
-        if payment_line_ids:
-            payment_lines = payment_line_obj.browse(cr, uid, payment_line_ids)
+        if has_payment:
+            payment_line_ids = payment_line_obj.search(
+                cr, uid, [
+                ('order_id.state', '=', 'sent'),
+                ('date_done', '=', False)], context=context)
+            payment_lines = payment_line_obj.browse(
+                cr, uid, payment_line_ids)
+        else:
+            payment_lines = False
 
         # Start the loop over the transactions requested to match
         transactions = self.browse(cr, uid, ids, context)
@@ -1123,7 +875,7 @@ class banking_import_transaction(osv.osv):
 
             if (transaction.statement_line_id and
                 transaction.statement_line_id.state == 'confirmed'):
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot perform match"),
                     _("Cannot perform match on a confirmed transction"))
             
@@ -1171,7 +923,7 @@ class banking_import_transaction(osv.osv):
                 account_info = info[transaction.local_account][currency_code]
             else:
                 # Pull account info/currency
-                account_info = get_company_bank_account(
+                account_info = banktools.get_company_bank_account(
                     self.pool, cr, uid, transaction.local_account,
                     transaction.local_currency, company, results['log']
                 )
@@ -1228,10 +980,9 @@ class banking_import_transaction(osv.osv):
                 continue
 
             # Link accounting period
-            period_id = get_period(
-                self.pool, cr, uid,
-                str2date(transaction.effective_date,'%Y-%m-%d'), company,
-                results['log'])
+            period_id = banktools.get_period(
+                self.pool, cr, uid, transaction.effective_date,
+                company, results['log'])
             if not period_id:
                 results['trans_skipped_cnt'] += 1
                 if not injected:
@@ -1270,10 +1021,10 @@ class banking_import_transaction(osv.osv):
                 # rebrowse the current record after writing
                 transaction = self.browse(cr, uid, transaction.id, context=context)
             # Match full direct debit orders
-            if transaction.type == bt.DIRECT_DEBIT:
+            if transaction.type == bt.DIRECT_DEBIT and has_payment:
                 move_info = self._match_debit_order(
                     cr, uid, transaction, results['log'], context)
-            if transaction.type == bt.STORNO:
+            if transaction.type == bt.STORNO and has_payment:
                 move_info = self._match_storno(
                     cr, uid, transaction, results['log'], context)
             # Allow inclusion of generated bank invoices
@@ -1290,7 +1041,7 @@ class banking_import_transaction(osv.osv):
                 partner_banks = []
             else:
                 # Link remote partner, import account when needed
-                partner_banks = get_bank_accounts(
+                partner_banks = banktools.get_bank_accounts(
                     self.pool, cr, uid, transaction.remote_account,
                     results['log'], fail=True
                     )
@@ -1309,14 +1060,17 @@ class banking_import_transaction(osv.osv):
                         country_code = company.partner_id.country.code
                     else:
                         country_code = None
-                    partner_id = get_or_create_partner(
+                    partner_id = banktools.get_or_create_partner(
                         self.pool, cr, uid, transaction.remote_owner,
                         transaction.remote_owner_address,
                         transaction.remote_owner_postalcode,
                         transaction.remote_owner_city,
-                        country_code, results['log'], context=context)
+                        country_code, results['log'],
+                        customer=transaction.transferred_amount > 0,
+                        supplier=transaction.transferred_amount < 0,
+                        context=context)
                     if transaction.remote_account:
-                        partner_bank_id = create_bank_account(
+                        partner_bank_id = banktools.create_bank_account(
                             self.pool, cr, uid, partner_id,
                             transaction.remote_account,
                             transaction.remote_owner, 
@@ -1340,6 +1094,10 @@ class banking_import_transaction(osv.osv):
             if (not move_info
                 and transaction.transferred_amount < 0 and payment_lines):
                 # Link open payment - if any
+                # Note that _match_payment is defined in the
+                # account_banking_payment module which should be installed
+                # automatically if account_payment is. And if account_payment
+                # is not installed, then payment_lines will be empty.
                 move_info = self._match_payment(
                     cr, uid, transaction,
                     payment_lines, partner_ids,
@@ -1385,28 +1143,12 @@ class banking_import_transaction(osv.osv):
             self_values = {}
             if move_info:
                 results['trans_matched_cnt'] += 1
-                self_values['match_type'] = move_info['match_type']
-                self_values['payment_line_id'] = move_info.get('payment_line_id', False)
-                self_values['move_line_ids'] = [(6, 0, move_info.get('move_line_ids') or [])]
-                self_values['invoice_ids'] = [(6, 0, move_info.get('invoice_ids') or [])]
-                self_values['payment_order_ids'] = [(6, 0, move_info.get('payment_order_ids') or [])]
-                self_values['payment_order_id'] = (move_info.get('payment_order_ids', False) and 
-                                                   len(move_info['payment_order_ids']) == 1 and
-                                                   move_info['payment_order_ids'][0]
-                                                   )
-                self_values['move_line_id'] = (move_info.get('move_line_ids', False) and
-                                               len(move_info['move_line_ids']) == 1 and
-                                               move_info['move_line_ids'][0]
-                                               )
-                if move_info['match_type'] == 'invoice':
-                    self_values['invoice_id'] = (move_info.get('invoice_ids', False) and
-                                                 len(move_info['invoice_ids']) == 1 and
-                                                 move_info['invoice_ids'][0]
-                                                 )
+                self_values.update(
+                    self.move_info2values(move_info))
+                # values['match_type'] = move_info['match_type']
                 values['partner_id'] = move_info['partner_id']
                 values['partner_bank_id'] = move_info['partner_bank_id']
                 values['type'] = move_info['type']
-                # values['match_type'] = move_info['match_type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
             if not values['partner_id'] and partner_ids and len(partner_ids) == 1:
@@ -1445,34 +1187,6 @@ class banking_import_transaction(osv.osv):
         if imported_statement_ids:
             statement_obj.button_dummy(
                 cr, uid, imported_statement_ids, context=context)
-
-        if payment_lines:
-            # As payments lines are treated as individual transactions, the
-            # batch as a whole is only marked as 'done' when all payment lines
-            # have been reconciled.
-            cr.execute(
-                "SELECT DISTINCT o.id "
-                "FROM payment_order o, payment_line l "
-                "WHERE o.state = 'sent' "
-                  "AND o.id = l.order_id "
-                  "AND o.id NOT IN ("
-                    "SELECT DISTINCT order_id AS id "
-                    "FROM payment_line "
-                    "WHERE date_done IS NULL "
-                      "AND id IN (%s)"
-                   ")" % (','.join([str(x) for x in payment_line_ids]))
-            )
-            order_ids = [x[0] for x in cr.fetchall()]
-            if order_ids:
-                # Use workflow logics for the orders. Recode logic from
-                # account_payment, in order to increase efficiency.
-                payment_order_obj.set_done(cr, uid, order_ids,
-                                        {'state': 'done'}
-                                       )
-                wf_service = netsvc.LocalService('workflow')
-                for id in order_ids:
-                    wf_service.trg_validate(
-                        uid, 'payment.order', id, 'done', cr)
 
     def _get_residual(self, cr, uid, ids, name, args, context=None):
         """
@@ -1518,10 +1232,6 @@ class banking_import_transaction(osv.osv):
             elif transaction.match_type == 'invoice':
                 if transaction.invoice_ids and not transaction.invoice_id:
                     res[transaction.id] = True
-            elif transaction.match_type == 'payment_order':
-                if (transaction.payment_order_ids and not
-                    transaction.payment_order_id):
-                    res[transaction.id] = True
         return res
     
     def clear_and_write(self, cr, uid, ids, vals=None, context=None):
@@ -1535,12 +1245,10 @@ class banking_import_transaction(osv.osv):
                     'invoice_id', 
                     'manual_invoice_id', 
                     'manual_move_line_id',
-                    'payment_line_id',
                     ]] +
                      [(x, [(6, 0, [])]) for x in [
                         'move_line_ids',
                         'invoice_ids',
-                        'payment_order_ids',
                         ]]))
         write_vals.update(vals or {})
         return self.write(cr, uid, ids, write_vals, context=context)
@@ -1639,29 +1347,22 @@ class banking_import_transaction(osv.osv):
             'account.bank.statement.line', 'Statement line',
             ondelete='CASCADE'),
         'statement_id': fields.many2one(
-            'account.bank.statement', 'Statement'),
+            'account.bank.statement', 'Statement',
+            ondelete='CASCADE'),
         'parent_id': fields.many2one(
             'banking.import.transaction', 'Split off from this transaction'),
         # match fields
         'match_type': fields.selection(
             [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
-             ('payment', 'Payment'), ('payment_order', 'Payment order'),
-             ('storno', 'Storno')],
-            'Match type'),
+             ], 'Match type'),
         'match_multi': fields.function(
             _get_match_multi, method=True, string='Multi match',
             type='boolean'),
-        'payment_order_ids': fields.many2many(
-            'payment.order', 'banking_transaction_payment_order_rel',
-            'order_id', 'transaction_id', 'Payment orders'),
-        'payment_order_id': fields.many2one(
-            'payment.order', 'Payment order to reconcile'),
         'move_line_ids': fields.many2many(
             'account.move.line', 'banking_transaction_move_line_rel',
             'move_line_id', 'transaction_id', 'Matching entries'),
         'move_line_id': fields.many2one(
             'account.move.line', 'Entry to reconcile'),
-        'payment_line_id': fields.many2one('payment.line', 'Payment line'),
         'invoice_ids': fields.many2many(
             'account.invoice', 'banking_transaction_invoice_rel',
             'invoice_id', 'transaction_id', 'Matching invoices'),
@@ -1685,7 +1386,7 @@ class banking_import_transaction(osv.osv):
                   "or reconcile it with the payment(s)"),
             ),
         'writeoff_amount': fields.float('Difference Amount'),
-        # Legacy field: to be removed after 6.2
+        # Legacy field: to be removed after 7.0
         'writeoff_move_line_id': fields.many2one(
             'account.move.line', 'Write off move line'),
         'writeoff_analytic_id': fields.many2one(
@@ -1703,7 +1404,8 @@ class banking_import_transaction(osv.osv):
 
 banking_import_transaction()
 
-class account_bank_statement_line(osv.osv):
+
+class account_bank_statement_line(orm.Model):
     _inherit = 'account.bank.statement.line'
     _columns = {
         'import_transaction_id': fields.many2one(
@@ -1722,9 +1424,8 @@ class account_bank_statement_line(osv.osv):
         'match_type': fields.related(
             'import_transaction_id', 'match_type', type='selection',
             selection=[('manual', 'Manual'), ('move','Move'),
-                       ('invoice', 'Invoice'), ('payment', 'Payment'),
-                       ('payment_order', 'Payment order'),
-                       ('storno', 'Storno')], 
+                       ('invoice', 'Invoice'),
+                       ], 
             string='Match type', readonly=True,),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
@@ -1775,21 +1476,20 @@ class account_bank_statement_line(osv.osv):
         """
         statement_pool = self.pool.get('account.bank.statement')
         obj_seq = self.pool.get('ir.sequence')
-        move_pool = self.pool.get('account.move')
         import_transaction_obj = self.pool.get('banking.import.transaction')
 
         for st_line in self.browse(cr, uid, ids, context):
             if st_line.state != 'draft':
                 continue
             if st_line.duplicate:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Bank transfer flagged as duplicate'),
                     _("You cannot confirm a bank transfer marked as a "
                       "duplicate (%s.%s)") % 
                     (st_line.statement_id.name, st_line.name,))
             if st_line.analytic_account_id:
                 if not st_line.statement_id.journal_id.analytic_journal_id:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('No Analytic Journal !'),
                         _("You have to define an analytic journal on the '%s' "
                           "journal!") % (st_line.statement_id.journal_id.name,))
@@ -1833,7 +1533,6 @@ class account_bank_statement_line(osv.osv):
             ids = [ids]
         import_transaction_obj = self.pool.get('banking.import.transaction')
         move_pool = self.pool.get('account.move')
-        transaction_cancel_ids = []
         set_draft_ids = []
         move_unlink_ids = []
         # harvest ids for various actions
@@ -1841,7 +1540,7 @@ class account_bank_statement_line(osv.osv):
             if st_line.state != 'confirmed':
                 continue
             if st_line.statement_id.state != 'draft':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _("Cannot cancel bank transaction"),
                     _("The bank statement that this transaction belongs to has "
                       "already been confirmed"))
@@ -1876,10 +1575,10 @@ class account_bank_statement_line(osv.osv):
             ids = [ids]
         for line in self.browse(cr, uid, ids, context=context):
             if line.state == 'confirmed':
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Confirmed Statement Line'),
                     _("You cannot delete a confirmed Statement Line"
-                      ": '%s'" % line.name))
+                      ": '%s'") % line.name)
         return super(account_bank_statement_line, self).unlink(
             cr, uid, ids, context=context)
 
@@ -1921,7 +1620,8 @@ class account_bank_statement_line(osv.osv):
 
 account_bank_statement_line()
 
-class account_bank_statement(osv.osv):
+
+class account_bank_statement(orm.Model):
     _inherit = 'account.bank.statement'
 
     def _end_balance(self, cursor, user, ids, name, attr, context=None):
@@ -1957,19 +1657,21 @@ class account_bank_statement(osv.osv):
             self.balance_check(cr, uid, st.id, journal_type=j_type, context=context)
             if (not st.journal_id.default_credit_account_id) \
                     or (not st.journal_id.default_debit_account_id):
-                raise osv.except_osv(_('Configuration Error !'),
+                raise orm.except_orm(_('Configuration Error !'),
                         _('Please verify that an account is defined in the journal.'))
 
             # protect against misguided manual changes
             for line in st.move_line_ids:
                 if line.state != 'valid':
-                    raise osv.except_osv(_('Error !'),
+                    raise orm.except_orm(_('Error !'),
                             _('The account entries lines are not in valid state.'))
 
             line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
             st.refresh()
-            self.log(cr, uid, st.id, _('Statement %s is confirmed, journal '
-                                       'items are created.') % (st.name,))
+            self.message_post(
+                cr, uid, [st.id],
+                body=_('Statement %s confirmed, journal items were created.')
+                % (st.name,), context=context)
         return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
@@ -1988,8 +1690,12 @@ class account_bank_statement(osv.osv):
         for st in self.browse(cr, uid, ids, context=context):
             for line in st.line_ids:
                 if line.state == 'confirmed':
-                    raise osv.except_osv(_('Confirmed Statement Lines'), _("You cannot delete a Statement with confirmed Statement Lines: '%s'" % st.name))
-        return super(account_bank_statement,self).unlink(cr, uid, ids, context=context)
+                    raise orm.except_orm(
+                        _('Confirmed Statement Lines'),
+                        _("You cannot delete a Statement with confirmed "
+                          "Statement Lines: '%s'") % st.name)
+        return super(account_bank_statement, self).unlink(
+            cr, uid, ids, context=context)
 
     _columns = {
         # override this field *only* to replace the 

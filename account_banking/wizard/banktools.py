@@ -1,29 +1,27 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
+#    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-import datetime
-from tools.translate import _
-from account_banking.parsers import convert
-from account_banking import sepa
-from account_banking.struct import struct
+from openerp.tools.translate import _
+from openerp.addons.account_banking import sepa
+from openerp.addons.account_banking.struct import struct
 
 __all__ = [
     'get_period', 
@@ -33,54 +31,23 @@ __all__ = [
     'create_bank_account',
 ]
 
-def get_period(pool, cursor, uid, date, company, log):
+def get_period(pool, cr, uid, date, company, log=None):
     '''
-    Get a suitable period for the given date range and the given company.
+    Wrapper over account_period.find() to log exceptions of
+    missing periods instead of raising.
     '''
-    fiscalyear_obj = pool.get('account.fiscalyear')
-    period_obj = pool.get('account.period')
-    if not date:
-        date = convert.date2str(datetime.datetime.today())
-
-    search_date = convert.date2str(date)
-    fiscalyear_ids = fiscalyear_obj.search(cursor, uid, [
-        ('date_start','<=', search_date), ('date_stop','>=', search_date),
-        ('state','=','draft'), ('company_id','=',company.id)
-    ])
-    if not fiscalyear_ids:
-        fiscalyear_ids = fiscalyear_obj.search(cursor, uid, [
-            ('date_start','<=',search_date), ('date_stop','>=',search_date),
-            ('state','=','draft'), ('company_id','=',None)
-        ])
-    if not fiscalyear_ids:
-        log.append(
-            _('No suitable fiscal year found for date %(date)s and company %(company_name)s')
-            % dict(company_name=company.name, date=date)
-        )
-        return False
-    elif len(fiscalyear_ids) > 1:
-        log.append(
-            _('Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s')
-            % dict(company_name=company.name, date=date)
-        )
-        return False
-
-    fiscalyear_id = fiscalyear_ids[0]
-    period_ids = period_obj.search(cursor, uid, [
-        ('date_start','<=',search_date), ('date_stop','>=',search_date),
-        ('fiscalyear_id','=',fiscalyear_id), ('state','=','draft'),
-        ('special', '=', False),
-    ])
-    if not period_ids:
-        log.append(_('No suitable period found for date %(date)s and company %(company_name)s')
-                   % dict(company_name=company.name, date=date)
-        )
-        return False
-    if len(period_ids) != 1:
-        log.append(_('Multiple overlapping periods for date %(date)s and company %(company_name)s')
-                   % dict(company_name=company.name, date=date)
-        )
-        return False
+    context = {'account_period_prefer_normal': True}
+    if company:
+        context['company_id'] = company.id
+    try:
+        period_ids = pool.get('account.period').find(
+            cr, uid, dt=date, context=context)
+    except Exception, e:
+        if log is None:
+            raise
+        else:
+            log.append(e)
+            return False
     return period_ids[0]
 
 def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
@@ -119,7 +86,8 @@ def _has_attr(obj, attr):
         return False
 
 def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
-                          country_code, log, context=None):
+                          country_code, log, supplier=False, customer=False,
+                          context=None):
     '''
     Get or create the partner belonging to the account holders name <name>
 
@@ -141,11 +109,11 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                 cr, uid, [('code', '=', country_code.upper())],
                 context=context)
             country_id = country_ids and country_ids[0] or False
-            criteria.append(('address.country_id', '=', country_id))
+            criteria.append(('country_id', '=', country_id))
         if city:
-            criteria.append(('address.city', 'ilike', city))
+            criteria.append(('city', 'ilike', city))
         if postal_code:
-            criteria.append(('address.zip', 'ilike', postal_code))
+            criteria.append(('zip', 'ilike', postal_code))
         partner_search_ids = partner_obj.search(
             cr, uid, criteria, context=context)
         key = name.lower()
@@ -164,16 +132,20 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                 user.company_id.partner_id.country.id or
                 False
             )
-        partner_id = partner_obj.create(cr, uid, dict(
-            name=name, active=True,
-            comment='Generated from Bank Statements Import',
-            address=[(0,0,{
+        partner_id = partner_obj.create(
+            cr, uid, {
+                'name': name,
+                'active': True,
+                'comment': 'Generated from Bank Statements Import',
                 'street': address and address[0] or '',
                 'street2': len(address) > 1 and address[1] or '',
                 'city': city,
                 'zip': postal_code or '',
                 'country_id': country_id,
-            })]), context=context)
+                'is_company': True,
+                'supplier': supplier,
+                'customer': customer,
+                }, context=context)
     else:
         if len(partner_ids) > 1:
             log.append(

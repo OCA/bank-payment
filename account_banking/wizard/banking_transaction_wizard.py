@@ -2,25 +2,26 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 Therp BV (<http://therp.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #              (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
+#    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+
+from osv import orm, fields
 from openerp.tools.translate import _
 
 """
@@ -31,7 +32,8 @@ multiple matches or select a manual match.
 
 """
 
-class banking_transaction_wizard(osv.osv_memory):
+
+class banking_transaction_wizard(orm.TransientModel):
     _name = 'banking.transaction.wizard'
     _description = 'Match transaction'
 
@@ -78,7 +80,7 @@ class banking_transaction_wizard(osv.osv_memory):
             cr, uid, ids[0], ['import_transaction_id'],
             context=context)['import_transaction_id'][0] # many2one tuple
         import_transaction_obj.match(cr, uid, [trans_id], context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
     
     def write(self, cr, uid, ids, vals, context=None):
         """
@@ -162,7 +164,7 @@ class banking_transaction_wizard(osv.osv_memory):
                         # transaction_obj.write(
                         #   cr, uid, wiz.import_transaction_id.id,
                         #   { 'invoice_id': False, }, context=context)
-                        osv.except_osv(
+                        orm.except_orm(
                             _("No entry found for the selected invoice"),
                             _("No entry found for the selected invoice. " +
                               "Try manual reconciliation."))
@@ -184,7 +186,7 @@ class banking_transaction_wizard(osv.osv_memory):
                                 move_line_id = line.id
                                 break
                     if not move_line_id:
-                        osv.except_osv(
+                        orm.except_orm(
                             _("Cannot select for reconcilion"),
                             _("No entry found for the selected invoice. "))
                 else:
@@ -222,7 +224,7 @@ class banking_transaction_wizard(osv.osv_memory):
         """
         Just a button that triggers a write.
         """
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def disable_match(self, cr, uid, ids, context=None):
         """
@@ -255,7 +257,7 @@ class banking_transaction_wizard(osv.osv_memory):
                          if x['import_transaction_id']]
             self.pool.get('banking.import.transaction').clear_and_write(
                 cr, uid, trans_ids, context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
         if isinstance(ids, (int, float)):
@@ -267,7 +269,7 @@ class banking_transaction_wizard(osv.osv_memory):
             transaction_obj.write(
                 cr, uid, wiz['import_transaction_id'][0], 
                 {'duplicate': not wiz['duplicate']}, context=context)
-        return True
+        return self.create_act_window(cr, uid, ids, context=None)
 
     def _get_default_match_type(self, cr, uid, context=None):
         """
@@ -320,15 +322,6 @@ class banking_transaction_wizard(osv.osv_memory):
             'import_transaction_id', 'writeoff_journal_id',
             type='many2one', relation='account.journal',
             string='Write-off journal'),
-        'payment_line_id': fields.related(
-            'import_transaction_id', 'payment_line_id', string="Matching payment or storno", 
-            type='many2one', relation='payment.line', readonly=True),
-        'payment_order_ids': fields.related(
-            'import_transaction_id', 'payment_order_ids', string="Matching payment orders", 
-            type='many2many', relation='payment.order'),
-        'payment_order_id': fields.related(
-            'import_transaction_id', 'payment_order_id', string="Payment order to reconcile", 
-            type='many2one', relation='payment.order'),
         'invoice_ids': fields.related(
             'import_transaction_id', 'invoice_ids', string="Matching invoices", 
             type='many2many', relation='account.invoice'),

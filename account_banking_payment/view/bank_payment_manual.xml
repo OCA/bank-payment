@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_manual_form" model="ir.ui.view">
+            <field name="name">Form for manual payment wizard</field>
+            <field name="model">payment.manual</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <label string="Payment order(s) have been set to 'sent'"/>
+                    <button special="cancel" icon="gtk-ok" string="OK"/>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
