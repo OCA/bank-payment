@@ -1500,7 +1500,7 @@ class banking_import_transaction(osv.osv):
                 not(transaction.move_currency_amount is False)):
                 res[transaction.id] = (
                     transaction.move_currency_amount -
-                    transaction.transferred_amount
+                    transaction.statement_line_id.amount
                     )
         return res
         
