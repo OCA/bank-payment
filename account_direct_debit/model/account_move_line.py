@@ -58,7 +58,7 @@ class account_move_line(osv.osv):
         if not args:
             return []
         line_obj = self.pool.get('account.move.line')
-        query = line_obj._query_get(cr, uid, context={})
+        query = line_obj._query_get(cr, uid, context=context)
         where = ' and '.join(map(lambda x: '''(SELECT
         CASE WHEN l.amount_currency > 0
             THEN l.amount_currency

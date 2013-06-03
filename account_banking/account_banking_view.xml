@@ -236,6 +236,13 @@
                     -->
                     <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']"
                            position="after">
+                        <field name="link_partner_ok" invisible="1" />
+                        <button name="link_partner"
+                                string="Link partner"
+                                icon="terp-partner"
+                                type="object"
+                                attrs="{'invisible': [('link_partner_ok', '=', False)]}"
+                                />
                         <!-- TODO set partner_id when partner_bank_id changes -->
                         <field name="partner_bank_id"/>
                     </xpath>
@@ -248,10 +255,14 @@
                            position="after">
                         <field name="match_type"/>
                         <field name="residual"/>
-                        <button name="match_wizard" states="draft"
+                        <field name="parent_id" invisible="1" />
+                        <button name="match_wizard"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"
-                                type="object"/>
+                                attrs="{'invisible': ['|', ('parent_id', '!=', False),
+                                                           ('state', '!=', 'draft')]}"
+                                type="object"
+                                />
                         <field name="match_multi" invisible="1"/>
                         <field name="duplicate" invisible="1"/>
                         <field name="state"/>
@@ -319,6 +330,13 @@
                     <field name="name"/>
                     <field name="ref"/>
                     <field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
+                    <field name="link_partner_ok" invisible="1" />
+                    <button name="link_partner"
+                            string="Link partner"
+                            icon="terp-partner"
+                            type="object"
+                            attrs="{'invisible': [('link_partner_ok', '=', False)]}"
+                            />
                     <!-- TODO set partner_id when partner_bank_id changes -->
                     <field name="partner_bank_id"/>
                     <field name="type" on_change="onchange_type(partner_id, type)"/>
@@ -328,10 +346,14 @@
                     <field name="amount"/>
                     <field name="match_type"/>
                     <field name="residual"/>
+                    <field name="parent_id" invisible="1" />
                     <button name="match_wizard" states="draft"
                             string="Match"
                             icon="terp-gtk-jump-to-ltr"
-                            type="object"/>
+                            attrs="{'invisible': ['|', ('parent_id', '!=', False),
+                                                       ('state', '!=', 'draft')]}"
+                            type="object"
+                            />
                     <field name="match_multi" invisible="1"/>
                     <field name="duplicate" invisible="1"/>
                     <field name="state"/>
