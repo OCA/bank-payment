@@ -820,7 +820,8 @@ class banking_import_transaction(orm.Model):
         journal_obj = self.pool.get('account.journal')
         move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
-        has_payment = bool(payment_line_obj)
+        has_payment = bool(
+            payment_line_obj and 'date_done' in payment_line_obj._columns)
         statement_line_obj = self.pool.get('account.bank.statement.line')
         statement_obj = self.pool.get('account.bank.statement')
         imported_statement_ids = []
@@ -856,8 +857,6 @@ class banking_import_transaction(orm.Model):
                 ('date_done', '=', False)], context=context)
             payment_lines = payment_line_obj.browse(
                 cr, uid, payment_line_ids)
-        else:
-            payment_lines = False
 
         # Start the loop over the transactions requested to match
         transactions = self.browse(cr, uid, ids, context)
