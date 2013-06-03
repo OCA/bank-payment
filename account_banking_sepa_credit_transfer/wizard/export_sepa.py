@@ -192,7 +192,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
             control_sum_pmtinf = etree.SubElement(payment_info, 'CtrlSum')
         payment_type_info = etree.SubElement(payment_info, 'PmtTpInf')
         service_level = etree.SubElement(payment_type_info, 'SvcLvl')
-        service_level_code = etree.SubElement(service_level, 'Code')
+        service_level_code = etree.SubElement(service_level, 'Cd')
         service_level_code.text = 'SEPA'
         requested_exec_date = etree.SubElement(payment_info, 'ReqdExctnDt')
         requested_exec_date.text = my_requested_exec_date
