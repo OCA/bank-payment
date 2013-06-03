@@ -71,7 +71,7 @@ class banking_transaction_wizard(osv.osv_memory):
         Call the automatic matching routine for one or
         more bank transactions
         """
-        if isinstance(ids, (int, float)):
+        if isinstance(ids, (int, long)):
             ids = [ids]
         import_transaction_obj = self.pool.get('banking.import.transaction')
         trans_id = self.read(
@@ -231,7 +231,7 @@ class banking_transaction_wizard(osv.osv_memory):
         settings_pool = self.pool.get('account.banking.account.settings')
         statement_pool = self.pool.get('account.bank.statement.line')
 
-        if isinstance(ids, (int, float)):
+        if isinstance(ids, (int, long)):
             ids = [ids]
 
         for wiz in self.browse(cr, uid, ids, context=context):
@@ -258,7 +258,7 @@ class banking_transaction_wizard(osv.osv_memory):
         return True
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
-        if isinstance(ids, (int, float)):
+        if isinstance(ids, (int, long)):
             ids = [ids]
         transaction_obj = self.pool.get('banking.import.transaction')
         for wiz in self.read(
