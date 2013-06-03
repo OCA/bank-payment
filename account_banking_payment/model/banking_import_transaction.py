@@ -365,25 +365,18 @@ class banking_import_transaction(orm.Model):
     def __init__(self, pool, cr):
         """
         Updating the function maps to handle the match types that this
-        module adds. While creating the map in the super object was
-        straightforward, the fact that these are now functions rather than
-        method requires the awkward way of updating it with the methods'
-        function objects.
-
-        As noted above, another implication is that any addon that inherits
-        one of these methods needs to overwrite the entry in the function
-        maps in the same way as is done below.
+        module adds.
         """
         super(banking_import_transaction, self).__init__(pool, cr)
 
-        self.confirm_map.update({
-                'storno': self._confirm_storno.__func__,
-                'payment_order': self._confirm_payment_order.__func__,
-                'payment': self._confirm_payment.__func__,
+        banking_import_transaction.confirm_map.update({
+                'storno': banking_import_transaction._confirm_storno,
+                'payment_order': banking_import_transaction._confirm_payment_order,
+                'payment': banking_import_transaction._confirm_payment,
                 })
 
-        self.cancel_map.update({
-                'storno': self._cancel_storno.__func__,
-                'payment_order': self._cancel_payment_order.__func__,
-                'payment': self._cancel_payment.__func__,
+        banking_import_transaction.cancel_map.update({
+                'storno': banking_import_transaction._cancel_storno,
+                'payment_order': banking_import_transaction._cancel_payment_order,
+                'payment': banking_import_transaction._cancel_payment,
                 })

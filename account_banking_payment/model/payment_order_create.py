@@ -25,7 +25,7 @@
 
 from datetime import datetime
 from openerp.osv import orm, fields
-from openerp.misc import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class payment_order_create(orm.TransientModel):
