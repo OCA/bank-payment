@@ -89,6 +89,7 @@ class transaction(models.mem_bank_transaction):
         'INTL': bt.ORDER, # international order
         'UNKN': bt.ORDER, # everything else
         'SEPA': bt.ORDER,
+        'PAYB': bt.PAYMENT_BATCH,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -115,7 +116,7 @@ class transaction(models.mem_bank_transaction):
             elif not self.execution_date:
                 self.error_message = "No execution date"
             elif not self.remote_account and self.transfer_type not in [
-                'BEA', 'GEA', 'COSTS', 'UNKN',
+                'BEA', 'GEA', 'COSTS', 'UNKN', 'PAYB',
                 ]:
                 self.error_message = _('No remote account for transaction type '
                                        '%s') % self.transfer_type
@@ -245,6 +246,8 @@ class transaction(models.mem_bank_transaction):
                 remote_owner = field[14:32].strip()
             elif re.match("^EL[0-9]{13}I", field):
                 transfer_type = 'INTL'
+            elif field.startswith("TOTAAL BETALINGEN"):
+                transfer_type = 'PAYB'
             return (transfer_type, remote_account, remote_owner)
         
         fields = split_blob(self.blob)
