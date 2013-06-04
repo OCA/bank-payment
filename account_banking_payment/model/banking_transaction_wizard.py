@@ -24,6 +24,7 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
 class banking_transaction_wizard(orm.TransientModel):
@@ -33,19 +34,38 @@ class banking_transaction_wizard(orm.TransientModel):
         """
         Check for manual payment orders or lines
         """
-        if not vals:
+        if not vals or not ids:
             return True
         manual_payment_order_id = vals.pop('manual_payment_order_id', False)
         manual_payment_line_id = vals.pop('manual_payment_line_id', False)
         res = super(banking_transaction_wizard, self).write(
             cr, uid, ids, vals, context=context)
         if manual_payment_order_id or manual_payment_line_id:
-            transaction_id = self.read(
-                cr, uid, ids[0], 
-                ['import_transaction_id'],
-                context=context)['import_transaction_id'][0]
+            transaction_id = self.browse(
+                cr, uid, ids[0],
+                context=context).import_transaction_id
             write_vals = {}
             if manual_payment_order_id:
+                payment_order = self.pool.get('payment.order').browse(
+                    cr, uid, manual_payment_order_id,
+                    context=context)
+                if payment_order.payment_order_type == 'payment':
+                    sign = 1
+                else:
+                    sign = -1
+                total = (payment_order.total + sign * 
+                         transaction_id.transferred_amount)
+                if not self.pool.get('res.currency').is_zero(
+                    cr, uid, transaction_id.statement_id.currency, total):
+                    raise orm.except_orm(
+                        _('Error'),
+                        _('When matching a payment order, the amounts have to '
+                          'match exactly'))
+                
+                if payment_order.mode and payment_order.mode.transfer_account_id:
+                    transaction_id.statement_line_id.write({
+                        'account_id': payment_order.mode.transfer_account_id.id,
+                        })
                 write_vals.update(
                     {'payment_order_id': manual_payment_order_id,
                      'match_type': 'payment_order_manual'})
@@ -54,7 +74,7 @@ class banking_transaction_wizard(orm.TransientModel):
                     {'payment_line_id': manual_payment_line_id,
                      'match_type': 'payment_manual'})
             self.pool.get('banking.import.transaction').clear_and_write(
-                cr, uid, transaction_id, write_vals, context=context)
+                cr, uid, transaction_id.id, write_vals, context=context)
         return res
 
     _columns = {

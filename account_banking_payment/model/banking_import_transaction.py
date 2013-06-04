@@ -27,6 +27,7 @@ from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.addons.account_banking.parsers.models import mem_bank_transaction as bt
 
 
 class banking_import_transaction(orm.Model):
@@ -55,15 +56,15 @@ class banking_import_transaction(orm.Model):
             limit=0, context=context)
         orders = payment_order_obj.browse(cr, uid, order_ids, context)
         candidates = [x for x in orders if
-                      equals_order_amount(x.total - trans.transferred_amount) and
-                      x.line_ids and x.line_ids[0].transit_move_line_id]
+                      equals_order_amount(x, trans.transferred_amount)]
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
-            for line in candidates[0].line_ids[0].transit_move_line_id.move_id.line_id:
-                if line.account_id.type == 'other':
-                    account_id = line.account_id.id
-                    break
+            if (candidates[0].line_ids[0].transit_move_line_id):
+                for line in candidates[0].line_ids[0].transit_move_line_id.move_id.line_id:
+                    if line.account_id.type == 'other':
+                        account_id = line.account_id.id
+                        break
             return dict(
                 move_line_ids = False,
                 match_type = 'payment_order',
@@ -234,6 +235,11 @@ class banking_import_transaction(orm.Model):
             raise orm.except_orm(
                 _("Cannot unreconcile"),
                 _("Cannot unreconcile: no payment or direct debit order"))
+        if not transaction.statement_line_id.reconcile_id:
+            raise orm.except_orm(
+                _("Cannot unreconcile"),
+                _("Payment orders without transfer move lines cannot be "
+                  "unreconciled this way"))
         return payment_order_obj.debit_unreconcile_transfer(
             cr, uid, transaction.payment_order_id.id,
             transaction.statement_line_id.reconcile_id.id,
@@ -343,7 +349,7 @@ class banking_import_transaction(orm.Model):
             )
         return vals
 
-    def hook_match_payment(cr, uid, transaction, log, context=None):
+    def hook_match_payment(self, cr, uid, transaction, log, context=None):
         """
         Called from match() in the core module.
         Match payment batches, direct debit orders and stornos

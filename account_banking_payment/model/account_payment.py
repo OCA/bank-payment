@@ -204,6 +204,11 @@ class payment_order(orm.Model):
         order = self.browse(cr, uid, payment_order_id, context)
         line_ids = []
         reconcile_id = False
+        if not order.line_ids[0].transit_move_line_id:
+            wf_service = netsvc.LocalService('workflow')
+            wf_service.trg_validate(
+                uid, 'payment.order', payment_order_id, 'done', cr)
+            return False
         for order_line in order.line_ids:
             for line in order_line.transit_move_line_id.move_id.line_id:
                 if line.account_id.type == 'other' and not line.reconcile_id:
