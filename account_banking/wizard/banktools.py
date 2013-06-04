@@ -26,7 +26,8 @@ from openerp.addons.account_banking.struct import struct
 __all__ = [
     'get_period', 
     'get_bank_accounts',
-    'get_or_create_partner',
+    'get_partner',
+    'get_country_id',
     'get_company_bank_account',
     'create_bank_account',
 ]
@@ -56,7 +57,7 @@ def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
     '''
     # No need to search for nothing
     if not account_number:
-        return False
+        return []
 
     partner_bank_obj = pool.get('res.partner.bank')
     bank_account_ids = partner_bank_obj.search(cr, uid, [
@@ -74,7 +75,7 @@ def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
                 _('Bank account %(account_no)s was not found in the database')
                 % dict(account_no=account_number)
             )
-        return False
+        return []
     return partner_bank_obj.browse(cr, uid, bank_account_ids)
 
 def _has_attr(obj, attr):
@@ -85,11 +86,10 @@ def _has_attr(obj, attr):
     except KeyError:
         return False
 
-def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
-                          country_code, log, supplier=False, customer=False,
-                          context=None):
+def get_partner(pool, cr, uid, name, address, postal_code, city,
+                country_id, log, context=None):
     '''
-    Get or create the partner belonging to the account holders name <name>
+    Get the partner belonging to the account holders name <name>
 
     If multiple partners are found with the same name, select the first and
     add a warning to the import log.
@@ -99,16 +99,10 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
     partner_obj = pool.get('res.partner')
     partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)],
                                      context=context)
-    country_id = False
     if not partner_ids:
         # Try brute search on address and then match reverse
         criteria = []
-        if country_code:
-            country_obj = pool.get('res.country')
-            country_ids = country_obj.search(
-                cr, uid, [('code', '=', country_code.upper())],
-                context=context)
-            country_id = country_ids and country_ids[0] or False
+        if country_id:
             criteria.append(('country_id', '=', country_id))
         if city:
             criteria.append(('city', 'ilike', city))
@@ -116,6 +110,11 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
             criteria.append(('zip', 'ilike', postal_code))
         partner_search_ids = partner_obj.search(
             cr, uid, criteria, context=context)
+        if (not partner_search_ids and country_id):
+            # Try again with country_id = False
+            criteria[0] = ('country_id', '=', False)
+            partner_search_ids = partner_obj.search(
+                cr, uid, criteria, context=context)
         key = name.lower()
         partners = []
         for partner in partner_obj.read(
@@ -124,35 +123,11 @@ def get_or_create_partner(pool, cr, uid, name, address, postal_code, city,
                 partners.append(partner)
         partners.sort(key=lambda x: len(x['name']), reverse=True)
         partner_ids = [x['id'] for x in partners]
-    if not partner_ids:
-        if not country_id:
-            user = pool.get('res.user').browse(cr, uid, uid, context=context)
-            country_id = (
-                user.company_id.partner_id.country and 
-                user.company_id.partner_id.country.id or
-                False
-            )
-        partner_id = partner_obj.create(
-            cr, uid, {
-                'name': name,
-                'active': True,
-                'comment': 'Generated from Bank Statements Import',
-                'street': address and address[0] or '',
-                'street2': len(address) > 1 and address[1] or '',
-                'city': city,
-                'zip': postal_code or '',
-                'country_id': country_id,
-                'is_company': True,
-                'supplier': supplier,
-                'customer': customer,
-                }, context=context)
-    else:
-        if len(partner_ids) > 1:
-            log.append(
-                _('More than one possible match found for partner with '
-                  'name %(name)s') % {'name': name})
-        partner_id = partner_ids[0]
-    return partner_id
+    if len(partner_ids) > 1:
+        log.append(
+            _('More than one possible match found for partner with '
+              'name %(name)s') % {'name': name})
+    return partner_ids and partner_ids[0] or False
 
 def get_company_bank_account(pool, cr, uid, account_number, currency,
                              company, log):
@@ -283,19 +258,47 @@ def get_or_create_bank(pool, cr, uid, bic, online=False, code=None,
         ))
     return bank_id, country_id
 
+def get_country_id(pool, cr, uid, transaction, context=None):
+    """
+    Derive a country id from the info on the transaction.
+    
+    :param transaction: browse record of a transaction
+    :returns: res.country id or False 
+    """
+    
+    country_code = False
+    iban = sepa.IBAN(transaction.remote_account)
+    if iban.valid:
+        country_code = iban.countrycode
+    elif transaction.remote_owner_country_code:
+        country_code = transaction.remote_owner_country_code
+    # fallback on the import parsers country code
+    elif transaction.bank_country_code:
+        country_code = transaction.bank_country_code
+    if country_code:
+        country_ids = pool.get('res.country').search(
+            cr, uid, [('code', '=', country_code.upper())],
+            context=context)
+        country_id = country_ids and country_ids[0] or False
+    if not country_id:
+        company = transaction.statement_line_id.company_id
+        if company.partner_id.country:
+            country_id = company.partner_id.country.id
+    return country_id
+
 def create_bank_account(pool, cr, uid, partner_id,
                         account_number, holder_name, address, city,
-                        country_code, log, bic=False,
-                        ):
+                        country_id, bic=False,
+                        context=None):
     '''
     Create a matching bank account with this holder for this partner.
     '''
     values = struct(
         partner_id = partner_id,
         owner_name = holder_name,
+        country_id = country_id,
     )
     bankcode = None
-    country_obj = pool.get('res.country')
 
     # Are we dealing with IBAN?
     iban = sepa.IBAN(account_number)
@@ -305,44 +308,29 @@ def create_bank_account(pool, cr, uid, partner_id,
         values.acc_number = str(iban)
         values.acc_number_domestic = iban.BBAN
         bankcode = iban.bankcode + iban.countrycode
-        country_code = iban.countrycode
-
-    if not country_code:
-        country = pool.get('res.partner').browse(
-            cr, uid, partner_id).country
-        country_code = country.code
-        country_id = country.id
     else:
-        if iban.valid:
-            country_ids = country_obj.search(cr, uid,
-                                             [('code', '=', iban.countrycode)]
-                                             )
-        else:
-            country_ids = country_obj.search(cr, uid,
-                                             [('code', '=', country_code)]
-                                             )
-        country_id = country_ids[0]
-    
-    account_info = False
-    if not iban.valid:
         # No, try to convert to IBAN
         values.state = 'bank'
         values.acc_number = values.acc_number_domestic = account_number
-        if country_code in sepa.IBAN.countries:
-            account_info = sepa.online.account_info(country_code,
-                                                    values.acc_number
-                                                   )
-            if account_info:
-                values.acc_number = iban = account_info.iban
-                values.state = 'iban'
-                bankcode = account_info.code
-                bic = account_info.bic
+
+        if country_id:
+            country_code = pool.get('res.country').read(
+                cr, uid, country_id, ['code'], context=context)['code']
+            if country_code in sepa.IBAN.countries:
+                account_info = sepa.online.account_info(
+                    country_code, values.acc_number)
+                if account_info:
+                    values.acc_number = iban = account_info.iban
+                    values.state = 'iban'
+                    bankcode = account_info.code
+                    bic = account_info.bic
 
     if bic:
         values.bank = get_or_create_bank(pool, cr, uid, bic)[0]
         values.bank_bic = bic
 
     # Create bank account and return
-    return pool.get('res.partner.bank').create(cr, uid, values)
+    return pool.get('res.partner.bank').create(
+        cr, uid, values, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
