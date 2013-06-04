@@ -44,7 +44,7 @@ class banking_import_transaction(orm.Model):
                 sign = -1
             total = payment_order.total + sign * transferred_amount
             return self.pool.get('res.currency').is_zero(
-                cr, uid, trans.statement_id.currency, total)
+                cr, uid, trans.statement_line_id.statement_id.currency, total)
 
         payment_order_obj = self.pool.get('payment.order')
 
@@ -56,7 +56,7 @@ class banking_import_transaction(orm.Model):
             limit=0, context=context)
         orders = payment_order_obj.browse(cr, uid, order_ids, context)
         candidates = [x for x in orders if
-                      equals_order_amount(x, trans.transferred_amount)]
+                      equals_order_amount(x, trans.statement_line_id.amount)]
         if len(candidates) > 0:
             # retrieve the common account_id, if any
             account_id = False
@@ -89,7 +89,7 @@ class banking_import_transaction(orm.Model):
         # stornos MUST have an exact match
         if len(line_ids) == 1:
             account_id = payment_line_obj.get_storno_account_id(
-                cr, uid, line_ids[0], trans.transferred_amount,
+                cr, uid, line_ids[0], trans.statement_line_id.amount,
                 trans.statement_id.currency, context=None)
             if account_id:
                 return dict(
@@ -121,7 +121,7 @@ class banking_import_transaction(orm.Model):
             x for x in payment_lines
             if x.communication == trans.reference 
             and round(x.amount, digits) == -round(
-                trans.transferred_amount, digits)
+                trans.statement_line_id.amount, digits)
             and trans.remote_account in (x.bank_id.acc_number,
                                          x.bank_id.acc_number_domestic)
             ]
@@ -326,15 +326,14 @@ class banking_import_transaction(orm.Model):
         return res
 
     def clear_and_write(self, cr, uid, ids, vals=None, context=None):
-        super(banking_import_transaction, self).clear_and_write(
+        write_vals = {
+            'payment_line_id': False,
+            'payment_order_id': False,
+            'payment_order_ids': [(6, 0, [])],
+            }
+        write_vals.update(vals or {})
+        return super(banking_import_transaction, self).clear_and_write(
             cr, uid, ids, vals=vals, context=context)
-        return self.write(
-            cr, uid, ids, {
-                'payment_line_id': False,
-                'payment_order_id': False,
-                'payment_order_ids': [(6, 0, [])],
-                },
-            context=context)
 
     def move_info2values(self, move_info):
         vals = super(banking_import_transaction, self).move_info2values(
@@ -376,7 +375,7 @@ class banking_import_transaction(orm.Model):
         """
         super(banking_import_transaction, self).__init__(pool, cr)
 
-        banking_import_transaction.confirm_map.update({
+        self.confirm_map.update({
                 'storno': banking_import_transaction._confirm_storno,
                 'payment_order': banking_import_transaction._confirm_payment_order,
                 'payment': banking_import_transaction._confirm_payment,
@@ -384,7 +383,7 @@ class banking_import_transaction(orm.Model):
                 'payment_manual': banking_import_transaction._confirm_payment,
                 })
 
-        banking_import_transaction.cancel_map.update({
+        self.cancel_map.update({
                 'storno': banking_import_transaction._cancel_storno,
                 'payment_order': banking_import_transaction._cancel_payment_order,
                 'payment': banking_import_transaction._cancel_payment,

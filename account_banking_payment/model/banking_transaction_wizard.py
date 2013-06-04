@@ -54,9 +54,9 @@ class banking_transaction_wizard(orm.TransientModel):
                 else:
                     sign = -1
                 total = (payment_order.total + sign * 
-                         transaction_id.transferred_amount)
+                         transaction_id.statement_line_id.amount)
                 if not self.pool.get('res.currency').is_zero(
-                    cr, uid, transaction_id.statement_id.currency, total):
+                    cr, uid, transaction_id.statement_line_id.statement_id.currency, total):
                     raise orm.except_orm(
                         _('Error'),
                         _('When matching a payment order, the amounts have to '
