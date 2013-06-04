@@ -36,7 +36,6 @@ class payment_order_create(orm.TransientModel):
             self, cr, uid, payment_order, domain, context=None):
         if payment_order.payment_order_type == 'payment':
             domain += [
-                ('reconcile_id', '=', False),
                 ('account_id.type', '=', 'payable'),
                 ('amount_to_pay', '>', 0)
                 ]
@@ -59,6 +58,7 @@ class payment_order_create(orm.TransientModel):
             cr, uid, context['active_id'], context=context)
         # Search for move line to pay:
         domain = [
+            ('move_id.state', '=', 'posted'),
             ('reconcile_id', '=', False),
             ('company_id', '=', payment.mode.company_id.id),
             ]
