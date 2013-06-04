@@ -1030,7 +1030,7 @@ class banking_import_transaction(orm.Model):
                 transaction = self.browse(cr, uid, transaction.id, context=context)
 
             # Match payment and direct debit orders
-            move_info_payment = hook_match_payment(
+            move_info_payment = self.hook_match_payment(
                 cr, uid, transaction, results['log'], context=context)
             if move_info_payment:
                 move_info = move_info_payment
