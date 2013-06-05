@@ -22,5 +22,6 @@ import bank_import
 import bank_payment_manual
 import account_payment_order
 import banking_transaction_wizard
+import link_partner
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

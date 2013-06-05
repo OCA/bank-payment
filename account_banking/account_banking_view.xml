@@ -286,6 +286,13 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
+                    <field name="link_partner_ok" invisible="1" />
+                    <button name="link_partner"
+                            string="Link partner"
+                            icon="terp-partner"
+                            type="object"
+                            attrs="{'invisible': [('link_partner_ok', '=', False)]}"
+                            />
                         <!-- TODO set partner_id when partner_bank_id changes -->
                         <field name="partner_bank_id"/>
                     </xpath>
@@ -514,6 +521,13 @@
                     <field name="name"/>
                     <field name="ref"/>
                     <field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
+                    <field name="link_partner_ok" invisible="1" />
+                    <button name="link_partner"
+                            string="Link partner"
+                            icon="terp-partner"
+                            type="object"
+                            attrs="{'invisible': [('link_partner_ok', '=', False)]}"
+                            />
                     <!-- TODO set partner_id when partner_bank_id changes -->
                     <field name="partner_bank_id"/>
                     <field name="type" on_change="onchange_type(partner_id, type)"/>
