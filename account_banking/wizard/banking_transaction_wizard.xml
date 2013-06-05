@@ -18,8 +18,9 @@
                             <separator string="Transaction data" colspan="4"/>
                             <field name="partner_id"/>
                             <field name="date"/>
-                            <field name="ref"/>
                             <field name="amount"/>
+                            <field name="ref"/>
+                            <field name="message" colspan="4"/>
                         </group>
                         
                         <!-- (semi-) automatic matching and selection -->
