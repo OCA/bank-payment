@@ -173,10 +173,13 @@ class banking_transaction_wizard(orm.TransientModel):
             move_line_obj = self.pool.get('account.move.line')
             invoice_obj = self.pool.get('account.invoice')
             statement_line_obj = self.pool.get('account.bank.statement.line')
-            manual_invoice_ids = (
+            # Rewrite *2many directive notation
+            if manual_invoice_ids:
+                manual_invoice_ids = (
                     [i[1] for i in manual_invoice_ids if i[0]==4] +
                     [j for i in manual_invoice_ids if i[0]==6 for j in i[2]])
-            manual_move_line_ids = (
+            if manual_move_line_ids:
+                manual_move_line_ids = (
                     [i[1] for i in manual_move_line_ids if i[0]==4] +
                     [j for i in manual_move_line_ids if i[0]==6 for j in i[2]])
             for wiz in self.browse(cr, uid, ids, context=context):
