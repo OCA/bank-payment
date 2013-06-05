@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_mode_form" model="ir.ui.view">
+            <field name="name">Adaptations for aggregate payment modes</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id"
+                   ref="account_payment.view_payment_mode_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <group attributes="{'invisible': [
+                        ('type', 'not in', (
+                            %('account_banking_aggregate_payment.type_iban')d,
+                            %('account_banking_aggregate_payment.type_all')d,
+                            %('account_banking_aggregate_payment.type_dmst')d
+                            ))]}">
+                        <field name="aggregate_partner_id" />
+                        <field name="chained_mode_id" />
+                    </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
