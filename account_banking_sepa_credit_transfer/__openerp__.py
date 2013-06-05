@@ -37,9 +37,9 @@
     'description': '''
 Module to export payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Credit Transfer (SCT), more specifically PAIN versions 001.001.02, 001.001.03 and 001.001.04.
+SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Credit Transfer (SCT), more specifically PAIN versions 001.001.02, 001.001.03 and 001.001.04. It is part of the ISO 20022 standard, available on http://www.iso20022.org.
 
-It is part of the ISO 20022 standard, available on http://www.iso20022.org.
+The Implementation Guidelines for SEPA Credit Transfer published by the European Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN version 001.001.03, so it's probably the version of PAIN that you should try first.
 
 This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
 
