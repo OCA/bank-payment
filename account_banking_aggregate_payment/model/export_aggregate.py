@@ -27,10 +27,27 @@ class banking_export_aggregate(orm.TransientModel):
     _name = 'banking.export.aggregate'
     _columns = {
         'payment_order_id': fields.many2one(
-            'payment.order', 'Payment order'),
+            'payment.order', 'Payment order',
+            required=True),
         'reference': fields.char(
             'Reference', size=24),
         }
+
+    def create(self, cr, uid, vals, context=None):
+        if context is None:
+            context = {}
+        if not vals.get('payment_order_id'):
+            if not context.get('active_ids'):
+                raise orm.except_orm(
+                    _('Error'),
+                    _('Please select a payment order'))
+            if len(context['active_ids']) > 1:
+                raise orm.except_orm(
+                    _('Error'),
+                    _('Please only select a single payment order'))
+            vals['payment_order_id'] = context['active_ids'][0]
+        return self.create(
+            cr, uid, vals, context=context)
 
     def reconcile_lines(self, cr, uid, move_line_ids, context=None):
         """
@@ -116,8 +133,8 @@ class banking_export_aggregate(orm.TransientModel):
 
         move_id = account_move_obj.create(cr, uid, {
                 'journal_id': order.mode.transfer_journal_id.id,
-                'name': 'Aggregate Payment Order', # TODO: get order reference or number
-                'reference': 'AGG', # TODO get order reference number or number
+                'name': 'Aggregate Payment Order %s' % order.reference,
+                'reference': order.reference,
                 }, context=context)
 
         counter_move_line_ids = []
@@ -219,10 +236,13 @@ class banking_export_aggregate(orm.TransientModel):
                 'mode': order.mode.aggregate_mode_id.id,
                 }, context=context)
 
+        lines2bank = payment_order_line_obj.line2bank(
+            cr, uid, [payable_move_line.id], order.mode.id, context)
+
         payment_order_line_obj.create(cr, uid,{
                 'move_line_id': payable_move_line.id,
                 'amount_currency': payable_move_line.amount_to_pay,
-                'bank_id': line2bank.get(line.id), # TODO line2bank get it from account_banking
+                'bank_id': lines2bank.get(payable_move_line.id),
                 'order_id': payment_order_id,
                 'partner_id': order.mode.aggregate_partner_id.id,
                 'communication': False,
@@ -233,4 +253,15 @@ class banking_export_aggregate(orm.TransientModel):
                              line.journal_id.company_id.currency_id.id),
                 }, context=context)
 
-        return ### act_window to payment order{'type': 'ir.actions.act_window_close'}
+        return {
+            'name': payment_order_obj._description,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': payment_order_obj._name,
+            'domain': [],
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'res_id': payment_order_id,
+            'nodestroy': True,
+            }

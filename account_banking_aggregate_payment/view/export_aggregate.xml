@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="banking_export_aggregate_view" model="ir.ui.view">
+            <field name="name">Export aggregate payment order</field>
+            <field name="model">banking.export.aggregate</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export aggregate payment order">
+                    <label string="Please confirm this aggregate export"/>
+                    <button icon="gtk-close"
+                            special="cancel"
+                            string="Cancel"
+                            />
+                    <button icon="gtk-ok"
+                            string="Create" 
+                            name="create_aggregate_order"
+                            type="object"
+                            />
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

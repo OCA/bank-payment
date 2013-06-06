@@ -28,11 +28,15 @@
     'depends': ['account_banking'],
     'data': [
         'view/payment_mode.xml',
+        'view/export_aggregate.xml',
         'data/payment_mode_type.xml',
         ],
     },
     'description': '''
-    Allows for aggregating several payments on a single partner 
+    Allows for aggregating several payments on a single partner by
+    reconciling the payment lines in a payment order of this type
+    with a single line on the partner, then proceeds to create a new
+    order of a user chosen type with only this line in it.
     ''',
     'active': False,
 }
