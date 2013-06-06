@@ -25,13 +25,12 @@
     'author': 'Therp BV',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
-    'depends': ['account_banking'],
+    'depends': ['account_direct_debit'],
     'data': [
+        'data/payment_mode_type.xml',
         'view/payment_mode.xml',
         'view/export_aggregate.xml',
-        'data/payment_mode_type.xml',
         ],
-    },
     'description': '''
     Allows for aggregating several payments on a single partner by
     reconciling the payment lines in a payment order of this type

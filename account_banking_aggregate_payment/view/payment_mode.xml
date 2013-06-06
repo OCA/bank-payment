@@ -9,11 +9,11 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="type" position="after">
-                    <group attributes="{'invisible': [
+                    <group attrs="{'invisible': [
                         ('type', 'not in', (
-                            %('account_banking_aggregate_payment.type_iban')d,
-                            %('account_banking_aggregate_payment.type_all')d,
-                            %('account_banking_aggregate_payment.type_dmst')d
+                            %(account_banking_aggregate_payment.type_iban)d,
+                            %(account_banking_aggregate_payment.type_all)d,
+                            %(account_banking_aggregate_payment.type_dmst)d
                             ))]}">
                         <field name="aggregate_partner_id" />
                         <field name="chained_mode_id" />

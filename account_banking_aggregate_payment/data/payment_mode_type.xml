@@ -18,7 +18,7 @@
             <field name="name">Aggregate payment order for IBAN accounts</field>
             <field name="code">AGG_IBAN</field>
             <field name="suitable_bank_types"
-                   eval="[(6, 0, (ref('base_iban.bank_iban')))]" />
+                   eval="[(6, 0, (ref('base_iban.bank_iban'),))]" />
 	    <field name="ir_model_id"
                    ref="model_banking_export_aggregate"/>
         </record>
@@ -28,7 +28,7 @@
             <field name="name">Aggregate payment order for domestic accounts</field>
             <field name="code">AGG_DMST</field>
             <field name="suitable_bank_types"
-                   eval="[(6, 0, (ref('base.bank_normal')))]" />
+                   eval="[(6, 0, (ref('base.bank_normal'),))]" />
 	    <field name="ir_model_id"
                    ref="model_banking_export_aggregate"/>
         </record>
