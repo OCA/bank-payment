@@ -83,11 +83,11 @@ class banking_export_sepa_wizard(osv.osv_memory):
     def _validate_iban(self, cr, uid, iban, context=None):
         '''if IBAN is valid, returns IBAN
         if IBAN is NOT valid, raises an error message'''
-        #partner_bank_obj = self.pool.get('res.partner.bank')
-        #if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
-        return iban.replace(' ', '')
-        #else:
-        #    raise osv.except_osv(_('Error :'), _("This IBAN is not valid : %s" % iban))
+        partner_bank_obj = self.pool.get('res.partner.bank')
+        if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
+            return iban.replace(' ', '')
+        else:
+            raise osv.except_osv(_('Error :'), _("This IBAN is not valid : %s") % iban)
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])

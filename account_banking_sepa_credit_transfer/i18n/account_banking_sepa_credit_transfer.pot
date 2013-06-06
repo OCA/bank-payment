@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.4\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2013-05-22 20:51+0000\n"
-"PO-Revision-Date: 2013-05-22 20:51+0000\n"
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-06 08:01+0000\n"
+"PO-Revision-Date: 2013-06-06 08:01+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,8 @@ msgid "SEPA XML file"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,nb_transactions:0
-#: field:banking.export.sepa.wizard,nb_transactions:0
-msgid "Number of transactions"
+#: view:banking.export.sepa:0
+msgid "Payment order"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
@@ -102,57 +101,6 @@ msgid "Generated SEPA files"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:89
-#, python-format
-msgid "This IBAN is not valid : %s\" % iban))\n"
-"\n"
-"    def create(self, cr, uid, vals, context=None):\n"
-"        payment_order_ids = context.get('active_ids', [])\n"
-"        vals.update({\n"
-"            'payment_order_ids': [[6, 0, payment_order_ids]],\n"
-"        })\n"
-"        return super(banking_export_sepa_wizard, self).create(cr, uid,\n"
-"            vals, context=context)\n"
-"\n"
-"\n"
-"    def create_sepa(self, cr, uid, ids, context=None):\n"
-"        '''\n"
-"        Creates the SEPA Credit Transfer file. That's the important code !\n"
-"        '''\n"
-"        payment_order_obj = self.pool.get('payment.order')\n"
-"\n"
-"        sepa_export = self.browse(cr, uid, ids[0], context=context)\n"
-"\n"
-"        my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name\n"
-"        my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.iban, context=context)\n"
-"        my_company_bic = sepa_export.payment_order_ids[0].mode.bank_id.bank.bic\n"
-"        #my_company_country_code = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].country_id.code\n"
-"        #my_company_city = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].city\n"
-"        #my_company_street1 = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].street\n"
-"        pain_flavor = sepa_export.payment_order_ids[0].mode.type.code\n"
-"        if pain_flavor == 'pain.001.001.02':\n"
-"            bic_xml_tag = 'BIC'\n"
-"            name_maxsize = 70\n"
-"            root_xml_tag = 'pain.001.001.02'\n"
-"        elif pain_flavor == 'pain.001.001.03':\n"
-"            bic_xml_tag = 'BIC'\n"
-"            # size 70 -> 140 for <Nm> with pain.001.001.03\n"
-"            # BUT the European Payment Council, in the document\n"
-"            # \"SEPA Credit Transfer Scheme Customer-to-bank Implementation guidelines\" v6.0\n"
-"            # available on http://www.europeanpaymentscouncil.eu/knowledge_bank.cfm\n"
-"            # says that 'Nm' should be limited to 70\n"
-"            # so we follow the \"European Payment Council\" and we put 70 and not 140\n"
-"            name_maxsize = 70\n"
-"            root_xml_tag = 'CstmrCdtTrfInitn'\n"
-"        elif pain_flavor == 'pain.001.001.04':\n"
-"            bic_xml_tag = 'BICFI'\n"
-"            name_maxsize = 140\n"
-"            root_xml_tag = 'CstmrCdtTrfInitn'\n"
-"        else:\n"
-"            raise osv.except_osv(_('Error :'), _(\"Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' and 'pain.001.001.04'."
-msgstr ""
-
-#. module: account_banking_sepa_credit_transfer
 #: model:ir.actions.act_window,name:account_banking_sepa_credit_transfer.action_account_banking_sepa
 #: model:ir.ui.menu,name:account_banking_sepa_credit_transfer.menu_account_banking_sepa
 msgid "Generated SEPA XML files"
@@ -180,7 +128,7 @@ msgid "Message identification"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:283
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:284
 #, python-format
 msgid "The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s"
 msgstr ""
@@ -211,6 +159,12 @@ msgid "Payment orders"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:90
+#, python-format
+msgid "This IBAN is not valid : %s"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "SEPA XML file generation"
 msgstr ""
@@ -237,8 +191,9 @@ msgid "Borne by debtor"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: view:banking.export.sepa:0
-msgid "Payment order"
+#: field:banking.export.sepa,nb_transactions:0
+#: field:banking.export.sepa.wizard,nb_transactions:0
+msgid "Number of transactions"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
@@ -275,9 +230,15 @@ msgid "Cancel"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:89
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:134
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:283
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:135
+#, python-format
+msgid "Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' and 'pain.001.001.04'."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:90
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:135
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:284
 #, python-format
 msgid "Error :"
 msgstr ""
