@@ -46,7 +46,7 @@ class banking_export_aggregate(orm.TransientModel):
                     _('Error'),
                     _('Please only select a single payment order'))
             vals['payment_order_id'] = context['active_ids'][0]
-        return self.create(
+        return super(banking_export_aggregate, self).create(
             cr, uid, vals, context=context)
 
     def reconcile_lines(self, cr, uid, move_line_ids, context=None):
@@ -64,8 +64,8 @@ class banking_export_aggregate(orm.TransientModel):
                     _('Error'),
                     _('Cannot reconcile between different accounts'))
 
-        if any(lines, 
-               lambda line: line.reconcile_id and line.reconcile_id.line_id):
+        if any([line.reconcile_id and line.reconcile_id.line_id
+                for line in lines]):
             raise orm.except_orm(
                 _('Error'),
                 _('Line is already fully reconciled'))
@@ -112,7 +112,7 @@ class banking_export_aggregate(orm.TransientModel):
         account_move_line_obj = self.pool.get('account.move.line')
         account_move_obj = self.pool.get('account.move')
         payment_order_obj = self.pool.get('payment.order')
-        payment_order_line_obj = self.pool.get('payment.order.line')
+        payment_order_line_obj = self.pool.get('payment.line')
         payment_order_ids = context.get('active_ids', [])
         if not payment_order_ids:
             raise orm.except_orm(
@@ -180,7 +180,7 @@ class banking_export_aggregate(orm.TransientModel):
                 cr, uid, vals, context=context)
                 
             self.reconcile_lines(
-                cr, uid, [reconcile_move_line_id, counter_move_line_id],
+                cr, uid, [reconcile_move_line_id, line.move_line_id.id],
                 context=context)
 
         total = account_move_line_obj.get_balance(
@@ -194,8 +194,8 @@ class banking_export_aggregate(orm.TransientModel):
             'move_id': move_id,
             'partner_id': order.mode.aggregate_partner_id.id,
             'account_id': order.mode.transfer_account_id.id,
-            'credit': 0.0,
-            'debit': total,
+            'debit': total < 0 and -total or 0.0,
+            'credit': total >= 0 and total or 0.0,
             'date': fields.date.context_today(self, cr, uid, context=context),
             }
         aggregate_move_line_id = account_move_line_obj.create(
@@ -209,8 +209,8 @@ class banking_export_aggregate(orm.TransientModel):
         vals.update({
                 'account_id': order.mode.aggregate_partner_id.property_account_payable.id,
                 'partner_id': order.mode.aggregate_partner_id.id,
-                'credit': total,
-                'debit': 0.0,
+                'debit': total >= 0 and total or 0.0,
+                'credit': total < 0 and -total or 0.0,
                 })               
 
         payable_move_line = account_move_line_obj.browse(
@@ -233,10 +233,10 @@ class banking_export_aggregate(orm.TransientModel):
         payment_order_id = payment_order_obj.create(
             cr, uid, {
                 'company_id': order.company_id.id,
-                'mode': order.mode.aggregate_mode_id.id,
+                'mode': order.mode.chained_mode_id.id,
                 }, context=context)
 
-        lines2bank = payment_order_line_obj.line2bank(
+        lines2bank = account_move_line_obj.line2bank(
             cr, uid, [payable_move_line.id], order.mode.id, context)
 
         payment_order_line_obj.create(cr, uid,{
@@ -245,12 +245,13 @@ class banking_export_aggregate(orm.TransientModel):
                 'bank_id': lines2bank.get(payable_move_line.id),
                 'order_id': payment_order_id,
                 'partner_id': order.mode.aggregate_partner_id.id,
-                'communication': False,
-                'communication2': payable_move_line.ref,
-                'state': 'normal',
+                'communication': payable_move_line.ref,
+                'communication2': False,
+                'state': 'structured',
                 'date': False,
-                'currency': (line.journal_id.currency.id or
-                             line.journal_id.company_id.currency_id.id),
+                'currency': (
+                    line.move_line_id.journal_id.currency.id or
+                    line.move_line_id.journal_id.company_id.currency_id.id),
                 }, context=context)
 
         return {

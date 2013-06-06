@@ -5,11 +5,12 @@
             <field name="name">Adaptations for aggregate payment modes</field>
             <field name="model">payment.mode</field>
             <field name="inherit_id"
-                   ref="account_payment.view_payment_mode_form"/>
+                   ref="account_banking.view_payment_mode_form_inherit"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="type" position="after">
-                    <group attrs="{'invisible': [
+                    <group colspan="4" string="Chaining order"
+                           attrs="{'invisible': [
                         ('type', 'not in', (
                             %(account_banking_aggregate_payment.type_iban)d,
                             %(account_banking_aggregate_payment.type_all)d,
