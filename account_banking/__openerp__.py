@@ -48,6 +48,9 @@
         'wizard/link_partner.xml',
         'workflow/account_invoice.xml',
     ],
+    'js': [
+        'static/src/js/account_banking.js',
+    ],
     'demo_xml': [],
     'external_dependencies': {
         'python' : ['BeautifulSoup'],

@@ -299,9 +299,12 @@
                     <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='amount']" position="after">
                         <field name="match_type"/>
                         <field name="residual"/>
-                        <button name="match_wizard" states="draft"
+                        <field name="parent_id" invisible="1" />
+                        <button name="match_wizard"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"
+                                attrs="{'invisible': ['|', ('parent_id', '!=', False),
+                                                           ('state', '!=', 'draft')]}"
                                 type="object"/>
                         <field name="match_multi" invisible="1"/>
                         <field name="duplicate" invisible="1"/>
@@ -537,9 +540,12 @@
                     <field name="amount"/>
                         <field name="match_type"/>
                         <field name="residual"/>
-                        <button name="match_wizard" states="draft"
+                        <field name="parent_id" invisible="1" />
+                        <button name="match_wizard"
                                 string="Match"
                                 icon="terp-gtk-jump-to-ltr"
+                                attrs="{'invisible': ['|', ('parent_id', '!=', False),
+                                                           ('state', '!=', 'draft')]}"
                                 type="object"/>
                         <field name="match_multi" invisible="1"/>
                         <field name="duplicate" invisible="1"/>

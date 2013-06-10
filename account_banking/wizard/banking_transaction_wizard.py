@@ -94,8 +94,8 @@ class banking_transaction_wizard(osv.osv_memory):
         # The following fields get never written
         # they are just triggers for manual matching
         # which populates regular fields on the transaction
-        manual_invoice_id = vals.pop('manual_invoice_id', False)
-        manual_move_line_id = vals.pop('manual_move_line_id', False)
+        manual_invoice_ids = vals.pop('manual_invoice_ids', [])
+        manual_move_line_ids = vals.pop('manual_move_line_ids', [])
 
         # Support for writing fields.related is still flakey:
         # https://bugs.launchpad.net/openobject-server/+bug/915975
@@ -167,55 +167,93 @@ class banking_transaction_wizard(osv.osv_memory):
                             _("No entry found for the selected invoice. " +
                               "Try manual reconciliation."))
 
-        if manual_move_line_id or manual_invoice_id:
+        if manual_move_line_ids or manual_invoice_ids:
             move_line_obj = self.pool.get('account.move.line')
             invoice_obj = self.pool.get('account.invoice')
             statement_line_obj = self.pool.get('account.bank.statement.line')
-            for wiz in self.browse(
-                cr, uid, ids, context=context):
-                move_line_id = False
-                invoice_id = manual_invoice_id
-                if invoice_id:
-                    invoice = invoice_obj.browse(
-                        cr, uid, manual_invoice_id, context=context)
+            manual_invoice_ids = (
+                    [i[1] for i in manual_invoice_ids if i[0]==4] +
+                    [j for i in manual_invoice_ids if i[0]==6 for j in i[2]])
+            manual_move_line_ids = (
+                    [i[1] for i in manual_move_line_ids if i[0]==4] +
+                    [j for i in manual_move_line_ids if i[0]==6 for j in i[2]])
+            for wiz in self.browse(cr, uid, ids, context=context):
+                #write can be called multiple times for the same values
+                #that doesn't hurt above, but it does here
+                if wiz.match_type and (
+                        len(manual_move_line_ids) > 1 or
+                        len(manual_invoice_ids) > 1):
+                    continue
+
+                todo = []
+
+                for invoice in invoice_obj.browse(
+                        cr, uid, manual_invoice_ids, context=context):
+                    found_move_line = False
                     if invoice.move_id:
                         for line in invoice.move_id.line_id:
                             if line.account_id.type in ('receivable', 'payable'):
-                                move_line_id = line.id
+                                todo.append((invoice.id, line.id))
+                                found_move_line = True
                                 break
-                    if not move_line_id:
-                        osv.except_osv(
+                    if not found_move_line:
+                        raise osv.except_osv(
                             _("Cannot select for reconcilion"),
                             _("No entry found for the selected invoice. "))
-                else:
-                    move_line_id = manual_move_line_id
-                    move_line = move_line_obj.read(
-                        cr, uid, move_line_id, ['invoice'], context=context)
-                    invoice_id = (move_line['invoice'] and
-                                  move_line['invoice'][0])
-                vals = {
-                    'move_line_id': move_line_id,
-                    'move_line_ids': [(6, 0, [move_line_id])],
-                    'invoice_id': invoice_id,
-                    'invoice_ids': [(6, 0, invoice_id and
-                                     [invoice_id] or [])],
-                    'match_type': 'manual',
-                    }
-                transaction_obj.clear_and_write(
-                    cr, uid, wiz.import_transaction_id.id,
-                    vals, context=context)
-                st_line_vals = {
-                    'account_id': move_line_obj.read(
-                        cr, uid, move_line_id, 
-                        ['account_id'], context=context)['account_id'][0],
-                    }
-                if invoice_id:
-                    st_line_vals['partner_id'] = invoice_obj.read(
-                        cr, uid, invoice_id, 
-                        ['partner_id'], context=context)['partner_id'][0]
-                statement_line_obj.write(
-                    cr, uid, wiz.import_transaction_id.statement_line_id.id,
-                    st_line_vals, context=context)
+                for move_line_id in manual_move_line_ids:
+                    todo_entry = [False, move_line_id]
+                    move_line=move_line_obj.read(
+                            cr,
+                            uid,
+                            move_line_id,
+                            ['invoice'],
+                            context=context)
+                    if move_line['invoice']:
+                        todo_entry[0] = move_line['invoice'][0]
+                    todo.append(todo_entry)
+
+                while todo:
+                    todo_entry = todo.pop()
+                    move_line = move_line_obj.browse(
+                            cr, uid, todo_entry[1], context)
+                    transaction_id = wiz.import_transaction_id.id
+                    statement_line_id = wiz.statement_line_id.id
+
+                    if len(todo) > 0:
+                        statement_line_id = wiz.statement_line_id.split_off(
+                                move_line.debit or -move_line.credit)[0]
+                        transaction_id = statement_line_obj.browse(
+                                cr,
+                                uid,
+                                statement_line_id,
+                                context=context).import_transaction_id.id
+
+                    vals = {
+                        'move_line_id': todo_entry[1],
+                        'move_line_ids': [(6, 0, [todo_entry[1]])],
+                        'invoice_id': todo_entry[0],
+                        'invoice_ids': [(6, 0,
+                            [todo_entry[0]] if todo_entry[0] else [])],
+                        'match_type': 'manual',
+                        }
+
+                    transaction_obj.clear_and_write(
+                        cr, uid, transaction_id, vals, context=context)
+
+                    st_line_vals = {
+                        'account_id': move_line_obj.read(
+                            cr, uid, todo_entry[1], 
+                            ['account_id'], context=context)['account_id'][0],
+                        }
+
+                    if todo_entry[0]:
+                        st_line_vals['partner_id'] = invoice_obj.read(
+                            cr, uid, todo_entry[0], 
+                            ['partner_id'], context=context)['partner_id'][0]
+
+                    statement_line_obj.write(
+                        cr, uid, statement_line_id, 
+                        st_line_vals, context=context)
         return res
 
     def trigger_write(self, cr, uid, ids, context=None):
@@ -247,14 +285,26 @@ class banking_transaction_wizard(osv.osv_memory):
                     account_id = setting.default_debit_account_id and setting.default_debit_account_id.id
                 statement_pool.write(cr, uid, wiz.statement_line_id.id, {'account_id':account_id})
             
-            self.write(cr, uid, wiz.id, {'partner_id': False}, context=context)
+            # Restore partner id from the bank account or else reset
+            partner_id = False
+            if (wiz.statement_line_id.partner_bank_id and
+                    wiz.statement_line_id.partner_bank_id.partner_id):
+                partner_id = wiz.statement_line_id.partner_bank_id.partner_id.id
+            wiz.write({'partner_id': partner_id})
             
-            wizs = self.read(
-                cr, uid, ids, ['import_transaction_id'], context=context)
-            trans_ids = [x['import_transaction_id'][0] for x in wizs
-                         if x['import_transaction_id']]
-            self.pool.get('banking.import.transaction').clear_and_write(
-                cr, uid, trans_ids, context=context)
+            if wiz.statement_line_id:
+                #delete splits causing an unsplit if this is a split
+                #transaction
+                statement_pool.unlink(cr, uid,
+                        statement_pool.search(cr, uid,
+                            [('parent_id', '=', wiz.statement_line_id.id)],
+                            context=context),
+                        context=context)
+
+            if wiz.import_transaction_id:
+                wiz.import_transaction_id.clear_and_write()
+
+            
         return True
 
     def reverse_duplicate(self, cr, uid, ids, context=None):
@@ -281,7 +331,7 @@ class banking_transaction_wizard(osv.osv_memory):
         return res
 
     def button_done(self, cr, uid, ids, context=None):
-        return {'nodestroy': False, 'type': 'ir.actions.act_window_close'}        
+        return {'type': 'ir.actions.act_window_close'}        
 
     _defaults = {
 #        'match_type': _get_default_match_type,
@@ -305,6 +355,9 @@ class banking_transaction_wizard(osv.osv_memory):
             'statement_line_id', 'partner_id',
             type='many2one', relation='res.partner',
             string="Partner", readonly=True),
+        'statement_line_parent_id': fields.related(
+            'statement_line_id', 'parent_id', type='many2one',
+            relation='account.bank.statement.line', readonly=True),
         'import_transaction_id': fields.related(
             'statement_line_id', 'import_transaction_id', 
             string="Import transaction",
@@ -350,14 +403,17 @@ class banking_transaction_wizard(osv.osv_memory):
         'match_type': fields.related(
             'import_transaction_id', 'match_type', 
             type="char", size=16, string='Match type', readonly=True),
-        'manual_invoice_id': fields.many2one(
-            'account.invoice', 'Match this invoice',
+        'manual_invoice_ids': fields.many2many(
+            'account.invoice',
+            'banking_transaction_wizard_account_invoice_rel',
+            'wizard_id', 'invoice_id', string='Match one or more invoices',
             domain=[('reconciled', '=', False)]),
-        'manual_move_line_id': fields.many2one(
-            'account.move.line', 'Or match this entry',
+        'manual_move_line_ids': fields.many2many(
+            'account.move.line',
+            'banking_transaction_wizard_account_move_line_rel',
+            'wizard_id', 'move_line_id', string='Or match one or more entries',
             domain=[('account_id.reconcile', '=', True),
-                    ('reconcile_id', '=', False)],
-            ),
+                    ('reconcile_id', '=', False)]),
         'payment_option': fields.related('import_transaction_id','payment_option', string='Payment Difference', type='selection', required=True,
                                          selection=[('without_writeoff', 'Keep Open'),('with_writeoff', 'Reconcile Payment Balance')]),
         'writeoff_analytic_id': fields.related(
