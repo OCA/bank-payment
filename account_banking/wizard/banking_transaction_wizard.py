@@ -96,8 +96,6 @@ class banking_transaction_wizard(orm.TransientModel):
         # The following fields get never written
         # they are just triggers for manual matching
         # which populates regular fields on the transaction
-        manual_invoice_id = vals.pop('manual_invoice_id', False)
-        manual_move_line_id = vals.pop('manual_move_line_id', False)
         manual_invoice_ids = vals.pop('manual_invoice_ids', [])
         manual_move_line_ids = vals.pop('manual_move_line_ids', [])
 
@@ -171,17 +169,17 @@ class banking_transaction_wizard(orm.TransientModel):
                             _("No entry found for the selected invoice. " +
                               "Try manual reconciliation."))
 
-        if manual_move_line_id or manual_invoice_id \
-                or manual_move_line_ids or manual_invoice_ids:
+        if manual_move_line_ids or manual_invoice_ids:
             move_line_obj = self.pool.get('account.move.line')
             invoice_obj = self.pool.get('account.invoice')
             statement_line_obj = self.pool.get('account.bank.statement.line')
-            manual_invoice_ids = (
-                    ([manual_invoice_id] if manual_invoice_id else []) +
+            # Rewrite *2many directive notation
+            if manual_invoice_ids:
+                manual_invoice_ids = (
                     [i[1] for i in manual_invoice_ids if i[0]==4] +
                     [j for i in manual_invoice_ids if i[0]==6 for j in i[2]])
-            manual_move_line_ids = (
-                    ([manual_move_line_id] if manual_move_line_id else []) +
+            if manual_move_line_ids:
+                manual_move_line_ids = (
                     [i[1] for i in manual_move_line_ids if i[0]==4] +
                     [j for i in manual_move_line_ids if i[0]==6 for j in i[2]])
             for wiz in self.browse(cr, uid, ids, context=context):
@@ -228,7 +226,7 @@ class banking_transaction_wizard(orm.TransientModel):
 
                     if len(todo) > 0:
                         statement_line_id = wiz.statement_line_id.split_off(
-                                move_line.credit or move_line.debit)[0]
+                                move_line.debit or -move_line.credit)[0]
                         transaction_id = statement_line_obj.browse(
                                 cr,
                                 uid,
@@ -292,7 +290,12 @@ class banking_transaction_wizard(orm.TransientModel):
                     account_id = setting.default_debit_account_id and setting.default_debit_account_id.id
                 statement_pool.write(cr, uid, wiz.statement_line_id.id, {'account_id':account_id})
             
-            wiz.write({'partner_id': False})
+            # Restore partner id from the bank account or else reset
+            partner_id = False
+            if (wiz.statement_line_id.partner_bank_id and
+                    wiz.statement_line_id.partner_bank_id.partner_id):
+                partner_id = wiz.statement_line_id.partner_bank_id.partner_id.id
+            wiz.write({'partner_id': partner_id})
 
             if wiz.statement_line_id:
                 #delete splits causing an unsplit if this is a split
@@ -391,22 +394,15 @@ class banking_transaction_wizard(orm.TransientModel):
         'match_type': fields.related(
             'import_transaction_id', 'match_type', 
             type="char", size=16, string='Match type', readonly=True),
-        'manual_invoice_id': fields.many2one(
-            'account.invoice', 'Match this invoice',
-            domain=[('reconciled', '=', False)]),
-        'manual_move_line_id': fields.many2one(
-            'account.move.line', 'Or match this entry',
-            domain=[('account_id.reconcile', '=', True),
-                    ('reconcile_id', '=', False)]),
         'manual_invoice_ids': fields.many2many(
             'account.invoice',
             'banking_transaction_wizard_account_invoice_rel',
-            'wizard_id', 'invoice_id', string='Match following invoices',
+            'wizard_id', 'invoice_id', string='Match one or more invoices',
             domain=[('reconciled', '=', False)]),
         'manual_move_line_ids': fields.many2many(
             'account.move.line',
             'banking_transaction_wizard_account_move_line_rel',
-            'wizard_id', 'move_line_id',   string='Or match this entries',
+            'wizard_id', 'move_line_id', string='Or match one or more entries',
             domain=[('account_id.reconcile', '=', True),
                     ('reconcile_id', '=', False)]),
         'payment_option': fields.related('import_transaction_id','payment_option', string='Payment Difference', type='selection', required=True,
