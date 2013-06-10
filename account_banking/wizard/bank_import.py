@@ -292,7 +292,7 @@ class banking_import(osv.osv_memory):
             subno = 0
             for transaction in statement.transactions:
                 subno += 1
-                if not transaction.id:
+                if not transaction.id and not transaction.name:
                     transaction.id = str(subno)
                 values = {}
                 for attr in transaction.__slots__ + ['type']:

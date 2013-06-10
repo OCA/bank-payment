@@ -1391,8 +1391,11 @@ class banking_import_transaction(osv.osv):
                 values['partner_bank_id'] = partner_banks[0].id
 
             if not transaction.statement_line_id:
+                if not hasattr(transaction, 'name'):
+                    transaction.name = '%s.%s' % (transaction.statement, transaction.transaction)
+                    
                 values.update(dict(
-                        name = '%s.%s' % (transaction.statement, transaction.transaction),
+                        name = transaction.name,
                         date = transaction.effective_date,
                         amount = transaction.transferred_amount,
                         statement_id = transaction.statement_id.id,
@@ -1599,6 +1602,7 @@ class banking_import_transaction(osv.osv):
         'exchange_rate': fields.float('exchange_rate'),
         'transferred_amount': fields.float('transferred_amount'),
         'message': fields.char('message', size=1024),
+        'name': fields.char('name', size=1024),
         'remote_owner': fields.char('remote_owner', size=24),
         'remote_owner_address': fields.char('remote_owner_address', size=24),
         'remote_owner_city': fields.char('remote_owner_city', size=24),

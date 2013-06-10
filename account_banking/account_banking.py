@@ -500,7 +500,7 @@ class account_bank_statement(osv.osv):
             'journal_id': st.journal_id.id,
             'period_id': period_id, # AB
             'date': st_line.date,
-            'name': st_line_number,
+            'name': "%s.%s" % (st_line.statement_id.name, st_line.import_transaction_id.id),
         }, context=context)
         account_bank_statement_line_obj.write(cr, uid, [st_line.id], {
             'move_ids': [(4, move_id, False)]

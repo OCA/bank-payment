@@ -68,6 +68,9 @@ class mem_bank_transaction(object):
 
         'id',
         # Message id
+        
+        'name',
+        # Optional transaction name
 
         'statement_id',
         # The bank statement this message was reported on
