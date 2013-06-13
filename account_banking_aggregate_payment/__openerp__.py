@@ -20,8 +20,8 @@
 ##############################################################################
 {
     'name': 'Account Banking Aggregate Payment',
-    'version': '0.1.136',
-    'license': 'GPL-3',
+    'version': '0.1.173',
+    'license': 'AGPL-3',
     'author': 'Therp BV',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',

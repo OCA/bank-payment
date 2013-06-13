@@ -12,5 +12,6 @@
 	    <field name="ir_model_id"
                    ref="model_banking_export_aggregate"/>
         </record>
+
     </data>
 </openerp>
