@@ -26,12 +26,13 @@ from openerp import netsvc
 
 class banking_export_aggregate(orm.TransientModel):
     _name = 'banking.export.aggregate'
+    _description = 'Execute aggregate payment order'
+    _rec_name = 'payment_order_id'
+
     _columns = {
         'payment_order_id': fields.many2one(
             'payment.order', 'Payment order',
             required=True),
-        'reference': fields.char(
-            'Reference', size=24),
         }
 
     def create(self, cr, uid, vals, context=None):

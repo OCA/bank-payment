@@ -32,10 +32,18 @@
         'view/export_aggregate.xml',
         ],
     'description': '''
-    Allows for aggregating several payments on a single partner by
-    reconciling the payment lines in a payment order of this type
-    with a single line on the partner, then proceeds to create a new
-    order of a user chosen type with only this line in it.
+    This module allows for aggregating payments for various creditors
+    and making them payable to a single partner. This is practiced in
+    certain purchasing consortia.
+
+    After collection of the payable invoices on a payment order of type
+    'Aggregate payment', the move lines in the payment order are
+    reconciled by a move on a transit account, the total amount of which
+    is then transferred onto the designated partner's account payable
+    (upon confirmation of the aggregate payment order).
+
+    The payment order wizard then proceeds to create a new payment order
+    of a user chosen payment mode with only the aggregate move line in it.
     ''',
     'active': False,
 }

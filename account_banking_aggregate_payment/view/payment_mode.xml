@@ -9,7 +9,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="payment_term_ids" position="after">
-                    <group colspan="2" col="2" string="Chaining order"
+                    <group colspan="2" col="2" string="Aggregate payment"
                            attrs="{
                            'invisible': [
                                  ('type', '!=',
