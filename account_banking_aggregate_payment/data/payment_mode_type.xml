@@ -3,35 +3,14 @@
     <data>
 
         <record model="payment.mode.type"
-                id="type_all">
-            <field name="name">Aggregate payment order for all accounts</field>
-            <field name="code">AGG_ALL</field>
+                id="type_aggregate">
+            <field name="name">Aggregate payment order</field>
+            <field name="code">AGGR</field>
             <field name="suitable_bank_types"
                    eval="[(6, 0, (ref('base_iban.bank_iban'),
                                   ref('base.bank_normal')))]" />
 	    <field name="ir_model_id"
                    ref="model_banking_export_aggregate"/>
         </record>
-
-        <record model="payment.mode.type"
-                id="type_iban">
-            <field name="name">Aggregate payment order for IBAN accounts</field>
-            <field name="code">AGG_IBAN</field>
-            <field name="suitable_bank_types"
-                   eval="[(6, 0, (ref('base_iban.bank_iban'),))]" />
-	    <field name="ir_model_id"
-                   ref="model_banking_export_aggregate"/>
-        </record>
-
-        <record model="payment.mode.type"
-                id="type_dmst">
-            <field name="name">Aggregate payment order for domestic accounts</field>
-            <field name="code">AGG_DMST</field>
-            <field name="suitable_bank_types"
-                   eval="[(6, 0, (ref('base.bank_normal'),))]" />
-	    <field name="ir_model_id"
-                   ref="model_banking_export_aggregate"/>
-        </record>
-
     </data>
 </openerp>

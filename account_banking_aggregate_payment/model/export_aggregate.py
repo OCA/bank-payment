@@ -23,6 +23,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import netsvc
 
+
 class banking_export_aggregate(orm.TransientModel):
     _name = 'banking.export.aggregate'
     _columns = {
@@ -51,7 +52,7 @@ class banking_export_aggregate(orm.TransientModel):
 
     def reconcile_lines(self, cr, uid, move_line_ids, context=None):
         """
-        Reconcile move lines lines, really. Talk about core functionality
+        Reconcile move lines lines, really. ERP core functionality.
         """
         reconcile_obj = self.pool.get('account.move.reconcile')
         account_move_line_obj = self.pool.get('account.move.line')
@@ -121,15 +122,12 @@ class banking_export_aggregate(orm.TransientModel):
         if len(payment_order_ids) > 1:
             raise orm.except_orm(
                 _('Error'),
-                _('This operation can only be performed on a single payment order'))
+                _('This operation can only be performed on a single '
+                  'payment order'))
+
+        today = fields.date.context_today(self, cr, uid, context=context)
         order = payment_order_obj.browse(
             cr, uid, payment_order_ids[0], context=context)
-        if not (order.mode.transfer_journal_id and
-                order.mode.transfer_account_id):
-            raise orm.except_orm(
-                _('Error'),
-                _('Transfer journal or account are not filled '
-                  'in on the payment mode'))
 
         move_id = account_move_obj.create(cr, uid, {
                 'journal_id': order.mode.transfer_journal_id.id,
@@ -151,7 +149,7 @@ class banking_export_aggregate(orm.TransientModel):
                     line.move_line_id.name
                     )
 
-            # TODO: take multicurrency into account
+            # TODO: take multicurrency into account?
             
             # create the move line on the transfer account
             vals = {
@@ -164,7 +162,7 @@ class banking_export_aggregate(orm.TransientModel):
                 'account_id': order.mode.transfer_account_id.id,
                 'credit': line.amount,
                 'debit': 0.0,
-                'date': fields.date.context_today(self, cr, uid, context=context),
+                'date': today,
                 }
             counter_move_line_id = account_move_line_obj.create(
                 cr, uid, vals, context=context)
@@ -187,7 +185,7 @@ class banking_export_aggregate(orm.TransientModel):
             cr, uid, counter_move_line_ids)
 
         vals = {
-            'name': 'Aggregate payment for %s' % (
+            'name': _('Aggregate payment for %s') % (
                 line.move_line_id.invoice and 
                 line.move_line_id.invoice.number or 
                 line.move_line_id.name),
@@ -196,10 +194,12 @@ class banking_export_aggregate(orm.TransientModel):
             'account_id': order.mode.transfer_account_id.id,
             'debit': total < 0 and -total or 0.0,
             'credit': total >= 0 and total or 0.0,
-            'date': fields.date.context_today(self, cr, uid, context=context),
+            'date': today,
             }
         aggregate_move_line_id = account_move_line_obj.create(
             cr, uid, vals, context=context)
+
+        account_move_obj.post(cr, uid, [move_id], context=context)
 
         self.reconcile_lines(
             cr, uid, counter_move_line_ids + [aggregate_move_line_id],
@@ -219,7 +219,6 @@ class banking_export_aggregate(orm.TransientModel):
                 cr, uid, vals, context=context),
             context=context)
 
-        account_move_obj.post(cr, uid, [move_id], context=context)
 
         wf_service = netsvc.LocalService('workflow')
         wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
@@ -245,10 +244,10 @@ class banking_export_aggregate(orm.TransientModel):
                 'bank_id': lines2bank.get(payable_move_line.id),
                 'order_id': payment_order_id,
                 'partner_id': order.mode.aggregate_partner_id.id,
-                'communication': payable_move_line.ref,
+                'communication': (payable_move_line.ref or '').replace('/', ''),
                 'communication2': False,
                 'state': 'structured',
-                'date': False,
+                'date': today,
                 'currency': (
                     line.move_line_id.journal_id.currency.id or
                     line.move_line_id.journal_id.company_id.currency_id.id),

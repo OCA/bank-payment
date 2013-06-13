@@ -26,9 +26,10 @@ class payment_mode(orm.Model):
     _inherit = "payment.mode"
     _columns = {
         'aggregate_partner_id': fields.many2one(
-            'res.partner', 'Aggregate partner id',
+            'res.partner', 'Aggregate payment beneficiary',
+            help="The single partner on the chained payment order",
             ),
         'chained_mode_id': fields.many2one(
-            'payment.mode', 'Chained payment mode'),
+            'payment.mode', 'Chained payment mode',
+            help="The payment type of the chained payment order"),
         }
-

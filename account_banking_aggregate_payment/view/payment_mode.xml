@@ -5,21 +5,47 @@
             <field name="name">Adaptations for aggregate payment modes</field>
             <field name="model">payment.mode</field>
             <field name="inherit_id"
-                   ref="account_banking.view_payment_mode_form_inherit"/>
+                   ref="account_direct_debit.view_payment_mode_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="type" position="after">
-                    <group colspan="4" string="Chaining order"
-                           attrs="{'invisible': [
-                        ('type', 'not in', (
-                            %(account_banking_aggregate_payment.type_iban)d,
-                            %(account_banking_aggregate_payment.type_all)d,
-                            %(account_banking_aggregate_payment.type_dmst)d
-                            ))]}">
-                        <field name="aggregate_partner_id" />
-                        <field name="chained_mode_id" />
+                <field name="payment_term_ids" position="after">
+                    <group colspan="2" col="2" string="Chaining order"
+                           attrs="{
+                           'invisible': [
+                                 ('type', '!=',
+                           %(account_banking_aggregate_payment.type_aggregate)d
+                           )]}">
+                        <field name="aggregate_partner_id"
+                               attrs="{'required': [
+                                 ('type', '=',
+                                 %(account_banking_aggregate_payment.type_aggregate)d
+                                 )]}"
+                               />
+                        <field name="chained_mode_id"
+                               attrs="{'required': [
+                                 ('type', '=',
+                                 %(account_banking_aggregate_payment.type_aggregate)d
+                                 )]}"
+                               />
                     </group>
                 </field>
+
+                <field name="transfer_account_id" position="attributes">
+                       <attribute name="attrs">{
+                              'required': [
+                                  ('type', '=',
+                            %(account_banking_aggregate_payment.type_aggregate)d
+                            )]}</attribute>
+                </field>
+
+                <field name="transfer_journal_id" position="attributes">
+                       <attribute name="attrs">{
+                              'required': [
+                                  ('type', '=',
+                            %(account_banking_aggregate_payment.type_aggregate)d
+                            )]}</attribute>
+                </field>
+
             </field>
         </record>
     </data>
