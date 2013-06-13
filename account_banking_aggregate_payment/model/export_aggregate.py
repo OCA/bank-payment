@@ -131,8 +131,7 @@ class banking_export_aggregate(orm.TransientModel):
 
         move_id = account_move_obj.create(cr, uid, {
                 'journal_id': order.mode.transfer_journal_id.id,
-                'name': 'Aggregate Payment Order %s' % order.reference,
-                'reference': order.reference,
+                'ref': _('Aggregate Payment Order %s') % order.reference,
                 }, context=context)
 
         counter_move_line_ids = []
@@ -153,10 +152,10 @@ class banking_export_aggregate(orm.TransientModel):
             
             # create the move line on the transfer account
             vals = {
-                'name': 'Aggregate payment for %s' % (
+                'name': _('Transit %s') % (
                     line.move_line_id.invoice and 
                     line.move_line_id.invoice.number or 
-                    line.move_line_id.name),
+                    line.move_line_id.ref),
                 'move_id': move_id,
                 'partner_id': line.partner_id and line.partner_id.id or False,
                 'account_id': order.mode.transfer_account_id.id,
@@ -170,6 +169,10 @@ class banking_export_aggregate(orm.TransientModel):
 
             # create the debit move line on the receivable account
             vals.update({
+                    'name': _('Reconciliation %s') % (
+                        line.move_line_id.invoice and 
+                        line.move_line_id.invoice.number or 
+                        line.move_line_id.name),
                     'account_id': line.move_line_id.account_id.id,
                     'credit': 0.0,
                     'debit': line.amount,
@@ -185,10 +188,7 @@ class banking_export_aggregate(orm.TransientModel):
             cr, uid, counter_move_line_ids)
 
         vals = {
-            'name': _('Aggregate payment for %s') % (
-                line.move_line_id.invoice and 
-                line.move_line_id.invoice.number or 
-                line.move_line_id.name),
+            'name': _('Transit reconciliation'),
             'move_id': move_id,
             'partner_id': order.mode.aggregate_partner_id.id,
             'account_id': order.mode.transfer_account_id.id,
@@ -199,14 +199,13 @@ class banking_export_aggregate(orm.TransientModel):
         aggregate_move_line_id = account_move_line_obj.create(
             cr, uid, vals, context=context)
 
-        account_move_obj.post(cr, uid, [move_id], context=context)
-
         self.reconcile_lines(
             cr, uid, counter_move_line_ids + [aggregate_move_line_id],
             context=context)
 
         # create the credit move line on the aggregate partner
         vals.update({
+                'name': _('Amount payable'),
                 'account_id': order.mode.aggregate_partner_id.property_account_payable.id,
                 'partner_id': order.mode.aggregate_partner_id.id,
                 'debit': total >= 0 and total or 0.0,
@@ -219,6 +218,7 @@ class banking_export_aggregate(orm.TransientModel):
                 cr, uid, vals, context=context),
             context=context)
 
+        account_move_obj.post(cr, uid, [move_id], context=context)
 
         wf_service = netsvc.LocalService('workflow')
         wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
@@ -244,7 +244,7 @@ class banking_export_aggregate(orm.TransientModel):
                 'bank_id': lines2bank.get(payable_move_line.id),
                 'order_id': payment_order_id,
                 'partner_id': order.mode.aggregate_partner_id.id,
-                'communication': (payable_move_line.ref or '').replace('/', ''),
+                'communication': order.reference.replace('/', ''),
                 'communication2': False,
                 'state': 'structured',
                 'date': today,
