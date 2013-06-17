@@ -77,6 +77,7 @@ class transaction_message(object):
         # Normalize basic account numbers
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
         self.local_account = self.local_account.replace('.', '').zfill(10)             
+        
 
 class transaction(models.mem_bank_transaction):
     '''
@@ -114,6 +115,8 @@ class transaction(models.mem_bank_transaction):
 
     # global expression for matching storno references
     ref_expr = re.compile('REF[\*:]([0-9A-Z-z_-]+)')
+    # match references for Acceptgiro's through Internet banking
+    kn_expr = re.compile('KN: ([^ ]+)')
 
     def __init__(self, line, *args, **kwargs):
         '''
@@ -149,6 +152,58 @@ class transaction(models.mem_bank_transaction):
                     self.reference = res.group(1)
                     self.storno_retry = True
             self.remote_owner = False
+        if self.transfer_type == 'GT':
+            res = self.kn_expr.search(self.message)
+            if res:
+                self.reference = res.group(1)
+        if self.transfer_type == 'AC':
+            self.parse_acceptgiro()
+        if self.message and not self.reference:
+            self.reference = self.message
+
+    def parse_acceptgiro(self):
+        """
+        Entries of type 'Acceptgiro' can contain the reference
+        in the 'name' column, as well as full address information
+        in the 'message' column'
+        """
+        reference = ''
+        street = False
+        zipcode = False
+        street = False
+        before = False
+        if self.remote_owner.startswith('KN: '):
+            self.reference = self.remote_owner[4:]
+            self.remote_owner = ''
+        if 'KN: ' in self.message:
+            index = self.message.index('KN: ')
+            before = self.message[:index]
+            self.message = self.message[index:]
+        expression = (
+            "^\s*(KN:\s*(?P<kn>[^\s]+))?(\s*)"
+            "(?P<navr>NAVR:\s*[^\s]+)?(\s*)(?P<after>.*?)$")
+        msg_match = re.match(expression, self.message)
+        after = msg_match.group('after')
+        kn = msg_match.group('kn')
+        navr = msg_match.group('navr')
+        if kn:
+            self.reference = kn[4:]
+        self.message = 'Acceptgiro %s' % (navr or '')
+        if after:
+            parts = [after[i:i+33] for i in range(0, len(after), 33)]
+            if parts and not self.remote_owner:
+                self.remote_owner = parts.pop(0).strip()
+            if parts:
+                self.remote_owner_address = [parts.pop(0).strip()]
+            if parts:
+                zip_city = parts.pop(0).strip()
+                zip_match = re.match(
+                    "^(?P<zipcode>[^ ]{6})\s+(?P<city>.*?)$", zip_city)
+                if zip_match:
+                    self.remote_owner_postalcode = zip_match.group('zipcode')
+                    self.remote_owner_city = zip_match.group('city')
+        if before and not self.remote_owner_city:
+            self.remote_owner_city = before.strip()
 
     def is_valid(self):
         if not self.error_message:
