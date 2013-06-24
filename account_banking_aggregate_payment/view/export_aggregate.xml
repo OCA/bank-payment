@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="banking_export_aggregate_view" model="ir.ui.view">
+            <field name="name">Export aggregate payment order</field>
+            <field name="model">banking.export.aggregate</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export aggregate payment order">
+                    <label string="When you confirm this order, the total
+                                   amount will be made payable to the partner
+                                   that has been set on the payment mode. A
+                                   new payment order will open in your screen
+                                   with this one payment."/>
+                    <group col="2" colspan="1">
+                        <button icon="gtk-close"
+                                special="cancel"
+                                string="Cancel"
+                                />
+                        <button icon="gtk-ok"
+                                string="Create" 
+                                name="create_aggregate_order"
+                                type="object"
+                                />
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
