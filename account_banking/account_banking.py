@@ -450,7 +450,7 @@ class account_voucher(orm.Model):
             context = {}
         if not context.get('period_id') and context.get('move_line_ids'):
             return self.pool.get('account.move.line').browse(
-                cr, uid , context.get('move_line_ids'))[0].period_id.id
+                cr, uid , context.get('move_line_ids'), context=context)[0].period_id.id
         return super(account_voucher, self)._get_period(cr, uid, context)
 
 account_voucher()
@@ -721,11 +721,11 @@ class res_partner_bank(orm.Model):
             return records
         return records[0]
 
-    def check_iban(self, cr, uid, ids):
+    def check_iban(self, cr, uid, ids, context=None):
         '''
         Check IBAN number
         '''
-        for bank_acc in self.browse(cr, uid, ids):
+        for bank_acc in self.browse(cr, uid, ids, context=context):
             if bank_acc.state == 'iban' and bank_acc.acc_number:
                 iban = sepa.IBAN(bank_acc.acc_number)
                 if not iban.valid:
@@ -785,7 +785,7 @@ class res_partner_bank(orm.Model):
         # which can be overridden by the user.
         # 1. Use provided country_id (manually filled)
         if country_id:
-            country = country_obj.browse(cr, uid, country_id)
+            country = country_obj.browse(cr, uid, country_id, context=context)
             country_ids = [country_id]
         # 2. Use country_id of found bank accounts
         # This can be usefull when there is no country set in the partners
@@ -793,7 +793,7 @@ class res_partner_bank(orm.Model):
         # account itself before this method was triggered.
         elif ids and len(ids) == 1:
             partner_bank_obj = self.pool.get('res.partner.bank')
-            partner_bank_id = partner_bank_obj.browse(cr, uid, ids[0])
+            partner_bank_id = partner_bank_obj.browse(cr, uid, ids[0], context=context)
             if partner_bank_id.country_id:
                 country = partner_bank_id.country_id
                 country_ids = [country.id]
@@ -804,12 +804,12 @@ class res_partner_bank(orm.Model):
         # bank account, hence the additional check.
         elif partner_id:
             partner_obj = self.pool.get('res.partner')
-            country = partner_obj.browse(cr, uid, partner_id).country
+            country = partner_obj.browse(cr, uid, partner_id, context=context).country
             country_ids = country and [country.id] or []
         # 4. Without any of the above, take the country from the company of
         # the handling user
         if not country_ids:
-            user = self.pool.get('res.users').browse(cr, uid, uid)
+            user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
             # Try user companies partner (user no longer has address in 6.1)
             if (user.company_id and
                   user.company_id.partner_id and
