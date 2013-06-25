@@ -25,7 +25,7 @@
     'author': 'credativ Ltd',
     'website': 'http://www.credativ.co.uk',
     'category': 'Account Banking',
-    'depends': ['account_banking'],
+    'depends': ['account_banking_payment'],
     'data': [
         'account_banking_uk_hsbc.xml',
         'hsbc_clientid_view.xml',
