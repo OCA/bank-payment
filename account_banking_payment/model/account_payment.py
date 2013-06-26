@@ -279,6 +279,10 @@ class payment_order(orm.Model):
         account_move_obj = self.pool.get('account.move')
         account_move_line_obj = self.pool.get('account.move.line')
         payment_line_obj = self.pool.get('payment.line')
+        labels = {
+            'payment': _('Payment order'),
+            'debit': _('Direct debit order'),
+            }
         for order in self.browse(cr, uid, ids, context=context):
             for line in order.line_ids:
                 # basic checks
@@ -295,8 +299,8 @@ class payment_order(orm.Model):
 
                 move_id = account_move_obj.create(cr, uid, {
                         'journal_id': order.mode.transfer_journal_id.id,
-                        'name': '%s order %s' % (order.payment_order_type, 
-                                                 line.move_line_id.move_id.name),
+                        'name': '%s %s' % (labels[order.payment_order_type], 
+                                           line.move_line_id.move_id.name),
                         'reference': '%s%s' % (order.payment_order_type[:3].upper(),
                                                line.move_line_id.move_id.name),
                         }, context=context)
@@ -305,8 +309,8 @@ class payment_order(orm.Model):
                 
                 # create the debit move line on the transfer account
                 vals = {
-                    'name': '%s order for %s' % (
-                        order.payment_order_type,
+                    'name': _('%s for %s') % (
+                        labels[order.payment_order_type],
                         line.move_line_id.invoice and 
                         line.move_line_id.invoice.number or 
                         line.move_line_id.name),
