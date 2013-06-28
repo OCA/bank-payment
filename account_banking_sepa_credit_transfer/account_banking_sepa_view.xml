@@ -10,7 +10,6 @@
 <record id="view_banking_export_sepa_form" model="ir.ui.view">
     <field name="name">account.banking.export.sepa.form</field>
     <field name="model">banking.export.sepa</field>
-    <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="SEPA Credit Transfer">
             <notebook>
@@ -46,7 +45,6 @@
 <record id="view_banking_export_sepa_tree" model="ir.ui.view">
     <field name="name">account.banking.export.sepa.tree</field>
     <field name="model">banking.export.sepa</field>
-    <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="SEPA Credit Transfer">
             <field name="msg_identification"/>
