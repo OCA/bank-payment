@@ -10,7 +10,6 @@
 <record id="banking_export_sepa_wizard_view" model="ir.ui.view">
     <field name="name">banking.export.sepa.wizard.view</field>
     <field name="model">banking.export.sepa.wizard</field>
-    <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="SEPA XML file generation">
             <field name="state" invisible="True"/>
