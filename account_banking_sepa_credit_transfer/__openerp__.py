@@ -25,15 +25,13 @@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'category': 'Banking addons',
-    'depends': ['account_banking'],
-    'init_xml': [],
-    'update_xml': [
+    'depends': ['account_banking_payment'],
+    'data': [
         'account_banking_sepa_view.xml',
         'wizard/export_sepa_view.xml',
         'data/payment_type_sepa_sct.xml',
         'security/ir.model.access.csv',
     ],
-    'demo_xml': [],
     'description': '''
 Module to export payment orders in SEPA XML file format.
 
