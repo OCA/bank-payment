@@ -21,8 +21,8 @@
 
 from openerp.osv import orm, fields
 import time
-from tools.translate import _
-import decimal_precision as dp
+from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
 
 
 class banking_export_sepa(orm.Model):
