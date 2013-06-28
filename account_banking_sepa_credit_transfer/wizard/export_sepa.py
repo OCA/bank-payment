@@ -21,19 +21,18 @@
 ##############################################################################
 
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 import base64
 from datetime import datetime, timedelta
-from tools.translate import _
-import tools
+from openerp.tools.translate import _
+from openerp import tools, netsvc
 from lxml import etree
 import logging
-import netsvc
 
 _logger = logging.getLogger(__name__)
 
 
-class banking_export_sepa_wizard(osv.osv_memory):
+class banking_export_sepa_wizard(orm.TransientModel):
     _name = 'banking.export.sepa.wizard'
     _description = 'Export SEPA Credit Transfer XML file'
     _columns = {
@@ -87,7 +86,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
         if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
             return iban.replace(' ', '')
         else:
-            raise osv.except_osv(_('Error :'), _("This IBAN is not valid : %s") % iban)
+            raise orm.except_orm(_('Error :'), _("This IBAN is not valid : %s") % iban)
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
@@ -132,7 +131,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
         else:
-            raise osv.except_osv(_('Error :'), _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' and 'pain.001.001.04'.") % pain_flavor)
+            raise orm.except_orm(_('Error :'), _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' and 'pain.001.001.04'.") % pain_flavor)
         if sepa_export.batch_booking:
             my_batch_booking = 'true'
         else:
@@ -281,7 +280,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
             _logger.warning("The XML file is invalid against the XML Schema Definition")
             _logger.warning(xml_string)
             _logger.warning(e)
-            raise osv.except_osv(_('Error :'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
+            raise orm.except_orm(_('Error :'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
 
         # CREATE the banking.export.sepa record
         file_id = self.pool.get('banking.export.sepa').create(cr, uid,
@@ -335,7 +334,3 @@ class banking_export_sepa_wizard(osv.osv_memory):
         for order in sepa_export.payment_order_ids:
             wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
         return {'type': 'ir.actions.act_window_close'}
-
-
-banking_export_sepa_wizard()
-
