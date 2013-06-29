@@ -46,6 +46,7 @@ from account_banking.parsers import models
 from account_banking.parsers.convert import str2date, to_swift
 from tools.translate import _
 import csv
+import re
 
 bt = models.mem_bank_transaction
 
@@ -142,6 +143,10 @@ class transaction(models.mem_bank_transaction):
         'OV': bt.ORDER,
         'VZ': bt.PAYMENT_BATCH,
     }
+
+    structured_description_regex = re.compile(
+            '^IBAN: (?P<iban>\w+) BIC: (?P<bic>\w+) Naam: (?P<name>.+) '
+            'Omschrijving: (?P<desc>.+)$')
 
     def __init__(self, line, *args, **kwargs):
         '''
@@ -274,6 +279,11 @@ class transaction(models.mem_bank_transaction):
             # Normal transaction, but remote_owner can contain city, depending
             # on length of total. As there is no clear pattern, leave it as
             # is.
+            structured_description = self.structured_description_regex.match(
+                    ''.join(self.message.split('\n')))
+            if structured_description:
+                values = structured_description.groupdict()
+                self.reference = values['desc']
             self.message = self.refold_message(self.message)
 
         else:
