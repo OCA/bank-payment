@@ -28,9 +28,9 @@ This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
 use parser.models as a mean of communication with the business logic.
 '''
-from osv import orm, fields
 import base64
 import datetime
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.account_banking.parsers import models
 from openerp.addons.account_banking.parsers import convert
@@ -97,13 +97,13 @@ class banking_import_line(orm.TransientModel):
 class banking_import(orm.TransientModel):
     _name = 'account.banking.bank.import'
 
-    def import_statements_file(self, cursor, uid, ids, context):
+    def import_statements_file(self, cr, uid, ids, context):
         '''
         Import bank statements / bank transactions file.
         This method is a wrapper for the business logic on the transaction.
         The parser modules represent the decoding logic.
         '''
-        banking_import = self.browse(cursor, uid, ids, context)[0]
+        banking_import = self.browse(cr, uid, ids, context)[0]
         statements_file = banking_import.file
         data = base64.decodestring(statements_file)
 
@@ -125,10 +125,10 @@ class banking_import(orm.TransientModel):
 
         # Get the company
         company = (banking_import.company or
-                   user_obj.browse(cursor, uid, uid, context).company_id)
+                   user_obj.browse(cr, uid, uid, context).company_id)
 
         # Parse the file
-        statements = parser.parse(cursor, data)
+        statements = parser.parse(cr, data)
 
         if any([x for x in statements if not x.is_valid()]):
             raise orm.except_orm(
@@ -137,7 +137,7 @@ class banking_import(orm.TransientModel):
             )
 
         # Create the file now, as the statements need to be linked to it
-        import_id = statement_file_obj.create(cursor, uid, dict(
+        import_id = statement_file_obj.create(cr, uid, dict(
             company_id = company.id,
             file = statements_file,
             state = 'unfinished',
@@ -184,7 +184,7 @@ class banking_import(orm.TransientModel):
             else:
                 # Pull account info/currency
                 account_info = banktools.get_company_bank_account(
-                    self.pool, cursor, uid, statement.local_account,
+                    self.pool, cr, uid, statement.local_account,
                     statement.local_currency, company, results.log
                 )
                 if not account_info:
@@ -238,7 +238,7 @@ class banking_import(orm.TransientModel):
             # (e.g. a datetime string of the moment of import)
             # and have potential duplicates flagged by the 
             # matching procedure
-            statement_ids = statement_obj.search(cursor, uid, [
+            statement_ids = statement_obj.search(cr, uid, [
                 ('name', '=', statement.id),
                 ('date', '=', convert.date2str(statement.date)),
             ])
@@ -252,7 +252,7 @@ class banking_import(orm.TransientModel):
 
             # Get the period for the statement (as bank statement object checks this)
             period_ids = period_obj.search(
-                cursor, uid, [
+                cr, uid, [
                     ('company_id', '=', company.id),
                     ('date_start', '<=', statement.date),
                     ('date_stop', '>=', statement.date),
@@ -270,7 +270,7 @@ class banking_import(orm.TransientModel):
                 continue
 
             # Create the bank statement record
-            statement_id = statement_obj.create(cursor, uid, dict(
+            statement_id = statement_obj.create(cr, uid, dict(
                 name = statement.id,
                 journal_id = account_info.journal_id.id,
                 date = convert.date2str(statement.date),
@@ -302,21 +302,21 @@ class banking_import(orm.TransientModel):
                 values['local_currency'] = statement.local_currency
 
                 transaction_id = import_transaction_obj.create(
-                    cursor, uid, values, context=context)
+                    cr, uid, values, context=context)
                 transaction_ids.append(transaction_id)
             
             results.stat_loaded_cnt += 1
 
-        import_transaction_obj.match(cursor, uid, transaction_ids, results=results, context=context)
+        import_transaction_obj.match(cr, uid, transaction_ids, results=results, context=context)
             
         #recompute statement end_balance for validation
         statement_obj.button_dummy(
-            cursor, uid, imported_statement_ids, context=context)
+            cr, uid, imported_statement_ids, context=context)
 
 
             # Original code. Didn't take workflow logistics into account...
             #
-            #cursor.execute(
+            #cr.execute(
             #    "UPDATE payment_order o "
             #    "SET state = 'done', "
             #        "date_done = '%s' "
@@ -358,13 +358,13 @@ class banking_import(orm.TransientModel):
         ]
         text_log = '\n'.join(report + results.log)
         state = results.error_cnt and 'error' or 'ready'
-        statement_file_obj.write(cursor, uid, import_id, dict(
+        statement_file_obj.write(cr, uid, import_id, dict(
             state = state, log = text_log,
             ), context)
         if not imported_statement_ids or not results.trans_loaded_cnt:
             # file state can be 'ready' while import state is 'error'
             state = 'error'
-        self.write(cursor, uid, [ids[0]], dict(
+        self.write(cr, uid, [ids[0]], dict(
                 import_id = import_id, log = text_log, state = state,
                 statement_ids = [(6, 0, imported_statement_ids)],
                 ), context)

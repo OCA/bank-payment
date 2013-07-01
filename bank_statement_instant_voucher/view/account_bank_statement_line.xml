@@ -5,7 +5,6 @@
             <field name="name">Add instant voucher button to bank statement line on statement form</field>
             <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="model">account.bank.statement</field>
-            <field name="type">form</field>
             <field name="priority" eval="30"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='line_ids']/tree/field[@name='voucher_id']"

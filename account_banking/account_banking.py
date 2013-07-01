@@ -267,7 +267,7 @@ class account_banking_imported_file(orm.Model):
     }
     _defaults = {
         'date': fields.date.context_today,
-        'user_id': lambda self, cursor, uid, context: uid,
+        'user_id': lambda self, cr, uid, context: uid,
     }
 account_banking_imported_file()
 
@@ -320,12 +320,12 @@ class account_bank_statement(orm.Model):
          ['journal_id','period_id']),
         ]
 
-    def _get_period(self, cursor, uid, date, context=None):
+    def _get_period(self, cr, uid, date, context=None):
         '''
         Find matching period for date, not meant for _defaults.
         '''
         period_obj = self.pool.get('account.period')
-        periods = period_obj.find(cursor, uid, dt=date, context=context)
+        periods = period_obj.find(cr, uid, dt=date, context=context)
         return periods and periods[0] or False
 
     def _prepare_move(
@@ -398,7 +398,7 @@ class account_bank_statement(orm.Model):
             # Write stored reconcile_id and pay invoices through workflow 
             if st_line.reconcile_id:
                 move_ids = [move.id for move in st_line.move_ids]
-                torec = account_move_obj.search(
+                torec = account_move_line_obj.search(
                     cr, uid, [
                         ('move_id', 'in', move_ids),
                         ('account_id', '=', st_line.account_id.id)],
@@ -450,7 +450,7 @@ class account_voucher(orm.Model):
             context = {}
         if not context.get('period_id') and context.get('move_line_ids'):
             return self.pool.get('account.move.line').browse(
-                cr, uid , context.get('move_line_ids'))[0].period_id.id
+                cr, uid , context.get('move_line_ids'), context=context)[0].period_id.id
         return super(account_voucher, self)._get_period(cr, uid, context)
 
 account_voucher()
@@ -467,12 +467,12 @@ class account_bank_statement_line(orm.Model):
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
 
-    def _get_period(self, cursor, user, context=None):
+    def _get_period(self, cr, uid, context=None):
         date = context.get('date', None)
-        periods = self.pool.get('account.period').find(cursor, user, dt=date)
+        periods = self.pool.get('account.period').find(cr, uid, dt=date)
         return periods and periods[0] or False
 
-    def _get_currency(self, cursor, user, context=None):
+    def _get_currency(self, cr, uid, context=None):
         '''
         Get the default currency (required to allow other modules to function,
         which assume currency to be a calculated field and thus optional)
@@ -480,7 +480,7 @@ class account_bank_statement_line(orm.Model):
         which is inaccessible from within this method.
         '''
         res_users_obj = self.pool.get('res.users')
-        return res_users_obj.browse(cursor, user, user,
+        return res_users_obj.browse(cr, uid, uid,
                 context=context).company_id.currency_id.id
 
     def _get_invoice_id(self, cr, uid, ids, name, args, context=None):
@@ -605,7 +605,7 @@ class res_partner_bank(orm.Model):
         iban = sepa.IBAN(acc_number)
         return (str(iban), iban.localized_BBAN)
 
-    def create(self, cursor, uid, vals, context=None):
+    def create(self, cr, uid, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
         '''
@@ -614,7 +614,7 @@ class res_partner_bank(orm.Model):
                     or vals.get('acc_number_domestic', False))
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
-        return self._founder.create(self, cursor, uid, vals, context)
+        return self._founder.create(self, cr, uid, vals, context)
 
     def write(self, cr, uid, ids, vals, context=None):
         '''
@@ -637,7 +637,7 @@ class res_partner_bank(orm.Model):
             self._founder.write(self, cr, uid, account['id'], vals, context)
         return True
 
-    def search(self, cursor, uid, args, *rest, **kwargs):
+    def search(self, cr, uid, args, *rest, **kwargs):
         '''
         Overwrite search, as both acc_number and iban now can be filled, so
         the original base_iban 'search and search again fuzzy' tactic now can
@@ -698,7 +698,7 @@ class res_partner_bank(orm.Model):
         
         # Original search
         results = super(res_partner_bank, self).search(
-            cursor, uid, newargs, *rest, **kwargs)
+            cr, uid, newargs, *rest, **kwargs)
         return results
 
     def read(
@@ -721,23 +721,23 @@ class res_partner_bank(orm.Model):
             return records
         return records[0]
 
-    def check_iban(self, cursor, uid, ids):
+    def check_iban(self, cr, uid, ids, context=None):
         '''
         Check IBAN number
         '''
-        for bank_acc in self.browse(cursor, uid, ids):
+        for bank_acc in self.browse(cr, uid, ids, context=context):
             if bank_acc.state == 'iban' and bank_acc.acc_number:
                 iban = sepa.IBAN(bank_acc.acc_number)
                 if not iban.valid:
                     return False
         return True
 
-    def get_bban_from_iban(self, cursor, uid, ids, context=None):
+    def get_bban_from_iban(self, cr, uid, ids, context=None):
         '''
         Return the local bank account number aka BBAN from the IBAN.
         '''
         res = {}
-        for record in self.browse(cursor, uid, ids, context):
+        for record in self.browse(cr, uid, ids, context):
             if not record.state == 'iban':
                 res[record.id] = False
             else:
@@ -763,7 +763,7 @@ class res_partner_bank(orm.Model):
                 )
 
     def onchange_domestic(
-        self, cursor, uid, ids, acc_number,
+        self, cr, uid, ids, acc_number,
         partner_id, country_id, context=None):
         '''
         Trigger to find IBAN. When found:
@@ -785,7 +785,7 @@ class res_partner_bank(orm.Model):
         # which can be overridden by the user.
         # 1. Use provided country_id (manually filled)
         if country_id:
-            country = country_obj.browse(cursor, uid, country_id)
+            country = country_obj.browse(cr, uid, country_id, context=context)
             country_ids = [country_id]
         # 2. Use country_id of found bank accounts
         # This can be usefull when there is no country set in the partners
@@ -793,7 +793,7 @@ class res_partner_bank(orm.Model):
         # account itself before this method was triggered.
         elif ids and len(ids) == 1:
             partner_bank_obj = self.pool.get('res.partner.bank')
-            partner_bank_id = partner_bank_obj.browse(cursor, uid, ids[0])
+            partner_bank_id = partner_bank_obj.browse(cr, uid, ids[0], context=context)
             if partner_bank_id.country_id:
                 country = partner_bank_id.country_id
                 country_ids = [country.id]
@@ -804,12 +804,12 @@ class res_partner_bank(orm.Model):
         # bank account, hence the additional check.
         elif partner_id:
             partner_obj = self.pool.get('res.partner')
-            country = partner_obj.browse(cursor, uid, partner_id).country
+            country = partner_obj.browse(cr, uid, partner_id, context=context).country
             country_ids = country and [country.id] or []
         # 4. Without any of the above, take the country from the company of
         # the handling user
         if not country_ids:
-            user = self.pool.get('res.users').browse(cursor, uid, uid)
+            user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
             # Try user companies partner (user no longer has address in 6.1)
             if (user.company_id and
                   user.company_id.partner_id and
@@ -830,7 +830,7 @@ class res_partner_bank(orm.Model):
         # Complete data with online database when available
         if country_ids:
             country = country_obj.browse(
-                cursor, uid, country_ids[0], context=context)
+                cr, uid, country_ids[0], context=context)
             values['country_id'] = country_ids[0]
         if country and country.code in sepa.IBAN.countries:
             try:
@@ -842,7 +842,7 @@ class res_partner_bank(orm.Model):
                         values['acc_number'] = unicode(iban_acc)
                         values['state'] = 'iban'
                         bank_id, country_id = get_or_create_bank(
-                            self.pool, cursor, uid,
+                            self.pool, cr, uid,
                             info.bic or iban_acc.BIC_searchkey,
                             name = info.bank
                             )
@@ -911,7 +911,7 @@ class res_bank(orm.Model):
     '''
     _inherit = 'res.bank'
 
-    def onchange_bic(self, cursor, uid, ids, bic, name, context=None):
+    def onchange_bic(self, cr, uid, ids, bic, name, context=None):
         '''
         Trigger to auto complete other fields.
         '''
@@ -924,7 +924,7 @@ class res_bank(orm.Model):
 
         if address and address.country_id:
             country_id = self.pool.get('res.country').search(
-                cursor, uid, [('code','=',address.country_id)]
+                cr, uid, [('code','=',address.country_id)]
             )
             country_id = country_id and country_id[0] or False
         else:

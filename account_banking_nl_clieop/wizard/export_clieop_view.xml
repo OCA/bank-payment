@@ -4,7 +4,6 @@
         <record id="banking_export_clieop_wizard_view" model="ir.ui.view">
             <field name="name">banking.export.clieop.wizard.view</field>
             <field name="model">banking.export.clieop.wizard</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Client Opdrachten Export">
                     <field name="state" invisible="True"/>

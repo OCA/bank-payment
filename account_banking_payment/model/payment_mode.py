@@ -46,6 +46,27 @@ class payment_mode(orm.Model):
     _columns = {
         'type': fields.many2one(
             'payment.mode.type', 'Payment type',
+            required=True,
             help='Select the Payment Type for the Payment Mode.'
+            ),
+        'transfer_account_id': fields.many2one(
+            'account.account', 'Transfer account',
+            domain=[('type', '=', 'other'),
+                    ('reconcile', '=', True)],
+            help=('Pay off lines in sent orders with a '
+                  'move on this account. For debit type modes only. '
+                  'You can only select accounts of type regular that '
+                  'are marked for reconciliation'),
+            ),
+        'transfer_journal_id': fields.many2one(
+            'account.journal', 'Transfer journal',
+            help=('Journal to write payment entries when confirming '
+                  'a debit order of this mode'),
+            ),
+        'payment_term_ids': fields.many2many(
+            'account.payment.term', 'account_payment_order_terms_rel', 
+            'mode_id', 'term_id', 'Payment terms',
+            help=('Limit selected invoices to invoices with these payment '
+                  'terms')
             ),
         }

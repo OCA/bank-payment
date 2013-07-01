@@ -37,6 +37,7 @@
     'data': [
         'view/account_payment.xml',
         'view/banking_transaction_wizard.xml',
+        'view/payment_mode.xml',
         'view/payment_mode_type.xml',
         'view/bank_payment_manual.xml',
         'data/payment_mode_type.xml',
@@ -53,5 +54,5 @@
         account_banking_nl_clieop
     ''',
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }

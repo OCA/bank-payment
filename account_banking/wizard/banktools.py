@@ -51,7 +51,7 @@ def get_period(pool, cr, uid, date, company, log=None):
             return False
     return period_ids[0]
 
-def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
+def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
     '''
     Get the bank account with account number account_number
     '''
@@ -60,13 +60,13 @@ def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
         return []
 
     partner_bank_obj = pool.get('res.partner.bank')
-    bank_account_ids = partner_bank_obj.search(cursor, uid, [
+    bank_account_ids = partner_bank_obj.search(cr, uid, [
         ('acc_number', '=', account_number)
     ])
     if not bank_account_ids:
         # SR 2012-02-19 does the search() override in res_partner_bank
         # provides this result on the previous query?
-        bank_account_ids = partner_bank_obj.search(cursor, uid, [
+        bank_account_ids = partner_bank_obj.search(cr, uid, [
             ('acc_number_domestic', '=', account_number)
         ])
     if not bank_account_ids:
@@ -76,7 +76,7 @@ def get_bank_accounts(pool, cursor, uid, account_number, log, fail=False):
                 % dict(account_no=account_number)
             )
         return []
-    return partner_bank_obj.browse(cursor, uid, bank_account_ids)
+    return partner_bank_obj.browse(cr, uid, bank_account_ids)
 
 def _has_attr(obj, attr):
     # Needed for dangling addresses and a weird exception scheme in
@@ -129,14 +129,14 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
               'name %(name)s') % {'name': name})
     return partner_ids and partner_ids[0] or False
 
-def get_company_bank_account(pool, cursor, uid, account_number, currency,
+def get_company_bank_account(pool, cr, uid, account_number, currency,
                              company, log):
     '''
     Get the matching bank account for this company. Currency is the ISO code
     for the requested currency.
     '''
     results = struct()
-    bank_accounts = get_bank_accounts(pool, cursor, uid, account_number, log,
+    bank_accounts = get_bank_accounts(pool, cr, uid, account_number, log,
                                       fail=True)
     if not bank_accounts:
         return False
@@ -159,12 +159,12 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
 
     # Find matching journal for currency
     journal_obj = pool.get('account.journal')
-    journal_ids = journal_obj.search(cursor, uid, [
+    journal_ids = journal_obj.search(cr, uid, [
         ('type', '=', 'bank'),
         ('currency.name', '=', currency or company.currency_id.name)
     ])
     if currency == company.currency_id.name:
-        journal_ids_no_curr = journal_obj.search(cursor, uid, [
+        journal_ids_no_curr = journal_obj.search(cr, uid, [
             ('type', '=', 'bank'), ('currency', '=', False)
         ])
         journal_ids.extend(journal_ids_no_curr)
@@ -172,9 +172,9 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
         criteria.append(('journal_id', 'in', journal_ids))
 
     # Find bank account settings
-    bank_settings_ids = bank_settings_obj.search(cursor, uid, criteria)
+    bank_settings_ids = bank_settings_obj.search(cr, uid, criteria)
     if bank_settings_ids:
-        settings = bank_settings_obj.browse(cursor, uid, bank_settings_ids)[0]
+        settings = bank_settings_obj.browse(cr, uid, bank_settings_ids)[0]
         results.company_id = company
         results.journal_id = settings.journal_id
 
@@ -192,7 +192,7 @@ def get_company_bank_account(pool, cursor, uid, account_number, currency,
 
     return results
 
-def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
+def get_or_create_bank(pool, cr, uid, bic, online=False, code=None,
                        name=None):
     '''
     Find or create the bank with the provided BIC code.
@@ -208,27 +208,27 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
     if len(bic) < 8:
         # search key
         bank_ids = bank_obj.search(
-            cursor, uid, [
+            cr, uid, [
                 ('bic', '=', bic[:6])
             ])
         if not bank_ids:
             bank_ids = bank_obj.search(
-                cursor, uid, [
+                cr, uid, [
                     ('bic', 'ilike', bic + '%')
                 ])
     else:
         bank_ids = bank_obj.search(
-            cursor, uid, [
+            cr, uid, [
                 ('bic', '=', bic)
             ])
 
     if bank_ids and len(bank_ids) == 1:
-        banks = bank_obj.browse(cursor, uid, bank_ids)
+        banks = bank_obj.browse(cr, uid, bank_ids)
         return banks[0].id, banks[0].country.id
 
     country_obj = pool.get('res.country')
     country_ids = country_obj.search(
-        cursor, uid, [('code', '=', bic[4:6])]
+        cr, uid, [('code', '=', bic[4:6])]
     )
     country_id = country_ids and country_ids[0] or False
     bank_id = False
@@ -236,7 +236,7 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
     if online:
         info, address = sepa.online.bank_info(bic)
         if info:
-            bank_id = bank_obj.create(cursor, uid, dict(
+            bank_id = bank_obj.create(cr, uid, dict(
                 code = info.code,
                 name = info.name,
                 street = address.street,
@@ -250,7 +250,7 @@ def get_or_create_bank(pool, cursor, uid, bic, online=False, code=None,
         info = struct(name=name, code=code)
 
     if not online or not bank_id:
-        bank_id = bank_obj.create(cursor, uid, dict(
+        bank_id = bank_obj.create(cr, uid, dict(
             code = info.code or 'UNKNOW',
             name = info.name or _('Unknown Bank'),
             country = country_id,

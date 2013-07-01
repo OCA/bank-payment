@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2013 Therp BV (<http://therp.nl>).
 #            
 #    All other contributions are (C) by their respective contributors
 #
@@ -23,18 +22,20 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp.osv import orm
 
 
-class account_bank_statement_line(orm.Model):
-    _inherit = 'account.bank.statement.line'
-    _columns = {
-        'match_type': fields.related(
-            # Add payment and storno types
-            'import_transaction_id', 'match_type', type='selection',
-            selection=[('manual', 'Manual'), ('move','Move'),
-                       ('invoice', 'Invoice'), ('payment', 'Payment'),
-                       ('payment_order', 'Payment order'),
-                       ('storno', 'Storno')], 
-            string='Match type', readonly=True,),
-        }
+class payment_order_create(orm.TransientModel):
+    _inherit = 'payment.order.create'
+
+    def extend_payment_order_domain(
+            self, cr, uid, payment_order, domain, context=None):
+        super(payment_order_create, self).extend_payment_order_domain(
+            cr, uid, payment_order, domain, context=context)
+        if payment_order.payment_order_type == 'debit':
+            domain += [
+                ('account_id.type', '=', 'receivable'),
+                ('invoice.state', '!=', 'debit_denied'),
+                ('amount_to_receive', '>', 0),
+                ]
+        return True

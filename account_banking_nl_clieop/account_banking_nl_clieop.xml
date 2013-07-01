@@ -11,7 +11,6 @@
         <record id="view_banking_export_clieop_form" model="ir.ui.view">
             <field name="name">account.banking.export.clieop.form</field>
             <field name="model">banking.export.clieop</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Client Opdrachten Export">
                     <notebook>
@@ -48,7 +47,6 @@
         <record id="view_banking_export_clieop_tree" model="ir.ui.view">
             <field name="name">account.banking.export.clieop.tree</field>
             <field name="model">banking.export.clieop</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Client Opdrachten Export">
                     <field name="filetype" />

@@ -4,7 +4,6 @@
         <record id="invoice_form" model="ir.ui.view">
             <field name="name">account.invoice.form</field>
             <field name="model">account.invoice</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <data>
@@ -16,14 +15,6 @@
                     <!-- button name="invoice_open" position="attributes">
                         <attribute name="states">draft,proforma2,debit_denied</attribute>
                     </button -->
-                    <button string='Re-Open' position="attributes">
-                        <attribute name="states">paid,debit_denied</attribute>
-                        <!--
-                            unintentional fix of
-                            https://bugs.launchpad.net/openobject-addons/+bug/807543
-                        -->
-                        <attribute name="groups"/>
-                    </button>
                     <button name="invoice_open" position="after">
                         <button name="invoice_debit_denied" states="paid"
                                 string="Debit Denied" icon="gtk-cancel"/>
@@ -38,7 +29,11 @@
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
                 <filter name="invoices" position="after">
-                    <filter name="debit_denied" icon="terp-dolar_ok!" string="Debit denied" domain="[('state','=','debit_denied')]" help="Show only invoices with state Debit denied"/>
+                    <filter name="debit_denied" icon="terp-dolar_ok!"
+                            string="Debit denied"
+                            domain="[('state','=','debit_denied')]"
+                            help="Show only invoices with state Debit denied"
+                            />
                 </filter>
             </field>
         </record>

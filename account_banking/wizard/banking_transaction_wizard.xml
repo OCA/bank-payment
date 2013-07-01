@@ -3,7 +3,6 @@
     <data>
         <record model="ir.ui.view" id="transaction_wizard_first">
             <field name="name">transaction.wizard.first</field>
-            <field name="type">form</field>
             <field name="model">banking.transaction.wizard</field>
             <field name="arch" type="xml">
                 <form string="Match transaction">

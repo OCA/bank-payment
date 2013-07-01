@@ -62,7 +62,7 @@ class banking_import_transaction(orm.Model):
             return []
 
         digits = dp.get_precision('Account')(cr)[1]
-        amount = round(abs(trans.transferred_amount), digits)
+        amount = round(abs(trans.statement_line_id.amount), digits)
         # Make sure to be able to pinpoint our costs invoice for later
         # matching
         reference = '%s.%s: %s' % (trans.statement, trans.transaction, trans.reference)
@@ -233,10 +233,6 @@ class banking_import_transaction(orm.Model):
         digits = dp.get_precision('Account')(cr)[1]
         partial = False
 
-        # Disabled splitting transactions for now
-        # TODO allow splitting in the interactive wizard
-        allow_splitting = False
-
         # Search invoice on partner
         if partner_ids:
             candidates = [
@@ -276,7 +272,7 @@ class banking_import_transaction(orm.Model):
             candidates = [
                     x for x in move_lines 
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                                trans.transferred_amount)
+                                trans.statement_line_id.amount)
                         and convert.str2date(x.date, '%Y-%m-%d') <=
                         (convert.str2date(trans.execution_date, '%Y-%m-%d')  +
                          self.payment_window)
@@ -292,7 +288,7 @@ class banking_import_transaction(orm.Model):
             # TODO: currency coercing
             best = [x for x in candidates
                     if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                                trans.transferred_amount)
+                                trans.statement_line_id.amount)
                         and convert.str2date(x.date, '%Y-%m-%d') <=
                         (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                          self.payment_window))
@@ -343,7 +339,7 @@ class banking_import_transaction(orm.Model):
 
             trans2 = None
             if move_line and partial:
-                found = round(trans.transferred_amount, digits)
+                found = round(trans.statement_line_id.amount, digits)
                 if abs(expected) == abs(found):
                     partial = False
                     # Last partial payment will not flag invoice paid without
@@ -358,24 +354,6 @@ class banking_import_transaction(orm.Model):
                 elif abs(expected) > abs(found):
                     # Partial payment, reuse invoice
                     _cache(move_line, expected - found)
-                elif abs(expected) < abs(found) and allow_splitting:
-                    # Possible combined payments, need to split transaction to
-                    # verify
-                    _cache(move_line)
-                    trans2 = self.copy(
-                    cr, uid, trans.id, 
-                    dict(
-                            transferred_amount = trans.transferred_amount - expected,
-                            transaction = trans.transaction + 'b',
-                            parent_id = trans.id,
-                            ), context=context)
-                    # update the current record
-                    self.write(cr, uid, trans.id, dict(
-                            transferred_amount = expected,
-                            transaction = trans.transaction + 'a',
-                            ), context)
-                    # rebrowse the current record after writing
-                    trans = self.browse(cr, uid, trans.id, context=context)
             if move_line:
                 account_ids = [
                     x.id for x in bank_account_ids 
@@ -712,7 +690,7 @@ class banking_import_transaction(orm.Model):
             # due to float representation and rounding difficulties
             for trans in self.browse(cr, uid, ids, context=context):
                 if self.pool.get('res.currency').is_zero(
-                    cr, uid, 
+                    cr, uid,
                     trans.statement_id.currency,
                     me['transferred_amount'] - trans.transferred_amount):
                     dupes.append(trans.id)
@@ -810,6 +788,12 @@ class banking_import_transaction(orm.Model):
                                          move_info['invoice_ids'][0]
                                          )
         return vals
+
+    def hook_match_payment(self, cr, uid, transaction, log, context=None):
+        """
+        To override in module 'account_banking_payment'
+        """
+        return False
     
     def match(self, cr, uid, ids, results=None, context=None):
         if not ids:
@@ -872,12 +856,6 @@ class banking_import_transaction(orm.Model):
             else:
                 transaction = transactions[i]
 
-            if (transaction.statement_line_id and
-                transaction.statement_line_id.state == 'confirmed'):
-                raise orm.except_orm(
-                    _("Cannot perform match"),
-                    _("Cannot perform match on a confirmed transction"))
-            
             if transaction.local_account in error_accounts:
                 results['trans_skipped_cnt'] += 1
                 if not injected:
@@ -962,6 +940,44 @@ class banking_import_transaction(orm.Model):
                 else:
                     info[transaction.local_account][currency_code] = account_info
 
+            # Link accounting period
+            period_id = banktools.get_period(
+                self.pool, cr, uid, transaction.effective_date,
+                company, results['log'])
+            if not period_id:
+                results['trans_skipped_cnt'] += 1
+                if not injected:
+                    i += 1
+                continue
+
+            if transaction.statement_line_id:
+                if transaction.statement_line_id.state == 'confirmed':
+                    raise orm.except_orm(
+                        _("Cannot perform match"),
+                        _("Cannot perform match on a confirmed transction"))
+            else:
+                values = {
+                    'name': '%s.%s' % (transaction.statement, transaction.transaction),
+                    'date': transaction.effective_date,
+                    'amount': transaction.transferred_amount,
+                    'statement_id': transaction.statement_id.id,
+                    'note': transaction.message,
+                    'ref': transaction.reference,
+                    'period_id': period_id,
+                    'currency': account_info.currency_id.id,
+                    'import_transaction_id': transaction.id,
+                    'account_id': (
+                        transaction.transferred_amount < 0 and
+                        account_info.default_credit_account_id.id or
+                        account_info.default_debit_account_id.id),
+                    }
+                statement_line_id = statement_line_obj.create(cr, uid, values, context)
+                results['trans_loaded_cnt'] += 1
+                transaction.write({'statement_line_id': statement_line_id})
+                transaction.refresh()
+                if transaction.statement_id.id not in imported_statement_ids:
+                    imported_statement_ids.append(transaction.statement_id.id)
+                
             # Final check: no coercion of currencies!
             if transaction.local_currency \
                and account_info.currency_id.name != transaction.local_currency:
@@ -971,22 +987,12 @@ class banking_import_transaction(orm.Model):
                       ' uses different currency than the defined bank journal.'
                      ) % {
                          'bank_account': transactions.local_account,
-                         'transaction_id': transaction.statement,
-                         'statement_id': transaction.transaction,
+                         'statement_id': transaction.statement,
+                         'transaction_id': transaction.transaction,
                      }
                 )
                 error_accounts[transaction.local_account] = True
                 results['error_cnt'] += 1
-                if not injected:
-                    i += 1
-                continue
-
-            # Link accounting period
-            period_id = banktools.get_period(
-                self.pool, cr, uid, transaction.effective_date,
-                company, results['log'])
-            if not period_id:
-                results['trans_skipped_cnt'] += 1
                 if not injected:
                     i += 1
                 continue
@@ -1022,13 +1028,12 @@ class banking_import_transaction(orm.Model):
                         ), context=context)
                 # rebrowse the current record after writing
                 transaction = self.browse(cr, uid, transaction.id, context=context)
-            # Match full direct debit orders
-            if transaction.type == bt.DIRECT_DEBIT and has_payment:
-                move_info = self._match_debit_order(
-                    cr, uid, transaction, results['log'], context)
-            if transaction.type == bt.STORNO and has_payment:
-                move_info = self._match_storno(
-                    cr, uid, transaction, results['log'], context)
+
+            # Match payment and direct debit orders
+            move_info_payment = self.hook_match_payment(
+                cr, uid, transaction, results['log'], context=context)
+            if move_info_payment:
+                move_info = move_info_payment
 
             # Allow inclusion of generated bank invoices
             if transaction.type == bt.BANK_COSTS:
@@ -1075,7 +1080,7 @@ class banking_import_transaction(orm.Model):
 
             # Credit means payment... isn't it?
             if (not move_info
-                and transaction.transferred_amount < 0 and payment_lines):
+                and transaction.statement_line_id.amount < 0 and payment_lines):
                 # Link open payment - if any
                 # Note that _match_payment is defined in the
                 # account_banking_payment module which should be installed
@@ -1106,7 +1111,7 @@ class banking_import_transaction(orm.Model):
                 # settings to overrule this. Note that you need to change
                 # the internal type of these accounts to either 'payable'
                 # or 'receivable' to enable usage like this.
-                if transaction.transferred_amount < 0:
+                if transaction.statement_line_id.amount < 0:
                     if len(partner_banks) == 1:
                         account_id = (
                             partner_banks[0].partner_id.property_account_payable and
@@ -1122,7 +1127,7 @@ class banking_import_transaction(orm.Model):
                     if len(partner_banks) != 1 or not account_id or account_id == def_rec_account_id:
                         account_id = (account_info.default_debit_account_id and
                                       account_info.default_debit_account_id.id)
-            values = {}
+            values = {'account_id': account_id}
             self_values = {}
             if move_info:
                 results['trans_matched_cnt'] += 1
@@ -1140,28 +1145,8 @@ class banking_import_transaction(orm.Model):
                 len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
-            if not transaction.statement_line_id:
-                values.update(dict(
-                        name = '%s.%s' % (transaction.statement, transaction.transaction),
-                        date = transaction.effective_date,
-                        amount = transaction.transferred_amount,
-                        statement_id = transaction.statement_id.id,
-                        note = transaction.message,
-                        ref = transaction.reference,
-                        period_id = period_id,
-                        currency = account_info.currency_id.id,
-                        account_id = account_id,
-                        import_transaction_id = transaction.id,
-                        ))
-
-                statement_line_id = statement_line_obj.create(cr, uid, values, context)
-                results['trans_loaded_cnt'] += 1
-                self_values['statement_line_id'] = statement_line_id
-                if transaction.statement_id.id not in imported_statement_ids:
-                    imported_statement_ids.append(transaction.statement_id.id)
-            else:
-                statement_line_obj.write(
-                    cr, uid, transaction.statement_line_id.id, values, context)
+            statement_line_obj.write(
+                cr, uid, transaction.statement_line_id.id, values, context)
             self.write(cr, uid, transaction.id, self_values, context)
             if not injected:
                 i += 1
@@ -1350,9 +1335,16 @@ class banking_import_transaction(orm.Model):
         'parent_id': fields.many2one(
             'banking.import.transaction', 'Split off from this transaction'),
         # match fields
-        'match_type': fields.selection(
-            [('manual', 'Manual'), ('move','Move'), ('invoice', 'Invoice'),
-             ], 'Match type'),
+        'match_type': fields.selection([
+                ('move','Move'),
+                ('invoice', 'Invoice'),
+                ('payment', 'Payment line'),
+                ('payment_order', 'Payment order'),
+                ('storno', 'Storno'),
+                ('manual', 'Manual'),
+                ('payment_manual', 'Payment line (manual)'),
+                ('payment_order_manual', 'Payment order (manual)'),
+                ], 'Match type'),
         'match_multi': fields.function(
             _get_match_multi, method=True, string='Multi match',
             type='boolean'),
@@ -1439,9 +1431,16 @@ class account_bank_statement_line(orm.Model):
             string='Possible duplicate import', readonly=True),
         'match_type': fields.related(
             'import_transaction_id', 'match_type', type='selection',
-            selection=[('manual', 'Manual'), ('move','Move'),
-                       ('invoice', 'Invoice'),
-                       ], 
+            selection=[
+                ('move','Move'),
+                ('invoice', 'Invoice'),
+                ('payment', 'Payment line'),
+                ('payment_order', 'Payment order'),
+                ('storno', 'Storno'),
+                ('manual', 'Manual'),
+                ('payment_manual', 'Payment line (manual)'),
+                ('payment_order_manual', 'Payment order (manual)'),
+                ], 
             string='Match type', readonly=True,),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
@@ -1755,14 +1754,14 @@ class account_bank_statement_line(orm.Model):
 class account_bank_statement(orm.Model):
     _inherit = 'account.bank.statement'
 
-    def _end_balance(self, cursor, user, ids, name, attr, context=None):
+    def _end_balance(self, cr, uid, ids, name, attr, context=None):
         """
         This method taken from account/account_bank_statement.py and
         altered to take the statement line subflow into account
         """
         res = {}
     
-        statements = self.browse(cursor, user, ids, context=context)
+        statements = self.browse(cr, uid, ids, context=context)
         for statement in statements:
             res[statement.id] = statement.balance_start
 

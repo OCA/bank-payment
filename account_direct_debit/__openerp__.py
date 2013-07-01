@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2011 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #    Copyright (C) 2011 Smile (<http://smile.fr>).
 #    All Rights Reserved
 #
@@ -20,9 +20,9 @@
 ##############################################################################
 {
     'name': 'Direct Debit',
-    'version': '6.1.1.134',
+    'version': '7.0.2.134',
     'license': 'AGPL-3',
-    'author': 'Therp BV / Smile',
+    'author': ['Therp BV', 'Smile'],
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],
@@ -30,7 +30,6 @@
         'view/account_payment.xml',
         'view/account_invoice.xml',
         'workflow/account_invoice.xml',
-        'workflow/account_payment.xml',
         'data/account_payment_term.xml',
     ],
     'description': '''
@@ -49,5 +48,5 @@ of modules helps you to provide support for communications with your local
 banking institutions. The banking addons are a continuation of Account Banking
 Framework by Edusense BV. See https://launchpad.net/banking-addons.
     ''',
-    'installable': False,
+    'installable': True,
 }
