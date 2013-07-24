@@ -363,13 +363,6 @@ class banking_transaction_wizard(orm.TransientModel):
                 ('payment_order_manual', 'Payment order (manual)'),
                 ], 
             string='Match type', readonly=True),
-        'manual_invoice_id': fields.many2one(
-            'account.invoice', 'Match this invoice',
-            domain=[('reconciled', '=', False)]),
-        'manual_move_line_id': fields.many2one(
-            'account.move.line', 'Or match this entry',
-            domain=[('account_id.reconcile', '=', True),
-                    ('reconcile_id', '=', False)]),
         'manual_invoice_ids': fields.many2many(
             'account.invoice',
             'banking_transaction_wizard_account_invoice_rel',
