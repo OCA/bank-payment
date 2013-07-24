@@ -30,10 +30,10 @@
         'base_iban',
         ],
     'description': '''
-The account_iban module in OpenERP 6.1 mandates the presence of a BIC
+The account_iban module in OpenERP mandates the presence of a BIC
 code on an IBAN account number through a constraint. However, as of
 Februari 2012 there is a resolution from the EU that drops this requirement
-(see section 8 of [1]). This module reverts the constraint on BICs from the
+(see section 8 of [1]). This module reverts the constraint on BICs in the
 base_iban module.
 
 See also https://bugs.launchpad.net/openobject-addons/+bug/933472
