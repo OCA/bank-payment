@@ -29,6 +29,10 @@ class res_partner_bank(orm.Model):
         #workaround for lp:933472
         return True
 
+    # Redefine constraint to update its function reference
     _constraints = [
-        (_check_bank, '\nPlease define BIC/Swift code on bank for bank type IBAN Account to make valid payments', ['bic'])
+        (_check_bank, 
+         '\nPlease define BIC/Swift code on bank for bank '
+         'type IBAN Account to make valid payments',
+         ['bic'])
     ]
