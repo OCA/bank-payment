@@ -40,5 +40,8 @@ See also https://bugs.launchpad.net/openobject-addons/+bug/933472
 
 [1] http://www.europarl.europa.eu/sides/getDoc.do?pubRef=-//EP//TEXT+TA+P7-TA-2012-0037+0+DOC+XML+V0//EN&language=EN#BKMD-9
     ''',
+    'data': [
+        'data/res_partner_bank_type_field.xml',
+        ],
     'installable': True,
 }
