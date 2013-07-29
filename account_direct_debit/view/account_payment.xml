@@ -32,13 +32,13 @@
                     <field name="reference" position="after">
                         <field name="payment_order_type"/>
                     </field>
-                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                    <xpath expr="//button[@string='Select Invoices to Pay']"
                            position="attributes">
                         <attribute name="attrs">
                             {'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'payment')]}
                         </attribute>
                     </xpath>
-                    <xpath expr="/form/group/button[@string='Select Invoices to Pay']"
+                    <xpath expr="//button[@string='Select Invoices to Pay']"
                            position="after">
                         <button colspan="2" name="%(account_payment.action_create_payment_order)s"
                                 string="Select Invoices to Collect" type="action" 

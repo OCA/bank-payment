@@ -315,7 +315,7 @@ class payment_order(orm.Model):
                         line.move_line_id.invoice.number or 
                         line.move_line_id.name),
                     'move_id': move_id,
-                    'partner_id': line.partner_id.id,
+                    'partner_id': False,
                     'account_id': order.mode.transfer_account_id.id,
                     'credit': (order.payment_order_type == 'payment'
                                and line.amount or 0.0),
@@ -329,6 +329,7 @@ class payment_order(orm.Model):
 
                 # create the debit move line on the receivable account
                 vals.update({
+                        'partner_id': line.partner_id.id,
                         'account_id': line.move_line_id.account_id.id,
                         'credit': (order.payment_order_type == 'debit'
                                    and line.amount or 0.0),
