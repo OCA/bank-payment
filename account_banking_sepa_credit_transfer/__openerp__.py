@@ -20,6 +20,7 @@
 ##############################################################################
 {
     'name': 'Account Banking SEPA Credit Transfer',
+    'summary': 'Create SEPA XML files for Credit Transfers',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Akretion',

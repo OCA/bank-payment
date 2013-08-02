@@ -106,7 +106,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
-        my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.iban, context=context)
+        my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.acc_number, context=context)
         my_company_bic = sepa_export.payment_order_ids[0].mode.bank_id.bank.bic
         #my_company_country_code = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].country_id.code
         #my_company_city = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].city
@@ -239,6 +239,8 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
                 creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
+                if not line.bank_id:
+                    raise orm.except_orm(_('Error :'), _("Missing Bank Account on invoice '%s' (payment order line reference '%s').") %(line.ml_inv_ref.number, line.name))
                 creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
@@ -255,7 +257,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 creditor_account = etree.SubElement(credit_transfer_transaction_info, 'CdtrAcct')
                 creditor_account_id = etree.SubElement(creditor_account, 'Id')
                 creditor_account_iban = etree.SubElement(creditor_account_id, 'IBAN')
-                creditor_account_iban.text = self._validate_iban(cr, uid, line.bank_id.iban, context=context)
+                creditor_account_iban.text = self._validate_iban(cr, uid, line.bank_id.acc_number, context=context)
                 remittance_info = etree.SubElement(credit_transfer_transaction_info, 'RmtInf')
                 # switch to Structured (Strdr) ? If we do it, beware that the format is not the same between pain 02 and pain 03
                 remittance_info_unstructured = etree.SubElement(remittance_info, 'Ustrd')
@@ -275,7 +277,8 @@ class banking_export_sepa_wizard(orm.TransientModel):
         official_pain_schema = etree.XMLSchema(etree.parse(tools.file_open('account_banking_sepa_credit_transfer/data/%s.xsd' % pain_flavor)))
 
         try:
-            official_pain_schema.validate(root)
+            root_to_validate = etree.fromstring(xml_string)
+            official_pain_schema.assertValid(root_to_validate)
         except Exception, e:
             _logger.warning("The XML file is invalid against the XML Schema Definition")
             _logger.warning(xml_string)
