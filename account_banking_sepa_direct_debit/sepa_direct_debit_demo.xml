@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+<record id="sepa_direct_debit_mode" model="payment.mode">
+    <field name="name">SEPA Direct Debit La Banque Postale</field>
+    <field name="journal" ref="account.bank_journal"/>
+    <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type" ref="export_sdd_008_001_02"/>
+</record>
+
+<record id="base.main_company" model="res.company">
+    <field name="sepa_creditor_identifier">FR78ZZZ424242</field>
+</record>
+
+<record id="res_partner_12_mandate" model="sdd.mandate">
+    <field name="partner_bank_id" ref="account_banking_payment_export.res_partner_12_iban"/>
+    <field name="type">recurrent</field>
+    <field name="recurrent_sequence_type">first</field>
+    <field name="signature_date">2014-02-01</field>
+    <field name="state">valid</field>
+</record>
+
+</data>
+</openerp>
