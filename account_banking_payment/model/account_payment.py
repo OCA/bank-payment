@@ -284,6 +284,8 @@ class payment_order(orm.Model):
             'debit': _('Direct debit order'),
             }
         for order in self.browse(cr, uid, ids, context=context):
+            if not order.mode.transfer_journal_id or not order.mode.transfer_account_id:
+                continue
             for line in order.line_ids:
                 # basic checks
                 if not line.move_line_id:
