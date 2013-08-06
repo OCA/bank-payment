@@ -26,7 +26,7 @@
                            domain="[('id', 'in', payment_order_ids[0][2])]"
                            />
                 </field>
-                <field name="manual_move_line_id" position="after">
+                <field name="manual_move_line_ids" position="after">
                     <field name="manual_payment_line_id"/>
                     <field name="manual_payment_order_id"/>
                 </field>
