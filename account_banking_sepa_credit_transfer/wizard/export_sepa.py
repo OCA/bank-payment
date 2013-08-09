@@ -101,8 +101,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         '''
         Creates the SEPA Credit Transfer file. That's the important code !
         '''
-        payment_order_obj = self.pool.get('payment.order')
-
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
@@ -211,8 +209,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
         debtor_account_iban.text = my_company_iban
         debtor_agent = etree.SubElement(payment_info, 'DbtrAgt')
         debtor_agent_institution = etree.SubElement(debtor_agent, 'FinInstnId')
-        debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
-        debtor_agent_bic.text = my_company_bic
+        if my_company_bic:
+            debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
+            debtor_agent_bic.text = my_company_bic
         charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
         charge_bearer.text = sepa_export.charge_bearer
 
@@ -238,10 +237,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 amount_control_sum += line.amount_currency
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
-                creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
                 if not line.bank_id:
                     raise orm.except_orm(_('Error :'), _("Missing Bank Account on invoice '%s' (payment order line reference '%s').") %(line.ml_inv_ref.number, line.name))
-                creditor_agent_bic.text = line.bank_id.bank.bic
+                if line.bank_id.bank.bic:
+                    creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
+                    creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
                 creditor_name.text = self._limit_size(cr, uid, line.partner_id.name, name_maxsize, context=context)
@@ -328,12 +328,15 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''
-        Save the SEPA PAIN: mark all payments in the file as 'sent'.
+        Save the SEPA PAIN: send the done signal to all payment orders in the file.
+        With the default workflow, they will transition to 'done', while with the
+        advanced workflow in account_banking_payment they will transition to 'sent'
+        waiting reconciliation.
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        sepa_file = self.pool.get('banking.export.sepa').write(cr, uid,
+        self.pool.get('banking.export.sepa').write(cr, uid,
             sepa_export.file_id.id, {'state': 'sent'}, context=context)
         wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
+            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
         return {'type': 'ir.actions.act_window_close'}
