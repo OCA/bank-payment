@@ -65,7 +65,7 @@
 
 
 <menuitem id="menu_account_banking_sepa"
-          parent="account_banking.menu_finance_banking_actions"
+          parent="account_payment.menu_main_payment"
           action="action_account_banking_sepa"
           sequence="15"
           />
