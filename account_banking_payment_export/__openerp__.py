@@ -23,25 +23,31 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-
-
-class payment_mode(orm.Model):
-    _inherit = "payment.mode"
-
-    _columns = {
-        'transfer_account_id': fields.many2one(
-            'account.account', 'Transfer account',
-            domain=[('type', '=', 'other'),
-                    ('reconcile', '=', True)],
-            help=('Pay off lines in sent orders with a '
-                  'move on this account. For debit type modes only. '
-                  'You can only select accounts of type regular that '
-                  'are marked for reconciliation'),
-            ),
-        'transfer_journal_id': fields.many2one(
-            'account.journal', 'Transfer journal',
-            help=('Journal to write payment entries when confirming '
-                  'a debit order of this mode'),
-            ),
-        }
+{
+    'name': 'Account Banking - Payments',
+    'version': '0.1.164',
+    'license': 'AGPL-3',
+    'author': 'Banking addons community',
+    'website': 'https://launchpad.net/banking-addons',
+    'category': 'Banking addons',
+    'depends': [
+        'account_payment',
+        ],
+    'data': [
+        'view/account_payment.xml',
+        'view/bank_payment_manual.xml',
+        'view/payment_mode.xml',
+        'view/payment_mode_type.xml',
+        'data/payment_mode_type.xml',
+        'security/ir.model.access.csv',
+    ],
+    'description': '''
+    This addon adds payment export infrastructure to the Banking Addons.
+    * the "make payment" launches a wizard depending on the payment mode
+    * create a manual payment mode type
+    * various improvements to the payment order invoice import wizard
+    * suitable bank account type filtering
+    ''',
+    'auto_install': True,
+    'installable': True,
+}

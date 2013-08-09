@@ -23,25 +23,31 @@
 #
 ##############################################################################
 
+'''
+This module contains a single "wizard" for including a 'sent' state for manual
+bank transfers.
+'''
+
 from openerp.osv import orm, fields
+from openerp import netsvc
 
 
-class payment_mode(orm.Model):
-    _inherit = "payment.mode"
+class payment_manual(orm.TransientModel):
+    _name = 'payment.manual'
+    _description = 'Set payment orders to \'sent\' manually'
+
+    def default_get(self, cr, uid, fields_list, context=None):
+        if context and context.get('active_ids'):
+            payment_order_obj = self.pool.get('payment.order')
+            wf_service = netsvc.LocalService('workflow')
+            for order_id in context['active_ids']:
+                wf_service.trg_validate(
+                    uid, 'payment.order', order_id, 'done', cr)
+        return super(payment_manual, self).default_get(
+            cr, uid, fields_list, context=None)
 
     _columns = {
-        'transfer_account_id': fields.many2one(
-            'account.account', 'Transfer account',
-            domain=[('type', '=', 'other'),
-                    ('reconcile', '=', True)],
-            help=('Pay off lines in sent orders with a '
-                  'move on this account. For debit type modes only. '
-                  'You can only select accounts of type regular that '
-                  'are marked for reconciliation'),
-            ),
-        'transfer_journal_id': fields.many2one(
-            'account.journal', 'Transfer journal',
-            help=('Journal to write payment entries when confirming '
-                  'a debit order of this mode'),
-            ),
+        # dummy field, to trigger a call to default_get
+        'name': fields.char('Name', size=1),
         }
+

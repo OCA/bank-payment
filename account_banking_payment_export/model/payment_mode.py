@@ -23,31 +23,36 @@
 #
 ##############################################################################
 
-'''
-This module contains a single "wizard" for including a 'sent' state for manual
-bank transfers.
-'''
-
 from openerp.osv import orm, fields
-from openerp import netsvc
 
 
-class payment_manual(orm.TransientModel):
-    _name = 'payment.manual'
-    _description = 'Set payment orders to \'sent\' manually'
+class payment_mode(orm.Model):
+    ''' Restoring the payment type from version 5,
+    used to select the export wizard (if any) '''
+    _inherit = "payment.mode"
 
-    def default_get(self, cr, uid, fields_list, context=None):
-        if context and context.get('active_ids'):
-            payment_order_obj = self.pool.get('payment.order')
-            wf_service = netsvc.LocalService('workflow')
-            for order_id in context['active_ids']:
-                wf_service.trg_validate(
-                    uid, 'payment.order', order_id, 'sent', cr)
-        return super(payment_manual, self).default_get(
-            cr, uid, fields_list, context=None)
+    def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):
+        """ Reinstates functional code for suitable bank type filtering.
+        Current code in account_payment is disfunctional.
+        """
+        res = []
+        payment_mode = self.browse(
+            cr, uid, payment_mode_id, context)
+        if (payment_mode and payment_mode.type and
+            payment_mode.type.suitable_bank_types):
+            res = [type.code for type in payment_mode.type.suitable_bank_types]
+        return res
 
     _columns = {
-        # dummy field, to trigger a call to default_get
-        'name': fields.char('Name', size=1),
+        'type': fields.many2one(
+            'payment.mode.type', 'Payment type',
+            required=True,
+            help='Select the Payment Type for the Payment Mode.'
+            ),
+        'payment_term_ids': fields.many2many(
+            'account.payment.term', 'account_payment_order_terms_rel', 
+            'mode_id', 'term_id', 'Payment terms',
+            help=('Limit selected invoices to invoices with these payment '
+                  'terms')
+            ),
         }
-
