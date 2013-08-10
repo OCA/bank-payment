@@ -244,7 +244,6 @@ class payment_order(orm.Model):
             for line in order.line_ids:
                 # basic checks
                 if not line.move_line_id:
-                    continue
                     raise orm.except_orm(
                         _('Error'),
                         _('No move line provided for line %s') % line.name)
