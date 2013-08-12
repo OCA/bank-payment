@@ -1211,8 +1211,6 @@ class banking_import_transaction(orm.Model):
                     'match_type',
                     'move_line_id', 
                     'invoice_id', 
-                    'manual_invoice_id', 
-                    'manual_move_line_id',
                     ]] +
                      [(x, [(6, 0, [])]) for x in [
                         'move_line_ids',
