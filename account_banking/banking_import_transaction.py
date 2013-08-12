@@ -1211,8 +1211,6 @@ class banking_import_transaction(orm.Model):
                     'match_type',
                     'move_line_id', 
                     'invoice_id', 
-                    'manual_invoice_id', 
-                    'manual_move_line_id',
                     ]] +
                      [(x, [(6, 0, [])]) for x in [
                         'move_line_ids',
@@ -1299,9 +1297,9 @@ class banking_import_transaction(orm.Model):
         'exchange_rate': fields.float('exchange_rate'),
         'transferred_amount': fields.float('transferred_amount'),
         'message': fields.char('message', size=1024),
-        'remote_owner': fields.char('remote_owner', size=24),
-        'remote_owner_address': fields.char('remote_owner_address', size=24),
-        'remote_owner_city': fields.char('remote_owner_city', size=24),
+        'remote_owner': fields.char('remote_owner', size=128),
+        'remote_owner_address': fields.char('remote_owner_address', size=256),
+        'remote_owner_city': fields.char('remote_owner_city', size=128),
         'remote_owner_postalcode': fields.char('remote_owner_postalcode', size=24),
         'remote_owner_country_code': fields.char('remote_owner_country_code', size=24),
         'remote_owner_custno': fields.char('remote_owner_custno', size=24),

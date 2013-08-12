@@ -2,9 +2,6 @@
 ##############################################################################
 #
 #    Copyright (C) 2013 Therp BV (<http://therp.nl>).
-#            
-#    All other contributions are (C) by their respective contributors
-#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,30 +19,15 @@
 #
 ##############################################################################
 
-import logging
-logger = logging.getLogger()
-
-def rename_columns(cr, column_spec):
-    """
-    Rename table columns. Taken from OpenUpgrade.
-
-    :param column_spec: a hash with table keys, with lists of tuples as values. \
-    Tuples consist of (old_name, new_name).
-
-    """
-    for table in column_spec.keys():
-        for (old, new) in column_spec[table]:
-            logger.info("table %s, column %s: renaming to %s",
-                     table, old, new)
-            cr.execute('ALTER TABLE "%s" RENAME "%s" TO "%s"' % (table, old, new,))
-            cr.execute('DROP INDEX IF EXISTS "%s_%s_index"' % (table, old))
-
 def migrate(cr, version):
     if not version:
         return
 
-    # rename field debit_move_line_id
-    rename_columns(cr, {
-            'payment_line': [
-                ('debit_move_line_id', 'banking_addons_61_debit_move_line_id'),
-                ]})
+    # workflow state moved to another, new module
+    cr.execute(
+        """
+        UPDATE ir_model_data 
+        SET module = 'account_banking_payment'
+        WHERE name = 'trans_done_sent'
+        AND module = 'account_direct_debit'
+        """)
