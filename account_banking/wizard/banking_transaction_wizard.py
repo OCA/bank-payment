@@ -314,6 +314,10 @@ class banking_transaction_wizard(orm.TransientModel):
         'ref': fields.related(
             'statement_line_id', 'ref', type='char', size=32,
             string="Reference", readonly=True),
+        'message': fields.related(
+            'statement_line_id', 'import_transaction_id', 'message',
+            type='char', size=1024,
+            string="Message", readonly=True),
         'partner_id': fields.related(
             'statement_line_id', 'partner_id',
             type='many2one', relation='res.partner',
