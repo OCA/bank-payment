@@ -42,14 +42,16 @@
         'security/ir.model.access.csv',
     ],
     'description': '''
-        This module adds payment export infrastructure to the payment orders.
-        
-        It provides the following features:
-        * payment.mode.type model
-        * payment.mode has a mandatory type
+        Infrastructure to export payment orders.
+
+        This technical module provides the base infrastructure to export 
+        payment orders for electronic banking. It provides the following
+        technical features:
+        * a new payment.mode.type model
+        * payment.mode now has a mandatory type
         * a better implementation of payment_mode.suitable_bank_types() based on payment.mode.type
         * the "make payment" button launches a wizard depending on the payment.mode.type
-        * a manual payment mode type is provided, with a default "do nothing" wizard
+        * a manual payment mode type is provided as an example, with a default "do nothing" wizard
     ''',
     'auto_install': True,
     'installable': True,
