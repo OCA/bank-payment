@@ -28,6 +28,11 @@
                                    domain="[('company_id', '=', company_id)]"
                                    />
                         </group>
+                        <group colspan="2">
+                            <separator colspan="2"
+                                       string="Optional filter by payment term" />
+                            <field name="payment_term_ids" nolabel="1" colspan="2"/>
+                        </group>
                     </group>
                 </field>
             </field>

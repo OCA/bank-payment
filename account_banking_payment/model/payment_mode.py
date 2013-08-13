@@ -44,4 +44,10 @@ class payment_mode(orm.Model):
             help=('Journal to write payment entries when confirming '
                   'a debit order of this mode'),
             ),
+        'payment_term_ids': fields.many2many(
+            'account.payment.term', 'account_payment_order_terms_rel', 
+            'mode_id', 'term_id', 'Payment terms',
+            help=('Limit selected invoices to invoices with these payment '
+                  'terms')
+            ),
         }

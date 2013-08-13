@@ -38,6 +38,7 @@
         'view/account_payment.xml',
         'view/banking_transaction_wizard.xml',
         'view/payment_mode.xml',
+        'view/payment_mode_type.xml',
         'workflow/account_payment.xml',
     ],
     'description': '''

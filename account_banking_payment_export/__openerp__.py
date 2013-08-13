@@ -42,11 +42,14 @@
         'security/ir.model.access.csv',
     ],
     'description': '''
-    This addon adds payment export infrastructure to the Banking Addons.
-    * the "make payment" launches a wizard depending on the payment mode
-    * create a manual payment mode type
-    * various improvements to the payment order invoice import wizard
-    * suitable bank account type filtering
+        This module adds payment export infrastructure to the payment orders.
+        
+        It provides the following features:
+        * payment.mode.type model
+        * payment.mode has a mandatory type
+        * a better implementation of payment_mode.suitable_bank_types() based on payment.mode.type
+        * the "make payment" button launches a wizard depending on the payment.mode.type
+        * a manual payment mode type is provided, with a default "do nothing" wizard
     ''',
     'auto_install': True,
     'installable': True,

@@ -51,12 +51,4 @@ class payment_mode_type(orm.Model):
                   'Leave empty for manual processing'),
             domain=[('osv_memory', '=', True)],
             ),
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
     }
-
-    _defaults = {
-        'payment_order_type': 'payment',
-        }

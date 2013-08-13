@@ -12,13 +12,6 @@
             <field name="arch" type="xml">
                 <field name="company_id" position="after">
                     <field name="type"/>
-                    <group colspan="4" col="4">
-                        <group colspan="2">
-                            <separator colspan="2"
-                                       string="Optional filter by payment term" />
-                            <field name="payment_term_ids" nolabel="1" colspan="2"/>
-                        </group>
-                    </group>
                 </field>
             </field>
         </record>
