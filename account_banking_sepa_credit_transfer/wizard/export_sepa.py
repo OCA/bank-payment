@@ -328,7 +328,10 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''
-        Save the SEPA PAIN: mark all payments in the file as 'sent'.
+        Save the SEPA PAIN: send the done signal to all payment orders in the file.
+        With the default workflow, they will transition to 'done', while with the
+        advanced workflow in account_banking_payment they will transition to 'sent'
+        waiting reconciliation.
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         sepa_file = self.pool.get('banking.export.sepa').write(cr, uid,
