@@ -33,6 +33,16 @@
     'depends': [
         'account_payment',
         ],
+    'conflicts': [
+        # lp:account-payment/account_payment_extension also adds
+        # a type field to payment.mode, with a very similar purpose.
+        # We can't add a dependency on account_payment_extension here
+        # because account_payment_extension adds many other features
+        # that probably conflict with other parts of lp:banking-addons.
+        # Proposal to resolve: make account_payment_extension depend
+        # on the present account_banking_payment_export module.
+        'account_payment_extension',
+        ],
     'data': [
         'view/account_payment.xml',
         'view/bank_payment_manual.xml',
