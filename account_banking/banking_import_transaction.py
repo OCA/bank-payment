@@ -1120,7 +1120,7 @@ class banking_import_transaction(orm.Model):
                     if partner.supplier and not partner.customer:
                         account_type = 'payable'
                     elif partner.customer and not partner.supplier:
-                        account_type = 'payable'
+                        account_type = 'receivable'
                     if partner['property_account_' + account_type]:
                         account_id = partner['property_account_' + account_type].id
                 if not account_id or account_id in (def_pay_account_id, def_rec_account_id):
