@@ -1125,9 +1125,9 @@ class banking_import_transaction(orm.Model):
                         account_id = partner['property_account_' + account_type].id
                 if not account_id or account_id in (def_pay_account_id, def_rec_account_id):
                     if account_type == 'payable':
-                        account_id = account_info.default_credit_account_id
+                        account_id = account_info.default_credit_account_id.id
                     else:
-                        account_id = account_info.default_debit_account_id
+                        account_id = account_info.default_debit_account_id.id
 
             values = {'account_id': account_id}
             self_values = {}
