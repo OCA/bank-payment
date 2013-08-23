@@ -277,8 +277,8 @@ class banking_transaction_wizard(orm.TransientModel):
                     account_type = 'payable'
                 elif partner.customer and not partner.supplier:
                     account_type = 'payable'
-                if partner['property_acccount_' + account_type]:
-                    account_id = partner['property_acccount_' + account_type].id
+                if partner['property_account_' + account_type]:
+                    account_id = partner['property_account_' + account_type].id
 
             company_partner = wiz.statement_line_id.statement_id.company_id.partner_id
             if len(setting_ids) and (

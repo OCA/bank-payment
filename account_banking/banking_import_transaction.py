@@ -1121,8 +1121,8 @@ class banking_import_transaction(orm.Model):
                         account_type = 'payable'
                     elif partner.customer and not partner.supplier:
                         account_type = 'payable'
-                    if partner['property_acccount_' + account_type]:
-                        account_id = partner['property_acccount_' + account_type].id
+                    if partner['property_account_' + account_type]:
+                        account_id = partner['property_account_' + account_type].id
                 if not account_id or account_id in (def_pay_account_id, def_rec_account_id):
                     if account_type == 'payable':
                         account_id = account_info.default_credit_account_id
