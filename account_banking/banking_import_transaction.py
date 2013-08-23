@@ -193,6 +193,10 @@ class banking_import_transaction(orm.Model):
                     iname = invoice.name.upper()
                     if iname in ref or iname in msg:
                         return True
+                if invoice.supplier_invoice_number:
+                    supp_ref = invoice.supplier_invoice_number.upper()
+                    if supp_ref in ref or supp_ref in msg:
+                        return True
             elif invoice.type.startswith('out_'):
                 # External id's possible and likely
                 inum = invoice.number.upper()
