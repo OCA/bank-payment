@@ -193,7 +193,7 @@ class banking_import_transaction(orm.Model):
                     iname = invoice.name.upper()
                     if iname in ref or iname in msg:
                         return True
-                if invoice.supplier_invoice_number:
+                if invoice.supplier_invoice_number and len(invoice.supplier_invoice_number) > 2:
                     supp_ref = invoice.supplier_invoice_number.upper()
                     if supp_ref in ref or supp_ref in msg:
                         return True
