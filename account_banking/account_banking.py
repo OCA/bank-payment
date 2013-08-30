@@ -501,6 +501,7 @@ class account_bank_statement(osv.osv):
             'period_id': period_id, # AB
             'date': st_line.date,
             'name': st_line_number,
+            'ref': st_line.ref,
         }, context=context)
         account_bank_statement_line_obj.write(cr, uid, [st_line.id], {
             'move_ids': [(4, move_id, False)]
@@ -524,7 +525,6 @@ class account_bank_statement(osv.osv):
         val = {
             'name': st_line.name,
             'date': st_line.date,
-            'ref': st_line.ref,
             'move_id': move_id,
             'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
                            False),
@@ -566,7 +566,6 @@ class account_bank_statement(osv.osv):
         account_move_line_obj.create(cr, uid, {
             'name': st_line.name,
             'date': st_line.date,
-            'ref': st_line.ref,
             'move_id': move_id,
             'partner_id': (((st_line.partner_id) and st_line.partner_id.id) or
                            False),
