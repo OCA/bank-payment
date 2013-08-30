@@ -284,7 +284,6 @@ class account_bank_statement(orm.Model):
         4. Ordering is based on auto generated id.
     '''
     _inherit = 'account.bank.statement'
-    _order = 'id'
 
     _columns = {
         'period_id': fields.many2one('account.period', 'Period',
