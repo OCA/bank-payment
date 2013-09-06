@@ -274,14 +274,11 @@ account_banking_imported_file()
 
 class account_bank_statement(orm.Model):
     '''
-    Extensions from account_bank_statement:
-        1. Removed period_id (transformed to optional boolean) - as it is no
-           longer needed.
-           NB! because of #1. changes required to account_voucher!
-        2. Extended 'button_confirm' trigger to cope with the period per
-           statement_line situation.
-        3. Added optional relation with imported statements file
-        4. Ordering is based on auto generated id.
+    Implement changes to this model for the following features:
+    - period_id on the bank statement line is leading
+    - bank statement lines have state. Move lines are 
+    - upon confirmation of a statement line, the generated move
+      line is reconciled according to the matched entries
     '''
     _inherit = 'account.bank.statement'
 
