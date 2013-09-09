@@ -275,10 +275,15 @@ account_banking_imported_file()
 class account_bank_statement(orm.Model):
     '''
     Implement changes to this model for the following features:
-    - period_id on the bank statement line is leading
-    - bank statement lines have state. Move lines are 
-    - upon confirmation of a statement line, the generated move
-      line is reconciled according to the matched entries
+
+    * bank statement lines have their own period_id, derived from
+    their effective date. The period and date are propagated to
+    the move lines created from each statement line
+    * bank statement lines have their own state. When a statement
+    is confirmed, all lines are confirmed too. When a statement
+    is reopened, lines remain confirmed until reopened individually.
+    * upon confirmation of a statement line, the move line is
+    created and reconciled according to the matched entry(/ies)
     '''
     _inherit = 'account.bank.statement'
 
