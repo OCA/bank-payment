@@ -47,8 +47,6 @@ class AccountBankStatement(orm.Model):
         tax_obj = self.pool.get('account.tax')
         move_lines = []
         update_move_line = {}
-        import pdb
-        pdb.set_trace()
         base_amount = -defaults['credit'] or defaults['debit']
         computed_taxes = tax_obj.compute_all(
             cr, uid, [st_line.tax_id], base_amount, 1.00)
