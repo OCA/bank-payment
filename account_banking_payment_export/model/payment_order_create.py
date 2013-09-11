@@ -29,8 +29,9 @@ class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def create_payment(self, cr, uid, ids, context=None):
-        '''This method adapts the core create_payment 
-        to pass the payment mode to line2bank() through the context
+        '''This method adapts the core create_payment() 
+        to pass the payment mode to line2bank() through the context,
+        so it is in turn propagated to suitable_bank_types().
         
         This is necessary because the core does not propagate the payment mode to line2bank 
         http://bazaar.launchpad.net/~openerp/openobject-addons/7.0/view/head:/account_payment/wizard/account_payment_order.py#L72
@@ -53,5 +54,5 @@ class account_move_line(orm.Model):
         if context is None:
             context = {}
         payment_mode_id = payment_mode_id or context.get('_fix_payment_mode_id')
-        super(account_move_line, self).line2bank(cr, uid, ids, payment_mode_id, context=context)
+        return super(account_move_line, self).line2bank(cr, uid, ids, payment_mode_id, context=context)
 
