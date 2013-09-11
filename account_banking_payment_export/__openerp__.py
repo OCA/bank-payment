@@ -24,7 +24,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - Payments',
+    'name': 'Account Banking - Payments Export Infrastructure',
     'version': '0.1.164',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
@@ -32,6 +32,7 @@
     'category': 'Banking addons',
     'depends': [
         'account_payment',
+        'base_iban',  # for manual_bank_tranfer
         ],
     'conflicts': [
         # lp:account-payment/account_payment_extension also adds
