@@ -38,8 +38,6 @@ class payment_mode_type(orm.Model):
             'Code', size=64, required=True,
             help='Specify the Code for Payment Type'
             ),
-        # Setting suitable_bank_types to required pending
-        # https://bugs.launchpad.net/openobject-addons/+bug/786845
         'suitable_bank_types': fields.many2many(
             'res.partner.bank.type',
             'bank_type_payment_type_rel',
