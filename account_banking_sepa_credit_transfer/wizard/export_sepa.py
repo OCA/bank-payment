@@ -101,8 +101,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         '''
         Creates the SEPA Credit Transfer file. That's the important code !
         '''
-        payment_order_obj = self.pool.get('payment.order')
-
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
@@ -334,7 +332,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         waiting reconciliation.
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        sepa_file = self.pool.get('banking.export.sepa').write(cr, uid,
+        self.pool.get('banking.export.sepa').write(cr, uid,
             sepa_export.file_id.id, {'state': 'sent'}, context=context)
         wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
