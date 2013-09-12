@@ -33,7 +33,7 @@ class payment_order_create(orm.TransientModel):
         to pass the payment mode to line2bank() through the context,
         so it is in turn propagated to suitable_bank_types().
         
-        This is necessary because the core does not propagate the payment mode to line2bank 
+        This is necessary because the core does not propagate the payment mode to line2bank: t = None in
         http://bazaar.launchpad.net/~openerp/openobject-addons/7.0/view/head:/account_payment/wizard/account_payment_order.py#L72
         
         Hack idea courtesy Stefan Rijnhart.
