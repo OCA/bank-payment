@@ -131,7 +131,7 @@ class banking_transaction_wizard(orm.TransientModel):
                                 { 'move_line_id': move_line.id, }, context=context)
                             statement_line_obj.write(
                                 cr, uid, wiz.import_transaction_id.statement_line_id.id,
-                                { 'partner_id': move_line.invoice.partner_id.id,
+                                { 'partner_id': move_line.partner_id.id or False,
                                   'account_id': move_line.account_id.id,
                                   }, context=context)
                             found = True
@@ -226,9 +226,9 @@ class banking_transaction_wizard(orm.TransientModel):
                         }
 
                     if todo_entry[0]:
-                        st_line_vals['partner_id'] = invoice_obj.read(
-                            cr, uid, todo_entry[0], 
-                            ['partner_id'], context=context)['partner_id'][0]
+                        st_line_vals['partner_id'] = invoice_obj.browse(
+                            cr, uid, todo_entry[0], context=context
+                            ).partner_id.commercial_partner_id.id
 
                     statement_line_obj.write(
                         cr, uid, statement_line_id, 
