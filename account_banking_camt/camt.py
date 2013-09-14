@@ -101,8 +101,8 @@ CAMT Format parser
         statement.local_currency = self.xpath(node, './ns:Acct/ns:Ccy')[0].text
         statement.start_balance = self.get_start_balance(node)
         statement.end_balance = self.get_end_balance(node)
-        print "Number of Ntry in statement: %s" % len(self.xpath(node, '.ns:Ntry'))
-        for Ntry in self.xpath(node, '.ns:Ntry'):
+        print "Number of Ntry in statement: %s" % len(self.xpath(node, './ns:Ntry'))
+        for Ntry in self.xpath(node, './ns:Ntry'):
             for transaction_detail in self.parse_Ntry(Ntry):
                 statement.transactions.append(
                     transaction(transaction_detail))
@@ -112,7 +112,7 @@ CAMT Format parser
         """
         :param node: Ntry node
         """
-        codes = self.xpath(node, './ns:BxTxCd/ns:Prtry/ns:Cd')
+        codes = self.xpath(node, './ns:BkTxCd/ns:Prtry/ns:Cd')
         if codes:
             return codes[0].text
         return False
@@ -130,12 +130,16 @@ CAMT Format parser
         print "  NUmber of NtryDtls in Ntry with code %s: %s" % (
             entry_description, len(self.xpath(node, './ns:NtryDtls')))
         for NtryDtl in self.xpath(node, './ns:NtryDtls'):
+            TxDtls = self.xpath(NtryDtl, './ns:TxDtls')
             # Todo: process Btch tag on entry-detail level
-            print "    NUmber of TxDtls in NtryDtl: %s" % len(self.xpath(node, './ns:TxDtls'))
+            print "    NUmber of TxDtls in NtryDtl: %s" % len(TxDtls)
             continue
-            for TxDtl in self.xpath(NtryDtl, './ns:TxDtls'):
+            if len(TxDtls) == 1:
                 transaction_details.append(
-                    self.parse_TxDtl(TxDtl, entry_details, amount_sign))
+                    self.parse_TxDtl(TxDtls[0], entry_details, amount_sign))
+            else:
+                transaction_details.append(
+                   transaction(entry_details))
         return transaction_details
 
     def parse_TxDtl(self, node, entry_values, amount_sign):
