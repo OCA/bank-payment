@@ -1,5 +1,6 @@
 from lxml import etree
 from datetime import datetime
+import re
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
 from account_banking.sepa import postalcode
@@ -11,9 +12,8 @@ class transaction(models.mem_bank_transaction):
 
     def __init__(self, values, *args, **kwargs):
         super(transaction, self).__init__(*args, **kwargs)
-        for attr in self.attrnames:
-            if attr in values:
-                setattr(self, attr, values['attr'])
+        for attr in values:
+                setattr(self, attr, values[attr])
 
 class parser(models.parser):
     code = 'CAMT'
@@ -44,6 +44,17 @@ CAMT Format parser
         self.xpath(node, './ns:Acct/ns:Id')
         """
         return node.xpath(expr, namespaces={'ns': self.ns[1:-1]})
+
+    def find(self, node, expr):
+        """
+        Like xpath(), but return first result if any or else False
+        
+        Return None to test nodes for being truesy
+        """
+        result = node.xpath(expr, namespaces={'ns': self.ns[1:-1]})
+        if result:
+            return result[0]
+        return None
 
     def get_balance_type_node(self, node, balance_type):
         """
@@ -133,19 +144,62 @@ CAMT Format parser
             TxDtls = self.xpath(NtryDtl, './ns:TxDtls')
             # Todo: process Btch tag on entry-detail level
             print "    NUmber of TxDtls in NtryDtl: %s" % len(TxDtls)
-            continue
             if len(TxDtls) == 1:
-                transaction_details.append(
-                    self.parse_TxDtl(TxDtls[0], entry_details, amount_sign))
+                vals = self.parse_TxDtl(TxDtls[0], entry_details, amount_sign)
             else:
-                transaction_details.append(
-                   transaction(entry_details))
+                vals = entry_details
+            print vals
+            transaction_details.append(transaction(vals))
         return transaction_details
 
-    def parse_TxDtl(self, node, entry_values, amount_sign):
-        transaction_values = dict(entry_values)
-        amount = amount_sign * float(node.find(self.ns + 'Amt').text)
+    def get_party_values(self, TxDtl):
+        """
+        Determine to get either the debtor or creditor party node
+        and extract the available data from it
+        """
+        vals = {}
+        party_type = self.find(
+            TxDtl, '../../ns:CdtDbtInd').text == 'CRDT' and 'Dbtr' or 'Cdtr'
+        party_node = self.find(TxDtl, './ns:RltdPties/ns:%s' % party_type)
+        account_node = self.find(TxDtl, './ns:RltdPties/ns:%sAcct/ns:Id' % party_type)
+        bic_node = self.find(
+            TxDtl,
+            './ns:RltdAgts/ns:%sAgt/ns:FinInstnId/ns:BIC' % party_type)
+        if party_node is not None:
+            name_node = self.find(party_node, './ns:Nm')
+            vals['remote_owner'] = name_node.text if name_node is not None else False
+            country_node = self.find(party_node, './ns:PstlAdr/ns:Ctry')
+            vals['remote_owner_country'] = (
+                country_node.text if country_node is not None else False)
+            address_node = self.find(party_node, './ns:AdrLine')
+            vals['remote_owner_address'] = (
+                address_node.text if address_node is not None else False)
+        if account_node is not None:
+            iban_node = self.find(account_node, './ns:IBAN')
+            if iban_node is not None:
+                vals['remote_account'] = iban_node.text
+                if bic_node is not None:
+                    vals['remote_iban'] = bic_node.text
+            else:
+                domestic_node = self.find(account_node, './ns:Othr/ns:Id')
+                vals['remote_account'] = (
+                    domestic_node.text if domestic_node is not None else False)
+        return vals
 
+    def parse_TxDtl(self, TxDtl, entry_values, amount_sign):
+        vals = dict(entry_values)
+        # amount = amount_sign * float(node.find(self.ns + 'Amt').text)
+        unstructured = self.xpath(TxDtl, './ns:RmtInf/ns:Ustrd')
+        if unstructured:
+            vals['message'] = ' '.join([x.text for x in unstructured])
+        structured = self.find(TxDtl, './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref')
+        if structured is not None:
+            vals['reference'] = structured.text
+        else:
+            if vals['message'] and re.match('^[^\s]$', vals['message']):
+                vals['reference'] = vals['message']
+        vals.update(self.get_party_values(TxDtl))
+        return vals
 
     def parse(self, cr, data):
         root = etree.fromstring(data)
