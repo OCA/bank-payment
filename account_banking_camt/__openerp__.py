@@ -22,11 +22,12 @@
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Therp BV',
-    'website': 'https://launchpad.net/account-banking',
-    'category': 'Account Banking',
+    'website': 'https://launchpad.net/banking-addons',
+    'category': 'Banking addons',
     'depends': ['account_banking'],
     'description': '''
-Module to import SEPA CAMT Format bank statement files
+Module to import SEPA CAMT.053 Format bank statement files. Based
+on the Banking addons framework.
     ''',
     'installable': True,
 }

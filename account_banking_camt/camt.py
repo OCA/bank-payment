@@ -1,6 +1,7 @@
 from lxml import etree
 from datetime import datetime
 import re
+from openerp.osv.orm import except_orm
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
 
@@ -213,12 +214,28 @@ CAMT Format parser
         vals.update(self.get_party_values(TxDtls))
         return vals
 
+    def check_version(self):
+        """
+        Sanity check the document's namespace
+        """
+        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.'):
+            raise except_orm(
+                "Error",
+                "This does not seem to be a CAMT format bank statement.")
+
+        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.053.'):
+            raise except_orm(
+                "Error",
+                "Only CAMT.053 is supported at the moment.")
+        return True
+
     def parse(self, cr, data):
         """
         Parse a CAMT053 XML file
         """
         root = etree.fromstring(data)
         self.ns = root.tag[:root.tag.index("}") + 1]
+        self.check_version()
         self.assert_tag(root[0][0], 'GrpHdr')
         statements = []
         for node in root[0][1:]:
