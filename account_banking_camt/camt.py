@@ -1,5 +1,4 @@
 from lxml import etree
-from datetime import datetime
 import re
 from openerp.osv.orm import except_orm
 from account_banking.parsers import models
@@ -132,24 +131,27 @@ CAMT Format parser
                 transaction(transaction_detail))
         return statement
 
-    def get_entry_description(self, node):
+    def get_transfer_type(self, node):
         """
+        Map entry descriptions to transfer types. To extend with
+        proper mapping from BkTxCd/Domn/Cd/Fmly/Cd to transfer types
+        if we can get our hands on real life samples.
+
+        For now, leave as a hook for bank specific overrides to map
+        properietary codes from BkTxCd/Prtry/Cd.
+
         :param node: Ntry node
         """
-        codes = self.xpath(node, './ns:BkTxCd/ns:Prtry/ns:Cd')
-        if codes:
-            return codes[0].text
-        return False
+        return bt.ORDER
 
     def parse_Ntry(self, node):
         """
         :param node: Ntry node
         """
-        entry_description = self.get_entry_description(node)
         entry_details = {
             'execution_date': self.xpath(node, './ns:BookgDt/ns:Dt')[0].text,
             'effective_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
-            'transfer_type': bt.ORDER,
+            'transfer_type': self.get_transfer_type(node),
             'transferred_amount': self.parse_amount(node)
             }
         TxDtls = self.xpath(node, './ns:NtryDtls/ns:TxDtls')
