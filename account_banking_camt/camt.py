@@ -109,11 +109,13 @@ CAMT Format parser
         Parse a single Stmt node
         """
         statement = models.mem_bank_statement()
-        statement.id = node.find(self.ns + 'Id').text
         statement.local_account = (
             self.xpath(node, './ns:Acct/ns:Id/ns:IBAN')[0].text
             if self.xpath(node, './ns:Acct/ns:Id/ns:IBAN')
             else self.xpath(node, './ns:Acct/ns:Id/ns:Othr/ns:Id')[0].text)
+        statement.id = "%s-%s" % (
+            statement.local_account,
+            node.find(self.ns + 'Id').text)
         statement.local_currency = self.xpath(node, './ns:Acct/ns:Ccy')[0].text
         statement.start_balance = self.get_start_balance(node)
         statement.end_balance = self.get_end_balance(node)
@@ -177,14 +179,14 @@ CAMT Format parser
             vals['remote_owner_country'] = (
                 country_node.text if country_node is not None else False)
             address_node = self.find(party_node, './ns:PstlAdr/ns:AdrLine')
-            vals['remote_owner_address'] = (
-                address_node.text if address_node is not None else False)
+            if address_node is not None:
+                vals['remote_owner_address'] = [address_node.text]
         if account_node is not None:
             iban_node = self.find(account_node, './ns:IBAN')
             if iban_node is not None:
                 vals['remote_account'] = iban_node.text
                 if bic_node is not None:
-                    vals['remote_iban'] = bic_node.text
+                    vals['remote_bank_bic'] = bic_node.text
             else:
                 domestic_node = self.find(account_node, './ns:Othr/ns:Id')
                 vals['remote_account'] = (
