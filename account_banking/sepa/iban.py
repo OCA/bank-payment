@@ -190,7 +190,7 @@ class IBAN(str):
     BBAN_formats = {
         'AL': BBANFormat('CCBBBBVAAAAAAAAAAAAAAAAAA', '%B%A'),
         'AD': BBANFormat('CCCCBBBBAAAAAAAAAAAA', '%A'),
-        'AT': BBANFormat('BBBBBAAAAAAAAAAA', '%A BLZ %C'),
+        'AT': BBANFormat('BBBBBAAAAAAAAAAA', '%A BLZ %B'),
         'BE': BBANFormat('CCCAAAAAAAVV', '%C-%A-%V'),
         'BA': BBANFormat('BBBCCCAAAAAAAA', '%I'),
         'BG': BBANFormat('BBBBCCCCAAAAAAAAAA', '%I'),
