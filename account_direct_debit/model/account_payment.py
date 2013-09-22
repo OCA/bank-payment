@@ -336,20 +336,20 @@ class payment_line(osv.osv):
             payment_line_id = payment_line_id[0]
         reconcile_obj = self.pool.get('account.move.reconcile')
         move_line_obj = self.pool.get('account.move.line')
-        payment_line = self.browse(cr, uid, payment_line_id, context=context)
+        payment_line_record = self.browse(cr, uid, payment_line_id, context=context)
 
-        debit_move_line = payment_line.debit_move_line_id
-        torec_move_line = payment_line.move_line_id
+        debit_move_line = payment_line_record.debit_move_line_id
+        torec_move_line = payment_line_record.move_line_id
 
-        if payment_line.storno:
+        if payment_line_record.storno:
             raise osv.except_osv(
                 _('Can not reconcile'),
                 _('Cancelation of payment line \'%s\' has already been ' +
-                  'processed') % payment_line.name)
+                  'processed') % payment_line_record.name)
         if (not debit_move_line or not torec_move_line):
             raise osv.except_osv(
                 _('Can not reconcile'),
-                _('No move line for line %s') % payment_line.name)     
+                _('No move line for line %s') % payment_line_record.name)     
         if torec_move_line.reconcile_id: # torec_move_line.reconcile_partial_id:
             raise osv.except_osv(
                 _('Error'),
@@ -370,7 +370,7 @@ class payment_line(osv.osv):
         line_ids = [debit_move_line.id, torec_move_line.id]
         if torec_move_line.reconcile_partial_id:
             line_ids = [
-                x.id for x in debit_move_line.reconcile_partial_id.line_partial_ids] + [torec_move_line_id]
+                x.id for x in torec_move_line.reconcile_partial_id.line_partial_ids] + [debit_move_line.id]
 
         total = move_line_obj.get_balance(cr, uid, line_ids)
         vals = {
