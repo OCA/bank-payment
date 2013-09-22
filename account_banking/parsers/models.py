@@ -34,7 +34,7 @@ class mem_bank_statement(object):
     # Lock attributes to enable parsers to trigger non-conformity faults
     __slots__ = [
         'start_balance','end_balance', 'date', 'local_account',
-        'local_currency', 'id', 'statements'
+        'local_currency', 'id', 'transactions'
     ]
     def __init__(self, *args, **kwargs):
         super(mem_bank_statement, self).__init__(*args, **kwargs)
