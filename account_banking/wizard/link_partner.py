@@ -36,7 +36,7 @@ class link_partner(orm.TransientModel):
         'partner_id': fields.many2one(
             'res.partner', 'or link existing partner',
             domain=['|', ('is_company', '=', True),
-                    ('partner_id', '=', False)],
+                    ('parent_id', '=', False)],
             ),
         'statement_line_id': fields.many2one(
             'account.bank.statement.line',
