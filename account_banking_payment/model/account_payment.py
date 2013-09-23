@@ -301,7 +301,7 @@ class payment_order(orm.Model):
                         'journal_id': order.mode.transfer_journal_id.id,
                         'name': '%s %s' % (labels[order.payment_order_type], 
                                            line.move_line_id.move_id.name),
-                        'reference': '%s%s' % (order.payment_order_type[:3].upper(),
+                        'ref': '%s%s' % (order.payment_order_type[:3].upper(),
                                                line.move_line_id.move_id.name),
                         }, context=context)
 
