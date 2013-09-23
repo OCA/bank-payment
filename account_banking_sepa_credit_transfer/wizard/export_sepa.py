@@ -209,8 +209,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
         debtor_account_iban.text = my_company_iban
         debtor_agent = etree.SubElement(payment_info, 'DbtrAgt')
         debtor_agent_institution = etree.SubElement(debtor_agent, 'FinInstnId')
-        debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
-        debtor_agent_bic.text = my_company_bic
+        if my_company_bic:
+            debtor_agent_bic = etree.SubElement(debtor_agent_institution, bic_xml_tag)
+            debtor_agent_bic.text = my_company_bic
         charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
         charge_bearer.text = sepa_export.charge_bearer
 
@@ -236,10 +237,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 amount_control_sum += line.amount_currency
                 creditor_agent = etree.SubElement(credit_transfer_transaction_info, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
-                creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
                 if not line.bank_id:
                     raise orm.except_orm(_('Error :'), _("Missing Bank Account on invoice '%s' (payment order line reference '%s').") %(line.ml_inv_ref.number, line.name))
-                creditor_agent_bic.text = line.bank_id.bank.bic
+                if line.bank_id.bank.bic:
+                    creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
+                    creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
                 creditor_name.text = self._limit_size(cr, uid, line.partner_id.name, name_maxsize, context=context)
