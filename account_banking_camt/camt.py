@@ -20,7 +20,6 @@
 ##############################################################################
 
 from lxml import etree
-import re
 from openerp.osv.orm import except_orm
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
@@ -32,7 +31,7 @@ class transaction(models.mem_bank_transaction):
     def __init__(self, values, *args, **kwargs):
         super(transaction, self).__init__(*args, **kwargs)
         for attr in values:
-                setattr(self, attr, values[attr])
+            setattr(self, attr, values[attr])
 
     def is_valid(self):
         return not self.error_message
@@ -191,13 +190,15 @@ CAMT Format parser
         party_type = self.find(
             TxDtls, '../../ns:CdtDbtInd').text == 'CRDT' and 'Dbtr' or 'Cdtr'
         party_node = self.find(TxDtls, './ns:RltdPties/ns:%s' % party_type)
-        account_node = self.find(TxDtls, './ns:RltdPties/ns:%sAcct/ns:Id' % party_type)
+        account_node = self.find(
+            TxDtls, './ns:RltdPties/ns:%sAcct/ns:Id' % party_type)
         bic_node = self.find(
             TxDtls,
             './ns:RltdAgts/ns:%sAgt/ns:FinInstnId/ns:BIC' % party_type)
         if party_node is not None:
             name_node = self.find(party_node, './ns:Nm')
-            vals['remote_owner'] = name_node.text if name_node is not None else False
+            vals['remote_owner'] = (
+                name_node.text if name_node is not None else False)
             country_node = self.find(party_node, './ns:PstlAdr/ns:Ctry')
             vals['remote_owner_country'] = (
                 country_node.text if country_node is not None else False)
@@ -224,11 +225,12 @@ CAMT Format parser
         unstructured = self.xpath(TxDtls, './ns:RmtInf/ns:Ustrd')
         if unstructured:
             vals['message'] = ' '.join([x.text for x in unstructured])
-        structured = self.find(TxDtls, './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref')
+        structured = self.find(
+            TxDtls, './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref')
         if structured is not None:
             vals['reference'] = structured.text
         else:
-            if vals.get('message') and re.match('^[^\s]+$', vals['message']):
+            if vals.get('message'):
                 vals['reference'] = vals['message']
         vals.update(self.get_party_values(TxDtls))
         return vals
