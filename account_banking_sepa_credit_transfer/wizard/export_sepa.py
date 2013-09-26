@@ -241,7 +241,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 creditor_agent_institution = etree.SubElement(creditor_agent, 'FinInstnId')
                 creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
                 if not line.bank_id:
-                    raise orm.except_orm(_('Error :'), _("Missing Bank Account on invoice '%s' (payment order line reference '%s').") %(line.ml_inv_ref.number, line.name))
+                    raise osv.except_osv(_('Error :'), _("Missing Bank Account on invoice '%s' (payment order line reference '%s').") %(line.ml_inv_ref.number, line.name))
                 creditor_agent_bic.text = line.bank_id.bank.bic
                 creditor = etree.SubElement(credit_transfer_transaction_info, 'Cdtr')
                 creditor_name = etree.SubElement(creditor, 'Nm')
