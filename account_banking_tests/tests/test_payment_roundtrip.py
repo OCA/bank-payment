@@ -101,7 +101,6 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 cr, uid, [], 1)['value'])
         chart_setup_id = chart_setup_model.create(
             cr, uid, chart_values)
-        chart_setup_model.read(cr, uid, chart_setup_id)
         chart_setup_model.execute(
             cr, uid, [chart_setup_id])
         year = datetime.now().strftime('%Y')
@@ -300,9 +299,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             cr, uid, [wizard_id], {
                 'manual_payment_order_id': self.payment_order_id})
         statement_model.button_confirm_bank(cr, uid, [statement_id])
-        state = reg('payment.order').read(
-            cr, uid, self.payment_order_id, ['state'])['state']
-        assert state == 'done', 'Payment order does not go into state \'done\'.'
+        self.assert_payment_order_state('done')
 
     def check_reconciliations(self, reg, cr, uid):
         """
