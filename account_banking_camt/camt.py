@@ -92,7 +92,7 @@ CAMT Format parser
         :return: signed amount
         :returntype: float
         """
-        sign = -1 if node.find(self.ns + 'CdtDbtInd').text == 'CRDT' else 1
+        sign = -1 if node.find(self.ns + 'CdtDbtInd').text == 'DBIT' else 1
         return sign * float(node.find(self.ns + 'Amt').text)
         
     def get_start_balance(self, node):
