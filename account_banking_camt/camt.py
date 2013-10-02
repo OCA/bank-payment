@@ -123,18 +123,30 @@ CAMT Format parser
             self.get_balance_type_node(node, 'ITBD'))
         return self.parse_amount(nodes[-1])
 
-    def parse_Stmt(self, node):
+    def parse_Stmt(self, cr, node):
         """
-        Parse a single Stmt node
+        Parse a single Stmt node.
+
+        Be sure to craft a unique, but short enough statement identifier,
+        as it is used as the basis of the generated move lines' names
+        which overflow when using the full IBAN and CAMT statement id.
         """
         statement = models.mem_bank_statement()
         statement.local_account = (
             self.xpath(node, './ns:Acct/ns:Id/ns:IBAN')[0].text
             if self.xpath(node, './ns:Acct/ns:Id/ns:IBAN')
             else self.xpath(node, './ns:Acct/ns:Id/ns:Othr/ns:Id')[0].text)
-        statement.id = "%s-%s" % (
-            statement.local_account,
-            node.find(self.ns + 'Id').text)
+
+        identifier = node.find(self.ns + 'Id').text
+        if identifier.upper().startswith('CAMT053'):
+            identifier = identifier[7:]
+        statement.id = self.get_unique_statement_id(
+            cr, "%s-%s" % (
+                self.get_unique_account_identifier(
+                    cr, statement.local_account),
+                identifier)
+            )
+
         statement.local_currency = self.xpath(node, './ns:Acct/ns:Ccy')[0].text
         statement.start_balance = self.get_start_balance(node)
         statement.end_balance = self.get_end_balance(node)
@@ -260,5 +272,5 @@ CAMT Format parser
         self.assert_tag(root[0][0], 'GrpHdr')
         statements = []
         for node in root[0][1:]:
-            statements.append(self.parse_Stmt(node))
+            statements.append(self.parse_Stmt(cr, node))
         return statements
