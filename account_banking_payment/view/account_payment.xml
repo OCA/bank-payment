@@ -17,10 +17,6 @@
                             'invisible':[('state','!=','draft')]
                         }</attribute>
                     </xpath>
-                    <xpath expr="//button[@string='Make Payments']"
-                           position="attributes">
-                        <attribute name="name">launch_wizard</attribute>
-                    </xpath>
                     <!-- Communication only used for 'structured' communication -->
                     <xpath expr="//field[@name='line_ids']/form//field[@name='communication']"
                            position="attributes">

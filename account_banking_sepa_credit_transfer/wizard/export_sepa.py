@@ -101,8 +101,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         '''
         Creates the SEPA Credit Transfer file. That's the important code !
         '''
-        payment_order_obj = self.pool.get('payment.order')
-
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
@@ -330,12 +328,15 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''
-        Save the SEPA PAIN: mark all payments in the file as 'sent'.
+        Save the SEPA PAIN: send the done signal to all payment orders in the file.
+        With the default workflow, they will transition to 'done', while with the
+        advanced workflow in account_banking_payment they will transition to 'sent'
+        waiting reconciliation.
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        sepa_file = self.pool.get('banking.export.sepa').write(cr, uid,
+        self.pool.get('banking.export.sepa').write(cr, uid,
             sepa_export.file_id.id, {'state': 'sent'}, context=context)
         wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
+            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
         return {'type': 'ir.actions.act_window_close'}
