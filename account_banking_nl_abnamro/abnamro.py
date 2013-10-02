@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>)
-#                  2011 Therp BV (<http://therp.nl>)
+#                  2011 - 2013 Therp BV (<http://therp.nl>)
 #
 #    All Rights Reserved
 #
@@ -256,9 +256,9 @@ class transaction(models.mem_bank_transaction):
 
         if self.transfer_type == 'SEPA':
             sepa_dict = get_sepa_dict(''.join(fields))
-            sepa_type = sepa_dict.get('TRTP')
-            if sepa_type != 'SEPA OVERBOEKING':
-                raise ValueError,_('Sepa transaction type %s not handled yet')
+            sepa_type = sepa_dict.get('TRTP') or ''
+            if sepa_type.upper() != 'SEPA OVERBOEKING':
+                raise ValueError, _('Sepa transaction type %s not handled yet') % sepa_type
             self.remote_account = sepa_dict.get('IBAN',False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)
