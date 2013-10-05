@@ -80,14 +80,14 @@ class AccountBankStatement(orm.Model):
 
         return move_lines, update_move_line
 
-    def _prepare_counterpart_move_line(
+    def _prepare_bank_move_line(
             self, cr, uid, st_line, move_id, amount, company_currency_id,
             context=None):
         """
         Overload of the original method from the account module. Create
         the tax move lines.
         """
-        res = super(AccountBankStatement, self)._prepare_counterpart_move_line(
+        res = super(AccountBankStatement, self)._prepare_bank_move_line(
             cr, uid, st_line, move_id, amount, company_currency_id,
             context=context)
         if st_line.tax_id:
