@@ -38,8 +38,6 @@ class AccountBankStatement(orm.Model):
 
         return one or more serialized tax move lines and a set of values to 
         update the originating move line with, containing the new amount.
-        
-        TODO: apply fiscal position, multicurrency
         """
 
         if not st_line.tax_id:
