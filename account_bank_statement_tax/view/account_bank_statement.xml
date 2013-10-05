@@ -9,9 +9,7 @@
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
                        position="after">
                     <field name="tax_id"
-                           domain="[('price_include', '=', True), ('type_tax_use', 'in', (
-                                       amount and amount &gt; 0 and ('sale', 'all')
-                                       or ('purchase', 'all')))]"
+                           domain="[('parent_id', '=', False), ('price_include', '=', True), ('type_tax_use', 'in', (amount and amount &gt; 0 and ('sale', 'all') or ('purchase', 'all')))]"
                            />
                 </xpath>
             </field>
