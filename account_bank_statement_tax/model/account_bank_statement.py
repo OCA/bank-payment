@@ -48,14 +48,25 @@ class AccountBankStatement(orm.Model):
         move_lines = []
         update_move_line = {}
         base_amount = -defaults['credit'] or defaults['debit']
+        tax_obj = self.pool.get('account.tax')
+
+        fiscal_position = (
+            st_line.partner_id.property_account_position
+            if st_line.partner_id and 
+                st_line.partner_id.property_account_position
+            else False)
+        tax_ids = self.pool.get('account.fiscal.position').map_tax(
+            cr, uid, fiscal_position, [st_line.tax_id])
+        taxes = tax_obj.browse(cr, uid, tax_ids, context=context)
+
         computed_taxes = tax_obj.compute_all(
-            cr, uid, [st_line.tax_id], base_amount, 1.00)
+            cr, uid, taxes, base_amount, 1.00)
 
         for tax in computed_taxes['taxes']:
             if tax['tax_code_id']:
                 if not update_move_line.get('tax_code_id'):
                     update_move_line['tax_code_id'] = tax['base_code_id']
-                    update_move_line['tax_amount'] = tax['base_sign'] * abs(
+                    update_move_line['tax_amount'] = tax['base_sign'] * (
                         computed_taxes.get('total', 0.0))
                     # As the tax is inclusive, we need to correct the amount on the
                     # original move line
@@ -71,7 +82,7 @@ class AccountBankStatement(orm.Model):
                     'ref': defaults.get('ref', False),
                     'statement_id': defaults.get('statement_id'),
                     'tax_code_id': tax['tax_code_id'],
-                    'tax_amount': tax['tax_sign'] * abs(tax.get('amount', 0.0)),
+                    'tax_amount': tax['tax_sign'] * tax.get('amount', 0.0),
                     'account_id': tax.get('account_collected_id', defaults['account_id']),
                     'credit': tax['amount'] < 0 and - tax['amount'] or 0.0,
                     'debit': tax['amount'] > 0 and tax['amount'] or 0.0,
