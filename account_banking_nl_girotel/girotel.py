@@ -249,6 +249,10 @@ class transaction(models.mem_bank_transaction):
                      for i in range(0, len(self.message), 32)
                     ]
             self.reference = self.remote_owner
+
+            if not parts:
+                return
+
             if self.reference.startswith('KN: '):
                 self.reference = self.reference[4:]
                 if parts[0] == self.reference:

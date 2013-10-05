@@ -23,19 +23,37 @@
 #
 ##############################################################################
 
+'''
+This module contains a single "wizard" for confirming manual
+bank transfers.
+'''
+
 from openerp.osv import orm, fields
+from openerp import netsvc
 
 
-class payment_mode_type(orm.Model):
-    _inherit = 'payment.mode.type'
+class payment_manual(orm.TransientModel):
+    _name = 'payment.manual'
+    _description = 'Send payment order(s) manually'
 
     _columns = {
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': 'payment',
+        'payment_order_ids': fields.many2many('payment.order',
+            'wiz_manual_payorders_rel', 'wizard_id', 'payment_order_id',
+            'Payment orders', readonly=True),
         }
+
+    def create(self, cr, uid, vals, context=None):
+        payment_order_ids = context.get('active_ids', [])
+        vals.update({
+            'payment_order_ids': [[6, 0, payment_order_ids]],
+        })
+        return super(payment_manual, self).create(cr, uid,
+            vals, context=context)
+
+    def button_ok(self, cr, uid, ids, context=None):
+        wf_service = netsvc.LocalService('workflow')
+        for wiz in self.browse(cr, uid, ids, context=context):
+            for order_id in wiz.payment_order_ids:
+                wf_service.trg_validate(
+                    uid, 'payment.order', order_id.id, 'done', cr)
+        return {'type': 'ir.actions.act_window_close'}

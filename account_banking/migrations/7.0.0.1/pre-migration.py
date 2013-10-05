@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
-#    All other contributions are (C) by their respective contributors
-#
+#    Copyright (C) 2013 Therp BV (<http://therp.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -23,19 +19,15 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+def migrate(cr, version):
+    if not version:
+        return
 
-
-class payment_mode_type(orm.Model):
-    _inherit = 'payment.mode.type'
-
-    _columns = {
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': 'payment',
-        }
+    # workflow state moved to another, new module
+    cr.execute(
+        """
+        UPDATE ir_model_data 
+        SET module = 'account_banking_payment'
+        WHERE name = 'trans_done_sent'
+        AND module = 'account_direct_debit'
+        """)

@@ -11,7 +11,7 @@
     <field name="name">banking.export.sepa.wizard.view</field>
     <field name="model">banking.export.sepa.wizard</field>
     <field name="arch" type="xml">
-        <form string="SEPA XML file generation">
+        <form string="SEPA XML file generation" version="7.0">
             <field name="state" invisible="True"/>
             <group states="create">
                 <separator colspan="4" string="Processing details" />
@@ -20,9 +20,6 @@
                 <field name="charge_bearer" />
                 <separator colspan="4" string="Reference for further communication" />
                 <field name="msg_identification" required="True" />
-                <newline />
-                <button icon="gtk-close" special="cancel" string="Cancel" colspan="2"/>
-                <button icon="gtk-ok" string="Generate" name="create_sepa" type="object" colspan="2"/>
             </group>
             <group states="finish">
                 <field name="total_amount" />
@@ -31,14 +28,16 @@
                 Bug desc : in the Gtk client, you have to clic twice on the
                 "Create" button.
                 <field name="nb_transactions" /> -->
-                <newline />
-                <field name="file_id" />
+            <!--    <field name="file_id" /> -->
                 <field name="file" filename="filename" />
                 <field name="filename" invisible="True"/>
-                <newline />
-                <button icon="gtk-cancel" string="Cancel" name="cancel_sepa" type="object" colspan="2"/>
-                <button icon="gtk-ok" string="Validate" name="save_sepa" type="object" colspan="2"/>
             </group>
+            <footer>
+                <button string="Generate" name="create_sepa" type="object" class="oe_highlight" states="create"/>
+                <button string="Cancel" special="cancel" class="oe_link" states="create"/>
+                <button string="Validate" name="save_sepa" type="object" class="oe_highlight" states="finish"/>
+                <button string="Cancel" name="cancel_sepa" type="object" class="oe_link" states="finish"/>
+            </footer>
         </form>
     </field>
 </record>

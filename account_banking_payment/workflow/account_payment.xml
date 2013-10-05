@@ -29,6 +29,12 @@ write({'state':'rejected'})</field>
             <field name="act_to" ref="account_banking.act_sent"/>
             <field name="signal">sent</field>
         </record>
+        <!-- the done signal continues to work but goes to sent -->
+        <record id="account_banking.trans_open_done" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="account_banking.act_sent"/>
+            <field name="signal">done</field>
+        </record>
         <!-- From sent straight to sent_wait -->
         <record id="account_banking.trans_sent_sent_wait" model="workflow.transition">
             <field name="act_from" ref="account_banking.act_sent"/>

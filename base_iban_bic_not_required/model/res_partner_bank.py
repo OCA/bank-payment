@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
-#    All other contributions are (C) by their respective contributors
-#
+#    Copyright (C) 2013 Therp BV (<http://therp.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,20 +18,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import orm
 
-from openerp.osv import orm, fields
 
+class res_partner_bank(orm.Model):
+    _inherit = 'res.partner.bank'
 
-class payment_mode_type(orm.Model):
-    _inherit = 'payment.mode.type'
+    def _check_bank(self, cr, uid, ids, context=None):
+        #suppress base_iban's constraint to enforce BICs for IBANs
+        #workaround for lp:933472
+        return True
 
-    _columns = {
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': 'payment',
-        }
+    # Redefine constraint to update its function reference
+    _constraints = [
+        (_check_bank, 
+         '\nPlease define BIC/Swift code on bank for bank '
+         'type IBAN Account to make valid payments',
+         ['bic'])
+    ]

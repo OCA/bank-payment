@@ -133,14 +133,14 @@ class payment_line(orm.Model):
         """
         if isinstance(payment_line_id, (list, tuple)):
             payment_line_id = payment_line_id[0]
-        payment_line = self.read(
+        payment_line_vals = self.read(
             cr, uid, payment_line_id, ['storno', 'name'], context=context)
-        if payment_line['storno']:
+        if payment_line_vals['storno']:
             raise orm.except_orm(
                 _('Can not reconcile'),
                 _('Cancelation of payment line \'%s\' has already been '
-                  'processed') % payment_line['name'])
-        return super(self, payment_line).debit_reconcile(
+                  'processed') % payment_line_vals['name'])
+        return super(payment_line, self).debit_reconcile(
             cr, uid, payment_line_id, context=context)
 
     _columns = {

@@ -20,12 +20,13 @@
 ##############################################################################
 {
     'name': 'Account Banking SEPA Credit Transfer',
+    'summary': 'Create SEPA XML files for Credit Transfers',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'category': 'Banking addons',
-    'depends': ['account_banking_payment'],
+    'depends': ['account_banking_payment_export'],
     'data': [
         'account_banking_sepa_view.xml',
         'wizard/export_sepa_view.xml',

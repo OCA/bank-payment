@@ -8,10 +8,9 @@
         <record id="view_payment_mode_form_inherit" model="ir.ui.view">
             <field name="name">payment.mode.form.inherit</field>
             <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
             <field name="arch" type="xml">
-                <field name="company_id" position="after">
-                    <field name="type"/>
+                <field name="type" position="after">
                     <group colspan="4" col="4">
                         <group colspan="2">
                             <separator colspan="2"

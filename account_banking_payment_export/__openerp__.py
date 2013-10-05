@@ -24,31 +24,45 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - Payments',
+    'name': 'Account Banking - Payments Export Infrastructure',
     'version': '0.1.164',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': [
-        'account_banking',
-        'account_banking_payment_export',
+        'account_payment',
+        'base_iban',  # for manual_bank_tranfer
+        ],
+    'conflicts': [
+        # lp:account-payment/account_payment_extension also adds
+        # a type field to payment.mode, with a very similar purpose.
+        # We can't add a dependency on account_payment_extension here
+        # because account_payment_extension adds many other features
+        # that probably conflict with other parts of lp:banking-addons.
+        # Proposal to resolve: make account_payment_extension depend
+        # on the present account_banking_payment_export module.
+        'account_payment_extension',
         ],
     'data': [
         'view/account_payment.xml',
-        'view/banking_transaction_wizard.xml',
+        'view/bank_payment_manual.xml',
         'view/payment_mode.xml',
         'view/payment_mode_type.xml',
-        'workflow/account_payment.xml',
+        'data/payment_mode_type.xml',
+        'security/ir.model.access.csv',
     ],
     'description': '''
-    This addon adds payment infrastructure to the Banking Addons.
+        Infrastructure to export payment orders.
 
-    * Extends payments for digital banking:
-      + Adapted workflow in payments to reflect banking operations
-      + Relies on account_payment mechanics to extend with export generators.
-      - ClieOp3 (NL) payment and direct debit orders files available as
-        account_banking_nl_clieop
+        This technical module provides the base infrastructure to export 
+        payment orders for electronic banking. It provides the following
+        technical features:
+        * a new payment.mode.type model
+        * payment.mode now has a mandatory type
+        * a better implementation of payment_mode.suitable_bank_types() based on payment.mode.type
+        * the "make payment" button launches a wizard depending on the payment.mode.type
+        * a manual payment mode type is provided as an example, with a default "do nothing" wizard
     ''',
     'auto_install': True,
     'installable': True,
