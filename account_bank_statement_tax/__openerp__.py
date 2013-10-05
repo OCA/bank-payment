@@ -35,6 +35,8 @@
     'description': '''
 Allow an (inclusive) tax to be set on a bank statement line. When the
 statement is configured, the tax will be processed like on a move line.
+
+This module is co-funded by BAS Solutions.
     ''',
     'installable': True,
 }
