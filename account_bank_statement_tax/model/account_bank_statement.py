@@ -66,6 +66,11 @@ class AccountBankStatement(orm.Model):
                     update_move_line['tax_code_id'] = tax['base_code_id']
                     update_move_line['tax_amount'] = tax['base_sign'] * (
                         computed_taxes.get('total', 0.0))
+                    # As the tax is inclusive, we need to correct the amount on the
+                    # original move line
+                    amount = computed_taxes.get('total', 0.0)
+                    update_move_line['credit'] = ((amount < 0) and -amount) or 0.0
+                    update_move_line['debit'] = ((amount > 0) and amount) or 0.0
 
                 move_lines.append({
                     'move_id': defaults['move_id'],
@@ -81,13 +86,6 @@ class AccountBankStatement(orm.Model):
                     'debit': tax['amount'] > 0 and tax['amount'] or 0.0,
                     'account_id': tax.get('account_collected_id', defaults['account_id']),
                     })
-
-        if move_lines:
-            # As the tax is inclusive, we need to correct the amount on the
-            # original move line
-            amount = computed_taxes.get('total', 0.0)
-            update_move_line['credit'] = ((amount < 0) and -amount) or 0.0
-            update_move_line['debit'] = ((amount > 0) and amount) or 0.0
 
         return move_lines, update_move_line
 
