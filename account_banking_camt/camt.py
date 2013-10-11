@@ -239,6 +239,8 @@ CAMT Format parser
             vals['message'] = ' '.join([x.text for x in unstructured])
         structured = self.find(
             TxDtls, './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref')
+        if structured is None or not structured.text:
+            structured = self.find(TxDtls, './ns:Refs/ns:EndToEndId') 
         if structured is not None:
             vals['reference'] = structured.text
         else:
