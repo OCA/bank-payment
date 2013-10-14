@@ -256,20 +256,45 @@ class banking_transaction_wizard(orm.TransientModel):
             account_id = False
             journal_id = wiz.statement_line_id.statement_id.journal_id.id
             setting_ids = settings_pool.find(cr, uid, journal_id, context=context)
-            if len(setting_ids)>0:
-                setting = settings_pool.browse(cr, uid, setting_ids[0], context=context)
-                if wiz.amount < 0:
-                    account_id = setting.default_credit_account_id and setting.default_credit_account_id.id
-                else:
-                    account_id = setting.default_debit_account_id and setting.default_debit_account_id.id
-                statement_pool.write(cr, uid, wiz.statement_line_id.id, {'account_id':account_id})
-            
+
             # Restore partner id from the bank account or else reset
             partner_id = False
             if (wiz.statement_line_id.partner_bank_id and
                     wiz.statement_line_id.partner_bank_id.partner_id):
                 partner_id = wiz.statement_line_id.partner_bank_id.partner_id.id
             wiz.write({'partner_id': partner_id})
+
+            # Select account type by parter customer or supplier,
+            # or default based on amount sign
+            if wiz.amount < 0:
+                account_type = 'payable'
+            else:
+                account_type = 'receivable'
+
+            if partner_id:
+                partner = wiz.statement_line_id.partner_bank_id.partner_id
+                if partner.supplier and not partner.customer:
+                    account_type = 'payable'
+                elif partner.customer and not partner.supplier:
+                    account_type = 'receivable'
+                if partner['property_account_' + account_type]:
+                    account_id = partner['property_account_' + account_type].id
+
+            company_partner = wiz.statement_line_id.statement_id.company_id.partner_id
+            if len(setting_ids) and (
+                    not account_id
+                    or account_id in (
+                        company_partner.property_account_payable.id,
+                        company_partner.property_account_receivable.id)
+                    ):
+                setting = settings_pool.browse(cr, uid, setting_ids[0], context=context)
+                if account_type == 'payable':
+                    account_id = setting.default_credit_account_id.id
+                else:
+                    account_id = setting.default_debit_account_id.id
+
+            if account_id:
+                wiz.statement_line_id.write({'account_id': account_id})
 
             if wiz.statement_line_id:
                 #delete splits causing an unsplit if this is a split

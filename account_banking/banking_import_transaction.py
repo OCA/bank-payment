@@ -1116,21 +1116,23 @@ class banking_import_transaction(orm.Model):
                 # the internal type of these accounts to either 'payable'
                 # or 'receivable' to enable usage like this.
                 if transaction.statement_line_id.amount < 0:
-                    if len(partner_banks) == 1:
-                        account_id = (
-                            partner_banks[0].partner_id.property_account_payable and
-                            partner_banks[0].partner_id.property_account_payable.id)
-                    if len(partner_banks) != 1 or not account_id or account_id == def_pay_account_id:
-                        account_id = (account_info.default_credit_account_id and
-                                      account_info.default_credit_account_id.id)
+                    account_type = 'payable'
                 else:
-                    if len(partner_banks) == 1:
-                        account_id = (
-                            partner_banks[0].partner_id.property_account_receivable and
-                            partner_banks[0].partner_id.property_account_receivable.id)
-                    if len(partner_banks) != 1 or not account_id or account_id == def_rec_account_id:
-                        account_id = (account_info.default_debit_account_id and
-                                      account_info.default_debit_account_id.id)
+                    account_type = 'receivable'
+                if len(partner_banks) == 1:
+                    partner = partner_banks[0].partner_id
+                    if partner.supplier and not partner.customer:
+                        account_type = 'payable'
+                    elif partner.customer and not partner.supplier:
+                        account_type = 'receivable'
+                    if partner['property_account_' + account_type]:
+                        account_id = partner['property_account_' + account_type].id
+                if not account_id or account_id in (def_pay_account_id, def_rec_account_id):
+                    if account_type == 'payable':
+                        account_id = account_info.default_credit_account_id.id
+                    else:
+                        account_id = account_info.default_debit_account_id.id
+
             values = {'account_id': account_id}
             self_values = {}
             if move_info:
@@ -1499,7 +1501,7 @@ class account_bank_statement_line(orm.Model):
 
         if (not statement_line.import_transaction_id or
             not statement_line.import_transaction_id.remote_account):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _("Error"),
                 _("No bank account available to link partner to"))
             
