@@ -63,6 +63,7 @@ Modifications are extensive:
 '''
 
 from openerp.osv import orm, fields
+from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp import netsvc, SUPERUSER_ID
 from openerp.addons.decimal_precision import decimal_precision as dp
@@ -468,9 +469,27 @@ class account_bank_statement_line(orm.Model):
     _description = 'Bank Transaction'
 
     def _get_period(self, cr, uid, context=None):
-        date = context.get('date', None)
-        periods = self.pool.get('account.period').find(cr, uid, dt=date)
-        return periods and periods[0] or False
+        """
+        Get a non-opening period for today or a date specified in
+        the context.
+
+        Used in this model's _defaults, so it is always triggered
+        on installation or module upgrade. For that reason, we need
+        to be tolerant and allow for the situation in which no period
+        exists for the current date (i.e. when no date is specified).
+        """
+        if context is None:
+            context = {}
+        date = context.get('date', False)
+        local_ctx = dict(context)
+        local_ctx['account_period_prefer_normal'] = True
+        try:
+            return self.pool.get('account.period').find(
+                cr, uid, dt=date, context=local_ctx)[0]
+        except except_osv:
+            if date:
+                raise
+        return False
 
     def _get_currency(self, cr, uid, context=None):
         '''
