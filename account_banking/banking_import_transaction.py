@@ -72,7 +72,7 @@ class banking_import_transaction(orm.Model):
         invoice_ids = invoice_obj.search(cr, uid, [
             '&',
             ('type', '=', 'in_invoice'),
-            ('partner_id', '=', account_info.bank_partner_id.id),
+            ('partner_id', 'child_of', account_info.bank_partner_id.id),
             ('company_id', '=', account_info.company_id.id),
             ('date_invoice', '=', trans.effective_date),
             ('reference', '=', reference),
