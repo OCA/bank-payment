@@ -153,7 +153,7 @@ class payment_order(osv.osv):
                 move_id = account_move_obj.create(cr, uid, {
                         'journal_id': order.mode.transfer_journal_id.id,
                         'name': 'Debit order %s' % line.move_line_id.move_id.name,
-                        'reference': 'DEB%s' % line.move_line_id.move_id.name,
+                        'ref': 'DEB%s' % line.move_line_id.move_id.name,
                         }, context=context)
 
                 # TODO: take multicurrency into account
