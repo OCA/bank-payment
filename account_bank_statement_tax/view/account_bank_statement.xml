@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_bank_statement_form" model="ir.ui.view">
+            <field name="name">Add tax to the embedded bank statement line form</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="model">account.bank.statement</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
+                       position="after">
+                    <field name="tax_id"
+                           domain="[('parent_id', '=', False), ('price_include', '=', True), ('type_tax_use', 'in', (amount and amount &gt; 0 and ('sale', 'all') or ('purchase', 'all')))]"
+                           />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
