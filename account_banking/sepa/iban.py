@@ -214,7 +214,7 @@ class IBAN(str):
         'GR': BBANFormat('BBBCCCCAAAAAAAAAAAAAAAA', '%B-%C-%A', nolz=True),
         'HR': BBANFormat('BBBBBBBAAAAAAAAAA', '%B-%A'),
         'HU': BBANFormat('BBBCCCCXAAAAAAAAAAAAAAAV', '%B%C%X %A%V'),
-        'IE': BBANFormat('BBBBCCCCCCAAAAAAAAV', '%C %A%V'),
+        'IE': BBANFormat('BBBBCCCCCCAAAAAAAA', '%C %A'),
         'IL': BBANFormat('BBBCCCAAAAAAAAAAAAA', '%C%A'),
         # Iceland uses an extra identification number, split in two on
         # display. Coded here as %P%V.
