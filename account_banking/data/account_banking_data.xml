@@ -13,12 +13,5 @@
             <field eval="False" name="required"/>
             <field eval="False" name="readonly"/>
         </record>
-        <!-- 
-             BIC is not legally required
-             See https://bugs.launchpad.net/bugs/933472
-        -->
-        <record id="base_iban.bank_swift_field" model="res.partner.bank.type.field">
-            <field eval="False" name="required"/>
-        </record>
     </data>
 </openerp>

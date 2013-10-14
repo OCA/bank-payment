@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
-#    All other contributions are (C) by their respective contributors
-#
+#    Copyright (C) 2013 Therp BV (<http://therp.nl>).
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,32 +20,28 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - Payments',
-    'version': '0.1.164',
+    'name': 'IBAN - Bic not required',
+    'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': [
-        'account_banking',
-        'account_banking_payment_export',
+        'base_iban',
         ],
-    'data': [
-        'view/account_payment.xml',
-        'view/banking_transaction_wizard.xml',
-        'view/payment_mode.xml',
-        'view/payment_mode_type.xml',
-        'workflow/account_payment.xml',
-    ],
     'description': '''
-    This addon adds payment infrastructure to the Banking Addons.
+The account_iban module in OpenERP mandates the presence of a BIC
+code on an IBAN account number through a constraint. However, as of
+Februari 2012 there is a resolution from the EU that drops this requirement
+(see section 8 of [1]). This module reverts the constraint on BICs in the
+base_iban module.
 
-    * Extends payments for digital banking:
-      + Adapted workflow in payments to reflect banking operations
-      + Relies on account_payment mechanics to extend with export generators.
-      - ClieOp3 (NL) payment and direct debit orders files available as
-        account_banking_nl_clieop
+See also https://bugs.launchpad.net/openobject-addons/+bug/933472
+
+[1] http://www.europarl.europa.eu/sides/getDoc.do?pubRef=-//EP//TEXT+TA+P7-TA-2012-0037+0+DOC+XML+V0//EN&language=EN#BKMD-9
     ''',
-    'auto_install': True,
+    'data': [
+        'data/res_partner_bank_type_field.xml',
+        ],
     'installable': True,
 }

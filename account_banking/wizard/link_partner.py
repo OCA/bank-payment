@@ -22,6 +22,7 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.account_banking.wizard import banktools
+import ast
 
 class link_partner(orm.TransientModel):
     _name = 'banking.link_partner'
@@ -37,6 +38,16 @@ class link_partner(orm.TransientModel):
         'statement_line_id': fields.many2one(
             'account.bank.statement.line',
             'Statement line', required=True),
+        'amount': fields.related(
+            'statement_line_id', 'amount', type='float',
+            string="Amount", readonly=True),
+        'ref': fields.related(
+            'statement_line_id', 'ref', type='char', size=32,
+            string="Reference", readonly=True),
+        'message': fields.related(
+            'statement_line_id', 'import_transaction_id', 'message',
+            type='char', size=1024,
+            string="Message", readonly=True),
         'remote_account': fields.char(
             'Account number', size=24, readonly=True),
         # Partner values
@@ -50,6 +61,11 @@ class link_partner(orm.TransientModel):
         'phone': fields.char('Phone', size=64),
         'fax': fields.char('Fax', size=64),
         'mobile': fields.char('Mobile', size=64),
+        'is_company': fields.boolean('Is a Company'),
+        }
+    
+    _defaults = {
+        'is_company': True,
         }
     
     def create(self, cr, uid, vals, context=None):
@@ -79,9 +95,19 @@ class link_partner(orm.TransientModel):
             if 'customer' not in vals and statement_line.amount > 0:
                 vals['customer'] = True
 
-            if not vals.get('street'):
-                vals['street'] = transaction.remote_owner_address
-            if not vals.get('street'):
+            address_list = []
+            try:
+                address_list = ast.literal_eval(
+                    transaction.remote_owner_address or [])
+            except ValueError:
+                pass
+            if address_list and not vals.get('street'):
+                vals['street'] = address_list.pop(0)
+            if address_list and not vals.get('street2'):
+                vals['street2'] = address_list.pop(0)
+            if transaction.remote_owner_postalcode and not vals.get('zip'):
+                vals['zip'] = transaction.remote_owner_postalcode
+            if transaction.remote_owner_city and not vals.get('city'):
                 vals['city'] = transaction.remote_owner_city
             if not vals.get('country_id'):
                 vals['country_id'] = banktools.get_country_id(
@@ -101,10 +127,12 @@ class link_partner(orm.TransientModel):
         :param wizard: read record of wizard (with load='_classic_write')
         :param values: the dictionary of partner values that will be updated
         """
-        for field in ['name',
+        for field in ['is_company',
+                      'name',
                       'street', 
                       'street2',
                       'zip',
+                      'city',
                       'country_id',
                       'state_id',
                       'phone',
@@ -126,10 +154,7 @@ class link_partner(orm.TransientModel):
         else:
             wiz_read = self.read(
                 cr, uid, ids[0], context=context, load='_classic_write')
-            partner_fields = self.pool.get(
-                'res.partner')._columns.keys()
             partner_vals = {
-                    'is_company': True,
                     'type': 'default',
                     }
             self.update_partner_values(

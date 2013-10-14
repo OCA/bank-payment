@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2013 Therp BV (<http://therp.nl>).
 #            
 #    All other contributions are (C) by their respective contributors
 #
@@ -23,19 +22,17 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-
-
-class payment_mode_type(orm.Model):
-    _inherit = 'payment.mode.type'
-
-    _columns = {
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': 'payment',
-        }
+def migrate(cr, version):
+    if not version:
+        return
+    cr.execute(
+        """
+        UPDATE payment_line
+        SET transit_move_line_id = banking_addons_61_debit_move_line_id
+        """)
+    cr.execute(
+        """
+        ALTER TABLE "payment_line"
+        DROP COLUMN "banking_addons_61_debit_move_line_id"
+        """
+        )

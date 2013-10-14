@@ -151,8 +151,8 @@ class payment_line(orm.Model):
         if torec_move_line.reconcile_partial_id:
             line_ids = [
                 x.id for x in 
-                transit_move_line.reconcile_partial_id.line_partial_ids
-                ] + [torec_move_line.id]
+                torec_move_line.reconcile_partial_id.line_partial_ids
+                ] + [transit_move_line.id]
 
         total = move_line_obj.get_balance(cr, uid, line_ids)
         vals = {
