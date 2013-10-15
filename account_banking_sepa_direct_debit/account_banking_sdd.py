@@ -75,3 +75,88 @@ class banking_export_sdd(orm.Model):
         'generation_date': fields.date.context_today,
         'state': 'draft',
     }
+
+
+class sdd_mandate(orm.Model):
+    '''SEPA Direct Debit Mandate'''
+    _name = 'sdd.mandate'
+    _description = __doc__
+    _rec_name = 'unique_mandate_reference'
+    _order = 'signature_date desc'
+
+    _columns = {
+        'partner_bank_id': fields.many2one('res.partner.bank', 'Bank Account'),
+        'partner_id': fields.related(
+            'partner_bank_id', 'partner_id', type='many2one',
+            relation='res.partner', string='Partner', readonly=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'unique_mandate_reference': fields.char(
+            'Unique Mandate Reference', size=35, readonly=True),
+        'type': fields.selection([
+            ('recurrent', 'Recurrent'),
+            ('oneoff', 'One-Off'),
+            ], 'Type of Mandate', required=True),
+        'signature_date': fields.date('Date of Signature of the Mandate'),
+        'scan': fields.binary('Scan of the mandate'),
+        'last_debit_date': fields.date('Date of the Last Debit',
+            help="For recurrent mandates, this field is used to know if the SDD will be of type 'First' or 'Recurring'. For one-off mandates, this field is used to know if the SDD has already been used or not."),
+        'state': fields.selection([
+            ('valid', 'Valid'),
+            ('expired', 'Expired'),
+            ], 'Mandate Status',
+            help="For a recurrent mandate, this field indicate if the mandate is still valid or if it has expired (a recurrent mandate expires if it's not used during 36 months). For a one-off mandate, it expires after its first use."),
+        }
+
+    _sql_constraints = [(
+        'mandate_ref_company_uniq',
+        'unique(unique_mandate_reference, company_id)',
+        'A Mandate with the same reference already exists for this company !'
+        )]
+
+    _defaults = {
+        'company_id': lambda self, cr, uid, context: \
+            self.pool['res.users'].browse(cr, uid, uid, context=context).\
+                company_id.id,
+        'unique_mandate_reference': lambda self, cr, uid, context: \
+            self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
+        'state': 'valid',
+    }
+
+
+class res_partner_bank(orm.Model):
+    _inherit = 'res.partner.bank'
+
+    _columns = {
+        'sdd_mandate_ids': fields.one2many(
+            'sdd.mandate', 'partner_bank_id', 'SEPA Direct Debit Mandates'),
+        }
+
+
+class payment_line(orm.Model):
+    _inherit = 'payment.line'
+
+    _columns = {
+        'sdd_mandate_id': fields.many2one(
+            'sdd.mandate', 'SEPA Direct Debit Mandate'),
+        }
+
+    def _check_sdd_mandate(self, cr, uid, ids):
+        for payline in self.browse(cr, uid, ids):
+            if payline.sdd_mandate_id and not payline.bank_id:
+                raise orm.except_orm(
+                    _('Error :'),
+                    _("Missing bank account on the payment line with SEPA\
+                    Direct Debit Mandate '%s'."
+                    % payline.sdd_mandate_id.unique_mandate_reference))
+            elif payline.sdd_mandate_id and payline.bank_id and payline.sdd_mandate_id.partner_bank_id != payline.bank_id.id:
+                raise orm.except_orm(
+                    _('Error :'),
+                    _("The SEPA Direct Debit Mandate '%s' is not related??"))
+
+        return True
+
+#    _constraints = [
+#        (_check_sdd_mandate, "Mandate must be attached to bank account", ['bank_id', 'sdd_mandate_id']),
+#    ]
+
+    # TODO inherit create to select the first mandate ??
