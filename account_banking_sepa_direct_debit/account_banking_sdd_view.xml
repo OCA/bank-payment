@@ -79,5 +79,107 @@
     view_mode="tree,form"
 />
 
+<record id="sdd_mandate_form" model="ir.ui.view">
+    <field name="name">sdd.mandate.form</field>
+    <field name="model">sdd.mandate</field>
+    <field name="arch" type="xml">
+        <form string="SEPA Direct Debit Mandate" version="7.0">
+            <header>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <label string="SEPA Direct Debit Mandate"/>
+                        <field name="unique_mandate_reference" class="oe_inline"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="partner_id" invisible="not context.get('sdd_mandate_main_view', False)"/>
+                    <field name="type"/>
+                    <field name="signature_date"/>
+                    <field name="scan"/>
+                    <field name="last_debit_date"/>
+                    <field name="partner_bank_id"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="sdd_mandate_tree" model="ir.ui.view">
+    <field name="name">sdd.mandate.tree</field>
+    <field name="model">sdd.mandate</field>
+    <field name="arch" type="xml">
+        <tree string="SEPA Direct Debit Mandate" colors="blue:state=='expired'">
+            <field name="company_id" groups="base.group_multi_company"/>
+            <field name="partner_id" invisible="not context.get('sdd_mandate_main_view', False)"/>
+            <field name="unique_mandate_reference" string="Reference"/>
+            <field name="type" string="Type"/>
+            <field name="signature_date" string="Signature Date"/>
+            <field name="last_debit_date"/>
+            <field name="state" string="Status"/>
+        </tree>
+    </field>
+</record>
+
+<record id="sdd_mandate_action" model="ir.actions.act_window">
+    <field name="name">SEPA Direct Debit Mandate</field>
+    <field name="res_model">sdd.mandate</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'sdd_mandate_main_view': True}</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to create a new SEPA Direct Debit Mandate.
+        </p><p>
+        The SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.
+        </p>
+    </field>
+</record>
+
+<menuitem id="sdd_mandate_menu"
+          parent="account_banking.menu_finance_banking_actions"
+          action="sdd_mandate_action"
+          sequence="20"
+          />
+
+<record id="sdd_mandate_partner_bank_form" model="ir.ui.view">
+    <field name="name">sdd.mandate.res.partner.bank.form</field>
+    <field name="model">res.partner.bank</field>
+    <field name="inherit_id" ref="base.view_partner_bank_form"/>
+    <field name="arch" type="xml">
+        <group name="bank" position="after">
+            <group name="sdd_mandates" string="SEPA Direct Debit Mandates" colspan="4">
+                <field name="sdd_mandate_ids" context="{'default_partner_bank_id': active_id}" nolabel="1"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+<record id="sdd_mandate_partner_bank_tree" model="ir.ui.view">
+    <field name="name">sdd.mandate.res.partner.bank.tree</field>
+    <field name="model">res.partner.bank</field>
+    <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="sdd_mandate_ids" string="SDD Mandates"/>
+        </field>
+    </field>
+</record>
+
+<!-- also add number of mandates on partner form -->
+<record id="sdd_mandate_partner_form" model="ir.ui.view">
+    <field name="name">sdd.mandate.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.view_partner_property_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='bank_ids']/tree/field[@name='owner_name']" position="after">
+            <field name="sdd_mandate_ids" string="SDD Mandates"/>
+        </xpath>
+    </field>
+</record>
+
 </data>
 </openerp>

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-import company
-import wizard
-import account_banking_sdd
+from . import company
+from . import wizard
+from . import account_banking_sdd
 

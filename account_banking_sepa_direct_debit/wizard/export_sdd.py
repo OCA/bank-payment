@@ -22,10 +22,10 @@
 
 
 from openerp.osv import orm, fields
-import base64
-from datetime import datetime, timedelta
 from openerp.tools.translate import _
 from openerp import tools, netsvc
+import base64
+from datetime import datetime, timedelta
 from lxml import etree
 import logging
 
@@ -115,7 +115,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             else:
                 raise orm.except_orm(_('Error :'), _("Cannot compute the '%s'.") % field_name)
         if not isinstance(value, (str, unicode)):
-            raise orm.except_orm(_('Field type error :'), _("The '%s' is a(n) %s. It should be a string or unicode.") % (field_name, type(value)))
+            raise orm.except_orm(_('Field type error :'), _("The type of the field '%s' is %s. It should be a string or unicode.") % (field_name, type(value)))
         if not value:
             raise orm.except_orm(_('Error :'), _("The '%s' is empty or 0. It should have a non-null value.") % field_name)
         if max_size and len(value) > max_size:
@@ -175,90 +175,140 @@ class banking_export_sdd_wizard(orm.TransientModel):
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
 
-        # B. Payment info
-        payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
-        payment_info_identification_2_1 = etree.SubElement(payment_info_2_0, 'PmtInfId')
-        payment_info_identification_2_1.text = sepa_export.msg_identification
-        payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-        payment_method_2_2.text = 'DD'
-        if pain_flavor in ['pain.008.001.02', 'pain.008.001.03', 'pain.008.001.04']:
-            # batch_booking is in "Payment Info" with pain.008.001.02/03
-            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
-        # It may seem surprising, but the
-        # "SEPA Core Direct Debit Scheme Customer-to-bank Implementation guidelines"
-        # v6.0 says that control sum and nb_of_transactions should be present
-        # at both "group header" level and "payment info" level
-        if pain_flavor in ['pain.008.001.02', 'pain.008.001.03', 'pain.008.001.04']:
-            nb_of_transactions_2_4 = etree.SubElement(payment_info_2_0, 'NbOfTxs')
-            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-        payment_type_info_2_6 = etree.SubElement(payment_info_2_0, 'PmtTpInf')
-        service_level_2_8 = etree.SubElement(payment_type_info_2_6, 'SvcLvl')
-        service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-        service_level_code_2_9.text = 'SEPA'
-        local_instrument_2_11 = etree.SubElement(payment_type_info_2_6, 'LclInstrm')
-        local_instr_code_2_12 = etree.SubElement(local_instrument_2_11, 'Cd')
-        local_instr_code_2_12.text = 'CORE'
-        # TODO : 2.14 Sequence Type MANDATORY => I set it in section C (2.40)
-        # not B (2.14) so that we can have several different Sequence Types
-        # in the same XML file
-        # the Sample XML files show Seq type at C level
-        # BUT it may not be possible,
-        # 1. extract from CIC documentation :
-        # "Attention, les remises présentées devront être scindées par le créancier
-        # par type de séquence"
-        # In the guidelines, they only talk about B level
-        # If ‘Amendment Indicator’ is ‘true’,
-        # and ‘Original Debtor Agent’ is set to ‘SMNDA’,
-        # this message element must indicate ‘FRST
-        # 'FRST' = First ; 'OOFF' = One Off ; 'RCUR' : Recurring
-        # 'FNAL' = Final
-        requested_collec_date_2_18 = etree.SubElement(payment_info_2_0, 'ReqdColltnDt')
-        requested_collec_date_2_18.text = my_requested_collec_date
-        creditor_2_19 = etree.SubElement(payment_info_2_0, 'Cdtr')
-        creditor_name = etree.SubElement(creditor_2_19, 'Nm')
-        creditor_name.text = my_company_name
-        creditor_account_2_20 = etree.SubElement(payment_info_2_0, 'CdtrAcct')
-        creditor_account_id = etree.SubElement(creditor_account_2_20, 'Id')
-        creditor_account_iban = etree.SubElement(creditor_account_id, 'IBAN')
-        creditor_account_iban.text = self._validate_iban(cr, uid,
-            self._prepare_field(cr, uid, 'Company IBAN',
-                'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                sepa_export=sepa_export, context=context),
-            context=context)
-
-        creditor_agent_2_21 = etree.SubElement(payment_info_2_0, 'CdtrAgt')
-        creditor_agent_institution = etree.SubElement(creditor_agent_2_21, 'FinInstnId')
-        creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
-        creditor_agent_bic.text = self._prepare_field(cr, uid, 'Company BIC',
-            'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
-            sepa_export=sepa_export, context=context)
-
-        charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
-        charge_bearer_2_24.text = sepa_export.charge_bearer
-
-        creditor_scheme_identification_2_27 = etree.SubElement(payment_info_2_0, 'CdtrSchmeId')
-        csi_id = etree.SubElement(creditor_scheme_identification_2_27, 'Id')
-        csi_orgid = csi_id = etree.SubElement(csi_id, 'OrgId')
-        csi_other = etree.SubElement(csi_orgid, 'Othr')
-        csi_other_id = etree.SubElement(csi_other, 'Id')
-        csi_other_id.text = self._prepare_field(cr, uid,
-            'SEPA Creditor Identifier',
-            'sepa_export.payment_order_ids[0].company_id.sepa_creditor_identifier',
-            sepa_export=sepa_export, context=context)
-        csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
-        csi_scheme_name_proprietary = etree.SubElement(csi_scheme_name, 'Prtry')
-        csi_scheme_name_proprietary.text = 'SEPA'
-
-        transactions_count = 0
+        transactions_count_1_6 = 0
         total_amount = 0.0
-        amount_control_sum = 0.0
+        amount_control_sum_1_7 = 0.0
+        first_recur_lines = {}
+        # key = sequence type ; value = list of lines as objects
         # Iterate on payment orders
         for payment_order in sepa_export.payment_order_ids:
             total_amount = total_amount + payment_order.total
             # Iterate each payment lines
             for line in payment_order.line_ids:
-                transactions_count += 1
+                transactions_count_1_6 += 1
+                if not line.sdd_mandate_id:
+                    raise orm.except_orm(
+                        _('Error:'),
+                        _("Missing SEPA Direct Debit mandate on the payment line with partner '%s' and Invoice ref '%s'.")
+                        % (line.partner_id.name,
+                        line.ml_inv_ref.number))
+                if line.sdd_mandate_id.state != 'valid':
+                    raise orm.except_orm(
+                        _('Error:'),
+                        _("The SEPA Direct Debit mandate with reference '%s' for partner '%s' has expired.")
+                        % (line.sdd_mandate_id.unique_mandate_reference,
+                            line.sdd_mandate_id.partner_id.name))
+
+                if not line.sdd_mandate_id.signature_date:
+                    raise orm.except_orm(
+                        _('Error:'),
+                        _("Missing signature date on SEPA Direct Debit mandate with reference '%s' for partner '%s'.")
+                        % (line.sdd_mandate_id.unique_mandate_reference,
+                            line.sdd_mandate_id.partner_id.name))
+                elif line.sdd_mandate_id.signature_date > datetime.today().strftime('%Y-%m-%d'):
+                    raise orm.except_orm(
+                        _('Error:'),
+                        _("The signature date on SEPA Direct Debit mandate with reference '%s' for partner '%s' is '%s', which is in the future !")
+                        % (line.sdd_mandate_id.unique_mandate_reference,
+                            line.sdd_mandate_id.partner_id.name,
+                            line.sdd_mandate_id.signature_date))
+
+                if line.sdd_mandate_id.type == 'oneoff':
+                    if not line.sdd_mandate_id.last_debit_date:
+                        if first_recur_lines.get('OOFF'):
+                            first_recur_lines['OOFF'].append(line)
+                        else:
+                            first_recur_lines['OOFF'] = [line]
+                    else:
+                        raise orm.except_orm(
+                        _('Error :'),
+                        _("The mandate with reference '%s' for partner '%s' has type set to 'One-Off' and it has a last debit date set to '%s', so we can't use it.")
+                        % (line.sdd_mandate_id.unique_mandate_reference,
+                            line.sdd_mandate_id.partner_id.name,
+                            line.sdd_mandate_id.last_debit_date))
+                elif line.sdd_mandate_id.type == 'recurrent':
+                    if line.sdd_mandate_id.last_debit_date:
+                        if first_recur_lines.get('RCUR'):
+                            first_recur_lines['RCUR'].append(line)
+                        else:
+                            first_recur_lines['RCUR'] = [line]
+                    else:
+                        if first_recur_lines.get('FRST'):
+                            first_recur_lines['FRST'].append(line)
+                        else:
+                            first_recur_lines['FRST'] = [line]
+
+        for sequence_type, lines in first_recur_lines.items():
+            # B. Payment info
+            payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
+            payment_info_identification_2_1 = etree.SubElement(payment_info_2_0, 'PmtInfId')
+            payment_info_identification_2_1.text = sepa_export.msg_identification
+            payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
+            payment_method_2_2.text = 'DD'
+            # batch_booking is in "Payment Info" with pain.008.001.02/03
+            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
+            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
+            # The "SEPA Core Direct Debit Scheme Customer-to-bank
+            # Implementation guidelines" v6.0 says that control sum
+            # and nb_of_transactions should be present
+            # at both "group header" level and "payment info" level
+            nb_of_transactions_2_4 = etree.SubElement(payment_info_2_0, 'NbOfTxs')
+            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
+            payment_type_info_2_6 = etree.SubElement(payment_info_2_0, 'PmtTpInf')
+            service_level_2_8 = etree.SubElement(payment_type_info_2_6, 'SvcLvl')
+            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
+            service_level_code_2_9.text = 'SEPA'
+            local_instrument_2_11 = etree.SubElement(payment_type_info_2_6, 'LclInstrm')
+            local_instr_code_2_12 = etree.SubElement(local_instrument_2_11, 'Cd')
+            local_instr_code_2_12.text = 'CORE'
+            # 2.14 Sequence Type MANDATORY
+            # this message element must indicate ‘FRST
+            # 'FRST' = First ; 'OOFF' = One Off ; 'RCUR' : Recurring
+            # 'FNAL' = Final
+            sequence_type_2_14 = etree.SubElement(payment_type_info_2_6, 'SeqTp')
+            sequence_type_2_14.text = sequence_type
+
+            requested_collec_date_2_18 = etree.SubElement(payment_info_2_0, 'ReqdColltnDt')
+            requested_collec_date_2_18.text = my_requested_collec_date
+            creditor_2_19 = etree.SubElement(payment_info_2_0, 'Cdtr')
+            creditor_name = etree.SubElement(creditor_2_19, 'Nm')
+            creditor_name.text = my_company_name
+            creditor_account_2_20 = etree.SubElement(payment_info_2_0, 'CdtrAcct')
+            creditor_account_id = etree.SubElement(creditor_account_2_20, 'Id')
+            creditor_account_iban = etree.SubElement(creditor_account_id, 'IBAN')
+            creditor_account_iban.text = self._validate_iban(cr, uid,
+                self._prepare_field(cr, uid, 'Company IBAN',
+                    'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
+                    sepa_export=sepa_export, context=context),
+                context=context)
+
+            creditor_agent_2_21 = etree.SubElement(payment_info_2_0, 'CdtrAgt')
+            creditor_agent_institution = etree.SubElement(creditor_agent_2_21, 'FinInstnId')
+            creditor_agent_bic = etree.SubElement(creditor_agent_institution, bic_xml_tag)
+            creditor_agent_bic.text = self._prepare_field(cr, uid, 'Company BIC',
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
+                sepa_export=sepa_export, context=context)
+
+            charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
+            charge_bearer_2_24.text = sepa_export.charge_bearer
+
+            creditor_scheme_identification_2_27 = etree.SubElement(payment_info_2_0, 'CdtrSchmeId')
+            csi_id = etree.SubElement(creditor_scheme_identification_2_27, 'Id')
+            csi_orgid = csi_id = etree.SubElement(csi_id, 'OrgId')
+            csi_other = etree.SubElement(csi_orgid, 'Othr')
+            csi_other_id = etree.SubElement(csi_other, 'Id')
+            csi_other_id.text = self._prepare_field(cr, uid,
+                'SEPA Creditor Identifier',
+                'sepa_export.payment_order_ids[0].company_id.sepa_creditor_identifier',
+                sepa_export=sepa_export, context=context)
+            csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
+            csi_scheme_name_proprietary = etree.SubElement(csi_scheme_name, 'Prtry')
+            csi_scheme_name_proprietary.text = 'SEPA'
+
+            transactions_count_2_4 = 0
+            amount_control_sum_2_5 = 0.0
+            for line in lines:
+                transactions_count_2_4 += 1
                 # C. Direct Debit Transaction Info
                 dd_transaction_info_2_28 = etree.SubElement(payment_info_2_0, 'DrctDbtTxInf')
                 payment_identification_2_29 = etree.SubElement(dd_transaction_info_2_28, 'PmtId')
@@ -268,20 +318,26 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     'End to End Identification', 'line.communication', 35,
                     line=line, context=context)
                 payment_type_2_32 = etree.SubElement(dd_transaction_info_2_28, 'PmtTpInf')
-                # Sequence Type : do we have to set it at Payment Info level ?
-                #sequence_type_2_40 = etree.SubElement(payment_type_2_32, 'SeqTp')
-                #sequence_type_2_40.text = 'FRST' # TODO
                 currency_name = self._prepare_field(cr, uid, 'Currency Code',
                     'line.currency.name', 3, line=line, context=context)
                 instructed_amount_2_44 = etree.SubElement(dd_transaction_info_2_28, 'InstdAmt', Ccy=currency_name)
                 instructed_amount_2_44.text = '%.2f' % line.amount_currency
-                amount_control_sum += line.amount_currency
+                amount_control_sum_1_7 += line.amount_currency
+                amount_control_sum_2_5 += line.amount_currency
                 dd_transaction_2_46 = etree.SubElement(dd_transaction_info_2_28, 'DrctDbtTx')
                 mandate_related_info_2_47 = etree.SubElement(dd_transaction_2_46, 'MndtRltdInf')
                 mandate_identification_2_48 = etree.SubElement(mandate_related_info_2_47, 'MndtId')
-                mandate_identification_2_48.text = 'RUM1242' # TODO
-                mandate_signature_date_2_49 = etree.SubElement(mandate_related_info_2_47, 'DtOfSgntr')
-                mandate_signature_date_2_49.text = '2013-02-20' # TODO
+                mandate_identification_2_48.text = self._prepare_field(
+                    cr, uid, 'Unique Mandate Reference',
+                    'line.sdd_mandate_id.unique_mandate_reference',
+                    35, line=line, context=context)
+                mandate_signature_date_2_49 = etree.SubElement(
+                    mandate_related_info_2_47, 'DtOfSgntr')
+                mandate_signature_date_2_49.text = self._prepare_field(
+                    cr, uid, 'Mandate Signature Date',
+                    'line.sdd_mandate_id.signature_date', 10,
+                    line=line, context=context)
+
                 # TODO look at 2.50 "Amendment Indicator
                 debtor_agent_2_70 = etree.SubElement(dd_transaction_info_2_28, 'DbtrAgt')
                 debtor_agent_institution = etree.SubElement(debtor_agent_2_70, 'FinInstnId')
@@ -308,10 +364,10 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 remittance_info_unstructured_2_89.text = self._prepare_field(cr, uid,
                     'Remittance Information', 'line.communication',
                     140, line=line, context=context)
-
-        if pain_flavor in ['pain.008.001.02', 'pain.008.001.03', 'pain.008.001.04']:
-            nb_of_transactions_1_6.text = nb_of_transactions_2_4.text = str(transactions_count)
-            control_sum_1_7.text = control_sum_2_5.text = '%.2f' % amount_control_sum
+            nb_of_transactions_2_4.text = str(transactions_count_2_4)
+            control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
+        nb_of_transactions_1_6.text = str(transactions_count_1_6)
+        control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
 
 
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
@@ -345,7 +401,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'charge_bearer': sepa_export.charge_bearer,
             'requested_collec_date': sepa_export.requested_collec_date,
             'total_amount': total_amount,
-            'nb_transactions': transactions_count,
+            'nb_transactions': transactions_count_1_6,
             'file': base64.encodestring(xml_string),
             'payment_order_ids': [
                 (6, 0, [x.id for x in sepa_export.payment_order_ids])
@@ -374,13 +430,15 @@ class banking_export_sdd_wizard(orm.TransientModel):
         Cancel the SEPA Direct Debit file: just drop the file
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool.get('banking.export.sdd').unlink(cr, uid, sepa_export.file_id.id, context=context)
+        self.pool.get('banking.export.sdd').unlink(
+            cr, uid, sepa_export.file_id.id, context=context)
         return {'type': 'ir.actions.act_window_close'}
 
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''
         Save the SEPA Direct Debit file: mark all payments in the file as 'sent'.
+        Write 'last debit date' on mandate and set oneoff mandate to expired
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         sepa_file = self.pool.get('banking.export.sdd').write(cr, uid,
@@ -388,4 +446,14 @@ class banking_export_sdd_wizard(orm.TransientModel):
         wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
             wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
+            mandate_ids = [line.sdd_mandate_id.id for line in order.line_ids]
+            self.pool['sdd.mandate'].write(
+                cr, uid, mandate_ids, {
+                    'last_debit_date': datetime.today().strftime('%Y-%m-%d')
+                    },
+                context=context)
+            oneoff_mandate_ids = [line.sdd_mandate_id.id for line in order.line_ids if line.sdd_mandate_id.type == 'oneoff']
+            self.pool['sdd.mandate'].write(
+                cr, uid, oneoff_mandate_ids, {'state': 'expired'},
+                context=context)
         return {'type': 'ir.actions.act_window_close'}
