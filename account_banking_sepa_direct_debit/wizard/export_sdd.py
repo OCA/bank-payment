@@ -127,8 +127,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         '''
         Creates the SEPA Direct Debit file. That's the important code !
         '''
-        payment_order_obj = self.pool.get('payment.order')
-
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         pain_flavor = sepa_export.payment_order_ids[0].mode.type.code
@@ -441,11 +439,11 @@ class banking_export_sdd_wizard(orm.TransientModel):
         Write 'last debit date' on mandate and set oneoff mandate to expired
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        sepa_file = self.pool.get('banking.export.sdd').write(cr, uid,
+        self.pool.get('banking.export.sdd').write(cr, uid,
             sepa_export.file_id.id, {'state': 'sent'}, context=context)
         wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
+            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
             mandate_ids = [line.sdd_mandate_id.id for line in order.line_ids]
             self.pool['sdd.mandate'].write(
                 cr, uid, mandate_ids, {
