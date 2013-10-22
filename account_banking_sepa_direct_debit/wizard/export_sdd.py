@@ -28,6 +28,7 @@ import base64
 from datetime import datetime, timedelta
 from lxml import etree
 import logging
+from unidecode import unidecode
 
 _logger = logging.getLogger(__name__)
 
@@ -38,10 +39,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
     _columns = {
         'state': fields.selection([('create', 'Create'), ('finish', 'Finish')],
             'State', readonly=True),
-        'msg_identification': fields.char('Message identification', size=35,
-            # Can't set required=True on the field because it blocks
-            # the launch of the wizard -> I set it as required in the view
-            help='This is the message identification of the entire SEPA XML file. 35 characters max.'),
         'batch_booking': fields.boolean('Batch booking',
             help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
         'requested_collec_date': fields.date('Requested collection date',
@@ -72,22 +69,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         'state': 'create',
         }
 
-
-    def _check_msg_identification(self, cr, uid, ids):
-        '''Check that the msg_identification is unique'''
-        for export_sdd in self.browse(cr, uid, ids):
-            res = self.pool.get('banking.export.sdd').search(cr, uid,
-                [('msg_identification', '=', export_sdd.msg_identification)])
-            if len(res) > 1:
-                return False
-        return True
-
-
-    _constraints = [
-        (_check_msg_identification, "The field 'Message Identification' should be uniue. Another SEPA Direct Debit file already exists with the same 'Message Identification'.", ['msg_identification'])
-    ]
-
-
     def _validate_iban(self, cr, uid, iban, context=None):
         '''if IBAN is valid, returns IBAN
         if IBAN is NOT valid, raises an error message'''
@@ -95,7 +76,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
             return iban.replace(' ', '')
         else:
-            raise orm.except_orm(_('Error :'), _("This IBAN is not valid : %s") % iban)
+            raise orm.except_orm(_('Error:'), _("This IBAN is not valid : %s") % iban)
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
@@ -105,23 +86,26 @@ class banking_export_sdd_wizard(orm.TransientModel):
         return super(banking_export_sdd_wizard, self).create(cr, uid,
             vals, context=context)
 
-
-    def _prepare_field(self, cr, uid, field_name, field_value, max_size=0, sepa_export=False, line=False, context=None):
+    def _prepare_field(self, cr, uid, field_name, field_value, max_size=0, sepa_export=False, line=False, sequence_type=False, context=None):
         try:
-            value = eval(field_value)
+            # SEPA uses XML, and XML = UTF-8 with support for all characters...
+            # But we are dealing with banks
+            # and many banks don't want non-ASCCI characters !
+            # cf section 1.4 "Character set" of the SEPA Core Direct Debit
+            # Customer-to-bank implementation guidelines version 6.0
+            value = unidecode(eval(field_value))
         except:
             if line:
-                raise orm.except_orm(_('Error :'), _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.") % (field_name, self.pool['account.invoice'].name_get(cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
+                raise orm.except_orm(_('Error:'), _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.") % (field_name, self.pool['account.invoice'].name_get(cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
             else:
-                raise orm.except_orm(_('Error :'), _("Cannot compute the '%s'.") % field_name)
+                raise orm.except_orm(_('Error:'), _("Cannot compute the '%s'.") % field_name)
         if not isinstance(value, (str, unicode)):
-            raise orm.except_orm(_('Field type error :'), _("The type of the field '%s' is %s. It should be a string or unicode.") % (field_name, type(value)))
+            raise orm.except_orm(_('Field type error:'), _("The type of the field '%s' is %s. It should be a string or unicode.") % (field_name, type(value)))
         if not value:
-            raise orm.except_orm(_('Error :'), _("The '%s' is empty or 0. It should have a non-null value.") % field_name)
+            raise orm.except_orm(_('Error:'), _("The '%s' is empty or 0. It should have a non-null value.") % field_name)
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
-
 
     def create_sepa(self, cr, uid, ids, context=None):
         '''
@@ -143,7 +127,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             name_maxsize = 140
             root_xml_tag = 'CstmrDrctDbtInitn'
         else:
-            raise orm.except_orm(_('Error :'), _("Payment Type Code '%s' is not supported. The only Payment Type Code supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and 'pain.008.001.04'.") % pain_flavor)
+            raise orm.except_orm(_('Error:'), _("Payment Type Code '%s' is not supported. The only Payment Type Code supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and 'pain.008.001.04'.") % pain_flavor)
         if sepa_export.requested_collec_date:
             my_requested_collec_date = sepa_export.requested_collec_date
         else:
@@ -158,13 +142,16 @@ class banking_export_sdd_wizard(orm.TransientModel):
         pain_root = etree.SubElement(root, root_xml_tag)
 
         my_company_name = self._prepare_field(cr, uid, 'Company Name',
-           'sepa_export.payment_order_ids[0].company_id.name',
-           name_maxsize, sepa_export, context=context)
+           'sepa_export.payment_order_ids[0].company_id.partner_id.name',
+           name_maxsize, sepa_export=sepa_export, context=context)
 
         # A. Group header
         group_header_1_0 = etree.SubElement(pain_root, 'GrpHdr')
         message_identification_1_1 = etree.SubElement(group_header_1_0, 'MsgId')
-        message_identification_1_1.text = sepa_export.msg_identification
+        message_identification_1_1.text = self._prepare_field(cr, uid,
+            'Message Identification',
+            'sepa_export.payment_order_ids[0].reference', 35,
+            sepa_export=sepa_export, context=context)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(datetime.today(), '%Y-%m-%dT%H:%M:%S')
         nb_of_transactions_1_6 = etree.SubElement(group_header_1_0, 'NbOfTxs')
@@ -219,7 +206,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                             first_recur_lines['OOFF'] = [line]
                     else:
                         raise orm.except_orm(
-                        _('Error :'),
+                        _('Error:'),
                         _("The mandate with reference '%s' for partner '%s' has type set to 'One-Off' and it has a last debit date set to '%s', so we can't use it.")
                         % (line.sdd_mandate_id.unique_mandate_reference,
                             line.sdd_mandate_id.partner_id.name,
@@ -240,7 +227,11 @@ class banking_export_sdd_wizard(orm.TransientModel):
             # B. Payment info
             payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
             payment_info_identification_2_1 = etree.SubElement(payment_info_2_0, 'PmtInfId')
-            payment_info_identification_2_1.text = sepa_export.msg_identification
+            payment_info_identification_2_1.text = self._prepare_field(
+                cr, uid, 'Payment Information Identification',
+                "sequence_type + '-' + sepa_export.payment_order_ids[0].reference",
+                35, sepa_export=sepa_export, sequence_type=sequence_type,
+                context=context)
             payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
             payment_method_2_2.text = 'DD'
             # batch_booking is in "Payment Info" with pain.008.001.02/03
@@ -292,8 +283,8 @@ class banking_export_sdd_wizard(orm.TransientModel):
 
             creditor_scheme_identification_2_27 = etree.SubElement(payment_info_2_0, 'CdtrSchmeId')
             csi_id = etree.SubElement(creditor_scheme_identification_2_27, 'Id')
-            csi_orgid = csi_id = etree.SubElement(csi_id, 'OrgId')
-            csi_other = etree.SubElement(csi_orgid, 'Othr')
+            csi_privateid = csi_id = etree.SubElement(csi_id, 'PrvtId')
+            csi_other = etree.SubElement(csi_privateid, 'Othr')
             csi_other_id = etree.SubElement(csi_other, 'Id')
             csi_other_id.text = self._prepare_field(cr, uid,
                 'SEPA Creditor Identifier',
@@ -313,9 +304,8 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 # Instruction identification (2.30) is not mandatory, so we don't use it
                 end2end_identification_2_31 = etree.SubElement(payment_identification_2_29, 'EndToEndId')
                 end2end_identification_2_31.text = self._prepare_field(cr, uid,
-                    'End to End Identification', 'line.communication', 35,
+                    'End to End Identification', 'line.name', 35,
                     line=line, context=context)
-                payment_type_2_32 = etree.SubElement(dd_transaction_info_2_28, 'PmtTpInf')
                 currency_name = self._prepare_field(cr, uid, 'Currency Code',
                     'line.currency.name', 3, line=line, context=context)
                 instructed_amount_2_44 = etree.SubElement(dd_transaction_info_2_28, 'InstdAmt', Ccy=currency_name)
@@ -389,12 +379,11 @@ class banking_export_sdd_wizard(orm.TransientModel):
             _logger.warning("The XML file is invalid against the XML Schema Definition")
             _logger.warning(xml_string)
             _logger.warning(e)
-            raise orm.except_orm(_('Error :'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
+            raise orm.except_orm(_('Error:'), _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s') % str(e))
 
         # CREATE the banking.export.sepa record
         file_id = self.pool.get('banking.export.sdd').create(cr, uid,
             {
-            'msg_identification': sepa_export.msg_identification,
             'batch_booking': sepa_export.batch_booking,
             'charge_bearer': sepa_export.charge_bearer,
             'requested_collec_date': sepa_export.requested_collec_date,
@@ -422,7 +411,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
             }
         return action
 
-
     def cancel_sepa(self, cr, uid, ids, context=None):
         '''
         Cancel the SEPA Direct Debit file: just drop the file
@@ -431,7 +419,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         self.pool.get('banking.export.sdd').unlink(
             cr, uid, sepa_export.file_id.id, context=context)
         return {'type': 'ir.actions.act_window_close'}
-
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''

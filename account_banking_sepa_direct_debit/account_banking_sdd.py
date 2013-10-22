@@ -22,18 +22,19 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
+from unidecode import unidecode
 
 
 class banking_export_sdd(orm.Model):
     '''SEPA Direct Debit export'''
     _name = 'banking.export.sdd'
     _description = __doc__
-    _rec_name = 'msg_identification'
+    _rec_name = 'filename'
 
     def _generate_filename(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for sepa_file in self.browse(cr, uid, ids, context=context):
-            res[sepa_file.id] = 'sdd_' + (sepa_file.msg_identification or '') + '.xml'
+            res[sepa_file.id] = 'sdd_%s.xml' % (sepa_file.payment_order_ids[0].reference and unidecode(sepa_file.payment_order_ids[0].reference.replace('/', '-')) or 'error')
         return res
 
     _columns = {
@@ -43,13 +44,15 @@ class banking_export_sdd(orm.Model):
             'banking_export_sepa_id', 'account_order_id',
             'Payment orders',
             readonly=True),
-        'requested_collec_date': fields.date('Requested collection date', readonly=True),
-        'nb_transactions': fields.integer('Number of transactions', readonly=True),
-        'total_amount': fields.float('Total amount',
-            digits_compute=dp.get_precision('Account'), readonly=True),
-        'msg_identification': fields.char('Message identification', size=35,
+        'requested_collec_date': fields.date(
+            'Requested collection date', readonly=True),
+        'nb_transactions': fields.integer(
+            'Number of transactions', readonly=True),
+        'total_amount': fields.float(
+            'Total amount', digits_compute=dp.get_precision('Account'),
             readonly=True),
-        'batch_booking': fields.boolean('Batch booking', readonly=True,
+        'batch_booking': fields.boolean(
+            'Batch booking', readonly=True,
             help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA XML file ; if false, the bank statement will display one credit line per direct debit of the SEPA XML file."),
         'charge_bearer': fields.selection([
             ('SHAR', 'Shared'),
@@ -58,15 +61,15 @@ class banking_export_sdd(orm.Model):
             ('SLEV', 'Following service level'),
             ], 'Charge bearer', readonly=True,
             help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
-        'generation_date': fields.datetime('Generation date',
-            readonly=True),
+        'generation_date': fields.datetime('Generation date', readonly=True),
         'file': fields.binary('SEPA XML file', readonly=True),
-        'filename': fields.function(_generate_filename, type='char', size=256,
-            method=True, string='Filename', readonly=True),
+        'filename': fields.function(
+            _generate_filename, type='char', size=256,
+            string='Filename', readonly=True, store=True),
         'state': fields.selection([
-                ('draft', 'Draft'),
-                ('sent', 'Sent'),
-                ('done', 'Reconciled'),
+            ('draft', 'Draft'),
+            ('sent', 'Sent'),
+            ('done', 'Reconciled'),
             ], 'State', readonly=True),
     }
 
@@ -97,7 +100,8 @@ class sdd_mandate(orm.Model):
             ], 'Type of Mandate', required=True),
         'signature_date': fields.date('Date of Signature of the Mandate'),
         'scan': fields.binary('Scan of the mandate'),
-        'last_debit_date': fields.date('Date of the Last Debit',
+        'last_debit_date': fields.date(
+            'Date of the Last Debit',
             help="For recurrent mandates, this field is used to know if the SDD will be of type 'First' or 'Recurring'. For one-off mandates, this field is used to know if the SDD has already been used or not."),
         'state': fields.selection([
             ('valid', 'Valid'),
@@ -113,10 +117,10 @@ class sdd_mandate(orm.Model):
         )]
 
     _defaults = {
-        'company_id': lambda self, cr, uid, context: \
+        'company_id': lambda self, cr, uid, context:
             self.pool['res.users'].browse(cr, uid, uid, context=context).\
                 company_id.id,
-        'unique_mandate_reference': lambda self, cr, uid, context: \
+        'unique_mandate_reference': lambda self, cr, uid, context:
             self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
         'state': 'valid',
     }
@@ -143,15 +147,13 @@ class payment_line(orm.Model):
         for payline in self.browse(cr, uid, ids):
             if payline.sdd_mandate_id and not payline.bank_id:
                 raise orm.except_orm(
-                    _('Error :'),
-                    _("Missing bank account on the payment line with SEPA\
-                    Direct Debit Mandate '%s'."
-                    % payline.sdd_mandate_id.unique_mandate_reference))
+                    _('Error:'),
+                    _("Missing bank account on the payment line with SEPA Direct Debit Mandate '%s'.")
+                    % payline.sdd_mandate_id.unique_mandate_reference)
             elif payline.sdd_mandate_id and payline.bank_id and payline.sdd_mandate_id.partner_bank_id != payline.bank_id.id:
                 raise orm.except_orm(
-                    _('Error :'),
+                    _('Error:'),
                     _("The SEPA Direct Debit Mandate '%s' is not related??"))
-
         return True
 
 #    _constraints = [
