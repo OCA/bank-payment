@@ -18,8 +18,6 @@
                 <field name="batch_booking" />
                 <field name="requested_collec_date" />
                 <field name="charge_bearer" />
-                <separator colspan="4" string="Reference for further communication" />
-                <field name="msg_identification" required="True" />
             </group>
             <group states="finish">
                 <field name="total_amount" />

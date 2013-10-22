@@ -14,7 +14,6 @@
         <form string="SEPA Direct Debit">
             <notebook>
                 <page string="General Information">
-                    <field name="msg_identification" />
                     <field name="total_amount" />
                     <field name="nb_transactions" />
                     <field name="requested_collec_date" />
@@ -47,7 +46,7 @@
     <field name="model">banking.export.sdd</field>
     <field name="arch" type="xml">
         <tree string="SEPA Direct Debit">
-            <field name="msg_identification"/>
+            <field name="filename"/>
             <field name="requested_collec_date"/>
             <field name="generation_date"/>
             <field name="nb_transactions"/>

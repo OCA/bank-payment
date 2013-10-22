@@ -23,4 +23,3 @@
 from . import company
 from . import wizard
 from . import account_banking_sdd
-
