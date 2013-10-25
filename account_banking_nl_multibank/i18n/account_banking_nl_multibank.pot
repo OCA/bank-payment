@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.7\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-01-08 15:50:45+0000\n"
-"PO-Revision-Date: 2010-01-08 15:50:45+0000\n"
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-25 15:56+0000\n"
+"PO-Revision-Date: 2013-10-25 15:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,33 +16,24 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_nl_multibank
-#: code:addons/account_banking_nl_multibank/multibank.py:0
+#: code:addons/account_banking_nl_multibank/multibank.py:292
 #, python-format
-msgid "''\\n"
-"The Dutch Banking Tools format is basicly a MS Excel CSV format.\n"
+msgid "The Dutch Banking Tools format is basicly a MS Excel CSV format.\n"
 "There are two sub formats: MS Excel format and MS-Excel 2004 format.\n"
 "Both formats are covered with this parser. All transactions are tied\n"
 "to Bank Statements.\n"
-"''"
+""
 msgstr ""
 
 #. module: account_banking_nl_multibank
-#: model:ir.module.module,shortdesc:account_banking_nl_multibank.module_meta_information
-msgid "Account Banking"
-msgstr ""
-
-#. module: account_banking_nl_multibank
-#: model:ir.module.module,description:account_banking_nl_multibank.module_meta_information
-msgid "\n"
-"    Module to import Dutch Multibank format transation files.\n"
-"\n"
-"    This modules contains no logic, just an import filter for account_banking.\n"
-"    "
-msgstr ""
-
-#. module: account_banking_nl_multibank
-#: code:addons/account_banking_nl_multibank/multibank.py:0
+#: code:addons/account_banking_nl_multibank/multibank.py:291
 #, python-format
 msgid "Dutch Banking Tools"
+msgstr ""
+
+#. module: account_banking_nl_multibank
+#: code:addons/account_banking_nl_multibank/multibank.py:77
+#, python-format
+msgid "Invalid transaction line: expected %d columns, found %d"
 msgstr ""
 
