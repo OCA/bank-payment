@@ -107,7 +107,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         my_company_name = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name
-        my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.iban, context=context)
+        my_company_iban = self._validate_iban(cr, uid, sepa_export.payment_order_ids[0].mode.bank_id.acc_number, context=context)
         my_company_bic = sepa_export.payment_order_ids[0].mode.bank_id.bank.bic
         #my_company_country_code = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].country_id.code
         #my_company_city = sepa_export.payment_order_ids[0].mode.bank_id.partner_id.address[0].city
@@ -260,7 +260,7 @@ class banking_export_sepa_wizard(osv.osv_memory):
                 creditor_account = etree.SubElement(credit_transfer_transaction_info, 'CdtrAcct')
                 creditor_account_id = etree.SubElement(creditor_account, 'Id')
                 creditor_account_iban = etree.SubElement(creditor_account_id, 'IBAN')
-                creditor_account_iban.text = self._validate_iban(cr, uid, line.bank_id.iban, context=context)
+                creditor_account_iban.text = self._validate_iban(cr, uid, line.bank_id.acc_number, context=context)
                 remittance_info = etree.SubElement(credit_transfer_transaction_info, 'RmtInf')
                 # switch to Structured (Strdr) ? If we do it, beware that the format is not the same between pain 02 and pain 03
                 remittance_info_unstructured = etree.SubElement(remittance_info, 'Ustrd')
@@ -280,7 +280,8 @@ class banking_export_sepa_wizard(osv.osv_memory):
         official_pain_schema = etree.XMLSchema(etree.parse(tools.file_open('account_banking_sepa_credit_transfer/data/%s.xsd' % pain_flavor)))
 
         try:
-            official_pain_schema.validate(root)
+            root_to_validate = etree.fromstring(xml_string)
+            official_pain_schema.assertValid(root_to_validate)
         except Exception, e:
             _logger.warning("The XML file is invalid against the XML Schema Definition")
             _logger.warning(xml_string)
