@@ -6,7 +6,7 @@
             <field name="type">form</field>
             <field name="model">banking.link_partner</field>
             <field name="arch" type="xml">
-                <form string="Link partner">
+                <form string="Link partner" version="7.0" >
                     <group colspan="4" col="6" string="Transaction data">
                         <field name="ref" />
                         <field name="amount" />
@@ -40,15 +40,20 @@
                             <field name="email" widget="email"/>
                         </group>
                     </group>
-                    <button icon="gtk-cancel" string="Cancel" special="cancel" />
-                    <button icon="gtk-ok" string="Create partner"
-                            name="link_partner" type="object"
-                            attrs="{'invisible': [('partner_id', '!=', False)]}"
-                            />
-                    <button icon="gtk-ok" string="Link existing partner"
-                            name="link_partner" type="object"
-                            attrs="{'invisible': [('partner_id', '==', False)]}"
-                            />
+                    <footer>
+                        <button string="Create partner"
+                                name="link_partner" type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('partner_id', '!=', False)]}"
+                                />
+                        <button string="Link existing partner"
+                                class="oe_highlight"
+                                name="link_partner" type="object"
+                                attrs="{'invisible': [('partner_id', '==', False)]}"
+                                />
+                         or
+                        <button class="oe_link" string="Cancel" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>

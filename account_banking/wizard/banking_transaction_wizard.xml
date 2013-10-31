@@ -5,7 +5,7 @@
             <field name="name">transaction.wizard.first</field>
             <field name="model">banking.transaction.wizard</field>
             <field name="arch" type="xml">
-                <form string="Match transaction">
+                <form string="Match transaction"  version="7.0">
                     <!-- fields used for form logic -->
                     <field name="statement_line_parent_id" invisible="True"/>
                     <field name="invoice_ids" invisible="True"/>
@@ -52,12 +52,6 @@
                                        />
                                 <field name='analytic_account_id' />
                             </group>
-                            <button colspan="1"
-                                    name="trigger_write"
-                                    type="object"
-                                    attrs="{'invisible': [('match_multi', '=', False)]}"
-                                    string="Select"/>
-                            <newline/>
 
                             <!-- residual and write off -->
                             
@@ -78,10 +72,7 @@
                             <page string="Match again">
                                 <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
                                 <newline/>                           
-                                <button colspan="1"
-                                        name="trigger_match"
-                                        type="object"
-                                        string="Match again"/>
+                                
                             </page>
                             <!-- Manual selection -->
                             <page string="Manual match">
@@ -91,9 +82,6 @@
                                 <field name="manual_move_line_ids" colspan="4"
                                        context="{'search_default_partner_id': partner_id}"
                                        />
-                                <button name="trigger_write"
-                                        type="object"
-                                        string="Match" />
                             </page>
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
@@ -101,10 +89,6 @@
                                     <field name="payment_option" />
                                     <field name="writeoff_account_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
                                     <field name="writeoff_analytic_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
-                                    <button colspan="1"
-                                            name="trigger_write"
-                                            type="object"
-                                            string="Set write-off account"/>
                                 </group>                                
                             </page>
                             <page string="Disable reconciliation" attrs="{'invisible': [('match_type', '==', False)]}">
@@ -118,10 +102,19 @@
                                 </group>
                             </page>
                         </notebook>
-                        <group colspan="2">
-                            <separator/>
-                            <button icon="gtk-ok" string="Close" special="cancel"/>
-                        </group>
+                        
+                        <footer>
+                            <button colspan="1"
+                                name="trigger_match"
+                                type="object"
+                                string="Match again"/>
+                            <button name="trigger_write"
+                                type="object"
+                                class="oe_highlight"
+                                string="Match" />
+                            or
+                            <button string="Close" special="cancel" class="oe_link"/>
+                        </footer>
                     </group>
                 </form>
             </field>

@@ -247,6 +247,7 @@ class account_banking_imported_file(orm.Model):
         'file': fields.binary('Raw Data', readonly=True,
                               states={'draft': [('readonly', False)]}
                              ),
+        'file_name': fields.char('File name', size=256),
         'log': fields.text('Import Log', readonly=True,
                            states={'draft': [('readonly', False)]}
                           ),
