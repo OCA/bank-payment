@@ -59,9 +59,9 @@ class banking_export_sepa(orm.Model):
             help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
         'charge_bearer': fields.selection([
             ('SHAR', 'Shared'),
-            ('CRED', 'Borne by creditor'),
-            ('DEBT', 'Borne by debtor'),
-            ('SLEV', 'Following service level'),
+            ('CRED', 'Borne by Creditor'),
+            ('DEBT', 'Borne by Debtor'),
+            ('SLEV', 'Following Service Level'),
             ], 'Charge Bearer', readonly=True,
             help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
         'generation_date': fields.datetime(
