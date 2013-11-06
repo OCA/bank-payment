@@ -18,17 +18,10 @@
                 <field name="batch_booking" />
                 <field name="prefered_exec_date" />
                 <field name="charge_bearer" />
-                <separator colspan="4" string="Reference for further communication" />
-                <field name="msg_identification" required="True" />
             </group>
             <group states="finish">
                 <field name="total_amount" />
-                <!-- Don't display this field, to avoid this bug :
-                https://bugs.launchpad.net/openobject-client-web/+bug/718989
-                Bug desc : in the Gtk client, you have to clic twice on the
-                "Create" button.
-                <field name="nb_transactions" /> -->
-            <!--    <field name="file_id" /> -->
+                <field name="nb_transactions" />
                 <field name="file" filename="filename" />
                 <field name="filename" invisible="True"/>
             </group>
