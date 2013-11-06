@@ -11,10 +11,9 @@
     <field name="name">banking.export.sepa.wizard.view</field>
     <field name="model">banking.export.sepa.wizard</field>
     <field name="arch" type="xml">
-        <form string="SEPA XML file generation" version="7.0">
+        <form string="SEPA File Generation" version="7.0">
             <field name="state" invisible="True"/>
             <group states="create">
-                <separator colspan="4" string="Processing details" />
                 <field name="batch_booking" />
                 <field name="prefered_exec_date" />
                 <field name="charge_bearer" />

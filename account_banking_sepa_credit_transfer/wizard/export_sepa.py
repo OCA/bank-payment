@@ -51,9 +51,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
             help='This is the date on which the file should be processed by the bank. Please keep in mind that banks only execute on working days and typically use a delay of two days between execution date and effective transfer date.'),
         'charge_bearer': fields.selection([
             ('SHAR', 'Shared'),
-            ('CRED', 'Borne by creditor'),
-            ('DEBT', 'Borne by debtor'),
-            ('SLEV', 'Following service level'),
+            ('CRED', 'Borne by Creditor'),
+            ('DEBT', 'Borne by Debtor'),
+            ('SLEV', 'Following Service Level'),
             ], 'Charge Bearer', required=True,
             help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
         'nb_transactions': fields.related(
@@ -87,7 +87,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             return iban.replace(' ', '')
         else:
             raise orm.except_orm(
-                _('Error :'), _("This IBAN is not valid : %s") % iban)
+                _('Error:'), _("This IBAN is not valid : %s") % iban)
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
@@ -167,7 +167,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             _logger.warning(xml_string)
             _logger.warning(e)
             raise orm.except_orm(
-                _('Error :'),
+                _('Error:'),
                 _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s')
                 % str(e))
         return True
@@ -205,7 +205,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
         else:
             raise orm.except_orm(
-                _('Error :'),
+                _('Error:'),
                 _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'.")
                 % pain_flavor)
         if sepa_export.prefered_exec_date:
@@ -349,7 +349,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     creditor_agent_2_77, 'FinInstnId')
                 if not line.bank_id:
                     raise orm.except_orm(
-                        _('Error :'),
+                        _('Error:'),
                         _("Missing Bank Account on invoice '%s' (payment order line reference '%s').")
                         % (line.ml_inv_ref.number, line.name))
                 creditor_agent_bic = etree.SubElement(
