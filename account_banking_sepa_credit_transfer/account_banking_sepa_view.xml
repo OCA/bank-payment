@@ -14,7 +14,6 @@
         <form string="SEPA Credit Transfer">
             <notebook>
                 <page string="General Information">
-                    <field name="msg_identification" select="1" />
                     <field name="total_amount" />
                     <field name="nb_transactions" />
                     <field name="prefered_exec_date" />
@@ -47,7 +46,7 @@
     <field name="model">banking.export.sepa</field>
     <field name="arch" type="xml">
         <tree string="SEPA Credit Transfer">
-            <field name="msg_identification"/>
+            <field name="filename"/>
             <field name="prefered_exec_date"/>
             <field name="generation_date"/>
             <field name="nb_transactions"/>
