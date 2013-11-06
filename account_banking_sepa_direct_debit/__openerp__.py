@@ -27,6 +27,9 @@
     'website': 'http://www.akretion.com',
     'category': 'Banking addons',
     'depends': ['account_direct_debit'],
+    'external_dependencies': {
+        'python': ['unidecode', 'lxml'],
+        },
     'data': [
         'account_banking_sdd_view.xml',
         'account_payment_view.xml',
