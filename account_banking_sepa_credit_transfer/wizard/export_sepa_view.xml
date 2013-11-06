@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2010-2012 Akretion (http://www.akretion.com)
+  Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
@@ -11,24 +11,16 @@
     <field name="name">banking.export.sepa.wizard.view</field>
     <field name="model">banking.export.sepa.wizard</field>
     <field name="arch" type="xml">
-        <form string="SEPA XML file generation" version="7.0">
+        <form string="SEPA File Generation" version="7.0">
             <field name="state" invisible="True"/>
             <group states="create">
-                <separator colspan="4" string="Processing details" />
                 <field name="batch_booking" />
                 <field name="prefered_exec_date" />
                 <field name="charge_bearer" />
-                <separator colspan="4" string="Reference for further communication" />
-                <field name="msg_identification" required="True" />
             </group>
             <group states="finish">
                 <field name="total_amount" />
-                <!-- Don't display this field, to avoid this bug :
-                https://bugs.launchpad.net/openobject-client-web/+bug/718989
-                Bug desc : in the Gtk client, you have to clic twice on the
-                "Create" button.
-                <field name="nb_transactions" /> -->
-            <!--    <field name="file_id" /> -->
+                <field name="nb_transactions" />
                 <field name="file" filename="filename" />
                 <field name="filename" invisible="True"/>
             </group>
