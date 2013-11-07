@@ -14,7 +14,6 @@
         <form string="SEPA Direct Debit XML file generation" version="7.0">
             <field name="state" invisible="True"/>
             <group states="create">
-                <separator colspan="4" string="Processing details" />
                 <field name="batch_booking" />
                 <field name="requested_collec_date" />
                 <field name="charge_bearer" />
