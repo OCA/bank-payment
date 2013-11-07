@@ -5,7 +5,7 @@
 
 <!-- TODO In the suitable_bank_types field, we should add l10n_fr_rib via a small stupid module -->
 <record id="export_sdd_008_001_02" model="payment.mode.type">
-    <field name="name">SEPA Direct Debit v02</field>
+    <field name="name">SEPA Direct Debit v02 (recommended)</field>
     <field name="code">pain.008.001.02</field>
     <field name="suitable_bank_types"
         eval="[(6,0,[ref('base_iban.bank_iban')])]" />

@@ -34,7 +34,12 @@ class banking_export_sdd(orm.Model):
     def _generate_filename(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for sepa_file in self.browse(cr, uid, ids, context=context):
-            res[sepa_file.id] = 'sdd_%s.xml' % (sepa_file.payment_order_ids[0].reference and unidecode(sepa_file.payment_order_ids[0].reference.replace('/', '-')) or 'error')
+            ref = sepa_file.payment_order_ids[0].reference
+            if ref:
+                label = unidecode(ref.replace('/', '-'))
+            else:
+                label = 'error'
+            res[sepa_file.id] = 'sdd_%s.xml' % label
         return res
 
     _columns = {
@@ -42,27 +47,27 @@ class banking_export_sdd(orm.Model):
             'payment.order',
             'account_payment_order_sdd_rel',
             'banking_export_sepa_id', 'account_order_id',
-            'Payment orders',
+            'Payment Orders',
             readonly=True),
         'requested_collec_date': fields.date(
-            'Requested collection date', readonly=True),
+            'Requested Collection Date', readonly=True),
         'nb_transactions': fields.integer(
-            'Number of transactions', readonly=True),
+            'Number of Transactions', readonly=True),
         'total_amount': fields.float(
-            'Total amount', digits_compute=dp.get_precision('Account'),
+            'Total Amount', digits_compute=dp.get_precision('Account'),
             readonly=True),
         'batch_booking': fields.boolean(
-            'Batch booking', readonly=True,
+            'Batch Booking', readonly=True,
             help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA XML file ; if false, the bank statement will display one credit line per direct debit of the SEPA XML file."),
         'charge_bearer': fields.selection([
             ('SHAR', 'Shared'),
-            ('CRED', 'Borne by creditor'),
-            ('DEBT', 'Borne by debtor'),
-            ('SLEV', 'Following service level'),
-            ], 'Charge bearer', readonly=True,
+            ('CRED', 'Borne by Creditor'),
+            ('DEBT', 'Borne by Debtor'),
+            ('SLEV', 'Following Service Level'),
+            ], 'Charge Bearer', readonly=True,
             help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
-        'generation_date': fields.datetime('Generation date', readonly=True),
-        'file': fields.binary('SEPA XML file', readonly=True),
+        'create_date': fields.datetime('Generation Date', readonly=True),
+        'file': fields.binary('SEPA XML File', readonly=True),
         'filename': fields.function(
             _generate_filename, type='char', size=256,
             string='Filename', readonly=True, store=True),
@@ -74,7 +79,6 @@ class banking_export_sdd(orm.Model):
     }
 
     _defaults = {
-        'generation_date': fields.date.context_today,
         'state': 'draft',
     }
 
@@ -117,10 +121,9 @@ class sdd_mandate(orm.Model):
         )]
 
     _defaults = {
-        'company_id': lambda self, cr, uid, context:
-            self.pool['res.users'].browse(cr, uid, uid, context=context).\
-                company_id.id,
-        'unique_mandate_reference': lambda self, cr, uid, context:
+        'company_id': lambda self, cr, uid, ctx:
+            self.pool['res.users'].browse(cr, uid, uid, ctx=ctx).company_id.id,
+        'unique_mandate_reference': lambda self, cr, uid, ctx:
             self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
         'state': 'valid',
     }
@@ -150,10 +153,12 @@ class payment_line(orm.Model):
                     _('Error:'),
                     _("Missing bank account on the payment line with SEPA Direct Debit Mandate '%s'.")
                     % payline.sdd_mandate_id.unique_mandate_reference)
-            elif payline.sdd_mandate_id and payline.bank_id and payline.sdd_mandate_id.partner_bank_id != payline.bank_id.id:
+            elif (payline.sdd_mandate_id and payline.bank_id and
+                    payline.sdd_mandate_id.partner_bank_id !=
+                    payline.bank_id.id):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The SEPA Direct Debit Mandate '%s' is not related??"))
+                    _("The SEPA Direct Debit Mandate '%s' is not related???"))
         return True
 
 #    _constraints = [
