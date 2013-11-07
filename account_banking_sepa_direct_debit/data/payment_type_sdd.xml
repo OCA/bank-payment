@@ -10,7 +10,7 @@
     <field name="suitable_bank_types"
         eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
-    <field name="payment_order_type">payment</field>
+    <field name="payment_order_type">debit</field>
 </record>
 
 <record id="export_sdd_008_001_03" model="payment.mode.type">
@@ -19,7 +19,7 @@
     <field name="suitable_bank_types"
         eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
-    <field name="payment_order_type">payment</field>
+    <field name="payment_order_type">debit</field>
 </record>
 
 <record id="export_sdd_008_001_04" model="payment.mode.type">
@@ -28,7 +28,7 @@
     <field name="suitable_bank_types"
         eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
-    <field name="payment_order_type">payment</field>
+    <field name="payment_order_type">debit</field>
 </record>
 
 
