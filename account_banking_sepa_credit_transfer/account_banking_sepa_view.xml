@@ -19,7 +19,7 @@
                     <field name="prefered_exec_date" />
                     <field name="batch_booking" />
                     <field name="charge_bearer"/>
-                    <field name="generation_date" />
+                    <field name="create_date" />
                     <newline />
                     <field name="file" filename="filename"/>
                     <field name="filename" invisible="True"/>
@@ -48,7 +48,7 @@
         <tree string="SEPA Credit Transfer">
             <field name="filename"/>
             <field name="prefered_exec_date"/>
-            <field name="generation_date"/>
+            <field name="create_date"/>
             <field name="nb_transactions"/>
         </tree>
     </field>

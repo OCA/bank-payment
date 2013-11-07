@@ -35,7 +35,7 @@ class banking_export_sepa(orm.Model):
         for sepa_file in self.browse(cr, uid, ids, context=context):
             ref = sepa_file.payment_order_ids[0].reference
             if ref:
-                label = ref.replace('/', '-')
+                label = unidecode(ref.replace('/', '-'))
             else:
                 label = 'error'
             res[sepa_file.id] = 'sct_%s.xml' % label
@@ -64,8 +64,7 @@ class banking_export_sepa(orm.Model):
             ('SLEV', 'Following Service Level'),
             ], 'Charge Bearer', readonly=True,
             help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
-        'generation_date': fields.datetime(
-            'Generation Date', readonly=True),
+        'create_date': fields.datetime('Generation Date', readonly=True),
         'file': fields.binary('SEPA XML File', readonly=True),
         'filename': fields.function(
             _generate_filename, type='char', size=256, string='Filename',
@@ -78,6 +77,5 @@ class banking_export_sepa(orm.Model):
     }
 
     _defaults = {
-        'generation_date': fields.date.context_today,
         'state': 'draft',
     }

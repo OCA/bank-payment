@@ -36,7 +36,7 @@ _logger = logging.getLogger(__name__)
 
 class banking_export_sepa_wizard(orm.TransientModel):
     _name = 'banking.export.sepa.wizard'
-    _description = 'Export SEPA Credit Transfer XML file'
+    _description = 'Export SEPA Credit Transfer File'
 
     _columns = {
         'state': fields.selection([
@@ -418,7 +418,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             }, context=context)
 
         action = {
-            'name': 'SEPA Credit Transfer XML',
+            'name': 'SEPA Credit Transfer File',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form,tree',
