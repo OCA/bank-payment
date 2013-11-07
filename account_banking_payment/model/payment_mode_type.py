@@ -27,30 +27,9 @@ from openerp.osv import orm, fields
 
 
 class payment_mode_type(orm.Model):
-    _name = 'payment.mode.type'
-    _description = 'Payment Mode Type'
+    _inherit = 'payment.mode.type'
+
     _columns = {
-        'name': fields.char(
-            'Name', size=64, required=True,
-            help='Payment Type'
-            ),
-        'code': fields.char(
-            'Code', size=64, required=True,
-            help='Specify the Code for Payment Type'
-            ),
-        # Setting suitable_bank_types to required pending
-        # https://bugs.launchpad.net/openobject-addons/+bug/786845
-        'suitable_bank_types': fields.many2many(
-            'res.partner.bank.type',
-            'bank_type_payment_type_rel',
-            'pay_type_id','bank_type_id',
-            'Suitable bank types', required=True),
-        'ir_model_id': fields.many2one(
-            'ir.model', 'Payment wizard',
-            help=('Select the Payment Wizard for payments of this type. '
-                  'Leave empty for manual processing'),
-            domain=[('osv_memory', '=', True)],
-            ),
         'payment_order_type': fields.selection(
             [('payment', 'Payment'),('debit', 'Direct debit')],
             'Payment order type', required=True,

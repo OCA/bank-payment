@@ -2,29 +2,14 @@
 <openerp>
     <data>
 
-        <record id="view_payment_mode_tree_inherit" model="ir.ui.view">
-            <field name="name">payment.mode.tree.inherit</field>
-            <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_payment.view_payment_mode_tree"/>
-            <field name="arch" type="xml">
-                <field name="company_id" position="after">
-                    <field name="type"/>
-                </field>
-            </field>
-        </record>
-
-	<!-- basic view for payment mode type -->
-        <record model="ir.ui.view" id="view_payment_mode_type_form">
+        <record model="ir.ui.view" id="view_payment_mode_type_form_inherit">
             <field name="name">view.payment.mode.type.form</field>
             <field name="model">payment.mode.type</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form"/>
             <field name="arch" type="xml">
-                <form string="Payment mode">
-		    <field name="name" />
-		    <field name="code" />
-		    <field name="suitable_bank_types"/>
-		    <field name="payment_order_type"/>
-		    <field name="ir_model_id"/>
-                </form>
+                <field name="suitable_bank_types" position="after">    
+                    <field name="payment_order_type"/>
+                </field>
             </field>
         </record>
 

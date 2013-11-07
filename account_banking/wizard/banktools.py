@@ -97,8 +97,11 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
     TODO: revive the search by lines from the address argument
     '''
     partner_obj = pool.get('res.partner')
-    partner_ids = partner_obj.search(cr, uid, [('name', 'ilike', name)],
-                                     context=context)
+    partner_ids = partner_obj.search(
+        cr, uid, [
+            '|', ('is_company', '=', True), ('parent_id', '=', False),
+            ('name', 'ilike', name),
+            ], context=context)
     if not partner_ids:
         # Try brute search on address and then match reverse
         criteria = []
@@ -118,11 +121,11 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
         key = name.lower()
         partners = []
         for partner in partner_obj.read(
-            cr, uid, partner_search_ids, ['name'], context=context):
+            cr, uid, partner_search_ids, ['name', 'commercial_partner_id'], context=context):
             if (len(partner['name']) > 3 and partner['name'].lower() in key):
                 partners.append(partner)
         partners.sort(key=lambda x: len(x['name']), reverse=True)
-        partner_ids = [x['id'] for x in partners]
+        partner_ids = [x['commercial_partner_id'][0] for x in partners]
     if len(partner_ids) > 1:
         log.append(
             _('More than one possible match found for partner with '

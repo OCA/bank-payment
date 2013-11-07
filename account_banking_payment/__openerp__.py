@@ -32,17 +32,14 @@
     'category': 'Banking addons',
     'depends': [
         'account_banking',
-        'account_payment',
+        'account_banking_payment_export',
         ],
     'data': [
         'view/account_payment.xml',
         'view/banking_transaction_wizard.xml',
         'view/payment_mode.xml',
         'view/payment_mode_type.xml',
-        'view/bank_payment_manual.xml',
-        'data/payment_mode_type.xml',
         'workflow/account_payment.xml',
-        'security/ir.model.access.csv',
     ],
     'description': '''
     This addon adds payment infrastructure to the Banking Addons.

@@ -22,6 +22,9 @@
 #
 ##############################################################################
 
+import logging
+logger = logging.getLogger()
+
 def rename_columns(cr, column_spec):
     """
     Rename table columns. Taken from OpenUpgrade.
@@ -41,17 +44,8 @@ def migrate(cr, version):
     if not version:
         return
 
-    # workflow state moved to another module
-    cr.execute(
-        """
-        UPDATE ir_model_data 
-        SET module = 'account_banking_payment'
-        WHERE name = 'trans_done_sent'
-        AND module = 'account_direct_debit'
-        """)
-
     # rename field debit_move_line_id
     rename_columns(cr, {
             'payment_line': [
-                ('debit_move_line_id', 'transit_move_line_id'),
+                ('debit_move_line_id', 'banking_addons_61_debit_move_line_id'),
                 ]})

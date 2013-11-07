@@ -27,28 +27,9 @@ from openerp.osv import orm, fields
 
 
 class payment_mode(orm.Model):
-    ''' Restoring the payment type from version 5,
-    used to select the export wizard (if any) '''
     _inherit = "payment.mode"
 
-    def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):
-        """ Reinstates functional code for suitable bank type filtering.
-        Current code in account_payment is disfunctional.
-        """
-        res = []
-        payment_mode = self.browse(
-            cr, uid, payment_mode_id, context)
-        if (payment_mode and payment_mode.type and
-            payment_mode.type.suitable_bank_types):
-            res = [type.code for type in payment_mode.type.suitable_bank_types]
-        return res
-
     _columns = {
-        'type': fields.many2one(
-            'payment.mode.type', 'Payment type',
-            required=True,
-            help='Select the Payment Type for the Payment Mode.'
-            ),
         'transfer_account_id': fields.many2one(
             'account.account', 'Transfer account',
             domain=[('type', '=', 'other'),
