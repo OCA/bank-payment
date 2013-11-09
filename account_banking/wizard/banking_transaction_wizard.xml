@@ -52,6 +52,12 @@
                                        />
                                 <field name='analytic_account_id' />
                             </group>
+                            <button colspan="1"
+                                    name="trigger_write"
+                                    type="object"
+                                    attrs="{'invisible': [('match_multi', '=', False)]}"
+                                    string="Select"/>
+                            <newline/>
 
                             <!-- residual and write off -->
                             
@@ -72,16 +78,24 @@
                             <page string="Match again">
                                 <label string="You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."  colspan="2"/>
                                 <newline/>                           
-                                
+                                <button colspan="1"
+                                        name="trigger_match"
+                                        type="object"
+                                        string="Match again"/>
                             </page>
                             <!-- Manual selection -->
                             <page string="Manual match">
+                                <separator string="Match one or more invoices" colspan="4"/>
                                 <field name="manual_invoice_ids" colspan="4"
                                        context="{'search_default_partner_id': partner_id}"
                                        />
+                                <separator string="Or match one or more entries" colspan="4"/>
                                 <field name="manual_move_line_ids" colspan="4"
                                        context="{'search_default_partner_id': partner_id}"
                                        />
+                                <button name="trigger_write"
+                                        type="object"
+                                        string="Match" />
                             </page>
                             <page string="Write-Off" attrs="{'invisible': [('match_type', '=', False)]}">
                                 <group colspan="2" col="2">
@@ -89,6 +103,10 @@
                                     <field name="payment_option" />
                                     <field name="writeoff_account_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
                                     <field name="writeoff_analytic_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
+                                    <button colspan="1"
+                                            name="trigger_write"
+                                            type="object"
+                                            string="Set write-off account"/>
                                 </group>                                
                             </page>
                             <page string="Disable reconciliation" attrs="{'invisible': [('match_type', '==', False)]}">
@@ -102,18 +120,8 @@
                                 </group>
                             </page>
                         </notebook>
-                        
                         <footer>
-                            <button colspan="1"
-                                name="trigger_match"
-                                type="object"
-                                string="Match again"/>
-                            <button name="trigger_write"
-                                type="object"
-                                class="oe_highlight"
-                                string="Match" />
-                            or
-                            <button string="Close" special="cancel" class="oe_link"/>
+                            <button icon="gtk-ok" string="Close" special="cancel"/>
                         </footer>
                     </group>
                 </form>

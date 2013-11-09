@@ -12,23 +12,26 @@
                 </field>
                 <xpath expr="//group/separator[@string='Multiple matches']/.."
                        position="after">
-                    <field name='payment_line_id'
-                           attrs="{'invisible': [('match_type', 'not in', 
-                                       ('storno', 'payment', 'payment_manual'))]}"
-                           />
+                       <group>
+                           <field name='payment_line_id'
+                               attrs="{'invisible': [('match_type', 'not in',
+                               ('storno', 'payment', 'payment_manual'))]}" />
+                       </group>
                 </xpath>
                 <field name="move_line_id" position="after">
-                    <field name='payment_order_id'
-                           attrs="{'readonly': [('match_multi', '=', False)],
-                                   'invisible': [('match_type', 'not in', 
-                                       ('payment_order', 'payment_order_manual'))]
-                                  }"
-                           domain="[('id', 'in', payment_order_ids[0][2])]"
-                           />
+                    <group>
+                        <field name='payment_order_id'
+                            attrs="{'readonly': [('match_multi', '=', False)],
+                            'invisible': [('match_type', 'not in',
+                            ('payment_order', 'payment_order_manual'))]}"
+                            domain="[('id', 'in', payment_order_ids[0][2])]" />
+                    </group>
                 </field>
                 <field name="manual_move_line_ids" position="after">
-                    <field name="manual_payment_line_id"/>
-                    <field name="manual_payment_order_id"/>
+                    <group>
+                        <field name="manual_payment_line_id"/>
+                        <field name="manual_payment_order_id"/>
+                    </group>
                 </field>
             </field>
         </record>
