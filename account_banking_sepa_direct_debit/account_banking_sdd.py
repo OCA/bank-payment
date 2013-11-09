@@ -103,6 +103,8 @@ class sdd_mandate(orm.Model):
                 lambda self, cr, uid, obj, ctx=None: obj['state'] == 'valid',
             'account_banking_sepa_direct_debit.mandate_expired':
                 lambda self, cr, uid, obj, ctx=None: obj['state'] == 'expired',
+            'account_banking_sepa_direct_debit.mandate_cancel':
+                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'cancel',
             }
         }
 
@@ -127,9 +129,9 @@ class sdd_mandate(orm.Model):
             ('draft', 'Draft'),
             ('valid', 'Valid'),
             ('expired', 'Expired'),
-            # Do we have to handle cancellation of mandate by customer ?
+            ('cancel', 'Cancelled'),
             ], 'Mandate Status',
-            help="For a recurrent mandate, this field indicate if the mandate is still valid or if it has expired (a recurrent mandate expires if it's not used during 36 months). For a one-off mandate, it expires after its first use."),
+            help="For a recurrent mandate, this field indicate if the mandate is still valid or if it has expired (a recurrent mandate expires if it's not used during 36 months). For a one-off mandate, it expires after its first use."), # TODO : update help
         'payment_line_ids': fields.one2many(
             'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
         }
@@ -194,6 +196,16 @@ class sdd_mandate(orm.Model):
             cr, uid, to_validate_ids, {'state': 'valid'}, context=context)
         return True
 
+    def cancel(self, cr, uid, ids, context=None):
+        to_cancel_ids = []
+        for mandate in self.browse(cr, uid, ids, context=context):
+            assert mandate.state in ('draft', 'valid'),\
+                'Mandate should be in draft or valid state'
+            to_cancel_ids.append(mandate.id)
+        self.write(
+            cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
+        return True
+
     def _sdd_mandate_set_state_to_expired(self, cr, uid, context=None):
         logger.info('Searching for SDD Mandates that must be set to Expired')
         expire_limit_date = datetime.today() + \
@@ -232,23 +244,47 @@ class payment_line(orm.Model):
 
     _columns = {
         'sdd_mandate_id': fields.many2one(
-            'sdd.mandate', 'SEPA Direct Debit Mandate'),
+            'sdd.mandate', 'SEPA Direct Debit Mandate',
+            domain=[('state', '=', 'valid')]),
         }
 
     def create(self, cr, uid, vals, context=None):
-        '''Take the first valid mandate of the bank account by default'''
+        '''If the customer invoice has a mandate, take it
+        otherwise, take the first valid mandate of the bank account'''
         if context is None:
             context = {}
         if not vals:
             vals = {}
         partner_bank_id = vals.get('bank_id')
+        move_line_id = vals.get('move_line_id')
         if (context.get('default_payment_order_type') == 'debit'
-                and partner_bank_id
                 and 'sdd_mandate_id' not in vals):
-            mandate_ids = self.pool['sdd.mandate'].search(cr, uid, [
-                ('partner_bank_id', '=', partner_bank_id),
-                ('state', '=', 'valid'),
-                ], context=context)
-            if mandate_ids:
-                vals['sdd_mandate_id'] = mandate_ids[0]
+            if move_line_id:
+                line = self.pool['account.move.line'].browse(
+                    cr, uid, move_line_id, context=context)
+                if (line.invoice and line.invoice.type == 'out_invoice'
+                        and line.invoice.sdd_mandate_id):
+                    vals.update({
+                        'sdd_mandate_id': line.invoice.sdd_mandate_id.id,
+                        'bank_id':
+                            line.invoice.sdd_mandate_id.partner_bank_id.id,
+                    })
+            if partner_bank_id and 'sdd_mandate_id' not in vals:
+                mandate_ids = self.pool['sdd.mandate'].search(cr, uid, [
+                    ('partner_bank_id', '=', partner_bank_id),
+                    ('state', '=', 'valid'),
+                    ], context=context)
+                if mandate_ids:
+                      vals['sdd_mandate_id'] = mandate_ids[0]
         return super(payment_line, self).create(cr, uid, vals, context=context)
+
+
+class account_invoice(orm.Model):
+    _inherit = 'account.invoice'
+
+    _columns = {
+        'sdd_mandate_id': fields.many2one(
+            'sdd.mandate', 'SEPA Direct Debit Mandate',
+            domain=[('state', '=', 'valid')], readonly=True,
+            states={'draft': [('readonly', False)]})
+        }

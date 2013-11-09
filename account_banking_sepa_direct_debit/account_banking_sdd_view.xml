@@ -85,6 +85,7 @@
         <form string="SEPA Direct Debit Mandate" version="7.0">
             <header>
                 <button name="validate" type="object" string="Validate" states="draft"/>
+                <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>
@@ -166,7 +167,7 @@
           sequence="20"
           />
 
-<!-- notification in the chatter -->
+<!-- notifications in the chatter -->
 <record id="mandate_valid" model="mail.message.subtype">
     <field name="name">Mandate Validated</field>
     <field name="res_model">sdd.mandate</field>
@@ -181,6 +182,12 @@
     <field name="description">SEPA Direct Debit Mandate has Expired</field>
 </record>
 
+<record id="mandate_cancel" model="mail.message.subtype">
+    <field name="name">Mandate Cancelled</field>
+    <field name="res_model">sdd.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">SEPA Direct Debit Mandate Cancelled</field>
+</record>
 
 
 <record id="sdd_mandate_partner_bank_form" model="ir.ui.view">

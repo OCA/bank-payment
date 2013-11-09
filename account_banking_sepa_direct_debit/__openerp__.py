@@ -35,6 +35,7 @@
         'account_payment_view.xml',
         'company_view.xml',
         'mandate_expire_cron.xml',
+        'account_invoice_view.xml',
         'wizard/export_sdd_view.xml',
         'data/payment_type_sdd.xml',
         'data/mandate_reference_sequence.xml',
