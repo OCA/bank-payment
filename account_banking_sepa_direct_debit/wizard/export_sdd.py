@@ -233,7 +233,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         transactions_count_1_6 = 0
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
-        first_recur_lines = {}
+        lines_per_seq_type = {}
         # key = sequence type ; value = list of lines as objects
         # Iterate on payment orders
         for payment_order in sepa_export.payment_order_ids:
@@ -253,7 +253,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
                         _("The SEPA Direct Debit mandate with reference '%s' for partner '%s' has expired.")
                         % (line.sdd_mandate_id.unique_mandate_reference,
                             line.sdd_mandate_id.partner_id.name))
-
                 if not line.sdd_mandate_id.signature_date:
                     raise orm.except_orm(
                         _('Error:'),
@@ -268,13 +267,12 @@ class banking_export_sdd_wizard(orm.TransientModel):
                         % (line.sdd_mandate_id.unique_mandate_reference,
                             line.sdd_mandate_id.partner_id.name,
                             line.sdd_mandate_id.signature_date))
-
                 if line.sdd_mandate_id.type == 'oneoff':
                     if not line.sdd_mandate_id.last_debit_date:
-                        if first_recur_lines.get('OOFF'):
-                            first_recur_lines['OOFF'].append(line)
+                        if lines_per_seq_type.get('OOFF'):
+                            lines_per_seq_type['OOFF'].append(line)
                         else:
-                            first_recur_lines['OOFF'] = [line]
+                            lines_per_seq_type['OOFF'] = [line]
                     else:
                         raise orm.except_orm(
                             _('Error:'),
@@ -283,18 +281,20 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 line.sdd_mandate_id.partner_id.name,
                                 line.sdd_mandate_id.last_debit_date))
                 elif line.sdd_mandate_id.type == 'recurrent':
-                    if line.sdd_mandate_id.last_debit_date:
-                        if first_recur_lines.get('RCUR'):
-                            first_recur_lines['RCUR'].append(line)
-                        else:
-                            first_recur_lines['RCUR'] = [line]
+                    seq_type_map = {
+                        'recurring': 'RCUR',
+                        'first': 'FRST',
+                        'final': 'FNAL',
+                        }
+                    seq_type_label = line.sdd_mandate_id.recurrent_sequence_type
+                    assert seq_type_label is not False
+                    seq_type = seq_type_map[seq_type_label]
+                    if lines_per_seq_type.get(seq_type):
+                        lines_per_seq_type[seq_type].append(line)
                     else:
-                        if first_recur_lines.get('FRST'):
-                            first_recur_lines['FRST'].append(line)
-                        else:
-                            first_recur_lines['FRST'] = [line]
+                        lines_per_seq_type[seq_type] = [line]
 
-        for sequence_type, lines in first_recur_lines.items():
+        for sequence_type, lines in lines_per_seq_type.items():
             # B. Payment info
             payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
             payment_info_identification_2_1 = etree.SubElement(
@@ -516,14 +516,23 @@ class banking_export_sdd_wizard(orm.TransientModel):
             wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
             mandate_ids = [line.sdd_mandate_id.id for line in order.line_ids]
             self.pool['sdd.mandate'].write(
-                cr, uid, mandate_ids, {
-                    'last_debit_date': datetime.today().strftime('%Y-%m-%d')
-                    },
+                cr, uid, mandate_ids,
+                {'last_debit_date': datetime.today().strftime('%Y-%m-%d')},
                 context=context)
-            oneoff_mandate_ids = \
-                [line.sdd_mandate_id.id for line in order.line_ids
-                    if line.sdd_mandate_id.type == 'oneoff']
+            to_expire_ids = []
+            first_mandate_ids = []
+            for line in order.line_ids:
+                if line.sdd_mandate_id.type == 'oneoff':
+                    to_expire_ids.append(line.sdd_mandate_id.id)
+                elif line.sdd_mandate_id.type == 'recurrent':
+                    seq_type = line.sdd_mandate_id.recurrent_sequence_type
+                    if seq_type == 'final':
+                        to_expire_ids.append(line.sdd_mandate_id.id)
+                    elif seq_type == 'first':
+                        first_mandate_ids.append(line.sdd_mandate_id.id)
             self.pool['sdd.mandate'].write(
-                cr, uid, oneoff_mandate_ids, {'state': 'expired'},
-                context=context)
+                cr, uid, to_expire_ids, {'state': 'expired'}, context=context)
+            self.pool['sdd.mandate'].write(
+                cr, uid, first_mandate_ids,
+                {'recurrent_sequence_type': 'recurring'}, context=context)
         return {'type': 'ir.actions.act_window_close'}

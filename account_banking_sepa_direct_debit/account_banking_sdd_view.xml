@@ -97,11 +97,12 @@
                 <group name="main">
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="partner_id" invisible="not context.get('sdd_mandate_main_view')"/>
-                    <field name="type"/>
+                    <field name="type" on_change="mandate_type_change(type)"/>
+                    <field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
                     <field name="signature_date"/>
                     <field name="scan"/>
                     <field name="last_debit_date"/>
-                    <field name="partner_bank_id" invisible="not context.get('sdd_mandate_main_view')"/>
+                    <field name="partner_bank_id" on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)" invisible="not context.get('sdd_mandate_main_view')"/>
                 </group>
                 <group name="payment_lines" string="Related Payment Lines">
                     <field name="payment_line_ids" nolabel="1"/>
@@ -119,14 +120,14 @@
     <field name="name">sdd.mandate.tree</field>
     <field name="model">sdd.mandate</field>
     <field name="arch" type="xml">
-        <tree string="SEPA Direct Debit Mandate" colors="blue:state=='draft';black:state=='expired'">
+        <tree string="SEPA Direct Debit Mandate" colors="blue:state=='draft';black:state in ('expired', 'cancel')">
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="partner_id" invisible="not context.get('sdd_mandate_main_view')"/>
             <field name="unique_mandate_reference" string="Reference"/>
             <field name="type" string="Type"/>
             <field name="signature_date" string="Signature Date"/>
             <field name="last_debit_date"/>
-            <field name="state" string="Status"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
@@ -139,6 +140,7 @@
             <field name="partner_id"/>
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="valid" string="Valid" domain="[('state', '=', 'valid')]" />
+            <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
             <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]" />
             <filter name="oneoff" string="One-Off" domain="[('type', '=', 'oneoff')]" />
             <filter name="recurrent" string="Recurrent" domain="[('type', '=', 'recurrent')]" />
@@ -175,7 +177,7 @@
     <field name="description">SEPA Direct Debit Mandate Validated</field>
 </record>
 
-<record id="mandate_expire" model="mail.message.subtype">
+<record id="mandate_expired" model="mail.message.subtype">
     <field name="name">Mandate Expired</field>
     <field name="res_model">sdd.mandate</field>
     <field name="default" eval="False"/>
@@ -187,6 +189,27 @@
     <field name="res_model">sdd.mandate</field>
     <field name="default" eval="False"/>
     <field name="description">SEPA Direct Debit Mandate Cancelled</field>
+</record>
+
+<record id="recurrent_sequence_type_first" model="mail.message.subtype">
+    <field name="name">Sequence Type set to First</field>
+    <field name="res_model">sdd.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to First</field>
+</record>
+
+<record id="recurrent_sequence_type_recurring" model="mail.message.subtype">
+    <field name="name">Sequence Type set to Recurring</field>
+    <field name="res_model">sdd.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to Recurring</field>
+</record>
+
+<record id="recurrent_sequence_type_final" model="mail.message.subtype">
+    <field name="name">Sequence Type set to Final</field>
+    <field name="res_model">sdd.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to Final</field>
 </record>
 
 
