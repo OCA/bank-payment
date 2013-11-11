@@ -59,7 +59,7 @@ msgstr "Impossible de générer le '%s' de la ligne de paiement ayant la référ
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
-msgstr "Partagé"
+msgstr "Partagés"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,batch_booking:0
@@ -97,7 +97,7 @@ msgstr "Suivant le niveau de service"
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "Supportés par le destinataire"
+msgstr "Supportés par le créancier"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:124
@@ -130,7 +130,7 @@ msgstr "Générer"
 #: help:banking.export.sepa,charge_bearer:0
 #: help:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme."
-msgstr "Partagés : les frais bancaires côté émetteur sont à la charge de l'émetteur et les frais bancaires côté destinataire sont à la charge du destinataire (la plupart des virements utilisent cette répartition). Supportés par le destinataire : tous les frais bancaires sont à la charge du destinataire. Supportés par l'émetteur : tous les frais bancaires sont à la charge de l'émetteur. Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le contrat avec la banque."
+msgstr "Partagés : les frais bancaires côté émetteur sont à la charge du débiteur et les frais bancaires côté destinataire sont à la charge du créancier (la plupart des virements utilisent cette répartition). Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur. Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le contrat avec la banque."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:171
@@ -142,7 +142,7 @@ msgstr "Le fichier XML généré n'est pas valide par rapport à la Définition 
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "Supportés par l'émetteur"
+msgstr "Supportés par le débiteur"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:90
