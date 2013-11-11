@@ -102,7 +102,10 @@
                     <field name="signature_date"/>
                     <field name="scan"/>
                     <field name="last_debit_date"/>
-                    <field name="partner_bank_id" on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)" invisible="not context.get('sdd_mandate_main_view')"/>
+                    <field name="partner_bank_id"
+                        on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)"
+                        invisible="not context.get('sdd_mandate_main_view')"
+                        domain="[('partner_id', '=', partner_id)]"/>
                 </group>
                 <group name="payment_lines" string="Related Payment Lines">
                     <field name="payment_line_ids" nolabel="1"/>

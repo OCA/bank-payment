@@ -147,7 +147,7 @@ class sdd_mandate(orm.Model):
             ('expired', 'Expired'),
             ('cancel', 'Cancelled'),
             ], 'Status',
-            help="For a recurrent mandate, this field indicate if the mandate is still valid or if it has expired (a recurrent mandate expires if it's not used during 36 months). For a one-off mandate, it expires after its first use."), # TODO : update help
+            help="Only valid mandates can be used in a payment line. A cancelled mandate is a mandate that has been cancelled by the customer. A one-off mandate expires after its first use. A recurrent mandate expires after it's final use or if it hasn't been used for 36 months."),
         'payment_line_ids': fields.one2many(
             'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
         }
@@ -198,7 +198,7 @@ class sdd_mandate(orm.Model):
                     _("The mandate '%s' can't have a date of last debit before the date of signature.")
                     % mandate['unique_mandate_reference'])
             if (mandate['type'] == 'recurrent'
-                     and not mandate['recurrent_sequence_type']):
+                    and not mandate['recurrent_sequence_type']):
                 raise orm.except_orm(
                     _('Error:'),
                     _("The recurrent mandate '%s' must have a sequence type.")
@@ -227,7 +227,7 @@ class sdd_mandate(orm.Model):
                 and type == 'recurrent'
                 and recurrent_sequence_type != 'first'):
             return {
-                'value': {'recurrent_sequence_type': first},
+                'value': {'recurrent_sequence_type': 'first'},
                 'warning': {
                     'title': _('Mandate update'),
                     'message': _("As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."),
@@ -324,7 +324,7 @@ class payment_line(orm.Model):
                     ('state', '=', 'valid'),
                     ], context=context)
                 if mandate_ids:
-                      vals['sdd_mandate_id'] = mandate_ids[0]
+                    vals['sdd_mandate_id'] = mandate_ids[0]
         return super(payment_line, self).create(cr, uid, vals, context=context)
 
 
