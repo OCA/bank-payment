@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_banking_nl_triodos
+#	* account_banking_nl_ing
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 15:57+0000\n"
-"PO-Revision-Date: 2013-10-25 15:57+0000\n"
+"POT-Creation-Date: 2013-10-25 15:55+0000\n"
+"PO-Revision-Date: 2013-10-25 15:55+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:183
+#. module: account_banking_nl_ing
+#: code:addons/account_banking_nl_ing/ing.py:257
 #, python-format
-msgid "Triodos Bank"
+msgid "ING Bank"
 msgstr ""
 
-#. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:184
+#. module: account_banking_nl_ing
+#: code:addons/account_banking_nl_ing/ing.py:258
 #, python-format
-msgid "The Dutch Triodos format is basicly a MS Excel CSV format. It is specifically\n"
+msgid "The Dutch ING format is basicly a MS Excel CSV format. It is specifically\n"
 "distinct from the Dutch multibank format. Transactions are not tied to Bank\n"
 "Statements.\n"
 ""
 msgstr ""
 
-#. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:59
+#. module: account_banking_nl_ing
+#: code:addons/account_banking_nl_ing/ing.py:62
 #, python-format
 msgid "Invalid transaction line: expected %d columns, found %d"
 msgstr ""
