@@ -105,6 +105,17 @@ class sdd_mandate(orm.Model):
                 lambda self, cr, uid, obj, ctx=None: obj['state'] == 'expired',
             'account_banking_sepa_direct_debit.mandate_cancel':
                 lambda self, cr, uid, obj, ctx=None: obj['state'] == 'cancel',
+            },
+        'recurrent_sequence_type': {
+            'account_banking_sepa_direct_debit.recurrent_sequence_type_first':
+                lambda self, cr, uid, obj, ctx=None:
+                obj['recurrent_sequence_type'] == 'first',
+            'account_banking_sepa_direct_debit.recurrent_sequence_type_recurring':
+                lambda self, cr, uid, obj, ctx=None:
+                obj['recurrent_sequence_type'] == 'recurring',
+            'account_banking_sepa_direct_debit.recurrent_sequence_type_final':
+                lambda self, cr, uid, obj, ctx=None:
+                obj['recurrent_sequence_type'] == 'final',
             }
         }
 
@@ -120,17 +131,22 @@ class sdd_mandate(orm.Model):
             ('recurrent', 'Recurrent'),
             ('oneoff', 'One-Off'),
             ], 'Type of Mandate', required=True),
+        'recurrent_sequence_type': fields.selection([
+            ('first', 'First'),
+            ('recurring', 'Recurring'),
+            ('final', 'Final'),
+            ], 'Sequence Type for Next Debit',
+            help="This field is only used for Recurrent mandates, not for One-Off mandates."),
         'signature_date': fields.date('Date of Signature of the Mandate'),
         'scan': fields.binary('Scan of the mandate'),
         'last_debit_date': fields.date(
-            'Date of the Last Debit',
-            help="For recurrent mandates, this field is used to know if the SDD will be of type 'First' or 'Recurring'. For one-off mandates, this field is used to know if the SDD has already been used or not."),
+            'Date of the Last Debit', readonly=True),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('valid', 'Valid'),
             ('expired', 'Expired'),
             ('cancel', 'Cancelled'),
-            ], 'Mandate Status',
+            ], 'Status',
             help="For a recurrent mandate, this field indicate if the mandate is still valid or if it has expired (a recurrent mandate expires if it's not used during 36 months). For a one-off mandate, it expires after its first use."), # TODO : update help
         'payment_line_ids': fields.one2many(
             'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
@@ -154,7 +170,8 @@ class sdd_mandate(orm.Model):
     def _check_sdd_mandate(self, cr, uid, ids, context=None):
         for mandate in self.read(cr, uid, ids, [
                 'last_debit_date', 'signature_date',
-                'unique_mandate_reference', 'state', 'partner_bank_id'
+                'unique_mandate_reference', 'state', 'partner_bank_id',
+                'type', 'recurrent_sequence_type',
                 ], context=context):
             if (mandate['signature_date'] and
                     mandate['signature_date'] >
@@ -171,7 +188,7 @@ class sdd_mandate(orm.Model):
             if mandate['state'] == 'valid' and not mandate['partner_bank_id']:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Cannot validate the mandate '%s' because it is not linked to a bank account.")
+                    _("Cannot validate the mandate '%s' because it is not attached to a bank account.")
                     % mandate['unique_mandate_reference'])
 
             if (mandate['signature_date'] and mandate['last_debit_date'] and
@@ -180,12 +197,44 @@ class sdd_mandate(orm.Model):
                     _('Error:'),
                     _("The mandate '%s' can't have a date of last debit before the date of signature.")
                     % mandate['unique_mandate_reference'])
+            if (mandate['type'] == 'recurrent'
+                     and not mandate['recurrent_sequence_type']):
+                raise orm.except_orm(
+                    _('Error:'),
+                    _("The recurrent mandate '%s' must have a sequence type.")
+                    % mandate['unique_mandate_reference'])
         return True
 
     _constraints = [
-        (_check_sdd_mandate, "Error msg in raise",
-            ['last_debit_date', 'signature_date', 'state', 'partner_bank_id']),
+        (_check_sdd_mandate, "Error msg in raise", [
+            'last_debit_date', 'signature_date', 'state', 'partner_bank_id',
+            'type', 'recurrent_sequence_type',
+            ]),
     ]
+
+    def mandate_type_change(self, cr, uid, ids, type):
+        if type == 'recurrent':
+            recurrent_sequence_type = 'first'
+        else:
+            recurrent_sequence_type = False
+        res = {'value': {'recurrent_sequence_type': recurrent_sequence_type}}
+        return res
+
+    def mandate_partner_bank_change(
+            self, cr, uid, ids, partner_bank_id, type, recurrent_sequence_type,
+            last_debit_date, state):
+        if (state == 'valid' and partner_bank_id
+                and type == 'recurrent'
+                and recurrent_sequence_type != 'first'):
+            return {
+                'value': {'recurrent_sequence_type': first},
+                'warning': {
+                    'title': _('Mandate update'),
+                    'message': _("As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."),
+                    }
+                }
+        else:
+            return True
 
     def validate(self, cr, uid, ids, context=None):
         to_validate_ids = []
