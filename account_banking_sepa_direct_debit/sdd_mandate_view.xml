@@ -89,7 +89,7 @@
         <p class="oe_view_nocontent_create">
         Click to create a new SEPA Direct Debit Mandate.
         </p><p>
-        The SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.
+        A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.
         </p>
     </field>
 </record>

@@ -65,16 +65,16 @@ class banking_export_sdd(orm.Model):
             readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking', readonly=True,
-            help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA XML file ; if false, the bank statement will display one credit line per direct debit of the SEPA XML file."),
+            help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA file ; if false, the bank statement will display one credit line per direct debit of the SEPA file."),
         'charge_bearer': fields.selection([
+            ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
-            ('SLEV', 'Following Service Level'),
             ], 'Charge Bearer', readonly=True,
-            help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
+            help='Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor.'),
         'create_date': fields.datetime('Generation Date', readonly=True),
-        'file': fields.binary('SEPA XML File', readonly=True),
+        'file': fields.binary('SEPA File', readonly=True),
         'filename': fields.function(
             _generate_filename, type='char', size=256,
             string='Filename', readonly=True, store=True),
@@ -138,7 +138,7 @@ class sdd_mandate(orm.Model):
             ], 'Sequence Type for Next Debit',
             help="This field is only used for Recurrent mandates, not for One-Off mandates."),
         'signature_date': fields.date('Date of Signature of the Mandate'),
-        'scan': fields.binary('Scan of the mandate'),
+        'scan': fields.binary('Scan of the Mandate'),
         'last_debit_date': fields.date(
             'Date of the Last Debit', readonly=True),
         'state': fields.selection([
@@ -334,7 +334,7 @@ class payment_line(orm.Model):
                     payline.bank_id.id):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The payment line with reference '%s' has a bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s').")
+                    _("The payment line with reference '%s' has the bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s').")
                     % (payline.name,
                     self.pool['res.partner.bank'].name_get(
                         cr, uid, [payline.bank_id.id])[0][1],

@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Account Banking SEPA Direct Debit',
-    'summary': 'Create SEPA XML files for Direct Debit',
+    'summary': 'Create SEPA files for Direct Debit',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Akretion',

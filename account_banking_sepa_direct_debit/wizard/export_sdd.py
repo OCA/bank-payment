@@ -44,17 +44,17 @@ class banking_export_sdd_wizard(orm.TransientModel):
             ], 'State', readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking',
-            help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
+            help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA file ; if false, the bank statement will display one credit line per direct debit of the SEPA file."),
         'requested_collec_date': fields.date(
             'Requested Collection Date',
-            help='This is the date on which the collection should be made by the bank. Please keep in mind that banks only execute on working days.'),
+            help='This is the date on which you would like the collection to be made by the bank. Please keep in mind that there are minimum delays for SEPA direct debits that depend on the type of mandate and the type of sequence.'),
         'charge_bearer': fields.selection([
+            ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
-            ('SLEV', 'Following Service Level'),
             ], 'Charge Bearer', required=True,
-            help='Shared : transaction charges on the sender side are to be borne by the debtor, transaction charges on the receiver side are to be borne by the creditor (most transfers use this). Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor. Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme.'),
+            help='Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor.'),
         'nb_transactions': fields.related(
             'file_id', 'nb_transactions', type='integer',
             string='Number of Transactions', readonly=True),
@@ -62,7 +62,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'file_id', 'total_amount', type='float', string='Total Amount',
             readonly=True),
         'file_id': fields.many2one(
-            'banking.export.sdd', 'SDD XML File', readonly=True),
+            'banking.export.sdd', 'SDD File', readonly=True),
         'file': fields.related(
             'file_id', 'file', string="File", type='binary', readonly=True),
         'filename': fields.related(
@@ -276,20 +276,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
                         _("The SEPA Direct Debit mandate with reference '%s' for partner '%s' has expired.")
                         % (line.sdd_mandate_id.unique_mandate_reference,
                             line.sdd_mandate_id.partner_id.name))
-                if not line.sdd_mandate_id.signature_date:
-                    raise orm.except_orm(
-                        _('Error:'),
-                        _("Missing signature date on SEPA Direct Debit mandate with reference '%s' for partner '%s'.")
-                        % (line.sdd_mandate_id.unique_mandate_reference,
-                            line.sdd_mandate_id.partner_id.name))
-                elif (line.sdd_mandate_id.signature_date >
-                        datetime.today().strftime('%Y-%m-%d')):
-                    raise orm.except_orm(
-                        _('Error:'),
-                        _("The signature date on SEPA Direct Debit mandate with reference '%s' for partner '%s' is '%s', which is in the future !")
-                        % (line.sdd_mandate_id.unique_mandate_reference,
-                            line.sdd_mandate_id.partner_id.name,
-                            line.sdd_mandate_id.signature_date))
                 if line.sdd_mandate_id.type == 'oneoff':
                     if not line.sdd_mandate_id.last_debit_date:
                         if lines_per_seq_type.get('OOFF'):
