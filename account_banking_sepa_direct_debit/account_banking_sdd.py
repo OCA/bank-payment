@@ -327,6 +327,29 @@ class payment_line(orm.Model):
                     vals['sdd_mandate_id'] = mandate_ids[0]
         return super(payment_line, self).create(cr, uid, vals, context=context)
 
+    def _check_mandate_bank_link(self, cr, uid, ids):
+        for payline in self.browse(cr, uid, ids):
+            if (payline.sdd_mandate_id and payline.bank_id
+                    and payline.sdd_mandate_id.partner_bank_id.id !=
+                    payline.bank_id.id):
+                raise orm.except_orm(
+                    _('Error:'),
+                    _("The payment line with reference '%s' has a bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s').")
+                    % (payline.name,
+                    self.pool['res.partner.bank'].name_get(
+                        cr, uid, [payline.bank_id.id])[0][1],
+                    payline.sdd_mandate_id.unique_mandate_reference,
+                    self.pool['res.partner.bank'].name_get(
+                        cr, uid,
+                        [payline.sdd_mandate_id.partner_bank_id.id])[0][1],
+                    ))
+        return True
+
+    _constraints = [
+        (_check_mandate_bank_link, 'Error msg in raise',
+            ['sdd_mandate_id', 'bank_id']),
+    ]
+
 
 class account_invoice(orm.Model):
     _inherit = 'account.invoice'

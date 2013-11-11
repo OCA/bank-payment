@@ -32,6 +32,8 @@
         },
     'data': [
         'account_banking_sdd_view.xml',
+        'sdd_mandate_view.xml',
+        'res_partner_bank_view.xml',
         'account_payment_view.xml',
         'company_view.xml',
         'mandate_expire_cron.xml',
