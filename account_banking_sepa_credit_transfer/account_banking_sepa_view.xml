@@ -16,7 +16,6 @@
                 <page string="General Information">
                     <field name="total_amount" />
                     <field name="nb_transactions" />
-                    <field name="prefered_exec_date" />
                     <field name="batch_booking" />
                     <field name="charge_bearer"/>
                     <field name="create_date" />
@@ -47,7 +46,6 @@
     <field name="arch" type="xml">
         <tree string="SEPA Credit Transfer">
             <field name="filename"/>
-            <field name="prefered_exec_date"/>
             <field name="create_date"/>
             <field name="nb_transactions"/>
         </tree>
