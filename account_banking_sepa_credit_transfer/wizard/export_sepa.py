@@ -98,13 +98,10 @@ class banking_export_sepa_wizard(orm.TransientModel):
             cr, uid, vals, context=context)
 
     def _prepare_field(
-            self, cr, uid, field_name, field_value, max_size=0,
-            sepa_export=False, line=False, context=None):
+            self, cr, uid, field_name, field_value, eval_ctx, max_size=0,
+            context=None):
         '''This function is designed to be inherited !'''
-        eval_ctx = {
-            'sepa_export': sepa_export,
-            'line': line,
-            }
+        assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
         try:
             # SEPA uses XML ; XML = UTF-8 ; UTF-8 = support for all characters
             # But we are dealing with banks...
@@ -113,6 +110,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             # Scheme Customer-to-bank guidelines
             value = unidecode(safe_eval(field_value, eval_ctx))
         except:
+            line = eval_ctx.get('line')
             if line:
                 raise orm.except_orm(
                     _('Error:'),
@@ -225,7 +223,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         my_company_name = self._prepare_field(
             cr, uid, 'Company Name',
             'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
-            name_maxsize, sepa_export=sepa_export, context=context)
+            {'sepa_export': sepa_export}, name_maxsize, context=context)
 
         # A. Group header
         group_header_1_0 = etree.SubElement(pain_root, 'GrpHdr')
@@ -233,8 +231,8 @@ class banking_export_sepa_wizard(orm.TransientModel):
             group_header_1_0, 'MsgId')
         message_identification_1_1.text = self._prepare_field(
             cr, uid, 'Message Identification',
-            'sepa_export.payment_order_ids[0].reference', 35,
-            sepa_export=sepa_export, context=context)
+            'sepa_export.payment_order_ids[0].reference',
+            {'sepa_export': sepa_export}, 35, context=context)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
             datetime.today(), '%Y-%m-%dT%H:%M:%S')
@@ -261,7 +259,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         payment_info_identification_2_1.text = self._prepare_field(
             cr, uid, 'Payment Information Identification',
             "sepa_export.payment_order_ids[0].reference",
-            35, sepa_export=sepa_export, context=context)
+            {'sepa_export': sepa_export}, 35, context=context)
         payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
         payment_method_2_2.text = 'TRF'
         if pain_flavor in [
@@ -298,7 +296,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             cr, uid, self._prepare_field(
                 cr, uid, 'Company IBAN',
                 'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                sepa_export=sepa_export, context=context),
+                {'sepa_export': sepa_export}, context=context),
             context=context)
         debtor_agent_2_21 = etree.SubElement(payment_info_2_0, 'DbtrAgt')
         debtor_agent_institution = etree.SubElement(
@@ -311,7 +309,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         debtor_agent_bic.text = self._prepare_field(
             cr, uid, 'Company BIC',
             'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
-            sepa_export=sepa_export, context=context)
+            {'sepa_export': sepa_export}, context=context)
         charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
         charge_bearer_2_24.text = sepa_export.charge_bearer
 
@@ -332,11 +330,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 end2end_identification_2_30 = etree.SubElement(
                     payment_identification_2_28, 'EndToEndId')
                 end2end_identification_2_30.text = self._prepare_field(
-                    cr, uid, 'End to End Identification', 'line.name', 35,
-                    line=line, context=context)
+                    cr, uid, 'End to End Identification', 'line.name',
+                    {'line': line}, 35, context=context)
                 currency_name = self._prepare_field(
-                    cr, uid, 'Currency Code', 'line.currency.name', 3,
-                    line=line, context=context)
+                    cr, uid, 'Currency Code', 'line.currency.name',
+                    {'line': line}, 3, context=context)
                 amount_2_42 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Amt')
                 instructed_amount_2_43 = etree.SubElement(
@@ -356,13 +354,13 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     creditor_agent_institution, bic_xml_tag)
                 creditor_agent_bic.text = self._prepare_field(
                     cr, uid, 'Customer BIC', 'line.bank_id.bank.bic',
-                    line=line, context=context)
+                    {'line': line}, context=context)
                 creditor_2_79 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Cdtr')
                 creditor_name = etree.SubElement(creditor_2_79, 'Nm')
                 creditor_name.text = self._prepare_field(
                     cr, uid, 'Customer Name', 'line.partner_id.name',
-                    name_maxsize, line=line, context=context)
+                    {'line': line}, name_maxsize, context=context)
                 creditor_account_2_80 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'CdtrAcct')
                 creditor_account_id = etree.SubElement(
@@ -372,7 +370,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 creditor_account_iban.text = self._validate_iban(
                     cr, uid, self._prepare_field(
                         cr, uid, 'Customer IBAN',
-                        'line.bank_id.acc_number', line=line,
+                        'line.bank_id.acc_number', {'line': line},
                         context=context),
                     context=context)
                 remittance_info_2_91 = etree.SubElement(
@@ -384,7 +382,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     remittance_info_2_91, 'Ustrd')
                 remittance_info_unstructured_2_99.text = self._prepare_field(
                     cr, uid, 'Remittance Information', 'line.communication',
-                    140, line=line, context=context)
+                    {'line': line}, 140, context=context)
 
         if pain_flavor in [
                 'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']:
