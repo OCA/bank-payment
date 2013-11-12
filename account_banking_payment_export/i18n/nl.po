@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 12:36+0000\n"
-"PO-Revision-Date: 2013-10-17 10:50+0100\n"
-"Last-Translator: Erwin van der Ploeg (BAS Solutions) <erwin@bas-solutions."
-"nl>\n"
+"POT-Creation-Date: 2013-10-25 15:58+0000\n"
+"PO-Revision-Date: 2013-11-11 17:51+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Launchpad-Export-Date: 2013-11-12 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,name:0
@@ -39,6 +38,12 @@ msgstr ""
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
 msgid "Payment Mode"
 msgstr "Betaalwijze"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/model/account_payment.py:69
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
@@ -80,6 +85,12 @@ msgid "Payment orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/model/account_payment.py:52
+#, python-format
+msgid "Payment Order Export"
+msgstr ""
+
+#. module: account_banking_payment_export
 #: help:payment.mode,type:0
 msgid "Select the Payment Type for the Payment Mode."
 msgstr "Selecteer het type van de betaalmodus."
@@ -98,6 +109,12 @@ msgstr "Geef de code op voor het betaaltype"
 #: model:ir.model,name:account_banking_payment_export.model_payment_order_create
 msgid "payment.order.create"
 msgstr "payment.order.create"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/model/account_payment.py:68
+#, python-format
+msgid "Error"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,ir_model_id:0
