@@ -15,7 +15,6 @@
             <field name="state" invisible="True"/>
             <group states="create">
                 <field name="batch_booking" />
-                <field name="prefered_exec_date" />
                 <field name="charge_bearer" />
             </group>
             <group states="finish">

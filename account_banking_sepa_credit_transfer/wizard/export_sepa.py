@@ -46,9 +46,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         'batch_booking': fields.boolean(
             'Batch Booking',
             help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
-        'prefered_exec_date': fields.date(
-            'Prefered Execution Date',
-            help='This is the date on which the file should be processed by the bank. Please keep in mind that banks only execute on working days and typically use a delay of two days between execution date and effective transfer date.'),
         'charge_bearer': fields.selection([
             ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
@@ -98,26 +95,27 @@ class banking_export_sepa_wizard(orm.TransientModel):
             cr, uid, vals, context=context)
 
     def _prepare_field(
-            self, cr, uid, field_name, field_value, max_size=0,
-            sepa_export=False, line=False, context=None):
+            self, cr, uid, field_name, field_value, eval_ctx, max_size=0,
+            convert_to_ascii=False, context=None):
         '''This function is designed to be inherited !'''
-        eval_ctx = {
-            'sepa_export': sepa_export,
-            'line': line,
-            }
+        assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
         try:
+            value = safe_eval(field_value, eval_ctx)
             # SEPA uses XML ; XML = UTF-8 ; UTF-8 = support for all characters
             # But we are dealing with banks...
             # and many banks don't want non-ASCCI characters !
             # cf section 1.4 "Character set" of the SEPA Credit Transfer
             # Scheme Customer-to-bank guidelines
-            value = unidecode(safe_eval(field_value, eval_ctx))
+            if convert_to_ascii:
+                value = unidecode(value)
         except:
+            line = eval_ctx.get('line')
             if line:
                 raise orm.except_orm(
                     _('Error:'),
                     _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.")
-                    % (field_name, self.pool['account.invoice'].name_get(cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
+                    % (field_name, self.pool['account.invoice'].name_get(
+                        cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
             else:
                 raise orm.except_orm(
                     _('Error:'),
@@ -142,7 +140,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         return {
             'batch_booking': sepa_export.batch_booking,
             'charge_bearer': sepa_export.charge_bearer,
-            'prefered_exec_date': sepa_export.prefered_exec_date,
             'total_amount': total_amount,
             'nb_transactions': transactions_count,
             'file': base64.encodestring(xml_string),
@@ -176,8 +173,12 @@ class banking_export_sepa_wizard(orm.TransientModel):
         '''
         Creates the SEPA Credit Transfer file. That's the important code !
         '''
+        if context is None:
+            context = {}
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         pain_flavor = sepa_export.payment_order_ids[0].mode.type.code
+        convert_to_ascii = \
+            sepa_export.payment_order_ids[0].mode.convert_to_ascii
         if pain_flavor == 'pain.001.001.02':
             bic_xml_tag = 'BIC'
             name_maxsize = 70
@@ -208,11 +209,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 _('Error:'),
                 _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'.")
                 % pain_flavor)
-        if sepa_export.prefered_exec_date:
-            my_requested_exec_date = sepa_export.prefered_exec_date
-        else:
-            my_requested_exec_date = fields.date.context_today(
-                self, cr, uid, context=context)
 
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -221,11 +217,14 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
         root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(root, root_xml_tag)
+        pain_03_to_05 = \
+            ['pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']
 
         my_company_name = self._prepare_field(
             cr, uid, 'Company Name',
             'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
-            name_maxsize, sepa_export=sepa_export, context=context)
+            {'sepa_export': sepa_export}, name_maxsize,
+            convert_to_ascii=convert_to_ascii, context=context)
 
         # A. Group header
         group_header_1_0 = etree.SubElement(pain_root, 'GrpHdr')
@@ -233,8 +232,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
             group_header_1_0, 'MsgId')
         message_identification_1_1.text = self._prepare_field(
             cr, uid, 'Message Identification',
-            'sepa_export.payment_order_ids[0].reference', 35,
-            sepa_export=sepa_export, context=context)
+            'sepa_export.payment_order_ids[0].reference',
+            {'sepa_export': sepa_export}, 35,
+            convert_to_ascii=convert_to_ascii, context=context)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
             datetime.today(), '%Y-%m-%dT%H:%M:%S')
@@ -253,77 +253,127 @@ class banking_export_sepa_wizard(orm.TransientModel):
         initiating_party_1_8 = etree.SubElement(group_header_1_0, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
+        initiating_party_identifier = self.pool['res.company'].\
+            _get_initiating_party_identifier(
+                cr, uid, sepa_export.payment_order_ids[0].company_id.id,
+                context=context)
+        initiating_party_issuer = \
+            sepa_export.payment_order_ids[0].company_id.initiating_party_issuer
+        if initiating_party_identifier and initiating_party_issuer:
+            iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
+            iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
+            iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
+            iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
+            iniparty_org_other_id.text = initiating_party_identifier
+            iniparty_org_other_issuer = etree.SubElement(
+                iniparty_org_other, 'Issr')
+            iniparty_org_other_issuer.text = initiating_party_issuer
 
-        # B. Payment info
-        payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
-        payment_info_identification_2_1 = etree.SubElement(
-            payment_info_2_0, 'PmtInfId')
-        payment_info_identification_2_1.text = self._prepare_field(
-            cr, uid, 'Payment Information Identification',
-            "sepa_export.payment_order_ids[0].reference",
-            35, sepa_export=sepa_export, context=context)
-        payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-        payment_method_2_2.text = 'TRF'
-        if pain_flavor in [
-                'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']:
-            # batch_booking is in "Group header" with pain.001.001.02
-            # and in "Payment info" in pain.001.001.03/04
-            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
-        # It may seem surprising, but the
-        # "SEPA Credit Transfer Scheme Customer-to-bank Implementation
-        # guidelines" v6.0 says that control sum and nb_of_transactions
-        # should be present at both "group header" level and "payment info"
-        # level. This seems to be confirmed by the tests carried out at
-        # BNP Paribas in PAIN v001.001.03
-        if pain_flavor in [
-                'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']:
-            nb_of_transactions_2_4 = etree.SubElement(
-                payment_info_2_0, 'NbOfTxs')
-            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-        payment_type_info_2_6 = etree.SubElement(payment_info_2_0, 'PmtTpInf')
-        service_level_2_8 = etree.SubElement(payment_type_info_2_6, 'SvcLvl')
-        service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-        service_level_code_2_9.text = 'SEPA'
-        requested_exec_date_2_17 = etree.SubElement(
-            payment_info_2_0, 'ReqdExctnDt')
-        requested_exec_date_2_17.text = my_requested_exec_date
-        debtor_2_19 = etree.SubElement(payment_info_2_0, 'Dbtr')
-        debtor_name = etree.SubElement(debtor_2_19, 'Nm')
-        debtor_name.text = my_company_name
-        debtor_account_2_20 = etree.SubElement(payment_info_2_0, 'DbtrAcct')
-        debtor_account_id = etree.SubElement(debtor_account_2_20, 'Id')
-        debtor_account_iban = etree.SubElement(debtor_account_id, 'IBAN')
-        debtor_account_iban.text = self._validate_iban(
-            cr, uid, self._prepare_field(
-                cr, uid, 'Company IBAN',
-                'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                sepa_export=sepa_export, context=context),
-            context=context)
-        debtor_agent_2_21 = etree.SubElement(payment_info_2_0, 'DbtrAgt')
-        debtor_agent_institution = etree.SubElement(
-            debtor_agent_2_21, 'FinInstnId')
-        debtor_agent_bic = etree.SubElement(
-            debtor_agent_institution, bic_xml_tag)
-        # TODO validate BIC with pattern
-        # [A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}
-        # because OpenERP doesn't have a constraint on BIC
-        debtor_agent_bic.text = self._prepare_field(
-            cr, uid, 'Company BIC',
-            'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
-            sepa_export=sepa_export, context=context)
-        charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
-        charge_bearer_2_24.text = sepa_export.charge_bearer
-
-        transactions_count = 0
+        transactions_count_1_6 = 0
         total_amount = 0.0
-        amount_control_sum = 0.0
-        # Iterate on payment orders
+        amount_control_sum_1_7 = 0.0
+        lines_per_group = {}
+        # key = (requested_exec_date, priority)
+        # values = list of lines as object
+        today = fields.date.context_today(self, cr, uid, context=context)
         for payment_order in sepa_export.payment_order_ids:
             total_amount = total_amount + payment_order.total
-            # Iterate each payment lines
             for line in payment_order.line_ids:
-                transactions_count += 1
+                priority = line.priority
+                if payment_order.date_prefered == 'due':
+                    requested_exec_date = line.ml_maturity_date or today
+                elif payment_order.date_prefered == 'fixed':
+                    requested_exec_date = payment_order.date_scheduled or today
+                else:
+                    requested_exec_date = today
+                if (requested_exec_date, priority) in lines_per_group:
+                    lines_per_group[(requested_exec_date, priority)].append(line)
+                else:
+                    lines_per_group[(requested_exec_date, priority)] = [line]
+                # Write requested_exec_date on 'Payment date' of the pay line
+                if requested_exec_date != line.date:
+                    self.pool['payment.line'].write(
+                        cr, uid, line.id,
+                        {'date': requested_exec_date}, context=context)
+
+        for (requested_exec_date, priority), lines in lines_per_group.items():
+            # B. Payment info
+            payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
+            payment_info_identification_2_1 = etree.SubElement(
+                payment_info_2_0, 'PmtInfId')
+            payment_info_identification_2_1.text = self._prepare_field(
+                cr, uid, 'Payment Information Identification',
+                "sepa_export.payment_order_ids[0].reference + '-' + requested_exec_date.replace('-', '')  + '-' + priority", {
+                    'sepa_export': sepa_export,
+                    'priority': priority,
+                    'requested_exec_date': requested_exec_date
+                }, 35, convert_to_ascii=convert_to_ascii, context=context)
+            payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
+            payment_method_2_2.text = 'TRF'
+            if pain_flavor in pain_03_to_05:
+                # batch_booking is in "Group header" with pain.001.001.02
+                # and in "Payment info" in pain.001.001.03/04
+                batch_booking_2_3 = etree.SubElement(
+                    payment_info_2_0, 'BtchBookg')
+                batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
+            # It may seem surprising, but the
+            # "SEPA Credit Transfer Scheme Customer-to-bank Implementation
+            # guidelines" v6.0 says that control sum and nb_of_transactions
+            # should be present at both "group header" level and "payment info"
+            # level. This seems to be confirmed by the tests carried out at
+            # BNP Paribas in PAIN v001.001.03
+            if pain_flavor in pain_03_to_05:
+                nb_of_transactions_2_4 = etree.SubElement(
+                    payment_info_2_0, 'NbOfTxs')
+                control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
+            payment_type_info_2_6 = etree.SubElement(
+                payment_info_2_0, 'PmtTpInf')
+            if priority:
+                instruction_priority_2_7 = etree.SubElement(
+                    payment_type_info_2_6, 'InstrPrty')
+                instruction_priority_2_7.text = priority
+            service_level_2_8 = etree.SubElement(
+                payment_type_info_2_6, 'SvcLvl')
+            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
+            service_level_code_2_9.text = 'SEPA'
+            requested_exec_date_2_17 = etree.SubElement(
+                payment_info_2_0, 'ReqdExctnDt')
+            requested_exec_date_2_17.text = requested_exec_date
+            debtor_2_19 = etree.SubElement(payment_info_2_0, 'Dbtr')
+            debtor_name = etree.SubElement(debtor_2_19, 'Nm')
+            debtor_name.text = my_company_name
+            debtor_account_2_20 = etree.SubElement(
+                payment_info_2_0, 'DbtrAcct')
+            debtor_account_id = etree.SubElement(debtor_account_2_20, 'Id')
+            debtor_account_iban = etree.SubElement(debtor_account_id, 'IBAN')
+            debtor_account_iban.text = self._validate_iban(
+                cr, uid, self._prepare_field(
+                    cr, uid, 'Company IBAN',
+                    'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
+                    {'sepa_export': sepa_export},
+                    convert_to_ascii=convert_to_ascii, context=context),
+                context=context)
+            debtor_agent_2_21 = etree.SubElement(payment_info_2_0, 'DbtrAgt')
+            debtor_agent_institution = etree.SubElement(
+                debtor_agent_2_21, 'FinInstnId')
+            debtor_agent_bic = etree.SubElement(
+                debtor_agent_institution, bic_xml_tag)
+            # TODO validate BIC with pattern
+            # [A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}
+            # because OpenERP doesn't have a constraint on BIC
+            debtor_agent_bic.text = self._prepare_field(
+                cr, uid, 'Company BIC',
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
+                {'sepa_export': sepa_export},
+                convert_to_ascii=convert_to_ascii, context=context)
+            charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
+            charge_bearer_2_24.text = sepa_export.charge_bearer
+
+            transactions_count_2_4 = 0
+            amount_control_sum_2_5 = 0.0
+            for line in lines:
+                transactions_count_1_6 += 1
+                transactions_count_2_4 += 1
                 # C. Credit Transfer Transaction Info
                 credit_transfer_transaction_info_2_27 = etree.SubElement(
                     payment_info_2_0, 'CdtTrfTxInf')
@@ -332,17 +382,20 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 end2end_identification_2_30 = etree.SubElement(
                     payment_identification_2_28, 'EndToEndId')
                 end2end_identification_2_30.text = self._prepare_field(
-                    cr, uid, 'End to End Identification', 'line.name', 35,
-                    line=line, context=context)
+                    cr, uid, 'End to End Identification', 'line.name',
+                    {'line': line}, 35, convert_to_ascii=convert_to_ascii,
+                    context=context)
                 currency_name = self._prepare_field(
-                    cr, uid, 'Currency Code', 'line.currency.name', 3,
-                    line=line, context=context)
+                    cr, uid, 'Currency Code', 'line.currency.name',
+                    {'line': line}, 3, convert_to_ascii=convert_to_ascii,
+                    context=context)
                 amount_2_42 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Amt')
                 instructed_amount_2_43 = etree.SubElement(
                     amount_2_42, 'InstdAmt', Ccy=currency_name)
                 instructed_amount_2_43.text = '%.2f' % line.amount_currency
-                amount_control_sum += line.amount_currency
+                amount_control_sum_1_7 += line.amount_currency
+                amount_control_sum_2_5 += line.amount_currency
                 creditor_agent_2_77 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'CdtrAgt')
                 creditor_agent_institution = etree.SubElement(
@@ -355,14 +408,16 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 creditor_agent_bic = etree.SubElement(
                     creditor_agent_institution, bic_xml_tag)
                 creditor_agent_bic.text = self._prepare_field(
-                    cr, uid, 'Customer BIC', 'line.bank_id.bank.bic',
-                    line=line, context=context)
+                    cr, uid, 'Creditor BIC', 'line.bank_id.bank.bic',
+                    {'line': line}, convert_to_ascii=convert_to_ascii,
+                    context=context)
                 creditor_2_79 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Cdtr')
                 creditor_name = etree.SubElement(creditor_2_79, 'Nm')
                 creditor_name.text = self._prepare_field(
-                    cr, uid, 'Customer Name', 'line.partner_id.name',
-                    name_maxsize, line=line, context=context)
+                    cr, uid, 'Creditor Name', 'line.partner_id.name',
+                    {'line': line}, name_maxsize,
+                    convert_to_ascii=convert_to_ascii, context=context)
                 creditor_account_2_80 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'CdtrAcct')
                 creditor_account_id = etree.SubElement(
@@ -371,30 +426,71 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     creditor_account_id, 'IBAN')
                 creditor_account_iban.text = self._validate_iban(
                     cr, uid, self._prepare_field(
-                        cr, uid, 'Customer IBAN',
-                        'line.bank_id.acc_number', line=line,
-                        context=context),
+                        cr, uid, 'Creditor IBAN',
+                        'line.bank_id.acc_number', {'line': line},
+                        convert_to_ascii=convert_to_ascii, context=context),
                     context=context)
                 remittance_info_2_91 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'RmtInf')
-                # switch to Structured (Strdr) ?
-                # If we do it, beware that the format is not the same
-                # between pain 02 and pain 03
-                remittance_info_unstructured_2_99 = etree.SubElement(
-                    remittance_info_2_91, 'Ustrd')
-                remittance_info_unstructured_2_99.text = self._prepare_field(
-                    cr, uid, 'Remittance Information', 'line.communication',
-                    140, line=line, context=context)
+                if line.state == 'normal':
+                    remittance_info_unstructured_2_99 = etree.SubElement(
+                        remittance_info_2_91, 'Ustrd')
+                    remittance_info_unstructured_2_99.text = \
+                        self._prepare_field(
+                            cr, uid, 'Remittance Unstructured Information',
+                            'line.communication', {'line': line}, 140,
+                            convert_to_ascii=convert_to_ascii,
+                            context=context)
+                else:
+                    if not line.struct_communication_type:
+                        raise orm.except_orm(
+                            _('Error:'),
+                            _("Missing 'Structured Communication Type' on payment line with your reference '%s'.")
+                            % (line.name))
+                    remittance_info_unstructured_2_100 = etree.SubElement(
+                        remittance_info_2_91, 'Strd')
+                    creditor_ref_information_2_120 = etree.SubElement(
+                        remittance_info_unstructured_2_100, 'CdtrRefInf')
+                    if pain_flavor in pain_03_to_05:
+                        creditor_ref_info_type_2_121 = etree.SubElement(
+                            creditor_ref_information_2_120, 'Tp')
+                        creditor_ref_info_type_or_2_122 = etree.SubElement(
+                            creditor_ref_info_type_2_121, 'CdOrPrtry')
+                        creditor_ref_info_type_code_2_123 = etree.SubElement(
+                            creditor_ref_info_type_or_2_122, 'Cd')
+                        creditor_ref_info_type_issuer_2_125 = etree.SubElement(
+                            creditor_ref_info_type_2_121, 'Issr')
+                        creditor_reference_2_126 = etree.SubElement(
+                            creditor_ref_information_2_120, 'Ref')
+                    else:
+                        creditor_ref_info_type_2_121 = etree.SubElement(
+                            creditor_ref_information_2_120, 'CdtrRefTp')
+                        creditor_ref_info_type_code_2_123 = etree.SubElement(
+                            creditor_ref_info_type_2_121, 'Cd')
+                        creditor_ref_info_type_issuer_2_125 = etree.SubElement(
+                            creditor_ref_info_type_2_121, 'Issr')
+                        creditor_reference_2_126 = etree.SubElement(
+                            creditor_ref_information_2_120, 'CdtrRef')
 
-        if pain_flavor in [
-                'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']:
-            nb_of_transactions_1_6.text = nb_of_transactions_2_4.text = \
-                str(transactions_count)
-            control_sum_1_7.text = control_sum_2_5.text = \
-                '%.2f' % amount_control_sum
+                    creditor_ref_info_type_code_2_123.text = 'SCOR'
+                    creditor_ref_info_type_issuer_2_125.text = \
+                        line.struct_communication_type
+                    creditor_reference_2_126.text = \
+                        self._prepare_field(
+                            cr, uid, 'Creditor Structured Reference',
+                            'line.communication', {'line': line}, 35,
+                            convert_to_ascii=convert_to_ascii,
+                            context=context)
+            if pain_flavor in pain_03_to_05:
+                nb_of_transactions_2_4.text = str(transactions_count_2_4)
+                control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
+
+        if pain_flavor in pain_03_to_05:
+            nb_of_transactions_1_6.text = str(transactions_count_1_6)
+            control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
         else:
-            nb_of_transactions_1_6.text = str(transactions_count)
-            control_sum_1_7.text = '%.2f' % amount_control_sum
+            nb_of_transactions_1_6.text = str(transactions_count_1_6)
+            control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
 
         xml_string = etree.tostring(
             root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
@@ -407,7 +503,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         # CREATE the banking.export.sepa record
         file_id = self.pool.get('banking.export.sepa').create(
             cr, uid, self._prepare_export_sepa(
-                cr, uid, sepa_export, total_amount, transactions_count,
+                cr, uid, sepa_export, total_amount, transactions_count_1_6,
                 xml_string, context=context),
             context=context)
 
