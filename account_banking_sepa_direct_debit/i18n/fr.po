@@ -191,7 +191,7 @@ msgstr "Le mandat de prélèvement SEPA a expiré"
 #: help:banking.export.sdd,charge_bearer:0
 #: help:banking.export.sdd.wizard,charge_bearer:0
 msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
-msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créditeur sont à la charge du créditeur. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
+msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créancier sont à la charge du créancier. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
 
 #. module: account_banking_sepa_direct_debit
 #: view:sdd.mandate:0
