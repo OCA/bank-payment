@@ -46,6 +46,9 @@
                                 icon="gtk-find"
                                 />
                     </xpath>
+                    <field name="mode" position="attributes">
+                        <attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>
+                    </field>
                 </data>
             </field>
         </record>
