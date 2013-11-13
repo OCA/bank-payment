@@ -1,4 +1,4 @@
-# Spanish translation for account-banking
+# Turkish translation for account-banking
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the account-banking package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,11 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: account-banking\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-25 15:52+0000\n"
 "PO-Revision-Date: 2013-11-11 17:48+0000\n"
 "Last-Translator: Pedro Manuel Baeza <pedro.baeza@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -70,7 +70,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:341
 #, python-format
 msgid "Number of errors found"
-msgstr "Número de errores encontrados"
+msgstr "Bulunan hataların sayısı"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:224
@@ -83,7 +83,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Select the processing details:"
-msgstr ""
+msgstr "İşlem ayrıntılarını seçin:"
 
 #. module: account_banking
 #: view:account.bank.statement.line:0
@@ -101,7 +101,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:889
 #, python-format
 msgid "Invalid format"
-msgstr ""
+msgstr "Geçersiz biçim"
 
 #. module: account_banking
 #: field:banking.import.line,statement_id:0
@@ -149,7 +149,7 @@ msgstr ""
 #: view:account.banking.bank.import:0
 #: field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr "Registro"
+msgstr "Kayıt"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:389
@@ -176,7 +176,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.bank.import,file:0
 msgid "Statements File"
-msgstr "Archivo de declaraciones"
+msgstr ""
 
 #. module: account_banking
 #: field:account.banking.bank.import,import_id:0
@@ -195,7 +195,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr "Compañía"
+msgstr "Firma"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -332,7 +332,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:920
 #, python-format
 msgid "Invalid IBAN account number!"
-msgstr ""
+msgstr "Geçersiz IBAN hesap numarası"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -361,7 +361,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.imported.file,file:0
 msgid "Raw Data"
-msgstr "Datos en bruto"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1795
@@ -410,7 +410,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,default_debit_account_id:0
 msgid "Default debit account"
-msgstr "Cuenta de débito por omisión"
+msgstr ""
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.act_account_banking_import_wizard
@@ -454,7 +454,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/banktools.py:258
 #, python-format
 msgid "Unknown Bank"
-msgstr "Banco desconocido"
+msgstr "Bilinmeyen Banka"
 
 #. module: account_banking
 #: field:banking.transaction.wizard,duplicate:0
@@ -477,12 +477,12 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Draft"
-msgstr "Borrador"
+msgstr "Taslak"
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
 msgid "Import Date"
-msgstr "Fecha de importación"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_tax_id:0
@@ -514,7 +514,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Confirmed"
-msgstr "Confirmado"
+msgstr "Onaylandı"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_voucher
@@ -539,12 +539,12 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Onayla"
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
 msgid "Default credit account"
-msgstr ""
+msgstr "Varsayılan kredi hesabı"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1666
@@ -556,7 +556,7 @@ msgstr ""
 #: field:account.bank.statement.line,period_id:0
 #: field:banking.import.line,period_id:0
 msgid "Period"
-msgstr "Período"
+msgstr "Dönem"
 
 #. module: account_banking
 #: field:banking.import.line,transaction_type:0
@@ -585,7 +585,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,trans:0
 msgid "Bank Transaction ID"
-msgstr "Identificador de transacción del banco"
+msgstr ""
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -645,13 +645,13 @@ msgstr ""
 #: code:addons/account_banking/banking_import_transaction.py:1800
 #, python-format
 msgid "Error !"
-msgstr "Error !"
+msgstr "Hata !"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:878
 #, python-format
 msgid "Invalid data"
-msgstr ""
+msgstr "Geçersiz veri"
 
 #. module: account_banking
 #: field:banking.import.transaction,provision_costs_currency:0
@@ -667,7 +667,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.imported.file:0
 msgid "Import Details"
-msgstr "Importar detalles"
+msgstr ""
 
 #. module: account_banking
 #. openerp-web
@@ -774,7 +774,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:135
 #, python-format
 msgid "ERROR!"
-msgstr "ERROR!"
+msgstr "HATA!"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:154
@@ -834,7 +834,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -867,7 +867,7 @@ msgstr ""
 #: field:account.bank.statement.line,currency:0
 #: field:banking.import.line,currency:0
 msgid "Currency"
-msgstr "Divisa"
+msgstr "Para Birimi"
 
 #. module: account_banking
 #: field:banking.import.transaction,statement:0
@@ -888,7 +888,7 @@ msgstr ""
 #: field:banking.link_partner,message:0
 #: field:banking.transaction.wizard,message:0
 msgid "Message"
-msgstr ""
+msgstr "İleti"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:131
@@ -902,6 +902,7 @@ msgstr ""
 msgid ""
 "More than one bank account was found with the same number %(account_no)s"
 msgstr ""
+"%(account_no)s ile aynı numaraya sahip birden fazla banka hesabı bulundu"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -920,7 +921,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
 msgid "Responsible User"
-msgstr "Usuario responsable"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:272
@@ -948,7 +949,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:845
 #, python-format
 msgid "Insufficient data"
-msgstr ""
+msgstr "Yetersiz veri"
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
@@ -962,7 +963,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:339
 #, python-format
 msgid "Total number of transactions"
-msgstr "Número total de transacciones"
+msgstr "Toplam işlem sayısı"
 
 #. module: account_banking
 #: field:banking.import.line,duplicate:0
@@ -990,7 +991,7 @@ msgstr ""
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
 msgid "Bank Statements File"
-msgstr "Archivo de declaraciones bancarias"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:381
@@ -1108,7 +1109,7 @@ msgstr ""
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
-msgstr "Importar registro"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.line,date:0
@@ -1178,7 +1179,7 @@ msgstr ""
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_actions
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_settings
 msgid "Banking"
-msgstr "Bancario"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:122
@@ -1199,7 +1200,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/link_partner.py:93
 #, python-format
 msgid "Error"
-msgstr "Error"
+msgstr "Hata"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:926
@@ -1240,7 +1241,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:337
 #, python-format
 msgid "Total number of statements"
-msgstr "Número total de declaraciones"
+msgstr "Beyanların toplam sayısı"
 
 #. module: account_banking
 #: field:banking.import.transaction,provision_costs_description:0
@@ -1274,7 +1275,7 @@ msgstr ""
 #: model:ir.model,name:account_banking.model_res_partner_bank
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr "Cuentas de banco"
+msgstr "Banka Hesapları"
 
 #. module: account_banking
 #: field:banking.import.transaction,local_account:0
@@ -1361,7 +1362,7 @@ msgstr ""
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Unfinished"
-msgstr "Sin terminar"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banking_transaction_wizard.py:180
@@ -1379,7 +1380,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:347
 #, python-format
 msgid "Number of statements loaded"
-msgstr "Número de declaraciónes cargadas"
+msgstr "Yüklü beyanların sayısı"
 
 #. module: account_banking
 #: view:res.partner.bank:0
@@ -1392,7 +1393,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:921
 #, python-format
 msgid "The IBAN number doesn't seem to be correct"
-msgstr ""
+msgstr "IBAN numarası yanlış gibi gözüküyor"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -1445,7 +1446,7 @@ msgstr ""
 #: field:account.banking.bank.import,parser:0
 #: field:account.banking.imported.file,format:0
 msgid "File Format"
-msgstr "Formato de archivo"
+msgstr "Dosya Biçimi"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1506
@@ -1461,7 +1462,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr "Diario"
+msgstr ""
 
 #. module: account_banking
 #: view:account.bank.statement:0
@@ -1489,7 +1490,7 @@ msgstr ""
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
-msgstr "Terminando"
+msgstr "Tamamlandı"
 
 #. module: account_banking
 #: field:banking.link_partner,street:0
@@ -1515,7 +1516,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Bank Account Details"
-msgstr "Detalles de la cuenta bancaria"
+msgstr "Banka Hesabı Ayrıntıları"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_country_code:0
@@ -1572,13 +1573,13 @@ msgstr ""
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr "Cuenta de banco"
+msgstr "Banka Hesabı"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:349
 #, python-format
 msgid "Number of transactions loaded"
-msgstr "Número de transacciones cargadas"
+msgstr ""
 
 #. module: account_banking
 #: help:account.banking.account.settings,costs_account_id:0
@@ -1590,7 +1591,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement,banking_id:0
 msgid "Imported File"
-msgstr "Archivo importado"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,local_currency:0
@@ -1612,14 +1613,14 @@ msgstr ""
 #: code:addons/account_banking/wizard/bank_import.py:351
 #, python-format
 msgid "Number of transactions matched"
-msgstr ""
+msgstr "Eşleşen işlem sayısı"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,statement_ids:0
 msgid "Statements"
-msgstr "Declaraciones"
+msgstr ""
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_banking_import_line

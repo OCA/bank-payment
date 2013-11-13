@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.12\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-07-16 15:18:32+0000\n"
-"PO-Revision-Date: 2010-07-16 15:18:32+0000\n"
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-25 15:54+0000\n"
+"PO-Revision-Date: 2013-10-25 15:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,35 +16,20 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:0
-#, python-format
-msgid "''\\n"
-"The Dutch Girotel - Kommagescheiden format is basicly a MS Excel CSV format.\n"
-"''"
-msgstr ""
-
-#. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:0
+#: code:addons/account_banking_nl_girotel/girotel.py:325
 #, python-format
 msgid "Dutch Girotel - Kommagescheiden"
 msgstr ""
 
 #. module: account_banking_nl_girotel
-#: model:ir.module.module,shortdesc:account_banking_nl_girotel.module_meta_information
-msgid "Account Banking - Girotel"
+#: code:addons/account_banking_nl_girotel/girotel.py:327
+#, python-format
+msgid "The Dutch Girotel - Kommagescheiden format is basicly a MS Excel CSV format.\n"
+""
 msgstr ""
 
 #. module: account_banking_nl_girotel
-#: model:ir.module.module,description:account_banking_nl_girotel.module_meta_information
-msgid "\n"
-"    Module to import Dutch Girotel format transation files.\n"
-"\n"
-"    This modules contains no logic, just an import filter for account_banking.\n"
-"    "
-msgstr ""
-
-#. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:0
+#: code:addons/account_banking_nl_girotel/girotel.py:103
 #, python-format
 msgid "Invalid transaction line: expected %d columns, found %d"
 msgstr ""

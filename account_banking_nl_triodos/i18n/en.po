@@ -6,73 +6,38 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-04-26 18:15+0000\n"
-"PO-Revision-Date: 2011-04-26 18:15+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2013-10-25 15:57+0000\n"
+"PO-Revision-Date: 2013-11-11 17:51+0000\n"
+"Last-Translator: Pedro Manuel Baeza <pedro.baeza@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-11-12 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #. module: account_banking_nl_triodos
-#: model:ir.module.module,description:account_banking_nl_triodos.module_meta_information
-msgid "\n"
-"Module to import Dutch Triodos bank format transation files (CSV format).\n"
-"\n"
-"As the Triodos bank does not provide detailed specification concerning possible\n"
-"values and their meaning for the fields in the CSV file format, the statements\n"
-"are parsed according to an educated guess based on incomplete information.\n"
-"You can contact the account-banking developers through their launchpad page and\n"
-"help improve the performance of this import filter on\n"
-"https://launchpad.net/account-banking.\n"
-"\n"
-"Note that imported bank transfers are organized in statements covering periods\n"
-"of one week, even if the imported files cover a different period.\n"
-"\n"
-"This modules contains no logic, just an import filter for account_banking.\n"
-"    "
-msgstr "\n"
-"Module to import Dutch Triodos bank format transation files (CSV format).\n"
-"\n"
-"As the Triodos bank does not provide detailed specification concerning possible\n"
-"values and their meaning for the fields in the CSV file format, the statements\n"
-"are parsed according to an educated guess based on incomplete information.\n"
-"You can contact the account-banking developers through their launchpad page and\n"
-"help improve the performance of this import filter on\n"
-"https://launchpad.net/account-banking.\n"
-"\n"
-"Note that imported bank transfers are organized in statements covering periods\n"
-"of one week, even if the imported files cover a different period.\n"
-"\n"
-"This modules contains no logic, just an import filter for account_banking.\n"
-"    "
-
-#. module: account_banking_nl_triodos
-#: model:ir.module.module,shortdesc:account_banking_nl_triodos.module_meta_information
-msgid "Triodos (NL) Bank Statements Import"
-msgstr "Triodos (NL) Bank Statements Import"
-
-#. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:185
+#: code:addons/account_banking_nl_triodos/triodos.py:183
 #, python-format
 msgid "Triodos Bank"
 msgstr "Triodos Bank"
 
 #. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:186
+#: code:addons/account_banking_nl_triodos/triodos.py:184
 #, python-format
-msgid "The Dutch Triodos format is basicly a MS Excel CSV format. It is specifically\n"
+msgid ""
+"The Dutch Triodos format is basicly a MS Excel CSV format. It is "
+"specifically\n"
 "distinct from the Dutch multibank format. Transactions are not tied to Bank\n"
 "Statements.\n"
-""
-msgstr "The Dutch Triodos format is basicly a MS Excel CSV format. It is specifically\n"
+msgstr ""
+"The Dutch Triodos format is basicly a MS Excel CSV format. It is "
+"specifically\n"
 "distinct from the Dutch multibank format. Transactions are not tied to Bank\n"
 "Statements.\n"
-""
 
 #. module: account_banking_nl_triodos
-#: code:addons/account_banking_nl_triodos/triodos.py:63
+#: code:addons/account_banking_nl_triodos/triodos.py:59
 #, python-format
 msgid "Invalid transaction line: expected %d columns, found %d"
 msgstr "Invalid transaction line: expected %d columns, found %d"
