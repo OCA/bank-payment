@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# * account_banking_nl_abnamro
+#	* account_banking_nl_abnamro
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.1\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-04-26 18:01+0000\n"
-"PO-Revision-Date: 2011-04-26 18:01+0000\n"
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-25 15:53+0000\n"
+"PO-Revision-Date: 2013-10-25 15:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,59 +16,68 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:125
+#: code:addons/account_banking_nl_abnamro/abnamro.py:122
 #, python-format
 msgid "No remote account for transaction type %s"
-msgstr "No remote account for transaction type %s"
+msgstr ""
+
+#. module: account_banking_nl_abnamro
+#: code:addons/account_banking_nl_abnamro/abnamro.py:348
+#, python-format
+msgid "Abnamro (NL)"
+msgstr ""
+
+#. module: account_banking_nl_abnamro
+#: code:addons/account_banking_nl_abnamro/abnamro.py:197
+#, python-format
+msgid "invalid data found before key %s"
+msgstr ""
+
+#. module: account_banking_nl_abnamro
+#: code:addons/account_banking_nl_abnamro/abnamro.py:125
+#: code:addons/account_banking_nl_abnamro/abnamro.py:229
+#, python-format
+msgid "Error !"
+msgstr ""
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:261
 #, python-format
-msgid "Abnamro (NL)"
-msgstr "Abnamro (NL)"
+msgid "Sepa transaction type %s not handled yet"
+msgstr ""
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:128
-#, python-format
-msgid "Error !"
-msgstr "Error !"
-
-#. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:65
+#: code:addons/account_banking_nl_abnamro/abnamro.py:60
 #, python-format
 msgid "Invalid transaction line: expected %d columns, found %d"
-msgstr "Invalid transaction line: expected %d columns, found %d"
+msgstr ""
 
 #. module: account_banking_nl_abnamro
-#: model:ir.module.module,description:account_banking_nl_abnamro.module_meta_information
-msgid "\n"
-"Import filter for abnamro (NL) bank transaction files (txt/tab format).\n"
-"\n"
-"No formal specifications of the file layout are released by abnamro. You can\n"
-"help improve the performance of this import filter on\n"
-"https://launchpad.net/account-banking.\n"
-"\n"
-"Imported bank transfers are organized in statements covering periods of one week,\n"
-"even if the imported files cover a different period.\n"
-"    "
-msgstr "\n"
-"Import filter for abnamro (NL) bank transaction files (txt/tab format).\n"
-"\n"
-"No formal specifications of the file layout are released by abnamro. You can\n"
-"help improve the performance of this import filter on\n"
-"https://launchpad.net/account-banking.\n"
-"\n"
-"Imported bank transfers are organized in statements covering periods of one week,\n"
-"even if the imported files cover a different period.\n"
-"    "
+#: code:addons/account_banking_nl_abnamro/abnamro.py:189
+#, python-format
+msgid "too few items"
+msgstr ""
 
 #. module: account_banking_nl_abnamro
-#: model:ir.module.module,shortdesc:account_banking_nl_abnamro.module_meta_information
-msgid "abnamro (NL) Bank Statements Import"
-msgstr "abnamro (NL) Bank Statements Import"
+#: code:addons/account_banking_nl_abnamro/abnamro.py:195
+#, python-format
+msgid "no key found for start %d"
+msgstr ""
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:262
+#: code:addons/account_banking_nl_abnamro/abnamro.py:162
+#, python-format
+msgid "unable to parse SEPA string: %s - %s"
+msgstr ""
+
+#. module: account_banking_nl_abnamro
+#: code:addons/account_banking_nl_abnamro/abnamro.py:230
+#, python-format
+msgid "unable to parse GIRO string: %s"
+msgstr ""
+
+#. module: account_banking_nl_abnamro
+#: code:addons/account_banking_nl_abnamro/abnamro.py:349
 #, python-format
 msgid "The Dutch Abnamro format is a tab separated text format. The last of these\n"
 "fields is itself a fixed length array containing transaction type, remote\n"
@@ -76,9 +85,5 @@ msgid "The Dutch Abnamro format is a tab separated text format. The last of thes
 "format. Transactions are not explicitely tied to bank statements, although\n"
 "each file covers a period of two weeks.\n"
 ""
-msgstr "The Dutch Abnamro format is a tab separated text format. The last of these\n"
-"fields is itself a fixed length array containing transaction type, remote\n"
-"account and owner. The bank does not provide a formal specification of the\n"
-"format. Transactions are not explicitely tied to bank statements, although\n"
-"each file covers a period of two weeks.\n"
-""
+msgstr ""
+
