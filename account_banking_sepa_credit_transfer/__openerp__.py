@@ -26,7 +26,7 @@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'category': 'Banking addons',
-    'depends': ['account_banking_payment'],
+    'depends': ['account_banking_payment_export'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
         },
