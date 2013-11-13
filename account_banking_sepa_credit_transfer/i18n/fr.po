@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 21:33+0000\n"
-"PO-Revision-Date: 2013-11-12 21:33+0000\n"
+"POT-Creation-Date: 2013-11-13 09:14+0000\n"
+"PO-Revision-Date: 2013-11-13 09:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -261,5 +261,5 @@ msgstr "Annuler"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,create_date:0
 msgid "Generation Date"
-msgstr "Generation Date"
+msgstr "Date de génération"
 
