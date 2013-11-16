@@ -521,7 +521,7 @@ class banking_import_transaction(osv.osv):
             'writeoff_amount': writeoff,
             'payment_option': transaction.payment_option,
             'writeoff_acc_id': transaction.writeoff_account_id.id,
-            'analytic_id': transaction.writeoff_analytic_id.id,
+            'analytic_id': transaction.writeoff_analytic_id.id or False,
             'date': st_line.date,
             'date_due': st_line.date,
             'period_id': period_id,

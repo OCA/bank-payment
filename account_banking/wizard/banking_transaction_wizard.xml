@@ -108,7 +108,9 @@
                                     <label string="Choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment."  colspan="2"/>
                                     <field name="payment_option" />
                                     <field name="writeoff_account_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
-                                    <field name="writeoff_analytic_id" attrs="{'required':[('payment_option','=','with_writeoff')],'invisible':[('payment_option','=','without_writeoff')]}" />
+                                    <field name="writeoff_analytic_id"
+                                           groups="analytic.group_analytic_accounting"
+                                           attrs="{'invisible':[('payment_option','=','without_writeoff')]}" />
                                     <button colspan="1"
                                             name="trigger_write"
                                             type="object"
