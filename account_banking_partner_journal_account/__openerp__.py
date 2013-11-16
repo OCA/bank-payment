@@ -28,6 +28,16 @@
     'description': '''
 This module allows to set alternative journal accounts on partners to use
 as default accounts in imported bank statements.
+
+This is useful when regular transactions on clearing accounts occur. Such
+clearing accounts cannot usually be selected as default partner accounts
+because they are neither of type 'payable' nor 'receivable' (or at least
+never at the same time!). For the alternative journal accounts for bank
+transactions, any reconcilable account can be selected.
+
+When a transaction matches a specific move in the system, the account
+from the move line takes still precedence so as not to impede
+reconciliation.
     ''',
     'data': ['res_partner_view.xml'],
     'installable': True,
