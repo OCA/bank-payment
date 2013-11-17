@@ -56,7 +56,7 @@ class ResPartner(orm.Model):
             self, cr, uid, ids, context=None):
         if not ids:
             return {}
-        res = super(ResPartner, self).def_journal_account_bank_decr(
+        res = super(ResPartner, self).def_journal_account_bank_incr(
             cr, uid, ids, context=context)
         for partner in self.browse(cr, uid, ids, context=context):
             if partner.account_receivable_bank_id:
