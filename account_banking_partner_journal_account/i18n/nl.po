@@ -28,7 +28,7 @@ msgstr "Optionele standaard grootboekrekening voor geïmporteerde bankbijschrijv
 #. module: account_banking_partner_journal_account
 #: field:res.partner,account_payable_bank_id:0
 msgid "Default bank credit account"
-msgstr "Standaardrekening afschrijvingen"
+msgstr "Standaardrekening bankafschrijvingen"
 
 #. module: account_banking_partner_journal_account
 #: help:res.partner,account_payable_bank_id:0
