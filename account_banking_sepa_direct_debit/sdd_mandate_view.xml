@@ -25,16 +25,16 @@
                 </div>
                 <group name="main">
                     <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="partner_bank_id"
+                        on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)"
+                        invisible="context.get('sdd_mandate_bank_partner_view')"
+                        />
                     <field name="partner_id" invisible="context.get('sdd_mandate_bank_partner_view')"/>
                     <field name="type" on_change="mandate_type_change(type)"/>
                     <field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
                     <field name="signature_date"/>
                     <field name="scan"/>
                     <field name="last_debit_date"/>
-                    <field name="partner_bank_id"
-                        on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)"
-                        invisible="context.get('sdd_mandate_bank_partner_view')"
-                        domain="[('partner_id', '=', partner_id)]"/>
                 </group>
                 <group name="payment_lines" string="Related Payment Lines">
                     <field name="payment_line_ids" nolabel="1"/>
@@ -95,7 +95,7 @@
 </record>
 
 <menuitem id="sdd_mandate_menu"
-          parent="account_banking.menu_finance_banking_actions"
+          parent="account_banking.menu_finance_banking_settings"
           action="sdd_mandate_action"
           sequence="20"
           />

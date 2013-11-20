@@ -223,18 +223,21 @@ class sdd_mandate(orm.Model):
     def mandate_partner_bank_change(
             self, cr, uid, ids, partner_bank_id, type, recurrent_sequence_type,
             last_debit_date, state):
+        res = {'value': {}}
+        if partner_bank_id:
+            partner_bank_read = self.pool['res.partner.bank'].read(
+                cr, uid, partner_bank_id, ['partner_id'])['partner_id']
+            if partner_bank_read:
+                res['value']['partner_id'] = partner_bank_read[0]
         if (state == 'valid' and partner_bank_id
                 and type == 'recurrent'
                 and recurrent_sequence_type != 'first'):
-            return {
-                'value': {'recurrent_sequence_type': 'first'},
-                'warning': {
+            res['value']['recurrent_sequence_type'] = 'first'
+            res['warning'] = {
                     'title': _('Mandate update'),
                     'message': _("As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."),
-                    }
                 }
-        else:
-            return True
+        return res
 
     def validate(self, cr, uid, ids, context=None):
         to_validate_ids = []
