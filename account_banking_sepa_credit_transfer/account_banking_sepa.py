@@ -48,8 +48,6 @@ class banking_export_sepa(orm.Model):
             'banking_export_sepa_id', 'account_order_id',
             'Payment Orders',
             readonly=True),
-        'prefered_exec_date': fields.date(
-            'Prefered Execution Date', readonly=True),
         'nb_transactions': fields.integer(
             'Number of Transactions', readonly=True),
         'total_amount': fields.float('Total Amount',
