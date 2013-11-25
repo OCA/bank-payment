@@ -114,7 +114,8 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 raise orm.except_orm(
                     _('Error:'),
                     _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.")
-                    % (field_name, self.pool['account.invoice'].name_get(cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
+                    % (field_name, self.pool['account.invoice'].name_get(
+                        cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
             else:
                 raise orm.except_orm(
                     _('Error:'),
@@ -325,12 +326,14 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 nb_of_transactions_2_4 = etree.SubElement(
                     payment_info_2_0, 'NbOfTxs')
                 control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-            payment_type_info_2_6 = etree.SubElement(payment_info_2_0, 'PmtTpInf')
+            payment_type_info_2_6 = etree.SubElement(
+                payment_info_2_0, 'PmtTpInf')
             if priority:
                 instruction_priority_2_7 = etree.SubElement(
                     payment_type_info_2_6, 'InstrPrty')
                 instruction_priority_2_7.text = priority
-            service_level_2_8 = etree.SubElement(payment_type_info_2_6, 'SvcLvl')
+            service_level_2_8 = etree.SubElement(
+                payment_type_info_2_6, 'SvcLvl')
             service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
             service_level_code_2_9.text = 'SEPA'
             requested_exec_date_2_17 = etree.SubElement(
@@ -339,7 +342,8 @@ class banking_export_sepa_wizard(orm.TransientModel):
             debtor_2_19 = etree.SubElement(payment_info_2_0, 'Dbtr')
             debtor_name = etree.SubElement(debtor_2_19, 'Nm')
             debtor_name.text = my_company_name
-            debtor_account_2_20 = etree.SubElement(payment_info_2_0, 'DbtrAcct')
+            debtor_account_2_20 = etree.SubElement(
+                payment_info_2_0, 'DbtrAcct')
             debtor_account_id = etree.SubElement(debtor_account_2_20, 'Id')
             debtor_account_iban = etree.SubElement(debtor_account_id, 'IBAN')
             debtor_account_iban.text = self._validate_iban(
@@ -404,14 +408,14 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 creditor_agent_bic = etree.SubElement(
                     creditor_agent_institution, bic_xml_tag)
                 creditor_agent_bic.text = self._prepare_field(
-                    cr, uid, 'Customer BIC', 'line.bank_id.bank.bic',
+                    cr, uid, 'Creditor BIC', 'line.bank_id.bank.bic',
                     {'line': line}, convert_to_ascii=convert_to_ascii,
                     context=context)
                 creditor_2_79 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Cdtr')
                 creditor_name = etree.SubElement(creditor_2_79, 'Nm')
                 creditor_name.text = self._prepare_field(
-                    cr, uid, 'Customer Name', 'line.partner_id.name',
+                    cr, uid, 'Creditor Name', 'line.partner_id.name',
                     {'line': line}, name_maxsize,
                     convert_to_ascii=convert_to_ascii, context=context)
                 creditor_account_2_80 = etree.SubElement(
@@ -422,7 +426,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     creditor_account_id, 'IBAN')
                 creditor_account_iban.text = self._validate_iban(
                     cr, uid, self._prepare_field(
-                        cr, uid, 'Customer IBAN',
+                        cr, uid, 'Creditor IBAN',
                         'line.bank_id.acc_number', {'line': line},
                         convert_to_ascii=convert_to_ascii, context=context),
                     context=context)
