@@ -25,20 +25,24 @@ class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'account_payable_bank_id': fields.many2one(
+        'property_account_payable_bank_id': fields.property(
             'account.account',
-            'Default bank credit account',
+            type='many2one',
+            relation='account.account',
+            string='Default bank credit account',
             help=('Optional default journal account on bank statements for '
                   'credits from this partner. Overrides the default credit '
                   'account.'),
-            domain=[('reconcile', '=', True)]),
-        'account_receivable_bank_id': fields.many2one(
+            domain=[('type', '!=', 'view')]),
+        'property_account_receivable_bank_id': fields.property(
             'account.account',
-            'Default bank debit account',
+            type='many2one',
+            relation='account.account',
+            string='Default bank debit account',
             help=('Optional default journal account on bank statements for '
                   'debits from this partner. Overrides the default debit '
                   'account.'),
-            domain=[('reconcile', '=', True)]),
+            domain=[('type', '!=', 'view')]),
         }
 
     def def_journal_account_bank_decr(
@@ -48,8 +52,8 @@ class ResPartner(orm.Model):
         res = super(ResPartner, self).def_journal_account_bank_decr(
             cr, uid, ids, context=context)
         for partner in self.browse(cr, uid, ids, context=context):
-            if partner.account_payable_bank_id:
-                res[partner.id] = partner.account_payable_bank_id.id
+            if partner.property_account_payable_bank_id:
+                res[partner.id] = partner.property_account_payable_bank_id.id
         return res
 
     def def_journal_account_bank_incr(
@@ -59,6 +63,6 @@ class ResPartner(orm.Model):
         res = super(ResPartner, self).def_journal_account_bank_incr(
             cr, uid, ids, context=context)
         for partner in self.browse(cr, uid, ids, context=context):
-            if partner.account_receivable_bank_id:
-                res[partner.id] = partner.account_receivable_bank_id.id
+            if partner.property_account_receivable_bank_id:
+                res[partner.id] = partner.property_account_receivable_bank_id.id
         return res
