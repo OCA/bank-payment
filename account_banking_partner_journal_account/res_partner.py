@@ -31,14 +31,14 @@ class ResPartner(orm.Model):
             help=('Optional default journal account on bank statements for '
                   'credits from this partner. Overrides the default credit '
                   'account.'),
-            domain=[('reconcile', '=', True)]),
+            ),
         'account_receivable_bank_id': fields.many2one(
             'account.account',
             'Default bank debit account',
             help=('Optional default journal account on bank statements for '
                   'debits from this partner. Overrides the default debit '
                   'account.'),
-            domain=[('reconcile', '=', True)]),
+            ),
         }
 
     def def_journal_account_bank_decr(
