@@ -7,11 +7,11 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="property_account_receivable" position="after">
-                    <field name="account_receivable_bank_id"
+                    <field name="property_account_receivable_bank_id"
                            groups="account.group_account_invoice" />
                 </field>
                 <field name="property_account_payable" position="after">
-                    <field name="account_payable_bank_id"
+                    <field name="property_account_payable_bank_id"
                            groups="account.group_account_invoice" />
                 </field>
             </field>
