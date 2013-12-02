@@ -1892,7 +1892,13 @@ class account_bank_statement_line(osv.osv):
             if st_line.import_transaction_id:
                 import_transaction_obj.confirm(
                     cr, uid, st_line.import_transaction_id.id, context)
-            st_line.refresh()
+            # Workaround for
+            # https://bugs.launchpad.net/openobject-server/+bug/1238042
+            # Need to rebrowse instead of refresh, because any parent company
+            # will be in the browse record's id cache after the first pass, and
+            # accessing the actual company will then trigger a read attempt on
+            # the inaccessible parent company too, leading to an access error.
+            st_line = self.browse(cr, uid, st_line.id, context=context)
             st_line_number = statement_pool.get_next_st_line_number(
                 cr, uid, st_number, st_line, context)
             company_currency_id = st.journal_id.company_id.currency_id.id
