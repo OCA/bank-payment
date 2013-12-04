@@ -7,20 +7,20 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-13 09:13+0000\n"
-"PO-Revision-Date: 2013-11-11 17:54+0000\n"
-"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
+"PO-Revision-Date: 2013-12-03 11:49+0000\n"
+"Last-Translator: Jan Jurkus (GCE CAD-Service) <ict@gcecad-service.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-03 06:20+0000\n"
-"X-Generator: Launchpad (build 16856)\n"
+"X-Launchpad-Export-Date: 2013-12-04 05:59+0000\n"
+"X-Generator: Launchpad (build 16861)\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,prefered_exec_date:0
 #: field:banking.export.sepa.wizard,prefered_exec_date:0
 msgid "Prefered Execution Date"
-msgstr ""
+msgstr "Voorkeurs uitvoerdatum"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
@@ -31,7 +31,7 @@ msgstr "Aanmaken"
 #: field:banking.export.sepa,nb_transactions:0
 #: field:banking.export.sepa.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr ""
+msgstr "Aantal transacties"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,filename:0
@@ -61,6 +61,13 @@ msgid ""
 "the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
 msgstr ""
+"Volg service level: Transactie kosten worden toegepast volgens de "
+"afgesproken regels in het service level en/of schema (Voor SEPA berichten "
+"deze gebruiken). Gedeeld : De transactiekosten aan de debiteur zijde zijn "
+"voor de schuldeiser, transactiekosten aan de crediteur kant zijn voor de "
+"schuldenaar. Rekening van de schuldenaar: Alle transactie kosten zijn voor "
+"rekening van de schuldenaar. Rekening van de schuldeiser: Alle transactie "
+"kosten zijn voor rekening van de schuldeiser."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:117
@@ -68,6 +75,8 @@ msgstr ""
 msgid ""
 "Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'."
 msgstr ""
+"Niet mogelijk de '%s' van de betaalregel te berekenen met factuurreferentie "
+"'%s'."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
@@ -79,7 +88,7 @@ msgstr "Gedeeld"
 #: field:banking.export.sepa,batch_booking:0
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Bach verwerking"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
@@ -105,30 +114,32 @@ msgstr "Afgeletterd"
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Volg service level"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Rekening van schuldeiser"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:122
 #, python-format
 msgid "Cannot compute the '%s'."
-msgstr ""
+msgstr "Niet mogelijk de '%s' te berekenen."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:126
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
+"Het veldsoort van het veld '%s' is %s. Het moet een string of unicode soort "
+"zijn."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,state:0
 msgid "Sent"
-msgstr "Verstuur"
+msgstr "Verzonden"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
@@ -149,12 +160,16 @@ msgid ""
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %s"
 msgstr ""
+"Het gegenereerde XML bestand is niet geldig volgens de officiële XML schema "
+"definities. Het gegenereerde XML bestand en de volledige fout zijn "
+"weggeschreven in de server log bestanden. Hier is de fout, wat u een idee "
+"kunt geven over de oorzaak van het probleem: %s\""
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Rekening van schuldenaar"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:90
@@ -166,30 +181,30 @@ msgstr ""
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:350
 #, python-format
 msgid "Error:"
-msgstr ""
+msgstr "Fout:"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,total_amount:0
 #: field:banking.export.sepa.wizard,total_amount:0
 msgid "Total Amount"
-msgstr ""
+msgstr "Totaalbedrag"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,charge_bearer:0
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "Kostenverdeling"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "SEPA File Generation"
-msgstr ""
+msgstr "SEPA bestand genereren"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:125
 #, python-format
 msgid "Field type error:"
-msgstr ""
+msgstr "Veldsoort fout:"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa
@@ -202,18 +217,19 @@ msgstr "SEPA export"
 msgid ""
 "Missing Bank Account on invoice '%s' (payment order line reference '%s')."
 msgstr ""
+"Ontbrekende bankrekening op factuur '%s' (betaalregel referentie '%s')"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,file:0
 #: field:banking.export.sepa.wizard,file_id:0
 msgid "SEPA XML File"
-msgstr ""
+msgstr "SEPA XML bestand"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:131
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
-msgstr ""
+msgstr "De '%s' is leeg of 0. Het mag geen lege of nul waarde hebben."
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa,charge_bearer:0
@@ -226,6 +242,13 @@ msgid ""
 "the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
 msgstr ""
+"Volg service level: Transactie kosten worden toegepast volgens de "
+"afgesproken regels in het service level en/of schema (Voor SEPA berichten "
+"deze gebruiken). Gedeeld : De transactiekosten aan de crediteur zijde zijn "
+"voor de schuldenaar, transactiekosten aan de debiteur kant zijn voor de "
+"schuldeiser. Rekening van de schuldenaar: Alle transactie kosten zijn voor "
+"rekening van de schuldenaar. Rekening van de schuldeiser: Alle transactie "
+"kosten zijn voor rekening van de schuldeiser."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:207
@@ -235,12 +258,15 @@ msgid ""
 "supported for SEPA Credit Transfers are 'pain.001.001.02', "
 "'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'."
 msgstr ""
+"Betaal type code '%s' wordt niet ondersteund. De enige betaal type codes "
+"voor SEPA credit boekingen zijn 'pain.001.001.02', 'pain.001.001.03' en "
+"'pain.001.001.04'."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:90
 #, python-format
 msgid "This IBAN is not valid : %s"
-msgstr ""
+msgstr "Deze IBAN is niet geldig : %s"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa:0
@@ -259,7 +285,7 @@ msgstr "Algemene informatie"
 #: model:ir.actions.act_window,name:account_banking_sepa_credit_transfer.action_account_banking_sepa
 #: model:ir.ui.menu,name:account_banking_sepa_credit_transfer.menu_account_banking_sepa
 msgid "SEPA Credit Transfer Files"
-msgstr ""
+msgstr "SEPA Credit Transfer bestanden"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa,batch_booking:0
@@ -269,9 +295,9 @@ msgid ""
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
 msgstr ""
-"Indien aangevinkt zal het beankafschrift maar één debet regel weergeven voor "
-"alle overgeschrijvingen van het SEPA XML bestand. Indien uitgevinkt, zal het "
-"beankafschrift een debet regel weergeven per SEPA XML bestand."
+"Indien aangevinkt zal het bankafschrift maar één debet regel weergeven voor "
+"alle overschrijvingen van het SEPA XML bestand. Indien uitgevinkt, zal het "
+"bankafschrift een debet regel weergeven per SEPA XML bestand."
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,prefered_exec_date:0
@@ -282,7 +308,7 @@ msgid ""
 msgstr ""
 "Dit is de datum waarop het bestand zou moeten worden verwerkt door de bank. "
 "Houdt u er rekening mee dat banken alleen op werkdagen de bestanden "
-"verwerken en veelal een vertraging hebben van 2 dagen tussne de "
+"verwerken en veelal een vertraging hebben van twee dagen tussen de "
 "verwerkingsdatum en de effectieve overschrijfdatum."
 
 #. module: account_banking_sepa_credit_transfer
@@ -298,7 +324,7 @@ msgstr "Annuleren"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,create_date:0
 msgid "Generation Date"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #~ msgid "SEPA XML file"
 #~ msgstr "SEPA XML bestand"

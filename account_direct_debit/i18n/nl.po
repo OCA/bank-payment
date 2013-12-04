@@ -8,56 +8,56 @@ msgstr ""
 "Project-Id-Version: banking-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-25 16:01+0000\n"
-"PO-Revision-Date: 2013-11-11 17:52+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-12-03 11:31+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-12-04 05:59+0000\n"
+"X-Generator: Launchpad (build 16861)\n"
 
 #. module: account_direct_debit
 #: model:account.payment.term,note:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit in 14 days"
-msgstr ""
+msgstr "Incasso opdracht in 14 dagen"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Betalingsopdracht"
 
 #. module: account_direct_debit
 #: view:payment.order:0
 msgid "Select Invoices to Collect"
-msgstr ""
+msgstr "Selecteer openstaande posten ter incasso"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_line
 msgid "Payment Line"
-msgstr ""
+msgstr "Betaalregel"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/payment_line.py:140
 #, python-format
 msgid "Can not reconcile"
-msgstr ""
+msgstr "Kan niet afletteren"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Debit Denied"
-msgstr ""
+msgstr "Incasso geweigerd"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:147
 #, python-format
 msgid "Error !"
-msgstr ""
+msgstr "Fout !"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Show only invoices with state Debit denied"
-msgstr ""
+msgstr "Laat alleen facturen zien waarvan de incasso is geweigerd"
 
 #. module: account_direct_debit
 #: view:payment.order:0
@@ -65,27 +65,29 @@ msgid ""
 "{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', "
 "'payment')]}"
 msgstr ""
+"{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', "
+"'payment')]}"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Boekingen"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Debit denied"
-msgstr ""
+msgstr "Incasso geweigerd"
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
 #: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
 msgid "Direct Debit Orders"
-msgstr ""
+msgstr "Incasso opdracht"
 
 #. module: account_direct_debit
 #: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit"
-msgstr ""
+msgstr "Incasso opdracht"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:148
@@ -94,28 +96,30 @@ msgid ""
 "You cannot set invoice '%s' to state 'debit denied', as it is still "
 "reconciled."
 msgstr ""
+"Het is niet mogelijk om factuur '%s' in status 'Incasso geweigerd' te "
+"zetten, omdat deze nog is afgeletterd."
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:152
 #, python-format
 msgid "Invoice '%s': direct debit is denied."
-msgstr ""
+msgstr "Factuur '%s': Incasso geweigerd"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/payment_line.py:141
 #, python-format
 msgid "Cancelation of payment line '%s' has already been processed"
-msgstr ""
+msgstr "Het annuleren van de betaalopdrachtregel '%s' is al verwerkt"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_order_create
 msgid "payment.order.create"
-msgstr ""
+msgstr "payment.order.create"
 
 #. module: account_direct_debit
 #: field:payment.line,storno:0
 msgid "Storno"
-msgstr ""
+msgstr "Storno"
 
 #. module: account_direct_debit
 #: help:payment.line,storno:0
@@ -123,6 +127,8 @@ msgid ""
 "If this is true, the debit order has been canceled by the bank or by the "
 "customer"
 msgstr ""
+"Indien aangevinkt is de incasso opdracht al geannuleerd dor de bank of de "
+"klant."
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
@@ -132,13 +138,18 @@ msgid ""
 "track of all debit orders and mention the invoice reference and the partner "
 "the withdrawal should be done for."
 msgstr ""
+"Een incasso opdracht is een opdracht van uw bedrijf aan uw klant voor het "
+"incasseren van openstaande posten. Hier kunt u alle incasso opdrachten "
+"invoeren die moeten worden uitgevoerd en overzicht houden op alle incasso "
+"opdrachten. Tevens voert u hier de factuurreferentie en klant in waar de "
+"afschrijving moet plaatsvinden."
 
 #. module: account_direct_debit
 #: field:account.move.line,amount_to_receive:0
 msgid "Amount to receive"
-msgstr ""
+msgstr "Bedrag te ontvangen"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"

@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2013-10-25 15:53+0000\n"
-"PO-Revision-Date: 2013-12-02 14:50+0000\n"
-"Last-Translator: Jan Jurkus (GCE CAD-Service) <ict@gcecad-service.nl>\n"
+"PO-Revision-Date: 2013-12-03 11:09+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-03 06:20+0000\n"
-"X-Generator: Launchpad (build 16856)\n"
+"X-Launchpad-Export-Date: 2013-12-04 05:59+0000\n"
+"X-Generator: Launchpad (build 16861)\n"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:122
@@ -32,7 +32,7 @@ msgstr "Abnamro (NL)"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:197
 #, python-format
 msgid "invalid data found before key %s"
-msgstr ""
+msgstr "Ongeldige gegevesn gevonden voor key %s"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:125
@@ -45,7 +45,7 @@ msgstr "Fout !"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:261
 #, python-format
 msgid "Sepa transaction type %s not handled yet"
-msgstr ""
+msgstr "Sepa transactie type %s kan nog niet worden verwerkt"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:60
@@ -63,19 +63,19 @@ msgstr "te weinig items"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:195
 #, python-format
 msgid "no key found for start %d"
-msgstr ""
+msgstr "Geen key gevonden voor start %d"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:162
 #, python-format
 msgid "unable to parse SEPA string: %s - %s"
-msgstr ""
+msgstr "Niet mogelijk om SEPA string: %s - %s te verwerken"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:230
 #, python-format
 msgid "unable to parse GIRO string: %s"
-msgstr ""
+msgstr "Niet mogelijk om GIRO string: %s te verwerken"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:349
