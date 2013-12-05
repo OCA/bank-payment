@@ -29,5 +29,5 @@
     'description': '''
 When composing a payment order, select all candidates by default (in the second step of the "Select invoices to pay" wizard).
     ''',
-    'installable': False,
+    'installable': True,
 }
