@@ -28,10 +28,10 @@
                     </group>
                 </field>
                 <field name="manual_move_line_ids" position="after">
-                    <group>
-                        <field name="manual_payment_line_id"/>
-                        <field name="manual_payment_order_id"/>
-                    </group>
+                    <separator string="Match this payment line" colspan="4"/>
+                    <field name="manual_payment_line_id"/>
+                    <separator string="Match this payment order" colspan="4"/>
+                    <field name="manual_payment_order_id"/>
                 </field>
             </field>
         </record>

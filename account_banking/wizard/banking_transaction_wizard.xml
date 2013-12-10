@@ -36,22 +36,25 @@
                                 <separator string="Multiple matches" colspan="2"/>
                                 <label colspan="2" string="Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below." />
                             </group>
-                            <group attrs="{'readonly': [('match_multi', '!=', True)]}" col="8">
+                            </group>
+                            </group>
+                            <group>
+                            <newline/>
                                 <!-- show if we have an invoice type match (but the user may need to select from multiple options)
                                      or whenever there is an invoice_id (e.g. in case of a manual match) 
                                 -->
                                 <field name='invoice_id'
-                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'invoice'),('invoice_id', '=', False)]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'invoice'),('invoice_id', '=', False)]}" colspan="2"
                                        domain="[('id', 'in', invoice_ids[0][2])]"
                                        />
                                 <!-- show if we have a move type match or a manual match without an invoice_id
                                 -->
                                 <field name='move_line_id'
-                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'move'),('invoice_id', '=', False)]}"
+                                       attrs="{'readonly': [('match_multi', '=', False)], 'invisible': [('match_type', '!=', 'move'),('invoice_id', '=', False)]}" colspan="2"
                                        domain="[('id', 'in', move_line_ids[0][2])]"
                                        />
-                                <field name='analytic_account_id' />
-                            </group>
+                             <newline/>
+                            <field colspan="2" name='analytic_account_id' />
                             <button colspan="1"
                                     name="trigger_write"
                                     type="object"
@@ -123,7 +126,7 @@
                         <footer>
                             <button icon="gtk-ok" string="Close" special="cancel"/>
                         </footer>
-                    </group>
+                    
                 </form>
             </field>
         </record>
