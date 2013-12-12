@@ -45,9 +45,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         'batch_booking': fields.boolean(
             'Batch Booking',
             help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA file ; if false, the bank statement will display one credit line per direct debit of the SEPA file."),
-        'requested_collec_date': fields.date(
-            'Requested Collection Date',
-            help='This is the date on which you would like the collection to be made by the bank. Please keep in mind that there are minimum delays for SEPA direct debits that depend on the type of mandate and the type of sequence.'),
         'charge_bearer': fields.selection([
             ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
@@ -92,7 +89,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         return {
             'batch_booking': sepa_export.batch_booking,
             'charge_bearer': sepa_export.charge_bearer,
-            'requested_collec_date': sepa_export.requested_collec_date,
             'total_amount': total_amount,
             'nb_transactions': transactions_count,
             'file': base64.encodestring(xml_string),
@@ -159,12 +155,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'pain_flavor': pain_flavor,
         }
 
-        if sepa_export.requested_collec_date:
-            my_requested_collec_date = sepa_export.requested_collec_date
-        else:
-            my_requested_collec_date = datetime.strftime(
-                datetime.today() + timedelta(days=1), '%Y-%m-%d')
-
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
@@ -186,14 +176,23 @@ class banking_export_sdd_wizard(orm.TransientModel):
         transactions_count_1_6 = 0
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
-        lines_per_seq_type = {}
-        # key = sequence type ; value = list of lines as objects
+        lines_per_group = {}
+        # key = (requested_collec_date, priority, sequence type)
+        # value = list of lines as objects
         # Iterate on payment orders
+        today = fields.date.context_today(self, cr, uid, context=context)
         for payment_order in sepa_export.payment_order_ids:
             total_amount = total_amount + payment_order.total
             # Iterate each payment lines
             for line in payment_order.line_ids:
                 transactions_count_1_6 += 1
+                priority = line.priority
+                if payment_order.date_prefered == 'due':
+                    requested_collec_date = line.ml_maturity_date or today
+                elif payment_order.date_prefered == 'fixed':
+                    requested_collec_date = payment_order.date_scheduled or today
+                else:
+                    requested_collec_date = today
                 if not line.sdd_mandate_id:
                     raise orm.except_orm(
                         _('Error:'),
@@ -208,10 +207,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                             line.sdd_mandate_id.partner_id.name))
                 if line.sdd_mandate_id.type == 'oneoff':
                     if not line.sdd_mandate_id.last_debit_date:
-                        if lines_per_seq_type.get('OOFF'):
-                            lines_per_seq_type['OOFF'].append(line)
-                        else:
-                            lines_per_seq_type['OOFF'] = [line]
+                        seq_type = 'OOFF'
                     else:
                         raise orm.except_orm(
                             _('Error:'),
@@ -228,21 +224,32 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     seq_type_label = line.sdd_mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
-                    if lines_per_seq_type.get(seq_type):
-                        lines_per_seq_type[seq_type].append(line)
-                    else:
-                        lines_per_seq_type[seq_type] = [line]
 
-        for sequence_type, lines in lines_per_seq_type.items():
+                key = (requested_collec_date, priority, seq_type)
+                if key in lines_per_group:
+                    lines_per_group[key].append(line)
+                else:
+                    lines_per_group[key] = [line]
+                # Write requested_exec_date on 'Payment date' of the pay line
+                if requested_collec_date != line.date:
+                    self.pool['payment.line'].write(
+                        cr, uid, line.id,
+                        {'date': requested_collec_date}, context=context)
+
+        for (requested_collec_date, priority, sequence_type), lines in lines_per_group.items():
             # B. Payment info
             payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
             payment_info_identification_2_1 = etree.SubElement(
                 payment_info_2_0, 'PmtInfId')
             payment_info_identification_2_1.text = self._prepare_field(
                 cr, uid, 'Payment Information Identification',
-                "sequence_type + '-' + sepa_export.payment_order_ids[0].reference",
-                {'sepa_export': sepa_export, 'sequence_type': sequence_type},
-                35, convert_to_ascii=convert_to_ascii, context=context)
+                "sepa_export.payment_order_ids[0].reference + '-' + sequence_type + '-' + requested_collec_date.replace('-', '')  + '-' + priority",
+                {
+                    'sepa_export': sepa_export,
+                    'sequence_type': sequence_type,
+                    'priority': priority,
+                    'requested_collec_date': requested_collec_date,
+                }, 35, convert_to_ascii=convert_to_ascii, context=context)
             payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
             payment_method_2_2.text = 'DD'
             # batch_booking is in "Payment Info" with pain.008.001.02/03
@@ -257,6 +264,10 @@ class banking_export_sdd_wizard(orm.TransientModel):
             control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
             payment_type_info_2_6 = etree.SubElement(
                 payment_info_2_0, 'PmtTpInf')
+            if priority:
+                instruction_priority_2_7 = etree.SubElement(
+                    payment_type_info_2_6, 'InstrPrty')
+                instruction_priority_2_7.text = priority
             service_level_2_8 = etree.SubElement(
                 payment_type_info_2_6, 'SvcLvl')
             service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
@@ -276,7 +287,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
 
             requested_collec_date_2_18 = etree.SubElement(
                 payment_info_2_0, 'ReqdColltnDt')
-            requested_collec_date_2_18.text = my_requested_collec_date
+            requested_collec_date_2_18.text = requested_collec_date
 
             self.generate_party_block(
                 cr, uid, payment_info_2_0, 'Cdtr', 'B',

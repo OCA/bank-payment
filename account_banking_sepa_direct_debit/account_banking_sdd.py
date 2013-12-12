@@ -56,8 +56,6 @@ class banking_export_sdd(orm.Model):
             'banking_export_sepa_id', 'account_order_id',
             'Payment Orders',
             readonly=True),
-        'requested_collec_date': fields.date(
-            'Requested Collection Date', readonly=True),
         'nb_transactions': fields.integer(
             'Number of Transactions', readonly=True),
         'total_amount': fields.float(
