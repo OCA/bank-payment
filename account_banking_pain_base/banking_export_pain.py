@@ -271,3 +271,20 @@ class banking_export_pain(orm.AbstractModel):
                     convert_to_ascii=gen_args.get('convert_to_ascii'),
                     context=context)
         return True
+
+    def generate_creditor_scheme_identification(
+            self, cr, uid, parent_node, identification, identification_label,
+            eval_ctx, scheme_name_proprietary, gen_args, context=None):
+        csi_id = etree.SubElement(
+            parent_node, 'Id')
+        csi_privateid = csi_id = etree.SubElement(csi_id, 'PrvtId')
+        csi_other = etree.SubElement(csi_privateid, 'Othr')
+        csi_other_id = etree.SubElement(csi_other, 'Id')
+        csi_other_id.text = self._prepare_field(
+            cr, uid, identification_label, identification, eval_ctx,
+            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+        csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
+        csi_scheme_name_proprietary = etree.SubElement(
+            csi_scheme_name, 'Prtry')
+        csi_scheme_name_proprietary.text = scheme_name_proprietary
+        return True

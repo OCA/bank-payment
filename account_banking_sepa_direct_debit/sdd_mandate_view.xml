@@ -35,6 +35,8 @@
                     <field name="signature_date"/>
                     <field name="scan"/>
                     <field name="last_debit_date"/>
+                    <field name="sepa_migrated"/>
+                    <field name="original_mandate_identification" attrs="{'invisible': [('sepa_migrated', '=', True)], 'required': [('sepa_migrated', '=', False)]}"/>
                 </group>
                 <group name="payment_lines" string="Related Payment Lines">
                     <field name="payment_line_ids" nolabel="1"/>

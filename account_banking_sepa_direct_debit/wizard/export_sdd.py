@@ -302,20 +302,11 @@ class banking_export_sdd_wizard(orm.TransientModel):
 
             creditor_scheme_identification_2_27 = etree.SubElement(
                 payment_info_2_0, 'CdtrSchmeId')
-            csi_id = etree.SubElement(
-                creditor_scheme_identification_2_27, 'Id')
-            csi_privateid = csi_id = etree.SubElement(csi_id, 'PrvtId')
-            csi_other = etree.SubElement(csi_privateid, 'Othr')
-            csi_other_id = etree.SubElement(csi_other, 'Id')
-            csi_other_id.text = self._prepare_field(
-                cr, uid, 'SEPA Creditor Identifier',
+            self.generate_creditor_scheme_identification(
+                cr, uid, creditor_scheme_identification_2_27,
                 'sepa_export.payment_order_ids[0].company_id.sepa_creditor_identifier',
-                {'sepa_export': sepa_export},
-                convert_to_ascii=convert_to_ascii, context=context)
-            csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
-            csi_scheme_name_proprietary = etree.SubElement(
-                csi_scheme_name, 'Prtry')
-            csi_scheme_name_proprietary.text = 'SEPA'
+                'SEPA Creditor Identifier', {'sepa_export': sepa_export},
+                'SEPA', gen_args, context=context)
 
             transactions_count_2_4 = 0
             amount_control_sum_2_5 = 0.0
@@ -359,16 +350,18 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     'line.sdd_mandate_id.signature_date',
                     {'line': line}, 10,
                     convert_to_ascii=convert_to_ascii, context=context)
-                if (sequence_type == 'FRST'
-                        and line.sdd_mandate_id.last_debit_date):
+                if sequence_type == 'FRST' and (
+                        line.sdd_mandate_id.last_debit_date or
+                        not line.sdd_mandate_id.sepa_migrated):
                     previous_bank = self._get_previous_bank(
                         cr, uid, line, context=context)
-                    if previous_bank:
+                    if previous_bank or not line.sdd_mandate_id.sepa_migrated:
                         amendment_indicator_2_50 = etree.SubElement(
                             mandate_related_info_2_47, 'AmdmntInd')
                         amendment_indicator_2_50.text = 'true'
                         amendment_info_details_2_51 = etree.SubElement(
                             mandate_related_info_2_47, 'AmdmntInfDtls')
+                    if previous_bank:
                         if previous_bank.bank.bic == line.bank_id.bank.bic:
                             ori_debtor_account_2_57 = etree.SubElement(
                                 amendment_info_details_2_51, 'OrgnlDbtrAcct')
@@ -403,6 +396,24 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 ori_debtor_agent_other, 'Id')
                             ori_debtor_agent_other_id.text = 'SMNDA'
                             # SMNDA = Same Mandate New Debtor Agent
+                    elif not line.sdd_mandate_id.sepa_migrated:
+                        ori_mandate_identification_2_52 = etree.SubElement(
+                            amendment_info_details_2_51, 'OrgnlMndtId')
+                        ori_mandate_identification_2_52.text = \
+                            self._prepare_field(
+                                cr, uid, 'Original Mandate Identification',
+                                'line.sdd_mandate_id.original_mandate_identification',
+                                {'line': line},
+                                convert_to_ascii=convert_to_ascii,
+                                context=context)
+                        ori_creditor_scheme_id_2_53 = etree.SubElement(
+                            amendment_info_details_2_51, 'OrgnlCdtrSchmeId')
+                        self.generate_creditor_scheme_identification(
+                            cr, uid, ori_creditor_scheme_id_2_53,
+                            'sepa_export.payment_order_ids[0].company_id.original_creditor_identifier',
+                            'Original Creditor Identifier',
+                            {'sepa_export': sepa_export},
+                            'SEPA', gen_args, context=context)
 
                 self.generate_party_block(
                     cr, uid, dd_transaction_info_2_28, 'Dbtr', 'C',
@@ -494,6 +505,8 @@ class banking_export_sdd_wizard(orm.TransientModel):
             self.pool['sdd.mandate'].write(
                 cr, uid, to_expire_ids, {'state': 'expired'}, context=context)
             self.pool['sdd.mandate'].write(
-                cr, uid, first_mandate_ids,
-                {'recurrent_sequence_type': 'recurring'}, context=context)
+                cr, uid, first_mandate_ids, {
+                    'recurrent_sequence_type': 'recurring',
+                    'sepa_migrated': True,
+                }, context=context)
         return {'type': 'ir.actions.act_window_close'}
