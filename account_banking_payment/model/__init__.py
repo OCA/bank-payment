@@ -1,7 +1,7 @@
 import account_payment
 import payment_line
-import payment_mode
 import payment_mode_type
+import payment_mode
 import payment_order_create
 import banking_import_transaction
 import banking_transaction_wizard

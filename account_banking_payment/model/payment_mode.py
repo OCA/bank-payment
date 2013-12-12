@@ -50,4 +50,8 @@ class payment_mode(orm.Model):
             help=('Limit selected invoices to invoices with these payment '
                   'terms')
             ),
+        'payment_order_type': fields.related(
+            'type', 'payment_order_type', readonly=True, type='selection',
+            selection=[('payment', 'Payment'), ('debit', 'Direct debit')],
+            string="Payment Order Type"),
         }
