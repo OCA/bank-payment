@@ -23,13 +23,11 @@
 
 from openerp.osv import orm, fields
 import base64
-from datetime import datetime
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval
 from openerp import tools, netsvc
 from lxml import etree
 import logging
-from unidecode import unidecode
 
 _logger = logging.getLogger(__name__)
 
@@ -144,6 +142,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
+            'pain_flavor': pain_flavor,
         }
 
         pain_ns = {
@@ -156,39 +155,10 @@ class banking_export_sepa_wizard(orm.TransientModel):
         pain_03_to_05 = \
             ['pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']
 
-        my_company_name = self._prepare_field(
-            cr, uid, 'Company Name',
-            'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
-            {'sepa_export': sepa_export}, name_maxsize,
-            convert_to_ascii=convert_to_ascii, context=context)
-
         # A. Group header
-        group_header_1_0 = etree.SubElement(pain_root, 'GrpHdr')
-        message_identification_1_1 = etree.SubElement(
-            group_header_1_0, 'MsgId')
-        message_identification_1_1.text = self._prepare_field(
-            cr, uid, 'Message Identification',
-            'sepa_export.payment_order_ids[0].reference',
-            {'sepa_export': sepa_export}, 35,
-            convert_to_ascii=convert_to_ascii, context=context)
-        creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
-        creation_date_time_1_2.text = datetime.strftime(
-            datetime.today(), '%Y-%m-%dT%H:%M:%S')
-        if pain_flavor == 'pain.001.001.02':
-            # batch_booking is in "Group header" with pain.001.001.02
-            # and in "Payment info" in pain.001.001.03/04
-            batch_booking = etree.SubElement(group_header_1_0, 'BtchBookg')
-            batch_booking.text = str(sepa_export.batch_booking).lower()
-        nb_of_transactions_1_6 = etree.SubElement(
-            group_header_1_0, 'NbOfTxs')
-        control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
-        # Grpg removed in pain.001.001.03
-        if pain_flavor == 'pain.001.001.02':
-            grouping = etree.SubElement(group_header_1_0, 'Grpg')
-            grouping.text = 'GRPD'
-        self.generate_initiating_party_block(
-            cr, uid, group_header_1_0, sepa_export, gen_args,
-            context=context)
+        group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
+        self.generate_group_header_block(
+            cr, uid, pain_root, sepa_export, gen_args, context=context)
 
         transactions_count_1_6 = 0
         total_amount = 0.0
@@ -311,57 +281,10 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     'line.bank_id.bank.bic',
                     {'line': line}, gen_args, context=context)
 
-                remittance_info_2_91 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'RmtInf')
-                if line.state == 'normal':
-                    remittance_info_unstructured_2_99 = etree.SubElement(
-                        remittance_info_2_91, 'Ustrd')
-                    remittance_info_unstructured_2_99.text = \
-                        self._prepare_field(
-                            cr, uid, 'Remittance Unstructured Information',
-                            'line.communication', {'line': line}, 140,
-                            convert_to_ascii=convert_to_ascii,
-                            context=context)
-                else:
-                    if not line.struct_communication_type:
-                        raise orm.except_orm(
-                            _('Error:'),
-                            _("Missing 'Structured Communication Type' on payment line with your reference '%s'.")
-                            % (line.name))
-                    remittance_info_unstructured_2_100 = etree.SubElement(
-                        remittance_info_2_91, 'Strd')
-                    creditor_ref_information_2_120 = etree.SubElement(
-                        remittance_info_unstructured_2_100, 'CdtrRefInf')
-                    if pain_flavor in pain_03_to_05:
-                        creditor_ref_info_type_2_121 = etree.SubElement(
-                            creditor_ref_information_2_120, 'Tp')
-                        creditor_ref_info_type_or_2_122 = etree.SubElement(
-                            creditor_ref_info_type_2_121, 'CdOrPrtry')
-                        creditor_ref_info_type_code_2_123 = etree.SubElement(
-                            creditor_ref_info_type_or_2_122, 'Cd')
-                        creditor_ref_info_type_issuer_2_125 = etree.SubElement(
-                            creditor_ref_info_type_2_121, 'Issr')
-                        creditor_reference_2_126 = etree.SubElement(
-                            creditor_ref_information_2_120, 'Ref')
-                    else:
-                        creditor_ref_info_type_2_121 = etree.SubElement(
-                            creditor_ref_information_2_120, 'CdtrRefTp')
-                        creditor_ref_info_type_code_2_123 = etree.SubElement(
-                            creditor_ref_info_type_2_121, 'Cd')
-                        creditor_ref_info_type_issuer_2_125 = etree.SubElement(
-                            creditor_ref_info_type_2_121, 'Issr')
-                        creditor_reference_2_126 = etree.SubElement(
-                            creditor_ref_information_2_120, 'CdtrRef')
+                self.generate_remittance_info_block(
+                    cr, uid, credit_transfer_transaction_info_2_27,
+                    line, gen_args, context=context)
 
-                    creditor_ref_info_type_code_2_123.text = 'SCOR'
-                    creditor_ref_info_type_issuer_2_125.text = \
-                        line.struct_communication_type
-                    creditor_reference_2_126.text = \
-                        self._prepare_field(
-                            cr, uid, 'Creditor Structured Reference',
-                            'line.communication', {'line': line}, 35,
-                            convert_to_ascii=convert_to_ascii,
-                            context=context)
             if pain_flavor in pain_03_to_05:
                 nb_of_transactions_2_4.text = str(transactions_count_2_4)
                 control_sum_2_5.text = '%.2f' % amount_control_sum_2_5

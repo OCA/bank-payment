@@ -23,6 +23,7 @@
 from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval
+from datetime import datetime
 from unidecode import unidecode
 from lxml import etree
 from openerp import tools
@@ -102,6 +103,36 @@ class banking_export_pain(orm.AbstractModel):
                 _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s')
                 % str(e))
         return True
+
+    def generate_group_header_block(
+            self, cr, uid, parent_node, sepa_export, gen_args, context=None):
+        group_header_1_0 = etree.SubElement(parent_node, 'GrpHdr')
+        message_identification_1_1 = etree.SubElement(
+            group_header_1_0, 'MsgId')
+        message_identification_1_1.text = self._prepare_field(
+            cr, uid, 'Message Identification',
+            'sepa_export.payment_order_ids[0].reference',
+            {'sepa_export': sepa_export}, 35,
+            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+        creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
+        creation_date_time_1_2.text = datetime.strftime(
+            datetime.today(), '%Y-%m-%dT%H:%M:%S')
+        if gen_args.get('pain_flavor') == 'pain.001.001.02':
+            # batch_booking is in "Group header" with pain.001.001.02
+            # and in "Payment info" in pain.001.001.03/04
+            batch_booking = etree.SubElement(group_header_1_0, 'BtchBookg')
+            batch_booking.text = str(sepa_export.batch_booking).lower()
+        nb_of_transactions_1_6 = etree.SubElement(
+            group_header_1_0, 'NbOfTxs')
+        control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
+        # Grpg removed in pain.001.001.03
+        if gen_args.get('pain_flavor') == 'pain.001.001.02':
+            grouping = etree.SubElement(group_header_1_0, 'Grpg')
+            grouping.text = 'GRPD'
+        self.generate_initiating_party_block(
+            cr, uid, group_header_1_0, sepa_export, gen_args,
+            context=context)
+        return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
 
     def generate_initiating_party_block(
             self, cr, uid, parent_node, sepa_export, gen_args,
@@ -183,4 +214,60 @@ class banking_export_pain(orm.AbstractModel):
             self.generate_party_bic(
                 cr, uid, parent_node, party_type, party_type_label, bic,
                 eval_ctx, gen_args, context=context)
+        return True
+
+    def generate_remittance_info_block(
+            self, cr, uid, parent_node, line, gen_args, context=None):
+
+        remittance_info_2_91 = etree.SubElement(
+            parent_node, 'RmtInf')
+        if line.state == 'normal':
+            remittance_info_unstructured_2_99 = etree.SubElement(
+                remittance_info_2_91, 'Ustrd')
+            remittance_info_unstructured_2_99.text = \
+                self._prepare_field(
+                    cr, uid, 'Remittance Unstructured Information',
+                    'line.communication', {'line': line}, 140,
+                    convert_to_ascii=gen_args.get('convert_to_ascii'),
+                    context=context)
+        else:
+            if not line.struct_communication_type:
+                raise orm.except_orm(
+                    _('Error:'),
+                    _("Missing 'Structured Communication Type' on payment line with your reference '%s'.")
+                    % (line.name))
+            remittance_info_unstructured_2_100 = etree.SubElement(
+                remittance_info_2_91, 'Strd')
+            creditor_ref_information_2_120 = etree.SubElement(
+                remittance_info_unstructured_2_100, 'CdtrRefInf')
+            if gen_args.get('pain_flavor') == 'pain.001.001.02':
+                creditor_ref_info_type_2_121 = etree.SubElement(
+                    creditor_ref_information_2_120, 'CdtrRefTp')
+                creditor_ref_info_type_code_2_123 = etree.SubElement(
+                    creditor_ref_info_type_2_121, 'Cd')
+                creditor_ref_info_type_issuer_2_125 = etree.SubElement(
+                    creditor_ref_info_type_2_121, 'Issr')
+                creditor_reference_2_126 = etree.SubElement(
+                    creditor_ref_information_2_120, 'CdtrRef')
+            else:
+                creditor_ref_info_type_2_121 = etree.SubElement(
+                    creditor_ref_information_2_120, 'Tp')
+                creditor_ref_info_type_or_2_122 = etree.SubElement(
+                    creditor_ref_info_type_2_121, 'CdOrPrtry')
+                creditor_ref_info_type_code_2_123 = etree.SubElement(
+                    creditor_ref_info_type_or_2_122, 'Cd')
+                creditor_ref_info_type_issuer_2_125 = etree.SubElement(
+                    creditor_ref_info_type_2_121, 'Issr')
+                creditor_reference_2_126 = etree.SubElement(
+                    creditor_ref_information_2_120, 'Ref')
+
+            creditor_ref_info_type_code_2_123.text = 'SCOR'
+            creditor_ref_info_type_issuer_2_125.text = \
+                line.struct_communication_type
+            creditor_reference_2_126.text = \
+                self._prepare_field(
+                    cr, uid, 'Creditor Structured Reference',
+                    'line.communication', {'line': line}, 35,
+                    convert_to_ascii=gen_args.get('convert_to_ascii'),
+                    context=context)
         return True
