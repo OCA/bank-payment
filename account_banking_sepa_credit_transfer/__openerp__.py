@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
@@ -29,23 +30,34 @@
     'depends': ['account_banking_pain_base'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
-        },
+    },
     'data': [
         'account_banking_sepa_view.xml',
         'wizard/export_sepa_view.xml',
         'data/payment_type_sepa_sct.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': ['sepa_credit_transfer_demo.xml'],
     'description': '''
 Module to export payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Credit Transfer (SCT), more specifically PAIN versions 001.001.02, 001.001.03, 001.001.04 and 001.001.05. It is part of the ISO 20022 standard, available on http://www.iso20022.org.
+SEPA PAIN (PAyment INitiation) is the new european standard for
+Customer-to-Bank payment instructions.
 
-The Implementation Guidelines for SEPA Credit Transfer published by the European Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN version 001.001.03, so it's probably the version of PAIN that you should try first.
+This module implements SEPA Credit Transfer (SCT), more specifically PAIN
+versions 001.001.02, 001.001.03, 001.001.04 and 001.001.05.
+It is part of the ISO 20022 standard, available on http://www.iso20022.org.
 
-This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
+The Implementation Guidelines for SEPA Credit Transfer published by the
+European Payments Council (http://http://www.europeanpaymentscouncil.eu)
+use PAIN version 001.001.03, so it's probably the version of PAIN that you
+should try first.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module uses the framework provided by the banking addons,
+cf https://www.github.com/OCA/banking-addons
+
+Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
+for any help or question about this module.
     ''',
     'active': False,
     'installable': True,
