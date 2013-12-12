@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+<record id="sepa_credit_transfer_mode" model="payment.mode">
+    <field name="name">SEPA Credit Transfer La Banque Postale</field>
+    <field name="journal" ref="account.bank_journal"/>
+    <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type" ref="export_sepa_sct_001_001_03"/>
+</record>
+
+</data>
+</openerp>
