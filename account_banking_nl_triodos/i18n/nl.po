@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2013-10-25 15:57+0000\n"
-"PO-Revision-Date: 2013-11-11 17:51+0000\n"
-"Last-Translator: Pedro Manuel Baeza <pedro.baeza@gmail.com>\n"
+"PO-Revision-Date: 2013-12-03 11:15+0000\n"
+"Last-Translator: Jan Jurkus (GCE CAD-Service) <ict@gcecad-service.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-12-04 05:59+0000\n"
+"X-Generator: Launchpad (build 16861)\n"
 
 #. module: account_banking_nl_triodos
 #: code:addons/account_banking_nl_triodos/triodos.py:183
@@ -31,10 +31,10 @@ msgid ""
 "distinct from the Dutch multibank format. Transactions are not tied to Bank\n"
 "Statements.\n"
 msgstr ""
-"The Dutch Triodos format is basicly a MS Excel CSV format. It is "
-"specifically\n"
-"distinct from the Dutch multibank format. Transactions are not tied to Bank\n"
-"Statements.\n"
+"Het Nederlandse Triodos-formaat is in opzet een MS Excel CSV-formaat. Het "
+"is\n"
+"duidelijk afwijkend van het Nederlandse multibank-formaat. Transacties zijn\n"
+"niet gebonden aan bankafschriften.\n"
 
 #. module: account_banking_nl_triodos
 #: code:addons/account_banking_nl_triodos/triodos.py:59

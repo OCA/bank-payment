@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2013-10-25 15:53+0000\n"
-"PO-Revision-Date: 2013-11-11 17:49+0000\n"
-"Last-Translator: Pedro Manuel Baeza <pedro.baeza@gmail.com>\n"
+"PO-Revision-Date: 2013-12-03 11:09+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-12-04 05:59+0000\n"
+"X-Generator: Launchpad (build 16861)\n"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:122
@@ -32,7 +32,7 @@ msgstr "Abnamro (NL)"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:197
 #, python-format
 msgid "invalid data found before key %s"
-msgstr ""
+msgstr "Ongeldige gegevesn gevonden voor key %s"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:125
@@ -45,7 +45,7 @@ msgstr "Fout !"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:261
 #, python-format
 msgid "Sepa transaction type %s not handled yet"
-msgstr ""
+msgstr "Sepa transactie type %s kan nog niet worden verwerkt"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:60
@@ -57,25 +57,25 @@ msgstr "Ongeldige transactieregel: %d kolommen verwacht, %d aangetroffen"
 #: code:addons/account_banking_nl_abnamro/abnamro.py:189
 #, python-format
 msgid "too few items"
-msgstr ""
+msgstr "te weinig items"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:195
 #, python-format
 msgid "no key found for start %d"
-msgstr ""
+msgstr "Geen key gevonden voor start %d"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:162
 #, python-format
 msgid "unable to parse SEPA string: %s - %s"
-msgstr ""
+msgstr "Niet mogelijk om SEPA string: %s - %s te verwerken"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:230
 #, python-format
 msgid "unable to parse GIRO string: %s"
-msgstr ""
+msgstr "Niet mogelijk om GIRO string: %s te verwerken"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:349
@@ -87,8 +87,12 @@ msgid ""
 "format. Transactions are not explicitely tied to bank statements, although\n"
 "each file covers a period of two weeks.\n"
 msgstr ""
-"The Dutch Abnamro format is a tab separated text format. The last of these\n"
-"fields is itself a fixed length array containing transaction type, remote\n"
-"account and owner. The bank does not provide a formal specification of the\n"
-"format. Transactions are not explicitely tied to bank statements, although\n"
-"each file covers a period of two weeks.\n"
+"Het Nederlandse ABNAMRO-formaat is een tab-gescheiden tekstformaat. De "
+"laatste\n"
+"van deze velden is een tabel van vaste lengte met een transactiesoort, "
+"tegenrekening\n"
+"en eigenaar. De bank geeft geen formele specificatie van het formaat. "
+"Transacties\n"
+"zijn niet expliciet verbonden met een bankafschrift, alhoewel elk bestand "
+"een periode\n"
+"van twee weken beslaat.\n"
