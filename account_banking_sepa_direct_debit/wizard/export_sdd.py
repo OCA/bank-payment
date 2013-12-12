@@ -29,7 +29,6 @@ import base64
 from datetime import datetime, timedelta
 from lxml import etree
 import logging
-from unidecode import unidecode
 
 _logger = logging.getLogger(__name__)
 
@@ -157,6 +156,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
+            'pain_flavor': pain_flavor,
         }
 
         if sepa_export.requested_collec_date:
@@ -179,22 +179,9 @@ class banking_export_sdd_wizard(orm.TransientModel):
             {'sepa_export': sepa_export}, name_maxsize, context=context)
 
         # A. Group header
-        group_header_1_0 = etree.SubElement(pain_root, 'GrpHdr')
-        message_identification_1_1 = etree.SubElement(
-            group_header_1_0, 'MsgId')
-        message_identification_1_1.text = self._prepare_field(
-            cr, uid, 'Message Identification',
-            'sepa_export.payment_order_ids[0].reference',
-            {'sepa_export': sepa_export}, 35,
-            convert_to_ascii=convert_to_ascii, context=context)
-        creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
-        creation_date_time_1_2.text = datetime.strftime(
-            datetime.today(), '%Y-%m-%dT%H:%M:%S')
-        nb_of_transactions_1_6 = etree.SubElement(group_header_1_0, 'NbOfTxs')
-        control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
-        self.generate_initiating_party_block(
-            cr, uid, group_header_1_0, sepa_export, gen_args,
-            context=context)
+        group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
+        self.generate_group_header_block(
+            cr, uid, pain_root, sepa_export, gen_args, context=context)
 
         transactions_count_1_6 = 0
         total_amount = 0.0
@@ -413,15 +400,10 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     'line.bank_id.bank.bic',
                     {'line': line}, gen_args, context=context)
 
-                remittance_info_2_88 = etree.SubElement(
-                    dd_transaction_info_2_28, 'RmtInf')
-                # switch to Structured (Strdr) ? If we do it, beware that the format is not the same between pain 02 and pain 03
-                remittance_info_unstructured_2_89 = etree.SubElement(
-                    remittance_info_2_88, 'Ustrd')
-                remittance_info_unstructured_2_89.text = self._prepare_field(
-                    cr, uid, 'Remittance Information', 'line.communication',
-                    {'line': line}, 140, convert_to_ascii=convert_to_ascii,
-                    context=context)
+                self.generate_remittance_info_block(
+                    cr, uid, dd_transaction_info_2_28,
+                    line, gen_args, context=context)
+
             nb_of_transactions_2_4.text = str(transactions_count_2_4)
             control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
         nb_of_transactions_1_6.text = str(transactions_count_1_6)
