@@ -14,6 +14,7 @@
     <field name="arch" type="xml">
         <field name="currency_id" position="after">
             <field name="sepa_creditor_identifier"/>
+            <field name="original_creditor_identifier"/>
         </field>
     </field>
 </record>

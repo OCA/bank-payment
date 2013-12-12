@@ -148,6 +148,12 @@ class sdd_mandate(orm.Model):
             help="Only valid mandates can be used in a payment line. A cancelled mandate is a mandate that has been cancelled by the customer. A one-off mandate expires after its first use. A recurrent mandate expires after it's final use or if it hasn't been used for 36 months."),
         'payment_line_ids': fields.one2many(
             'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
+        'sepa_migrated': fields.boolean(
+            'Migrated to SEPA',
+            help="If this field is not active, the mandate section of the direct debit file will contain the Original Mandate Identification and the Original Creditor Scheme Identification."),
+        'original_mandate_identification': fields.char(
+            'Original Mandate Identification', size=35,
+            help="When the field 'Migrated to SEPA' is not active, this field will be used as the Original Mandate Identification in the the Direct Debit file."),
         }
 
     _defaults = {
@@ -157,6 +163,7 @@ class sdd_mandate(orm.Model):
         'unique_mandate_reference': lambda self, cr, uid, ctx:
             self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
         'state': 'draft',
+        'sepa_migrated': True,
     }
 
     _sql_constraints = [(
