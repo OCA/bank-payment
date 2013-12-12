@@ -177,10 +177,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     requested_exec_date = payment_order.date_scheduled or today
                 else:
                     requested_exec_date = today
-                if (requested_exec_date, priority) in lines_per_group:
-                    lines_per_group[(requested_exec_date, priority)].append(line)
+                key = (requested_exec_date, priority)
+                if key in lines_per_group:
+                    lines_per_group[key].append(line)
                 else:
-                    lines_per_group[(requested_exec_date, priority)] = [line]
+                    lines_per_group[key] = [line]
                 # Write requested_exec_date on 'Payment date' of the pay line
                 if requested_exec_date != line.date:
                     self.pool['payment.line'].write(
