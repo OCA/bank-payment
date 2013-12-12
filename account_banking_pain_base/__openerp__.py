@@ -27,6 +27,9 @@
     'website': 'http://openerp-community-association.org/',
     'category': 'Hidden',
     'depends': ['account_banking_payment_export'],
+    'external_dependencies': {
+        'python': ['unidecode', 'lxml'],
+        },
     'data': [
         'payment_line_view.xml',
         'payment_mode_view.xml',
