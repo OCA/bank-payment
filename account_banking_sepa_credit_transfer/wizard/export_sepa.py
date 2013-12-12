@@ -36,6 +36,7 @@ _logger = logging.getLogger(__name__)
 
 class banking_export_sepa_wizard(orm.TransientModel):
     _name = 'banking.export.sepa.wizard'
+    _inherit = ['banking.export.pain']
     _description = 'Export SEPA Credit Transfer File'
 
     _columns = {
@@ -76,16 +77,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         'state': 'create',
         }
 
-    def _validate_iban(self, cr, uid, iban, context=None):
-        '''if IBAN is valid, returns IBAN
-        if IBAN is NOT valid, raises an error message'''
-        partner_bank_obj = self.pool.get('res.partner.bank')
-        if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
-            return iban.replace(' ', '')
-        else:
-            raise orm.except_orm(
-                _('Error:'), _("This IBAN is not valid : %s") % iban)
-
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
         vals.update({
@@ -93,46 +84,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         })
         return super(banking_export_sepa_wizard, self).create(
             cr, uid, vals, context=context)
-
-    def _prepare_field(
-            self, cr, uid, field_name, field_value, eval_ctx, max_size=0,
-            convert_to_ascii=False, context=None):
-        '''This function is designed to be inherited !'''
-        assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
-        try:
-            value = safe_eval(field_value, eval_ctx)
-            # SEPA uses XML ; XML = UTF-8 ; UTF-8 = support for all characters
-            # But we are dealing with banks...
-            # and many banks don't want non-ASCCI characters !
-            # cf section 1.4 "Character set" of the SEPA Credit Transfer
-            # Scheme Customer-to-bank guidelines
-            if convert_to_ascii:
-                value = unidecode(value)
-        except:
-            line = eval_ctx.get('line')
-            if line:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.")
-                    % (field_name, self.pool['account.invoice'].name_get(
-                        cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
-            else:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Cannot compute the '%s'.") % field_name)
-        if not isinstance(value, (str, unicode)):
-            raise orm.except_orm(
-                _('Field type error:'),
-                _("The type of the field '%s' is %s. It should be a string or unicode.")
-                % (field_name, type(value)))
-        if not value:
-            raise orm.except_orm(
-                _('Error:'),
-                _("The '%s' is empty or 0. It should have a non-null value.")
-                % field_name)
-        if max_size and len(value) > max_size:
-            value = value[0:max_size]
-        return value
 
     def _prepare_export_sepa(
             self, cr, uid, sepa_export, total_amount, transactions_count,
@@ -147,27 +98,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 (6, 0, [x.id for x in sepa_export.payment_order_ids])
             ],
         }
-
-    def _validate_xml(self, cr, uid, xml_string, pain_flavor):
-        xsd_etree_obj = etree.parse(
-            tools.file_open(
-                'account_banking_sepa_credit_transfer/data/%s.xsd'
-                % pain_flavor))
-        official_pain_schema = etree.XMLSchema(xsd_etree_obj)
-
-        try:
-            root_to_validate = etree.fromstring(xml_string)
-            official_pain_schema.assertValid(root_to_validate)
-        except Exception, e:
-            _logger.warning(
-                "The XML file is invalid against the XML Schema Definition")
-            _logger.warning(xml_string)
-            _logger.warning(e)
-            raise orm.except_orm(
-                _('Error:'),
-                _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s')
-                % str(e))
-        return True
 
     def create_sepa(self, cr, uid, ids, context=None):
         '''
@@ -210,6 +140,12 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'.")
                 % pain_flavor)
 
+        gen_args = {
+            'bic_xml_tag': bic_xml_tag,
+            'name_maxsize': name_maxsize,
+            'convert_to_ascii': convert_to_ascii,
+        }
+
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
@@ -250,24 +186,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
         if pain_flavor == 'pain.001.001.02':
             grouping = etree.SubElement(group_header_1_0, 'Grpg')
             grouping.text = 'GRPD'
-        initiating_party_1_8 = etree.SubElement(group_header_1_0, 'InitgPty')
-        initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
-        initiating_party_name.text = my_company_name
-        initiating_party_identifier = self.pool['res.company'].\
-            _get_initiating_party_identifier(
-                cr, uid, sepa_export.payment_order_ids[0].company_id.id,
-                context=context)
-        initiating_party_issuer = \
-            sepa_export.payment_order_ids[0].company_id.initiating_party_issuer
-        if initiating_party_identifier and initiating_party_issuer:
-            iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
-            iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
-            iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
-            iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
-            iniparty_org_other_id.text = initiating_party_identifier
-            iniparty_org_other_issuer = etree.SubElement(
-                iniparty_org_other, 'Issr')
-            iniparty_org_other_issuer.text = initiating_party_issuer
+        self.generate_initiating_party_block(
+            cr, uid, group_header_1_0, sepa_export, gen_args,
+            context=context)
 
         transactions_count_1_6 = 0
         total_amount = 0.0
@@ -339,33 +260,14 @@ class banking_export_sepa_wizard(orm.TransientModel):
             requested_exec_date_2_17 = etree.SubElement(
                 payment_info_2_0, 'ReqdExctnDt')
             requested_exec_date_2_17.text = requested_exec_date
-            debtor_2_19 = etree.SubElement(payment_info_2_0, 'Dbtr')
-            debtor_name = etree.SubElement(debtor_2_19, 'Nm')
-            debtor_name.text = my_company_name
-            debtor_account_2_20 = etree.SubElement(
-                payment_info_2_0, 'DbtrAcct')
-            debtor_account_id = etree.SubElement(debtor_account_2_20, 'Id')
-            debtor_account_iban = etree.SubElement(debtor_account_id, 'IBAN')
-            debtor_account_iban.text = self._validate_iban(
-                cr, uid, self._prepare_field(
-                    cr, uid, 'Company IBAN',
-                    'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                    {'sepa_export': sepa_export},
-                    convert_to_ascii=convert_to_ascii, context=context),
-                context=context)
-            debtor_agent_2_21 = etree.SubElement(payment_info_2_0, 'DbtrAgt')
-            debtor_agent_institution = etree.SubElement(
-                debtor_agent_2_21, 'FinInstnId')
-            debtor_agent_bic = etree.SubElement(
-                debtor_agent_institution, bic_xml_tag)
-            # TODO validate BIC with pattern
-            # [A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}
-            # because OpenERP doesn't have a constraint on BIC
-            debtor_agent_bic.text = self._prepare_field(
-                cr, uid, 'Company BIC',
+
+            self.generate_party_block(
+                cr, uid, payment_info_2_0, 'Dbtr', 'B',
+                'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
+                'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
                 'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
                 {'sepa_export': sepa_export},
-                convert_to_ascii=convert_to_ascii, context=context)
+                gen_args, context=context)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             charge_bearer_2_24.text = sepa_export.charge_bearer
 
@@ -396,40 +298,19 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 instructed_amount_2_43.text = '%.2f' % line.amount_currency
                 amount_control_sum_1_7 += line.amount_currency
                 amount_control_sum_2_5 += line.amount_currency
-                creditor_agent_2_77 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'CdtrAgt')
-                creditor_agent_institution = etree.SubElement(
-                    creditor_agent_2_77, 'FinInstnId')
+
                 if not line.bank_id:
                     raise orm.except_orm(
                         _('Error:'),
                         _("Missing Bank Account on invoice '%s' (payment order line reference '%s').")
                         % (line.ml_inv_ref.number, line.name))
-                creditor_agent_bic = etree.SubElement(
-                    creditor_agent_institution, bic_xml_tag)
-                creditor_agent_bic.text = self._prepare_field(
-                    cr, uid, 'Creditor BIC', 'line.bank_id.bank.bic',
-                    {'line': line}, convert_to_ascii=convert_to_ascii,
-                    context=context)
-                creditor_2_79 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'Cdtr')
-                creditor_name = etree.SubElement(creditor_2_79, 'Nm')
-                creditor_name.text = self._prepare_field(
-                    cr, uid, 'Creditor Name', 'line.partner_id.name',
-                    {'line': line}, name_maxsize,
-                    convert_to_ascii=convert_to_ascii, context=context)
-                creditor_account_2_80 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'CdtrAcct')
-                creditor_account_id = etree.SubElement(
-                    creditor_account_2_80, 'Id')
-                creditor_account_iban = etree.SubElement(
-                    creditor_account_id, 'IBAN')
-                creditor_account_iban.text = self._validate_iban(
-                    cr, uid, self._prepare_field(
-                        cr, uid, 'Creditor IBAN',
-                        'line.bank_id.acc_number', {'line': line},
-                        convert_to_ascii=convert_to_ascii, context=context),
-                    context=context)
+                self.generate_party_block(
+                    cr, uid, credit_transfer_transaction_info_2_27, 'Cdtr', 'C',
+                    'line.partner_id.name',
+                    'line.bank_id.acc_number',
+                    'line.bank_id.bank.bic',
+                    {'line': line}, gen_args, context=context)
+
                 remittance_info_2_91 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'RmtInf')
                 if line.state == 'normal':
@@ -498,7 +379,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
             "Generated SEPA Credit Transfer XML file in format %s below"
             % pain_flavor)
         _logger.debug(xml_string)
-        self._validate_xml(cr, uid, xml_string, pain_flavor)
+        pain_xsd_file = \
+            'account_banking_sepa_credit_transfer/data/%s.xsd' % pain_flavor
+        self._validate_xml(cr, uid, xml_string, pain_xsd_file)
 
         # CREATE the banking.export.sepa record
         file_id = self.pool.get('banking.export.sepa').create(
