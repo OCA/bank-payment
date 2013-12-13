@@ -27,14 +27,14 @@
                             domain="[('id', 'in', payment_order_ids[0][2])]" />
                     </group>
                 </field>
-                <notebook position="inside">
+                <page string="Manual match" position="after">
                     <page string="Match Payments">
                         <separator string="Match this payment line" colspan="4"/>
                         <field name="manual_payment_line_id"/>
                         <separator string="Match this payment order" colspan="4"/>
                         <field name="manual_payment_order_id"/>
                     </page>
-                </notebook>
+                </page>
             </field>
         </record>
     </data>
