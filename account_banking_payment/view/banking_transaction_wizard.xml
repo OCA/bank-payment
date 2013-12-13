@@ -27,12 +27,14 @@
                             domain="[('id', 'in', payment_order_ids[0][2])]" />
                     </group>
                 </field>
-                <field name="manual_move_line_ids" position="after">
-                    <separator string="Match this payment line" colspan="4"/>
-                    <field name="manual_payment_line_id"/>
-                    <separator string="Match this payment order" colspan="4"/>
-                    <field name="manual_payment_order_id"/>
-                </field>
+                <notebook position="inside">
+                    <page string="Match Payments">
+                        <separator string="Match this payment line" colspan="4"/>
+                        <field name="manual_payment_line_id"/>
+                        <separator string="Match this payment order" colspan="4"/>
+                        <field name="manual_payment_order_id"/>
+                    </page>
+                </notebook>
             </field>
         </record>
     </data>
