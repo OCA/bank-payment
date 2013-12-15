@@ -38,10 +38,7 @@ class res_company(orm.Model):
             self, cr, uid, company_id, context=None):
         '''This function is designed to be inherited by localization modules'''
         assert isinstance(company_id, int), 'Only one company ID'
-        # TODO REMOOOOOOOOOOOOOOOOOOOVE BEFORE COMMIT
-
-        return self.browse(cr, uid, company_id).partner_id.vat
-        #return False
+        return False
 
     def _initiating_party_issuer_default(self, cr, uid, context=None):
         '''This function is designed to be inherited by localization modules'''
