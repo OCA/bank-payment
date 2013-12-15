@@ -10,12 +10,12 @@
 <record id="sdd_res_company_form" model="ir.ui.view">
     <field name="name">sepa_direct_debit.res.company.form</field>
     <field name="model">res.company</field>
-    <field name="inherit_id" ref="base.view_company_form"/>
+    <field name="inherit_id" ref="account_banking_pain_base.view_company_form"/>
     <field name="arch" type="xml">
-        <field name="currency_id" position="after">
+        <group name="pain" position="inside">
             <field name="sepa_creditor_identifier"/>
-            <field name="original_creditor_identifier"/>
-        </field>
+            <field name="original_creditor_identifier" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
+        </group>
     </field>
 </record>
 
