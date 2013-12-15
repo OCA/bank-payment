@@ -31,6 +31,7 @@
         'python': ['unidecode', 'lxml'],
         },
     'data': [
+        'security/original_mandate_required_security.xml',
         'account_banking_sdd_view.xml',
         'sdd_mandate_view.xml',
         'res_partner_bank_view.xml',
