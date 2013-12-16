@@ -36,13 +36,37 @@ class res_company(orm.Model):
 
     def _get_initiating_party_identifier(
             self, cr, uid, company_id, context=None):
-        '''This function is designed to be inherited by localization modules'''
+        '''The code here may be different from one country to another.
+        If you need to add support for an additionnal country, you can
+        contribute your code here or inherit this function in the
+        localization modules for your country'''
         assert isinstance(company_id, int), 'Only one company ID'
-        return False
+        company = self.browse(cr, uid, company_id, context=context)
+        company_vat = company.vat
+        party_identifier = False
+        if company_vat and company_vat[0:2].upper() in ['BE']:
+            party_identifier = company_vat[2:].replace(' ', '')
+        return party_identifier
 
     def _initiating_party_issuer_default(self, cr, uid, context=None):
-        '''This function is designed to be inherited by localization modules'''
-        return ''
+        '''If you need to add support for an additionnal country, you can
+        add an entry in the dict "party_issuer_per_country" here
+        or inherit this function in the localization modules for
+        your country'''
+        initiating_party_issuer = ''
+        # If your country require the 'Initiating Party Issuer', you should
+        # contribute the entry for your country in the dict below
+        party_issuer_per_country = {
+            'BE': 'KBO-BCE',  # KBO-BCE = the registry of companies in Belgium
+        }
+        company_id = self._company_default_get(
+            cr, uid, 'res.company', context=context)
+        if company_id:
+            company = self.browse(cr, uid, company_id, context=context)
+            country_code = company.country_id.code
+            initiating_party_issuer = party_issuer_per_country.get(
+                country_code, '')
+        return initiating_party_issuer
 
     def _initiating_party_issuer_def(self, cr, uid, context=None):
         return self._initiating_party_issuer_default(
