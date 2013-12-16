@@ -426,7 +426,10 @@ class account_bank_statement(osv.osv):
         '''
         Find matching period for date, not meant for _defaults.
         '''
+        if context is None:
+            context = {}
         period_obj = self.pool.get('account.period')
+        context['account_period_prefer_normal'] = True
         periods = period_obj.find(cursor, uid, dt=date, context=context)
         return periods and periods[0] or False
 
