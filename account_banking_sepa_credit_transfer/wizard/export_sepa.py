@@ -22,9 +22,7 @@
 
 
 from openerp.osv import orm, fields
-import base64
 from openerp.tools.translate import _
-from openerp.tools.safe_eval import safe_eval
 from openerp import tools, netsvc
 from lxml import etree
 import logging
@@ -82,20 +80,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         })
         return super(banking_export_sepa_wizard, self).create(
             cr, uid, vals, context=context)
-
-    def _prepare_export_sepa(
-            self, cr, uid, sepa_export, total_amount, transactions_count,
-            xml_string, context=None):
-        return {
-            'batch_booking': sepa_export.batch_booking,
-            'charge_bearer': sepa_export.charge_bearer,
-            'total_amount': total_amount,
-            'nb_transactions': transactions_count,
-            'file': base64.encodestring(xml_string),
-            'payment_order_ids': [
-                (6, 0, [x.id for x in sepa_export.payment_order_ids])
-            ],
-        }
 
     def create_sepa(self, cr, uid, ids, context=None):
         '''
@@ -164,7 +148,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
         lines_per_group = {}
-        # key = (requested_exec_date, priority)
+        # key = (requested_date, priority)
         # values = list of lines as object
         today = fields.date.context_today(self, cr, uid, context=context)
         for payment_order in sepa_export.payment_order_ids:
@@ -172,65 +156,33 @@ class banking_export_sepa_wizard(orm.TransientModel):
             for line in payment_order.line_ids:
                 priority = line.priority
                 if payment_order.date_prefered == 'due':
-                    requested_exec_date = line.ml_maturity_date or today
+                    requested_date = line.ml_maturity_date or today
                 elif payment_order.date_prefered == 'fixed':
-                    requested_exec_date = payment_order.date_scheduled or today
+                    requested_date = payment_order.date_scheduled or today
                 else:
-                    requested_exec_date = today
-                key = (requested_exec_date, priority)
+                    requested_date = today
+                key = (requested_date, priority)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
                     lines_per_group[key] = [line]
-                # Write requested_exec_date on 'Payment date' of the pay line
-                if requested_exec_date != line.date:
+                # Write requested_date on 'Payment date' of the pay line
+                if requested_date != line.date:
                     self.pool['payment.line'].write(
                         cr, uid, line.id,
-                        {'date': requested_exec_date}, context=context)
+                        {'date': requested_date}, context=context)
 
-        for (requested_exec_date, priority), lines in lines_per_group.items():
+        for (requested_date, priority), lines in lines_per_group.items():
             # B. Payment info
-            payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
-            payment_info_identification_2_1 = etree.SubElement(
-                payment_info_2_0, 'PmtInfId')
-            payment_info_identification_2_1.text = self._prepare_field(
-                cr, uid, 'Payment Information Identification',
-                "sepa_export.payment_order_ids[0].reference + '-' + requested_exec_date.replace('-', '')  + '-' + priority", {
+            payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
+            self.generate_start_payment_info_block(
+                cr, uid, pain_root, sepa_export,
+                "sepa_export.payment_order_ids[0].reference + '-' + requested_date.replace('-', '')  + '-' + priority",
+                priority, False, False, requested_date, {
                     'sepa_export': sepa_export,
                     'priority': priority,
-                    'requested_exec_date': requested_exec_date
-                }, 35, convert_to_ascii=convert_to_ascii, context=context)
-            payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-            payment_method_2_2.text = 'TRF'
-            if pain_flavor in pain_03_to_05:
-                # batch_booking is in "Group header" with pain.001.001.02
-                # and in "Payment info" in pain.001.001.03/04
-                batch_booking_2_3 = etree.SubElement(
-                    payment_info_2_0, 'BtchBookg')
-                batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
-            # It may seem surprising, but the
-            # "SEPA Credit Transfer Scheme Customer-to-bank Implementation
-            # guidelines" v6.0 says that control sum and nb_of_transactions
-            # should be present at both "group header" level and "payment info"
-            # level. This seems to be confirmed by the tests carried out at
-            # BNP Paribas in PAIN v001.001.03
-            if pain_flavor in pain_03_to_05:
-                nb_of_transactions_2_4 = etree.SubElement(
-                    payment_info_2_0, 'NbOfTxs')
-                control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-            payment_type_info_2_6 = etree.SubElement(
-                payment_info_2_0, 'PmtTpInf')
-            if priority:
-                instruction_priority_2_7 = etree.SubElement(
-                    payment_type_info_2_6, 'InstrPrty')
-                instruction_priority_2_7.text = priority
-            service_level_2_8 = etree.SubElement(
-                payment_type_info_2_6, 'SvcLvl')
-            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-            service_level_code_2_9.text = 'SEPA'
-            requested_exec_date_2_17 = etree.SubElement(
-                payment_info_2_0, 'ReqdExctnDt')
-            requested_exec_date_2_17.text = requested_exec_date
+                    'requested_date': requested_date,
+                }, gen_args, context=context)
 
             self.generate_party_block(
                 cr, uid, payment_info_2_0, 'Dbtr', 'B',
@@ -256,11 +208,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
                     payment_identification_2_28, 'EndToEndId')
                 end2end_identification_2_30.text = self._prepare_field(
                     cr, uid, 'End to End Identification', 'line.name',
-                    {'line': line}, 35, convert_to_ascii=convert_to_ascii,
+                    {'line': line}, 35, gen_args=gen_args,
                     context=context)
                 currency_name = self._prepare_field(
                     cr, uid, 'Currency Code', 'line.currency.name',
-                    {'line': line}, 3, convert_to_ascii=convert_to_ascii,
+                    {'line': line}, 3, gen_args=gen_args,
                     context=context)
                 amount_2_42 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Amt')
@@ -311,7 +263,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         file_id = self.pool.get('banking.export.sepa').create(
             cr, uid, self._prepare_export_sepa(
                 cr, uid, sepa_export, total_amount, transactions_count_1_6,
-                xml_string, context=context),
+                xml_string, gen_args, context=context),
             context=context)
 
         self.write(
@@ -333,7 +285,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
     def cancel_sepa(self, cr, uid, ids, context=None):
         '''
-        Cancel the SEPA PAIN: just drop the file
+        Cancel the SEPA file: just drop the file
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('banking.export.sepa').unlink(
@@ -342,7 +294,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
 
     def save_sepa(self, cr, uid, ids, context=None):
         '''
-        Save the SEPA PAIN: send the done signal to all payment
+        Save the SEPA file: send the done signal to all payment
         orders in the file. With the default workflow, they will
         transition to 'done', while with the advanced workflow in
         account_banking_payment they will transition to 'sent' waiting
