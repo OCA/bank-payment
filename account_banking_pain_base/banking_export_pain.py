@@ -28,6 +28,7 @@ from unidecode import unidecode
 from lxml import etree
 from openerp import tools
 import logging
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -47,8 +48,10 @@ class banking_export_pain(orm.AbstractModel):
 
     def _prepare_field(
             self, cr, uid, field_name, field_value, eval_ctx, max_size=0,
-            convert_to_ascii=False, context=None):
+            gen_args=None, context=None):
         '''This function is designed to be inherited !'''
+        if gen_args is None:
+            gen_args = {}
         assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
         try:
             value = safe_eval(field_value, eval_ctx)
@@ -57,7 +60,7 @@ class banking_export_pain(orm.AbstractModel):
             # and many banks don't want non-ASCCI characters !
             # cf section 1.4 "Character set" of the SEPA Credit Transfer
             # Scheme Customer-to-bank guidelines
-            if convert_to_ascii:
+            if gen_args.get('convert_to_ascii'):
                 value = unidecode(value)
         except:
             line = eval_ctx.get('line')
@@ -84,6 +87,20 @@ class banking_export_pain(orm.AbstractModel):
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
+
+    def _prepare_export_sepa(
+            self, cr, uid, sepa_export, total_amount, transactions_count,
+            xml_string, gen_args, context=None):
+        return {
+            'batch_booking': sepa_export.batch_booking,
+            'charge_bearer': sepa_export.charge_bearer,
+            'total_amount': total_amount,
+            'nb_transactions': transactions_count,
+            'file': base64.encodestring(xml_string),
+            'payment_order_ids': [
+                (6, 0, [x.id for x in sepa_export.payment_order_ids])
+            ],
+        }
 
     def _validate_xml(self, cr, uid, xml_string, pain_xsd_file):
         xsd_etree_obj = etree.parse(
@@ -113,7 +130,7 @@ class banking_export_pain(orm.AbstractModel):
             cr, uid, 'Message Identification',
             'sepa_export.payment_order_ids[0].reference',
             {'sepa_export': sepa_export}, 35,
-            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+            gen_args=gen_args, context=context)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
             datetime.today(), '%Y-%m-%dT%H:%M:%S')
@@ -134,6 +151,61 @@ class banking_export_pain(orm.AbstractModel):
             context=context)
         return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
 
+    def generate_start_payment_info_block(
+            self, cr, uid, parent_node, sepa_export, payment_info_ident,
+            priority, local_instrument, sequence_type, requested_date,
+            eval_ctx, gen_args, context=None):
+        payment_info_2_0 = etree.SubElement(parent_node, 'PmtInf')
+        payment_info_identification_2_1 = etree.SubElement(
+            payment_info_2_0, 'PmtInfId')
+        payment_info_identification_2_1.text = self._prepare_field(
+            cr, uid, 'Payment Information Identification',
+            payment_info_ident, eval_ctx, 35,
+            gen_args=gen_args, context=context)
+        payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
+        if gen_args.get('pain_flavor').startswith('pain.008.'):
+            payment_method_2_2.text = 'DD'
+            request_date_tag = 'ReqdColltnDt'
+        else:
+            payment_method_2_2.text = 'TRF'
+            request_date_tag = 'ReqdExctnDt'
+        if gen_args.get('pain_flavor') != 'pain.001.001.02':
+            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
+            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
+        # The "SEPA Customer-to-bank
+        # Implementation guidelines" for SCT and SDD says that control sum
+        # and nb_of_transactions should be present
+        # at both "group header" level and "payment info" level
+            nb_of_transactions_2_4 = etree.SubElement(
+                payment_info_2_0, 'NbOfTxs')
+            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
+        payment_type_info_2_6 = etree.SubElement(
+            payment_info_2_0, 'PmtTpInf')
+        if priority:
+            instruction_priority_2_7 = etree.SubElement(
+                payment_type_info_2_6, 'InstrPrty')
+            instruction_priority_2_7.text = priority
+        service_level_2_8 = etree.SubElement(
+            payment_type_info_2_6, 'SvcLvl')
+        service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
+        service_level_code_2_9.text = 'SEPA'
+        if local_instrument:
+            local_instrument_2_11 = etree.SubElement(
+                payment_type_info_2_6, 'LclInstrm')
+            local_instr_code_2_12 = etree.SubElement(
+                local_instrument_2_11, 'Cd')
+            local_instr_code_2_12.text = local_instrument
+        if sequence_type:
+            sequence_type_2_14 = etree.SubElement(
+                payment_type_info_2_6, 'SeqTp')
+            sequence_type_2_14.text = sequence_type
+
+        requested_date_2_17 = etree.SubElement(
+            payment_info_2_0, request_date_tag)
+        requested_date_2_17.text = requested_date
+        return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
+
+
     def generate_initiating_party_block(
             self, cr, uid, parent_node, sepa_export, gen_args,
             context=None):
@@ -141,7 +213,7 @@ class banking_export_pain(orm.AbstractModel):
             cr, uid, 'Company Name',
             'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
             {'sepa_export': sepa_export}, gen_args.get('name_maxsize'),
-            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+            gen_args=gen_args, context=context)
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
@@ -174,7 +246,7 @@ class banking_export_pain(orm.AbstractModel):
             party_agent_institution, gen_args.get('bic_xml_tag'))
         party_agent_bic.text = self._prepare_field(
             cr, uid, '%s BIC' % party_type_label, bic, eval_ctx,
-            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+            gen_args=gen_args, context=context)
         return True
 
     def generate_party_block(
@@ -198,7 +270,7 @@ class banking_export_pain(orm.AbstractModel):
         party_name.text = self._prepare_field(
             cr, uid, '%s Name' % party_type_label, name, eval_ctx,
             gen_args.get('name_maxsize'),
-            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+            gen_args=gen_args, context=context)
         party_account = etree.SubElement(
             parent_node, '%sAcct' % party_type)
         party_account_id = etree.SubElement(party_account, 'Id')
@@ -206,7 +278,7 @@ class banking_export_pain(orm.AbstractModel):
             party_account_id, 'IBAN')
         piban = self._prepare_field(
             cr, uid, '%s IBAN' % party_type_label, iban, eval_ctx,
-            convert_to_ascii=gen_args.get('convert_to_ascii'),
+            gen_args=gen_args,
             context=context)
         viban = self._validate_iban(cr, uid, piban, context=context)
         party_account_iban.text = viban
@@ -228,7 +300,7 @@ class banking_export_pain(orm.AbstractModel):
                 self._prepare_field(
                     cr, uid, 'Remittance Unstructured Information',
                     'line.communication', {'line': line}, 140,
-                    convert_to_ascii=gen_args.get('convert_to_ascii'),
+                    gen_args=gen_args,
                     context=context)
         else:
             if not line.struct_communication_type:
@@ -268,7 +340,7 @@ class banking_export_pain(orm.AbstractModel):
                 self._prepare_field(
                     cr, uid, 'Creditor Structured Reference',
                     'line.communication', {'line': line}, 35,
-                    convert_to_ascii=gen_args.get('convert_to_ascii'),
+                    gen_args=gen_args,
                     context=context)
         return True
 
@@ -282,7 +354,7 @@ class banking_export_pain(orm.AbstractModel):
         csi_other_id = etree.SubElement(csi_other, 'Id')
         csi_other_id.text = self._prepare_field(
             cr, uid, identification_label, identification, eval_ctx,
-            convert_to_ascii=gen_args.get('convert_to_ascii'), context=context)
+            gen_args=gen_args, context=context)
         csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
         csi_scheme_name_proprietary = etree.SubElement(
             csi_scheme_name, 'Prtry')

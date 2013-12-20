@@ -23,10 +23,8 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp.tools.safe_eval import safe_eval
 from openerp import tools, netsvc
-import base64
-from datetime import datetime, timedelta
+from datetime import datetime
 from lxml import etree
 import logging
 
@@ -82,21 +80,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         })
         return super(banking_export_sdd_wizard, self).create(
             cr, uid, vals, context=context)
-
-    def _prepare_export_sepa(
-            self, cr, uid, sepa_export, total_amount, transactions_count,
-            xml_string, context=None):
-        return {
-            'batch_booking': sepa_export.batch_booking,
-            'charge_bearer': sepa_export.charge_bearer,
-            'total_amount': total_amount,
-            'nb_transactions': transactions_count,
-            'file': base64.encodestring(xml_string),
-            'payment_order_ids': [
-                (6, 0, [x.id for x in sepa_export.payment_order_ids])
-            ],
-        }
-
 
     def _get_previous_bank(self, cr, uid, payline, context=None):
         payline_obj = self.pool['payment.line']
@@ -163,11 +146,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
         root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(root, root_xml_tag)
 
-        my_company_name = self._prepare_field(
-            cr, uid, 'Company Name',
-            'sepa_export.payment_order_ids[0].company_id.partner_id.name',
-            {'sepa_export': sepa_export}, name_maxsize, context=context)
-
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
         self.generate_group_header_block(
@@ -177,7 +155,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
         lines_per_group = {}
-        # key = (requested_collec_date, priority, sequence type)
+        # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
         # Iterate on payment orders
         today = fields.date.context_today(self, cr, uid, context=context)
@@ -188,11 +166,11 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 transactions_count_1_6 += 1
                 priority = line.priority
                 if payment_order.date_prefered == 'due':
-                    requested_collec_date = line.ml_maturity_date or today
+                    requested_date = line.ml_maturity_date or today
                 elif payment_order.date_prefered == 'fixed':
-                    requested_collec_date = payment_order.date_scheduled or today
+                    requested_date = payment_order.date_scheduled or today
                 else:
-                    requested_collec_date = today
+                    requested_date = today
                 if not line.sdd_mandate_id:
                     raise orm.except_orm(
                         _('Error:'),
@@ -225,69 +203,29 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
 
-                key = (requested_collec_date, priority, seq_type)
+                key = (requested_date, priority, seq_type)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
                     lines_per_group[key] = [line]
                 # Write requested_exec_date on 'Payment date' of the pay line
-                if requested_collec_date != line.date:
+                if requested_date != line.date:
                     self.pool['payment.line'].write(
                         cr, uid, line.id,
-                        {'date': requested_collec_date}, context=context)
+                        {'date': requested_date}, context=context)
 
-        for (requested_collec_date, priority, sequence_type), lines in lines_per_group.items():
+        for (requested_date, priority, sequence_type), lines in lines_per_group.items():
             # B. Payment info
-            payment_info_2_0 = etree.SubElement(pain_root, 'PmtInf')
-            payment_info_identification_2_1 = etree.SubElement(
-                payment_info_2_0, 'PmtInfId')
-            payment_info_identification_2_1.text = self._prepare_field(
-                cr, uid, 'Payment Information Identification',
-                "sepa_export.payment_order_ids[0].reference + '-' + sequence_type + '-' + requested_collec_date.replace('-', '')  + '-' + priority",
-                {
+            payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
+            self.generate_start_payment_info_block(
+                cr, uid, pain_root, sepa_export,
+                "sepa_export.payment_order_ids[0].reference + '-' + sequence_type + '-' + requested_date.replace('-', '')  + '-' + priority",
+                priority, 'CORE', sequence_type, requested_date, {
                     'sepa_export': sepa_export,
                     'sequence_type': sequence_type,
                     'priority': priority,
-                    'requested_collec_date': requested_collec_date,
-                }, 35, convert_to_ascii=convert_to_ascii, context=context)
-            payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-            payment_method_2_2.text = 'DD'
-            # batch_booking is in "Payment Info" with pain.008.001.02/03
-            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
-            # The "SEPA Core Direct Debit Scheme Customer-to-bank
-            # Implementation guidelines" v6.0 says that control sum
-            # and nb_of_transactions should be present
-            # at both "group header" level and "payment info" level
-            nb_of_transactions_2_4 = etree.SubElement(
-                payment_info_2_0, 'NbOfTxs')
-            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-            payment_type_info_2_6 = etree.SubElement(
-                payment_info_2_0, 'PmtTpInf')
-            if priority:
-                instruction_priority_2_7 = etree.SubElement(
-                    payment_type_info_2_6, 'InstrPrty')
-                instruction_priority_2_7.text = priority
-            service_level_2_8 = etree.SubElement(
-                payment_type_info_2_6, 'SvcLvl')
-            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-            service_level_code_2_9.text = 'SEPA'
-            local_instrument_2_11 = etree.SubElement(
-                payment_type_info_2_6, 'LclInstrm')
-            local_instr_code_2_12 = etree.SubElement(
-                local_instrument_2_11, 'Cd')
-            local_instr_code_2_12.text = 'CORE'
-            # 2.14 Sequence Type MANDATORY
-            # this message element must indicate ‘FRST
-            # 'FRST' = First ; 'OOFF' = One Off ; 'RCUR' : Recurring
-            # 'FNAL' = Final
-            sequence_type_2_14 = etree.SubElement(
-                payment_type_info_2_6, 'SeqTp')
-            sequence_type_2_14.text = sequence_type
-
-            requested_collec_date_2_18 = etree.SubElement(
-                payment_info_2_0, 'ReqdColltnDt')
-            requested_collec_date_2_18.text = requested_collec_date
+                    'requested_date': requested_date,
+                }, gen_args, context=context)
 
             self.generate_party_block(
                 cr, uid, payment_info_2_0, 'Cdtr', 'B',
@@ -322,10 +260,10 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 end2end_identification_2_31.text = self._prepare_field(
                     cr, uid, 'End to End Identification', 'line.name',
                     {'line': line}, 35,
-                    convert_to_ascii=convert_to_ascii, context=context)
+                    gen_args=gen_args, context=context)
                 currency_name = self._prepare_field(
                     cr, uid, 'Currency Code', 'line.currency.name',
-                    {'line': line}, 3, convert_to_ascii=convert_to_ascii,
+                    {'line': line}, 3, gen_args=gen_args,
                     context=context)
                 instructed_amount_2_44 = etree.SubElement(
                     dd_transaction_info_2_28, 'InstdAmt', Ccy=currency_name)
@@ -342,14 +280,14 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     cr, uid, 'Unique Mandate Reference',
                     'line.sdd_mandate_id.unique_mandate_reference',
                     {'line': line}, 35,
-                    convert_to_ascii=convert_to_ascii, context=context)
+                    gen_args=gen_args, context=context)
                 mandate_signature_date_2_49 = etree.SubElement(
                     mandate_related_info_2_47, 'DtOfSgntr')
                 mandate_signature_date_2_49.text = self._prepare_field(
                     cr, uid, 'Mandate Signature Date',
                     'line.sdd_mandate_id.signature_date',
                     {'line': line}, 10,
-                    convert_to_ascii=convert_to_ascii, context=context)
+                    gen_args=gen_args, context=context)
                 if sequence_type == 'FRST' and (
                         line.sdd_mandate_id.last_debit_date or
                         not line.sdd_mandate_id.sepa_migrated):
@@ -374,7 +312,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                     cr, uid, 'Original Debtor Account',
                                     'previous_bank.acc_number',
                                     {'previous_bank': previous_bank},
-                                    convert_to_ascii=convert_to_ascii,
+                                    gen_args=gen_args,
                                     context=context),
                                 context=context)
                         else:
@@ -388,7 +326,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 cr, uid, 'Original Debtor Agent',
                                 'previous_bank.bank.bic',
                                 {'previous_bank': previous_bank},
-                                convert_to_ascii=convert_to_ascii,
+                                gen_args=gen_args,
                                 context=context)
                             ori_debtor_agent_other = etree.SubElement(
                                 ori_debtor_agent_institution, 'Othr')
@@ -404,7 +342,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 cr, uid, 'Original Mandate Identification',
                                 'line.sdd_mandate_id.original_mandate_identification',
                                 {'line': line},
-                                convert_to_ascii=convert_to_ascii,
+                                gen_args=gen_args,
                                 context=context)
                         ori_creditor_scheme_id_2_53 = etree.SubElement(
                             amendment_info_details_2_51, 'OrgnlCdtrSchmeId')
@@ -444,7 +382,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         file_id = self.pool.get('banking.export.sdd').create(
             cr, uid, self._prepare_export_sepa(
                 cr, uid, sepa_export, total_amount, transactions_count_1_6,
-                xml_string, context=context),
+                xml_string, gen_args, context=context),
             context=context)
 
         self.write(
@@ -466,7 +404,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
 
     def cancel_sepa(self, cr, uid, ids, context=None):
         '''
-        Cancel the SEPA Direct Debit file: just drop the file
+        Cancel the SEPA file: just drop the file
         '''
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('banking.export.sdd').unlink(
