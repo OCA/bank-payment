@@ -34,10 +34,9 @@ class payment_mode(orm.Model):
             'account.account', 'Transfer account',
             domain=[('type', '=', 'other'),
                     ('reconcile', '=', True)],
-            help=('Pay off lines in sent orders with a '
-                  'move on this account. For debit type modes only. '
-                  'You can only select accounts of type regular that '
-                  'are marked for reconciliation'),
+            help=('Pay off lines in sent orders with a move on this '
+                  'account. You can only select accounts of type regular '
+                  'that are marked for reconciliation'),
             ),
         'transfer_journal_id': fields.many2one(
             'account.journal', 'Transfer journal',
