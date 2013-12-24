@@ -23,11 +23,8 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp import tools, netsvc
+from openerp import netsvc
 from lxml import etree
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class banking_export_sepa_wizard(orm.TransientModel):
@@ -42,14 +39,24 @@ class banking_export_sepa_wizard(orm.TransientModel):
             ], 'State', readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking',
-            help="If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."),
+            help="If true, the bank statement will display only one debit "
+            "line for all the wire transfers of the SEPA XML file ; if "
+            "false, the bank statement will display one debit line per wire "
+            "transfer of the SEPA XML file."),
         'charge_bearer': fields.selection([
             ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
             ], 'Charge Bearer', required=True,
-            help='Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the debtor side are to be borne by the debtor, transaction charges on the creditor side are to be borne by the creditor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor.'),
+            help="Following service level : transaction charges are to be "
+            "applied following the rules agreed in the service level and/or "
+            "scheme (SEPA Core messages must use this). Shared : transaction "
+            "charges on the debtor side are to be borne by the debtor, "
+            "transaction charges on the creditor side are to be borne by "
+            "the creditor. Borne by creditor : all transaction charges are "
+            "to be borne by the creditor. Borne by debtor : all transaction "
+            "charges are to be borne by the debtor."),
         'nb_transactions': fields.related(
             'file_id', 'nb_transactions', type='integer',
             string='Number of Transactions', readonly=True),
@@ -119,7 +126,10 @@ class banking_export_sepa_wizard(orm.TransientModel):
         else:
             raise orm.except_orm(
                 _('Error:'),
-                _("Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'.")
+                _("Payment Type Code '%s' is not supported. The only "
+                    "Payment Type Codes supported for SEPA Credit Transfers "
+                    "are 'pain.001.001.02', 'pain.001.001.03', "
+                    "'pain.001.001.04' and 'pain.001.001.05'.")
                 % pain_flavor)
 
         gen_args = {
@@ -127,6 +137,11 @@ class banking_export_sepa_wizard(orm.TransientModel):
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
             'pain_flavor': pain_flavor,
+            'sepa_export': sepa_export,
+            'file_obj': self.pool['banking.export.sepa'],
+            'pain_xsd_file':
+            'account_banking_sepa_credit_transfer/data/%s.xsd'
+            % pain_flavor,
         }
 
         pain_ns = {
@@ -134,15 +149,15 @@ class banking_export_sepa_wizard(orm.TransientModel):
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
             }
 
-        root = etree.Element('Document', nsmap=pain_ns)
-        pain_root = etree.SubElement(root, root_xml_tag)
+        xml_root = etree.Element('Document', nsmap=pain_ns)
+        pain_root = etree.SubElement(xml_root, root_xml_tag)
         pain_03_to_05 = \
             ['pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']
 
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
-        self.generate_group_header_block(
-            cr, uid, pain_root, sepa_export, gen_args, context=context)
+            self.generate_group_header_block(
+                cr, uid, pain_root, gen_args, context=context)
 
         transactions_count_1_6 = 0
         total_amount = 0.0
@@ -175,22 +190,25 @@ class banking_export_sepa_wizard(orm.TransientModel):
         for (requested_date, priority), lines in lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
-            self.generate_start_payment_info_block(
-                cr, uid, pain_root, sepa_export,
-                "sepa_export.payment_order_ids[0].reference + '-' + requested_date.replace('-', '')  + '-' + priority",
-                priority, False, False, requested_date, {
-                    'sepa_export': sepa_export,
-                    'priority': priority,
-                    'requested_date': requested_date,
-                }, gen_args, context=context)
+                self.generate_start_payment_info_block(
+                    cr, uid, pain_root,
+                    "sepa_export.payment_order_ids[0].reference + '-' "
+                    "+ requested_date.replace('-', '')  + '-' + priority",
+                    priority, False, False, requested_date, {
+                        'sepa_export': sepa_export,
+                        'priority': priority,
+                        'requested_date': requested_date,
+                    }, gen_args, context=context)
 
             self.generate_party_block(
                 cr, uid, payment_info_2_0, 'Dbtr', 'B',
-                'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
+                'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.'
+                'name',
                 'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
                 'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
                 {'sepa_export': sepa_export},
                 gen_args, context=context)
+
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             charge_bearer_2_24.text = sepa_export.charge_bearer
 
@@ -225,14 +243,14 @@ class banking_export_sepa_wizard(orm.TransientModel):
                 if not line.bank_id:
                     raise orm.except_orm(
                         _('Error:'),
-                        _("Missing Bank Account on invoice '%s' (payment order line reference '%s').")
+                        _("Missing Bank Account on invoice '%s' (payment "
+                            "order line reference '%s').")
                         % (line.ml_inv_ref.number, line.name))
                 self.generate_party_block(
-                    cr, uid, credit_transfer_transaction_info_2_27, 'Cdtr', 'C',
-                    'line.partner_id.name',
-                    'line.bank_id.acc_number',
-                    'line.bank_id.bank.bic',
-                    {'line': line}, gen_args, context=context)
+                    cr, uid, credit_transfer_transaction_info_2_27, 'Cdtr',
+                    'C', 'line.partner_id.name', 'line.bank_id.acc_number',
+                    'line.bank_id.bank.bic', {'line': line}, gen_args,
+                    context=context)
 
                 self.generate_remittance_info_block(
                     cr, uid, credit_transfer_transaction_info_2_27,
@@ -249,39 +267,9 @@ class banking_export_sepa_wizard(orm.TransientModel):
             nb_of_transactions_1_6.text = str(transactions_count_1_6)
             control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
 
-        xml_string = etree.tostring(
-            root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
-        _logger.debug(
-            "Generated SEPA Credit Transfer XML file in format %s below"
-            % pain_flavor)
-        _logger.debug(xml_string)
-        pain_xsd_file = \
-            'account_banking_sepa_credit_transfer/data/%s.xsd' % pain_flavor
-        self._validate_xml(cr, uid, xml_string, pain_xsd_file)
-
-        # CREATE the banking.export.sepa record
-        file_id = self.pool.get('banking.export.sepa').create(
-            cr, uid, self._prepare_export_sepa(
-                cr, uid, sepa_export, total_amount, transactions_count_1_6,
-                xml_string, gen_args, context=context),
-            context=context)
-
-        self.write(
-            cr, uid, ids, {
-                'file_id': file_id,
-                'state': 'finish',
-            }, context=context)
-
-        action = {
-            'name': 'SEPA Credit Transfer File',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form,tree',
-            'res_model': self._name,
-            'res_id': ids[0],
-            'target': 'new',
-            }
-        return action
+        return self.finalize_sepa_file_creation(
+            cr, uid, ids, xml_root, total_amount, transactions_count_1_6,
+            gen_args, context=context)
 
     def cancel_sepa(self, cr, uid, ids, context=None):
         '''
