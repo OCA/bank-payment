@@ -34,11 +34,14 @@ class payment_line(orm.Model):
             ('NORM', 'Normal'),
             ('HIGH', 'High'),
             ], 'Priority',
-            help="This field will be used as the 'Instruction Priority' in the generated PAIN files."),
+            help="This field will be used as the 'Instruction Priority' in "
+            "the generated PAIN file."),
         # Update size from 64 to 140, because PAIN allows 140 caracters
         'communication': fields.char(
             'Communication', size=140, required=True,
-            help="Used as the message between ordering customer and current company. Depicts 'What do you want to say to the recipient about this order ?'"),
+            help="Used as the message between ordering customer and current "
+            "company. Depicts 'What do you want to say to the recipient "
+            "about this order ?'"),
         'struct_communication_type': fields.selection(
             _get_struct_communication_types, 'Structured Communication Type'),
     }

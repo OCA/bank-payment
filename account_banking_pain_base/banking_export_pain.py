@@ -62,14 +62,19 @@ class banking_export_pain(orm.AbstractModel):
             # Scheme Customer-to-bank guidelines
             if gen_args.get('convert_to_ascii'):
                 value = unidecode(value)
+                unallowed_ascii_chars = [
+                    '"', '#', '$', '%', '&', '*', ';', '<', '>', '=', '@',
+                    '[', ']', '^', '_', '`', '{', '}', '|', '~', '\\', '!']
+                for unallowed_ascii_char in unallowed_ascii_chars:
+                    value = value.replace(unallowed_ascii_char, '-')
         except:
             line = eval_ctx.get('line')
             if line:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Cannot compute the '%s' of the Payment Line with Invoice Reference '%s'.")
-                    % (field_name, self.pool['account.invoice'].name_get(
-                        cr, uid, [line.ml_inv_ref.id], context=context)[0][1]))
+                    _("Cannot compute the '%s' of the Payment Line with "
+                        "reference '%s'.")
+                    % (field_name, line.name))
             else:
                 raise orm.except_orm(
                     _('Error:'),
@@ -77,7 +82,8 @@ class banking_export_pain(orm.AbstractModel):
         if not isinstance(value, (str, unicode)):
             raise orm.except_orm(
                 _('Field type error:'),
-                _("The type of the field '%s' is %s. It should be a string or unicode.")
+                _("The type of the field '%s' is %s. It should be a string "
+                    "or unicode.")
                 % (field_name, type(value)))
         if not value:
             raise orm.except_orm(
@@ -89,22 +95,22 @@ class banking_export_pain(orm.AbstractModel):
         return value
 
     def _prepare_export_sepa(
-            self, cr, uid, sepa_export, total_amount, transactions_count,
-            xml_string, gen_args, context=None):
+            self, cr, uid, total_amount, transactions_count, xml_string,
+            gen_args, context=None):
         return {
-            'batch_booking': sepa_export.batch_booking,
-            'charge_bearer': sepa_export.charge_bearer,
+            'batch_booking': gen_args['sepa_export'].batch_booking,
+            'charge_bearer': gen_args['sepa_export'].charge_bearer,
             'total_amount': total_amount,
             'nb_transactions': transactions_count,
             'file': base64.encodestring(xml_string),
-            'payment_order_ids': [
-                (6, 0, [x.id for x in sepa_export.payment_order_ids])
-            ],
+            'payment_order_ids': [(
+                6, 0, [x.id for x in gen_args['sepa_export'].payment_order_ids]
+            )],
         }
 
-    def _validate_xml(self, cr, uid, xml_string, pain_xsd_file):
+    def _validate_xml(self, cr, uid, xml_string, gen_args, context=None):
         xsd_etree_obj = etree.parse(
-            tools.file_open(pain_xsd_file))
+            tools.file_open(gen_args['pain_xsd_file']))
         official_pain_schema = etree.XMLSchema(xsd_etree_obj)
 
         try:
@@ -117,19 +123,58 @@ class banking_export_pain(orm.AbstractModel):
             logger.warning(e)
             raise orm.except_orm(
                 _('Error:'),
-                _('The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s')
+                _("The generated XML file is not valid against the official "
+                    "XML Schema Definition. The generated XML file and the "
+                    "full error have been written in the server logs. Here "
+                    "is the error, which may give you an idea on the cause "
+                    "of the problem : %s")
                 % str(e))
         return True
 
+    def finalize_sepa_file_creation(
+            self, cr, uid, ids, xml_root, total_amount, transactions_count,
+            gen_args, context=None):
+        xml_string = etree.tostring(
+            xml_root, pretty_print=True, encoding='UTF-8',
+            xml_declaration=True)
+        logger.debug(
+            "Generated SEPA XML file in format %s below"
+            % gen_args['pain_flavor'])
+        logger.debug(xml_string)
+        self._validate_xml(cr, uid, xml_string, gen_args, context=context)
+
+        file_id = gen_args['file_obj'].create(
+            cr, uid, self._prepare_export_sepa(
+                cr, uid, total_amount, transactions_count,
+                xml_string, gen_args, context=context),
+            context=context)
+
+        self.write(
+            cr, uid, ids, {
+                'file_id': file_id,
+                'state': 'finish',
+            }, context=context)
+
+        action = {
+            'name': 'SEPA File',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': self._name,
+            'res_id': ids[0],
+            'target': 'new',
+            }
+        return action
+
     def generate_group_header_block(
-            self, cr, uid, parent_node, sepa_export, gen_args, context=None):
+            self, cr, uid, parent_node, gen_args, context=None):
         group_header_1_0 = etree.SubElement(parent_node, 'GrpHdr')
         message_identification_1_1 = etree.SubElement(
             group_header_1_0, 'MsgId')
         message_identification_1_1.text = self._prepare_field(
             cr, uid, 'Message Identification',
             'sepa_export.payment_order_ids[0].reference',
-            {'sepa_export': sepa_export}, 35,
+            {'sepa_export': gen_args['sepa_export']}, 35,
             gen_args=gen_args, context=context)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
@@ -138,7 +183,8 @@ class banking_export_pain(orm.AbstractModel):
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(group_header_1_0, 'BtchBookg')
-            batch_booking.text = str(sepa_export.batch_booking).lower()
+            batch_booking.text = \
+                str(gen_args['sepa_export'].batch_booking).lower()
         nb_of_transactions_1_6 = etree.SubElement(
             group_header_1_0, 'NbOfTxs')
         control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
@@ -147,12 +193,12 @@ class banking_export_pain(orm.AbstractModel):
             grouping = etree.SubElement(group_header_1_0, 'Grpg')
             grouping.text = 'GRPD'
         self.generate_initiating_party_block(
-            cr, uid, group_header_1_0, sepa_export, gen_args,
+            cr, uid, group_header_1_0, gen_args,
             context=context)
         return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
 
     def generate_start_payment_info_block(
-            self, cr, uid, parent_node, sepa_export, payment_info_ident,
+            self, cr, uid, parent_node, payment_info_ident,
             priority, local_instrument, sequence_type, requested_date,
             eval_ctx, gen_args, context=None):
         payment_info_2_0 = etree.SubElement(parent_node, 'PmtInf')
@@ -171,7 +217,8 @@ class banking_export_pain(orm.AbstractModel):
             request_date_tag = 'ReqdExctnDt'
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
             batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = str(sepa_export.batch_booking).lower()
+            batch_booking_2_3.text = \
+                str(gen_args['sepa_export'].batch_booking).lower()
         # The "SEPA Customer-to-bank
         # Implementation guidelines" for SCT and SDD says that control sum
         # and nb_of_transactions should be present
@@ -205,24 +252,23 @@ class banking_export_pain(orm.AbstractModel):
         requested_date_2_17.text = requested_date
         return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
 
-
     def generate_initiating_party_block(
-            self, cr, uid, parent_node, sepa_export, gen_args,
-            context=None):
+            self, cr, uid, parent_node, gen_args, context=None):
         my_company_name = self._prepare_field(
             cr, uid, 'Company Name',
             'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
-            {'sepa_export': sepa_export}, gen_args.get('name_maxsize'),
-            gen_args=gen_args, context=context)
+            {'sepa_export': gen_args['sepa_export']},
+            gen_args.get('name_maxsize'), gen_args=gen_args, context=context)
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
         initiating_party_identifier = self.pool['res.company'].\
             _get_initiating_party_identifier(
-                cr, uid, sepa_export.payment_order_ids[0].company_id.id,
+                cr, uid,
+                gen_args['sepa_export'].payment_order_ids[0].company_id.id,
                 context=context)
-        initiating_party_issuer = \
-            sepa_export.payment_order_ids[0].company_id.initiating_party_issuer
+        initiating_party_issuer = gen_args['sepa_export'].\
+            payment_order_ids[0].company_id.initiating_party_issuer
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
@@ -306,7 +352,8 @@ class banking_export_pain(orm.AbstractModel):
             if not line.struct_communication_type:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Missing 'Structured Communication Type' on payment line with your reference '%s'.")
+                    _("Missing 'Structured Communication Type' on payment "
+                        "line with reference '%s'.")
                     % (line.name))
             remittance_info_unstructured_2_100 = etree.SubElement(
                 remittance_info_2_91, 'Strd')
