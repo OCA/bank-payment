@@ -31,7 +31,11 @@ class res_company(orm.Model):
     _columns = {
         'sepa_creditor_identifier': fields.char(
             'SEPA Creditor Identifier', size=35,
-            help="Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n- your country ISO code (2 letters)\n- a 2-digits checkum\n- a 3-letters business code\n- a country-specific identifier"),
+            help="Enter the Creditor Identifier that has been attributed "
+            "to your company to make SEPA Direct Debits. This identifier "
+            "is composed of :\n- your country ISO code (2 letters)\n- a "
+            "2-digits checkum\n- a 3-letters business code\n- a "
+            "country-specific identifier"),
         'original_creditor_identifier': fields.char(
             'Original Creditor Identifier', size=70),
     }

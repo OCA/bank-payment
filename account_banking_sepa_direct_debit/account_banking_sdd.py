@@ -63,14 +63,24 @@ class banking_export_sdd(orm.Model):
             readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking', readonly=True,
-            help="If true, the bank statement will display only one credit line for all the direct debits of the SEPA file ; if false, the bank statement will display one credit line per direct debit of the SEPA file."),
+            help="If true, the bank statement will display only one credit "
+            "line for all the direct debits of the SEPA file ; if false, "
+            "the bank statement will display one credit line per direct "
+            "debit of the SEPA file."),
         'charge_bearer': fields.selection([
             ('SLEV', 'Following Service Level'),
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
             ], 'Charge Bearer', readonly=True,
-            help='Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor.'),
+            help="Following service level : transaction charges are to be "
+            "applied following the rules agreed in the service level and/or "
+            "scheme (SEPA Core messages must use this). Shared : "
+            "transaction charges on the creditor side are to be borne by "
+            "the creditor, transaction charges on the debtor side are to be "
+            "borne by the debtor. Borne by creditor : all transaction "
+            "charges are to be borne by the creditor. Borne by debtor : "
+            "all transaction charges are to be borne by the debtor."),
         'create_date': fields.datetime('Generation Date', readonly=True),
         'file': fields.binary('SEPA File', readonly=True),
         'filename': fields.function(
@@ -98,22 +108,26 @@ class sdd_mandate(orm.Model):
     _track = {
         'state': {
             'account_banking_sepa_direct_debit.mandate_valid':
-                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'valid',
+            lambda self, cr, uid, obj, ctx=None:
+            obj['state'] == 'valid',
             'account_banking_sepa_direct_debit.mandate_expired':
-                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'expired',
+            lambda self, cr, uid, obj, ctx=None:
+            obj['state'] == 'expired',
             'account_banking_sepa_direct_debit.mandate_cancel':
-                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'cancel',
+            lambda self, cr, uid, obj, ctx=None:
+            obj['state'] == 'cancel',
             },
         'recurrent_sequence_type': {
             'account_banking_sepa_direct_debit.recurrent_sequence_type_first':
-                lambda self, cr, uid, obj, ctx=None:
-                obj['recurrent_sequence_type'] == 'first',
-            'account_banking_sepa_direct_debit.recurrent_sequence_type_recurring':
-                lambda self, cr, uid, obj, ctx=None:
-                obj['recurrent_sequence_type'] == 'recurring',
+            lambda self, cr, uid, obj, ctx=None:
+            obj['recurrent_sequence_type'] == 'first',
+            'account_banking_sepa_direct_debit.'
+            'recurrent_sequence_type_recurring':
+            lambda self, cr, uid, obj, ctx=None:
+            obj['recurrent_sequence_type'] == 'recurring',
             'account_banking_sepa_direct_debit.recurrent_sequence_type_final':
-                lambda self, cr, uid, obj, ctx=None:
-                obj['recurrent_sequence_type'] == 'final',
+            lambda self, cr, uid, obj, ctx=None:
+            obj['recurrent_sequence_type'] == 'final',
             }
         }
 
@@ -136,7 +150,8 @@ class sdd_mandate(orm.Model):
             ('recurring', 'Recurring'),
             ('final', 'Final'),
             ], 'Sequence Type for Next Debit', track_visibility='onchange',
-            help="This field is only used for Recurrent mandates, not for One-Off mandates."),
+            help="This field is only used for Recurrent mandates, not for "
+            "One-Off mandates."),
         'signature_date': fields.date(
             'Date of Signature of the Mandate', track_visibility='onchange'),
         'scan': fields.binary('Scan of the Mandate'),
@@ -148,24 +163,36 @@ class sdd_mandate(orm.Model):
             ('expired', 'Expired'),
             ('cancel', 'Cancelled'),
             ], 'Status',
-            help="Only valid mandates can be used in a payment line. A cancelled mandate is a mandate that has been cancelled by the customer. A one-off mandate expires after its first use. A recurrent mandate expires after it's final use or if it hasn't been used for 36 months."),
+            help="Only valid mandates can be used in a payment line. A "
+            "cancelled mandate is a mandate that has been cancelled by "
+            "the customer. A one-off mandate expires after its first use. "
+            "A recurrent mandate expires after it's final use or if it "
+            "hasn't been used for 36 months."),
         'payment_line_ids': fields.one2many(
             'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
         'sepa_migrated': fields.boolean(
             'Migrated to SEPA', track_visibility='onchange',
-            help="If this field is not active, the mandate section of the next direct debit file that include this mandate will contain the 'Original Mandate Identification' and the 'Original Creditor Scheme Identification'. This is required in a few countries (Belgium for instance), but not in all countries. If this is not required in your country, you should keep this field always active."),
+            help="If this field is not active, the mandate section of the "
+            "next direct debit file that include this mandate will contain "
+            "the 'Original Mandate Identification' and the 'Original "
+            "Creditor Scheme Identification'. This is required in a few "
+            "countries (Belgium for instance), but not in all countries. "
+            "If this is not required in your country, you should keep this "
+            "field always active."),
         'original_mandate_identification': fields.char(
             'Original Mandate Identification', size=35,
             track_visibility='onchange',
-            help="When the field 'Migrated to SEPA' is not active, this field will be used as the Original Mandate Identification in the the Direct Debit file."),
+            help="When the field 'Migrated to SEPA' is not active, this "
+            "field will be used as the Original Mandate Identification in "
+            "the Direct Debit file."),
         }
 
     _defaults = {
         'company_id': lambda self, cr, uid, context:
-            self.pool['res.company'].\
-            _company_default_get(cr, uid, 'sdd.mandate', context=context),
+        self.pool['res.company']._company_default_get(
+            cr, uid, 'sdd.mandate', context=context),
         'unique_mandate_reference': lambda self, cr, uid, ctx:
-            self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
+        self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
         'state': 'draft',
         'sepa_migrated': True,
     }
@@ -183,24 +210,28 @@ class sdd_mandate(orm.Model):
                     datetime.today().strftime('%Y-%m-%d')):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The date of signature of mandate '%s' is in the future!")
+                    _("The date of signature of mandate '%s' is in the "
+                        "future !")
                     % mandate.unique_mandate_reference)
             if mandate.state == 'valid' and not mandate.signature_date:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Cannot validate the mandate '%s' without a date of signature.")
+                    _("Cannot validate the mandate '%s' without a date of "
+                        "signature.")
                     % mandate.unique_mandate_reference)
             if mandate.state == 'valid' and not mandate.partner_bank_id:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Cannot validate the mandate '%s' because it is not attached to a bank account.")
+                    _("Cannot validate the mandate '%s' because it is not "
+                        "attached to a bank account.")
                     % mandate.unique_mandate_reference)
 
             if (mandate.signature_date and mandate.last_debit_date and
                     mandate.signature_date > mandate.last_debit_date):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The mandate '%s' can't have a date of last debit before the date of signature.")
+                    _("The mandate '%s' can't have a date of last debit "
+                        "before the date of signature.")
                     % mandate.unique_mandate_reference)
             if (mandate.type == 'recurrent'
                     and not mandate.recurrent_sequence_type):
@@ -212,13 +243,17 @@ class sdd_mandate(orm.Model):
                     and mandate.recurrent_sequence_type != 'first'):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The recurrent mandate '%s' which is not marked as 'Migrated to SEPA' must have its recurrent sequence type set to 'First'.")
+                    _("The recurrent mandate '%s' which is not marked as "
+                        "'Migrated to SEPA' must have its recurrent sequence "
+                        "type set to 'First'.")
                     % mandate.unique_mandate_reference)
             if (mandate.type == 'recurrent' and not mandate.sepa_migrated
                     and not mandate.original_mandate_identification):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("You must set the 'Original Mandate Identification' on the recurrent mandate '%s' which is not marked as 'Migrated to SEPA'.")
+                    _("You must set the 'Original Mandate Identification' "
+                        "on the recurrent mandate '%s' which is not marked "
+                        "as 'Migrated to SEPA'.")
                     % mandate.unique_mandate_reference)
         return True
 
@@ -252,8 +287,11 @@ class sdd_mandate(orm.Model):
                 and recurrent_sequence_type != 'first'):
             res['value']['recurrent_sequence_type'] = 'first'
             res['warning'] = {
-                    'title': _('Mandate update'),
-                    'message': _("As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."),
+                'title': _('Mandate update'),
+                'message': _(
+                    "As you changed the bank account attached to this "
+                    "mandate, the 'Sequence Type' has been set back to "
+                    "'First'."),
                 }
         return res
 
@@ -337,7 +375,7 @@ class payment_line(orm.Model):
                     vals.update({
                         'sdd_mandate_id': line.invoice.sdd_mandate_id.id,
                         'bank_id':
-                            line.invoice.sdd_mandate_id.partner_bank_id.id,
+                        line.invoice.sdd_mandate_id.partner_bank_id.id,
                     })
             if partner_bank_id and 'sdd_mandate_id' not in vals:
                 mandate_ids = self.pool['sdd.mandate'].search(cr, uid, [
@@ -355,14 +393,17 @@ class payment_line(orm.Model):
                     payline.bank_id.id):
                 raise orm.except_orm(
                     _('Error:'),
-                    _("The payment line with reference '%s' has the bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s').")
-                    % (payline.name,
-                    self.pool['res.partner.bank'].name_get(
-                        cr, uid, [payline.bank_id.id])[0][1],
-                    payline.sdd_mandate_id.unique_mandate_reference,
-                    self.pool['res.partner.bank'].name_get(
-                        cr, uid,
-                        [payline.sdd_mandate_id.partner_bank_id.id])[0][1],
+                    _("The payment line with reference '%s' has the bank "
+                        "account '%s' which is not attached to the mandate "
+                        "'%s' (this mandate is attached to the bank account "
+                        "'%s').") % (
+                        payline.name,
+                        self.pool['res.partner.bank'].name_get(
+                            cr, uid, [payline.bank_id.id])[0][1],
+                        payline.sdd_mandate_id.unique_mandate_reference,
+                        self.pool['res.partner.bank'].name_get(
+                            cr, uid,
+                            [payline.sdd_mandate_id.partner_bank_id.id])[0][1],
                     ))
         return True
 
