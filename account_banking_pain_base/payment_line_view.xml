@@ -16,7 +16,6 @@
             <field name="priority"/>
             <newline />
         </field>
-        <field name="communication2" position="replace"/>
         <field name="state" position="after">
             <field name="struct_communication_type" attrs="{'invisible': [('state', '!=', 'structured')], 'required': [('state', '=', 'structured')]}"/>
         </field>
@@ -32,7 +31,6 @@
             <field name="priority"/>
             <newline />
         </xpath>
-        <xpath expr="//field[@name='line_ids']/form//field[@name='communication2']" position="replace"/>
         <xpath expr="//field[@name='line_ids']/form//field[@name='state']" position="after">
             <field name="struct_communication_type" attrs="{'invisible': [('state', '!=', 'structured')], 'required': [('state', '=', 'structured')]}"/>
         </xpath>
