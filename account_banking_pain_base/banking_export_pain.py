@@ -355,10 +355,10 @@ class banking_export_pain(orm.AbstractModel):
                     _("Missing 'Structured Communication Type' on payment "
                         "line with reference '%s'.")
                     % (line.name))
-            remittance_info_unstructured_2_100 = etree.SubElement(
+            remittance_info_structured_2_100 = etree.SubElement(
                 remittance_info_2_91, 'Strd')
             creditor_ref_information_2_120 = etree.SubElement(
-                remittance_info_unstructured_2_100, 'CdtrRefInf')
+                remittance_info_structured_2_100, 'CdtrRefInf')
             if gen_args.get('pain_flavor') == 'pain.001.001.02':
                 creditor_ref_info_type_2_121 = etree.SubElement(
                     creditor_ref_information_2_120, 'CdtrRefTp')
