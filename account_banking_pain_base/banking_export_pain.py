@@ -209,12 +209,7 @@ class banking_export_pain(orm.AbstractModel):
             payment_info_ident, eval_ctx, 35,
             gen_args=gen_args, context=context)
         payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-        if gen_args.get('pain_flavor').startswith('pain.008.'):
-            payment_method_2_2.text = 'DD'
-            request_date_tag = 'ReqdColltnDt'
-        else:
-            payment_method_2_2.text = 'TRF'
-            request_date_tag = 'ReqdExctnDt'
+        payment_method_2_2.text = gen_args['payment_method']
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
             batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
             batch_booking_2_3.text = \
@@ -247,6 +242,10 @@ class banking_export_pain(orm.AbstractModel):
                 payment_type_info_2_6, 'SeqTp')
             sequence_type_2_14.text = sequence_type
 
+        if gen_args['payment_method'] == 'DD':
+            request_date_tag = 'ReqdColltnDt'
+        else:
+            request_date_tag = 'ReqdExctnDt'
         requested_date_2_17 = etree.SubElement(
             payment_info_2_0, request_date_tag)
         requested_date_2_17.text = requested_date
@@ -286,13 +285,13 @@ class banking_export_pain(orm.AbstractModel):
         '''Generate the piece of the XML file corresponding to BIC
         This code is mutualized between TRF and DD'''
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
-        party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
-        party_agent_institution = etree.SubElement(
-            party_agent, 'FinInstnId')
         try:
             bic = self._prepare_field(
                 cr, uid, '%s BIC' % party_type_label, bic, eval_ctx,
                 gen_args=gen_args, context=context)
+            party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
+            party_agent_institution = etree.SubElement(
+                party_agent, 'FinInstnId')
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = bic
@@ -305,11 +304,20 @@ class banking_export_pain(orm.AbstractModel):
                             "must have an associated BIC because it is a "
                             "cross-border SEPA operation.")
                         % (iban, party_name))
-            party_agent_other = etree.SubElement(
-                party_agent_institution, 'Othr')
-            party_agent_other_identification = etree.SubElement(
-                party_agent_other, 'Id')
-            party_agent_other_identification.text = 'NOTPROVIDED'
+            if order == 'B' or (
+                    order == 'C' and gen_args['payment_method'] == 'DD'):
+                party_agent = etree.SubElement(
+                    parent_node, '%sAgt' % party_type)
+                party_agent_institution = etree.SubElement(
+                    party_agent, 'FinInstnId')
+                party_agent_other = etree.SubElement(
+                    party_agent_institution, 'Othr')
+                party_agent_other_identification = etree.SubElement(
+                    party_agent_other, 'Id')
+                party_agent_other_identification.text = 'NOTPROVIDED'
+            # for Credit Transfers, in the 'C' block, if BIC is not provided,
+            # we should not put the 'Creditor Agent' block at all,
+            # as per the guidelines of the EPC
         return True
 
     def generate_party_block(

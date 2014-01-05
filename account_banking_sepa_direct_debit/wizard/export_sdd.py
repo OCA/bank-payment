@@ -147,6 +147,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
+            'payment_method': 'DD',
             'pain_flavor': pain_flavor,
             'sepa_export': sepa_export,
             'file_obj': self.pool['banking.export.sdd'],
