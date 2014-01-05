@@ -20,7 +20,7 @@
 ##############################################################################
 
 import re
-from tools.translate import _
+from openerp.tools.translate import _
 
 class mem_bank_statement(object):
     '''
