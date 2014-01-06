@@ -16,7 +16,10 @@
             id="account_banking.menu_finance_banking_settings"
             parent="account.menu_finance_configuration"
             />
-
+        <menuitem action="account.action_view_bank_statement_tree"
+            id="account.journal_cash_move_lines"
+            sequence="18"
+            parent="account.menu_finance_bank_and_cash"/>
         <!-- Add a shortcut menu for bank accounts -->
         <record model="ir.actions.act_window" id="action_account_banking_res_partner_banks">
             <field name="name">Bank Accounts</field>
@@ -105,7 +108,8 @@
                             <field name="date" />
                             <field name="user_id" />
                             <field name="state" />
-                            <field name="file"/>
+                            <field name="file" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
                             <field name="format" />
                         </page>
                         <page string="Statements">
@@ -142,17 +146,17 @@
         <!-- Add a menu item for it -->
         <menuitem name="Imported Bank Statements Files"
             id="menu_action_account_banking_imported_files"
-            parent="account_banking.menu_finance_banking_actions"
+            parent="account.menu_finance_bank_and_cash"
             action="action_account_banking_imported_files"
-            sequence="12"
+            sequence="15"
          />
 
         <!-- Add the import wizard to the menu -->
         <menuitem name="Import Bank Statements File"
             id="menu_account_banking_import_wizard"
-            parent="account_banking.menu_finance_banking_actions"
+            parent="account.menu_finance_bank_and_cash"
             action="wizard_account_banking_import_file"
-            sequence="15"/>
+            sequence="12"/>
 
         <!-- Add the import wizard to the statement's right menu -->
         <act_window name="Import Bank Statements File"

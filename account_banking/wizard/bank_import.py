@@ -140,6 +140,7 @@ class banking_import(orm.TransientModel):
         import_id = statement_file_obj.create(cr, uid, dict(
             company_id = company.id,
             file = statements_file,
+            file_name = banking_import.file_name,
             state = 'unfinished',
             format = parser.name,
         ))
@@ -353,7 +354,7 @@ class banking_import(orm.TransientModel):
             '%s: %s' % (_('Number of bank costs invoices created'),
                         results.bank_costs_invoice_cnt),
             '',
-            '%s:' % ('Error report'),
+            '%s:' % (_('Error report')),
             '',
         ]
         text_log = '\n'.join(report + results.log)
@@ -390,6 +391,7 @@ class banking_import(orm.TransientModel):
                 'error': [('readonly', True)],
                 },
             ),
+        'file_name': fields.char('File name', size=256),
         'file': fields.binary(
             'Statements File', required=True,
             help = ('The Transactions File to import. Please note that while it is '
