@@ -875,9 +875,6 @@ class banking_import_transaction(orm.Model):
             # when retrieving move_line_ids below.
             company = company_obj.browse(
                 cr, uid, transaction.company_id.id, context)
-            # Get default defaults
-            def_pay_account_id = company.partner_id.property_account_payable.id
-            def_rec_account_id = company.partner_id.property_account_receivable.id
 
             # Get interesting journals once
             # Added type 'general' to capture fund transfers
@@ -1112,24 +1109,21 @@ class banking_import_transaction(orm.Model):
             account_id = move_info and move_info.get('account_id', False)
             if not account_id:
                 # Use the default settings, but allow individual partner
-                # settings to overrule this. Note that you need to change
-                # the internal type of these accounts to either 'payable'
-                # or 'receivable' to enable usage like this.
+                # settings to overrule this.
+                bank_partner = (
+                    partner_banks[0].partner_id if len(partner_banks) == 1
+                    else False)
                 if transaction.statement_line_id.amount < 0:
-                    account_type = 'payable'
-                else:
-                    account_type = 'receivable'
-                if len(partner_banks) == 1:
-                    partner = partner_banks[0].partner_id
-                    if partner.supplier and not partner.customer:
-                        account_type = 'payable'
-                    elif partner.customer and not partner.supplier:
-                        account_type = 'receivable'
-                    if partner['property_account_' + account_type]:
-                        account_id = partner['property_account_' + account_type].id
-                if not account_id or account_id in (def_pay_account_id, def_rec_account_id):
-                    if account_type == 'payable':
+                    if bank_partner:
+                        account_id = bank_partner.\
+                            def_journal_account_bank_decr()[bank_partner.id]
+                    else:
                         account_id = account_info.default_credit_account_id.id
+                else:
+
+                    if bank_partner:
+                        account_id = bank_partner.\
+                            def_journal_account_bank_incr()[bank_partner.id]
                     else:
                         account_id = account_info.default_debit_account_id.id
 
