@@ -1130,9 +1130,6 @@ class banking_import_transaction(osv.osv):
             # when retrieving move_line_ids below.
             company = company_obj.browse(
                 cr, uid, transaction.company_id.id, context)
-            # Get default defaults
-            def_pay_account_id = company.partner_id.property_account_payable.id
-            def_rec_account_id = company.partner_id.property_account_receivable.id
 
             # Get interesting journals once
             # Added type 'general' to capture fund transfers
@@ -1340,20 +1337,21 @@ class banking_import_transaction(osv.osv):
                 # settings to overrule this. Note that you need to change
                 # the internal type of these accounts to either 'payable'
                 # or 'receivable' to enable usage like this.
+                bank_partner = (
+                    partner_banks[0].partner_id if len(partner_banks) == 1
+                    else False)
                 if transaction.transferred_amount < 0:
-                    if len(partner_banks) == 1:
-                        account_id = (
-                            partner_banks[0].partner_id.property_account_payable and
-                            partner_banks[0].partner_id.property_account_payable.id)
-                    if len(partner_banks) != 1 or not account_id or account_id == def_pay_account_id:
+                    if bank_partner:
+                        account_id = bank_partner.\
+                            def_journal_account_bank_decr()[bank_partner.id]
+                    if not account_id:
                         account_id = (account_info.default_credit_account_id and
                                       account_info.default_credit_account_id.id)
                 else:
-                    if len(partner_banks) == 1:
-                        account_id = (
-                            partner_banks[0].partner_id.property_account_receivable and
-                            partner_banks[0].partner_id.property_account_receivable.id)
-                    if len(partner_banks) != 1 or not account_id or account_id == def_rec_account_id:
+                    if bank_partner:
+                        account_id = bank_partner.\
+                            def_journal_account_bank_incr()[bank_partner.id]
+                    if not account_id:
                         account_id = (account_info.default_debit_account_id and
                                       account_info.default_debit_account_id.id)
             values = {}

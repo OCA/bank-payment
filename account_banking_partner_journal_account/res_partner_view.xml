@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">Add default accounts on bank statements</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="property_account_receivable" position="after">
+                    <field name="property_account_receivable_bank_id"
+                           groups="account.group_account_invoice" />
+                </field>
+                <field name="property_account_payable" position="after">
+                    <field name="property_account_payable_bank_id"
+                           groups="account.group_account_invoice" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
+
