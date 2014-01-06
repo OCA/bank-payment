@@ -151,8 +151,14 @@ class transaction(models.mem_bank_transaction):
     def parse_message(self):
         '''
         Parse structured message parts into appropriate attributes.
-        No processing done here for Triodos, maybe later.
         '''
+        # IBAN accounts are prefixed by BIC
+        if self.remote_account:
+            parts = self.remote_account.split(' ')
+            if len(parts) == 2:
+                self.remote_bank_bic = parts[0]
+                self.remote_account = parts[1]
+
 
 class statement(models.mem_bank_statement):
     '''
