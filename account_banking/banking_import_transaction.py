@@ -255,9 +255,9 @@ class banking_import_transaction(orm.Model):
         # creation. This also enables us to search for the invoice number in the
         # reference instead of the other way around, as most human interventions
         # *add* text.
+        ref = trans.reference.upper()
+        msg = trans.message.upper()
         if len(candidates) > 1 or not candidates:
-            ref = trans.reference.upper()
-            msg = trans.message.upper()
             # The manual usage of the sales journal creates moves that
             # are not tied to invoices. Thanks to Stefan Rijnhart for
             # reporting this.
