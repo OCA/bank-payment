@@ -122,19 +122,17 @@ class banking_import_transaction(orm.Model):
             Compare account number with or without presence
             of the domestic number field
             """
-            return (
-                account == partner_bank.acc_number
-                or (hasattr(partner_bank, 'acc_number_domestic')
-                    and account == partner_bank.acc_number_domestic)
-                )
-        
+            return partner_bank.id in self.pool['res.partner.bank'].search(
+                cr, uid, [('acc_number', '=', account)])
+
         digits = dp.get_precision('Account')(cr)[1]
         candidates = [
-            x for x in payment_lines
-            if x.communication == trans.reference 
-            and round(x.amount, digits) == -round(
-                trans.statement_line_id.amount, digits)
-            and bank_match(trans.remote_account, x.bank_id)]
+            line for line in payment_lines
+            if (line.communication == trans.reference 
+                and round(line.amount, digits) == -round(
+                    trans.statement_line_id.amount, digits)
+                and bank_match(trans.remote_account, line.bank_id))
+            ]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
