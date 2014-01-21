@@ -1409,7 +1409,6 @@ class account_bank_statement_line(orm.Model):
                 line.state == 'draft'
                 and not line.partner_id
                 and line.import_transaction_id
-                and line.import_transaction_id.remote_owner
                 and line.import_transaction_id.remote_account)
         return res
 
