@@ -286,35 +286,6 @@
             </field>
         </record>
 
-        <record id="view_partner_bank_account_banking_form_2" model="ir.ui.view">
-            <field name="name">res.partner.bank.form.banking-2</field>
-            <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base.view_partner_bank_form"/>
-            <field name="priority" eval="24"/>
-            <field name="arch" type="xml">
-                <data>
-                    <field name="acc_number" position="attributes">
-                        <attribute name="on_change">onchange_acc_number(acc_number, acc_number_domestic, state, partner_id, country_id)</attribute>
-                    </field>
-                    <field name="acc_number_domestic" position="attributes">
-                        <attribute name="on_change">onchange_domestic(acc_number_domestic, partner_id, country_id)</attribute>
-                    </field>
-                </data>
-            </field>
-        </record>
-
-        <!-- Set trigger on BIC in res_bank form -->
-        <record id="view_res_bank_account_banking_form_1" model="ir.ui.view">
-            <field name="name">res.bank.form.banking-1</field>
-            <field name="model">res.bank</field>
-            <field name="inherit_id" ref="base.view_res_bank_form"/>
-            <field name="arch" type="xml">
-                <field name="bic" position="replace">
-                    <field name="bic" on_change="onchange_bic(bic, name)"/>
-                </field>
-            </field>
-        </record>
-
         <record model="ir.ui.view" id="view_bank_statement_line_tree">
             <field name="name">Bank statement line tree view</field>
             <field name="model">account.bank.statement.line</field>

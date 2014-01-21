@@ -25,7 +25,6 @@ forms and to parse the results back in. It is heavily based on BeautifulSoup.
 '''
 
 import urllib
-from BeautifulSoup import BeautifulSoup
 
 __all__ = ['urlsplit', 'urljoin', 'pathbase', 'urlbase', 'SoupForm',
            'URLAgent'

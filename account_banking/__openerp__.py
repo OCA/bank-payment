@@ -33,7 +33,6 @@
     'category': 'Banking addons',
     'depends': [
         'account_voucher',
-        'account_iban_preserve_domestic',
         ],
     'data': [
         'security/ir.model.access.csv',
@@ -47,13 +46,8 @@
     'js': [
         'static/src/js/account_banking.js',
     ],
-    'external_dependencies': {
-        'python' : ['BeautifulSoup'],
-    },
     'description': '''
     Module to do banking.
-
-    Note: This module is depending on BeautifulSoup.
 
     This modules tries to combine all current banking import and export
     schemes. Rationale for this is that it is quite common to have foreign

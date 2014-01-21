@@ -116,15 +116,25 @@ class banking_import_transaction(orm.Model):
         '''
         # TODO: Not sure what side effects are created when payments are done
         # for credited customer invoices, which will be matched later on too.
+
+        def bank_match(account, partner_bank):
+            """
+            Compare account number with or without presence
+            of the domestic number field
+            """
+            return (
+                account == partner_bank.acc_number
+                or (hasattr(partner_bank, 'acc_number_domestic')
+                    and account == partner_bank.acc_number_domestic)
+                )
+        
         digits = dp.get_precision('Account')(cr)[1]
         candidates = [
             x for x in payment_lines
             if x.communication == trans.reference 
             and round(x.amount, digits) == -round(
                 trans.statement_line_id.amount, digits)
-            and trans.remote_account in (x.bank_id.acc_number,
-                                         x.bank_id.acc_number_domestic)
-            ]
+            and bank_match(trans.remote_account, x.bank_id)]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
