@@ -55,8 +55,6 @@ class ResPartnerBank(orm.Model):
             extra_terms = []
             if term[0].lower() == 'acc_number' and term[1] in ('=', '=='):
                 iban = sepa.IBAN(term[2])
-                import pdb
-                pdb.set_trace()
                 if iban.valid:
                     extra_terms.append(('acc_number', term[1], iban.__repr__()))
                     if 'acc_number_domestic' in self._columns:
