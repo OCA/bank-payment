@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking',
+    'name': 'Account Banking - NL Multibank import',
     'version': '0.62',
     'license': 'AGPL-3',
     'author': 'EduSense BV',
