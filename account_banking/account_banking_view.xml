@@ -95,7 +95,7 @@
             action="action_account_banking_journals"
             sequence="20"
          />
-        
+
         <!-- Create new view on imported statement files -->
         <record model="ir.ui.view" id="view_account_banking_imported_file_form">
             <field name="name">account.banking.imported.file.form</field>
@@ -221,7 +221,7 @@
                     </xpath>
 
                     <!-- Add invisible field for identification of import file
-                         on bank statements 
+                         on bank statements
                     -->
                     <field name="balance_end_real" position="after">
                         <field name="banking_id" invisible="True"/>
@@ -339,8 +339,8 @@
                     <field name="partner_bank_id"/>
                     <field name="type" on_change="onchange_type(partner_id, type)"/>
                     <!-- TODO note the references to parent from the statement form view -->
-                    <field domain="[('journal_id','=',parent.journal_id)]" 
-                        attrs="{'readonly': [('state', '!=', 'draft'), ('match_type', 'in', ('move', 'payment'))]}" name="account_id"/>
+                    <field domain="[('journal_id','=',parent.journal_id)]"
+                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('match_type', '!=', '')]}" name="account_id"/>
                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting" domain="[('company_id', '=', parent.company_id), ('type', '&lt;&gt;', 'view')]"/>
                     <field name="amount"/>
                     <field name="match_type"/>
