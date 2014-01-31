@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+  Copyright (C) 2013 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
 <openerp>
 <data>
 
-<record id="view_banking_export_sepa_form" model="ir.ui.view">
-    <field name="name">account.banking.export.sepa.form</field>
-    <field name="model">banking.export.sepa</field>
+<record id="view_banking_export_sdd_form" model="ir.ui.view">
+    <field name="name">account.banking.export.sdd.form</field>
+    <field name="model">banking.export.sdd</field>
     <field name="arch" type="xml">
-        <form string="SEPA Credit Transfer">
+        <form string="SEPA Direct Debit">
             <notebook>
                 <page string="General Information">
                     <field name="total_amount" />
@@ -40,11 +40,11 @@
 </record>
 
 
-<record id="view_banking_export_sepa_tree" model="ir.ui.view">
-    <field name="name">account.banking.export.sepa.tree</field>
-    <field name="model">banking.export.sepa</field>
+<record id="view_banking_export_sdd_tree" model="ir.ui.view">
+    <field name="name">account.banking.export.sdd.tree</field>
+    <field name="model">banking.export.sdd</field>
     <field name="arch" type="xml">
-        <tree string="SEPA Credit Transfer">
+        <tree string="SEPA Direct Debit">
             <field name="filename"/>
             <field name="create_date"/>
             <field name="nb_transactions"/>
@@ -53,24 +53,24 @@
 </record>
 
 
-<record id="action_account_banking_sepa" model="ir.actions.act_window">
-    <field name="name">SEPA Credit Transfer Files</field>
-    <field name="res_model">banking.export.sepa</field>
+<record id="action_account_banking_sdd" model="ir.actions.act_window">
+    <field name="name">SEPA Direct Debit Files</field>
+    <field name="res_model">banking.export.sdd</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
 </record>
 
 
-<menuitem id="menu_account_banking_sepa"
+<menuitem id="menu_account_banking_sdd"
           parent="account_payment.menu_main_payment"
-          action="action_account_banking_sepa"
-          sequence="15"
+          action="action_account_banking_sdd"
+          sequence="20"
           />
 
-<act_window id="act_banking_export_sepa_payment_order"
-    name="SEPA Credit Transfer Files"
+<act_window id="act_banking_export_sdd_payment_order"
+    name="Generated SEPA Direct Debit Files"
     domain="[('payment_order_ids', '=', active_id)]"
-    res_model="banking.export.sepa"
+    res_model="banking.export.sdd"
     src_model="payment.order"
     view_type="form"
     view_mode="tree,form"

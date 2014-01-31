@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    SEPA Credit Transfer module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+#    SEPA Direct Debit module for OpenERP
+#    Copyright (C) 2013 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,29 +19,37 @@
 #
 ##############################################################################
 {
-    'name': 'Account Banking SEPA Credit Transfer',
-    'summary': 'Create SEPA XML files for Credit Transfers',
-    'version': '0.2',
+    'name': 'Account Banking SEPA Direct Debit',
+    'summary': 'Create SEPA files for Direct Debit',
+    'version': '0.1',
     'license': 'AGPL-3',
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'category': 'Banking addons',
-    'depends': ['account_banking_pain_base'],
+    'depends': ['account_direct_debit', 'account_banking_pain_base'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
         },
     'data': [
-        'account_banking_sepa_view.xml',
-        'wizard/export_sepa_view.xml',
-        'data/payment_type_sepa_sct.xml',
+        'security/original_mandate_required_security.xml',
+        'account_banking_sdd_view.xml',
+        'sdd_mandate_view.xml',
+        'res_partner_bank_view.xml',
+        'account_payment_view.xml',
+        'company_view.xml',
+        'mandate_expire_cron.xml',
+        'account_invoice_view.xml',
+        'wizard/export_sdd_view.xml',
+        'data/payment_type_sdd.xml',
+        'data/mandate_reference_sequence.xml',
         'security/ir.model.access.csv',
     ],
     'description': '''
-Module to export payment orders in SEPA XML file format.
+Module to export direct debit payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Credit Transfer (SCT), more specifically PAIN versions 001.001.02, 001.001.03, 001.001.04 and 001.001.05. It is part of the ISO 20022 standard, available on http://www.iso20022.org.
+SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Direct Debit (SDD), more specifically PAIN versions 008.001.02, 008.001.03 and 008.001.04. It is part of the ISO 20022 standard, available on http://www.iso20022.org.
 
-The Implementation Guidelines for SEPA Credit Transfer published by the European Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN version 001.001.03, so it's probably the version of PAIN that you should try first.
+The Implementation Guidelines for SEPA Direct Debit published by the European Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN version 008.001.02. So if you don't know which version your bank supports, you should try version 008.001.02 first.
 
 This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
 
