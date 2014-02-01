@@ -6,14 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-23 22:52+0000\n"
-"PO-Revision-Date: 2013-12-23 22:52+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2013-12-23 22:49+0000\n"
+"PO-Revision-Date: 2014-02-01 04:49+0000\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
@@ -45,8 +46,22 @@ msgstr "Brouillon"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,charge_bearer:0
-msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the debtor side are to be borne by the debtor, transaction charges on the creditor side are to be borne by the creditor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
-msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créancier sont à la charge du créancier. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
+"by the debtor, transaction charges on the creditor side are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the debtor."
+msgstr ""
+"Suivant le niveau de service : la répartition des frais bancaires suit les "
+"règles pré-établies dans le schema ou dans le contrat avec la banque (les "
+"messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais "
+"bancaires côté débiteur sont à la charge du débiteur, les frais bancaires "
+"côté créancier sont à la charge du créancier. Supportés par le créancier : "
+"tous les frais bancaires sont à la charge du créancier. Supportés par le "
+"débiteur : tous les frais bancaires sont à la charge du débiteur."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
@@ -145,8 +160,11 @@ msgstr "Export SEPA"
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:246
 #, python-format
-msgid "Missing Bank Account on invoice '%s' (payment order line reference '%s')."
-msgstr "Compte bancaire manquant sur la facture '%s' (référence de la ligne de paiement : '%s')."
+msgid ""
+"Missing Bank Account on invoice '%s' (payment order line reference '%s')."
+msgstr ""
+"Compte bancaire manquant sur la facture '%s' (référence de la ligne de "
+"paiement : '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,file:0
@@ -156,14 +174,34 @@ msgstr "Fichier SEPA XML"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa,charge_bearer:0
-msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
-msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créancier sont à la charge du créancier. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the creditor side are to be borne "
+"by the creditor, transaction charges on the debtor side are to be borne by "
+"the debtor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the debtor."
+msgstr ""
+"Suivant le niveau de service : la répartition des frais bancaires suit les "
+"règles pré-établies dans le schema ou dans le contrat avec la banque (les "
+"messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais "
+"bancaires côté débiteur sont à la charge du débiteur, les frais bancaires "
+"côté créancier sont à la charge du créancier. Supportés par le créancier : "
+"tous les frais bancaires sont à la charge du créancier. Supportés par le "
+"débiteur : tous les frais bancaires sont à la charge du débiteur."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:129
 #, python-format
-msgid "Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'."
-msgstr "Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de Type de paiement supportés pour les virements SEPA sont 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' et 'pain.001.001.05'."
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Codes "
+"supported for SEPA Credit Transfers are 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'."
+msgstr ""
+"Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de Type "
+"de paiement supportés pour les virements SEPA sont 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04' et 'pain.001.001.05'."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa:0
@@ -187,8 +225,14 @@ msgstr "Fichiers de virement SEPA"
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa,batch_booking:0
 #: help:banking.export.sepa.wizard,batch_booking:0
-msgid "If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."
-msgstr "Si coché, le relevé de compte ne comportera qu'une ligne de débit pour tous les virements du fichier SEPA XML ; si non coché, le relevé de compte comportera une ligne de débit pour chaque virement du fichier SEPA XML."
+msgid ""
+"If true, the bank statement will display only one debit line for all the "
+"wire transfers of the SEPA XML file ; if false, the bank statement will "
+"display one debit line per wire transfer of the SEPA XML file."
+msgstr ""
+"Si coché, le relevé de compte ne comportera qu'une ligne de débit pour tous "
+"les virements du fichier SEPA XML ; si non coché, le relevé de compte "
+"comportera une ligne de débit pour chaque virement du fichier SEPA XML."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
@@ -205,3 +249,117 @@ msgstr "Annuler"
 msgid "Generation Date"
 msgstr "Date de génération"
 
+#~ msgid "SEPA XML file"
+#~ msgstr "Fichier SEPA XML"
+
+#~ msgid "Payment order"
+#~ msgstr "Ordre de paiement"
+
+#~ msgid ""
+#~ "This is the message identification of the entire SEPA XML file. 35 "
+#~ "characters max."
+#~ msgstr ""
+#~ "Ceci est le libellé d'identification du fichier SEPA XML. 35 caractères "
+#~ "maximum."
+
+#~ msgid "Prefered execution date"
+#~ msgstr "Date d'exécution demandée"
+
+#~ msgid "Generation date"
+#~ msgstr "Date de génération"
+
+#~ msgid "Export SEPA Credit Transfer XML file"
+#~ msgstr "Exporte the fichier de virement SEPA XML"
+
+#~ msgid "Message identification"
+#~ msgstr "Libellé d'identification"
+
+#, python-format
+#~ msgid ""
+#~ "The generated XML file is not valid against the official XML Schema "
+#~ "Definition. The generated XML file and the full error have been written in "
+#~ "the server logs. Here is the error, which may give you an idea on the cause "
+#~ "of the problem : %s"
+#~ msgstr ""
+#~ "Le fichier XML généré n'est pas valide par rapport à la Définition du Schéma "
+#~ "XML officiel. Le fichier XML généré et le message d'erreur complet ont été "
+#~ "écrits dans les logs du serveur. Voici l'erreur, qui vous donnera peut-être "
+#~ "une idée sur la cause du problème : %s"
+
+#~ msgid "Total amount"
+#~ msgstr "Montant total"
+
+#~ msgid ""
+#~ "Shared : transaction charges on the sender side are to be borne by the "
+#~ "debtor, transaction charges on the receiver side are to be borne by the "
+#~ "creditor (most transfers use this). Borne by creditor : all transaction "
+#~ "charges are to be borne by the creditor. Borne by debtor : all transaction "
+#~ "charges are to be borne by the debtor. Following service level : transaction "
+#~ "charges are to be applied following the rules agreed in the service level "
+#~ "and/or scheme."
+#~ msgstr ""
+#~ "Partagés : les frais bancaires côté émetteur sont à la charge de l'émetteur "
+#~ "et les frais bancaires côté destinataire sont à la charge du destinataire "
+#~ "(la plupart des virements utilisent cette répartition). Supportés par le "
+#~ "destinataire : tous les frais bancaires sont à la charge du destinataire. "
+#~ "Supportés par l'émetteur : tous les frais bancaires sont à la charge de "
+#~ "l'émetteur. Suivant le niveau de service : la répartition des frais "
+#~ "bancaires suit les règles pré-établies dans le contrat avec la banque."
+
+#~ msgid "Borne by creditor"
+#~ msgstr "Supportés par le destinataire"
+
+#~ msgid "Payment orders"
+#~ msgstr "Ordres de paiement"
+
+#, python-format
+#~ msgid "This IBAN is not valid : %s"
+#~ msgstr "Cet IBAN n'est pas valide : %s"
+
+#~ msgid "SEPA XML file generation"
+#~ msgstr "Génération du fichier SEPA XML"
+
+#~ msgid "Reference for further communication"
+#~ msgstr "Référence pour communication ultérieure"
+
+#~ msgid "Processing details"
+#~ msgstr "Paramètres"
+
+#~ msgid "Borne by debtor"
+#~ msgstr "Supportés par l'émetteur"
+
+#~ msgid "Number of transactions"
+#~ msgstr "Nombre de transactions"
+
+#~ msgid "Following service level"
+#~ msgstr "Suivant le niveau de service"
+
+#~ msgid "Charge bearer"
+#~ msgstr "Répartition des frais"
+
+#~ msgid ""
+#~ "This is the date on which the file should be processed by the bank. Please "
+#~ "keep in mind that banks only execute on working days and typically use a "
+#~ "delay of two days between execution date and effective transfer date."
+#~ msgstr ""
+#~ "C'est la date à laquelle le fichier doit être traité par la banque. Gardez "
+#~ "en tête que les banques réalisent des traitements seulement les jours ouvrés "
+#~ "et ont habituellement un délai de 2 jours entre la date de traitement et la "
+#~ "date du transfert effectif."
+
+#, python-format
+#~ msgid ""
+#~ "Payment Type Code '%s' is not supported. The only Payment Type Codes "
+#~ "supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03' "
+#~ "and 'pain.001.001.04'."
+#~ msgstr ""
+#~ "Le code '%s' pour le Type de Paiment n'est pas supporté. Les seuls codes de "
+#~ "Types de Paiement supportés pour les virements SEPA sont 'pain.001.001.02', "
+#~ "'pain.001.001.03' et 'pain.001.001.04'."
+
+#, python-format
+#~ msgid "Error :"
+#~ msgstr "Erreur :"
+
+#~ msgid "Batch booking"
+#~ msgstr "Débit groupé"
