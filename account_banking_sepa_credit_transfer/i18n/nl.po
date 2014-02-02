@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-23 22:49+0000\n"
-"PO-Revision-Date: 2013-12-03 11:49+0000\n"
-"Last-Translator: Jan Jurkus (GCE CAD-Service) <ict@gcecad-service.nl>\n"
+"PO-Revision-Date: 2014-02-01 07:47+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 06:56+0000\n"
+"X-Launchpad-Export-Date: 2014-02-02 06:04+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #. module: account_banking_sepa_credit_transfer
@@ -83,7 +83,7 @@ msgstr "Verzonden"
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
 msgid "Export SEPA Credit Transfer File"
-msgstr ""
+msgstr "Exporteer SEPA Credit Transfer bestand"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa:0
