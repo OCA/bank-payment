@@ -194,4 +194,11 @@ class payment_order_create(orm.TransientModel):
                              or line.journal_id.currency.id
                              or line.journal_id.company_id.currency_id.id),
                 }, context=context)
-        return {'type': 'ir.actions.act_window_close'}
+        return {'name': _('Payment Orders'),
+                'context': context,
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'payment.order',
+                'res_id': context['active_id'],
+                'type': 'ir.actions.act_window',
+        }
