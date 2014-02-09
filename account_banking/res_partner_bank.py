@@ -84,17 +84,17 @@ class ResPartnerBank(orm.Model):
             if not args:
                 return []
 
-            all = []
+            result = []
             if is_term(args[0]) and len(args) > 1:
                 # Classic filter, implicit '&'
-                all += ['&']
+                result += ['&']
             
             for arg in args:
                 if is_term(arg):
-                    all += extended_filter_term(arg)
+                    result += extended_filter_term(arg)
                 else:
-                    all += arg
-            return all
+                    result += arg
+            return result
 
         # Extend search filter
         newargs = extended_search_expression(args)
