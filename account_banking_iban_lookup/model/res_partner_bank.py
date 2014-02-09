@@ -36,17 +36,12 @@ def warning(title, message):
 
 class res_partner_bank(orm.Model):
     '''
-    This is a hack to circumvent the very limited but widely used base_iban
-    dependency. The usage of __mro__ requires inside information of
-    inheritence. This code is tested and works - it bypasses base_iban
-    altogether. Be sure to use 'super' for inherited classes from here though.
-
     Extended functionality:
         1. BBAN and IBAN are considered equal
-        3. Banks are created on the fly when using IBAN
-        4. Storage is uppercase, not lowercase
-        5. Presentation is formal IBAN
-        6. BBAN's are generated from IBAN when possible
+        2. Online lookup when an API is available (providing NL in this module)
+        3. Banks are created on the fly when using IBAN + online
+        4. IBAN formatting
+        5. BBAN's are generated from IBAN when possible
     '''
     _inherit = 'res.partner.bank'
 
