@@ -34,15 +34,11 @@ class ResPartnerBank(orm.Model):
         return False
 
     def search(self, cr, uid, args, *rest, **kwargs):
-        '''
-        Overwrite search, as both acc_number and iban now can be filled, so
-        the original base_iban 'search and search again fuzzy' tactic now can
-        result in doubled findings. Also there is now enough info to search
-        for local accounts when a valid IBAN was supplied.
-        
-        Chosen strategy: create complex filter to find all results in just
-                         one search
-        '''
+        """
+        When a complete IBAN is searched, also search for its BBAN
+        if we have the domestic column. Disregard spaces
+        when comparing IBANs.
+        """
 
         def is_term(arg):
             '''Flag an arg as term or otherwise'''
@@ -104,6 +100,5 @@ class ResPartnerBank(orm.Model):
         newargs = extended_search_expression(args)
         
         # Original search
-        results = super(ResPartnerBank, self).search(
+        return super(ResPartnerBank, self).search(
             cr, uid, newargs, *rest, **kwargs)
-        return results
