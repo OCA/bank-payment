@@ -50,21 +50,6 @@ class res_partner_bank(orm.Model):
     '''
     _inherit = 'res.partner.bank'
 
-    def __init__(self, *args, **kwargs):
-        '''
-        Locate founder (first non inherited class) in inheritance tree.
-        Defaults to super()
-        Algorithm should prevent moving unknown classes between
-        base.res_partner_bank and this module's res_partner_bank.
-        '''
-        self._founder = super(res_partner_bank, self)
-        self._founder.__init__(*args, **kwargs)
-        mro = self.__class__.__mro__
-        for i in range(len(mro)):
-            if mro[i].__module__.startswith('openerp.addons.base.'):
-                self._founder = mro[i]
-                break
-
     def init(self, cr):
         '''
         Update existing iban accounts to comply to new regime
@@ -104,7 +89,8 @@ class res_partner_bank(orm.Model):
                     or vals.get('acc_number_domestic', False))
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
-        return self._founder.create(self, cr, uid, vals, context)
+        return super(res_partner_bank, self).create(
+            cr, uid, vals, context)
 
     def write(self, cr, uid, ids, vals, context=None):
         '''
@@ -124,7 +110,8 @@ class res_partner_bank(orm.Model):
                         self._correct_IBAN(account['acc_number']))
                 else:
                     vals['acc_number_domestic'] = False
-            self._founder.write(self, cr, uid, account['id'], vals, context)
+            super(res_partner_bank, self).write(
+                cr, uid, account['id'], vals, context)
         return True
 
     def onchange_acc_number(

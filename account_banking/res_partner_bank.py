@@ -52,11 +52,20 @@ class ResPartnerBank(orm.Model):
             '''
             Extend the search criteria in term when appropriate.
             '''
+            result = [term]
             extra_terms = []
             if term[0].lower() == 'acc_number' and term[1] in ('=', '=='):
                 iban = sepa.IBAN(term[2])
                 if iban.valid:
-                    extra_terms.append(('acc_number', term[1], iban.__repr__()))
+                    # Disregard spaces when comparing IBANs
+                    cr.execute(
+                        """
+                        SELECT id FROM res_partner_bank
+                        WHERE replace(acc_number, ' ', '') = %s
+                        """, (term[2].replace(' ', ''),))
+                    ids = [row[0] for row in cr.fetchall()]
+                    result = [('id', 'in', ids)]
+
                     if 'acc_number_domestic' in self._columns:
                         # Some countries can't convert to BBAN
                         try:
@@ -66,7 +75,6 @@ class ResPartnerBank(orm.Model):
                                 extra_terms.append(('acc_number_domestic', term[1], bban))
                         except:
                             pass
-            result = [term]
             for extra_term in extra_terms:
                 result = ['|'] + result + [extra_term]
             return result
