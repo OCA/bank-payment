@@ -47,6 +47,8 @@ class res_company(orm.Model):
         party_identifier = False
         if company_vat and company_vat[0:2].upper() in ['BE']:
             party_identifier = company_vat[2:].replace(' ', '')
+        if company_vat and company_vat[0:2].upper() in ['ES']:
+            party_identifier = company.sepa_creditor_identifier
         return party_identifier
 
     def _initiating_party_issuer_default(self, cr, uid, context=None):
