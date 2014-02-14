@@ -88,7 +88,7 @@ class mem_bank_transaction(object):
         'execution_date',
         # The posted date of the action
 
-        'effective_date',
+        'value_date',
         # The value date of the action
 
         'remote_account',

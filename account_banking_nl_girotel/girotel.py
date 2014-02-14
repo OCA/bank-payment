@@ -120,7 +120,7 @@ class transaction_message(object):
             self.remote_account = self.remote_account.zfill(10)
         else:
             self.remote_account = False
-        self.execution_date = self.effective_date = self.date
+        self.execution_date = self.value_date = self.date
         self.remote_owner = self.remote_owner.rstrip()
         self.message = self.message.rstrip()
         self.genid()
@@ -137,7 +137,7 @@ class transaction(models.mem_bank_transaction):
     '''
     attrnames = [ 'statement_id', 'remote_account', 'remote_owner',
                  'remote_currency', 'transferred_amount', 'execution_date',
-                 'effective_date', 'transfer_type', 'message',
+                 'value_date', 'transfer_type', 'message',
                 ]
 
     type_map = {

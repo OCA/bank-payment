@@ -67,7 +67,7 @@ class transaction_message(object):
         self.transferred_amount = float(
             self.transferred_amount.replace(',', '.'))
         self.execution_date = str2date(self.date, '%Y%m%d')
-        self.effective_date = str2date(self.date, '%Y%m%d')
+        self.value_date = str2date(self.date, '%Y%m%d')
         # Set statement_id based on week number
         self.statement_id = self.execution_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
@@ -77,7 +77,7 @@ class transaction(models.mem_bank_transaction):
     Implementation of transaction communication class for account_banking.
     '''
     attrnames = ['local_account', 'local_currency', 'transferred_amount',
-                 'blob', 'execution_date', 'effective_date', 'id',
+                 'blob', 'execution_date', 'value_date', 'id',
                 ]
 
     type_map = {

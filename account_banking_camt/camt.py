@@ -182,7 +182,7 @@ CAMT Format parser
         """
         entry_details = {
             'execution_date': self.xpath(node, './ns:BookgDt/ns:Dt')[0].text,
-            'effective_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
+            'value_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
             'transfer_type': self.get_transfer_type(node),
             'transferred_amount': self.parse_amount(node)
             }

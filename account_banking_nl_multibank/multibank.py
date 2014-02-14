@@ -44,7 +44,7 @@ class transaction_message(object):
     attrnames = [
         'date', 'local_account', 'remote_account', 'remote_owner', 'u1', 'u2',
         'u3', 'local_currency', 'start_balance', 'remote_currency',
-        'transferred_amount', 'execution_date', 'effective_date', 'nr1',
+        'transferred_amount', 'execution_date', 'value_date', 'nr1',
         'transfer_type', 'nr2', 'reference', 'message', 'statement_id'
     ]
 
@@ -82,7 +82,7 @@ class transaction_message(object):
         self.start_balance = float(self.start_balance)
         self.transferred_amount = float(self.transferred_amount)
         self.execution_date = str2date(self.execution_date, '%d-%m-%Y')
-        self.effective_date = str2date(self.effective_date, '%d-%m-%Y')
+        self.value_date = str2date(self.value_date, '%d-%m-%Y')
         self.id = str(subno).zfill(4)
 
 class transaction(models.mem_bank_transaction):
@@ -91,7 +91,7 @@ class transaction(models.mem_bank_transaction):
     '''
     attrnames = ['local_account', 'local_currency', 'remote_account',
                  'remote_owner', 'remote_currency', 'transferred_amount',
-                 'execution_date', 'effective_date', 'transfer_type',
+                 'execution_date', 'value_date', 'transfer_type',
                  'reference', 'message', 'statement_id', 'id',
                 ]
 
@@ -152,7 +152,7 @@ class transaction(models.mem_bank_transaction):
         have their transfer_type set to 'OPN'.
         '''
         return (self.transferred_amount and self.execution_date and
-                self.effective_date) and (
+                self.value_date) and (
                     self.remote_account or
                     self.transfer_type in [
                         'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV',

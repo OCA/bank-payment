@@ -1291,7 +1291,7 @@ class banking_import_transaction(orm.Model):
         'local_account': fields.char('local_account', size=24),
         'local_currency': fields.char('local_currency', size=16),
         'execution_date': fields.date('Posted date'),
-        'effective_date': fields.date('Value date'),
+        'value_date': fields.date('Value date'),
         'remote_account': fields.char('remote_account', size=24),
         'remote_currency': fields.char('remote_currency', size=16),
         'exchange_rate': fields.float('exchange_rate'),
