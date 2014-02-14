@@ -279,7 +279,7 @@ Statements.
             msg = transaction_message(line, subno)
             if not statement_id:
                 statement_id = self.get_unique_statement_id(
-                    cr, msg.effective_date.strftime('%Yw%W'))
+                    cr, msg.execution_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)

@@ -69,7 +69,7 @@ class transaction_message(object):
         self.execution_date = str2date(self.date, '%Y%m%d')
         self.effective_date = str2date(self.date, '%Y%m%d')
         # Set statement_id based on week number
-        self.statement_id = self.effective_date.strftime('%Yw%W')
+        self.statement_id = self.execution_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
 
 class transaction(models.mem_bank_transaction):
@@ -369,7 +369,7 @@ each file covers a period of two weeks.
             msg = transaction_message(line, subno)
             if not statement_id:
                 statement_id = self.get_unique_statement_id(
-                    cr, msg.effective_date.strftime('%Yw%W'))
+                    cr, msg.execution_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)
