@@ -77,7 +77,7 @@ class banking_import_transaction(osv.osv):
             ('type', '=', 'in_invoice'),
             ('partner_id', '=', account_info.bank_partner_id.id),
             ('company_id', '=', account_info.company_id.id),
-            ('date_invoice', '=', trans.effective_date),
+            ('date_invoice', '=', trans.execution_date),
             ('reference', '=', reference),
             ('amount_total', '=', amount),
             ]
@@ -104,7 +104,7 @@ class banking_import_transaction(osv.osv):
                 period_id = period_id,
                 journal_id = account_info.invoice_journal_id.id,
                 account_id = account_info.bank_partner_id.property_account_payable.id,
-                date_invoice = trans.effective_date,
+                date_invoice = trans.execution_date,
                 reference_type = 'none',
                 reference = reference,
                 name = trans.reference or trans.message,
@@ -1218,7 +1218,7 @@ class banking_import_transaction(osv.osv):
             # Link accounting period
             period_id = get_period(
                 self.pool, cr, uid,
-                str2date(transaction.effective_date,'%Y-%m-%d'), company,
+                str2date(transaction.execution_date, '%Y-%m-%d'), company,
                 results['log'])
             if not period_id:
                 results['trans_skipped_cnt'] += 1
@@ -1391,7 +1391,7 @@ class banking_import_transaction(osv.osv):
             if not transaction.statement_line_id:
                 values.update(dict(
                         name = '%s.%s' % (transaction.statement, transaction.transaction),
-                        date = transaction.effective_date,
+                        date = transaction.execution_date,
                         amount = transaction.transferred_amount,
                         statement_id = transaction.statement_id.id,
                         note = transaction.message,
@@ -1590,8 +1590,8 @@ class banking_import_transaction(osv.osv):
         'reference': fields.char('reference', size=1024),
         'local_account': fields.char('local_account', size=24),
         'local_currency': fields.char('local_currency', size=16),
-        'execution_date': fields.date('execution_date'),
-        'effective_date': fields.date('effective_date'),
+        'execution_date': fields.date('Posted date'),
+        'effective_date': fields.date('Value date'),
         'remote_account': fields.char('remote_account', size=24),
         'remote_currency': fields.char('remote_currency', size=16),
         'exchange_rate': fields.float('exchange_rate'),
