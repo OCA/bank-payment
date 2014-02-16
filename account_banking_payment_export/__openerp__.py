@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#              (C) 2013 - 2014 ACSONE SA (<http://acsone.eu>).
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -64,6 +65,10 @@
         * a better implementation of payment_mode.suitable_bank_types() based on payment.mode.type
         * the "make payment" button launches a wizard depending on the payment.mode.type
         * a manual payment mode type is provided as an example, with a default "do nothing" wizard
+        * add a payment_order_type (payment|debit) as a basis of direct debit support
+          (this field becomes visible when account_direct_debit is installed)
+        * make the search function of the payment export wizard extensible
+        * fix lp:1275478: allow payment of customer refunds
     ''',
     'installable': True,
 }

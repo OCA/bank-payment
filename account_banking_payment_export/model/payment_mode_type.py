@@ -41,7 +41,7 @@ class payment_mode_type(orm.Model):
         'suitable_bank_types': fields.many2many(
             'res.partner.bank.type',
             'bank_type_payment_type_rel',
-            'pay_type_id','bank_type_id',
+            'pay_type_id', 'bank_type_id',
             'Suitable bank types', required=True),
         'ir_model_id': fields.many2one(
             'ir.model', 'Payment wizard',
@@ -49,8 +49,16 @@ class payment_mode_type(orm.Model):
                   'Leave empty for manual processing'),
             domain=[('osv_memory', '=', True)],
             ),
+        'payment_order_type': fields.selection(
+            [('payment', 'Payment'), ('debit', 'Direct debit')],
+            'Payment order type', required=True,
+            ),
     }
-    
+
+    _defaults = {
+        'payment_order_type': 'payment',
+    }
+
     def _auto_init(self, cr, context=None):
         r = super(payment_mode_type, self)._auto_init(cr, context=context)
         # migrate xmlid from manual_bank_transfer to avoid dependency on account_banking
