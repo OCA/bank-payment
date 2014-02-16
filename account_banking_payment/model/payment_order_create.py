@@ -34,7 +34,7 @@ class payment_order_create(orm.TransientModel):
             self, cr, uid, payment_order, domain, context=None):
         if payment_order.payment_order_type == 'payment':
             domain += [
-                ('account_id.type', '=', 'payable'),
+                ('account_id.type', 'in', ('payable', 'receivable')),
                 ('amount_to_pay', '>', 0)
                 ]
         return True
