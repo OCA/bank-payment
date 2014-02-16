@@ -44,6 +44,7 @@
         'data/mandate_reference_sequence.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': ['sepa_direct_debit_demo.xml'],
     'description': '''
 Module to export direct debit payment orders in SEPA XML file format.
 

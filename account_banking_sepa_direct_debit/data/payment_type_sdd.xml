@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data noupdate="0"> <!--  TODO : put to 1 when dev of the module is finished -->
+<data noupdate="1">
 
 
-<!-- TODO In the suitable_bank_types field, we should add l10n_fr_rib via a small stupid module -->
 <record id="export_sdd_008_001_02" model="payment.mode.type">
     <field name="name">SEPA Direct Debit v02 (recommended)</field>
     <field name="code">pain.008.001.02</field>
@@ -30,7 +29,6 @@
     <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
     <field name="payment_order_type">debit</field>
 </record>
-
 
 
 </data>
