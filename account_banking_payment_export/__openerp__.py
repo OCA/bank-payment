@@ -52,6 +52,7 @@
         'data/payment_mode_type.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': ['demo/banking_demo.xml'],
     'description': '''
         Infrastructure to export payment orders.
 
