@@ -295,7 +295,7 @@ class banking_export_pain(orm.AbstractModel):
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = bic
-        except except_orm:
+        except orm.except_orm:
             if order == 'C':
                 if iban[0:2] != gen_args['initiating_party_country_code']:
                     raise orm.except_orm(
