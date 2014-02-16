@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -55,7 +55,7 @@
     'description': '''
         Infrastructure to export payment orders.
 
-        This technical module provides the base infrastructure to export 
+        This technical module provides the base infrastructure to export
         payment orders for electronic banking. It provides the following
         technical features:
         * a new payment.mode.type model
@@ -64,6 +64,5 @@
         * the "make payment" button launches a wizard depending on the payment.mode.type
         * a manual payment mode type is provided as an example, with a default "do nothing" wizard
     ''',
-    'auto_install': True,
     'installable': True,
 }
