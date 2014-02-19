@@ -50,6 +50,7 @@
         'view/bank_payment_manual.xml',
         'view/payment_mode.xml',
         'view/payment_mode_type.xml',
+        'view/payment_order_create_view.xml',
         'data/payment_mode_type.xml',
         'security/ir.model.access.csv',
     ],
