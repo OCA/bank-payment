@@ -321,7 +321,7 @@
             <field name="arch" type="xml">
                 <tree string="Statement lines" colors="black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate == True;grey:state=='draft';">
                     <field name="sequence" readonly="1" invisible="1"/>
-                    <field name="date" groups="base.group_extended"/>
+                    <field name="date"/>
                     <field name="name"/>
                     <field name="ref"/>
                     <field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
