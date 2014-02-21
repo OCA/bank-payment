@@ -55,7 +55,9 @@
     ],
     'demo': ['demo/banking_demo.xml'],
     'description': '''
-        Infrastructure to export payment orders.
+        Infrastructure to export payment orders 
+        plus some bug fixes and obvious enhancements to payment orders 
+        that will hopefully land in offical addons one day.
 
         This technical module provides the base infrastructure to export
         payment orders for electronic banking. It provides the following
@@ -65,8 +67,14 @@
         * a better implementation of payment_mode.suitable_bank_types() based on payment.mode.type
         * the "make payment" button launches a wizard depending on the payment.mode.type
         * a manual payment mode type is provided as an example, with a default "do nothing" wizard
-        * add a payment_order_type (payment|debit) as a basis of direct debit support
-          (this field becomes visible when account_direct_debit is installed)
+
+        To enable the use of payment order to collect money for customers, 
+        it adds a payment_order_type (payment|debit) as a basis of direct debit support
+        (this field becomes visible when account_direct_debit is installed).
+        Refactoring note: this field should ideally go in account_direct_debit, 
+        but account_banking_payment currently depends on it. 
+
+        Bug fixes and enhancement that should land in official addons:
         * make the search function of the payment export wizard extensible
         * fix lp:1275478: allow payment of customer refunds
     ''',
