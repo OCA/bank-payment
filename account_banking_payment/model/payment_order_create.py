@@ -32,7 +32,7 @@ class payment_order_create(orm.TransientModel):
 
     def extend_payment_order_domain(
             self, cr, uid, payment_order, domain, context=None):
-        super(self, payment_order_create).extend_payment_order_domain(
+        super(payment_order_create, self).extend_payment_order_domain(
             cr, uid, payment_order, domain, context=context)
         # apply payment term filter
         if payment_order.mode.payment_term_ids:
