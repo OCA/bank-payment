@@ -78,6 +78,8 @@
         Bug fixes and enhancement that should land in official addons:
         * make the search function of the payment export wizard extensible
         * fix lp:1275478: allow payment of customer refunds
+        * display the maturity date of the move lines when you are in 
+          the wizard to select the lines to pay
     ''',
     'installable': True,
 }
