@@ -53,10 +53,12 @@ class payment_mode_type(orm.Model):
             [('payment', 'Payment'), ('debit', 'Direct debit')],
             'Payment order type', required=True,
             ),
+        'active': fields.boolean('Active'),
     }
 
     _defaults = {
         'payment_order_type': 'payment',
+        'active': True,
     }
 
     def _auto_init(self, cr, context=None):

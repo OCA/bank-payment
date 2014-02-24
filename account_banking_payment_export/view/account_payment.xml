@@ -9,12 +9,13 @@
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
             <field name="model">payment.order</field>
             <field name="arch" type="xml">
-                <data>
-                    <xpath expr="//button[@string='Make Payments']"
-                           position="attributes">
-                        <attribute name="name">launch_wizard</attribute>
-                    </xpath>
-                </data>
+                <xpath expr="//button[@string='Make Payments']"
+                       position="attributes">
+                    <attribute name="name">launch_wizard</attribute>
+                </xpath>
+                <field name="mode" position="after">
+                    <field name="mode_type" invisible="1"/>
+                </field>
             </field>
         </record>
 

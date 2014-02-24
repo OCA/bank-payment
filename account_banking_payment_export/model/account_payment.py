@@ -37,6 +37,9 @@ class payment_order(orm.Model):
             'Payment order type', required=True,
             readonly=True, states={'draft': [('readonly', False)]},
             ),
+        'mode_type': fields.related(
+            'mode', 'type', type='many2one', relation='payment.mode.type',
+            string='Payment Type'),
     }
 
     _defaults = {
