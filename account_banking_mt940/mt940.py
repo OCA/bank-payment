@@ -42,6 +42,9 @@ class MT940(object):
     '''Inherit this class in your account_banking.parsers.models.parser,
     define functions to handle the tags you need to handle and adjust static
     variables as needed.
+
+    Note that order matters: You need to do your_parser(MT940, parser), not the
+    other way around!
     
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
@@ -89,6 +92,7 @@ class MT940(object):
                 record_line = line
         except StopIteration:
             pass
+        return self.statements
 
     def append_continuation_line(self, cr, line, continuation_line):
         '''append a continuation line for a multiline record.
@@ -136,7 +140,7 @@ class MT940(object):
     def handle_tag_28C(self, cr, data):
         '''get sequence number _within_this_batch_ - this alone
         doesn't provide a unique id!'''
-        pass
+        self.current_statement.id = data
 
     def handle_tag_60F(self, cr, data):
         '''get start balance and currency'''
@@ -144,6 +148,9 @@ class MT940(object):
         self.current_statement.date = str2date(data[1:7])
         self.current_statement.start_balance = \
             (1 if data[0] == 'C' else -1) * str2float(data[10:])
+        self.current_statement.id = '%s/%s' % (
+            self.current_statement.date.strftime('%Y'),
+            self.current_statement.id)
 
     def handle_tag_62F(self, cr, data):
         '''get ending balance'''
@@ -164,6 +171,7 @@ class MT940(object):
         self.current_statement.transactions.append(transaction)
         self.current_transaction = transaction
         transaction.execution_date = str2date(data[:6])
+        transaction.effective_date = str2date(data[:6])
         '...and the rest already is highly bank dependent'
 
     def handle_tag_86(self, cr, data):
@@ -173,8 +181,7 @@ class MT940(object):
 
 'utility functions'
 def str2date(string, fmt='%y%m%d'):
-    return datetime.datetime.strptime(string, fmt).strftime(
-        DEFAULT_SERVER_DATE_FORMAT)
+    return datetime.datetime.strptime(string, fmt)
 
 def str2float(string):
     return float(string.replace(',', '.'))
