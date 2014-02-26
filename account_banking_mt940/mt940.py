@@ -54,10 +54,13 @@ class MT940(object):
     header_lines = 3
     '''One file can contain multiple statements, each with its own poorly
     documented header. For now, the best thing to do seems to skip that'''
+
     footer_regex = '^-}$'
     footer_regex = '^-XXX$'
     'The line that denotes end of message, we need to create a new statement'
+    
     tag_regex = '^:[0-9]{2}[A-Z]*:'
+    'The beginning of a record, should be anchored to beginning of the line'
 
     def __init__(self, *args, **kwargs):
         super(MT940, self).__init__(*args, **kwargs)
