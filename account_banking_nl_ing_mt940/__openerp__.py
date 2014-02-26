@@ -24,8 +24,8 @@
     "author" : "Therp BV",
     "complexity": "normal",
     "description": """
-    This addon imports the structured MT940 format as offered by then Dutch
-    ING bank.
+This addon imports the structured MT940 format as offered by the Dutch ING
+bank.
     """,
     "category" : "Account Banking",
     "depends" : [

@@ -31,6 +31,7 @@ try:
             mem_bank_statement, mem_bank_transaction
     from openerp.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 except ImportError:
+    #this allows us to run this file standalone, see __main__ at the end
     class mem_bank_statement:
         def __init__(self):
             self.transactions = []
@@ -73,7 +74,7 @@ class MT940(object):
         'parsed statements up to now'
 
     def parse(self, cr, data):
-        'account_banking.parsers.models.parser.parse()'''
+        'implements account_banking.parsers.models.parser.parse()'
         iterator = data.split('\r\n').__iter__()
         line = None
         record_line = ''
@@ -102,6 +103,16 @@ class MT940(object):
         Override and do data cleanups as necessary.'''
         return line + continuation_line
 
+    def create_statement(self, cr):
+        '''create a mem_bank_statement - override if you need a custom
+        implementation'''
+        return mem_bank_statement()
+
+    def create_transaction(self, cr):
+        '''create a mem_bank_transaction - override if you need a custom
+        implementation'''
+        return mem_bank_transaction()
+
     def is_footer(self, cr, line):
         '''determine if a line is the footer of a statement'''
         return line and bool(re.match(self.footer_regex, line))
@@ -114,7 +125,7 @@ class MT940(object):
         '''skip header lines, create current statement'''
         for i in range(self.header_lines):
             iterator.next()
-        self.current_statement = mem_bank_statement()
+        self.current_statement = self.create_statement(cr)
 
     def handle_footer(self, cr, line, iterator):
         '''add current statement to list, reset state'''
@@ -170,7 +181,7 @@ class MT940(object):
 
     def handle_tag_61(self, cr, data):
         '''get transaction values'''
-        transaction = mem_bank_transaction()
+        transaction = self.create_transaction()
         self.current_statement.transactions.append(transaction)
         self.current_transaction = transaction
         transaction.execution_date = str2date(data[:6])
