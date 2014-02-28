@@ -1321,14 +1321,10 @@ class res_partner_bank(osv.osv):
             if term[0].lower() == 'acc_number' and term[1] in ('=', '=='):
                 iban = sepa.IBAN(term[2])
                 if iban.valid:
-                    # Some countries can't convert to BBAN
-                    try:
-                        bban = iban.localized_BBAN
-                        # Prevent empty search filters
-                        if bban:
-                            extra_term = ('acc_number_domestic', term[1], bban)
-                    except:
-                        pass
+                    bban = iban.localized_BBAN
+                    # Prevent empty search filters
+                    if bban:
+                        extra_term = ('acc_number_domestic', term[1], bban)
             if extra_term:
                 return ['|', term, extra_term]
             return [term]
@@ -1404,10 +1400,7 @@ class res_partner_bank(osv.osv):
                 res[record.id] = False
             else:
                 iban_acc = sepa.IBAN(record.acc_number)
-                try:
-                    res[record.id] = iban_acc.localized_BBAN
-                except NotImplementedError:
-                    res[record.id] = False
+                res[record.id] = iban_acc.localized_BBAN
         return res
 
     def onchange_acc_number(
@@ -1491,44 +1484,45 @@ class res_partner_bank(osv.osv):
             country = country_obj.browse(
                 cursor, uid, country_ids[0], context=context)
         if country and country.code in sepa.IBAN.countries:
-            try:
-                info = sepa.online.account_info(country.code, acc_number)
-                if info:
-                    iban_acc = sepa.IBAN(info.iban)
-                    if iban_acc.valid:
-                        values['acc_number_domestic'] = iban_acc.localized_BBAN
-                        values['acc_number'] = unicode(iban_acc)
-                        values['state'] = 'iban'
-                        bank_id, country_id = get_or_create_bank(
-                            self.pool, cursor, uid,
-                            info.bic or iban_acc.BIC_searchkey,
-                            name = info.bank
-                            )
-                        values['country_id'] = country_id or \
-                                               country_ids and country_ids[0] or \
-                                               False
-                        values['bank'] = bank_id or False
-                        if info.bic:
-                            values['bank_bic'] = info.bic
-                    else:
-                        info = None
-                if info is None:
-                    result.update(warning(
+            info = sepa.online.account_info(country.code, acc_number)
+            if info:
+                iban_acc = sepa.IBAN(info.iban)
+                if iban_acc.valid:
+                    values['acc_number_domestic'] = iban_acc.localized_BBAN
+                    values['acc_number'] = unicode(iban_acc)
+                    values['state'] = 'iban'
+                    bank_id, country_id = get_or_create_bank(
+                        self.pool, cursor, uid,
+                        info.bic or iban_acc.BIC_searchkey,
+                        name = info.bank
+                        )
+                    values['country_id'] = country_id or \
+                        country_ids and country_ids[0] or \
+                        False
+                    values['bank'] = bank_id or False
+                    if info.bic:
+                        values['bank_bic'] = info.bic
+                else:
+                    info = None
+            if info is None:
+                result.update(warning(
                         _('Invalid data'),
-                        _('The account number appears to be invalid for %(country)s')
+                        _('The account number appears to be invalid for '
+                          '%(country)s')
                         % {'country': country.name}
-                    ))
-            except NotImplementedError:
+                        ))
+            if info is False:
                 if country.code in sepa.IBAN.countries:
                     acc_number_fmt = sepa.BBAN(acc_number, country.code)
                     if acc_number_fmt.valid:
                         values['acc_number_domestic'] = str(acc_number_fmt)
                     else:
                         result.update(warning(
-                            _('Invalid format'),
-                            _('The account number has the wrong format for %(country)s')
-                            % {'country': country.name}
-                        ))
+                                _('Invalid format'),
+                                _('The account number has the wrong format '
+                                  'for %(country)s')
+                                % {'country': country.name}
+                                ))
         return result
 
     def onchange_iban(

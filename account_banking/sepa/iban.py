@@ -408,10 +408,9 @@ class IBAN(str):
         Localized format of local or Basic Bank Account Number, aka BBAN
         '''
         if self.countrycode == 'TR':
-            raise NotImplementedError, (
-                'The Turkish BBAN requires information that is not in the '
-                'IBAN number.'
-            )
+            # The Turkish BBAN requires information that is not in the
+            # IBAN number.
+            return False
         return self.BBAN_format.BBAN(self)
 
     @property
