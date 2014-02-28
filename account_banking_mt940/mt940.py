@@ -181,7 +181,7 @@ class MT940(object):
 
     def handle_tag_61(self, cr, data):
         '''get transaction values'''
-        transaction = self.create_transaction()
+        transaction = self.create_transaction(cr)
         self.current_statement.transactions.append(transaction)
         self.current_transaction = transaction
         transaction.execution_date = str2date(data[:6])
