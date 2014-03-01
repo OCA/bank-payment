@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013 ACSONE SA/NV (<http://acsone.eu>);.
+#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #            
 #    All other contributions are (C) by their respective contributors
 #
@@ -22,37 +23,175 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
+    def extend_payment_order_domain(
+            self, cr, uid, payment_order, domain, context=None):
+        if payment_order.payment_order_type == 'payment':
+            domain += [
+                ('account_id.type', 'in', ('payable', 'receivable')),
+                ('amount_to_pay', '>', 0)
+                ]
+        return True
+
+    def search_entries(self, cr, uid, ids, context=None):
+        """
+        This method taken from account_payment module.
+        We adapt the domain based on the payment_order_type
+        """
+        line_obj = self.pool.get('account.move.line')
+        mod_obj = self.pool.get('ir.model.data')
+        if context is None:
+            context = {}
+        data = self.read(cr, uid, ids, ['duedate'], context=context)[0]
+        search_due_date = data['duedate']
+        
+        ### start account_banking_payment ###
+        payment = self.pool.get('payment.order').browse(
+            cr, uid, context['active_id'], context=context)
+        # Search for move line to pay:
+        domain = [
+            ('move_id.state', '=', 'posted'),
+            ('reconcile_id', '=', False),
+            ('company_id', '=', payment.mode.company_id.id),
+            ]
+        self.extend_payment_order_domain(
+            cr, uid, payment, domain, context=context)
+        ### end account_direct_debit ###
+
+        domain = domain + [
+            '|', ('date_maturity', '<=', search_due_date),
+            ('date_maturity', '=', False)
+            ]
+        line_ids = line_obj.search(cr, uid, domain, context=context)
+        context.update({'line_ids': line_ids})
+        model_data_ids = mod_obj.search(
+            cr, uid,[
+                ('model', '=', 'ir.ui.view'),
+                ('name', '=', 'view_create_payment_order_lines')],
+            context=context)
+        resource_id = mod_obj.read(
+            cr, uid, model_data_ids, fields=['res_id'],
+            context=context)[0]['res_id']
+        return {'name': _('Entry Lines'),
+                'context': context,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'payment.order.create',
+                'views': [(resource_id, 'form')],
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+        }
+
     def create_payment(self, cr, uid, ids, context=None):
-        '''This method adapts the core create_payment() 
-        to pass the payment mode to line2bank() through the context,
-        so it is in turn propagated to suitable_bank_types().
-        
-        This is necessary because the core does not propagate the payment mode to line2bank: t = None in
-        http://bazaar.launchpad.net/~openerp/openobject-addons/7.0/view/head:/account_payment/wizard/account_payment_order.py#L72
-        
-        Hack idea courtesy Stefan Rijnhart.
         '''
-        if context is None:
-            context = {}
+        This method is a slightly modified version of the existing method on this
+        model in account_payment.
+        - pass the payment mode to line2bank()
+        - allow invoices to create influence on the payment process: not only 'Free'
+        references are allowed, but others as well
+        - check date_to_pay is not in the past.
+        '''
+
         order_obj = self.pool.get('payment.order')
-        payment = order_obj.browse(cr, uid, context['active_id'], context=context)
-        context['_fix_payment_mode_id'] = payment.mode.id
-        return super(payment_order_create, self).create_payment(cr, uid, ids, context=context)
-    
-
-class account_move_line(orm.Model):
-    _inherit = 'account.move.line'
-    
-    def line2bank(self, cr, uid, ids, payment_mode_id=None, context=None):
-        '''Obtain payment_type from context, see create_payment above'''
+        line_obj = self.pool.get('account.move.line')
+        payment_obj = self.pool.get('payment.line')
         if context is None:
             context = {}
-        payment_mode_id = payment_mode_id or context.get('_fix_payment_mode_id')
-        return super(account_move_line, self).line2bank(cr, uid, ids, payment_mode_id, context=context)
+        data = self.read(cr, uid, ids, [], context=context)[0]
+        line_ids = data['entries']
+        if not line_ids:
+            return {'type': 'ir.actions.act_window_close'}
 
+        payment = order_obj.browse(
+            cr, uid, context['active_id'], context=context)
+        ### account banking
+        # t = None
+        # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
+        line2bank = line_obj.line2bank(
+            cr, uid, line_ids, payment.mode.id, context)
+        _today = fields.date.context_today(self, cr, uid, context=context)
+        ### end account banking
+
+        ## Finally populate the current payment with new lines:
+        for line in line_obj.browse(cr, uid, line_ids, context=context):
+            if payment.date_prefered == "now":
+                #no payment date => immediate payment
+                date_to_pay = False
+            elif payment.date_prefered == 'due':
+                ### account_banking
+                # date_to_pay = line.date_maturity
+                date_to_pay = (
+                    line.date_maturity
+                    if line.date_maturity and line.date_maturity > _today
+                    else False)
+                ### end account banking
+            elif payment.date_prefered == 'fixed':
+                ### account_banking
+                # date_to_pay = payment.date_scheduled
+                date_to_pay = (
+                    payment.date_scheduled
+                    if payment.date_scheduled and payment.date_scheduled > _today
+                    else False)
+                ### end account banking
+
+            ### account_banking
+            state = communication2 = False
+            communication = line.ref or '/'
+            if line.invoice:
+                if line.invoice.type in ('in_invoice', 'in_refund'):
+                    if line.invoice.reference_type == 'structured':
+                        state = 'structured'
+                        communication = line.invoice.reference
+                    else:
+                        state = 'normal'
+                        communication2 = line.invoice.reference
+                else:
+                    # Make sure that the communication includes the
+                    # customer invoice number (in the case of debit order)
+                    communication = line.invoice.number.replace('/', '')
+                    state = 'structured'
+                    if line.invoice.number != line.ref:
+                        communication2 = line.ref
+            else:
+                state = 'normal'
+                communication2 = line.ref
+
+            # support debit orders when enabled
+            if (payment.payment_order_type == 'debit' and
+                'amount_to_receive' in line):
+                amount_currency = line.amount_to_receive
+            else:
+                amount_currency = line.amount_to_pay
+            ### end account_banking
+
+            payment_obj.create(cr, uid, {
+                'move_line_id': line.id,
+                'amount_currency': amount_currency,
+                'bank_id': line2bank.get(line.id),
+                'order_id': payment.id,
+                'partner_id': line.partner_id and line.partner_id.id or False,
+                ### account banking
+                # 'communication': line.ref or '/'
+                'communication': communication,
+                'communication2': communication2,
+                'state': state,
+                ### end account banking
+                'date': date_to_pay,
+                'currency': (line.invoice and line.invoice.currency_id.id
+                             or line.journal_id.currency.id
+                             or line.journal_id.company_id.currency_id.id),
+                }, context=context)
+        return {'name': _('Payment Orders'),
+                'context': context,
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'payment.order',
+                'res_id': context['active_id'],
+                'type': 'ir.actions.act_window',
+        }

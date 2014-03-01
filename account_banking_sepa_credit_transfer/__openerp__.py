@@ -36,6 +36,7 @@
         'data/payment_type_sepa_sct.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': ['sepa_credit_transfer_demo.xml'],
     'description': '''
 Module to export payment orders in SEPA XML file format.
 

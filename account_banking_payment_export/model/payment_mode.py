@@ -49,4 +49,8 @@ class payment_mode(orm.Model):
             required=True,
             help='Select the Payment Type for the Payment Mode.'
             ),
+        'payment_order_type': fields.related(
+            'type', 'payment_order_type', readonly=True, type='selection',
+            selection=[('payment', 'Payment'), ('debit', 'Direct debit')],
+            string="Payment Order Type"),
         }

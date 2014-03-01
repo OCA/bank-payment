@@ -97,7 +97,7 @@
 </record>
 
 <menuitem id="sdd_mandate_menu"
-          parent="account_banking.menu_finance_banking_settings"
+          parent="account_payment.menu_main_payment"
           action="sdd_mandate_action"
           sequence="20"
           />

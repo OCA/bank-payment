@@ -2,6 +2,9 @@
 <openerp>
     <data>
 
+        <!-- 
+             Make the payment order type visible so the use can choose payment or direct debit
+        -->
         <record model="ir.ui.view" id="view_payment_mode_type_form_inherit">
             <field name="name">view.payment.mode.type.form</field>
             <field name="model">payment.mode.type</field>
