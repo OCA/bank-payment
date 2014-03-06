@@ -106,6 +106,7 @@ class transaction_message(object):
         self.date = str2date(self.date, '%Y%m%d')
         if self.direction == 'A':
             self.transferred_amount = -float(self.transferred_amount)
+            #payment batch done via clieop
             if (self.transfer_type == 'VZ'
                     and (not self.remote_account or self.remote_account == '0')
                     and (not self.message or re.match('^\s*$', self.message))
@@ -113,6 +114,14 @@ class transaction_message(object):
                 self.transfer_type = 'PB'
                 self.message = self.remote_owner
                 self.remove_owner = False
+            #payment batch done via sepa
+            if self.transfer_type == 'VZ'\
+                    and not self.remote_account\
+                    and not self.remote_owner\
+                    and re.match(
+                        '^Verzamel Eurobetaling .* TOTAAL \d+ POSTEN\s*$',
+                        self.message):
+                self.transfer_type = 'PB'
         else:
             self.transferred_amount = float(self.transferred_amount)
         self.local_account = self.local_account.zfill(10)
