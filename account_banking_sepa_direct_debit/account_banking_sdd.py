@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Direct Debit module for OpenERP
@@ -89,7 +90,6 @@ class banking_export_sdd(orm.Model):
         'state': fields.selection([
             ('draft', 'Draft'),
             ('sent', 'Sent'),
-            ('done', 'Reconciled'),
             ], 'State', readonly=True),
     }
 

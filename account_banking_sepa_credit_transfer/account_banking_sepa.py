@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
@@ -81,7 +82,6 @@ class banking_export_sepa(orm.Model):
         'state': fields.selection([
             ('draft', 'Draft'),
             ('sent', 'Sent'),
-            ('done', 'Reconciled'),
             ], 'State', readonly=True),
     }
 
