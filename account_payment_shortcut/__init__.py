@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-import payment_order
+from . import payment_order

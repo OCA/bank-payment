@@ -22,7 +22,7 @@
 #
 ##############################################################################
 
-from osv import orm
+from openerp.osv import orm
 
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
