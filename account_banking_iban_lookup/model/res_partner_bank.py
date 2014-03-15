@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#              (C) 2011 - 2014 Therp BV (<http://therp.nl>).
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -29,6 +29,7 @@ from openerp.addons.account_banking_iban_lookup import online
 from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.wizard.banktools import get_or_create_bank
 
+
 def warning(title, message):
     '''Convenience routine'''
     return {'warning': {'title': title, 'message': message}}
@@ -49,7 +50,7 @@ class res_partner_bank(orm.Model):
         '''
         Update existing iban accounts to comply to new regime
         '''
-        
+
         partner_bank_obj = self.pool.get('res.partner.bank')
         bank_ids = partner_bank_obj.search(
             cr, SUPERUSER_ID, [('state', '=', 'iban')], limit=0)
@@ -90,14 +91,14 @@ class res_partner_bank(orm.Model):
     def write(self, cr, uid, ids, vals, context=None):
         '''
         Create dual function IBAN account for SEPA countries
-        
+
         Update the domestic account number when the IBAN is
         written, or clear the domestic number on regular account numbers.
         '''
         if ids and isinstance(ids, (int, long)):
             ids = [ids]
         for account in self.read(
-            cr, uid, ids, ['state', 'acc_number']):
+                cr, uid, ids, ['state', 'acc_number']):
             if 'state' in vals or 'acc_number' in vals:
                 account.update(vals)
                 if account['state'] == 'iban':
@@ -110,8 +111,8 @@ class res_partner_bank(orm.Model):
         return True
 
     def onchange_acc_number(
-        self, cr, uid, ids, acc_number, acc_number_domestic,
-        state, partner_id, country_id, context=None):
+            self, cr, uid, ids, acc_number, acc_number_domestic,
+            state, partner_id, country_id, context=None):
         if state == 'iban':
             return self.onchange_iban(
                 cr, uid, ids, acc_number, acc_number_domestic,
@@ -124,8 +125,8 @@ class res_partner_bank(orm.Model):
                 )
 
     def onchange_domestic(
-        self, cr, uid, ids, acc_number,
-        partner_id, country_id, context=None):
+            self, cr, uid, ids, acc_number,
+            partner_id, country_id, context=None):
         '''
         Trigger to find IBAN. When found:
             1. Reformat BBAN
@@ -154,7 +155,8 @@ class res_partner_bank(orm.Model):
         # account itself before this method was triggered.
         elif ids and len(ids) == 1:
             partner_bank_obj = self.pool.get('res.partner.bank')
-            partner_bank_id = partner_bank_obj.browse(cr, uid, ids[0], context=context)
+            partner_bank_id = partner_bank_obj.browse(
+                cr, uid, ids[0], context=context)
             if partner_bank_id.country_id:
                 country = partner_bank_id.country_id
                 country_ids = [country.id]
@@ -165,22 +167,23 @@ class res_partner_bank(orm.Model):
         # bank account, hence the additional check.
         elif partner_id:
             partner_obj = self.pool.get('res.partner')
-            country = partner_obj.browse(cr, uid, partner_id, context=context).country
+            country = partner_obj.browse(
+                cr, uid, partner_id, context=context).country
             country_ids = country and [country.id] or []
         # 4. Without any of the above, take the country from the company of
         # the handling user
         if not country_ids:
-            user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+            user = self.pool.get('res.users').browse(
+                cr, uid, uid, context=context)
             # Try user companies partner (user no longer has address in 6.1)
             if (user.company_id and
-                  user.company_id.partner_id and
-                  user.company_id.partner_id.country
-                 ):
+                    user.company_id.partner_id and
+                    user.company_id.partner_id.country):
                 country_ids = [user.company_id.partner_id.country.id]
             else:
                 if (user.company_id and user.company_id.partner_id and
-                    user.company_id.partner_id.country):
-                    country_ids =  [user.company_id.partner_id.country.id]
+                        user.company_id.partner_id.country):
+                    country_ids = [user.company_id.partner_id.country.id]
                 else:
                     # Ok, tried everything, give up and leave it to the user
                     return warning(_('Insufficient data'),
@@ -204,8 +207,7 @@ class res_partner_bank(orm.Model):
                     bank_id, country_id = get_or_create_bank(
                         self.pool, cr, uid,
                         info.bic or iban_acc.BIC_searchkey,
-                        name = info.bank
-                        )
+                        name=info.bank)
                     if country_id:
                         values['country_id'] = country_id
                     values['bank'] = bank_id or False
@@ -233,8 +235,8 @@ class res_partner_bank(orm.Model):
         return result
 
     def onchange_iban(
-        self, cr, uid, ids, acc_number, acc_number_domestic,
-        state, partner_id, country_id, context=None):
+            self, cr, uid, ids, acc_number, acc_number_domestic,
+            state, partner_id, country_id, context=None):
         '''
         Trigger to verify IBAN. When valid:
             1. Extract BBAN as local account
@@ -251,19 +253,19 @@ class res_partner_bank(orm.Model):
                 )
             return {
                 'value': dict(
-                    acc_number_domestic = iban_acc.localized_BBAN,
-                    acc_number = unicode(iban_acc),
-                    country = country_id or False,
-                    bank = bank_id or False,
+                    acc_number_domestic=iban_acc.localized_BBAN,
+                    acc_number=unicode(iban_acc),
+                    country=country_id or False,
+                    bank=bank_id or False,
                 )
             }
-        return warning(_('Invalid IBAN account number!'),
-                       _("The IBAN number doesn't seem to be correct")
-                      )
+        return warning(
+            _('Invalid IBAN account number!'),
+            _("The IBAN number doesn't seem to be correct"))
 
     def online_account_info(
             self, cr, uid, country_code, acc_number, context=None):
         """
-        Overwrite API hook from account_banking 
+        Overwrite API hook from account_banking
         """
         return online.account_info(country_code, acc_number)

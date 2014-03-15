@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2014 Therp BV (<http://therp.nl>).
-#            
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -42,10 +42,9 @@ class ResBank(orm.Model):
             return {}
 
         if address and address.country_id:
-            country_id = self.pool.get('res.country').search(
-                cr, uid, [('code','=',address.country_id)]
-            )
-            country_id = country_id and country_id[0] or False
+            country_ids = self.pool.get('res.country').search(
+                cr, uid, [('code', '=', address.country_id)])
+            country_id = country_ids[0] if country_ids else False
         else:
             country_id = False
 
@@ -53,13 +52,12 @@ class ResBank(orm.Model):
             'value': dict(
                 # Only the first eight positions of BIC are used for bank
                 # transfers, so ditch the rest.
-                bic = info.bic[:8],
-                street = address.street,
-                street2 = 
-                    address.has_key('street2') and address.street2 or False,
-                zip = address.zip,
-                city = address.city,
-                country = country_id,
-                name = name and name or info.name,
+                bic=info.bic[:8],
+                street=address.street,
+                street2=address.get('street2', False),
+                zip=address.zip,
+                city=address.city,
+                country=country_id,
+                name=name or info.name,
             )
         }
