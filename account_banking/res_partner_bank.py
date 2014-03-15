@@ -63,14 +63,11 @@ class ResPartnerBank(orm.Model):
                     result = [('id', 'in', ids)]
 
                     if 'acc_number_domestic' in self._columns:
-                        # Some countries can't convert to BBAN
-                        try:
-                            bban = iban.localized_BBAN
-                            # Prevent empty search filters
-                            if bban:
-                                extra_terms.append(('acc_number_domestic', term[1], bban))
-                        except:
-                            pass
+                        bban = iban.localized_BBAN
+                        # Prevent empty search filters
+                        if bban:
+                            extra_terms.append(
+                                ('acc_number_domestic', term[1], bban))
             for extra_term in extra_terms:
                 result = ['|'] + result + [extra_term]
             return result

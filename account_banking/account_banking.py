@@ -553,8 +553,6 @@ class account_bank_statement_line(orm.Model):
         'currency': _get_currency,
     }
 
-account_bank_statement_line()
-
 
 class invoice(orm.Model):
     '''

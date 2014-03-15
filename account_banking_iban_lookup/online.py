@@ -157,13 +157,13 @@ def account_info(iso, bank_acc):
     '''
     Consult the online database for this country to obtain its
     corresponding IBAN/BIC number and other info available.
-    Raise NotImplemented when no information service could be found.
     Returns None when a service was found but something went wrong.
-    Returns a dictionary (struct) of information when found.
+    Returns a dictionary (struct) of information when found, or
+    False when not implemented.
     '''
     if iso in _account_info:
         return _account_info[iso](bank_acc)
-    raise NotImplementedError()
+    return False
 
 bic_re = re.compile("[^']+'([^']*)'.*")
 SWIFTlink = 'http://www.swift.com/bsl/freequery.do'
