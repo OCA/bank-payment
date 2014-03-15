@@ -65,10 +65,8 @@ Modifications are extensive:
 from openerp.osv import orm, fields
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
-from openerp import netsvc, SUPERUSER_ID
+from openerp import netsvc
 from openerp.addons.decimal_precision import decimal_precision as dp
-from openerp.addons.account_banking import sepa
-from openerp.addons.account_banking.wizard.banktools import get_or_create_bank
 
 
 class account_banking_account_settings(orm.Model):
