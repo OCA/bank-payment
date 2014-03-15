@@ -35,7 +35,7 @@
         'view/res_partner_bank.xml',
         ],
     'external_dependencies': {
-        'python' : ['BeautifulSoup'],
+        'python': ['BeautifulSoup'],
     },
     'description': '''
 This addons contains the legacy infrastructure for autocompletion of IBANs
