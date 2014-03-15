@@ -107,6 +107,7 @@ class payment_order(orm.Model):
         'payment_order_type': fields.selection(
             [('payment', 'Payment'),('debit', 'Direct debit')],
             'Payment order type', required=True,
+            readonly=True, states={'draft': [('readonly', False)]},
             ),
         'date_sent': fields.date('Send date', readonly=True),
     }

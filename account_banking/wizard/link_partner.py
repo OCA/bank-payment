@@ -87,7 +87,7 @@ class link_partner(orm.TransientModel):
                     _('Error'),
                     _('Statement line is already linked to a bank account '))
             
-            if not(transaction and transaction.remote_owner
+            if not(transaction
                    and transaction.remote_account):
                 raise orm.except_orm(
                     _('Error'),
@@ -117,6 +117,8 @@ class link_partner(orm.TransientModel):
                     self.pool, cr, uid, transaction, context=context)
             if not vals.get('name'):
                 vals['name'] = transaction.remote_owner
+                if not vals['name']:
+                    vals['name'] = '/'
             if not vals.get('remote_account'):
                 vals['remote_account'] = transaction.remote_account
 

@@ -22,7 +22,7 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp.osv import orm
 from openerp.tools.translate import _
 
 """
@@ -143,11 +143,11 @@ class account_invoice(orm.Model):
             if self.test_paid(cr, uid, [invoice_id], context):
                 number = self.read(
                     cr, uid, invoice_id, ['number'], context=context)['number']
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error !'), 
                     _('You cannot set invoice \'%s\' to state \'debit denied\', ' +
                       'as it is still reconciled.') % number)
-        self.write(cr, uid, ids, {'state':'debit_denied'}, context=context)
+        self.write(cr, uid, ids, {'state': 'debit_denied'}, context=context)
         for inv_id, name in self.name_get(cr, uid, ids, context=context):
             message = _("Invoice '%s': direct debit is denied.") % name
             self.log(cr, uid, inv_id, message)
