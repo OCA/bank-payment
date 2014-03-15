@@ -23,13 +23,25 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import netsvc
 
 
 class payment_order(orm.Model):
     _inherit = 'payment.order'
+
+    _columns = {
+        'payment_order_type': fields.selection(
+            [('payment', 'Payment'), ('debit', 'Direct debit')],
+            'Payment order type', required=True,
+            readonly=True, states={'draft': [('readonly', False)]},
+            ),
+    }
+
+    _defaults = {
+        'payment_order_type': 'payment',
+    }
 
     def launch_wizard(self, cr, uid, ids, context=None):
         """

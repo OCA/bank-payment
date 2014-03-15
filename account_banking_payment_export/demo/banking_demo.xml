@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+<record id="bank_fortuneo" model="res.bank">
+    <field name="name">Fortuneo Banque</field>
+    <field name="bic">FTNOFRP1XXX</field>
+    <field name="street">26 avenue des Champs Elysées</field>
+    <field name="zip">75008</field>
+    <field name="city">Paris</field>
+    <field name="country" ref="base.fr"/>
+</record>
+
+<record id="bank_la_banque_postale" model="res.bank">
+    <field name="name">La Banque Postale</field>
+    <field name="bic">PSSTFRPPXXX</field>
+    <field name="street">115 rue de Sèvres</field>
+    <field name="zip">75007</field>
+    <field name="city">Paris</field>
+    <field name="country" ref="base.fr"/>
+</record>
+
+<record id="main_company_iban" model="res.partner.bank">
+    <field name="acc_number">FR76 4242 4242 4242 4242 4242 424</field>
+    <field name="state">iban</field>
+    <field name="bank" ref="bank_la_banque_postale"/>
+    <field name="partner_id" ref="base.main_partner" />
+    <field name="bank_name">La Banque Postale</field>
+    <field name="bank_bic">PSSTFRPPXXX</field>
+</record>
+
+<record id="res_partner_12_iban" model="res.partner.bank">
+    <field name="acc_number">FR66 1212 1212 1212 1212 1212 121</field>
+    <field name="state">iban</field>
+    <field name="bank" ref="bank_fortuneo"/>
+    <field name="partner_id" ref="base.res_partner_12" />
+    <field name="bank_name">Fortuneo Banque</field>
+    <field name="bank_bic">FTNOFRP1XXX</field>
+</record>
+
+</data>
+</openerp>
