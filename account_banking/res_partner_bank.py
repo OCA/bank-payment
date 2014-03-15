@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2014 Therp BV (<http://therp.nl>).
-#            
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -28,7 +28,7 @@ class ResPartnerBank(orm.Model):
     def online_account_info(
             self, cr, uid, country_code, acc_number, context=None):
         """
-        API hook for legacy online lookup of account info, 
+        API hook for legacy online lookup of account info,
         to be removed in OpenERP 8.0.
         """
         return False
@@ -85,7 +85,7 @@ class ResPartnerBank(orm.Model):
             if is_term(args[0]) and len(args) > 1:
                 # Classic filter, implicit '&'
                 result += ['&']
-            
+
             for arg in args:
                 if is_term(arg):
                     result += extended_filter_term(arg)
@@ -95,7 +95,7 @@ class ResPartnerBank(orm.Model):
 
         # Extend search filter
         newargs = extended_search_expression(args)
-        
+
         # Original search
         return super(ResPartnerBank, self).search(
             cr, uid, newargs, *rest, **kwargs)
