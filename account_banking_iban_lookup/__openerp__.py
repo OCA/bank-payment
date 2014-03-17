@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#    All Rights Reserved
+#              (C) 2011 - 2014 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,17 +20,33 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - NL Multibank import',
-    'version': '0.62',
+    'name': 'Banking Addons - Iban lookup (legacy)',
+    'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'EduSense BV',
-    'website': 'http://www.edusense.nl',
-    'category': 'Account Banking',
-    'depends': ['account_banking'],
+    'author': 'Banking addons community',
+    'website': 'https://launchpad.net/banking-addons',
+    'category': 'Banking addons',
+    'depends': [
+        'account_banking',
+        'account_iban_preserve_domestic',
+        ],
+    'data': [
+        'view/res_bank.xml',
+        'view/res_partner_bank.xml',
+        ],
+    'external_dependencies': {
+        'python': ['BeautifulSoup'],
+    },
     'description': '''
-    Module to import Dutch Multibank format transation files.
+This addons contains the legacy infrastructure for autocompletion of IBANs
+and BBANs.
 
-    This modules contains no logic, just an import filter for account_banking.
+The autocompletion was implemented for Dutch IBANs, but as it turns out
+the online database that it consults does not get updated. As a result,
+the autocompletion will come up with outdated IBANs and BICs.
+
+This module is deprecated and will be dropped in OpenERP 8.0.
     ''',
+    'auto_install': False,
     'installable': True,
 }

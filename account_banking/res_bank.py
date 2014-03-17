@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#    All Rights Reserved
-#
+#    Copyright 2011 - 2014 Therp BV (<http://therp.nl>).
+#            
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -18,19 +17,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import orm
 
-{
-    'name': 'Account Banking - NL Multibank import',
-    'version': '0.62',
-    'license': 'AGPL-3',
-    'author': 'EduSense BV',
-    'website': 'http://www.edusense.nl',
-    'category': 'Account Banking',
-    'depends': ['account_banking'],
-    'description': '''
-    Module to import Dutch Multibank format transation files.
 
-    This modules contains no logic, just an import filter for account_banking.
-    ''',
-    'installable': True,
-}
+class ResBank(orm.Model):
+    _inherit = 'res.bank'
+
+    def online_bank_info(self, cr, uid, bic, context=None):
+        """
+        API hook for legacy online lookup of BICs, 
+        to be removed in OpenERP 8.0.
+        """
+        return False, False

@@ -24,7 +24,10 @@
     'author': 'EduSense BV',
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
-    'depends': ['account_banking_payment'],
+    'depends': [
+        'account_banking_payment',
+        'account_iban_preserve_domestic',
+        ],
     'data': [
         'account_banking_nl_clieop.xml',
         'wizard/export_clieop_view.xml',
