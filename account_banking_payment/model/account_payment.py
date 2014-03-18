@@ -275,6 +275,10 @@ class payment_order(orm.Model):
             })
         return vals
 
+    def action_sent_no_move_line_hook(self, cr, uid, pay_line, context=None):
+        """This function is designed to be inherited"""
+        return
+
     def action_sent(self, cr, uid, ids, context=None):
         """
         Create the moves that pay off the move lines from
@@ -328,6 +332,9 @@ class payment_order(orm.Model):
                 if line.move_line_id:
                     payment_line_obj.debit_reconcile(
                         cr, uid, line.id, context=context)
+                else:
+                    self.action_sent_no_move_line_hook(
+                        cr, uid, line, context=context)
                 account_move_obj.post(cr, uid, [move_id], context=context)
 
         # State field is written by act_sent_wait
