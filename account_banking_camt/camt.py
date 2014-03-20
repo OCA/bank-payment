@@ -21,8 +21,8 @@
 
 from lxml import etree
 from openerp.osv.orm import except_orm
-from account_banking.parsers import models
-from account_banking.parsers.convert import str2date
+from openerp.addons.account_banking.parsers import models
+from openerp.addons.account_banking.parsers.convert import str2date
 
 bt = models.mem_bank_transaction
 
