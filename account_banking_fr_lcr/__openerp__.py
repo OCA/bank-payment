@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    French LCR module for OpenERP
+#    French Letter of Change module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name': 'French LCR',
+    'name': 'French Letter of Change',
     'summary': 'Create French LCR CFONB files',
     'version': '0.1',
     'license': 'AGPL-3',
@@ -40,10 +40,10 @@
         ],
     'demo': ['lcr_demo.xml'],
     'description': '''
-French LCR
-==========
+French Letter of Change
+=======================
 
-This modules adds support for French LCR (Lettre de Change Relevés). This payment type is still in use in France and it is *not* replaced by SEPA one-off Direct Debits. With this module, you can generate a CFNOB file to send to your bank.
+This module adds support for French Letters of Change (in French : Lettre de Change Relevé aka LCR). This payment type is still in use in France and it is *not* replaced by SEPA one-off Direct Debits. With this module, you can generate a CFONB file to send to your bank.
 
 This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
 

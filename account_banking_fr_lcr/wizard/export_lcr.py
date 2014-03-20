@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    French LCR module for OpenERP
+#    French Letter of Change module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -84,6 +84,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
 
     def _prepare_field(
             self, cr, uid, field_name, field_value, size, context=None):
+        '''This function is designed to be inherited.'''
         if not field_value:
             raise orm.except_orm(
                 _('Error:'),
@@ -108,8 +109,8 @@ class banking_export_lcr_wizard(orm.TransientModel):
         value = value[0:size]
         # enlarge if too small
         if len(value) < size:
-            value = '%s%s' % (value, ' ' * (size - len(value)))
-        assert len(value) == size, 'The lenght of the field is wrong'
+            value = value.ljust(size, ' ')
+        assert len(value) == size, 'The length of the field is wrong'
         return value
 
     def _get_rib_from_iban(self, cr, uid, partner_bank, context=None):
@@ -120,8 +121,8 @@ class banking_export_lcr_wizard(orm.TransientModel):
         if partner_bank.state == 'rib' and not partner_bank.acc_number:
             raise orm.except_orm(
                 _('Error:'),
-                _("For the bank account '%s' of partner '%s', the Bank "
-                    "Account Type is 'RIB and optional IBAN' and the IBAN "
+                _("For the bank account '%s' of partner '%s', the bank "
+                    "account type is 'RIB and optional IBAN' and the IBAN "
                     "field is empty, but, starting from 2014, we consider "
                     "that the IBAN is required. Please write the IBAN on "
                     "this bank account.")
@@ -153,6 +154,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
 
     def _prepare_first_cfonb_line(
             self, cr, uid, lcr_export, context=None):
+        '''Generate the header line of the CFONB file'''
         code_enregistrement = '03'
         code_operation = '60'
         numero_enregistrement = '00000001'
@@ -178,7 +180,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
         ref_remise = self._prepare_field(
             cr, uid, u'Référence de la remise',
             lcr_export.payment_order_ids[0].reference, 11, context=context)
-        cfonb_line = '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s' % (
+        cfonb_line = ''.join([
             code_enregistrement,
             code_operation,
             numero_enregistrement,
@@ -198,7 +200,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             # "remise à l'escompte" and we do
             # "Encaissement, crédit forfaitaire après l’échéance"
             ref_remise,
-            )
+            ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         cfonb_line += '\r\n'
         return cfonb_line
@@ -206,6 +208,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
     def _prepare_cfonb_line(
             self, cr, uid, line, requested_date, transactions_count,
             context=None):
+        '''Generate each debit line of the CFONB file'''
         # I use French variable names because the specs are in French
         code_enregistrement = '06'
         code_operation = '60'
@@ -231,7 +234,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
         date_echeance = requested_date_dt.strftime(LCR_DATE_FORMAT)
         reference_tireur = reference_tire
 
-        cfonb_line = '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s' % (
+        cfonb_line = ''.join([
             code_enregistrement,
             code_operation,
             numero_enregistrement,
@@ -249,34 +252,33 @@ class banking_export_lcr_wizard(orm.TransientModel):
             date_echeance,
             date_creation,
             ' ' * (4 + 1 + 3 + 3 + 9),
-            reference_tireur
-            )
+            reference_tireur,
+            ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         cfonb_line += '\r\n'
         return cfonb_line
 
     def _prepare_final_cfonb_line(
             self, cr, uid, total_amount, transactions_count, context=None):
+        '''Generate the last line of the CFONB file'''
         code_enregistrement = '08'
         code_operation = '60'
         numero_enregistrement = '%08d' % (transactions_count + 2)
         montant_total_centimes = int(total_amount * 100)
         zero_montant_total_centimes = ('%012d' % montant_total_centimes)
-        cfonb_line = '%s%s%s%s%s%s' % (
+        cfonb_line = ''.join([
             code_enregistrement,
             code_operation,
             numero_enregistrement,
             ' ' * (6 + 12 + 24 + 24 + 1 + 2 + 5 + 5 + 11),
             zero_montant_total_centimes,
-            ' ' * (4 + 6 + 10 + 15 + 5 + 6)
-            )
+            ' ' * (4 + 6 + 10 + 15 + 5 + 6),
+            ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         return cfonb_line
 
     def create_lcr(self, cr, uid, ids, context=None):
-        '''
-        Creates the LCR CFONB file.
-        '''
+        '''Creates the LCR CFONB file.'''
         lcr_export = self.browse(cr, uid, ids[0], context=context)
         today = fields.date.context_today(self, cr, uid, context=context)
 
@@ -335,18 +337,14 @@ class banking_export_lcr_wizard(orm.TransientModel):
         return action
 
     def cancel_lcr(self, cr, uid, ids, context=None):
-        '''
-        Cancel the CFONB file: just drop the file
-        '''
+        '''Cancel the CFONB file: just drop the file'''
         lcr_export = self.browse(cr, uid, ids[0], context=context)
         self.pool['banking.export.lcr'].unlink(
             cr, uid, lcr_export.file_id.id, context=context)
         return {'type': 'ir.actions.act_window_close'}
 
     def save_lcr(self, cr, uid, ids, context=None):
-        '''
-        Mark the LCR file as 'sent' and the payment order as 'done'.
-        '''
+        '''Mark the LCR file as 'sent' and the payment order as 'done'.'''
         lcr_export = self.browse(cr, uid, ids[0], context=context)
         self.pool['banking.export.lcr'].write(
             cr, uid, lcr_export.file_id.id, {'state': 'sent'},

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-12 21:33+0000\n"
-"PO-Revision-Date: 2014-03-12 21:33+0000\n"
+"POT-Creation-Date: 2014-03-20 23:15+0000\n"
+"PO-Revision-Date: 2014-03-20 23:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid "Sent"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:90
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:91
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
 msgstr ""
@@ -65,12 +65,24 @@ msgid "Finish"
 msgstr ""
 
 #. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:124
+#, python-format
+msgid "For the bank account '%s' of partner '%s', the bank account type is 'RIB and optional IBAN' and the IBAN field is empty, but, starting from 2014, we consider that the IBAN is required. Please write the IBAN on this bank account."
+msgstr ""
+
+#. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0
 msgid "LCR File Generation"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:294
+#: field:banking.export.lcr,total_amount:0
+#: field:banking.export.lcr.wizard,total_amount:0
+msgid "Total Amount"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:296
 #, python-format
 msgid "The currency of payment line '%s' is '%s'. To be included in a French LCR, the currency must be EUR."
 msgstr ""
@@ -106,32 +118,20 @@ msgid "LCR CFONB File"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:123
-#, python-format
-msgid "For the bank account '%s' of partner '%s', the Bank Account Type is 'RIB and optional IBAN' and the IBAN field is empty, but, starting from 2014, we consider that the IBAN is required. Please write the IBAN on this bank account."
-msgstr ""
-
-#. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:143
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:144
 #, python-format
 msgid "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not a French IBAN."
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:89
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:103
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:122
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:133
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:142
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:293
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:90
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:104
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:123
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:134
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:143
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:295
 #, python-format
 msgid "Error:"
-msgstr ""
-
-#. module: account_banking_fr_lcr
-#: field:banking.export.lcr,total_amount:0
-#: field:banking.export.lcr.wizard,total_amount:0
-msgid "Total Amount"
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -159,7 +159,7 @@ msgid "General Information"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:134
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:135
 #, python-format
 msgid "For the bank account '%s' of partner '%s', the Bank Account Type should be 'IBAN'."
 msgstr ""
@@ -175,7 +175,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:104
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:105
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr ""

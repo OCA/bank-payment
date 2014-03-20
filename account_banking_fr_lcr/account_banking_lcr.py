@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    French LCR module for OpenERP
+#    French Letter of Change module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -46,7 +46,7 @@ class banking_export_lcr(orm.Model):
         'payment_order_ids': fields.many2many(
             'payment.order',
             'account_payment_order_lcr_rel',
-            'banking_export_lcr_id', 'account_order_id',
+            'banking_export_lcr_id', 'payment_order_id',
             'Payment Orders',
             readonly=True),
         'nb_transactions': fields.integer(
