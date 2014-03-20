@@ -254,13 +254,13 @@ CAMT Format parser
         Sanity check the document's namespace
         """
         if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.')\
-           and not self.ns.startswith('ISO:camt.'):
+           and not self.ns.startswith('{ISO:camt.'):
             raise except_orm(
                 "Error",
                 "This does not seem to be a CAMT format bank statement.")
 
         if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.053.')\
-           and not self.ns.startswith('ISO:camt.053'):
+           and not self.ns.startswith('{ISO:camt.053'):
             raise except_orm(
                 "Error",
                 "Only CAMT.053 is supported at the moment.")
