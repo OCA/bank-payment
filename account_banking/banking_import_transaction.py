@@ -1576,7 +1576,7 @@ class account_bank_statement_line(orm.Model):
                 self.write(
                     cr, uid, [st_line.id], {
                         'period_id': self._get_period(
-                            cr, uid, {'date': st_line.date})
+                            cr, uid, date=st_line.date, context=context)
                         })
                 st_line.refresh()
             # Generate the statement number, if it is not already done
