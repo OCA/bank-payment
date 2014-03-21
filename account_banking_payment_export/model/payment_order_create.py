@@ -187,6 +187,7 @@ class payment_order_create(orm.TransientModel):
                              or line.journal_id.currency.id
                              or line.journal_id.company_id.currency_id.id),
                 }, context=context)
+        # Force reload of payment order view as a workaround for lp:1155525
         return {'name': _('Payment Orders'),
                 'context': context,
                 'view_type': 'form',

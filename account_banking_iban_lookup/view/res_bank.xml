@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_res_bank_account_banking_form_1" model="ir.ui.view">
+            <field name="name">Add BIC lookup to bank form</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <field name="bic" position="replace">
+                    <field name="bic" on_change="onchange_bic(bic, name)"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -31,5 +31,7 @@ import account_banking
 import parsers
 import wizard
 import res_partner
+import res_bank
+import res_partner_bank
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

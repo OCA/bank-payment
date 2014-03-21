@@ -116,14 +116,26 @@ class banking_import_transaction(orm.Model):
         '''
         # TODO: Not sure what side effects are created when payments are done
         # for credited customer invoices, which will be matched later on too.
+
+        def bank_match(account, partner_bank):
+            """
+            Returns whether a given account number is equivalent to a
+            partner bank in the database. We simply call the search method,
+            which checks IBAN, domestic and disregards from spaces in IBANs.
+
+            :param account: string representation of a bank account number
+            :param partner_bank: browse record of model res.partner.bank
+            """
+            return partner_bank.id in self.pool['res.partner.bank'].search(
+                cr, uid, [('acc_number', '=', account)])
+
         digits = dp.get_precision('Account')(cr)[1]
         candidates = [
-            x for x in payment_lines
-            if x.communication == trans.reference 
-            and round(x.amount, digits) == -round(
-                trans.statement_line_id.amount, digits)
-            and trans.remote_account in (x.bank_id.acc_number,
-                                         x.bank_id.acc_number_domestic)
+            line for line in payment_lines
+            if (line.communication == trans.reference 
+                and round(line.amount, digits) == -round(
+                    trans.statement_line_id.amount, digits)
+                and bank_match(trans.remote_account, line.bank_id))
             ]
         if len(candidates) == 1:
             candidate = candidates[0]
