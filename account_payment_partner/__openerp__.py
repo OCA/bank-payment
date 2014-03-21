@@ -39,9 +39,11 @@ This module adds severals fields :
 
 * the *Payment Type* on Invoices.
 
-On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will be filtered per Payment Type.
+On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will
+be filtered per Payment Type.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
+for any help or question about this module.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
