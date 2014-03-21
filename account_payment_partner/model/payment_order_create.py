@@ -23,7 +23,7 @@
 from openerp.osv import orm
 
 
-class payment_order_create(orm.Model):
+class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def extend_payment_order_domain(
