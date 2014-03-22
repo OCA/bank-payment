@@ -26,7 +26,7 @@
 
 {
     'name': 'Account Banking - Payments Export Infrastructure',
-    'version': '0.1.164',
+    'version': '0.1.165',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
