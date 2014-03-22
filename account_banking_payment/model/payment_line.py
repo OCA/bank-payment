@@ -40,14 +40,6 @@ class payment_line(orm.Model):
         'msg': fields.char('Message', size=255, required=False, readonly=True),
         'date_done': fields.date(
             'Date Confirmed', select=True, readonly=True),
-        # Communication: required is dependend on the mode
-        'communication': fields.char(
-            'Communication', size=64, required=False, 
-            help=("Used as the message between ordering customer and current "
-                  "company. Depicts 'What do you want to say to the recipient"
-                  " about this order ?'"
-                 ),
-        ),
         # Communication2: enlarge to 128
         'communication2': fields.char(
             'Communication 2', size=128,
