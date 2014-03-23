@@ -21,9 +21,6 @@
 
 
 def migrate(cr, version):
-    if not version:
-        return
-
     cr.execute(
         "UPDATE payment_line SET communication = communication2, "
         "communication2 = null "
