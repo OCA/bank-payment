@@ -331,6 +331,8 @@ class account_bank_statement(orm.Model):
         without a value. For that reason, we need
         to be tolerant and allow for the situation in which no period
         exists for the current date (i.e. when no date is specified).
+
+        Cannot be used directly as a defaults method due to lp:1296229
         """
         local_ctx = dict(context or {}, account_period_prefer_normal=True)
         try:
@@ -482,6 +484,12 @@ class account_bank_statement_line(orm.Model):
         return self.pool['account.bank.statement']._get_period(
             cr, uid, date=date, context=context)
 
+    def _get_period_context(self, cr, uid, context=None):
+        """
+        Workaround for lp:1296229, context is passed positionally
+        """
+        return self._get_period(cr, uid, context=context)
+
     def _get_currency(self, cr, uid, context=None):
         '''
         Get the default currency (required to allow other modules to function,
@@ -544,7 +552,7 @@ class account_bank_statement_line(orm.Model):
     }
 
     _defaults = {
-        'period_id': _get_period,
+        'period_id': _get_period_context,
         'currency': _get_currency,
     }
 
