@@ -293,7 +293,7 @@ msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,execution_date:0
-msgid "execution_date"
+msgid "Posted date"
 msgstr ""
 
 #. module: account_banking
@@ -808,7 +808,7 @@ msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,value_date:0
-msgid "value_date"
+msgid "Value date"
 msgstr ""
 
 #. module: account_banking
