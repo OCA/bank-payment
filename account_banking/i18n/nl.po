@@ -824,7 +824,7 @@ msgstr "Betaalverschil"
 #. module: account_banking
 #: field:banking.import.transaction,value_date:0
 msgid "Value date"
-msgstr "valutadatum"
+msgstr "Valutadatum"
 
 #. module: account_banking
 #: view:account.bank.statement.line:0
