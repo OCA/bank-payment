@@ -26,14 +26,13 @@
 
 {
     'name': 'Account Banking',
-    'version': '0.2.0',
+    'version': '0.3',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': [
         'account_voucher',
-        'account_iban_preserve_domestic',
         ],
     'data': [
         'security/ir.model.access.csv',
@@ -47,13 +46,8 @@
     'js': [
         'static/src/js/account_banking.js',
     ],
-    'external_dependencies': {
-        'python' : ['BeautifulSoup'],
-    },
     'description': '''
     Module to do banking.
-
-    Note: This module is depending on BeautifulSoup.
 
     This modules tries to combine all current banking import and export
     schemes. Rationale for this is that it is quite common to have foreign

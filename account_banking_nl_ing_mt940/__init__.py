@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
-#    All other contributions are (C) by their respective contributors
-#
-#    All Rights Reserved
+#    OpenERP, Open Source Management Solution
+#    This module copyright (C) 2014 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,20 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp.osv import orm, fields
-
-
-class payment_mode_type(orm.Model):
-    _inherit = 'payment.mode.type'
-
-    _columns = {
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': 'payment',
-        }
+from . import account_banking_nl_ing_mt940

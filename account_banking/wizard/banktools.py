@@ -64,12 +64,6 @@ def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
         ('acc_number', '=', account_number)
     ])
     if not bank_account_ids:
-        # SR 2012-02-19 does the search() override in res_partner_bank
-        # provides this result on the previous query?
-        bank_account_ids = partner_bank_obj.search(cr, uid, [
-            ('acc_number_domestic', '=', account_number)
-        ])
-    if not bank_account_ids:
         if not fail:
             log.append(
                 _('Bank account %(account_no)s was not found in the database')
@@ -237,7 +231,7 @@ def get_or_create_bank(pool, cr, uid, bic, online=False, code=None,
     bank_id = False
 
     if online:
-        info, address = sepa.online.bank_info(bic)
+        info, address = bank_obj.online_bank_info(cr, uid, bic, context=context)
         if info:
             bank_id = bank_obj.create(cr, uid, dict(
                 code = info.code,
@@ -301,7 +295,6 @@ def create_bank_account(pool, cr, uid, partner_id,
         owner_name = holder_name,
         country_id = country_id,
     )
-    bankcode = None
 
     # Are we dealing with IBAN?
     iban = sepa.IBAN(account_number)
@@ -309,23 +302,20 @@ def create_bank_account(pool, cr, uid, partner_id,
         # Take as much info as possible from IBAN
         values.state = 'iban'
         values.acc_number = str(iban)
-        values.acc_number_domestic = iban.BBAN
-        bankcode = iban.bankcode + iban.countrycode
     else:
         # No, try to convert to IBAN
         values.state = 'bank'
-        values.acc_number = values.acc_number_domestic = account_number
+        values.acc_number = account_number
 
         if country_id:
             country_code = pool.get('res.country').read(
                 cr, uid, country_id, ['code'], context=context)['code']
             if country_code in sepa.IBAN.countries:
-                account_info = sepa.online.account_info(
-                    country_code, values.acc_number)
+                account_info = pool['res.partner.bank'].online_account_info(
+                    cr, uid, country_code, values.acc_number, context=context)
                 if account_info:
                     values.acc_number = iban = account_info.iban
                     values.state = 'iban'
-                    bankcode = account_info.code
                     bic = account_info.bic
 
     if bic:

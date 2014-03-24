@@ -38,12 +38,10 @@
         'view/account_payment.xml',
         'view/banking_transaction_wizard.xml',
         'view/payment_mode.xml',
-        'view/payment_mode_type.xml',
-        'view/payment_order_create_view.xml',
         'workflow/account_payment.xml',
     ],
     'description': '''
-    This addon adds payment infrastructure to the Banking Addons.
+    This addon adds payment reconciliation infrastructure to the Banking Addons.
 
     * Extends payments for digital banking:
       + Adapted workflow in payments to reflect banking operations
