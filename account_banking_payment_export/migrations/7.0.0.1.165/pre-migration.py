@@ -28,4 +28,5 @@ def migrate(cr, version):
         "WHERE payment_line.order_id = payment_order.id "
         "AND payment_order.state in ('draft', 'open') "
         "AND payment_line.state = 'normal' "
+        "AND communication is null"
         "AND communication2 is not null")
