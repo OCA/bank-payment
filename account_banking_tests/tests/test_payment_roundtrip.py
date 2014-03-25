@@ -163,6 +163,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                         'price_unit': 100.0,
                         'quantity': 1,
                         'account_id': expense_id,})],
+            'reference_type': 'none',
+            'supplier_invoice_number': 'INV1',
             }
         self.invoice_ids = [
             invoice_model.create(
@@ -171,7 +173,11 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                     })]
         values.update({
                 'partner_id': supplier2,
-                'name': 'Purchase 2'})
+                'name': 'Purchase 2',
+                'reference_type': 'structured',
+                'supplier_invoice_number': 'INV2',
+                'reference': 'STR2',
+                })
         self.invoice_ids.append(
             invoice_model.create(
                 cr, uid, values, context={
@@ -247,6 +253,25 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 }, context=context)
         reg('payment.order.create').create_payment(
             cr, uid, [self.payment_order_create_id], context=context)
+
+        # Check if payment lines are created with the correct reference
+        self.assertTrue(
+            reg('payment.line').search(
+                cr, uid, [
+                    ('move_line_id.invoice', '=', self.invoice_ids[0]),
+                    ('communication', '=', 'INV1'),  ('state', '=', 'normal'),
+                    ], context=context),
+            'No payment line created from invoice 1 or with the wrong '
+            'communication')
+        self.assertTrue(
+            reg('payment.line').search(
+                cr, uid, [
+                    ('move_line_id.invoice', '=', self.invoice_ids[1]),
+                    ('communication', '=', 'STR2'),  ('state', '=', 'structured'),
+                    ], context=context),
+            'No payment line created from invoice 2 or with the wrong '
+            'communication')
+                         
         wf_service = netsvc.LocalService('workflow')
         wf_service.trg_validate(
             uid, 'payment.order', self.payment_order_id, 'open', cr)
