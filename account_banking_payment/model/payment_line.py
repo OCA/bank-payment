@@ -36,15 +36,9 @@ class payment_line(orm.Model):
     '''
     _inherit = 'payment.line'
     _columns = {
-        # New fields
         'msg': fields.char('Message', size=255, required=False, readonly=True),
         'date_done': fields.date(
             'Date Confirmed', select=True, readonly=True),
-        # Communication2: enlarge to 128
-        'communication2': fields.char(
-            'Communication 2', size=128,
-            help='The successor message of Communication.',
-        ),
         'transit_move_line_id': fields.many2one(
             # this line is part of the credit side of move 2a 
             # from the documentation
