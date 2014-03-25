@@ -259,7 +259,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             reg('payment.line').search(
                 cr, uid, [
                     ('move_line_id.invoice', '=', self.invoice_ids[0]),
-                    ('communication', '=', 'INV1'),  ('state', '=', 'normal'),
+                    ('communication', '=', 'INV1'),
+                    ('state', '=', 'normal'),
                     ], context=context),
             'No payment line created from invoice 1 or with the wrong '
             'communication')
@@ -267,11 +268,12 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             reg('payment.line').search(
                 cr, uid, [
                     ('move_line_id.invoice', '=', self.invoice_ids[1]),
-                    ('communication', '=', 'STR2'),  ('state', '=', 'structured'),
+                    ('communication', '=', 'STR2'),
+                    ('state', '=', 'structured'),
                     ], context=context),
             'No payment line created from invoice 2 or with the wrong '
             'communication')
-                         
+
         wf_service = netsvc.LocalService('workflow')
         wf_service.trg_validate(
             uid, 'payment.order', self.payment_order_id, 'open', cr)
