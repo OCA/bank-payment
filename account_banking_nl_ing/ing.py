@@ -68,10 +68,10 @@ class transaction_message(object):
         if self.debcred == 'Af':
             self.transferred_amount = -self.transferred_amount
         try:
-            self.execution_date = self.effective_date = str2date(self.date, '%Y%m%d')
+            self.execution_date = self.value_date = str2date(self.date, '%Y%m%d')
         except ValueError:
-            self.execution_date = self.effective_date = str2date(self.date, '%d-%m-%Y')
-        self.statement_id = '' #self.effective_date.strftime('%Yw%W')
+            self.execution_date = self.value_date = str2date(self.date, '%d-%m-%Y')
+        self.statement_id = '' #self.value_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
         self.reference = ''
         # Normalize basic account numbers
@@ -85,7 +85,7 @@ class transaction(models.mem_bank_transaction):
     '''
     attrnames = ['local_account', 'remote_account',
                  'remote_owner', 'transferred_amount',
-                 'execution_date', 'effective_date', 'transfer_type',
+                 'execution_date', 'value_date', 'transfer_type',
                  'id', 'reference', 'statement_id', 'message',
                 ]
 
@@ -279,7 +279,7 @@ Statements.
             msg = transaction_message(line, subno)
             if not statement_id:
                 statement_id = self.get_unique_statement_id(
-                    cr, msg.effective_date.strftime('%Yw%W'))
+                    cr, msg.execution_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)

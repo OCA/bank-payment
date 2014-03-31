@@ -303,7 +303,7 @@ msgstr "Tranzakciós adat"
 
 #. module: account_banking
 #: field:banking.import.transaction,execution_date:0
-msgid "execution_date"
+msgid "Posted date"
 msgstr "execution_date"
 
 #. module: account_banking
@@ -814,8 +814,8 @@ msgid "Payment Difference"
 msgstr ""
 
 #. module: account_banking
-#: field:banking.import.transaction,effective_date:0
-msgid "effective_date"
+#: field:banking.import.transaction,value_date:0
+msgid "Value date"
 msgstr ""
 
 #. module: account_banking
