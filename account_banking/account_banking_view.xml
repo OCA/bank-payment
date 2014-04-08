@@ -250,7 +250,7 @@
                     </xpath>
                     <xpath expr="//field[@name='line_ids']/tree//field[@name='account_id']"
                            position="attributes">
-                       <attribute name="attrs">{'readonly': ['|', ('state', '!=', 'draft'), ('match_type', '!=', '')]}</attribute>
+                       <attribute name="attrs">{'readonly': ['|', ('state', '!=', 'draft'), ('match_type', '!=', False)]}</attribute>
                     </xpath>
                     <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
                            position="after">
