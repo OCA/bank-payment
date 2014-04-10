@@ -41,5 +41,6 @@ for any help or question about this module.
     'depends': ['sale_stock', 'account_payment_sale'],
     'conflicts': ['account_payment_extension'],
     'data': [],
+    'auto_install': True,
     'active': False,
 }
