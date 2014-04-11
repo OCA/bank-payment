@@ -31,8 +31,9 @@ class payment_order_create(orm.TransientModel):
         super(payment_order_create, self).extend_payment_order_domain(
             cr, uid, payment_order, domain, context=context)
         domain += [
-            '|',
+            '|', '|',
             ('invoice', '=', False),
+            ('invoice.payment_mode_type', '=', False),
             ('invoice.payment_mode_type', '=', payment_order.mode_type.id)
             ]
         return True
