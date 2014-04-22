@@ -86,10 +86,10 @@ class mem_bank_transaction(object):
         # The currency the bank used to process the transferred amount
 
         'execution_date',
-        # The requested execution date of the action - order date if you like
+        # The posted date of the action
 
-        'effective_date',
-        # The real execution date of the action
+        'value_date',
+        # The value date of the action
 
         'remote_account',
         # The account of the other party

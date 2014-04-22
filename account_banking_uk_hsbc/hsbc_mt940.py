@@ -40,7 +40,7 @@ class transaction(models.mem_bank_transaction):
 
     mapping = {
         'execution_date' : 'valuedate',
-        'effective_date' : 'valuedate',
+        'value_date' : 'valuedate',
         'local_currency' : 'currency',
         'transfer_type' : 'bookingcode',
         'reference' : 'custrefno',

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Akretion (http://www.akretion.com/)
-#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
+#    Copyright (C) 2014 Therp BV (<http://therp.nl>).
+#    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,26 +19,13 @@
 #
 ##############################################################################
 
-def table_exists(cr, table):
-    """ Check whether a certain table or view exists """
-    cr.execute(
-        'SELECT count(relname) FROM pg_class WHERE relname = %s',
-        (table,))
-    return cr.fetchone()[0] == 1
-
 def migrate(cr, version):
-    """
-    Migration script for semantic changes in account_banking_payment_export.
-    Putting the same script in this module for users migrating from 6.1,
-    before the export module was refactored out.
-    """
-    if not version or not table_exists(cr, 'payment_line'):
+    if not version:
         return
+
+    # Rename value date column
     cr.execute(
-        "UPDATE payment_line SET communication = communication2, "
-        "communication2 = null "
-        "FROM payment_order "
-        "WHERE payment_line.order_id = payment_order.id "
-        "AND payment_order.state in ('draft', 'open') "
-        "AND payment_line.state = 'normal' "
-        "AND communication2 is not null")
+        """
+        ALTER TABLE banking_import_transaction
+        RENAME COLUMN effective_date TO value_date
+        """)

@@ -65,8 +65,8 @@ class transaction_message(object):
         if self.debcred == 'Debet':
             self.transferred_amount = -self.transferred_amount
         self.execution_date = str2date(self.date, '%d-%m-%Y')
-        self.effective_date = str2date(self.date, '%d-%m-%Y')
-        self.statement_id = '' # self.effective_date.strftime('%Yw%W') # Set statement_id based on week number
+        self.value_date = str2date(self.date, '%d-%m-%Y')
+        self.statement_id = ''
         self.id = str(subno).zfill(4)
         # Normalize basic account numbers
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
@@ -78,7 +78,7 @@ class transaction(models.mem_bank_transaction):
     '''
     attrnames = ['local_account', 'remote_account',
                  'remote_owner', 'transferred_amount',
-                 'execution_date', 'effective_date', 'transfer_type',
+                 'execution_date', 'value_date', 'transfer_type',
                  'reference', 'id',
                 ]
 
@@ -212,7 +212,7 @@ Statements.
             msg = transaction_message(line, subno)
             if not statement_id:
                 statement_id = self.get_unique_statement_id(
-                    cr, msg.effective_date.strftime('%Yw%W'))
+                    cr, msg.execution_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)

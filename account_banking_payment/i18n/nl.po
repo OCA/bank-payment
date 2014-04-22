@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-25 15:58+0000\n"
-"PO-Revision-Date: 2013-12-03 11:50+0000\n"
-"Last-Translator: Jan Jurkus (GCE CAD-Service) <ict@gcecad-service.nl>\n"
+"PO-Revision-Date: 2014-03-26 14:48+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-21 06:57+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-04-16 07:13+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_order_create
@@ -269,7 +269,7 @@ msgstr "Fout"
 #. module: account_banking_payment
 #: field:payment.mode,transfer_account_id:0
 msgid "Transfer account"
-msgstr "Overschrijf bedrag"
+msgstr "Overschrijf rekening"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/banking_import_transaction.py:225
