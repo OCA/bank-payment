@@ -19,9 +19,20 @@
 #
 ##############################################################################
 
+def table_exists(cr, table):
+    """ Check whether a certain table or view exists """
+    cr.execute(
+        'SELECT count(relname) FROM pg_class WHERE relname = %s',
+        (table,))
+    return cr.fetchone()[0] == 1
 
 def migrate(cr, version):
-    if not version:
+    """
+    Migration script for semantic changes in account_banking_payment_export.
+    Putting the same script in this module for users migrating from 6.1,
+    before the export module was refactored out.
+    """
+    if not version or not table_exists(cr, 'payment_line'):
         return
     cr.execute(
         "UPDATE payment_line SET communication = communication2, "

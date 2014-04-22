@@ -27,7 +27,7 @@
     'category': 'Banking addons',
     'depends': [
         'account_accountant',
-        'account_banking',
+        'account_banking_payment',
         'account_banking_sepa_credit_transfer',
         ],
     'description': '''
