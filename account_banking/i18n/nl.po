@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-25 15:52+0000\n"
-"PO-Revision-Date: 2014-04-01 01:31+0000\n"
-"Last-Translator: Stefan Rijnhart (Therp) <Unknown>\n"
+"PO-Revision-Date: 2014-04-22 14:20+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-16 07:12+0000\n"
-"X-Generator: Launchpad (build 16976)\n"
+"X-Launchpad-Export-Date: 2014-04-23 07:08+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #. module: account_banking
 #: field:account.bank.statement.line,reconcile_id:0
@@ -1135,7 +1135,7 @@ msgstr "duplicaat"
 #. module: account_banking
 #: field:banking.link_partner,name:0
 msgid "Create partner with name"
-msgstr "Create partner with name"
+msgstr "Aanmaken relatie met de naam"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
