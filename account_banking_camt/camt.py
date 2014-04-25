@@ -274,5 +274,7 @@ CAMT Format parser
         self.assert_tag(root[0][0], 'GrpHdr')
         statements = []
         for node in root[0][1:]:
-            statements.append(self.parse_Stmt(cr, node))
+            statement = self.parse_Stmt(cr, node)
+            if len(statement.transactions):
+                statements.append(statement)
         return statements
