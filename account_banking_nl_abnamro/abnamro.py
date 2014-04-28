@@ -91,6 +91,7 @@ class transaction(models.mem_bank_transaction):
         'UNKN': bt.ORDER, # everything else
         'SEPA': bt.ORDER,
         'PAYB': bt.PAYMENT_BATCH,
+        'RETR': bt.STORNO,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -257,8 +258,11 @@ class transaction(models.mem_bank_transaction):
         if self.transfer_type == 'SEPA':
             sepa_dict = get_sepa_dict(''.join(fields))
             sepa_type = sepa_dict.get('TRTP') or ''
-            if sepa_type.upper() != 'SEPA OVERBOEKING':
-                raise ValueError, _('Sepa transaction type %s not handled yet') % sepa_type
+            self.transfer_type = {
+                'SEPA BATCH': 'PAYB',
+                'SEPA BATCH SALARIS': 'PAYB',
+                'SEPA TERUGBOEKING': 'RETR',
+                }.get(sepa_type.upper(), 'SEPA')
             self.remote_account = sepa_dict.get('IBAN',False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)
