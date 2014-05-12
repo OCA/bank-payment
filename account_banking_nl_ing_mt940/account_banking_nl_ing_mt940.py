@@ -72,7 +72,8 @@ class IngMT940Parser(MT940, parser):
                 current_codeword = word
                 subfields[current_codeword] = []
                 continue
-            subfields[current_codeword].append(word)
+            if current_codeword in subfields:
+                subfields[current_codeword].append(word)
 
         if 'BENM' in subfields:
             self.current_transaction.remote_account = subfields['BENM'][0]
