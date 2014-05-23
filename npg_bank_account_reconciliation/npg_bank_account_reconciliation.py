@@ -196,16 +196,26 @@ class bank_acc_rec_statement(osv.osv):
                     res[statement.id]['sum_of_debits_lines'] += 1.0
                 else:
                     res[statement.id]['sum_of_debits_unclear'] += sum_debit
-                    res[statement.id]['sum_of_debits_lines_unclear'] +=1.0
+                    res[statement.id]['sum_of_debits_lines_unclear'] += 1.0
 
             res[statement.id]['cleared_balance'] = round(res[statement.id]['sum_of_debits'] - res[statement.id]['sum_of_credits'], account_precision)
             res[statement.id]['uncleared_balance'] = round(res[statement.id]['sum_of_debits_unclear'] - res[statement.id]['sum_of_credits_unclear'], account_precision)
             res[statement.id]['difference'] = round((statement.ending_balance - statement.starting_balance) - res[statement.id]['cleared_balance'], account_precision)
         return res
-    
+
     def refresh_record(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {}, context=context)
-    
+
+    def is_b_a_r_s_state_done(self, cr, uid, move_line_id, context=None):
+        statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
+        statement_line_ids = statement_line_obj.search(cr, uid, [('move_line_id', '=', move_line_id)], context=context)
+        for state_line in statement_line_ids:
+            b_a_r_s_line = statement_line_obj.browse(cr, uid, state_line, context=context)
+            b_a_r_s = self.browse(cr, uid, b_a_r_s_line.statement_id.id, context=context)
+            if b_a_r_s and b_a_r_s.state not in ("done", "cancel"):
+                return False
+        return True
+
     def onchange_account_id(self, cr, uid, ids, account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries, context=None):
         account_move_line_obj = self.pool.get('account.move.line')
         statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
@@ -225,10 +235,15 @@ class bank_acc_rec_statement(osv.osv):
             domain = [('account_id', '=', account_id), ('move_id.state', '=', 'posted'), ('cleared_bank_account', '=', False)]
             if not keep_previous_uncleared_entries:
                 domain += [('draft_assigned_to_statement', '=', False)]
+
             if not suppress_ending_date_filter:
                 domain += [('date', '<=', ending_date)]
             line_ids = account_move_line_obj.search(cr, uid, domain, context=context)
             for line in account_move_line_obj.browse(cr, uid, line_ids, context=context):
+                if keep_previous_uncleared_entries:
+                    #only take bank_acc_rec_statement at state cancel or done
+                    if not self.is_b_a_r_s_state_done(cr, uid, line.id, context=context):
+                        continue
                 res = {
                        'ref': line.ref,
                        'date': line.date,
