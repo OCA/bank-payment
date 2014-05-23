@@ -36,7 +36,7 @@ class IngMT940Parser(MT940, parser):
     code = 'INT_MT940_STRUC'
 
     tag_61_regex = re.compile(
-        '^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>\d{3})'
+        '^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
         '(?P<reference>\w{1,16})')
 
     def create_transaction(self, cr):
@@ -72,7 +72,8 @@ class IngMT940Parser(MT940, parser):
                 current_codeword = word
                 subfields[current_codeword] = []
                 continue
-            subfields[current_codeword].append(word)
+            if current_codeword in subfields:
+                subfields[current_codeword].append(word)
 
         if 'BENM' in subfields:
             self.current_transaction.remote_account = subfields['BENM'][0]

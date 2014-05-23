@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name" : "MT940 import for Dutch ING",
-    "version" : "1.0",
+    "version" : "1.1",
     "author" : "Therp BV",
     "complexity": "normal",
     "description": """
