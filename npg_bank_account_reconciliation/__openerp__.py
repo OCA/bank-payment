@@ -89,6 +89,10 @@ Sales Receipts/Refunds
 Transfers between accounts (a new module is being developed to help manage this)
 Funds moved from the Undeposited Funds GL account to a Bank Account GL account.
 Direct Journal Entries
+
+Contributors
+------------
+* Mathieu Benoit (mathieu.benoit@savoirfairelinux.com)
 """,
     'author': 'NovaPoint Group LLC',
     'website': ' http://www.novapointgroup.com',

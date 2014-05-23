@@ -164,9 +164,9 @@ class bank_acc_rec_statement(osv.osv):
         Checks, Withdrawals, Debits, and Service Charges Amount # of Items:
         Cleared Balance (Total Sum of the Deposit Amount Cleared (A) – Total Sum of Checks Amount Cleared (B))
         Difference= (Ending Balance – Beginning Balance) - cleared balance = should be zero.
-"""
+        """
         res = {}
-        account_precision = self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')
+        account_precision = self.pool.get('decimal.precision').precision_get(cr,uid, 'Account')
         for statement in self.browse(cr, uid, ids, context=context):
             res[statement.id] = {
                 'sum_of_credits': 0.0,
@@ -174,23 +174,39 @@ class bank_acc_rec_statement(osv.osv):
                 'cleared_balance': 0.0,
                 'difference': 0.0,
                 'sum_of_credits_lines': 0.0,
-                'sum_of_debits_lines': 0.0
+                'sum_of_debits_lines': 0.0,
+                'sum_of_credits_unclear': 0.0,
+                'sum_of_debits_unclear': 0.0,
+                'uncleared_balance': 0.0,
+                'sum_of_credits_lines_unclear': 0.0,
+                'sum_of_debits_lines_unclear': 0.0,
             }
             for line in statement.credit_move_line_ids:
-                res[statement.id]['sum_of_credits'] += line.cleared_bank_account and round(line.amount, account_precision) or 0.0
-                res[statement.id]['sum_of_credits_lines'] += line.cleared_bank_account and 1.0 or 0.0
+                sum_credit = round(line.amount, account_precision)
+                if line.cleared_bank_account:
+                    res[statement.id]['sum_of_credits'] += sum_credit
+                    res[statement.id]['sum_of_credits_lines'] += 1.0
+                else:
+                    res[statement.id]['sum_of_credits_unclear'] += sum_credit
+                    res[statement.id]['sum_of_credits_lines_unclear'] += 1.0
             for line in statement.debit_move_line_ids:
-                res[statement.id]['sum_of_debits'] += line.cleared_bank_account and round(line.amount, account_precision) or 0.0
-                res[statement.id]['sum_of_debits_lines'] += line.cleared_bank_account and 1.0 or 0.0
+                sum_debit = round(line.amount, account_precision)
+                if line.cleared_bank_account:
+                    res[statement.id]['sum_of_debits'] += sum_debit
+                    res[statement.id]['sum_of_debits_lines'] += 1.0
+                else:
+                    res[statement.id]['sum_of_debits_unclear'] += sum_debit
+                    res[statement.id]['sum_of_debits_lines_unclear'] +=1.0
 
             res[statement.id]['cleared_balance'] = round(res[statement.id]['sum_of_debits'] - res[statement.id]['sum_of_credits'], account_precision)
+            res[statement.id]['uncleared_balance'] = round(res[statement.id]['sum_of_debits_unclear'] - res[statement.id]['sum_of_credits_unclear'], account_precision)
             res[statement.id]['difference'] = round((statement.ending_balance - statement.starting_balance) - res[statement.id]['cleared_balance'], account_precision)
         return res
     
     def refresh_record(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {}, context=context)
     
-    def onchange_account_id(self, cr, uid, ids, account_id, ending_date, suppress_ending_date_filter, context=None):
+    def onchange_account_id(self, cr, uid, ids, account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries, context=None):
         account_move_line_obj = self.pool.get('account.move.line')
         statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
         val = {'value': {'credit_move_line_ids': [], 'debit_move_line_ids': []}}
@@ -204,8 +220,11 @@ class bank_acc_rec_statement(osv.osv):
             # Apply filter on move lines to allow
             #1. credit and debit side journal items in posted state of the selected GL account
             #2. Journal items which are not assigned to previous bank statements
-            #3. Date less than or equal to ending date provided the 'Suppress Ending Date Filter' is not checkec
-            domain = [('account_id', '=', account_id), ('move_id.state', '=', 'posted'), ('cleared_bank_account', '=', False), ('draft_assigned_to_statement', '=', False)]
+            #3. Date less than or equal to ending date provided the 'Suppress Ending Date Filter' is not checked
+            # get previous uncleared entries
+            domain = [('account_id', '=', account_id), ('move_id.state', '=', 'posted'), ('cleared_bank_account', '=', False)]
+            if not keep_previous_uncleared_entries:
+                domain += [('draft_assigned_to_statement', '=', False)]
             if not suppress_ending_date_filter:
                 domain += [('date', '<=', ending_date)]
             line_ids = account_move_line_obj.search(cr, uid, domain, context=context)
@@ -261,7 +280,21 @@ class bank_acc_rec_statement(osv.osv):
                                     multi="balance"),
         'sum_of_debits_lines': fields.function(_get_balance, method=True, type='float', string='Deposits, Credits, and Interest # of Items',
                                        help="Total of number of lines with Cleared = True",   multi="balance"),
+        'uncleared_balance': fields.function(_get_balance, method=True, string='Uncleared Balance', digits_compute=dp.get_precision('Account'),
+                                  type='float', help="Total Sum of the Deposit Amount Cleared – Total Sum of Checks, Withdrawals, Debits, and Service Charges Amount Cleared",
+                                  multi="balance"),
+        'sum_of_credits_unclear': fields.function(_get_balance, method=True, string='Checks, Withdrawals, Debits, and Service Charges Amount', digits_compute=dp.get_precision('Account'),
+                                  type='float', help="Total SUM of Amts of lines with Cleared = True",
+                                    multi="balance"),
+        'sum_of_debits_unclear': fields.function(_get_balance, method=True, type='float', string='Deposits, Credits, and Interest Amount', digits_compute=dp.get_precision('Account'),
+                                       help="Total SUM of Amts of lines with Cleared = True",   multi="balance"),
+        'sum_of_credits_lines_unclear': fields.function(_get_balance, method=True, string='Checks, Withdrawals, Debits, and Service Charges # of Items',
+                                  type='float', help="Total of number of lines with Cleared = True",
+                                    multi="balance"),
+        'sum_of_debits_lines_unclear': fields.function(_get_balance, method=True, type='float', string='Deposits, Credits, and Interest # of Items',
+                                       help="Total of number of lines with Cleared = True",   multi="balance"),
         'suppress_ending_date_filter': fields.boolean('Remove Ending Date Filter', help="If this is checked then the Statement End Date filter on the transactions below will not occur. All transactions would come over."),
+        'keep_previous_uncleared_entries': fields.boolean('Keep Previous Uncleared Entries', help="If this is checked then the previous uncleared entries will be include."),
         'state': fields.selection([
             ('draft','Draft'),
             ('to_be_reviewed','Ready for Review'),
