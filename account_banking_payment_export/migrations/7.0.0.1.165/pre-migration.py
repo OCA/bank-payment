@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013 Therp BV (<http://therp.nl>)
+#    Copyright (C) 2014 Akretion (http://www.akretion.com/)
+#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,24 +19,15 @@
 #
 ##############################################################################
 
-{
-    'name': 'Banking Addons - Tests',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'Therp BV',
-    'website': 'https://launchpad.net/banking-addons',
-    'category': 'Banking addons',
-    'depends': [
-        'account_accountant',
-        'account_banking_payment',
-        'account_banking_sepa_credit_transfer',
-        ],
-    'description': '''
-This addon adds unit tests for the Banking addons. Installing this
-module will not give you any benefit other than having the tests'
-dependencies installed, so that you can run the tests. If you only
-run the tests manually, you don't even have to install this module,
-only its dependencies.
-    ''',
-    'installable': True,
-}
+
+def migrate(cr, version):
+    if not version:
+        return
+    cr.execute(
+        "UPDATE payment_line SET communication = communication2, "
+        "communication2 = null "
+        "FROM payment_order "
+        "WHERE payment_line.order_id = payment_order.id "
+        "AND payment_order.state in ('draft', 'open') "
+        "AND payment_line.state = 'normal' "
+        "AND communication2 is not null")
