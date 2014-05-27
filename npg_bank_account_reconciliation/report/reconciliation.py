@@ -19,7 +19,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
+from openerp.report import report_sxw
 
-import npg_bank_account_reconciliation
-import account_move_line
-import report
+
+class Reconciliation(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context=None):
+        super(Reconciliation, self).__init__(cr, uid, name, context=context)
+
+
+report_sxw.report_sxw(
+    'report.detailed.reconciliation.webkit',
+    'bank.acc.rec.statement',
+    'addons/deposit_ticket_report_webkit/report/detailed_reconciliation.mako',
+    parser=Reconciliation,
+)
+
+
+report_sxw.report_sxw(
+    'report.summary.reconciliation.webkit',
+    'bank.acc.rec.statement',
+    'addons/deposit_ticket_report_webkit/report/summary_reconciliation.mako',
+    parser=Reconciliation
+)
