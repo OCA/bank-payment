@@ -16,14 +16,11 @@
     <field name="inherit_id" ref="account.view_partner_property_form" />
     <field name="arch" type="xml">
         <field name="property_payment_term" position="after">
-            <field name="customer_payment_mode_type"
+            <field name="customer_payment_mode"
                 attrs="{'invisible': [('customer', '=', False)]}"/>
-            <field name="partner_bank_receivable"
-                domain="[('partner_id.ref_companies', 'in', [company_id])]"
-                attrs="{'invisible': [('customer', '=', False)]}" />
         </field>
         <field name="property_supplier_payment_term" position="after">
-            <field name="supplier_payment_mode_type"
+            <field name="supplier_payment_mode"
                 attrs="{'invisible': [('supplier', '=', False)]}"/>
         </field>
     </field>

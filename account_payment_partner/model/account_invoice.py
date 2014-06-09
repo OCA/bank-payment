@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Partner Payment module for OpenERP
+#    Account Payment Partner module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -27,8 +27,8 @@ class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
     _columns = {
-        'payment_mode_type': fields.many2one(
-            'payment.mode.type', 'Payment Type'),
+        'payment_mode_id': fields.many2one(
+            'payment.mode', 'Payment Mode'),
         }
 
     def onchange_partner_id(
@@ -40,14 +40,16 @@ class account_invoice(orm.Model):
             company_id=company_id)
         if partner_id:
             partner = self.pool['res.partner'].browse(cr, uid, partner_id)
-            # TODO what about refunds ? Should be really copy
-            # the payment type for refunds ?
-            if type and type in ('in_invoice', 'in_refund'):
-                res['value']['payment_mode_type'] = \
-                    partner.supplier_payment_mode_type.id or False
-            elif type and type in ('out_invoice', 'out_refund'):
-                res['value']['payment_mode_type'] = \
-                    partner.customer_payment_mode_type.id or False
+            if type == 'in_invoice':
+                res['value']['payment_mode_id'] = \
+                    partner.supplier_payment_mode.id or False
+            elif type == 'out_invoice':
+                res['value'].update({
+                    'payment_mode_id':
+                    partner.customer_payment_mode.id or False,
+                    'partner_bank_id':
+                    partner.customer_payment_mode.bank_id.id or False,
+                    })
         else:
-            res['value']['payment_mode_type'] = False
+            res['value']['payment_mode_id'] = False
         return res
