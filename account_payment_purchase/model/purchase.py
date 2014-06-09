@@ -27,13 +27,13 @@ class purchase_order(orm.Model):
     _inherit = "purchase.order"
 
     _columns = {
-        'supplier_partner_bank': fields.many2one(
+        'supplier_partner_bank_id': fields.many2one(
             'res.partner.bank', 'Supplier Bank Account',
             help="Select the bank account of your supplier on which "
             "your company should send the payment. This field is copied "
             "from the partner and will be copied to the supplier invoice."),
-        'payment_mode_type': fields.many2one(
-            'payment.mode.type', 'Payment Type'),
+        'payment_mode_id': fields.many2one(
+            'payment.mode', 'Payment Mode'),
         }
 
     def _get_default_supplier_partner_bank(
@@ -51,16 +51,16 @@ class purchase_order(orm.Model):
             partner = self.pool['res.partner'].browse(
                 cr, uid, partner_id)
             res['value'].update({
-                'supplier_partner_bank':
+                'supplier_partner_bank_id':
                 self._get_default_supplier_partner_bank(
                     cr, uid, partner),
-                'payment_mode_type':
-                partner.supplier_payment_mode_type.id or False,
+                'payment_mode_id':
+                partner.supplier_payment_mode.id or False,
                 })
         else:
             res['value'].update({
-                'supplier_partner_bank': False,
-                'payment_mode_type': False,
+                'supplier_partner_bank_id': False,
+                'payment_mode_id': False,
                 })
         return res
 
@@ -75,8 +75,8 @@ class purchase_order(orm.Model):
                 if invoice.state == 'draft':
                     invoice.write({
                         'partner_bank_id':
-                        order.supplier_partner_bank.id or False,
-                        'payment_mode_type':
-                        order.payment_mode_type.id or False,
+                        order.supplier_partner_bank_id.id or False,
+                        'payment_mode_id':
+                        order.payment_mode_id.id or False,
                         }, context=context)
         return res
