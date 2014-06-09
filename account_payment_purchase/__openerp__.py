@@ -25,13 +25,13 @@
     'version': '1.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': "Adds Bank Account and Payment Type on Purchase Orders",
+    'summary': "Adds Bank Account and Payment Mode on Purchase Orders",
     'description': """
 Account Payment Purchase
 ========================
 
 This modules adds 2 fields on purchase orders : *Bank Account* and *Payment
-Type*. These fields are copied from partner to purchase order and then from
+Mode*. These fields are copied from partner to purchase order and then from
 purchase order to supplier invoice.
 
 This module is similar to the *purchase_payment* module ; the main difference
