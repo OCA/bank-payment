@@ -25,13 +25,13 @@
     'version': '1.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': "Adds Bank Account and Payment Type on Sale Orders",
+    'summary': "Adds Payment Mode on Sale Orders",
     'description': """
 Account Payment Sale
 ====================
 
-This modules adds 2 fields on sale orders : *Bank Account* and *Payment Type*.
-These fields are copied from partner to sale order and then from sale order to
+This modules adds one field on sale orders : *Payment Mode*.
+This field is copied from partner to sale order and then from sale order to
 customer invoice.
 
 This module is similar to the *sale_payment* module ; the main difference is

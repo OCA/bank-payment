@@ -15,11 +15,7 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <field name="payment_term" position="after">
-            <field name="payment_mode_type"/>
-            <field name="partner_bank_receivable"
-                domain="[('partner_id.ref_companies', 'in', [company_id])]" />
-                <!-- I can't add widget=selection,
-                because it will break the domain instruction -->
+            <field name="payment_mode_id"/>
         </field>
     </field>
 </record>
