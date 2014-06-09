@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-24 23:07+0000\n"
-"PO-Revision-Date: 2014-02-24 23:07+0000\n"
+"POT-Creation-Date: 2014-06-09 23:23+0000\n"
+"PO-Revision-Date: 2014-06-09 23:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_payment_purchase
-#: field:purchase.order,payment_mode_type:0
-msgid "Payment Type"
+#: field:purchase.order,payment_mode_id:0
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_payment_purchase
+#: model:ir.model,name:account_payment_purchase.model_stock_picking
+msgid "Picking List"
 msgstr ""
 
 #. module: account_payment_purchase
@@ -26,17 +31,12 @@ msgid "Purchase Order"
 msgstr ""
 
 #. module: account_payment_purchase
-#: help:purchase.order,supplier_partner_bank:0
+#: help:purchase.order,supplier_partner_bank_id:0
 msgid "Select the bank account of your supplier on which your company should send the payment. This field is copied from the partner and will be copied to the supplier invoice."
 msgstr ""
 
 #. module: account_payment_purchase
-#: field:purchase.order,supplier_partner_bank:0
+#: field:purchase.order,supplier_partner_bank_id:0
 msgid "Supplier Bank Account"
-msgstr ""
-
-#. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_stock_picking
-msgid "Picking List"
 msgstr ""
 
