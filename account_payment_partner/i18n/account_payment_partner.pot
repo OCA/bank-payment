@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-24 23:06+0000\n"
-"PO-Revision-Date: 2014-02-24 23:06+0000\n"
+"POT-Creation-Date: 2014-06-09 23:22+0000\n"
+"PO-Revision-Date: 2014-06-09 23:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,38 +16,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_payment_partner
-#: field:account.invoice,payment_mode_type:0
-msgid "Payment Type"
-msgstr ""
-
-#. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_payment_order_create
-msgid "payment.order.create"
-msgstr ""
-
-#. module: account_payment_partner
-#: field:res.partner,supplier_payment_mode_type:0
-msgid "Supplier Payment Type"
-msgstr ""
-
-#. module: account_payment_partner
-#: help:res.partner,partner_bank_receivable:0
-msgid "Select the bank account of your company on which the customer should pay."
-msgstr ""
-
-#. module: account_payment_partner
-#: field:res.partner,partner_bank_receivable:0
-msgid "Receivable Bank Account"
-msgstr ""
-
-#. module: account_payment_partner
-#: help:res.partner,supplier_payment_mode_type:0
-msgid "Select the default payment type for this supplier."
-msgstr ""
-
-#. module: account_payment_partner
-#: field:res.partner,customer_payment_mode_type:0
-msgid "Customer Payment Type"
+#: field:res.partner,customer_payment_mode:0
+msgid "Customer Payment Mode"
 msgstr ""
 
 #. module: account_payment_partner
@@ -56,12 +26,32 @@ msgid "Invoice"
 msgstr ""
 
 #. module: account_payment_partner
-#: help:res.partner,customer_payment_mode_type:0
-msgid "Select the default payment type for this customer."
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Partner"
 msgstr ""
 
 #. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_res_partner
-msgid "Partner"
+#: field:account.invoice,payment_mode_id:0
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: help:res.partner,customer_payment_mode:0
+msgid "Select the default payment mode for this customer."
+msgstr ""
+
+#. module: account_payment_partner
+#: help:res.partner,supplier_payment_mode:0
+msgid "Select the default payment mode for this supplier."
+msgstr ""
+
+#. module: account_payment_partner
+#: field:res.partner,supplier_payment_mode:0
+msgid "Supplier Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_payment_order_create
+msgid "payment.order.create"
 msgstr ""
 

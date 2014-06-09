@@ -25,13 +25,13 @@
     'version': '1.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': "Manage Payment Type and Bank Account when invoicing from picking",
+    'summary': "Manage Payment Mode when invoicing from picking",
     'description': """
 Account Payment Sale Stock
 ==========================
 
-This modules copies *Bank Account* and *Payment Type* from Sale Order to
-Invoice when the Invoice is generated from the Picking.
+This modules copies *Payment Mode* from Sale Order to Invoice when the
+Invoice is generated from the Picking.
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
 for any help or question about this module.

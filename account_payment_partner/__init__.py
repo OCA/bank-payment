@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Partner Payment module for OpenERP
+#    Account Payment Partner module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Partner Payment module for OpenERP
+#    Account Payment Partner module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -27,27 +27,18 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'supplier_payment_mode_type': fields.property(
-            'payment.mode.type', type='many2one', relation='payment.mode.type',
-            string='Supplier Payment Type', view_load=True,
-            help="Select the default payment type for this supplier."),
-        'customer_payment_mode_type': fields.property(
-            'payment.mode.type', type='many2one', relation='payment.mode.type',
-            string='Customer Payment Type', view_load=True,
-            help="Select the default payment type for this customer."),
-        'partner_bank_receivable': fields.property(
-            'res.partner.bank', type='many2one', relation='res.partner.bank',
-            string='Receivable Bank Account', view_load=True,
-            help="Select the bank account of your company on which the "
-            "customer should pay."),
+        'supplier_payment_mode': fields.property(
+            'payment.mode', type='many2one', relation='payment.mode',
+            string='Supplier Payment Mode', view_load=True,
+            help="Select the default payment mode for this supplier."),
+        'customer_payment_mode': fields.property(
+            'payment.mode', type='many2one', relation='payment.mode',
+            string='Customer Payment Mode', view_load=True,
+            help="Select the default payment mode for this customer."),
         }
 
     def _commercial_fields(self, cr, uid, context=None):
         res = super(res_partner, self)._commercial_fields(
             cr, uid, context=context)
-        res += [
-            'supplier_payment_mode_type',
-            'customer_payment_mode_type',
-            'partner_bank_receivable',
-            ]
+        res += ['supplier_payment_mode', 'customer_payment_mode']
         return res

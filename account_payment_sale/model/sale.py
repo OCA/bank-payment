@@ -27,13 +27,8 @@ class sale_order(orm.Model):
     _inherit = "sale.order"
 
     _columns = {
-        'partner_bank_receivable': fields.many2one(
-            'res.partner.bank', 'Receivable Bank Account',
-            help="Select the bank account of your company on which the "
-            "customer should pay. This field is copied from the partner "
-            "and will be copied to the customer invoice."),
-        'payment_mode_type': fields.many2one(
-            'payment.mode.type', 'Payment Type'),
+        'payment_mode_id': fields.many2one(
+            'payment.mode', 'Payment Mode'),
         }
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
@@ -42,17 +37,10 @@ class sale_order(orm.Model):
         if part:
             partner = self.pool['res.partner'].browse(
                 cr, uid, part, context=context)
-            res['value'].update({
-                'partner_bank_receivable':
-                partner.partner_bank_receivable.id or False,
-                'payment_mode_type':
-                partner.customer_payment_mode_type.id or False,
-                })
+            res['value']['payment_mode_id'] = \
+                partner.customer_payment_mode.id or False,
         else:
-            res['value'].update({
-                'partner_bank_receivable': False,
-                'payment_mode_type': False,
-                })
+            res['value']['payment_mode_id'] = False
         return res
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -60,7 +48,7 @@ class sale_order(orm.Model):
         invoice_vals = super(sale_order, self)._prepare_invoice(
             cr, uid, order, lines, context=context)
         invoice_vals.update({
-            'partner_bank_id': order.partner_bank_receivable.id or False,
-            'payment_mode_type': order.payment_mode_type.id or False,
+            'payment_mode_id': order.payment_mode_id.id or False,
+            'partner_bank_id': order.payment_mode_id.bank_id.id or False,
             })
         return invoice_vals

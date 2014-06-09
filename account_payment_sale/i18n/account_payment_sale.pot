@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-24 23:07+0000\n"
-"PO-Revision-Date: 2014-02-24 23:07+0000\n"
+"POT-Creation-Date: 2014-06-09 23:24+0000\n"
+"PO-Revision-Date: 2014-06-09 23:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_payment_sale
-#: field:sale.order,payment_mode_type:0
-msgid "Payment Type"
+#: field:sale.order,payment_mode_id:0
+msgid "Payment Mode"
 msgstr ""
 
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
-msgstr ""
-
-#. module: account_payment_sale
-#: help:sale.order,partner_bank_receivable:0
-msgid "Select the bank account of your company on which the customer should pay. This field is copied from the partner and will be copied to the customer invoice."
-msgstr ""
-
-#. module: account_payment_sale
-#: field:sale.order,partner_bank_receivable:0
-msgid "Receivable Bank Account"
 msgstr ""
 

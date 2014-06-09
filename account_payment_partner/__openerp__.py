@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Partner Payment module for OpenERP
+#    Account Payment Partner module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,25 +22,23 @@
 
 
 {
-    'name': 'Account Partner Payment',
+    'name': 'Account Payment Partner',
     'version': '0.1',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': 'Adds payment type and receivable bank account on partners',
+    'summary': 'Adds payment mode on partners and invoices',
     'description': """
-Account Partner Payment
+Account Payment Partner
 =======================
 
 This module adds severals fields :
 
-* the *Supplier Payment Type* and *Customer Payment Type* on Partners,
+* the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
 
-* the *Receivable Bank Account* on Partners,
-
-* the *Payment Type* on Invoices.
+* the *Payment Mode* on Invoices.
 
 On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will
-be filtered per Payment Type.
+be filtered per Payment Mode.
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
 for any help or question about this module.
@@ -52,6 +50,6 @@ for any help or question about this module.
         'view/partner.xml',
         'view/account_invoice.xml',
     ],
-    'demo': [],
+    'demo': ['demo/partner_demo.xml'],
     'active': False,
 }

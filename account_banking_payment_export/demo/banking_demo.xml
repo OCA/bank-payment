@@ -21,6 +21,15 @@
     <field name="country" ref="base.fr"/>
 </record>
 
+<record id="bank_societe_generale" model="res.bank">
+    <field name="name">Société Générale</field>
+    <field name="bic">SOGEFRPPXXX</field>
+    <field name="street">1 avenue du Roi Fabien 1er</field>
+    <field name="zip">75008</field>
+    <field name="city">Paris</field>
+    <field name="country" ref="base.fr"/>
+</record>
+
 <record id="main_company_iban" model="res.partner.bank">
     <field name="acc_number">FR76 4242 4242 4242 4242 4242 424</field>
     <field name="state">iban</field>
@@ -28,6 +37,15 @@
     <field name="partner_id" ref="base.main_partner" />
     <field name="bank_name">La Banque Postale</field>
     <field name="bank_bic">PSSTFRPPXXX</field>
+</record>
+
+<record id="main_company_iban2" model="res.partner.bank">
+    <field name="acc_number">FR20 1242 1242 1242 1242 1242 124</field>
+    <field name="state">iban</field>
+    <field name="bank" ref="bank_societe_generale"/>
+    <field name="partner_id" ref="base.main_partner" />
+    <field name="bank_name">Société Générale</field>
+    <field name="bank_bic">SOGEFRPPXXX</field>
 </record>
 
 <record id="res_partner_12_iban" model="res.partner.bank">
@@ -38,6 +56,23 @@
     <field name="bank_name">Fortuneo Banque</field>
     <field name="bank_bic">FTNOFRP1XXX</field>
 </record>
+
+<record id="payment_mode_2" model="payment.mode">
+    <field name="name">Credit Trf Banque Postale</field>
+    <field name="journal" ref="account.bank_journal"/>
+    <field name="bank_id" ref="main_company_iban"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
+</record>
+
+<record id="payment_mode_3" model="payment.mode">
+    <field name="name">Credit Trf Société Générale</field>
+    <field name="journal" ref="account.bank_journal"/>
+    <field name="bank_id" ref="main_company_iban2"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
+</record>
+
 
 </data>
 </openerp>

@@ -29,14 +29,14 @@ class stock_picking(orm.Model):
     def _prepare_invoice(
             self, cr, uid, picking, partner, inv_type, journal_id,
             context=None):
-        """Copy bank partner and payment type from sale order to invoice"""
+        """Copy payment mode from sale order to invoice"""
         invoice_vals = super(stock_picking, self)._prepare_invoice(
             cr, uid, picking, partner, inv_type, journal_id, context=context)
         if picking.sale_id:
             invoice_vals.update({
                 'partner_bank_id':
-                picking.sale_id.partner_bank_receivable.id or False,
-                'payment_mode_type':
-                picking.sale_id.payment_mode_type.id or False,
+                picking.sale_id.payment_mode_id.bank_id.id or False,
+                'payment_mode_id':
+                picking.sale_id.payment_mode_id.id or False,
                 })
         return invoice_vals
