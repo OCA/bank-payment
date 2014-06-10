@@ -62,7 +62,8 @@ class IngMT940Parser(MT940, parser):
             return
         super(IngMT940Parser, self).handle_tag_86(cr, data)
         codewords = ['RTRN', 'BENM', 'ORDP', 'CSID', 'BUSP', 'MARF', 'EREF',
-                     'PREF', 'REMI', 'ID', 'PURP', 'ULTB', 'ULTD']
+                     'PREF', 'REMI', 'ID', 'PURP', 'ULTB', 'ULTD',
+                     'CREF', 'IREF', 'CNTP', 'ULTC', 'EXCH', 'CHGS']
         subfields = {}
         current_codeword = None
         for word in data.split('/'):
@@ -74,6 +75,12 @@ class IngMT940Parser(MT940, parser):
                 continue
             if current_codeword in subfields:
                 subfields[current_codeword].append(word)
+
+        if 'CNTP' in subfields:
+            self.current_transaction.remote_account = subfields['CNTP'][0]
+            self.current_transaction.remote_bank_bic = subfields['CNTP'][1]
+            self.current_transaction.remote_owner = subfields['CNTP'][2]
+            self.current_transaction.remote_owner_city = subfields['CNTP'][3]
 
         if 'BENM' in subfields:
             self.current_transaction.remote_account = subfields['BENM'][0]
