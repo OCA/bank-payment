@@ -314,6 +314,16 @@ class sdd_mandate(orm.Model):
             cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
         return True
 
+    def back2draft(self, cr, uid, ids, context=None):
+        to_draft_ids = []
+        for mandate in self.browse(cr, uid, ids, context=context):
+            assert mandate.state == 'cancel',\
+                'Mandate should be in cancel state'
+            to_draft_ids.append(mandate.id)
+        self.write(
+            cr, uid, to_draft_ids, {'state': 'draft'}, context=context)
+        return True
+
     def _sdd_mandate_set_state_to_expired(self, cr, uid, context=None):
         logger.info('Searching for SDD Mandates that must be set to Expired')
         expire_limit_date = datetime.today() + \
