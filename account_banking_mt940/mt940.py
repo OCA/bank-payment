@@ -75,7 +75,7 @@ class MT940(object):
 
     def parse(self, cr, data):
         'implements account_banking.parsers.models.parser.parse()'
-        iterator = data.split('\r\n').__iter__()
+        iterator = data.replace('\r\n', '\n').split('\n').__iter__()
         line = None
         record_line = ''
         try:
