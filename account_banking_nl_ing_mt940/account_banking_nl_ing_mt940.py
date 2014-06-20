@@ -36,7 +36,7 @@ class IngMT940Parser(MT940, parser):
     code = 'INT_MT940_STRUC'
 
     tag_61_regex = re.compile(
-        '^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>\d{3})'
+        '^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
         '(?P<reference>\w{1,16})')
 
     def create_transaction(self, cr):
@@ -62,7 +62,8 @@ class IngMT940Parser(MT940, parser):
             return
         super(IngMT940Parser, self).handle_tag_86(cr, data)
         codewords = ['RTRN', 'BENM', 'ORDP', 'CSID', 'BUSP', 'MARF', 'EREF',
-                     'PREF', 'REMI', 'ID', 'PURP', 'ULTB', 'ULTD']
+                     'PREF', 'REMI', 'ID', 'PURP', 'ULTB', 'ULTD',
+                     'CREF', 'IREF', 'CNTP', 'ULTC', 'EXCH', 'CHGS']
         subfields = {}
         current_codeword = None
         for word in data.split('/'):
@@ -72,7 +73,14 @@ class IngMT940Parser(MT940, parser):
                 current_codeword = word
                 subfields[current_codeword] = []
                 continue
-            subfields[current_codeword].append(word)
+            if current_codeword in subfields:
+                subfields[current_codeword].append(word)
+
+        if 'CNTP' in subfields:
+            self.current_transaction.remote_account = subfields['CNTP'][0]
+            self.current_transaction.remote_bank_bic = subfields['CNTP'][1]
+            self.current_transaction.remote_owner = subfields['CNTP'][2]
+            self.current_transaction.remote_owner_city = subfields['CNTP'][3]
 
         if 'BENM' in subfields:
             self.current_transaction.remote_account = subfields['BENM'][0]
