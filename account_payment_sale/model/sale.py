@@ -49,6 +49,7 @@ class sale_order(orm.Model):
             cr, uid, order, lines, context=context)
         invoice_vals.update({
             'payment_mode_id': order.payment_mode_id.id or False,
-            'partner_bank_id': order.payment_mode_id.bank_id.id or False,
+            'partner_bank_id': order.payment_mode_id and
+            order.payment_mode_id.bank_id.id or False,
             })
         return invoice_vals

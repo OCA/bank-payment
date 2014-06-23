@@ -48,6 +48,7 @@ class account_invoice(orm.Model):
                     'payment_mode_id':
                     partner.customer_payment_mode.id or False,
                     'partner_bank_id':
+                    partner.customer_payment_mode and
                     partner.customer_payment_mode.bank_id.id or False,
                     })
         else:

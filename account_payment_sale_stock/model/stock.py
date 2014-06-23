@@ -35,6 +35,7 @@ class stock_picking(orm.Model):
         if picking.sale_id:
             invoice_vals.update({
                 'partner_bank_id':
+                picking.sale_id.payment_mode_id and
                 picking.sale_id.payment_mode_id.bank_id.id or False,
                 'payment_mode_id':
                 picking.sale_id.payment_mode_id.id or False,
