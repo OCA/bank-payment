@@ -13,8 +13,11 @@
     <field name="arch" type="xml">
         <form string="SEPA Direct Debit Mandate" version="7.0">
             <header>
-                <button name="validate" type="object" string="Validate" states="draft"/>
+                <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"/>
                 <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
+                <button name="back2draft" type="object" string="Back to Draft"
+                    states="cancel" groups="account.group_account_manager"
+                    confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue ?"/>
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>

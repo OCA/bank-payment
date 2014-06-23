@@ -4,7 +4,7 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 Therp BV (<http://therp.nl>).
 #              (C) 2011 Smile (<http://smile.fr>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -26,7 +26,7 @@
 
 {
     'name': 'Account Banking',
-    'version': '0.2',
+    'version': '0.4',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',

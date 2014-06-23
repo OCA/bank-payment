@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-21 06:57+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #. module: account_banking
 #: field:account.bank.statement.line,reconcile_id:0
@@ -293,7 +293,7 @@ msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,execution_date:0
-msgid "execution_date"
+msgid "Posted date"
 msgstr ""
 
 #. module: account_banking
@@ -801,8 +801,8 @@ msgid "Payment Difference"
 msgstr ""
 
 #. module: account_banking
-#: field:banking.import.transaction,effective_date:0
-msgid "effective_date"
+#: field:banking.import.transaction,value_date:0
+msgid "Value date"
 msgstr ""
 
 #. module: account_banking

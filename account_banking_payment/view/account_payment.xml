@@ -17,13 +17,6 @@
                             'invisible':[('state','!=','draft')]
                         }</attribute>
                     </xpath>
-                    <!-- Communication only used for 'structured' communication -->
-                    <xpath expr="//field[@name='line_ids']/form//field[@name='communication']"
-                           position="attributes">
-                        <attribute name="attrs">{
-                        'readonly': [('state', '=', 'normal')]
-                        }</attribute>
-                    </xpath>
                 </data>
             </field>
         </record>

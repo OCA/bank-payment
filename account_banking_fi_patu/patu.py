@@ -39,7 +39,7 @@ class transaction(models.mem_bank_transaction):
             "remote_currency": "currency",
             "transferred_amount": "amount",
             "execution_date": "recorddate",
-            "effective_date": "paymentdate",
+            "value_date": "paymentdate",
             "transfer_type": "eventtype",
             "reference": "refnr",
             "eventcode": "eventcode",

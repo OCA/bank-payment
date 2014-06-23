@@ -67,9 +67,9 @@ class transaction_message(object):
         self.transferred_amount = float(
             self.transferred_amount.replace(',', '.'))
         self.execution_date = str2date(self.date, '%Y%m%d')
-        self.effective_date = str2date(self.date, '%Y%m%d')
+        self.value_date = str2date(self.date, '%Y%m%d')
         # Set statement_id based on week number
-        self.statement_id = self.effective_date.strftime('%Yw%W')
+        self.statement_id = self.execution_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
 
 class transaction(models.mem_bank_transaction):
@@ -77,7 +77,7 @@ class transaction(models.mem_bank_transaction):
     Implementation of transaction communication class for account_banking.
     '''
     attrnames = ['local_account', 'local_currency', 'transferred_amount',
-                 'blob', 'execution_date', 'effective_date', 'id',
+                 'blob', 'execution_date', 'value_date', 'id',
                 ]
 
     type_map = {
@@ -91,6 +91,7 @@ class transaction(models.mem_bank_transaction):
         'UNKN': bt.ORDER, # everything else
         'SEPA': bt.ORDER,
         'PAYB': bt.PAYMENT_BATCH,
+        'RETR': bt.STORNO,
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -257,8 +258,11 @@ class transaction(models.mem_bank_transaction):
         if self.transfer_type == 'SEPA':
             sepa_dict = get_sepa_dict(''.join(fields))
             sepa_type = sepa_dict.get('TRTP') or ''
-            if sepa_type.upper() != 'SEPA OVERBOEKING':
-                raise ValueError, _('Sepa transaction type %s not handled yet') % sepa_type
+            self.transfer_type = {
+                'SEPA BATCH': 'PAYB',
+                'SEPA BATCH SALARIS': 'PAYB',
+                'SEPA TERUGBOEKING': 'RETR',
+                }.get(sepa_type.upper(), 'SEPA')
             self.remote_account = sepa_dict.get('IBAN',False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)
@@ -369,7 +373,7 @@ each file covers a period of two weeks.
             msg = transaction_message(line, subno)
             if not statement_id:
                 statement_id = self.get_unique_statement_id(
-                    cr, msg.effective_date.strftime('%Yw%W'))
+                    cr, msg.execution_date.strftime('%Yw%W'))
             msg.statement_id = statement_id
             if stmnt:
                 stmnt.import_transaction(msg)

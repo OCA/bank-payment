@@ -182,7 +182,7 @@ CAMT Format parser
         """
         entry_details = {
             'execution_date': self.xpath(node, './ns:BookgDt/ns:Dt')[0].text,
-            'effective_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
+            'value_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
             'transfer_type': self.get_transfer_type(node),
             'transferred_amount': self.parse_amount(node)
             }
@@ -253,12 +253,14 @@ CAMT Format parser
         """
         Sanity check the document's namespace
         """
-        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.'):
+        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.')\
+           and not self.ns.startswith('{ISO:camt.'):
             raise except_orm(
                 "Error",
                 "This does not seem to be a CAMT format bank statement.")
 
-        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.053.'):
+        if not self.ns.startswith('{urn:iso:std:iso:20022:tech:xsd:camt.053.')\
+           and not self.ns.startswith('{ISO:camt.053'):
             raise except_orm(
                 "Error",
                 "Only CAMT.053 is supported at the moment.")
@@ -274,5 +276,7 @@ CAMT Format parser
         self.assert_tag(root[0][0], 'GrpHdr')
         statements = []
         for node in root[0][1:]:
-            statements.append(self.parse_Stmt(cr, node))
+            statement = self.parse_Stmt(cr, node)
+            if len(statement.transactions):
+                statements.append(statement)
         return statements

@@ -1,0 +1,204 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_banking_fr_lcr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-20 23:15+0000\n"
+"PO-Revision-Date: 2014-03-27 08:45+0000\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
+
+#. module: account_banking_fr_lcr
+#: selection:banking.export.lcr.wizard,state:0
+msgid "Create"
+msgstr "Créer"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,nb_transactions:0
+#: field:banking.export.lcr.wizard,nb_transactions:0
+msgid "Number of Transactions"
+msgstr "Nombre de transactions"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,filename:0
+#: field:banking.export.lcr.wizard,filename:0
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,state:0
+#: field:banking.export.lcr.wizard,state:0
+msgid "State"
+msgstr "État"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr:0
+msgid "LCR File"
+msgstr "Fichier LCR"
+
+#. module: account_banking_fr_lcr
+#: selection:banking.export.lcr,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: account_banking_fr_lcr
+#: selection:banking.export.lcr,state:0
+msgid "Sent"
+msgstr "Envoyé"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:91
+#, python-format
+msgid "The field '%s' is empty or 0. It should have a non-null value."
+msgstr ""
+"Le champ '%s' est vide ou égal à 0. Il devrait avoir une valeur non nulle."
+
+#. module: account_banking_fr_lcr
+#: selection:banking.export.lcr.wizard,state:0
+msgid "Finish"
+msgstr "Finir"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:124
+#, python-format
+msgid ""
+"For the bank account '%s' of partner '%s', the bank account type is 'RIB and "
+"optional IBAN' and the IBAN field is empty, but, starting from 2014, we "
+"consider that the IBAN is required. Please write the IBAN on this bank "
+"account."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr.wizard:0
+msgid "LCR File Generation"
+msgstr "Génération du fichier LCR"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,total_amount:0
+#: field:banking.export.lcr.wizard,total_amount:0
+msgid "Total Amount"
+msgstr "Montant total"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:296
+#, python-format
+msgid ""
+"The currency of payment line '%s' is '%s'. To be included in a French LCR, "
+"the currency must be EUR."
+msgstr ""
+"La monnaie de la ligne de paiement '%s' est '%s'. Pour être intégrée dans "
+"une LCR, la monnaie doit être EUR."
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_banking_export_lcr_wizard
+msgid "Export French LCR File"
+msgstr "Export du fichier LCR"
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_banking_export_lcr
+msgid "French LCR"
+msgstr "LCR"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr.wizard:0
+msgid "Validate"
+msgstr "Valider"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr.wizard:0
+msgid "Generate"
+msgstr "Générer"
+
+#. module: account_banking_fr_lcr
+#: model:ir.actions.act_window,name:account_banking_fr_lcr.act_banking_export_lcr_payment_order
+msgid "Generated LCR Files"
+msgstr "Fichiers LCR générés"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr.wizard,file_id:0
+msgid "LCR CFONB File"
+msgstr "Fichier CFONB LCR"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:144
+#, python-format
+msgid ""
+"LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
+"a French IBAN."
+msgstr ""
+"Les LCR ne fonctionnent qu'avec des comptes bancaires français. L'IBAN '%s' "
+"du partenaire '%s' n'est pas un IBAN français."
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:90
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:104
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:123
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:134
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:143
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:295
+#, python-format
+msgid "Error:"
+msgstr "Erreur :"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr:0
+#: model:ir.actions.act_window,name:account_banking_fr_lcr.banking_export_lcr_action
+#: model:ir.ui.menu,name:account_banking_fr_lcr.banking_export_lcr_menu
+msgid "LCR Files"
+msgstr "Fichiers LCR"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,file:0
+msgid "CFONB File"
+msgstr "Fichier CFONB"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr:0
+#: field:banking.export.lcr,payment_order_ids:0
+#: field:banking.export.lcr.wizard,payment_order_ids:0
+msgid "Payment Orders"
+msgstr "Ordre de paiement"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr:0
+msgid "General Information"
+msgstr "Informations générales"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:135
+#, python-format
+msgid ""
+"For the bank account '%s' of partner '%s', the Bank Account Type should be "
+"'IBAN'."
+msgstr ""
+"Pour le compte bancaire '%s' du partenaire '%s', le type de compte bancaire "
+"devrait être 'IBAN'."
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr.wizard,file:0
+msgid "File"
+msgstr "Fichier"
+
+#. module: account_banking_fr_lcr
+#: view:banking.export.lcr.wizard:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:105
+#, python-format
+msgid "Cannot convert the field '%s' to ASCII"
+msgstr "Impossible de convertir le champ '%s' en ASCII"
+
+#. module: account_banking_fr_lcr
+#: field:banking.export.lcr,create_date:0
+msgid "Generation Date"
+msgstr "Date de génération"

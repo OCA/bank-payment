@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-25 15:52+0000\n"
-"PO-Revision-Date: 2013-12-03 11:06+0000\n"
+"PO-Revision-Date: 2014-06-18 13:58+0000\n"
 "Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-21 06:57+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-06-19 06:39+0000\n"
+"X-Generator: Launchpad (build 17048)\n"
 
 #. module: account_banking
 #: field:account.bank.statement.line,reconcile_id:0
@@ -301,8 +301,8 @@ msgstr "Transactie gegevens"
 
 #. module: account_banking
 #: field:banking.import.transaction,execution_date:0
-msgid "execution_date"
-msgstr "execution_date"
+msgid "Posted date"
+msgstr "Boekdatum"
 
 #. module: account_banking
 #: field:banking.import.line,account_id:0
@@ -822,9 +822,9 @@ msgid "Payment Difference"
 msgstr "Betaalverschil"
 
 #. module: account_banking
-#: field:banking.import.transaction,effective_date:0
-msgid "effective_date"
-msgstr "effective_date"
+#: field:banking.import.transaction,value_date:0
+msgid "Value date"
+msgstr "Valutadatum"
 
 #. module: account_banking
 #: view:account.bank.statement.line:0
@@ -970,7 +970,7 @@ msgstr "Herzien"
 #: selection:banking.import.transaction,payment_option:0
 #: selection:banking.transaction.wizard,payment_option:0
 msgid "Reconcile Payment Balance"
-msgstr "Afletteren betaal saldo"
+msgstr "Afschrijven"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:845
@@ -1135,7 +1135,7 @@ msgstr "duplicaat"
 #. module: account_banking
 #: field:banking.link_partner,name:0
 msgid "Create partner with name"
-msgstr "Create partner with name"
+msgstr "Aanmaken relatie met de naam"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -1305,8 +1305,8 @@ msgid ""
 "matches or select a match manually below."
 msgstr ""
 "Meerdere overeenkomende boekingen zijn gevonden voor deze mutatie. U moet "
-"één van deze boekingen uitkiezen, of de mutatie handmatig matchen verderop "
-"in dit formulier."
+"één van deze boekingen uitkiezen, of de mutatie handmatig handmatig te "
+"matchen door te kiezen voor handmatige match."
 
 #. module: account_banking
 #: field:banking.transaction.wizard,writeoff_analytic_id:0
@@ -1742,3 +1742,9 @@ msgstr " (splits)"
 #: field:banking.import.transaction,remote_bank_chips_uid:0
 msgid "remote_bank_chips_uid"
 msgstr "remote_bank_chips_uid"
+
+#~ msgid "execution_date"
+#~ msgstr "execution_date"
+
+#~ msgid "effective_date"
+#~ msgstr "effective_date"

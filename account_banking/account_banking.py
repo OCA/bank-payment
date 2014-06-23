@@ -298,17 +298,24 @@ class account_bank_statement(orm.Model):
     def _check_company_id(self, cr, uid, ids, context=None):
         """
         Adapt this constraint method from the account module to reflect the
-        move of period_id to the statement line
+        move of period_id to the statement line: also check the periods of the
+        lines. Update the statement period if it does not have one yet.
+        Don't call super, because its check is integrated below and
+        it will break if a statement does not have any lines yet and
+        therefore may not have a period.
         """
         for statement in self.browse(cr, uid, ids, context=context):
+            if (statement.period_id and
+                    statement.company_id != statement.period_id.company_id):
+                return False
             for line in statement.line_ids:
                 if (line.period_id and
-                    statement.company_id.id != line.period_id.company_id.id):
+                        statement.company_id != line.period_id.company_id):
                     return False
                 if not statement.period_id:
                     statement.write({'period_id': line.period_id.id})
-        return super(account_bank_statement, self)._check_company_id(
-            cr, uid, ids, context=context)
+                    statement.refresh()
+        return True
     
     # Redefine the constraint, or it still refer to the original method
     _constraints = [
@@ -317,13 +324,24 @@ class account_bank_statement(orm.Model):
          ['journal_id','period_id']),
         ]
 
-    def _get_period(self, cr, uid, date, context=None):
-        '''
-        Find matching period for date, not meant for _defaults.
-        '''
-        period_obj = self.pool.get('account.period')
-        periods = period_obj.find(cr, uid, dt=date, context=context)
-        return periods and periods[0] or False
+    def _get_period(self, cr, uid, date=False, context=None):
+        """
+        Used in statement line's _defaults, so it is always triggered
+        on installation or module upgrade even if there are no records
+        without a value. For that reason, we need
+        to be tolerant and allow for the situation in which no period
+        exists for the current date (i.e. when no date is specified).
+
+        Cannot be used directly as a defaults method due to lp:1296229
+        """
+        local_ctx = dict(context or {}, account_period_prefer_normal=True)
+        try:
+            return self.pool.get('account.period').find(
+                cr, uid, dt=date, context=local_ctx)[0]
+        except except_osv:
+            if date:
+                raise
+        return False
 
     def _prepare_move(
             self, cr, uid, st_line, st_line_number, context=None):
@@ -368,7 +386,7 @@ class account_bank_statement(orm.Model):
         # Take period from statement line and write to context
         # this will be picked up by the _prepare_move* methods
         period_id = self._get_period(
-            cr, uid, st_line.date, context=context)
+            cr, uid, date=st_line.date, context=context)
         localctx = context.copy()
         localctx['period_id'] = period_id
 
@@ -424,7 +442,8 @@ class account_bank_statement(orm.Model):
             context=context)
         for st in self.browse(cr, uid, noname_ids, context=context):
             if st.journal_id.sequence_id:
-                period_id = self._get_period(cr, uid, st.date)
+                period_id = self._get_period(
+                    cr, uid, date=st.date, context=context)
                 year = self.pool.get('account.period').browse(
                     cr, uid, period_id, context=context).fiscalyear_id.id
                 c = {'fiscalyear_id': year}
@@ -436,8 +455,6 @@ class account_bank_statement(orm.Model):
         return super(account_bank_statement, self).button_confirm_bank(
             cr, uid, ids, context)
 
-account_bank_statement()
-
 
 class account_voucher(orm.Model):
     _inherit = 'account.voucher'
@@ -446,11 +463,10 @@ class account_voucher(orm.Model):
         if context is None:
             context = {}
         if not context.get('period_id') and context.get('move_line_ids'):
-            return self.pool.get('account.move.line').browse(
-                cr, uid , context.get('move_line_ids'), context=context)[0].period_id.id
+            move_line = self.pool.get('account.move.line').browse(
+                cr, uid , context.get('move_line_ids')[0], context=context)
+            return move_line.period_id.id
         return super(account_voucher, self)._get_period(cr, uid, context)
-
-account_voucher()
 
 
 class account_bank_statement_line(orm.Model):
@@ -464,28 +480,15 @@ class account_bank_statement_line(orm.Model):
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
 
-    def _get_period(self, cr, uid, context=None):
-        """
-        Get a non-opening period for today or a date specified in
-        the context.
+    def _get_period(self, cr, uid, date=False, context=None):
+        return self.pool['account.bank.statement']._get_period(
+            cr, uid, date=date, context=context)
 
-        Used in this model's _defaults, so it is always triggered
-        on installation or module upgrade. For that reason, we need
-        to be tolerant and allow for the situation in which no period
-        exists for the current date (i.e. when no date is specified).
+    def _get_period_context(self, cr, uid, context=None):
         """
-        if context is None:
-            context = {}
-        date = context.get('date', False)
-        local_ctx = dict(context)
-        local_ctx['account_period_prefer_normal'] = True
-        try:
-            return self.pool.get('account.period').find(
-                cr, uid, dt=date, context=local_ctx)[0]
-        except except_osv:
-            if date:
-                raise
-        return False
+        Workaround for lp:1296229, context is passed positionally
+        """
+        return self._get_period(cr, uid, context=context)
 
     def _get_currency(self, cr, uid, context=None):
         '''
@@ -549,7 +552,7 @@ class account_bank_statement_line(orm.Model):
     }
 
     _defaults = {
-        'period_id': _get_period,
+        'period_id': _get_period_context,
         'currency': _get_currency,
     }
 

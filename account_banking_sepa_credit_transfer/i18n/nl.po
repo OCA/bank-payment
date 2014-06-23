@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-23 22:49+0000\n"
-"PO-Revision-Date: 2014-02-01 07:47+0000\n"
+"PO-Revision-Date: 2014-04-24 10:34+0000\n"
 "Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-21 06:57+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
@@ -59,9 +59,9 @@ msgstr ""
 "afgesproken regels in het service level en/of schema (Voor SEPA berichten "
 "deze gebruiken). Gedeeld : De transactiekosten aan de debiteur zijde zijn "
 "voor de schuldeiser, transactiekosten aan de crediteur kant zijn voor de "
-"schuldenaar. Rekening van de schuldenaar: Alle transactie kosten zijn voor "
-"rekening van de schuldenaar. Rekening van de schuldeiser: Alle transactie "
-"kosten zijn voor rekening van de schuldeiser."
+"schuldenaar. Op rekening van de schuldenaar: Alle transactie kosten zijn "
+"voor rekening van de schuldenaar. Op rekening van de schuldeiser: Alle "
+"transactie kosten zijn voor rekening van de schuldeiser."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
@@ -110,7 +110,7 @@ msgstr "Volg service level"
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "Rekening van schuldeiser"
+msgstr "Op rekening van schuldeiser"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
@@ -126,7 +126,7 @@ msgstr "Genereer"
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "Rekening van schuldenaar"
+msgstr "Op rekening van schuldenaar"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:128
@@ -186,9 +186,9 @@ msgstr ""
 "afgesproken regels in het service level en/of schema (Voor SEPA berichten "
 "deze gebruiken). Gedeeld : De transactiekosten aan de crediteur zijde zijn "
 "voor de schuldenaar, transactiekosten aan de debiteur kant zijn voor de "
-"schuldeiser. Rekening van de schuldenaar: Alle transactie kosten zijn voor "
-"rekening van de schuldenaar. Rekening van de schuldeiser: Alle transactie "
-"kosten zijn voor rekening van de schuldeiser."
+"schuldeiser. Op rekening van de schuldenaar: Alle transactie kosten zijn "
+"voor rekening van de schuldenaar. Op rekening van de schuldeiser: Alle "
+"transactie kosten zijn voor rekening van de schuldeiser."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:129

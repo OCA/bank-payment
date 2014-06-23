@@ -191,8 +191,7 @@ class sdd_mandate(orm.Model):
         'company_id': lambda self, cr, uid, context:
         self.pool['res.company']._company_default_get(
             cr, uid, 'sdd.mandate', context=context),
-        'unique_mandate_reference': lambda self, cr, uid, ctx:
-        self.pool['ir.sequence'].get(cr, uid, 'sdd.mandate.reference'),
+        'unique_mandate_reference': '/',
         'state': 'draft',
         'sepa_migrated': True,
     }
@@ -202,6 +201,13 @@ class sdd_mandate(orm.Model):
         'unique(unique_mandate_reference, company_id)',
         'A Mandate with the same reference already exists for this company !'
         )]
+
+    def create(self, cr, uid, vals, context=None):
+        if vals.get('unique_mandate_reference', '/') == '/':
+            vals['unique_mandate_reference'] = \
+                self.pool['ir.sequence'].next_by_code(
+                    cr, uid, 'sdd.mandate.reference', context=context)
+        return super(sdd_mandate, self).create(cr, uid, vals, context=context)
 
     def _check_sdd_mandate(self, cr, uid, ids):
         for mandate in self.browse(cr, uid, ids):
@@ -312,6 +318,16 @@ class sdd_mandate(orm.Model):
             to_cancel_ids.append(mandate.id)
         self.write(
             cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
+        return True
+
+    def back2draft(self, cr, uid, ids, context=None):
+        to_draft_ids = []
+        for mandate in self.browse(cr, uid, ids, context=context):
+            assert mandate.state == 'cancel',\
+                'Mandate should be in cancel state'
+            to_draft_ids.append(mandate.id)
+        self.write(
+            cr, uid, to_draft_ids, {'state': 'draft'}, context=context)
         return True
 
     def _sdd_mandate_set_state_to_expired(self, cr, uid, context=None):
