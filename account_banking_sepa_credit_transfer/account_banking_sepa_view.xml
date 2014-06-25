@@ -11,28 +11,24 @@
     <field name="name">account.banking.export.sepa.form</field>
     <field name="model">banking.export.sepa</field>
     <field name="arch" type="xml">
-        <form string="SEPA Credit Transfer">
+        <form string="SEPA Credit Transfer" version="7.0">
+            <header>
+                <field name="state" widget="statusbar"/>
+            </header>
             <notebook>
                 <page string="General Information">
-                    <field name="total_amount" />
-                    <field name="nb_transactions" />
-                    <field name="batch_booking" />
-                    <field name="charge_bearer"/>
-                    <field name="create_date" />
-                    <newline />
-                    <field name="file" filename="filename"/>
-                    <field name="filename" invisible="True"/>
+                    <group name="main">
+                        <field name="total_amount" />
+                        <field name="nb_transactions" />
+                        <field name="batch_booking" />
+                        <field name="charge_bearer"/>
+                        <field name="create_date" />
+                        <field name="file" filename="filename"/>
+                        <field name="filename" invisible="True"/>
+                    </group>
                 </page>
                 <page string="Payment Orders">
-                    <field name="payment_order_ids" colspan="4" nolabel="1">
-                        <tree colors="blue:state in ('draft');gray:state in ('cancel','done');black:state in ('open')" string="Payment Orders">
-                            <field name="reference"/>
-                            <field name="date_created"/>
-                            <field name="date_done"/>
-                            <field name="total"/>
-                            <field name="state"/>
-                        </tree>
-                    </field>
+                    <field name="payment_order_ids" nolabel="1"/>
                 </page>
             </notebook>
         </form>
@@ -48,6 +44,7 @@
             <field name="filename"/>
             <field name="create_date"/>
             <field name="nb_transactions"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>

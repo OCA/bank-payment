@@ -11,6 +11,7 @@
             <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
             <field name="arch" type="xml">
                 <field name="company_id" position="after">
+                    <field name="active"/>
                     <field name="type"/>
                 </field>
             </field>

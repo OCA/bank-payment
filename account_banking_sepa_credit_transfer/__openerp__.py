@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
