@@ -1,0 +1,28 @@
+# Dutch translation for banking-addons
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the banking-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: banking-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-06-09 23:24+0000\n"
+"PO-Revision-Date: 2014-06-26 14:13+0000\n"
+"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-06-27 07:13+0000\n"
+"X-Generator: Launchpad (build 17077)\n"
+
+#. module: account_payment_sale
+#: field:sale.order,payment_mode_id:0
+msgid "Payment Mode"
+msgstr "Betaalwijze"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Verkooporder"
