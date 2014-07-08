@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from openerp.osv import orm, fields
-import netsvc
-from tools.translate import _
 
 class payment_order(orm.Model):
     _inherit = 'payment.order'

@@ -32,19 +32,20 @@
                     <field name="reference" position="after">
                         <field name="payment_order_type"/>
                     </field>
-                    <xpath expr="//button[@string='Select Invoices to Pay']"
+                    <xpath expr="//button[@string='Invoices']"
                            position="attributes">
-                        <attribute name="attrs">
-                            {'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'payment')]}
-                        </attribute>
+                        <attribute name="attrs">{'invisible':['|',('state','!=','draft'),
+                                                 ('payment_order_type', '!=', 'payment')]}</attribute>
                     </xpath>
-                    <xpath expr="//button[@string='Select Invoices to Pay']"
+                    <xpath expr="//button[@string='Invoices']"
                            position="after">
-                        <button colspan="2" name="%(account_payment.action_create_payment_order)s"
-                                string="Select Invoices to Collect" type="action" 
-                                attrs="{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'debit')]}"
-                                icon="gtk-find"
-                                />
+                        <div class=" oe_right oe_button_box">
+                            <button class="oe_inline oe_stat_button oe_right" name="%(account_payment.action_create_payment_order)s"
+                                    string="Invoices" type="action" Help="Select Invoices to Collect"
+                                    attrs="{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', 'debit')]}"
+                                    icon="fa-pencil-square-o" widget="statinfo"
+                                    />
+                        </div>
                     </xpath>
                     <field name="mode" position="attributes">
                         <attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>

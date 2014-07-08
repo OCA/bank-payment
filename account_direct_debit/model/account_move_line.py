@@ -26,7 +26,7 @@ from openerp.osv import fields, orm
 class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
-    def amount_to_receive(self, cr, uid, ids, name, arg={}, context=None):
+    def _amount_to_receive(self, cr, uid, ids, field_name, arg, context=None):
         """
         Return the amount still to receive regarding all the debit orders
         (excepting canceled orders).
@@ -118,7 +118,7 @@ class account_move_line(orm.Model):
 
     _columns = {
         'amount_to_receive': fields.function(
-            amount_to_receive, method=True,
+            _amount_to_receive, method=True,
             type='float', string='Amount to receive',
             fnct_search=_to_receive_search),
         }
