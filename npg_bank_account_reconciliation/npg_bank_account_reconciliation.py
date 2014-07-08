@@ -120,7 +120,9 @@ class bank_acc_rec_statement(osv.osv):
             statement_line_ids = []
             for statement_line in statement_lines:
                 statement_line_ids.append(statement_line.id)
-                line_ids.append(statement_line.move_line_id.id) # Find move lines related to statement lines
+                if statement_line.move_line_id.id:
+                    line_ids.append(statement_line.move_line_id.id) # Find move lines related to statement lines
+
 
             # Reset 'Cleared' and 'Bank Acc Rec Statement ID' to False
             account_move_line_obj.write(cr, uid, line_ids, {'cleared_bank_account': False,
