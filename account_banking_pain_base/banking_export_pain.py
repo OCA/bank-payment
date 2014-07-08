@@ -210,6 +210,8 @@ class banking_export_pain(orm.AbstractModel):
             gen_args=gen_args, context=context)
         payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
         payment_method_2_2.text = gen_args['payment_method']
+        nb_of_transactions_2_4 = False
+        control_sum_2_5 = False
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
             batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
             batch_booking_2_3.text = \
