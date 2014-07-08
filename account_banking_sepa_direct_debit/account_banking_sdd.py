@@ -381,6 +381,8 @@ class payment_line(orm.Model):
             vals = {}
         partner_bank_id = vals.get('bank_id')
         move_line_id = vals.get('move_line_id')
+        if context.get('search_payment_order_type') == 'debit':
+            context['default_payment_order_type'] = 'debit'
         if (context.get('default_payment_order_type') == 'debit'
                 and 'sdd_mandate_id' not in vals):
             if move_line_id:

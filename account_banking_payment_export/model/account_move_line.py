@@ -35,7 +35,7 @@ from operator import itemgetter
 class account_move_line(orm.Model):
     _inherit = 'account.move.line'
 
-    def amount_to_pay(self, cr, uid, ids, name, arg=None, context=None):
+    def _amount_to_pay(self, cr, uid, ids, name, arg=None, context=None):
         """ Return the amount still to pay regarding all the payemnt orders
         (excepting cancelled orders)"""
         if not ids:
@@ -93,6 +93,6 @@ class account_move_line(orm.Model):
         return [('id', 'in', map(lambda x:x[0], res))]
 
     _columns = {
-        'amount_to_pay': fields.function(amount_to_pay,
+        'amount_to_pay': fields.function(_amount_to_pay,
             type='float', string='Amount to pay', fnct_search=_to_pay_search),
     }
