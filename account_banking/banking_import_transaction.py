@@ -267,7 +267,9 @@ class banking_import_transaction(orm.Model):
                     convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                      self.payment_window)
-                    and (not _cached(x) or _remaining(x)))
+                    and (not _cached(x) or _remaining(x))
+                    and (not partner_ids
+                         or x.invoice.partner_id.id in partner_ids))
                 ]
 
         # Match on amount expected. Limit this kind of search to known
