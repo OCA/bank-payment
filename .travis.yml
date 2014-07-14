@@ -8,16 +8,13 @@ virtualenv:
 install:
  - git clone https://github.com/OCA/maintainer-quality-tools.git $HOME/maintainer-quality-tools
  - export PATH=$HOME/maintainer-quality-tools/travis:$PATH
- - $HOME/maintainer-quality-tools/travis/travis_install_nightly 7.0
- - pip install coveralls flake8 unidecode
- - git clone https://github.com/OCA/banking.git -b 7.0 $HOME/banking
-
-services:
-  - postgresql
+ - travis_install_nightly 7.0
+ - pip install coveralls flake8
+ - pip install unidecode
 
 script:
     - travis_run_flake8
-    - travis_run_tests 7.0 $HOME/banking
+    - travis_run_tests 7.0
 
 after_success:
   coveralls

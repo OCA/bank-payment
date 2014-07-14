@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/OCA/banking.svg?branch=7.0)](https://travis-ci.org/OCA/banking)
-[![Coverage Status](https://img.shields.io/coveralls/OCA/banking.svg)](https://coveralls.io/r/OCA/banking?branch=7.0)
+[![Coverage Status](https://coveralls.io/repos/OCA/banking/badge.png?branch=7.0)](https://coveralls.io/r/OCA/banking?branch=7.0)
 
 Banking addons for Odoo
 =======================

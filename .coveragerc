@@ -1,12 +1,10 @@
 # Config file .coveragerc
 
 [report]
+include =
+    */OCA/banking/*
+
 omit =
-    /usr/*
-    */bin/*
-    */lib/*
-    */odoo/*
-    */openerp/*
     */tests/*
     *__init__.py
 
