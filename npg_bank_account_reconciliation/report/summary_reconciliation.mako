@@ -84,7 +84,7 @@
         </tr>
         <tr>
           <td class="cell third_line left_col">
-            ${_("Cheques and Payments")}${" - %s " % int(rec.sum_of_debits_lines)}${_("items")}
+            ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_debits_lines)}${_("items")}
           </td>
           <td class="cell right_col_sum">
             ${formatLang(rec.sum_of_debits, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -92,7 +92,7 @@
         </tr>
         <tr>
           <td class="cell third_line left_col">
-            ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_credits_lines)}${_("items")}
+            ${_("Cheques and Debits")}${" - %s " % int(rec.sum_of_credits_lines)}${_("items")}
           </td>
           <td class="cell line_sum right_col_sum">
             ${formatLang(-rec.sum_of_credits, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -123,7 +123,7 @@
         </tr>
         <tr>
           <td class="cell third_line left_col">
-            ${_("Cheques and Payments")}${" - %s " % int(rec.sum_of_debits_lines_unclear)}${_("items")}
+            ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_debits_lines_unclear)}${_("items")}
           </td>
           <td class="cell right_col_sum">
             ${formatLang(rec.sum_of_debits_unclear, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -131,7 +131,7 @@
         </tr>
         <tr>
           <td class="cell third_line left_col">
-            ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_credits_lines_unclear)}${_("items")}
+            ${_("Cheques and Debits")}${" - %s " % int(rec.sum_of_credits_lines_unclear)}${_("items")}
           </td>
           <td class="cell right_col_sum line_sum">
             ${formatLang(-rec.sum_of_credits_unclear, monetary=True, currency_obj=rec.company_id.currency_id)}
