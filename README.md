@@ -4,7 +4,8 @@
 Banking addons for Odoo
 =======================
 
-This project focuses on in- and export of banking communication.
+This project focuses on in- and export of banking communication. The indentation below indicates
+the dependency graph of the main modules.
 
 - account_banking_payment_export - Basic export functionality of payment orders
 
@@ -15,8 +16,8 @@ This project focuses on in- and export of banking communication.
         - account_banking_sepa_direct_debit - Export of debit orders in SEPA format
 
 - account_banking - Infrastructure for importing bank statements in various formats and custom (manual)
-reconciliation functionality. While advanced, this functionalit will be deprecated in Odoo 8.0 in favour
-of (an extension of) the new, native reconcilation functionality.
+reconciliation functionality. While advanced, this functionality will be deprecated in Odoo 8.0 in favour
+of (an extension of) the new, native reconciliation functionality.
 
     - account_banking_camt - Import of bank statements in the SEPA CAMT.053 format
 
