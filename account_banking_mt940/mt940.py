@@ -186,6 +186,7 @@ class MT940(object):
         self.current_transaction = transaction
         transaction.execution_date = str2date(data[:6])
         transaction.effective_date = str2date(data[:6])
+        transaction.value_date = str2date(data[:6])
         '...and the rest already is highly bank dependent'
 
     def handle_tag_86(self, cr, data):
