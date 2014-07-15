@@ -44,6 +44,27 @@ class ResPartnerBank(orm.Model):
             '''Flag an arg as term or otherwise'''
             return isinstance(arg, (list, tuple)) and len(arg) == 3
 
+        def search_domestic(account):
+            """
+            Performing raw sql search for full account numbers,
+            ignoring leading zeroes.
+            """
+            account = (account or '').lstrip('0')
+            if not account:
+                return ('id', '=', 0)
+            query = """
+                SELECT id FROM res_partner_bank
+                WHERE (
+                    STATE != 'iban'
+                    AND TRIM(LEADING '0' FROM acc_number) = %(account)s)
+                """
+            if 'acc_number_domestic' in self._columns:
+                query += """
+                    OR TRIM(LEADING '0' FROM acc_number_domestic)
+                        = %(account)s"""
+            cr.execute(query, {'account': account})
+            return ('id', 'in', [row[0] for row in cr.fetchall()])
+
         def extended_filter_term(term):
             '''
             Extend the search criteria in term when appropriate.
@@ -62,12 +83,11 @@ class ResPartnerBank(orm.Model):
                     ids = [row[0] for row in cr.fetchall()]
                     result = [('id', 'in', ids)]
 
-                    if 'acc_number_domestic' in self._columns:
-                        bban = iban.localized_BBAN
-                        # Prevent empty search filters
-                        if bban:
-                            extra_terms.append(
-                                ('acc_number_domestic', term[1], bban))
+                    bban = iban.localized_BBAN
+                    if bban:
+                        extra_terms.append(search_domestic(bban))
+                else:
+                    result = [search_domestic(term[2])]
             for extra_term in extra_terms:
                 result = ['|'] + result + [extra_term]
             return result
