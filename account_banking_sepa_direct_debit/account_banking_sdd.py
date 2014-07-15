@@ -169,7 +169,8 @@ class sdd_mandate(orm.Model):
             "A recurrent mandate expires after it's final use or if it "
             "hasn't been used for 36 months."),
         'payment_line_ids': fields.one2many(
-            'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
+            'payment.line', 'sdd_mandate_id', "Related Payment Lines",
+            readonly=True),
         'sepa_migrated': fields.boolean(
             'Migrated to SEPA', track_visibility='onchange',
             help="If this field is not active, the mandate section of the "
@@ -381,7 +382,7 @@ class payment_line(orm.Model):
             vals = {}
         partner_bank_id = vals.get('bank_id')
         move_line_id = vals.get('move_line_id')
-        if (context.get('default_payment_order_type') == 'debit'
+        if (context.get('search_payment_order_type') == 'debit'
                 and 'sdd_mandate_id' not in vals):
             if move_line_id:
                 line = self.pool['account.move.line'].browse(
