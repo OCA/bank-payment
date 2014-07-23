@@ -206,7 +206,53 @@ class bank_acc_rec_statement(osv.osv):
         return res
 
     def refresh_record(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {}, context=context)
+        account_move_line_obj = self.pool["account.move.line"]
+        for obj in self.browse(cr, uid, ids, context=context):
+            if not obj.account_id:
+                continue
+
+            to_write = {'credit_move_line_ids': [], 'debit_move_line_ids': []}
+            move_line_ids = [
+                line.move_line_id.id
+                for line in obj.credit_move_line_ids + obj.debit_move_line_ids
+                if line.move_line_id
+            ]
+
+            domain = [
+                ('id', 'not in', move_line_ids),
+                ('account_id', '=', obj.account_id.id),
+                ('move_id.state', '=', 'posted'),
+                ('cleared_bank_account', '=', False),
+            ]
+
+            # if not keep_previous_uncleared_entries:
+            #     domain += [('draft_assigned_to_statement', '=', False)]
+
+            if not obj.suppress_ending_date_filter:
+                domain += [('date', '<=', obj.ending_date)]
+            line_ids = account_move_line_obj.search(cr, uid, domain, context=context)
+            for line in account_move_line_obj.browse(cr, uid, line_ids, context=context):
+                if obj.keep_previous_uncleared_entries:
+                    #only take bank_acc_rec_statement at state cancel or done
+                    if not self.is_b_a_r_s_state_done(cr, uid, line.id, context=context):
+                        continue
+                res = (0, 0, {
+                       'ref': line.ref,
+                       'date': line.date,
+                       'partner_id': line.partner_id.id,
+                       'currency_id': line.currency_id.id,
+                       'amount': line.credit or line.debit,
+                       'name': line.name,
+                       'move_line_id': line.id,
+                       'type': line.credit and 'cr' or 'dr'
+                })
+                if line.credit:
+                    to_write['credit_move_line_ids'].append(res)
+                else:
+                    to_write['debit_move_line_ids'].append(res)
+                obj.write(to_write)
+
+        return True
 
     def is_b_a_r_s_state_done(self, cr, uid, move_line_id, context=None):
         statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
