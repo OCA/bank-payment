@@ -359,7 +359,9 @@ class bank_acc_rec_statement_line(osv.osv):
 
     def unlink(self, cr, uid, ids, context=None):
         account_move_line_obj = self.pool.get('account.move.line')
-        move_line_ids = map(lambda x: x.move_line_id.id, self.browse(cr, uid, ids, context=context))
+        move_line_ids = [line.move_line_id.id
+                         for line in self.browse(cr, uid, ids, context=context)
+                         if line.move_line_id]
         # Reset field values in move lines to be added later
         account_move_line_obj.write(cr, uid, move_line_ids, {'draft_assigned_to_statement': False,
                                                              'cleared_bank_account': False,
