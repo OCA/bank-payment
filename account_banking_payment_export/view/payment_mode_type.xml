@@ -16,10 +16,11 @@
         <!-- basic view for payment mode type -->
         <record model="ir.ui.view" id="view_payment_mode_type_form">
             <field name="name">view.payment.mode.type.form</field>
+            <field name="type">form</field>
             <field name="model">payment.mode.type</field>
             <field name="arch" type="xml">
-                <form string="Payment Type" version="7.0">
-                    <group name="main">
+                <form string="Payment Type">
+                    <group>
                         <field name="name"/>
                         <field name="code"/>
                         <field name="active"/>

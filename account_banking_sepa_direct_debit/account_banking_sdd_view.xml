@@ -10,11 +10,10 @@
 <record id="view_banking_export_sdd_form" model="ir.ui.view">
     <field name="name">account.banking.export.sdd.form</field>
     <field name="model">banking.export.sdd</field>
+    <field name="type">form</field>
     <field name="arch" type="xml">
-        <form string="SEPA Direct Debit" version="7.0">
-            <header>
-                <field name="state" widget="statusbar"/>
-            </header>
+        <form string="SEPA Direct Debit" col="1">
+            <field name="state" widget="statusbar"/>
             <notebook>
                 <page string="General Information">
                     <group name="main">
@@ -38,6 +37,7 @@
 
 <record id="view_banking_export_sdd_tree" model="ir.ui.view">
     <field name="name">account.banking.export.sdd.tree</field>
+    <field name="type">tree</field>
     <field name="model">banking.export.sdd</field>
     <field name="arch" type="xml">
         <tree string="SEPA Direct Debit">

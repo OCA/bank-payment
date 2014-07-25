@@ -9,24 +9,21 @@
 
 <record id="sdd_mandate_form" model="ir.ui.view">
     <field name="name">sdd.mandate.form</field>
+    <field name="type">form</field>
     <field name="model">sdd.mandate</field>
     <field name="arch" type="xml">
-        <form string="SEPA Direct Debit Mandate" version="7.0">
-            <header>
-                <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"/>
+        <form string="SEPA Direct Debit Mandate" col="1">
+            <group>
+                <button name="validate" type="object" string="Validate" states="draft" />
                 <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
                 <button name="back2draft" type="object" string="Back to Draft"
                     states="cancel" groups="account.group_account_manager"
                     confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue ?"/>
                 <field name="state" widget="statusbar"/>
-            </header>
-            <sheet>
-                <div class="oe_title">
-                    <h1>
-                        <field name="unique_mandate_reference" class="oe_inline"/>
-                    </h1>
-                </div>
-                <group name="main">
+            </group>
+            <group col="1">
+                <field name="unique_mandate_reference" />
+                <group>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="partner_bank_id"
                         on_change="mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)"
@@ -41,20 +38,20 @@
                     <field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
                     <field name="original_mandate_identification" attrs="{'invisible': [('sepa_migrated', '=', True)], 'required': [('sepa_migrated', '=', False)]}" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
                 </group>
-                <group name="payment_lines" string="Related Payment Lines">
+                <group string="Related Payment Lines">
                     <field name="payment_line_ids" nolabel="1"/>
                 </group>
-            </sheet>
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
+            </group>
+            <group>
+                <field name="message_ids" widget="mail_thread" nolabel="1" />
+            </group>
         </form>
     </field>
 </record>
 
 <record id="sdd_mandate_tree" model="ir.ui.view">
     <field name="name">sdd.mandate.tree</field>
+    <field name="type">tree</field>
     <field name="model">sdd.mandate</field>
     <field name="arch" type="xml">
         <tree string="SEPA Direct Debit Mandate" colors="blue:state=='draft';black:state in ('expired', 'cancel')">
@@ -71,6 +68,7 @@
 
 <record id="sdd_mandate_search" model="ir.ui.view">
     <field name="name">sdd.mandate.search</field>
+    <field name="type">search</field>
     <field name="model">sdd.mandate</field>
     <field name="arch" type="xml">
         <search string="Search SEPA Direct Debit Mandates">
@@ -104,49 +102,6 @@
           action="sdd_mandate_action"
           sequence="20"
           />
-
-<!-- notifications in the chatter -->
-<record id="mandate_valid" model="mail.message.subtype">
-    <field name="name">Mandate Validated</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">SEPA Direct Debit Mandate Validated</field>
-</record>
-
-<record id="mandate_expired" model="mail.message.subtype">
-    <field name="name">Mandate Expired</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">SEPA Direct Debit Mandate has Expired</field>
-</record>
-
-<record id="mandate_cancel" model="mail.message.subtype">
-    <field name="name">Mandate Cancelled</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">SEPA Direct Debit Mandate Cancelled</field>
-</record>
-
-<record id="recurrent_sequence_type_first" model="mail.message.subtype">
-    <field name="name">Sequence Type set to First</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Sequence Type set to First</field>
-</record>
-
-<record id="recurrent_sequence_type_recurring" model="mail.message.subtype">
-    <field name="name">Sequence Type set to Recurring</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Sequence Type set to Recurring</field>
-</record>
-
-<record id="recurrent_sequence_type_final" model="mail.message.subtype">
-    <field name="name">Sequence Type set to Final</field>
-    <field name="res_model">sdd.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Sequence Type set to Final</field>
-</record>
 
 </data>
 </openerp>

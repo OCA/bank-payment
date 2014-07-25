@@ -5,12 +5,11 @@
             <field name="name">Form for manual payment wizard</field>
             <field name="model">payment.manual</field>
             <field name="arch" type="xml">
-                <form string="Manual payment" version="7.0">
+                <form string="Manual payment">
                     <label string="Please execute payment order manually, and click OK when succesfully sent."/>
-                    <footer>
-	                    <button name="button_ok" type="object" string="OK" class="oe_highlight"/>
-	                    <button special="cancel" string="Cancel" class="oe_link"/>
-                    </footer>
+                    <newline />
+	                <button name="button_ok" type="object" string="OK" />
+                    <button special="cancel" string="Cancel" />
                 </form>
             </field>
         </record>

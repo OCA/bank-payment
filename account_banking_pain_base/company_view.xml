@@ -10,13 +10,14 @@
 <record id="view_company_form" model="ir.ui.view">
     <field name="name">pain.group.on.res.company.form</field>
     <field name="model">res.company</field>
+    <field name="type">form</field>
     <field name="inherit_id" ref="base.view_company_form"/>
     <field name="arch" type="xml">
-        <group name="account_grp" position="after">
+        <page string="Configuration">
             <group name="pain" string="Payment Initiation">
                 <field name="initiating_party_issuer"/>
             </group>
-        </group>
+        </page>
     </field>
 </record>
 
