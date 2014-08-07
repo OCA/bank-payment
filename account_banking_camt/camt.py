@@ -270,7 +270,11 @@ CAMT Format parser
         """
         Parse a CAMT053 XML file
         """
-        root = etree.fromstring(data)
+        try:
+            root = etree.fromstring(data)
+        except etree.XMLSyntaxError:
+            # ABNAmro is known to mix up encodings
+            root = etree.fromstring(data.decode('iso-8859-15').encode('utf-8'))
         self.ns = root.tag[:root.tag.index("}") + 1]
         self.check_version()
         self.assert_tag(root[0][0], 'GrpHdr')
