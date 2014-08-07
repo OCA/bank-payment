@@ -280,7 +280,8 @@ class banking_import_transaction(orm.Model):
                         and convert.str2date(x.date, '%Y-%m-%d') <=
                         (convert.str2date(trans.execution_date, '%Y-%m-%d')  +
                          self.payment_window)
-                        and (not _cached(x) or _remaining(x)))
+                        and (not _cached(x) or _remaining(x))
+                        and x.partner_id.id in partner_ids)
                     ]
 
         move_line = False
