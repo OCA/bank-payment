@@ -99,10 +99,11 @@ class bank_acc_rec_statement(osv.osv):
             statement_lines = statement.credit_move_line_ids + statement.debit_move_line_ids
             for statement_line in statement_lines:
                 #Mark the move lines as 'Cleared'mand assign the 'Bank Acc Rec Statement ID'
-                account_move_line_obj.write(cr, uid, [statement_line.move_line_id.id],
-                                            {'cleared_bank_account': statement_line.cleared_bank_account,
-                                             'bank_acc_rec_statement_id': statement_line.cleared_bank_account and statement.id or False
-                                             }, context=context)
+                if statement_line.move_line_id:
+                    account_move_line_obj.write(cr, uid, [statement_line.move_line_id.id],
+                                                {'cleared_bank_account': statement_line.cleared_bank_account,
+                                                 'bank_acc_rec_statement_id': statement_line.cleared_bank_account and statement.id or False
+                                                 }, context=context)
 
             self.write(cr, uid, [statement.id], {'state': 'done',
                                                  'verified_by_user_id': uid,
