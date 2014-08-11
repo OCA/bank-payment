@@ -21,5 +21,11 @@
             <field name="condition">test_undo_done()</field>
             <field name="signal">undo_done</field>
         </record>
+        <!-- the done signal continues to work but goes to sent -->
+        <record id="account_banking.trans_open_done" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="account_banking.act_sent"/>
+            <field name="signal">done</field>
+        </record>
     </data>
 </openerp>
