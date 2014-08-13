@@ -206,6 +206,28 @@ class bank_acc_rec_statement(osv.osv):
             res[statement.id]['difference'] = round((statement.ending_balance - statement.starting_balance) - res[statement.id]['cleared_balance'], account_precision)
         return res
 
+    def _get_move_line_write(self, line):
+        res = {
+            'ref': line.ref,
+            'date': line.date,
+            'partner_id': line.partner_id.id,
+            'currency_id': line.currency_id.id,
+            'amount': line.credit or line.debit,
+            'name': line.name,
+            'move_line_id': line.id,
+            'type': line.credit and 'cr' or 'dr'
+        }
+
+        if all((line.currency_id,
+                line.company_id,
+                line.currency_id.id != line.company_id.currency_id.id)):
+            if line.credit:
+                res['amount'] = -line.amount_currency
+            else:
+                res['amount'] = line.amount_currency
+
+        return res
+
     def refresh_record(self, cr, uid, ids, context=None):
         account_move_line_obj = self.pool["account.move.line"]
         for obj in self.browse(cr, uid, ids, context=context):
@@ -237,16 +259,7 @@ class bank_acc_rec_statement(osv.osv):
                     #only take bank_acc_rec_statement at state cancel or done
                     if not self.is_b_a_r_s_state_done(cr, uid, line.id, context=context):
                         continue
-                res = (0, 0, {
-                       'ref': line.ref,
-                       'date': line.date,
-                       'partner_id': line.partner_id.id,
-                       'currency_id': line.currency_id.id,
-                       'amount': line.credit or line.debit,
-                       'name': line.name,
-                       'move_line_id': line.id,
-                       'type': line.credit and 'cr' or 'dr'
-                })
+                res = (0, 0, self._get_move_line_write(line))
                 if line.credit:
                     to_write['credit_move_line_ids'].append(res)
                 else:
@@ -293,16 +306,7 @@ class bank_acc_rec_statement(osv.osv):
                     #only take bank_acc_rec_statement at state cancel or done
                     if not self.is_b_a_r_s_state_done(cr, uid, line.id, context=context):
                         continue
-                res = {
-                       'ref': line.ref,
-                       'date': line.date,
-                       'partner_id': line.partner_id.id,
-                       'currency_id': line.currency_id.id,
-                       'amount': line.credit or line.debit,
-                       'name': line.name,
-                       'move_line_id': line.id,
-                       'type': line.credit and 'cr' or 'dr'
-                }
+                res = self._get_move_line_write(line)
                 if res['type'] == 'cr':
                     val['value']['credit_move_line_ids'].append(res)
                 else:
