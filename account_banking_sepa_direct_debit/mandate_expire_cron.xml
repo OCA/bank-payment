@@ -17,7 +17,7 @@
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
-    <field name="model" eval="'sdd.mandate'"/>
+    <field name="model" eval="'account.banking.mandate'"/>
     <field name="function" eval="'_sdd_mandate_set_state_to_expired'" />
     <field name="args" eval="'()'"/>
 </record>
