@@ -4,8 +4,8 @@
 #    Copyright (C) 2014 Compassion CH (<http://www.compassion.ch>)
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -18,7 +18,7 @@
 #
 ##############################################################################
 
-""" 
+"""
 This script covers the migration of the 0.1 to 0.2 version of sepa mandates.
 As table names changed, we want to migrate values from sdd_mandate table to
 newly created account_banking_mandate. We also copy foreign keys in invoice
@@ -27,7 +27,9 @@ Finally, we remove useless fields (sdd_mandate_id) and obsolete table
 (sdd_mandate).
 """
 
-__name__ = "account.banking.sepa.direct_debit:: Move sdd_mandate data to account_banking_mandate"
+__name__ = "account.banking.sepa.direct_debit:: Move sdd_mandate data to " \
+           "account_banking_mandate"
+
 
 def migrate(cr, installed_version):
     query = "INSERT INTO account_banking_mandate " \
