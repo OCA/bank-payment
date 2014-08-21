@@ -18,21 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp.osv import orm
+from openerp.tools.translate import _
 
 
 class res_partner_bank(orm.Model):
     _inherit = 'res.partner.bank'
 
     def _check_bank(self, cr, uid, ids, context=None):
-        #suppress base_iban's constraint to enforce BICs for IBANs
-        #workaround for lp:933472
+        # suppress base_iban's constraint to enforce BICs for IBANs
+        # workaround for lp:933472
         return True
+
+    def _constr_bank_message(self, cr, uid, ids, context=None):
+        return _('\nPlease define BIC/Swift code on bank for bank '
+                 'type IBAN Account to make valid payments')
 
     # Redefine constraint to update its function reference
     _constraints = [
-        (_check_bank, 
-         '\nPlease define BIC/Swift code on bank for bank '
-         'type IBAN Account to make valid payments',
-         ['bic'])
+        (_check_bank, _constr_bank_message, ['bic']),
     ]
