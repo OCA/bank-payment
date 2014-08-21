@@ -6,8 +6,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -30,20 +30,23 @@ from account_banking_fi_patu.parser import PatuParser
 
 __all__ = ['parser']
 
+
 class transaction(models.mem_bank_transaction):
     '''
     Implementation of transaction communication class for account_banking.
     '''
     mapping = {
-            "remote_account": "recipientaccount",
-            "remote_currency": "currency",
-            "transferred_amount": "amount",
-            "execution_date": "recorddate",
-            "value_date": "paymentdate",
-            "transfer_type": "eventtype",
-            "reference": "refnr",
-            "eventcode": "eventcode",
-            "message": "message"}
+        "remote_account": "recipientaccount",
+        "remote_currency": "currency",
+        "transferred_amount": "amount",
+        "execution_date": "recorddate",
+        "value_date": "paymentdate",
+        "transfer_type": "eventtype",
+        "reference": "refnr",
+        "eventcode": "eventcode",
+        "message": "message"
+    }
+
     def __init__(self, record, *args, **kwargs):
         '''
         Initialize own dict with read values.
@@ -63,18 +66,18 @@ class transaction(models.mem_bank_transaction):
         If eventcode is 730, the transaction was initiated by the bank and
         doesn't have a destination account.
         '''
-        if self.eventcode and (self.eventcode == "720" or self.eventcode ==
-                "710"):
+        if self.eventcode in ["720", "710"]:
             # Withdrawal from and deposit to the account
             return (self.execution_date and self.transferred_amount and True) \
-                    or False
+                or False
 
         if self.eventcode and self.eventcode == "730":
             # The transaction is bank initiated, no remote account is present
             return (self.execution_date and self.transferred_amount and True) \
-                    or False
+                or False
 
         return super(transaction, self).is_valid()
+
 
 class statement(models.mem_bank_statement):
     '''
@@ -109,6 +112,7 @@ class statement(models.mem_bank_statement):
             if record["receiptcode"] == "E":
                 return
             self.transactions.append(transaction(record))
+
 
 class parser(models.parser):
     code = 'FIPATU'
