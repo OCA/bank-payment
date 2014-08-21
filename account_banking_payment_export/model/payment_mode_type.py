@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -63,9 +63,11 @@ class payment_mode_type(orm.Model):
 
     def _auto_init(self, cr, context=None):
         r = super(payment_mode_type, self)._auto_init(cr, context=context)
-        # migrate xmlid from manual_bank_transfer to avoid dependency on account_banking
-        cr.execute("""UPDATE ir_model_data SET module='account_banking_payment_export'
-                      WHERE module='account_banking' AND 
-                            name='manual_bank_tranfer' AND 
+        # migrate xmlid from manual_bank_transfer to avoid dependency on
+        # account_banking
+        cr.execute("""UPDATE ir_model_data
+                      SET module='account_banking_payment_export'
+                      WHERE module='account_banking' AND
+                            name='manual_bank_tranfer' AND
                             model='payment.mode.type'""")
         return r

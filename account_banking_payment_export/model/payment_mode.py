@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -38,8 +38,9 @@ class payment_mode(orm.Model):
         res = []
         payment_mode = self.browse(
             cr, uid, payment_mode_id, context)
-        if (payment_mode and payment_mode.type and
-            payment_mode.type.suitable_bank_types):
+        if (payment_mode
+                and payment_mode.type
+                and payment_mode.type.suitable_bank_types):
             res = [t.code for t in payment_mode.type.suitable_bank_types]
         return res
 
