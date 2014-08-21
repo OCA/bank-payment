@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -24,11 +24,12 @@
 
 from openerp.osv import orm
 
+
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def default_get(self, cr, uid, fields_list, context=None):
-        """ 
+        """
         Automatically add the candidate move lines to
         the payment order, instead of only applying them
         to the domain.
@@ -39,13 +40,15 @@ class payment_order_create(orm.TransientModel):
         been placed in the context at object
         creation time.
         """
+        if context is None:
+            context = {}
         res = super(payment_order_create, self).default_get(
             cr, uid, fields_list, context=context)
 
-        if (fields_list and 'entries' in fields_list
-            and 'entries' not in res
-            and context and context.get('line_ids', False)
-            ):
+        if (fields_list
+                and 'entries' in fields_list
+                and 'entries' not in res
+                and context.get('line_ids', False)):
             res['entries'] = context['line_ids']
 
         return res
