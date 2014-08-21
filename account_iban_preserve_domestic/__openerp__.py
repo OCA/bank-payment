@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2012 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -39,7 +39,7 @@
 This module is compatible with OpenERP 7.0.
 
 The IBAN module in OpenERP 6.1/7.0 registers the IBAN
-on the same field as the domestic account number, 
+on the same field as the domestic account number,
 instead of keeping both on separate fields as is the
 case in 6.0.
 
