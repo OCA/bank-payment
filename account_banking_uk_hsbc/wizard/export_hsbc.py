@@ -6,8 +6,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -22,23 +22,28 @@
 
 import base64
 from datetime import datetime, date
-from osv import osv, fields
-from tools.translate import _
 from decimal import Decimal
 import paymul
 import string
 import random
 import logging
 
+from openerp.osv import orm, fields
+from openerp.tools import ustr
+from openerp.tools.translate import _
+
+
 def strpdate(arg, format='%Y-%m-%d'):
-    '''shortcut'''
+    """shortcut"""
     return datetime.strptime(arg, format).date()
 
+
 def strfdate(arg, format='%Y-%m-%d'):
-    '''shortcut'''
+    """shortcut"""
     return arg.strftime(format)
 
-class banking_export_hsbc_wizard(osv.osv_memory):
+
+class banking_export_hsbc_wizard(orm.TransientModel):
     _name = 'banking.export.hsbc.wizard'
     _description = 'HSBC Export'
     _columns = {
@@ -62,9 +67,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             help=('This is the date the file should be processed by the bank. '
                   'Don\'t choose a date beyond the nearest date in your '
                   'payments. The latest allowed date is 30 days from now.\n'
-                  'Please keep in mind that banks only execute on working days '
-                  'and typically use a delay of two days between execution date '
-                  'and effective transfer date.'
+                  'Please keep in mind that banks only execute on working '
+                  'days and typically use a delay of two days between '
+                  'execution date and effective transfer date.'
                   ),
             ),
         'file_id': fields.many2one(
@@ -107,7 +112,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         from the context.
         '''
 
-        if not 'execution_date_create' in wizard_data:
+        if 'execution_date_create' not in wizard_data:
             po_ids = context.get('active_ids', [])
             po_model = self.pool.get('payment.order')
             pos = po_model.browse(cursor, uid, po_ids)
@@ -120,7 +125,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 elif po.date_prefered == 'due':
                     for line in po.line_ids:
                         if line.move_line_id.date_maturity:
-                            date_maturity = strpdate(line.move_line_id.date_maturity)
+                            date_maturity = strpdate(
+                                line.move_line_id.date_maturity
+                            )
                             if date_maturity < execution_date:
                                 execution_date = date_maturity
 
@@ -139,8 +146,10 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         return super(banking_export_hsbc_wizard, self).create(
             cursor, uid, wizard_data, context)
 
-    def _create_account(self, oe_account, origin_country=None, is_origin_account=False):
-        currency = None # let the receiving bank select the currency from the batch
+    def _create_account(self, oe_account, origin_country=None,
+                        is_origin_account=False):
+        # let the receiving bank select the currency from the batch
+        currency = None
         holder = oe_account.owner_name or oe_account.partner_id.name
         self.logger.info('Create account %s' % (holder))
         self.logger.info('-- %s' % (oe_account.country_id.code))
@@ -158,12 +167,13 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_EACH_OWN,
             }
         elif oe_account.country_id.code == 'GB':
-            self.logger.info('GB: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
+            self.logger.info('GB: %s %s' % (oe_account.country_id.code,
+                                            oe_account.acc_number))
             split = oe_account.acc_number.split(" ", 2)
             if len(split) == 2:
                 sortcode, accountno = split
             else:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error'),
                     "Invalid GB acccount number '%s'" % oe_account.acc_number)
             paymul_account = paymul.UKAccount(
@@ -175,15 +185,17 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             transaction_kwargs = {
                 'charges': paymul.CHARGES_PAYEE,
             }
-        elif oe_account.country_id.code in ('US','CA'):
-            self.logger.info('US/CA: %s %s' % (oe_account.country_id.code,oe_account.acc_number))
+        elif oe_account.country_id.code in ('US', 'CA'):
+            self.logger.info('US/CA: %s %s' % (oe_account.country_id.code,
+                                               oe_account.acc_number))
             split = oe_account.acc_number.split(' ', 2)
             if len(split) == 2:
                 sortcode, accountno = split
             else:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error'),
-                    "Invalid %s account number '%s'" % (oe_account.country_id.code,oe_account.acc_number))
+                    _("Invalid %s account number '%s'") %
+                    (oe_account.country_id.code, oe_account.acc_number))
             paymul_account = paymul.NorthAmericanAccount(
                 number=accountno,
                 sortcode=sortcode,
@@ -201,14 +213,15 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 'charges': paymul.CHARGES_PAYEE,
             }
         else:
-            self.logger.info('SWIFT Account: %s' % (oe_account.country_id.code))
+            self.logger.info('SWIFT Account: %s' % oe_account.country_id.code)
             split = oe_account.acc_number.split(' ', 2)
             if len(split) == 2:
                 sortcode, accountno = split
             else:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error'),
-                    "Invalid %s account number '%s'" % (oe_account.country_id.code,oe_account.acc_number))
+                    _("Invalid %s account number '%s'") %
+                    (oe_account.country_id.code, oe_account.acc_number))
             paymul_account = paymul.SWIFTAccount(
                 number=accountno,
                 sortcode=sortcode,
@@ -229,25 +242,35 @@ class banking_export_hsbc_wizard(osv.osv_memory):
     def _create_transaction(self, line):
         # Check on missing partner of bank account (this can happen!)
         if not line.bank_id or not line.bank_id.partner_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
                 _('There is insufficient information.\r\n'
-                    'Both destination address and account '
-                    'number must be provided'
-                    )
+                  'Both destination address and account '
+                  'number must be provided')
             )
-        
-        self.logger.info('====')
-        dest_account, transaction_kwargs = self._create_account(line.bank_id, line.order_id.mode.bank_id.country_id.code)
 
-        means = {'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
-                 'Faster Payment': paymul.MEANS_FASTER_PAYMENT,
-                 'Priority Payment': paymul.MEANS_PRIORITY_PAYMENT}.get(line.order_id.mode.type.name)
+        self.logger.info('====')
+        dest_account, transaction_kwargs = self._create_account(
+            line.bank_id, line.order_id.mode.bank_id.country_id.code
+        )
+
+        means = {
+            'ACH or EZONE': paymul.MEANS_ACH_OR_EZONE,
+            'Faster Payment': paymul.MEANS_FASTER_PAYMENT,
+            'Priority Payment': paymul.MEANS_PRIORITY_PAYMENT
+        }.get(line.order_id.mode.type.name)
         if means is None:
-            raise osv.except_osv('Error', "Invalid payment type mode for HSBC '%s'" % line.order_id.mode.type.name)
+            raise orm.except_orm(
+                _('Error'),
+                _("Invalid payment type mode for HSBC '%s'")
+                % line.order_id.mode.type.name
+            )
 
         if not line.info_partner:
-            raise osv.except_osv('Error', "No default address for transaction '%s'" % line.name)
+            raise orm.except_orm(
+                _('Error'),
+                _("No default address for transaction '%s'") % line.name
+            )
 
         try:
             return paymul.Transaction(
@@ -261,9 +284,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
                 **transaction_kwargs
             )
         except ValueError as exc:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
-                _('Transaction invalid: ') + str(exc)
+                _('Transaction invalid: %s') + ustr(exc)
             )
 
     def wizard_export(self, cursor, uid, wizard_data_ids, context):
@@ -275,23 +298,29 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         result_model = self.pool.get('banking.export.hsbc')
         payment_orders = wizard_data.payment_order_ids
 
-
         try:
-            self.logger.info('Source - %s (%s) %s' % (payment_orders[0].mode.bank_id.partner_id.name, payment_orders[0].mode.bank_id.acc_number, payment_orders[0].mode.bank_id.country_id.code))
+            self.logger.info(
+                'Source - %s (%s) %s' % (
+                    payment_orders[0].mode.bank_id.partner_id.name,
+                    payment_orders[0].mode.bank_id.acc_number,
+                    payment_orders[0].mode.bank_id.country_id.code)
+            )
             src_account = self._create_account(
-                payment_orders[0].mode.bank_id, payment_orders[0].mode.bank_id.country_id.code, is_origin_account=True
+                payment_orders[0].mode.bank_id,
+                payment_orders[0].mode.bank_id.country_id.code,
+                is_origin_account=True
             )[0]
         except ValueError as exc:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
-                _('Source account invalid: ') + str(exc)
+                _('Source account invalid: ') + ustr(exc)
             )
 
         if not isinstance(src_account, paymul.UKAccount):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
                 _("Your company's bank account has to have a valid UK "
-                  "account number (not IBAN)" + str(type(src_account)))
+                  "account number (not IBAN)" + ustr(type(src_account)))
             )
 
         try:
@@ -299,7 +328,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             transactions = []
             hsbc_clientid = ''
             for po in payment_orders:
-                transactions += [self._create_transaction(l) for l in po.line_ids]
+                transactions += [
+                    self._create_transaction(l) for l in po.line_ids
+                ]
                 hsbc_clientid = po.hsbc_clientid_id.clientid
 
             batch = paymul.Batch(
@@ -310,9 +341,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
             )
             batch.transactions = transactions
         except ValueError as exc:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
-                _('Batch invalid: ') + str(exc)
+                _('Batch invalid: ') + ustr(exc)
             )
 
         # Generate random identifier until an unused one is found
@@ -347,7 +378,7 @@ class banking_export_hsbc_wizard(osv.osv_memory):
 
         self.write(cursor, uid, [wizard_data_ids[0]], {
             'file_id': file_id,
-            'no_transactions' : len(batch.transactions),
+            'no_transactions': len(batch.transactions),
             'state': 'finish',
         }, context)
 
@@ -389,13 +420,9 @@ class banking_export_hsbc_wizard(osv.osv_memory):
         po_model = self.pool.get('payment.order')
 
         result_model.write(cursor, uid, [wizard_data.file_id.id],
-                           {'state':'sent'})
+                           {'state': 'sent'})
 
         po_ids = [po.id for po in wizard_data.payment_order_ids]
         po_model.action_sent(cursor, uid, po_ids)
 
         return {'type': 'ir.actions.act_window_close'}
-
-banking_export_hsbc_wizard()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -34,16 +34,19 @@
         'security/ir.model.access.csv',
     ],
     'description': '''
-    Module to import HSBC format transation files (S.W.I.F.T MT940) and to export payments for HSBC.net (PAYMUL).
+Module to import HSBC format transation files (S.W.I.F.T MT940) and to export
+payments for HSBC.net (PAYMUL).
 
-    Currently it is targetting UK market, due to country variances of the MT940 and PAYMUL.
+Currently it is targetting UK market, due to country variances of the MT940 and
+PAYMUL.
 
-    It is possible to extend this module to work with HSBC.net in other countries and potentially other banks.
+It is possible to extend this module to work with HSBC.net in other countries
+and potentially other banks.
 
-    This module adds above import/export filter to the account_banking module.
-    All business logic is in account_banking module.
+This module adds above import/export filter to the account_banking module.
+All business logic is in account_banking module.
 
-    Initial release of this module was co-sponsored by Canonical.
-    ''',
+Initial release of this module was co-sponsored by Canonical.
+''',
     'installable': True,
 }

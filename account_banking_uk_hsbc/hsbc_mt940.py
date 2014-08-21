@@ -22,29 +22,32 @@
 #
 
 from account_banking.parsers import models
-from tools.translate import _
 from mt940_parser import HSBCParser
 import re
-import osv
 import logging
 
 bt = models.mem_bank_transaction
 logger = logging.getLogger('hsbc_mt940')
+
+from openerp.tools.translate import _
+from openerp.osv import orm
+
 
 def record2float(record, value):
     if record['creditmarker'][-1] == 'C':
         return float(record[value])
     return -float(record[value])
 
+
 class transaction(models.mem_bank_transaction):
 
     mapping = {
-        'execution_date' : 'valuedate',
-        'value_date' : 'valuedate',
-        'local_currency' : 'currency',
-        'transfer_type' : 'bookingcode',
-        'reference' : 'custrefno',
-        'message' : 'furtherinfo'
+        'execution_date': 'valuedate',
+        'value_date': 'valuedate',
+        'local_currency': 'currency',
+        'transfer_type': 'bookingcode',
+        'reference': 'custrefno',
+        'message': 'furtherinfo'
     }
 
     type_map = {
@@ -60,13 +63,13 @@ class transaction(models.mem_bank_transaction):
         '''
         super(transaction, self).__init__(*args, **kwargs)
         for key, value in self.mapping.iteritems():
-            if record.has_key(value):
+            if value in record:
                 setattr(self, key, record[value])
 
         self.transferred_amount = record2float(record, 'amount')
 
         # Set the transfer type based on the bookingcode
-        if record.get('bookingcode','ignore') in self.type_map:
+        if record.get('bookingcode', 'ignore') in self.type_map:
             self.transfer_type = self.type_map[record['bookingcode']]
         else:
             # Default to the generic order, so it will be eligible for matching
@@ -74,12 +77,14 @@ class transaction(models.mem_bank_transaction):
 
         if not self.is_valid():
             logger.info("Invalid: %s", record)
+
     def is_valid(self):
         '''
         We don't have remote_account so override base
         '''
         return (self.execution_date
                 and self.transferred_amount and True) or False
+
 
 class statement(models.mem_bank_statement):
     '''
@@ -89,35 +94,44 @@ class statement(models.mem_bank_statement):
     def import_record(self, record):
         def _transmission_number():
             self.id = record['transref']
+
         def _account_number():
             # The wizard doesn't check for sort code
-            self.local_account = record['sortcode'] + ' ' + record['accnum'].zfill(8)
+            self.local_account = (
+                record['sortcode'] + ' ' + record['accnum'].zfill(8)
+            )
+
         def _statement_number():
-            self.id = '-'.join([self.id, self.local_account, record['statementnr']])
+            self.id = '-'.join(
+                [self.id, self.local_account, record['statementnr']]
+            )
+
         def _opening_balance():
-            self.start_balance = record2float(record,'startingbalance')
+            self.start_balance = record2float(record, 'startingbalance')
             self.local_currency = record['currencycode']
+
         def _closing_balance():
             self.end_balance = record2float(record, 'endingbalance')
             self.date = record['bookingdate']
+
         def _transaction_new():
             self.transactions.append(transaction(record))
+
         def _transaction_info():
             self.transaction_info(record)
+
         def _not_used():
             logger.info("Didn't use record: %s", record)
 
         rectypes = {
-            '20' : _transmission_number,
-            '25' : _account_number,
-            '28' : _statement_number,
+            '20': _transmission_number,
+            '25': _account_number,
+            '28': _statement_number,
             '28C': _statement_number,
             '60F': _opening_balance,
             '62F': _closing_balance,
-           #'64' : _forward_available,
-           #'62M': _interim_balance,
-            '61' : _transaction_new,
-            '86' : _transaction_info,
+            '61': _transaction_new,
+            '86': _transaction_info,
             }
 
         rectypes.get(record['recordid'], _not_used)()
@@ -128,15 +142,28 @@ class statement(models.mem_bank_statement):
         '''
         # Additional information for previous transaction
         if len(self.transactions) < 1:
-            logger.info("Received additional information for non existent transaction:")
+            logger.info(
+                "Received additional information for non existent transaction:"
+            )
             logger.info(record)
         else:
             transaction = self.transactions[-1]
-            transaction.id = ','.join([record[k] for k in ['infoline{0}'.format(i) for i in range(2,5)] if record.has_key(k)])
+            transaction.id = ','.join((
+                record[k]
+                for k in (
+                    'infoline{0}'.format(i)
+                    for i in range(2, 5)
+                )
+                if k in record
+            ))
+
 
 def raise_error(message, line):
-    raise osv.osv.except_osv(_('Import error'),
-        'Error in import:%s\n\n%s' % (message, line))
+    raise orm.except_orm(
+        _('Import error'),
+        _('Error in import:') + '\n\n'.join((message, line))
+    )
+
 
 class parser_hsbc_mt940(models.parser):
     code = 'HSBC-MT940'
@@ -153,13 +180,18 @@ class parser_hsbc_mt940(models.parser):
         # Split into statements
         statements = [st for st in re.split('[\r\n]*(?=:20:)', data)]
         # Split by records
-        statement_list = [re.split('[\r\n ]*(?=:\d\d[\w]?:)', st) for st in statements]
+        statement_list = [
+            re.split('[\r\n ]*(?=:\d\d[\w]?:)', st)
+            for st in statements
+        ]
 
         for statement_lines in statement_list:
             stmnt = statement()
-            records = [parser.parse_record(record) for record in statement_lines]
+            records = [
+                parser.parse_record(record)
+                for record in statement_lines
+            ]
             [stmnt.import_record(r) for r in records if r is not None]
-
 
             if stmnt.is_valid():
                 result.append(stmnt)
@@ -168,5 +200,3 @@ class parser_hsbc_mt940(models.parser):
                 logger.info(records[0])
 
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

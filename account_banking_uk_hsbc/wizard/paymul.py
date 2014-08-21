@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -25,8 +25,14 @@ import datetime
 import re
 import unicodedata
 
+from openerp.tools import ustr
+
+
 def strip_accents(string):
-    return unicodedata.normalize('NFKD', unicode(string)).encode('ASCII', 'ignore')
+    res = unicodedata.normalize('NFKD', ustr(string))
+    res = res.encode('ASCII', 'ignore')
+    return res
+
 
 def split_account_holder(holder):
     holder_parts = holder.split("\n")
@@ -38,16 +44,19 @@ def split_account_holder(holder):
 
     return holder_parts[0], line2
 
+
 def address_truncate(name_address):
     addr_line = name_address.upper().split("\n")[0:5]
     addr_line = [s[:35] for s in addr_line]
     return addr_line
 
-"""
-The standard says alphanumeric characters, but spaces are also allowed
-"""
+
 def edifact_isalnum(s):
+    """The standard says alphanumeric characters, but spaces are also
+    allowed
+    """
     return bool(re.match(r'^[A-Za-z0-9 ]*$', s))
+
 
 def edifact_digits(val, digits=None, mindigits=None):
     if digits is None:
@@ -58,9 +67,11 @@ def edifact_digits(val, digits=None, mindigits=None):
     pattern = r'^[0-9]{' + str(mindigits) + ',' + str(digits) + r'}$'
     return bool(re.match(pattern, str(val)))
 
+
 def edifact_isalnum_size(val, digits):
     pattern = r'^[A-Za-z0-9 ]{' + str(digits) + ',' + str(digits) + r'}$'
     return bool(re.match(pattern, str(val)))
+
 
 class HasCurrency(object):
     def _get_currency(self):
@@ -71,12 +82,13 @@ class HasCurrency(object):
             self._currency = None
         else:
             if not len(currency) <= 3:
-                raise ValueError("Currency must be <= 3 characters long: " +
-                                 str(currency))
-    
+                raise ValueError("Currency must be <= 3 characters long: %s" %
+                                 ustr(currency))
+
             if not edifact_isalnum(currency):
-                raise ValueError("Currency must be alphanumeric: " + str(currency))
-    
+                raise ValueError("Currency must be alphanumeric: %s" %
+                                 ustr(currency))
+
             self._currency = currency.upper()
 
     currency = property(_get_currency, _set_currency)
@@ -88,17 +100,19 @@ class LogicalSection(object):
         segments = self.segments()
 
         def format_segment(segment):
-            return '+'.join([':'.join([str(strip_accents(y)) for y in x]) for x in segment]) + "'"
+            return '+'.join(
+                [':'.join([str(strip_accents(y)) for y in x]) for x in segment]
+            ) + "'"
 
         return "\n".join([format_segment(s) for s in segments])
 
 
 def _fii_segment(self, party_qualifier):
     holder = split_account_holder(self.holder)
-    account_identification = [self.number.replace(' ',''), holder[0]]
+    account_identification = [self.number.replace(' ', ''), holder[0]]
     if holder[1] or self.currency:
         account_identification.append(holder[1])
-    if self.currency: 
+    if self.currency:
         account_identification.append(self.currency)
     return [
         ['FII'],
@@ -127,8 +141,8 @@ class UKAccount(HasCurrency):
 
     def _set_sortcode(self, sortcode):
         if not edifact_digits(sortcode, 6):
-            raise ValueError("Account sort code must be 6 digits long: " +
-                             str(sortcode))
+            raise ValueError("Account sort code must be 6 digits long: %s" %
+                             ustr(sortcode))
 
         self._sortcode = sortcode
 
@@ -141,16 +155,20 @@ class UKAccount(HasCurrency):
         holder_parts = split_account_holder(holder)
 
         if not len(holder_parts[0]) <= 35:
-            raise ValueError("Account holder must be <= 35 characters long: " + str(holder_parts[0]))
+            raise ValueError("Account holder must be <= 35 characters long: %s"
+                             % ustr(holder_parts[0]))
 
         if not len(holder_parts[1]) <= 35:
-            raise ValueError("Second line of account holder must be <= 35 characters long: " + str(holder_parts[1]))
+            raise ValueError("Second line of account holder must be <= 35 "
+                             "characters long: %s" % ustr(holder_parts[1]))
 
         if not edifact_isalnum(holder_parts[0]):
-            raise ValueError("Account holder must be alphanumeric: " + str(holder_parts[0]))
+            raise ValueError("Account holder must be alphanumeric: %s" %
+                             ustr(holder_parts[0]))
 
         if not edifact_isalnum(holder_parts[1]):
-            raise ValueError("Second line of account holder must be alphanumeric: " + str(holder_parts[1]))
+            raise ValueError("Second line of account holder must be "
+                             "alphanumeric: %s" % ustr(holder_parts[1]))
 
         self._holder = holder.upper()
 
@@ -174,7 +192,7 @@ class UKAccount(HasCurrency):
 class NorthAmericanAccount(UKAccount):
 
     def _set_account_ident(self):
-        if self.origin_country in ('US','CA'):
+        if self.origin_country in ('US', 'CA'):
             # Use the routing number
             account_ident = ['', '', '', self.sortcode, 155, 114]
         else:
@@ -188,9 +206,9 @@ class NorthAmericanAccount(UKAccount):
         else:
             expected_digits = 9
         if not edifact_digits(sortcode, expected_digits):
-            raise ValueError("Account routing number must be %d digits long: %s" %
-                             (expected_digits, str(sortcode)))
-        
+            raise ValueError("Account routing number must be %d digits long: "
+                             "%s" % (expected_digits, ustr(sortcode)))
+
         self._sortcode = sortcode
 
     def _get_sortcode(self):
@@ -199,9 +217,10 @@ class NorthAmericanAccount(UKAccount):
     sortcode = property(_get_sortcode, _set_sortcode)
 
     def _set_bic(self, bic):
-        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
-            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
-                             str(bic))
+        if (not edifact_isalnum_size(bic, 8)
+                and not edifact_isalnum_size(bic, 11)):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 "
+                             "characters long: %s" % ustr(bic))
         self._bic = bic
 
     def _get_bic(self):
@@ -211,8 +230,7 @@ class NorthAmericanAccount(UKAccount):
 
     def _set_number(self, number):
         if not edifact_digits(number, mindigits=1):
-            raise ValueError("Account number is invalid: " +
-                             str(number))
+            raise ValueError("Account number is invalid: %s" % ustr(number))
 
         self._number = number
 
@@ -221,7 +239,8 @@ class NorthAmericanAccount(UKAccount):
 
     number = property(_get_number, _set_number)
 
-    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None, is_origin_account=False):
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country,
+                 origin_country=None, is_origin_account=False):
         self.origin_country = origin_country
         self.is_origin_account = is_origin_account
         self.number = number
@@ -248,9 +267,10 @@ class SWIFTAccount(UKAccount):
     sortcode = property(_get_sortcode, _set_sortcode)
 
     def _set_bic(self, bic):
-        if not edifact_isalnum_size(bic, 8) and not edifact_isalnum_size(bic, 11):
-            raise ValueError("Account BIC/Swift code must be 8 or 11 characters long: " +
-                             str(bic))
+        if (not edifact_isalnum_size(bic, 8)
+                and not edifact_isalnum_size(bic, 11)):
+            raise ValueError("Account BIC/Swift code must be 8 or 11 "
+                             "characters long: %s" % ustr(bic))
         self._bic = bic
 
     def _get_bic(self):
@@ -260,8 +280,8 @@ class SWIFTAccount(UKAccount):
 
     def _set_number(self, number):
         if not edifact_digits(number, mindigits=1):
-            raise ValueError("Account number is invalid: " +
-                             str(number))
+            raise ValueError("Account number is invalid: %s" %
+                             ustr(number))
 
         self._number = number
 
@@ -270,7 +290,8 @@ class SWIFTAccount(UKAccount):
 
     number = property(_get_number, _set_number)
 
-    def __init__(self, number, holder, currency, sortcode, swiftcode, country, origin_country=None, is_origin_account=False):
+    def __init__(self, number, holder, currency, sortcode, swiftcode, country,
+                 origin_country=None, is_origin_account=False):
         self.origin_country = origin_country
         self.is_origin_account = is_origin_account
         self.number = number
@@ -289,7 +310,7 @@ class IBANAccount(HasCurrency):
     def _set_iban(self, iban):
         iban_obj = sepa.IBAN(iban)
         if not iban_obj.valid:
-            raise ValueError("IBAN is invalid: " + str(iban))
+            raise ValueError("IBAN is invalid: %s" % ustr(iban))
 
         self._iban = iban
         self.country = iban_obj.countrycode
@@ -302,10 +323,11 @@ class IBANAccount(HasCurrency):
         self.bic = bic
         self.currency = currency
         self.holder = holder
-        self.institution_identification = [self.bic, 25, 5, '', '', '' ]
+        self.institution_identification = [self.bic, 25, 5, '', '', '']
 
     def fii_bf_segment(self):
         return _fii_segment(self, 'BF')
+
 
 class Interchange(LogicalSection):
     def _get_reference(self):
@@ -313,10 +335,12 @@ class Interchange(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 15:
-            raise ValueError("Reference must be <= 15 characters long: " + str(reference))
+            raise ValueError("Reference must be <= 15 characters long: %s" %
+                             ustr(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric: " + str(reference))
+            raise ValueError("Reference must be alphanumeric: %s" %
+                             ustr(reference))
 
         self._reference = reference.upper()
 
@@ -335,7 +359,8 @@ class Interchange(LogicalSection):
             ['UNOA', 3],
             ['', '', self.client_id],
             ['', '', 'HEXAGON ABC'],
-            [self.create_dt.strftime('%y%m%d'), self.create_dt.strftime('%H%M')],
+            [self.create_dt.strftime('%y%m%d'),
+             self.create_dt.strftime('%H%M')],
             [self.reference],
         ])
         segments += self.message.segments()
@@ -353,10 +378,12 @@ class Message(LogicalSection):
 
     def _set_reference(self, reference):
         if not len(reference) <= 35:
-            raise ValueError("Reference must be <= 35 characters long: " + str(reference))
+            raise ValueError("Reference must be <= 35 characters long: %s" %
+                             ustr(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric: " + str(reference))
+            raise ValueError("Reference must be alphanumeric: %s" %
+                             ustr(reference))
 
         self._reference = reference.upper()
 
@@ -406,16 +433,19 @@ class Message(LogicalSection):
 
         return segments
 
+
 class Batch(LogicalSection):
     def _get_reference(self):
         return self._reference
 
     def _set_reference(self, reference):
         if not len(reference) <= 18:
-            raise ValueError("Reference must be <= 18 characters long: " + str(reference))
+            raise ValueError("Reference must be <= 18 characters long: %s" %
+                             ustr(reference))
 
         if not edifact_isalnum(reference):
-            raise ValueError("Reference must be alphanumeric: " + str(reference))
+            raise ValueError("Reference must be alphanumeric: %s" %
+                             ustr(reference))
 
         self._reference = reference.upper()
 
@@ -437,7 +467,7 @@ class Batch(LogicalSection):
 
         # Store the payment means
         means = None
-        if len(self.transactions)>0:
+        if len(self.transactions) > 0:
             means = self.transactions[0].means
 
         segments = []
@@ -455,11 +485,12 @@ class Batch(LogicalSection):
                 ['RFF'],
                 ['AEK', self.reference],
             ])
-             
+
             currencies = set([x.currency for x in self.transactions])
             if len(currencies) > 1:
-                raise ValueError("All transactions in a batch must have the same currency")
-             
+                raise ValueError("All transactions in a batch must have the "
+                                 "same currency")
+
             segments.append([
                 ['MOA'],
                 [9, self.amount().quantize(Decimal('0.00')), currencies.pop()],
@@ -487,11 +518,12 @@ class Batch(LogicalSection):
                     ['RFF'],
                     ['AEK', self.reference],
                 ])
-                
+
                 # Use the transaction amount and currency for the debit line
                 segments.append([
                     ['MOA'],
-                    [9, transaction.amount.quantize(Decimal('0.00')), transaction.currency],
+                    [9, transaction.amount.quantize(Decimal('0.00')),
+                     transaction.currency],
                 ])
                 segments.append(self.debit_account.fii_or_segment())
                 segments.append([
@@ -503,7 +535,7 @@ class Batch(LogicalSection):
                 use_index = 1
             else:
                 use_index = index + 1
-                 
+
             segments += transaction.segments(use_index)
 
         return segments
@@ -518,12 +550,14 @@ CHARGES_PAYEE = 13
 CHARGES_EACH_OWN = 14
 CHARGES_PAYER = 15
 
-# values per section 2.8.5 "PAI, Payment Instructions" of "HSBC - CRG Paymul Message Implementation Guide"
+# values per section 2.8.5 "PAI, Payment Instructions" of
+# "HSBC - CRG Paymul Message Implementation Guide"
 MEANS_ACH_OR_EZONE = 2
 MEANS_PRIORITY_PAYMENT = 52
 MEANS_FASTER_PAYMENT = 'FPS'
 
 CHANNEL_INTRA_COMPANY = 'Z24'
+
 
 class Transaction(LogicalSection, HasCurrency):
     def _get_amount(self):
@@ -531,7 +565,8 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_amount(self, amount):
         if len(str(amount)) > 18:
-            raise ValueError("Amount must be shorter than 18 bytes: " + str(amount))
+            raise ValueError("Amount must be shorter than 18 bytes: %s" %
+                             ustr(amount))
 
         self._amount = amount
 
@@ -542,28 +577,41 @@ class Transaction(LogicalSection, HasCurrency):
 
     def _set_payment_reference(self, payment_reference):
         if not len(payment_reference) <= 18:
-            raise ValueError("Payment reference must be <= 18 characters long: " + str(payment_reference))
+            raise ValueError(
+                "Payment reference must be <= 18 characters long: %s" %
+                ustr(payment_reference)
+            )
 
         if not edifact_isalnum(payment_reference):
-            raise ValueError("Payment reference must be alphanumeric: " + str(payment_reference))
+            raise ValueError("Payment reference must be alphanumeric: %s" %
+                             ustr(payment_reference))
 
         self._payment_reference = payment_reference.upper()
 
-    payment_reference = property(_get_payment_reference, _set_payment_reference)
+    payment_reference = property(
+        _get_payment_reference, _set_payment_reference
+    )
 
     def _get_customer_reference(self):
         return self._customer_reference
 
     def _set_customer_reference(self, customer_reference):
         if not len(customer_reference) <= 18:
-            raise ValueError("Customer reference must be <= 18 characters long: " + str(customer_reference))
+            raise ValueError(
+                "Customer reference must be <= 18 characters long: %s" %
+                ustr(customer_reference)
+            )
 
         if not edifact_isalnum(customer_reference):
-            raise ValueError("Customer reference must be alphanumeric: " + str(customer_reference))
+            raise ValueError("Customer reference must be alphanumeric: %s" %
+                             ustr(customer_reference))
 
         self._customer_reference = customer_reference.upper()
 
-    customer_reference = property(_get_customer_reference, _set_customer_reference)
+    customer_reference = property(
+        _get_customer_reference,
+        _set_customer_reference
+    )
 
     def __init__(self, amount, currency, account, means,
                  name_address=None, party_name=None, channel='',
@@ -636,4 +684,3 @@ class Transaction(LogicalSection, HasCurrency):
         segments.append(nad_segment)
 
         return segments
-
