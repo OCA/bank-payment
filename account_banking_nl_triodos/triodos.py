@@ -6,8 +6,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -28,10 +28,9 @@ Dutch Banking Tools uses the concept of 'Afschrift' or Bank Statement.
 Every transaction is bound to a Bank Statement. As such, this module generates
 Bank Statements along with Bank Transactions.
 '''
-from datetime import datetime
+
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date
-from account_banking.sepa import postalcode
 from tools.translate import _
 
 import re
@@ -40,6 +39,7 @@ import csv
 __all__ = ['parser']
 
 bt = models.mem_bank_transaction
+
 
 class transaction_message(object):
     '''
@@ -72,50 +72,57 @@ class transaction_message(object):
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
         self.local_account = self.local_account.replace('.', '').zfill(10)
 
+
 class transaction(models.mem_bank_transaction):
     '''
     Implementation of transaction communication class for account_banking.
     '''
-    attrnames = ['local_account', 'remote_account',
-                 'remote_owner', 'transferred_amount',
-                 'execution_date', 'value_date', 'transfer_type',
-                 'reference', 'id',
-                ]
+    attrnames = [
+        'local_account',
+        'remote_account',
+        'remote_owner',
+        'transferred_amount',
+        'execution_date',
+        'value_date',
+        'transfer_type',
+        'reference',
+        'id',
+    ]
 
     type_map = {
         # retrieved from online help in the Triodos banking application
-        'AC': bt.ORDER, # Acceptgiro gecodeerd
-        'AN': bt.ORDER, # Acceptgiro ongecodeerd
-        'AT': bt.ORDER, # Acceptgiro via internet
-        'BA': bt.PAYMENT_TERMINAL, # Betaalautomaat
-        'CHIP': bt.BANK_TERMINAL, # Chipknip
-        # 'CO': # Correctie
-        'DB': bt.ORDER, # Diskettebetaling
-        # 'DV': # Dividend
-        'EI': bt.DIRECT_DEBIT, # Europese Incasso
-        'EICO': bt.DIRECT_DEBIT, # Europese Incasso Correctie
-        'EIST': bt.ORDER, # Europese Incasso Storno
-        'ET': bt.ORDER, # Europese Transactie
-        'ETST': bt.ORDER, #Europese Transactie Storno
-        'GA': bt.BANK_TERMINAL, # Geldautomaat
-        'IB': bt.ORDER, # Interne Boeking
-        'IC': bt.DIRECT_DEBIT, # Incasso
-        'ID': bt.ORDER, # iDeal-betaling
-        'IT': bt.ORDER, # Internet transactie
-        'KN': bt.BANK_COSTS, # Kosten
-        'KO': bt.BANK_TERMINAL, # Kasopname
-        # 'KS': # Kwaliteitsstoring
-        'OV': bt.ORDER, # Overboeking. NB: can also be bt.BANK_COSTS
-                        # when no remote_account specified!
-        'PO': bt.ORDER, # Periodieke Overboeking
-        'PR': bt.BANK_COSTS, # Provisie
-        # 'RE': # Rente
-        # 'RS': # Renteschenking
-        'ST': bt.ORDER, # Storno
-        'TG': bt.ORDER, # Telegiro
-        # 'VL': # Vaste Lening
-        'VO': bt.DIRECT_DEBIT, # Vordering overheid
-        'VV': bt.ORDER, # Vreemde valuta
+        'AC': bt.ORDER,  # Acceptgiro gecodeerd
+        'AN': bt.ORDER,  # Acceptgiro ongecodeerd
+        'AT': bt.ORDER,  # Acceptgiro via internet
+        'BA': bt.PAYMENT_TERMINAL,  # Betaalautomaat
+        'CHIP': bt.BANK_TERMINAL,  # Chipknip
+        # 'CO':  # Correctie
+        'DB': bt.ORDER,  # Diskettebetaling
+        # 'DV':  # Dividend
+        'EI': bt.DIRECT_DEBIT,  # Europese Incasso
+        'EICO': bt.DIRECT_DEBIT,  # Europese Incasso Correctie
+        'EIST': bt.ORDER,  # Europese Incasso Storno
+        'ET': bt.ORDER,  # Europese Transactie
+        'ETST': bt.ORDER,  # Europese Transactie Storno
+        'GA': bt.BANK_TERMINAL,  # Geldautomaat
+        'IB': bt.ORDER,  # Interne Boeking
+        'IC': bt.DIRECT_DEBIT,  # Incasso
+        'ID': bt.ORDER,  # iDeal-betaling
+        'IT': bt.ORDER,  # Internet transactie
+        'KN': bt.BANK_COSTS,  # Kosten
+        'KO': bt.BANK_TERMINAL,  # Kasopname
+        # 'KS':  # Kwaliteitsstoring
+        'OV': bt.ORDER,  # Overboeking. NB: can also be bt.BANK_COSTS
+                         # when no remote_account specified!
+        'PO': bt.ORDER,  # Periodieke Overboeking
+        'PR': bt.BANK_COSTS,  # Provisie
+        # 'RE':  # Rente
+        # 'RS':  # Renteschenking
+        'ST': bt.ORDER,  # Storno
+        'TG': bt.ORDER,  # Telegiro
+        # 'VL':  # Vaste Lening
+        'VO': bt.DIRECT_DEBIT,  # Vordering overheid
+        'VV': bt.ORDER,  # Vreemde valuta
     }
 
     def __init__(self, line, *args, **kwargs):
@@ -129,9 +136,9 @@ class transaction(models.mem_bank_transaction):
         self.message = ''
         # Decompose structured messages
         self.parse_message()
-        if (self.transfer_type == 'OV' and
-            not self.remote_account and
-            not self.remote_owner):
+        if (self.transfer_type == 'OV'
+                and not self.remote_account
+                and not self.remote_owner):
             self.transfer_type = 'KN'
 
     def is_valid(self):
@@ -141,8 +148,7 @@ class transaction(models.mem_bank_transaction):
             elif not self.execution_date:
                 self.error_message = "No execution date"
             elif not self.remote_account and self.transfer_type not in [
-                'KN', 'TG', 'GA', 'BA', 'CHIP'
-                ]:
+                    'KN', 'TG', 'GA', 'BA', 'CHIP']:
                 self.error_message = (
                     "No remote account for transaction type %s" %
                     self.transfer_type)
@@ -172,7 +178,7 @@ class statement(models.mem_bank_statement):
         self.id = msg.statement_id
         self.local_account = msg.local_account
         self.date = str2date(msg.date, '%d-%m-%Y')
-        self.start_balance = self.end_balance = 0 # msg.start_balance
+        self.start_balance = self.end_balance = 0  # msg.start_balance
         self.import_transaction(msg)
 
     def import_transaction(self, msg):
@@ -182,6 +188,7 @@ class statement(models.mem_bank_statement):
         trans = transaction(msg)
         self.end_balance += trans.transferred_amount
         self.transactions.append(trans)
+
 
 class parser(models.parser):
     code = 'TRIOD'
@@ -220,5 +227,3 @@ Statements.
                 stmnt = statement(msg)
         result.append(stmnt)
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
