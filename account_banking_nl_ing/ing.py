@@ -24,10 +24,8 @@
 #
 ##############################################################################
 
-from datetime import datetime
 from openerp.addons.account_banking.parsers import models
 from openerp.addons.account_banking.parsers.convert import str2date
-from openerp.addons.account_banking.sepa import postalcode
 from openerp.tools.translate import _
 
 import re
@@ -39,9 +37,11 @@ bt = models.mem_bank_transaction
 
 """
 First line states the legend
-"Datum","Naam / Omschrijving","Rekening","Tegenrekening","Code","Af Bij","Bedrag (EUR)","MutatieSoort","Mededelingen
+"Datum","Naam / Omschrijving","Rekening","Tegenrekening","Code","Af Bij",\
+"Bedrag (EUR)","MutatieSoort","Mededelingen
 
 """
+
 
 class transaction_message(object):
     '''
@@ -68,16 +68,18 @@ class transaction_message(object):
         if self.debcred == 'Af':
             self.transferred_amount = -self.transferred_amount
         try:
-            self.execution_date = self.value_date = str2date(self.date, '%Y%m%d')
+            self.execution_date = self.value_date = str2date(self.date,
+                                                             '%Y%m%d')
         except ValueError:
-            self.execution_date = self.value_date = str2date(self.date, '%d-%m-%Y')
-        self.statement_id = '' #self.value_date.strftime('%Yw%W')
+            self.execution_date = self.value_date = str2date(self.date,
+                                                             '%d-%m-%Y')
+        self.statement_id = ''  # self.value_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
         self.reference = ''
         # Normalize basic account numbers
         self.remote_account = self.remote_account.replace('.', '').zfill(10)
-        self.local_account = self.local_account.replace('.', '').zfill(10)             
-        
+        self.local_account = self.local_account.replace('.', '').zfill(10)
+
 
 class transaction(models.mem_bank_transaction):
     '''
@@ -87,30 +89,30 @@ class transaction(models.mem_bank_transaction):
                  'remote_owner', 'transferred_amount',
                  'execution_date', 'value_date', 'transfer_type',
                  'id', 'reference', 'statement_id', 'message',
-                ]
+                 ]
 
     """
     Presumably the same transaction types occur in the MT940 format of ING.
     From www.ing.nl/Images/MT940_Technische_handleiding_tcm7-69020.pdf
-    
+
     """
     type_map = {
-        
-        'AC': bt.ORDER, # Acceptgiro
-        'BA': bt.PAYMENT_TERMINAL, # Betaalautomaattransactie
-        'CH': bt.ORDER, # Cheque
-        'DV': bt.ORDER, # Diversen
-        'FL': bt.BANK_TERMINAL, # Filiaalboeking, concernboeking
-        'GF': bt.ORDER, # Telefonisch bankieren
-        'GM': bt.BANK_TERMINAL, # Geldautomaat
-        'GT': bt.ORDER, # Internetbankieren
-        'IC': bt.DIRECT_DEBIT, # Incasso
-        'OV': bt.ORDER, # Overschrijving
-        'PK': bt.BANK_TERMINAL, # Opname kantoor
-        'PO': bt.ORDER, # Periodieke overschrijving
-        'ST': bt.BANK_TERMINAL, # Storting (eigen rekening of derde)
-        'VZ': bt.ORDER, # Verzamelbetaling
-        'NO': bt.STORNO, # Storno
+
+        'AC': bt.ORDER,  # Acceptgiro
+        'BA': bt.PAYMENT_TERMINAL,  # Betaalautomaattransactie
+        'CH': bt.ORDER,  # Cheque
+        'DV': bt.ORDER,  # Diversen
+        'FL': bt.BANK_TERMINAL,  # Filiaalboeking, concernboeking
+        'GF': bt.ORDER,  # Telefonisch bankieren
+        'GM': bt.BANK_TERMINAL,  # Geldautomaat
+        'GT': bt.ORDER,  # Internetbankieren
+        'IC': bt.DIRECT_DEBIT,  # Incasso
+        'OV': bt.ORDER,  # Overschrijving
+        'PK': bt.BANK_TERMINAL,  # Opname kantoor
+        'PO': bt.ORDER,  # Periodieke overschrijving
+        'ST': bt.BANK_TERMINAL,  # Storting (eigen rekening of derde)
+        'VZ': bt.ORDER,  # Verzamelbetaling
+        'NO': bt.STORNO,  # Storno
         }
 
     # global expression for matching storno references
@@ -167,10 +169,6 @@ class transaction(models.mem_bank_transaction):
         in the 'name' column, as well as full address information
         in the 'message' column'
         """
-        reference = ''
-        street = False
-        zipcode = False
-        street = False
         before = False
         if self.remote_owner.startswith('KN: '):
             self.reference = self.remote_owner[4:]
@@ -212,8 +210,7 @@ class transaction(models.mem_bank_transaction):
             elif not self.execution_date:
                 self.error_message = "No execution date"
             elif not self.remote_account and self.transfer_type not in [
-                'BA', 'FL', 'GM', 'IC', 'PK', 'ST'
-                ]:
+                    'BA', 'FL', 'GM', 'IC', 'PK', 'ST']:
                 self.error_message = (
                     "No remote account for transaction type %s" %
                     self.transfer_type)
@@ -224,6 +221,7 @@ class transaction(models.mem_bank_transaction):
         Parse structured message parts into appropriate attributes.
         No processing done here for Triodos, maybe later.
         '''
+
 
 class statement(models.mem_bank_statement):
     '''
@@ -240,7 +238,7 @@ class statement(models.mem_bank_statement):
             self.date = str2date(msg.date, '%Y%m%d')
         except ValueError:
             self.date = str2date(msg.date, '%d-%m-%Y')
-        self.start_balance = self.end_balance = 0 # msg.start_balance
+        self.start_balance = self.end_balance = 0  # msg.start_balance
         self.import_transaction(msg)
 
     def import_transaction(self, msg):
@@ -250,6 +248,7 @@ class statement(models.mem_bank_statement):
         trans = transaction(msg)
         self.end_balance += trans.transferred_amount
         self.transactions.append(trans)
+
 
 class parser(models.parser):
     code = 'ING'
@@ -287,5 +286,3 @@ Statements.
                 stmnt = statement(msg)
         result.append(stmnt)
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
