@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -32,14 +32,12 @@ class banking_import_line(orm.TransientModel):
         'payment_order_id': fields.many2one(
             'payment.order', 'Payment order'),
         'transaction_type': fields.selection([
-                # Add payment order related transaction types
-                ('invoice', 'Invoice payment'),
-                ('payment_order_line', 'Payment from a payment order'),
-                ('payment_order', 'Aggregate payment order'),
-                ('storno', 'Canceled debit order'),
-                ('bank_costs', 'Bank costs'),
-                ('unknown', 'Unknown'),
-                ], 'Transaction type'),
-        }
-
-
+            # Add payment order related transaction types
+            ('invoice', 'Invoice payment'),
+            ('payment_order_line', 'Payment from a payment order'),
+            ('payment_order', 'Aggregate payment order'),
+            ('storno', 'Canceled debit order'),
+            ('bank_costs', 'Bank costs'),
+            ('unknown', 'Unknown'),
+        ], 'Transaction type'),
+    }

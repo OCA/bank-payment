@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -27,6 +27,7 @@ from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 
+
 class payment_line(orm.Model):
     '''
     Add some fields; make destination bank account
@@ -40,7 +41,7 @@ class payment_line(orm.Model):
         'date_done': fields.date(
             'Date Confirmed', select=True, readonly=True),
         'transit_move_line_id': fields.many2one(
-            # this line is part of the credit side of move 2a 
+            # this line is part of the credit side of move 2a
             # from the documentation
             'account.move.line', 'Debit move line',
             readonly=True,
@@ -57,7 +58,7 @@ class payment_line(orm.Model):
     account_direct_debit module.
     """
     def get_storno_account_id(self, cr, uid, payment_line_id, amount,
-                     currency_id, context=None):
+                              currency_id, context=None):
         """
         Hook for verifying a match of the payment line with the amount.
         Return the account associated with the storno.
@@ -115,19 +116,21 @@ class payment_line(orm.Model):
         if (not transit_move_line or not torec_move_line):
             raise orm.except_orm(
                 _('Can not reconcile'),
-                _('No move line for line %s') % payment_line.name)     
-        if torec_move_line.reconcile_id: # torec_move_line.reconcile_partial_id:
+                _('No move line for line %s') % payment_line.name
+            )
+        if torec_move_line.reconcile_id:
             raise orm.except_orm(
                 _('Error'),
-                _('Move line %s has already been reconciled') % 
+                _('Move line %s has already been reconciled') %
                 torec_move_line.name
                 )
-        if transit_move_line.reconcile_id or transit_move_line.reconcile_partial_id:
+        if (transit_move_line.reconcile_id
+                or transit_move_line.reconcile_partial_id):
             raise orm.except_orm(
                 _('Error'),
-                _('Move line %s has already been reconciled') % 
+                _('Move line %s has already been reconciled') %
                 transit_move_line.name
-                )
+            )
 
         def is_zero(total):
             return self.pool.get('res.currency').is_zero(
@@ -136,7 +139,7 @@ class payment_line(orm.Model):
         line_ids = [transit_move_line.id, torec_move_line.id]
         if torec_move_line.reconcile_partial_id:
             line_ids = [
-                x.id for x in 
+                x.id for x in
                 torec_move_line.reconcile_partial_id.line_partial_ids
                 ] + [transit_move_line.id]
 
@@ -144,7 +147,9 @@ class payment_line(orm.Model):
         vals = {
             'type': 'auto',
             'line_id': is_zero(total) and [(6, 0, line_ids)] or [(6, 0, [])],
-            'line_partial_ids': is_zero(total) and [(6, 0, [])] or [(6, 0, line_ids)],
+            'line_partial_ids': (is_zero(total)
+                                 and [(6, 0, [])]
+                                 or [(6, 0, line_ids)]),
             }
 
         if torec_move_line.reconcile_partial_id:
