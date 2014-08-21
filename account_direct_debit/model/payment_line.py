@@ -3,6 +3,7 @@ from openerp.osv import orm, fields
 import netsvc
 from tools.translate import _
 
+
 class payment_line(orm.Model):
     _inherit = 'payment.line'
 
@@ -22,15 +23,15 @@ class payment_line(orm.Model):
         :param payment_line_id: the single payment line id
         :param amount: the (signed) amount debited from the bank account
         :param currency: the bank account's currency *browse object*
-        :param boolean storno_retry: when True, attempt to reopen the invoice, \
-        set the invoice to 'Debit denied' otherwise.
+        :param boolean storno_retry: when True, attempt to reopen the \
+        invoice, set the invoice to 'Debit denied' otherwise.
         :return: an incomplete reconcile for the caller to fill
         :rtype: database id of an account.move.reconcile resource.
         """
 
-        move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
         line = self.browse(cr, uid, payment_line_id)
+        transit_move_line = line.transit_move_line_id
         reconcile_id = False
         if (line.transit_move_line_id and not line.storno and
             self.pool.get('res.currency').is_zero(
@@ -43,14 +44,13 @@ class payment_line(orm.Model):
             # Actually, given the nature of a direct debit order and storno,
             # we should not need to take partial into account on the side of
             # the transit_move_line.
-            if line.transit_move_line_id.reconcile_partial_id:
-                reconcile_id = line.transit_move_line_id.reconcile_partial_id.id
-                attribute = 'reconcile_partial_id'
-                if len(line.transit_move_line_id.reconcile_id.line_partial_ids) == 2:
+            if transit_move_line.reconcile_partial_id:
+                reconcile_id = transit_move_line.reconcile_partial_id.id
+                if len(transit_move_line.reconcile_id.line_partial_ids) == 2:
                     # reuse the simple reconcile for the storno transfer
                     reconcile_obj.write(
                         cr, uid, reconcile_id, {
-                            'line_id': [(6, 0, line.transit_move_line_id.id)],
+                            'line_id': [(6, 0, transit_move_line.id)],
                             'line_partial_ids': [(6, 0, [])],
                             }, context=context)
                 else:
@@ -58,27 +58,27 @@ class payment_line(orm.Model):
                     # and a new one for reconciling the storno transfer
                     reconcile_obj.write(
                         cr, uid, reconcile_id, {
-                            'line_partial_ids': [(3, line.transit_move_line_id.id)],
+                            'line_partial_ids': [(3, transit_move_line.id)],
                             }, context=context)
                     reconcile_id = reconcile_obj.create(
                         cr, uid, {
                             'type': 'auto',
-                            'line_id': [(6, 0, line.transit_move_line_id.id)],
+                            'line_id': [(6, 0, transit_move_line.id)],
                             }, context=context)
-            elif line.transit_move_line_id.reconcile_id:
-                reconcile_id = line.transit_move_line_id.reconcile_id.id
-                if len(line.transit_move_line_id.reconcile_id.line_id) == 2:
+            elif transit_move_line.reconcile_id:
+                reconcile_id = transit_move_line.reconcile_id.id
+                if len(transit_move_line.reconcile_id.line_id) == 2:
                     # reuse the simple reconcile for the storno transfer
                     reconcile_obj.write(
                         cr, uid, reconcile_id, {
-                            'line_id': [(6, 0, [line.transit_move_line_id.id])]
+                            'line_id': [(6, 0, [transit_move_line.id])]
                             }, context=context)
                 else:
                     # split up the original reconcile in a partial one
                     # and a new one for reconciling the storno transfer
-                    partial_ids = [ 
-                        x.id for x in line.transit_move_line_id.reconcile_id.line_id
-                        if x.id != line.transit_move_line_id.id
+                    partial_ids = [
+                        x.id for x in transit_move_line.reconcile_id.line_id
+                        if x.id != transit_move_line.id
                         ]
                     reconcile_obj.write(
                         cr, uid, reconcile_id, {
@@ -88,7 +88,7 @@ class payment_line(orm.Model):
                     reconcile_id = reconcile_obj.create(
                         cr, uid, {
                             'type': 'auto',
-                            'line_id': [(6, 0, line.transit_move_line_id.id)],
+                            'line_id': [(6, 0, transit_move_line.id)],
                             }, context=context)
             # mark the payment line for storno processed
             if reconcile_id:
@@ -104,7 +104,7 @@ class payment_line(orm.Model):
         return reconcile_id
 
     def get_storno_account_id(self, cr, uid, payment_line_id, amount,
-                     currency, context=None):
+                              currency, context=None):
         """
         Check the match of the arguments, and return the account associated
         with the storno.
