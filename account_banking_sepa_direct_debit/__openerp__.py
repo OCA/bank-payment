@@ -30,7 +30,7 @@
     'depends': ['account_direct_debit', 'account_banking_pain_base'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
-        },
+    },
     'data': [
         'security/original_mandate_required_security.xml',
         'account_banking_sdd_view.xml',
@@ -49,13 +49,23 @@
     'description': '''
 Module to export direct debit payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for Customer-to-Bank payment instructions. This module implements SEPA Direct Debit (SDD), more specifically PAIN versions 008.001.02, 008.001.03 and 008.001.04. It is part of the ISO 20022 standard, available on http://www.iso20022.org.
+SEPA PAIN (PAyment INitiation) is the new european standard for
+Customer-to-Bank payment instructions.
 
-The Implementation Guidelines for SEPA Direct Debit published by the European Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN version 008.001.02. So if you don't know which version your bank supports, you should try version 008.001.02 first.
+This module implements SEPA Direct Debit (SDD), more specifically PAIN
+versions 008.001.02, 008.001.03 and 008.001.04.
+It is part of the ISO 20022 standard, available on http://www.iso20022.org.
 
-This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
+The Implementation Guidelines for SEPA Direct Debit published by the European
+Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN
+version 008.001.02. So if you don't know which version your bank supports,
+you should try version 008.001.02 first.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module uses the framework provided by the banking addons,
+cf https://www.github.com/OCA/banking-addons
+
+Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
+for any help or question about this module.
     ''',
     'active': False,
     'installable': True,
