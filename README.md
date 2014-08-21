@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/OCA/banking.svg?branch=7.0)](https://travis-ci.org/OCA/banking)
 [![Coverage Status](https://coveralls.io/repos/OCA/banking/badge.png?branch=7.0)](https://coveralls.io/r/OCA/banking?branch=7.0)
 
-Banking addons for Odoo
-=======================
+Banking addons for OpenERP
+==========================
 
 This project focuses on in- and export of banking communication. The indentation below indicates
 the dependency graph of the main modules.
@@ -23,6 +23,11 @@ of (an extension of) the new, native reconciliation functionality.
 
 A number of other modules are available for legacy format bank statement files.
 
-Contact us
-----------
-Join the team on https://launchpad.net/~banking-addons-drivers so that you can subscribe to its mailing list
+----
+
+OCA, or the Odoo Community Association, is a nonprofit organization whose 
+mission is to support the collaborative development of Odoo features and 
+promote its widespread use.
+
+http://odoo-community.org/
+
