@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -19,7 +19,6 @@
 #
 ##############################################################################
 
-from datetime import date
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
@@ -45,7 +44,7 @@ class clieop_export(orm.Model):
         'duplicates':
             fields.integer('Number of Duplicates', readonly=True),
         'prefered_date':
-            fields.date('Prefered Processing Date',readonly=True),
+            fields.date('Prefered Processing Date', readonly=True),
         'no_transactions':
             fields.integer('Number of Transactions', readonly=True),
         'check_no_accounts':
@@ -81,13 +80,13 @@ class clieop_export(orm.Model):
         '''
         last = 1
         last_ids = self.search(cr, uid, [
-                ('date_generated', '=', 
-                 fields.date.context_today(self, cr,uid,context))
-                ], context=context)
+            ('date_generated', '=', fields.date.context_today(
+                self, cr, uid, context)),
+        ], context=context)
         if last_ids:
             last = 1 + max([x['daynumber'] for x in self.read(
-                        cr, uid, last_ids, ['daynumber'],
-                        context=context)])
+                cr, uid, last_ids, ['daynumber'], context=context)]
+            )
         return last
 
     _defaults = {
