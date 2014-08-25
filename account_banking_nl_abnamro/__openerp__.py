@@ -35,8 +35,8 @@ No formal specifications of the file layout are released by abnamro. You can
 help improve the performance of this import filter on
 https://launchpad.net/account-banking.
 
-Imported bank transfers are organized in statements covering periods of one week,
-even if the imported files cover a different period.
-    ''',
+Imported bank transfers are organized in statements covering periods of one
+week, even if the imported files cover a different period.
+''',
     'installable': True,
 }
