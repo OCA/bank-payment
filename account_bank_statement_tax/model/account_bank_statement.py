@@ -36,7 +36,7 @@ class AccountBankStatement(orm.Model):
         @param defaults: dictionary of default move line values. Usually
         the same as the originating move line.
 
-        return one or more serialized tax move lines and a set of values to 
+        return one or more serialized tax move lines and a set of values to
         update the originating move line with, containing the new amount.
         """
 
@@ -50,8 +50,8 @@ class AccountBankStatement(orm.Model):
 
         fiscal_position = (
             st_line.partner_id.property_account_position
-            if st_line.partner_id and 
-                st_line.partner_id.property_account_position
+            if st_line.partner_id
+            and st_line.partner_id.property_account_position
             else False)
         tax_ids = self.pool.get('account.fiscal.position').map_tax(
             cr, uid, fiscal_position, [st_line.tax_id])
@@ -66,25 +66,33 @@ class AccountBankStatement(orm.Model):
                     update_move_line['tax_code_id'] = tax['base_code_id']
                     update_move_line['tax_amount'] = tax['base_sign'] * (
                         computed_taxes.get('total', 0.0))
-                    # As the tax is inclusive, we need to correct the amount on the
-                    # original move line
+                    # As the tax is inclusive, we need to correct the amount
+                    # on the original move line
                     amount = computed_taxes.get('total', 0.0)
-                    update_move_line['credit'] = ((amount < 0) and -amount) or 0.0
-                    update_move_line['debit'] = ((amount > 0) and amount) or 0.0
+                    update_move_line['credit'] = (
+                        (amount < 0) and -amount) or 0.0
+                    update_move_line['debit'] = (
+                        (amount > 0) and amount) or 0.0
 
                 move_lines.append({
                     'move_id': defaults['move_id'],
-                    'name': defaults.get('name', '') + ' ' + ustr(tax['name'] or ''),
+                    'name': (
+                        defaults.get('name', '')
+                        + ' ' + ustr(tax['name'] or '')),
                     'date': defaults.get('date', False),
                     'partner_id': defaults.get('partner_id', False),
                     'ref': defaults.get('ref', False),
                     'statement_id': defaults.get('statement_id'),
                     'tax_code_id': tax['tax_code_id'],
                     'tax_amount': tax['tax_sign'] * tax.get('amount', 0.0),
-                    'account_id': tax.get('account_collected_id', defaults['account_id']),
+                    'account_id': (
+                        tax.get('account_collected_id',
+                                defaults['account_id'])),
                     'credit': tax['amount'] < 0 and - tax['amount'] or 0.0,
                     'debit': tax['amount'] > 0 and tax['amount'] or 0.0,
-                    'account_id': tax.get('account_collected_id', defaults['account_id']),
+                    'account_id': (
+                        tax.get('account_collected_id',
+                                defaults['account_id'])),
                     })
 
         return move_lines, update_move_line
