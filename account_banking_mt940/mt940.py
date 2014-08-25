@@ -27,17 +27,22 @@ import re
 import datetime
 import logging
 try:
-    from openerp.addons.account_banking.parsers.models import\
-            mem_bank_statement, mem_bank_transaction
+    from openerp.addons.account_banking.parsers.models import (
+        mem_bank_statement,
+        mem_bank_transaction,
+    )
     from openerp.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 except ImportError:
-    #this allows us to run this file standalone, see __main__ at the end
+    # this allows us to run this file standalone, see __main__ at the end
+
     class mem_bank_statement:
         def __init__(self):
             self.transactions = []
+
     class mem_bank_transaction:
         pass
     DEFAULT_SERVER_DATE_FORMAT = "%Y-%m-%d"
+
 
 class MT940(object):
     '''Inherit this class in your account_banking.parsers.models.parser,
@@ -46,7 +51,7 @@ class MT940(object):
 
     Note that order matters: You need to do your_parser(MT940, parser), not the
     other way around!
-    
+
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
     handle_tag_* functions receive the remainder of the the line (that is,
@@ -59,7 +64,7 @@ class MT940(object):
     footer_regex = '^-}$'
     footer_regex = '^-XXX$'
     'The line that denotes end of message, we need to create a new statement'
-    
+
     tag_regex = '^:[0-9]{2}[A-Z]*:'
     'The beginning of a record, should be anchored to beginning of the line'
 
@@ -194,15 +199,17 @@ class MT940(object):
         banks occur'''
         pass
 
-'utility functions'
+
 def str2date(string, fmt='%y%m%d'):
     return datetime.datetime.strptime(string, fmt)
+
 
 def str2float(string):
     return float(string.replace(',', '.'))
 
-'testing'
+
 def main(filename):
+    """testing"""
     parser = MT940()
     parser.parse(None, open(filename, 'r').read())
     for statement in parser.statements:
