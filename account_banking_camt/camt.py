@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -26,6 +26,7 @@ from openerp.addons.account_banking.parsers.convert import str2date
 
 bt = models.mem_bank_transaction
 
+
 class transaction(models.mem_bank_transaction):
 
     def __init__(self, values, *args, **kwargs):
@@ -35,6 +36,7 @@ class transaction(models.mem_bank_transaction):
 
     def is_valid(self):
         return not self.error_message
+
 
 class parser(models.parser):
     code = 'CAMT'
@@ -69,7 +71,7 @@ CAMT Format parser
     def find(self, node, expr):
         """
         Like xpath(), but return first result if any or else False
-        
+
         Return None to test nodes for being truesy
         """
         result = node.xpath(expr, namespaces={'ns': self.ns[1:-1]})
@@ -82,19 +84,20 @@ CAMT Format parser
         :param node: BkToCstmrStmt/Stmt/Bal node
         :param balance type: one of 'OPBD', 'PRCD', 'ITBD', 'CLBD'
         """
-        code_expr = './ns:Bal/ns:Tp/ns:CdOrPrtry/ns:Cd[text()="%s"]/../../..' % balance_type
+        code_expr = ('./ns:Bal/ns:Tp/ns:CdOrPrtry/ns:Cd[text()="%s"]/../../..'
+                     % balance_type)
         return self.xpath(node, code_expr)
-    
+
     def parse_amount(self, node):
         """
         Parse an element that contains both Amount and CreditDebitIndicator
-        
+
         :return: signed amount
         :returntype: float
         """
         sign = -1 if node.find(self.ns + 'CdtDbtInd').text == 'DBIT' else 1
         return sign * float(node.find(self.ns + 'Amt').text)
-        
+
     def get_start_balance(self, node):
         """
         Find the (only) balance node with code OpeningBalance, or
@@ -240,7 +243,7 @@ CAMT Format parser
         structured = self.find(
             TxDtls, './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref')
         if structured is None or not structured.text:
-            structured = self.find(TxDtls, './ns:Refs/ns:EndToEndId') 
+            structured = self.find(TxDtls, './ns:Refs/ns:EndToEndId')
         if structured is not None:
             vals['reference'] = structured.text
         else:
