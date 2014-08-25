@@ -43,11 +43,19 @@
 French Letter of Change
 =======================
 
-This module adds support for French Letters of Change (in French : Lettre de Change Relevé aka LCR). This payment type is still in use in France and it is *not* replaced by SEPA one-off Direct Debits. With this module, you can generate a CFONB file to send to your bank.
+This module adds support for French Letters of Change (in French :
+Lettre de Change Relevé aka LCR).
 
-This module uses the framework provided by the banking addons, cf https://launchpad.net/banking-addons
+This payment type is still in use in France and it is *not* replaced by SEPA
+one-off Direct Debits.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
-    ''',
+With this module, you can generate a CFONB file to send to your bank.
+
+This module uses the framework provided by the banking addons,
+cf https://github.com/OCA/banking
+
+Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
+for any help or question about this module.
+''',
     'active': False,
 }
