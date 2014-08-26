@@ -57,6 +57,7 @@
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
 			                        <field name="currency_id"/>
+			                        <field name="amount_in_currency"/>
 			                        <field name="research_required"/>
 			                    </form>
 			                    <tree string="Deposits, Credits, and Interest" editable="top">
@@ -67,6 +68,7 @@
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
 			                        <field name="currency_id"/>
+			                        <field name="amount_in_currency"/>
 									<field name="research_required"/>
 									<field name="move_line_id"/>
 			                    </tree>
@@ -81,6 +83,7 @@
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
 			                        <field name="currency_id"/>
+			                        <field name="amount_in_currency"/>
 			                        <field name="research_required"/>
 			                    </form>
 			                    <tree string="Checks, Withdrawals, Debits, and Service Charges" editable="top">
@@ -91,6 +94,7 @@
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
 			                        <field name="currency_id"/>
+			                        <field name="amount_in_currency"/>
 									<field name="research_required"/>
 									<field name="move_line_id"/>
 			                    </tree>

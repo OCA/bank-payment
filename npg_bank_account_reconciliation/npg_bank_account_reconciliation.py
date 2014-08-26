@@ -218,13 +218,10 @@ class bank_acc_rec_statement(osv.osv):
             'type': line.credit and 'cr' or 'dr'
         }
 
-        if all((line.currency_id,
-                line.company_id,
-                line.currency_id.id != line.company_id.currency_id.id)):
-            if line.credit:
-                res['amount'] = -line.amount_currency
-            else:
-                res['amount'] = line.amount_currency
+        if line.credit:
+            res['amount_in_currency'] = -line.amount_currency
+        else:
+            res['amount_in_currency'] = line.amount_currency
 
         return res
 
@@ -390,6 +387,8 @@ class bank_acc_rec_statement_line(osv.osv):
         'partner_id': fields.many2one('res.partner', string='Partner', help="Derived from related Journal Item."),
         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'),
                                help="Derived from the 'debit' amount from related Journal Item."),
+        'amount_in_currency': fields.float('Amount in Currency', digits_compute=dp.get_precision('Account'),
+                               help="Amount in currency from the related Journal Item."),
         'date': fields.date('Date', required=True, help="Derived from related Journal Item."),
         'statement_id': fields.many2one('bank.acc.rec.statement', 'Statement', required=True, ondelete='cascade'),
         'move_line_id': fields.many2one('account.move.line', 'Journal Item', help="Related Journal Item."),
