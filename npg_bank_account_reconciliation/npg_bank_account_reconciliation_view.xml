@@ -56,8 +56,8 @@
 			                        <field name="ref"/>
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
-			                        <field name="currency_id"/>
 			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
 			                        <field name="research_required"/>
 			                    </form>
 			                    <tree string="Deposits, Credits, and Interest" editable="top">
@@ -67,10 +67,10 @@
 			                        <field name="ref"/>
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
-			                        <field name="currency_id"/>
 			                        <field name="amount_in_currency"/>
-									<field name="research_required"/>
-									<field name="move_line_id"/>
+			                        <field name="currency_id"/>
+						<field name="research_required"/>
+						<field name="move_line_id"/>
 			                    </tree>
 			                </field>
 			                <label for='account_label2' string='Checks, Withdrawals, Debits, and Service Charges'/>
@@ -82,8 +82,8 @@
 			                        <field name="ref"/>
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
-			                        <field name="currency_id"/>
 			                        <field name="amount_in_currency"/>
+			                        <field name="currency_id"/>
 			                        <field name="research_required"/>
 			                    </form>
 			                    <tree string="Checks, Withdrawals, Debits, and Service Charges" editable="top">
@@ -93,10 +93,10 @@
 			                        <field name="ref"/>
 			                        <field name="partner_id"/>
 			                        <field name="amount"/>
-			                        <field name="currency_id"/>
 			                        <field name="amount_in_currency"/>
-									<field name="research_required"/>
-									<field name="move_line_id"/>
+			                        <field name="currency_id"/>
+						<field name="research_required"/>
+						<field name="move_line_id"/>
 			                    </tree>
 				            </field>
 			                <group col="2" colspan="1" groups="npg_bank_account_reconciliation.group_bank_stmt_verifier">
