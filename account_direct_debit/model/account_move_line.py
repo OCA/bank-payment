@@ -23,6 +23,7 @@
 from operator import itemgetter
 from openerp.osv import fields, orm
 
+
 class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
@@ -80,7 +81,7 @@ class account_move_line(orm.Model):
                 WHERE type=%s AND active)
             AND reconcile_id IS null
             AND debit > 0
-            AND ''' + where + ' and ' + query), ('receivable',)+sql_args )
+            AND ''' + where + ' and ' + query), ('receivable',)+sql_args)
 
         res = cr.fetchall()
         if not res:

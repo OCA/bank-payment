@@ -345,6 +345,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
 
     def test_payment_roundtrip(self):
         reg, cr, uid, = self.registry, self.cr, self.uid
+        # Tests fail if admin does not have the English language
+        reg('res.users').write(cr, uid, uid, {'lang': 'en_US'})
         self.setup_company(reg, cr, uid)
         self.setup_chart(reg, cr, uid)
         self.setup_payables(reg, cr, uid)
