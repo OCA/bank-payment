@@ -30,7 +30,6 @@ from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 from openerp.addons.account_banking.parsers import models
 from openerp.addons.account_banking.parsers import convert
-from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.wizard import banktools
 
 bt = models.mem_bank_transaction
@@ -48,8 +47,9 @@ class banking_import_transaction(orm.Model):
     _description = 'Bank import transaction'
     _rec_name = 'transaction'
 
-    # This variable is used to match supplier invoices with an invoice date after
-    # the real payment date. This can occur with online transactions (web shops).
+    # This variable is used to match supplier invoices with an invoice date
+    # after the real payment date. This can occur with online transactions
+    # (web shops).
     # TODO: Convert this to a proper configuration variable
     payment_window = datetime.timedelta(days=10)
 
@@ -65,7 +65,9 @@ class banking_import_transaction(orm.Model):
         amount = round(abs(trans.statement_line_id.amount), digits)
         # Make sure to be able to pinpoint our costs invoice for later
         # matching
-        reference = '%s.%s: %s' % (trans.statement, trans.transaction, trans.reference)
+        reference = '%s.%s: %s' % (trans.statement,
+                                   trans.transaction,
+                                   trans.reference)
 
         # search supplier invoice
         invoice_obj = self.pool.get('account.invoice')
@@ -85,28 +87,29 @@ class banking_import_transaction(orm.Model):
             # create supplier invoice
             partner_obj = self.pool.get('res.partner')
             invoice_lines = [(0, 0, dict(
-                amount = 1,
-                price_unit = amount,
-                name = trans.message or trans.reference,
-                account_id = account_info.costs_account_id.id
+                amount=1,
+                price_unit=amount,
+                name=trans.message or trans.reference,
+                account_id=account_info.costs_account_id.id
             ))]
             invoice_address_id = partner_obj.address_get(
                 cr, uid, [account_info.bank_partner_id.id], ['invoice']
             )
             invoice_id = invoice_obj.create(cr, uid, dict(
-                type = 'in_invoice',
-                company_id = account_info.company_id.id,
-                partner_id = account_info.bank_partner_id.id,
-                address_invoice_id = invoice_address_id['invoice'],
-                period_id = period_id,
-                journal_id = account_info.invoice_journal_id.id,
-                account_id = account_info.bank_partner_id.property_account_payable.id,
-                date_invoice = trans.execution_date,
-                reference_type = 'none',
-                reference = reference,
-                name = trans.reference or trans.message,
-                check_total = amount,
-                invoice_line = invoice_lines,
+                type='in_invoice',
+                company_id=account_info.company_id.id,
+                partner_id=account_info.bank_partner_id.id,
+                address_invoice_id=invoice_address_id['invoice'],
+                period_id=period_id,
+                journal_id=account_info.invoice_journal_id.id,
+                account_id=(
+                    account_info.bank_partner_id.property_account_payable.id),
+                date_invoice=trans.execution_date,
+                reference_type='none',
+                reference=reference,
+                name=trans.reference or trans.message,
+                check_total=amount,
+                invoice_line=invoice_lines,
             ))
             invoice = invoice_obj.browse(cr, uid, invoice_id)
             # Create workflow
@@ -129,8 +132,8 @@ class banking_import_transaction(orm.Model):
         Use the sales journal to check.
 
         Challenges we're facing:
-            1. The sending or receiving party is not necessarily the same as the
-               partner the payment relates to.
+            1. The sending or receiving party is not necessarily the same as
+               the partner the payment relates to.
             2. References can be messed up during manual encoding and inexact
                matching can link the wrong invoices.
             3. Amounts can or can not match the expected amount.
@@ -138,8 +141,8 @@ class banking_import_transaction(orm.Model):
             .. There are countless more, but these we'll try to address.
 
         Assumptions for matching:
-            1. There are no payments for invoices not sent. These are dealt with
-               later on.
+            1. There are no payments for invoices not sent. These are dealt
+               with later on.
             2. Debit amounts are either customer invoices or credited supplier
                invoices.
             3. Credit amounts are either supplier invoices or credited customer
@@ -152,8 +155,8 @@ class banking_import_transaction(orm.Model):
             1. No match was made.
                No harm done. Proceed with manual matching as usual.
             2. The wrong match was made.
-               Statements are encoded in draft. You will have the opportunity to
-               manually correct the wrong assumptions.
+               Statements are encoded in draft. You will have the opportunity
+               to manually correct the wrong assumptions.
 
         TODO: REVISE THIS DOC
         #Return values:
@@ -170,8 +173,10 @@ class banking_import_transaction(orm.Model):
             '''
             Return the eyecatcher for an invoice
             '''
-            return invoice.type.startswith('in_') and invoice.name or \
-                    invoice.number
+            if invoice.type.startswith('in_'):
+                return invoice.name or invoice.number
+            else:
+                return invoice.number
 
         def has_id_match(invoice, ref, msg):
             '''
@@ -197,7 +202,8 @@ class banking_import_transaction(orm.Model):
                     iname = invoice.name.upper()
                     if iname in ref or iname in msg:
                         return True
-                if invoice.supplier_invoice_number and len(invoice.supplier_invoice_number) > 2:
+                if (invoice.supplier_invoice_number
+                        and len(invoice.supplier_invoice_number) > 2):
                     supp_ref = invoice.supplier_invoice_number.upper()
                     if supp_ref in ref or supp_ref in msg:
                         return True
@@ -214,8 +220,8 @@ class banking_import_transaction(orm.Model):
             # the interactive wizard
             return False
 
-            #'''Check if the move_line has been cached'''
-            #return move_line.id in linked_invoices
+            # '''Check if the move_line has been cached'''
+            # return move_line.id in linked_invoices
 
         def _cache(move_line, remaining=0.0):
             '''Cache the move_line'''
@@ -228,11 +234,12 @@ class banking_import_transaction(orm.Model):
 
         def _sign(invoice):
             '''Return the direction of an invoice'''
-            return {'in_invoice': -1,
-                    'in_refund': 1,
-                    'out_invoice': 1,
-                    'out_refund': -1
-                   }[invoice.type]
+            return {
+                'in_invoice': -1,
+                'in_refund': 1,
+                'out_invoice': 1,
+                'out_refund': -1
+            }[invoice.type]
 
         def is_zero(move_line, total):
             return self.pool.get('res.currency').is_zero(
@@ -256,9 +263,9 @@ class banking_import_transaction(orm.Model):
 
         # Next on reference/invoice number. Mind that this uses the invoice
         # itself, as the move_line references have been fiddled with on invoice
-        # creation. This also enables us to search for the invoice number in the
-        # reference instead of the other way around, as most human interventions
-        # *add* text.
+        # creation. This also enables us to search for the invoice number in
+        # the reference instead of the other way around, as most human
+        # interventions *add* text.
         ref = trans.reference.upper()
         msg = trans.message.upper()
         if len(candidates) > 1 or not candidates:
@@ -280,15 +287,15 @@ class banking_import_transaction(orm.Model):
         # partners.
         if not candidates and partner_ids:
             candidates = [
-                    x for x in move_lines
-                    if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                                trans.statement_line_id.amount)
-                        and convert.str2date(x.date, '%Y-%m-%d') <=
-                        (convert.str2date(trans.execution_date, '%Y-%m-%d')  +
-                         self.payment_window)
-                        and (not _cached(x) or _remaining(x))
-                        and x.partner_id.id in partner_ids)
-                    ]
+                x for x in move_lines
+                if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
+                            trans.statement_line_id.amount)
+                    and convert.str2date(x.date, '%Y-%m-%d') <=
+                    (convert.str2date(trans.execution_date, '%Y-%m-%d') +
+                    self.payment_window)
+                    and (not _cached(x) or _remaining(x))
+                    and x.partner_id.id in partner_ids)
+                ]
 
         move_line = False
 
@@ -297,13 +304,14 @@ class banking_import_transaction(orm.Model):
             # amounts expected and received.
             #
             # TODO: currency coercing
-            best = [x for x in candidates
-                    if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                                trans.statement_line_id.amount)
-                        and convert.str2date(x.date, '%Y-%m-%d') <=
-                        (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                         self.payment_window))
-                   ]
+            best = [
+                x for x in candidates
+                if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
+                            trans.statement_line_id.amount)
+                    and convert.str2date(x.date, '%Y-%m-%d') <=
+                    (convert.str2date(trans.execution_date, '%Y-%m-%d') +
+                     self.payment_window))
+            ]
             if len(best) == 1:
                 # Exact match
                 move_line = best[0]
@@ -317,21 +325,22 @@ class banking_import_transaction(orm.Model):
             elif len(candidates) > 1:
                 # Before giving up, check cache for catching duplicate
                 # transfers first
-                paid = [x for x in move_lines
-                        if x.invoice and has_id_match(x.invoice, ref, msg)
-                            and convert.str2date(x.invoice.date_invoice, '%Y-%m-%d')
-                                <= convert.str2date(trans.execution_date, '%Y-%m-%d')
-                            and (_cached(x) and not _remaining(x))
-                       ]
+                paid = [
+                    x for x in move_lines
+                    if x.invoice and has_id_match(x.invoice, ref, msg)
+                    and convert.str2date(x.invoice.date_invoice, '%Y-%m-%d')
+                    <= convert.str2date(trans.execution_date, '%Y-%m-%d')
+                    and (_cached(x) and not _remaining(x))
+                ]
                 if paid:
                     log.append(
                         _('Unable to link transaction id %(trans)s '
                           '(ref: %(ref)s) to invoice: '
                           'invoice %(invoice)s was already paid') % {
-                              'trans': '%s.%s' % (trans.statement, trans.transaction),
+                              'trans': '%s.%s' % (trans.statement,
+                                                  trans.transaction),
                               'ref': trans.reference,
-                              'invoice': eyecatcher(paid[0].invoice)
-                          })
+                              'invoice': eyecatcher(paid[0].invoice)})
                 else:
                     # Multiple matches
                     # TODO select best bank account in this case
@@ -356,8 +365,8 @@ class banking_import_transaction(orm.Model):
                     # Last partial payment will not flag invoice paid without
                     # manual assistence
                     # Stefan: disabled this here for the interactive method
-                    # Handled this with proper handling of partial reconciliation
-                    #   and the workflow service
+                    # Handled this with proper handling of partial
+                    # reconciliation and the workflow service
                     # invoice_obj = self.pool.get('account.invoice')
                     # invoice_obj.write(cr, uid, [invoice.id], {
                     #     'state': 'paid'
@@ -369,7 +378,7 @@ class banking_import_transaction(orm.Model):
                 account_ids = [
                     x.id for x in bank_account_ids
                     if x.partner_id.id == move_line.partner_id.id
-                    ]
+                ]
 
                 return (trans, self._get_move_info(
                         cr, uid, [move_line.id],
@@ -396,20 +405,22 @@ class banking_import_transaction(orm.Model):
                     _("Cannot link transaction %s with invoice") %
                     transaction.statement_line_id.name,
                     (transaction.invoice_ids and
-                     (_("Please select one of the matches in transaction %s.%s") or
-                     _("No match found for transaction %s.%s")) % (
-                            transaction.statement_line_id.statement_id.name,
-                            transaction.statement_line_id.name
+                     (_("Please select one of the matches in transaction "
+                        "%s.%s") or
+                      _("No match found for transaction %s.%s")) % (
+                          transaction.statement_line_id.statement_id.name,
+                          transaction.statement_line_id.name
                      )))
             else:
                 raise orm.except_orm(
                     _("Cannot link transaction %s with accounting entry") %
                     transaction.statement_line_id.name,
                     (transaction.move_line_ids and
-                     (_("Please select one of the matches in transaction %s.%s") or
-                     _("No match found for transaction %s.%s")) % (
-                            transaction.statement_line_id.statement_id.name,
-                            transaction.statement_line_id.name
+                     (_("Please select one of the matches in transaction "
+                        "%s.%s") or
+                      _("No match found for transaction %s.%s")) % (
+                          transaction.statement_line_id.statement_id.name,
+                          transaction.statement_line_id.name
                      )))
 
         st_line = transaction.statement_line_id
@@ -458,9 +469,10 @@ class banking_import_transaction(orm.Model):
         # Define the voucher
         voucher = {
             'journal_id': st_line.statement_id.journal_id.id,
-            'partner_id': st_line.partner_id and st_line.partner_id.id or False,
+            'partner_id': (
+                st_line.partner_id and st_line.partner_id.id or False),
             'company_id': st_line.company_id.id,
-            'type':voucher_type,
+            'type': voucher_type,
             'account_id': account_id,
             'amount': abs(st_line.amount),
             'writeoff_amount': writeoff,
@@ -470,12 +482,12 @@ class banking_import_transaction(orm.Model):
             'date': st_line.date,
             'date_due': st_line.date,
             'period_id': period_id,
-            'payment_rate_currency_id':to_curr_id,
-            }
+            'payment_rate_currency_id': to_curr_id,
+        }
 
         # Define the voucher line
         vch_line = {
-            #'voucher_id': v_id,
+            # 'voucher_id': v_id,
             'move_line_id': transaction.move_line_id.id,
             'reconcile': True,
             'amount': line_amount,
@@ -490,7 +502,8 @@ class banking_import_transaction(orm.Model):
             {'voucher_id': voucher_id}, context=context)
         transaction.refresh()
 
-    def _legacy_do_move_unreconcile(self, cr, uid, move_line_ids, currency, context=None):
+    def _legacy_do_move_unreconcile(self, cr, uid, move_line_ids, currency,
+                                    context=None):
         """
         Legacy method. Allow for canceling bank statement lines that
         were confirmed using earlier versions of the interactive wizard branch.
@@ -508,9 +521,14 @@ class banking_import_transaction(orm.Model):
         reconcile_obj = self.pool.get('account.move.reconcile')
         is_zero = lambda amount: self.pool.get('res.currency').is_zero(
             cr, uid, currency, amount)
-        move_lines = move_line_obj.browse(cr, uid, move_line_ids, context=context)
-        reconcile = move_lines[0].reconcile_id or move_lines[0].reconcile_partial_id
-        line_ids = [x.id for x in reconcile.line_id or reconcile.line_partial_ids]
+        move_lines = move_line_obj.browse(cr, uid, move_line_ids,
+                                          context=context)
+        reconcile = (move_lines[0].reconcile_id
+                     or move_lines[0].reconcile_partial_id)
+        line_ids = [
+            x.id
+            for x in reconcile.line_id or reconcile.line_partial_ids
+        ]
         for move_line_id in move_line_ids:
             line_ids.remove(move_line_id)
         if len(line_ids) > 1:
@@ -522,16 +540,18 @@ class banking_import_transaction(orm.Model):
                 line_ids = []
             reconcile_obj.write(
                 cr, uid, reconcile.id,
-                { 'line_partial_ids': [(6, 0, line_partial_ids)],
-                  'line_id': [(6, 0, line_ids)],
-                  }, context=context)
+                {'line_partial_ids': [(6, 0, line_partial_ids)],
+                 'line_id': [(6, 0, line_ids)],
+                 }, context=context)
         else:
             reconcile_obj.unlink(cr, uid, reconcile.id, context=context)
         for move_line in move_lines:
             if move_line.invoice:
                 # reopening the invoice
                 netsvc.LocalService('workflow').trg_validate(
-                    uid, 'account.invoice', move_line.invoice.id, 'undo_paid', cr)
+                    uid, 'account.invoice', move_line.invoice.id, 'undo_paid',
+                    cr
+                )
         return True
 
     def _legacy_clear_up_writeoff(self, cr, uid, transaction, context=None):
@@ -550,8 +570,7 @@ class banking_import_transaction(orm.Model):
                 context=context)
         return True
 
-    def _legacy_cancel_move(
-        self, cr, uid, transaction, context=None):
+    def _legacy_cancel_move(self, cr, uid, transaction, context=None):
         """
         Legacy method to support upgrades from older installations
         of the interactive wizard branch.
@@ -590,16 +609,15 @@ class banking_import_transaction(orm.Model):
             cr, uid, transaction.statement_line_id.id,
             {'reconcile_id': False}, context=context)
 
-    def _cancel_voucher(
-        self, cr, uid, transaction_id, context=None):
+    def _cancel_voucher(self, cr, uid, transaction_id, context=None):
         voucher_pool = self.pool.get('account.voucher')
         transaction = self.browse(cr, uid, transaction_id, context=context)
         st_line = transaction.statement_line_id
         if transaction.match_type:
             if st_line.voucher_id:
                 # Although vouchers can be associated with statement lines
-                # in standard OpenERP, we consider ourselves owner of the voucher
-                # if the line has an associated transaction
+                # in standard OpenERP, we consider ourselves owner of the
+                # voucher if the line has an associated transaction
                 # Upon canceling of the statement line/transaction,
                 # we cancel and delete the vouchers.
                 # Otherwise, the statement line will leave the voucher
@@ -610,7 +628,8 @@ class banking_import_transaction(orm.Model):
                     cr, uid, [st_line.voucher_id.id], context=context)
                 voucher_pool.unlink(
                     cr, uid, [st_line.voucher_id.id], context=context)
-                if transaction.move_line_id and transaction.move_line_id.invoice:
+                if (transaction.move_line_id
+                        and transaction.move_line_id.invoice):
                     # reopening the invoice
                     netsvc.LocalService('workflow').trg_validate(
                         uid, 'account.invoice',
@@ -639,7 +658,9 @@ class banking_import_transaction(orm.Model):
                     _("No method found to cancel this type"))
             self.cancel_map[transaction.match_type](
                 self, cr, uid, transaction.id, context)
-            self._legacy_clear_up_writeoff(cr, uid, transaction, context=context)
+            self._legacy_clear_up_writeoff(
+                cr, uid, transaction, context=context
+            )
         return True
 
     confirm_map = {
@@ -665,7 +686,7 @@ class banking_import_transaction(orm.Model):
                 if transaction.match_type not in ('invoice', 'move', 'manual'):
                     raise orm.except_orm(
                         _("Cannot reconcile"),
-                        _("Bank transaction %s: write off not implemented for " +
+                        _("Bank transaction %s: write off not implemented for "
                           "this match type.") %
                         transaction.statement_line_id.name
                         )
@@ -701,14 +722,14 @@ class banking_import_transaction(orm.Model):
             # due to float representation and rounding difficulties
             for trans in self.browse(cr, uid, ids, context=context):
                 if self.pool.get('res.currency').is_zero(
-                    cr, uid,
-                    trans.statement_id.currency,
-                    me['transferred_amount'] - trans.transferred_amount):
+                        cr, uid,
+                        trans.statement_id.currency,
+                        me['transferred_amount'] - trans.transferred_amount):
                     dupes.append(trans.id)
             if len(dupes) < 1:
                 raise orm.except_orm(_('Cannot check for duplicate'),
-                               _("Cannot check for duplicate. "
-                                 "I can't find myself."))
+                                     _("Cannot check for duplicate. "
+                                       "I can't find myself."))
             if len(dupes) > 1:
                 self.write(
                     cr, uid, res, {'duplicate': True}, context=context)
@@ -723,7 +744,7 @@ class banking_import_transaction(orm.Model):
         pass
 
     def _get_move_info(self, cr, uid, move_line_ids, partner_bank_id=False,
-                       partial=False, match_type = False):
+                       partial=False, match_type=False, context=None):
         type_map = {
             'out_invoice': 'customer',
             'in_invoice': 'supplier',
@@ -738,7 +759,9 @@ class banking_import_transaction(orm.Model):
                   'match_type': match_type,
                   'account_id': False,
                   }
-        move_lines = self.pool.get('account.move.line').browse(cr, uid, move_line_ids)
+        move_lines = self.pool.get('account.move.line').browse(
+            cr, uid, move_line_ids, context=context
+        )
         for move_line in move_lines:
             if move_line.partner_id:
                 if retval['partner_id']:
@@ -780,7 +803,7 @@ class banking_import_transaction(orm.Model):
         if move_lines and len(move_lines) == 1:
             retval['reference'] = move_lines[0].ref
         if retval['match_type'] == 'invoice':
-            retval['invoice_ids'] = list(set([x.invoice.id for x in move_lines]))
+            retval['invoice_ids'] = list(set(x.invoice.id for x in move_lines))
             retval['type'] = type_map[move_lines[0].invoice.type]
         return retval
 
@@ -790,14 +813,12 @@ class banking_import_transaction(orm.Model):
         vals['move_line_ids'] = [(6, 0, move_info.get('move_line_ids') or [])]
         vals['invoice_ids'] = [(6, 0, move_info.get('invoice_ids') or [])]
         vals['move_line_id'] = (move_info.get('move_line_ids', False) and
-                                       len(move_info['move_line_ids']) == 1 and
-                                       move_info['move_line_ids'][0]
-                                       )
+                                len(move_info['move_line_ids']) == 1 and
+                                move_info['move_line_ids'][0])
         if move_info['match_type'] == 'invoice':
             vals['invoice_id'] = (move_info.get('invoice_ids', False) and
-                                         len(move_info['invoice_ids']) == 1 and
-                                         move_info['invoice_ids'][0]
-                                         )
+                                  len(move_info['invoice_ids']) == 1 and
+                                  move_info['invoice_ids'][0])
         return vals
 
     def hook_match_payment(self, cr, uid, transaction, log, context=None):
@@ -824,13 +845,13 @@ class banking_import_transaction(orm.Model):
         # Results
         if results is None:
             results = dict(
-                trans_loaded_cnt = 0,
-                trans_skipped_cnt = 0,
-                trans_matched_cnt = 0,
-                bank_costs_invoice_cnt = 0,
-                error_cnt = 0,
-                log = [],
-                )
+                trans_loaded_cnt=0,
+                trans_skipped_cnt=0,
+                trans_matched_cnt=0,
+                bank_costs_invoice_cnt=0,
+                error_cnt=0,
+                log=[],
+            )
 
         # Caching
         error_accounts = {}
@@ -848,8 +869,9 @@ class banking_import_transaction(orm.Model):
         if has_payment:
             payment_line_ids = payment_line_obj.search(
                 cr, uid, [
-                ('order_id.state', '=', 'sent'),
-                ('date_done', '=', False)], context=context)
+                    ('order_id.state', '=', 'sent'),
+                    ('date_done', '=', False)
+                ], context=context)
             payment_lines = payment_line_obj.browse(
                 cr, uid, payment_line_ids)
 
@@ -885,25 +907,30 @@ class banking_import_transaction(orm.Model):
 
             # Get interesting journals once
             # Added type 'general' to capture fund transfers
-            journal_ids = journal_obj.search(cr, uid, [
-                    ('type', 'in', ('general', 'sale','purchase',
-                                    'purchase_refund','sale_refund')),
+            journal_ids = journal_obj.search(
+                cr, uid, [
+                    ('type', 'in', ('general', 'sale', 'purchase',
+                                    'purchase_refund', 'sale_refund')),
                     ('company_id', '=', company.id),
-                    ])
+                ],
+            )
             # Get all unreconciled moves
-            move_line_ids = move_line_obj.search(cr, uid, [
+            move_line_ids = move_line_obj.search(
+                cr, uid, [
                     ('reconcile_id', '=', False),
                     ('journal_id', 'in', journal_ids),
                     ('account_id.reconcile', '=', True),
                     ('date', '<=', transaction.execution_date),
-                    ])
+                ],
+            )
             if move_line_ids:
                 move_lines = move_line_obj.browse(cr, uid, move_line_ids)
             else:
                 move_lines = []
 
             # Create fallback currency code
-            currency_code = transaction.local_currency or company.currency_id.name
+            currency_code = (transaction.local_currency
+                             or company.currency_id.name)
 
             # Check cache for account info/currency
             if transaction.local_account in info and \
@@ -917,7 +944,8 @@ class banking_import_transaction(orm.Model):
                 )
                 if not account_info:
                     results['log'].append(
-                        _('Transaction found for unknown account %(bank_account)s') %
+                        _('Transaction found for unknown account '
+                          '%(bank_account)s') %
                         {'bank_account': transaction.local_account}
                     )
                     error_accounts[transaction.local_account] = True
@@ -929,7 +957,7 @@ class banking_import_transaction(orm.Model):
                     results['log'].append(
                         _('Transaction found for account %(bank_account)s, '
                           'but no default journal was defined.'
-                         ) % {'bank_account': transaction.local_account}
+                          ) % {'bank_account': transaction.local_account}
                     )
                     error_accounts[transaction.local_account] = True
                     results['error_cnt'] += 1
@@ -941,12 +969,14 @@ class banking_import_transaction(orm.Model):
                 currency_code = account_info.currency_id.name
 
                 # Cache results
-                if not transaction.local_account in info:
+                if transaction.local_account not in info:
                     info[transaction.local_account] = {
                         currency_code: account_info
                     }
                 else:
-                    info[transaction.local_account][currency_code] = account_info
+                    info[transaction.local_account][currency_code] = (
+                        account_info
+                    )
 
             # Link accounting period
             period_id = banktools.get_period(
@@ -965,7 +995,8 @@ class banking_import_transaction(orm.Model):
                         _("Cannot perform match on a confirmed transction"))
             else:
                 values = {
-                    'name': '%s.%s' % (transaction.statement, transaction.transaction),
+                    'name': '%s.%s' % (transaction.statement,
+                                       transaction.transaction),
                     'date': transaction.execution_date,
                     'amount': transaction.transferred_amount,
                     'statement_id': transaction.statement_id.id,
@@ -979,7 +1010,9 @@ class banking_import_transaction(orm.Model):
                         account_info.default_credit_account_id.id or
                         account_info.default_debit_account_id.id),
                     }
-                statement_line_id = statement_line_obj.create(cr, uid, values, context)
+                statement_line_id = statement_line_obj.create(
+                    cr, uid, values, context
+                )
                 results['trans_loaded_cnt'] += 1
                 transaction.write({'statement_line_id': statement_line_id})
                 transaction.refresh()
@@ -991,13 +1024,14 @@ class banking_import_transaction(orm.Model):
                and account_info.currency_id.name != transaction.local_currency:
                 # TODO: convert currencies?
                 results['log'].append(
-                    _('transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s'
-                      ' uses different currency than the defined bank journal.'
-                     ) % {
-                         'bank_account': transactions.local_account,
-                         'statement_id': transaction.statement,
-                         'transaction_id': transaction.transaction,
-                     }
+                    _('transaction %(statement_id)s.%(transaction_id)s for '
+                      'account %(bank_account)s uses different currency than '
+                      'the defined bank journal.'
+                      ) % {
+                          'bank_account': transactions.local_account,
+                          'statement_id': transaction.statement,
+                          'transaction_id': transaction.transaction,
+                          }
                 )
                 error_accounts[transaction.local_account] = True
                 results['error_cnt'] += 1
@@ -1006,17 +1040,18 @@ class banking_import_transaction(orm.Model):
                 continue
 
             # When bank costs are part of transaction itself, split it.
-            if transaction.type != bt.BANK_COSTS and transaction.provision_costs:
+            if (transaction.type != bt.BANK_COSTS
+                    and transaction.provision_costs):
                 # Create new transaction for bank costs
                 cost_id = self.copy(
                     cr, uid, transaction.id,
                     dict(
-                        type = bt.BANK_COSTS,
-                        transaction = '%s-prov' % transaction.transaction,
-                        transferred_amount = transaction.provision_costs,
-                        remote_currency = transaction.provision_costs_currency,
-                        message = transaction.provision_costs_description,
-                        parent_id = transaction.id,
+                        type=bt.BANK_COSTS,
+                        transaction='%s-prov' % transaction.transaction,
+                        transferred_amount=transaction.provision_costs,
+                        remote_currency=transaction.provision_costs_currency,
+                        message=transaction.provision_costs_description,
+                        parent_id=transaction.id,
                         ), context)
 
                 injected.append(self.browse(cr, uid, cost_id, context))
@@ -1028,14 +1063,17 @@ class banking_import_transaction(orm.Model):
                 self.write(
                     cr, uid, transaction.id,
                     dict(
-                        transferred_amount =
-                        transaction.transferred_amount - transaction.provision_costs,
-                        provision_costs = False,
-                        provision_costs_currency = False,
-                        provision_costs_description = False,
+                        transferred_amount=(
+                            transaction.transferred_amount -
+                            transaction.provision_costs),
+                        provision_costs=False,
+                        provision_costs_currency=False,
+                        provision_costs_description=False,
                         ), context=context)
                 # rebrowse the current record after writing
-                transaction = self.browse(cr, uid, transaction.id, context=context)
+                transaction = self.browse(
+                    cr, uid, transaction.id, context=context
+                )
 
             # Match payment and direct debit orders
             move_info_payment = self.hook_match_payment(
@@ -1088,7 +1126,8 @@ class banking_import_transaction(orm.Model):
 
             # Credit means payment... isn't it?
             if (not move_info
-                and transaction.statement_line_id.amount < 0 and payment_lines):
+                    and transaction.statement_line_id.amount < 0
+                    and payment_lines):
                 # Link open payment - if any
                 # Note that _match_payment is defined in the
                 # account_banking_payment module which should be installed
@@ -1146,10 +1185,13 @@ class banking_import_transaction(orm.Model):
                 values['type'] = move_info['type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
-            if not values['partner_id'] and partner_ids and len(partner_ids) == 1:
+            if (not values['partner_id']
+                    and partner_ids
+                    and len(partner_ids) == 1):
                 values['partner_id'] = partner_ids[0]
-            if (not values['partner_bank_id'] and partner_banks and
-                len(partner_banks) == 1):
+            if (not values['partner_bank_id']
+                    and partner_banks
+                    and len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
             statement_line_obj.write(
@@ -1158,7 +1200,7 @@ class banking_import_transaction(orm.Model):
             if not injected:
                 i += 1
 
-        #recompute statement end_balance for validation
+        # recompute statement end_balance for validation
         if imported_statement_ids:
             statement_obj.button_dummy(
                 cr, uid, imported_statement_ids, context=context)
@@ -1185,7 +1227,7 @@ class banking_import_transaction(orm.Model):
         res = dict([(x, False) for x in ids])
         for transaction in self.browse(cr, uid, ids, context):
             if (transaction.statement_line_id.state == 'draft' and
-                not(transaction.move_currency_amount is False)):
+                    not(transaction.move_currency_amount is False)):
                 res[transaction.id] = (
                     transaction.move_currency_amount -
                     transaction.statement_line_id.amount
@@ -1214,22 +1256,32 @@ class banking_import_transaction(orm.Model):
         Write values in argument 'vals', but clear all match
         related values first
         """
-        write_vals = (dict([(x, False) for x in [
+        write_vals = (
+            dict([
+                (x, False)
+                for x in [
                     'match_type',
                     'move_line_id',
                     'invoice_id',
-                    ]] +
-                     [(x, [(6, 0, [])]) for x in [
-                        'move_line_ids',
-                        'invoice_ids',
-                        ]]))
+                ]
+            ] + [
+                (x, [(6, 0, [])])
+                for x in [
+                    'move_line_ids',
+                    'invoice_ids',
+                    ]
+                ]
+            )
+        )
         write_vals.update(vals or {})
         return self.write(cr, uid, ids, write_vals, context=context)
 
     def _get_move_amount(self, cr, uid, ids, name, args, context=None):
         """
-        Need to get the residual amount on the move (invoice) in the bank statement currency.
-        This will be used to calculate the write-off amount (in statement currency).
+        Need to get the residual amount on the move (invoice) in the bank
+        statement currency.
+        This will be used to calculate the write-off amount
+        (in statement currency).
         """
         if not ids:
             return {}
@@ -1240,20 +1292,25 @@ class banking_import_transaction(orm.Model):
         for transaction in self.browse(cr, uid, ids, context):
 
             if transaction.move_line_id:
-                move_line_amount = transaction.move_line_id.amount_residual_currency
+                move_line_amount = (
+                    transaction.move_line_id.amount_residual_currency)
+                statement = transaction.statement_line_id.statement_id
                 to_curr_id = (
-                    transaction.statement_line_id.statement_id.journal_id.currency
-                    and transaction.statement_line_id.statement_id.journal_id.currency.id
-                    or transaction.statement_line_id.statement_id.company_id.currency_id.id
+                    statement.journal_id.currency
+                    and statement.journal_id.currency.id
+                    or statement.company_id.currency_id.id
                     )
                 from_curr_id = (
                     transaction.move_line_id.currency_id
                     and transaction.move_line_id.currency_id.id
-                    or transaction.statement_line_id.statement_id.company_id.currency_id.id
+                    or statement.company_id.currency_id.id
                     )
                 if from_curr_id != to_curr_id:
-                    amount_currency = stline_pool._convert_currency(cr, uid, from_curr_id, to_curr_id, move_line_amount, round=True,
-                                                             date=transaction.statement_line_id.date, context=context)
+                    amount_currency = stline_pool._convert_currency(
+                        cr, uid, from_curr_id, to_curr_id, move_line_amount,
+                        round=True, date=transaction.statement_line_id.date,
+                        context=context
+                    )
                 else:
                     amount_currency = move_line_amount
                 sign = 1
@@ -1261,7 +1318,8 @@ class banking_import_transaction(orm.Model):
                     if transaction.move_line_id.amount_currency < 0:
                         sign = -1
                 else:
-                    if (transaction.move_line_id.debit - transaction.move_line_id.credit) < 0:
+                    if (transaction.move_line_id.debit
+                            - transaction.move_line_id.credit) < 0:
                         sign = -1
                 res[transaction.id] = sign * amount_currency
 
@@ -1274,13 +1332,15 @@ class banking_import_transaction(orm.Model):
         for this in self.browse(cr, uid, ids, context):
             if this.parent_id:
                 this.parent_id.write(
-                        {'transferred_amount':
-                            this.parent_id.transferred_amount + \
-                                    this.transferred_amount,
-                        })
+                    {
+                        'transferred_amount':
+                        this.parent_id.transferred_amount +
+                        this.transferred_amount,
+                    }
+                )
                 this.parent_id.refresh()
         return super(banking_import_transaction, self).unlink(
-                cr, uid, ids, context=context)
+            cr, uid, ids, context=context)
 
     column_map = {
         # used in bank_import.py, converting non-osv transactions
@@ -1291,8 +1351,8 @@ class banking_import_transaction(orm.Model):
     _columns = {
         # start mem_bank_transaction atributes
         # see parsers/models.py
-        'transaction': fields.char('transaction', size=16), # id
-        'statement': fields.char('statement', size=16), # statement_id
+        'transaction': fields.char('transaction', size=16),  # id
+        'statement': fields.char('statement', size=16),  # statement_id
         'type': fields.char('type', size=16),
         'reference': fields.char('reference', size=1024),
         'local_account': fields.char('local_account', size=24),
@@ -1307,8 +1367,14 @@ class banking_import_transaction(orm.Model):
         'remote_owner': fields.char('remote_owner', size=128),
         'remote_owner_address': fields.char('remote_owner_address', size=256),
         'remote_owner_city': fields.char('remote_owner_city', size=128),
-        'remote_owner_postalcode': fields.char('remote_owner_postalcode', size=24),
-        'remote_owner_country_code': fields.char('remote_owner_country_code', size=24),
+        'remote_owner_postalcode': fields.char(
+            'remote_owner_postalcode',
+            size=24,
+        ),
+        'remote_owner_country_code': fields.char(
+            'remote_owner_country_code',
+            size=24,
+        ),
         'remote_owner_custno': fields.char('remote_owner_custno', size=24),
         'remote_bank_bic': fields.char('remote_bank_bic', size=24),
         'remote_bank_bei': fields.char('remote_bank_bei', size=24),
@@ -1318,8 +1384,14 @@ class banking_import_transaction(orm.Model):
         'remote_bank_duns': fields.char('remote_bank_duns', size=24),
         'remote_bank_tax_id': fields.char('remote_bank_tax_id', size=24),
         'provision_costs': fields.float('provision_costs', size=24),
-        'provision_costs_currency': fields.char('provision_costs_currency', size=64),
-        'provision_costs_description': fields.char('provision_costs_description', size=24),
+        'provision_costs_currency': fields.char(
+            'provision_costs_currency',
+            size=64,
+        ),
+        'provision_costs_description': fields.char(
+            'provision_costs_description',
+            size=24,
+        ),
         'error_message': fields.char('error_message', size=1024),
         'storno_retry': fields.boolean('storno_retry'),
         # end of mem_bank_transaction_fields
@@ -1341,15 +1413,15 @@ class banking_import_transaction(orm.Model):
             'banking.import.transaction', 'Split off from this transaction'),
         # match fields
         'match_type': fields.selection([
-                ('move','Move'),
-                ('invoice', 'Invoice'),
-                ('payment', 'Payment line'),
-                ('payment_order', 'Payment order'),
-                ('storno', 'Storno'),
-                ('manual', 'Manual'),
-                ('payment_manual', 'Payment line (manual)'),
-                ('payment_order_manual', 'Payment order (manual)'),
-                ], 'Match type'),
+            ('move', 'Move'),
+            ('invoice', 'Invoice'),
+            ('payment', 'Payment line'),
+            ('payment_order', 'Payment order'),
+            ('storno', 'Storno'),
+            ('manual', 'Manual'),
+            ('payment_manual', 'Payment line (manual)'),
+            ('payment_order_manual', 'Payment order (manual)'),
+        ], 'Match type'),
         'match_multi': fields.function(
             _get_match_multi, method=True, string='Multi match',
             type='boolean'),
@@ -1366,13 +1438,16 @@ class banking_import_transaction(orm.Model):
         'residual': fields.function(
             _get_residual, method=True, string='Residual', type='float'),
         'writeoff_account_id': fields.many2one(
-            'account.account', 'Write-off account',
-             domain=[('type', '!=', 'view')]),
-        'payment_option':fields.selection(
+            'account.account',
+            'Write-off account',
+            domain=[('type', '!=', 'view')]
+        ),
+        'payment_option': fields.selection(
             [
                 ('without_writeoff', 'Keep Open'),
                 ('with_writeoff', 'Reconcile Payment Balance')
-                ], 'Payment Difference',
+            ],
+            'Payment Difference',
             required=True,
             help=("This field helps you to choose what you want to do with "
                   "the eventual difference between the paid amount and the "
@@ -1387,17 +1462,19 @@ class banking_import_transaction(orm.Model):
         'writeoff_analytic_id': fields.many2one(
             'account.analytic.account', 'Write off analytic account'),
         'move_currency_amount': fields.function(
-            _get_move_amount, method=True, string='Match Amount', type='float'),
-        }
+            _get_move_amount,
+            method=True,
+            string='Match Amount',
+            type='float',
+        ),
+    }
 
     _defaults = {
-        'company_id': lambda s,cr,uid,c:
+        'company_id': lambda s, cr, uid, c:
             s.pool.get('res.company')._company_default_get(
-            cr, uid, 'bank.import.transaction', context=c),
+                cr, uid, 'bank.import.transaction', context=c),
         'payment_option': 'without_writeoff',
         }
-
-banking_import_transaction()
 
 
 class account_bank_statement_line(orm.Model):
@@ -1436,7 +1513,7 @@ class account_bank_statement_line(orm.Model):
         'match_type': fields.related(
             'import_transaction_id', 'match_type', type='selection',
             selection=[
-                ('move','Move'),
+                ('move', 'Move'),
                 ('invoice', 'Invoice'),
                 ('payment', 'Payment line'),
                 ('payment_order', 'Payment order'),
@@ -1444,13 +1521,15 @@ class account_bank_statement_line(orm.Model):
                 ('manual', 'Manual'),
                 ('payment_manual', 'Payment line (manual)'),
                 ('payment_order_manual', 'Payment order (manual)'),
-                ],
+            ],
             string='Match type', readonly=True,),
         'state': fields.selection(
             [('draft', 'Draft'), ('confirmed', 'Confirmed')], 'State',
             readonly=True, required=True),
-        'parent_id': fields.many2one('account.bank.statement.line',
-            'Parent'),
+        'parent_id': fields.many2one(
+            'account.bank.statement.line',
+            'Parent',
+        ),
         'link_partner_ok': fields.function(
             _get_link_partner_ok, type='boolean',
             string='Can link partner'),
@@ -1471,7 +1550,9 @@ class account_bank_statement_line(orm.Model):
             wizard_obj = self.pool.get('banking.transaction.wizard')
             res_id = wizard_obj.create(
                 cr, uid, {'statement_line_id': ids[0]}, context=context)
-            res = wizard_obj.create_act_window(cr, uid, res_id, context=context)
+            res = wizard_obj.create_act_window(
+                cr, uid, res_id, context=context
+            )
         return res
 
     def link_partner(self, cr, uid, ids, context=None):
@@ -1499,8 +1580,8 @@ class account_bank_statement_line(orm.Model):
                 {'partner_id': statement_line.partner_bank_id.partner_id.id})
             return True
 
-        if (not statement_line.import_transaction_id or
-            not statement_line.import_transaction_id.remote_account):
+        if (not statement_line.import_transaction_id
+                or not statement_line.import_transaction_id.remote_account):
             raise orm.except_orm(
                 _("Error"),
                 _("No bank account available to link partner to"))
@@ -1535,8 +1616,8 @@ class account_bank_statement_line(orm.Model):
         return wizard_obj.create_act_window(cr, uid, res_id, context=context)
 
     def _convert_currency(
-        self, cr, uid, from_curr_id, to_curr_id, from_amount,
-        round=False, date=None, context=None):
+            self, cr, uid, from_curr_id, to_curr_id, from_amount,
+            round=False, date=None, context=None):
         """Convert currency amount using the company rate on a specific date"""
         curr_obj = self.pool.get('res.currency')
         if context:
@@ -1555,8 +1636,9 @@ class account_bank_statement_line(orm.Model):
         """
         Create (or update) a voucher for each statement line, and then generate
         the moves by posting the voucher.
-        If a line does not have a move line against it, but has an account, then
-        generate a journal entry that moves the line amount to the specified account.
+        If a line does not have a move line against it, but has an account,
+        then generate a journal entry that moves the line amount to the
+        specified account.
         """
         statement_pool = self.pool.get('account.bank.statement')
         obj_seq = self.pool.get('ir.sequence')
@@ -1576,7 +1658,8 @@ class account_bank_statement_line(orm.Model):
                     raise orm.except_orm(
                         _('No Analytic Journal !'),
                         _("You have to define an analytic journal on the '%s' "
-                          "journal!") % (st_line.statement_id.journal_id.name,))
+                          "journal!") % st_line.statement_id.journal_id.name
+                    )
             if not st_line.amount:
                 continue
             if not st_line.period_id:
@@ -1594,10 +1677,16 @@ class account_bank_statement_line(orm.Model):
                 if st.journal_id.sequence_id:
                     period = st.period_id or st_line.period_id
                     c = {'fiscalyear_id': period.fiscalyear_id.id}
-                    st_number = obj_seq.next_by_id(cr, uid, st.journal_id.sequence_id.id, context=c)
+                    st_number = obj_seq.next_by_id(
+                        cr, uid, st.journal_id.sequence_id.id, context=c
+                    )
                 else:
-                    st_number = obj_seq.next_by_code(cr, uid, 'account.bank.statement')
-                statement_pool.write(cr, uid, [st.id], {'name': st_number}, context=context)
+                    st_number = obj_seq.next_by_code(
+                        cr, uid, 'account.bank.statement'
+                    )
+                statement_pool.write(
+                    cr, uid, [st.id], {'name': st_number}, context=context
+                )
 
             if st_line.import_transaction_id:
                 import_transaction_obj.confirm(
@@ -1607,7 +1696,9 @@ class account_bank_statement_line(orm.Model):
                 cr, uid, st_number, st_line, context)
             company_currency_id = st.journal_id.company_id.currency_id.id
             statement_pool.create_move_from_st_line(
-                cr, uid, st_line.id, company_currency_id, st_line_number, context)
+                cr, uid, st_line.id, company_currency_id, st_line_number,
+                context
+            )
             self.write(
                 cr, uid, st_line.id, {'state': 'confirmed'}, context)
         return True
@@ -1626,15 +1717,17 @@ class account_bank_statement_line(orm.Model):
             if st_line.statement_id.state != 'draft':
                 raise orm.except_orm(
                     _("Cannot cancel bank transaction"),
-                    _("The bank statement that this transaction belongs to has "
-                      "already been confirmed"))
+                    _("The bank statement that this transaction belongs to "
+                      "has already been confirmed"))
 
             if st_line.import_transaction_id:
                 # Cancel transaction immediately.
                 # If it has voucher, this will clean up
                 # the moves on the st_line.
                 import_transaction_obj.cancel(
-                    cr, uid, [st_line.import_transaction_id.id], context=context)
+                    cr, uid, [st_line.import_transaction_id.id],
+                    context=context
+                )
             st_line.refresh()
             for line in st_line.move_ids:
                 # We allow for people canceling and removing
@@ -1649,7 +1742,6 @@ class account_bank_statement_line(orm.Model):
         self.write(
             cr, uid, set_draft_ids, {'state': 'draft'}, context=context)
         return True
-
 
     def unlink(self, cr, uid, ids, context=None):
         """
@@ -1667,15 +1759,15 @@ class account_bank_statement_line(orm.Model):
                       ": '%s'") % line.name)
             if line.parent_id:
                 line.parent_id.write(
-                        {
-                            'amount': line.parent_id.amount + line.amount,
-                        })
+                    {
+                        'amount': line.parent_id.amount + line.amount,
+                    }
+                )
                 line.parent_id.refresh()
         return super(account_bank_statement_line, self).unlink(
             cr, uid, ids, context=context)
 
-    def create_instant_transaction(
-        self, cr, uid, ids, context=None):
+    def create_instant_transaction(self, cr, uid, ids, context=None):
         """
         Check for existance of import transaction on the
         bank statement lines. Create instant items if appropriate.
@@ -1696,8 +1788,7 @@ class account_bank_statement_line(orm.Model):
             context = {}
         localcontext = context.copy()
         localcontext['transaction_no_duplicate_search'] = True
-        for line in self.browse(
-            cr, uid, ids, context=context):
+        for line in self.browse(cr, uid, ids, context=context):
             if line.state != 'confirmed' and not line.import_transaction_id:
                 res = import_transaction_pool.create(
                     cr, uid, {
@@ -1723,23 +1814,23 @@ class account_bank_statement_line(orm.Model):
         child_statement_ids = []
         for this in self.browse(cr, uid, ids, context):
             transaction_data = transaction_pool.copy_data(
-                    cr, uid, this.import_transaction_id.id)
+                cr, uid, this.import_transaction_id.id
+            )
             transaction_data['transferred_amount'] = amount
-            transaction_data['message'] = (
-                    (transaction_data['message'] or '') + _(' (split)'))
+            transaction_data['message'] = ((transaction_data['message'] or '')
+                                           + _(' (split)'))
             transaction_data['parent_id'] = this.import_transaction_id.id
             transaction_id = transaction_pool.create(
-                    cr,
-                    uid,
-                    transaction_data,
-                    context=dict(
-                        context, transaction_no_duplicate_search=True))
+                cr,
+                uid,
+                transaction_data,
+                context=dict(context, transaction_no_duplicate_search=True)
+            )
 
-            statement_line_data = self.copy_data(
-                    cr, uid, this.id)
+            statement_line_data = self.copy_data(cr, uid, this.id)
             statement_line_data['amount'] = amount
             statement_line_data['name'] = (
-                    (statement_line_data['name'] or '') + _(' (split)'))
+                (statement_line_data['name'] or '') + _(' (split)'))
             statement_line_data['import_transaction_id'] = transaction_id
             statement_line_data['parent_id'] = this.id
             statement_line_id = self.create(
@@ -1785,35 +1876,43 @@ class account_bank_statement(orm.Model):
         line_obj = self.pool.get('account.bank.statement.line')
         for st in self.browse(cr, uid, ids, context=context):
             j_type = st.journal_id.type
-            if not self.check_status_condition(cr, uid, st.state, journal_type=j_type):
+            if not self.check_status_condition(
+                    cr, uid, st.state, journal_type=j_type):
                 continue
 
-            self.balance_check(cr, uid, st.id, journal_type=j_type, context=context)
+            self.balance_check(cr, uid, st.id, journal_type=j_type,
+                               context=context)
             if (not st.journal_id.default_credit_account_id) \
                     or (not st.journal_id.default_debit_account_id):
-                raise orm.except_orm(_('Configuration Error !'),
-                        _('Please verify that an account is defined in the journal.'))
+                raise orm.except_orm(
+                    _('Configuration Error !'),
+                    _('Please verify that an account is defined in the '
+                      'journal.')
+                )
 
             # protect against misguided manual changes
             for line in st.move_line_ids:
                 if line.state != 'valid':
-                    raise orm.except_orm(_('Error !'),
-                            _('The account entries lines are not in valid state.'))
+                    raise orm.except_orm(
+                        _('Error !'),
+                        _('The account entries lines are not in valid state.')
+                    )
 
-            line_obj.confirm(cr, uid, [line.id for line in st.line_ids], context)
+            line_obj.confirm(cr, uid, [line.id for line in st.line_ids],
+                             context)
             st.refresh()
             self.message_post(
                 cr, uid, [st.id],
                 body=_('Statement %s confirmed, journal items were created.')
                 % (st.name,), context=context)
-        return self.write(cr, uid, ids, {'state':'confirm'}, context=context)
+        return self.write(cr, uid, ids, {'state': 'confirm'}, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
         """
         Do nothing but write the state. Delegate all actions to the statement
         line workflow instead.
         """
-        self.write(cr, uid, ids, {'state':'draft'}, context=context)
+        self.write(cr, uid, ids, {'state': 'draft'}, context=context)
 
     def unlink(self, cr, uid, ids, context=None):
         """
@@ -1841,5 +1940,3 @@ class account_bank_statement(orm.Model):
         'balance_end': fields.function(
             _end_balance, method=True, store=True, string='Balance'),
         }
-
-account_bank_statement()

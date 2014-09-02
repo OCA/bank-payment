@@ -22,6 +22,7 @@
 import re
 from openerp.tools.translate import _
 
+
 class mem_bank_statement(object):
     '''
     A mem_bank_statement is a real life projection of a bank statement paper
@@ -34,9 +35,15 @@ class mem_bank_statement(object):
     '''
     # Lock attributes to enable parsers to trigger non-conformity faults
     __slots__ = [
-        'start_balance','end_balance', 'date', 'local_account',
-        'local_currency', 'id', 'transactions'
+        'start_balance',
+        'end_balance',
+        'date',
+        'local_account',
+        'local_currency',
+        'id',
+        'transactions'
     ]
+
     def __init__(self, *args, **kwargs):
         super(mem_bank_statement, self).__init__(*args, **kwargs)
         self.id = ''
@@ -58,6 +65,7 @@ class mem_bank_statement(object):
         for transaction in self.transactions:
             check += float(transaction.transferred_amount)
         return abs(check - float(self.end_balance)) < 0.0001
+
 
 class mem_bank_transaction(object):
     '''
@@ -102,7 +110,7 @@ class mem_bank_transaction(object):
         # remote_currency
 
         'transferred_amount',
-        # The actual amount transferred - 
+        # The actual amount transferred -
         #   negative means sent, positive means received
         # Most banks use the local_currency to express this amount, but there
         # may be exceptions I'm unaware of.
@@ -126,7 +134,8 @@ class mem_bank_transaction(object):
         # The other parties postal code belonging to the address
 
         'remote_owner_country_code',
-        # The other parties two letter ISO country code belonging to the previous
+        # The other parties two letter ISO country code belonging to the
+        # previous
 
         'remote_owner_custno',
         # The other parties customer number
@@ -175,7 +184,7 @@ class mem_bank_transaction(object):
         # An error message for interaction with the user
         # Only used when mem_transaction.valid returns False.
         'error_message',
-        
+
         # Storno attribute. When True, make the cancelled debit eligible for
         # a next direct debit run
         'storno_retry',
@@ -213,7 +222,7 @@ class mem_bank_transaction(object):
     #                       Will be selected for matching.
     #   STORNO              A failed or reversed attempt at direct debit.
     #                       Either due to an action on the payer's side
-    #                       or a failure observed by the bank (lack of 
+    #                       or a failure observed by the bank (lack of
     #                       credit for instance)
     #
     #   Perhaps more will follow.
@@ -230,7 +239,7 @@ class mem_bank_transaction(object):
     DIRECT_DEBIT = 'DD'
     ORDER = 'DO'
     PAYMENT_BATCH = 'PB'
-    PAYMENT_TERMINAL = 'PT' 
+    PAYMENT_TERMINAL = 'PT'
     PERIODIC_ORDER = 'PO'
     STORNO = 'ST'
 
@@ -270,7 +279,7 @@ class mem_bank_transaction(object):
         if value in self.types:
             self.transfer_type = value
         else:
-            raise ValueError, _('Invalid value for transfer_type')
+            raise ValueError(_('Invalid value for transfer_type'))
 
     type = property(_get_type, _set_type)
 
@@ -281,6 +290,7 @@ class mem_bank_transaction(object):
         '''
         return (self.execution_date and self.remote_account
                 and self.transferred_amount and True) or False
+
 
 class parser_type(type):
     '''
@@ -314,10 +324,12 @@ class parser_type(type):
         keys.sort()
         return [(parsers[x].code, parsers[x].name) for x in keys]
 
+
 def create_parser(code):
     if code in parser_type.parser_by_code:
         return parser_type.parser_by_code[code]()
     return None
+
 
 class parser(object):
     '''
@@ -384,7 +396,7 @@ class parser(object):
     def parse(self, cr, data):
         '''
         Parse data.
-        
+
         data is a raw in memory file object. You have to split it in
         whatever chunks you see fit for parsing. It should return a list
         of mem_bank_statement objects. Every mem_bank_statement object
@@ -400,7 +412,7 @@ class parser(object):
         be used as a prefix. Adding a tracer (day resolution) can create
         uniqueness. Adding unique statement ids can add to the robustness of
         your transaction numbering.
-        
+
         Just mind that users can create random (file)containers with
         transactions in it. Try not to depend on order of appearance within
         these files. If in doubt: sort.
@@ -408,5 +420,3 @@ class parser(object):
         raise NotImplementedError(
             _('This is a stub. Please implement your own.')
         )
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

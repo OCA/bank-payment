@@ -7,8 +7,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -50,7 +50,7 @@ class banking_transaction_wizard(orm.TransientModel):
         return res
 
     def create_act_window(self, cr, uid, ids, nodestroy=True, context=None):
-        """ 
+        """
         Return a popup window for this model
         """
         if isinstance(ids, (int, long)):
@@ -78,10 +78,10 @@ class banking_transaction_wizard(orm.TransientModel):
         import_transaction_obj = self.pool.get('banking.import.transaction')
         trans_id = self.read(
             cr, uid, ids[0], ['import_transaction_id'],
-            context=context)['import_transaction_id'][0] # many2one tuple
+            context=context)['import_transaction_id'][0]  # many2one tuple
         import_transaction_obj.match(cr, uid, [trans_id], context=context)
         return self.create_act_window(cr, uid, ids, context=None)
-    
+
     def write(self, cr, uid, ids, vals, context=None):
         """
         Implement a trigger to retrieve the corresponding move line
@@ -121,22 +121,27 @@ class banking_transaction_wizard(orm.TransientModel):
                     # Given the arity of the relation, there is are always
                     # multiple possibilities but the move lines here are
                     # prefiltered for having account_id.type payable/receivable
-                    # and the regular invoice workflow should only come up with 
+                    # and the regular invoice workflow should only come up with
                     # one of those only.
                     for move_line in wiz.import_transaction_id.move_line_ids:
                         if (move_line.invoice ==
                                 wiz.import_transaction_id.invoice_id):
                             transaction_obj.write(
                                 cr, uid, wiz.import_transaction_id.id,
-                                { 'move_line_id': move_line.id, }, context=context)
+                                {'move_line_id': move_line.id, },
+                                context=context
+                            )
                             statement_line_obj.write(
-                                cr, uid, wiz.import_transaction_id.statement_line_id.id,
-                                { 'partner_id': move_line.partner_id.id or False,
-                                  'account_id': move_line.account_id.id,
-                                  }, context=context)
+                                cr, uid,
+                                wiz.import_transaction_id.statement_line_id.id,
+                                {
+                                    'partner_id': (
+                                        move_line.partner_id.id or False),
+                                    'account_id': move_line.account_id.id,
+                                }, context=context)
                             found = True
                             break
-                # Cannot match the invoice 
+                # Cannot match the invoice
                 if not found:
                     orm.except_orm(
                         _("No entry found for the selected invoice"),
@@ -150,15 +155,16 @@ class banking_transaction_wizard(orm.TransientModel):
             # Rewrite *2many directive notation
             if manual_invoice_ids:
                 manual_invoice_ids = (
-                    [i[1] for i in manual_invoice_ids if i[0]==4] +
-                    [j for i in manual_invoice_ids if i[0]==6 for j in i[2]])
+                    [i[1] for i in manual_invoice_ids if i[0] == 4] +
+                    [j for i in manual_invoice_ids if i[0] == 6 for j in i[2]])
             if manual_move_line_ids:
                 manual_move_line_ids = (
-                    [i[1] for i in manual_move_line_ids if i[0]==4] +
-                    [j for i in manual_move_line_ids if i[0]==6 for j in i[2]])
+                    [i[1] for i in manual_move_line_ids if i[0] == 4] +
+                    [j for i in manual_move_line_ids
+                     if i[0] == 6 for j in i[2]])
             for wiz in self.browse(cr, uid, ids, context=context):
-                #write can be called multiple times for the same values
-                #that doesn't hurt above, but it does here
+                # write can be called multiple times for the same values
+                # that doesn't hurt above, but it does here
                 if wiz.match_type and (
                         len(manual_move_line_ids) > 1 or
                         len(manual_invoice_ids) > 1):
@@ -171,7 +177,8 @@ class banking_transaction_wizard(orm.TransientModel):
                     found_move_line = False
                     if invoice.move_id:
                         for line in invoice.move_id.line_id:
-                            if line.account_id.type in ('receivable', 'payable'):
+                            if line.account_id.type in ('receivable',
+                                                        'payable'):
                                 todo.append((invoice.id, line.id))
                                 found_move_line = True
                                 break
@@ -181,12 +188,13 @@ class banking_transaction_wizard(orm.TransientModel):
                             _("No entry found for the selected invoice. "))
                 for move_line_id in manual_move_line_ids:
                     todo_entry = [False, move_line_id]
-                    move_line=move_line_obj.read(
-                            cr,
-                            uid,
-                            move_line_id,
-                            ['invoice'],
-                            context=context)
+                    move_line = move_line_obj.read(
+                        cr,
+                        uid,
+                        move_line_id,
+                        ['invoice'],
+                        context=context
+                    )
                     if move_line['invoice']:
                         todo_entry[0] = move_line['invoice'][0]
                     todo.append(todo_entry)
@@ -194,25 +202,27 @@ class banking_transaction_wizard(orm.TransientModel):
                 while todo:
                     todo_entry = todo.pop()
                     move_line = move_line_obj.browse(
-                            cr, uid, todo_entry[1], context)
+                        cr, uid, todo_entry[1], context)
                     transaction_id = wiz.import_transaction_id.id
                     statement_line_id = wiz.statement_line_id.id
 
                     if len(todo) > 0:
                         statement_line_id = wiz.statement_line_id.split_off(
-                                move_line.debit or -move_line.credit)[0]
+                            move_line.debit or -move_line.credit)[0]
                         transaction_id = statement_line_obj.browse(
-                                cr,
-                                uid,
-                                statement_line_id,
-                                context=context).import_transaction_id.id
+                            cr,
+                            uid,
+                            statement_line_id,
+                            context=context
+                        ).import_transaction_id.id
 
                     vals = {
                         'move_line_id': todo_entry[1],
                         'move_line_ids': [(6, 0, [todo_entry[1]])],
                         'invoice_id': todo_entry[0],
-                        'invoice_ids': [(6, 0,
-                            [todo_entry[0]] if todo_entry[0] else [])],
+                        'invoice_ids': [
+                            (6, 0, [todo_entry[0]] if todo_entry[0] else [])
+                        ],
                         'match_type': 'manual',
                         }
 
@@ -221,7 +231,7 @@ class banking_transaction_wizard(orm.TransientModel):
 
                     st_line_vals = {
                         'account_id': move_line_obj.read(
-                            cr, uid, todo_entry[1], 
+                            cr, uid, todo_entry[1],
                             ['account_id'], context=context)['account_id'][0],
                         }
 
@@ -231,7 +241,7 @@ class banking_transaction_wizard(orm.TransientModel):
                             ).partner_id.commercial_partner_id.id
 
                     statement_line_obj.write(
-                        cr, uid, statement_line_id, 
+                        cr, uid, statement_line_id,
                         st_line_vals, context=context)
         return res
 
@@ -255,21 +265,18 @@ class banking_transaction_wizard(orm.TransientModel):
             # Get the bank account setting record, to reset the account
             account_id = False
             journal_id = wiz.statement_line_id.statement_id.journal_id.id
-            setting_ids = settings_pool.find(cr, uid, journal_id, context=context)
+            setting_ids = settings_pool.find(
+                cr, uid, journal_id, context=context
+            )
 
             # Restore partner id from the bank account or else reset
             partner_id = False
             if (wiz.statement_line_id.partner_bank_id and
                     wiz.statement_line_id.partner_bank_id.partner_id):
-                partner_id = wiz.statement_line_id.partner_bank_id.partner_id.id
+                partner_id = (
+                    wiz.statement_line_id.partner_bank_id.partner_id.id
+                )
             wiz.write({'partner_id': partner_id})
-
-            # Select account type by parter customer or supplier,
-            # or default based on amount sign
-            if wiz.amount < 0:
-                account_type = 'payable'
-            else:
-                account_type = 'receivable'
 
             bank_partner = False
             if partner_id:
@@ -295,13 +302,18 @@ class banking_transaction_wizard(orm.TransientModel):
                 wiz.statement_line_id.write({'account_id': account_id})
 
             if wiz.statement_line_id:
-                #delete splits causing an unsplit if this is a split
-                #transaction
-                statement_pool.unlink(cr, uid,
-                        statement_pool.search(cr, uid,
-                            [('parent_id', '=', wiz.statement_line_id.id)],
-                            context=context),
-                        context=context)
+                # delete splits causing an unsplit if this is a split
+                # transaction
+                statement_pool.unlink(
+                    cr,
+                    uid,
+                    statement_pool.search(
+                        cr, uid,
+                        [('parent_id', '=', wiz.statement_line_id.id)],
+                        context=context
+                    ),
+                    context=context
+                )
 
             if wiz.import_transaction_id:
                 wiz.import_transaction_id.clear_and_write()
@@ -313,15 +325,15 @@ class banking_transaction_wizard(orm.TransientModel):
             ids = [ids]
         transaction_obj = self.pool.get('banking.import.transaction')
         for wiz in self.read(
-            cr, uid, ids, ['duplicate', 'import_transaction_id'],
-            context=context):
+                cr, uid, ids, ['duplicate', 'import_transaction_id'],
+                context=context):
             transaction_obj.write(
-                cr, uid, wiz['import_transaction_id'][0], 
+                cr, uid, wiz['import_transaction_id'][0],
                 {'duplicate': not wiz['duplicate']}, context=context)
         return self.create_act_window(cr, uid, ids, context=None)
 
     def button_done(self, cr, uid, ids, context=None):
-        return {'type': 'ir.actions.act_window_close'}        
+        return {'type': 'ir.actions.act_window_close'}
 
     _columns = {
         'name': fields.char('Name', size=64),
@@ -349,22 +361,26 @@ class banking_transaction_wizard(orm.TransientModel):
             'statement_line_id', 'parent_id', type='many2one',
             relation='account.bank.statement.line', readonly=True),
         'import_transaction_id': fields.related(
-            'statement_line_id', 'import_transaction_id', 
+            'statement_line_id', 'import_transaction_id',
             string="Import transaction",
             type='many2one', relation='banking.import.transaction'),
         'residual': fields.related(
-            'import_transaction_id', 'residual', type='float', 
+            'import_transaction_id', 'residual', type='float',
             string='Residual', readonly=True),
         'writeoff_account_id': fields.related(
             'import_transaction_id', 'writeoff_account_id',
             type='many2one', relation='account.account',
             string='Write-off account'),
         'invoice_ids': fields.related(
-            'import_transaction_id', 'invoice_ids', string="Matching invoices", 
+            'import_transaction_id', 'invoice_ids', string="Matching invoices",
             type='many2many', relation='account.invoice'),
         'invoice_id': fields.related(
-            'import_transaction_id', 'invoice_id', string="Invoice to reconcile", 
-            type='many2one', relation='account.invoice'),
+            'import_transaction_id',
+            'invoice_id',
+            string="Invoice to reconcile",
+            type='many2one',
+            relation='account.invoice',
+        ),
         'move_line_ids': fields.related(
             'import_transaction_id', 'move_line_ids', string="Entry lines",
             type='many2many', relation='account.move.line'),
@@ -372,15 +388,20 @@ class banking_transaction_wizard(orm.TransientModel):
             'import_transaction_id', 'move_line_id', string="Entry line",
             type='many2one', relation='account.move.line'),
         'duplicate': fields.related(
-            'import_transaction_id', 'duplicate', string='Flagged as duplicate',
-            type='boolean'),
+            'import_transaction_id',
+            'duplicate',
+            string='Flagged as duplicate',
+            type='boolean',
+        ),
         'match_multi': fields.related(
-            'import_transaction_id', 'match_multi', 
+            'import_transaction_id', 'match_multi',
             type="boolean", string='Multiple matches'),
         'match_type': fields.related(
-            'import_transaction_id', 'match_type', type='selection',
+            'import_transaction_id',
+            'match_type',
+            type='selection',
             selection=[
-                ('move','Move'),
+                ('move', 'Move'),
                 ('invoice', 'Invoice'),
                 ('payment', 'Payment line'),
                 ('payment_order', 'Payment order'),
@@ -388,8 +409,10 @@ class banking_transaction_wizard(orm.TransientModel):
                 ('manual', 'Manual'),
                 ('payment_manual', 'Payment line (manual)'),
                 ('payment_order_manual', 'Payment order (manual)'),
-                ], 
-            string='Match type', readonly=True),
+            ],
+            string='Match type',
+            readonly=True,
+        ),
         'manual_invoice_ids': fields.many2many(
             'account.invoice',
             'banking_transaction_wizard_account_invoice_rel',
@@ -401,8 +424,17 @@ class banking_transaction_wizard(orm.TransientModel):
             'wizard_id', 'move_line_id', string='Or match one or more entries',
             domain=[('account_id.reconcile', '=', True),
                     ('reconcile_id', '=', False)]),
-        'payment_option': fields.related('import_transaction_id','payment_option', string='Payment Difference', type='selection', required=True,
-                                         selection=[('without_writeoff', 'Keep Open'),('with_writeoff', 'Reconcile Payment Balance')]),
+        'payment_option': fields.related(
+            'import_transaction_id',
+            'payment_option',
+            string='Payment Difference',
+            type='selection',
+            required=True,
+            selection=[
+                ('without_writeoff', 'Keep Open'),
+                ('with_writeoff', 'Reconcile Payment Balance')
+            ],
+        ),
         'writeoff_analytic_id': fields.related(
             'import_transaction_id', 'writeoff_analytic_id',
             type='many2one', relation='account.analytic.account',
@@ -411,9 +443,11 @@ class banking_transaction_wizard(orm.TransientModel):
             'statement_line_id', 'analytic_account_id',
             type='many2one', relation='account.analytic.account',
             string="Analytic Account"),
-        'move_currency_amount': fields.related('import_transaction_id','move_currency_amount',
-            type='float', string='Match Currency Amount', readonly=True),
-        }
-
-banking_transaction_wizard()
-
+        'move_currency_amount': fields.related(
+            'import_transaction_id',
+            'move_currency_amount',
+            type='float',
+            string='Match Currency Amount',
+            readonly=True,
+        ),
+    }

@@ -70,7 +70,8 @@
       + IBAN accounts are the standard in the SEPA countries
       + local accounts are derived from SEPA (excluding Turkey) but are
         considered to be identical to the corresponding SEPA account.
-      + Banks are identified with either Country + Bank code + Branch code or BIC
+      + Banks are identified with either Country + Bank code + Branch code or
+        BIC
       + Each bank can have its own pace in introducing SEPA into their
         communication with their customers.
       + National online databases can be used to convert BBAN's to IBAN's.

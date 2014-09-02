@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -29,13 +29,16 @@ try:
 except AttributeError:
     from mx import DateTime as datetime
 
+
 def str2date(datestr, format='%d/%m/%y'):
     '''Convert a string to a datatime object'''
     return datetime.strptime(datestr, format)
 
+
 def date2str(date, format='%Y-%m-%d'):
     '''Convert a datetime object to a string'''
     return date.strftime(format)
+
 
 def date2date(datestr, fromfmt='%d/%m/%y', tofmt='%Y-%m-%d'):
     '''
@@ -44,7 +47,9 @@ def date2date(datestr, fromfmt='%d/%m/%y', tofmt='%Y-%m-%d'):
     '''
     return date2str(str2date(datestr, fromfmt), tofmt)
 
-_SWIFT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-?:().,'+ "
+_SWIFT = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+          "/-?:().,'+ ")
+
 
 def to_swift(astr, schemes=['utf-8', 'latin-1', 'ascii']):
     '''
@@ -62,7 +67,7 @@ def to_swift(astr, schemes=['utf-8', 'latin-1', 'ascii']):
 
     s = [x in _SWIFT and x or ' '
          for x in unicodedata.normalize('NFKD', astr).encode('ascii', 'ignore')
-        ]
+         ]
     return ''.join(s)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
