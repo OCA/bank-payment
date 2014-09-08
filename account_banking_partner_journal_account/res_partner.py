@@ -63,6 +63,7 @@ class ResPartner(orm.Model):
         res = super(ResPartner, self).def_journal_account_bank_incr(
             cr, uid, ids, context=context)
         for partner in self.browse(cr, uid, ids, context=context):
-            if partner.property_account_receivable_bank_id:
-                res[partner.id] = partner.property_account_receivable_bank_id.id
+            bank = partner.property_account_receivable_bank_id
+            if bank:
+                res[partner.id] = bank.id
         return res
