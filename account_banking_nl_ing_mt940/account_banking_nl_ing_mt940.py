@@ -20,8 +20,10 @@
 ##############################################################################
 import re
 from openerp.tools.translate import _
-from openerp.addons.account_banking.parsers.models import parser,\
-        mem_bank_transaction
+from openerp.addons.account_banking.parsers.models import (
+    parser,
+    mem_bank_transaction,
+)
 from openerp.addons.account_banking_mt940.mt940 import MT940, str2float
 
 
@@ -29,6 +31,7 @@ class transaction(mem_bank_transaction):
     def is_valid(self):
         '''allow transactions without remote account'''
         return bool(self.execution_date) and bool(self.transferred_amount)
+
 
 class IngMT940Parser(MT940, parser):
     name = _('ING MT940 (structured)')
@@ -104,5 +107,5 @@ class IngMT940Parser(MT940, parser):
 
         if not subfields:
             self.current_transaction.message = data
-            
+
         self.current_transaction = None

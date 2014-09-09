@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -31,15 +31,18 @@ from datetime import datetime, date
 # Correct python2.4 issues
 try:
     datetime.strptime
+
     def strpdate(str, format):
         return datetime.strptime(str, format).date()
 except AttributeError:
     import time
+
     def strpdate(str, format):
         tm = time.strptime(str, format)
         return date(tm.tm_year, tm.tm_mon, tm.tm_mday)
 
 import unicodedata
+
 
 class Field(object):
     '''Base Field class - fixed length left aligned string field in a record'''
@@ -57,10 +60,13 @@ class Field(object):
 
     def take(self, buffer):
         offset = hasattr(self, 'offset') and self.offset or 0
-        return self.cast(buffer[offset:offset + self.length].rstrip(self.fillchar))
+        return self.cast(buffer[offset:offset + self.length].rstrip(
+            self.fillchar)
+        )
 
     def __repr__(self):
         return '%s "%s"' % (self.__class__.__name__, self.name)
+
 
 class Filler(Field):
     '''Constant value field'''
@@ -73,8 +79,9 @@ class Filler(Field):
 
     def format(self, value):
         return super(Filler, self).format(
-            self.value * (self.length / len(self.value) +1)
+            self.value * (self.length / len(self.value) + 1)
         )
+
 
 class DateField(Field):
     '''Variable date field'''
@@ -98,6 +105,7 @@ class DateField(Field):
             return strpdate(value, self.dateformat)
         return self.auto and date.today() or None
 
+
 class RightAlignedField(Field):
     '''Deviation of Field: right aligned'''
     def format(self, value):
@@ -107,7 +115,10 @@ class RightAlignedField(Field):
 
     def take(self, buffer):
         offset = hasattr(self, 'offset') and self.offset or 0
-        return self.cast(buffer[offset:offset + self.length].lstrip(self.fillchar))
+        return self.cast(buffer[offset:offset + self.length].lstrip(
+            self.fillchar)
+        )
+
 
 class NumberField(RightAlignedField):
     '''Deviation of Field: left zero filled'''
@@ -117,6 +128,7 @@ class NumberField(RightAlignedField):
 
     def format(self, value):
         return super(NumberField, self).format(self.cast(value or ''))
+
 
 class RecordType(object):
     fields = []
@@ -130,7 +142,7 @@ class RecordType(object):
             offset += field.length
 
     def __len__(self):
-        return reduce(lambda x,y: x+y.length, self.fields, 0)
+        return reduce(lambda x, y: x + y.length, self.fields, 0)
 
     def __contains__(self, key):
         return any(lambda x, y=key: x.name == y, self.fields)
@@ -139,7 +151,7 @@ class RecordType(object):
         for field in self.fields:
             if field.name == key:
                 return field
-        raise KeyError, 'No such field: %s' % key
+        raise KeyError('No such field: %s' % key)
 
     def format(self, buffer):
         result = []
@@ -150,7 +162,8 @@ class RecordType(object):
     def take(self, buffer):
         return dict(zip([x.name for x in self.fields],
                         [x.take(buffer) for x in self.fields]
-                       ))
+                        ))
+
 
 class Record(object):
     _recordtype = None
@@ -159,12 +172,12 @@ class Record(object):
         if hasattr(self, '_fields') and self._fields:
             self._recordtype = RecordType(self._fields)
         if not self._recordtype and not recordtype:
-            raise ValueError, 'No recordtype specified'
+            raise ValueError('No recordtype specified')
         if not self._recordtype:
             self._recordtype = recordtype()
         self._length = len(self._recordtype)
         self._value = value.ljust(self._length)[:self._length]
-    
+
     def __len__(self):
         return self._length
 
@@ -173,23 +186,24 @@ class Record(object):
             super(Record, self).__setattr__(attr, value)
         else:
             field = self._recordtype[attr]
-            self._value = self._value[:field.offset] + \
-                    field.format(value) + \
-                    self._value[field.offset + field.length:]
+            self._value = (
+                self._value[:field.offset] +
+                field.format(value) +
+                self._value[field.offset + field.length:]
+            )
 
     def __getattr__(self, attr):
         if attr.startswith('_'):
             return super(Record, self).__getattr__(attr)
         field = self._recordtype[attr]
         return field.take(self._value)
-    
+
     def __str__(self):
         return self._recordtype.format(self._value)
 
     def __unicode__(self):
         return unicode(self.cast(self))
 
+
 def asciify(str):
     return unicodedata.normalize('NFKD', str).encode('ascii', 'ignore')
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

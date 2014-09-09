@@ -41,8 +41,7 @@ class instant_voucher(orm.TransientModel):
                 cr, uid, [instant.voucher_id.id], context=context)
         return {'type': 'ir.actions.act_window_close'}
 
-    def get_voucher_defaults(
-        self, cr, uid, vals, context=None):
+    def get_voucher_defaults(self, cr, uid, vals, context=None):
         """
         Gather conditional defaults based on given key, value pairs
 
@@ -55,7 +54,7 @@ class instant_voucher(orm.TransientModel):
         for (key, val) in vals.iteritems():
             if val and voucher_pool._all_columns[key].column.change_default:
                 for default in values_pool.get_defaults(
-                    cr, uid, 'account.voucher', '%s=%s' % (key, val)):
+                        cr, uid, 'account.voucher', '%s=%s' % (key, val)):
                     if default[1] not in vals:
                         res[default[1]] = default[2]
         return res
@@ -79,21 +78,26 @@ class instant_voucher(orm.TransientModel):
             orm.exept_orm(
                 _('Error'),
                 _('No %s journal defined') % voucher_type)
-               
+
         journal = self.pool.get('account.journal').browse(
             cr, uid, journal_ids[0], context=context)
         if journal.type in ('sale', 'sale_refund'):
-            line_account_id = (journal.default_credit_account_id and
-                          journal.default_credit_account_id.id or False)
+            line_account_id = (
+                journal.default_credit_account_id and
+                journal.default_credit_account_id.id or False
+            )
         elif journal.type in ('purchase', 'expense', 'purchase_refund'):
-            line_account_id = (journal.default_debit_account_id and
-                          journal.default_debit_account_id.id or False)
+            line_account_id = (
+                journal.default_debit_account_id and
+                journal.default_debit_account_id.id or False
+            )
         vals = {
-            'name': _('Voucher for statement line %s.%s') % (line.statement_id.name, line.name),
+            'name': (_('Voucher for statement line %s.%s') %
+                     (line.statement_id.name, line.name)),
             'reference': line.ref or False,
             'company_id': line.company_id.id,
             'partner_id': instant.partner_id.id,
-            'date': line.date or res.get('line.date', False),
+            'date': line.date or False,
             'account_id': line.account_id.id,
             'type': voucher_type,
             'line_ids': [(0, 0, {'amount': abs(line.amount),
@@ -101,11 +105,13 @@ class instant_voucher(orm.TransientModel):
                                  'type': line.amount < 0 and 'dr' or 'cr',
                                  'name': line.ref or False,
                                  })],
-            'amount': line.amount and abs(line.amount) or res.get('amount', False),
+            'amount': line.amount and abs(line.amount) or False,
             'journal_id': journal_ids[0],
             }
         if vals['date']:
-            period_ids = period_pool.find(cr, uid, vals['date'], context=context)
+            period_ids = period_pool.find(
+                cr, uid, vals['date'], context=context
+            )
             if period_ids:
                 vals['period_id'] = period_ids[0]
         vals.update(self.get_voucher_defaults(cr, uid, vals, context=context))
@@ -113,7 +119,7 @@ class instant_voucher(orm.TransientModel):
         voucher_id = voucher_pool.create(
             cr, uid, vals, context=context)
         self.write(
-            cr, uid, ids[0], 
+            cr, uid, ids[0],
             {'voucher_id': voucher_id,
              'state': 'ready',
              'type': voucher_type,
@@ -180,15 +186,17 @@ class instant_voucher(orm.TransientModel):
             if instant.voucher_id and instant.voucher_id.state == 'posted':
                 amount = instant.statement_line_id.amount
                 counteramount = 0.0
+                statement_account_id = instant.statement_line_id.account_id.id
                 for line in instant.voucher_id.move_ids:
-                    if line.account_id.id == instant.statement_line_id.account_id.id:
+                    if line.account_id.id == statement_account_id:
                         counteramount = line.debit - line.credit
                 for line in instant.voucher_id.move_ids:
-                    if line.account_id.id == instant.statement_line_id.account_id.id:
+                    if line.account_id.id == statement_account_id:
                         counteramount = line.debit - line.credit
             else:
                 amount = abs(instant.statement_line_id.amount)
-                counteramount = abs(instant.voucher_id and instant.voucher_id.amount or 0.0)
+                counteramount = abs(instant.voucher_id
+                                    and instant.voucher_id.amount or 0.0)
             res[instant.id] = amount - counteramount
         return res
 
@@ -197,7 +205,7 @@ class instant_voucher(orm.TransientModel):
         Post the voucher if necessary
         Post the voucher's move lines if necessary
         Sanity checks on currency and residual = 0.0
-        
+
         If the account_banking module is installed, perform matching
         and reconciliation. If not, the user is left to manual
         reconciliation of OpenERP.
@@ -207,11 +215,11 @@ class instant_voucher(orm.TransientModel):
         voucher_obj = self.pool.get('account.voucher')
         move_obj = self.pool.get('account.move')
         instant = self.browse(cr, uid, ids[0], context=context)
+        statement_line = instant.statement_line_id
         voucher_currency = (instant.voucher_id.currency_id and
                             instant.voucher_id.currency_id or
                             instant.voucher_id.company_id.currency_id)
-        if (instant.statement_line_id.statement_id.currency.id !=
-            voucher_currency.id):
+        if (statement_line.statement_id.currency.id != voucher_currency.id):
             raise orm.except_orm(
                 _("Error"),
                 _("Currency on the bank statement line needs to be the "
@@ -234,7 +242,7 @@ class instant_voucher(orm.TransientModel):
                     _("Error"),
                     _("The voucher's move line could not be posted."))
         if not self.pool.get('res.currency').is_zero(
-            cr, uid, voucher_currency, instant.balance):
+                cr, uid, voucher_currency, instant.balance):
             raise orm.except_orm(
                 _("Error"),
                 _("The amount on the bank statement line needs to be the "
@@ -248,33 +256,38 @@ class instant_voucher(orm.TransientModel):
                 raise orm.except_orm(
                     _("Error"),
                     _("Cannot match a confirmed statement line"))
-            if not instant.statement_line_id.import_transaction_id:
+            if not statement_line.import_transaction_id:
                 statement_line_obj.create_instant_transaction(
-                    cr, uid, instant.statement_line_id.id, context=context)
-                instant.statement_line_id.refresh()
+                    cr, uid, statement_line.id, context=context)
+                statement_line.refresh()
             for line in instant.voucher_id.move_ids:
-                if line.account_id.id == instant.statement_line_id.account_id.id:
+                if line.account_id.id == statement_line.account_id.id:
                     self.pool.get('banking.import.transaction').write(
-                        cr, uid, instant.statement_line_id.import_transaction_id.id,
+                        cr,
+                        uid,
+                        statement_line.import_transaction_id.id,
                         {
                             'move_line_id': line.id,
                             'move_line_ids': [(6, 0, [line.id])],
                             'match_type': 'move',
                             'invoice_id': False,
                             'invoice_ids': [(6, 0, [])],
-                            }, context=context)
+                            },
+                        context=context
+                    )
 
                     statement_line_obj.confirm(
-                        cr, uid, [instant.statement_line_id.id], context=context)
+                        cr, uid, [statement_line.id], context=context
+                    )
                     break
         return {'type': 'ir.actions.act_window_close'}
 
     _columns = {
         'balance': fields.function(
-                    _get_balance,
-                    type='float',
-                    digits_compute=dp.get_precision('Account'),
-                    string="Balance",),
+            _get_balance,
+            type='float',
+            digits_compute=dp.get_precision('Account'),
+            string="Balance",),
         'partner_id': fields.many2one(
             'res.partner',
             'Partner',

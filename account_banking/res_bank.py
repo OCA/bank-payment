@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright 2011 - 2014 Therp BV (<http://therp.nl>).
-#            
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -25,7 +25,7 @@ class ResBank(orm.Model):
 
     def online_bank_info(self, cr, uid, bic, context=None):
         """
-        API hook for legacy online lookup of BICs, 
+        API hook for legacy online lookup of BICs,
         to be removed in OpenERP 8.0.
         """
         return False, False

@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -37,6 +37,7 @@ __all__ = ['parser']
 
 bt = models.mem_bank_transaction
 
+
 class transaction_message(object):
     '''
     A auxiliary class to validate and coerce read values
@@ -60,7 +61,7 @@ class transaction_message(object):
         Banking Tools regulations, it is considered to be used by all banks
         in the Netherlands which comply to it. If not, please notify us.
         '''
-        if len(accountno) == 10: # Invalid: longest number is 9
+        if len(accountno) == 10:  # Invalid: longest number is 9
             accountno = accountno[1:]
         # 9-scheme or 7-scheme?
         stripped = accountno.lstrip('0')
@@ -73,17 +74,17 @@ class transaction_message(object):
         Initialize own dict with attributes and coerce values to right type
         '''
         if len(self.attrnames) != len(values):
-            raise ValueError, \
-                    _('Invalid transaction line: expected %d columns, found %d') \
-                    % (len(self.attrnames), len(values))
+            raise ValueError(
+                _('Invalid transaction line: expected %d columns, found %d')
+                % (len(self.attrnames), len(values))
+            )
         self.__dict__.update(dict(zip(self.attrnames, values)))
-        #self.local_account = self.clean_account(self.local_account)
-        #self.remote_account = self.clean_account(self.remote_account)
         self.start_balance = float(self.start_balance)
         self.transferred_amount = float(self.transferred_amount)
         self.execution_date = str2date(self.execution_date, '%d-%m-%Y')
         self.value_date = str2date(self.value_date, '%d-%m-%Y')
         self.id = str(subno).zfill(4)
+
 
 class transaction(models.mem_bank_transaction):
     '''
@@ -93,7 +94,7 @@ class transaction(models.mem_bank_transaction):
                  'remote_owner', 'remote_currency', 'transferred_amount',
                  'execution_date', 'value_date', 'transfer_type',
                  'reference', 'message', 'statement_id', 'id',
-                ]
+                 ]
 
     type_map = {
         'ACC': bt.ORDER,
@@ -151,14 +152,12 @@ class transaction(models.mem_bank_transaction):
         two accounts - the cash exits the banking system. These withdrawals
         have their transfer_type set to 'OPN'.
         '''
-        return (self.transferred_amount and self.execution_date and
-                self.value_date) and (
-                    self.remote_account or
-                    self.transfer_type in [
-                        'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV',
-                    ]
-                and not self.error_message
-                )
+        return ((
+            self.transferred_amount and self.execution_date
+            and self.value_date)
+            and (self.remote_account or self.transfer_type in [
+                'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV'
+            ] and not self.error_message))
 
     def parse_message(self):
         '''
@@ -172,7 +171,7 @@ class transaction(models.mem_bank_transaction):
 
         elif self.transfer_type == 'BEA':
             # Payment through payment terminal
-            # Remote owner is part of message, while remote_owner is set 
+            # Remote owner is part of message, while remote_owner is set
             # to the intermediate party, which we don't need.
             self.remote_owner = self.message[:23].rstrip()
             self.remote_owner_city = self.message[23:31].rstrip()
@@ -188,8 +187,10 @@ class transaction(models.mem_bank_transaction):
                     # The ordered transferred amount
                     currency, amount = part.split('. ')[1].split()
                     if self.remote_currency != currency.upper():
-                        self.error_message = \
-                          'Remote currency in message differs from transaction.'
+                        self.error_message = (
+                            'Remote currency in message differs from '
+                            'transaction.'
+                        )
                     else:
                         self.local_amount = float(amount)
                 elif part.startswith('koers. '):
@@ -262,6 +263,7 @@ class transaction(models.mem_bank_transaction):
                 parts = parts[:-1]
             self.message = ' '.join(parts)
 
+
 class statement(models.mem_bank_statement):
     '''
     Implementation of bank_statement communication class of account_banking
@@ -284,6 +286,7 @@ class statement(models.mem_bank_statement):
         trans = transaction(msg)
         self.end_balance += trans.transferred_amount
         self.transactions.append(trans)
+
 
 class parser(models.parser):
     code = 'NLBT'

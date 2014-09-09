@@ -6,8 +6,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 ##############################################################################
 
 import base64
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import netsvc
@@ -29,13 +29,16 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking_nl_clieop.wizard import clieop
 
+
 def strpdate(arg):
     '''shortcut'''
     return datetime.strptime(arg, DEFAULT_SERVER_DATE_FORMAT).date()
 
+
 def strfdate(arg):
     '''shortcut'''
     return arg.strftime(DEFAULT_SERVER_DATE_FORMAT)
+
 
 class banking_export_clieop_wizard(orm.TransientModel):
     _name = 'banking.export.clieop.wizard'
@@ -67,10 +70,9 @@ class banking_export_clieop_wizard(orm.TransientModel):
             help=('This is the date the file should be processed by the bank. '
                   'Don\'t choose a date beyond the nearest date in your '
                   'payments. The latest allowed date is 30 days from now.\n'
-                  'Please keep in mind that banks only execute on working days '
-                  'and typically use a delay of two days between execution date '
-                  'and effective transfer date.'
-                  ),
+                  'Please keep in mind that banks only execute on working '
+                  'days and typically use a delay of two days between '
+                  'execution date and effective transfer date.'),
             ),
         'test': fields.boolean(
             'Test Run',
@@ -80,9 +82,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
             ),
         'fixed_message': fields.char(
             'Fixed Message', size=32,
-            help=('A fixed message to apply to all transactions in addition to '
-                  'the individual messages.'
-                  ),
+            help=('A fixed message to apply to all transactions in addition '
+                  'to the individual messages.'),
             ),
         # file fields
         'file_id': fields.many2one(
@@ -90,7 +91,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
             'ClieOp File',
             readonly=True
             ),
-        # fields.related does not seem to support 
+        # fields.related does not seem to support
         # fields of type selection
         'testcode': fields.selection(
             [('T', _('Yes')), ('P', _('No'))],
@@ -175,7 +176,9 @@ class banking_export_clieop_wizard(orm.TransientModel):
         Also mind that rates for batches are way higher than those for
         transactions. It pays to limit the number of batches.
         '''
-        today = strpdate(fields.date.context_today(self, cr, uid, context=context))
+        today = strpdate(fields.date.context_today(
+            self, cr, uid, context=context
+        ))
         payment_order_obj = self.pool.get('payment.order')
 
         # Payment order ids are provided in the context
@@ -199,12 +202,14 @@ class banking_export_clieop_wizard(orm.TransientModel):
             elif payment_order.date_prefered == 'now':
                 execution_date = today
             elif payment_order.date_prefered == 'due':
-                # Max processing date is 30 days past now, so limiting beyond that
-                # will catch too early payments
+                # Max processing date is 30 days past now, so limiting beyond
+                # that will catch too early payments
                 max_date = execution_date = today + timedelta(days=31)
                 for line in payment_order.line_ids:
                     if line.move_line_id.date_maturity:
-                        date_maturity = strpdate(line.move_line_id.date_maturity)
+                        date_maturity = strpdate(
+                            line.move_line_id.date_maturity
+                        )
                         if date_maturity < execution_date:
                             execution_date = date_maturity
                     else:
@@ -212,7 +217,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
                 if execution_date and execution_date >= max_date:
                     raise orm.except_orm(
                         _('Error'),
-                        _('You can\'t create ClieOp orders more than 30 days in advance.')
+                        _('You can\'t create ClieOp orders more than 30 days '
+                          'in advance.')
                     )
         if len(runs) != 1:
             raise orm.except_orm(
@@ -233,17 +239,19 @@ class banking_export_clieop_wizard(orm.TransientModel):
         '''
         Wizard to actually create the ClieOp3 file
         '''
-        payment_order_obj = self.pool.get('payment.order')
         clieop_export = self.browse(cr, uid, ids, context)[0]
         clieopfile = None
         for payment_order in clieop_export.payment_order_ids:
             if not clieopfile:
                 # Just once: create clieop file
-                our_account_owner = payment_order.mode.bank_id.owner_name \
-                        or payment_order.mode.bank_id.partner_id.name
+                our_account_owner = (
+                    payment_order.mode.bank_id.owner_name
+                    or payment_order.mode.bank_id.partner_id.name
+                )
 
                 if payment_order.mode.bank_id.state == 'iban':
-                    our_account_nr = payment_order.mode.bank_id.acc_number_domestic
+                    our_account_nr = (
+                        payment_order.mode.bank_id.acc_number_domestic)
                     if not our_account_nr:
                         our_account_nr = sepa.IBAN(
                             payment_order.mode.bank_id.acc_number
@@ -253,21 +261,22 @@ class banking_export_clieop_wizard(orm.TransientModel):
                 if not our_account_nr:
                     raise orm.except_orm(
                         _('Error'),
-                        _('Your bank account has to have a valid account number')
+                        _('Your bank account has to have a valid account '
+                          'number')
                     )
-                clieopfile = {'CLIEOPPAY': clieop.PaymentsFile,
-                              'CLIEOPINC': clieop.DirectDebitFile,
-                              'CLIEOPSAL': clieop.SalaryPaymentsFile,
-                             }[clieop_export['batchtype']](
-                                 identification = clieop_export['reference'],
-                                 execution_date = clieop_export['execution_date'],
-                                 name_sender = our_account_owner,
-                                 accountno_sender = our_account_nr,
-                                 seqno = self.pool.get(
-                                     'banking.export.clieop').get_daynr(
-                                     cr, uid, context=context),
-                                 test = clieop_export['test']
-                             )
+                clieopfile = {
+                    'CLIEOPPAY': clieop.PaymentsFile,
+                    'CLIEOPINC': clieop.DirectDebitFile,
+                    'CLIEOPSAL': clieop.SalaryPaymentsFile,
+                }[clieop_export['batchtype']](
+                    identification=clieop_export['reference'],
+                    execution_date=clieop_export['execution_date'],
+                    name_sender=our_account_owner,
+                    accountno_sender=our_account_nr,
+                    seqno=self.pool.get('banking.export.clieop').get_daynr(
+                        cr, uid, context=context),
+                    test=clieop_export['test']
+                )
 
                 # ClieOp3 files can contain multiple batches, but we put all
                 # orders into one single batch. Ratio behind this is that a
@@ -282,8 +291,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
                 # The first payment order processed sets the reference of the
                 # batch.
                 batch = clieopfile.batch(
-                    messages = messages,
-                    batch_id = clieop_export['reference']
+                    messages=messages,
+                    batch_id=clieop_export['reference']
                 )
 
             for line in payment_order.line_ids:
@@ -294,12 +303,13 @@ class banking_export_clieop_wizard(orm.TransientModel):
                         _('There is insufficient information.\r\n'
                           'Both destination address and account '
                           'number must be provided'
-                         )
+                          )
                     )
                 kwargs = dict(
-                    name = line.bank_id.owner_name or line.bank_id.partner_id.name,
-                    amount = line.amount_currency,
-                    reference = line.communication or None,
+                    name=line.bank_id.owner_name
+                    or line.bank_id.partner_id.name,
+                    amount=line.amount_currency,
+                    reference=line.communication or None,
                 )
                 if line.communication2:
                     kwargs['messages'] = [line.communication2]
@@ -324,32 +334,32 @@ class banking_export_clieop_wizard(orm.TransientModel):
                 else:
                     kwargs['accountno_beneficiary'] = other_account_nr
                     kwargs['accountno_payer'] = our_account_nr
-                transaction = batch.transaction(**kwargs)
+                batch.transaction(**kwargs)
 
         # Generate the specifics of this clieopfile
         order = clieopfile.order
         file_id = self.pool.get('banking.export.clieop').create(
             cr, uid, dict(
-                filetype = order.name_transactioncode,
-                identification = order.identification,
-                prefered_date = strfdate(order.preferred_execution_date),
-                total_amount = int(order.total_amount) / 100.0,
-                check_no_accounts = order.total_accountnos,
-                no_transactions = order.nr_posts,
-                testcode = order.testcode,
-                file = base64.encodestring(clieopfile.rawdata),
-                filename = 'Clieop03-{0}.txt'.format(order.identification),
-                daynumber = int(clieopfile.header.file_id[2:]),
-                payment_order_ids = [
-                    [6, 0, [x.id for x in clieop_export['payment_order_ids']]]
-                     ],
-                    ), context)
-        self.write(cr, uid, [ids[0]], dict(
-                filetype = order.name_transactioncode,
-                testcode = order.testcode,
-                file_id = file_id,
-                state = 'finish',
+                filetype=order.name_transactioncode,
+                identification=order.identification,
+                prefered_date=strfdate(order.preferred_execution_date),
+                total_amount=int(order.total_amount) / 100.0,
+                check_no_accounts=order.total_accountnos,
+                no_transactions=order.nr_posts,
+                testcode=order.testcode,
+                file=base64.encodestring(clieopfile.rawdata),
+                filename='Clieop03-{0}.txt'.format(order.identification),
+                daynumber=int(clieopfile.header.file_id[2:]),
+                payment_order_ids=[
+                    [6, 0, [x.id
+                            for x in clieop_export['payment_order_ids']]]],
                 ), context)
+        self.write(cr, uid, [ids[0]], dict(
+            filetype=order.name_transactioncode,
+            testcode=order.testcode,
+            file_id=file_id,
+            state='finish',
+        ), context)
         return {
             'name': _('Client Opdrachten Export'),
             'view_type': 'form',
@@ -367,7 +377,9 @@ class banking_export_clieop_wizard(orm.TransientModel):
         Cancel the ClieOp: just drop the file
         '''
         clieop_export = self.read(cr, uid, ids, ['file_id'], context)[0]
-        self.pool.get('banking.export.clieop').unlink(cr, uid, clieop_export['file_id'][0])
+        self.pool.get('banking.export.clieop').unlink(
+            cr, uid, clieop_export['file_id'][0]
+        )
         return {'type': 'ir.actions.act_window_close'}
 
     def save_clieop(self, cr, uid, ids, context):
@@ -378,11 +390,12 @@ class banking_export_clieop_wizard(orm.TransientModel):
             cr, uid, ids, context)[0]
         if not clieop_export['test']:
             clieop_obj = self.pool.get('banking.export.clieop')
-            payment_order_obj = self.pool.get('payment.order')
-            clieop_file = clieop_obj.write(
+            clieop_obj.write(
                 cr, uid, clieop_export['file_id'].id, {'state': 'sent'}
                 )
             wf_service = netsvc.LocalService('workflow')
             for order in clieop_export['payment_order_ids']:
-                wf_service.trg_validate(uid, 'payment.order', order.id, 'sent', cr)
+                wf_service.trg_validate(
+                    uid, 'payment.order', order.id, 'sent', cr
+                )
         return {'type': 'ir.actions.act_window_close'}

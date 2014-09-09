@@ -23,6 +23,7 @@
 from operator import itemgetter
 from openerp.osv import fields, orm
 
+
 class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
@@ -48,7 +49,7 @@ class account_move_line(orm.Model):
                         AND pl.storno is false
                         AND po.state != 'cancel') AS amount
                     FROM account_move_line ml
-                    WHERE id IN %s""", (tuple(ids),))
+                    WHERE id IN %s""", (tuple(ids), ))
         r = dict(cr.fetchall())
         return r
 
@@ -80,12 +81,12 @@ class account_move_line(orm.Model):
                 WHERE type=%s AND active)
             AND reconcile_id IS null
             AND debit > 0
-            AND ''' + where + ' and ' + query), ('receivable',)+sql_args )
+            AND ''' + where + ' and ' + query), ('receivable', ) + sql_args)
 
         res = cr.fetchall()
         if not res:
             return [('id', '=', '0')]
-        return [('id', 'in', map(lambda x:x[0], res))]
+        return [('id', 'in', map(lambda x: x[0], res))]
 
     def line2bank(self, cr, uid, ids, payment_mode_id, context=None):
         '''I have to inherit this function for direct debits to fix the

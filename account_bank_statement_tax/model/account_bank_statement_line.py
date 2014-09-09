@@ -28,7 +28,7 @@ class AccountBankStatementLine(orm.Model):
     _columns = {
         'tax_id': fields.many2one(
             'account.tax', 'Tax',
-            domain=[('price_include','=', True)],
+            domain=[('price_include', '=', True)],
             help="Apply an (inclusive) tax from the bank statement line",
             ),
         }

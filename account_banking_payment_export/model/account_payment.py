@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -52,7 +52,7 @@ class payment_order(orm.Model):
         If type is manual. just confirm the order.
         Previously (pre-v6) in account_payment/wizard/wizard_pay.py
         """
-        if context == None:
+        if context is None:
             context = {}
         result = {}
         orders = self.browse(cr, uid, ids, context)
@@ -81,10 +81,13 @@ class payment_order(orm.Model):
                 if order.mode.type and order.mode.type.ir_model_id:
                     raise orm.except_orm(
                         _('Error'),
-                        _('You can only combine payment orders of the same type')
-                        )
+                        _('You can only combine payment orders of the same '
+                          'type')
+                    )
             # process manual payments
             wf_service = netsvc.LocalService('workflow')
             for order_id in ids:
-                wf_service.trg_validate(uid, 'payment.order', order_id, 'done', cr)
+                wf_service.trg_validate(
+                    uid, 'payment.order', order_id, 'done', cr
+                )
         return result

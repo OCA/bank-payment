@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -50,8 +50,8 @@ class payment_order_create(orm.TransientModel):
             context = {}
         data = self.read(cr, uid, ids, ['duedate'], context=context)[0]
         search_due_date = data['duedate']
-        
-        ### start account_banking_payment ###
+
+        # start account_banking_payment
         payment = self.pool.get('payment.order').browse(
             cr, uid, context['active_id'], context=context)
         # Search for move line to pay:
@@ -62,7 +62,7 @@ class payment_order_create(orm.TransientModel):
             ]
         self.extend_payment_order_domain(
             cr, uid, payment, domain, context=context)
-        ### end account_direct_debit ###
+        # end account_direct_debit
 
         domain = domain + [
             '|', ('date_maturity', '<=', search_due_date),
@@ -71,21 +71,22 @@ class payment_order_create(orm.TransientModel):
         line_ids = line_obj.search(cr, uid, domain, context=context)
         context.update({'line_ids': line_ids})
         model_data_ids = mod_obj.search(
-            cr, uid,[
+            cr, uid, [
                 ('model', '=', 'ir.ui.view'),
                 ('name', '=', 'view_create_payment_order_lines')],
             context=context)
         resource_id = mod_obj.read(
             cr, uid, model_data_ids, fields=['res_id'],
             context=context)[0]['res_id']
-        return {'name': _('Entry Lines'),
-                'context': context,
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_model': 'payment.order.create',
-                'views': [(resource_id, 'form')],
-                'type': 'ir.actions.act_window',
-                'target': 'new',
+        return {
+            'name': _('Entry Lines'),
+            'context': context,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'payment.order.create',
+            'views': [(resource_id, 'form')],
+            'type': 'ir.actions.act_window',
+            'target': 'new',
         }
 
     def _prepare_payment_line(self, cr, uid, payment, line, context=None):
@@ -93,26 +94,26 @@ class payment_order_create(orm.TransientModel):
         The resulting dict is passed to the create method of payment.line'''
         _today = fields.date.context_today(self, cr, uid, context=context)
         if payment.date_prefered == "now":
-            #no payment date => immediate payment
+            # no payment date => immediate payment
             date_to_pay = False
         elif payment.date_prefered == 'due':
-            ### account_banking
+            # account_banking
             # date_to_pay = line.date_maturity
             date_to_pay = (
                 line.date_maturity
                 if line.date_maturity and line.date_maturity > _today
                 else False)
-            ### end account banking
+            # end account banking
         elif payment.date_prefered == 'fixed':
-            ### account_banking
+            # account_banking
             # date_to_pay = payment.date_scheduled
             date_to_pay = (
                 payment.date_scheduled
                 if payment.date_scheduled and payment.date_scheduled > _today
                 else False)
-            ### end account banking
+            # end account banking
 
-        ### account_banking
+        # account_banking
         state = 'normal'
         communication = line.ref or '-'
         if line.invoice:
@@ -132,19 +133,19 @@ class payment_order_create(orm.TransientModel):
                 state = 'structured'
 
         # support debit orders when enabled
-        if (payment.payment_order_type == 'debit' and
-            'amount_to_receive' in line):
+        if (payment.payment_order_type == 'debit'
+                and 'amount_to_receive' in line):
             amount_currency = line.amount_to_receive
         else:
             amount_currency = line.amount_to_pay
-        ### end account_banking
+        # end account_banking
 
-        ### account banking
+        # account banking
         # t = None
         # line2bank = line_obj.line2bank(cr, uid, line_ids, t, context)
         line2bank = self.pool['account.move.line'].line2bank(
             cr, uid, [line.id], payment.mode.id, context)
-        ### end account banking
+        # end account banking
 
         res = {
             'move_line_id': line.id,
@@ -152,11 +153,11 @@ class payment_order_create(orm.TransientModel):
             'bank_id': line2bank.get(line.id),
             'order_id': payment.id,
             'partner_id': line.partner_id and line.partner_id.id or False,
-            ### account banking
+            # account banking
             # 'communication': line.ref or '/'
             'communication': communication,
             'state': state,
-            ### end account banking
+            # end account banking
             'date': date_to_pay,
             'currency': (line.invoice and line.invoice.currency_id.id
                          or line.journal_id.currency.id
@@ -166,11 +167,11 @@ class payment_order_create(orm.TransientModel):
 
     def create_payment(self, cr, uid, ids, context=None):
         '''
-        This method is a slightly modified version of the existing method on this
-        model in account_payment.
+        This method is a slightly modified version of the existing method on
+        this model in account_payment.
         - pass the payment mode to line2bank()
-        - allow invoices to create influence on the payment process: not only 'Free'
-        references are allowed, but others as well
+        - allow invoices to create influence on the payment process: not only
+        'Free' references are allowed, but others as well
         - check date_to_pay is not in the past.
         '''
         if context is None:
@@ -182,18 +183,19 @@ class payment_order_create(orm.TransientModel):
 
         payment = self.pool['payment.order'].browse(
             cr, uid, context['active_id'], context=context)
-        ## Populate the current payment with new lines:
+        # Populate the current payment with new lines:
         for line in self.pool['account.move.line'].browse(
                 cr, uid, line_ids, context=context):
             vals = self._prepare_payment_line(
                 cr, uid, payment, line, context=context)
             self.pool['payment.line'].create(cr, uid, vals, context=context)
         # Force reload of payment order view as a workaround for lp:1155525
-        return {'name': _('Payment Orders'),
-                'context': context,
-                'view_type': 'form',
-                'view_mode': 'form,tree',
-                'res_model': 'payment.order',
-                'res_id': context['active_id'],
-                'type': 'ir.actions.act_window',
+        return {
+            'name': _('Payment Orders'),
+            'context': context,
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'payment.order',
+            'res_id': context['active_id'],
+            'type': 'ir.actions.act_window',
         }

@@ -4,8 +4,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -26,7 +26,6 @@
     'category': 'Account Banking',
     'depends': ['account_banking'],
     'data': [
-        #'security/ir.model.access.csv',
     ],
     'description': '''
     Module to import Dutch Girotel format transation files.

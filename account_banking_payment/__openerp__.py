@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -41,7 +41,7 @@
         'workflow/account_payment.xml',
     ],
     'description': '''
-    This addon adds payment reconciliation infrastructure to the Banking Addons.
+This addon adds payment reconciliation infrastructure to the Banking Addons.
 
     * Extends payments for digital banking:
       + Adapted workflow in payments to reflect banking operations

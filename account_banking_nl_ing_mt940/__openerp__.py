@@ -19,19 +19,19 @@
 #
 ##############################################################################
 {
-    "name" : "MT940 import for Dutch ING",
-    "version" : "1.1",
-    "author" : "Therp BV",
+    "name": "MT940 import for Dutch ING",
+    "version": "1.1",
+    "author": "Therp BV",
     "complexity": "normal",
     "description": """
 This addon imports the structured MT940 format as offered by the Dutch ING
 bank.
     """,
-    "category" : "Account Banking",
-    "depends" : [
+    "category": "Account Banking",
+    "depends": [
         'account_banking_mt940',
     ],
-    "data" : [
+    "data": [
     ],
     "js": [
     ],
@@ -42,7 +42,7 @@ bank.
     "auto_install": False,
     "installable": True,
     "application": False,
-    "external_dependencies" : {
-        'python' : [],
+    "external_dependencies": {
+        'python': [],
     },
 }

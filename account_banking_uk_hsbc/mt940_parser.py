@@ -27,21 +27,23 @@ Based on fi_patu's parser
 import re
 from datetime import datetime
 
+
 class HSBCParser(object):
 
-    def __init__( self ):
+    def __init__(self):
         recparse = dict()
         patterns = {'ebcdic': "\w/\?:\(\).,'+{} -"}
 
         # MT940 header
         recparse["20"] = ":(?P<recordid>20):(?P<transref>.{1,16})"
-        recparse["25"] = ":(?P<recordid>25):(?P<sortcode>\d{6})(?P<accnum>\d{1,29})"
+        recparse["25"] = (":(?P<recordid>25):(?P<sortcode>\d{6})"
+                          "(?P<accnum>\d{1,29})")
         recparse["28"] = ":(?P<recordid>28C?):(?P<statementnr>.{1,8})"
 
         # Opening balance 60F
-        recparse["60F"] = ":(?P<recordid>60F):(?P<creditmarker>[CD])" \
-                + "(?P<prevstmtdate>\d{6})(?P<currencycode>.{3})" \
-                + "(?P<startingbalance>[\d,]{1,15})"
+        recparse["60F"] = (":(?P<recordid>60F):(?P<creditmarker>[CD])"
+                           "(?P<prevstmtdate>\d{6})(?P<currencycode>.{3})"
+                           "(?P<startingbalance>[\d,]{1,15})")
 
         # Transaction
         recparse["61"] = """\
@@ -58,23 +60,23 @@ class HSBCParser(object):
 """ % (patterns)
 
         # Further info
-        recparse["86"] = ":(?P<recordid>86):" \
-                + "(?P<infoline1>.{1,80})?" \
-                + "(?:\n(?P<infoline2>.{1,80}))?" \
-                + "(?:\n(?P<infoline3>.{1,80}))?" \
-                + "(?:\n(?P<infoline4>.{1,80}))?" \
-                + "(?:\n(?P<infoline5>.{1,80}))?"
+        recparse["86"] = (":(?P<recordid>86):"
+                          "(?P<infoline1>.{1,80})?"
+                          "(?:\n(?P<infoline2>.{1,80}))?"
+                          "(?:\n(?P<infoline3>.{1,80}))?"
+                          "(?:\n(?P<infoline4>.{1,80}))?"
+                          "(?:\n(?P<infoline5>.{1,80}))?")
 
-        # Forward available balance (64) /  Closing balance (62F) / Interim balance (62M)
-        recparse["64"] = ":(?P<recordid>64|62[FM]):" \
-                + "(?P<creditmarker>[CD])" \
-                + "(?P<bookingdate>\d{6})(?P<currencycode>.{3})" \
-                + "(?P<endingbalance>[\d,]{1,15})"
+        # Forward available balance (64) /  Closing balance (62F)
+        # / Interim balance (62M)
+        recparse["64"] = (":(?P<recordid>64|62[FM]):"
+                          "(?P<creditmarker>[CD])"
+                          "(?P<bookingdate>\d{6})(?P<currencycode>.{3})"
+                          "(?P<endingbalance>[\d,]{1,15})")
 
         for record in recparse:
             recparse[record] = re.compile(recparse[record])
         self.recparse = recparse
-
 
     def parse_record(self, line):
         """
@@ -85,25 +87,27 @@ class HSBCParser(object):
             if matchobj:
                 break
         if not matchobj:
-            print " **** failed to match line '%s'" % (line)
+            print(" **** failed to match line '%s'" % (line))
             return
         # Strip strings
         matchdict = matchobj.groupdict()
 
         # Remove members set to None
-        matchdict=dict([(k,v) for k,v in matchdict.iteritems() if v])
+        matchdict = dict([(k, v) for k, v in matchdict.iteritems() if v])
 
         matchkeys = set(matchdict.keys())
-        needstrip = set(["transref", "accnum", "statementnr", "custrefno",
+        needstrip = set([
+            "transref", "accnum", "statementnr", "custrefno",
             "bankref", "furtherinfo", "infoline1", "infoline2", "infoline3",
-            "infoline4", "infoline5", "startingbalance", "endingbalance"])
+            "infoline4", "infoline5", "startingbalance", "endingbalance"
+        ])
         for field in matchkeys & needstrip:
             matchdict[field] = matchdict[field].strip()
 
         # Convert to float. Comma is decimal separator
         needsfloat = set(["startingbalance", "endingbalance", "amount"])
         for field in matchkeys & needsfloat:
-            matchdict[field] = float(matchdict[field].replace(',','.'))
+            matchdict[field] = float(matchdict[field].replace(',', '.'))
 
         # Convert date fields
         needdate = set(["prevstmtdate", "valuedate", "bookingdate"])
@@ -111,14 +115,18 @@ class HSBCParser(object):
             datestring = matchdict[field]
 
             post_check = False
-            if len(datestring) == 4 and field=="bookingdate" and matchdict.has_key("valuedate"):
+            if (len(datestring) == 4
+                    and field == "bookingdate"
+                    and "valuedate" in matchdict):
                 # Get year from valuedate
                 datestring = matchdict['valuedate'].strftime('%y') + datestring
                 post_check = True
             try:
-                matchdict[field] = datetime.strptime(datestring,'%y%m%d')
+                matchdict[field] = datetime.strptime(datestring, '%y%m%d')
                 if post_check and matchdict[field] > matchdict["valuedate"]:
-                    matchdict[field]=matchdict[field].replace(year=matchdict[field].year-1)
+                    matchdict[field] = matchdict[field].replace(
+                        year=matchdict[field].year-1
+                    )
             except ValueError:
                 matchdict[field] = None
 
@@ -141,9 +149,11 @@ class HSBCParser(object):
 
         return output
 
+
 def parse_file(filename):
-    hsbcfile = open(filename, "r")
-    p = HSBCParser().parse(hsbcfile.readlines())
+    with open(filename, "r") as hsbcfile:
+        HSBCParser().parse(hsbcfile.readlines())
+
 
 def main():
     """The main function, currently just calls a dummy filename

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2013 Therp BV (<http://therp.nl>)
-#            
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -83,7 +83,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         reg('res.users').write(
             cr, uid, [uid], {
                 'company_id': self.company_id})
-        
+
     def setup_chart(self, reg, cr, uid):
         """
         Set up the configurable chart of accounts and create periods
@@ -115,7 +115,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         reg('account.fiscalyear').create_period(
             cr, uid, [fiscalyear_id])
 
-    def setup_payables(self, reg, cr, uid):
+    def setup_payables(self, reg, cr, uid, context=None):
         """
         Set up suppliers and invoice them. Check that the invoices
         can be validated properly.
@@ -126,25 +126,29 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 'name': 'Supplier 1',
                 'supplier': True,
                 'country_id': self.country_id,
-                'bank_ids': [(0, False, {
-                            'state': 'iban',
-                            'acc_number': 'NL42INGB0000454000',
-                            'bank': self.bank_id,
-                            'bank_bic': 'INGBNL2A',
-                            })],
-                })
+                'bank_ids': [
+                    (0, False, {
+                        'state': 'iban',
+                        'acc_number': 'NL42INGB0000454000',
+                        'bank': self.bank_id,
+                        'bank_bic': 'INGBNL2A',
+                    })
+                ],
+            }, context=context)
         supplier2 = partner_model.create(
             cr, uid, {
                 'name': 'Supplier 2',
                 'supplier': True,
                 'country_id': self.country_id,
-                'bank_ids': [(0, False, {
-                            'state': 'iban',
-                            'acc_number': 'NL86INGB0002445588',
-                            'bank': self.bank_id,
-                            'bank_bic': 'INGBNL2A',
-                            })],
-                })
+                'bank_ids': [
+                    (0, False, {
+                        'state': 'iban',
+                        'acc_number': 'NL86INGB0002445588',
+                        'bank': self.bank_id,
+                        'bank_bic': 'INGBNL2A',
+                    })
+                ],
+            }, context=context)
         self.payable_id = reg('account.account').search(
             cr, uid, [
                 ('company_id', '=', self.company_id),
@@ -158,26 +162,29 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             'type': 'in_invoice',
             'partner_id': supplier1,
             'account_id': self.payable_id,
-            'invoice_line': [(0, False, {
-                        'name': 'Purchase 1',
-                        'price_unit': 100.0,
-                        'quantity': 1,
-                        'account_id': expense_id,})],
+            'invoice_line': [
+                (0, False, {
+                    'name': 'Purchase 1',
+                    'price_unit': 100.0,
+                    'quantity': 1,
+                    'account_id': expense_id,
+                })
+            ],
             'reference_type': 'none',
             'supplier_invoice_number': 'INV1',
-            }
+        }
         self.invoice_ids = [
             invoice_model.create(
                 cr, uid, values, context={
                     'type': 'in_invoice',
                     })]
         values.update({
-                'partner_id': supplier2,
-                'name': 'Purchase 2',
-                'reference_type': 'structured',
-                'supplier_invoice_number': 'INV2',
-                'reference': 'STR2',
-                })
+            'partner_id': supplier2,
+            'name': 'Purchase 2',
+            'reference_type': 'structured',
+            'supplier_invoice_number': 'INV2',
+            'reference': 'STR2',
+        })
         self.invoice_ids.append(
             invoice_model.create(
                 cr, uid, values, context={

@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -28,7 +28,8 @@ import urllib
 
 __all__ = ['urlsplit', 'urljoin', 'pathbase', 'urlbase', 'SoupForm',
            'URLAgent'
-          ]
+           ]
+
 
 def urlsplit(url):
     '''
@@ -43,7 +44,8 @@ def urlsplit(url):
     host, path = urllib.splithost(url)
     return (scheme, host, path)
 
-def urljoin(scheme, host, path, args = None):
+
+def urljoin(scheme, host, path, args=None):
     '''
     Join scheme, host and path to a full URL.
     Optional: add urlencoded args.
@@ -54,14 +56,16 @@ def urljoin(scheme, host, path, args = None):
         url += '?%s' % urllib.urlencode(args)
     return url
 
+
 def pathbase(path):
     '''
     Return the base for the path in order to satisfy relative paths.
     Helper function.
     '''
     if path and '/' in path:
-        return path[:path.rfind('/') +1]
+        return path[:path.rfind('/') + 1]
     return path
+
 
 def urlbase(url):
     '''
@@ -70,6 +74,7 @@ def urlbase(url):
     '''
     scheme, host, path = urlsplit(url)
     return urljoin(scheme, host, pathbase(path))
+
 
 class SoupForm(object):
     '''
@@ -94,7 +99,7 @@ class SoupForm(object):
         if parent:
             self.soup = soup.parent
 
-        # Harvest input elements. 
+        # Harvest input elements.
         self._args = {}
         for item in self.soup.findAll('input'):
             # Make sure to initialize to '' to avoid None strings to appear
@@ -150,6 +155,7 @@ class SoupForm(object):
         args.update(self._extra_args)
         return args
 
+
 class URLAgent(object):
     '''
     Assistent object to ease HTTP(S) requests.
@@ -160,8 +166,12 @@ class URLAgent(object):
         super(URLAgent, self).__init__(*args, **kwargs)
         self._extra_headers = {}
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (X11; U; Linux x86_64; us; rv:1.9.0.10) Gecko/2009042708 Fedora/3.0.10-1.fc9 Firefox/3.0.10',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'User-Agent': (
+                'Mozilla/5.0 (X11; U; Linux x86_64; us; rv:1.9.0.10) '
+                'Gecko/2009042708 Fedora/3.0.10-1.fc9 Firefox/3.0.10'),
+            'Accept': (
+                'text/html,application/xhtml+xml,application/xml;'
+                'q=0.9,*/*;q=0.8'),
             'Accept-Language': 'en-us;q=1.0',
             'Accept-Charset': 'UTF-8,*',
             'Cache-Control': 'max-age=0'
@@ -193,7 +203,7 @@ class URLAgent(object):
 
         # Get and set cookies for next actions
         attributes = request.info()
-        if attributes.has_key('set-cookie'):
+        if 'set-cookie' in attributes:
             self.agent.addheader('Cookie', attributes['set-cookie'])
 
         # Add referer

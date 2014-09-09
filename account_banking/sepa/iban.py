@@ -44,6 +44,7 @@
 
 __all__ = ['IBAN', 'BBAN']
 
+
 def modulo_97_base10(abuffer):
     '''
     Calculate the modulo 97 value of a string in base10
@@ -54,6 +55,7 @@ def modulo_97_base10(abuffer):
         checksum += int(digit)
         checksum %= 97
     return checksum
+
 
 def base36_to_base10str(abuffer):
     '''
@@ -66,6 +68,7 @@ def base36_to_base10str(abuffer):
         else:
             result += digit
     return result
+
 
 class BBANFormat(object):
     '''
@@ -80,7 +83,7 @@ class BBANFormat(object):
         Specify the structure of the SEPA account in relation to the local
         account. The XXZZ prefix that all SEPA accounts have is not part of
         the structure in BBANFormat.
-        
+
         ibanfmt: string of identifiers from position 5 (start = 1):
             A = Account position
             N = Account digit
@@ -95,7 +98,7 @@ class BBANFormat(object):
             leading-zero-stripped account numbers.
 
             Example: (NL) 'CCCCAAAAAAAAAA'
-                      will convert 'INGB0001234567' into 
+                      will convert 'INGB0001234567' into
                       bankcode 'INGB' and account '0001234567'
 
         bbanfmt: string of placeholders for the local bank account
@@ -119,7 +122,7 @@ class BBANFormat(object):
         self._iban = ibanfmt
         self._bban = bbanfmt
         self._nolz = nolz
-    
+
     def __extract__(self, spec, value):
         '''Extract the value based on the spec'''
         i = self._iban.find(spec)
@@ -147,7 +150,7 @@ class BBANFormat(object):
         else:
             prefix = ''
         return prefix + self.__extract__('A', iban)
-    
+
     def BBAN(self, iban):
         '''
         Format the BBAN part of the IBAN in iban following the local
@@ -177,6 +180,7 @@ class BBANFormat(object):
                 res += self._bban[i]
             i += 1
         return res
+
 
 class IBAN(str):
     '''
@@ -272,7 +276,7 @@ class IBAN(str):
                 if item.isalnum():
                     init += item
                 elif item not in ' \t.-':
-                    raise ValueError, 'Invalid chars found in IBAN number'
+                    raise ValueError('Invalid chars found in IBAN number')
         return str.__new__(cls, init)
 
     def __init__(self, *args, **kwargs):
@@ -287,8 +291,7 @@ class IBAN(str):
 
     @classmethod
     def create(cls, BIC=None, countrycode=None, BBAN=None, bankcode=None,
-               branchcode=None, account=None
-              ):
+               branchcode=None, account=None):
         '''
         Create a IBAN number from a BBAN and a country code. Optionaly create
         a BBAN from BBAN components before generation.
@@ -304,20 +307,17 @@ class IBAN(str):
             if countrycode:
                 countrycode = countrycode.upper()
             else:
-                raise ValueError, \
-                        'Either BIC or countrycode is required'
+                raise ValueError('Either BIC or countrycode is required')
 
         if countrycode not in cls.countries:
-            raise ValueError, \
-                    '%s is not a SEPA country' % countrycode
+            raise ValueError('%s is not a SEPA country' % countrycode)
         format = cls.BBAN_formats[countrycode]
 
         if BBAN:
             if len(BBAN) == len(format._iban):
                 ibanno = cls(countrycode + '00' + BBAN)
                 return cls(countrycode + ibanno.checksum + BBAN)
-            raise ValueError, \
-                    'Insufficient data to generate IBAN'
+            raise ValueError('Insufficient data to generate IBAN')
 
     @property
     def valid(self):
@@ -325,8 +325,10 @@ class IBAN(str):
         Check if the string + check digits deliver a valid checksum
         '''
         _buffer = self[4:] + self[:4]
-        return self.countrycode in self.countries and \
-                int(base36_to_base10str(_buffer)) % 97 == 1
+        return (
+            self.countrycode in self.countries
+            and int(base36_to_base10str(_buffer)) % 97 == 1
+        )
 
     def __repr__(self):
         '''
@@ -387,7 +389,7 @@ class IBAN(str):
         The bank code seems to be world wide unique. Knowing this,
         one can use the country + bankcode info from BIC to narrow a
         search for the bank itself.
-        
+
         Note that some countries use one single localization code for
         all bank transactions in that country, while others do not. This
         makes it impossible to use an algorithmic approach for generating
@@ -421,22 +423,24 @@ class IBAN(str):
         '''
         return self[4:]
 
+
 class BBAN(object):
     '''
     Class to reformat a local BBAN account number to IBAN specs.
     Simple validation based on length of spec string elements and real data.
     '''
-    
+
     @staticmethod
     def _get_length(fmt, element):
         '''
         Internal method to calculate the length of a parameter in a
         formatted string
         '''
-        i = 0; max_i = len(fmt._iban)
+        i = 0
+        max_i = len(fmt._iban)
         while i < max_i:
             if fmt._iban[i] == element:
-                next = i +1
+                next = i + 1
                 while next < max_i and fmt._iban[next] == element:
                     next += 1
                 return next - i
@@ -453,7 +457,10 @@ class BBAN(object):
         if countrycode.upper() in IBAN.countries:
             self._fmt = IBAN.BBAN_formats[countrycode.upper()]
             res = ''
-            i = 0; j = 0; max_i = len(self._fmt._bban); max_j = len(bban)
+            i = 0
+            j = 0
+            max_i = len(self._fmt._bban)
+            max_j = len(bban)
             while i < max_i and j < max_j:
                 while bban[j] in ' \t' and j < max_j:
                     j += 1
@@ -475,7 +482,7 @@ class BBAN(object):
                             # Note that many accounts in the IBAN standard
                             # are allowed to have leading zeros, so zfill
                             # to full spec length for visual validation.
-                            # 
+                            #
                             # Note 2: this may look funny to some, as most
                             # local schemes strip leading zeros. It allows
                             # us however to present the user a visual feedback
@@ -512,15 +519,16 @@ class BBAN(object):
         '''Simple check if BBAN is in the right format'''
         return self._bban and True or False
 
+
 if __name__ == '__main__':
     import sys
     for arg in sys.argv[1:]:
         iban = IBAN(arg)
-        print 'IBAN:', iban
-        print 'country code:', iban.countrycode
-        print 'bank code:', iban.bankcode
-        print 'branch code:', iban.branchcode
-        print 'BBAN:', iban.BBAN
-        print 'localized BBAN:', iban.localized_BBAN
-        print 'check digits:', iban.checkdigits
-        print 'checksum:', iban.checksum
+        print('IBAN:', iban)
+        print('country code:', iban.countrycode)
+        print('bank code:', iban.bankcode)
+        print('branch code:', iban.branchcode)
+        print('BBAN:', iban.BBAN)
+        print('localized BBAN:', iban.localized_BBAN)
+        print('check digits:', iban.checkdigits)
+        print('checksum:', iban.checksum)

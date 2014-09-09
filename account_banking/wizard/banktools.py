@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -24,13 +24,14 @@ from openerp.addons.account_banking import sepa
 from openerp.addons.account_banking.struct import struct
 
 __all__ = [
-    'get_period', 
+    'get_period',
     'get_bank_accounts',
     'get_partner',
     'get_country_id',
     'get_company_bank_account',
     'create_bank_account',
 ]
+
 
 def get_period(pool, cr, uid, date, company, log=None):
     '''
@@ -43,13 +44,14 @@ def get_period(pool, cr, uid, date, company, log=None):
     try:
         period_ids = pool.get('account.period').find(
             cr, uid, dt=date, context=context)
-    except Exception, e:
+    except Exception as e:
         if log is None:
             raise
         else:
             log.append(e)
             return False
     return period_ids[0]
+
 
 def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
     '''
@@ -72,6 +74,7 @@ def get_bank_accounts(pool, cr, uid, account_number, log, fail=False):
         return []
     return partner_bank_obj.browse(cr, uid, bank_account_ids)
 
+
 def _has_attr(obj, attr):
     # Needed for dangling addresses and a weird exception scheme in
     # OpenERP's orm.
@@ -80,6 +83,7 @@ def _has_attr(obj, attr):
     except KeyError:
         return False
 
+
 def get_partner(pool, cr, uid, name, address, postal_code, city,
                 country_id, log, context=None):
     '''
@@ -87,7 +91,7 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
 
     If multiple partners are found with the same name, select the first and
     add a warning to the import log.
- 
+
     TODO: revive the search by lines from the address argument
     '''
     partner_obj = pool.get('res.partner')
@@ -115,7 +119,8 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
         key = name.lower()
         partners = []
         for partner in partner_obj.read(
-            cr, uid, partner_search_ids, ['name', 'commercial_partner_id'], context=context):
+                cr, uid, partner_search_ids, ['name', 'commercial_partner_id'],
+                context=context):
             if (len(partner['name']) > 3 and partner['name'].lower() in key):
                 partners.append(partner)
         partners.sort(key=lambda x: len(x['name']), reverse=True)
@@ -125,6 +130,7 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
             _('More than one possible match found for partner with '
               'name %(name)s') % {'name': name})
     return partner_ids and partner_ids[0] or False
+
 
 def get_company_bank_account(pool, cr, uid, account_number, currency,
                              company, log):
@@ -139,16 +145,16 @@ def get_company_bank_account(pool, cr, uid, account_number, currency,
         return False
     elif len(bank_accounts) != 1:
         log.append(
-            _('More than one bank account was found with the same number %(account_no)s')
-            % dict(account_no = account_number)
+            _('More than one bank account was found with the same number '
+              '%(account_no)s') % dict(account_no=account_number)
         )
         return False
     if bank_accounts[0].partner_id.id != company.partner_id.id:
         log.append(
             _('Account %(account_no)s is not owned by %(partner)s')
-            % dict(account_no = account_number,
-                   partner = company.partner_id.name,
-        ))
+            % dict(account_no=account_number,
+                   partner=company.partner_id.name,
+                   ))
         return False
     results.account = bank_accounts[0]
     bank_settings_obj = pool.get('account.banking.account.settings')
@@ -189,8 +195,9 @@ def get_company_bank_account(pool, cr, uid, account_number, currency,
 
     return results
 
+
 def get_or_create_bank(pool, cr, uid, bic, online=False, code=None,
-                       name=None):
+                       name=None, context=None):
     '''
     Find or create the bank with the provided BIC code.
     When online, the SWIFT database will be consulted in order to
@@ -231,38 +238,41 @@ def get_or_create_bank(pool, cr, uid, bic, online=False, code=None,
     bank_id = False
 
     if online:
-        info, address = bank_obj.online_bank_info(cr, uid, bic, context=context)
+        info, address = bank_obj.online_bank_info(
+            cr, uid, bic, context=context
+        )
         if info:
             bank_id = bank_obj.create(cr, uid, dict(
-                code = info.code,
-                name = info.name,
-                street = address.street,
-                street2 = address.street2,
-                zip = address.zip,
-                city = address.city,
-                country = country_id,
-                bic = info.bic[:8],
+                code=info.code,
+                name=info.name,
+                street=address.street,
+                street2=address.street2,
+                zip=address.zip,
+                city=address.city,
+                country=country_id,
+                bic=info.bic[:8],
             ))
     else:
         info = struct(name=name, code=code)
 
     if not online or not bank_id:
         bank_id = bank_obj.create(cr, uid, dict(
-            code = info.code or 'UNKNOW',
-            name = info.name or _('Unknown Bank'),
-            country = country_id,
-            bic = bic,
+            code=info.code or 'UNKNOW',  # FIXME: Typo?
+            name=info.name or _('Unknown Bank'),
+            country=country_id,
+            bic=bic,
         ))
     return bank_id, country_id
+
 
 def get_country_id(pool, cr, uid, transaction, context=None):
     """
     Derive a country id from the info on the transaction.
-    
+
     :param transaction: browse record of a transaction
-    :returns: res.country id or False 
+    :returns: res.country id or False
     """
-    
+
     country_code = False
     iban = sepa.IBAN(transaction.remote_account)
     if iban.valid:
@@ -283,6 +293,7 @@ def get_country_id(pool, cr, uid, transaction, context=None):
             country_id = company.partner_id.country.id
     return country_id
 
+
 def create_bank_account(pool, cr, uid, partner_id,
                         account_number, holder_name, address, city,
                         country_id, bic=False,
@@ -291,9 +302,9 @@ def create_bank_account(pool, cr, uid, partner_id,
     Create a matching bank account with this holder for this partner.
     '''
     values = struct(
-        partner_id = partner_id,
-        owner_name = holder_name,
-        country_id = country_id,
+        partner_id=partner_id,
+        owner_name=holder_name,
+        country_id=country_id,
     )
 
     # Are we dealing with IBAN?
@@ -325,5 +336,3 @@ def create_bank_account(pool, cr, uid, partner_id,
     # Create bank account and return
     return pool.get('res.partner.bank').create(
         cr, uid, values, context=context)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

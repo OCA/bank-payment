@@ -50,7 +50,7 @@ class res_company(orm.Model):
             if country_code == 'BE':
                 party_identifier = company_vat[2:].replace(' ', '')
             elif country_code == 'ES':
-               party_identifier = company.sepa_creditor_identifier
+                party_identifier = company.sepa_creditor_identifier
         return party_identifier
 
     def _initiating_party_issuer_default(self, cr, uid, context=None):

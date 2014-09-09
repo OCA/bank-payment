@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -40,7 +40,8 @@ Assumptions:
     4. the data comes from the SWIFT-network (limited ASCII)
 
 Assumption 4 seems not always true, leading to wrong character conversions.
-As a counter measure, all imported data is converted to SWIFT-format before usage.
+As a counter measure, all imported data is converted to SWIFT-format before
+usage.
 '''
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date, to_swift
@@ -51,6 +52,7 @@ import csv
 bt = models.mem_bank_transaction
 
 __all__ = ['parser']
+
 
 class transaction_message(object):
     '''
@@ -81,7 +83,12 @@ class transaction_message(object):
         Convert values from string content to SWIFT-allowable content
         '''
         retval = super(transaction_message, self).__getattribute__(attr)
-        return attr != 'strattrs' and attr in self.strattrs and to_swift(retval) or retval
+        return attr != (
+            'strattrs'
+            and attr in self.strattrs
+            and to_swift(retval)
+            or retval
+        )
 
     def genid(self):
         '''
@@ -99,14 +106,15 @@ class transaction_message(object):
         Initialize own dict with attributes and coerce values to right type
         '''
         if len(self.attrnames) != len(values):
-            raise ValueError, \
-                    _('Invalid transaction line: expected %d columns, found %d') \
-                    % (len(self.attrnames), len(values))
+            raise ValueError(
+                _('Invalid transaction line: expected %d columns, found %d')
+                % (len(self.attrnames), len(values))
+            )
         self.__dict__.update(dict(zip(self.attrnames, values)))
         self.date = str2date(self.date, '%Y%m%d')
         if self.direction == 'A':
             self.transferred_amount = -float(self.transferred_amount)
-            #payment batch done via clieop
+            # payment batch done via clieop
             if (self.transfer_type == 'VZ'
                     and (not self.remote_account or self.remote_account == '0')
                     and (not self.message or re.match('^\s*$', self.message))
@@ -114,7 +122,7 @@ class transaction_message(object):
                 self.transfer_type = 'PB'
                 self.message = self.remote_owner
                 self.remove_owner = False
-            #payment batch done via sepa
+            # payment batch done via sepa
             if self.transfer_type == 'VZ'\
                     and not self.remote_account\
                     and not self.remote_owner\
@@ -144,10 +152,10 @@ class transaction(models.mem_bank_transaction):
     '''
     Implementation of transaction communication class for account_banking.
     '''
-    attrnames = [ 'statement_id', 'remote_account', 'remote_owner',
+    attrnames = ['statement_id', 'remote_account', 'remote_owner',
                  'remote_currency', 'transferred_amount', 'execution_date',
                  'value_date', 'transfer_type', 'message',
-                ]
+                 ]
 
     type_map = {
         'BA': bt.PAYMENT_TERMINAL,
@@ -225,7 +233,7 @@ class transaction(models.mem_bank_transaction):
             self.reference = self.remote_owner.rstrip()
             parts = [self.message[i:i+32].rstrip()
                      for i in range(0, len(self.message), 32)
-                    ]
+                     ]
             if len(parts) > 3:
                 self.reference = parts[-1]
                 self.message = '\n'.join(parts[:-1])
@@ -246,7 +254,7 @@ class transaction(models.mem_bank_transaction):
             self.message = self.refold_message(self.message)
             self.reference = '%s %s' % (self.remote_owner,
                                         ' '.join(self.message.split()[2:4])
-                                       )
+                                        )
 
         elif self.transfer_type == 'IC':
             # Direct debit - remote_owner containts reference, while
@@ -256,7 +264,7 @@ class transaction(models.mem_bank_transaction):
             # taxes, but then a once-only manual correction is sufficient.
             parts = [self.message[i:i+32].rstrip()
                      for i in range(0, len(self.message), 32)
-                    ]
+                     ]
             self.reference = self.remote_owner
 
             if not parts:
@@ -306,6 +314,7 @@ class transaction(models.mem_bank_transaction):
             # message parts.
             self.message = self.refold_message(self.message)
 
+
 class statement(models.mem_bank_statement):
     '''
     Implementation of bank_statement communication class of account_banking
@@ -328,6 +337,7 @@ class statement(models.mem_bank_statement):
         trans = transaction(msg)
         self.end_balance += trans.transferred_amount
         self.transactions.append(trans)
+
 
 class parser(models.parser):
     code = 'NLGT'

@@ -24,6 +24,7 @@ from openerp.tools.translate import _
 from openerp.addons.account_banking.wizard import banktools
 import ast
 
+
 class link_partner(orm.TransientModel):
     _name = 'banking.link_partner'
     _description = 'Link partner'
@@ -66,14 +67,14 @@ class link_partner(orm.TransientModel):
         'mobile': fields.char('Mobile', size=64),
         'is_company': fields.boolean('Is a Company'),
         }
-    
+
     _defaults = {
         'is_company': True,
         }
-    
+
     def create(self, cr, uid, vals, context=None):
         """
-        Get default values from the transaction data 
+        Get default values from the transaction data
         on the statement line
         """
         if vals and vals.get('statement_line_id'):
@@ -86,7 +87,7 @@ class link_partner(orm.TransientModel):
                 raise orm.except_orm(
                     _('Error'),
                     _('Statement line is already linked to a bank account '))
-            
+
             if not(transaction
                    and transaction.remote_account):
                 raise orm.except_orm(
@@ -124,17 +125,17 @@ class link_partner(orm.TransientModel):
 
         return super(link_partner, self).create(
             cr, uid, vals, context=context)
-            
+
     def update_partner_values(self, cr, uid, wizard, values, context=None):
         """
         Updates the new partner values with the values from the wizard
-        
+
         :param wizard: read record of wizard (with load='_classic_write')
         :param values: the dictionary of partner values that will be updated
         """
         for field in ['is_company',
                       'name',
-                      'street', 
+                      'street',
                       'street2',
                       'zip',
                       'city',
@@ -148,7 +149,7 @@ class link_partner(orm.TransientModel):
             if wizard[field]:
                 values[field] = wizard[field]
         return True
-    
+
     def link_partner(self, cr, uid, ids, context=None):
         statement_line_obj = self.pool.get(
             'account.bank.statement.line')
@@ -160,13 +161,13 @@ class link_partner(orm.TransientModel):
             wiz_read = self.read(
                 cr, uid, ids[0], context=context, load='_classic_write')
             partner_vals = {
-                    'type': 'default',
-                    }
+                'type': 'default',
+            }
             self.update_partner_values(
                 cr, uid, wiz_read, partner_vals, context=context)
             partner_id = self.pool.get('res.partner').create(
                 cr, uid, partner_vals, context=context)
-            
+
         partner_bank_id = banktools.create_bank_account(
             self.pool, cr, uid, partner_id,
             wiz.remote_account, wiz.name,
@@ -185,10 +186,10 @@ class link_partner(orm.TransientModel):
             {'partner_bank_id': partner_bank_id,
              'partner_id': partner_id}, context=context)
 
-        return {'type': 'ir.actions.act_window_close'}        
+        return {'type': 'ir.actions.act_window_close'}
 
     def create_act_window(self, cr, uid, ids, nodestroy=True, context=None):
-        """ 
+        """
         Return a popup window for this model
         """
         if isinstance(ids, (int, long)):
@@ -205,5 +206,3 @@ class link_partner(orm.TransientModel):
             'res_id': ids[0],
             'nodestroy': nodestroy,
             }
-
-

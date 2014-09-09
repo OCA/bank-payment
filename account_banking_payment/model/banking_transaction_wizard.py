@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -53,19 +53,23 @@ class banking_transaction_wizard(orm.TransientModel):
                     sign = 1
                 else:
                     sign = -1
-                total = (payment_order.total + sign * 
+                total = (payment_order.total + sign *
                          transaction_id.statement_line_id.amount)
                 if not self.pool.get('res.currency').is_zero(
-                    cr, uid, transaction_id.statement_line_id.statement_id.currency, total):
+                        cr, uid,
+                        transaction_id.statement_line_id.statement_id.currency,
+                        total):
                     raise orm.except_orm(
                         _('Error'),
                         _('When matching a payment order, the amounts have to '
                           'match exactly'))
-                
-                if payment_order.mode and payment_order.mode.transfer_account_id:
+
+                if (payment_order.mode
+                        and payment_order.mode.transfer_account_id):
                     transaction_id.statement_line_id.write({
-                        'account_id': payment_order.mode.transfer_account_id.id,
-                        })
+                        'account_id': (
+                            payment_order.mode.transfer_account_id.id),
+                    })
                 write_vals.update(
                     {'payment_order_id': manual_payment_order_id,
                      'match_type': 'payment_order_manual'})
@@ -79,25 +83,40 @@ class banking_transaction_wizard(orm.TransientModel):
 
     _columns = {
         'payment_line_id': fields.related(
-            'import_transaction_id', 'payment_line_id',
-            string="Matching payment or storno", 
-            type='many2one', relation='payment.line',
-            readonly=True),
+            'import_transaction_id',
+            'payment_line_id',
+            string="Matching payment or storno",
+            type='many2one',
+            relation='payment.line',
+            readonly=True,
+        ),
         'payment_order_ids': fields.related(
-            'import_transaction_id', 'payment_order_ids',
-            string="Matching payment orders", 
-            type='many2many', relation='payment.order'),
+            'import_transaction_id',
+            'payment_order_ids',
+            string="Matching payment orders",
+            type='many2many',
+            relation='payment.order',
+        ),
         'payment_order_id': fields.related(
-            'import_transaction_id', 'payment_order_id',
-            string="Payment order to reconcile", 
-            type='many2one', relation='payment.order'),
+            'import_transaction_id',
+            'payment_order_id',
+            string="Payment order to reconcile",
+            type='many2one',
+            relation='payment.order',
+        ),
         'manual_payment_order_id': fields.many2one(
-            'payment.order', 'Match this payment order',
-            domain=[('state', '=', 'sent')]),
+            'payment.order',
+            'Match this payment order',
+            domain=[
+                ('state', '=', 'sent'),
+            ],
+        ),
         'manual_payment_line_id': fields.many2one(
-            'payment.line', 'Match this payment line',
+            'payment.line',
+            'Match this payment line',
             domain=[
                 ('order_id.state', '=', 'sent'),
                 ('date_done', '=', False),
-                ]),
-        }
+            ],
+        ),
+    }

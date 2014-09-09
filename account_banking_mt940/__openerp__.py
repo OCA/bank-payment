@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "MT940",
-    "version" : "1.0",
-    "author" : "Therp BV",
+    "name": "MT940",
+    "version": "1.0",
+    "author": "Therp BV",
     "complexity": "expert",
     "description": """
 This addon provides a generic parser for MT940 files. Given that MT940 is a
@@ -32,11 +32,11 @@ certain bank.
 
 See account_banking_nl_ing_mt940 for an example on how to use it.
     """,
-    "category" : "Dependency",
-    "depends" : [
+    "category": "Dependency",
+    "depends": [
         'account_banking',
     ],
-    "data" : [
+    "data": [
     ],
     "js": [
     ],
@@ -47,7 +47,7 @@ See account_banking_nl_ing_mt940 for an example on how to use it.
     "auto_install": False,
     "installable": True,
     "application": False,
-    "external_dependencies" : {
-        'python' : [],
+    "external_dependencies": {
+        'python': [],
     },
 }

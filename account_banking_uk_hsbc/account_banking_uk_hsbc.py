@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -19,12 +19,14 @@
 #
 ##############################################################################
 
-from osv import osv, fields
 from datetime import date
-from tools.translate import _
 
-class hsbc_export(osv.osv):
-    '''HSBC Export'''
+from openerp.osv import orm, fields
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as OE_DATEFORMAT
+
+
+class hsbc_export(orm.Model):
+    """HSBC Export"""
     _name = 'banking.export.hsbc'
     _description = __doc__
     _rec_name = 'execution_date'
@@ -39,7 +41,7 @@ class hsbc_export(osv.osv):
         'identification':
             fields.char('Identification', size=15, readonly=True, select=True),
         'execution_date':
-            fields.date('Execution Date',readonly=True),
+            fields.date('Execution Date', readonly=True),
         'no_transactions':
             fields.integer('Number of Transactions', readonly=True),
         'total_amount':
@@ -57,51 +59,53 @@ class hsbc_export(osv.osv):
     }
 
     _defaults = {
-        'date_generated': lambda *a: date.today().strftime('%Y-%m-%d'),
-        'state': lambda *a: 'draft',
+        'date_generated': lambda *a: date.today().strftime(OE_DATEFORMAT),
+        'state': 'draft',
     }
-hsbc_export()
 
 
-class payment_line(osv.osv):
-    '''
-    The standard payment order is using a mixture of details from the partner record
-    and the res.partner.bank record. For, instance, the account holder name is coming
-    from the res.partner.bank record, but the company name and address are coming from
-    the partner address record. This is problematic because the HSBC payment format
-    is validating for alphanumeric characters in the company name and address. So,
-    "Great Company Ltd." and "Great Company s.a." will cause an error because they have
-    full-stops in the name.
+class payment_line(orm.Model):
+    """The standard payment order is using a mixture of details from the
+    partner record and the res.partner.bank record. For, instance, the account
+    holder name is coming from the res.partner.bank record, but the company
+    name and address are coming from the partner address record. This is
+    problematic because the HSBC payment format is validating for alphanumeric
+    characters in the company name and address. So, "Great Company Ltd." and
+    "Great Company s.a." will cause an error because they have full-stops in
+    the name.
 
-    A better approach is to use the name and address details from the res.partner.bank
-    record always. This way, the address details can be sanitized for the payments, 
-    whilst being able to print the proper name and address throughout the rest of the
-    system e.g. on invoices.
-    '''
-    _name = 'payment.line'
+    A better approach is to use the name and address details from the
+    res.partner.bank record always. This way, the address details can be
+    sanitized for the payments, whilst being able to print the proper name and
+    address throughout the rest of the system e.g. on invoices.
+    """
+
     _inherit = 'payment.line'
 
     def info_owner(self, cr, uid, ids, name=None, args=None, context=None):
-        if not ids: return {}
+
+        if not ids:
+            return {}
 
         result = {}
-        info=''
+        info = ''
         for line in self.browse(cr, uid, ids, context=context):
             owner = line.order_id.mode.bank_id
 
             name = owner.owner_name or owner.partner_id.name
             st = owner.street and owner.street or ''
-            st1 = '' #no street2 in res.partner.bank
+            st1 = ''  # no street2 in res.partner.bank
             zip = owner.zip and owner.zip or ''
-            city = owner.city and owner.city or  ''
+            city = owner.city and owner.city or ''
             zip_city = zip + ' ' + city
             cntry = owner.country_id and owner.country_id.name or ''
-            info = name + "\n" + st + " " + st1 + "\n" + zip_city + "\n" +cntry
+            info = name + "\n".join((st + " ", st1, zip_city, cntry))
             result[line.id] = info
         return result
 
     def info_partner(self, cr, uid, ids, name=None, args=None, context=None):
-        if not ids: return {}
+        if not ids:
+            return {}
         result = {}
         info = ''
 
@@ -110,24 +114,28 @@ class payment_line(osv.osv):
 
             name = partner.owner_name or partner.partner_id.name
             st = partner.street and partner.street or ''
-            st1 = '' #no street2 in res.partner.bank
+            st1 = ''  # no street2 in res.partner.bank
             zip = partner.zip and partner.zip or ''
-            city = partner.city and partner.city or  ''
+            city = partner.city and partner.city or ''
             zip_city = zip + ' ' + city
             cntry = partner.country_id and partner.country_id.name or ''
-            info = name + "\n" + st + " " + st1 + "\n" + zip_city + "\n" +cntry
+            info = name + "\n".join((st + " ", st1, zip_city, cntry))
             result[line.id] = info
 
         return result
 
-
     # Define the info_partner and info_owner so we can override the methods
     _columns = {
-        'info_owner': fields.function(info_owner, string="Owner Account", type="text", help='Address of the Main Partner'),
-        'info_partner': fields.function(info_partner, string="Destination Account", type="text", help='Address of the Ordering Customer.'),
+        'info_owner': fields.function(
+            info_owner,
+            string="Owner Account",
+            type="text",
+            help='Address of the Main Partner',
+        ),
+        'info_partner': fields.function(
+            info_partner,
+            string="Destination Account",
+            type="text",
+            help='Address of the Ordering Customer.'
+        ),
     }
-
-payment_line()
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

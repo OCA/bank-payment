@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -44,7 +44,7 @@ class payment_mode(orm.Model):
                   'a debit order of this mode'),
             ),
         'payment_term_ids': fields.many2many(
-            'account.payment.term', 'account_payment_order_terms_rel', 
+            'account.payment.term', 'account_payment_order_terms_rel',
             'mode_id', 'term_id', 'Payment terms',
             help=('Limit selected invoices to invoices with these payment '
                   'terms')

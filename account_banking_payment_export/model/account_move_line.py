@@ -73,15 +73,18 @@ class account_move_line(orm.Model):
         ) %(operator)s %%s ''' % {'operator': x[1]}, args))
         sql_args = tuple(map(itemgetter(2), args))
 
-        cr.execute(('''SELECT id
+        cr.execute(
+            ('''\
+            SELECT id
             FROM account_move_line l
             WHERE account_id IN (select id
                 FROM account_account
                 WHERE type in %s AND active)
             AND reconcile_id IS null
             AND credit > 0
-            AND ''' + where + ' and ' + query),
-            (('payable', 'receivable'),)+sql_args )
+            AND ''' + where + ' and ' + query
+             ), (('payable', 'receivable'), ) + sql_args
+        )
         # The patch we have compared to the original function in
         # addons/account_payment is just above :
         # original code : type = 'payable'
@@ -93,6 +96,10 @@ class account_move_line(orm.Model):
         return [('id', 'in', map(lambda x:x[0], res))]
 
     _columns = {
-        'amount_to_pay': fields.function(amount_to_pay,
-            type='float', string='Amount to pay', fnct_search=_to_pay_search),
+        'amount_to_pay': fields.function(
+            amount_to_pay,
+            type='float',
+            string='Amount to pay',
+            fnct_search=_to_pay_search
+        ),
     }

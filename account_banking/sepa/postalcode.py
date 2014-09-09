@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -27,6 +27,7 @@ import re
 
 __all__ = ['split', 'get', 'PostalCode']
 
+
 class PostalCode(object):
     '''
     The PostalCode class is a wrapper around PostCodeFormat and an internal
@@ -46,11 +47,11 @@ class PostalCode(object):
             '''
             # Sort formats on length, longest first
             formats = [(len(x), x) for x in format.split('|')]
-            formats = [x[1] for x in sorted(formats, lambda x,y: -cmp(x,y))]
-            self.res = [re.compile(x.replace('#', '\\d').replace('@','[A-Z]'))
+            formats = [x[1] for x in sorted(formats, lambda x, y: -cmp(x, y))]
+            self.res = [re.compile(x.replace('#', '\\d').replace('@', '[A-Z]'))
                         for x in formats
-                       ]
-        
+                        ]
+
         def get(self, str_):
             '''
             Return the postal code from the string str_
@@ -99,7 +100,8 @@ class PostalCode(object):
         'IM': '@# #@@|@## #@@|@@# #@@|@@## #@@|@#@ #@@|@@#@ #@@|GIR0AA',
         'IL': '#####', 'IT': '####', 'JM': '', 'JP': '###-####',
         'JE': '@# #@@|@## #@@|@@# #@@|@@## #@@|@#@ #@@|@@#@ #@@|GIR0AA',
-        'JO': '#####', 'KZ': '######', 'KE': '#####', 'KI': '', 'KP': '###-###',
+        'JO': '#####', 'KZ': '######', 'KE': '#####', 'KI': '',
+        'KP': '###-###',
         'KR': 'SEOUL ###-###', 'KW': '#####', 'KG': '######', 'LA': '#####',
         'LV': 'LV-####', 'LB': '#### ####|####', 'LS': '###', 'LR': '####',
         'LY': '', 'LI': '####', 'LT': 'LT-#####', 'LU': '####', 'MO': '',
@@ -139,7 +141,7 @@ class PostalCode(object):
         country <iso>.
 
         Returns iso, postal code and the remaining part of <str_>.
-        
+
         When iso is filled but postal code remains empty, no postal code could
         be found according to the rules of iso.
 
@@ -155,14 +157,12 @@ class PostalCode(object):
 
         # Find optimum (= max length postalcode) when iso code is unknown
         all = {}
-        opt_iso = ''
         max_l = 0
         for key in cls._formats.iterkeys():
             i, p, c = cls.split(str_, key)
             l = len(p)
             if l > max_l:
                 max_l = l
-                opt_iso = i
             if l in all:
                 all[l].append((i, p, c))
             else:

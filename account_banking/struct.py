@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -18,12 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 '''
 Define a struct class which behaves like a dict, but allows using
 object.attr alongside object['attr'].
 '''
 
 __all__ = ['struct']
+
 
 class struct(dict):
     '''
@@ -52,4 +54,4 @@ class struct(dict):
         else:
             fmt = '%*.*s%%s: %%s' % (indent, indent, '')
         for item in self.iteritems():
-            print fmt % item
+            print(fmt % item)

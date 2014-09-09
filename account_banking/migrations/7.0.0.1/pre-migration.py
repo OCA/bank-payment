@@ -19,6 +19,7 @@
 #
 ##############################################################################
 
+
 def migrate(cr, version):
     if not version:
         return
@@ -26,7 +27,7 @@ def migrate(cr, version):
     # workflow state moved to another, new module
     cr.execute(
         """
-        UPDATE ir_model_data 
+        UPDATE ir_model_data
         SET module = 'account_banking_payment'
         WHERE name = 'trans_done_sent'
         AND module = 'account_direct_debit'

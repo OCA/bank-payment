@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -86,11 +86,11 @@ class account_banking_account_settings(orm.Model):
             string='Partner'),
         'default_credit_account_id': fields.many2one(
             'account.account', 'Default credit account', select=True,
-            help=('The account to use when an unexpected payment was signaled. '
-                  'This can happen when a direct debit payment is cancelled '
+            help=('The account to use when an unexpected payment was signaled.'
+                  ' This can happen when a direct debit payment is cancelled '
                   'by a customer, or when no matching payment can be found. '
-                  ' Mind that you can correct movements before confirming them.'
-                 ),
+                  'Mind that you can correct movements before confirming them.'
+                  ),
             required=True
         ),
         'default_debit_account_id': fields.many2one(
@@ -98,27 +98,27 @@ class account_banking_account_settings(orm.Model):
             select=True, required=True,
             help=('The account to use when an unexpected payment is received. '
                   'This can be needed when a customer pays in advance or when '
-                  'no matching invoice can be found. Mind that you can correct '
-                  'movements before confirming them.'
-                 ),
+                  'no matching invoice can be found. Mind that you can '
+                  'correct movements before confirming them.'
+                  ),
         ),
         'costs_account_id': fields.many2one(
             'account.account', 'Bank Costs Account', select=True,
             help=('The account to use when the bank invoices its own costs. '
                   'Leave it blank to disable automatic invoice generation '
                   'on bank costs.'
-                 ),
+                  ),
         ),
         'invoice_journal_id': fields.many2one(
-            'account.journal', 'Costs Journal', 
+            'account.journal', 'Costs Journal',
             help=('This is the journal used to create invoices for bank costs.'
-                 ),
+                  ),
         ),
         'bank_partner_id': fields.many2one(
             'res.partner', 'Bank Partner',
             help=('The partner to use for bank costs. Banks are not partners '
                   'by default. You will most likely have to create one.'
-                 ),
+                  ),
         ),
 
     }
@@ -134,7 +134,7 @@ class account_banking_account_settings(orm.Model):
             return user['company_id'][0]
         return self.pool.get('res.company').search(
             cr, uid, [('parent_id', '=', False)])[0]
-    
+
     def _default_partner_id(self, cr, uid, context=None, company_id=False):
         if not company_id:
             company_id = self._default_company(cr, uid, context=context)
@@ -196,7 +196,7 @@ class account_banking_account_settings(orm.Model):
                 values['journal_id'] = bank['journal_id'][0]
         return {'value': values}
 
-    def onchange_company_id (
+    def onchange_company_id(
             self, cr, uid, ids, company_id=False, context=None):
         if not company_id:
             return {}
@@ -229,37 +229,59 @@ class account_banking_imported_file(orm.Model):
     _description = __doc__
     _rec_name = 'date'
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company',
-                                      select=True, readonly=True
-                                     ),
-        'date': fields.datetime('Import Date', readonly=True, select=True,
-                                states={'draft': [('readonly', False)]}
-                               ),
-        'format': fields.char('File Format', size=20, readonly=True,
-                              states={'draft': [('readonly', False)]}
-                             ),
-        'file': fields.binary('Raw Data', readonly=True,
-                              states={'draft': [('readonly', False)]}
-                             ),
-        'file_name': fields.char('File name', size=256),
-        'log': fields.text('Import Log', readonly=True,
-                           states={'draft': [('readonly', False)]}
-                          ),
-        'user_id': fields.many2one('res.users', 'Responsible User',
-                                   readonly=True, select=True,
-                                   states={'draft': [('readonly', False)]}
-                                  ),
-        'state': fields.selection(
-            [('unfinished', 'Unfinished'),
-             ('error', 'Error'),
-             ('review', 'Review'),
-             ('ready', 'Finished'),
-            ], 'State', select=True, readonly=True
+        'company_id': fields.many2one(
+            'res.company',
+            'Company',
+            select=True,
+            readonly=True,
         ),
-        'statement_ids': fields.one2many('account.bank.statement',
-                                         'banking_id', 'Statements',
-                                         readonly=False,
-                                  ),
+        'date': fields.datetime(
+            'Import Date',
+            readonly=True,
+            select=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'format': fields.char(
+            'File Format',
+            size=20,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'file': fields.binary(
+            'Raw Data',
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'file_name': fields.char('File name', size=256),
+        'log': fields.text(
+            'Import Log',
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'user_id': fields.many2one(
+            'res.users',
+            'Responsible User',
+            readonly=True,
+            select=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'state': fields.selection(
+            [
+                ('unfinished', 'Unfinished'),
+                ('error', 'Error'),
+                ('review', 'Review'),
+                ('ready', 'Finished'),
+            ],
+            'State',
+            select=True,
+            readonly=True,
+        ),
+        'statement_ids': fields.one2many(
+            'account.bank.statement',
+            'banking_id',
+            'Statements',
+            readonly=False,
+        ),
     }
     _defaults = {
         'date': fields.date.context_today,
@@ -284,11 +306,17 @@ class account_bank_statement(orm.Model):
     _inherit = 'account.bank.statement'
 
     _columns = {
-        'period_id': fields.many2one('account.period', 'Period',
-                                     required=False, readonly=True),
-        'banking_id': fields.many2one('account.banking.imported.file',
-                                     'Imported File', readonly=True,
-                                     ),
+        'period_id': fields.many2one(
+            'account.period',
+            'Period',
+            required=False,
+            readonly=True,
+        ),
+        'banking_id': fields.many2one(
+            'account.banking.imported.file',
+            'Imported File',
+            readonly=True,
+        ),
     }
 
     _defaults = {
@@ -316,12 +344,12 @@ class account_bank_statement(orm.Model):
                     statement.write({'period_id': line.period_id.id})
                     statement.refresh()
         return True
-    
+
     # Redefine the constraint, or it still refer to the original method
     _constraints = [
         (_check_company_id,
          'The journal and period chosen have to belong to the same company.',
-         ['journal_id','period_id']),
+         ['journal_id', 'period_id']),
         ]
 
     def _get_period(self, cr, uid, date=False, context=None):
@@ -410,7 +438,7 @@ class account_bank_statement(orm.Model):
                 account_move_obj.post(
                     cr, uid, [st_line.voucher_id.move_id.id], context={})
         else:
-            # Write stored reconcile_id and pay invoices through workflow 
+            # Write stored reconcile_id and pay invoices through workflow
             if st_line.reconcile_id:
                 move_ids = [move.id for move in st_line.move_ids]
                 torec = account_move_line_obj.search(
@@ -419,11 +447,12 @@ class account_bank_statement(orm.Model):
                         ('account_id', '=', st_line.account_id.id)],
                     context=context)
                 account_move_line_obj.write(cr, uid, torec, {
-                        (st_line.reconcile_id.line_partial_ids and 
-                         'reconcile_partial_id' or 'reconcile_id'): 
-                        st_line.reconcile_id.id }, context=context)
+                    (st_line.reconcile_id.line_partial_ids
+                     and 'reconcile_partial_id'
+                     or 'reconcile_id'): st_line.reconcile_id.id
+                }, context=context)
                 for move_line in (st_line.reconcile_id.line_id or []) + (
-                    st_line.reconcile_id.line_partial_ids or []):
+                        st_line.reconcile_id.line_partial_ids or []):
                     netsvc.LocalService("workflow").trg_trigger(
                         uid, 'account.move.line', move_line.id, cr)
         return res
@@ -438,7 +467,7 @@ class account_bank_statement(orm.Model):
         if ids and isinstance(ids, (int, long)):
             ids = [ids]
         noname_ids = self.search(
-            cr, uid, [('id', 'in', ids),('name', '=', '/')],
+            cr, uid, [('id', 'in', ids), ('name', '=', '/')],
             context=context)
         for st in self.browse(cr, uid, noname_ids, context=context):
             if st.journal_id.sequence_id:
@@ -451,7 +480,7 @@ class account_bank_statement(orm.Model):
                     cr, uid, st.journal_id.sequence_id.id, context=c)
                 self.write(
                     cr, uid, ids, {'name': st_number}, context=context)
-        
+
         return super(account_bank_statement, self).button_confirm_bank(
             cr, uid, ids, context)
 
@@ -464,7 +493,7 @@ class account_voucher(orm.Model):
             context = {}
         if not context.get('period_id') and context.get('move_line_ids'):
             move_line = self.pool.get('account.move.line').browse(
-                cr, uid , context.get('move_line_ids')[0], context=context)
+                cr, uid, context.get('move_line_ids')[0], context=context)
             return move_line.period_id.id
         return super(account_voucher, self)._get_period(cr, uid, context)
 
@@ -498,8 +527,8 @@ class account_bank_statement_line(orm.Model):
         which is inaccessible from within this method.
         '''
         res_users_obj = self.pool.get('res.users')
-        return res_users_obj.browse(cr, uid, uid,
-                context=context).company_id.currency_id.id
+        return res_users_obj.browse(
+            cr, uid, uid, context=context).company_id.currency_id.id
 
     def _get_invoice_id(self, cr, uid, ids, name, args, context=None):
         res = {}
@@ -509,7 +538,7 @@ class account_bank_statement_line(orm.Model):
                     st_line.reconcile_id and
                     (st_line.reconcile_id.line_id or
                      st_line.reconcile_id.line_partial_ids) or
-                    st_line.import_transaction_id and 
+                    st_line.import_transaction_id and
                     st_line.import_transaction_id.move_line_id and
                     [st_line.import_transaction_id.move_line_id] or []):
                 if move_line.invoice:
@@ -519,36 +548,70 @@ class account_bank_statement_line(orm.Model):
 
     _columns = {
         # Redefines. Todo: refactor away to view attrs
-        'amount': fields.float('Amount', readonly=True,
-                            digits_compute=dp.get_precision('Account'),
-                            states={'draft': [('readonly', False)]}),
-        'ref': fields.char('Ref.', size=32, readonly=True,
-                            states={'draft': [('readonly', False)]}),
-        'name': fields.char('Name', size=64, required=False, readonly=True,
-                            states={'draft': [('readonly', False)]}),
-        'date': fields.date('Date', required=True, readonly=True,
-                            states={'draft': [('readonly', False)]}),
-
+        'amount': fields.float(
+            'Amount',
+            readonly=True,
+            digits_compute=dp.get_precision('Account'),
+            states={'draft': [('readonly', False)]},
+        ),
+        'ref': fields.char(
+            'Ref.',
+            size=32,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'name': fields.char(
+            'Name',
+            size=64,
+            required=False,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'date': fields.date(
+            'Date',
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
         # New columns
-        'trans': fields.char('Bank Transaction ID', size=15, required=False,
-                            readonly=True,
-                            states={'draft':[('readonly', False)]},
-                            ),
-        'partner_bank_id': fields.many2one('res.partner.bank', 'Bank Account',
-                            required=False, readonly=True,
-                            states={'draft':[('readonly', False)]},
-                            ),
-        'period_id': fields.many2one('account.period', 'Period', required=True,
-                            states={'confirmed': [('readonly', True)]}),
-        'currency': fields.many2one('res.currency', 'Currency', required=True,
-                            states={'confirmed': [('readonly', True)]}),
+        'trans': fields.char(
+            'Bank Transaction ID',
+            size=15,
+            required=False,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'partner_bank_id': fields.many2one(
+            'res.partner.bank',
+            'Bank Account',
+            required=False,
+            readonly=True,
+            states={'draft': [('readonly', False)]},
+        ),
+        'period_id': fields.many2one(
+            'account.period',
+            'Period',
+            required=True,
+            states={'confirmed': [('readonly', True)]},
+        ),
+        'currency': fields.many2one(
+            'res.currency',
+            'Currency',
+            required=True,
+            states={'confirmed': [('readonly', True)]},
+        ),
         'reconcile_id': fields.many2one(
-            'account.move.reconcile', 'Reconciliation', readonly=True
-            ),
+            'account.move.reconcile',
+            'Reconciliation',
+            readonly=True,
+        ),
         'invoice_id': fields.function(
-            _get_invoice_id, method=True, string='Linked Invoice',
-            type='many2one', relation='account.invoice'
-            ),
+            _get_invoice_id,
+            method=True,
+            string='Linked Invoice',
+            type='many2one',
+            relation='account.invoice',
+        ),
     }
 
     _defaults = {
@@ -577,9 +640,9 @@ class invoice(orm.Model):
     _inherit = 'account.invoice'
 
     def test_undo_paid(self, cr, uid, ids, context=None):
-        """ 
+        """
         Called from the workflow. Used to unset paid state on
-        invoices that were paid with bank transfers which are being cancelled 
+        invoices that were paid with bank transfers which are being cancelled
         """
         for invoice in self.read(cr, uid, ids, ['reconciled'], context):
             if invoice['reconciled']:
@@ -592,22 +655,20 @@ class invoice(orm.Model):
         '''
         return [('none', _('Free Reference')),
                 ('structured', _('Structured Reference')),
-               ]
+                ]
 
     _columns = {
         'reference_type': fields.selection(_get_reference_type,
                                            'Reference Type', required=True
-                                          )
+                                           )
     }
-
-invoice()
 
 
 class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
     def get_balance(self, cr, uid, ids, context=None):
-        """ 
+        """
         Return the balance of any set of move lines.
 
         Not to be confused with the 'balance' field on this model, which
@@ -617,9 +678,6 @@ class account_move_line(orm.Model):
         if not ids:
             return total
         for line in self.read(
-            cr, uid, ids, ['debit', 'credit'], context=context):
+                cr, uid, ids, ['debit', 'credit'], context=context):
             total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
         return total
-account_move_line()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

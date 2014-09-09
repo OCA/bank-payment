@@ -23,10 +23,14 @@ This module provides online bank databases for conversion between BBAN and
 IBAN numbers and for consulting.
 '''
 import re
-import urllib, urllib2
+import urllib
+import urllib2
 from BeautifulSoup import BeautifulSoup
 from openerp.addons.account_banking.sepa import postalcode
-from openerp.addons.account_banking_iban_lookup.urlagent import URLAgent, SoupForm
+from openerp.addons.account_banking_iban_lookup.urlagent import (
+    URLAgent,
+    SoupForm,
+)
 from openerp.addons.account_banking.sepa.iban import IBAN
 from openerp.addons.account_banking.struct import struct
 
@@ -37,6 +41,7 @@ __all__ = [
 
 IBANlink_NL = 'http://www.ibannl.org/iban_check.php'
 IBANlink_BE = 'http://www.ibanbic.be/'
+
 
 def get_iban_bic_NL(bank_acc):
     '''
@@ -51,14 +56,14 @@ def get_iban_bic_NL(bank_acc):
     if len(number) <= 7:
         iban = IBAN.create(BBAN='INGB' + number.rjust(10, '0'),
                            countrycode='NL'
-                          )
+                           )
         return struct(
-            iban = iban.replace(' ',''),
-            account = iban.BBAN[4:],
-            bic = 'INGBNL2A',
-            code = 'INGBNL',
-            bank = 'ING Bank N.V.',
-            country_id = 'NL',
+            iban=iban.replace(' ', ''),
+            account=iban.BBAN[4:],
+            bic='INGBNL2A',
+            code='INGBNL',
+            bank='ING Bank N.V.',
+            country_id='NL',
         )
 
     data = urllib.urlencode(dict(number=number, method='POST'))
@@ -66,6 +71,7 @@ def get_iban_bic_NL(bank_acc):
     response = urllib2.urlopen(request)
     soup = BeautifulSoup(response)
     result = struct()
+    attr = None
     for _pass, td in enumerate(soup.findAll('td')):
         if _pass % 2 == 1:
             result[attr] = unicode(td.find('font').contents[0])
@@ -81,6 +87,7 @@ def get_iban_bic_NL(bank_acc):
         return result
     return None
 
+
 def get_iban_bic_BE(bank_acc):
     '''
     Consult the Belgian online database to check both account number and the
@@ -88,7 +95,9 @@ def get_iban_bic_BE(bank_acc):
     in Belgium and will only convert Belgian local account numbers.
     '''
     def contents(soup, attr):
-        return soup.find('input', {'id': 'textbox%s' % attr}).get('value').strip()
+        return soup.find('input', {
+            'id': 'textbox%s' % attr
+        }).get('value').strip()
 
     if not bank_acc.strip():
         return None
@@ -121,6 +130,7 @@ def get_iban_bic_BE(bank_acc):
     result.code = result.bic[:6]
     return result
 
+
 def BBAN_is_IBAN(bank_acc):
     '''
     Intelligent copy, valid for SEPA members who switched to SEPA from old
@@ -131,14 +141,15 @@ def BBAN_is_IBAN(bank_acc):
     else:
         iban_acc = IBAN(bank_acc)
     return struct(
-        iban = str(iban_acc),
-        account = str(bank_acc),
-        country_id = iban_acc.countrycode,
-        code = iban_acc.BIC_searchkey,
+        iban=str(iban_acc),
+        account=str(bank_acc),
+        country_id=iban_acc.countrycode,
+        code=iban_acc.BIC_searchkey,
         # Note: BIC can not be constructed here!
-        bic = False,
-        bank = False,
+        bic=False,
+        bank=False,
     )
+
 
 _account_info = {
     # TODO: Add more online data banks
@@ -153,6 +164,7 @@ _account_info = {
     'SM': BBAN_is_IBAN,
 }
 
+
 def account_info(iso, bank_acc):
     '''
     Consult the online database for this country to obtain its
@@ -165,8 +177,10 @@ def account_info(iso, bank_acc):
         return _account_info[iso](bank_acc)
     return False
 
+
 bic_re = re.compile("[^']+'([^']*)'.*")
 SWIFTlink = 'http://www.swift.com/bsl/freequery.do'
+
 
 def bank_info(bic):
     '''
@@ -177,7 +191,7 @@ def bank_info(bic):
     automated usage, so user like behavior is required.
 
     Update January 2012: Always return None, as the SWIFT page to retrieve the
-    information does no longer exist. 
+    information does no longer exist.
     If demand exists, maybe bite the bullet and integrate with a paid web
     service such as http://www.iban-rechner.de.
     lp914922 additionally suggests to make online lookup optional.
@@ -190,7 +204,7 @@ def bank_info(bic):
         for trsoup in soup('tr'):
             for stage, tdsoup in enumerate(trsoup('td')):
                 if stage == 0:
-                    attr = tdsoup.contents[0].strip().replace(' ','_')
+                    attr = tdsoup.contents[0].strip().replace(' ', '_')
                 elif stage == 2:
                     if tdsoup.contents:
                         retval[attr] = tdsoup.contents[0].strip()
@@ -203,8 +217,8 @@ def bank_info(bic):
     request = agent.open(SWIFTlink)
     soup = BeautifulSoup(request)
 
-    # Parse request form. As this form is intertwined with a table, use the parent
-    # as root to search for form elements.
+    # Parse request form. As this form is intertwined with a table, use the
+    # parent as root to search for form elements.
     form = SoupForm(soup.find('form', {'id': 'frmFreeSearch1'}), parent=True)
 
     # Fill form fields
@@ -221,7 +235,8 @@ def bank_info(bic):
     if not bic_button:
         return None, None
 
-    # Overwrite the location with 'any' ('XXX') to narrow the results to one or less.
+    # Overwrite the location with 'any' ('XXX') to narrow the results to one
+    # or less.
     # Assume this regexp will never fail...
     full_bic = bic_re.match(bic_button.get('href')).groups()[0][:8] + 'XXX'
 
@@ -236,13 +251,13 @@ def bank_info(bic):
     soup = BeautifulSoup(response)
 
     # Now parse the results
-    tables = soup.find('div', {'id':'Middle'}).findAll('table')
+    tables = soup.find('div', {'id': 'Middle'}).findAll('table')
     if not tables:
         return None, None
     tablesoup = tables[2]('table')
     if not tablesoup:
         return None, None
-    
+
     codes = harvest(tablesoup[0])
     if not codes:
         return None, None
@@ -253,9 +268,9 @@ def bank_info(bic):
         # banks world wide using the same name.
         # The concatenation with the two character country code is for most
         # national branches sufficient as a unique identifier.
-        code = full_bic[:6],
-        bic = full_bic,
-        name = codes.Institution_name,
+        code=full_bic[:6],
+        bic=full_bic,
+        name=codes.Institution_name,
     )
 
     address = harvest(tablesoup[1])
@@ -264,14 +279,14 @@ def bank_info(bic):
     if not address.Zip_Code:
         if address.Location:
             iso, address.Zip_Code, address.Location = \
-                    postalcode.split(address.Location, full_bic[4:6])
+                postalcode.split(address.Location, full_bic[4:6])
 
     bankaddress = struct(
-        street = address.Address.title(),
-        city = address.Location.strip().title(),
-        zip = address.Zip_Code,
-        country = address.Country.title(),
-        country_id = full_bic[4:6],
+        street=address.Address.title(),
+        city=address.Location.strip().title(),
+        zip=address.Zip_Code,
+        country=address.Country.title(),
+        country_id=full_bic[4:6],
     )
     if '  ' in bankaddress.street:
         bankaddress.street, bankaddress.street2 = [
@@ -281,4 +296,3 @@ def bank_info(bic):
         bankaddress.street2 = ''
 
     return bankinfo, bankaddress
-

@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -26,7 +26,8 @@ __all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
            'DirectDebitFile', 'PaymentsFile', 'SalaryPaymentsFile',
            'SalaryPaymentOrder', 'PaymentOrder', 'DirectDebitOrder',
            'OrdersFile',
-          ]
+           ]
+
 
 class SWIFTField(record.Field):
     '''
@@ -37,16 +38,12 @@ class SWIFTField(record.Field):
         kwargs['cast'] = convert.to_swift
         super(SWIFTField, self).__init__(*args, **kwargs)
 
-    #def take(self, buffer):
-    #    return convert.to_swift(super(SWIFTField, self).take(buffer))
-    
-    #def format(self, value):
-    #    return convert.to_swift(super(SWIFTField, self).format(value))
 
 class SWIFTFieldNoLeadingWhitespace(SWIFTField):
     def format(self, value):
         return super(SWIFTFieldNoLeadingWhitespace, self).format(
             self.cast(value).lstrip())
+
 
 def eleven_test(s):
     '''
@@ -54,9 +51,10 @@ def eleven_test(s):
     '''
     r = 0
     l = len(s)
-    for i,c in enumerate(s):
+    for i, c in enumerate(s):
         r += (l-i) * int(c)
     return (r % 11) == 0
+
 
 def chunk(str, length):
     '''
@@ -66,7 +64,8 @@ def chunk(str, length):
         yield str[:length]
         str = str[length:]
 
-class HeaderRecord(record.Record): #{{{
+
+class HeaderRecord(record.Record):
     '''ClieOp3 header record'''
     _fields = [
         record.Filler('recordcode', 4, '0001'),
@@ -84,7 +83,7 @@ class HeaderRecord(record.Record): #{{{
         self.sender_id = id or ''
         self.file_id = '%02d%02d' % (self.creation_date.day, seqno)
         self.duplicatecode = duplicate and '2' or '1'
-#}}}
+
 
 class FooterRecord(record.Record):
     '''ClieOp3 footer record'''
@@ -93,6 +92,7 @@ class FooterRecord(record.Record):
         record.Filler('variantcode', 1, 'A'),
         record.Filler('filler', 45),
     ]
+
 
 class BatchHeaderRecord(record.Record):
     '''Header record preceding new batches'''
@@ -107,6 +107,7 @@ class BatchHeaderRecord(record.Record):
         record.Filler('filler', 10),
     ]
 
+
 class BatchFooterRecord(record.Record):
     '''Closing record for batches'''
     _fields = [
@@ -118,6 +119,7 @@ class BatchFooterRecord(record.Record):
         record.Filler('filler', 10),
     ]
 
+
 class FixedMessageRecord(record.Record):
     '''Fixed message'''
     _fields = [
@@ -126,6 +128,7 @@ class FixedMessageRecord(record.Record):
         SWIFTField('fixed_message', 32),
         record.Filler('filler', 13),
     ]
+
 
 class SenderRecord(record.Record):
     '''Ordering party'''
@@ -140,6 +143,7 @@ class SenderRecord(record.Record):
         record.Filler('filler', 2),
     ]
 
+
 class TransactionRecord(record.Record):
     '''Transaction'''
     _fields = [
@@ -152,6 +156,7 @@ class TransactionRecord(record.Record):
         record.Filler('filler', 9),
     ]
 
+
 class NamePayerRecord(record.Record):
     '''Name payer'''
     _fields = [
@@ -160,6 +165,7 @@ class NamePayerRecord(record.Record):
         SWIFTField('name', 35),
         record.Filler('filler', 10),
     ]
+
 
 class PaymentReferenceRecord(record.Record):
     '''Payment reference'''
@@ -170,6 +176,7 @@ class PaymentReferenceRecord(record.Record):
         record.Filler('filler', 29),
     ]
 
+
 class DescriptionRecord(record.Record):
     '''Description'''
     _fields = [
@@ -179,6 +186,7 @@ class DescriptionRecord(record.Record):
         record.Filler('filler', 13),
     ]
 
+
 class NameBeneficiaryRecord(record.Record):
     '''Name receiving party'''
     _fields = [
@@ -187,6 +195,7 @@ class NameBeneficiaryRecord(record.Record):
         SWIFTField('name', 35),
         record.Filler('filler', 10),
     ]
+
 
 class OrderRecord(record.Record):
     '''Order details'''
@@ -203,22 +212,27 @@ class OrderRecord(record.Record):
         record.Filler('currency', 3, 'EUR'),
         record.Field('testcode', 1),
     ]
+
     def __init__(self, *args, **kwargs):
         super(OrderRecord, self).__init__(*args, **kwargs)
         self.batch_medium = 'DATACOM'
         self.name_transactioncode = self._transactioncode
 
+
 class SalaryPaymentOrder(OrderRecord):
     '''Salary payment batch record'''
     _transactioncode = 'SALARIS'
+
 
 class PaymentOrder(OrderRecord):
     '''Payment batch record'''
     _transactioncode = 'CREDBET'
 
+
 class DirectDebitOrder(OrderRecord):
     '''Direct debit payments batch record'''
     _transactioncode = 'INCASSO'
+
 
 class Optional(object):
     '''Auxilliary class to handle optional records'''
@@ -233,7 +247,7 @@ class Optional(object):
             super(Optional, self).__setattr__(attr, value)
         else:
             if self._guts and len(self._guts) > self._max:
-                raise ValueError, 'Only %d lines are allowed' % self._max
+                raise ValueError('Only %d lines are allowed' % self._max)
             newitem = self._klass()
             setattr(newitem, attr, value)
             self._guts.append(newitem)
@@ -259,6 +273,7 @@ class Optional(object):
         '''Make sure to adapt'''
         return self._guts.__iter__()
 
+
 class OrdersFile(object):
     '''A payment orders file'''
     def __init__(self, *args, **kwargs):
@@ -271,18 +286,19 @@ class OrdersFile(object):
         '''
         return '\r\n'.join(self.orders)
 
+
 class Transaction(object):
     '''Generic transaction class'''
     def __init__(self, type_=0, name=None, reference=None, messages=[],
                  accountno_beneficiary=None, accountno_payer=None,
-                 amount=0
-                ):
+                 amount=0):
         self.transaction = TransactionRecord()
         self.paymentreference = Optional(PaymentReferenceRecord)
         self.description = Optional(DescriptionRecord, 4)
         self.transaction.transactiontype = type_
         # Remove Postbank account marker 'P'
-        self.transaction.accountno_beneficiary = accountno_beneficiary.replace('P', '0')
+        self.transaction.accountno_beneficiary = accountno_beneficiary.replace(
+            'P', '0')
         self.transaction.accountno_payer = accountno_payer.replace('P', '0')
         self.transaction.amount = int(round(amount * 100))
         if reference:
@@ -290,8 +306,7 @@ class Transaction(object):
         # Allow long message lines to redistribute over multiple message
         # records
         for msg in chunk(''.join(messages),
-                           self.description.length('description')
-                        ):
+                         self.description.length('description')):
             try:
                 self.description.description = msg
             except ValueError:
@@ -321,13 +336,14 @@ class DirectDebit(Transaction):
             items.append(str(description))
         return '\r\n'.join(items)
 
+
 class Payment(Transaction):
     '''Payment transaction'''
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
         if len(reknr.lstrip('0')) > 7:
             if not eleven_test(reknr):
-                raise ValueError, '%s is not a valid bank account' % reknr
+                raise ValueError('%s is not a valid bank account' % reknr)
         kwargs['type_'] = 5
         self.name = NameBeneficiaryRecord()
         super(Payment, self).__init__(*args, **kwargs)
@@ -346,6 +362,7 @@ class Payment(Transaction):
             items.append(str(self.name))
         return '\r\n'.join(items)
 
+
 class SalaryPayment(Payment):
     '''Salary Payment transaction'''
     def __init__(self, *args, **kwargs):
@@ -353,14 +370,14 @@ class SalaryPayment(Payment):
         kwargs['type_'] = len(reknr.lstrip('0')) <= 7 and 3 or 8
         super(SalaryPayment, self).__init__(*args, **kwargs)
 
+
 class Batch(object):
     '''Generic batch class'''
     transactionclass = None
 
     def __init__(self, sender, rekeningnr, execution_date=None,
                  test=True, messages=[], transactiongroup=None,
-                 batch_tracer=1, batch_id=''
-                ):
+                 batch_tracer=1, batch_id=''):
         self.header = BatchHeaderRecord()
         self.fixed_message = Optional(FixedMessageRecord, 4)
         self.sender = SenderRecord()
@@ -386,18 +403,16 @@ class Batch(object):
     @property
     def total_amount(self):
         '''total amount transferred'''
-        return reduce(lambda x,y: x + int(y.transaction.amount),
-                      self.transactions, 0
-                     )
+        return reduce(lambda x, y: x + int(y.transaction.amount),
+                      self.transactions, 0)
 
     @property
     def total_accountnos(self):
         '''check number on account numbers'''
-        return reduce(lambda x,y: 
-                          x + int(y.transaction.accountno_payer) + \
-                          int(y.transaction.accountno_beneficiary),
-                      self.transactions, 0
-                     )
+        return reduce(lambda x, y:
+                      x + int(y.transaction.accountno_payer) +
+                      int(y.transaction.accountno_beneficiary),
+                      self.transactions, 0)
 
     @property
     def rawdata(self):
@@ -423,17 +438,21 @@ class Batch(object):
         self.transactions.append(retval)
         return retval
 
+
 class DirectDebitBatch(Batch):
     '''Direct Debig Payment batch'''
     transactionclass = DirectDebit
+
 
 class PaymentsBatch(Batch):
     '''Payment batch'''
     transactionclass = Payment
 
+
 class SalaryBatch(Batch):
     '''Salary payment class'''
     transactionclass = SalaryPayment
+
 
 class ClieOpFile(object):
     '''The grand unifying class'''
@@ -461,7 +480,7 @@ class ClieOpFile(object):
     def batch(self, *args, **kwargs):
         '''Create batch'''
         kwargs['transactiongroup'] = self.transactiongroup
-        kwargs['batch_tracer'] = len(self.batches) +1
+        kwargs['batch_tracer'] = len(self.batches) + 1
         kwargs['execution_date'] = self._execution_date
         kwargs['test'] = self._test
         args = (self._name_sender, self._accno_sender)
@@ -489,11 +508,13 @@ class ClieOpFile(object):
         retval.total_accountnos = total_accountnos
         return retval
 
+
 class DirectDebitFile(ClieOpFile):
     '''Direct Debit Payments file'''
     transactiongroup = '10'
     batchclass = DirectDebitBatch
     orderclass = DirectDebitOrder
+
 
 class PaymentsFile(ClieOpFile):
     '''Payments file'''
@@ -501,10 +522,8 @@ class PaymentsFile(ClieOpFile):
     batchclass = PaymentsBatch
     orderclass = PaymentOrder
 
+
 class SalaryPaymentsFile(PaymentsFile):
     '''Salary Payments file'''
     batchclass = SalaryBatch
     orderclass = SalaryPaymentOrder
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

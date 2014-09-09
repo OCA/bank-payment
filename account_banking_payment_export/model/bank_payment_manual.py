@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    All other contributions are (C) by their respective contributors
 #
 #    All Rights Reserved
@@ -37,18 +37,24 @@ class payment_manual(orm.TransientModel):
     _description = 'Send payment order(s) manually'
 
     _columns = {
-        'payment_order_ids': fields.many2many('payment.order',
-            'wiz_manual_payorders_rel', 'wizard_id', 'payment_order_id',
-            'Payment orders', readonly=True),
-        }
+        'payment_order_ids': fields.many2many(
+            'payment.order',
+            'wiz_manual_payorders_rel',
+            'wizard_id',
+            'payment_order_id',
+            'Payment orders',
+            readonly=True
+        ),
+    }
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
         vals.update({
             'payment_order_ids': [[6, 0, payment_order_ids]],
         })
-        return super(payment_manual, self).create(cr, uid,
-            vals, context=context)
+        return super(payment_manual, self).create(
+            cr, uid, vals, context=context
+        )
 
     def button_ok(self, cr, uid, ids, context=None):
         wf_service = netsvc.LocalService('workflow')

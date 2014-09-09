@@ -19,11 +19,13 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp.osv import orm
 
 
 class account_bank_statement_line(orm.Model):
+
     _inherit = 'account.bank.statement.line'
+
     def create_instant_voucher(self, cr, uid, ids, context=None):
         res = False
         if ids:

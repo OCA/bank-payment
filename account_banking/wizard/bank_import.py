@@ -5,8 +5,8 @@
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -23,11 +23,13 @@
 # Kaspars Vilkens (KNdati): lenghty discussions, bugreports and bugfixes
 # Stefan Rijnhart (Therp): bugreport and bugfix
 #
+
 '''
 This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
 use parser.models as a mean of communication with the business logic.
 '''
+
 import base64
 import datetime
 from openerp.osv import orm, fields
@@ -44,6 +46,7 @@ bt = models.mem_bank_transaction
 # the real payment date. This can occur with online transactions (web shops).
 payment_window = datetime.timedelta(days=10)
 
+
 def parser_types(*args, **kwargs):
     '''Delay evaluation of parser types until start of wizard, to allow
        depending modules to initialize and add their parsers to the list
@@ -57,18 +60,26 @@ class banking_import_line(orm.TransientModel):
     _columns = {
         'name': fields.char('Name', size=64),
         'date': fields.date('Date', readonly=True),
-        'amount': fields.float('Amount', digits_compute=dp.get_precision('Account')),
+        'amount': fields.float(
+            'Amount',
+            digits_compute=dp.get_precision('Account'),
+        ),
         'statement_line_id': fields.many2one(
             'account.bank.statement.line',
             'Resulting statement line', readonly=True),
         'type': fields.selection([
-            ('supplier','Supplier'),
-            ('customer','Customer'),
-            ('general','General')
+            ('supplier', 'Supplier'),
+            ('customer', 'Customer'),
+            ('general', 'General')
             ], 'Type', required=True),
         'partner_id': fields.many2one('res.partner', 'Partner'),
-        'statement_id': fields.many2one('account.bank.statement', 'Statement',
-            select=True, required=True, ondelete='cascade'),
+        'statement_id': fields.many2one(
+            'account.bank.statement',
+            'Statement',
+            select=True,
+            required=True,
+            ondelete='cascade',
+        ),
         'ref': fields.char('Reference', size=32),
         'note': fields.text('Notes'),
         'period_id': fields.many2one('account.period', 'Period'),
@@ -83,16 +94,19 @@ class banking_import_line(orm.TransientModel):
             'account.invoice', 'banking_import_line_invoice_rel',
             'line_id', 'invoice_id'),
         'partner_bank_id': fields.many2one('res.partner.bank', 'Bank Account'),
-        'transaction_type': fields.selection([
+        'transaction_type': fields.selection(
+            [
                 # TODO: payment terminal etc...
                 ('invoice', 'Invoice payment'),
                 ('storno', 'Canceled debit order'),
                 ('bank_costs', 'Bank costs'),
                 ('unknown', 'Unknown'),
-                ], 'Transaction type'),
+            ],
+            'Transaction type',
+        ),
         'duplicate': fields.boolean('Duplicate'),
         }
-    
+
 
 class banking_import(orm.TransientModel):
     _name = 'account.banking.bank.import'
@@ -119,7 +133,8 @@ class banking_import(orm.TransientModel):
         if not parser:
             raise orm.except_orm(
                 _('ERROR!'),
-                _('Unable to import parser %(parser)s. Parser class not found.') %
+                _('Unable to import parser %(parser)s. Parser class not '
+                  'found.') %
                 {'parser': parser_code}
             )
 
@@ -133,16 +148,17 @@ class banking_import(orm.TransientModel):
         if any([x for x in statements if not x.is_valid()]):
             raise orm.except_orm(
                 _('ERROR!'),
-                _('The imported statements appear to be invalid! Check your file.')
+                _('The imported statements appear to be invalid! Check your '
+                  'file.')
             )
 
         # Create the file now, as the statements need to be linked to it
         import_id = statement_file_obj.create(cr, uid, dict(
-            company_id = company.id,
-            file = statements_file,
-            file_name = banking_import.file_name,
-            state = 'unfinished',
-            format = parser.name,
+            company_id=company.id,
+            file=statements_file,
+            file_name=banking_import.file_name,
+            state='unfinished',
+            format=parser.name,
         ))
 
         bank_country_code = False
@@ -151,14 +167,14 @@ class banking_import(orm.TransientModel):
 
         # Results
         results = struct(
-            stat_loaded_cnt = 0,
-            trans_loaded_cnt = 0,
-            stat_skipped_cnt = 0,
-            trans_skipped_cnt = 0,
-            trans_matched_cnt = 0,
-            bank_costs_invoice_cnt = 0,
-            error_cnt = 0,
-            log = [],
+            stat_loaded_cnt=0,
+            trans_loaded_cnt=0,
+            stat_skipped_cnt=0,
+            trans_skipped_cnt=0,
+            trans_matched_cnt=0,
+            bank_costs_invoice_cnt=0,
+            error_cnt=0,
+            log=[],
         )
 
         # Caching
@@ -175,7 +191,9 @@ class banking_import(orm.TransientModel):
                 continue
 
             # Create fallback currency code
-            currency_code = statement.local_currency or company.currency_id.name
+            currency_code = (
+                statement.local_currency or company.currency_id.name
+            )
 
             # Check cache for account info/currency
             if statement.local_account in info and \
@@ -190,8 +208,10 @@ class banking_import(orm.TransientModel):
                 )
                 if not account_info:
                     results.log.append(
-                        _('Statements found for unknown account %(bank_account)s') %
-                        {'bank_account': statement.local_account}
+                        _('Statements found for unknown account '
+                          '%(bank_account)s') % {
+                              'bank_account': statement.local_account
+                            }
                     )
                     error_accounts[statement.local_account] = True
                     results.error_cnt += 1
@@ -200,7 +220,7 @@ class banking_import(orm.TransientModel):
                     results.log.append(
                         _('Statements found for account %(bank_account)s, '
                           'but no default journal was defined.'
-                         ) % {'bank_account': statement.local_account}
+                          ) % {'bank_account': statement.local_account}
                     )
                     error_accounts[statement.local_account] = True
                     results.error_cnt += 1
@@ -210,7 +230,7 @@ class banking_import(orm.TransientModel):
                 currency_code = account_info.currency_id.name
 
                 # Cache results
-                if not statement.local_account in info:
+                if statement.local_account not in info:
                     info[statement.local_account] = {
                         currency_code: account_info
                     }
@@ -222,22 +242,22 @@ class banking_import(orm.TransientModel):
                and account_info.currency_id.name != statement.local_currency:
                 # TODO: convert currencies?
                 results.log.append(
-                    _('Statement %(statement_id)s for account %(bank_account)s' 
+                    _('Statement %(statement_id)s for account %(bank_account)s'
                       ' uses different currency than the defined bank journal.'
-                     ) % {
-                         'bank_account': statement.local_account,
-                         'statement_id': statement.id
-                     }
+                      ) % {
+                          'bank_account': statement.local_account,
+                          'statement_id': statement.id
+                        }
                 )
                 error_accounts[statement.local_account] = True
                 results.error_cnt += 1
                 continue
 
             # Check existence of previous statement
-            # Less well defined formats can resort to a 
+            # Less well defined formats can resort to a
             # dynamically generated statement identification
             # (e.g. a datetime string of the moment of import)
-            # and have potential duplicates flagged by the 
+            # and have potential duplicates flagged by the
             # matching procedure
             statement_ids = statement_obj.search(cr, uid, [
                 ('name', '=', statement.id),
@@ -251,7 +271,8 @@ class banking_import(orm.TransientModel):
                 )
                 continue
 
-            # Get the period for the statement (as bank statement object checks this)
+            # Get the period for the statement (as bank statement object
+            # checks this)
             period_ids = period_obj.search(
                 cr, uid, [
                     ('company_id', '=', company.id),
@@ -259,7 +280,7 @@ class banking_import(orm.TransientModel):
                     ('date_stop', '>=', statement.date),
                     ('special', '=', False),
                     ], context=context)
-            
+
             if not period_ids:
                 results.log.append(
                     _('No period found covering statement date %(date)s, '
@@ -272,17 +293,17 @@ class banking_import(orm.TransientModel):
 
             # Create the bank statement record
             statement_id = statement_obj.create(cr, uid, dict(
-                name = statement.id,
-                journal_id = account_info.journal_id.id,
-                date = convert.date2str(statement.date),
-                balance_start = statement.start_balance,
-                balance_end_real = statement.end_balance,
-                balance_end = statement.end_balance,
-                state = 'draft',
-                user_id = uid,
-                banking_id = import_id,
-                company_id = company.id,
-                period_id = period_ids[0],
+                name=statement.id,
+                journal_id=account_info.journal_id.id,
+                date=convert.date2str(statement.date),
+                balance_start=statement.start_balance,
+                balance_end_real=statement.end_balance,
+                balance_end=statement.end_balance,
+                state='draft',
+                user_id=uid,
+                banking_id=import_id,
+                company_id=company.id,
+                period_id=period_ids[0],
             ))
             imported_statement_ids.append(statement_id)
 
@@ -294,7 +315,8 @@ class banking_import(orm.TransientModel):
                 values = {}
                 for attr in transaction.__slots__ + ['type']:
                     if attr in import_transaction_obj.column_map:
-                        values[import_transaction_obj.column_map[attr]] = eval('transaction.%s' % attr)
+                        values[import_transaction_obj.column_map[attr]] = \
+                            eval('transaction.%s' % attr)
                     elif attr in import_transaction_obj._columns:
                         values[attr] = eval('transaction.%s' % attr)
                 values['statement_id'] = statement_id
@@ -305,34 +327,16 @@ class banking_import(orm.TransientModel):
                 transaction_id = import_transaction_obj.create(
                     cr, uid, values, context=context)
                 transaction_ids.append(transaction_id)
-            
+
             results.stat_loaded_cnt += 1
 
-        import_transaction_obj.match(cr, uid, transaction_ids, results=results, context=context)
-            
-        #recompute statement end_balance for validation
+        import_transaction_obj.match(
+            cr, uid, transaction_ids, results=results, context=context
+        )
+
+        # recompute statement end_balance for validation
         statement_obj.button_dummy(
             cr, uid, imported_statement_ids, context=context)
-
-
-            # Original code. Didn't take workflow logistics into account...
-            #
-            #cr.execute(
-            #    "UPDATE payment_order o "
-            #    "SET state = 'done', "
-            #        "date_done = '%s' "
-            #    "FROM payment_line l "
-            #    "WHERE o.state = 'sent' "
-            #      "AND o.id = l.order_id "
-            #      "AND l.id NOT IN ("
-            #        "SELECT DISTINCT id FROM payment_line "
-            #        "WHERE date_done IS NULL "
-            #          "AND id IN (%s)"
-            #       ")" % (
-            #           time.strftime('%Y-%m-%d'),
-            #           ','.join([str(x) for x in payment_line_ids])
-            #       )
-            #)
 
         report = [
             '%s: %s' % (_('Total number of statements'),
@@ -360,15 +364,18 @@ class banking_import(orm.TransientModel):
         text_log = '\n'.join(report + results.log)
         state = results.error_cnt and 'error' or 'ready'
         statement_file_obj.write(cr, uid, import_id, dict(
-            state = state, log = text_log,
-            ), context)
+            state=state,
+            log=text_log,
+        ), context)
         if not imported_statement_ids or not results.trans_loaded_cnt:
             # file state can be 'ready' while import state is 'error'
             state = 'error'
         self.write(cr, uid, [ids[0]], dict(
-                import_id = import_id, log = text_log, state = state,
-                statement_ids = [(6, 0, imported_statement_ids)],
-                ), context)
+            import_id=import_id,
+            log=text_log,
+            state=state,
+            statement_ids=[(6, 0, imported_statement_ids)],
+        ), context)
         return {
             'name': (state == 'ready' and _('Review Bank Statements') or
                      _('Error')),
@@ -393,13 +400,15 @@ class banking_import(orm.TransientModel):
             ),
         'file_name': fields.char('File name', size=256),
         'file': fields.binary(
-            'Statements File', required=True,
-            help = ('The Transactions File to import. Please note that while it is '
-            'perfectly safe to reload the same file multiple times or to load in '
-            'timeframe overlapping statements files, there are formats that may '
-            'introduce different sequencing, which may create double entries.\n\n'
-            'To stay on the safe side, always load bank statements files using the '
-            'same format.'),
+            'Statements File',
+            required=True,
+            help=('The Transactions File to import. Please note that while it '
+                  'is perfectly safe to reload the same file multiple times '
+                  'or to load in timeframe overlapping statements files, '
+                  'there are formats that may introduce different '
+                  'sequencing, which may create double entries.\n\n'
+                  'To stay on the safe side, always load bank statements '
+                  'files using the same format.'),
             states={
                 'ready': [('readonly', True)],
                 'error': [('readonly', True)],
@@ -435,8 +444,8 @@ class banking_import(orm.TransientModel):
 
     _defaults = {
         'state': 'init',
-        'company': lambda s,cr,uid,c:
+        'company': lambda s, cr, uid, c:
             s.pool.get('res.company')._company_default_get(
-            cr, uid, 'bank.import.transaction', context=c),
+                cr, uid, 'bank.import.transaction', context=c),
         'parser': _default_parser_type,
         }

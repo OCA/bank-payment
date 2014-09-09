@@ -30,7 +30,7 @@ class ResPartner(orm.Model):
             self, cr, uid, ids, get_property_account, context=None):
         """
         Returns the property journal account for the given partners ids.
-        
+
         :param get_property_account: method of this object that takes
         a partner browse record and returns a field name of type many2one.
         """

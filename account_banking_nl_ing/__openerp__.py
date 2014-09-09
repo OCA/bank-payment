@@ -3,9 +3,9 @@
 #    Copyright (C) 2011 Therp BV (<http://therp.nl>)
 #              (C) 2011 Smile BV (<http://smile.fr>)
 #
-#    Based on account-banking 
+#    Based on account-banking
 #              (C) 2009 - 2011 EduSense BV (<http://www.edusense.nl>)
-#                              
+#
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify

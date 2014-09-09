@@ -31,7 +31,6 @@ Bank Statements along with Bank Transactions.
 '''
 from openerp.addons.account_banking.parsers import models
 from openerp.addons.account_banking.parsers.convert import str2date
-from openerp.addons.account_banking.sepa import postalcode
 from openerp.tools.translate import _
 from openerp.osv import orm
 
@@ -41,6 +40,7 @@ import csv
 __all__ = ['parser']
 
 bt = models.mem_bank_transaction
+
 
 class transaction_message(object):
     '''
@@ -56,9 +56,10 @@ class transaction_message(object):
         Initialize own dict with attributes and coerce values to right type
         '''
         if len(self.attrnames) != len(values):
-            raise ValueError, \
-                    _('Invalid transaction line: expected %d columns, found '
-                      '%d') % (len(self.attrnames), len(values))
+            raise ValueError(
+                _('Invalid transaction line: expected %d columns, found '
+                  '%d') % (len(self.attrnames), len(values))
+            )
         ''' Strip all values except the blob '''
         for (key, val) in zip(self.attrnames, values):
             self.__dict__[key] = key == 'blob' and val or val.strip()
@@ -72,23 +73,24 @@ class transaction_message(object):
         self.statement_id = self.execution_date.strftime('%Yw%W')
         self.id = str(subno).zfill(4)
 
+
 class transaction(models.mem_bank_transaction):
     '''
     Implementation of transaction communication class for account_banking.
     '''
     attrnames = ['local_account', 'local_currency', 'transferred_amount',
                  'blob', 'execution_date', 'value_date', 'id',
-                ]
+                 ]
 
     type_map = {
         # retrieved from online help in the Triodos banking application
-        'BEA': bt.PAYMENT_TERMINAL, # Pin
-        'GEA': bt.BANK_TERMINAL, # ATM
+        'BEA': bt.PAYMENT_TERMINAL,  # Pin
+        'GEA': bt.BANK_TERMINAL,  # ATM
         'COSTS': bt.BANK_COSTS,
         'BANK': bt.ORDER,
         'GIRO': bt.ORDER,
-        'INTL': bt.ORDER, # international order
-        'UNKN': bt.ORDER, # everything else
+        'INTL': bt.ORDER,  # international order
+        'UNKN': bt.ORDER,  # everything else
         'SEPA': bt.ORDER,
         'PAYB': bt.PAYMENT_BATCH,
         'RETR': bt.STORNO,
@@ -118,10 +120,10 @@ class transaction(models.mem_bank_transaction):
             elif not self.execution_date:
                 self.error_message = "No execution date"
             elif not self.remote_account and self.transfer_type not in [
-                'BEA', 'GEA', 'COSTS', 'UNKN', 'PAYB',
-                ]:
-                self.error_message = _('No remote account for transaction type '
-                                       '%s') % self.transfer_type
+                    'BEA', 'GEA', 'COSTS', 'UNKN', 'PAYB', ]:
+                self.error_message = _(
+                    'No remote account for transaction type %s'
+                ) % self.transfer_type
         if self.error_message:
             raise orm.except_orm(_('Error !'), _(self.error_message))
         return not self.error_message
@@ -139,12 +141,11 @@ class transaction(models.mem_bank_transaction):
             res = []
             while(len(line) > col * size):
                 separation = (col + 1) * size - 1
-                if line[col * size : separation].strip():
-                    part = line[col * size : separation]
+                if line[col * size: separation].strip():
+                    part = line[col * size: separation]
                     # If the separation character is not a space, add it anyway
                     # presumably for sepa feedback strings only
-                    if (len(line) > separation
-                        and line[separation] != ' '):
+                    if (len(line) > separation and line[separation] != ' '):
                         part += line[separation]
                     res.append(part)
                 col += 1
@@ -180,7 +181,7 @@ class transaction(models.mem_bank_transaction):
                     end_index = start_index + 1
                     while end_index < items_len:
                         key = '/'.join(items[start_index:end_index])
-                        if  key in known_keys:
+                        if key in known_keys:
                             return (key, start_index, end_index)
                         end_index += 1
                     start_index += 1
@@ -203,15 +204,16 @@ class transaction(models.mem_bank_transaction):
                 key_info = _get_next_key(items, item_index)
                 value_end_index = (key_info and key_info[1]) or items_len
                 sepa_value = (
-                    ((value_end_index > item_index)
-                    and '/'.join(items[item_index:value_end_index]))
+                    (
+                        (value_end_index > item_index)
+                        and '/'.join(items[item_index:value_end_index]))
                     or '')
                 sepa_dict[sepa_key] = sepa_value
             return sepa_dict
 
         def parse_type(field):
-            # here we process the first field, which identifies the statement type
-            # and in case of certain types contains additional information
+            # here we process the first field, which identifies the statement
+            # type and in case of certain types contains additional information
             transfer_type = 'UNKN'
             remote_account = False
             remote_owner = False
@@ -233,12 +235,14 @@ class transaction(models.mem_bank_transaction):
                 transfer_type = 'BEA'
                 # columns 6 to 16 contain the terminal identifier
                 # column 17 contains a space
-                # columns 18 to 31 contain date and time in DD.MM.YY/HH.MM format
-            elif field.startswith('GEA '): 
+                # columns 18 to 31 contain date and time in DD.MM.YY/HH.MM
+                # format
+            elif field.startswith('GEA '):
                 transfer_type = 'GEA'
                 # columns 6 to 16 contain the terminal identifier
                 # column 17 contains a space
-                # columns 18 to 31 contain date and time in DD.MM.YY/HH.MM format
+                # columns 18 to 31 contain date and time in DD.MM.YY/HH.MM
+                # format
             elif field.startswith('MAANDBIJDRAGE ABNAMRO'):
                 transfer_type = 'COSTS'
             elif re.match("^\s([0-9]+\.){3}[0-9]+\s", field):
@@ -251,9 +255,10 @@ class transaction(models.mem_bank_transaction):
             elif field.startswith("TOTAAL BETALINGEN"):
                 transfer_type = 'PAYB'
             return (transfer_type, remote_account, remote_owner)
-        
+
         fields = split_blob(self.blob)
-        (self.transfer_type, self.remote_account, self.remote_owner) = parse_type(fields[0])
+        (self.transfer_type, self.remote_account, self.remote_owner) = \
+            parse_type(fields[0])
 
         if self.transfer_type == 'SEPA':
             sepa_dict = get_sepa_dict(''.join(fields))
@@ -263,7 +268,7 @@ class transaction(models.mem_bank_transaction):
                 'SEPA BATCH SALARIS': 'PAYB',
                 'SEPA TERUGBOEKING': 'RETR',
                 }.get(sepa_type.upper(), 'SEPA')
-            self.remote_account = sepa_dict.get('IBAN',False)
+            self.remote_account = sepa_dict.get('IBAN', False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)
             self.reference = sepa_dict.get('REMI', '')
@@ -278,21 +283,24 @@ class transaction(models.mem_bank_transaction):
 
         elif self.transfer_type == 'BEA':
             # second column contains remote owner and bank pass identification
-            self.remote_owner = len(fields) > 1 and fields[1].split(',')[0].strip() or False
-            # column 2 and up can contain additional messsages 
+            self.remote_owner = (
+                len(fields) > 1 and fields[1].split(',')[0].strip() or False)
+            # column 2 and up can contain additional messsages
             # (such as transaction costs or currency conversion)
             self.message = ' '.join(field.strip() for field in fields)
 
         elif self.transfer_type == 'BANK':
             # second column contains the remote owner or the first message line
             if not self.remote_owner:
-                self.remote_owner = len(fields) > 1 and fields[1].strip() or False
+                self.remote_owner = (
+                    len(fields) > 1 and fields[1].strip() or False)
                 self.message = ' '.join(field.strip() for field in fields[2:])
             else:
                 self.message = ' '.join(field.strip() for field in fields[1:])
 
         elif self.transfer_type == 'INTL':
-            # first column seems to consist of some kind of international transaction id
+            # first column seems to consist of some kind of international
+            # transaction id
             self.reference = fields[0].strip()
             # second column seems to contain remote currency and amount
             # to be processed in a later release of this module
@@ -317,11 +325,13 @@ class transaction(models.mem_bank_transaction):
             # but can be any numeric line really
             for field in fields[1:]:
                 m = re.match(
-                    "^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+([ /][0-9]+)*)\s*$",
+                    "^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+"
+                    "([ /][0-9]+)*)\s*$",
                     field)
                 if m:
                     self.reference = m.group(4)
                     break
+
 
 class statement(models.mem_bank_statement):
     '''
@@ -335,7 +345,7 @@ class statement(models.mem_bank_statement):
         self.id = msg.statement_id
         self.local_account = msg.local_account
         self.date = str2date(msg.date, '%Y%m%d')
-        self.start_balance = self.end_balance = 0 # msg.start_balance
+        self.start_balance = self.end_balance = 0  # msg.start_balance
         self.import_transaction(msg)
 
     def import_transaction(self, msg):
@@ -345,6 +355,7 @@ class statement(models.mem_bank_statement):
         trans = transaction(msg)
         self.end_balance += trans.transferred_amount
         self.transactions.append(trans)
+
 
 class parser(models.parser):
     code = 'ABNAM'
@@ -365,7 +376,7 @@ each file covers a period of two weeks.
         # Transaction lines are not numbered, so keep a tracer
         subno = 0
         statement_id = False
-        for line in csv.reader(lines, delimiter = '\t', quoting=csv.QUOTE_NONE):
+        for line in csv.reader(lines, delimiter='\t', quoting=csv.QUOTE_NONE):
             # Skip empty (last) lines
             if not line:
                 continue
@@ -381,5 +392,3 @@ each file covers a period of two weeks.
                 stmnt = statement(msg)
         result.append(stmnt)
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
