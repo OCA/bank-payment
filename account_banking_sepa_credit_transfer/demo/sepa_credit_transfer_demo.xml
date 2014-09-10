@@ -9,6 +9,7 @@
     <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="export_sepa_sct_001_001_03"/>
+    <field name="sale_ok" eval="False"/>
 </record>
 
 </data>
