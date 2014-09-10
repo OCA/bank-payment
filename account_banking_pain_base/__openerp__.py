@@ -22,19 +22,23 @@
 {
     'name': 'Account Banking PAIN Base Module',
     'summary': 'Base module for PAIN file generation',
-    'version': '0.1',
+    'version': '8.0.0.2.0',
     'license': 'AGPL-3',
-    'author': 'Akretion, Noviat',
-    'website': 'http://openerp-community-association.org/',
+    'author': "Akretion, "
+              "Noviat, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
+    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'category': 'Hidden',
     'depends': ['account_banking_payment_export'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
-        },
+    },
     'data': [
-        'payment_line_view.xml',
-        'payment_mode_view.xml',
-        'company_view.xml',
+        'views/payment_line_view.xml',
+        'views/payment_mode_view.xml',
+        'views/res_company_view.xml',
     ],
     'description': '''
 Base module for PAIN file generation
@@ -43,14 +47,10 @@ Base module for PAIN file generation
 This module contains fields and functions that are used by the module for SEPA
 Credit Transfer (account_banking_sepa_credit_transfer) and SEPA Direct Debit
 (account_banking_sepa_direct_debit). This module doesn't provide any
-functionnality by itself.
+functionality by itself.
 
-This module is part of the banking addons:
-    https://www.github.com/OCA/banking-addons
-
-This module was started during the Akretion-Noviat code sprint of
-November 21st 2013 in Epiais les Louvres (France).
+This module was started during the Akretion-Noviat code sprint of November
+21st 2013 in Epiais les Louvres (France).
     ''',
-    'active': False,
     'installable': True,
 }
