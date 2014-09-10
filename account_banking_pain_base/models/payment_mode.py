@@ -20,4 +20,20 @@
 #
 ##############################################################################
 
-from . import models
+from openerp.osv import orm, fields
+
+
+class payment_mode(orm.Model):
+    _inherit = 'payment.mode'
+
+    _columns = {
+        'convert_to_ascii': fields.boolean(
+            'Convert to ASCII',
+            help="If active, Odoo will convert each accented caracter to "
+            "the corresponding unaccented caracter, so that only ASCII "
+            "caracters are used in the generated PAIN file."),
+    }
+
+    _defaults = {
+        'convert_to_ascii': True,
+    }
