@@ -22,51 +22,45 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '0.1',
+    'version': '8.0.0.2.0',
     'license': 'AGPL-3',
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'author': "Akretion, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
-    'depends': ['account_direct_debit', 'account_banking_pain_base'],
+    'depends': [
+        'account_direct_debit',
+        'account_banking_pain_base',
+        'account_banking_mandate',
+    ],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
     },
     'data': [
-        'security/original_mandate_required_security.xml',
-        'account_banking_sdd_view.xml',
-        'sdd_mandate_view.xml',
-        'res_partner_bank_view.xml',
-        'account_payment_view.xml',
-        'company_view.xml',
-        'mandate_expire_cron.xml',
-        'account_invoice_view.xml',
+        'views/account_banking_sdd_view.xml',
+        'views/account_banking_mandate_view.xml',
+        'views/res_company_view.xml',
         'wizard/export_sdd_view.xml',
+        'data/mandate_expire_cron.xml',
         'data/payment_type_sdd.xml',
-        'data/mandate_reference_sequence.xml',
+        'security/original_mandate_required_security.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': ['sepa_direct_debit_demo.xml'],
+    'demo': ['demo/sepa_direct_debit_demo.xml'],
     'description': '''
 Module to export direct debit payment orders in SEPA XML file format.
 
 SEPA PAIN (PAyment INitiation) is the new european standard for
-Customer-to-Bank payment instructions.
-
-This module implements SEPA Direct Debit (SDD), more specifically PAIN
-versions 008.001.02, 008.001.03 and 008.001.04.
-It is part of the ISO 20022 standard, available on http://www.iso20022.org.
+Customer-to-Bank payment instructions. This module implements SEPA Direct
+Debit (SDD), more specifically PAIN versions 008.001.02, 008.001.03 and
+008.001.04. It is part of the ISO 20022 standard, available on
+http://www.iso20022.org.
 
 The Implementation Guidelines for SEPA Direct Debit published by the European
 Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN
-version 008.001.02. So if you don't know which version your bank supports,
-you should try version 008.001.02 first.
-
-This module uses the framework provided by the banking addons,
-cf https://www.github.com/OCA/banking-addons
-
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
-for any help or question about this module.
+version 008.001.02. So if you don't know which version your bank supports, you
+should try version 008.001.02 first.
     ''',
-    'active': False,
     'installable': True,
 }
