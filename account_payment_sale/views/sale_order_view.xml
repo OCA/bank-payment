@@ -15,7 +15,9 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <field name="payment_term" position="after">
-            <field name="payment_mode_id"/>
+            <field name="payment_mode_id"
+                domain="[('sale_ok', '=', True)]"
+                widget="selection"/>
         </field>
     </field>
 </record>

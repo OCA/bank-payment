@@ -18,10 +18,10 @@ msgstr ""
 #. module: account_payment_sale
 #: field:sale.order,payment_mode_id:0
 msgid "Payment Mode"
-msgstr ""
+msgstr "Modo de pago"
 
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Pedido de venta"
 
