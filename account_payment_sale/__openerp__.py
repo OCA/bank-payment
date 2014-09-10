@@ -22,34 +22,22 @@
 
 {
     'name': 'Account Payment Sale',
-    'version': '1.0',
+    'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': "Adds Payment Mode on Sale Orders",
-    'description': """
-Account Payment Sale
-====================
-
-This modules adds one field on sale orders : *Payment Mode*.
-This field is copied from partner to sale order and then from sale order to
-customer invoice.
-
-This module is similar to the *sale_payment* module ; the main difference is
-that it doesn't depend on the *account_payment_extension* module (it's not the
-only module to conflict with *account_payment_extension* ; all the SEPA
-modules in the banking addons conflict with *account_payment_extension*, cf
-banking-addons-70/account_banking_payment_export/__openerp__.py).
-
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com>
-for any help or question about this module.
-    """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['sale', 'account_payment_partner'],
+    'summary': "Adds payment mode on sale orders",
+    'author': "Akretion, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
+    'depends': [
+        'sale',
+        'account_payment_partner'
+    ],
     'conflicts': ['sale_payment'],
     'data': [
-        'view/sale.xml',
+        'views/sale_order_view.xml',
     ],
     'installable': True,
-    'active': False,
+    'auto_install': True,
 }
