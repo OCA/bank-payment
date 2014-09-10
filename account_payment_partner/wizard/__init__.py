@@ -20,34 +20,4 @@
 #
 ##############################################################################
 
-
-{
-    'name': 'Account Payment Partner',
-    'version': '8.0.0.1.0',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'summary': 'Adds payment mode on partners and invoices',
-    'description': """
-Account Payment Partner
-=======================
-
-This module adds severals fields :
-
-* the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
-
-* the *Payment Mode* on Invoices.
-
-On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will
-be filtered per Payment Mode.
-    """,
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'http://www.akretion.com',
-    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
-    'depends': ['account_banking_payment_export'],
-    'data': [
-        'views/res_partner_view.xml',
-        'views/account_invoice_view.xml',
-    ],
-    'demo': ['demo/partner_demo.xml'],
-    'installable': True,
-}
+from . import payment_order_create
