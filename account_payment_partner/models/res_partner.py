@@ -20,25 +20,23 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class res_partner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    _columns = {
-        'supplier_payment_mode': fields.property(
-            'payment.mode', type='many2one', relation='payment.mode',
-            string='Supplier Payment Mode', view_load=True,
-            help="Select the default payment mode for this supplier."),
-        'customer_payment_mode': fields.property(
-            'payment.mode', type='many2one', relation='payment.mode',
-            string='Customer Payment Mode', view_load=True,
-            help="Select the default payment mode for this customer."),
-        }
+    supplier_payment_mode = fields.Many2one(
+        'payment.mode', string='Supplier Payment Mode', company_dependent=True,
+        domain="[('purchase_ok', '=', True)]",
+        help="Select the default payment mode for this supplier.")
+    customer_payment_mode = fields.Many2one(
+        'payment.mode', string='Customer Payment Mode', company_dependent=True,
+        domain="[('sale_ok', '=', True)]",
+        help="Select the default payment mode for this customer.")
 
-    def _commercial_fields(self, cr, uid, context=None):
-        res = super(res_partner, self)._commercial_fields(
-            cr, uid, context=context)
+    @api.model
+    def _commercial_fields(self):
+        res = super(ResPartner, self)._commercial_fields()
         res += ['supplier_payment_mode', 'customer_payment_mode']
         return res

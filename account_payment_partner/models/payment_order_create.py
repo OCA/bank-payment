@@ -20,6 +20,19 @@
 #
 ##############################################################################
 
-from . import partner
-from . import account_invoice
-from . import payment_order_create
+from openerp.osv import orm
+
+
+class PaymentOrderCreate(orm.TransientModel):
+    _inherit = 'payment.order.create'
+
+    def extend_payment_order_domain(
+            self, cr, uid, payment_order, domain, context=None):
+        super(PaymentOrderCreate, self).extend_payment_order_domain(
+            cr, uid, payment_order, domain, context=context)
+        domain += [
+            '|', '|',
+            ('invoice', '=', False),
+            ('invoice.payment_mode_id', '=', False),
+            ('invoice.payment_mode_id', '=', payment_order.mode.id)]
+        return True
