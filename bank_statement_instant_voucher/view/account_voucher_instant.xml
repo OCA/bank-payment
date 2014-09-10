@@ -1,45 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
         <record id="instant_voucher_form" model="ir.ui.view">
             <field name="name">Instant voucher form view</field>
             <field name="model">account.voucher.instant</field>
             <field name="arch" type="xml">
-                <form>
-                    <field name="state" invisible="1" readonly="1"/>
-                    <field name="statement_line_id"/>
-                    <field name="ref"/>
-                    <newline/>
-                    <field name="partner_id"/>
-                    <field name="balance"/>
-                    <newline/>
+                <form string="Create matching voucher" version="7.0">
                     <field name="type" invisible="1"/>
-                    <field name="voucher_id"
-                           context="{'statement_line_id': statement_line_id,
-                                     'form_view_ref': (
-                                     type == 'sale' and 'account_voucher.view_sale_receipt_form'
-                                     or 'account_voucher.view_purchase_receipt_form')
-                                     }"
-                           />
-                    <newline/>
-                    <newline/>
-                    <button icon="gtk-cancel"
-                            string="Cancel"
-                            name="cancel"
-                            type="object"/>
-                    <button icon="gtk-ok" string="Confirm"
-                            states="ready"
-                            name="confirm"
-                            type="object"
-                            />
-                    <button icon="gtk-ok" string="Create voucher"
-                            states="init"
-                            name="create_voucher"
-                            type="object"
-                            />
+                    <field name="state" invisible="1"/>
+                    <group>
+                        <field name="ref"/>
+                        <field name="partner_id"/>
+                    </group>
+                    <group>
+                        <field name="statement_line_id"/>
+                        <field name="balance"/>
+                        <field name="voucher_id"
+                               context="{'statement_line_id': statement_line_id, 'form_view_ref': (type == 'sale' and 'account_voucher.view_sale_receipt_form' or 'account_voucher.view_purchase_receipt_form')}"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm"
+                                class="oe_highlight"
+                                states="ready"
+                                name="confirm"
+                                type="object"/>
+                        <button string="Create voucher"
+                                class="oe_highlight"
+                                states="init"
+                                name="create_voucher"
+                                type="object"/>
+                        or
+                        <button string="Cancel"
+                                class="oe_link"
+                                name="cancel"
+                                type="object"/>
+                    </footer>
                 </form>
             </field>
         </record>
+
         <act_window name="Create matching voucher"
             res_model="account.voucher.instant"
             src_model="account.bank.statement.line"
