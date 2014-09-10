@@ -20,5 +20,4 @@
 #
 ##############################################################################
 
-from . import wizard
-from . import models
+from . import account_banking_sepa
