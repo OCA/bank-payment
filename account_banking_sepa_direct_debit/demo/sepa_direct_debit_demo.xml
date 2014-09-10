@@ -15,7 +15,7 @@
     <field name="sepa_creditor_identifier">FR78ZZZ424242</field>
 </record>
 
-<record id="res_partner_12_mandate" model="sdd.mandate">
+<record id="res_partner_12_mandate" model="account.banking.mandate">
     <field name="partner_bank_id" ref="account_banking_payment_export.res_partner_12_iban"/>
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
