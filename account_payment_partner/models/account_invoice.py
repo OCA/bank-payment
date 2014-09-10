@@ -20,37 +20,34 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class account_invoice(orm.Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    _columns = {
-        'payment_mode_id': fields.many2one(
-            'payment.mode', 'Payment Mode'),
-        }
+    payment_mode_id = fields.Many2one(
+        comodel_name='payment.mode', string="Payment Mode",
+        domain="[('type', '=', type)]")
 
+    @api.multi
     def onchange_partner_id(
-            self, cr, uid, ids, type, partner_id, date_invoice=False,
+            self, type, partner_id, date_invoice=False,
             payment_term=False, partner_bank_id=False, company_id=False):
-        res = super(account_invoice, self).onchange_partner_id(
-            cr, uid, ids, type, partner_id, date_invoice=date_invoice,
+        res = super(AccountInvoice, self).onchange_partner_id(
+            type, partner_id, date_invoice=date_invoice,
             payment_term=payment_term, partner_bank_id=partner_bank_id,
             company_id=company_id)
         if partner_id:
-            partner = self.pool['res.partner'].browse(cr, uid, partner_id)
+            partner = self.env['res.partner'].browse(partner_id)
             if type == 'in_invoice':
                 res['value']['payment_mode_id'] = \
-                    partner.supplier_payment_mode.id or False
+                    partner.supplier_payment_mode.id
             elif type == 'out_invoice':
                 res['value'].update({
-                    'payment_mode_id':
-                    partner.customer_payment_mode.id or False,
-                    'partner_bank_id':
-                    partner.customer_payment_mode and
-                    partner.customer_payment_mode.bank_id.id or False,
-                    })
+                    'payment_mode_id': partner.customer_payment_mode.id,
+                    'partner_bank_id': partner.customer_payment_mode.bank_id.id
+                })
         else:
             res['value']['payment_mode_id'] = False
         return res
