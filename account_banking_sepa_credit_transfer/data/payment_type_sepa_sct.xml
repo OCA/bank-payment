@@ -7,6 +7,7 @@
 <record id="export_sepa_sct_001_001_05" model="payment.mode.type">
     <field name="name">SEPA Credit Transfer v05</field>
     <field name="code">pain.001.001.05</field>
+    <field name="payment_order_type">payment</field>
     <field name="suitable_bank_types"
        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
@@ -15,6 +16,7 @@
 <record id="export_sepa_sct_001_001_04" model="payment.mode.type">
     <field name="name">SEPA Credit Transfer v04</field>
     <field name="code">pain.001.001.04</field>
+    <field name="payment_order_type">payment</field>
     <field name="suitable_bank_types"
        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
@@ -23,6 +25,7 @@
 <record id="export_sepa_sct_001_001_03" model="payment.mode.type">
     <field name="name">SEPA Credit Transfer v03 (recommended)</field>
     <field name="code">pain.001.001.03</field>
+    <field name="payment_order_type">payment</field>
     <field name="suitable_bank_types"
        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
@@ -31,6 +34,7 @@
 <record id="export_sepa_sct_001_001_02" model="payment.mode.type">
     <field name="name">SEPA Credit Transfer v02</field>
     <field name="code">pain.001.001.02</field>
+    <field name="payment_order_type">payment</field>
     <field name="suitable_bank_types"
        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
     <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
