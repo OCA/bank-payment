@@ -19,23 +19,23 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:74
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
+msgstr "No se puede procesar el campo '%s' de la línea de pago con referencia '%s'."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:80
 #, python-format
 msgid "Cannot compute the '%s'."
-msgstr ""
+msgstr "No se puede procesar el campo '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: account_banking_pain_base
 #: field:payment.mode,convert_to_ascii:0
 msgid "Convert to ASCII"
-msgstr ""
+msgstr "Convertir a ASCII"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:47
@@ -47,7 +47,7 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:385
 #, python-format
 msgid "Error:"
-msgstr ""
+msgstr "Error:"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:83
@@ -58,96 +58,96 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:payment.line,priority:0
 msgid "High"
-msgstr ""
+msgstr "Alta"
 
 #. module: account_banking_pain_base
 #: field:banking.export.pain,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_pain_base
 #: help:payment.mode,convert_to_ascii:0
 msgid "If active, Odoo will convert each accented caracter to the corresponding unaccented caracter, so that only ASCII caracters are used in the generated PAIN file."
-msgstr ""
+msgstr "Si está marcado, Odoo convertirá cada carácter acentuado en el correspondiente carácter no acentuado, para que sólo se usen caracteres ASCII en el archivo PAIN generado."
 
 #. module: account_banking_pain_base
 #: field:res.company,initiating_party_issuer:0
 msgid "Initiating Party Issuer"
-msgstr ""
+msgstr "Emisor de la transacción"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:386
 #, python-format
 msgid "Missing 'Structured Communication Type' on payment line with reference '%s'."
-msgstr ""
+msgstr "Falta el campo 'Tipo de comunicación estructurada' en la línea de pago con referencia '%s'."
 
 #. module: account_banking_pain_base
 #: selection:payment.line,priority:0
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. module: account_banking_pain_base
 #: view:res.company:account_banking_pain_base.view_company_form
 msgid "Payment Initiation"
-msgstr ""
+msgstr "Iniciación del pago"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_line
 msgid "Payment Line"
-msgstr ""
+msgstr "Línea de pago"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Modo de pago"
 
 #. module: account_banking_pain_base
 #: field:payment.line,priority:0
 msgid "Priority"
-msgstr ""
+msgstr "Prioridad"
 
 #. module: account_banking_pain_base
 #: field:payment.line,struct_communication_type:0
 msgid "Structured Communication Type"
-msgstr ""
+msgstr "Tipo de comunicación estructurada"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:90
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
-msgstr ""
+msgstr "'%s' está vacío o es 0. Debería tener un valor no nulo."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:304
 #, python-format
 msgid "The bank account with IBAN '%s' of partner '%s' must have an associated BIC because it is a cross-border SEPA operation."
-msgstr ""
+msgstr "La cuenta bancaria con IBAN '%s' de la empresa '%s' debe tener un BIC asociado, porque es una operación SEPA transfronteriza."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:125
 #, python-format
 msgid "The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s"
-msgstr ""
+msgstr "El archivo XML generado no se puede validar contra la definición de esquema XML oficial. El archivo XML generado el error completo se ha escrito en los registros del servidor. Aquí está el error, que le puede dar una idea de la causa del problema : %s"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:84
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
-msgstr ""
+msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:47
 #, python-format
 msgid "This IBAN is not valid : %s"
-msgstr ""
+msgstr "Este IBAN no es válido: %s"
 
 #. module: account_banking_pain_base
 #: help:payment.line,priority:0
 msgid "This field will be used as the 'Instruction Priority' in the generated PAIN file."
-msgstr ""
+msgstr "Este campo se usará como 'Prioridad de instrucción' en el archivo PAIN generado."
 
 #. module: account_banking_pain_base
 #: help:res.company,initiating_party_issuer:0
 msgid "This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo."
-msgstr ""
+msgstr "Este campo se usará como 'Emisor de la transacción' en los archivos PAIN generados por Odoo."
 
