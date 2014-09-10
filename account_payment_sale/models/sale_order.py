@@ -20,36 +20,31 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class sale_order(orm.Model):
+class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    _columns = {
-        'payment_mode_id': fields.many2one(
-            'payment.mode', 'Payment Mode'),
-        }
+    payment_mode_id = fields.Many2one(
+        'payment.mode', string='Payment Mode',
+        domain="[('sale_ok', '=', True)]")
 
-    def onchange_partner_id(self, cr, uid, ids, part, context=None):
-        res = super(sale_order, self).onchange_partner_id(
-            cr, uid, ids, part, context=context)
-        if part:
-            partner = self.pool['res.partner'].browse(
-                cr, uid, part, context=context)
-            res['value']['payment_mode_id'] = \
-                partner.customer_payment_mode.id or False,
+    @api.multi
+    def onchange_partner_id(self, partner_id):
+        res = super(SaleOrder, self).onchange_partner_id(partner_id)
+        if partner_id:
+            partner = self.env['res.partner'].browse(partner_id)
+            res['value']['payment_mode_id'] = partner.customer_payment_mode.id
         else:
             res['value']['payment_mode_id'] = False
         return res
 
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+    @api.model
+    def _prepare_invoice(self, order, lines):
         """Copy bank partner from sale order to invoice"""
-        invoice_vals = super(sale_order, self)._prepare_invoice(
-            cr, uid, order, lines, context=context)
-        invoice_vals.update({
-            'payment_mode_id': order.payment_mode_id.id or False,
-            'partner_bank_id': order.payment_mode_id and
-            order.payment_mode_id.bank_id.id or False,
-            })
-        return invoice_vals
+        vals = super(SaleOrder, self)._prepare_invoice(order, lines)
+        if order.payment_mode_id:
+            vals['payment_mode_id'] = order.payment_mode_id.id
+            vals['partner_bank_id'] = order.payment_mode_id.bank_id.id
+        return vals
