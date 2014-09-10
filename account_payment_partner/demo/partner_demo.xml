@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+<!-- Camptocamp -->
+<record id="supplier_payment_mode_12" model="ir.property" forcecreate="True">
+    <field name="name">supplier_payment_mode_12</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','supplier_payment_mode')]"/>
+    <field name="value"
+    eval="'payment.mode,'+str(ref('account_banking_payment_export.payment_mode_2'))"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="res_id" ref="base.res_partner_12"/>
+</record>
+
+<record id="customer_payment_mode_12" model="ir.property" forcecreate="True">
+    <field name="name">customer_payment_mode_12</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','customer_payment_mode')]"/>
+    <field name="value"
+    eval="'payment.mode,'+str(ref('account_banking_payment_export.payment_mode_2'))"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="res_id" ref="base.res_partner_12"/>
+</record>
+
+<!-- Agrolait -->
+<record id="customer_payment_mode_2" model="ir.property" forcecreate="True">
+    <field name="name">customer_payment_mode_2</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','customer_payment_mode')]"/>
+    <field name="value"
+    eval="'payment.mode,'+str(ref('account_banking_payment_export.payment_mode_3'))"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="res_id" ref="base.res_partner_2"/>
+</record>
+
+<!-- Asustek -->
+<record id="supplier_payment_mode_1" model="ir.property" forcecreate="True">
+    <field name="name">supplier_payment_mode_1</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','supplier_payment_mode')]"/>
+    <field name="value"
+    eval="'payment.mode,'+str(ref('account_banking_payment_export.payment_mode_2'))"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="res_id" ref="base.res_partner_1"/>
+</record>
+
+
+</data>
+</openerp>
