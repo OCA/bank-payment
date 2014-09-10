@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/OCA/banking.svg?branch=7.0)](https://travis-ci.org/OCA/banking)
-[![Coverage Status](https://coveralls.io/repos/OCA/banking/badge.png?branch=7.0)](https://coveralls.io/r/OCA/banking?branch=7.0)
+[![Build Status](https://travis-ci.org/OCA/banking.svg?branch=8.0)](https://travis-ci.org/OCA/banking)
+[![Coverage Status](https://coveralls.io/repos/OCA/banking/badge.png?branch=8.0)](https://coveralls.io/r/OCA/banking?branch=8.0)
 
-Banking addons for OpenERP
-==========================
+Banking addons for Odoo
+=======================
 
 This project focuses on in- and export of banking communication. The indentation below indicates
 the dependency graph of the main modules.
