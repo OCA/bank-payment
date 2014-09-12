@@ -59,7 +59,7 @@ msgstr "Gereed"
 #: view:res.partner:0
 #: view:res.partner.bank:0
 msgid "SDD Mandates"
-msgstr "SDD machteging"
+msgstr "SDD machtiging"
 
 #. module: account_banking_sepa_direct_debit
 #: constraint:payment.line:0
@@ -89,7 +89,7 @@ msgstr "Op rekening van schuldeiser"
 #: view:res.partner.bank:0
 #: field:res.partner.bank,sdd_mandate_ids:0
 msgid "SEPA Direct Debit Mandates"
-msgstr "SEPA incasso machtegingen"
+msgstr "SEPA incasso machtigingen"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
@@ -111,7 +111,7 @@ msgstr "Genereer"
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.mandate_cancel
 msgid "SEPA Direct Debit Mandate Cancelled"
-msgstr "SEPA incasso machtegingen geannuleerd"
+msgstr "SEPA incasso machtigingen geannuleerd"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
@@ -598,7 +598,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:sdd.mandate,scan:0
 msgid "Scan of the Mandate"
-msgstr "Scan van de machteging"
+msgstr "Scan van de machtiging"
 
 #. module: account_banking_sepa_direct_debit
 #: field:sdd.mandate,last_debit_date:0
