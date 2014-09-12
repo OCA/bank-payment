@@ -31,7 +31,7 @@
     'author': 'Therp BV / Smile',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
-    'depends': ['account_banking'],
+    'depends': ['account_banking', 'account_banking_payment_export'],
     'init_xml': [],
     'update_xml': [
         'view/account_payment.xml',

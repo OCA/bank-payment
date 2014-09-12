@@ -59,7 +59,7 @@
 	<record model="ir.ui.view" id="view_payment_mode_form">
 	  <field name="name">payment.mode.form add transfer account</field>
 	  <field name="model">payment.mode</field>
-	  <field name="inherit_id" ref="account_banking.view_payment_mode_form_inherit"/>
+	  <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
 	  <field name="type">form</field>
 	  <field name="arch" type="xml">
 	    <field name="type" position="after">
