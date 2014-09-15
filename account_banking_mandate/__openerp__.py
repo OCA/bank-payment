@@ -36,6 +36,7 @@
         'view/account_payment_view.xml',
         'view/res_partner_bank_view.xml',
         'data/mandate_reference_sequence.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'description': '''
