@@ -75,8 +75,6 @@ for electronic banking. It provides the following technical features:
 To enable the use of payment order to collect money for customers,
 it adds a payment_order_type (payment|debit) as a basis of direct debit support
 (this field becomes visible when account_direct_debit is installed).
-Refactoring note: this field should ideally go in account_direct_debit,
-but account_banking_payment currently depends on it.
 
 Bug fixes and enhancement that should land in official addons:
 

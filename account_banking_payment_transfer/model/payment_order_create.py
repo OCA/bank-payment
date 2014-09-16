@@ -27,6 +27,9 @@
 from openerp.osv import orm
 
 
+# TODO: extract this in anoter module such as account_banking_payment_term
+
+
 class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 

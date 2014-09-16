@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#              (C) 2014 ACSONE SA/NV (<http://acsone.eu>).
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -24,31 +25,28 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - Payments',
-    'version': '0.1.164',
+    'name': 'Account Banking - Payments Transfer Account',
+    'version': '0.2',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
-    'website': 'https://launchpad.net/banking-addons',
+    'website': 'https://github.com/OCA/banking',
     'category': 'Banking addons',
     'depends': [
-        'account_banking',
         'account_banking_payment_export',
-        ],
+    ],
     'data': [
-        'view/account_payment.xml',
-        'view/banking_transaction_wizard.xml',
+        # TODO: 'view/account_payment.xml',
         'view/payment_mode.xml',
         'workflow/account_payment.xml',
     ],
-    'description': '''
-This addon adds payment reconciliation infrastructure to the Banking Addons.
+    'description': '''Payment order reconciliation infrastructure
 
-    * Extends payments for digital banking:
-      + Adapted workflow in payments to reflect banking operations
-      + Relies on account_payment mechanics to extend with export generators.
-      - ClieOp3 (NL) payment and direct debit orders files available as
-        account_banking_nl_clieop
+    This module reconciles invoices as soon as the payment order
+    is sent, by creating a move to a transfer account (aka suspense account).
+    When the moves on the suspense account are reconciled (typically through
+    the bank statement reconciliation, the payment order moves to the done
+    status).
     ''',
-    'auto_install': True,
-    'installable': False,
+    'auto_install': False,
+    'installable': True,
 }

@@ -3,7 +3,7 @@
     <data>
 
         <!--
-             Add the payment mode type and transfer settings
+             Add the payment mode type settings
         -->
         <record id="view_payment_mode_form_inherit" model="ir.ui.view">
             <field name="name">payment.mode.form.inherit</field>

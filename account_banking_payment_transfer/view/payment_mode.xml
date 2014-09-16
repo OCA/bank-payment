@@ -29,6 +29,7 @@
                                    />
                         </group>
                         <group colspan="2">
+                            <!--  TODO: extract to account_banking_payment_term -->
                             <separator colspan="2"
                                        string="Optional filter by payment term" />
                             <field name="payment_term_ids" nolabel="1" colspan="2"/>

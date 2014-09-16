@@ -53,7 +53,7 @@ class AccountMoveLine(orm.Model):
     # this file.         -- Alexis de Lattre
 
     def _amount_to_pay(self, cr, uid, ids, name, arg=None, context=None):
-        """ Return the amount still to pay regarding all the payemnt orders
+        """ Return the amount still to pay regarding all the payment orders
         (excepting cancelled orders)"""
         if not ids:
             return {}
