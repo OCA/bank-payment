@@ -662,22 +662,3 @@ class invoice(orm.Model):
                                            'Reference Type', required=True
                                            )
     }
-
-
-class account_move_line(orm.Model):
-    _inherit = "account.move.line"
-
-    def get_balance(self, cr, uid, ids, context=None):
-        """
-        Return the balance of any set of move lines.
-
-        Not to be confused with the 'balance' field on this model, which
-        returns the account balance that the move line applies to.
-        """
-        total = 0.0
-        if not ids:
-            return total
-        for line in self.read(
-                cr, uid, ids, ['debit', 'credit'], context=context):
-            total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
-        return total
