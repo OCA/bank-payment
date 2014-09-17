@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_order_form" model="ir.ui.view">
+            <field name="model">payment.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_banking_sepa_direct_debit.sdd_view_payment_order_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <button name="cancel" position="before">
+                        <field name="is_missing_mandates" invisible="True" />
+                        <button type="object" name="button_create_missing_sdd_mandates" string="Create missing mandates" confirm="Create missing direct debit mandates?" icon="gtk-indent" attrs="{'invisible': ['|', ('is_missing_mandates', '=', False), ('state', 'not in', ['draft', 'open'])]}" />
+                    </button>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
