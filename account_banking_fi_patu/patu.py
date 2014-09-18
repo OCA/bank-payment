@@ -20,21 +20,20 @@
 #
 ##############################################################################
 
-'''
+"""
 This parser implements the PATU format support. PATU format is a generic format
 used by finnish banks.
-'''
-from account_banking.parsers import models
-from tools.translate import _
-from account_banking_fi_patu.parser import PatuParser
+"""
+from openerp.addons.account_banking.parsers import models
+from openerp.tools.translate import _
+from openerp.addons.account_banking_fi_patu.parser import PatuParser
 
-__all__ = ['parser']
+__all__ = ['Parser']
 
 
-class transaction(models.mem_bank_transaction):
-    '''
-    Implementation of transaction communication class for account_banking.
-    '''
+class Transaction(models.mem_bank_transaction):
+    """Implementation of transaction communication class for account_banking.
+    """
     mapping = {
         "remote_account": "recipientaccount",
         "remote_currency": "currency",
@@ -48,10 +47,8 @@ class transaction(models.mem_bank_transaction):
     }
 
     def __init__(self, record, *args, **kwargs):
-        '''
-        Initialize own dict with read values.
-        '''
-        super(transaction, self).__init__(*args, **kwargs)
+        """Initialize own dict with read values."""
+        super(Transaction, self).__init__(*args, **kwargs)
         for key in self.mapping:
             try:
                 setattr(self, key, record[self.mapping[key]])
@@ -59,34 +56,30 @@ class transaction(models.mem_bank_transaction):
                 pass
 
     def is_valid(self):
-        '''
-        Override validity checks.
+        """Override validity checks.
         There are certain situations for PATU which can be validated as
         invalid, but are normal.
         If eventcode is 730, the transaction was initiated by the bank and
         doesn't have a destination account.
-        '''
+        """
         if self.eventcode in ["720", "710"]:
             # Withdrawal from and deposit to the account
             return (self.execution_date and self.transferred_amount and True) \
                 or False
-
         if self.eventcode and self.eventcode == "730":
             # The transaction is bank initiated, no remote account is present
             return (self.execution_date and self.transferred_amount and True) \
                 or False
-
-        return super(transaction, self).is_valid()
+        return super(Transaction, self).is_valid()
 
 
 class statement(models.mem_bank_statement):
-    '''
-    Implementation of bank_statement communication class of account_banking
-    '''
+    """Implementation of bank_statement communication class of account_banking
+    """
     def __init__(self, record, *args, **kwargs):
-        '''
+        """
         Set decent start values based on first transaction read
-        '''
+        """
         super(statement, self).__init__(*args, **kwargs)
         self.id = record["statementnr"]
         self.local_account = self.convert_bank_account(record["accountnr"])
@@ -101,9 +94,7 @@ class statement(models.mem_bank_statement):
         return "%s-%s" % (bank, account)
 
     def import_transaction(self, record):
-        '''
-        Import a transaction to the statement
-        '''
+        """Import a transaction to the statement"""
         if record["recordid"] == "40":
             self.end_balance = record["balance"]
         elif record["recordid"] == "10" or record["recordid"] == "80":
@@ -111,10 +102,10 @@ class statement(models.mem_bank_statement):
             # now, ignore the parent entry
             if record["receiptcode"] == "E":
                 return
-            self.transactions.append(transaction(record))
+            self.transactions.append(Transaction(record))
 
 
-class parser(models.parser):
+class Parser(models.parser):
     code = 'FIPATU'
     name = _('PATU statement sheet')
     doc = _('''\
@@ -139,5 +130,3 @@ will parse all statements in a file and import them to OpenERP
                 stmnt.import_transaction(record)
         result.append(stmnt)
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

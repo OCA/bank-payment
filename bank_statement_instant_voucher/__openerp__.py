@@ -46,11 +46,12 @@ supported.
     """,
     'website': 'http://therp.nl',
     'images': [],
-    'depends': ['account_voucher'],
+    'depends': [
+        'account_voucher',
+    ],
     'data': [
         'view/account_voucher_instant.xml',
         'view/account_bank_statement_line.xml',
     ],
     "license": 'AGPL-3',
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
