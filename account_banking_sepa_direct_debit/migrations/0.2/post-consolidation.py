@@ -32,6 +32,9 @@ __name__ = "account.banking.sepa.direct_debit:: Move sdd_mandate data to " \
 
 
 def migrate(cr, installed_version):
+    if not installed_version:
+        return
+
     query = "INSERT INTO account_banking_mandate " \
             "SELECT id, create_uid, create_date, write_date, write_uid, " \
             "partner_bank_id, last_debit_date, scan, company_id, state, " \
