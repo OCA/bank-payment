@@ -21,7 +21,6 @@
 #
 ##############################################################################
 
-from datetime import datetime
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
@@ -106,7 +105,7 @@ class mandate(orm.Model):
         for mandate in self.browse(cr, uid, ids):
             if (mandate.signature_date and
                     mandate.signature_date >
-                    datetime.today().strftime('%Y-%m-%d')):
+                    fields.date.context_today(self, cr, uid)):
                 raise orm.except_orm(
                     _('Error:'),
                     _("The date of signature of mandate '%s' is in the "
@@ -151,14 +150,15 @@ class mandate(orm.Model):
         if partner_bank_id:
             partner_bank_read = self.pool['res.partner.bank'].read(
                 cr, uid, partner_bank_id, ['partner_id'])['partner_id']
-            if partner_bank_read:
-                res['value']['partner_id'] = partner_bank_read[0]
+            res['value']['partner_id'] = partner_bank_read[0]
         return res
 
     def validate(self, cr, uid, ids, context=None):
         to_validate_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state == 'draft', 'Mandate should be in draft state'
+            if mandate.state != 'draft':
+                raise orm.except_orm('StateError',
+                                     _('Mandate should be in draft state'))
             to_validate_ids.append(mandate.id)
         self.write(
             cr, uid, to_validate_ids, {'state': 'valid'}, context=context)
@@ -167,18 +167,24 @@ class mandate(orm.Model):
     def cancel(self, cr, uid, ids, context=None):
         to_cancel_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state in ('draft', 'valid'),\
-                'Mandate should be in draft or valid state'
+            if mandate.state not in ('draft', 'valid'):
+                raise orm.except_orm('StateError',
+                                     _('Mandate should be in draft or valid '
+                                       'state'))
             to_cancel_ids.append(mandate.id)
         self.write(
             cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
         return True
 
     def back2draft(self, cr, uid, ids, context=None):
+        ''' Allows to set the mandate back to the draft state.
+        This is for mandates cancelled by mistake
+        '''
         to_draft_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state == 'cancel',\
-                'Mandate should be in cancel state'
+            if mandate.state != 'cancel':
+                raise orm.except_orm('StateError',
+                                     _('Mandate should be in cancel state'))
             to_draft_ids.append(mandate.id)
         self.write(
             cr, uid, to_draft_ids, {'state': 'draft'}, context=context)
