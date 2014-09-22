@@ -26,7 +26,6 @@ import re
 import urllib
 import urllib2
 from BeautifulSoup import BeautifulSoup
-from openerp.addons.account_banking.sepa import postalcode
 from openerp.addons.account_banking_iban_lookup.urlagent import (
     URLAgent,
     SoupForm,
