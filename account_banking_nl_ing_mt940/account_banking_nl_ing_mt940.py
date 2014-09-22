@@ -42,6 +42,10 @@ class IngMT940Parser(MT940, parser):
     def create_transaction(self, cr):
         return transaction()
 
+    def handle_tag_25(self, cr, data):
+        '''ING: For current accounts: IBAN+ ISO 4217 currency code'''
+        self.current_statement.local_account = data[:-3]
+
     def handle_tag_60F(self, cr, data):
         super(IngMT940Parser, self).handle_tag_60F(cr, data)
         self.current_statement.id = '%s-%s' % (
