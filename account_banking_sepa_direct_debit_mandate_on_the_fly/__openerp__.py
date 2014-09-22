@@ -36,9 +36,9 @@ mandates for the current payment order where necessary.
 Configuration
 -------------
 
-By default, this module creates one-off mandates, which seems to be the safe
-choice. If this module is to be used to slowly evolve towards using recurring
-mandates, set the config parameter
+By default, this module creates one-off mandates. If you rather want to create
+recurring mandates (i.e. because your available mandates are recurring ones),
+set the config parameter
 'account.banking.sepa.direct.debit.create.mandates' to 'recurrent'.
 
 Attention
