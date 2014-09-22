@@ -101,6 +101,12 @@ class MT940(object):
                 record_line = line
         except StopIteration:
             pass
+        if self.current_statement:
+            if record_line:
+                self.handle_record(cr, record_line)
+                record_line = ''
+            self.statements.append(self.current_statement)
+            self.current_statement = None
         return self.statements
 
     def append_continuation_line(self, cr, line, continuation_line):
