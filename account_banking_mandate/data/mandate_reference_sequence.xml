@@ -11,7 +11,7 @@
 <record id="dd_mandate_seq" model="ir.sequence">
     <field name="name">DD Mandate Reference</field>
     <field name="code">account.banking.mandate</field>
-    <field name="prefix">RUM</field>
+    <field name="prefix">BM</field>
     <field name="padding" eval="7"/>
     <!-- remember that max size for the mandate ref is 35 -->
 </record>
