@@ -27,28 +27,17 @@
 bank transfers.
 """
 
-from openerp import models, fields, api
-from openerp import netsvc
+from openerp import models, api, netsvc
 
 
 class PaymentManual(models.TransientModel):
     _name = 'payment.manual'
     _description = 'Send payment order(s) manually'
 
-    payment_order_ids = fields.Many2many(
-        comodel_name='payment.order', relation='wiz_manual_payorders_rel',
-        column1='wizard_id', column2='payment_order_id',
-        string='Payment orders', readonly=True),
-
-    def create(self, vals):
-        payment_order_ids = self.env.context.get('active_ids', [])
-        vals['payment_order_ids'] = [[6, 0, payment_order_ids]]
-        return super(PaymentManual, self).create(vals)
-
-    @api.one
+    @api.multi
     def button_ok(self):
         wf_service = netsvc.LocalService('workflow')
-        for order_id in self.payment_order_ids:
-            wf_service.trg_validate(self.env.uid, 'payment.order', order_id.id,
+        for order_id in self.env.context.get('active_ids', []):
+            wf_service.trg_validate(self.env.uid, 'payment.order', order_id,
                                     'done', self.env.cr)
         return {'type': 'ir.actions.act_window_close'}
