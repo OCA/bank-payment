@@ -289,7 +289,7 @@ class OrdersFile(object):
 
 class Transaction(object):
     '''Generic transaction class'''
-    def __init__(self, type_=0, name=None, reference=None, messages=[],
+    def __init__(self, type_=0, name=None, reference=None, messages=(),
                  accountno_beneficiary=None, accountno_payer=None,
                  amount=0):
         self.transaction = TransactionRecord()
@@ -376,7 +376,7 @@ class Batch(object):
     transactionclass = None
 
     def __init__(self, sender, rekeningnr, execution_date=None,
-                 test=True, messages=[], transactiongroup=None,
+                 test=True, messages=(), transactiongroup=None,
                  batch_tracer=1, batch_id=''):
         self.header = BatchHeaderRecord()
         self.fixed_message = Optional(FixedMessageRecord, 4)

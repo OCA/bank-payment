@@ -133,7 +133,7 @@ class NumberField(RightAlignedField):
 class RecordType(object):
     fields = []
 
-    def __init__(self, fields=[]):
+    def __init__(self, fields=()):
         if fields:
             self.fields = fields
         offset = 0

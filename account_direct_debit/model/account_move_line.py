@@ -27,13 +27,15 @@ from openerp.osv import fields, orm
 class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
-    def amount_to_receive(self, cr, uid, ids, name, arg={}, context=None):
+    def amount_to_receive(self, cr, uid, ids, name, arg=None, context=None):
         """
         Return the amount still to receive regarding all the debit orders
         (excepting canceled orders).
         This is the reverse from amount_to_pay() in
         account_payment/account_move_line.py
         """
+        if arg is None:
+            arg = {}
         if not ids:
             return {}
         cr.execute("""SELECT ml.id,

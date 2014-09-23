@@ -26,7 +26,6 @@ import re
 import urllib
 import urllib2
 from BeautifulSoup import BeautifulSoup
-from openerp.addons.account_banking.sepa import postalcode
 from openerp.addons.account_banking_iban_lookup.urlagent import (
     URLAgent,
     SoupForm,
@@ -198,101 +197,3 @@ def bank_info(bic):
     '''
 
     return None, None
-
-    def harvest(soup):
-        retval = struct()
-        for trsoup in soup('tr'):
-            for stage, tdsoup in enumerate(trsoup('td')):
-                if stage == 0:
-                    attr = tdsoup.contents[0].strip().replace(' ', '_')
-                elif stage == 2:
-                    if tdsoup.contents:
-                        retval[attr] = tdsoup.contents[0].strip()
-                    else:
-                        retval[attr] = ''
-        return retval
-
-    # Get form
-    agent = URLAgent()
-    request = agent.open(SWIFTlink)
-    soup = BeautifulSoup(request)
-
-    # Parse request form. As this form is intertwined with a table, use the
-    # parent as root to search for form elements.
-    form = SoupForm(soup.find('form', {'id': 'frmFreeSearch1'}), parent=True)
-
-    # Fill form fields
-    form['selected_bic'] = bic
-
-    # Get intermediate response
-    response = agent.submit(form)
-
-    # Parse response
-    soup = BeautifulSoup(response)
-
-    # Isolate the full 11 BIC - there may be more, but we only use the first
-    bic_button = soup.find('a', {'class': 'bigbuttonblack'})
-    if not bic_button:
-        return None, None
-
-    # Overwrite the location with 'any' ('XXX') to narrow the results to one
-    # or less.
-    # Assume this regexp will never fail...
-    full_bic = bic_re.match(bic_button.get('href')).groups()[0][:8] + 'XXX'
-
-    # Get the detail form
-    form = SoupForm(soup.find('form', {'id': 'frmDetail'}))
-
-    # Fill detail fields
-    form['selected_bic11'] = full_bic
-
-    # Get final response
-    response = agent.submit(form)
-    soup = BeautifulSoup(response)
-
-    # Now parse the results
-    tables = soup.find('div', {'id': 'Middle'}).findAll('table')
-    if not tables:
-        return None, None
-    tablesoup = tables[2]('table')
-    if not tablesoup:
-        return None, None
-
-    codes = harvest(tablesoup[0])
-    if not codes:
-        return None, None
-
-    bankinfo = struct(
-        # Most banks use the first four chars of the BIC as an identifier for
-        # their 'virtual bank' accross the world, containing all national
-        # banks world wide using the same name.
-        # The concatenation with the two character country code is for most
-        # national branches sufficient as a unique identifier.
-        code=full_bic[:6],
-        bic=full_bic,
-        name=codes.Institution_name,
-    )
-
-    address = harvest(tablesoup[1])
-    # The address in the SWIFT database includes a postal code.
-    # We need to split it into two fields...
-    if not address.Zip_Code:
-        if address.Location:
-            iso, address.Zip_Code, address.Location = \
-                postalcode.split(address.Location, full_bic[4:6])
-
-    bankaddress = struct(
-        street=address.Address.title(),
-        city=address.Location.strip().title(),
-        zip=address.Zip_Code,
-        country=address.Country.title(),
-        country_id=full_bic[4:6],
-    )
-    if '  ' in bankaddress.street:
-        bankaddress.street, bankaddress.street2 = [
-            x.strip() for x in bankaddress.street.split('  ', 1)
-        ]
-    else:
-        bankaddress.street2 = ''
-
-    return bankinfo, bankaddress

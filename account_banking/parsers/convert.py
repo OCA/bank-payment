@@ -51,7 +51,7 @@ _SWIFT = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
           "/-?:().,'+ ")
 
 
-def to_swift(astr, schemes=['utf-8', 'latin-1', 'ascii']):
+def to_swift(astr, schemes=('utf-8', 'latin-1', 'ascii')):
     '''
     Reduce a string to SWIFT format
     '''
