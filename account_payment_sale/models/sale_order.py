@@ -44,7 +44,8 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self, order, lines):
         """Copy bank partner from sale order to invoice"""
         vals = super(SaleOrder, self)._prepare_invoice(order, lines)
-        vals['payment_mode_id'] = order.payment_mode_id.id,
-        vals['partner_bank_id'] = (order.payment_mode_id and
-                                   order.payment_mode_id.bank_id.id)
+        if order.payment_mode_id:
+            vals['payment_mode_id'] = order.payment_mode_id.id,
+            vals['partner_bank_id'] = (order.payment_mode_id and
+                                       order.payment_mode_id.bank_id.id)
         return vals
