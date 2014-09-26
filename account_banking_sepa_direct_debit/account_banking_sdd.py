@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 class banking_export_sdd(orm.Model):
     '''SEPA Direct Debit export'''
     _name = 'banking.export.sdd'
-    _description = __doc__
+    _description = 'SEPA Direct Debit export'
     _rec_name = 'filename'
 
     def _generate_filename(self, cr, uid, ids, name, arg, context=None):
@@ -100,23 +100,10 @@ class banking_export_sdd(orm.Model):
 
 class sdd_mandate(orm.Model):
     '''SEPA Direct Debit Mandate'''
-    _name = 'sdd.mandate'
-    _description = __doc__
-    _rec_name = 'unique_mandate_reference'
-    _inherit = ['mail.thread']
-    _order = 'signature_date desc'
+    _name = 'account.banking.mandate'
+    _description = 'SEPA Direct Debit Mandate'
+    _inherit = 'account.banking.mandate'
     _track = {
-        'state': {
-            'account_banking_sepa_direct_debit.mandate_valid':
-            lambda self, cr, uid, obj, ctx=None:
-            obj['state'] == 'valid',
-            'account_banking_sepa_direct_debit.mandate_expired':
-            lambda self, cr, uid, obj, ctx=None:
-            obj['state'] == 'expired',
-            'account_banking_sepa_direct_debit.mandate_cancel':
-            lambda self, cr, uid, obj, ctx=None:
-            obj['state'] == 'cancel',
-            },
         'recurrent_sequence_type': {
             'account_banking_sepa_direct_debit.recurrent_sequence_type_first':
             lambda self, cr, uid, obj, ctx=None:
@@ -132,15 +119,6 @@ class sdd_mandate(orm.Model):
         }
 
     _columns = {
-        'partner_bank_id': fields.many2one(
-            'res.partner.bank', 'Bank Account', track_visibility='onchange'),
-        'partner_id': fields.related(
-            'partner_bank_id', 'partner_id', type='many2one',
-            relation='res.partner', string='Partner', readonly=True),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
-        'unique_mandate_reference': fields.char(
-            'Unique Mandate Reference', size=35, readonly=True,
-            track_visibility='always'),
         'type': fields.selection([
             ('recurrent', 'Recurrent'),
             ('oneoff', 'One-Off'),
@@ -152,24 +130,6 @@ class sdd_mandate(orm.Model):
             ], 'Sequence Type for Next Debit', track_visibility='onchange',
             help="This field is only used for Recurrent mandates, not for "
             "One-Off mandates."),
-        'signature_date': fields.date(
-            'Date of Signature of the Mandate', track_visibility='onchange'),
-        'scan': fields.binary('Scan of the Mandate'),
-        'last_debit_date': fields.date(
-            'Date of the Last Debit', readonly=True),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('valid', 'Valid'),
-            ('expired', 'Expired'),
-            ('cancel', 'Cancelled'),
-            ], 'Status',
-            help="Only valid mandates can be used in a payment line. A "
-            "cancelled mandate is a mandate that has been cancelled by "
-            "the customer. A one-off mandate expires after its first use. "
-            "A recurrent mandate expires after it's final use or if it "
-            "hasn't been used for 36 months."),
-        'payment_line_ids': fields.one2many(
-            'payment.line', 'sdd_mandate_id', "Related Payment Lines"),
         'sepa_migrated': fields.boolean(
             'Migrated to SEPA', track_visibility='onchange',
             help="If this field is not active, the mandate section of the "
@@ -188,57 +148,11 @@ class sdd_mandate(orm.Model):
         }
 
     _defaults = {
-        'company_id': lambda self, cr, uid, context:
-        self.pool['res.company']._company_default_get(
-            cr, uid, 'sdd.mandate', context=context),
-        'unique_mandate_reference': '/',
-        'state': 'draft',
         'sepa_migrated': True,
     }
 
-    _sql_constraints = [(
-        'mandate_ref_company_uniq',
-        'unique(unique_mandate_reference, company_id)',
-        'A Mandate with the same reference already exists for this company !'
-        )]
-
-    def create(self, cr, uid, vals, context=None):
-        if vals.get('unique_mandate_reference', '/') == '/':
-            vals['unique_mandate_reference'] = \
-                self.pool['ir.sequence'].next_by_code(
-                    cr, uid, 'sdd.mandate.reference', context=context)
-        return super(sdd_mandate, self).create(cr, uid, vals, context=context)
-
     def _check_sdd_mandate(self, cr, uid, ids):
         for mandate in self.browse(cr, uid, ids):
-            if (mandate.signature_date and
-                    mandate.signature_date >
-                    datetime.today().strftime('%Y-%m-%d')):
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("The date of signature of mandate '%s' is in the "
-                        "future !")
-                    % mandate.unique_mandate_reference)
-            if mandate.state == 'valid' and not mandate.signature_date:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Cannot validate the mandate '%s' without a date of "
-                        "signature.")
-                    % mandate.unique_mandate_reference)
-            if mandate.state == 'valid' and not mandate.partner_bank_id:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Cannot validate the mandate '%s' because it is not "
-                        "attached to a bank account.")
-                    % mandate.unique_mandate_reference)
-
-            if (mandate.signature_date and mandate.last_debit_date and
-                    mandate.signature_date > mandate.last_debit_date):
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("The mandate '%s' can't have a date of last debit "
-                        "before the date of signature.")
-                    % mandate.unique_mandate_reference)
             if (mandate.type == 'recurrent'
                     and not mandate.recurrent_sequence_type):
                 raise orm.except_orm(
@@ -265,11 +179,17 @@ class sdd_mandate(orm.Model):
 
     _constraints = [
         (_check_sdd_mandate, "Error msg in raise", [
-            'last_debit_date', 'signature_date', 'state', 'partner_bank_id',
             'type', 'recurrent_sequence_type', 'sepa_migrated',
             'original_mandate_identification',
             ]),
     ]
+
+    def create(self, cr, uid, vals, context=None):
+        if vals.get('unique_mandate_reference', '/') == '/':
+            vals['unique_mandate_reference'] = \
+                self.pool['ir.sequence'].next_by_code(
+                    cr, uid, 'sdd.mandate.reference', context=context)
+        return super(sdd_mandate, self).create(cr, uid, vals, context=context)
 
     def mandate_type_change(self, cr, uid, ids, type):
         if type == 'recurrent':
@@ -282,12 +202,8 @@ class sdd_mandate(orm.Model):
     def mandate_partner_bank_change(
             self, cr, uid, ids, partner_bank_id, type, recurrent_sequence_type,
             last_debit_date, state):
-        res = {'value': {}}
-        if partner_bank_id:
-            partner_bank_read = self.pool['res.partner.bank'].read(
-                cr, uid, partner_bank_id, ['partner_id'])['partner_id']
-            if partner_bank_read:
-                res['value']['partner_id'] = partner_bank_read[0]
+        res = super(sdd_mandate, self).mandate_partner_bank_change(
+            cr, uid, ids, partner_bank_id, last_debit_date, state)
         if (state == 'valid' and partner_bank_id
                 and type == 'recurrent'
                 and recurrent_sequence_type != 'first'):
@@ -300,35 +216,6 @@ class sdd_mandate(orm.Model):
                     "'First'."),
                 }
         return res
-
-    def validate(self, cr, uid, ids, context=None):
-        to_validate_ids = []
-        for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state == 'draft', 'Mandate should be in draft state'
-            to_validate_ids.append(mandate.id)
-        self.write(
-            cr, uid, to_validate_ids, {'state': 'valid'}, context=context)
-        return True
-
-    def cancel(self, cr, uid, ids, context=None):
-        to_cancel_ids = []
-        for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state in ('draft', 'valid'),\
-                'Mandate should be in draft or valid state'
-            to_cancel_ids.append(mandate.id)
-        self.write(
-            cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
-        return True
-
-    def back2draft(self, cr, uid, ids, context=None):
-        to_draft_ids = []
-        for mandate in self.browse(cr, uid, ids, context=context):
-            assert mandate.state == 'cancel',\
-                'Mandate should be in cancel state'
-            to_draft_ids.append(mandate.id)
-        self.write(
-            cr, uid, to_draft_ids, {'state': 'draft'}, context=context)
-        return True
 
     def _sdd_mandate_set_state_to_expired(self, cr, uid, context=None):
         logger.info('Searching for SDD Mandates that must be set to Expired')
@@ -352,89 +239,3 @@ class sdd_mandate(orm.Model):
         else:
             logger.info('0 SDD Mandates must be set to Expired')
         return True
-
-
-class res_partner_bank(orm.Model):
-    _inherit = 'res.partner.bank'
-
-    _columns = {
-        'sdd_mandate_ids': fields.one2many(
-            'sdd.mandate', 'partner_bank_id', 'SEPA Direct Debit Mandates'),
-        }
-
-
-class payment_line(orm.Model):
-    _inherit = 'payment.line'
-
-    _columns = {
-        'sdd_mandate_id': fields.many2one(
-            'sdd.mandate', 'SEPA Direct Debit Mandate',
-            domain=[('state', '=', 'valid')]),
-        }
-
-    def create(self, cr, uid, vals, context=None):
-        '''If the customer invoice has a mandate, take it
-        otherwise, take the first valid mandate of the bank account'''
-        if context is None:
-            context = {}
-        if not vals:
-            vals = {}
-        partner_bank_id = vals.get('bank_id')
-        move_line_id = vals.get('move_line_id')
-        if (context.get('default_payment_order_type') == 'debit'
-                and 'sdd_mandate_id' not in vals):
-            if move_line_id:
-                line = self.pool['account.move.line'].browse(
-                    cr, uid, move_line_id, context=context)
-                if (line.invoice and line.invoice.type == 'out_invoice'
-                        and line.invoice.sdd_mandate_id):
-                    vals.update({
-                        'sdd_mandate_id': line.invoice.sdd_mandate_id.id,
-                        'bank_id':
-                        line.invoice.sdd_mandate_id.partner_bank_id.id,
-                    })
-            if partner_bank_id and 'sdd_mandate_id' not in vals:
-                mandate_ids = self.pool['sdd.mandate'].search(cr, uid, [
-                    ('partner_bank_id', '=', partner_bank_id),
-                    ('state', '=', 'valid'),
-                    ], context=context)
-                if mandate_ids:
-                    vals['sdd_mandate_id'] = mandate_ids[0]
-        return super(payment_line, self).create(cr, uid, vals, context=context)
-
-    def _check_mandate_bank_link(self, cr, uid, ids):
-        for payline in self.browse(cr, uid, ids):
-            if (payline.sdd_mandate_id and payline.bank_id
-                    and payline.sdd_mandate_id.partner_bank_id.id !=
-                    payline.bank_id.id):
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("The payment line with reference '%s' has the bank "
-                        "account '%s' which is not attached to the mandate "
-                        "'%s' (this mandate is attached to the bank account "
-                        "'%s').") % (
-                        payline.name,
-                        self.pool['res.partner.bank'].name_get(
-                            cr, uid, [payline.bank_id.id])[0][1],
-                        payline.sdd_mandate_id.unique_mandate_reference,
-                        self.pool['res.partner.bank'].name_get(
-                            cr, uid,
-                            [payline.sdd_mandate_id.partner_bank_id.id])[0][1],
-                    ))
-        return True
-
-    _constraints = [
-        (_check_mandate_bank_link, 'Error msg in raise',
-            ['sdd_mandate_id', 'bank_id']),
-    ]
-
-
-class account_invoice(orm.Model):
-    _inherit = 'account.invoice'
-
-    _columns = {
-        'sdd_mandate_id': fields.many2one(
-            'sdd.mandate', 'SEPA Direct Debit Mandate',
-            domain=[('state', '=', 'valid')], readonly=True,
-            states={'draft': [('readonly', False)]})
-        }
