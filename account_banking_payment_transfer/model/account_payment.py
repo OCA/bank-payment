@@ -207,12 +207,7 @@ class payment_order(orm.Model):
             self, cr, uid, order, line, vals, context=None):
         vals.update({
             'partner_id': line.partner_id.id,
-            'account_id': (line.move_line_id
-                           and line.move_line_id.account_id.id
-                           or False),
-            # if not line.move_line_id, the field 'account_id' must be set by
-            # another module that inherit this function, like for example in
-            # the module purchase_payment_order
+            'account_id': line.move_line_id.account_id.id,
             'credit': (order.payment_order_type == 'debit'
                        and line.amount or 0.0),
             'debit': (order.payment_order_type == 'payment'
@@ -242,8 +237,10 @@ class payment_order(orm.Model):
                     or not order.mode.transfer_account_id:
                 continue
             for line in order.line_ids:
+                if not line.move_line_id:
+                    continue
                 # basic checks
-                if line.move_line_id and line.move_line_id.reconcile_id:
+                if line.move_line_id.reconcile_id:
                     raise orm.except_orm(
                         _('Error'),
                         _('Move line %s has already been paid/reconciled')
