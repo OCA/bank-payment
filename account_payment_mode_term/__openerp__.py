@@ -24,24 +24,24 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+{
+    'name': 'Account Banking - Payments Term Filter',
+    'version': '0.1.1',
+    'license': 'AGPL-3',
+    'author': 'Banking addons community',
+    'website': 'https://github.com/OCA/banking',
+    'category': 'Banking addons',
+    'depends': [
+        'account_banking_payment_export',
+    ],
+    'data': [
+        'views/payment_mode.xml',
+    ],
+    'description': '''Payment term filter on payment mode.
 
-
-# TODO: extract this in anoter module such as account_banking_payment_term
-
-
-class payment_order_create(orm.TransientModel):
-    _inherit = 'payment.order.create'
-
-    def extend_payment_order_domain(
-            self, cr, uid, payment_order, domain, context=None):
-        super(payment_order_create, self).extend_payment_order_domain(
-            cr, uid, payment_order, domain, context=context)
-        # apply payment term filter
-        if payment_order.mode.payment_term_ids:
-            domain += [
-                ('invoice.payment_term', 'in',
-                 [term.id for term in payment_order.mode.payment_term_ids]
-                 )
-                ]
-        return True
+    When set, only open invoices corresponding to the mode's
+    payment term are proposed when populating payment orders.
+    ''',
+    'auto_install': False,
+    'installable': True,
+}

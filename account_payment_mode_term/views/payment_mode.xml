@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- 
+             Add the payment mode term filter settings
+        -->
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <group colspan="2">
+                        <separator colspan="2"
+                                   string="Optional filter by payment term" />
+                        <field name="payment_term_ids" nolabel="1" colspan="2"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
