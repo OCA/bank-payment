@@ -358,5 +358,5 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         self.setup_payment_config(reg, cr, uid)
         self.setup_payment(reg, cr, uid)
         self.export_payment(reg, cr, uid)
-        self.setup_bank_statement(reg, cr, uid)
+        # self.setup_bank_statement(reg, cr, uid)
         self.check_reconciliations(reg, cr, uid)

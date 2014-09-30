@@ -27,7 +27,7 @@
     'category': 'Banking addons',
     'depends': [
         'account_accountant',
-        'account_banking_payment',
+        'account_banking_payment_transfer',
         'account_banking_sepa_credit_transfer',
         ],
     'description': '''
@@ -37,5 +37,5 @@ dependencies installed, so that you can run the tests. If you only
 run the tests manually, you don't even have to install this module,
 only its dependencies.
     ''',
-    'installable': False,
+    'installable': True,
 }
