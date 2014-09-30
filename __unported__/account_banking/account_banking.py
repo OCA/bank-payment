@@ -621,22 +621,6 @@ class account_bank_statement_line(orm.Model):
 
 
 class invoice(orm.Model):
-    '''
-    Create other reference types as well.
-
-    Descendant classes can extend this function to add more reference
-    types, ie.
-
-    def _get_reference_type(self, cr, uid, context=None):
-        return super(my_class, self)._get_reference_type(cr, uid,
-            context=context) + [('my_ref', _('My reference')]
-
-    Don't forget to redefine the column "reference_type" as below or
-    your method will never be triggered.
-
-    TODO: move 'structured' part to account_banking_payment module
-    where it belongs
-    '''
     _inherit = 'account.invoice'
 
     def test_undo_paid(self, cr, uid, ids, context=None):
@@ -649,16 +633,3 @@ class invoice(orm.Model):
                 return False
         return True
 
-    def _get_reference_type(self, cr, uid, context=None):
-        '''
-        Return the list of reference types
-        '''
-        return [('none', _('Free Reference')),
-                ('structured', _('Structured Reference')),
-                ]
-
-    _columns = {
-        'reference_type': fields.selection(_get_reference_type,
-                                           'Reference Type', required=True
-                                           )
-    }
