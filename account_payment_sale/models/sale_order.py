@@ -46,6 +46,5 @@ class SaleOrder(models.Model):
         vals = super(SaleOrder, self)._prepare_invoice(order, lines)
         if order.payment_mode_id:
             vals['payment_mode_id'] = order.payment_mode_id.id,
-            vals['partner_bank_id'] = (order.payment_mode_id and
-                                       order.payment_mode_id.bank_id.id)
+            vals['partner_bank_id'] = order.payment_mode_id.bank_id.id
         return vals
