@@ -34,6 +34,7 @@
         'account_banking_payment_export'
     ],
     'data': [
+             'view/account_invoice_view.xml'
     ],
     'test': [
     ],
