@@ -51,3 +51,62 @@ be filtered per Payment Mode.
     'demo': ['demo/partner_demo.xml'],
     'installable': True,
 }
+
+from openerp import models, fields, api, exceptions
+from datetime import datetime
+
+
+class CrmLead(models.Model):
+    _inherit = 'crm.lead'
+
+    @api.one
+    @api.constrains('state', 'code')
+    def _check_code(self):
+        if self.state == 'won':
+            if not self.code:
+                raise exceptions.Warning('Debe poner un código cuando la etapa se pasa a ganado.')
+
+    @api.constrains('state', 'code')
+    def _check_code(self):
+        for record in self:
+            if record.state == 'won':
+                if not record.code:
+                    raise exceptions.Warning('Debe poner un código cuando la etapa se pasa a ganado.')
+
+    def do_something(self, vals):
+        pass
+
+    def create(self, vals):
+        # Complementar valores del create
+        rec_id = super(CrmLead, self).create(vals)
+        # Crear registros accesorios
+        analytic_acc_obj = self.env['account.analytic.account']
+        analytic_acc_obj.create({'name': vals['name'],
+                                 'type': 'project',
+                                 'date': datetime.now(),
+                                 'project_id': rec_id})
+        analytic_accs = analytic_acc_obj.search([('type', '=', 'project')],
+                                                order='partner_id', limit=1)
+        analytic_accs.write({'partner_id': 1})
+        return rec_id
+
+    def copy(self, default):
+        default['name'] = self.name + " (copia)"
+        return super(CrmLead, self).copy(default)
+
+    def search(self, domain):
+        return {1: {''}, 2: {} }
+
+    @api.one
+    def unlink(self):
+        if self.state in ('to_invoice', 'done'):
+            raise exceptions.Warning('No se puede borrar un pedido confirmado.')
+        super(CrmLead, self).unlink()
+        return True
+
+    def write(self, vals):
+        if vals.get('state') == 'won':
+            for record in self:
+                if not record.code and not vals.get('code'):
+                    raise exceptions.Warning('Debe poner un código cuando la etapa se pasa a ganado.')
+        return super(CrmLead, self).write(vals)
