@@ -26,7 +26,10 @@ from openerp import models, fields, api
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    payment_mode_id = fields.Many2one('payment.mode', string="Payment Mode")
+    type = fields.Selection('out', 'in')
+
+    payment_mode_id = fields.Many2one('payment.mode', string="Payment Mode",
+                                      domain="[('type', '=', type)]")
 
     @api.multi
     def onchange_partner_id(
