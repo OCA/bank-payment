@@ -23,8 +23,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, exceptions, _
-from openerp import netsvc
+from openerp import models, fields, api, exceptions, workflow, _
 
 
 class PaymentOrder(models.Model):
@@ -70,8 +69,7 @@ class PaymentOrder(models.Model):
                         _('You can only combine payment orders of the same '
                           'type'))
             # process manual payments
-            wf_service = netsvc.LocalService('workflow')
             for order_id in self.ids:
-                wf_service.trg_validate(self.env.uid, 'payment.order',
-                                        order_id, 'done', self.env.cr)
+                workflow.trg_validate(self.env.uid, 'payment.order',
+                                      order_id, 'done', self.env.cr)
             return {}

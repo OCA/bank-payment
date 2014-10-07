@@ -27,7 +27,7 @@
 bank transfers.
 """
 
-from openerp import models, api, netsvc
+from openerp import models, api, workflow
 
 
 class PaymentManual(models.TransientModel):
@@ -36,8 +36,7 @@ class PaymentManual(models.TransientModel):
 
     @api.multi
     def button_ok(self):
-        wf_service = netsvc.LocalService('workflow')
         for order_id in self.env.context.get('active_ids', []):
-            wf_service.trg_validate(self.env.uid, 'payment.order', order_id,
-                                    'done', self.env.cr)
+            workflow.trg_validate(self.env.uid, 'payment.order', order_id,
+                                  'done', self.env.cr)
         return {'type': 'ir.actions.act_window_close'}

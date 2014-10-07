@@ -23,7 +23,7 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp import netsvc
+from openerp import workflow
 from lxml import etree
 
 
@@ -273,7 +273,6 @@ class banking_export_sepa_wizard(orm.TransientModel):
         self.pool['banking.export.sepa'].write(
             cr, uid, sepa_export.file_id.id, {'state': 'sent'},
             context=context)
-        wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
+            workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
         return {'type': 'ir.actions.act_window_close'}
