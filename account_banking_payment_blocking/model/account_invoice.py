@@ -64,9 +64,9 @@ class account_invoice(orm.Model):
         return res
 
     _columns = {
-        'move_blocked': fields.function(_get_move_blocked,
-                                        fnct_inv=_set_move_blocked,
-                                        type='boolean', string='No Follow Up',
-                                        states={'draft': [('readonly',
-                                                           True)]}),
+        'blocked': fields.function(_get_move_blocked,
+                                   fnct_inv=_set_move_blocked,
+                                   type='boolean', string='No Follow Up',
+                                   states={'draft': [('readonly',
+                                                      True)]}),
     }

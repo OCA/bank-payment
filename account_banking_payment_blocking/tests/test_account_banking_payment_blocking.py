@@ -70,12 +70,12 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
                                          ['payable', 'receivable']),
                                         ('invoice.id', '=', invoice.id)])
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]
-        self.assertEqual(invoice.move_blocked, move_line.blocked,
+        self.assertEqual(invoice.blocked, move_line.blocked,
                          'Blocked values are not equals')
         move_line_obj.write(self.cr, self.uid, move_line_ids,
                             {'blocked': True})
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
                                      context=self.context)[0]
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]
-        self.assertEqual(invoice.move_blocked, move_line.blocked,
+        self.assertEqual(invoice.blocked, move_line.blocked,
                          'Blocked values are not equals')

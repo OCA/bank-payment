@@ -7,7 +7,7 @@
                 <field name="inherit_id" ref="account.invoice_supplier_form"/>
                 <field name="arch" type="xml">
                     <field name="move_id" position="after">
-                        <field name="move_blocked"/>
+                        <field name="blocked"/>
                     </field>
                 </field>
             </record>
