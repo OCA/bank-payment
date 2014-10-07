@@ -569,7 +569,7 @@ msgstr "Ancien mandat requis (SEPA)"
 #: field:payment.line,sdd_mandate_id:0
 #: view:sdd.mandate:0
 msgid "SEPA Direct Debit Mandate"
-msgstr "Mandat de prélèvement SEPA"
+msgstr "Mandat de débit direct SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:193
@@ -578,7 +578,7 @@ msgid ""
 "Missing SEPA Direct Debit mandate on the payment line with partner '%s' and "
 "Invoice ref '%s'."
 msgstr ""
-"Mandat de prélèvement SEPA manquant sur la ligne de paiement ayant pour "
+"Mandat de débit direct SEPA manquant sur la ligne de paiement ayant pour "
 "partenaire '%s' et pour référence de facture '%s'."
 
 #. module: account_banking_sepa_direct_debit
@@ -629,9 +629,9 @@ msgid ""
 "    "
 msgstr ""
 "<p class=\"oe_view_nocontent_create\">\n"
-"        Cliquez pour créer un mandat de prélèvement SEPA.\n"
+"        Cliquez pour créer un mandat de débit direct SEPA.\n"
 "        </p><p>\n"
-"        Un mandat de prélèvement SEPA est un document signé par votre client "
+"        Un mandat de débit direct SEPA est un document signé par votre client "
 "qui vous donne l'autorisation de réaliser un ou plusieurs prélèvements sur "
 "son compte bancaire.\n"
 "        </p>\n"
@@ -741,7 +741,7 @@ msgstr "Messages and communication history"
 #. module: account_banking_sepa_direct_debit
 #: view:sdd.mandate:0
 msgid "Search SEPA Direct Debit Mandates"
-msgstr "Recherche dans les mandats de prélèvement SEPA"
+msgstr "Recherche dans les mandats de débit direct SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,file:0
