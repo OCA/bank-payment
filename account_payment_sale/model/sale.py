@@ -38,7 +38,7 @@ class sale_order(orm.Model):
             partner = self.pool['res.partner'].browse(
                 cr, uid, part, context=context)
             res['value']['payment_mode_id'] = \
-                partner.customer_payment_mode.id or False,
+                partner.customer_payment_mode.id or False
         else:
             res['value']['payment_mode_id'] = False
         return res
