@@ -26,22 +26,26 @@ from openerp.osv import orm, fields
 class account_invoice(orm.Model):
     _inherit = "account.invoice"
 
+    def _get_move_line(self, cr, uid, invoice_id, context=None):
+        return self.pool.get('account.move.line')\
+            .search(cr, uid, [('account_id.type', 'in',
+                              ['payable', 'receivable']),
+                              ('invoice.id', '=', invoice_id)])
+
     def _set_move_blocked(self, cr, uid, ids, name, field_value, arg,
                           context=None):
         if isinstance(ids, (int, long)):
                 ids = [ids]
         for invoice in self.browse(cr, uid, ids, context=context):
             if invoice.move_id.id:
-                move_line_obj = self.pool.get('account.move.line')
-                move_line_ids = move_line_obj\
-                    .search(cr, uid, [('account_id.type', 'in',
-                                       ['payable', 'receivable']),
-                                      ('invoice.id', '=', invoice.id)])
+                move_line_ids = self._get_move_line(cr, uid, invoice.id,
+                                                    context=context)
                 assert len(move_line_ids) == 1
                 # work with account_constraints from OCA/AFT:
                 context.update({'from_parent_object': True})
-                move_line_obj.write(cr, uid, move_line_ids,
-                                    {'blocked': field_value}, context=context)
+                self.pool.get('account.move.line')\
+                    .write(cr, uid, move_line_ids, {'blocked': field_value},
+                           context=context)
 
     def _get_move_blocked(self, cr, uid, ids, name, arg, context=None):
         res = {}
@@ -49,14 +53,11 @@ class account_invoice(orm.Model):
                 ids = [ids]
         for invoice in self.browse(cr, uid, ids, context=context):
             if invoice.move_id.id:
-                move_line_obj = self.pool.get('account.move.line')
-                move_line_ids = move_line_obj\
-                    .search(cr, uid, [('account_id.type', 'in',
-                                       ['payable', 'receivable']),
-                                      ('invoice.id', '=', invoice.id)])
+                move_line_ids = self._get_move_line(cr, uid, invoice.id,
+                                                    context=context)
                 assert len(move_line_ids) == 1
-                move_line = move_line_obj.browse(cr, uid, move_line_ids,
-                                                 context=context)[0]
+                move_line = self.pool.get('account.move.line')\
+                    .browse(cr, uid, move_line_ids, context=context)[0]
                 res[invoice.id] = move_line.blocked
             else:
                 res[invoice.id] = False
