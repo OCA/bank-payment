@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-08 14:35+0000\n"
-"PO-Revision-Date: 2014-10-08 10:36-0500\n"
+"POT-Creation-Date: 2014-10-08 15:44+0000\n"
+"PO-Revision-Date: 2014-10-08 11:52-0500\n"
 "Last-Translator: EL Hadji DEM <elhadji.dem@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,17 @@ msgid "Direct Debit Mandates"
 msgstr ""
 
 #. module: account_banking_mandate
+#: model:mail.message.subtype,description:account_banking_mandate.mandate_cancel
+msgid "Banking Mandate Cancelled"
+msgstr ""
+
+#. module: account_banking_mandate
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:174
+#, python-format
+msgid "Mandate should be in draft or valid state"
+msgstr ""
+
+#. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/payment_line.py:76
 #, python-format
 msgid ""
@@ -31,26 +42,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: model:mail.message.subtype,description:account_banking_mandate.mandate_cancel
-msgid "Banking Mandate Cancelled"
-msgstr ""
-
-#. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:172
-#, python-format
-msgid "Mandate should be in draft or valid state"
-msgstr ""
-
-#. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:119
-#, python-format
-msgid ""
-"The mandate '%s' can't have a date of last debit before the date of "
-"signature."
-msgstr ""
-
-#. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:135
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:137
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -76,6 +68,8 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:54
+#, python-format
 msgid "Draft"
 msgstr ""
 
@@ -95,8 +89,11 @@ msgid "Direct Debit Mandate"
 msgstr ""
 
 #. module: account_banking_mandate
-#: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
-msgid "SEPA Direct Debit Mandates"
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:121
+#, python-format
+msgid ""
+"The mandate '%s' can't have a date of last debit before the date of "
+"signature."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -110,7 +107,7 @@ msgid "Mandate Cancelled"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:187
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:189
 #, python-format
 msgid "Mandate should be in cancel state"
 msgstr ""
@@ -128,6 +125,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/partner_bank.py:34
 #: model:ir.actions.act_window,name:account_banking_mandate.mandate_action
+#: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
 #: field:res.partner.bank,mandate_ids:0
 #, python-format
 msgid "Banking Mandates"
@@ -154,7 +152,7 @@ msgid "Payment Line"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:161
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:163
 #, python-format
 msgid "Mandate should be in draft state"
 msgstr ""
@@ -180,10 +178,10 @@ msgid "Unique Mandate Reference"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:110
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:118
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:128
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:134
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:112
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:120
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:130
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:136
 #: code:addons/account_banking_mandate/model/payment_line.py:75
 #, python-format
 msgid "Error:"
@@ -200,7 +198,7 @@ msgid "Messages"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:111
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:113
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future !"
 msgstr ""
@@ -227,11 +225,13 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:57
+#, python-format
 msgid "Cancelled"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:129
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:131
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr ""
@@ -275,6 +275,8 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:56
+#, python-format
 msgid "Expired"
 msgstr ""
 
@@ -323,6 +325,8 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:55
+#, python-format
 msgid "Valid"
 msgstr ""
 
