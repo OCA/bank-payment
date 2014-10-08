@@ -32,4 +32,4 @@ class account_invoice(orm.Model):
             'account.banking.mandate', 'Direct Debit Mandate',
             domain=[('state', '=', 'valid')], readonly=True,
             states={'draft': [('readonly', False)]})
-        }
+    }
