@@ -1,0 +1,36 @@
+-
+  In order to test mandate, I create a partner with a bank account. 
+  Then, I create a mandate, validate it, cancel it and the set it back to draft
+
+  I create a partner
+-
+  !record {model: res.partner, id: mandate_partner, view: False}:
+    name: "Mandate test"
+-
+  I create a partner bank account
+-
+  !record {model: res.partner.bank, id: mandate_partner_bank, view: False}:
+    state: 'bank'
+    acc_number: '1234'
+    partner_id: mandate_partner
+-
+  I create a mandate on 1st January
+-
+  !record {model: account.banking.mandate, id: test_mandate, view: False}:
+    partner_bank_id: mandate_partner_bank
+    signature_date: "2014-01-01"
+
+-
+  I check that the state field is automatically set by default
+-
+  !assert {model: account.banking.mandate, id: test_mandate}:
+    - state == 'draft'
+-
+  I go through all states by clicking on buttons and check that cancel state is reached
+-
+  !python {model: account.banking.mandate}: |
+    self.validate(cr, uid, [ref('test_mandate')])
+    self.cancel(cr, uid, [ref('test_mandate')])
+    mandate = self.browse(cr, uid, ref('test_mandate'))
+    assert mandate.state == 'cancel', 'Mandate is not in cancel state'
+    self.back2draft(cr, uid, [ref('test_mandate')])
