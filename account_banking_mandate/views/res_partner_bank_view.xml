@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+<record id="mandate_partner_bank_form" model="ir.ui.view">
+    <field name="name">mandate.res.partner.bank.form</field>
+    <field name="model">res.partner.bank</field>
+    <field name="inherit_id" ref="base.view_partner_bank_form"/>
+    <field name="arch" type="xml">
+        <group name="bank" position="after">
+            <group name="mandates" string="Direct Debit Mandates" colspan="4">
+                <field name="mandate_ids" context="{'default_partner_bank_id': active_id, 'mandate_bank_partner_view': True}" nolabel="1"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+<record id="mandate_partner_bank_tree" model="ir.ui.view">
+    <field name="name">mandate.res.partner.bank.tree</field>
+    <field name="model">res.partner.bank</field>
+    <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="mandate_ids" string="DD Mandates"/>
+        </field>
+    </field>
+</record>
+
+<!-- add number of mandates in this list of bank accounts
+on the partner form -->
+<record id="mandate_partner_form" model="ir.ui.view">
+    <field name="name">mandate.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.view_partner_property_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='bank_ids']/tree/field[@name='owner_name']" position="after">
+            <field name="mandate_ids" string="DD Mandates"/>
+        </xpath>
+    </field>
+</record>
+
+</data>
+</openerp>
