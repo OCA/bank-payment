@@ -118,18 +118,32 @@ class sdd_mandate(orm.Model):
         }
     }
 
+    def _get_type(self, cr, uid, context=None):
+        return [
+            ('recurrent', _('Recurrent')),
+            ('oneoff', _('One-Off')),
+        ]
+
+    def _get_recurrent_sequence_type(self, cr, uid, context=None):
+        return [
+            ('first', _('First')),
+            ('recurring', _('Recurring')),
+            ('final', _('Final')),
+        ]
+
     _columns = {
-        'type': fields.selection([
-            ('recurrent', 'Recurrent'),
-            ('oneoff', 'One-Off'),
-        ], 'Type of Mandate', required=True, track_visibility='always'),
-        'recurrent_sequence_type': fields.selection([
-            ('first', 'First'),
-            ('recurring', 'Recurring'),
-            ('final', 'Final'),
-        ], 'Sequence Type for Next Debit', track_visibility='onchange',
+        'type': fields.selection(
+            lambda self, *a, **kw: self._get_type(*a, **kw),
+            string='Type of Mandate',
+            required=True, track_visibility='always'
+        ),
+        'recurrent_sequence_type': fields.selection(
+            lambda self, *a, **kw: self._get_recurrent_sequence_type(*a, **kw),
+            string='Sequence Type for Next Debit',
+            track_visibility='onchange',
             help="This field is only used for Recurrent mandates, not for "
-            "One-Off mandates."),
+            "One-Off mandates."
+        ),
         'sepa_migrated': fields.boolean(
             'Migrated to SEPA', track_visibility='onchange',
             help="If this field is not active, the mandate section of the "
