@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-08 14:06+0000\n"
-"PO-Revision-Date: 2014-10-08 10:07-0500\n"
+"POT-Creation-Date: 2014-10-08 14:08+0000\n"
+"PO-Revision-Date: 2014-10-08 10:23-0500\n"
 "Last-Translator: EL Hadji DEM <elhadji.dem@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,158 +22,160 @@ msgstr ""
 #: view:payment.mode.type:0 help:payment.mode.type,name:0
 #: field:payment.order,mode_type:0
 msgid "Payment Type"
-msgstr ""
+msgstr "Type de paiement"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de paiement"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,payment_order_type:0
 msgid "Payment Order Type"
-msgstr ""
+msgstr "Type d'ordre de paiement"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:0
 msgid ""
 "Please execute payment order manually, and click OK when succesfully sent."
 msgstr ""
+"S'il vous plaît exécuter l'ordre de paiement manuellement et cliquez sur OK "
+"lorsque succès envoyé."
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Mode de paiement"
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:0
 msgid "{'journal_type': 'sale'}"
-msgstr ""
+msgstr "{'journal_type': 'sale'}"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/account_payment.py:84
 #, python-format
 msgid "You can only combine payment orders of the same type"
-msgstr ""
+msgstr "Vous ne pouvez combiner des paiements du même type"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
 msgid "Payment Mode Type"
-msgstr ""
+msgstr "Type d'ordre de paiement"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Actif"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,payment_order_type:0
 #: selection:payment.mode.type,payment_order_type:0
 #: selection:payment.order,payment_order_type:0
 msgid "Payment"
-msgstr ""
+msgstr "Paiement"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_manual
 msgid "Send payment order(s) manually"
-msgstr ""
+msgstr "Envoyer le(s)ordre(s) de paiement manuellement"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,payment_order_type:0
 #: selection:payment.mode.type,payment_order_type:0
 #: selection:payment.order,payment_order_type:0
 msgid "Direct debit"
-msgstr ""
+msgstr "Débit direct"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:0
 msgid "Manual payment"
-msgstr ""
+msgstr "Paiement manuel"
 
 #. module: account_banking_payment_export
 #: field:payment.manual,payment_order_ids:0
 msgid "Payment orders"
-msgstr ""
+msgstr "Ordres de paiement"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/account_payment.py:67
 #, python-format
 msgid "Payment Order Export"
-msgstr ""
+msgstr "Exporter l'ordre de paiement"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Écritures comptables"
 
 #. module: account_banking_payment_export
 #: help:payment.mode,type:0
 msgid "Select the Payment Type for the Payment Mode."
-msgstr ""
+msgstr "Sélectionnez le type de paiement pour le mode de paiement."
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:0
 msgid "Payment Types"
-msgstr ""
+msgstr "Types de paiement"
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,code:0
 msgid "Specify the Code for Payment Type"
-msgstr ""
+msgstr "Indiquez le code du  type de paiement"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order_create
 msgid "payment.order.create"
-msgstr ""
+msgstr "payment.order.create"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/account_payment.py:83
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,ir_model_id:0
 msgid "Payment wizard"
-msgstr ""
+msgstr "Assistant de paiement"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,payment_order_type:0
 #: field:payment.order,payment_order_type:0
 msgid "Payment order type"
-msgstr ""
+msgstr "Type d'ordre de  paiement"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,type:0
 msgid "Payment type"
-msgstr ""
+msgstr "Type de paiement"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:0
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/payment_order_create.py:82
 #, python-format
 msgid "Entry Lines"
-msgstr ""
+msgstr "Lignes d'entrée"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/payment_order_create.py:194
 #, python-format
 msgid "Payment Orders"
-msgstr ""
+msgstr "Ordres de paiement"
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,ir_model_id:0
@@ -181,18 +183,20 @@ msgid ""
 "Select the Payment Wizard for payments of this type. Leave empty for manual "
 "processing"
 msgstr ""
+"Sélectionnez l'assistant de paiement pour les paiements de ce type. Laissez "
+"vide pour le traitement manuel"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:0
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #. module: account_banking_payment_export
 #: view:payment.order:0
 msgid "launch_wizard"
-msgstr ""
+msgstr "launch_wizard"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,suitable_bank_types:0
 msgid "Suitable bank types"
-msgstr ""
+msgstr "Types de banques convenables"
