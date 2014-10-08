@@ -20,9 +20,6 @@
 #
 ##############################################################################
 
-from . import account_invoice
 from . import banking_export_sdd
-from . import payment_line
 from . import res_company
-from . import res_partner_bank
-from . import sdd_mandate
+from . import account_banking_mandate
