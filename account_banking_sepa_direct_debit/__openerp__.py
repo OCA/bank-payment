@@ -28,7 +28,11 @@
     'website': 'http://www.akretion.com',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'category': 'Banking addons',
-    'depends': ['account_direct_debit', 'account_banking_pain_base'],
+    'depends': [
+        'account_direct_debit',
+        'account_banking_pain_base',
+        'account_banking_mandate',
+    ],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
     },
