@@ -93,7 +93,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         previous_bank = False
         payline_ids = payline_obj.search(
             cr, uid, [
-                ('sdd_mandate_id', '=', payline.sdd_mandate_id.id),
+                ('mandate_id', '=', payline.mandate_id.id),
                 ('bank_id', '!=', payline.bank_id.id),
             ],
             context=context)
@@ -188,23 +188,23 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     requested_date = payment_order.date_scheduled or today
                 else:
                     requested_date = today
-                if not line.sdd_mandate_id:
+                if not line.mandate_id:
                     raise orm.except_orm(
                         _('Error:'),
                         _("Missing SEPA Direct Debit mandate on the payment "
                             "line with partner '%s' and Invoice ref '%s'.")
                         % (line.partner_id.name,
                             line.ml_inv_ref.number))
-                scheme = line.sdd_mandate_id.scheme
-                if line.sdd_mandate_id.state != 'valid':
+                scheme = line.mandate_id.scheme
+                if line.mandate_id.state != 'valid':
                     raise orm.except_orm(
                         _('Error:'),
                         _("The SEPA Direct Debit mandate with reference '%s' "
                             "for partner '%s' has expired.")
-                        % (line.sdd_mandate_id.unique_mandate_reference,
-                            line.sdd_mandate_id.partner_id.name))
-                if line.sdd_mandate_id.type == 'oneoff':
-                    if not line.sdd_mandate_id.last_debit_date:
+                        % (line.mandate_id.unique_mandate_reference,
+                            line.mandate_id.partner_id.name))
+                if line.mandate_id.type == 'oneoff':
+                    if not line.mandate_id.last_debit_date:
                         seq_type = 'OOFF'
                     else:
                         raise orm.except_orm(
@@ -213,17 +213,17 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 "'%s' has type set to 'One-Off' and it has a "
                                 "last debit date set to '%s', so we can't use "
                                 "it.")
-                            % (line.sdd_mandate_id.unique_mandate_reference,
-                                line.sdd_mandate_id.partner_id.name,
-                                line.sdd_mandate_id.last_debit_date))
-                elif line.sdd_mandate_id.type == 'recurrent':
+                            % (line.mandate_id.unique_mandate_reference,
+                                line.mandate_id.partner_id.name,
+                                line.mandate_id.last_debit_date))
+                elif line.mandate_id.type == 'recurrent':
                     seq_type_map = {
                         'recurring': 'RCUR',
                         'first': 'FRST',
                         'final': 'FNAL',
                         }
                     seq_type_label = \
-                        line.sdd_mandate_id.recurrent_sequence_type
+                        line.mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
                 key = (requested_date, priority, seq_type, scheme)
@@ -306,22 +306,22 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     mandate_related_info_2_47, 'MndtId')
                 mandate_identification_2_48.text = self._prepare_field(
                     cr, uid, 'Unique Mandate Reference',
-                    'line.sdd_mandate_id.unique_mandate_reference',
+                    'line.mandate_id.unique_mandate_reference',
                     {'line': line}, 35,
                     gen_args=gen_args, context=context)
                 mandate_signature_date_2_49 = etree.SubElement(
                     mandate_related_info_2_47, 'DtOfSgntr')
                 mandate_signature_date_2_49.text = self._prepare_field(
                     cr, uid, 'Mandate Signature Date',
-                    'line.sdd_mandate_id.signature_date',
+                    'line.mandate_id.signature_date',
                     {'line': line}, 10,
                     gen_args=gen_args, context=context)
                 if sequence_type == 'FRST' and (
-                        line.sdd_mandate_id.last_debit_date or
-                        not line.sdd_mandate_id.sepa_migrated):
+                        line.mandate_id.last_debit_date or
+                        not line.mandate_id.sepa_migrated):
                     previous_bank = self._get_previous_bank(
                         cr, uid, line, context=context)
-                    if previous_bank or not line.sdd_mandate_id.sepa_migrated:
+                    if previous_bank or not line.mandate_id.sepa_migrated:
                         amendment_indicator_2_50 = etree.SubElement(
                             mandate_related_info_2_47, 'AmdmntInd')
                         amendment_indicator_2_50.text = 'true'
@@ -362,13 +362,13 @@ class banking_export_sdd_wizard(orm.TransientModel):
                                 ori_debtor_agent_other, 'Id')
                             ori_debtor_agent_other_id.text = 'SMNDA'
                             # SMNDA = Same Mandate New Debtor Agent
-                    elif not line.sdd_mandate_id.sepa_migrated:
+                    elif not line.mandate_id.sepa_migrated:
                         ori_mandate_identification_2_52 = etree.SubElement(
                             amendment_info_details_2_51, 'OrgnlMndtId')
                         ori_mandate_identification_2_52.text = \
                             self._prepare_field(
                                 cr, uid, 'Original Mandate Identification',
-                                'line.sdd_mandate_id.'
+                                'line.mandate_id.'
                                 'original_mandate_identification',
                                 {'line': line},
                                 gen_args=gen_args,
@@ -424,25 +424,25 @@ class banking_export_sdd_wizard(orm.TransientModel):
             context=context)
         for order in sepa_export.payment_order_ids:
             workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
-            mandate_ids = [line.sdd_mandate_id.id for line in order.line_ids]
-            self.pool['sdd.mandate'].write(
+            mandate_ids = [line.mandate_id.id for line in order.line_ids]
+            self.pool['account.banking.mandate'].write(
                 cr, uid, mandate_ids,
                 {'last_debit_date': datetime.today().strftime('%Y-%m-%d')},
                 context=context)
             to_expire_ids = []
             first_mandate_ids = []
             for line in order.line_ids:
-                if line.sdd_mandate_id.type == 'oneoff':
-                    to_expire_ids.append(line.sdd_mandate_id.id)
-                elif line.sdd_mandate_id.type == 'recurrent':
-                    seq_type = line.sdd_mandate_id.recurrent_sequence_type
+                if line.mandate_id.type == 'oneoff':
+                    to_expire_ids.append(line.mandate_id.id)
+                elif line.mandate_id.type == 'recurrent':
+                    seq_type = line.mandate_id.recurrent_sequence_type
                     if seq_type == 'final':
-                        to_expire_ids.append(line.sdd_mandate_id.id)
+                        to_expire_ids.append(line.mandate_id.id)
                     elif seq_type == 'first':
-                        first_mandate_ids.append(line.sdd_mandate_id.id)
-            self.pool['sdd.mandate'].write(
+                        first_mandate_ids.append(line.mandate_id.id)
+            self.pool['account.banking.mandate'].write(
                 cr, uid, to_expire_ids, {'state': 'expired'}, context=context)
-            self.pool['sdd.mandate'].write(
+            self.pool['account.banking.mandate'].write(
                 cr, uid, first_mandate_ids, {
                     'recurrent_sequence_type': 'recurring',
                     'sepa_migrated': True,
