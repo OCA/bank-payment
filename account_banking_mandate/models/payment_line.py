@@ -60,7 +60,7 @@ class PaymentLine(models.Model):
 
     @api.one
     @api.constrains('mandate_id', 'bank_id')
-    def _check_mandate_bank_link(self, cr, uid, ids):
+    def _check_mandate_bank_link(self):
         if (self.mandate_id and self.bank_id
                 and self.mandate_id.partner_bank_id.id !=
                 self.bank_id.id):

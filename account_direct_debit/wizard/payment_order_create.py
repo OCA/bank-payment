@@ -22,18 +22,20 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 
 
-class PaymentOrderCreate(orm.TransientModel):
+class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    def extend_payment_order_domain(
-            self, cr, uid, payment_order, domain, context=None):
+    @api.model
+    def extend_payment_order_domain(self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
-            cr, uid, payment_order, domain, context=context)
+            payment_order, domain)
         if payment_order.payment_order_type == 'debit':
-            domain += [('account_id.type', '=', 'receivable'),
+            domain += ['|',
+                       ('invoice', '=', False),
                        ('invoice.state', '!=', 'debit_denied'),
+                       ('account_id.type', '=', 'receivable'),
                        ('amount_to_receive', '>', 0)]
         return True
