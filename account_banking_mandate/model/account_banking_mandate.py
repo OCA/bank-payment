@@ -46,15 +46,16 @@ class mandate(orm.Model):
             'account_banking_mandate.mandate_cancel':
             lambda self, cr, uid, obj, ctx=None:
             obj['state'] == 'cancel',
-            },
-        }
+        },
+    }
 
     def _get_states(self, cr, uid, context=None):
-        return (
-            ('draft', 'Draft'),
-            ('valid', 'Valid'),
-            ('expired', 'Expired'),
-            ('cancel', 'Cancelled'),)
+        return [
+            ('draft', _('Draft')),
+            ('valid', _('Valid')),
+            ('expired', _('Expired')),
+            ('cancel', _('Cancelled')),
+        ]
 
     _columns = {
         'partner_bank_id': fields.many2one(
@@ -72,13 +73,14 @@ class mandate(orm.Model):
         'last_debit_date': fields.date(
             'Date of the Last Debit', readonly=True),
         'state': fields.selection(
-            _get_states, 'Status',
+            lambda self, *a, **kw: self._get_states(*a, **kw),
+            string='Status',
             help="Only valid mandates can be used in a payment line. A "
             "cancelled mandate is a mandate that has been cancelled by "
             "the customer."),
         'payment_line_ids': fields.one2many(
             'payment.line', 'mandate_id', "Related Payment Lines"),
-        }
+    }
 
     _defaults = {
         'company_id': lambda self, cr, uid, context:
@@ -92,7 +94,7 @@ class mandate(orm.Model):
         'mandate_ref_company_uniq',
         'unique(unique_mandate_reference, company_id)',
         'A Mandate with the same reference already exists for this company !'
-        )]
+    )]
 
     def create(self, cr, uid, vals, context=None):
         if vals.get('unique_mandate_reference', '/') == '/':

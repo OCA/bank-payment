@@ -73,7 +73,7 @@ class banking_export_sdd(orm.Model):
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
-            ], 'Charge Bearer', readonly=True,
+        ], 'Charge Bearer', readonly=True,
             help="Following service level : transaction charges are to be "
             "applied following the rules agreed in the service level and/or "
             "scheme (SEPA Core messages must use this). Shared : "
@@ -90,7 +90,7 @@ class banking_export_sdd(orm.Model):
         'state': fields.selection([
             ('draft', 'Draft'),
             ('sent', 'Sent'),
-            ], 'State', readonly=True),
+        ], 'State', readonly=True),
     }
 
     _defaults = {
@@ -115,21 +115,35 @@ class sdd_mandate(orm.Model):
             'account_banking_sepa_direct_debit.recurrent_sequence_type_final':
             lambda self, cr, uid, obj, ctx=None:
             obj['recurrent_sequence_type'] == 'final',
-            }
         }
+    }
+
+    def _get_type(self, cr, uid, context=None):
+        return [
+            ('recurrent', _('Recurrent')),
+            ('oneoff', _('One-Off')),
+        ]
+
+    def _get_recurrent_sequence_type(self, cr, uid, context=None):
+        return [
+            ('first', _('First')),
+            ('recurring', _('Recurring')),
+            ('final', _('Final')),
+        ]
 
     _columns = {
-        'type': fields.selection([
-            ('recurrent', 'Recurrent'),
-            ('oneoff', 'One-Off'),
-            ], 'Type of Mandate', required=True, track_visibility='always'),
-        'recurrent_sequence_type': fields.selection([
-            ('first', 'First'),
-            ('recurring', 'Recurring'),
-            ('final', 'Final'),
-            ], 'Sequence Type for Next Debit', track_visibility='onchange',
+        'type': fields.selection(
+            lambda self, *a, **kw: self._get_type(*a, **kw),
+            string='Type of Mandate',
+            required=True, track_visibility='always'
+        ),
+        'recurrent_sequence_type': fields.selection(
+            lambda self, *a, **kw: self._get_recurrent_sequence_type(*a, **kw),
+            string='Sequence Type for Next Debit',
+            track_visibility='onchange',
             help="This field is only used for Recurrent mandates, not for "
-            "One-Off mandates."),
+            "One-Off mandates."
+        ),
         'sepa_migrated': fields.boolean(
             'Migrated to SEPA', track_visibility='onchange',
             help="If this field is not active, the mandate section of the "
@@ -145,7 +159,7 @@ class sdd_mandate(orm.Model):
             help="When the field 'Migrated to SEPA' is not active, this "
             "field will be used as the Original Mandate Identification in "
             "the Direct Debit file."),
-        }
+    }
 
     _defaults = {
         'sepa_migrated': True,
@@ -181,7 +195,7 @@ class sdd_mandate(orm.Model):
         (_check_sdd_mandate, "Error msg in raise", [
             'type', 'recurrent_sequence_type', 'sepa_migrated',
             'original_mandate_identification',
-            ]),
+        ]),
     ]
 
     def create(self, cr, uid, vals, context=None):
@@ -214,7 +228,7 @@ class sdd_mandate(orm.Model):
                     "As you changed the bank account attached to this "
                     "mandate, the 'Sequence Type' has been set back to "
                     "'First'."),
-                }
+            }
         return res
 
     def _sdd_mandate_set_state_to_expired(self, cr, uid, context=None):
@@ -228,7 +242,7 @@ class sdd_mandate(orm.Model):
             ('last_debit_date', '<=', expire_limit_date_str),
             ('state', '=', 'valid'),
             ('signature_date', '<=', expire_limit_date_str),
-            ], context=context)
+        ], context=context)
         if expired_mandate_ids:
             self.write(
                 cr, uid, expired_mandate_ids, {'state': 'expired'},

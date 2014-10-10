@@ -33,11 +33,11 @@ class payment_mode_type(orm.Model):
         'name': fields.char(
             'Name', size=64, required=True,
             help='Payment Type'
-            ),
+        ),
         'code': fields.char(
             'Code', size=64, required=True,
             help='Specify the Code for Payment Type'
-            ),
+        ),
         'suitable_bank_types': fields.many2many(
             'res.partner.bank.type',
             'bank_type_payment_type_rel',
@@ -48,11 +48,11 @@ class payment_mode_type(orm.Model):
             help=('Select the Payment Wizard for payments of this type. '
                   'Leave empty for manual processing'),
             domain=[('osv_memory', '=', True)],
-            ),
+        ),
         'payment_order_type': fields.selection(
             [('payment', 'Payment'), ('debit', 'Direct debit')],
             'Payment order type', required=True,
-            ),
+        ),
         'active': fields.boolean('Active'),
     }
 

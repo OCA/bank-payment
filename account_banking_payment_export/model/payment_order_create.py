@@ -36,7 +36,7 @@ class payment_order_create(orm.TransientModel):
             domain += [
                 ('account_id.type', 'in', ('payable', 'receivable')),
                 ('amount_to_pay', '>', 0)
-                ]
+            ]
         return True
 
     def search_entries(self, cr, uid, ids, context=None):
@@ -59,7 +59,7 @@ class payment_order_create(orm.TransientModel):
             ('move_id.state', '=', 'posted'),
             ('reconcile_id', '=', False),
             ('company_id', '=', payment.mode.company_id.id),
-            ]
+        ]
         self.extend_payment_order_domain(
             cr, uid, payment, domain, context=context)
         # end account_direct_debit
@@ -67,7 +67,7 @@ class payment_order_create(orm.TransientModel):
         domain = domain + [
             '|', ('date_maturity', '<=', search_due_date),
             ('date_maturity', '=', False)
-            ]
+        ]
         line_ids = line_obj.search(cr, uid, domain, context=context)
         context.update({'line_ids': line_ids})
         model_data_ids = mod_obj.search(
@@ -162,7 +162,7 @@ class payment_order_create(orm.TransientModel):
             'currency': (line.invoice and line.invoice.currency_id.id
                          or line.journal_id.currency.id
                          or line.journal_id.company_id.currency_id.id),
-            }
+        }
         return res
 
     def create_payment(self, cr, uid, ids, context=None):
