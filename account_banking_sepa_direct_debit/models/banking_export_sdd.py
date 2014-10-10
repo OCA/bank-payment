@@ -38,10 +38,13 @@ class BankingExportSdd(models.Model):
     @api.one
     def _generate_filename(self):
         filename = ''
+        # FIXME : we never enter inside the IF to give a good filename
         if self.payment_order_ids:
             ref = self.payment_order_ids[0].reference
             label = unidecode(ref.replace('/', '-')) if ref else 'error'
             filename = 'sdd_%s.xml' % label
+        else:
+            filename = 'sdd.xml'
         self.filename = filename
 
     payment_order_ids = fields.Many2many(
