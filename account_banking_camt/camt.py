@@ -150,7 +150,12 @@ CAMT Format parser
                 identifier)
             )
 
-        statement.local_currency = self.xpath(node, './ns:Acct/ns:Ccy')[0].text
+        #Assuming If there is no Ccy tag then it belongs to defaut currency
+        if not self.xpath(node, './ns:Acct/ns:Ccy'):
+            statement.local_currency = 'EUR'
+        else:
+            statement.local_currency = self.xpath(node,
+                                                  './ns:Acct/ns:Ccy')[0].text
         statement.start_balance = self.get_start_balance(node)
         statement.end_balance = self.get_end_balance(node)
         number = 0
