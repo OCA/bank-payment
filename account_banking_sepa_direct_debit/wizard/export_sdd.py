@@ -36,7 +36,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         'state': fields.selection([
             ('create', 'Create'),
             ('finish', 'Finish'),
-            ], 'State', readonly=True),
+        ], 'State', readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking',
             help="If true, the bank statement will display only one credit "
@@ -48,7 +48,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
             ('SHAR', 'Shared'),
             ('CRED', 'Borne by Creditor'),
             ('DEBT', 'Borne by Debtor'),
-            ], 'Charge Bearer', required=True,
+        ], 'Charge Bearer', required=True,
             help="Following service level : transaction charges are to be "
             "applied following the rules agreed in the service level and/or "
             "scheme (SEPA Core messages must use this). Shared : transaction "
@@ -73,12 +73,12 @@ class banking_export_sdd_wizard(orm.TransientModel):
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_sdd_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
-        }
+    }
 
     _defaults = {
         'charge_bearer': 'SLEV',
         'state': 'create',
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
@@ -158,7 +158,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-            }
+        }
 
         xml_root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
@@ -220,7 +220,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                         'recurring': 'RCUR',
                         'first': 'FRST',
                         'final': 'FNAL',
-                        }
+                    }
                     seq_type_label = \
                         line.mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False

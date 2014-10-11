@@ -32,7 +32,7 @@ class payment_line(orm.Model):
         'mandate_id': fields.many2one(
             'account.banking.mandate', 'Direct Debit Mandate',
             domain=[('state', '=', 'valid')]),
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         ''' If the customer invoice has a mandate, take it
@@ -76,15 +76,15 @@ class payment_line(orm.Model):
                     _("The payment line with reference '%s' has the bank "
                         "account '%s' which is not attached to the mandate "
                         "'%s' (this mandate is attached to the bank account "
-                        "'%s').") % (
-                        payline.name,
-                        self.pool['res.partner.bank'].name_get(
-                            cr, uid, [payline.bank_id.id])[0][1],
-                        payline.mandate_id.unique_mandate_reference,
-                        self.pool['res.partner.bank'].name_get(
-                            cr, uid,
-                            [payline.mandate_id.partner_bank_id.id])[0][1],
-                    ))
+                        "'%s').") %
+                    (payline.name,
+                     self.pool['res.partner.bank'].name_get(
+                         cr, uid, [payline.bank_id.id])[0][1],
+                     payline.mandate_id.unique_mandate_reference,
+                     self.pool['res.partner.bank'].name_get(
+                         cr, uid,
+                         [payline.mandate_id.partner_bank_id.id])[0][1],)
+                )
         return True
 
     _constraints = [
