@@ -467,7 +467,7 @@ msgstr "Prélèvement SEPA"
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:124
 #, python-format
 msgid "One-Off"
-msgstr "Unique"
+msgstr "Virement unitaire"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
@@ -487,13 +487,12 @@ msgid ""
 "\t\t"
 msgstr ""
 "<p class=\"oe_view_nocontent_create\">\n"
-"\t\t\tCliquez pour créer un nouveau mandat de prélèvement SEPA.\n"
-"\t\t\t</p><p>\n"
-"\t\t\tUn mandat de prélèvement SEPA est un document signé par votre client "
+"Cliquez pour créer un nouveau mandat de prélèvement SEPA.\n"
+"</p><p>\n"
+"Un mandat de prélèvement SEPA est un document signé par votre client "
 "qui vous donne l'autorisation de faire un ou plusieurs prélèvements sur son "
 "compte en banque.\n"
-"\t\t\t</p>\n"
-"\t\t"
+"</p>\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd_wizard
