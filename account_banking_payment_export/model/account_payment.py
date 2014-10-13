@@ -36,7 +36,7 @@ class payment_order(orm.Model):
             [('payment', 'Payment'), ('debit', 'Direct debit')],
             'Payment order type', required=True,
             readonly=True, states={'draft': [('readonly', False)]},
-            ),
+        ),
         'mode_type': fields.related(
             'mode', 'type', type='many2one', relation='payment.mode.type',
             string='Payment Type'),
@@ -74,7 +74,7 @@ class payment_order(orm.Model):
                 'target': 'new',
                 'res_id': wizard_id,
                 'nodestroy': True,
-                }
+            }
         else:
             # should all be manual orders without type or wizard model
             for order in orders[1:]:

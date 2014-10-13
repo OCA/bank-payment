@@ -35,4 +35,4 @@ class res_partner_bank(orm.Model):
             help=_('Banking mandates represents an authorization that the '
                    'bank account owner gives to a company for a specific '
                    'operation')),
-        }
+    }

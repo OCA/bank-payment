@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-11 15:20+0000\n"
-"PO-Revision-Date: 2014-10-11 11:21-0500\n"
+"POT-Creation-Date: 2014-10-11 15:22+0000\n"
+"PO-Revision-Date: 2014-10-11 11:32-0500\n"
 "Last-Translator: EL Hadji DEM <elhadji.dem@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,49 +19,49 @@ msgstr ""
 #. module: account_direct_debit
 #: model:account.payment.term,note:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit in 14 days"
-msgstr ""
+msgstr "Débit direct en 14 jours"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de Paiement"
 
 #. module: account_direct_debit
 #: view:payment.order:0
 msgid "Select Invoices to Collect"
-msgstr ""
+msgstr "Sélectionnez les factures à collecter"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_line
 msgid "Payment Line"
-msgstr ""
+msgstr "Ligne de paiement"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/payment_line.py:140
 #, python-format
 msgid "Can not reconcile"
-msgstr ""
+msgstr "Vous ne pouvez pas réconcilier"
 
 #. module: account_direct_debit
 #: view:payment.order:0
 msgid "[('payment_order_type', '=', payment_order_type)]"
-msgstr ""
+msgstr "[('payment_order_type', '=', payment_order_type)]"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Debit Denied"
-msgstr ""
+msgstr "Débit refusé"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:149
 #, python-format
 msgid "Error !"
-msgstr ""
+msgstr "Erreur !"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Show only invoices with state Debit denied"
-msgstr ""
+msgstr "Afficher uniquement les factures avec le statut de débit refusé"
 
 #. module: account_direct_debit
 #: view:payment.order:0
@@ -69,27 +69,29 @@ msgid ""
 "{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', "
 "'payment')]}"
 msgstr ""
+"{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', "
+"'payment')]}"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Écritures comptables"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
 msgid "Debit denied"
-msgstr ""
+msgstr "Débit refusé"
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
 #: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
 msgid "Direct Debit Orders"
-msgstr ""
+msgstr "Ordre de débit direct"
 
 #. module: account_direct_debit
 #: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit"
-msgstr ""
+msgstr "Débit direct"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:150
@@ -98,28 +100,30 @@ msgid ""
 "You cannot set invoice '%s' to state 'debit denied', as it is still "
 "reconciled."
 msgstr ""
+"Vous ne pouvez pas régler la facture '% s' au statut 'débit refusé », comme "
+"il est toujours réconcilié."
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:154
 #, python-format
 msgid "Invoice '%s': direct debit is denied."
-msgstr ""
+msgstr "Facture '% s': débit diretc est refusé."
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/payment_line.py:141
 #, python-format
 msgid "Cancelation of payment line '%s' has already been processed"
-msgstr ""
+msgstr "L'annulation de la ligne de paiement '% s' a déjà été traitée"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_order_create
 msgid "payment.order.create"
-msgstr ""
+msgstr "payment.order.create"
 
 #. module: account_direct_debit
 #: field:payment.line,storno:0
 msgid "Storno"
-msgstr ""
+msgstr "Storno"
 
 #. module: account_direct_debit
 #: help:payment.line,storno:0
@@ -127,6 +131,8 @@ msgid ""
 "If this is true, the debit order has been canceled by the bank or by the "
 "customer"
 msgstr ""
+"Si cela est vrai, l'ordre de débit a été annulé par la banque ou par le "
+"client"
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
@@ -136,13 +142,18 @@ msgid ""
 "track of all debit orders and mention the invoice reference and the partner "
 "the withdrawal should be done for."
 msgstr ""
+"Un ordre de débit est une demande de débit de votre société pour collecter "
+"les factures des clients. Ici, vous pouvez enregistrer tous les ordres de "
+"débit qui devraient être fait, de garder trace de tous les ordres de débit "
+"et de mentionner la référence de la facture et le fournisseur le retrait "
+"doit être fait."
 
 #. module: account_direct_debit
 #: field:account.move.line,amount_to_receive:0
 msgid "Amount to receive"
-msgstr ""
+msgstr "Montant à recevoir"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Facture"

@@ -1,25 +1,47 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_direct_debit
+# 	* account_banking_sepa_direct_debit
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-23 22:24+0000\n"
-"PO-Revision-Date: 2014-02-01 04:49+0000\n"
-"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"POT-Creation-Date: 2014-10-08 16:20+0000\n"
+"PO-Revision-Date: 2014-10-08 12:28-0500\n"
+"Last-Translator: EL Hadji DEM <elhadji.dem@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.mandate_valid
-msgid "SEPA Direct Debit Mandate Validated"
-msgstr "Mandat de prélèvement SEPA validé"
+#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.action_account_banking_sdd
+#: model:ir.ui.menu,name:account_banking_sepa_direct_debit.menu_account_banking_sdd
+msgid "SEPA Direct Debit Files"
+msgstr "Fichiers de prélèvement SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,state:0
+msgid "Create"
+msgstr "Créer"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd,nb_transactions:0
+#: field:banking.export.sdd.wizard,nb_transactions:0
+msgid "Number of Transactions"
+msgstr "Nombre de transactions"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:201
+#, python-format
+msgid ""
+"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
+"expired."
+msgstr ""
+"Le mandat de prélèvement SEPA portant la référence '%s' pour le fournisseur "
+"'%s' a expiré."
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,filename:0
@@ -28,25 +50,74 @@ msgid "Filename"
 msgstr "Nom du fichier"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:200
-#, python-format
-msgid ""
-"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
-"expired."
-msgstr ""
-"Le mandat de prélèvement SEPA portant la référence '%s' pour le partenaire "
-"'%s' a expiré."
+#: field:banking.export.sdd,state:0 field:banking.export.sdd.wizard,state:0
+msgid "State"
+msgstr "Statut"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:219
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:174
 #, python-format
-msgid "Cannot validate the mandate '%s' without a date of signature."
-msgstr "Impossible de valider le mandat '%s' sans date de signature."
+msgid "The recurrent mandate '%s' must have a sequence type."
+msgstr "Le mandat récurrent '%s' doit avoir un type de séquence."
 
 #. module: account_banking_sepa_direct_debit
-#: selection:sdd.mandate,recurrent_sequence_type:0
+#: selection:banking.export.sdd,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:226
+#, python-format
+msgid "Mandate update"
+msgstr "Mise-à-jour du mandat"
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd,charge_bearer:0
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Shared"
+msgstr "Partagée"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd,file:0
+msgid "SEPA File"
+msgstr "Fichier SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.mandate_action
+msgid "SEPA Direct Debit Mandates"
+msgstr "Mandats de prélèvement SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: view:banking.export.sdd:0 field:banking.export.sdd,payment_order_ids:0
+#: field:banking.export.sdd.wizard,payment_order_ids:0
+msgid "Payment Orders"
+msgstr "Ordres de paiement"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd,batch_booking:0
+#: field:banking.export.sdd.wizard,batch_booking:0
+msgid "Batch Booking"
+msgstr "Crédit groupé"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:131
+#, python-format
 msgid "Final"
 msgstr "Final"
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd,state:0
+msgid "Sent"
+msgstr "Envoyé"
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:0
+msgid ""
+"mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, "
+"last_debit_date, state)"
+msgstr ""
+"mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, "
+"last_debit_date, state)"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
@@ -54,26 +125,65 @@ msgid "Finish"
 msgstr "Finir"
 
 #. module: account_banking_sepa_direct_debit
-#: view:res.partner:0
-#: view:res.partner.bank:0
+#: field:res.company,original_creditor_identifier:0
+msgid "Original Creditor Identifier"
+msgstr "Ancien Identifiant Créancier"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:188
+#, python-format
+msgid ""
+"You must set the 'Original Mandate Identification' on the recurrent mandate "
+"'%s' which is not marked as 'Migrated to SEPA'."
+msgstr ""
+"Vous devez renseigner le champ 'Ancien identifiant du mandat' sur le mandat "
+"récurrent '%s' qui n'est pas marqué comme étant 'Migré à SEPA'."
+
+#. module: account_banking_sepa_direct_debit
+#: view:res.partner:0 view:res.partner.bank:0
 msgid "SDD Mandates"
 msgstr "Mandats SEPA"
 
 #. module: account_banking_sepa_direct_debit
-#: constraint:payment.line:0
-#: constraint:sdd.mandate:0
+#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.act_banking_export_sdd_payment_order
+msgid "Generated SEPA Direct Debit Files"
+msgstr "Fichiers de prélèvement SEPA générés"
+
+#. module: account_banking_sepa_direct_debit
+#: constraint:account.banking.mandate:0
 msgid "Error msg in raise"
-msgstr "Error msg in raise"
+msgstr "Msg d'erreur soulevé"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,state:0
-msgid "Reconciled"
-msgstr "Réconcilié"
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:130
+#, python-format
+msgid "Recurring"
+msgstr "Récurrent"
 
 #. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,recurrent_sequence_type:0
-msgid "Sequence Type for Next Debit"
-msgstr "Type de séquence pour le prochain prélèvement"
+#: field:banking.export.sdd,total_amount:0
+#: field:banking.export.sdd.wizard,total_amount:0
+msgid "Total Amount"
+msgstr "Montant total"
+
+#. module: account_banking_sepa_direct_debit
+#: help:banking.export.sdd,batch_booking:0
+#: help:banking.export.sdd.wizard,batch_booking:0
+msgid ""
+"If true, the bank statement will display only one credit line for all the "
+"direct debits of the SEPA file ; if false, the bank statement will display "
+"one credit line per direct debit of the SEPA file."
+msgstr ""
+"Si activé, le relevé de compte ne fera apparaître qu'une ligne de crédit "
+"pour tous les prélèvements du fichier SEPA ; si désactivé, le relevé de "
+"banque fera apparaître une ligne de crédit pour chaque prélèvement du "
+"fichier SEPA."
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd,charge_bearer:0
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Following Service Level"
+msgstr "Suivant le niveau de service"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
@@ -82,24 +192,39 @@ msgid "Borne by Creditor"
 msgstr "Supportés par le créancier"
 
 #. module: account_banking_sepa_direct_debit
-#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.sdd_mandate_action
-#: model:ir.ui.menu,name:account_banking_sepa_direct_debit.sdd_mandate_menu
-#: view:res.partner.bank:0
-#: field:res.partner.bank,sdd_mandate_ids:0
-msgid "SEPA Direct Debit Mandates"
-msgstr "Mandats de prélèvement SEPA"
+#: field:account.banking.mandate,sepa_migrated:0
+msgid "Migrated to SEPA"
+msgstr "Migré à SEPA"
 
 #. module: account_banking_sepa_direct_debit
-#: view:banking.export.sdd.wizard:0
-#: view:sdd.mandate:0
-msgid "Validate"
-msgstr "Valider"
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_final
+msgid "Sequence Type set to Final"
+msgstr "Type de Séquence mis à Final"
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
-msgid "Sequence Type set to Recurring"
-msgstr "Type de séquence mis à Recurring"
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd
+msgid "SEPA Direct Debit export"
+msgstr "Export de prélèvement SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: help:account.banking.mandate,original_mandate_identification:0
+msgid ""
+"When the field 'Migrated to SEPA' is not active, this field will be used as "
+"the Original Mandate Identification in the Direct Debit file."
+msgstr ""
+"Quand le champ 'Migré à SEPA' n'est pas activé, ce champ sera le 'Original "
+"Mandate Identification' dans le fichier de prélèvement."
+
+#. module: account_banking_sepa_direct_debit
+#: field:account.banking.mandate,original_mandate_identification:0
+msgid "Original Mandate Identification"
+msgstr "Ancien Identifiant du Mandat"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,file_id:0
+msgid "SDD File"
+msgstr "Fichier de prélèvement SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
@@ -107,9 +232,26 @@ msgid "Generate"
 msgstr "Générer"
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.mandate_cancel
-msgid "SEPA Direct Debit Mandate Cancelled"
-msgstr "Mandat de prélèvement SEPA annulé"
+#: help:res.company,sepa_creditor_identifier:0
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+"Entrez l'Identifiant créancier qui a été attribué à votre société pour "
+"réaliser des prélèvements SEPA. Cet identifiant est composé de :- du code "
+"ISO de votre pays (2 lettres)- un code de contrôle à 2 chiffres- un code "
+"d'activité à 3 lettres- un identifiant national"
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:0
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:123
+#, python-format
+msgid "Recurrent"
+msgstr "Récurrent"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
@@ -118,37 +260,73 @@ msgid "Borne by Debtor"
 msgstr "Supportés par le débiteur"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:212
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:218
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:224
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:232
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:239
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:245
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:253
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:395
+#: field:account.banking.mandate,type:0
+msgid "Type of Mandate"
+msgstr "Type de mandat"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:173
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:179
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:187
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:140
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:192
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:199
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:209
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:193
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:200
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:210
 #, python-format
 msgid "Error:"
 msgstr "Erreur :"
 
 #. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,message_ids:0
-msgid "Messages"
-msgstr "Messages"
+#: help:account.banking.mandate,recurrent_sequence_type:0
+msgid ""
+"This field is only used for Recurrent mandates, not for One-Off mandates."
+msgstr ""
+"Ce champ n'est utilisé que pour les mandats récurrents, pas pour les mandats "
+"One-Off."
 
 #. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,unique_mandate_reference:0
-msgid "Unique Mandate Reference"
-msgstr "Référence unique de mandat"
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
 
 #. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,state:0
-msgid "Cancelled"
-msgstr "Annulé"
+#: field:account.banking.mandate,recurrent_sequence_type:0
+msgid "Sequence Type for Next Debit"
+msgstr "Type de séquence pour le prochain prélèvement"
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_first
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_first
+msgid "Sequence Type set to First"
+msgstr "Type de Séquence mis à First"
+
+#. module: account_banking_sepa_direct_debit
+#: help:account.banking.mandate,sepa_migrated:0
+msgid ""
+"If this field is not active, the mandate section of the next direct debit "
+"file that include this mandate will contain the 'Original Mandate "
+"Identification' and the 'Original Creditor Scheme Identification'. This is "
+"required in a few countries (Belgium for instance), but not in all "
+"countries. If this is not required in your country, you should keep this "
+"field always active."
+msgstr ""
+"Si cette option n'est pas activée, la section qui concerne le mandat dans le "
+"prochain fichier de prélèvement qui incluera ce mandat contiendra les champs "
+"'Original Mandate Identification' et 'Original Creditor Scheme "
+"Identification'. Ces champs sont requis dans certains pays (en Belgique "
+"notamment), mais pas dans tous les pays. Si ces champs ne sont pas requis "
+"dans votre pays, vous devriez garder ce champ toujours actif."
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd,charge_bearer:0
+#: field:banking.export.sdd.wizard,charge_bearer:0
+msgid "Charge Bearer"
+msgstr "Répartition des frais"
+
+#. module: account_banking_sepa_direct_debit
+#: field:res.company,sepa_creditor_identifier:0
+msgid "SEPA Creditor Identifier"
+msgstr "Identifiant créancier SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:141
@@ -163,22 +341,38 @@ msgstr ""
 "'pain.008.001.03' et 'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,message_unread:0
-msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:227
+#, python-format
+msgid ""
+"As you changed the bank account attached to this mandate, the 'Sequence "
+"Type' has been set back to 'First'."
+msgstr ""
+"Etant donné que vous avez changé le compte bancaire associé à ce mandat, le "
+"'Type de séquence' a été remis à 'First'."
 
 #. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd.wizard,file_id:0
-msgid "SDD File"
-msgstr "Fichier de prélèvement SEPA"
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:194
+#, python-format
+msgid ""
+"Missing SEPA Direct Debit mandate on the payment line with partner '%s' and "
+"Invoice ref '%s'."
+msgstr ""
+"Mandat de prélèvement SEPA manquant sur la ligne de paiement ayant pour "
+"partenaire '%s' et pour référence de facture '%s'."
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.mandate_expired
-msgid "SEPA Direct Debit Mandate has Expired"
-msgstr "Le mandat de prélèvement SEPA a expiré"
+#: view:banking.export.sdd.wizard:0
+msgid "Validate"
+msgstr "Valider"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:246
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:129
+#, python-format
+msgid "First"
+msgstr "Premier"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:180
 #, python-format
 msgid ""
 "The recurrent mandate '%s' which is not marked as 'Migrated to SEPA' must "
@@ -186,6 +380,22 @@ msgid ""
 msgstr ""
 "Le mandat récurrent '%s' dont l'option 'Migré à SEPA' n'est pas activée doit "
 "avec sa séquence mise à 'First'."
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:0
+msgid "Type"
+msgstr "Type"
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
+msgid "Sequence Type set to Recurring"
+msgstr "Type de séquence mis à Récurrent"
+
+#. module: account_banking_sepa_direct_debit
+#: constraint:res.company:0
+msgid "Invalid SEPA Creditor Identifier."
+msgstr "Identifiant créancier SEPA invalide."
 
 #. module: account_banking_sepa_direct_debit
 #: help:banking.export.sdd,charge_bearer:0
@@ -208,33 +418,9 @@ msgstr ""
 "débiteur : tous les frais bancaires sont à la charge du débiteur."
 
 #. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-msgid "Reference"
-msgstr "Référence"
-
-#. module: account_banking_sepa_direct_debit
-#: view:banking.export.sdd:0
-msgid "SEPA Direct Debit"
-msgstr "Prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: view:banking.export.sdd.wizard:0
-msgid "SEPA Direct Debit XML file generation"
-msgstr "Génération de fichiers de prélèvement SEPA XML"
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_payment_line
-msgid "Payment Line"
-msgstr "Ligne de paiement"
+#: model:res.groups,name:account_banking_sepa_direct_debit.group_original_mandate_required
+msgid "Original Mandate Required (SEPA)"
+msgstr "Ancien mandat requis (SEPA)"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,create_date:0
@@ -242,347 +428,17 @@ msgid "Generation Date"
 msgstr "Date de génération"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:396
-#, python-format
-msgid ""
-"The payment line with reference '%s' has the bank account '%s' which is not "
-"attached to the mandate '%s' (this mandate is attached to the bank account "
-"'%s')."
-msgstr ""
-"La ligne de paiement portant la référence '%s' est configurée avec le compte "
-"bancaire '%s' qui n'est pas rattaché au mandat '%s' (ce mandat est rattaché "
-"au compte bancaire '%s')."
-
-#. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd.wizard,state:0
-msgid "Create"
-msgstr "Créer"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,nb_transactions:0
-#: field:banking.export.sdd.wizard,nb_transactions:0
-msgid "Number of Transactions"
-msgstr "Nombre de transactions"
-
-#. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,type:0
-msgid "One-Off"
-msgstr "One-Off"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,state:0
-#: field:banking.export.sdd.wizard,state:0
-msgid "State"
-msgstr "État"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:240
-#, python-format
-msgid "The recurrent mandate '%s' must have a sequence type."
-msgstr "Le mandat récurrent '%s' doit avoir un type de séquence."
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,message_follower_ids:0
-msgid "Followers"
-msgstr "Followers"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,message_unread:0
-msgid "Unread Messages"
-msgstr "Unread Messages"
+#: view:banking.export.sdd.wizard:0
+msgid "SEPA Direct Debit XML file generation"
+msgstr "Génération de fichiers de prélèvement SEPA XML"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0
-#: field:banking.export.sdd,payment_order_ids:0
-#: field:banking.export.sdd.wizard,payment_order_ids:0
-msgid "Payment Orders"
-msgstr "Ordres de paiement"
+msgid "General Information"
+msgstr "Informations générales"
 
 #. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-msgid "Type"
-msgstr "Type"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,state:0
-msgid "Sent"
-msgstr "Envoyé"
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,original_creditor_identifier:0
-msgid "Original Creditor Identifier"
-msgstr "Ancien Identifiant Créancier"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:sdd.mandate,recurrent_sequence_type:0
-msgid "Recurring"
-msgstr "Recurring"
-
-#. module: account_banking_sepa_direct_debit
-#: help:res.company,sepa_creditor_identifier:0
-msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to "
-"make SEPA Direct Debits. This identifier is composed of :\n"
-"- your country ISO code (2 letters)\n"
-"- a 2-digits checkum\n"
-"- a 3-letters business code\n"
-"- a country-specific identifier"
-msgstr ""
-"Entrez l'Identifiant créancier qui a été attribué à votre société pour "
-"réaliser des prélèvements SEPA. Cet identifiant est composé de :\n"
-"- du code ISO de votre pays (2 lettres)\n"
-"- un code de contrôle à 2 chiffres\n"
-"- un code d'activité à 3 lettres\n"
-"- un identifiant national"
-
-#. module: account_banking_sepa_direct_debit
-#: sql_constraint:sdd.mandate:0
-msgid "A Mandate with the same reference already exists for this company !"
-msgstr "Un mandat avec la même référence existe déjà pour cette société !"
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,state:0
-msgid ""
-"Only valid mandates can be used in a payment line. A cancelled mandate is a "
-"mandate that has been cancelled by the customer. A one-off mandate expires "
-"after its first use. A recurrent mandate expires after it's final use or if "
-"it hasn't been used for 36 months."
-msgstr ""
-"Seuls des mandats valides peuvent être utilisés dans une ligne de paiement. "
-"Un mandate annulé est un mandat qui a été annulé par le client. Un mandat "
-"One-Off expire à l'issue de sa première utilisation. Un mandate récurrent "
-"expire après sa dernière utilisation ou si il n'a pas été utilisé pendant 36 "
-"mois."
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,recurrent_sequence_type:0
-msgid ""
-"This field is only used for Recurrent mandates, not for One-Off mandates."
-msgstr ""
-"Ce champ n'est utilisé que pour les mandats récurrents, pas pour les mandats "
-"One-Off."
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:213
-#, python-format
-msgid "The date of signature of mandate '%s' is in the future !"
-msgstr "La date de signature du mandat '%s' est dans le futur !"
-
-#. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-msgid "Signature Date"
-msgstr "Date de signature"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,charge_bearer:0
-#: field:banking.export.sdd.wizard,charge_bearer:0
-msgid "Charge Bearer"
-msgstr "Répartition des frais"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,partner_id:0
-msgid "Partner"
-msgstr "Partenaire"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:sdd.mandate,recurrent_sequence_type:0
-msgid "First"
-msgstr "First"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,signature_date:0
-msgid "Date of Signature of the Mandate"
-msgstr "Date de signature du mandat"
-
-#. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.mandate_cancel
-msgid "Mandate Cancelled"
-msgstr "Mandat annulé"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.act_banking_export_sdd_payment_order
-msgid "Generated SEPA Direct Debit Files"
-msgstr "Fichiers de prélèvement SEPA générés"
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,sepa_migrated:0
-msgid ""
-"If this field is not active, the mandate section of the next direct debit "
-"file that include this mandate will contain the 'Original Mandate "
-"Identification' and the 'Original Creditor Scheme Identification'. This is "
-"required in a few countries (Belgium for instance), but not in all "
-"countries. If this is not required in your country, you should keep this "
-"field always active."
-msgstr ""
-"Si cette option n'est pas activée, la section qui concerne le mandat dans le "
-"prochain fichier de prélèvement qui incluera ce mandat contiendra les champs "
-"'Original Mandate Identification' et 'Original Creditor Scheme "
-"Identification'. Ces champs sont requis dans certains pays (en Belgique "
-"notamment), mais pas dans tous les pays. Si ces champs ne sont pas requis "
-"dans votre pays, vous devriez garder ce champ toujours actif."
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,company_id:0
-msgid "Company"
-msgstr "Société"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd_wizard
-msgid "Export SEPA Direct Debit File"
-msgstr "Export du fichier de prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: help:banking.export.sdd,batch_booking:0
-#: help:banking.export.sdd.wizard,batch_booking:0
-msgid ""
-"If true, the bank statement will display only one credit line for all the "
-"direct debits of the SEPA file ; if false, the bank statement will display "
-"one credit line per direct debit of the SEPA file."
-msgstr ""
-"Si activé, le relevé de compte ne fera apparaître qu'une ligne de crédit "
-"pour tous les prélèvements du fichier SEPA ; si désactivé, le relevé de "
-"banque fera apparaître une ligne de crédit pour chaque prélèvement du "
-"fichier SEPA."
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:225
-#, python-format
-msgid ""
-"Cannot validate the mandate '%s' because it is not attached to a bank "
-"account."
-msgstr ""
-"Impossible de valider le mandat '%s' car il n'est pas rattaché à un compte "
-"bancaire."
-
-#. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,state:0
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,state:0
-msgid "Draft"
-msgstr "Brouillon"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:290
-#, python-format
-msgid "Mandate update"
-msgstr "Mise-à-jour du mandat"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,charge_bearer:0
-#: selection:banking.export.sdd.wizard,charge_bearer:0
-msgid "Shared"
-msgstr "Partagée"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,batch_booking:0
-#: field:banking.export.sdd.wizard,batch_booking:0
-msgid "Batch Booking"
-msgstr "Crédit groupé"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,sepa_migrated:0
-msgid "Migrated to SEPA"
-msgstr "Migré à SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,state:0
-msgid "Status"
-msgstr "Statut"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,total_amount:0
-#: field:banking.export.sdd.wizard,total_amount:0
-msgid "Total Amount"
-msgstr "Montant total"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.action_account_banking_sdd
-#: model:ir.ui.menu,name:account_banking_sepa_direct_debit.menu_account_banking_sdd
-msgid "SEPA Direct Debit Files"
-msgstr "Fichiers de prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,charge_bearer:0
-#: selection:banking.export.sdd.wizard,charge_bearer:0
-msgid "Following Service Level"
-msgstr "Suivant le niveau de service"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:233
-#, python-format
-msgid ""
-"The mandate '%s' can't have a date of last debit before the date of "
-"signature."
-msgstr ""
-"Le mandat '%s' ne peut pas avoir une date de dernier débit antérieure à la "
-"date de signature."
-
-#. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_final
-msgid "Sequence Type set to Final"
-msgstr "Type de Séquence mis à Final"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,message_is_follower:0
-msgid "Is a Follower"
-msgstr "Is a Follower"
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,original_mandate_identification:0
-msgid ""
-"When the field 'Migrated to SEPA' is not active, this field will be used as "
-"the Original Mandate Identification in the Direct Debit file."
-msgstr ""
-"Quand le champ 'Migré à SEPA' n'est pas activé, ce champ sera le 'Original "
-"Mandate Identification' dans le fichier de prélèvement."
-
-#. module: account_banking_sepa_direct_debit
-#: view:payment.order:0
-msgid "SDD Mandate"
-msgstr "Mandat de prélèvement"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,original_mandate_identification:0
-msgid "Original Mandate Identification"
-msgstr "Ancien Identifiant du Mandat"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
-msgid "Companies"
-msgstr "Sociétés"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,message_summary:0
-msgid "Summary"
-msgstr "Résumé"
-
-#. module: account_banking_sepa_direct_debit
-#: model:res.groups,name:account_banking_sepa_direct_debit.group_original_mandate_required
-msgid "Original Mandate Required (SEPA)"
-msgstr "Ancien mandat requis (SEPA)"
-
-#. module: account_banking_sepa_direct_debit
-#: field:account.invoice,sdd_mandate_id:0
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_sdd_mandate
-#: field:payment.line,sdd_mandate_id:0
-#: view:sdd.mandate:0
-msgid "SEPA Direct Debit Mandate"
-msgstr "Mandat de prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:193
-#, python-format
-msgid ""
-"Missing SEPA Direct Debit mandate on the payment line with partner '%s' and "
-"Invoice ref '%s'."
-msgstr ""
-"Mandat de prélèvement SEPA manquant sur la ligne de paiement ayant pour "
-"partenaire '%s' et pour référence de facture '%s'."
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:210
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:211
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
@@ -592,158 +448,53 @@ msgstr ""
 "Off' et il a une date de dernier débit au '%s', donc il n'est pas utilisable."
 
 #. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,scan:0
-msgid "Scan of the Mandate"
-msgstr "Scan du mandat"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,last_debit_date:0
-msgid "Date of the Last Debit"
-msgstr "Date du dernier prélèvement"
-
-#. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.mandate_expired
-msgid "Mandate Expired"
-msgstr "Mandat expiré"
-
-#. module: account_banking_sepa_direct_debit
-#: constraint:res.company:0
-msgid "Invalid SEPA Creditor Identifier."
-msgstr "Identifiant créancier SEPA invalide."
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_partner_bank
-msgid "Bank Accounts"
-msgstr "Comptes bancaires"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.sdd_mandate_action
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"        Click to create a new SEPA Direct Debit Mandate.\n"
-"        </p><p>\n"
-"        A SEPA Direct Debit Mandate is a document signed by your customer "
-"that gives you the autorization to do one or several direct debits on his "
-"bank account.\n"
-"        </p>\n"
-"    "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"        Cliquez pour créer un mandat de prélèvement SEPA.\n"
-"        </p><p>\n"
-"        Un mandat de prélèvement SEPA est un document signé par votre client "
-"qui vous donne l'autorisation de réaliser un ou plusieurs prélèvements sur "
-"son compte bancaire.\n"
-"        </p>\n"
-"    "
-
-#. module: account_banking_sepa_direct_debit
-#: view:banking.export.sdd:0
-msgid "General Information"
-msgstr "Informations générales"
-
-#. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,state:0
-msgid "Valid"
-msgstr "Valide"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_invoice
-msgid "Invoice"
-msgstr "Facture"
+#: field:banking.export.sdd.wizard,file:0
+msgid "File"
+msgstr "Fichier"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
-#: view:sdd.mandate:0
 msgid "Cancel"
 msgstr "Annuler"
 
 #. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: field:sdd.mandate,payment_line_ids:0
-msgid "Related Payment Lines"
-msgstr "Lignes de paiement associées"
+#: view:banking.export.sdd:0
+msgid "SEPA Direct Debit"
+msgstr "Prélèvement SEPA"
 
 #. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,type:0
-msgid "Recurrent"
-msgstr "Récurrent"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,type:0
-msgid "Type of Mandate"
-msgstr "Type de mandat"
-
-#. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.mandate_valid
-msgid "Mandate Validated"
-msgstr "Mandat validé"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd,file:0
-msgid "SEPA File"
-msgstr "Fichier SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,sepa_creditor_identifier:0
-msgid "SEPA Creditor Identifier"
-msgstr "Identifiant créancier SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd
-msgid "SEPA Direct Debit export"
-msgstr "Export de prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-#: selection:sdd.mandate,state:0
-msgid "Expired"
-msgstr "Expiré"
-
-#. module: account_banking_sepa_direct_debit
-#: field:sdd.mandate,partner_bank_id:0
-msgid "Bank Account"
-msgstr "Compte bancaire"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:254
+#: view:account.banking.mandate:0
+#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:124
 #, python-format
+msgid "One-Off"
+msgstr "Virement unitaire"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
+msgid "A generic banking mandate"
+msgstr "Un mandat bancaire générique"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
 msgid ""
-"You must set the 'Original Mandate Identification' on the recurrent mandate "
-"'%s' which is not marked as 'Migrated to SEPA'."
+"<p class=\"oe_view_nocontent_create\">\n"
+"\t\t\tClick to create a new SEPA Direct Debit Mandate.\n"
+"\t\t\t</p><p>\n"
+"\t\t\tA SEPA Direct Debit Mandate is a document signed by your customer that "
+"gives you the autorization to do one or several direct debits on his bank "
+"account.\n"
+"\t\t\t</p>\n"
+"\t\t"
 msgstr ""
-"Vous devez renseigner le champ 'Ancien identifiant du mandat' sur le mandat "
-"récurrent '%s' qui n'est pas marqué comme étant 'Migré à SEPA'."
+"<p class=\"oe_view_nocontent_create\">\n"
+"Cliquez pour créer un nouveau mandat de prélèvement SEPA.\n"
+"</p><p>\n"
+"Un mandat de prélèvement SEPA est un document signé par votre client "
+"qui vous donne l'autorisation de faire un ou plusieurs prélèvements sur son "
+"compte en banque.\n"
+"</p>\n"
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_first
-#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_first
-msgid "Sequence Type set to First"
-msgstr "Type de Séquence mis à First"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:291
-#, python-format
-msgid ""
-"As you changed the bank account attached to this mandate, the 'Sequence "
-"Type' has been set back to 'First'."
-msgstr ""
-"Etant donné que vous avez changé le compte bancaire associé à ce mandat, le "
-"'Type de séquence' a été remis à 'First'."
-
-#. module: account_banking_sepa_direct_debit
-#: help:sdd.mandate,message_ids:0
-msgid "Messages and communication history"
-msgstr "Messages and communication history"
-
-#. module: account_banking_sepa_direct_debit
-#: view:sdd.mandate:0
-msgid "Search SEPA Direct Debit Mandates"
-msgstr "Recherche dans les mandats de prélèvement SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: field:banking.export.sdd.wizard,file:0
-msgid "File"
-msgstr "Fichier"
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd_wizard
+msgid "Export SEPA Direct Debit File"
+msgstr "Export du fichier de prélèvement SEPA"
