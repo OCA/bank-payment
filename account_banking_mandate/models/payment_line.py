@@ -55,7 +55,7 @@ class PaymentLine(models.Model):
                     [('partner_bank_id', '=', partner_bank_id),
                      ('state', '=', 'valid')])
                 if mandates:
-                    vals['mandate_id'] = mandates.id
+                    vals['mandate_id'] = mandates[0].id
         return super(PaymentLine, self).create(vals)
 
     @api.one
