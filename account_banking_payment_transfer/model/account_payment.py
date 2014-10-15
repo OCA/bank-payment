@@ -171,10 +171,6 @@ class payment_order(orm.Model):
             self, cr, uid, order, line, labels, context=None):
         vals = {
             'journal_id': order.mode.transfer_journal_id.id,
-            'name': '%s %s' % (labels[order.payment_order_type],
-                               line.move_line_id
-                               and line.move_line_id.move_id.name
-                               or line.communication),
             'ref': '%s %s' % (order.payment_order_type[:3].upper(),
                               line.move_line_id
                               and line.move_line_id.move_id.name
