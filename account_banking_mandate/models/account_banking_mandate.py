@@ -56,8 +56,8 @@ class AccountBankingMandate(models.Model):
         comodel_name='res.partner.bank', string='Bank Account',
         track_visibility='onchange')
     partner_id = fields.Many2one(
-        comodel_name='res.partner', relation='partner_bank_id.partner_id',
-        string='Partner', readonly=True, store=True)
+        comodel_name='res.partner', related='partner_bank_id.partner_id',
+        string='Partner', store=True)
     company_id = fields.Many2one(
         comodel_name='res.company', string='Company', required=True,
         default=lambda self: self.env['res.company']._company_default_get(
