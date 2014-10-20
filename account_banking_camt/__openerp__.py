@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'CAMT Format Bank Statements Import',
-    'version': '0.1',
+    'version': '0.2',
     'license': 'AGPL-3',
     'author': 'Therp BV',
     'website': 'https://launchpad.net/banking-addons',

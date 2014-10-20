@@ -32,6 +32,8 @@ use parser.models as a mean of communication with the business logic.
 
 import base64
 import datetime
+from StringIO import StringIO
+from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.account_banking.parsers import models
@@ -122,6 +124,15 @@ class banking_import(orm.TransientModel):
         banking_import = self.browse(cr, uid, ids, context)[0]
         statements_file = banking_import.file
         data = base64.decodestring(statements_file)
+        files = [data]
+        try:
+            with ZipFile(StringIO(data), 'r') as archive:
+                files = [
+                    archive.read(filename) for filename in archive.namelist()
+                    if not filename.endswith('/')
+                    ]
+        except BadZipfile:
+            pass
 
         user_obj = self.pool.get('res.user')
         statement_obj = self.pool.get('account.bank.statement')
@@ -144,8 +155,10 @@ class banking_import(orm.TransientModel):
         company = (banking_import.company or
                    user_obj.browse(cr, uid, uid, context).company_id)
 
-        # Parse the file
-        statements = parser.parse(cr, data)
+        # Parse the file(s)
+        statements = []
+        for import_file in files:
+            statements += parser.parse(cr, import_file)
 
         if any([x for x in statements if not x.is_valid()]):
             raise orm.except_orm(

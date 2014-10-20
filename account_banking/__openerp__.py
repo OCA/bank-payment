@@ -26,7 +26,7 @@
 
 {
     'name': 'Account Banking',
-    'version': '0.4',
+    'version': '0.5',
     'license': 'AGPL-3',
     'author': 'Banking addons community',
     'website': 'https://launchpad.net/banking-addons',
