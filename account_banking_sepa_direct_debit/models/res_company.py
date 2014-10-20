@@ -62,7 +62,7 @@ class ResCompany(models.Model):
         after_replacement = ''
         for char in before_replacement:
             if char.isalpha():
-                after_replacement += str(ord(char)-87)
+                after_replacement += str(ord(char) - 87)
             else:
                 after_replacement += char
         logger.debug(
