@@ -18,6 +18,7 @@
 				<field name="partner_id" position="after">
 					<field name="type"/>
 					<field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
+                    <field name="scheme"/>
 				</field>
 				<field name="last_debit_date" position="after">
 					<field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>

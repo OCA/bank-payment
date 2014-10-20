@@ -36,9 +36,8 @@ class BankingExportSdd(models.Model):
     _rec_name = 'filename'
 
     @api.one
+    @api.depends('payment_order_ids', 'payment_order_ids.reference')
     def _generate_filename(self):
-        filename = ''
-        # FIXME : we never enter inside the IF to give a good filename
         if self.payment_order_ids:
             ref = self.payment_order_ids[0].reference
             label = unidecode(ref.replace('/', '-')) if ref else 'error'
