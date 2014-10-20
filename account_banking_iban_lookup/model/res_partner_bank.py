@@ -117,12 +117,12 @@ class res_partner_bank(orm.Model):
             return self.onchange_iban(
                 cr, uid, ids, acc_number, acc_number_domestic,
                 state, partner_id, country_id, context=None
-                )
+            )
         else:
             return self.onchange_domestic(
                 cr, uid, ids, acc_number,
                 partner_id, country_id, context=None
-                )
+            )
 
     def onchange_domestic(
             self, cr, uid, ids, acc_number,
@@ -250,7 +250,7 @@ class res_partner_bank(orm.Model):
             bank_id, country_id = get_or_create_bank(
                 self.pool, cr, uid, iban_acc.BIC_searchkey,
                 code=iban_acc.BIC_searchkey
-                )
+            )
             return {
                 'value': dict(
                     acc_number_domestic=iban_acc.localized_BBAN,

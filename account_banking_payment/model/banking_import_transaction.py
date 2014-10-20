@@ -84,11 +84,13 @@ class banking_import_transaction(orm.Model):
             self, cr, uid, trans, log, context=None):
         payment_line_obj = self.pool.get('payment.line')
         line_ids = payment_line_obj.search(
-            cr, uid, [
+            cr, uid,
+            [
                 ('order_id.payment_order_type', '=', 'debit'),
                 ('order_id.state', 'in', ['sent', 'done']),
                 ('communication', '=', trans.reference)
-                ], context=context)
+            ],
+            context=context)
         # stornos MUST have an exact match
         if len(line_ids) == 1:
             account_id = payment_line_obj.get_storno_account_id(
@@ -139,7 +141,7 @@ class banking_import_transaction(orm.Model):
                 and round(line.amount, digits) == -round(
                     trans.statement_line_id.amount, digits)
                 and bank_match(trans.remote_account, line.bank_id))
-            ]
+        ]
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
@@ -212,18 +214,21 @@ class banking_import_transaction(orm.Model):
         transaction = self.browse(cr, uid, transaction_id, context=context)
         payment_line_obj = self.pool.get('payment.line')
         payment_line_obj.write(
-            cr, uid, transaction.payment_line_id.id, {
+            cr, uid, transaction.payment_line_id.id,
+            {
                 'date_done': transaction.statement_line_id.date,
-                }
-            )
+            }
+        )
         self._confirm_move(cr, uid, transaction_id, context=context)
         # Check if the payment order is 'done'
         order_id = transaction.payment_line_id.order_id.id
         other_lines = payment_line_obj.search(
-            cr, uid, [
+            cr, uid,
+            [
                 ('order_id', '=', order_id),
                 ('date_done', '=', False),
-                ], context=context)
+            ],
+            context=context)
         if not other_lines:
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(
@@ -327,7 +332,7 @@ class banking_import_transaction(orm.Model):
         'payment_order_id': fields.many2one(
             'payment.order', 'Payment order to reconcile'),
         'payment_line_id': fields.many2one('payment.line', 'Payment line'),
-        }
+    }
 
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
         if not ids:
@@ -346,7 +351,7 @@ class banking_import_transaction(orm.Model):
             'payment_line_id': False,
             'payment_order_id': False,
             'payment_order_ids': [(6, 0, [])],
-            }
+        }
         write_vals.update(vals or {})
         return super(banking_import_transaction, self).clear_and_write(
             cr, uid, ids, vals=vals, context=context)
@@ -361,7 +366,7 @@ class banking_import_transaction(orm.Model):
             move_info.get('payment_order_ids', False) and
             len(move_info['payment_order_ids']) == 1 and
             move_info['payment_order_ids'][0]
-            )
+        )
         return vals
 
     def hook_match_payment(self, cr, uid, transaction, log, context=None):

@@ -93,7 +93,7 @@ class AccountBankStatement(orm.Model):
                     'account_id': (
                         tax.get('account_collected_id',
                                 defaults['account_id'])),
-                    })
+                })
 
         return move_lines, update_move_line
 

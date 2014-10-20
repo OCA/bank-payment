@@ -36,10 +36,12 @@ class banking_export_lcr_wizard(orm.TransientModel):
     _description = 'Export French LCR File'
 
     _columns = {
-        'state': fields.selection([
-            ('create', 'Create'),
-            ('finish', 'Finish'),
-            ], 'State', readonly=True),
+        'state': fields.selection(
+            [
+                ('create', 'Create'),
+                ('finish', 'Finish'),
+            ],
+            'State', readonly=True),
         'nb_transactions': fields.related(
             'file_id', 'nb_transactions', type='integer',
             string='Number of Transactions', readonly=True),
@@ -56,11 +58,11 @@ class banking_export_lcr_wizard(orm.TransientModel):
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_lcr_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
-        }
+    }
 
     _defaults = {
         'state': 'create',
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
@@ -96,7 +98,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             unallowed_ascii_chars = [
                 '"', '#', '$', '%', '&', ';', '<', '>', '=', '@',
                 '[', ']', '^', '_', '`', '{', '}', '|', '~', '\\', '!',
-                ]
+            ]
             for unallowed_ascii_char in unallowed_ascii_chars:
                 value = value.replace(unallowed_ascii_char, '-')
         except:
@@ -150,7 +152,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             'code_guichet': iban[9:14],
             'numero_compte': iban[14:25],
             'cle_rib': iban[25:27],
-            }
+        }
 
     def _prepare_first_cfonb_line(
             self, cr, uid, lcr_export, context=None):
@@ -200,7 +202,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             # "remise à l'escompte" and we do
             # "Encaissement, crédit forfaitaire après l’échéance"
             ref_remise,
-            ])
+        ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         cfonb_line += '\r\n'
         return cfonb_line
@@ -253,7 +255,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             date_creation,
             ' ' * (4 + 1 + 3 + 3 + 9),
             reference_tireur,
-            ])
+        ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         cfonb_line += '\r\n'
         return cfonb_line
@@ -273,7 +275,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             ' ' * (6 + 12 + 24 + 24 + 1 + 2 + 5 + 5 + 11),
             zero_montant_total_centimes,
             ' ' * (4 + 6 + 10 + 15 + 5 + 6),
-            ])
+        ])
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         return cfonb_line
 
@@ -332,7 +334,7 @@ class banking_export_lcr_wizard(orm.TransientModel):
             'res_model': self._name,
             'res_id': ids[0],
             'target': 'new',
-            }
+        }
 
         return action
 

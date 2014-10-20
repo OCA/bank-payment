@@ -38,5 +38,5 @@ class stock_picking(orm.Model):
                 picking.purchase_id.supplier_partner_bank_id.id or False,
                 'payment_mode_id':
                 picking.purchase_id.payment_mode_id.id or False,
-                })
+            })
         return invoice_vals

@@ -31,13 +31,13 @@
     'depends': ['account_direct_debit'],
     'external_dependencies': {
         'python': ['unidecode'],
-        },
+    },
     'data': [
         'account_banking_lcr_view.xml',
         'wizard/export_lcr_view.xml',
         'data/payment_type_lcr.xml',
         'security/ir.model.access.csv',
-        ],
+    ],
     'demo': ['lcr_demo.xml'],
     'description': '''
 French Letter of Change

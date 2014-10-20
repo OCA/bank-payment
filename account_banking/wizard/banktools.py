@@ -96,10 +96,12 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
     '''
     partner_obj = pool.get('res.partner')
     partner_ids = partner_obj.search(
-        cr, uid, [
+        cr, uid,
+        [
             '|', ('is_company', '=', True), ('parent_id', '=', False),
             ('name', 'ilike', name),
-            ], context=context)
+        ],
+        context=context)
     if not partner_ids:
         # Try brute search on address and then match reverse
         criteria = []

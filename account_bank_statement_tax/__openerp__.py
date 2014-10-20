@@ -28,7 +28,7 @@
     'category': 'Banking addons',
     'depends': [
         'account',
-        ],
+    ],
     'data': [
         'view/account_bank_statement.xml',
     ],

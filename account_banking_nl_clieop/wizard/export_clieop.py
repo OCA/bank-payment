@@ -48,7 +48,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
             [
                 ('create', 'Create'),
                 ('finish', 'Finish')
-                ],
+            ],
             'State',
             readonly=True,
         ),
@@ -57,14 +57,14 @@ class banking_export_clieop_wizard(orm.TransientModel):
             help=('The bank will use this reference in feedback communication '
                   'to refer to this run. Only five characters are available.'
                   ),
-            ),
+        ),
         'batchtype': fields.selection(
             [
                 ('CLIEOPPAY', 'Payments'),
                 ('CLIEOPSAL', 'Salary Payments'),
                 ('CLIEOPINC', 'Direct Debits'),
             ], 'Type', readonly=True,
-            ),
+        ),
         'execution_date': fields.date(
             'Execution Date',
             help=('This is the date the file should be processed by the bank. '
@@ -73,86 +73,86 @@ class banking_export_clieop_wizard(orm.TransientModel):
                   'Please keep in mind that banks only execute on working '
                   'days and typically use a delay of two days between '
                   'execution date and effective transfer date.'),
-            ),
+        ),
         'test': fields.boolean(
             'Test Run',
             help=('Select this if you want your bank to run a test process '
                   'rather then execute your orders for real.'
                   ),
-            ),
+        ),
         'fixed_message': fields.char(
             'Fixed Message', size=32,
             help=('A fixed message to apply to all transactions in addition '
                   'to the individual messages.'),
-            ),
+        ),
         # file fields
         'file_id': fields.many2one(
             'banking.export.clieop',
             'ClieOp File',
             readonly=True
-            ),
+        ),
         # fields.related does not seem to support
         # fields of type selection
         'testcode': fields.selection(
             [('T', _('Yes')), ('P', _('No'))],
             'Test Run', readonly=True,
-            ),
+        ),
         'filetype': fields.selection(
             [
                 ('CREDBET', 'Payment Batch'),
                 ('SALARIS', 'Salary Payment Batch'),
                 ('INCASSO', 'Direct Debit Batch'),
-                ],
+            ],
             'File Type',
             readonly=True,
-            ),
+        ),
         'prefered_date': fields.related(
             'file_id', 'prefered_date',
             type='date',
             string='Prefered Processing Date',
             readonly=True,
-            ),
+        ),
         'no_transactions': fields.related(
             'file_id', 'no_transactions',
             type ='integer',
             string='Number of Transactions',
             readonly=True,
-            ),
+        ),
         'check_no_accounts': fields.related(
             'file_id', 'check_no_accounts',
             type='char', size=5,
             string='Check Number Accounts',
             readonly=True,
-            ),
+        ),
         'total_amount': fields.related(
             'file_id', 'total_amount',
             type='float',
             string='Total Amount',
             readonly=True,
-            ),
+        ),
         'identification': fields.related(
             'file_id', 'identification',
             type='char', size=6,
             string='Identification',
             readonly=True,
-            ),
+        ),
         'file': fields.related(
             'file_id', 'file', type='binary',
             readonly=True,
             string='File',
-            ),
+        ),
         'filename': fields.related(
             'file_id', 'filename',
             type='char', size=32,
             readonly=True,
             string='Filename',
-            ),
+        ),
         'payment_order_ids': fields.many2many(
             'payment.order', 'rel_wiz_payorders', 'wizard_id',
             'payment_order_id', 'Payment Orders',
             readonly=True,
-            ),
-        }
+        ),
+    }
 
     def create(self, cr, uid, vals, context=None):
         '''
@@ -233,7 +233,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
             'reference': runs[type][0].reference[-5:],
             'payment_order_ids': [[6, 0, payment_order_ids]],
             'state': 'create',
-            })
+        })
 
     def create_clieop(self, cr, uid, ids, context):
         '''
@@ -255,7 +255,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
                     if not our_account_nr:
                         our_account_nr = sepa.IBAN(
                             payment_order.mode.bank_id.acc_number
-                            ).localized_BBAN
+                        ).localized_BBAN
                 else:
                     our_account_nr = payment_order.mode.bank_id.acc_number
                 if not our_account_nr:
@@ -317,7 +317,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
                     line.bank_id.state == 'iban' and
                     line.bank_id.acc_number_domestic or
                     line.bank_id.acc_number
-                    )
+                )
                 iban = sepa.IBAN(other_account_nr)
                 # Is this an IBAN account?
                 if iban.valid:
@@ -339,7 +339,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
         # Generate the specifics of this clieopfile
         order = clieopfile.order
         file_id = self.pool.get('banking.export.clieop').create(
-            cr, uid, dict(
+            cr, uid,
+            dict(
                 filetype=order.name_transactioncode,
                 identification=order.identification,
                 prefered_date=strfdate(order.preferred_execution_date),
@@ -353,7 +354,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
                 payment_order_ids=[
                     [6, 0, [x.id
                             for x in clieop_export['payment_order_ids']]]],
-                ), context)
+            ),
+            context)
         self.write(cr, uid, [ids[0]], dict(
             filetype=order.name_transactioncode,
             testcode=order.testcode,
@@ -392,7 +394,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
             clieop_obj = self.pool.get('banking.export.clieop')
             clieop_obj.write(
                 cr, uid, clieop_export['file_id'].id, {'state': 'sent'}
-                )
+            )
             wf_service = netsvc.LocalService('workflow')
             for order in clieop_export['payment_order_ids']:
                 wf_service.trg_validate(

@@ -37,8 +37,9 @@ class payment_order_create(orm.TransientModel):
         # apply payment term filter
         if payment_order.mode.payment_term_ids:
             domain += [
-                ('invoice.payment_term', 'in',
-                 [term.id for term in payment_order.mode.payment_term_ids]
-                 )
-                ]
+                (
+                    'invoice.payment_term', 'in',
+                    [term.id for term in payment_order.mode.payment_term_ids]
+                )
+            ]
         return True

@@ -132,7 +132,7 @@ class statement(models.mem_bank_statement):
             '62F': _closing_balance,
             '61': _transaction_new,
             '86': _transaction_info,
-            }
+        }
 
         rectypes.get(record['recordid'], _not_used)()
 

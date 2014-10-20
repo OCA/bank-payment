@@ -47,5 +47,5 @@ class account_bank_statement_line(orm.Model):
                 'target': 'new',
                 'res_id': False,
                 'nodestroy': False,
-                }
+            }
         return res

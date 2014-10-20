@@ -46,12 +46,12 @@ class payment_line(orm.Model):
             'account.move.line', 'Debit move line',
             readonly=True,
             help="Move line through which the debit order pays the invoice",
-            ),
-        }
+        ),
+    }
 
     _defaults = {
         'msg': '',
-        }
+    }
 
     """
     Hooks for processing direct debit orders, such as implemented in
@@ -123,7 +123,7 @@ class payment_line(orm.Model):
                 _('Error'),
                 _('Move line %s has already been reconciled') %
                 torec_move_line.name
-                )
+            )
         if (transit_move_line.reconcile_id
                 or transit_move_line.reconcile_partial_id):
             raise orm.except_orm(
@@ -141,7 +141,7 @@ class payment_line(orm.Model):
             line_ids = [
                 x.id for x in
                 torec_move_line.reconcile_partial_id.line_partial_ids
-                ] + [transit_move_line.id]
+            ] + [transit_move_line.id]
 
         total = move_line_obj.get_balance(cr, uid, line_ids)
         vals = {
@@ -150,7 +150,7 @@ class payment_line(orm.Model):
             'line_partial_ids': (is_zero(total)
                                  and [(6, 0, [])]
                                  or [(6, 0, line_ids)]),
-            }
+        }
 
         if torec_move_line.reconcile_partial_id:
             reconcile_obj.write(

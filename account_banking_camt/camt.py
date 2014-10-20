@@ -148,7 +148,7 @@ CAMT Format parser
                 self.get_unique_account_identifier(
                     cr, statement.local_account),
                 identifier)
-            )
+        )
 
         # Assuming If there is no Ccy tag then it belongs to defaut currency
         if not self.xpath(node, './ns:Acct/ns:Ccy'):
@@ -193,7 +193,7 @@ CAMT Format parser
             'value_date': self.xpath(node, './ns:ValDt/ns:Dt')[0].text,
             'transfer_type': self.get_transfer_type(node),
             'transferred_amount': self.parse_amount(node)
-            }
+        }
         TxDtls = self.xpath(node, './ns:NtryDtls/ns:TxDtls')
         if len(TxDtls) == 1:
             vals = self.parse_TxDtls(TxDtls[0], entry_details)

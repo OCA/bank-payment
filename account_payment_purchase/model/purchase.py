@@ -34,7 +34,7 @@ class purchase_order(orm.Model):
             "from the partner and will be copied to the supplier invoice."),
         'payment_mode_id': fields.many2one(
             'payment.mode', 'Payment Mode'),
-        }
+    }
 
     def _get_default_supplier_partner_bank(
             self, cr, uid, partner, context=None):
@@ -56,12 +56,12 @@ class purchase_order(orm.Model):
                     cr, uid, partner),
                 'payment_mode_id':
                 partner.supplier_payment_mode.id or False,
-                })
+            })
         else:
             res['value'].update({
                 'supplier_partner_bank_id': False,
                 'payment_mode_id': False,
-                })
+            })
         return res
 
     def action_invoice_create(self, cr, uid, ids, context=None):
@@ -73,10 +73,12 @@ class purchase_order(orm.Model):
         for order in self.browse(cr, uid, ids, context=context):
             for invoice in order.invoice_ids:
                 if invoice.state == 'draft':
-                    invoice.write({
-                        'partner_bank_id':
-                        order.supplier_partner_bank_id.id or False,
-                        'payment_mode_id':
-                        order.payment_mode_id.id or False,
-                        }, context=context)
+                    invoice.write(
+                        {
+                            'partner_bank_id':
+                            order.supplier_partner_bank_id.id or False,
+                            'payment_mode_id':
+                            order.payment_mode_id.id or False,
+                        },
+                        context=context)
         return res

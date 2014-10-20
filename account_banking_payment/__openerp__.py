@@ -33,7 +33,7 @@
     'depends': [
         'account_banking',
         'account_banking_payment_export',
-        ],
+    ],
     'data': [
         'view/account_payment.xml',
         'view/banking_transaction_wizard.xml',

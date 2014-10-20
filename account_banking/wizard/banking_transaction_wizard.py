@@ -66,7 +66,7 @@ class banking_transaction_wizard(orm.TransientModel):
             'target': 'new',
             'res_id': ids[0],
             'nodestroy': nodestroy,
-            }
+        }
 
     def trigger_match(self, cr, uid, ids, context=None):
         """
@@ -224,7 +224,7 @@ class banking_transaction_wizard(orm.TransientModel):
                             (6, 0, [todo_entry[0]] if todo_entry[0] else [])
                         ],
                         'match_type': 'manual',
-                        }
+                    }
 
                     transaction_obj.clear_and_write(
                         cr, uid, transaction_id, vals, context=context)
@@ -233,12 +233,12 @@ class banking_transaction_wizard(orm.TransientModel):
                         'account_id': move_line_obj.read(
                             cr, uid, todo_entry[1],
                             ['account_id'], context=context)['account_id'][0],
-                        }
+                    }
 
                     if todo_entry[0]:
                         st_line_vals['partner_id'] = invoice_obj.browse(
                             cr, uid, todo_entry[0], context=context
-                            ).partner_id.commercial_partner_id.id
+                        ).partner_id.commercial_partner_id.id
 
                     statement_line_obj.write(
                         cr, uid, statement_line_id,
@@ -338,8 +338,7 @@ class banking_transaction_wizard(orm.TransientModel):
     _columns = {
         'name': fields.char('Name', size=64),
         'statement_line_id': fields.many2one(
-            'account.bank.statement.line', 'Statement line',
-            ),
+            'account.bank.statement.line', 'Statement line'),
         'amount': fields.related(
             'statement_line_id', 'amount', type='float',
             string="Amount", readonly=True),

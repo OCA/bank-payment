@@ -61,14 +61,16 @@ class payment_order(orm.Model):
             },
             help='Select the Payment Mode to be applied.',
         ),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('open', 'Confirmed'),
-            ('cancel', 'Cancelled'),
-            ('sent', 'Sent'),
-            ('rejected', 'Rejected'),
-            ('done', 'Done'),
-            ], 'State', select=True
+        'state': fields.selection(
+            [
+                ('draft', 'Draft'),
+                ('open', 'Confirmed'),
+                ('cancel', 'Cancelled'),
+                ('sent', 'Sent'),
+                ('rejected', 'Rejected'),
+                ('done', 'Done'),
+            ],
+            'State', select=True
         ),
         'line_ids': fields.one2many(
             'payment.line', 'order_id', 'Payment lines',
@@ -88,11 +90,13 @@ class payment_order(orm.Model):
                 'done': [('readonly', True)]
             },
         ),
-        'date_prefered': fields.selection([
-            ('now', 'Directly'),
-            ('due', 'Due date'),
-            ('fixed', 'Fixed date')
-            ], "Preferred date", change_default=True, required=True,
+        'date_prefered': fields.selection(
+            [
+                ('now', 'Directly'),
+                ('due', 'Due date'),
+                ('fixed', 'Fixed date')
+            ],
+            "Preferred date", change_default=True, required=True,
             states={
                 'sent': [('readonly', True)],
                 'rejected': [('readonly', True)],
@@ -101,9 +105,8 @@ class payment_order(orm.Model):
             help=("Choose an option for the Payment Order:'Fixed' stands for "
                   "a date specified by you.'Directly' stands for the direct "
                   "execution.'Due date' stands for the scheduled date of "
-                  "execution."
-                  )
-            ),
+                  "execution.")
+        ),
         'date_sent': fields.date('Send date', readonly=True),
     }
 
@@ -234,7 +237,7 @@ class payment_order(orm.Model):
                               line.move_line_id
                               and line.move_line_id.move_id.name
                               or line.communication),
-            }
+        }
         return vals
 
     def _prepare_move_line_transfer_account(
@@ -255,7 +258,7 @@ class payment_order(orm.Model):
                       and line.amount or 0.0),
             'date': fields.date.context_today(
                 self, cr, uid, context=context),
-            }
+        }
         return vals
 
     def _update_move_line_partner_account(
@@ -272,7 +275,7 @@ class payment_order(orm.Model):
                        and line.amount or 0.0),
             'debit': (order.payment_order_type == 'payment'
                       and line.amount or 0.0),
-            })
+        })
         return vals
 
     def action_sent_no_move_line_hook(self, cr, uid, pay_line, context=None):
@@ -291,7 +294,7 @@ class payment_order(orm.Model):
         labels = {
             'payment': _('Payment order'),
             'debit': _('Direct debit order'),
-            }
+        }
         for order in self.browse(cr, uid, ids, context=context):
             if not order.mode.transfer_journal_id \
                     or not order.mode.transfer_account_id:
@@ -338,9 +341,12 @@ class payment_order(orm.Model):
                 account_move_obj.post(cr, uid, [move_id], context=context)
 
         # State field is written by act_sent_wait
-        self.write(cr, uid, ids, {
-            'date_sent': fields.date.context_today(
-                self, cr, uid, context=context),
-            }, context=context)
+        self.write(
+            cr, uid, ids,
+            {
+                'date_sent': fields.date.context_today(
+                    self, cr, uid, context=context),
+            },
+            context=context)
 
         return True

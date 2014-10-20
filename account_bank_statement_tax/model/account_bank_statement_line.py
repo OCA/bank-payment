@@ -30,5 +30,5 @@ class AccountBankStatementLine(orm.Model):
             'account.tax', 'Tax',
             domain=[('price_include', '=', True)],
             help="Apply an (inclusive) tax from the bank statement line",
-            ),
-        }
+        ),
+    }

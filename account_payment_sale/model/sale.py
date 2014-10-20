@@ -29,7 +29,7 @@ class sale_order(orm.Model):
     _columns = {
         'payment_mode_id': fields.many2one(
             'payment.mode', 'Payment Mode'),
-        }
+    }
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         res = super(sale_order, self).onchange_partner_id(
@@ -51,5 +51,5 @@ class sale_order(orm.Model):
             'payment_mode_id': order.payment_mode_id.id or False,
             'partner_bank_id': order.payment_mode_id and
             order.payment_mode_id.bank_id.id or False,
-            })
+        })
         return invoice_vals
