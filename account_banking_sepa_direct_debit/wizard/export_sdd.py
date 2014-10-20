@@ -28,35 +28,34 @@ from datetime import datetime
 from lxml import etree
 
 
-class banking_export_sdd_wizard(orm.TransientModel):
+class BankingExportSddWizard(orm.TransientModel):
     _name = 'banking.export.sdd.wizard'
     _inherit = ['banking.export.pain']
     _description = 'Export SEPA Direct Debit File'
     _columns = {
-        'state': fields.selection([
-            ('create', 'Create'),
-            ('finish', 'Finish'),
-            ], 'State', readonly=True),
+        'state': fields.selection(
+            [('create', 'Create'),
+             ('finish', 'Finish')], 'State', readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking',
             help="If true, the bank statement will display only one credit "
             "line for all the direct debits of the SEPA file ; if false, "
             "the bank statement will display one credit line per direct "
             "debit of the SEPA file."),
-        'charge_bearer': fields.selection([
-            ('SLEV', 'Following Service Level'),
-            ('SHAR', 'Shared'),
-            ('CRED', 'Borne by Creditor'),
-            ('DEBT', 'Borne by Debtor'),
-            ], 'Charge Bearer', required=True,
+        'charge_bearer': fields.selection(
+            [('SLEV', 'Following Service Level'),
+             ('SHAR', 'Shared'),
+             ('CRED', 'Borne by Creditor'),
+             ('DEBT', 'Borne by Debtor')], 'Charge Bearer', required=True,
             help="Following service level : transaction charges are to be "
-            "applied following the rules agreed in the service level and/or "
-            "scheme (SEPA Core messages must use this). Shared : transaction "
-            "charges on the creditor side are to be borne by the creditor, "
-            "transaction charges on the debtor side are to be borne by the "
-            "debtor. Borne by creditor : all transaction charges are to be "
-            "borne by the creditor. Borne by debtor : all transaction "
-            "charges are to be borne by the debtor."),
+                 "applied following the rules agreed in the service level "
+                 "and/or scheme (SEPA Core messages must use this). Shared : "
+                 "transaction charges on the creditor side are to be borne "
+                 "by the creditor, transaction charges on the debtor side are "
+                 "to be borne by the debtor. Borne by creditor : all "
+                 "transaction charges are to be borne by the creditor. Borne "
+                 "by debtor : all transaction charges are to be borne by the "
+                 "debtor."),
         'nb_transactions': fields.related(
             'file_id', 'nb_transactions', type='integer',
             string='Number of Transactions', readonly=True),
@@ -73,19 +72,19 @@ class banking_export_sdd_wizard(orm.TransientModel):
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_sdd_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
-        }
+    }
 
     _defaults = {
         'charge_bearer': 'SLEV',
         'state': 'create',
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
         vals.update({
             'payment_order_ids': [[6, 0, payment_order_ids]],
         })
-        return super(banking_export_sdd_wizard, self).create(
+        return super(BankingExportSddWizard, self).create(
             cr, uid, vals, context=context)
 
     def _get_previous_bank(self, cr, uid, payline, context=None):
@@ -115,9 +114,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
         return previous_bank
 
     def create_sepa(self, cr, uid, ids, context=None):
-        '''
-        Creates the SEPA Direct Debit file. That's the important code !
-        '''
+        """Creates the SEPA Direct Debit file. That's the important code !"""
         sepa_export = self.browse(cr, uid, ids[0], context=context)
 
         pain_flavor = sepa_export.payment_order_ids[0].mode.type.code
@@ -139,10 +136,9 @@ class banking_export_sdd_wizard(orm.TransientModel):
             raise orm.except_orm(
                 _('Error:'),
                 _("Payment Type Code '%s' is not supported. The only "
-                    "Payment Type Code supported for SEPA Direct Debit "
-                    "are 'pain.008.001.02', 'pain.008.001.03' and "
-                    "'pain.008.001.04'.") % pain_flavor)
-
+                  "Payment Type Code supported for SEPA Direct Debit are "
+                  "'pain.008.001.02', 'pain.008.001.03' and "
+                  "'pain.008.001.04'.") % pain_flavor)
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
@@ -154,20 +150,16 @@ class banking_export_sdd_wizard(orm.TransientModel):
             'pain_xsd_file':
             'account_banking_sepa_direct_debit/data/%s.xsd' % pain_flavor,
         }
-
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-            }
-
+        }
         xml_root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
-
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
             self.generate_group_header_block(
                 cr, uid, pain_root, gen_args, context=context)
-
         transactions_count_1_6 = 0
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
@@ -192,36 +184,35 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     raise orm.except_orm(
                         _('Error:'),
                         _("Missing SEPA Direct Debit mandate on the payment "
-                            "line with partner '%s' and Invoice ref '%s'.")
+                          "line with partner '%s' and Invoice ref '%s'.")
                         % (line.partner_id.name,
-                            line.ml_inv_ref.number))
+                           line.ml_inv_ref.number))
                 scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
                     raise orm.except_orm(
                         _('Error:'),
                         _("The SEPA Direct Debit mandate with reference '%s' "
-                            "for partner '%s' has expired.")
+                          "for partner '%s' has expired.")
                         % (line.mandate_id.unique_mandate_reference,
-                            line.mandate_id.partner_id.name))
+                           line.mandate_id.partner_id.name))
                 if line.mandate_id.type == 'oneoff':
-                    if not line.mandate_id.last_debit_date:
-                        seq_type = 'OOFF'
-                    else:
+                    seq_type = 'OOFF'
+                    if line.mandate_id.last_debit_date:
                         raise orm.except_orm(
                             _('Error:'),
                             _("The mandate with reference '%s' for partner "
-                                "'%s' has type set to 'One-Off' and it has a "
-                                "last debit date set to '%s', so we can't use "
-                                "it.")
+                              "'%s' has type set to 'One-Off' and it has a "
+                              "last debit date set to '%s', so we can't use "
+                              "it.")
                             % (line.mandate_id.unique_mandate_reference,
-                                line.mandate_id.partner_id.name,
-                                line.mandate_id.last_debit_date))
+                               line.mandate_id.partner_id.name,
+                               line.mandate_id.last_debit_date))
                 elif line.mandate_id.type == 'recurrent':
                     seq_type_map = {
                         'recurring': 'RCUR',
                         'first': 'FRST',
                         'final': 'FNAL',
-                        }
+                    }
                     seq_type_label = \
                         line.mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False
@@ -261,10 +252,8 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
                 {'sepa_export': sepa_export},
                 gen_args, context=context)
-
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             charge_bearer_2_24.text = sepa_export.charge_bearer
-
             creditor_scheme_identification_2_27 = etree.SubElement(
                 payment_info_2_0, 'CdtrSchmeId')
             self.generate_creditor_scheme_identification(
@@ -273,7 +262,6 @@ class banking_export_sdd_wizard(orm.TransientModel):
                 'sepa_creditor_identifier',
                 'SEPA Creditor Identifier', {'sepa_export': sepa_export},
                 'SEPA', gen_args, context=context)
-
             transactions_count_2_4 = 0
             amount_control_sum_2_5 = 0.0
             for line in lines:
@@ -404,20 +392,17 @@ class banking_export_sdd_wizard(orm.TransientModel):
             gen_args, context=context)
 
     def cancel_sepa(self, cr, uid, ids, context=None):
-        '''
-        Cancel the SEPA file: just drop the file
-        '''
+        """Cancel the SEPA file: just drop the file"""
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('banking.export.sdd').unlink(
             cr, uid, sepa_export.file_id.id, context=context)
         return {'type': 'ir.actions.act_window_close'}
 
     def save_sepa(self, cr, uid, ids, context=None):
-        '''
-        Save the SEPA Direct Debit file: mark all payments in the file
+        """Save the SEPA Direct Debit file: mark all payments in the file
         as 'sent'. Write 'last debit date' on mandate and set oneoff
-        mandate to expired
-        '''
+        mandate to expired.
+        """
         sepa_export = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('banking.export.sdd').write(
             cr, uid, sepa_export.file_id.id, {'state': 'sent'},
