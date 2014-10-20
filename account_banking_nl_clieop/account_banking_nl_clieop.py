@@ -54,11 +54,13 @@ class clieop_export(orm.Model):
         'identification':
             fields.char('Identification', size=6, readonly=True, select=True),
         'filetype':
-            fields.selection([
-                ('CREDBET', 'Payment Batch'),
-                ('SALARIS', 'Salary Payment Batch'),
-                ('INCASSO', 'Direct Debit Batch'),
-                ], 'File Type', size=7, readonly=True, select=True),
+            fields.selection(
+                [
+                    ('CREDBET', 'Payment Batch'),
+                    ('SALARIS', 'Salary Payment Batch'),
+                    ('INCASSO', 'Direct Debit Batch'),
+                ],
+                'File Type', size=7, readonly=True, select=True),
         'date_generated':
             fields.date('Generation Date', readonly=True, select=True),
         'file':

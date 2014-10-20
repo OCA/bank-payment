@@ -60,12 +60,14 @@ class banking_export_sepa(orm.Model):
             "line for all the wire transfers of the SEPA XML file ; "
             "if false, the bank statement will display one debit line "
             "per wire transfer of the SEPA XML file."),
-        'charge_bearer': fields.selection([
-            ('SLEV', 'Following Service Level'),
-            ('SHAR', 'Shared'),
-            ('CRED', 'Borne by Creditor'),
-            ('DEBT', 'Borne by Debtor'),
-            ], 'Charge Bearer', readonly=True,
+        'charge_bearer': fields.selection(
+            [
+                ('SLEV', 'Following Service Level'),
+                ('SHAR', 'Shared'),
+                ('CRED', 'Borne by Creditor'),
+                ('DEBT', 'Borne by Debtor'),
+            ],
+            'Charge Bearer', readonly=True,
             help="Following service level : transaction charges are to be "
             "applied following the rules agreed in the service level and/or "
             "scheme (SEPA Core messages must use this). Shared : "
@@ -79,10 +81,12 @@ class banking_export_sepa(orm.Model):
         'filename': fields.function(
             _generate_filename, type='char', size=256, string='Filename',
             readonly=True),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('sent', 'Sent'),
-            ], 'State', readonly=True),
+        'state': fields.selection(
+            [
+                ('draft', 'Draft'),
+                ('sent', 'Sent'),
+            ],
+            'State', readonly=True),
     }
 
     _defaults = {

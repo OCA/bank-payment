@@ -209,7 +209,7 @@ class account_banking_account_settings(orm.Model):
                 cr, uid, company_id=company_id, context=context),
             'default_credit_account_id': self._default_credit_account_id(
                 cr, uid, company_id=company_id, context=context),
-            }
+        }
         return {'value': result}
 
     _defaults = {
@@ -350,7 +350,7 @@ class account_bank_statement(orm.Model):
         (_check_company_id,
          'The journal and period chosen have to belong to the same company.',
          ['journal_id', 'period_id']),
-        ]
+    ]
 
     def _get_period(self, cr, uid, date=False, context=None):
         """

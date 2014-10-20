@@ -52,7 +52,7 @@ def eleven_test(s):
     r = 0
     l = len(s)
     for i, c in enumerate(s):
-        r += (l-i) * int(c)
+        r += (l - i) * int(c)
     return (r % 11) == 0
 
 

@@ -124,4 +124,4 @@ class account_move_line(orm.Model):
             amount_to_receive, method=True,
             type='float', string='Amount to receive',
             fnct_search=_to_receive_search),
-        }
+    }

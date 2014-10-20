@@ -29,4 +29,4 @@ class res_partner_bank(orm.Model):
     _columns = {
         'acc_number_domestic': fields.char(
             'Domestic Account Number', size=64)
-        }
+    }

@@ -113,7 +113,7 @@ class transaction(models.mem_bank_transaction):
         'ST': bt.BANK_TERMINAL,  # Storting (eigen rekening of derde)
         'VZ': bt.ORDER,  # Verzamelbetaling
         'NO': bt.STORNO,  # Storno
-        }
+    }
 
     # global expression for matching storno references
     ref_expr = re.compile('REF[\*:]([0-9A-Z-z_-]+)')
@@ -188,7 +188,7 @@ class transaction(models.mem_bank_transaction):
             self.reference = kn[4:]
         self.message = 'Acceptgiro %s' % (navr or '')
         if after:
-            parts = [after[i:i+33] for i in range(0, len(after), 33)]
+            parts = [after[i:i + 33] for i in range(0, len(after), 33)]
             if parts and not self.remote_owner:
                 self.remote_owner = parts.pop(0).strip()
             if parts:

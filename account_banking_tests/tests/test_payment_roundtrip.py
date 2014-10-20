@@ -55,34 +55,37 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         self.currency_id = data_model.get_object_reference(
             cr, uid, 'base', 'EUR')[1]
         self.bank_id = reg('res.bank').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': 'ING Bank',
                 'bic': 'INGBNL2A',
                 'country': self.country_id,
-                })
+            })
         self.company_id = reg('res.company').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': '_banking_addons_test_company',
                 'currency_id': self.currency_id,
                 'country_id': self.country_id,
-                })
+            })
         self.partner_id = reg('res.company').read(
             cr, uid, self.company_id, ['partner_id'])['partner_id'][0]
         self.partner_bank_id = reg('res.partner.bank').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'state': 'iban',
                 'acc_number': 'NL08INGB0000000555',
                 'bank': self.bank_id,
                 'bank_bic': 'INGBNL2A',
                 'partner_id': self.partner_id,
                 'company_id': self.company_id,
-                })
+            })
         reg('res.users').write(
-            cr, uid, [uid], {
-                'company_ids': [(4, self.company_id)]})
+            cr, uid, [uid],
+            {'company_ids': [(4, self.company_id)]})
         reg('res.users').write(
-            cr, uid, [uid], {
-                'company_id': self.company_id})
+            cr, uid, [uid],
+            {'company_id': self.company_id})
 
     def setup_chart(self, reg, cr, uid):
         """
@@ -95,7 +98,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         chart_values = {
             'company_id': self.company_id,
             'currency_id': self.currency_id,
-            'chart_template_id': chart_template_id}
+            'chart_template_id': chart_template_id
+        }
         chart_values.update(
             chart_setup_model.onchange_chart_template_id(
                 cr, uid, [], 1)['value'])
@@ -105,13 +109,14 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             cr, uid, [chart_setup_id])
         year = datetime.now().strftime('%Y')
         fiscalyear_id = reg('account.fiscalyear').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': year,
                 'code': year,
                 'company_id': self.company_id,
                 'date_start': '%s-01-01' % year,
                 'date_stop': '%s-12-31' % year,
-                })
+            })
         reg('account.fiscalyear').create_period(
             cr, uid, [fiscalyear_id])
 
@@ -163,21 +168,27 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             'partner_id': supplier1,
             'account_id': self.payable_id,
             'invoice_line': [
-                (0, False, {
-                    'name': 'Purchase 1',
-                    'price_unit': 100.0,
-                    'quantity': 1,
-                    'account_id': expense_id,
-                })
+                (
+                    0,
+                    False,
+                    {
+                        'name': 'Purchase 1',
+                        'price_unit': 100.0,
+                        'quantity': 1,
+                        'account_id': expense_id,
+                    }
+                )
             ],
             'reference_type': 'none',
             'supplier_invoice_number': 'INV1',
         }
         self.invoice_ids = [
             invoice_model.create(
-                cr, uid, values, context={
+                cr, uid, values,
+                context={
                     'type': 'in_invoice',
-                    })]
+                })
+        ]
         values.update({
             'partner_id': supplier2,
             'name': 'Purchase 2',
@@ -201,13 +212,16 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         in transit and configure a payment mode with them.
         """
         account_parent_id = reg('account.account').search(
-            cr, uid, [
+            cr, uid,
+            [
                 ('company_id', '=', self.company_id),
-                ('parent_id', '=', False)])[0]
+                ('parent_id', '=', False)
+            ])[0]
         user_type = reg('ir.model.data').get_object_reference(
             cr, uid, 'account', 'data_account_type_liability')[1]
         transfer_account_id = reg('account.account').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'company_id': self.company_id,
                 'parent_id': account_parent_id,
                 'code': 'TRANS',
@@ -215,20 +229,23 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 'type': 'other',
                 'user_type': user_type,
                 'reconcile': True,
-                })
+            })
         transfer_journal_id = reg('account.journal').search(
             cr, uid, [
                 ('company_id', '=', self.company_id),
-                ('code', '=', 'MISC')])[0]
+                ('code', '=', 'MISC')
+            ])[0]
         self.bank_journal_id = reg('account.journal').search(
             cr, uid, [
                 ('company_id', '=', self.company_id),
-                ('type', '=', 'bank')])[0]
+                ('type', '=', 'bank')
+            ])[0]
         payment_mode_type_id = reg('ir.model.data').get_object_reference(
             cr, uid, 'account_banking_sepa_credit_transfer',
             'export_sepa_sct_001_001_03')[1]
         self.payment_mode_id = reg('payment.mode').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': 'SEPA Mode',
                 'bank_id': self.partner_bank_id,
                 'journal': self.bank_journal_id,
@@ -236,7 +253,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 'transfer_account_id': transfer_account_id,
                 'transfer_journal_id': transfer_journal_id,
                 'type': payment_mode_type_id,
-                })
+            })
 
     def setup_payment(self, reg, cr, uid):
         """
@@ -244,40 +261,48 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         Check that the payment order can be confirmed.
         """
         self.payment_order_id = reg('payment.order').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'reference': 'PAY001',
                 'mode': self.payment_mode_id,
-                })
+            })
         context = {'active_id': self.payment_order_id}
         entries = reg('account.move.line').search(
-            cr, uid, [
+            cr, uid,
+            [
                 ('company_id', '=', self.company_id),
                 ('account_id', '=', self.payable_id),
-                ])
+            ])
         self.payment_order_create_id = reg('payment.order.create').create(
-            cr, uid, {
+            cr, uid,
+            {
                 'entries': [(6, 0, entries)],
-                }, context=context)
+            },
+            context=context)
         reg('payment.order.create').create_payment(
             cr, uid, [self.payment_order_create_id], context=context)
 
         # Check if payment lines are created with the correct reference
         self.assertTrue(
             reg('payment.line').search(
-                cr, uid, [
+                cr, uid,
+                [
                     ('move_line_id.invoice', '=', self.invoice_ids[0]),
                     ('communication', '=', 'INV1'),
                     ('state', '=', 'normal'),
-                    ], context=context),
+                ],
+                context=context),
             'No payment line created from invoice 1 or with the wrong '
             'communication')
         self.assertTrue(
             reg('payment.line').search(
-                cr, uid, [
+                cr, uid,
+                [
                     ('move_line_id.invoice', '=', self.invoice_ids[1]),
                     ('communication', '=', 'STR2'),
                     ('state', '=', 'structured'),
-                    ], context=context),
+                ],
+                context=context),
             'No payment line created from invoice 2 or with the wrong '
             'communication')
 
@@ -294,8 +319,10 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         """
         export_model = reg('banking.export.sepa.wizard')
         export_id = export_model.create(
-            cr, uid, {
-                'msg_identification': 'EXP001'},
+            cr, uid,
+            {
+                'msg_identification': 'EXP001'
+            },
             context={'active_ids': [self.payment_order_id]})
         export_model.create_sepa(
             cr, uid, [export_id])
@@ -314,19 +341,21 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         line_model = reg('account.bank.statement.line')
         wizard_model = reg('banking.transaction.wizard')
         statement_id = statement_model.create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': 'Statement',
                 'journal_id': self.bank_journal_id,
                 'balance_end_real': -200.0,
                 'period_id': reg('account.period').find(cr, uid)[0]
-                })
+            })
         line_id = line_model.create(
-            cr, uid, {
+            cr, uid,
+            {
                 'name': 'Statement line',
                 'statement_id': statement_id,
                 'amount': -200.0,
                 'account_id': self.payable_id,
-                })
+            })
         wizard_id = wizard_model.create(
             cr, uid, {'statement_line_id': line_id})
         wizard_model.write(

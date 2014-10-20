@@ -267,7 +267,7 @@ class transaction(models.mem_bank_transaction):
                 'SEPA BATCH': 'PAYB',
                 'SEPA BATCH SALARIS': 'PAYB',
                 'SEPA TERUGBOEKING': 'RETR',
-                }.get(sepa_type.upper(), 'SEPA')
+            }.get(sepa_type.upper(), 'SEPA')
             self.remote_account = sepa_dict.get('IBAN', False)
             self.remote_bank_bic = sepa_dict.get('BIC', False)
             self.remote_owner = sepa_dict.get('NAME', False)

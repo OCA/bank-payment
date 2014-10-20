@@ -508,7 +508,7 @@ class Batch(LogicalSection):
                 # Need a debit-credit format for Priority Payments
                 segments.append([
                     ['LIN'],
-                    [index+1],
+                    [index + 1],
                 ])
                 segments.append([
                     ['DTM'],

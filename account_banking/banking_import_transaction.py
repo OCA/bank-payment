@@ -71,14 +71,16 @@ class banking_import_transaction(orm.Model):
 
         # search supplier invoice
         invoice_obj = self.pool.get('account.invoice')
-        invoice_ids = invoice_obj.search(cr, uid, [
-            '&',
-            ('type', '=', 'in_invoice'),
-            ('partner_id', 'child_of', account_info.bank_partner_id.id),
-            ('company_id', '=', account_info.company_id.id),
-            ('date_invoice', '=', trans.execution_date),
-            ('reference', '=', reference),
-            ('amount_total', '=', amount),
+        invoice_ids = invoice_obj.search(
+            cr, uid,
+            [
+                '&',
+                ('type', '=', 'in_invoice'),
+                ('partner_id', 'child_of', account_info.bank_partner_id.id),
+                ('company_id', '=', account_info.company_id.id),
+                ('date_invoice', '=', trans.execution_date),
+                ('reference', '=', reference),
+                ('amount_total', '=', amount),
             ]
         )
         if invoice_ids and len(invoice_ids) == 1:
@@ -257,7 +259,7 @@ class banking_import_transaction(orm.Model):
                  (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                   self.payment_window))
                 and (not _cached(x) or _remaining(x))
-                ]
+            ]
         else:
             candidates = []
 
@@ -281,7 +283,7 @@ class banking_import_transaction(orm.Model):
                     and (not _cached(x) or _remaining(x))
                     and (not partner_ids
                          or x.invoice.partner_id.id in partner_ids))
-                ]
+            ]
 
         # Match on amount expected. Limit this kind of search to known
         # partners.
@@ -295,7 +297,7 @@ class banking_import_transaction(orm.Model):
                     self.payment_window)
                     and (not _cached(x) or _remaining(x))
                     and x.partner_id.id in partner_ids)
-                ]
+            ]
 
         move_line = False
 
@@ -493,7 +495,7 @@ class banking_import_transaction(orm.Model):
             'amount': line_amount,
             'account_id': transaction.move_line_id.account_id.id,
             'type': transaction.move_line_id.credit and 'dr' or 'cr',
-            }
+        }
         voucher['line_ids'] = [(0, 0, vch_line)]
         voucher_id = self.pool.get('account.voucher').create(
             cr, uid, voucher, context=context)
@@ -590,7 +592,7 @@ class banking_import_transaction(orm.Model):
             transaction.move_line_id.reconcile_id.id or
             transaction.move_line_id.reconcile_partial_id and
             transaction.move_line_id.reconcile_partial_id.id
-            )
+        )
         move_lines = []
         for move in transaction.statement_line_id.move_ids:
             move_lines += move.line_id
@@ -644,7 +646,7 @@ class banking_import_transaction(orm.Model):
         'invoice': _cancel_voucher,
         'manual': _cancel_voucher,
         'move': _cancel_voucher,
-        }
+    }
 
     def cancel(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
@@ -667,7 +669,7 @@ class banking_import_transaction(orm.Model):
         'invoice': _confirm_move,
         'manual': _confirm_move,
         'move': _confirm_move,
-        }
+    }
 
     def confirm(self, cr, uid, ids, context=None):
         if ids and isinstance(ids, (int, float)):
@@ -681,7 +683,7 @@ class banking_import_transaction(orm.Model):
                     _("Cannot reconcile type %s. No method found to " +
                       "reconcile this type") %
                     transaction.match_type
-                    )
+                )
             if (transaction.residual and transaction.writeoff_account_id):
                 if transaction.match_type not in ('invoice', 'move', 'manual'):
                     raise orm.except_orm(
@@ -689,7 +691,7 @@ class banking_import_transaction(orm.Model):
                         _("Bank transaction %s: write off not implemented for "
                           "this match type.") %
                         transaction.statement_line_id.name
-                        )
+                    )
             # Generalize this bit and move to the confirmation
             # methods that actually do create a voucher?
             self.confirm_map[transaction.match_type](
@@ -702,7 +704,7 @@ class banking_import_transaction(orm.Model):
         # such as transferred_amount
         'execution_date', 'local_account', 'remote_account',
         'remote_owner', 'reference', 'message',
-        ]
+    ]
 
     def create(self, cr, uid, vals, context=None):
         """
@@ -1009,7 +1011,7 @@ class banking_import_transaction(orm.Model):
                         transaction.transferred_amount < 0 and
                         account_info.default_credit_account_id.id or
                         account_info.default_debit_account_id.id),
-                    }
+                }
                 statement_line_id = statement_line_obj.create(
                     cr, uid, values, context
                 )
@@ -1026,12 +1028,12 @@ class banking_import_transaction(orm.Model):
                 results['log'].append(
                     _('transaction %(statement_id)s.%(transaction_id)s for '
                       'account %(bank_account)s uses different currency than '
-                      'the defined bank journal.'
-                      ) % {
-                          'bank_account': transactions.local_account,
-                          'statement_id': transaction.statement,
-                          'transaction_id': transaction.transaction,
-                          }
+                      'the defined bank journal.') %
+                    {
+                        'bank_account': transactions.local_account,
+                        'statement_id': transaction.statement,
+                        'transaction_id': transaction.transaction,
+                    }
                 )
                 error_accounts[transaction.local_account] = True
                 results['error_cnt'] += 1
@@ -1052,7 +1054,8 @@ class banking_import_transaction(orm.Model):
                         remote_currency=transaction.provision_costs_currency,
                         message=transaction.provision_costs_description,
                         parent_id=transaction.id,
-                        ), context)
+                    ),
+                    context)
 
                 injected.append(self.browse(cr, uid, cost_id, context))
 
@@ -1069,7 +1072,8 @@ class banking_import_transaction(orm.Model):
                         provision_costs=False,
                         provision_costs_currency=False,
                         provision_costs_description=False,
-                        ), context=context)
+                    ),
+                    context=context)
                 # rebrowse the current record after writing
                 transaction = self.browse(
                     cr, uid, transaction.id, context=context
@@ -1086,7 +1090,7 @@ class banking_import_transaction(orm.Model):
                 lines = self._match_costs(
                     cr, uid, transaction, period_id, account_info,
                     results['log']
-                    )
+                )
                 results['bank_costs_invoice_cnt'] += bool(lines)
                 for line in lines:
                     if not [x for x in move_lines if x.id == line.id]:
@@ -1097,7 +1101,7 @@ class banking_import_transaction(orm.Model):
                 partner_banks = banktools.get_bank_accounts(
                     self.pool, cr, uid, transaction.remote_account,
                     results['log'], fail=True
-                    )
+                )
                 if partner_banks:
                     partner_ids = [x.partner_id.id for x in partner_banks]
                 elif transaction.remote_owner:
@@ -1137,7 +1141,7 @@ class banking_import_transaction(orm.Model):
                     cr, uid, transaction,
                     payment_lines, partner_ids,
                     partner_banks, results['log'], linked_payments,
-                    )
+                )
 
             # Second guess, invoice -> may split transaction, so beware
             if not move_info:
@@ -1231,7 +1235,7 @@ class banking_import_transaction(orm.Model):
                 res[transaction.id] = (
                     transaction.move_currency_amount -
                     transaction.statement_line_id.amount
-                    )
+                )
         return res
 
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
@@ -1256,22 +1260,22 @@ class banking_import_transaction(orm.Model):
         Write values in argument 'vals', but clear all match
         related values first
         """
-        write_vals = (
-            dict([
+        write_vals = dict(
+            [
                 (x, False)
                 for x in [
                     'match_type',
                     'move_line_id',
                     'invoice_id',
                 ]
-            ] + [
+            ] +
+            [
                 (x, [(6, 0, [])])
                 for x in [
                     'move_line_ids',
                     'invoice_ids',
-                    ]
                 ]
-            )
+            ]
         )
         write_vals.update(vals or {})
         return self.write(cr, uid, ids, write_vals, context=context)
@@ -1299,12 +1303,12 @@ class banking_import_transaction(orm.Model):
                     statement.journal_id.currency
                     and statement.journal_id.currency.id
                     or statement.company_id.currency_id.id
-                    )
+                )
                 from_curr_id = (
                     transaction.move_line_id.currency_id
                     and transaction.move_line_id.currency_id.id
                     or statement.company_id.currency_id.id
-                    )
+                )
                 if from_curr_id != to_curr_id:
                     amount_currency = stline_pool._convert_currency(
                         cr, uid, from_curr_id, to_curr_id, move_line_amount,
@@ -1346,7 +1350,7 @@ class banking_import_transaction(orm.Model):
         # used in bank_import.py, converting non-osv transactions
         'statement_id': 'statement',
         'id': 'transaction'
-        }
+    }
 
     _columns = {
         # start mem_bank_transaction atributes
@@ -1454,7 +1458,7 @@ class banking_import_transaction(orm.Model):
                   "sum of allocated amounts. You can either choose to keep "
                   "open this difference on the partner's account, "
                   "or reconcile it with the payment(s)"),
-            ),
+        ),
         'writeoff_amount': fields.float('Difference Amount'),
         # Legacy field: to be removed after 7.0
         'writeoff_move_line_id': fields.many2one(
@@ -1474,7 +1478,7 @@ class banking_import_transaction(orm.Model):
             s.pool.get('res.company')._company_default_get(
                 cr, uid, 'bank.import.transaction', context=c),
         'payment_option': 'without_writeoff',
-        }
+    }
 
 
 class account_bank_statement_line(orm.Model):
@@ -1506,7 +1510,7 @@ class account_bank_statement_line(orm.Model):
         'residual': fields.related(
             'import_transaction_id', 'residual', type='float',
             string='Residual', readonly=True,
-            ),
+        ),
         'duplicate': fields.related(
             'import_transaction_id', 'duplicate', type='boolean',
             string='Possible duplicate import', readonly=True),
@@ -1533,11 +1537,11 @@ class account_bank_statement_line(orm.Model):
         'link_partner_ok': fields.function(
             _get_link_partner_ok, type='boolean',
             string='Can link partner'),
-        }
+    }
 
     _defaults = {
         'state': 'draft',
-        }
+    }
 
     def match_wizard(self, cr, uid, ids, context=None):
         res = False
@@ -1664,10 +1668,11 @@ class account_bank_statement_line(orm.Model):
                 continue
             if not st_line.period_id:
                 self.write(
-                    cr, uid, [st_line.id], {
+                    cr, uid, [st_line.id],
+                    {
                         'period_id': self._get_period(
                             cr, uid, date=st_line.date, context=context)
-                        })
+                    })
                 st_line.refresh()
             # Generate the statement number, if it is not already done
             st = st_line.statement_id
@@ -1791,14 +1796,17 @@ class account_bank_statement_line(orm.Model):
         for line in self.browse(cr, uid, ids, context=context):
             if line.state != 'confirmed' and not line.import_transaction_id:
                 res = import_transaction_pool.create(
-                    cr, uid, {
+                    cr, uid,
+                    {
                         'company_id': line.statement_id.company_id.id,
                         'statement_line_id': line.id,
-                        },
+                    },
                     context=localcontext)
                 self.write(
-                    cr, uid, line.id, {
-                        'import_transaction_id': res},
+                    cr, uid, line.id,
+                    {
+                        'import_transaction_id': res
+                    },
                     context=context)
 
     def split_off(self, cr, uid, ids, amount, context=None):
@@ -1838,9 +1846,11 @@ class account_bank_statement_line(orm.Model):
 
             child_statement_ids.append(statement_line_id)
             transaction_pool.write(
-                cr, uid, transaction_id, {
+                cr, uid, transaction_id,
+                {
                     'statement_line_id': statement_line_id,
-                    }, context=context)
+                },
+                context=context)
             this.write({'amount': this.amount - amount})
 
         return child_statement_ids
@@ -1939,4 +1949,4 @@ class account_bank_statement(orm.Model):
 
         'balance_end': fields.function(
             _end_balance, method=True, store=True, string='Balance'),
-        }
+    }

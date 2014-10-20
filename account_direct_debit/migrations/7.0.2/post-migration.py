@@ -35,5 +35,4 @@ def migrate(cr, version):
         """
         ALTER TABLE "payment_line"
         DROP COLUMN "banking_addons_61_debit_move_line_id"
-        """
-        )
+        """)

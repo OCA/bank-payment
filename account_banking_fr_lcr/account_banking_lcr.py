@@ -59,10 +59,12 @@ class banking_export_lcr(orm.Model):
         'filename': fields.function(
             _generate_filename, type='char', size=256,
             string='Filename', readonly=True, store=True),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('sent', 'Sent'),
-            ], 'State', readonly=True),
+        'state': fields.selection(
+            [
+                ('draft', 'Draft'),
+                ('sent', 'Sent'),
+            ],
+            'State', readonly=True),
     }
 
     _defaults = {

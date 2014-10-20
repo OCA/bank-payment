@@ -36,9 +36,12 @@ class link_partner(orm.TransientModel):
         'customer': fields.boolean('Customer'),
         'partner_id': fields.many2one(
             'res.partner', 'or link existing partner',
-            domain=['|', ('is_company', '=', True),
-                    ('parent_id', '=', False)],
-            ),
+            domain=[
+                '|',
+                ('is_company', '=', True),
+                ('parent_id', '=', False)
+            ],
+        ),
         'statement_line_id': fields.many2one(
             'account.bank.statement.line',
             'Statement line', required=True),
@@ -66,11 +69,11 @@ class link_partner(orm.TransientModel):
         'fax': fields.char('Fax', size=64),
         'mobile': fields.char('Mobile', size=64),
         'is_company': fields.boolean('Is a Company'),
-        }
+    }
 
     _defaults = {
         'is_company': True,
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         """
@@ -205,4 +208,4 @@ class link_partner(orm.TransientModel):
             'target': 'new',
             'res_id': ids[0],
             'nodestroy': nodestroy,
-            }
+        }

@@ -125,7 +125,7 @@ class HSBCParser(object):
                 matchdict[field] = datetime.strptime(datestring, '%y%m%d')
                 if post_check and matchdict[field] > matchdict["valuedate"]:
                     matchdict[field] = matchdict[field].replace(
-                        year=matchdict[field].year-1
+                        year=matchdict[field].year - 1
                     )
             except ValueError:
                 matchdict[field] = None

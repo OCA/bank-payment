@@ -163,7 +163,7 @@ class banking_export_pain(orm.AbstractModel):
             'res_model': self._name,
             'res_id': ids[0],
             'target': 'new',
-            }
+        }
         return action
 
     def generate_group_header_block(

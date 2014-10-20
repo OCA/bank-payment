@@ -31,10 +31,10 @@
     'depends': [
         'base_iban',
         'account',
-        ],
+    ],
     'data': [
         'res_partner_bank_view.xml'
-        ],
+    ],
     'description': '''
 This module is compatible with OpenERP 7.0.
 

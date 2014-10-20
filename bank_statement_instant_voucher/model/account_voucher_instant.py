@@ -107,7 +107,7 @@ class instant_voucher(orm.TransientModel):
                                  })],
             'amount': line.amount and abs(line.amount) or False,
             'journal_id': journal_ids[0],
-            }
+        }
         if vals['date']:
             period_ids = period_pool.find(
                 cr, uid, vals['date'], context=context
@@ -135,7 +135,7 @@ class instant_voucher(orm.TransientModel):
             'target': 'new',
             'res_id': ids[0],
             'nodestroy': False,
-            }
+        }
 
     def dummy(self, cr, uid, ids, context=None):
         return {
@@ -149,7 +149,7 @@ class instant_voucher(orm.TransientModel):
             'target': 'new',
             'res_id': ids[0],
             'nodestroy': False,
-            }
+        }
 
     def default_get(self, cr, uid, fields_list, context=None):
         """
@@ -272,7 +272,7 @@ class instant_voucher(orm.TransientModel):
                             'match_type': 'move',
                             'invoice_id': False,
                             'invoice_ids': [(6, 0, [])],
-                            },
+                        },
                         context=context
                     )
 
@@ -314,6 +314,6 @@ class instant_voucher(orm.TransientModel):
             [('sale', 'Sale'),
              ('purchase', 'Purchase')],
             'Voucher type'),
-        }
+    }
 
     _defaults = {'state': 'init'}

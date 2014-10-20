@@ -29,7 +29,7 @@ class account_invoice(orm.Model):
     _columns = {
         'payment_mode_id': fields.many2one(
             'payment.mode', 'Payment Mode'),
-        }
+    }
 
     def onchange_partner_id(
             self, cr, uid, ids, type, partner_id, date_invoice=False,
@@ -50,7 +50,7 @@ class account_invoice(orm.Model):
                     'partner_bank_id':
                     partner.customer_payment_mode and
                     partner.customer_payment_mode.bank_id.id or False,
-                    })
+                })
         else:
             res['value']['payment_mode_id'] = False
         return res

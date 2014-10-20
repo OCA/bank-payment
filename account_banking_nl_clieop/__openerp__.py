@@ -27,7 +27,7 @@
     'depends': [
         'account_banking_payment',
         'account_iban_preserve_domestic',
-        ],
+    ],
     'data': [
         'account_banking_nl_clieop.xml',
         'wizard/export_clieop_view.xml',

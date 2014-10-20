@@ -29,11 +29,11 @@
     'depends': [
         'account_banking',
         'account_iban_preserve_domestic',
-        ],
+    ],
     'data': [
         'view/res_bank.xml',
         'view/res_partner_bank.xml',
-        ],
+    ],
     'external_dependencies': {
         'python': ['BeautifulSoup'],
     },

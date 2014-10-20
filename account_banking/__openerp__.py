@@ -33,7 +33,7 @@
     'category': 'Banking addons',
     'depends': [
         'account_voucher',
-        ],
+    ],
     'data': [
         'security/ir.model.access.csv',
         'data/account_banking_data.xml',

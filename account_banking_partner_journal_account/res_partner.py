@@ -43,7 +43,7 @@ class ResPartner(orm.Model):
                   'debits from this partner. Overrides the default debit '
                   'account.'),
             domain=[('type', '!=', 'view')]),
-        }
+    }
 
     def def_journal_account_bank_decr(
             self, cr, uid, ids, context=None):

@@ -37,5 +37,5 @@ class payment_order_create(orm.TransientModel):
                 ('account_id.type', '=', 'receivable'),
                 ('invoice.state', '!=', 'debit_denied'),
                 ('amount_to_receive', '>', 0),
-                ]
+            ]
         return True

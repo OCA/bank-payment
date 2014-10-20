@@ -213,7 +213,7 @@ class transaction(models.mem_bank_transaction):
         line
         '''
         msg, message = message.rstrip(), None
-        parts = [msg[i:i+32].rstrip() for i in range(0, len(msg), 32)]
+        parts = [msg[i:i + 32].rstrip() for i in range(0, len(msg), 32)]
         return '\n'.join(parts)
 
     def parse_message(self):
@@ -231,7 +231,7 @@ class transaction(models.mem_bank_transaction):
             # Title of action is in remote_owner, message contains additional
             # info
             self.reference = self.remote_owner.rstrip()
-            parts = [self.message[i:i+32].rstrip()
+            parts = [self.message[i:i + 32].rstrip()
                      for i in range(0, len(self.message), 32)
                      ]
             if len(parts) > 3:
@@ -262,7 +262,7 @@ class transaction(models.mem_bank_transaction):
             # first part of the message.
             # Sometimes this misfires, as with the tax office collecting road
             # taxes, but then a once-only manual correction is sufficient.
-            parts = [self.message[i:i+32].rstrip()
+            parts = [self.message[i:i + 32].rstrip()
                      for i in range(0, len(self.message), 32)
                      ]
             self.reference = self.remote_owner

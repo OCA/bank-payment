@@ -35,7 +35,7 @@ class res_partner(orm.Model):
             'payment.mode', type='many2one', relation='payment.mode',
             string='Customer Payment Mode', view_load=True,
             help="Select the default payment mode for this customer."),
-        }
+    }
 
     def _commercial_fields(self, cr, uid, context=None):
         res = super(res_partner, self)._commercial_fields(

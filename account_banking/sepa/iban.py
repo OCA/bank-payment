@@ -131,7 +131,7 @@ class BBANFormat(object):
         result = ''
         j = len(self._iban)
         while i < j and self._iban[i] == spec:
-            result += value[i+4]
+            result += value[i + 4]
             i += 1
         return self._nolz and result.lstrip('0') or result
 
@@ -337,7 +337,7 @@ class IBAN(str):
         '''
         parts = []
         for i in range(0, len(self), 4):
-            parts.append(self[i:i+4])
+            parts.append(self[i:i + 4])
         return ' '.join(parts)
 
     def __unicode__(self):
@@ -477,7 +477,7 @@ class BBAN(object):
                         return
                     elif parm in 'ABCDPSTVWXZ':
                         _len = self._get_length(self._fmt, parm)
-                        addon = bban[j:j+_len]
+                        addon = bban[j:j + _len]
                         if len(addon) != _len:
                             # Note that many accounts in the IBAN standard
                             # are allowed to have leading zeros, so zfill
