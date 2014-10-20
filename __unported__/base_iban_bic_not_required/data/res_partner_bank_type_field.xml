@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        <record id="base_iban.bank_swift_field"
-                model="res.partner.bank.type.field">
-            <field eval="False" name="required"/>
-        </record>
-    </data>
-</openerp>
