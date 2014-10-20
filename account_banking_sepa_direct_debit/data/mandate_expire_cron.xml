@@ -18,7 +18,7 @@
             <field name="doall" eval="False"/>
             <field name="model" eval="'account.banking.mandate'"/>
             <field name="function" eval="'_sdd_mandate_set_state_to_expired'" />
-            <field name="args" eval="'()'"/>
+            <field name="args" eval="'(None, )'"/>
         </record>
     </data>
 </openerp>
