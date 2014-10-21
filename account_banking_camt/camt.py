@@ -140,9 +140,9 @@ CAMT Format parser
             if self.xpath(node, './ns:Acct/ns:Id/ns:IBAN')
             else self.xpath(node, './ns:Acct/ns:Id/ns:Othr/ns:Id')[0].text)
 
-        identifier = node.find(self.ns + 'Id').text
-        if identifier.upper().startswith('CAMT053'):
-            identifier = identifier[7:]
+        identifier = self.normalize_identifier(
+            statement.local_account,
+            node.find(self.ns + 'Id').text)
         statement.id = self.get_unique_statement_id(
             cr, "%s-%s" % (
                 self.get_unique_account_identifier(
@@ -199,6 +199,17 @@ CAMT Format parser
             vals = self.parse_TxDtls(TxDtls[0], entry_details)
         else:
             vals = entry_details
+        # Append additional entry info, which can contain remittance
+        # information in legacy format
+        Addtl = self.find(node, './ns:AddtlNtryInf')
+        if Addtl is not None and Addtl.text:
+            if vals.get('message'):
+                vals['message'] = '%s %s' % (vals['message'], Addtl.text)
+            else:
+                vals['message'] = Addtl.text
+        # Promote the message to reference if we don't have one yet
+        if not vals.get('reference') and vals.get('message'):
+            vals['reference'] = vals['message']
         return vals
 
     def get_party_values(self, TxDtls):
