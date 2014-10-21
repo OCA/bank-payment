@@ -31,7 +31,7 @@
     'depends': ['account_banking_payment_export'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
-        },
+    },
     'data': [
         'views/payment_line_view.xml',
         'views/payment_mode_view.xml',

@@ -37,8 +37,8 @@ class BankingExportPain(orm.AbstractModel):
     _name = 'banking.export.pain'
 
     def _validate_iban(self, cr, uid, iban, context=None):
-        '''if IBAN is valid, returns IBAN
-        if IBAN is NOT valid, raises an error message'''
+        """if IBAN is valid, returns IBAN
+        if IBAN is NOT valid, raises an error message"""
         partner_bank_obj = self.pool.get('res.partner.bank')
         if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
             return iban.replace(' ', '')
@@ -162,7 +162,7 @@ class BankingExportPain(orm.AbstractModel):
             'res_model': self._name,
             'res_id': ids[0],
             'target': 'new',
-            }
+        }
         return action
 
     def generate_group_header_block(
@@ -283,8 +283,8 @@ class BankingExportPain(orm.AbstractModel):
     def generate_party_agent(
             self, cr, uid, parent_node, party_type, party_type_label,
             order, party_name, iban, bic, eval_ctx, gen_args, context=None):
-        '''Generate the piece of the XML file corresponding to BIC
-        This code is mutualized between TRF and DD'''
+        """Generate the piece of the XML file corresponding to BIC
+        This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         try:
             bic = self._prepare_field(
@@ -324,8 +324,8 @@ class BankingExportPain(orm.AbstractModel):
     def generate_party_block(
             self, cr, uid, parent_node, party_type, order, name, iban, bic,
             eval_ctx, gen_args, context=None):
-        '''Generate the piece of the XML file corresponding to Name+IBAN+BIC
-        This code is mutualized between TRF and DD'''
+        """Generate the piece of the XML file corresponding to Name+IBAN+BIC
+        This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         if party_type == 'Cdtr':
             party_type_label = 'Creditor'
@@ -385,7 +385,7 @@ class BankingExportPain(orm.AbstractModel):
                     _('Error:'),
                     _("Missing 'Structured Communication Type' on payment "
                         "line with reference '%s'.")
-                    % (line.name))
+                    % line.name)
             remittance_info_structured_2_100 = etree.SubElement(
                 remittance_info_2_91, 'Strd')
             creditor_ref_information_2_120 = etree.SubElement(
@@ -425,9 +425,8 @@ class BankingExportPain(orm.AbstractModel):
     def generate_creditor_scheme_identification(
             self, cr, uid, parent_node, identification, identification_label,
             eval_ctx, scheme_name_proprietary, gen_args, context=None):
-        csi_id = etree.SubElement(
-            parent_node, 'Id')
-        csi_privateid = csi_id = etree.SubElement(csi_id, 'PrvtId')
+        csi_id = etree.SubElement(parent_node, 'Id')
+        csi_privateid = etree.SubElement(csi_id, 'PrvtId')
         csi_other = etree.SubElement(csi_privateid, 'Othr')
         csi_other_id = etree.SubElement(csi_other, 'Id')
         csi_other_id.text = self._prepare_field(
