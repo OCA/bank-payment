@@ -31,7 +31,7 @@
     'depends': ['account_banking_pain_base'],
     'external_dependencies': {
         'python': ['unidecode', 'lxml'],
-        },
+    },
     'data': [
         'views/account_banking_sepa_view.xml',
         'wizard/export_sepa_view.xml',

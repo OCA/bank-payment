@@ -38,7 +38,7 @@ class PaymentOrderCreate(models.TransientModel):
         context = self.env.context
         if ('entries' in fields and context.get('line_ids') and
                 context.get('populate_results')):
-            res.update({'entries':  context['line_ids']})
+            res.update({'entries': context['line_ids']})
         return res
 
     @api.model

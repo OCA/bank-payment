@@ -27,36 +27,35 @@ from openerp import workflow
 from lxml import etree
 
 
-class banking_export_sepa_wizard(orm.TransientModel):
+class BankingExportSepaWizard(orm.TransientModel):
     _name = 'banking.export.sepa.wizard'
     _inherit = ['banking.export.pain']
     _description = 'Export SEPA Credit Transfer File'
 
     _columns = {
-        'state': fields.selection([
-            ('create', 'Create'),
-            ('finish', 'Finish'),
-            ], 'State', readonly=True),
+        'state': fields.selection([('create', 'Create'),
+                                   ('finish', 'Finish')], 'State',
+                                  readonly=True),
         'batch_booking': fields.boolean(
             'Batch Booking',
             help="If true, the bank statement will display only one debit "
             "line for all the wire transfers of the SEPA XML file ; if "
             "false, the bank statement will display one debit line per wire "
             "transfer of the SEPA XML file."),
-        'charge_bearer': fields.selection([
-            ('SLEV', 'Following Service Level'),
-            ('SHAR', 'Shared'),
-            ('CRED', 'Borne by Creditor'),
-            ('DEBT', 'Borne by Debtor'),
-            ], 'Charge Bearer', required=True,
+        'charge_bearer': fields.selection(
+            [('SLEV', 'Following Service Level'),
+             ('SHAR', 'Shared'),
+             ('CRED', 'Borne by Creditor'),
+             ('DEBT', 'Borne by Debtor')], 'Charge Bearer', required=True,
             help="Following service level : transaction charges are to be "
-            "applied following the rules agreed in the service level and/or "
-            "scheme (SEPA Core messages must use this). Shared : transaction "
-            "charges on the debtor side are to be borne by the debtor, "
-            "transaction charges on the creditor side are to be borne by "
-            "the creditor. Borne by creditor : all transaction charges are "
-            "to be borne by the creditor. Borne by debtor : all transaction "
-            "charges are to be borne by the debtor."),
+                 "applied following the rules agreed in the service level "
+                 "and/or scheme (SEPA Core messages must use this). Shared : "
+                 "transaction charges on the debtor side are to be borne by "
+                 "the debtor, transaction charges on the creditor side are to "
+                 "be borne by the creditor. Borne by creditor : all "
+                 "transaction charges are to be borne by the creditor. Borne "
+                 "by debtor : all transaction charges are to be borne by the "
+                 "debtor."),
         'nb_transactions': fields.related(
             'file_id', 'nb_transactions', type='integer',
             string='Number of Transactions', readonly=True),
@@ -73,19 +72,19 @@ class banking_export_sepa_wizard(orm.TransientModel):
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_sepa_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
-        }
+    }
 
     _defaults = {
         'charge_bearer': 'SLEV',
         'state': 'create',
-        }
+    }
 
     def create(self, cr, uid, vals, context=None):
         payment_order_ids = context.get('active_ids', [])
         vals.update({
             'payment_order_ids': [[6, 0, payment_order_ids]],
         })
-        return super(banking_export_sepa_wizard, self).create(
+        return super(BankingExportSepaWizard, self).create(
             cr, uid, vals, context=context)
 
     def create_sepa(self, cr, uid, ids, context=None):
@@ -143,7 +142,7 @@ class banking_export_sepa_wizard(orm.TransientModel):
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-            }
+        }
         xml_root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         pain_03_to_05 = \

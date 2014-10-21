@@ -80,7 +80,6 @@ class AccountMoveLine(orm.Model):
             AND reconcile_id IS null
             AND debit > 0
             AND ''' + where + ' and ' + query), ('receivable',) + sql_args)
-
         res = cr.fetchall()
         if not res:
             return [('id', '=', '0')]
@@ -118,4 +117,4 @@ class AccountMoveLine(orm.Model):
             _amount_to_receive, method=True,
             type='float', string='Amount to receive',
             fnct_search=_to_receive_search),
-        }
+    }
