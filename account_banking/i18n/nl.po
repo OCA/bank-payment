@@ -61,7 +61,8 @@ msgid "Zip"
 msgstr "Postcode"
 
 #. module: account_banking
-#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:account.bank.statement:0
+#: view:account.bank.statement.line:0
 msgid "Cancel transaction"
 msgstr "Transactie annuleren"
 
@@ -140,13 +141,15 @@ msgid "Cannot link transaction %s with accounting entry"
 msgstr "Niet mogelijk transactie %s te koppelen aan een boeking"
 
 #. module: account_banking
-#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:account.bank.statement:0
+#: view:account.bank.statement.line:0
 #: view:banking.transaction.wizard:0
 msgid "Match"
 msgstr "Match"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
+#: view:account.banking.bank.import:0
+#: field:account.banking.bank.import,log:0
 msgid "Log"
 msgstr "Log"
 
@@ -292,7 +295,8 @@ msgid "Reconciliaton"
 msgstr "Aflettering"
 
 #. module: account_banking
-#: view:banking.link_partner:0 view:banking.transaction.wizard:0
+#: view:banking.link_partner:0
+#: view:banking.transaction.wizard:0
 msgid "Transaction data"
 msgstr "Transactie gegevens"
 
@@ -350,7 +354,8 @@ msgid "Default Import Settings for Bank Account"
 msgstr "Standaardinstellingen bankrekening voor import"
 
 #. module: account_banking
-#: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
+#: field:banking.import.line,amount:0
+#: field:banking.link_partner,amount:0
 #: field:banking.transaction.wizard,amount:0
 msgid "Amount"
 msgstr "Bedrag"
@@ -401,7 +406,8 @@ msgid "Cannot cancel type %s"
 msgstr "Niet mogelijk om type %s te annuleren."
 
 #. module: account_banking
-#: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
+#: field:banking.import.line,ref:0
+#: field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
 msgstr "Referentie"
@@ -572,7 +578,8 @@ msgid "Transaction type"
 msgstr "Mutatietype"
 
 #. module: account_banking
-#: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
+#: selection:banking.import.line,type:0
+#: field:banking.link_partner,supplier:0
 msgid "Supplier"
 msgstr "Leverancier"
 
@@ -635,7 +642,8 @@ msgid "Invoice payment"
 msgstr "Factuurbetaling"
 
 #. module: account_banking
-#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:account.bank.statement:0
+#: view:account.bank.statement.line:0
 #: view:banking.link_partner:0
 #: model:ir.model,name:account_banking.model_banking_link_partner
 msgid "Link partner"
@@ -869,7 +877,8 @@ msgid "Match one or more invoices"
 msgstr "Match één of meerdere facturen"
 
 #. module: account_banking
-#: view:account.bank.statement:0 view:account.banking.bank.import:0
+#: view:account.bank.statement:0
+#: view:account.banking.bank.import:0
 #: field:account.banking.bank.import,line_ids:0
 msgid "Transactions"
 msgstr "Transacties"
@@ -994,7 +1003,8 @@ msgid "Total number of transactions"
 msgstr "Totaal aantal transacties"
 
 #. module: account_banking
-#: field:banking.import.line,duplicate:0 view:banking.transaction.wizard:0
+#: field:banking.import.line,duplicate:0
+#: view:banking.transaction.wizard:0
 msgid "Duplicate"
 msgstr "Duplicaat"
 
@@ -1037,7 +1047,8 @@ msgid "message"
 msgstr "bericht"
 
 #. module: account_banking
-#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:account.bank.statement:0
+#: view:account.bank.statement.line:0
 msgid "Confirm transaction"
 msgstr "Bevestig mutatie"
 
@@ -1148,7 +1159,8 @@ msgid "Import Log"
 msgstr "Importlog"
 
 #. module: account_banking
-#: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
+#: field:banking.import.line,date:0
+#: field:banking.transaction.wizard,date:0
 msgid "Date"
 msgstr "Datum"
 
@@ -1362,17 +1374,20 @@ msgid "error"
 msgstr "fout"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0 view:banking.link_partner:0
+#: view:account.banking.bank.import:0
+#: view:banking.link_partner:0
 msgid "Cancel"
 msgstr "Annuleren"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
+#: view:account.banking.bank.import:0
+#: view:banking.transaction.wizard:0
 msgid "Close"
 msgstr "Sluiten"
 
 #. module: account_banking
-#: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
+#: field:banking.import.line,name:0
+#: field:banking.transaction.wizard,name:0
 msgid "Name"
 msgstr "Naam"
 
@@ -1665,7 +1680,8 @@ msgid "Number of transactions matched"
 msgstr "Aantal transacties herkend"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0 view:account.banking.imported.file:0
+#: view:account.banking.bank.import:0
+#: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,statement_ids:0
 msgid "Statements"
 msgstr "Afschriften"
