@@ -33,12 +33,33 @@
                     <field name="state" widget="statusbar" nolabel="1"/>
 			    </header>
 			    <sheet>
-				    <group col="4" colspan="4">
+            <group col="4" colspan="4">
+                <field name="multi_currency" invisible="1" />
+
+
 				        <field name="account_id" placeholder="Enter Account Name" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
-				        <field name="name" placeholder="Enter Name"/>
+                <field name="name" placeholder="Enter Name"/>
 				        <field name="ending_date" placeholder="Enter ending date" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
-				        <field name="starting_balance" placeholder="Enter Starting Balance"/>
+                <field name="starting_balance" placeholder="Enter Starting Balance"/>
+                <field name="starting_balance_in_currency" placeholder="Enter Starting Balance"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  />
 				        <field name="ending_balance" placeholder="Enter Ending Balance"/>
+                <field name="ending_balance_in_currency" placeholder="Enter Ending Balance"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  />
+                <field name="exchange_date" placeholder="Currency Exchange date"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  on_change="onchange_exchange_date(exchange_date, account_id, context)" />
+                <field name="currency_rate"
+                  on_change="onchange_currency_rate(currency_rate, starting_balance_in_currency, ending_balance_in_currency, context)"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  />
+                <field name="currency_rate_label" nolabel="1"
+                  attrs="{'invisible':[('multi_currency', '=', False)]}"
+                  class="oe_grey" readonly="1" colspan="2"/>
 				        <field name="company_id" groups="base.group_multi_company" placeholder="Enter Company Name"/>
 				        <field name="suppress_ending_date_filter" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
 				        <field name="keep_previous_uncleared_entries" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
@@ -102,30 +123,89 @@
 			                    <button name="action_unselect_all" type="object" states="draft,to_be_reviewed" string="Unselect All" icon="gtk-cancel"/>
 			                </group>
 			                <newline/>
-			                	<group name="calculation1" col="2" colspan="2">
-				                	<separator string="Totals Area - cleared entries" colspan="2"/>
-				                    <field name="sum_of_debits"/>
-				                    <field name="sum_of_debits_lines"/>
-				                    <field name="sum_of_credits"/>
-				                    <field name="sum_of_credits_lines"/>
+			                	<group name="calculation1" col="3" colspan="2">
+                          <separator string="Totals Area - cleared entries" colspan="2"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+				                    <field name="sum_of_debits" colspan="2"/>
+                            <field name="sum_of_debits_in_currency"
+                              attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              colspan="1" nolabel="1"
+                                />
+                            <newline />
+                            <field name="sum_of_debits_lines" colspan="2"/>
+                            <newline />
+				                    <field name="sum_of_credits" colspan="2"/>
+                            <field name="sum_of_credits_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_credits_lines" colspan="2"/>
 				                </group>
-			                	<group name="calculation_unclear1" col="2" colspan="2">
+			                	<group name="calculation_unclear1" col="3" colspan="2">
 				                	<separator string="Totals Area - uncleared entries" colspan="2"/>
-				                    <field name="sum_of_debits_unclear"/>
-				                    <field name="sum_of_debits_lines_unclear"/>
-				                    <field name="sum_of_credits_unclear"/>
-				                    <field name="sum_of_credits_lines_unclear"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+				                    <field name="sum_of_debits_unclear" colspan="2"/>
+                            <field name="sum_of_debits_unclear_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_debits_lines_unclear" colspan="2"/>
+                            <newline />
+				                    <field name="sum_of_credits_unclear" colspan="2"/>
+                            <field name="sum_of_credits_unclear_in_currency"
+                                colspan="1" nolabel="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                              />
+                            <newline />
+				                    <field name="sum_of_credits_lines_unclear" colspan="2"/>
 				                </group>
-                        <separator string="Balance Area"/>
-                          <group>
-                            <group name="calculation2">
-                              <field name="cleared_balance"/>
-                              <field name="difference"/>
-                            </group>
-                            <group name="calculation_unclear2">
-                              <field name="uncleared_balance"/>
-                            </group>
+                        <group col="3" colspan="2">
+                          <separator string="Balance Area" colspan="2"/>
+                          <separator string="Foreign Currency" colspan="1"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                            <newline />
+                              <field name="cleared_balance" colspan="2"/>
+                              <field name="cleared_balance_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
+                              <newline />
+                              <field name="difference" colspan="2"/>
+                              <field name="difference_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
+                              <newline />
+                              <field name="uncleared_balance" colspan="2"/>
+                              <field name="uncleared_balance_in_currency"
+                                attrs="{'invisible':[('multi_currency', '=', False)]}"
+                                colspan="1" nolabel="1"
+                                />
                           </group>
+                        <separator string="General Ledger" />
+                        <group name="gen_ledger" col="2" colspan="2">
+                          <field name="general_ledger_balance" colspan="2"/>
+                          <field name="registered_balance" />
+                          <field name="registered_balance_in_currency"
+                            string="Foreign Currency Registered Balance"
+                            attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                          <field name="adjustment_move_id" readonly="1"
+                            attrs="{'invisible':[('multi_currency', '=', False)]}"
+                            />
+                          <button name="action_adjust_ending_balance" type="object" string="Adjust Ending balance in GL"
+                            attrs="{'invisible':['|', ('adjustment_move_id', '!=', False),('multi_currency', '=', False)]}"
+                            />
+                        </group>
 			            </page>
 			            <page string="Other Information">
 		            	 	<separator string="Tracking Information" colspan="4"/>

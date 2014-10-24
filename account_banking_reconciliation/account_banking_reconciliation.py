@@ -20,10 +20,14 @@
 #
 ##############################################################################
 import time
+from datetime import datetime, timedelta
 
 from openerp.osv import fields, orm
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
-import decimal_precision as dp
+from openerp.report import report_sxw
+import openerp.addons.decimal_precision as dp
+
 
 
 class bank_acc_rec_statement(orm.Model):
@@ -83,12 +87,30 @@ class bank_acc_rec_statement(orm.Model):
             cr, uid, id, default=default, context=context
         )
 
+    def create(self, cr, uid, vals, context=None):
+        if "exchange_date" in vals and "account_id" in vals:
+            vals.update(
+                self.onchange_exchange_date(
+                    cr, uid, [],
+                    vals["exchange_date"], vals["account_id"],
+                    context=context)['value'])
+        return super(bank_acc_rec_statement, self).create(cr, uid, vals, context=context)
+
     def write(self, cr, uid, ids, vals, context=None):
         # Check if the user is allowed to perform the action
         self.check_group(cr, uid, ids, context)
-        return super(bank_acc_rec_statement, self).write(
+        res = super(bank_acc_rec_statement, self).write(
             cr, uid, ids, vals, context=context
         )
+
+        if "exchange_date" in vals:
+            for stmt in self.browse(cr, uid, ids, context=context):
+                stmt.write(self.onchange_exchange_date(
+                    cr, uid, [],
+                    stmt.exchange_date, stmt.account_id.id,
+                    context=context)['value'])
+
+        return res
 
     def unlink(self, cr, uid, ids, context=None):
         """
@@ -115,7 +137,7 @@ class bank_acc_rec_statement(orm.Model):
     def check_difference_balance(self, cr, uid, ids, context=None):
         """Check if difference balance is zero or not."""
         for statement in self.browse(cr, uid, ids, context=context):
-            if statement.difference != 0.0:
+            if statement.difference != 0.0 and not statement.multi_currency:
                 raise orm.except_orm(
                     _('Warning!'),
                     _(
@@ -125,6 +147,23 @@ class bank_acc_rec_statement(orm.Model):
                         "changes."
                     )
                 )
+            elif (statement.difference_in_currency != 0.0 and
+                    statement.multi_currency):
+                raise orm.except_orm(
+                    _('Warning'),
+                    _('Prior to reconciling a statement in a foreign currency'
+                      ', all differences must be accounted for and the '
+                      'Difference in currency balance must be zero. Please '
+                      'review and make necessary changes.'))
+            elif (statement.multi_currency and
+                    statement.general_ledger_balance !=
+                    statement.registered_balance):
+                raise orm.except_orm(
+                    _('Warning'),
+                    _('Prior to reconciling a statement in a foreign currency'
+                      ', you should make sure the general ledger balance and '
+                      'registered balance match. If necessary, an adjustment '
+                      'move can be created to account for the difference.'))
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -270,7 +309,68 @@ class bank_acc_rec_statement(orm.Model):
             )
         return True
 
-    def _get_balance(self, cr, uid, ids, name, args, context=None):
+    def action_adjust_ending_balance(self, cr, uid, ids, context=None):
+        account_move_obj = self.pool["account.move"]
+        period_obj = self.pool["account.period"]
+        for stmt in self.browse(cr, uid, ids, context=context):
+            if stmt.adjustment_move_id:
+                continue
+
+            # TODO CHECK WHY GEN LEDGER BALANCE NOT ADJUSTED
+            company = stmt.company_id
+            move_line = {
+                'name': _('Adjustment for reconciliation %s') % (stmt.name, ),
+                'account_id': stmt.account_id.id,
+                'cleared_bank_account': True,
+            }
+            reverse_move = {'name': move_line['name']}
+            amount = abs(stmt.general_ledger_balance - stmt.registered_balance)
+            if stmt.general_ledger_balance > stmt.registered_balance:
+                account = company.income_currency_exchange_account_id
+                if not account:
+                    raise orm.except_orm(
+                        _("No Gain Exchange Rate Account"),
+                        _("You need to configure the Gain Exchange Rate "
+                          "Account for the company in order to create an"
+                          " adjustment move"))
+                move_line['debit'] = amount
+                reverse_move['credit'] = amount
+                reverse_move['account_id'] = account.id
+            elif stmt.registered_balance > stmt.general_ledger_balance:
+                account = company.expense_currency_exchange_account_id
+                if not account:
+                    raise orm.except_orm(
+                        _("No Gain Exchange Rate Account"),
+                        _("You need to configure the Gain Exchange Rate "
+                          "Account for the company in order to create an"
+                          " adjustment move"))
+                move_line['credit'] = amount
+                reverse_move['debit'] = amount
+                reverse_move['account_id'] = account.id
+            else:
+                raise orm.except_orm(
+                    _("Adjustment Unnecessary"),
+                    _("The General Ledger Balance and Registered Balance "
+                      "are equal, no adjustment necessary."))
+
+            period_id = period_obj.find(cr, uid, stmt.ending_date,
+                                        context=context)[0]
+            move_id = account_move_obj.create(
+                cr, uid, {
+                    'ref': stmt.name,
+                    'period_id': period_id,
+                    'date': stmt.ending_date,
+                    'journal_id': company.default_cutoff_journal_id.id,
+                    'line_id': [(0, 0, move_line),
+                                (0, 0, reverse_move)],
+                },
+                context=context)
+            account_move_obj.button_validate(cr, uid, [move_id],
+                                             context=context)
+            stmt.write({'adjustment_move_id': move_id})
+        return True
+
+    def _get_balance(self, cr, uid, ids, field_names, args, context=None):
         """Computed as following:
         A) Deposits, Credits, and Interest Amount:
            Total SUM of Amts of lines with Cleared = True
@@ -288,52 +388,100 @@ class bank_acc_rec_statement(orm.Model):
             cr, uid, 'Account'
         )
         for statement in self.browse(cr, uid, ids, context=context):
-            res[statement.id] = {
+            currency_id = statement.company_id.currency_id.id
+            res[statement.id] = sres = {
                 'sum_of_credits': 0.0,
-                'sum_of_debits': 0.0,
-                'cleared_balance': 0.0,
-                'difference': 0.0,
+                'sum_of_credits_in_currency': 0.0,
                 'sum_of_credits_lines': 0.0,
+                'sum_of_debits': 0.0,
+                'sum_of_debits_in_currency': 0.0,
                 'sum_of_debits_lines': 0.0,
                 'sum_of_credits_unclear': 0.0,
-                'sum_of_debits_unclear': 0.0,
-                'uncleared_balance': 0.0,
+                'sum_of_credits_unclear_in_currency': 0.0,
                 'sum_of_credits_lines_unclear': 0.0,
+                'sum_of_debits_unclear': 0.0,
+                'sum_of_debits_unclear_in_currency': 0.0,
                 'sum_of_debits_lines_unclear': 0.0,
+                'uncleared_balance': 0.0,
+                'uncleared_balance_in_currency': 0.0,
+                'cleared_balance': 0.0,
+                'cleared_balance_in_currency': 0.0,
+                'difference': 0.0,
+                'difference_in_currency': 0.0,
             }
+
             for line in statement.credit_move_line_ids:
                 sum_credit = round(line.amount, account_precision)
+                amount_cur = round(line.amount_in_currency, account_precision)
                 if line.cleared_bank_account:
-                    res[statement.id]['sum_of_credits'] += sum_credit
-                    res[statement.id]['sum_of_credits_lines'] += 1.0
+                    sres['sum_of_credits'] += sum_credit
+                    sres['sum_of_credits_in_currency'] += amount_cur
+                    sres['sum_of_credits_lines'] += 1.0
                 else:
-                    res[statement.id]['sum_of_credits_unclear'] += sum_credit
-                    res[statement.id]['sum_of_credits_lines_unclear'] += 1.0
+                    sres['sum_of_credits_unclear'] += sum_credit
+                    sres['sum_of_credits_unclear_in_currency'] += amount_cur
+                    sres['sum_of_credits_lines_unclear'] += 1.0
+
             for line in statement.debit_move_line_ids:
                 sum_debit = round(line.amount, account_precision)
+                amount_cur = round(line.amount_in_currency, account_precision)
                 if line.cleared_bank_account:
-                    res[statement.id]['sum_of_debits'] += sum_debit
-                    res[statement.id]['sum_of_debits_lines'] += 1.0
+                    sres['sum_of_debits'] += sum_debit
+                    sres['sum_of_debits_in_currency'] += amount_cur
+                    sres['sum_of_debits_lines'] += 1.0
                 else:
-                    res[statement.id]['sum_of_debits_unclear'] += sum_debit
-                    res[statement.id]['sum_of_debits_lines_unclear'] += 1.0
+                    sres['sum_of_debits_unclear'] += sum_debit
+                    sres['sum_of_debits_unclear_in_currency'] += amount_cur
+                    sres['sum_of_debits_lines_unclear'] += 1.0
 
-            res[statement.id]['cleared_balance'] = round(
-                res[statement.id]['sum_of_debits'] -
-                res[statement.id]['sum_of_credits'],
-                account_precision
-            )
-            res[statement.id]['uncleared_balance'] = round(
-                res[statement.id]['sum_of_debits_unclear'] -
-                res[statement.id]['sum_of_credits_unclear'],
-                account_precision
-            )
-            res[statement.id]['difference'] = round(
-                (statement.ending_balance - statement.starting_balance) -
-                res[statement.id]['cleared_balance'],
-                account_precision
-            )
+            sres['cleared_balance'] = round(
+                sres['sum_of_debits'] - sres['sum_of_credits'],
+                account_precision)
+            sres['cleared_balance_in_currency'] = round(
+                (sres['sum_of_debits_in_currency']
+                 - sres['sum_of_credits_in_currency']),
+                account_precision)
+            sres['uncleared_balance'] = round(
+                sres['sum_of_debits_unclear'] - sres['sum_of_credits_unclear'],
+                account_precision)
+            sres['uncleared_balance_in_currency'] = round(
+                (sres['sum_of_debits_unclear_in_currency']
+                 - sres['sum_of_credits_unclear_in_currency']),
+                account_precision)
+            sres['difference'] = round(
+                (statement.ending_balance - statement.starting_balance)
+                - sres['cleared_balance'],
+                account_precision)
+            sres['difference_in_currency'] = round(
+                (statement.ending_balance_in_currency
+                 + sres['cleared_balance_in_currency']
+                 - statement.starting_balance),
+                account_precision)
+            sres['general_ledger_balance'] = self._get_gl_balance(
+                cr, uid, statement.account_id.id, statement.ending_date)
+            sres['registered_balance'] = round(
+                (statement.starting_balance
+                 + sres['cleared_balance']
+                 + sres['uncleared_balance']),
+                account_precision)
+            sres['registered_balance_in_currency'] = round(
+                (statement.starting_balance_in_currency
+                 + sres['cleared_balance_in_currency']
+                 + sres['uncleared_balance_in_currency']),
+                account_precision)
+
         return res
+
+    def _get_gl_balance(self, cr, uid, account_id, date=None):
+        """ Get the General Ledger balance at date for account """
+        account_obj = self.pool['account.account']
+        balance = account_obj.read(
+            cr, uid, account_id, ['balance'],
+            context={'initial_bal': True,
+                     'date_from': date or time.strftime(
+                         '%Y-%m-%d'),
+                     'date_to': 'ignored'})
+        return balance["balance"]
 
     def _get_move_line_write(self, line):
         res = {
@@ -417,20 +565,61 @@ class bank_acc_rec_statement(orm.Model):
                 return False
         return True
 
+    def _get_last_reconciliation(self, cr, uid, account_id, context=None):
+        res = self.search(cr, uid,
+                          [('account_id', '=', account_id),
+                           ('state', '!=', 'cancel')],
+                          order="ending_date desc",
+                          limit=1)
+        if res:
+            return self.browse(cr, uid, res[0], context=context)
+        else:
+            return None
+
     def onchange_account_id(
         self, cr, uid, ids, account_id, ending_date,
         suppress_ending_date_filter, keep_previous_uncleared_entries,
         context=None
     ):
+        account_obj = self.pool['account.account']
         account_move_line_obj = self.pool.get('account.move.line')
         statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
         val = {
             'value': {
                 'credit_move_line_ids': [],
-                'debit_move_line_ids': []
+                'debit_move_line_ids': [],
+                'company_currency_id': False,
+                'account_currency_id': False,
             }
         }
         if account_id:
+            last_rec = self._get_last_reconciliation(cr, uid, account_id,
+                                                     context=context)
+            if last_rec and last_rec.ending_date:
+                val['value']['exchange_date'] = (datetime.strptime(
+                    last_rec.ending_date, DEFAULT_SERVER_DATE_FORMAT,
+                ) + timedelta(days=1)).strftime(DEFAULT_SERVER_DATE_FORMAT)
+            elif ending_date:
+                # end_date - 1 month + 1 day
+                dt_ending = datetime.strptime(
+                    ending_date, DEFAULT_SERVER_DATE_FORMAT,
+                ) + timedelta(days=-1)
+                if dt_ending.month == 1:
+                    dt_ending = dt_ending.replace(year=dt_ending.year - 1,
+                                                  month=12)
+                else:
+                    dt_ending = dt_ending.replace(month=dt_ending.month - 1)
+                val['value']['exchange_date'] = dt_ending.strftime(
+                    DEFAULT_SERVER_DATE_FORMAT)
+
+            account = account_obj.browse(cr, uid, account_id, context=context)
+            val['value'].update({
+                'company_currency_id': account.company_id.currency_id.id,
+                'account_currency_id': account.currency_id.id,
+            })
+
+
+
             for statement in self.browse(cr, uid, ids, context=context):
                 statement_line_ids = statement_line_obj.search(
                     cr, uid,
@@ -479,6 +668,82 @@ class bank_acc_rec_statement(orm.Model):
                     val['value']['debit_move_line_ids'].append(res)
         return val
 
+    # This method almost extracted from account_voucher
+    def _get_currency_help_label(self, cr, uid, currency_id, payment_rate,
+                                 payment_rate_currency_id, context=None):
+        """
+        This function builds a string to help the users to understand the
+        behavior of the payment rate fields they can specify on the voucher.
+        This string is only used to improve the usability in the voucher form
+        view and has no other effect.
+
+        :param currency_id: the voucher currency
+        :type currency_id: integer
+        :param payment_rate: the value of the payment_rate field of the voucher
+        :type payment_rate: float
+        :param payment_rate_currency_id: the value of the payment_rate_currency_id field of the voucher
+        :type payment_rate_currency_id: integer
+        :return: translated string giving a tip on what's the effect of the current payment rate specified
+        :rtype: str
+        """
+        rml_parser = report_sxw.rml_parse(cr, uid, 'currency_help_label',
+                                          context=context)
+        currency_pool = self.pool['res.currency']
+        currency_str = payment_rate_str = ''
+        if currency_id:
+            currency_str = rml_parser.formatLang(
+                1,
+                currency_obj=currency_pool.browse(cr, uid, currency_id,
+                                                     context=context))
+        if payment_rate_currency_id:
+            payment_rate_str  = rml_parser.formatLang(
+                payment_rate,
+                currency_obj=currency_pool.browse(cr, uid,
+                                                  payment_rate_currency_id,
+                                                  context=context))
+        currency_help_label = _(
+            'At the starting date, the exchange rate was\n%s = %s'
+        ) % (currency_str, payment_rate_str)
+        return currency_help_label
+
+    def onchange_currency_rate(self, cr, uid, ids, exchange_rate,
+                               start_balance, end_balance, context=None):
+        if exchange_rate:
+            return {'value':{
+                'starting_balance': (start_balance or 0) * exchange_rate,
+                'ending_balance': (end_balance or 0) * exchange_rate,
+            }}
+        else:
+            return {}
+
+    def onchange_exchange_date(self, cr, uid, ids, exchange_date, account_id,
+                               context=None):
+        currency_obj = self.pool['res.currency']
+        account_obj = self.pool['account.account']
+        res = {}
+        res['value'] = val = {}
+        if not account_id or not exchange_date:
+            return res
+
+        account = account_obj.browse(cr, uid, account_id)
+        acur = account.currency_id
+        ccur = account.company_id.currency_id
+        val['account_currency_id'] = acur.id
+        val['company_currency_id'] = ccur.id
+        if acur.id == ccur.id:
+            val['currency_rate'] = 1
+            val['currency_help_label'] = ''
+        else:
+            ctx2 = context.copy() if context else {}
+            ctx2['date'] = exchange_date
+            payment_rate = currency_obj._get_conversion_rate(
+                cr, uid, acur, ccur, context=ctx2)
+            val['currency_rate'] = payment_rate
+            val['currency_rate_label'] = self._get_currency_help_label(
+                cr, uid, acur.id, payment_rate, ccur.id, context)
+
+        return res
+
     _name = "bank.acc.rec.statement"
     _columns = {
         'name': fields.char(
@@ -491,6 +756,13 @@ class bank_acc_rec_statement(orm.Model):
                 "(e.g. Bank X January 2012)."
             ),
         ),
+        'multi_currency': fields.boolean('Multi-currency mode enabled'),
+        'currency_conversion_date': fields.date('Currency Conversion Date'),
+        'currency_rate': fields.float(
+            'Currency Exchange Rate',
+            digits=(12, 6),
+        ),
+        'currency_rate_label': fields.text('Currency Rate Message'),
         'account_id': fields.many2one(
             'account.account',
             'Account',
@@ -498,6 +770,12 @@ class bank_acc_rec_statement(orm.Model):
             states={'done': [('readonly', True)]},
             domain="[('company_id', '=', company_id), ('type', '!=', 'view')]",
             help="The Bank/Gl Account that is being reconciled."
+        ),
+        'exchange_date': fields.date(
+            'Currency Exchange Date',
+            required=False,
+            states={'done':[('readonly', True)]},
+            help="The starting date of your bank statement.",
         ),
         'ending_date': fields.date(
             'Ending Date',
@@ -509,15 +787,31 @@ class bank_acc_rec_statement(orm.Model):
             'Starting Balance',
             required=True,
             digits_compute=dp.get_precision('Account'),
-            help="The Starting Balance on your bank statement.",
+            help="The Starting Balance on your bank statement, in your "
+                 "company's currency",
             states={'done': [('readonly', True)]}
+        ),
+        'starting_balance_in_currency': fields.float(
+            'Starting Balance in Currency',
+            required=True,
+            digits_compute=dp.get_precision('Account'),
+            help="The Account Starting Balance on your bank statement",
+            states={'done':[('readonly', True)]},
         ),
         'ending_balance': fields.float(
             'Ending Balance',
             required=True,
             digits_compute=dp.get_precision('Account'),
-            help="The Ending Balance on your bank statement.",
+            help="The Ending Balance on your bank statement, in your "
+                 "company's currency",
             states={'done': [('readonly', True)]}
+        ),
+        'ending_balance_in_currency': fields.float(
+            'Ending Balance in Currency',
+            required=True,
+            digits_compute=dp.get_precision('Account'),
+            help="The Ending Balance on your bank statement.",
+            states={'done':[('readonly', True)]}
         ),
         'company_id': fields.many2one(
             'res.company',
@@ -570,6 +864,17 @@ class bank_acc_rec_statement(orm.Model):
             ),
             multi="balance"
         ),
+        'cleared_balance_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Cleared Balance',
+            digits_compute=dp.get_precision('Account'),
+            help="Total Sum of the Deposit Amount Cleared – Total Sum of "
+                 "Checks, Withdrawals, Debits, and Service Charges Amount "
+                 "Cleared",
+            multi="balance",
+        ),
         'difference': fields.function(
             _get_balance,
             method=True,
@@ -578,6 +883,15 @@ class bank_acc_rec_statement(orm.Model):
             digits_compute=dp.get_precision('Account'),
             help="(Ending Balance – Beginning Balance) - Cleared Balance.",
             multi="balance"
+        ),
+        'difference_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Difference',
+            digits_compute=dp.get_precision('Account'),
+            help="(Ending Balance – Beginning Balance) - Cleared Balance.",
+            multi="balance",
         ),
         'sum_of_credits': fields.function(
             _get_balance,
@@ -588,6 +902,14 @@ class bank_acc_rec_statement(orm.Model):
             help="Total SUM of Amts of lines with Cleared = True",
             multi="balance"
         ),
+        'sum_of_credits_in_currency': fields.function(
+            _get_balance, method=True, type='float',
+            string='Checks, Withdrawals, Debits, and Service Charges Amount'
+                   'in currency',
+            digits_compute=dp.get_precision('Account'),
+            help="Total SUM of Amts of lines with Cleared = True",
+            multi="balance",
+        ),
         'sum_of_debits': fields.function(
             _get_balance,
             method=True,
@@ -596,6 +918,15 @@ class bank_acc_rec_statement(orm.Model):
             digits_compute=dp.get_precision('Account'),
             help="Total SUM of Amts of lines with Cleared = True",
             multi="balance"
+        ),
+        'sum_of_debits_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Deposits, Credits, and Interest Amount',
+            digits_compute=dp.get_precision('Account'),
+            help="Total SUM of Amts of lines with Cleared = True",
+            multi="balance",
         ),
         'sum_of_credits_lines': fields.function(
             _get_balance,
@@ -629,6 +960,17 @@ class bank_acc_rec_statement(orm.Model):
             ),
             multi="balance"
         ),
+        'uncleared_balance_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Uncleared Balance',
+            digits_compute=dp.get_precision('Account'),
+            help="Total Sum of the Deposit Amount Cleared – Total Sum of "
+                 "Checks, Withdrawals, Debits, and Service Charges Amount "
+                 "Cleared",
+            multi="balance",
+        ),
         'sum_of_credits_unclear': fields.function(
             _get_balance,
             method=True,
@@ -637,6 +979,15 @@ class bank_acc_rec_statement(orm.Model):
             type='float',
             help="Total SUM of Amts of lines with Cleared = True",
             multi="balance"
+        ),
+        'sum_of_credits_unclear_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Checks, Withdrawals, Debits, and Service Charges Amount',
+            digits_compute=dp.get_precision('Account'),
+            help="Total SUM of Amts of lines with Cleared = False",
+            multi="balance",
         ),
         'sum_of_debits_unclear': fields.function(
             _get_balance,
@@ -647,6 +998,15 @@ class bank_acc_rec_statement(orm.Model):
             help="Total SUM of Amts of lines with Cleared = True",
             multi="balance"
         ),
+        'sum_of_debits_unclear_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Deposits, Credits, and Interest Amount',
+            digits_compute=dp.get_precision('Account'),
+            help="Total SUM of Amts of lines with Cleared = False",
+            multi="balance",
+        ),
         'sum_of_credits_lines_unclear': fields.function(
             _get_balance,
             method=True,
@@ -655,7 +1015,16 @@ class bank_acc_rec_statement(orm.Model):
                 'Charges # of Items'
             ),
             type='float', help="Total of number of lines with Cleared = True",
-            multi="balance"),
+            multi="balance"
+        ),
+        'sum_of_credits_lines_unclear': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Checks, Withdrawals, Debits, and Service Charges # of Items',
+            help="Total of number of lines with Cleared = False",
+            multi="balance",
+        ),
         'sum_of_debits_lines_unclear': fields.function(
             _get_balance,
             method=True,
@@ -664,6 +1033,39 @@ class bank_acc_rec_statement(orm.Model):
             help="Total of number of lines with Cleared = True",
             multi="balance"
         ),
+        'general_ledger_balance': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='General Ledger Balance',
+            digits_compute=dp.get_precision('Account'),
+            help="General Ledger Balance",
+            multi="balance"
+        ),
+        'registered_balance': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Registered Balance',
+            digits_compute=dp.get_precision('Account'),
+            help="Initial balance + Cleared Balance + Uncleared Balance",
+            multi="balance"
+        ),
+        'registered_balance_in_currency': fields.function(
+            _get_balance,
+            method=True,
+            type='float',
+            string='Registered Balance',
+            digits_compute=dp.get_precision('Account'),
+            help="Initial balance + Cleared Balance + Uncleared Balance",
+            multi="balance"
+        ),
+        'adjustment_move_id': fields.many2one(
+            'account.move',
+            'Adjustement Move',
+            required=False,
+            help="Adjustment move used to balance the General Ledger for "
+                 "accounts in a secondary currency"),
         'suppress_ending_date_filter': fields.boolean(
             'Remove Ending Date Filter',
             help=(
@@ -700,6 +1102,7 @@ class bank_acc_rec_statement(orm.Model):
             ).company_id.id
         ),
         'ending_date': time.strftime('%Y-%m-%d'),
+        'multi_currency': False,
     }
 
     _order = "ending_date desc"
