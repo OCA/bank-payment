@@ -35,8 +35,6 @@
 			    <sheet>
             <group col="4" colspan="4">
                 <field name="multi_currency" invisible="1" />
-
-
 				        <field name="account_id" placeholder="Enter Account Name" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>
                 <field name="name" placeholder="Enter Name"/>
 				        <field name="ending_date" placeholder="Enter ending date" on_change="onchange_account_id(account_id, ending_date, suppress_ending_date_filter, keep_previous_uncleared_entries)"/>

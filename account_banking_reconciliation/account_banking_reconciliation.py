@@ -509,6 +509,14 @@ class bank_acc_rec_statement(orm.Model):
                 continue
 
             to_write = {'credit_move_line_ids': [], 'debit_move_line_ids': []}
+            # For existing records, allow refresh to set multi_currency
+            # correctly by updating it during the refresh. This allows viewing
+            # multi currency fields without changing the account
+            acur = obj.account_id.currency_id
+            ccur = obj.account_id.company_id.currency_id
+            if acur and ccur and acur.id != ccur.id:
+                to_write['multi_currency'] = True
+
             move_line_ids = [
                 line.move_line_id.id
                 for line in obj.credit_move_line_ids + obj.debit_move_line_ids
@@ -588,6 +596,7 @@ class bank_acc_rec_statement(orm.Model):
             'value': {
                 'credit_move_line_ids': [],
                 'debit_move_line_ids': [],
+                'multi_currency': False,
                 'company_currency_id': False,
                 'account_currency_id': False,
             }
@@ -613,12 +622,10 @@ class bank_acc_rec_statement(orm.Model):
                     DEFAULT_SERVER_DATE_FORMAT)
 
             account = account_obj.browse(cr, uid, account_id, context=context)
-            val['value'].update({
-                'company_currency_id': account.company_id.currency_id.id,
-                'account_currency_id': account.currency_id.id,
-            })
-
-
+            acur = account.currency_id
+            ccur = account.company_id.currency_id
+            if acur and ccur and acur.id != ccur.id:
+                val['value']['multi_currency'] = True
 
             for statement in self.browse(cr, uid, ids, context=context):
                 statement_line_ids = statement_line_obj.search(
@@ -728,11 +735,10 @@ class bank_acc_rec_statement(orm.Model):
         account = account_obj.browse(cr, uid, account_id)
         acur = account.currency_id
         ccur = account.company_id.currency_id
-        val['account_currency_id'] = acur.id
-        val['company_currency_id'] = ccur.id
-        if acur.id == ccur.id:
+        if not acur or not ccur or acur.id == ccur.id:
             val['currency_rate'] = 1
             val['currency_help_label'] = ''
+            val['multi_currency'] = False
         else:
             ctx2 = context.copy() if context else {}
             ctx2['date'] = exchange_date
@@ -741,6 +747,7 @@ class bank_acc_rec_statement(orm.Model):
             val['currency_rate'] = payment_rate
             val['currency_rate_label'] = self._get_currency_help_label(
                 cr, uid, acur.id, payment_rate, ccur.id, context)
+            val['multi_currency'] = True
 
         return res
 
@@ -1103,6 +1110,7 @@ class bank_acc_rec_statement(orm.Model):
         ),
         'ending_date': time.strftime('%Y-%m-%d'),
         'multi_currency': False,
+        'keep_previous_uncleared_entries': True,
     }
 
     _order = "ending_date desc"
