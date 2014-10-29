@@ -124,7 +124,7 @@ class banking_import_transaction(orm.Model):
             """
             Returns whether a given account number is equivalent to a
             partner bank in the database. We simply call the search method,
-            which checks IBAN, domestic and disregards from spaces in IBANs.
+            which checks bank account number, disregarding spaces.
 
             :param account: string representation of a bank account number
             :param partner_bank: browse record of model res.partner.bank
