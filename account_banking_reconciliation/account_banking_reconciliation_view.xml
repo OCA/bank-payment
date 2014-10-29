@@ -193,10 +193,6 @@
                         <group name="gen_ledger" col="2" colspan="2">
                           <field name="general_ledger_balance" colspan="2"/>
                           <field name="registered_balance" />
-                          <field name="registered_balance_in_currency"
-                            string="Foreign Currency Registered Balance"
-                            attrs="{'invisible':[('multi_currency', '=', False)]}"
-                            />
                           <field name="adjustment_move_id" readonly="1"
                             attrs="{'invisible':[('multi_currency', '=', False)]}"
                             />
