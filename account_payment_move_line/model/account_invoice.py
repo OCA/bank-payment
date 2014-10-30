@@ -26,18 +26,20 @@ from openerp.osv import orm
 class AccountInvoice(orm.Model):
     _inherit = 'account.invoice'
 
-    # Can be like that instead of action_move_create
+   # def finalize_invoice_move_lines(self, cr, uid, invoice_browse,
+   #     move_lines):
+   #     '''
+   #     Can be like that instead of action_move_create
+   #     '''
+   #     for line in move_lines:
+   #         if line[2]['account_id'] == invoice_browse.account_id.id:
+   #             line[2]['payment_mode_id'] = invoice_browse.payment_mode_id.id
+   #     return move_lines
 
-    # def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
-    #
-    #     for line in move_lines:
-    #         if line[2]['account_id'] == invoice_browse.account_id.id:
-    #             line[2]['payment_mode_id'] = invoice_browse.payment_mode_id.id
-    #     return move_lines
-
-
-    #Copy from OCA/account_payment/account_payment_extension
     def action_move_create(self, cr, uid, ids, context=None):
+        '''
+        ICopy from OCA/account_payment/account_payment_extension
+        '''
         result = super(AccountInvoice, self).action_move_create(
             cr, uid, ids, context)
         if result:

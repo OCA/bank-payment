@@ -30,4 +30,3 @@ class AccountMoveLine(orm.Model):
         'payment_mode_id': fields.many2one(
             'payment.mode', 'Payment Mode'),
         }
-
