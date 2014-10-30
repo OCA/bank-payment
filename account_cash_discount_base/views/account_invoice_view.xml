@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_supplier_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form (account_cash_discount_base)</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_ids']" position="before">
+                    <group name="discount" string="Cash discount">
+                        <field name="discount_due_date" />
+                        <field name="discount_amount" />
+                    </group>
+                    <group name="payments" string="Payments"></group>
+                </xpath>
+            </field>
+        </record>
+        <record id="invoice_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.form (account_cash_discount_base)</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_ids']" position="before">
+                    <group name="discount" string="Cash discount">
+                        <field name="discount_due_date" />
+                        <field name="discount_amount" />
+                    </group>
+                    <group name="payments" string="Payments"></group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

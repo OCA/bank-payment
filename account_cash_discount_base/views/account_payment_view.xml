@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_order_form_inherit" model="ir.ui.view">
+            <field name="name">payment.order.form (account_cash_discount_base)</field>
+            <field name="model">payment.order</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_banking_payment_order_form_1"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='ml_maturity_date']" position="after">
+                    <field name="discount_due_date" />
+                </xpath>
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='amount']" position="after">
+                    <field name="discount_amount" />
+                </xpath>
+                 <xpath expr="//field[@name='line_ids']//form//field[@name='ml_maturity_date']" position="after">
+                    <field name="discount_due_date" />
+                    <field name="discount_amount" />
+                    <field name="base_amount" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
