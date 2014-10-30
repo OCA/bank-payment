@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2014 KMEE (http://www.kmee.com.br/)
+    @author Luis Felipe Miléo <mileo@kmee.com.br>
+    The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_payment_move_line_form">
+        <field name="name">account.payment.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <group string="Dates" position="after">
+                    <group string="Payment">
+                        <field name="payment_mode_id" select="1" widget="selection"/>
+                    </group>
+            </group>
+        </field>
+    </record>
+</data>
+</openerp>
