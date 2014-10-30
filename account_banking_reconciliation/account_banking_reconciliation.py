@@ -353,6 +353,12 @@ class bank_acc_rec_statement(orm.Model):
                     _("The General Ledger Balance and Registered Balance "
                       "are equal, no adjustment necessary."))
 
+            if not company.default_cutoff_journal_id:
+                raise orm.except_orm(
+                    _("No Default Cut-off Journal"),
+                    _("You need to set the Default Cut-off Journal for your "
+                      "company to create an adjustment move"))
+
             period_id = period_obj.find(cr, uid, stmt.ending_date,
                                         context=context)[0]
             move_id = account_move_obj.create(
