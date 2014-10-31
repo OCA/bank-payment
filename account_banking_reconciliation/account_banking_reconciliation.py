@@ -325,7 +325,7 @@ class bank_acc_rec_statement(orm.Model):
             }
             reverse_move = {'name': move_line['name']}
             amount = abs(stmt.general_ledger_balance - stmt.registered_balance)
-            if stmt.general_ledger_balance > stmt.registered_balance:
+            if stmt.general_ledger_balance < stmt.registered_balance:
                 account = company.income_currency_exchange_account_id
                 if not account:
                     raise orm.except_orm(
@@ -336,7 +336,7 @@ class bank_acc_rec_statement(orm.Model):
                 move_line['debit'] = amount
                 reverse_move['credit'] = amount
                 reverse_move['account_id'] = account.id
-            elif stmt.registered_balance > stmt.general_ledger_balance:
+            elif stmt.registered_balance < stmt.general_ledger_balance:
                 account = company.expense_currency_exchange_account_id
                 if not account:
                     raise orm.except_orm(
@@ -476,11 +476,15 @@ class bank_acc_rec_statement(orm.Model):
     def _get_gl_balance(self, cr, uid, account_id, date=None):
         """ Get the General Ledger balance at date for account """
         account_obj = self.pool['account.account']
+        # balance does < end date, not <=, so go to the next day
+        date = date or time.strftime('%Y-%m-%d')
+        date = datetime.strptime(date, '%Y-%m-%d') + timedelta(1)
+        date = date.strftime('%Y-%m-%d')
+
         balance = account_obj.read(
             cr, uid, account_id, ['balance'],
             context={'initial_bal': True,
-                     'date_from': date or time.strftime(
-                         '%Y-%m-%d'),
+                     'date_from': date,
                      'date_to': 'ignored'})
         return balance["balance"]
 
