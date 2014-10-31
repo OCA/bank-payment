@@ -25,18 +25,18 @@
     'version': '1.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': "Adds Payment Mode on Sale Orders",
+    'summary': "Adds payment mode on sale orders",
     'description': """
 Account Payment Sale
 ====================
 
-This modules adds one field on sale orders : *Payment Mode*.
+This modules adds one field on sale orders: *Payment Mode*.
 This field is copied from partner to sale order and then from sale order to
 customer invoice.
 
-This module is similar to the *sale_payment* module ; the main difference is
+This module is similar to the *sale_payment* module; the main difference is
 that it doesn't depend on the *account_payment_extension* module (it's not the
-only module to conflict with *account_payment_extension* ; all the SEPA
+only module to conflict with *account_payment_extension*; all the SEPA
 modules in the banking addons conflict with *account_payment_extension*.
     """,
     'author': 'Akretion',
@@ -44,7 +44,6 @@ modules in the banking addons conflict with *account_payment_extension*.
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'depends': [
         'sale',
-        'stock_account',
         'account_payment_partner'
     ],
     'conflicts': ['sale_payment'],
@@ -52,4 +51,5 @@ modules in the banking addons conflict with *account_payment_extension*.
         'views/sale_order_view.xml',
     ],
     'installable': True,
+    'auto_install': True,
 }
