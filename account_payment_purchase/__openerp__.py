@@ -30,13 +30,13 @@
 Account Payment Purchase
 ========================
 
-This module adds 2 fields on purchase orders : *Bank Account* and *Payment
+This module adds 2 fields on purchase orders: *Bank Account* and *Payment
 Mode*. These fields are copied from partner to purchase order and then from
 purchase order to supplier invoice.
 
-This module is similar to the *purchase_payment* module ; the main difference
+This module is similar to the *purchase_payment* module; the main difference
 is that it doesn't depend on the *account_payment_extension* module (it's not
-the only module to conflict with *account_payment_extension* ; all the SEPA
+the only module to conflict with *account_payment_extension*; all the SEPA
 modules in the banking addons conflict with *account_payment_extension*).
     """,
     'author': 'Akretion',
@@ -44,7 +44,6 @@ modules in the banking addons conflict with *account_payment_extension*).
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'depends': [
         'purchase',
-        'stock_account',
         'account_payment_partner'
     ],
     'conflicts': ['purchase_payment'],
@@ -52,5 +51,5 @@ modules in the banking addons conflict with *account_payment_extension*).
         'views/purchase_order_view.xml',
     ],
     'installable': True,
-    'active': False,
+    'auto_install': True,
 }
