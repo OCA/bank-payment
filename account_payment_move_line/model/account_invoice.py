@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
+#    Account Payment Move Line module for OpenERP
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
@@ -38,7 +38,7 @@ class AccountInvoice(orm.Model):
 
     def action_move_create(self, cr, uid, ids, context=None):
         '''
-        ICopy from OCA/account_payment/account_payment_extension
+        Copy from OCA/account_payment/account_payment_extension
         '''
         result = super(AccountInvoice, self).action_move_create(
             cr, uid, ids, context)

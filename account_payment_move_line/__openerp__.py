@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
+#    Account Payment Move Line module for OpenERP
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
@@ -31,7 +31,7 @@
 Account Move Line
 =======================
 
-This module add the field payment mode in account move line
+This module adds the payment mode field in account move line
 
 * the *Payment Mode* from Invoices is copied when the move lines are created.
 """,
