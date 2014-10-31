@@ -1,10 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Sale module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -21,4 +17,3 @@
 ##############################################################################
 
 from . import sale_order
-from . import stock_picking

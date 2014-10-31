@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Account Payment Sale Stock module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Copyright (C) 2014 Akretion (http://www.akretion.com).
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,24 +20,25 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+{
+    'name': 'Account Payment Sale Stock',
+    'version': '1.0',
+    'category': 'Banking addons',
+    'license': 'AGPL-3',
+    'summary': "Manage payment mode when invoicing a sale from picking",
+    'description': """
+Account Payment Sale Stock
+==========================
 
-
-class stock_picking(orm.Model):
-    _inherit = "stock.picking"
-
-    def _prepare_invoice(
-            self, cr, uid, picking, partner, inv_type, journal_id,
-            context=None):
-        """Copy payment mode from sale order to invoice"""
-        invoice_vals = super(stock_picking, self)._prepare_invoice(
-            cr, uid, picking, partner, inv_type, journal_id, context=context)
-        if picking.sale_id:
-            invoice_vals.update({
-                'partner_bank_id':
-                picking.sale_id.payment_mode_id and
-                picking.sale_id.payment_mode_id.bank_id.id or False,
-                'payment_mode_id':
-                picking.sale_id.payment_mode_id.id or False,
-                })
-        return invoice_vals
+This module copies *Payment Mode* from sale order to invoice when it is
+generated from the picking.
+    """,
+    'author': 'Akretion',
+    'website': 'http://www.akretion.com',
+    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
+    'depends': ['sale_stock',
+                'account_payment_sale'],
+    'conflicts': ['account_payment_extension'],
+    'auto_install': True,
+    'installable': False,
+}

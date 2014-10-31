@@ -28,7 +28,8 @@ class SaleOrder(models.Model):
 
     payment_mode_id = fields.Many2one(
         'payment.mode', string='Payment Mode',
-        domain="[('payment_order_type', '=', 'debit')]")
+        domain="['|', ('payment_order_type', '=', 'debit'), "
+               "('payment_order_type', '=', 'both')]")
 
     @api.multi
     def onchange_partner_id(self, partner_id):
