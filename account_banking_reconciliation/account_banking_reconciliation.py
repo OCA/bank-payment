@@ -316,7 +316,6 @@ class bank_acc_rec_statement(orm.Model):
             if stmt.adjustment_move_id:
                 continue
 
-            # TODO CHECK WHY GEN LEDGER BALANCE NOT ADJUSTED
             company = stmt.company_id
             move_line = {
                 'name': _('Adjustment for reconciliation %s') % (stmt.name, ),
