@@ -48,7 +48,7 @@ class PaymentModeType(models.Model):
          ('both', 'Both')],
         string='Order type', required=True, default='both',
         help="This field determines if this type applies to customers "
-             "(Debit) or suppliers (Payment)")
+             "(Debit), suppliers (Payment), or both")
     active = fields.Boolean(string='Active', default=True)
 
     def _auto_init(self, cr, context=None):
