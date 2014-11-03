@@ -460,7 +460,7 @@ class bank_acc_rec_statement(orm.Model):
             sres['difference_in_currency'] = round(
                 (statement.ending_balance_in_currency
                  - sres['cleared_balance_in_currency']
-                 - statement.starting_balance),
+                 - statement.starting_balance_in_currency),
                 account_precision)
             sres['general_ledger_balance'] = self._get_gl_balance(
                 cr, uid, statement.account_id.id, statement.ending_date)
