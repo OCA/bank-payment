@@ -89,7 +89,7 @@ class RaboMT940Parser(MT940, parser):
             return
         super(RaboMT940Parser, self).handle_tag_86(cr, data)
         codewords = ['MARF', 'EREF', 'PREF', 'RTRN', 'ACCW', 'BENM',
-                     'ORDP', 'NAME', 'ID', 'ADDR', 'REMI', 'CDTRREFTP',  
+                     'ORDP', 'NAME', 'ID', 'ADDR', 'REMI', 'CDTRREFTP',
                      'CD', 'SCOR', 'ISSR', 'CUR', 'CDTRREF', 'CSID', 'ISDT',
                      'ULTD', 'ULTB', 'PURP']
         subfields = {}
