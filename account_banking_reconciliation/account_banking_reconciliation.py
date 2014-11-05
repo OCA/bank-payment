@@ -227,7 +227,6 @@ class bank_acc_rec_statement(orm.Model):
     def action_cancel_draft(self, cr, uid, ids, context=None):
         """Reset the statement to draft and perform resetting operations."""
         account_move_line_obj = self.pool.get('account.move.line')
-        statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
         for statement in self.browse(cr, uid, ids, context=context):
             statement_lines = (
                 statement.credit_move_line_ids +
@@ -248,16 +247,6 @@ class bank_acc_rec_statement(orm.Model):
                 {
                     'cleared_bank_account': False,
                     'bank_acc_rec_statement_id': False,
-                },
-                context=context
-            )
-            # Reset 'Cleared' in statement lines
-            statement_line_obj.write(
-                cr, uid,
-                statement_line_ids,
-                {
-                    'cleared_bank_account': False,
-                    'research_required': False
                 },
                 context=context
             )
