@@ -29,7 +29,7 @@
                     <button name="action_review" type="object" states="draft" string="Ready for Review" icon="gtk-go-forward"/>
                     <button name="action_process" type="object" states="to_be_reviewed" string="Process" icon="gtk-apply"/>
                     <button name="action_cancel_draft" states="cancel,done" string="Set to Draft" type="object" icon="gtk-convert"/>
-                    <button name='refresh_record' string='Refresh' type='object'/>
+                    <button name='refresh_record' string='Refresh' type='object' states="draft"/>
                     <field name="state" widget="statusbar" nolabel="1"/>
 			    </header>
 			    <sheet>
