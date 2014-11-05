@@ -35,9 +35,7 @@ class ResPartnerBank(orm.Model):
 
     def search(self, cr, uid, args, *rest, **kwargs):
         """
-        When a complete IBAN is searched, also search for its BBAN
-        if we have the domestic column. Disregard spaces
-        when comparing IBANs.
+        Disregard spaces when comparing IBANs.
         """
 
         def is_term(arg):
@@ -61,13 +59,6 @@ class ResPartnerBank(orm.Model):
                         """, (term[2].replace(' ', ''),))
                     ids = [row[0] for row in cr.fetchall()]
                     result = [('id', 'in', ids)]
-
-                    if 'acc_number_domestic' in self._columns:
-                        bban = iban.localized_BBAN
-                        # Prevent empty search filters
-                        if bban:
-                            extra_terms.append(
-                                ('acc_number_domestic', term[1], bban))
             for extra_term in extra_terms:
                 result = ['|'] + result + [extra_term]
             return result
