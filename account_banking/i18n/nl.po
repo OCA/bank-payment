@@ -646,6 +646,8 @@ msgstr "Factuurbetaling"
 #: view:account.bank.statement.line:0
 #: view:banking.link_partner:0
 #: model:ir.model,name:account_banking.model_banking_link_partner
+#: code:_description:0
+#, python-format
 msgid "Link partner"
 msgstr "Koppel relatie"
 
