@@ -296,6 +296,7 @@ class banking_import_transaction(orm.Model):
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                     self.payment_window)
                     and (not _cached(x) or _remaining(x))
+                    and x.account_id.type in ('receivable', 'payable')
                     and x.partner_id.id in partner_ids)
             ]
 
@@ -314,7 +315,8 @@ class banking_import_transaction(orm.Model):
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                      self.payment_window))
             ]
-            if len(best) == 1:
+            if len(best) == 1 and best[0].account_id.type in ('receivable',
+                                                              'payable'):
                 # Exact match
                 move_line = best[0]
                 invoice = move_line.invoice
