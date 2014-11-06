@@ -463,17 +463,16 @@ class bank_acc_rec_statement(orm.Model):
 
     def _get_gl_balance(self, cr, uid, account_id, date=None):
         """ Get the General Ledger balance at date for account """
+        fyear_obj = self.pool["account.fiscalyear"]
         account_obj = self.pool['account.account']
-        # balance does < end date, not <=, so go to the next day
         date = date or time.strftime('%Y-%m-%d')
-        date = datetime.strptime(date, '%Y-%m-%d') + timedelta(1)
-        date = date.strftime('%Y-%m-%d')
+        fiscal_yearid = fyear_obj.find(cr, uid, date)
+        date_from = fyear_obj.browse(cr, uid, fiscal_yearid).date_start
 
         balance = account_obj.read(
             cr, uid, account_id, ['balance'],
-            context={'initial_bal': True,
-                     'date_from': date,
-                     'date_to': 'ignored'})
+            context={'date_from': date_from,
+                     'date_to': date})
         return balance["balance"]
 
     def _get_move_line_write(self, line):
