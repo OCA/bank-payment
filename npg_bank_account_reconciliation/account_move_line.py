@@ -32,6 +32,16 @@ class account_move_line(osv.osv):
     }
 
 
-account_move_line() 
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        default.update(
+            cleared_bank_account=False,
+            bank_acc_rec_statement_id=False,
+            draft_assigned_to_statement=False,
+        )
+
+        return super(account_move_line, self).copy(cr, uid, id,
+                                                   default=default,
+                                                   context=context)
