@@ -496,7 +496,19 @@ class banking_import_transaction(orm.Model):
             'account_id': transaction.move_line_id.account_id.id,
             'type': transaction.move_line_id.credit and 'dr' or 'cr',
         }
-        voucher['line_ids'] = [(0, 0, vch_line)]
+        to_curr_rate = (st_line.statement_id.journal_id.currency and
+                        st_line.statement_id.journal_id.currency.rate or
+                        st_line.statement_id.company_id.currency_id.rate)
+        onchange_val = self.pool.get('account.voucher').onchange_amount(
+            cr, uid, [], abs(st_line.amount), to_curr_rate,
+            st_line.partner_id and st_line.partner_id.id or False,
+            st_line.statement_id.journal_id.id, st_line.company_id.id,
+            voucher_type, st_line.date, to_curr_id, st_line.company_id.id)
+        onchange_val['value']['line_cr_ids'] = [
+            (0,0, x ) for x in onchange_val['value']['line_cr_ids']]
+        onchange_val['value']['line_dr_ids'] = [
+            (0,0, x ) for x in onchange_val['value']['line_dr_ids']]
+        voucher.update(onchange_val['value'])
         voucher_id = self.pool.get('account.voucher').create(
             cr, uid, voucher, context=context)
         statement_line_pool.write(
