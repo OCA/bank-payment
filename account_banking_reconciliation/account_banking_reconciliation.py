@@ -472,7 +472,8 @@ class bank_acc_rec_statement(orm.Model):
         balance = account_obj.read(
             cr, uid, account_id, ['balance'],
             context={'date_from': date_from,
-                     'date_to': date})
+                     'date_to': date,
+                     'state': 'posted'})
         return balance["balance"]
 
     def _get_move_line_write(self, line):
