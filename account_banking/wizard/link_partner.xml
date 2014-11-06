@@ -19,7 +19,8 @@
                         <field name="partner_id"/>
                     </group>
                     <group colspan="2">
-                        <field name="is_company" />
+                        <field name="is_company" attrs="{'invisible':
+                            [('partner_id', '!=', False)]}"/>
                     </group>
                     <group colspan="4"
                            string="Address"
