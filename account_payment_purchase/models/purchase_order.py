@@ -34,8 +34,7 @@ class PurchaseOrder(models.Model):
              "and will be copied to the supplier invoice.")
     payment_mode_id = fields.Many2one(
         'payment.mode', string='Payment Mode',
-        domain="['|', ('payment_order_type', '=', 'payment'), "
-               "('payment_order_type', '=', 'both')]")
+        domain="[('purchase_ok', '=', True)]")
 
     @api.model
     def _get_default_supplier_partner_bank(self, partner):
