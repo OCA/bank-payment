@@ -28,13 +28,11 @@ class ResPartner(models.Model):
 
     supplier_payment_mode = fields.Many2one(
         'payment.mode', string='Supplier Payment Mode', company_dependent=True,
-        domain="['|', ('payment_order_type', '=', 'payment'), "
-               "('payment_order_type', '=', 'both')]",
+        domain="[('purchase_ok', '=', True)]",
         help="Select the default payment mode for this supplier.")
     customer_payment_mode = fields.Many2one(
         'payment.mode', string='Customer Payment Mode', company_dependent=True,
-        domain="['|', ('payment_order_type', '=', 'debit'), "
-               "('payment_order_type', '=', 'both')]",
+        domain="[('sale_ok', '=', True)]",
         help="Select the default payment mode for this customer.")
 
     @api.model
