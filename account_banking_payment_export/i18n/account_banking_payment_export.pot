@@ -22,13 +22,18 @@ msgid "Active"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: field:account.move.line,amount_to_pay:0
-msgid "Amount to pay"
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: selection:payment.mode.type,payment_order_type:0
-msgid "Both"
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: field:account.move.line,amount_to_pay:0
+msgid "Amount to pay"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -216,7 +221,7 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
-msgid "This field determines if this type applies to customers (Debit), suppliers (Payment), or both"
+msgid "This field determines if this type applies to customers (Debit) or suppliers (Payment)"
 msgstr ""
 
 #. module: account_banking_payment_export

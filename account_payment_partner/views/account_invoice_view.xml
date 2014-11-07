@@ -17,7 +17,7 @@
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="after">
                 <field name="payment_mode_id"
-                       domain="['|', ('payment_order_type', '=', 'debit'), ('payment_order_type', '=', 'both')]"/>
+                       domain="[('sale_ok', '=', True)]"/>
             </field>
         </field>
     </record>
@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="after">
                 <field name="payment_mode_id"
-                       domain="['|', ('payment_order_type', '=', 'payment'), ('payment_order_type', '=', 'both')]"/>
+                       domain="[('purchase_ok', '=', True)]"/>
             </field>
         </field>
     </record>

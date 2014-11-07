@@ -44,11 +44,10 @@ class PaymentModeType(models.Model):
         domain=[('osv_memory', '=', True)])
     payment_order_type = fields.Selection(
         [('payment', 'Payment'),
-         ('debit', 'Debit'),
-         ('both', 'Both')],
-        string='Order type', required=True, default='both',
+         ('debit', 'Debit')],
+        string='Order type', required=True, default='payment',
         help="This field determines if this type applies to customers "
-             "(Debit), suppliers (Payment), or both")
+             "(Debit) or suppliers (Payment)")
     active = fields.Boolean(string='Active', default=True)
 
     def _auto_init(self, cr, context=None):

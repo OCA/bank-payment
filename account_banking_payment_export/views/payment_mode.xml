@@ -13,6 +13,8 @@
                 <field name="company_id" position="after">
                     <field name="active"/>
                     <field name="type"/>
+                    <field name="purchase_ok"/>
+                    <field name="sale_ok"/>
                 </field>
             </field>
         </record>

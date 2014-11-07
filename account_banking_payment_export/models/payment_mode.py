@@ -52,3 +52,7 @@ class PaymentMode(models.Model):
         help="This field, that comes from export type, determines if this "
              "mode can be selected for customers or suppliers.")
     active = fields.Boolean(string='Active', default=True)
+    sale_ok = fields.Boolean(string='Selectable on sale operations',
+                             default=True)
+    purchase_ok = fields.Boolean(string='Selectable on purchase operations',
+                                 default=True)

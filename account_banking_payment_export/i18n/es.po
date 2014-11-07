@@ -22,14 +22,19 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: account_banking_payment_export
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
+msgstr "Seleccionable en operaciones de venta"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr "Seleccionable en operaciones de compra"
+
+#. module: account_banking_payment_export
 #: field:account.move.line,amount_to_pay:0
 msgid "Amount to pay"
 msgstr "Importe a pagar"
-
-#. module: account_banking_payment_export
-#: selection:payment.mode.type,payment_order_type:0
-msgid "Both"
-msgstr "Ambos"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
@@ -216,8 +221,8 @@ msgstr "Tipos de cuentas bancarias adecuadas"
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
-msgid "This field determines if this type applies to customers (Debit), suppliers (Payment), or both"
-msgstr "Este campo determina si este tipo aplica a clientes (Cobro), a proveedores (Pago), o a ambos"
+msgid "This field determines if this type applies to customers (Debit) or suppliers (Payment)"
+msgstr "Este campo determina si este tipo aplica a clientes (Cobro) o a proveedores (Pago)"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:69
