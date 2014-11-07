@@ -24,12 +24,9 @@ class StockPicking(models.Model):
 
     @api.model
     def _create_invoice_from_picking(self, picking, vals):
-        if picking:
-            # Search if this picking comes from a sale order
-            sale_order_obj = self.env['sale.order']
-            sale_order = sale_order_obj.search(
-                [('picking_ids', 'in', picking.id)], limit=1)
-            if sale_order and sale_order.payment_mode_id:
+        if picking and picking.sale_id:
+            sale_order = picking.sale_id
+            if sale_order.payment_mode_id:
                 vals['partner_bank_id'] = sale_order.payment_mode_id.bank_id.id
                 vals['payment_mode_id'] = sale_order.payment_mode_id.id
         return super(StockPicking, self)._create_invoice_from_picking(picking,
