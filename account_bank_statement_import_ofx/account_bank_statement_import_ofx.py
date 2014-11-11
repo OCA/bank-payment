@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# noqa: This is a backport from Odoo. OCA has no control over style here.
+# flake8: noqa
 
 import logging
 import base64

@@ -1,3 +1,5 @@
+# noqa: This is a backport from Odoo. OCA has no control over style here.
+# flake8: noqa
 from openerp.tests.common import TransactionCase
 from openerp.modules.module import get_module_resource
 
