@@ -23,6 +23,7 @@ from openerp.osv import fields, orm
 
 
 class res_partner_bank(orm.Model):
+
     ''' Adds a field for domestic account numbers '''
     _inherit = "res.partner.bank"
 

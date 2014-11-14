@@ -71,6 +71,7 @@ def base36_to_base10str(abuffer):
 
 
 class BBANFormat(object):
+
     '''
     A BBANFormat is an auxilliary class for IBAN. It represents the composition
     of a BBAN number from the different elements in order to translate a
@@ -183,6 +184,7 @@ class BBANFormat(object):
 
 
 class IBAN(str):
+
     '''
     A IBAN string represents a SEPA bank account number. This class provides
     the interpretation and some validation of such strings.
@@ -425,6 +427,7 @@ class IBAN(str):
 
 
 class BBAN(object):
+
     '''
     Class to reformat a local BBAN account number to IBAN specs.
     Simple validation based on length of spec string elements and real data.

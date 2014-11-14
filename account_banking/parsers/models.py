@@ -25,6 +25,7 @@ from openerp.tools.translate import _
 
 
 class mem_bank_statement(object):
+
     '''
     A mem_bank_statement is a real life projection of a bank statement paper
     containing a report of one or more transactions done. As these reports can
@@ -69,6 +70,7 @@ class mem_bank_statement(object):
 
 
 class mem_bank_transaction(object):
+
     '''
     A mem_bank_transaction is a real life copy of a bank transfer. Mapping to
     OpenERP moves and linking to invoices and the like is done afterwards.
@@ -294,6 +296,7 @@ class mem_bank_transaction(object):
 
 
 class parser_type(type):
+
     '''
     Meta annex factory class for house keeping and collecting parsers.
     '''
@@ -333,6 +336,7 @@ def create_parser(code):
 
 
 class parser(object):
+
     '''
     A parser delivers the interface for any parser object. Inherit from
     it to implement your own.

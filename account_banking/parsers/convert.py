@@ -25,7 +25,6 @@ __all__ = ['str2date', 'date2str', 'date2date', 'to_swift']
 
 try:
     from datetime import datetime
-    datetime.strptime
 except AttributeError:
     from mx import DateTime as datetime
 

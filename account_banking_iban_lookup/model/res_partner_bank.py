@@ -36,6 +36,7 @@ def warning(title, message):
 
 
 class res_partner_bank(orm.Model):
+
     '''
     Extended functionality:
         1. BBAN and IBAN are considered equal

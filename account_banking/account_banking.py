@@ -70,6 +70,7 @@ from openerp.addons.decimal_precision import decimal_precision as dp
 
 
 class account_banking_account_settings(orm.Model):
+
     '''Default Journal for Bank Account'''
     _name = 'account.banking.account.settings'
     _description = __doc__
@@ -224,6 +225,7 @@ account_banking_account_settings()
 
 
 class account_banking_imported_file(orm.Model):
+
     '''Imported Bank Statements File'''
     _name = 'account.banking.imported.file'
     _description = __doc__
@@ -291,6 +293,7 @@ account_banking_imported_file()
 
 
 class account_bank_statement(orm.Model):
+
     '''
     Implement changes to this model for the following features:
 
@@ -499,6 +502,7 @@ class account_voucher(orm.Model):
 
 
 class account_bank_statement_line(orm.Model):
+
     '''
     Extension on basic class:
         1. Extra links to account.period and res.partner.bank for tracing and
@@ -621,6 +625,7 @@ class account_bank_statement_line(orm.Model):
 
 
 class invoice(orm.Model):
+
     '''
     Create other reference types as well.
 

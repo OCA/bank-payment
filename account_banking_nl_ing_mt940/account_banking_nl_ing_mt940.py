@@ -28,6 +28,7 @@ from openerp.addons.account_banking_mt940.mt940 import MT940, str2float
 
 
 class transaction(mem_bank_transaction):
+
     def is_valid(self):
         '''allow transactions without remote account'''
         return bool(self.execution_date) and bool(self.transferred_amount)

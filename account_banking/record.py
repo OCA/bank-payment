@@ -30,7 +30,6 @@ from datetime import datetime, date
 
 # Correct python2.4 issues
 try:
-    datetime.strptime
 
     def strpdate(str, format):
         return datetime.strptime(str, format).date()
@@ -45,7 +44,9 @@ import unicodedata
 
 
 class Field(object):
+
     '''Base Field class - fixed length left aligned string field in a record'''
+
     def __init__(self, name, length=1, fillchar=' ', cast=str):
         self.name = name.replace(' ', '_')
         self.length = length
@@ -69,7 +70,9 @@ class Field(object):
 
 
 class Filler(Field):
+
     '''Constant value field'''
+
     def __init__(self, name, length=1, value=' '):
         super(Filler, self).__init__(name, length, cast=str)
         self.value = str(value)
@@ -84,7 +87,9 @@ class Filler(Field):
 
 
 class DateField(Field):
+
     '''Variable date field'''
+
     def __init__(self, name, format='%Y-%m-%d', auto=False, cast=str):
         length = len(date.today().strftime(format))
         super(DateField, self).__init__(name, length, cast=cast)
@@ -107,7 +112,9 @@ class DateField(Field):
 
 
 class RightAlignedField(Field):
+
     '''Deviation of Field: right aligned'''
+
     def format(self, value):
         if len(value) > self.length:
             return value[-self.length:]
@@ -121,7 +128,9 @@ class RightAlignedField(Field):
 
 
 class NumberField(RightAlignedField):
+
     '''Deviation of Field: left zero filled'''
+
     def __init__(self, *args, **kwargs):
         kwargs['fillchar'] = '0'
         super(NumberField, self).__init__(*args, **kwargs)

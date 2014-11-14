@@ -36,6 +36,7 @@ bt = models.mem_bank_transaction
 
 
 class banking_import_transaction(orm.Model):
+
     """ orm representation of mem_bank_transaction() for interactive and posthoc
     configuration of reconciliation in the bank statement view.
 
@@ -294,7 +295,7 @@ class banking_import_transaction(orm.Model):
                             trans.statement_line_id.amount)
                     and convert.str2date(x.date, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                    self.payment_window)
+                     self.payment_window)
                     and (not _cached(x) or _remaining(x))
                     and x.partner_id.id in partner_ids)
             ]

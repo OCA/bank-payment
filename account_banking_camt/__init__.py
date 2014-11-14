@@ -1,1 +1,1 @@
-import camt
+from . import camt

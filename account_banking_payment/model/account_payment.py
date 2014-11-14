@@ -29,6 +29,7 @@ from openerp import netsvc
 
 
 class payment_order(orm.Model):
+
     '''
     Enable extra states for payment exports
     '''

@@ -29,6 +29,7 @@ __all__ = ['split', 'get', 'PostalCode']
 
 
 class PostalCode(object):
+
     '''
     The PostalCode class is a wrapper around PostCodeFormat and an internal
     database of postalcode formats. It provides the class methods split() and
@@ -37,10 +38,12 @@ class PostalCode(object):
     '''
 
     class PostalCodeFormat(object):
+
         '''
         Utility class of PostalCode.
         Allows finding and splitting of postalcode in strings
         '''
+
         def __init__(self, format):
             '''
             Create regexp patterns for matching

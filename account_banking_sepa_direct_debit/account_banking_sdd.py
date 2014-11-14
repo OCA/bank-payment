@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 
 
 class banking_export_sdd(orm.Model):
+
     '''SEPA Direct Debit export'''
     _name = 'banking.export.sdd'
     _description = 'SEPA Direct Debit export'
@@ -99,6 +100,7 @@ class banking_export_sdd(orm.Model):
 
 
 class sdd_mandate(orm.Model):
+
     '''SEPA Direct Debit Mandate'''
     _name = 'account.banking.mandate'
     _description = 'SEPA Direct Debit Mandate'

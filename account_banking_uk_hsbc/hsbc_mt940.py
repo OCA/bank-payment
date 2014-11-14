@@ -22,7 +22,7 @@
 #
 
 from account_banking.parsers import models
-from mt940_parser import HSBCParser
+from .mt940_parser import HSBCParser
 import re
 import logging
 
@@ -87,6 +87,7 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
+
     '''
     Bank statement imported data
     '''

@@ -30,16 +30,19 @@ __all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
 
 
 class SWIFTField(record.Field):
+
     '''
     A SWIFTField does not assume 'ascii' data. It actively converts data to
     SWIFT-specs.
     '''
+
     def __init__(self, *args, **kwargs):
         kwargs['cast'] = convert.to_swift
         super(SWIFTField, self).__init__(*args, **kwargs)
 
 
 class SWIFTFieldNoLeadingWhitespace(SWIFTField):
+
     def format(self, value):
         return super(SWIFTFieldNoLeadingWhitespace, self).format(
             self.cast(value).lstrip())
@@ -66,6 +69,7 @@ def chunk(str, length):
 
 
 class HeaderRecord(record.Record):
+
     '''ClieOp3 header record'''
     _fields = [
         record.Filler('recordcode', 4, '0001'),
@@ -86,6 +90,7 @@ class HeaderRecord(record.Record):
 
 
 class FooterRecord(record.Record):
+
     '''ClieOp3 footer record'''
     _fields = [
         record.Filler('recordcode', 4, '9999'),
@@ -95,6 +100,7 @@ class FooterRecord(record.Record):
 
 
 class BatchHeaderRecord(record.Record):
+
     '''Header record preceding new batches'''
     _fields = [
         record.Filler('recordcode', 4, '0010'),
@@ -109,6 +115,7 @@ class BatchHeaderRecord(record.Record):
 
 
 class BatchFooterRecord(record.Record):
+
     '''Closing record for batches'''
     _fields = [
         record.Filler('recordcode', 4, '9990'),
@@ -121,6 +128,7 @@ class BatchFooterRecord(record.Record):
 
 
 class FixedMessageRecord(record.Record):
+
     '''Fixed message'''
     _fields = [
         record.Filler('recordcode', 4, '0020'),
@@ -131,6 +139,7 @@ class FixedMessageRecord(record.Record):
 
 
 class SenderRecord(record.Record):
+
     '''Ordering party'''
     _fields = [
         record.Filler('recordcode', 4, '0030'),
@@ -145,6 +154,7 @@ class SenderRecord(record.Record):
 
 
 class TransactionRecord(record.Record):
+
     '''Transaction'''
     _fields = [
         record.Filler('recordcode', 4, '0100'),
@@ -158,6 +168,7 @@ class TransactionRecord(record.Record):
 
 
 class NamePayerRecord(record.Record):
+
     '''Name payer'''
     _fields = [
         record.Filler('recordcode', 4, '0110'),
@@ -168,6 +179,7 @@ class NamePayerRecord(record.Record):
 
 
 class PaymentReferenceRecord(record.Record):
+
     '''Payment reference'''
     _fields = [
         record.Filler('recordcode', 4, '0150'),
@@ -178,6 +190,7 @@ class PaymentReferenceRecord(record.Record):
 
 
 class DescriptionRecord(record.Record):
+
     '''Description'''
     _fields = [
         record.Filler('recordcode', 4, '0160'),
@@ -188,6 +201,7 @@ class DescriptionRecord(record.Record):
 
 
 class NameBeneficiaryRecord(record.Record):
+
     '''Name receiving party'''
     _fields = [
         record.Filler('recordcode', 4, '0170'),
@@ -198,6 +212,7 @@ class NameBeneficiaryRecord(record.Record):
 
 
 class OrderRecord(record.Record):
+
     '''Order details'''
     _fields = [
         record.Filler('recordcode', 6, 'KAE092'),
@@ -220,22 +235,27 @@ class OrderRecord(record.Record):
 
 
 class SalaryPaymentOrder(OrderRecord):
+
     '''Salary payment batch record'''
     _transactioncode = 'SALARIS'
 
 
 class PaymentOrder(OrderRecord):
+
     '''Payment batch record'''
     _transactioncode = 'CREDBET'
 
 
 class DirectDebitOrder(OrderRecord):
+
     '''Direct debit payments batch record'''
     _transactioncode = 'INCASSO'
 
 
 class Optional(object):
+
     '''Auxilliary class to handle optional records'''
+
     def __init__(self, klass, max=1):
         self._klass = klass
         self._max = max
@@ -275,7 +295,9 @@ class Optional(object):
 
 
 class OrdersFile(object):
+
     '''A payment orders file'''
+
     def __init__(self, *args, **kwargs):
         self.orders = []
 
@@ -288,7 +310,9 @@ class OrdersFile(object):
 
 
 class Transaction(object):
+
     '''Generic transaction class'''
+
     def __init__(self, type_=0, name=None, reference=None, messages=(),
                  accountno_beneficiary=None, accountno_payer=None,
                  amount=0):
@@ -315,7 +339,9 @@ class Transaction(object):
 
 
 class DirectDebit(Transaction):
+
     '''Direct Debit Payment transaction'''
+
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_payer']
         kwargs['type_'] = len(reknr.lstrip('0')) <= 7 and 1002 or 1001
@@ -338,7 +364,9 @@ class DirectDebit(Transaction):
 
 
 class Payment(Transaction):
+
     '''Payment transaction'''
+
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
         if len(reknr.lstrip('0')) > 7:
@@ -364,7 +392,9 @@ class Payment(Transaction):
 
 
 class SalaryPayment(Payment):
+
     '''Salary Payment transaction'''
+
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_beneficiary']
         kwargs['type_'] = len(reknr.lstrip('0')) <= 7 and 3 or 8
@@ -372,6 +402,7 @@ class SalaryPayment(Payment):
 
 
 class Batch(object):
+
     '''Generic batch class'''
     transactionclass = None
 
@@ -440,22 +471,27 @@ class Batch(object):
 
 
 class DirectDebitBatch(Batch):
+
     '''Direct Debig Payment batch'''
     transactionclass = DirectDebit
 
 
 class PaymentsBatch(Batch):
+
     '''Payment batch'''
     transactionclass = Payment
 
 
 class SalaryBatch(Batch):
+
     '''Salary payment class'''
     transactionclass = SalaryPayment
 
 
 class ClieOpFile(object):
+
     '''The grand unifying class'''
+
     def __init__(self, identification='1', execution_date=None,
                  name_sender='', accountno_sender='',
                  test=False, seqno=1, **kwargs):
@@ -510,6 +546,7 @@ class ClieOpFile(object):
 
 
 class DirectDebitFile(ClieOpFile):
+
     '''Direct Debit Payments file'''
     transactiongroup = '10'
     batchclass = DirectDebitBatch
@@ -517,6 +554,7 @@ class DirectDebitFile(ClieOpFile):
 
 
 class PaymentsFile(ClieOpFile):
+
     '''Payments file'''
     transactiongroup = '00'
     batchclass = PaymentsBatch
@@ -524,6 +562,7 @@ class PaymentsFile(ClieOpFile):
 
 
 class SalaryPaymentsFile(PaymentsFile):
+
     '''Salary Payments file'''
     batchclass = SalaryBatch
     orderclass = SalaryPaymentOrder

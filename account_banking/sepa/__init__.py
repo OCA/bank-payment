@@ -18,6 +18,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import iban
+from . import iban
 IBAN = iban.IBAN
 BBAN = iban.BBAN

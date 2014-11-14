@@ -23,7 +23,7 @@
 import base64
 from datetime import datetime, date
 from decimal import Decimal
-import paymul
+from . import paymul
 import string
 import random
 import logging

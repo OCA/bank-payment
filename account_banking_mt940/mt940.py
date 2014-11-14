@@ -36,6 +36,7 @@ except ImportError:
     # this allows us to run this file standalone, see __main__ at the end
 
     class mem_bank_statement:
+
         def __init__(self):
             self.transactions = []
 
@@ -45,6 +46,7 @@ except ImportError:
 
 
 class MT940(object):
+
     '''Inherit this class in your account_banking.parsers.models.parser,
     define functions to handle the tags you need to handle and adjust static
     variables as needed.
@@ -156,7 +158,6 @@ class MT940(object):
 
     def handle_tag_20(self, cr, data):
         '''ignore reference number'''
-        pass
 
     def handle_tag_25(self, cr, data):
         '''get account owner information'''
@@ -184,11 +185,9 @@ class MT940(object):
 
     def handle_tag_64(self, cr, data):
         '''get current balance in currency'''
-        pass
 
     def handle_tag_65(self, cr, data):
         '''get future balance in currency'''
-        pass
 
     def handle_tag_61(self, cr, data):
         '''get transaction values'''
@@ -203,7 +202,6 @@ class MT940(object):
     def handle_tag_86(self, cr, data):
         '''details for previous transaction, here most differences between
         banks occur'''
-        pass
 
 
 def str2date(string, fmt='%y%m%d'):

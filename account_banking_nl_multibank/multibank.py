@@ -39,6 +39,7 @@ bt = models.mem_bank_transaction
 
 
 class transaction_message(object):
+
     '''
     A auxiliary class to validate and coerce read values
     '''
@@ -87,6 +88,7 @@ class transaction_message(object):
 
 
 class transaction(models.mem_bank_transaction):
+
     '''
     Implementation of transaction communication class for account_banking.
     '''
@@ -265,9 +267,11 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
+
     '''
     Implementation of bank_statement communication class of account_banking
     '''
+
     def __init__(self, msg, *args, **kwargs):
         '''
         Set decent start values based on first transaction read

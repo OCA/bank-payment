@@ -29,6 +29,7 @@ from openerp.tools.translate import _
 
 
 class payment_line(orm.Model):
+
     '''
     Add some fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
@@ -57,6 +58,7 @@ class payment_line(orm.Model):
     Hooks for processing direct debit orders, such as implemented in
     account_direct_debit module.
     """
+
     def get_storno_account_id(self, cr, uid, payment_line_id, amount,
                               currency_id, context=None):
         """
