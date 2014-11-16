@@ -19,7 +19,7 @@
 ##############################################################################
 from datetime import datetime
 from openerp.tests.common import SingleTransactionCase
-from openerp import netsvc
+from openerp import workflow
 
 
 class TestPaymentRoundtrip(SingleTransactionCase):
@@ -189,9 +189,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             invoice_model.create(
                 cr, uid, values, context={
                     'type': 'in_invoice'}))
-        wf_service = netsvc.LocalService('workflow')
         for invoice_id in self.invoice_ids:
-            wf_service.trg_validate(
+            workflow.trg_validate(
                 uid, 'account.invoice', invoice_id, 'invoice_open', cr)
         self.assert_invoices_state('open')
 
@@ -281,8 +280,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
             'No payment line created from invoice 2 or with the wrong '
             'communication')
 
-        wf_service = netsvc.LocalService('workflow')
-        wf_service.trg_validate(
+        workflow.trg_validate(
             uid, 'payment.order', self.payment_order_id, 'open', cr)
         self.assert_payment_order_state('open')
 
