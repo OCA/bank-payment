@@ -292,9 +292,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         """
         export_model = reg('banking.export.sepa.wizard')
         export_id = export_model.create(
-            cr, uid, {
-                'msg_identification': 'EXP001'},
-            context={'active_ids': [self.payment_order_id]})
+            cr, uid, {}, context={'active_ids': [self.payment_order_id]})
         export_model.create_sepa(
             cr, uid, [export_id])
         export_model.save_sepa(
