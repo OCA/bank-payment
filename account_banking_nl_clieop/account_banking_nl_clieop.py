@@ -24,8 +24,7 @@ from openerp.tools.translate import _
 
 
 class clieop_export(orm.Model):
-
-    '''ClieOp3 Export'''
+    """ClieOp3 Export"""
     _name = 'banking.export.clieop'
     _description = __doc__
     _rec_name = 'identification'

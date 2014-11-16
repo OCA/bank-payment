@@ -36,7 +36,6 @@ bt = models.mem_bank_transaction
 
 
 class banking_import_transaction(orm.Model):
-
     """ orm representation of mem_bank_transaction() for interactive and posthoc
     configuration of reconciliation in the bank statement view.
 

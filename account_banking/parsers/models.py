@@ -25,16 +25,14 @@ from openerp.tools.translate import _
 
 
 class mem_bank_statement(object):
-
-    '''
-    A mem_bank_statement is a real life projection of a bank statement paper
+    """A mem_bank_statement is a real life projection of a bank statement paper
     containing a report of one or more transactions done. As these reports can
     contain payments that originate in several accounting periods, period is an
     attribute of mem_bank_transaction, not of mem_bank_statement.
     Also note that the statement_id is copied from the bank statement, and not
     generated from any sequence. This enables us to skip old data in new
     statement files.
-    '''
+    """
     # Lock attributes to enable parsers to trigger non-conformity faults
     __slots__ = [
         'start_balance',
@@ -70,11 +68,9 @@ class mem_bank_statement(object):
 
 
 class mem_bank_transaction(object):
-
-    '''
-    A mem_bank_transaction is a real life copy of a bank transfer. Mapping to
-    OpenERP moves and linking to invoices and the like is done afterwards.
-    '''
+    """A mem_bank_transaction is a real life copy of a bank transfer. Mapping
+    to OpenERP moves and linking to invoices and the like is done afterwards.
+    """
     # Lock attributes to enable parsers to trigger non-conformity faults
     __slots__ = [
 
@@ -296,10 +292,7 @@ class mem_bank_transaction(object):
 
 
 class parser_type(type):
-
-    '''
-    Meta annex factory class for house keeping and collecting parsers.
-    '''
+    """Meta annex factory class for house keeping and collecting parsers."""
     parsers = []
     parser_by_name = {}
     parser_by_code = {}
@@ -336,9 +329,7 @@ def create_parser(code):
 
 
 class parser(object):
-
-    '''
-    A parser delivers the interface for any parser object. Inherit from
+    """A parser delivers the interface for any parser object. Inherit from
     it to implement your own.
     You should at least implement the following at the class level:
         name -> the name of the parser, shown to the user and
@@ -351,7 +342,7 @@ class parser(object):
                     Translatable.
 
         parse -> the method for the actual parsing.
-    '''
+    """
     __metaclass__ = parser_type
     name = None
     code = None

@@ -30,11 +30,8 @@ __all__ = ['DirectDebitBatch', 'PaymentsBatch', 'DirectDebit', 'Payment',
 
 
 class SWIFTField(record.Field):
-
-    '''
-    A SWIFTField does not assume 'ascii' data. It actively converts data to
-    SWIFT-specs.
-    '''
+    """A SWIFTField does not assume 'ascii' data. It actively converts data to
+    SWIFT-specs."""
 
     def __init__(self, *args, **kwargs):
         kwargs['cast'] = convert.to_swift
@@ -69,8 +66,7 @@ def chunk(str, length):
 
 
 class HeaderRecord(record.Record):
-
-    '''ClieOp3 header record'''
+    """ClieOp3 header record"""
     _fields = [
         record.Filler('recordcode', 4, '0001'),
         record.Filler('variantcode', 1, 'A'),
@@ -90,8 +86,7 @@ class HeaderRecord(record.Record):
 
 
 class FooterRecord(record.Record):
-
-    '''ClieOp3 footer record'''
+    """ClieOp3 footer record"""
     _fields = [
         record.Filler('recordcode', 4, '9999'),
         record.Filler('variantcode', 1, 'A'),
@@ -100,8 +95,7 @@ class FooterRecord(record.Record):
 
 
 class BatchHeaderRecord(record.Record):
-
-    '''Header record preceding new batches'''
+    """Header record preceding new batches"""
     _fields = [
         record.Filler('recordcode', 4, '0010'),
         record.Field('variantcode', 1),
@@ -115,8 +109,7 @@ class BatchHeaderRecord(record.Record):
 
 
 class BatchFooterRecord(record.Record):
-
-    '''Closing record for batches'''
+    """Closing record for batches"""
     _fields = [
         record.Filler('recordcode', 4, '9990'),
         record.Filler('variantcode', 1, 'A'),
@@ -128,8 +121,7 @@ class BatchFooterRecord(record.Record):
 
 
 class FixedMessageRecord(record.Record):
-
-    '''Fixed message'''
+    """Fixed message"""
     _fields = [
         record.Filler('recordcode', 4, '0020'),
         record.Filler('variantcode', 1, 'A'),
@@ -139,8 +131,7 @@ class FixedMessageRecord(record.Record):
 
 
 class SenderRecord(record.Record):
-
-    '''Ordering party'''
+    """Ordering party"""
     _fields = [
         record.Filler('recordcode', 4, '0030'),
         record.Filler('variantcode', 1, 'B'),
@@ -154,8 +145,7 @@ class SenderRecord(record.Record):
 
 
 class TransactionRecord(record.Record):
-
-    '''Transaction'''
+    """Transaction"""
     _fields = [
         record.Filler('recordcode', 4, '0100'),
         record.Filler('variantcode', 1, 'A'),
@@ -168,8 +158,7 @@ class TransactionRecord(record.Record):
 
 
 class NamePayerRecord(record.Record):
-
-    '''Name payer'''
+    """Name payer"""
     _fields = [
         record.Filler('recordcode', 4, '0110'),
         record.Filler('variantcode', 1, 'B'),
@@ -179,8 +168,7 @@ class NamePayerRecord(record.Record):
 
 
 class PaymentReferenceRecord(record.Record):
-
-    '''Payment reference'''
+    """Payment reference"""
     _fields = [
         record.Filler('recordcode', 4, '0150'),
         record.Filler('variantcode', 1, 'A'),
@@ -190,8 +178,7 @@ class PaymentReferenceRecord(record.Record):
 
 
 class DescriptionRecord(record.Record):
-
-    '''Description'''
+    """Description"""
     _fields = [
         record.Filler('recordcode', 4, '0160'),
         record.Filler('variantcode', 1, 'A'),
@@ -201,8 +188,7 @@ class DescriptionRecord(record.Record):
 
 
 class NameBeneficiaryRecord(record.Record):
-
-    '''Name receiving party'''
+    """Name receiving party"""
     _fields = [
         record.Filler('recordcode', 4, '0170'),
         record.Filler('variantcode', 1, 'B'),
@@ -212,8 +198,7 @@ class NameBeneficiaryRecord(record.Record):
 
 
 class OrderRecord(record.Record):
-
-    '''Order details'''
+    """Order details"""
     _fields = [
         record.Filler('recordcode', 6, 'KAE092'),
         SWIFTField('name_transactioncode', 18),
@@ -235,26 +220,22 @@ class OrderRecord(record.Record):
 
 
 class SalaryPaymentOrder(OrderRecord):
-
-    '''Salary payment batch record'''
+    """Salary payment batch record"""
     _transactioncode = 'SALARIS'
 
 
 class PaymentOrder(OrderRecord):
-
-    '''Payment batch record'''
+    """Payment batch record"""
     _transactioncode = 'CREDBET'
 
 
 class DirectDebitOrder(OrderRecord):
-
-    '''Direct debit payments batch record'''
+    """Direct debit payments batch record"""
     _transactioncode = 'INCASSO'
 
 
 class Optional(object):
-
-    '''Auxilliary class to handle optional records'''
+    """Auxilliary class to handle optional records"""
 
     def __init__(self, klass, max=1):
         self._klass = klass
@@ -295,8 +276,7 @@ class Optional(object):
 
 
 class OrdersFile(object):
-
-    '''A payment orders file'''
+    """A payment orders file"""
 
     def __init__(self, *args, **kwargs):
         self.orders = []
@@ -310,8 +290,7 @@ class OrdersFile(object):
 
 
 class Transaction(object):
-
-    '''Generic transaction class'''
+    """Generic transaction class"""
 
     def __init__(self, type_=0, name=None, reference=None, messages=(),
                  accountno_beneficiary=None, accountno_payer=None,
@@ -339,8 +318,7 @@ class Transaction(object):
 
 
 class DirectDebit(Transaction):
-
-    '''Direct Debit Payment transaction'''
+    """Direct Debit Payment transaction"""
 
     def __init__(self, *args, **kwargs):
         reknr = kwargs['accountno_payer']

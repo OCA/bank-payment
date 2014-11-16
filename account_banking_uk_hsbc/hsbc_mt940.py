@@ -87,10 +87,7 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
-
-    '''
-    Bank statement imported data
-    '''
+    """Bank statement imported data"""
 
     def import_record(self, record):
         def _transmission_number():

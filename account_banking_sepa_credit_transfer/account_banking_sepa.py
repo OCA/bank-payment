@@ -26,8 +26,7 @@ from unidecode import unidecode
 
 
 class banking_export_sepa(orm.Model):
-
-    '''SEPA export'''
+    """SEPA export"""
     _name = 'banking.export.sepa'
     _description = __doc__
     _rec_name = 'filename'

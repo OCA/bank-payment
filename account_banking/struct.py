@@ -28,10 +28,7 @@ __all__ = ['struct']
 
 
 class struct(dict):
-
-    '''
-    Ease working with dicts. Allow dict.key alongside dict['key']
-    '''
+    """Ease working with dicts. Allow dict.key alongside dict['key']"""
 
     def __setattr__(self, item, value):
         self.__setitem__(item, value)

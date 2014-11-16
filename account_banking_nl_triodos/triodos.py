@@ -42,10 +42,7 @@ bt = models.mem_bank_transaction
 
 
 class transaction_message(object):
-
-    '''
-    A auxiliary class to validate and coerce read values
-    '''
+    """A auxiliary class to validate and coerce read values"""
     attrnames = [
         'date', 'local_account', 'transferred_amount', 'debcred',
         'remote_owner', 'remote_account', 'transfer_type', 'reference',
@@ -75,10 +72,8 @@ class transaction_message(object):
 
 
 class transaction(models.mem_bank_transaction):
-
-    '''
-    Implementation of transaction communication class for account_banking.
-    '''
+    """Implementation of transaction communication class for account_banking.
+    """
     attrnames = [
         'local_account',
         'remote_account',
@@ -169,10 +164,8 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
-
-    '''
-    Implementation of bank_statement communication class of account_banking
-    '''
+    """Implementation of bank_statement communication class of account_banking
+    """
 
     def __init__(self, msg, *args, **kwargs):
         '''

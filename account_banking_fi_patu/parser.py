@@ -20,7 +20,6 @@ def fixchars(line):
 
 
 class PatuParser(object):
-
     """Parse PATU lines in to structs"""
 
     def __init__(self):

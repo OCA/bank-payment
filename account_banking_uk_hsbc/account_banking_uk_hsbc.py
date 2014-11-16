@@ -26,7 +26,6 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as OE_DATEFORMAT
 
 
 class hsbc_export(orm.Model):
-
     """HSBC Export"""
     _name = 'banking.export.hsbc'
     _description = __doc__
@@ -66,7 +65,6 @@ class hsbc_export(orm.Model):
 
 
 class payment_line(orm.Model):
-
     """The standard payment order is using a mixture of details from the
     partner record and the res.partner.bank record. For, instance, the account
     holder name is coming from the res.partner.bank record, but the company

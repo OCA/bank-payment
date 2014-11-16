@@ -29,13 +29,11 @@ from openerp.tools.translate import _
 
 
 class payment_line(orm.Model):
-
-    '''
-    Add some fields; make destination bank account
+    """Add some fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
     Edit: Payments can be by cash too, which is prohibited by mandatory bank
     accounts.
-    '''
+    """
     _inherit = 'payment.line'
     _columns = {
         'msg': fields.char('Message', size=255, required=False, readonly=True),
