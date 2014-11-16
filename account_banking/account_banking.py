@@ -642,8 +642,8 @@ class invoice(orm.Model):
         Called from the workflow. Used to unset paid state on
         invoices that were paid with bank transfers which are being cancelled
         """
-        for invoice in self.read(cr, uid, ids, ['reconciled'], context):
-            if invoice['reconciled']:
+        for inv in self.read(cr, uid, ids, ['reconciled'], context):
+            if inv['reconciled']:
                 return False
         return True
 
