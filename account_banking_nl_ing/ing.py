@@ -44,9 +44,7 @@ First line states the legend
 
 
 class transaction_message(object):
-    '''
-    A auxiliary class to validate and coerce read values
-    '''
+    """A auxiliary class to validate and coerce read values"""
     attrnames = [
         'date', 'remote_owner', 'local_account', 'remote_account',
         'transfer_type', 'debcred', 'transferred_amount',
@@ -82,9 +80,8 @@ class transaction_message(object):
 
 
 class transaction(models.mem_bank_transaction):
-    '''
-    Implementation of transaction communication class for account_banking.
-    '''
+    """Implementation of transaction communication class for account_banking.
+    """
     attrnames = ['local_account', 'remote_account',
                  'remote_owner', 'transferred_amount',
                  'execution_date', 'value_date', 'transfer_type',
@@ -224,9 +221,9 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
-    '''
-    Implementation of bank_statement communication class of account_banking
-    '''
+    """Implementation of bank_statement communication class of account_banking
+    """
+
     def __init__(self, msg, *args, **kwargs):
         '''
         Set decent start values based on first transaction read

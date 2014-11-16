@@ -1,5 +1,5 @@
-import account_payment
-import payment_line
-import account_move_line
-import account_invoice
-import payment_order_create
+from . import account_payment
+from . import payment_line
+from . import account_move_line
+from . import account_invoice
+from . import payment_order_create

@@ -70,7 +70,7 @@ from openerp.addons.decimal_precision import decimal_precision as dp
 
 
 class account_banking_account_settings(orm.Model):
-    '''Default Journal for Bank Account'''
+    """Default Journal for Bank Account"""
     _name = 'account.banking.account.settings'
     _description = __doc__
     _columns = {
@@ -220,11 +220,10 @@ class account_banking_account_settings(orm.Model):
         'default_credit_account_id': _default_credit_account_id,
         'partner_bank_id': _default_partner_bank_id,
     }
-account_banking_account_settings()
 
 
 class account_banking_imported_file(orm.Model):
-    '''Imported Bank Statements File'''
+    """Imported Bank Statements File"""
     _name = 'account.banking.imported.file'
     _description = __doc__
     _rec_name = 'date'
@@ -287,11 +286,10 @@ class account_banking_imported_file(orm.Model):
         'date': fields.date.context_today,
         'user_id': lambda self, cr, uid, context: uid,
     }
-account_banking_imported_file()
 
 
 class account_bank_statement(orm.Model):
-    '''
+    """
     Implement changes to this model for the following features:
 
     * bank statement lines have their own period_id, derived from
@@ -302,7 +300,7 @@ class account_bank_statement(orm.Model):
     is reopened, lines remain confirmed until reopened individually.
     * upon confirmation of a statement line, the move line is
     created and reconciled according to the matched entry(/ies)
-    '''
+    """
     _inherit = 'account.bank.statement'
 
     _columns = {
@@ -499,13 +497,13 @@ class account_voucher(orm.Model):
 
 
 class account_bank_statement_line(orm.Model):
-    '''
+    """
     Extension on basic class:
         1. Extra links to account.period and res.partner.bank for tracing and
            matching.
         2. Extra 'trans' field to carry the transaction id of the bank.
         3. Readonly states for most fields except when in draft.
-    '''
+    """
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
 
@@ -621,7 +619,7 @@ class account_bank_statement_line(orm.Model):
 
 
 class invoice(orm.Model):
-    '''
+    """
     Create other reference types as well.
 
     Descendant classes can extend this function to add more reference
@@ -636,7 +634,7 @@ class invoice(orm.Model):
 
     TODO: move 'structured' part to account_banking_payment module
     where it belongs
-    '''
+    """
     _inherit = 'account.invoice'
 
     def test_undo_paid(self, cr, uid, ids, context=None):
@@ -644,8 +642,8 @@ class invoice(orm.Model):
         Called from the workflow. Used to unset paid state on
         invoices that were paid with bank transfers which are being cancelled
         """
-        for invoice in self.read(cr, uid, ids, ['reconciled'], context):
-            if invoice['reconciled']:
+        for inv in self.read(cr, uid, ids, ['reconciled'], context):
+            if inv['reconciled']:
                 return False
         return True
 
@@ -668,8 +666,7 @@ class account_move_line(orm.Model):
     _inherit = "account.move.line"
 
     def get_balance(self, cr, uid, ids, context=None):
-        """
-        Return the balance of any set of move lines.
+        """Return the balance of any set of move lines.
 
         Not to be confused with the 'balance' field on this model, which
         returns the account balance that the move line applies to.

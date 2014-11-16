@@ -74,6 +74,7 @@ def edifact_isalnum_size(val, digits):
 
 
 class HasCurrency(object):
+
     def _get_currency(self):
         return self._currency
 
@@ -124,6 +125,7 @@ def _fii_segment(self, party_qualifier):
 
 
 class UKAccount(HasCurrency):
+
     def _get_number(self):
         return self._number
 
@@ -304,6 +306,7 @@ class SWIFTAccount(UKAccount):
 
 
 class IBANAccount(HasCurrency):
+
     def _get_iban(self):
         return self._iban
 
@@ -330,6 +333,7 @@ class IBANAccount(HasCurrency):
 
 
 class Interchange(LogicalSection):
+
     def _get_reference(self):
         return self._reference
 
@@ -373,6 +377,7 @@ class Interchange(LogicalSection):
 
 
 class Message(LogicalSection):
+
     def _get_reference(self):
         return self._reference
 
@@ -435,6 +440,7 @@ class Message(LogicalSection):
 
 
 class Batch(LogicalSection):
+
     def _get_reference(self):
         return self._reference
 
@@ -560,6 +566,7 @@ CHANNEL_INTRA_COMPANY = 'Z24'
 
 
 class Transaction(LogicalSection, HasCurrency):
+
     def _get_amount(self):
         return self._amount
 

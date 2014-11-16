@@ -77,11 +77,11 @@ def urlbase(url):
 
 
 class SoupForm(object):
-    '''
-    A SoupForm is a representation of a HTML Form in BeautifulSoup terms.
+    """A SoupForm is a representation of a HTML Form in BeautifulSoup terms.
     It has a helper method __setitem__ to set or replace form fields.
     It gets initiated from a soup object.
-    '''
+    """
+
     def __init__(self, soup, parent=False):
         '''
         Parse the form attributes and fields from the soup.  Make sure
@@ -157,10 +157,9 @@ class SoupForm(object):
 
 
 class URLAgent(object):
-    '''
-    Assistent object to ease HTTP(S) requests.
+    """Assistent object to ease HTTP(S) requests.
     Mimics a normal web browser.
-    '''
+    """
 
     def __init__(self, *args, **kwargs):
         super(URLAgent, self).__init__(*args, **kwargs)

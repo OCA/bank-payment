@@ -26,7 +26,7 @@ from unidecode import unidecode
 
 
 class banking_export_lcr(orm.Model):
-    '''French LCR'''
+    """French LCR"""
     _name = 'banking.export.lcr'
     _description = __doc__
     _rec_name = 'filename'

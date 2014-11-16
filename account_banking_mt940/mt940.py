@@ -36,6 +36,7 @@ except ImportError:
     # this allows us to run this file standalone, see __main__ at the end
 
     class mem_bank_statement:
+
         def __init__(self):
             self.transactions = []
 
@@ -45,7 +46,7 @@ except ImportError:
 
 
 class MT940(object):
-    '''Inherit this class in your account_banking.parsers.models.parser,
+    """Inherit this class in your account_banking.parsers.models.parser,
     define functions to handle the tags you need to handle and adjust static
     variables as needed.
 
@@ -55,28 +56,28 @@ class MT940(object):
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
     handle_tag_* functions receive the remainder of the the line (that is,
-    without ':XX:') and are supposed to write into self.current_transaction'''
+    without ':XX:') and are supposed to write into self.current_transaction"""
 
     header_lines = 3
-    '''One file can contain multiple statements, each with its own poorly
-    documented header. For now, the best thing to do seems to skip that'''
+    # One file can contain multiple statements, each with its own poorly
+    # documented header. For now, the best thing to do seems to skip that
 
     footer_regex = '^-}$'
     footer_regex = '^-XXX$'
-    'The line that denotes end of message, we need to create a new statement'
+    # The line that denotes end of message, we need to create a new statement
 
     tag_regex = '^:[0-9]{2}[A-Z]*:'
-    'The beginning of a record, should be anchored to beginning of the line'
+    # The beginning of a record, should be anchored to beginning of the line
 
     def __init__(self, *args, **kwargs):
         super(MT940, self).__init__(*args, **kwargs)
-        'state variables'
+        # state variables
         self.current_statement = None
-        'type account_banking.parsers.models.mem_bank_statement'
+        # type account_banking.parsers.models.mem_bank_statement
         self.current_transaction = None
-        'type account_banking.parsers.models.mem_bank_transaction'
+        # type account_banking.parsers.models.mem_bank_transaction
         self.statements = []
-        'parsed statements up to now'
+        # parsed statements up to now
 
     def parse(self, cr, data):
         'implements account_banking.parsers.models.parser.parse()'
@@ -156,7 +157,6 @@ class MT940(object):
 
     def handle_tag_20(self, cr, data):
         '''ignore reference number'''
-        pass
 
     def handle_tag_25(self, cr, data):
         '''get account owner information'''
@@ -184,11 +184,9 @@ class MT940(object):
 
     def handle_tag_64(self, cr, data):
         '''get current balance in currency'''
-        pass
 
     def handle_tag_65(self, cr, data):
         '''get future balance in currency'''
-        pass
 
     def handle_tag_61(self, cr, data):
         '''get transaction values'''
@@ -203,7 +201,6 @@ class MT940(object):
     def handle_tag_86(self, cr, data):
         '''details for previous transaction, here most differences between
         banks occur'''
-        pass
 
 
 def str2date(string, fmt='%y%m%d'):

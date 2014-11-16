@@ -27,8 +27,8 @@ from openerp.osv import orm, fields
 
 
 class payment_mode(orm.Model):
-    ''' Restoring the payment type from version 5,
-    used to select the export wizard (if any) '''
+    """Restoring the payment type from version 5,
+    used to select the export wizard (if any) """
     _inherit = "payment.mode"
 
     def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):

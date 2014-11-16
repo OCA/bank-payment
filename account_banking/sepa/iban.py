@@ -71,12 +71,12 @@ def base36_to_base10str(abuffer):
 
 
 class BBANFormat(object):
-    '''
-    A BBANFormat is an auxilliary class for IBAN. It represents the composition
-    of a BBAN number from the different elements in order to translate a
-    IBAN number to a localized number. The reverse route, transforming a local
-    account to a SEPA account, is the sole responsibility of the banks.
-    '''
+    """A BBANFormat is an auxilliary class for IBAN. It represents the
+    composition of a BBAN number from the different elements in order to
+    translate a IBAN number to a localized number. The reverse route,
+    transforming a local account to a SEPA account, is the sole responsibility
+    of the banks.
+    """
 
     def __init__(self, ibanfmt, bbanfmt='%A', nolz=False):
         '''
@@ -183,14 +183,13 @@ class BBANFormat(object):
 
 
 class IBAN(str):
-    '''
-    A IBAN string represents a SEPA bank account number. This class provides
+    """A IBAN string represents a SEPA bank account number. This class provides
     the interpretation and some validation of such strings.
 
     Mind that, although there is sufficient reason to comment on the chosen
     approach, we are talking about a transition period of at max. 1 year. Good
     is good enough.
-    '''
+    """
     BBAN_formats = {
         'AL': BBANFormat('CCBBBBVAAAAAAAAAAAAAAAAAA', '%B%A'),
         'AD': BBANFormat('CCCCBBBBAAAAAAAAAAAA', '%A'),
@@ -425,10 +424,9 @@ class IBAN(str):
 
 
 class BBAN(object):
-    '''
-    Class to reformat a local BBAN account number to IBAN specs.
+    """Class to reformat a local BBAN account number to IBAN specs.
     Simple validation based on length of spec string elements and real data.
-    '''
+    """
 
     @staticmethod
     def _get_length(fmt, element):

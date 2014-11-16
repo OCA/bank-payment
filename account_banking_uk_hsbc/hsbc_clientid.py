@@ -3,9 +3,7 @@ from openerp.osv import orm, fields
 
 
 class hsbc_clientid(orm.Model):
-    """
-    Record to hold the HSBCNet Client ID for the company.
-    """
+    """Record to hold the HSBCNet Client ID for the company."""
     _name = 'banking.hsbc.clientid'
     _description = 'HSBC Client ID'
 

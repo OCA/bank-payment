@@ -26,10 +26,10 @@ from openerp.tools.translate import _
 
 
 class mandate(orm.Model):
-    ''' The banking mandate is attached to a bank account and represents an
-        authorization that the bank account owner gives to a company for a
-        specific operation (such as direct debit)
-    '''
+    """The banking mandate is attached to a bank account and represents an
+    authorization that the bank account owner gives to a company for a
+    specific operation (such as direct debit)
+    """
     _name = 'account.banking.mandate'
     _description = "A generic banking mandate"
     _rec_name = 'unique_mandate_reference'

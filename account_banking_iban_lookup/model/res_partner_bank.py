@@ -36,14 +36,13 @@ def warning(title, message):
 
 
 class res_partner_bank(orm.Model):
-    '''
-    Extended functionality:
+    """Extended functionality:
         1. BBAN and IBAN are considered equal
         2. Online lookup when an API is available (providing NL in this module)
         3. Banks are created on the fly when using IBAN + online
         4. IBAN formatting
         5. BBAN's are generated from IBAN when possible
-    '''
+    """
     _inherit = 'res.partner.bank'
 
     def init(self, cr):

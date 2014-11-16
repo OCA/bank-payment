@@ -76,6 +76,7 @@ class Transaction(models.mem_bank_transaction):
 class statement(models.mem_bank_statement):
     """Implementation of bank_statement communication class of account_banking
     """
+
     def __init__(self, record, *args, **kwargs):
         """
         Set decent start values based on first transaction read

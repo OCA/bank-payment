@@ -130,7 +130,7 @@ class banking_import(orm.TransientModel):
                 files = [
                     archive.read(filename) for filename in archive.namelist()
                     if not filename.endswith('/')
-                    ]
+                ]
         except BadZipfile:
             pass
 

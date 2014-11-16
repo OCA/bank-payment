@@ -55,9 +55,7 @@ __all__ = ['parser']
 
 
 class transaction_message(object):
-    '''
-    A auxiliary class to validate and coerce read values
-    '''
+    """A auxiliary class to validate and coerce read values"""
     attrnames = [
         'local_account', 'date', 'transfer_type', 'u1',
         'remote_account', 'remote_owner', 'u2', 'transferred_amount',
@@ -149,9 +147,8 @@ class transaction_message(object):
 
 
 class transaction(models.mem_bank_transaction):
-    '''
-    Implementation of transaction communication class for account_banking.
-    '''
+    """Implementation of transaction communication class for account_banking.
+    """
     attrnames = ['statement_id', 'remote_account', 'remote_owner',
                  'remote_currency', 'transferred_amount', 'execution_date',
                  'value_date', 'transfer_type', 'message',
@@ -316,9 +313,9 @@ class transaction(models.mem_bank_transaction):
 
 
 class statement(models.mem_bank_statement):
-    '''
-    Implementation of bank_statement communication class of account_banking
-    '''
+    """Implementation of bank_statement communication class of account_banking
+    """
+
     def __init__(self, msg, start_balance=0.0, *args, **kwargs):
         '''
         Set decent start values based on first transaction read
@@ -370,5 +367,3 @@ The Dutch Girotel - Kommagescheiden format is basicly a MS Excel CSV format.
                 stmnt.import_transaction(msg)
         result.append(stmnt)
         return result
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
