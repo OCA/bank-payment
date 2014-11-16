@@ -28,7 +28,7 @@ from openerp import workflow
 from openerp.tools.translate import _
 
 
-class payment_line(orm.Model):
+class PaymentLine(orm.Model):
     '''
     Add some fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.

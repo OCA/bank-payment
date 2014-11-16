@@ -28,7 +28,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class payment_order(orm.Model):
+class PaymentOrder(orm.Model):
     '''
     Enable extra states for payment exports
     '''

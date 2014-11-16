@@ -26,7 +26,7 @@
 from openerp.osv import orm, fields
 
 
-class payment_mode(orm.Model):
+class PaymentMode(orm.Model):
     _inherit = "payment.mode"
 
     _columns = {
