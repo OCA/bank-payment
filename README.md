@@ -4,6 +4,17 @@
 Banking addons for Odoo
 =======================
 
+Version 8.0
+-----------
+
+On version 8.0, this project focus on payment interface. Others features can now be found in those repository:
+
+ * https://github.com/OCA/bank-statement-import
+ * https://github.com/OCA/bank-statement-reconcile
+
+Version 7.0
+-----------
+
 This project focuses on in- and export of banking communication. The indentation below indicates
 the dependency graph of the main modules.
 
