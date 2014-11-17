@@ -31,8 +31,7 @@ class account_move_line(osv.osv):
         'draft_assigned_to_statement': fields.boolean('Assigned to Statement? ', help='Check if the move line is assigned to statement lines')
     }
 
-
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy_data(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
 
@@ -42,6 +41,6 @@ class account_move_line(osv.osv):
             draft_assigned_to_statement=False,
         )
 
-        return super(account_move_line, self).copy(cr, uid, id,
-                                                   default=default,
-                                                   context=context)
+        return super(account_move_line, self).copy_data(cr, uid, id,
+                                                        default=default,
+                                                        context=context)
