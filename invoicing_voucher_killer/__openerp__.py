@@ -34,6 +34,6 @@ This add-on will disable "Register Payment" button
           'invoice_view.xml'],
  'demo_xml': [],
  'test': [],
- 'installable': False,
+ 'installable': True,
  'active': False,
  }
