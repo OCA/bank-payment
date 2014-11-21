@@ -6,21 +6,12 @@
       <field name="inherit_id" ref="account_voucher.view_invoice_customer" />
       <field name="arch" type="xml">
         <xpath expr="//button[@name='invoice_pay_customer'][last()]"
-               position="replace">
-          <button name="invoice_pay_customer"
-                  type="object"
-                  string="Register Payment"
-                  attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}"
-                  groups="invoicing_voucher_killer.invoice_voucher_user"/>
+               position="attributes">
+           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
         <xpath expr="//button[@name='invoice_pay_customer'][1]"
-               position="replace">
-          <button name="invoice_pay_customer"
-                  type="object"
-                  string="Register Payment"
-                  attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',False)]}"
-                  class="oe_highlight"
-                  groups="invoicing_voucher_killer.invoice_voucher_user"/>
+               position="attributes">
+           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
       </field>
     </record>
@@ -31,13 +22,8 @@
       <field name="inherit_id" ref="account_voucher.view_invoice_supplier" />
       <field name="arch" type="xml">
         <xpath expr="//button[@name='invoice_pay_customer'][last()]"
-               position="replace">
-          <button name="invoice_pay_customer"
-                  type="object"
-                  string="Pay"
-                  states="open"
-                  class="oe_highlight"
-                  groups="invoicing_voucher_killer.invoice_voucher_user"/>
+               position="attributes">
+           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
       </field>
     </record>
