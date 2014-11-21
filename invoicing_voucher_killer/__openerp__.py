@@ -22,17 +22,11 @@
 {'name': 'Invoicing voucher killer',
  'version': '1.0.0',
  'category': 'other',
- 'description': """
-Prevent the usage of voucher from invoices
-##########################################
-This add-on will disable "Register Payment" button
-""",
  'author': 'Camptocamp',
  'website': 'http://www.camptocamp.com',
  'depends': ['account_voucher'],
  'data': ['invoice_data.xml',
           'invoice_view.xml'],
- 'demo_xml': [],
  'test': [],
  'installable': True,
  'active': False,
