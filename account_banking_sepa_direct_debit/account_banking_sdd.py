@@ -23,7 +23,6 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
-from unidecode import unidecode
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import logging
@@ -40,6 +39,7 @@ class banking_export_sdd(orm.Model):
     _rec_name = 'filename'
 
     def _generate_filename(self, cr, uid, ids, name, arg, context=None):
+        from unidecode import unidecode
         res = {}
         for sepa_file in self.browse(cr, uid, ids, context=context):
             ref = sepa_file.payment_order_ids[0].reference

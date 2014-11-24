@@ -24,7 +24,6 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval
 from datetime import datetime
-from unidecode import unidecode
 from lxml import etree
 from openerp import tools
 import logging
@@ -50,6 +49,7 @@ class banking_export_pain(orm.AbstractModel):
             self, cr, uid, field_name, field_value, eval_ctx, max_size=0,
             gen_args=None, context=None):
         '''This function is designed to be inherited !'''
+        from unidecode import unidecode
         if gen_args is None:
             gen_args = {}
         assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
