@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- restore wizard functionality when making payments
+          -->
+
+        <record id="view_banking_payment_order_form_1" model="ir.ui.view">
+            <field name="name">account.payment.order.form.banking-1</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form" />
+            <field name="model">payment.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Make Payments']"
+                       position="attributes">
+                    <attribute name="name">launch_wizard</attribute>
+                </xpath>
+                <field name="mode" position="after">
+                    <field name="mode_type" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

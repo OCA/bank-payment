@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- 
+             Add the payment mode type and transfer settings
+        -->
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="active"/>
+                    <field name="type"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+
+<record id="export_sdd_008_001_02" model="payment.mode.type">
+    <field name="name">SEPA Direct Debit v02 (recommended)</field>
+    <field name="code">pain.008.001.02</field>
+    <field name="suitable_bank_types"
+        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
+    <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
+    <field name="payment_order_type">debit</field>
+</record>
+
+<record id="export_sdd_008_001_03" model="payment.mode.type">
+    <field name="name">SEPA Direct Debit v03</field>
+    <field name="code">pain.008.001.03</field>
+    <field name="suitable_bank_types"
+        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
+    <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
+    <field name="payment_order_type">debit</field>
+</record>
+
+<record id="export_sdd_008_001_04" model="payment.mode.type">
+    <field name="name">SEPA Direct Debit v04</field>
+    <field name="code">pain.008.001.04</field>
+    <field name="suitable_bank_types"
+        eval="[(6,0,[ref('base_iban.bank_iban')])]" />
+    <field name="ir_model_id" ref="model_banking_export_sdd_wizard"/>
+    <field name="payment_order_type">debit</field>
+</record>
+
+
+</data>
+</openerp>
