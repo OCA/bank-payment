@@ -67,5 +67,11 @@ class payment_mode_type(orm.Model):
         cr.execute("""UPDATE ir_model_data SET module='account_banking_payment_export'
                       WHERE module='account_banking' AND 
                             name='manual_bank_tranfer' AND 
-                            model='payment.mode.type'""")
+                            model='payment.mode.type' AND
+                            NOT EXISTS (
+                                SELECT id from ir_model_data WHERE
+                                    module='account_banking_payment_export' AND
+                                    name='manual_bank_tranfer' AND
+                                    model='payment.mode.type'
+                            )""")
         return r

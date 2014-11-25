@@ -272,68 +272,6 @@ class account_banking_imported_file(osv.osv):
     }
 account_banking_imported_file()
 
-class payment_mode_type(osv.osv):
-    _name= 'payment.mode.type'
-    _description= 'Payment Mode Type'
-    _columns= {
-        'name': fields.char(
-            'Name', size=64, required=True,
-            help='Payment Type'
-            ),
-        'code': fields.char(
-            'Code', size=64, required=True,
-            help='Specify the Code for Payment Type'
-            ),
-        # Setting suitable_bank_types to required pending
-        # https://bugs.launchpad.net/openobject-addons/+bug/786845
-        'suitable_bank_types': fields.many2many(
-            'res.partner.bank.type',
-            'bank_type_payment_type_rel',
-            'pay_type_id','bank_type_id',
-            'Suitable bank types', required=True),
-        'ir_model_id': fields.many2one(
-            'ir.model', 'Payment wizard',
-            help=('Select the Payment Wizard for payments of this type. '
-                  'Leave empty for manual processing'),
-            domain=[('osv_memory', '=', True)],
-            ),
-        'payment_order_type': fields.selection(
-            [('payment', 'Payment'),('debit', 'Direct debit')],
-            'Payment order type', required=True,
-            ),
-    }
-
-    _defaults = {
-        'payment_order_type': lambda *a: 'payment',
-        }
-
-payment_mode_type()
-
-class payment_mode(osv.osv):
-    ''' Restoring the payment type from version 5,
-    used to select the export wizard (if any) '''
-    _inherit = "payment.mode"
-
-    def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):
-        """ Reinstates functional code for suitable bank type filtering.
-        Current code in account_payment is disfunctional.
-        """
-        res = []
-        payment_mode = self.browse(
-            cr, uid, payment_mode_id, context)
-        if (payment_mode and payment_mode.type and
-            payment_mode.type.suitable_bank_types):
-            res = [type.code for type in payment_mode.type.suitable_bank_types]
-        return res
-
-    _columns = {
-        'type': fields.many2one(
-            'payment.mode.type', 'Payment type',
-            help='Select the Payment Type for the Payment Mode.'
-            ),
-        }
-payment_mode()
-
 class account_bank_statement(osv.osv):
     '''
     Extensions from account_bank_statement:
