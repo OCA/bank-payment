@@ -30,7 +30,7 @@ msgstr "Lista de Separação"
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_purchase_order
 msgid "Purchase Order"
-msgstr "Ordem de Compra"
+msgstr "Pedido de Compra"
 
 #. module: account_payment_purchase
 #: help:purchase.order,supplier_partner_bank_id:0

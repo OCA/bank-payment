@@ -25,4 +25,4 @@ msgstr "Modo de Pagamento"
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
-msgstr "Ordem de Venda"
+msgstr "Pedido de Venda"
