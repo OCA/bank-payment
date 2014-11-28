@@ -42,5 +42,8 @@ Contributors
  'installable': True,
  'auto_install': False,
  'license': 'AGPL-3',
+ 'conflicts': [
+     'account_banking_payment_export',
+     ],
  'application': False,
  }
