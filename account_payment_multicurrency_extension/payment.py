@@ -34,47 +34,30 @@ class payment_order_create(orm.TransientModel):
         To be compliant with multi currency
         Allready corrected in V8 but will not be corrected in V7
         """
-        order_obj = self.pool.get('payment.order')
+        res = super(payment_order_create, self).create_payment(cr,
+                                                               uid,
+                                                               ids,
+                                                               context=context)
         line_obj = self.pool.get('account.move.line')
         payment_obj = self.pool.get('payment.line')
-        if context is None:
-            context = {}
         data = self.browse(cr, uid, ids, context=context)[0]
         line_ids = [entry.id for entry in data.entries]
         if not line_ids:
-            return {'type': 'ir.actions.act_window_close'}
-
-        payment = order_obj.browse(cr, uid, context['active_id'],
-                                   context=context)
-        line2bank = line_obj.line2bank(cr, uid, line_ids, None, context)
-
+            return res
         # Finally populate the current payment with new lines:
         for line in line_obj.browse(cr, uid, line_ids, context=context):
-            if payment.date_prefered == "now":
-                # no payment date => immediate payment
-                date_to_pay = False
-            elif payment.date_prefered == 'due':
-                date_to_pay = line.date_maturity
-            elif payment.date_prefered == 'fixed':
-                date_to_pay = payment.date_scheduled
-            state = 'normal'
-            if line.invoice and line.invoice.reference_type != 'none':
-                state = 'structured'
-            currency_id = line.invoice.currency_id.id if line.invoice else None
-            if not currency_id:
-                currency_id = line.journal_id.currency.id
-            if not currency_id:
-                currency_id = line.journal_id.company_id.currency_id.id
-            payment_obj.create(
-                cr, uid, {
-                    'move_line_id': line.id,
-                    'amount_currency': line.amount_residual_currency,
-                    'bank_id': line2bank.get(line.id),
-                    'order_id': payment.id,
-                    'partner_id': line.partner_id.id,
-                    'communication': line.ref or '/',
-                    'state': state,
-                    'date': date_to_pay,
-                    'currency': currency_id,
-                }, context=context)
-        return {'type': 'ir.actions.act_window_close'}
+            payment_line_id = payment_obj.search(cr, uid,
+                                                 [('move_line_id',
+                                                   '=',
+                                                   line.id)],
+                                                 context=context)
+            if payment_line_id:
+                payment_obj.write(
+                    cr,
+                    uid,
+                    payment_line_id,
+                    {'amount_currency': line.amount_residual_currency},
+                    context=context
+                    )
+
+        return res
