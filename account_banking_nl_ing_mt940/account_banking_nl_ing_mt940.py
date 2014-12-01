@@ -37,8 +37,10 @@ class IngMT940Parser(MT940, parser):
     footer_regex = '^-}$'
 
     tag_61_regex = re.compile(
-        r'^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
-        r'(?P<reference>\w{1,16})')
+        '^(?P<date>\d{6})(?P<line_date>\d{4})'
+        '(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
+        '(?P<reference>\w{1,50})'
+    )
 
     def create_transaction(self, cr):
         return transaction()
@@ -114,5 +116,5 @@ class IngMT940Parser(MT940, parser):
 
         if not subfields:
             self.current_transaction.message = data
-
+            
         self.current_transaction = None
