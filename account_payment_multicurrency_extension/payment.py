@@ -32,7 +32,7 @@ class payment_order_create(orm.TransientModel):
         instead of
         'amount_currency': line.amount_to_pay
         To be compliant with multi currency
-        Allready corrected in V8 but will not be corrected in V7
+        Already corrected in V8 but will not be corrected in V7
         """
         if context is None:
             context = {}
