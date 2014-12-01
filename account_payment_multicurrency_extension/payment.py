@@ -36,12 +36,13 @@ class payment_order_create(orm.TransientModel):
         """
         if context is None:
             context = {}
-        context.update({'is_multi_currency': True})
+        ctx = context.copy()
+        ctx.update({'is_multi_currency': True})
         return super(payment_order_create, self).create_payment(
             cr,
             uid,
             ids,
-            context=context)
+            context=ctx)
 
 
 class payment_line(orm.Model):
