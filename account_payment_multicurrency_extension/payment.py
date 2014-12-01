@@ -27,37 +27,33 @@ class payment_order_create(orm.TransientModel):
 
     def create_payment(self, cr, uid, ids, context=None):
         """
-        We recreate function to be able set
+        We add is_multi_currency tag to be able set
         'amount_currency': line.amount_residual_currency
         instead of
         'amount_currency': line.amount_to_pay
         To be compliant with multi currency
         Allready corrected in V8 but will not be corrected in V7
         """
-        res = super(payment_order_create, self).create_payment(cr,
-                                                               uid,
-                                                               ids,
-                                                               context=context)
-        line_obj = self.pool.get('account.move.line')
-        payment_obj = self.pool.get('payment.line')
-        data = self.browse(cr, uid, ids, context=context)[0]
-        line_ids = [entry.id for entry in data.entries]
-        if not line_ids:
-            return res
-        # Finally populate the current payment with new lines:
-        for line in line_obj.browse(cr, uid, line_ids, context=context):
-            payment_line_id = payment_obj.search(cr, uid,
-                                                 [('move_line_id',
-                                                   '=',
-                                                   line.id)],
-                                                 context=context)
-            if payment_line_id:
-                payment_obj.write(
-                    cr,
-                    uid,
-                    payment_line_id,
-                    {'amount_currency': line.amount_residual_currency},
-                    context=context
-                    )
+        context.update({'is_multi_currency': True})
+        return super(payment_order_create, self).create_payment(
+            cr,
+            uid,
+            ids,
+            context=context)
 
-        return res
+
+class payment_line(orm.Model):
+    _inherit = 'payment.line'
+
+    def create(self, cr, uid, vals, context=None):
+        """In case of multi currency
+        we use amount_residual_currency instead of amount_to_pay"""
+        if context.get('is_multi_currency'):
+            account_move_line_obj = self.pool['account.move.line']
+            move_line = account_move_line_obj.browse(
+                cr,
+                uid,
+                vals['move_line_id'],
+                context=context)
+            vals['amount_currency'] = move_line.amount_residual_currency
+        return super(payment_line, self).create(cr, uid, vals, context=context)
