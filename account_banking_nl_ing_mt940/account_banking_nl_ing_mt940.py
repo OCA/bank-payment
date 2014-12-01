@@ -20,10 +20,8 @@
 ##############################################################################
 import re
 from openerp.tools.translate import _
-from openerp.addons.account_banking.parsers.models import (
-    parser,
-    mem_bank_transaction,
-)
+from openerp.addons.account_banking.parsers.models import parser,\
+        mem_bank_transaction
 from openerp.addons.account_banking_mt940.mt940 import MT940, str2float
 
 
@@ -32,11 +30,11 @@ class transaction(mem_bank_transaction):
         '''allow transactions without remote account'''
         return bool(self.execution_date) and bool(self.transferred_amount)
 
-
 class IngMT940Parser(MT940, parser):
     name = _('ING MT940 (structured)')
     country_code = 'NL'
     code = 'INT_MT940_STRUC'
+    footer_regex = '^-}$'
 
     tag_61_regex = re.compile(
         r'^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
@@ -49,6 +47,9 @@ class IngMT940Parser(MT940, parser):
         '''ING: For current accounts: IBAN+ ISO 4217 currency code'''
         self.current_statement.local_account = data[:-3]
 
+    def create_transaction(self, cr):
+        return transaction()
+
     def handle_tag_60F(self, cr, data):
         super(IngMT940Parser, self).handle_tag_60F(cr, data)
         self.current_statement.id = '%s-%s' % (
@@ -58,7 +59,9 @@ class IngMT940Parser(MT940, parser):
 
     def handle_tag_61(self, cr, data):
         super(IngMT940Parser, self).handle_tag_61(cr, data)
-        parsed_data = self.tag_61_regex.match(data).groupdict()
+        re_61 = self.tag_61_regex.match(data)
+	assert re_61, 'Cannot parse %s' % data
+        parsed_data = re_61.groupdict()
         self.current_transaction.transferred_amount = \
             (-1 if parsed_data['sign'] == 'D' else 1) * str2float(
                 parsed_data['amount'])
