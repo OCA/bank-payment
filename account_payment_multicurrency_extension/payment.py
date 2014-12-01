@@ -34,6 +34,8 @@ class payment_order_create(orm.TransientModel):
         To be compliant with multi currency
         Allready corrected in V8 but will not be corrected in V7
         """
+        if context is None:
+            context = {}
         context.update({'is_multi_currency': True})
         return super(payment_order_create, self).create_payment(
             cr,
@@ -48,6 +50,8 @@ class payment_line(orm.Model):
     def create(self, cr, uid, vals, context=None):
         """In case of multi currency
         we use amount_residual_currency instead of amount_to_pay"""
+        if context is None:
+            context = {}
         if context.get('is_multi_currency'):
             account_move_line_obj = self.pool['account.move.line']
             move_line = account_move_line_obj.browse(
