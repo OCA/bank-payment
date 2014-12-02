@@ -7,11 +7,11 @@
       <field name="arch" type="xml">
         <xpath expr="//button[@name='invoice_pay_customer'][last()]"
                position="attributes">
-           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
         <xpath expr="//button[@name='invoice_pay_customer'][1]"
                position="attributes">
-           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
       </field>
     </record>
@@ -23,10 +23,29 @@
       <field name="arch" type="xml">
         <xpath expr="//button[@name='invoice_pay_customer'][last()]"
                position="attributes">
-           <attribute name="groups">invoicing_voucher_killer.invoice_voucher_user</attribute>
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
         </xpath>
       </field>
     </record>
 
+   <record id="account_voucher.menu_action_sale_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_vendor_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_purchase_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_vendor_payment" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_encode_entries_by_voucher" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
   </data>
 </openerp>
