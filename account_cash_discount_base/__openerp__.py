@@ -31,9 +31,6 @@
     "depends": [
         "account_banking_payment_export",
     ],
-    "description": """
-    Account Cash Discount Base
-""",
     "data": [
         'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
