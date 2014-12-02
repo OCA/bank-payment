@@ -22,7 +22,3 @@
 #
 
 from . import test_account_cash_discount_base
-
-checks = [
-    test_account_cash_discount_base,
-]
