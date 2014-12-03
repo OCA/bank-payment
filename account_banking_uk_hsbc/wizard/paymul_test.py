@@ -21,7 +21,7 @@
 
 import datetime
 import unittest2 as unittest
-import paymul
+from . import paymul
 
 from decimal import Decimal
 

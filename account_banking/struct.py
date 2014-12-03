@@ -23,7 +23,7 @@
 Define a struct class which behaves like a dict, but allows using
 object.attr alongside object['attr'].
 '''
-
+from __future__ import print_function
 __all__ = ['struct']
 
 

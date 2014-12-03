@@ -90,9 +90,6 @@ class AccountBankStatement(orm.Model):
                                 defaults['account_id'])),
                     'credit': tax['amount'] < 0 and - tax['amount'] or 0.0,
                     'debit': tax['amount'] > 0 and tax['amount'] or 0.0,
-                    'account_id': (
-                        tax.get('account_collected_id',
-                                defaults['account_id'])),
                 })
 
         return move_lines, update_move_line

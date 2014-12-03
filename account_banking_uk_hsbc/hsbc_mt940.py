@@ -20,11 +20,11 @@
 ##############################################################################
 # Import of HSBC data in Swift MT940 format
 #
-
-from account_banking.parsers import models
-from mt940_parser import HSBCParser
 import re
 import logging
+
+from account_banking.parsers import models
+from .mt940_parser import HSBCParser
 
 bt = models.mem_bank_transaction
 logger = logging.getLogger('hsbc_mt940')
@@ -178,10 +178,10 @@ class parser_hsbc_mt940(models.parser):
         result = []
         parser = HSBCParser()
         # Split into statements
-        statements = [st for st in re.split('[\r\n]*(?=:20:)', data)]
+        statements = [st for st in re.split(r'[\r\n]*(?=:20:)', data)]
         # Split by records
         statement_list = [
-            re.split('[\r\n ]*(?=:\d\d[\w]?:)', st)
+            re.split(r'[\r\n ]*(?=:\d\d[\w]?:)', st)
             for st in statements
         ]
 

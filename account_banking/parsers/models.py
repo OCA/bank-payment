@@ -397,7 +397,7 @@ class parser(object):
         param being a company account is not enforced here either.
         """
         def normalize(account_no):
-            return re.sub('\s', '', account_no)
+            return re.sub(r'\s', '', account_no)
 
         account = normalize(account)
         cr.execute(

@@ -21,16 +21,14 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
-
 """
-
 The banking transaction wizard is linked to a button in the statement line
 tree view. It allows the user to undo the duplicate flag, select between
 multiple matches or select a manual match.
-
 """
+
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
 class banking_transaction_wizard(orm.TransientModel):

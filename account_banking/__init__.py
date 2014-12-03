@@ -25,12 +25,12 @@
 #
 ##############################################################################
 
-import sepa
-import record
-import banking_import_transaction
-import account_banking
-import parsers
-import wizard
-import res_partner
-import res_bank
-import res_partner_bank
+from . import sepa
+from . import record
+from . import banking_import_transaction
+from . import account_banking
+from . import parsers
+from . import wizard
+from . import res_partner
+from . import res_bank
+from . import res_partner_bank

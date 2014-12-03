@@ -26,22 +26,12 @@ __all__ = [
 
 __doc__ = '''Ease working with fixed length records in files'''
 
+import unicodedata
 from datetime import datetime, date
 
-# Correct python2.4 issues
-try:
-    datetime.strptime
 
-    def strpdate(str, format):
-        return datetime.strptime(str, format).date()
-except AttributeError:
-    import time
-
-    def strpdate(str, format):
-        tm = time.strptime(str, format)
-        return date(tm.tm_year, tm.tm_mon, tm.tm_mday)
-
-import unicodedata
+def strpdate(str, format):
+    return datetime.strptime(str, format).date()
 
 
 class Field(object):

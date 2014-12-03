@@ -116,7 +116,7 @@ class transaction(models.mem_bank_transaction):
     }
 
     # global expression for matching storno references
-    ref_expr = re.compile('REF[\*:]([0-9A-Z-z_-]+)')
+    ref_expr = re.compile(r'REF[\*:]([0-9A-Z-z_-]+)')
     # match references for Acceptgiro's through Internet banking
     kn_expr = re.compile('KN: ([^ ]+)')
 
@@ -178,8 +178,8 @@ class transaction(models.mem_bank_transaction):
             before = self.message[:index]
             self.message = self.message[index:]
         expression = (
-            "^\s*(KN:\s*(?P<kn>[^\s]+))?(\s*)"
-            "(?P<navr>NAVR:\s*[^\s]+)?(\s*)(?P<after>.*?)$")
+            r"^\s*(KN:\s*(?P<kn>[^\s]+))?(\s*)"
+            r"(?P<navr>NAVR:\s*[^\s]+)?(\s*)(?P<after>.*?)$")
         msg_match = re.match(expression, self.message)
         after = msg_match.group('after')
         kn = msg_match.group('kn')
@@ -196,7 +196,7 @@ class transaction(models.mem_bank_transaction):
             if parts:
                 zip_city = parts.pop(0).strip()
                 zip_match = re.match(
-                    "^(?P<zipcode>[^ ]{6})\s+(?P<city>.*?)$", zip_city)
+                    r"^(?P<zipcode>[^ ]{6})\s+(?P<city>.*?)$", zip_city)
                 if zip_match:
                     self.remote_owner_postalcode = zip_match.group('zipcode')
                     self.remote_owner_city = zip_match.group('city')

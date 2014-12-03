@@ -61,7 +61,7 @@ class transaction_message(object):
         self.__dict__.update(dict(zip(self.attrnames, values)))
         # for lack of a standardized locale function to parse amounts
         self.transferred_amount = float(
-            re.sub(',', '.', re.sub('\.', '', self.transferred_amount)))
+            re.sub(',', '.', re.sub(r'\.', '', self.transferred_amount)))
         if self.debcred == 'Debet':
             self.transferred_amount = -self.transferred_amount
         self.execution_date = str2date(self.date, '%d-%m-%Y')
