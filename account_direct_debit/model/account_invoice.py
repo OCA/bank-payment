@@ -21,10 +21,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp.osv import orm
-from openerp.tools.translate import _
-
 """
 This module adds support for Direct debit orders as applicable
 in the Netherlands. Debit orders are advanced in total by the bank.
@@ -121,6 +117,9 @@ Two cases need to be distinguisted:
    Repeating non-fatal fatal errors need to be dealt with manually by checking
    open invoices with a matured invoice- or due date.
 """
+
+from openerp.osv import orm
+from openerp.tools.translate import _
 
 
 class account_invoice(orm.Model):
