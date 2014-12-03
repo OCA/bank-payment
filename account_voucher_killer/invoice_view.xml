@@ -47,5 +47,9 @@
    <record id="account_voucher.menu_encode_entries_by_voucher" model="ir.ui.menu">
        <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
    </record>
+   
+   <record id="account_voucher.menu_action_sale_receipt_report_all" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
   </data>
 </openerp>
