@@ -23,7 +23,6 @@
 import base64
 from datetime import datetime, date
 from decimal import Decimal
-import paymul
 import string
 import random
 import logging
@@ -32,6 +31,7 @@ from openerp.osv import orm, fields
 from openerp.tools import ustr
 from openerp.tools.translate import _
 
+from . import paymul
 
 def strpdate(arg, format='%Y-%m-%d'):
     """shortcut"""

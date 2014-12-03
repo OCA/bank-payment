@@ -20,11 +20,11 @@
 ##############################################################################
 # Import of HSBC data in Swift MT940 format
 #
-
-from account_banking.parsers import models
-from mt940_parser import HSBCParser
 import re
 import logging
+
+from account_banking.parsers import models
+from .mt940_parser import HSBCParser
 
 bt = models.mem_bank_transaction
 logger = logging.getLogger('hsbc_mt940')
