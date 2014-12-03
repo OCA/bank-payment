@@ -7,6 +7,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 def fixchars(line):
     """Fix the characters mangled in the input
 

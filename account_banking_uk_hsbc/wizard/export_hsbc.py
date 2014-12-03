@@ -33,6 +33,7 @@ from openerp.tools.translate import _
 
 from . import paymul
 
+
 def strpdate(arg, format='%Y-%m-%d'):
     """shortcut"""
     return datetime.strptime(arg, format).date()

@@ -29,9 +29,9 @@ __doc__ = '''Ease working with fixed length records in files'''
 import unicodedata
 from datetime import datetime, date
 
+
 def strpdate(str, format):
     return datetime.strptime(str, format).date()
-
 
 
 class Field(object):

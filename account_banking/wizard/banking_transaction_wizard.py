@@ -31,7 +31,6 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-
 class banking_transaction_wizard(orm.TransientModel):
     _name = 'banking.transaction.wizard'
     _description = 'Match transaction'

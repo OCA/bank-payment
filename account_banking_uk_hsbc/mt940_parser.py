@@ -28,7 +28,9 @@ import re
 from datetime import datetime
 import logging
 
+
 _logger = logging.getLogger(__name__)
+
 
 class HSBCParser(object):
 
