@@ -41,6 +41,7 @@
 # deviation to take the warning from SEPA seriously: this is the domain of the
 # account owning banks. Don't use it, unless you are prepared to loose your
 # money. It is for heuristic validation purposes only.
+from __future__ import print_function
 
 __all__ = ['IBAN', 'BBAN']
 

@@ -26,6 +26,9 @@ Based on fi_patu's parser
 """
 import re
 from datetime import datetime
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class HSBCParser(object):
 
@@ -86,7 +89,7 @@ class HSBCParser(object):
             if matchobj:
                 break
         if not matchobj:
-            print(" **** failed to match line '%s'" % (line))
+            _logger.warning("failed to match line %r", line)
             return
         # Strip strings
         matchdict = matchobj.groupdict()

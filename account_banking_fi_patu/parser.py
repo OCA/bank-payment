@@ -3,7 +3,9 @@
 """Parser for PATU format files"""
 import re
 import datetime
+import logging
 
+_logger = logging.getLogger(__name__)
 
 def fixchars(line):
     """Fix the characters mangled in the input
@@ -150,7 +152,7 @@ class PatuParser(object):
             if matchobj:
                 break
         if not matchobj:
-            print(" **** failed to match line '%s'" % (line))
+            _logger.warning("failed to match line %r", line)
             return
         # Strip strings
         matchdict = matchobj.groupdict()

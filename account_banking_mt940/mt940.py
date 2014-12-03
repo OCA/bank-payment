@@ -23,6 +23,8 @@
 """
 Parser for MT940 format files
 """
+
+from __future__ import print_function
 import re
 import datetime
 import logging
@@ -219,12 +221,12 @@ def main(filename):
     parser = MT940()
     parser.parse(None, open(filename, 'r').read())
     for statement in parser.statements:
-        print '''statement found for %(local_account)s at %(date)s
+        print('''statement found for %(local_account)s at %(date)s
         with %(local_currency)s%(start_balance)s to %(end_balance)s
-        ''' % statement.__dict__
+        ''' % statement.__dict__)
         for transaction in statement.transactions:
-            print '''
-            transaction on %(execution_date)s''' % transaction.__dict__
+            print('''
+            transaction on %(execution_date)s''' % transaction.__dict__)
 
 if __name__ == '__main__':
     import sys
