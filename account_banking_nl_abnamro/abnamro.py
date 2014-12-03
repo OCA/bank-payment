@@ -60,7 +60,7 @@ class transaction_message(object):
                 _('Invalid transaction line: expected %d columns, found '
                   '%d') % (len(self.attrnames), len(values))
             )
-        ''' Strip all values except the blob '''
+        #  Strip all values except the blob
         for (key, val) in zip(self.attrnames, values):
             self.__dict__[key] = key == 'blob' and val or val.strip()
         # for lack of a standardized locale function to parse amounts

@@ -72,7 +72,6 @@ class MT940(object):
 
     def __init__(self, *args, **kwargs):
         super(MT940, self).__init__(*args, **kwargs)
-        'state variables'
         self.current_statement = None
         'type account_banking.parsers.models.mem_bank_statement'
         self.current_transaction = None
@@ -200,7 +199,7 @@ class MT940(object):
         transaction.execution_date = str2date(data[:6])
         transaction.effective_date = str2date(data[:6])
         transaction.value_date = str2date(data[:6])
-        '...and the rest already is highly bank dependent'
+        #  ...and the rest already is highly bank dependent
 
     def handle_tag_86(self, cr, data):
         '''details for previous transaction, here most differences between
