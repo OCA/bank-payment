@@ -42,11 +42,14 @@ class banking_export_sdd(orm.Model):
     def _generate_filename(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for sepa_file in self.browse(cr, uid, ids, context=context):
-            ref = sepa_file.payment_order_ids[0].reference
-            if ref:
-                label = unidecode(ref.replace('/', '-'))
+            if not sepa_file.payment_order_ids:
+                label = 'no payment order'
             else:
-                label = 'error'
+                ref = sepa_file.payment_order_ids[0].reference
+                if ref:
+                    label = unidecode(ref.replace('/', '-'))
+                else:
+                    label = 'error'
             res[sepa_file.id] = 'sdd_%s.xml' % label
         return res
 
