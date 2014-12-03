@@ -178,10 +178,10 @@ class parser_hsbc_mt940(models.parser):
         result = []
         parser = HSBCParser()
         # Split into statements
-        statements = [st for st in re.split('[\r\n]*(?=:20:)', data)]
+        statements = [st for st in re.split(r'[\r\n]*(?=:20:)', data)]
         # Split by records
         statement_list = [
-            re.split('[\r\n ]*(?=:\d\d[\w]?:)', st)
+            re.split(r'[\r\n ]*(?=:\d\d[\w]?:)', st)
             for st in statements
         ]
 

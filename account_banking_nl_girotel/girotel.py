@@ -117,7 +117,7 @@ class transaction_message(object):
             # payment batch done via clieop
             if (self.transfer_type == 'VZ'
                     and (not self.remote_account or self.remote_account == '0')
-                    and (not self.message or re.match('^\s*$', self.message))
+                    and (not self.message or re.match(r'^\s*$', self.message))
                     and self.remote_owner.startswith('TOTAAL ')):
                 self.transfer_type = 'PB'
                 self.message = self.remote_owner
@@ -127,7 +127,7 @@ class transaction_message(object):
                     and not self.remote_account\
                     and not self.remote_owner\
                     and re.match(
-                        '^Verzamel Eurobetaling .* TOTAAL \d+ POSTEN\s*$',
+                        r'^Verzamel Eurobetaling .* TOTAAL \d+ POSTEN\s*$',
                         self.message):
                 self.transfer_type = 'PB'
         else:

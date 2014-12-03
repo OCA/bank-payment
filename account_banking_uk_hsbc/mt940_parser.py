@@ -31,7 +31,7 @@ class HSBCParser(object):
 
     def __init__(self):
         recparse = dict()
-        patterns = {'ebcdic': "\w/\?:\(\).,'+{} -"}
+        patterns = {'ebcdic': r"\w/\?:\(\).,'+{} -"}
 
         # MT940 header
         recparse["20"] = r":(?P<recordid>20):(?P<transref>.{1,16})"
@@ -60,18 +60,18 @@ class HSBCParser(object):
 
         # Further info
         recparse["86"] = (r":(?P<recordid>86):"
-                          "(?P<infoline1>.{1,80})?"
-                          "(?:\n(?P<infoline2>.{1,80}))?"
-                          "(?:\n(?P<infoline3>.{1,80}))?"
-                          "(?:\n(?P<infoline4>.{1,80}))?"
-                          "(?:\n(?P<infoline5>.{1,80}))?")
+                          r"(?P<infoline1>.{1,80})?"
+                          r"(?:\n(?P<infoline2>.{1,80}))?"
+                          r"(?:\n(?P<infoline3>.{1,80}))?"
+                          r"(?:\n(?P<infoline4>.{1,80}))?"
+                          r"(?:\n(?P<infoline5>.{1,80}))?")
 
         # Forward available balance (64) /  Closing balance (62F)
         # / Interim balance (62M)
         recparse["64"] = (r":(?P<recordid>64|62[FM]):"
-                          "(?P<creditmarker>[CD])"
-                          "(?P<bookingdate>\d{6})(?P<currencycode>.{3})"
-                          "(?P<endingbalance>[\d,]{1,15})")
+                          r"(?P<creditmarker>[CD])"
+                          r"(?P<bookingdate>\d{6})(?P<currencycode>.{3})"
+                          r"(?P<endingbalance>[\d,]{1,15})")
 
         for record in recparse:
             recparse[record] = re.compile(recparse[record])

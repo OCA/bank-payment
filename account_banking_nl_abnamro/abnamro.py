@@ -223,7 +223,7 @@ class transaction(models.mem_bank_transaction):
                 transfer_type = 'GIRO'
                 # field has markup 'GIRO ACCOUNT OWNER'
                 # separated by clusters of space of varying size
-                account_match = re.match('\s*([0-9]+)\s(.*)$', field[5:])
+                account_match = re.match(r'\s*([0-9]+)\s(.*)$', field[5:])
                 if account_match:
                     remote_account = account_match.group(1).zfill(10)
                     remote_owner = account_match.group(2).strip() or ''
@@ -245,7 +245,7 @@ class transaction(models.mem_bank_transaction):
                 # format
             elif field.startswith('MAANDBIJDRAGE ABNAMRO'):
                 transfer_type = 'COSTS'
-            elif re.match("^\s([0-9]+\.){3}[0-9]+\s", field):
+            elif re.match(r"^\s([0-9]+\.){3}[0-9]+\s", field):
                 transfer_type = 'BANK'
                 remote_account = field[1:13].strip().replace('.', '').zfill(10)
                 # column 14 to 31 is either empty or contains the remote owner
@@ -325,8 +325,8 @@ class transaction(models.mem_bank_transaction):
             # but can be any numeric line really
             for field in fields[1:]:
                 m = re.match(
-                    "^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+"
-                    "([ /][0-9]+)*)\s*$",
+                    r"^\s*((BETALINGSKENM\.)|(ACCEPTGIRO))?\s*([0-9]+"
+                    r"([ /][0-9]+)*)\s*$",
                     field)
                 if m:
                     self.reference = m.group(4)

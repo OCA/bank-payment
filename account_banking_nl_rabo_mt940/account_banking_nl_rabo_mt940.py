@@ -38,8 +38,8 @@ class RaboMT940Parser(MT940, parser):
     header_lines = 1
 
     tag_61_regex = re.compile(
-        '^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
-        '(?P<reference>\w{1,16})')
+        r'^(?P<date>\d{6})(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
+        r'(?P<reference>\w{1,16})')
 
     def parse(self, cr, data):
         'implements account_banking.parsers.models.parser.parse()'
