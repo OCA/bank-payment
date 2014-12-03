@@ -1,0 +1,55 @@
+<openerp>
+  <data>
+    <record id="invoice_voucher_group" model="ir.ui.view">
+      <field name="name">Hide voucher in invoice</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account_voucher.view_invoice_customer" />
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='invoice_pay_customer'][last()]"
+               position="attributes">
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
+        </xpath>
+        <xpath expr="//button[@name='invoice_pay_customer'][1]"
+               position="attributes">
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="invoice_voucher_group_supp_inv" model="ir.ui.view">
+      <field name="name">Hide voucher in supplier invoice</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account_voucher.view_invoice_supplier" />
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='invoice_pay_customer'][last()]"
+               position="attributes">
+           <attribute name="groups">account_voucher_killer.invoice_voucher_user</attribute>
+        </xpath>
+      </field>
+    </record>
+
+   <record id="account_voucher.menu_action_sale_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_vendor_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_purchase_receipt" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_vendor_payment" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_encode_entries_by_voucher" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+   
+   <record id="account_voucher.menu_action_sale_receipt_report_all" model="ir.ui.menu">
+       <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_voucher_user')])]"/>
+   </record>
+  </data>
+</openerp>

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-{'name': 'Invoicing voucher killer',
+{'name': 'Accounting voucher killer',
  'version': '1.0.0',
  'category': 'other',
  'author': 'Camptocamp',
