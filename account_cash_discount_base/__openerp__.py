@@ -29,12 +29,11 @@
     "images": [],
     "category": "Accounting",
     "depends": [
-        "account_banking_payment_export",
+        "account",
     ],
     "data": [
         'views/account_invoice_view.xml',
-        'views/account_payment_view.xml',
-        'wizard/account_payment_create_order_view.xml',
+        'reports/report_invoice.xml',
     ],
     "demo": [],
     "test": [],

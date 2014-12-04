@@ -20,4 +20,26 @@
 #
 ##############################################################################
 
-from . import account_invoice
+{
+    "name": "Account Cash Discount Payment",
+    "version": "1.0",
+    "author": "ACSONE SA/NV",
+    "maintainer": "ACSONE SA/NV",
+    "website": "http://www.acsone.eu",
+    "images": [],
+    "category": "Accounting",
+    "depends": [
+        "account_cash_discount_base",
+        "account_banking_payment_export",
+    ],
+    "data": [
+        'views/account_payment_view.xml',
+        'wizard/account_payment_create_order_view.xml',
+    ],
+    "demo": [],
+    "test": [],
+    "licence": "AGPL-3",
+    "installable": True,
+    "auto_install": False,
+    "application": True,
+}

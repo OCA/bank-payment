@@ -6,9 +6,14 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="attributes">
+                    <attribute name="on_change">onchange_payment_term_date_invoice(payment_term, date_invoice, discount_delay)</attribute>
+                </xpath>
                 <xpath expr="//field[@name='payment_ids']" position="before">
                     <group name="discount" string="Cash discount">
+                        <field name="discount_delay" />
                         <field name="discount_due_date" />
+                        <field name="discount_percent" />
                         <field name="discount_amount" />
                     </group>
                     <group name="payments" string="Payments"></group>
@@ -20,9 +25,14 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="attributes">
+                    <attribute name="on_change">onchange_payment_term_date_invoice(payment_term, date_invoice, discount_delay)</attribute>
+                </xpath>
                 <xpath expr="//field[@name='payment_ids']" position="before">
                     <group name="discount" string="Cash discount">
+                        <field name="discount_delay" />
                         <field name="discount_due_date" />
+                        <field name="discount_percent" />
                         <field name="discount_amount" />
                     </group>
                     <group name="payments" string="Payments"></group>

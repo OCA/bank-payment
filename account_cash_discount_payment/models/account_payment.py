@@ -20,4 +20,20 @@
 #
 ##############################################################################
 
-from . import account_invoice
+from openerp import api, models, fields
+
+
+class payment_line(models.Model):
+    _inherit = 'payment.line'
+
+    @api.one
+    @api.depends('move_line_id')
+    def _get_discount_due_date(self):
+        if self.move_line_id and self.move_line_id.invoice:
+            invoice = self.move_line_id.invoice
+            self.discount_due_date = invoice.discount_due_date
+        return
+
+    discount_due_date = fields.Date(compute=_get_discount_due_date,
+                                    string='Discount Due Date')
+    discount_amount = fields.Float(string='Discount Amount', default=0.0)

@@ -41,7 +41,7 @@ def create_simple_invoice(self, date):
                  journal_id,
                  'date_invoice': date,
                  'discount_due_date': date,
-                 'discount_amount': 500,
+                 'discount_amount': 1500,
                  'type': 'in_invoice',
                  'invoice_line': [(0, 0, {'name': 'test',
                                           'account_id':
