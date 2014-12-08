@@ -30,7 +30,11 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="reference" position="after">
-                        <field name="payment_order_type"/>
+                        <!--
+                            Add the order type as invisible because changing it in the form view
+                            is not supported. We still need to access its value in various attrs.
+                        -->
+                        <field name="payment_order_type" invisible="1" />
                     </field>
                     <xpath expr="//button[@string='Select Invoices to Pay']"
                            position="attributes">

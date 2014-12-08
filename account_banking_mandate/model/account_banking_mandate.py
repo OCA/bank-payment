@@ -79,7 +79,8 @@ class mandate(orm.Model):
             "cancelled mandate is a mandate that has been cancelled by "
             "the customer."),
         'payment_line_ids': fields.one2many(
-            'payment.line', 'mandate_id', "Related Payment Lines"),
+            'payment.line', 'mandate_id', "Related Payment Lines",
+            readonly=True),
     }
 
     _defaults = {
