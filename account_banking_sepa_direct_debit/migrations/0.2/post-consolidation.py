@@ -50,5 +50,5 @@ def migrate(cr, installed_version):
     cr.execute(query4)
     query5 = "ALTER TABLE payment_line DROP COLUMN IF EXISTS sdd_mandate_id"
     cr.execute(query5)
-    query6 = "DROP TABLE IF EXISTS sdd_mandate"
+    query6 = "DROP TABLE IF EXISTS sdd_mandate CASCADE"
     cr.execute(query6)
