@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_create_payment_order_inherit" model="ir.ui.view">
+            <field name="name">payment.order.create.form (account_cash_discount_payment)</field>
+            <field name="model">payment.order.create</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_create_payment_order"/>
+            <field name="arch" type="xml">
+                <field name="duedate" position="after">
+                    <field name="cash_discount_date"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

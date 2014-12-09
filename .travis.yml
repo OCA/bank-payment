@@ -12,6 +12,7 @@ virtualenv:
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - git clone -b 8.0-refactor-account_banking_payment-sbi https://github.com/acsone/banking.git ${HOME}/banking
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - sudo pip install unidecode
   - travis_install_nightly
