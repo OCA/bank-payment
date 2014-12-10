@@ -195,7 +195,8 @@ class BankingExportSepaWizard(orm.TransientModel):
                 'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.'
                 'name',
                 'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic or '
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank_bic',
                 {'sepa_export': sepa_export},
                 gen_args, context=context)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
@@ -236,7 +237,8 @@ class BankingExportSepaWizard(orm.TransientModel):
                 self.generate_party_block(
                     cr, uid, credit_transfer_transaction_info_2_27, 'Cdtr',
                     'C', 'line.partner_id.name', 'line.bank_id.acc_number',
-                    'line.bank_id.bank.bic', {'line': line}, gen_args,
+                    'line.bank_id.bank.bic or '
+                    'line.bank_id.bank_bic', {'line': line}, gen_args,
                     context=context)
                 self.generate_remittance_info_block(
                     cr, uid, credit_transfer_transaction_info_2_27,
