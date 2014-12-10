@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+    <xpath expr="//span[@t-field='o.amount_total']" position="after">
+        <tr name="discount_information" t-if="o.discount_percent and o.discount_due_date and o.discount_amount">
+            <td>Total With a <span t-field="o.discount_percent"/> % discount for payment before <span t-field="o.discount_due_date"/></td>
+            <td class="text-right">
+                <span t-field="o.discount_amount" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/>
+            </td>
+        </tr>
+    </xpath>
+</template>
+</data>
+</openerp>
