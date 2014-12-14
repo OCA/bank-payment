@@ -43,9 +43,14 @@ class PaymentMode(models.Model):
             res = [t.code for t in payment_mode.type.suitable_bank_types]
         return res
 
+    def _default_type(self):
+        return self.env.ref('account_banking_payment_export.'
+                            'manual_bank_tranfer')
+
     type = fields.Many2one(
         'payment.mode.type', string='Export type', required=True,
-        help='Select the Export Payment Type for the Payment Mode.')
+        help='Select the Export Payment Type for the Payment Mode.',
+        default=_default_type)
     payment_order_type = fields.Selection(
         related='type.payment_order_type', readonly=True, string="Order Type",
         selection=[('payment', 'Payment'), ('debit', 'Debit')],
