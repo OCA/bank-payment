@@ -229,7 +229,7 @@ class BankingExportPain(orm.AbstractModel):
             control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
         payment_type_info_2_6 = etree.SubElement(
             payment_info_2_0, 'PmtTpInf')
-        if priority:
+        if priority and gen_args['payment_method'] != 'DD':
             instruction_priority_2_7 = etree.SubElement(
                 payment_type_info_2_6, 'InstrPrty')
             instruction_priority_2_7.text = priority
