@@ -42,7 +42,9 @@ class PaymentLine(orm.Model):
             "company. Depicts 'What do you want to say to the recipient "
             "about this order ?'"),
         'struct_communication_type': fields.selection(
-            _get_struct_communication_types, 'Structured Communication Type'),
+            lambda self, *args, **kwargs:
+                self._get_struct_communication_types(*args, **kwargs),
+            'Structured Communication Type'),
     }
 
     _defaults = {
