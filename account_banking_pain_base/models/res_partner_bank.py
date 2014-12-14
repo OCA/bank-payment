@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
-#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
+#    Copyright (c) ACSONE SA/NV (<http://acsone.eu>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,8 +18,18 @@
 #
 ##############################################################################
 
-from . import payment_line
-from . import payment_mode
-from . import res_company
-from . import banking_export_pain
-from . import res_partner_bank
+from openerp import models, fields
+
+
+class ResPartnerBank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    bank = fields.Many2one(help="If this field is set and the related bank "
+                                "has a 'Bank Identifier Code', then this BIC "
+                                "will be used to generate the credit "
+                                "transfers and direct debits files.")
+    bank_bic = fields.Char(help="In the generation of credit transfer and "
+                                "direct debit files, this BIC will be used "
+                                "only when the 'Bank' field is empty, or "
+                                "has a value but the field 'Bank Identifier "
+                                "Code' is not set on the related bank.")
