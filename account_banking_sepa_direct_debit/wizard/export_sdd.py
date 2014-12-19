@@ -103,8 +103,8 @@ class BankingExportSddWizard(orm.TransientModel):
             previous_payline_id = False
             for older_line in older_lines:
                 older_line_date_sent = older_line.order_id.date_sent
-                if (older_line_date_sent
-                        and older_line_date_sent > previous_date):
+                if (older_line_date_sent and
+                        older_line_date_sent > previous_date):
                     previous_date = older_line_date_sent
                     previous_payline_id = older_line.id
             if previous_payline_id:

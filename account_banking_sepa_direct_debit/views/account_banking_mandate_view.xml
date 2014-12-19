@@ -5,114 +5,125 @@
   The licence is in the file __openerp__.py
 -->
 <!--
-	Customize all mandate views (and actions) to fit SEPA mandate style
+    Customize all mandate views (and actions) to fit SEPA mandate style
 -->
 <openerp>
 <data>
-	<record id="sdd_mandate_form" model="ir.ui.view">
-		<field name="name">sdd.mandate.form</field>
-		<field name="model">account.banking.mandate</field>
-		<field name="inherit_id" ref="account_banking_mandate.view_mandate_form"/>
-		<field name="arch" type="xml">
-			<data>
-				<field name="partner_id" position="after">
-					<field name="type"/>
-					<field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
-                    <field name="scheme"/>
-				</field>
-				<field name="last_debit_date" position="after">
-					<field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
-					<field name="original_mandate_identification" attrs="{'invisible': [('sepa_migrated', '=', True)], 'required': [('sepa_migrated', '=', False)]}" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
-				</field>
-			</data>
-		</field>
-	</record>
 
-	<record id="sdd_mandate_tree" model="ir.ui.view">
-		<field name="name">sdd.mandate.tree</field>
-		<field name="model">account.banking.mandate</field>
-		<field name="inherit_id" ref="account_banking_mandate.view_mandate_tree"/>
-		<field name="arch" type="xml">
-			<field name="unique_mandate_reference" position="after">
-				<field name="type" string="Type"/>
-			</field>
-		</field>
-	</record>
 
-	<record id="sdd_mandate_search" model="ir.ui.view">
-		<field name="name">sdd.mandate.search</field>
-		<field name="model">account.banking.mandate</field>
-        <field name="inherit_id" ref="account_banking_mandate.view_mandate_search"/>
-		<field name="arch" type="xml">
-			<filter name="expired" position="after">
-				<filter name="oneoff" string="One-Off" domain="[('type', '=', 'oneoff')]" />
-				<filter name="recurrent" string="Recurrent" domain="[('type', '=', 'recurrent')]" />
-			</filter>
-		</field>
-	</record>
+<record id="sdd_mandate_form" model="ir.ui.view">
+    <field name="name">sdd.mandate.form</field>
+    <field name="model">account.banking.mandate</field>
+    <field name="inherit_id" ref="account_banking_mandate.view_mandate_form"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="type"/>
+            <field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
+            <field name="scheme"/>
+        </field>
+        <field name="last_debit_date" position="after">
+            <field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
+            <field name="original_mandate_identification" attrs="{'invisible': [('sepa_migrated', '=', True)], 'required': [('sepa_migrated', '=', False)]}" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
+        </field>
+    </field>
+</record>
 
-	<record id="mandate_action" model="ir.actions.act_window">
-		<field name="name">SEPA Direct Debit Mandates</field>
-		<field name="res_model">account.banking.mandate</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-		<field name="help" type="html">
-			<p class="oe_view_nocontent_create">
-			Click to create a new SEPA Direct Debit Mandate.
-			</p><p>
-			A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.
-			</p>
-		</field>
-	</record>
+<record id="sdd_mandate_tree" model="ir.ui.view">
+    <field name="name">sdd.mandate.tree</field>
+    <field name="model">account.banking.mandate</field>
+    <field name="inherit_id" ref="account_banking_mandate.view_mandate_tree"/>
+    <field name="arch" type="xml">
+        <field name="unique_mandate_reference" position="after">
+            <field name="type" string="Type"/>
+            <field name="scheme"/>
+            <field name="recurrent_sequence_type" string="Sequence Type"/>
+        </field>
+    </field>
+</record>
 
-	<menuitem id="account_banking_mandate.mandate_menu"
-			  parent="account_payment.menu_main_payment"
-			  action="mandate_action"
-			  sequence="20"
-			  />
+<record id="sdd_mandate_search" model="ir.ui.view">
+    <field name="name">sdd.mandate.search</field>
+    <field name="model">account.banking.mandate</field>
+    <field name="inherit_id" ref="account_banking_mandate.view_mandate_search"/>
+    <field name="arch" type="xml">
+        <filter name="expired" position="after">
+            <filter name="oneoff" string="One-Off" domain="[('type', '=', 'oneoff')]" />
+            <filter name="recurrent" string="Recurrent" domain="[('type', '=', 'recurrent')]" />
+        </filter>
+        <filter name="signature_date_groupby" position="before">
+            <filter name="type_groupby" string="Type"
+                context="{'group_by': 'type'}"/>
+            <filter name="scheme_groupby" string="Scheme"
+                context="{'group_by': 'scheme'}"/>
+            <filter name="recurrent_sequence_type_groupby"
+                string="Sequence Type"
+                context="{'group_by': 'recurrent_sequence_type'}"/>
+        </filter>
+    </field>
+</record>
 
-	<record id="sdd_mandate_partner_bank_tree" model="ir.ui.view">
-		<field name="name">sdd.mandate.res.partner.bank.tree</field>
-		<field name="model">res.partner.bank</field>
-		<field name="inherit_id" ref="account_banking_mandate.mandate_partner_bank_tree"/>
-		<field name="arch" type="xml">
-			<field name="mandate_ids" position="attributes">
-				<attribute name="string">SDD Mandates</attribute>
-			</field>
-		</field>
-	</record>
+<record id="mandate_action" model="ir.actions.act_window">
+    <field name="name">SEPA Direct Debit Mandates</field>
+    <field name="res_model">account.banking.mandate</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to create a new SEPA Direct Debit Mandate.
+        </p><p>
+        A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.
+        </p>
+    </field>
+</record>
 
-	<record id="sdd_mandate_partner_form" model="ir.ui.view">
-		<field name="name">sdd.mandate.partner.form</field>
-		<field name="model">res.partner</field>
-		<field name="inherit_id" ref="account_banking_mandate.mandate_partner_form"/>
-		<field name="arch" type="xml">
-			<xpath expr="//field[@name='bank_ids']/tree/field[@name='mandate_ids']" position="attributes">
-				<attribute name="string">SDD Mandates</attribute>
-			</xpath>
-		</field>
-	</record>
+<menuitem id="account_banking_mandate.mandate_menu"
+    parent="account_payment.menu_main_payment"
+    action="mandate_action"
+    sequence="20"
+    />
 
-	<record id="recurrent_sequence_type_first" model="mail.message.subtype">
-		<field name="name">Sequence Type set to First</field>
-		<field name="res_model">account.banking.mandate</field>
-		<field name="default" eval="False"/>
-		<field name="description">Sequence Type set to First</field>
-	</record>
+<record id="sdd_mandate_partner_bank_tree" model="ir.ui.view">
+    <field name="name">sdd.mandate.res.partner.bank.tree</field>
+    <field name="model">res.partner.bank</field>
+    <field name="inherit_id" ref="account_banking_mandate.mandate_partner_bank_tree"/>
+    <field name="arch" type="xml">
+        <field name="mandate_ids" position="attributes">
+            <attribute name="string">SDD Mandates</attribute>
+        </field>
+    </field>
+</record>
 
-	<record id="recurrent_sequence_type_recurring" model="mail.message.subtype">
-		<field name="name">Sequence Type set to Recurring</field>
-		<field name="res_model">account.banking.mandate</field>
-		<field name="default" eval="False"/>
-		<field name="description">Sequence Type set to Recurring</field>
-	</record>
+<record id="sdd_mandate_partner_form" model="ir.ui.view">
+    <field name="name">sdd.mandate.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account_banking_mandate.mandate_partner_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='bank_ids']/tree/field[@name='mandate_ids']" position="attributes">
+            <attribute name="string">SDD Mandates</attribute>
+        </xpath>
+    </field>
+</record>
 
-	<record id="recurrent_sequence_type_final" model="mail.message.subtype">
-		<field name="name">Sequence Type set to Final</field>
-		<field name="res_model">account.banking.mandate</field>
-		<field name="default" eval="False"/>
-		<field name="description">Sequence Type set to Final</field>
-	</record>
+<record id="recurrent_sequence_type_first" model="mail.message.subtype">
+    <field name="name">Sequence Type set to First</field>
+    <field name="res_model">account.banking.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to First</field>
+</record>
+
+<record id="recurrent_sequence_type_recurring" model="mail.message.subtype">
+    <field name="name">Sequence Type set to Recurring</field>
+    <field name="res_model">account.banking.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to Recurring</field>
+</record>
+
+<record id="recurrent_sequence_type_final" model="mail.message.subtype">
+    <field name="name">Sequence Type set to Final</field>
+    <field name="res_model">account.banking.mandate</field>
+    <field name="default" eval="False"/>
+    <field name="description">Sequence Type set to Final</field>
+</record>
+
 
 </data>
 </openerp>
