@@ -70,18 +70,20 @@ class AccountBankingMandate(models.Model):
              "active.", default=True)
     original_mandate_identification = fields.Char(
         string='Original Mandate Identification', track_visibility='onchange',
+        size=35,
         help="When the field 'Migrated to SEPA' is not active, this field "
              "will be used as the Original Mandate Identification in the "
              "Direct Debit file.")
     scheme = fields.Selection([('CORE', 'Basic (CORE)'),
                                ('B2B', 'Enterprise (B2B)')],
                               string='Scheme', required=True, default="CORE")
+    unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
 
     @api.one
     @api.constrains('type', 'recurrent_sequence_type')
     def _check_recurring_type(self):
-        if (self.type == 'recurrent'
-                and not self.recurrent_sequence_type):
+        if (self.type == 'recurrent' and
+                not self.recurrent_sequence_type):
             raise exceptions.Warning(
                 _("The recurrent mandate '%s' must have a sequence type.")
                 % self.unique_mandate_reference)
@@ -89,8 +91,8 @@ class AccountBankingMandate(models.Model):
     @api.one
     @api.constrains('type', 'recurrent_sequence_type', 'sepa_migrated')
     def _check_migrated_to_sepa(self):
-        if (self.type == 'recurrent' and not self.sepa_migrated
-                and self.recurrent_sequence_type != 'first'):
+        if (self.type == 'recurrent' and not self.sepa_migrated and
+                self.recurrent_sequence_type != 'first'):
             raise exceptions.Warning(
                 _("The recurrent mandate '%s' which is not marked as "
                   "'Migrated to SEPA' must have its recurrent sequence type "
@@ -99,8 +101,8 @@ class AccountBankingMandate(models.Model):
     @api.one
     @api.constrains('type', 'original_mandate_identification', 'sepa_migrated')
     def _check_original_mandate_identification(self):
-        if (self.type == 'recurrent' and not self.sepa_migrated
-                and not self.original_mandate_identification):
+        if (self.type == 'recurrent' and not self.sepa_migrated and
+                not self.original_mandate_identification):
             raise exceptions.Warning(
                 _("You must set the 'Original Mandate Identification' on the "
                   "recurrent mandate '%s' which is not marked as 'Migrated to "
@@ -111,9 +113,10 @@ class AccountBankingMandate(models.Model):
     def mandate_partner_bank_change(self):
         super(AccountBankingMandate, self).mandate_partner_bank_change()
         res = {}
-        if (self.state == 'valid' and self.partner_bank_id
-                and self.type == 'recurrent'
-                and self.recurrent_sequence_type != 'first'):
+        if (self.state == 'valid' and
+                self.partner_bank_id and
+                self.type == 'recurrent' and
+                self.recurrent_sequence_type != 'first'):
             self.recurrent_sequence_type = 'first'
             res['warning'] = {
                 'title': _('Mandate update'),
