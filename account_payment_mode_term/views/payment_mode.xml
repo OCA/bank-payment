@@ -10,13 +10,12 @@
             <field name="model">payment.mode</field>
             <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
             <field name="arch" type="xml">
-                <field name="type" position="after">
-                    <group colspan="2">
-                        <separator colspan="2"
-                                   string="Optional filter by payment term" />
+                <xpath expr="/form/group[@col='4']" position="inside">
+                    <group string="Optional filter by payment term"
+                            name="filter-payment-term" colspan="2">
                         <field name="payment_term_ids" nolabel="1" colspan="2"/>
                     </group>
-                </field>
+                </xpath>
             </field>
         </record>
 

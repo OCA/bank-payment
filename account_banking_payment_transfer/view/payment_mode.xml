@@ -10,10 +10,8 @@
             <field name="model">payment.mode</field>
             <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
             <field name="arch" type="xml">
-                <field name="type" position="after">
-                    <group colspan="2">
-                        <separator colspan="2"
-                                   string="Transfer move settings" />
+                <xpath expr="/form/group[@col='4']" position="inside">
+                    <group name="trf-move-config" string="Transfer move settings" colspan="2">
                         <field name="transfer_account_id"
                                domain="[('type', '=', 'other'),
                                        ('reconcile', '=', True),
@@ -27,7 +25,7 @@
                                domain="[('company_id', '=', company_id)]"
                                />
                     </group>
-                </field>
+                </xpath>
             </field>
         </record>
 
