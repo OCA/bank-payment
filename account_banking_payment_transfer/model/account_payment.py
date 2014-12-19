@@ -105,6 +105,8 @@ class PaymentOrder(orm.Model):
                   )
             ),
         'date_sent': fields.date('Send date', readonly=True),
+        'move_id': fields.many2one(
+            'account.move', 'Transfer Move', readonly=True),
     }
 
     def _write_payment_lines(self, cr, uid, ids, **kwargs):
@@ -168,47 +170,42 @@ class PaymentOrder(orm.Model):
         return not self.test_done(cr, uid, ids, context=context)
 
     def _prepare_transfer_move(
-            self, cr, uid, order, line, labels, context=None):
+            self, cr, uid, order, labels, context=None):
         vals = {
             'journal_id': order.mode.transfer_journal_id.id,
-            'ref': '%s %s' % (order.payment_order_type[:3].upper(),
-                              line.move_line_id
-                              and line.move_line_id.move_id.name
-                              or line.communication),
+            'ref': '%s %s' % (
+                order.payment_order_type[:3].upper(), order.reference)
             }
         return vals
 
     def _prepare_move_line_transfer_account(
-            self, cr, uid, order, line, move_id, labels, context=None):
+            self, cr, uid, order, amount, move_id, labels, context=None):
         vals = {
-            'name': _('%s for %s') % (
-                labels[order.payment_order_type],
-                line.move_line_id and (line.move_line_id.invoice
-                                       and line.move_line_id.invoice.number
-                                       or line.move_line_id.name)
-                or line.communication),
+            'name': '%s %s' % (
+                labels[order.payment_order_type], order.reference),
             'move_id': move_id,
-            'partner_id': line.partner_id.id,
+            'partner_id': False,
             'account_id': order.mode.transfer_account_id.id,
             'credit': (order.payment_order_type == 'payment'
-                       and line.amount or 0.0),
+                       and amount or 0.0),
             'debit': (order.payment_order_type == 'debit'
-                      and line.amount or 0.0),
-            'date': fields.date.context_today(
-                self, cr, uid, context=context),
+                      and amount or 0.0),
             }
         return vals
 
-    def _update_move_line_partner_account(
-            self, cr, uid, order, line, vals, context=None):
-        vals.update({
+    def _prepare_move_line_partner_account(
+            self, cr, uid, order, line, move_id, labels, context=None):
+        vals = {
+            'name': _('%s line %s') % (
+                labels[order.payment_order_type], line.name),
+            'move_id': move_id,
             'partner_id': line.partner_id.id,
             'account_id': line.move_line_id.account_id.id,
             'credit': (order.payment_order_type == 'debit'
                        and line.amount or 0.0),
             'debit': (order.payment_order_type == 'payment'
                       and line.amount or 0.0),
-            })
+            }
         return vals
 
     def action_sent_no_move_line_hook(self, cr, uid, pay_line, context=None):
@@ -232,6 +229,12 @@ class PaymentOrder(orm.Model):
             if not order.mode.transfer_journal_id \
                     or not order.mode.transfer_account_id:
                 continue
+
+            move_id = account_move_obj.create(
+                cr, uid, self._prepare_transfer_move(
+                    cr, uid, order, labels, context=context),
+                context=context)
+            total_amount = 0
             for line in order.line_ids:
                 if not line.move_line_id:
                     continue
@@ -242,30 +245,21 @@ class PaymentOrder(orm.Model):
                         _('Move line %s has already been paid/reconciled')
                         % line.move_line_id.name)
 
-                move_id = account_move_obj.create(
-                    cr, uid, self._prepare_transfer_move(
-                        cr, uid, order, line, labels, context=context),
-                    context=context)
-
                 # TODO: take multicurrency into account
-
-                # create the payment/debit move line on the transfer account
-                ml_vals = self._prepare_move_line_transfer_account(
-                    cr, uid, order, line, move_id, labels, context=context)
-                account_move_line_obj.create(cr, uid, ml_vals, context=context)
 
                 # create the payment/debit counterpart move line
                 # on the partner account
-                self._update_move_line_partner_account(
-                    cr, uid, order, line, ml_vals, context=context)
-                reconcile_move_line_id = account_move_line_obj.create(
-                    cr, uid, ml_vals, context=context)
+                partner_ml_vals = self._prepare_move_line_partner_account(
+                    cr, uid, order, line, move_id, labels, context=context)
+                partner_move_line_id = account_move_line_obj.create(
+                    cr, uid, partner_ml_vals, context=context)
+                total_amount += line.amount
 
                 # register the payment/debit move line
                 # on the payment line and call reconciliation on it
                 payment_line_obj.write(
                     cr, uid, line.id,
-                    {'transit_move_line_id': reconcile_move_line_id},
+                    {'transit_move_line_id': partner_move_line_id},
                     context=context)
 
                 if line.move_line_id:
@@ -274,7 +268,17 @@ class PaymentOrder(orm.Model):
                 else:
                     self.action_sent_no_move_line_hook(
                         cr, uid, line, context=context)
-                account_move_obj.post(cr, uid, [move_id], context=context)
+
+            # create the payment/debit move line on the transfer account
+            trf_ml_vals = self._prepare_move_line_transfer_account(
+                cr, uid, order, total_amount, move_id, labels,
+                context=context)
+            account_move_line_obj.create(cr, uid, trf_ml_vals, context=context)
+
+            # post account move
+            account_move_obj.post(cr, uid, [move_id], context=context)
+            # link transfer move to payment.order
+            order.write({'move_id': move_id})
 
         # State field is written by act_sent_wait
         self.write(cr, uid, ids, {
