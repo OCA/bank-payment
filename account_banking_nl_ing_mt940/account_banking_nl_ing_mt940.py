@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+'''Define mt940 parser for Dutch ING bank.'''
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -31,6 +32,7 @@ class transaction(mem_bank_transaction):
         return bool(self.execution_date) and bool(self.transferred_amount)
 
 class IngMT940Parser(MT940, parser):
+    '''Define mt940 parser for Dutch ING bank.'''
     name = _('ING MT940 (structured)')
     country_code = 'NL'
     code = 'INT_MT940_STRUC'
@@ -62,7 +64,7 @@ class IngMT940Parser(MT940, parser):
     def handle_tag_61(self, cr, data):
         super(IngMT940Parser, self).handle_tag_61(cr, data)
         re_61 = self.tag_61_regex.match(data)
-	assert re_61, 'Cannot parse %s' % data
+        assert re_61, 'Cannot parse %s' % data
         parsed_data = re_61.groupdict()
         self.current_transaction.transferred_amount = \
             (-1 if parsed_data['sign'] == 'D' else 1) * str2float(
@@ -116,5 +118,5 @@ class IngMT940Parser(MT940, parser):
 
         if not subfields:
             self.current_transaction.message = data
-            
+
         self.current_transaction = None
