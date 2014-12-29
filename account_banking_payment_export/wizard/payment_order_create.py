@@ -61,12 +61,12 @@ class PaymentOrderCreate(models.TransientModel):
         # Search for move line to pay:
         domain = [('move_id.state', '=', 'posted'),
                   ('reconcile_id', '=', False),
-                  ('company_id', '=', payment.mode.company_id.id)]
+                  ('company_id', '=', payment.mode.company_id.id),
+                  '|',
+                  ('date_maturity', '<=', self.duedate),
+                  ('date_maturity', '=', False)]
         self.extend_payment_order_domain(payment, domain)
         # -- end account_direct_debit --
-        domain += ['|',
-                   ('date_maturity', '<=', self.duedate),
-                   ('date_maturity', '=', False)]
         lines = line_obj.search(domain)
         context = self.env.context.copy()
         context['line_ids'] = lines.ids
