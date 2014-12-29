@@ -22,14 +22,15 @@
 
 from openerp import models, api
 
+POSTED_MOVE_DOMAIN = ('move_id.state', '=', 'posted')
+
 
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
     @api.model
     def extend_payment_order_domain(self, payment_order, domain):
-        posted_move_domain = ('move_id.state', '=', 'posted')
-        if posted_move_domain in domain:
-            domain.remove(('move_id.state', '=', 'posted'))
+        if POSTED_MOVE_DOMAIN in domain:
+            domain.remove(POSTED_MOVE_DOMAIN)
         return super(PaymentOrderCreate, self)\
             .extend_payment_order_domain(payment_order, domain)
