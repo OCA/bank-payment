@@ -4,6 +4,7 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #              (C) 2014 ACSONE SA (<http://acsone.eu>).
+#              (C) 2014 Akretion (www.akretion.com)
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -24,139 +25,93 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
 
 
-class PaymentOrder(orm.Model):
+class PaymentOrder(models.Model):
     '''
     Enable extra states for payment exports
     '''
     _inherit = 'payment.order'
 
-    _columns = {
-        'date_scheduled': fields.date(
-            'Scheduled date if fixed',
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-            help='Select a date if you have chosen Preferred Date to be fixed.'
-        ),
-        'reference': fields.char(
-            'Reference', size=128, required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'mode': fields.many2one(
-            'payment.mode', 'Payment mode', select=True, required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-            help='Select the Payment Mode to be applied.',
-        ),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('open', 'Confirmed'),
-            ('cancel', 'Cancelled'),
-            ('sent', 'Sent'),
-            ('rejected', 'Rejected'),
-            ('done', 'Done'),
-            ], 'State', select=True
-        ),
-        'line_ids': fields.one2many(
-            'payment.line', 'order_id', 'Payment lines',
-            states={
-                'open': [('readonly', True)],
-                'cancel': [('readonly', True)],
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'user_id': fields.many2one(
-            'res.users', 'User', required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-        ),
-        'date_prefered': fields.selection([
-            ('now', 'Directly'),
-            ('due', 'Due date'),
-            ('fixed', 'Fixed date')
-            ], "Preferred date", change_default=True, required=True,
-            states={
-                'sent': [('readonly', True)],
-                'rejected': [('readonly', True)],
-                'done': [('readonly', True)]
-            },
-            help=("Choose an option for the Payment Order:'Fixed' stands for "
-                  "a date specified by you.'Directly' stands for the direct "
-                  "execution.'Due date' stands for the scheduled date of "
-                  "execution."
-                  )
-            ),
-        'date_sent': fields.date('Send date', readonly=True),
-        'move_id': fields.many2one(
-            'account.move', 'Transfer Move', readonly=True),
-    }
-
-    def _write_payment_lines(self, cr, uid, ids, **kwargs):
-        '''
-        ORM method for setting attributes of corresponding payment.line
-        objects.
-        Note that while this is ORM compliant, it is also very ineffecient due
-        to the absence of filters on writes and hence the requirement to
-        filter on the client(=OpenERP server) side.
-        '''
-        if not hasattr(ids, '__iter__'):
-            ids = [ids]
-        payment_line_obj = self.pool.get('payment.line')
-        line_ids = payment_line_obj.search(
-            cr, uid, [
-                ('order_id', 'in', ids)
-            ])
-        payment_line_obj.write(cr, uid, line_ids, kwargs)
+    date_scheduled = fields.Date(states={
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)],
+        })
+    reference = fields.Char(states={
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)],
+        })
+    mode = fields.Many2one(states={
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)],
+        })
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('open', 'Confirmed'),
+        ('cancel', 'Cancelled'),
+        ('sent', 'Sent'),
+        ('rejected', 'Rejected'),
+        ('done', 'Done'),
+        ], string='State')
+    line_ids = fields.One2many(states={
+        'open': [('readonly', True)],
+        'cancel': [('readonly', True)],
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)]
+        })
+    user_id = fields.Many2one(states={
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)]
+        })
+    date_prefered = fields.Selection(states={
+        'sent': [('readonly', True)],
+        'rejected': [('readonly', True)],
+        'done': [('readonly', True)]
+        })
+    date_sent = fields.Date(string='Send date', readonly=True)
 
     def action_rejected(self, cr, uid, ids, context=None):
         return True
 
-    def action_done(self, cr, uid, ids, context=None):
-        self._write_payment_lines(
-            cr, uid, ids,
-            date_done=fields.date.context_today(self, cr, uid,
-                                                context=context))
-        self.write(cr, uid, ids,
-                   {'date_done': fields.date.
-                    context_today(self, cr, uid, context=context)})
+    @api.multi
+    def action_done(self):
+        for line in self.line_ids:
+            line.date_done = fields.Date.context_today(self)
+        self.date_done = fields.Date.context_today(self)
         # state is written in workflow definition
         return True
 
-    def _get_transfer_move_lines(self, cr, uid, ids, context=None):
+    @api.one
+    @api.returns('account.move.line')
+    def _get_transfer_move_lines(self):
         """
         Get the transfer move lines (on the transfer account).
         """
-        res = []
-        for order in self.browse(cr, uid, ids, context=context):
-            for order_line in order.line_ids:
-                move_line = order_line.transfer_move_line_id
-                if move_line:
-                    res.append(move_line)
-        return res
+        for pay_line in self.line_ids:
+            move_line = pay_line.transfer_move_line_id
+            if move_line:
+                return move_line
+        return False
 
-    def get_transfer_move_line_ids(self, cr, uid, ids, context=None):
-        return [move_line.id for move_line in
-                self._get_transfer_move_lines(cr, uid, ids, context=context)]
+    @api.multi
+    def get_transfer_move_line_ids(self, *args):
+        '''Used in the workflow for trigger_expr_id'''
+        print "self._get_transfer_move_lines=", self._get_transfer_move_lines()
+        # TODO I don't understand why self._get_transfer_move_lines()
+        # returns a single recordset and not a list of recordset
+        # I wanted to write
+        # return self._get_transfer_move_lines().ids
+        # but it doesn't work, so I wrote this below:
+        return [self._get_transfer_move_lines().id]
 
-    def test_done(self, cr, uid, ids, context=None):
+    @api.multi
+    def test_done(self):
         """
         Test if all moves on the transfer account are reconciled.
 
@@ -164,126 +119,142 @@ class PaymentOrder(orm.Model):
         all transfer move have been reconciled through bank statements.
         """
         return all([move_line.reconcile_id for move_line in
-                    self._get_transfer_move_lines(cr, uid, ids, context)])
+                    self._get_transfer_move_lines()])
 
-    def test_undo_done(self, cr, uid, ids, context=None):
-        return not self.test_done(cr, uid, ids, context=context)
+    @api.multi
+    def test_undo_done(self):
+        return not self.test_done()
 
-    def _prepare_transfer_move(
-            self, cr, uid, order, labels, context=None):
+    @api.model
+    def _prepare_transfer_move(self):
+        # TODO question : can I use self.mode.xxx in an @api.model ??
+        # It works, but I'm not sure we are supposed to do that !
+        # I didn't want to use api.one to avoid having to
+        # do self._prepare_transfer_move()[0] in action_sent
+        # I prefer to just have to do self._prepare_transfer_move()
         vals = {
-            'journal_id': order.mode.transfer_journal_id.id,
+            'journal_id': self.mode.transfer_journal_id.id,
             'ref': '%s %s' % (
-                order.payment_order_type[:3].upper(), order.reference)
+                self.payment_order_type[:3].upper(), self.reference)
             }
         return vals
 
+    @api.model
     def _prepare_move_line_transfer_account(
-            self, cr, uid, order, amount, move_id, labels, context=None):
+            self, amount, move, payment_lines, labels):
+        if len(payment_lines) == 1:
+            partner_id = payment_lines[0].partner_id.id
+            name = _('%s line %s') % (
+                labels[self.payment_order_type], payment_lines[0].name)
+        else:
+            partner_id = False
+            name = '%s %s' % (
+                labels[self.payment_order_type], self.reference)
         vals = {
-            'name': '%s %s' % (
-                labels[order.payment_order_type], order.reference),
-            'move_id': move_id,
-            'partner_id': False,
-            'account_id': order.mode.transfer_account_id.id,
-            'credit': (order.payment_order_type == 'payment'
+            'name': name,
+            'move_id': move.id,
+            'partner_id': partner_id,
+            'account_id': self.mode.transfer_account_id.id,
+            'credit': (self.payment_order_type == 'payment'
                        and amount or 0.0),
-            'debit': (order.payment_order_type == 'debit'
+            'debit': (self.payment_order_type == 'debit'
                       and amount or 0.0),
             }
         return vals
 
-    def _prepare_move_line_partner_account(
-            self, cr, uid, order, line, move_id, labels, context=None):
+    @api.model
+    def _prepare_move_line_partner_account(self, line, move, labels):
+        if line.move_line_id:
+            account_id = line.move_line_id.account_id.id
+        else:
+            if self.payment_order_type == 'debit':
+                account_id = line.partner_id.property_account_receivable.id
+            else:
+                account_id = line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
-                labels[order.payment_order_type], line.name),
-            'move_id': move_id,
+                labels[self.payment_order_type], line.name),
+            'move_id': move.id,
             'partner_id': line.partner_id.id,
-            'account_id': line.move_line_id.account_id.id,
-            'credit': (order.payment_order_type == 'debit'
+            'account_id': account_id,
+            'credit': (self.payment_order_type == 'debit'
                        and line.amount or 0.0),
-            'debit': (order.payment_order_type == 'payment'
+            'debit': (self.payment_order_type == 'payment'
                       and line.amount or 0.0),
             }
         return vals
 
-    def action_sent_no_move_line_hook(self, cr, uid, pay_line, context=None):
+    @api.model
+    def action_sent_no_move_line_hook(self, pay_line):
         """This function is designed to be inherited"""
         return
 
-    def action_sent(self, cr, uid, ids, context=None):
+    @api.one
+    def action_sent(self):
         """
         Create the moves that pay off the move lines from
         the debit order. This happens when the debit order file is
         generated.
         """
-        account_move_obj = self.pool.get('account.move')
-        account_move_line_obj = self.pool.get('account.move.line')
-        payment_line_obj = self.pool.get('payment.line')
+        am_obj = self.env['account.move']
+        aml_obj = self.env['account.move.line']
+        pl_obj = self.env['payment.line']
         labels = {
             'payment': _('Payment order'),
             'debit': _('Direct debit order'),
             }
-        for order in self.browse(cr, uid, ids, context=context):
-            if not order.mode.transfer_journal_id \
-                    or not order.mode.transfer_account_id:
-                continue
+        if self.mode.transfer_journal_id and self.mode.transfer_account_id:
+            # prepare a dict "trfmoves" that can be used when
+            # self.mode.transfer_move_option = date or line
+            # key = unique identifier (date or True or line.id)
+            # value = [pay_line1, pay_line2, ...]
+            trfmoves = {}
+            if self.mode.transfer_move_option == 'line':
+                for line in self.line_ids:
+                    trfmoves[line.id] = [line]
+            else:
+                if self.date_prefered in ('now', 'fixed'):
+                    trfmoves[True] = []
+                    for line in self.line_ids:
+                        trfmoves[True].append(line)
+                else:  # date_prefered == due
+                    for line in self.line_ids:
+                        if line.date in trfmoves:
+                            trfmoves[line.date].append(line)
+                        else:
+                            trfmoves[line.date] = [line]
 
-            move_id = account_move_obj.create(
-                cr, uid, self._prepare_transfer_move(
-                    cr, uid, order, labels, context=context),
-                context=context)
-            total_amount = 0
-            for line in order.line_ids:
-                if not line.move_line_id:
-                    continue
-                # basic checks
-                if line.move_line_id.reconcile_id:
-                    raise orm.except_orm(
-                        _('Error'),
-                        _('Move line %s has already been paid/reconciled')
-                        % line.move_line_id.name)
+            for identifier, lines in trfmoves.iteritems():
+                mvals = self._prepare_transfer_move()
+                move = am_obj.create(mvals)
+                total_amount = 0
+                for line in lines:
+                    # TODO: take multicurrency into account
 
-                # TODO: take multicurrency into account
+                    # create the payment/debit counterpart move line
+                    # on the partner account
+                    partner_ml_vals = self._prepare_move_line_partner_account(
+                        line, move, labels)
+                    partner_move_line = aml_obj.create(partner_ml_vals)
+                    total_amount += line.amount
 
-                # create the payment/debit counterpart move line
-                # on the partner account
-                partner_ml_vals = self._prepare_move_line_partner_account(
-                    cr, uid, order, line, move_id, labels, context=context)
-                partner_move_line_id = account_move_line_obj.create(
-                    cr, uid, partner_ml_vals, context=context)
-                total_amount += line.amount
+                    # register the payment/debit move line
+                    # on the payment line and call reconciliation on it
+                    line.write({'transit_move_line_id': partner_move_line.id})
 
-                # register the payment/debit move line
-                # on the payment line and call reconciliation on it
-                payment_line_obj.write(
-                    cr, uid, line.id,
-                    {'transit_move_line_id': partner_move_line_id},
-                    context=context)
+                    if line.move_line_id:
+                        pl_obj.debit_reconcile(line.id)
+                    else:
+                        self.action_sent_no_move_line_hook(line)
 
-                if line.move_line_id:
-                    payment_line_obj.debit_reconcile(
-                        cr, uid, line.id, context=context)
-                else:
-                    self.action_sent_no_move_line_hook(
-                        cr, uid, line, context=context)
+                # create the payment/debit move line on the transfer account
+                trf_ml_vals = self._prepare_move_line_transfer_account(
+                    total_amount, move, lines, labels)
+                aml_obj.create(trf_ml_vals)
 
-            # create the payment/debit move line on the transfer account
-            trf_ml_vals = self._prepare_move_line_transfer_account(
-                cr, uid, order, total_amount, move_id, labels,
-                context=context)
-            account_move_line_obj.create(cr, uid, trf_ml_vals, context=context)
-
-            # post account move
-            account_move_obj.post(cr, uid, [move_id], context=context)
-            # link transfer move to payment.order
-            order.write({'move_id': move_id})
+                # post account move
+                move.post()
 
         # State field is written by act_sent_wait
-        self.write(cr, uid, ids, {
-            'date_sent': fields.date.context_today(
-                self, cr, uid, context=context),
-            }, context=context)
-
+        self.write({'date_sent': fields.Date.context_today(self)})
         return True

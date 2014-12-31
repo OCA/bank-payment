@@ -40,13 +40,16 @@ class PaymentLine(orm.Model):
     def _get_transfer_move_line(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for order_line in self.browse(cr, uid, ids, context=context):
-            if not order_line.transit_move_line_id:
-                continue
-            if len(order_line.transit_move_line_id.move_id.line_id) != 2:
-                continue
-            for move_line in order_line.transit_move_line_id.move_id.line_id:
-                if move_line.id != order_line.transit_move_line_id.id:
-                    res[order_line.id] = move_line.id
+            if order_line.transit_move_line_id:
+                order_type = order_line.order_id.payment_order_type
+                trf_lines = order_line.transit_move_line_id.move_id.line_id
+                for move_line in trf_lines:
+                    if order_type == 'debit' and move_line.debit > 0:
+                        res[order_line.id] = move_line.id
+                    elif order_type == 'payment' and move_line.credit > 0:
+                        res[order_line.id] = move_line.id
+            else:
+                res[order_line.id] = False
         return res
 
     _columns = {
@@ -64,7 +67,7 @@ class PaymentLine(orm.Model):
             type='many2one',
             relation='account.move.line',
             string='Transfer move line counterpart',
-            read_only=True,
+            readonly=True,
             help="Counterpart move line on the transfer account",
             ),
         }

@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#              (C) 2014 Akretion (www.akretion.com)
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -23,31 +24,28 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class PaymentMode(orm.Model):
+class PaymentMode(models.Model):
     _inherit = "payment.mode"
 
-    _columns = {
-        'transfer_account_id': fields.many2one(
-            'account.account', 'Transfer account',
-            domain=[('type', '=', 'other'),
-                    ('reconcile', '=', True)],
-            help=('Pay off lines in sent orders with a move on this '
-                  'account. You can only select accounts of type regular '
-                  'that are marked for reconciliation'),
-            ),
-        'transfer_journal_id': fields.many2one(
-            'account.journal', 'Transfer journal',
-            help=('Journal to write payment entries when confirming '
-                  'a debit order of this mode'),
-            ),
-        # TODO: extract this to account_banking_payment_term
-        'payment_term_ids': fields.many2many(
-            'account.payment.term', 'account_payment_order_terms_rel',
-            'mode_id', 'term_id', 'Payment terms',
-            help=('Limit selected invoices to invoices with these payment '
-                  'terms')
-            ),
-        }
+    transfer_account_id = fields.Many2one(
+        'account.account', string='Transfer account',
+        domain=[('type', '=', 'other'), ('reconcile', '=', True)],
+        help='Pay off lines in sent orders with a move on this '
+        'account. You can only select accounts of type regular '
+        'that are marked for reconciliation')
+    transfer_journal_id = fields.Many2one(
+        'account.journal', string='Transfer journal',
+        help='Journal to write payment entries when confirming '
+        'a debit order of this mode')
+    transfer_move_option = fields.Selection([
+        ('date', 'One move per payment date'),
+        ('line', 'One move per payment line'),
+        ], string='Transfer move option', default='date')
+    # TODO: extract this to account_banking_payment_term
+    payment_term_ids = fields.Many2many(
+        'account.payment.term', 'account_payment_order_terms_rel',
+        'mode_id', 'term_id', string='Payment terms',
+        help='Limit selected invoices to invoices with these payment terms')

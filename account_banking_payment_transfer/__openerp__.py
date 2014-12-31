@@ -35,7 +35,6 @@
         'account_banking_payment_export',
     ],
     'data': [
-        'view/account_payment.xml',
         'view/payment_mode.xml',
         'workflow/account_payment.xml',
     ],

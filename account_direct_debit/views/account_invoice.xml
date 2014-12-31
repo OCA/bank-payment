@@ -6,20 +6,18 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <data>
-                    <!-- 
-                         Add new state 'debit_denied' to applicable buttons.
-                         Maybe apply trick in fields_view_get instead, for
-                         better compatibility with other modules?
-                    -->
-                    <!-- button name="invoice_open" position="attributes">
-                        <attribute name="states">draft,proforma2,debit_denied</attribute>
-                    </button -->
+                <!--
+                     Add new state 'debit_denied' to applicable buttons.
+                     Maybe apply trick in fields_view_get instead, for
+                     better compatibility with other modules?
+                -->
+                <!-- button name="invoice_open" position="attributes">
+                    <attribute name="states">draft,proforma2,debit_denied</attribute>
+                </button -->
                     <button name="invoice_open" position="after">
                         <button name="invoice_debit_denied" states="paid"
-                                string="Debit Denied" icon="gtk-cancel"/>
+                                string="Debit Denied"/>
                     </button>
-               </data>
             </field>
         </record>
         <record id="view_account_invoice_filter" model="ir.ui.view">
@@ -29,7 +27,7 @@
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
                 <filter name="invoices" position="after">
-                    <filter name="debit_denied" icon="terp-dolar_ok!"
+                    <filter name="debit_denied"
                             string="Debit denied"
                             domain="[('state','=','debit_denied')]"
                             help="Show only invoices with state Debit denied"
