@@ -44,13 +44,11 @@ class ResCompany(orm.Model):
         assert isinstance(company_id, int), 'Only one company ID'
         company = self.browse(cr, uid, company_id, context=context)
         company_vat = company.vat
-        party_identifier = False
-        if company_vat:
+        party_identifier = company.sepa_creditor_identifier
+        if not party_identifier and company_vat:
             country_code = company_vat[0:2].upper()
             if country_code == 'BE':
                 party_identifier = company_vat[2:].replace(' ', '')
-            elif country_code == 'ES':
-                party_identifier = company.sepa_creditor_identifier
         return party_identifier
 
     def _initiating_party_issuer_default(self, cr, uid, context=None):
