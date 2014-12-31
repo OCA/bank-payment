@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''Define mt940 parser for Dutch ING bank.'''
+"""Define mt940 parser for Dutch ING bank."""
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -26,35 +26,35 @@ from openerp.addons.account_banking.parsers.models import parser,\
 from openerp.addons.account_banking_mt940.mt940 import MT940, str2float
 
 
-class transaction(mem_bank_transaction):
+class Transaction(mem_bank_transaction):
+    """Override validity check in base class."""
     def is_valid(self):
-        '''allow transactions without remote account'''
+        """allow transactions without remote account"""
         return bool(self.execution_date) and bool(self.transferred_amount)
 
 class IngMT940Parser(MT940, parser):
-    '''Define mt940 parser for Dutch ING bank.'''
+    """Define mt940 parser for Dutch ING bank."""
     name = _('ING MT940 (structured)')
     country_code = 'NL'
     code = 'INT_MT940_STRUC'
     footer_regex = '^-}$'
 
     tag_61_regex = re.compile(
-        '^(?P<date>\d{6})(?P<line_date>\d{4})'
-        '(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
-        '(?P<reference>\w{1,50})'
+        r'^(?P<date>\d{6})(?P<line_date>\d{4})'
+        r'(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
+        r'(?P<reference>\w{1,50})'
     )
 
     def create_transaction(self, cr):
-        return transaction()
+        """Return customized Transaction class instance."""
+        return Transaction()
 
     def handle_tag_25(self, cr, data):
-        '''ING: For current accounts: IBAN+ ISO 4217 currency code'''
+        """ING: For current accounts: IBAN+ ISO 4217 currency code"""
         self.current_statement.local_account = data[:-3]
 
-    def create_transaction(self, cr):
-        return transaction()
-
     def handle_tag_60F(self, cr, data):
+        """Parse 60F tag containing start balance / statement data."""
         super(IngMT940Parser, self).handle_tag_60F(cr, data)
         self.current_statement.id = '%s-%s' % (
             self.get_unique_account_identifier(
@@ -62,6 +62,7 @@ class IngMT940Parser(MT940, parser):
             self.current_statement.id)
 
     def handle_tag_61(self, cr, data):
+        """Parse 61F tag containing transaction data."""
         super(IngMT940Parser, self).handle_tag_61(cr, data)
         re_61 = self.tag_61_regex.match(data)
         assert re_61, 'Cannot parse %s' % data
@@ -72,6 +73,7 @@ class IngMT940Parser(MT940, parser):
         self.current_transaction.reference = parsed_data['reference']
 
     def handle_tag_86(self, cr, data):
+        """Parse 86F tag containing reference data."""
         if not self.current_transaction:
             return
         super(IngMT940Parser, self).handle_tag_86(cr, data)
@@ -109,8 +111,8 @@ class IngMT940Parser(MT940, parser):
             self.current_transaction.remote_owner_city = subfields['ORDP'][3]
 
         if 'REMI' in subfields:
-            self.current_transaction.message = '/'.join(
-                filter(lambda x: bool(x), subfields['REMI']))
+            self.current_transaction.message = (
+                '/'.join([x for x in subfields['REMI'] if x]))
 
         if self.current_transaction.reference in subfields:
             self.current_transaction.reference = ''.join(
