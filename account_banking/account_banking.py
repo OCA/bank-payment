@@ -504,7 +504,6 @@ class account_bank_statement_line(orm.Model):
         1. Extra links to account.period and res.partner.bank for tracing and
            matching.
         2. Extra 'trans' field to carry the transaction id of the bank.
-        3. Readonly states for most fields except when in draft.
     '''
     _inherit = 'account.bank.statement.line'
     _description = 'Bank Transaction'
@@ -548,57 +547,31 @@ class account_bank_statement_line(orm.Model):
 
     _columns = {
         # Redefines. Todo: refactor away to view attrs
-        'amount': fields.float(
-            'Amount',
-            readonly=True,
-            digits_compute=dp.get_precision('Account'),
-            states={'draft': [('readonly', False)]},
-        ),
-        'ref': fields.char(
-            'Ref.',
-            size=32,
-            readonly=True,
-            states={'draft': [('readonly', False)]},
-        ),
+        # Only name left because of required False. Is this needed?
         'name': fields.char(
             'Name',
             size=64,
             required=False,
-            readonly=True,
-            states={'draft': [('readonly', False)]},
-        ),
-        'date': fields.date(
-            'Date',
-            required=True,
-            readonly=True,
-            states={'draft': [('readonly', False)]},
         ),
         # New columns
         'trans': fields.char(
             'Bank Transaction ID',
             size=15,
             required=False,
-            readonly=True,
-            states={'draft': [('readonly', False)]},
         ),
         'partner_bank_id': fields.many2one(
             'res.partner.bank',
             'Bank Account',
             required=False,
-            readonly=True,
-            states={'draft': [('readonly', False)]},
         ),
         'period_id': fields.many2one(
             'account.period',
             'Period',
-            required=True,
-            states={'confirmed': [('readonly', True)]},
         ),
         'currency': fields.many2one(
             'res.currency',
             'Currency',
             required=True,
-            states={'confirmed': [('readonly', True)]},
         ),
         'reconcile_id': fields.many2one(
             'account.move.reconcile',
