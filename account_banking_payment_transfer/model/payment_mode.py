@@ -44,8 +44,3 @@ class PaymentMode(models.Model):
         ('date', 'One move per payment date'),
         ('line', 'One move per payment line'),
         ], string='Transfer move option', default='date')
-    # TODO: extract this to account_banking_payment_term
-    payment_term_ids = fields.Many2many(
-        'account.payment.term', 'account_payment_order_terms_rel',
-        'mode_id', 'term_id', string='Payment terms',
-        help='Limit selected invoices to invoices with these payment terms')
