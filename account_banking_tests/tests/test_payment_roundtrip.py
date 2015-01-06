@@ -18,11 +18,11 @@
 #
 ##############################################################################
 from datetime import datetime
-from openerp.tests.common import SingleTransactionCase
+from openerp.tests.common import TransactionCase
 from openerp import workflow
 
 
-class TestPaymentRoundtrip(SingleTransactionCase):
+class TestPaymentRoundtrip(TransactionCase):
 
     def assert_payment_order_state(self, expected):
         """
@@ -194,7 +194,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 uid, 'account.invoice', invoice_id, 'invoice_open', cr)
         self.assert_invoices_state('open')
 
-    def setup_payment_config(self, reg, cr, uid):
+    def setup_payment_config(self, reg, cr, uid,
+                             transfer_move_option='line'):
         """
         Configure an additional account and journal for payments
         in transit and configure a payment mode with them.
@@ -234,6 +235,7 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 'company_id': self.company_id,
                 'transfer_account_id': transfer_account_id,
                 'transfer_journal_id': transfer_journal_id,
+                'transfer_move_option': transfer_move_option,
                 'type': payment_mode_type_id,
                 })
 
@@ -241,11 +243,15 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         """
         Create a payment order with the invoices' payable move lines.
         Check that the payment order can be confirmed.
+
+        date_preferred is set to 'now', to ensure one transfer move
+        when transfer_move_option = 'date'.
         """
         self.payment_order_id = reg('payment.order').create(
             cr, uid, {
                 'reference': 'PAY001',
                 'mode': self.payment_mode_id,
+                'date_prefered': 'now',
                 })
         context = {'active_id': self.payment_order_id}
         entries = reg('account.move.line').search(
@@ -302,7 +308,8 @@ class TestPaymentRoundtrip(SingleTransactionCase):
 
     def setup_bank_statement(self, reg, cr, uid):
         """
-        Create a bank statement with a single line. Call the reconciliation
+        Create a bank statement with a one line for each
+        payment order line. Call the reconciliation
         wizard to match the line with the open payment order. Confirm the
         bank statement. Check if the payment order is done.
         """
@@ -347,6 +354,37 @@ class TestPaymentRoundtrip(SingleTransactionCase):
              'credit': rec_line2['debit']}])
         self.assert_payment_order_state('done')
 
+    def setup_bank_statement_one_move(self, reg, cr, uid):
+        """
+        Create a bank statement with a single line. Call the reconciliation
+        wizard to match the line with the open payment order. Confirm the
+        bank statement. Check if the payment order is done.
+        """
+        statement_model = reg('account.bank.statement')
+        line_model = reg('account.bank.statement.line')
+        statement_id = statement_model.create(
+            cr, uid, {
+                'name': 'Statement',
+                'journal_id': self.bank_journal_id,
+                'balance_end_real': -200.0,
+                'period_id': reg('account.period').find(cr, uid)[0]
+                })
+        line1_id = line_model.create(
+            cr, uid, {
+                'name': 'Statement line',
+                'statement_id': statement_id,
+                'amount': -200.0,
+                'account_id': self.payable_id,
+                })
+        line1 = line_model.browse(cr, uid, line1_id)
+        rec_line1 = line_model.\
+            get_reconciliation_proposition(cr, uid, line1)[0]
+        line_model.process_reconciliation(cr, uid, line1_id, [
+            {'counterpart_move_line_id': rec_line1['id'],
+             'debit': rec_line1['credit'],
+             'credit': rec_line1['debit']}])
+        self.assert_payment_order_state('done')
+
     def check_reconciliations(self, reg, cr, uid):
         """
         Check if the payment order has any lines and that
@@ -382,6 +420,9 @@ class TestPaymentRoundtrip(SingleTransactionCase):
                 'Transfer move line on payment line is not reconciled'
 
     def test_payment_roundtrip(self):
+        """ Payment round trip using transfer account,
+            with one move per payment order line on the transfer account
+        """
         reg, cr, uid, = self.registry, self.cr, self.uid
         self.setup_company(reg, cr, uid)
         self.setup_chart(reg, cr, uid)
@@ -391,4 +432,19 @@ class TestPaymentRoundtrip(SingleTransactionCase):
         self.export_payment(reg, cr, uid)
         self.check_reconciliations(reg, cr, uid)
         self.setup_bank_statement(reg, cr, uid)
+        self.check_reconciliations_after_bank_statement(reg, cr, uid)
+
+    def test_payment_roundtrip_one_move(self):
+        """ Payment round trip using transfer account,
+            with one move per payment order on the transfer account
+        """
+        reg, cr, uid, = self.registry, self.cr, self.uid
+        self.setup_company(reg, cr, uid)
+        self.setup_chart(reg, cr, uid)
+        self.setup_payables(reg, cr, uid)
+        self.setup_payment_config(reg, cr, uid, transfer_move_option='date')
+        self.setup_payment(reg, cr, uid)
+        self.export_payment(reg, cr, uid)
+        self.check_reconciliations(reg, cr, uid)
+        self.setup_bank_statement_one_move(reg, cr, uid)
         self.check_reconciliations_after_bank_statement(reg, cr, uid)
