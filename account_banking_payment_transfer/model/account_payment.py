@@ -102,7 +102,6 @@ class PaymentOrder(models.Model):
     @api.multi
     def get_transfer_move_line_ids(self, *args):
         '''Used in the workflow for trigger_expr_id'''
-        print "self._get_transfer_move_lines=", self._get_transfer_move_lines()
         # TODO I don't understand why self._get_transfer_move_lines()
         # returns a single recordset and not a list of recordset
         # I wanted to write
