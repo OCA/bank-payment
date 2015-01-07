@@ -24,7 +24,6 @@
     "name": "Account Payment Draft Move",
     "version": "1.0",
     "author": "ACSONE SA/NV",
-    "maintainer": "ACSONE SA/NV",
     "website": "http://www.acsone.eu",
     "images": [],
     "category": "Accounting",
