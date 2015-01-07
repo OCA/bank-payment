@@ -50,18 +50,18 @@ class HSBCParser(object):
                            r"(?P<startingbalance>[\d,]{1,15})")
 
         # Transaction
-        recparse["61"] = r"""\
-:(?P<recordid>61):\
-(?P<valuedate>\d{6})(?P<bookingdate>\d{4})?\
-(?P<creditmarker>R?[CD])\
-(?P<currency>[A-Z])?\
-(?P<amount>[\d,]{1,15})\
-(?P<bookingcode>[A-Z][A-Z0-9]{3})\
-(?P<custrefno>[%(ebcdic)s]{1,16})\
-(?://)\
-(?P<bankref>[%(ebcdic)s]{1,16})?\
-(?:\n(?P<furtherinfo>[%(ebcdic)s]))?\
-""" % (patterns)
+        recparse["61"] = (r"""
+:(?P<recordid>61):
+(?P<valuedate>\d{6})(?P<bookingdate>\d{4})?
+(?P<creditmarker>R?[CD])
+(?P<currency>[A-Z])?
+(?P<amount>[\d,]{1,15})
+(?P<bookingcode>[A-Z][A-Z0-9]{3})
+(?P<custrefno>[%(ebcdic)s]{1,16})
+(?://)
+(?P<bankref>[%(ebcdic)s]{1,16})?
+(?:\n(?P<furtherinfo>[%(ebcdic)s]))?
+""" % (patterns)).replace('\n','')
 
         # Further info
         recparse["86"] = (r":(?P<recordid>86):"
@@ -156,7 +156,7 @@ class HSBCParser(object):
 
 def parse_file(filename):
     with open(filename, "r") as hsbcfile:
-        HSBCParser().parse(hsbcfile.readlines())
+        HSBCParser().parse(None, hsbcfile.readlines())
 
 
 def main():
