@@ -153,7 +153,7 @@ class statement(models.mem_bank_statement):
                 record[k]
                 for k in (
                     'infoline{0}'.format(i)
-                    for i in range(2, 5)
+                    for i in range(1, 5)
                 )
                 if k in record
             ))
