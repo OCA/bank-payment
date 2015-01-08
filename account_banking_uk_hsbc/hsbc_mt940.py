@@ -53,6 +53,7 @@ class transaction(models.mem_bank_transaction):
     type_map = {
         'NTRF': bt.ORDER,
         'NMSC': bt.ORDER,
+        'NACH': bt.ORDER,
         'NPAY': bt.PAYMENT_BATCH,
         'NCHK': bt.CHECK,
     }
