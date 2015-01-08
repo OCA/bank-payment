@@ -136,9 +136,8 @@ class AccountInvoice(orm.Model):
         attributes in the form view, manipulating the xml in fields_view_get().
         """
         super(AccountInvoice, self).__init__(pool, cr)
-        invoice_obj = pool.get('account.invoice')
-        invoice_obj._columns['state'].selection.append(
-            ('debit_denied', 'Debit denied'))
+        self._fields['state'].selection.append(('debit_denied',
+                                                'Debit denied'))
 
     def action_debit_denied(self, cr, uid, ids, context=None):
         for invoice_id in ids:
