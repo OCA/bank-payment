@@ -46,7 +46,6 @@ class transaction(models.mem_bank_transaction):
         'value_date': 'valuedate',
         'local_currency': 'currency',
         'transfer_type': 'bookingcode',
-        'reference': 'custrefno',
         'message': 'furtherinfo'
     }
 
@@ -68,6 +67,10 @@ class transaction(models.mem_bank_transaction):
                 setattr(self, key, record[value])
 
         self.transferred_amount = record2float(record, 'amount')
+
+        ref = record.get('custrefno')
+        if ref and ref != 'NONREF':
+            self.reference = ref
 
         # Set the transfer type based on the bookingcode
         if record.get('bookingcode', 'ignore') in self.type_map:
