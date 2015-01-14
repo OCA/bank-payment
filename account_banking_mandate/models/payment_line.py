@@ -31,7 +31,7 @@ class PaymentLine(models.Model):
         comodel_name='account.banking.mandate', string='Direct Debit Mandate',
         domain=[('state', '=', 'valid')])
 
-    @api.multi
+    @api.model
     def create(self, vals=None):
         """If the customer invoice has a mandate, take it
         otherwise, take the first valid mandate of the bank account
