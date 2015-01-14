@@ -28,7 +28,8 @@
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="after">
                 <field name="payment_mode_id"
-                       domain="[('sale_ok', '=', True)]"/>
+                       domain="[('sale_ok', '=', True)]"
+                       widget="selection"/>
             </field>
         </field>
     </record>
@@ -41,7 +42,8 @@
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="after">
                 <field name="payment_mode_id"
-                       domain="[('purchase_ok', '=', True)]"/>
+                       domain="[('purchase_ok', '=', True)]"
+                       widget="selection"/>
             </field>
         </field>
     </record>
