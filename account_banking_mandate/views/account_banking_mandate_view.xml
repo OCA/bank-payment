@@ -68,11 +68,15 @@
 		<field name="model">account.banking.mandate</field>
 		<field name="arch" type="xml">
 			<search string="Search Banking Mandates">
+				<field name="unique_mandate_reference" string="Reference or Partner" filter_domain="['|', ('unique_mandate_reference', 'ilike', self), ('partner_id', 'ilike', self)]"/>
 				<field name="partner_id"/>
 				<filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
 				<filter name="valid" string="Valid" domain="[('state', '=', 'valid')]" />
 				<filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
 				<filter name="expired" string="Expired" domain="[('state', '=', 'expired')]" />
+                <group string="Group By" name="groupby">
+                    <filter name="signature_date_groupby" string="Signature Date" context="{'group_by': 'signature_date'}"/>
+                </group>
 			</search>
 		</field>
 	</record>
@@ -80,7 +84,6 @@
 	<record id="mandate_action" model="ir.actions.act_window">
 		<field name="name">Banking Mandates</field>
 		<field name="res_model">account.banking.mandate</field>
-		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 		<field name="help" type="html">
 			<p class="oe_view_nocontent_create">

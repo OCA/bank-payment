@@ -35,6 +35,7 @@
 		<field name="arch" type="xml">
 			<field name="unique_mandate_reference" position="after">
 				<field name="type" string="Type"/>
+                <field name="recurrent_sequence_type" string="Sequence Type"/>
 			</field>
 		</field>
 	</record>
@@ -48,13 +49,19 @@
 				<filter name="oneoff" string="One-Off" domain="[('type', '=', 'oneoff')]" />
 				<filter name="recurrent" string="Recurrent" domain="[('type', '=', 'recurrent')]" />
 			</filter>
+            <filter name="signature_date_groupby" position="before">
+                <filter name="type_groupby" string="Type"
+                    context="{'group_by': 'type'}"/>
+                <filter name="recurrent_sequence_type_groupby"
+                    string="Sequence Type"
+                    context="{'group_by': 'recurrent_sequence_type'}"/>
+            </filter>
 		</field>
 	</record>
 
 	<record id="mandate_action" model="ir.actions.act_window">
 		<field name="name">SEPA Direct Debit Mandates</field>
 		<field name="res_model">account.banking.mandate</field>
-		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 		<field name="help" type="html">
 			<p class="oe_view_nocontent_create">
