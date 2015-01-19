@@ -61,7 +61,7 @@ class HSBCParser(object):
 (?://)
 (?P<bankref>[%(ebcdic)s]{1,16})?
 (?:\n(?P<furtherinfo>[%(ebcdic)s]))?
-""" % (patterns)).replace('\n','')
+""" % (patterns)).replace('\n', '')
 
         # Further info
         recparse["86"] = (r":(?P<recordid>86):"
