@@ -9,6 +9,7 @@
     <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="export_sdd_008_001_02"/>
+    <field name="purchase_ok" eval="False"/>
 </record>
 
 <record id="base.main_company" model="res.company">
