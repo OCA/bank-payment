@@ -436,13 +436,13 @@ msgstr ""
 #: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
-"\t\t\tClick to create a new SEPA Direct Debit Mandate.\n"
-"\t\t\t</p><p>\n"
-"\t\t\tA SEPA Direct Debit Mandate is a document signed by your customer that "
+"            Click to create a new SEPA Direct Debit Mandate.\n"
+"            </p><p>\n"
+"            A SEPA Direct Debit Mandate is a document signed by your customer that "
 "gives you the autorization to do one or several direct debits on his bank "
 "account.\n"
-"\t\t\t</p>\n"
-"\t\t"
+"            </p>\n"
+"        "
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
