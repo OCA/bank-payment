@@ -37,6 +37,7 @@
     'data': [
         'view/payment_mode.xml',
         'workflow/account_payment.xml',
+        'view/account_payment.xml',
     ],
     'test': [
         'test/data.yml',
