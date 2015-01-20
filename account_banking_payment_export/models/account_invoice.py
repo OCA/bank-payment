@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013 Therp BV (<http://therp.nl>)
+#    Copyright (C) 2014 ACSONE SA (<http://acsone.eu>).
+#
+#    All other contributions are (C) by their respective contributors
+#
+#    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,24 +22,14 @@
 #
 ##############################################################################
 
-{
-    'name': 'Banking Addons - Tests',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'Therp BV',
-    'website': 'https://launchpad.net/banking-addons',
-    'category': 'Banking addons',
-    'depends': [
-        'account_accountant',
-        'account_banking_payment',
-        'account_banking_sepa_credit_transfer',
-        ],
-    'description': '''
-This addon adds unit tests for the Banking addons. Installing this
-module will not give you any benefit other than having the tests'
-dependencies installed, so that you can run the tests. If you only
-run the tests manually, you don't even have to install this module,
-only its dependencies.
-    ''',
-    'installable': False,
-}
+from openerp import api, models, _
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.model
+    def _get_reference_type(self):
+        rt = super(AccountInvoice, self)._get_reference_type()
+        rt.append(('structured', _('Structured Reference')))
+        return rt

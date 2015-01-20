@@ -23,20 +23,37 @@ from openerp.osv import orm, fields
 from operator import itemgetter
 
 
-# All the code below aims at fixing one small issue in _to_pay_search()
-# But _to_pay_search() is the search function of the field 'amount_to_pay'
-# which is a field.function and these functions are not inheritable in OpenERP.
-# So we have to inherit the field 'amount_to_pay' and duplicate the related
-# functions
-# If the patch that I proposed in this bug report
-# https://bugs.launchpad.net/openobject-addons/+bug/1275478
-# is integrated in addons/account_payment, then we will be able to remove this
-# file.         -- Alexis de Lattre
 class AccountMoveLine(orm.Model):
     _inherit = 'account.move.line'
 
+    def get_balance(self, cr, uid, ids, context=None):
+        """
+        Return the balance of any set of move lines.
+
+        Not to be confused with the 'balance' field on this model, which
+        returns the account balance that the move line applies to.
+        """
+        total = 0.0
+        if not ids:
+            return total
+        for line in self.read(
+                cr, uid, ids, ['debit', 'credit'], context=context):
+            total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
+        return total
+
+    # All the code below aims at fixing one small issue in _to_pay_search()
+    # But _to_pay_search() is the search function of the field 'amount_to_pay'
+    # which is a field.function and these functions are not inheritable in
+    # OpenERP.
+    # So we have to inherit the field 'amount_to_pay' and duplicate the related
+    # functions
+    # If the patch that I proposed in this bug report
+    # https://bugs.launchpad.net/openobject-addons/+bug/1275478
+    # is integrated in addons/account_payment, then we will be able to remove
+    # this file.         -- Alexis de Lattre
+
     def _amount_to_pay(self, cr, uid, ids, name, arg=None, context=None):
-        """ Return the amount still to pay regarding all the payemnt orders
+        """ Return the amount still to pay regarding all the payment orders
         (excepting cancelled orders)"""
         if not ids:
             return {}

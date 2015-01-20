@@ -24,11 +24,11 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
-from openerp import netsvc
+from openerp import workflow
 from openerp.tools.translate import _
 
 
-class payment_line(orm.Model):
+class PaymentLine(orm.Model):
     '''
     Add some fields; make destination bank account
     mandatory, as it makes no sense to send payments into thin air.
@@ -36,16 +36,39 @@ class payment_line(orm.Model):
     accounts.
     '''
     _inherit = 'payment.line'
+
+    def _get_transfer_move_line(self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for order_line in self.browse(cr, uid, ids, context=context):
+            if order_line.transit_move_line_id:
+                order_type = order_line.order_id.payment_order_type
+                trf_lines = order_line.transit_move_line_id.move_id.line_id
+                for move_line in trf_lines:
+                    if order_type == 'debit' and move_line.debit > 0:
+                        res[order_line.id] = move_line.id
+                    elif order_type == 'payment' and move_line.credit > 0:
+                        res[order_line.id] = move_line.id
+            else:
+                res[order_line.id] = False
+        return res
+
     _columns = {
         'msg': fields.char('Message', size=255, required=False, readonly=True),
         'date_done': fields.date(
             'Date Confirmed', select=True, readonly=True),
         'transit_move_line_id': fields.many2one(
-            # this line is part of the credit side of move 2a
-            # from the documentation
-            'account.move.line', 'Debit move line',
+            'account.move.line', 'Transfer move line',
             readonly=True,
-            help="Move line through which the debit order pays the invoice",
+            help="Move line through which the payment/debit order "
+                 "pays the invoice",
+            ),
+        'transfer_move_line_id': fields.function(
+            _get_transfer_move_line,
+            type='many2one',
+            relation='account.move.line',
+            string='Transfer move line counterpart',
+            readonly=True,
+            help="Counterpart move line on the transfer account",
             ),
         }
 
@@ -98,7 +121,7 @@ class payment_line(orm.Model):
         Reconcile a debit order's payment line with the the move line
         that it is based on. Called from payment_order.action_sent().
         As the amount is derived directly from the counterpart move line,
-        we do not expect a write off. Take partially reconcilions into
+        we do not expect a write off. Take partial reconciliations into
         account though.
 
         :param payment_line_id: the single id of the canceled payment line
@@ -160,12 +183,12 @@ class payment_line(orm.Model):
             reconcile_obj.create(
                 cr, uid, vals, context=context)
         for line_id in line_ids:
-            netsvc.LocalService("workflow").trg_trigger(
+            workflow.trg_trigger(
                 uid, 'account.move.line', line_id, cr)
 
         # If a bank transaction of a storno was first confirmed
         # and now canceled (the invoice is now in state 'debit_denied'
         if torec_move_line.invoice:
-            netsvc.LocalService("workflow").trg_validate(
+            workflow.trg_validate(
                 uid, 'account.invoice', torec_move_line.invoice.id,
                 'undo_debit_denied', cr)

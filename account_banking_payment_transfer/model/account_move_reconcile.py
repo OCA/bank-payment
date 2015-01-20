@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2014 ACSONE SA (<http://acsone.eu>).
+#    Copyright (C) 2014 Akretion (www.akretion.com)
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -23,21 +23,23 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, workflow, api
 
 
-class banking_import_line(orm.TransientModel):
-    _inherit = 'banking.import.line'
-    _columns = {
-        'payment_order_id': fields.many2one(
-            'payment.order', 'Payment order'),
-        'transaction_type': fields.selection([
-            # Add payment order related transaction types
-            ('invoice', 'Invoice payment'),
-            ('payment_order_line', 'Payment from a payment order'),
-            ('payment_order', 'Aggregate payment order'),
-            ('storno', 'Canceled debit order'),
-            ('bank_costs', 'Bank costs'),
-            ('unknown', 'Unknown'),
-        ], 'Transaction type'),
-    }
+class AccountMoveReconcile(models.Model):
+    _inherit = 'account.move.reconcile'
+
+    @api.multi
+    def unlink(self):
+        """
+        Workflow triggers upon unreconcile. This should go into the core.
+        """
+        line_ids = []
+        for reconcile in self:
+            for move_line in reconcile.line_id:
+                line_ids.append(move_line.id)
+        res = super(AccountMoveReconcile, self).unlink()
+        for line_id in line_ids:
+            workflow.trg_trigger(
+                self._uid, 'account.move.line', line_id, self._cr)
+        return res

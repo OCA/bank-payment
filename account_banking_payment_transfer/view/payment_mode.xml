@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- 
+             Add the payment mode transfer account settings
+        -->
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group[@col='4']" position="inside">
+                    <group name="trf-move-config" string="Transfer move settings" colspan="2">
+                        <field name="transfer_account_id"
+                               domain="[('type', '=', 'other'),
+                                       ('reconcile', '=', True),
+                                       ('company_id', '=', company_id)]"
+                               context="{
+                                   'default_type': 'other',
+                                   'default_reconcile': True,
+                                   'default_company_id': company_id}"
+                               />
+                        <field name="transfer_journal_id"
+                               domain="[('company_id', '=', company_id)]"
+                               />
+                        <field name="transfer_move_option"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -621,22 +621,6 @@ class account_bank_statement_line(orm.Model):
 
 
 class invoice(orm.Model):
-    '''
-    Create other reference types as well.
-
-    Descendant classes can extend this function to add more reference
-    types, ie.
-
-    def _get_reference_type(self, cr, uid, context=None):
-        return super(my_class, self)._get_reference_type(cr, uid,
-            context=context) + [('my_ref', _('My reference')]
-
-    Don't forget to redefine the column "reference_type" as below or
-    your method will never be triggered.
-
-    TODO: move 'structured' part to account_banking_payment module
-    where it belongs
-    '''
     _inherit = 'account.invoice'
 
     def test_undo_paid(self, cr, uid, ids, context=None):
@@ -649,35 +633,3 @@ class invoice(orm.Model):
                 return False
         return True
 
-    def _get_reference_type(self, cr, uid, context=None):
-        '''
-        Return the list of reference types
-        '''
-        return [('none', _('Free Reference')),
-                ('structured', _('Structured Reference')),
-                ]
-
-    _columns = {
-        'reference_type': fields.selection(_get_reference_type,
-                                           'Reference Type', required=True
-                                           )
-    }
-
-
-class account_move_line(orm.Model):
-    _inherit = "account.move.line"
-
-    def get_balance(self, cr, uid, ids, context=None):
-        """
-        Return the balance of any set of move lines.
-
-        Not to be confused with the 'balance' field on this model, which
-        returns the account balance that the move line applies to.
-        """
-        total = 0.0
-        if not ids:
-            return total
-        for line in self.read(
-                cr, uid, ids, ['debit', 'credit'], context=context):
-            total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
-        return total
