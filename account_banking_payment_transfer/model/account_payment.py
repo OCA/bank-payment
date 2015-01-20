@@ -87,27 +87,23 @@ class PaymentOrder(models.Model):
         # state is written in workflow definition
         return True
 
-    @api.one
-    @api.returns('account.move.line')
+    @api.multi
     def _get_transfer_move_lines(self):
         """
         Get the transfer move lines (on the transfer account).
         """
-        for pay_line in self.line_ids:
-            move_line = pay_line.transfer_move_line_id
-            if move_line:
-                return move_line
-        return False
+        res = []
+        for order in self:
+            for order_line in order.line_ids:
+                move_line = order_line.transfer_move_line_id
+                if move_line:
+                    res.append(move_line)
+        return res
 
     @api.multi
     def get_transfer_move_line_ids(self, *args):
         '''Used in the workflow for trigger_expr_id'''
-        # TODO I don't understand why self._get_transfer_move_lines()
-        # returns a single recordset and not a list of recordset
-        # I wanted to write
-        # return self._get_transfer_move_lines().ids
-        # but it doesn't work, so I wrote this below:
-        return [self._get_transfer_move_lines().id]
+        return [move_line.id for move_line in self._get_transfer_move_lines()]
 
     @api.multi
     def test_done(self):
