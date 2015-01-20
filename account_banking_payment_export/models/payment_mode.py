@@ -23,7 +23,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class PaymentMode(models.Model):
@@ -43,9 +43,12 @@ class PaymentMode(models.Model):
             res = [t.code for t in payment_mode.type.suitable_bank_types]
         return res
 
+    @api.model
     def _default_type(self):
-        return self.env.ref('account_banking_payment_export.'
-                            'manual_bank_tranfer')
+        return self.env.ref(
+            'account_banking_payment_export.'
+            'manual_bank_tranfer', raise_if_not_found=False)\
+            or self.env['payment.mode.type']
 
     type = fields.Many2one(
         'payment.mode.type', string='Export type', required=True,
