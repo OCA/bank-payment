@@ -126,7 +126,7 @@ from openerp.tools.translate import _
 class AccountInvoice(orm.Model):
     _inherit = "account.invoice"
 
-    def __init__(self, pool, cr):
+    def _register_hook(self, cr):
         """
         Adding a state to the hardcoded state list of the inherited
         model. The alternative is duplicating the field definition
@@ -135,9 +135,7 @@ class AccountInvoice(orm.Model):
         Maybe apply a similar trick when overriding the buttons' 'states'
         attributes in the form view, manipulating the xml in fields_view_get().
         """
-        super(AccountInvoice, self).__init__(pool, cr)
-        invoice_obj = pool.get('account.invoice')
-        invoice_obj._columns['state'].selection.append(
+        self._columns['state'].selection.append(
             ('debit_denied', 'Debit denied'))
 
     def action_debit_denied(self, cr, uid, ids, context=None):
