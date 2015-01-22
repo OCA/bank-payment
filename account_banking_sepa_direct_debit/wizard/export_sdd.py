@@ -249,7 +249,8 @@ class BankingExportSddWizard(orm.TransientModel):
                 'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.'
                 'name',
                 'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic',
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic or '
+                'sepa_export.payment_order_ids[0].mode.bank_id.bank_bic',
                 {'sepa_export': sepa_export},
                 gen_args, context=context)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
@@ -316,7 +317,10 @@ class BankingExportSddWizard(orm.TransientModel):
                         amendment_info_details_2_51 = etree.SubElement(
                             mandate_related_info_2_47, 'AmdmntInfDtls')
                     if previous_bank:
-                        if previous_bank.bank.bic == line.bank_id.bank.bic:
+                        if (previous_bank.bank.bic or
+                            previous_bank.bank_bic) == \
+                            (line.bank_id.bank.bic or
+                             line.bank_id.bank_bic):
                             ori_debtor_account_2_57 = etree.SubElement(
                                 amendment_info_details_2_51, 'OrgnlDbtrAcct')
                             ori_debtor_account_id = etree.SubElement(
@@ -340,7 +344,8 @@ class BankingExportSddWizard(orm.TransientModel):
                                 ori_debtor_agent_institution, bic_xml_tag)
                             ori_debtor_agent_bic.text = self._prepare_field(
                                 cr, uid, 'Original Debtor Agent',
-                                'previous_bank.bank.bic',
+                                'previous_bank.bank.bic or '
+                                'previous_bank.bank_bic',
                                 {'previous_bank': previous_bank},
                                 gen_args=gen_args,
                                 context=context)
@@ -375,7 +380,8 @@ class BankingExportSddWizard(orm.TransientModel):
                     cr, uid, dd_transaction_info_2_28, 'Dbtr', 'C',
                     'line.partner_id.name',
                     'line.bank_id.acc_number',
-                    'line.bank_id.bank.bic',
+                    'line.bank_id.bank.bic or '
+                    'line.bank_id.bank_bic',
                     {'line': line}, gen_args, context=context)
 
                 self.generate_remittance_info_block(
