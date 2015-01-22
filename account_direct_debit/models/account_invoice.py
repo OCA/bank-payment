@@ -137,6 +137,7 @@ class AccountInvoice(orm.Model):
         """
         self._columns['state'].selection.append(
             ('debit_denied', 'Debit denied'))
+        return super(AccountInvoice, self)._register_hook(cr)
 
     def action_debit_denied(self, cr, uid, ids, context=None):
         for invoice_id in ids:
