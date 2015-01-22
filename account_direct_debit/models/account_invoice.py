@@ -135,9 +135,9 @@ class AccountInvoice(orm.Model):
         Maybe apply a similar trick when overriding the buttons' 'states'
         attributes in the form view, manipulating the xml in fields_view_get().
         """
-        super(AccountInvoice, self)._register_hook(cr)
         self._columns['state'].selection.append(
             ('debit_denied', 'Debit denied'))
+        return super(AccountInvoice, self)._register_hook(cr)
 
     def action_debit_denied(self, cr, uid, ids, context=None):
         for invoice_id in ids:
