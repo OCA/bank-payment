@@ -76,6 +76,7 @@
 
 <record id="account_payment.payment_mode_1" model="payment.mode">
     <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
+    <field name="sale_ok" eval="False"/>
 </record>
 
 <record id="payment_mode_2" model="payment.mode">
@@ -84,6 +85,7 @@
     <field name="bank_id" ref="main_company_iban"/>
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
+    <field name="sale_ok" eval="False"/>
 </record>
 
 <record id="payment_mode_3" model="payment.mode">
@@ -92,6 +94,7 @@
     <field name="bank_id" ref="main_company_iban2"/>
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
+    <field name="sale_ok" eval="False"/>
 </record>
 
 
