@@ -195,7 +195,6 @@
             <field name="name">account.bank.statement.form.banking-1</field>
             <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="model">account.bank.statement</field>
-            <field name="sequence" eval="60"/>
             <field name="arch" type="xml">
                 <data>
                     <page string="Transactions" position="after">
