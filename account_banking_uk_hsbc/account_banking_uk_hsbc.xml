@@ -16,7 +16,6 @@
         <record id="view_banking_export_hsbc_form" model="ir.ui.view">
             <field name="name">account.banking.export.hsbc.form</field>
             <field name="model">banking.export.hsbc</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="HSBC Export">
             <notebook>
@@ -48,7 +47,6 @@
         <record id="view_banking_export_hsbc_tree" model="ir.ui.view">
             <field name="name">account.banking.export.hsbc.tree</field>
             <field name="model">banking.export.hsbc</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="HSBC Export">
                     <field name="execution_date" search="2"/>

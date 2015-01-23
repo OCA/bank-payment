@@ -3,7 +3,6 @@
     <data>
         <record model="ir.ui.view" id="link_partner_view">
             <field name="name">Link partner wizard view</field>
-            <field name="type">form</field>
             <field name="model">banking.link_partner</field>
             <field name="arch" type="xml">
                 <form string="Link partner" version="7.0" >

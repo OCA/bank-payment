@@ -195,6 +195,7 @@
             <field name="name">account.bank.statement.form.banking-1</field>
             <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="model">account.bank.statement</field>
+            <field name="sequence" eval="60"/>
             <field name="arch" type="xml">
                 <data>
                     <page string="Transactions" position="after">
@@ -397,7 +398,6 @@
         <record id="view_account_bank_statement_line_search" model="ir.ui.view">
             <field name="name">account.bank.statement.line.search</field>
             <field name="model">account.bank.statement.line</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Bank Transactions ">
                     <group>
