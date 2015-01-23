@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from openerp.report import report_sxw
+from openerp.netsvc import Service
 
 
 class Reconciliation(report_sxw.rml_parse):
@@ -27,16 +28,23 @@ class Reconciliation(report_sxw.rml_parse):
         super(Reconciliation, self).__init__(cr, uid, name, context=context)
 
 
+report_name = 'report.detailed.reconciliation.webkit'
+if report_name in Service._services.keys():
+    del Service._services[report_name]
+
 report_sxw.report_sxw(
-    'report.detailed.reconciliation.webkit',
+    report_name,
     'bank.acc.rec.statement',
     'addons/deposit_ticket_report_webkit/report/detailed_reconciliation.mako',
     parser=Reconciliation,
 )
 
+report_name = 'report.summary.reconciliation.webkit'
+if report_name in Service._services.keys():
+    del Service._services[report_name]
 
 report_sxw.report_sxw(
-    'report.summary.reconciliation.webkit',
+    report_name,
     'bank.acc.rec.statement',
     'addons/deposit_ticket_report_webkit/report/summary_reconciliation.mako',
     parser=Reconciliation
