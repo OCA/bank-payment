@@ -37,7 +37,7 @@ class BankingExportSepa(models.Model):
 
     @api.one
     def _generate_filename(self):
-        ref = self.payment_order_ids[0].reference
+        ref = self.payment_order_ids.reference
         if ref:
             label = unidecode(ref.replace('/', '-'))
         else:
