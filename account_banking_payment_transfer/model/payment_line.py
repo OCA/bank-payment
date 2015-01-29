@@ -177,7 +177,7 @@ class PaymentLine(orm.Model):
 
         if torec_move_line.reconcile_partial_id:
             reconcile_obj.write(
-                cr, uid, transit_move_line.reconcile_partial_id.id,
+                cr, uid, [torec_move_line.reconcile_partial_id.id],
                 vals, context=context)
         else:
             reconcile_obj.create(
