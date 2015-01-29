@@ -98,20 +98,6 @@ class BankingExportPain(orm.AbstractModel):
             value = value[0:max_size]
         return value
 
-    def _prepare_export_sepa(
-            self, cr, uid, total_amount, transactions_count, xml_string,
-            gen_args, context=None):
-        return {
-            'batch_booking': gen_args['sepa_export'].batch_booking,
-            'charge_bearer': gen_args['sepa_export'].charge_bearer,
-            'total_amount': total_amount,
-            'nb_transactions': transactions_count,
-            'file': base64.encodestring(xml_string),
-            'payment_order_ids': [(
-                6, 0, [x.id for x in gen_args['sepa_export'].payment_order_ids]
-            )],
-        }
-
     def _validate_xml(self, cr, uid, xml_string, gen_args, context=None):
         xsd_etree_obj = etree.parse(
             tools.file_open(gen_args['pain_xsd_file']))
@@ -147,15 +133,18 @@ class BankingExportPain(orm.AbstractModel):
         logger.debug(xml_string)
         self._validate_xml(cr, uid, xml_string, gen_args, context=context)
 
-        file_id = gen_args['file_obj'].create(
-            cr, uid, self._prepare_export_sepa(
-                cr, uid, total_amount, transactions_count,
-                xml_string, gen_args, context=context),
-            context=context)
+        order_ref = []
+        for order in gen_args['sepa_export'].payment_order_ids:
+            if order.reference:
+                order_ref.append(order.reference.replace('/', '-'))
+        filename = '%s%s.xml' % (gen_args['file_prefix'], '-'.join(order_ref))
 
         self.write(
             cr, uid, ids, {
-                'file_id': file_id,
+                'nb_transactions': transactions_count,
+                'total_amount': total_amount,
+                'filename': filename,
+                'file': base64.encodestring(xml_string),
                 'state': 'finish',
             }, context=context)
 
