@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    SEPA Credit Transfer module for OpenERP
+#    SEPA Credit Transfer module for Odoo
 #    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -20,4 +20,3 @@
 #
 ##############################################################################
 
-from . import account_banking_sepa
