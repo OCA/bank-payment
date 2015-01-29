@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+  Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
@@ -11,7 +11,7 @@
     <field name="name">banking.export.sepa.wizard.view</field>
     <field name="model">banking.export.sepa.wizard</field>
     <field name="arch" type="xml">
-        <form string="SEPA File Generation" version="7.0">
+        <form string="SEPA File Generation">
             <field name="state" invisible="True"/>
             <group states="create">
                 <field name="batch_booking" />
@@ -25,9 +25,8 @@
             </group>
             <footer>
                 <button string="Generate" name="create_sepa" type="object" class="oe_highlight" states="create"/>
-                <button string="Cancel" special="cancel" class="oe_link" states="create"/>
                 <button string="Validate" name="save_sepa" type="object" class="oe_highlight" states="finish"/>
-                <button string="Cancel" name="cancel_sepa" type="object" class="oe_link" states="finish"/>
+                <button string="Cancel" special="cancel" class="oe_link"/>
             </footer>
         </form>
     </field>
