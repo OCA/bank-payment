@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    SEPA Direct Debit module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    SEPA Direct Debit module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp import workflow
-from datetime import datetime
 from lxml import etree
 
 
@@ -56,19 +55,14 @@ class BankingExportSddWizard(orm.TransientModel):
                  "transaction charges are to be borne by the creditor. Borne "
                  "by debtor : all transaction charges are to be borne by the "
                  "debtor."),
-        'nb_transactions': fields.related(
-            'file_id', 'nb_transactions', type='integer',
+        'nb_transactions': fields.integer(
             string='Number of Transactions', readonly=True),
-        'total_amount': fields.related(
-            'file_id', 'total_amount', type='float', string='Total Amount',
-            readonly=True),
-        'file_id': fields.many2one(
-            'banking.export.sdd', 'SDD File', readonly=True),
-        'file': fields.related(
-            'file_id', 'file', string="File", type='binary', readonly=True),
-        'filename': fields.related(
-            'file_id', 'filename', string="Filename", type='char', size=256,
-            readonly=True),
+        'total_amount': fields.float(
+            string='Total Amount', readonly=True),
+        'file': fields.binary(
+            string="File", readonly=True),
+        'filename': fields.char(
+            string="Filename", readonly=True),
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_sdd_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
@@ -144,9 +138,9 @@ class BankingExportSddWizard(orm.TransientModel):
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
             'payment_method': 'DD',
+            'file_prefix': 'sdd_',
             'pain_flavor': pain_flavor,
             'sepa_export': sepa_export,
-            'file_obj': self.pool['banking.export.sdd'],
             'pain_xsd_file':
             'account_banking_sepa_direct_debit/data/%s.xsd' % pain_flavor,
         }
@@ -397,29 +391,21 @@ class BankingExportSddWizard(orm.TransientModel):
             cr, uid, ids, xml_root, total_amount, transactions_count_1_6,
             gen_args, context=context)
 
-    def cancel_sepa(self, cr, uid, ids, context=None):
-        """Cancel the SEPA file: just drop the file"""
-        sepa_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool.get('banking.export.sdd').unlink(
-            cr, uid, sepa_export.file_id.id, context=context)
-        return {'type': 'ir.actions.act_window_close'}
-
     def save_sepa(self, cr, uid, ids, context=None):
         """Save the SEPA Direct Debit file: mark all payments in the file
         as 'sent'. Write 'last debit date' on mandate and set oneoff
         mandate to expired.
         """
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool.get('banking.export.sdd').write(
-            cr, uid, sepa_export.file_id.id, {'state': 'sent'},
-            context=context)
         for order in sepa_export.payment_order_ids:
             workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
-            mandate_ids = [line.mandate_id.id for line in order.line_ids]
-            self.pool['account.banking.mandate'].write(
-                cr, uid, mandate_ids,
-                {'last_debit_date': datetime.today().strftime('%Y-%m-%d')},
-                context=context)
+            self.pool['ir.attachment'].create(
+                cr, uid, {
+                    'res_model': 'payment.order',
+                    'res_id': order.id,
+                    'name': sepa_export.filename,
+                    'datas': sepa_export.file,
+                    }, context=context)
             to_expire_ids = []
             first_mandate_ids = []
             for line in order.line_ids:
@@ -438,4 +424,4 @@ class BankingExportSddWizard(orm.TransientModel):
                     'recurrent_sequence_type': 'recurring',
                     'sepa_migrated': True,
                 }, context=context)
-        return {'type': 'ir.actions.act_window_close'}
+        return True
