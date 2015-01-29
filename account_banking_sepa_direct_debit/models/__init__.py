@@ -20,6 +20,5 @@
 #
 ##############################################################################
 
-from . import banking_export_sdd
 from . import res_company
 from . import account_banking_mandate
