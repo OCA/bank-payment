@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="invoice_supplier_form_imp_bank_domain" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.imp.bank.domain</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_bank_id" position="attributes">
+                    <attribute name="domain">['|','|',('partner_id.ref_companies','in', [company_id]),('partner_id', '=', partner_id),('partner_id.child_ids', 'child_of', [partner_id])]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="invoice_form_imp_bank_domain" model="ir.ui.view">
+            <field name="name">account.invoice.form.imp.bank.domain</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_bank_id" position="attributes">
+                    <attribute name="domain">['|','|',('partner_id.ref_companies','in', [company_id]),('partner_id', '=', partner_id),('partner_id.child_ids', 'child_of', [partner_id])]</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
