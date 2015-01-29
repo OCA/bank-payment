@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    SEPA Credit Transfer module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+#    SEPA Credit Transfer module for Odoo
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -56,19 +56,14 @@ class BankingExportSepaWizard(orm.TransientModel):
                  "transaction charges are to be borne by the creditor. Borne "
                  "by debtor : all transaction charges are to be borne by the "
                  "debtor."),
-        'nb_transactions': fields.related(
-            'file_id', 'nb_transactions', type='integer',
+        'nb_transactions': fields.integer(
             string='Number of Transactions', readonly=True),
-        'total_amount': fields.related(
-            'file_id', 'total_amount', type='float', string='Total Amount',
-            readonly=True),
-        'file_id': fields.many2one(
-            'banking.export.sepa', 'SEPA XML File', readonly=True),
-        'file': fields.related(
-            'file_id', 'file', string="File", type='binary', readonly=True),
-        'filename': fields.related(
-            'file_id', 'filename', string="Filename", type='char',
-            size=256, readonly=True),
+        'total_amount': fields.float(
+            string='Total Amount', readonly=True),
+        'file': fields.binary(
+            string="File", readonly=True),
+        'filename': fields.char(
+            string="Filename", readonly=True),
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_sepa_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
@@ -132,9 +127,9 @@ class BankingExportSepaWizard(orm.TransientModel):
             'name_maxsize': name_maxsize,
             'convert_to_ascii': convert_to_ascii,
             'payment_method': 'TRF',
+            'file_prefix': 'sct_',
             'pain_flavor': pain_flavor,
             'sepa_export': sepa_export,
-            'file_obj': self.pool['banking.export.sepa'],
             'pain_xsd_file':
             'account_banking_sepa_credit_transfer/data/%s.xsd'
             % pain_flavor,
@@ -256,13 +251,6 @@ class BankingExportSepaWizard(orm.TransientModel):
             cr, uid, ids, xml_root, total_amount, transactions_count_1_6,
             gen_args, context=context)
 
-    def cancel_sepa(self, cr, uid, ids, context=None):
-        """Cancel the SEPA file: just drop the file"""
-        sepa_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool['banking.export.sepa'].unlink(
-            cr, uid, sepa_export.file_id.id, context=context)
-        return {'type': 'ir.actions.act_window_close'}
-
     def save_sepa(self, cr, uid, ids, context=None):
         """Save the SEPA file: send the done signal to all payment
         orders in the file. With the default workflow, they will
@@ -271,9 +259,13 @@ class BankingExportSepaWizard(orm.TransientModel):
         reconciliation.
         """
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool['banking.export.sepa'].write(
-            cr, uid, sepa_export.file_id.id, {'state': 'sent'},
-            context=context)
         for order in sepa_export.payment_order_ids:
             workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
-        return {'type': 'ir.actions.act_window_close'}
+            self.pool['ir.attachment'].create(
+                cr, uid, {
+                    'res_model': 'payment.order',
+                    'res_id': order.id,
+                    'name': sepa_export.filename,
+                    'datas': sepa_export.file,
+                    }, context=context)
+        return True
