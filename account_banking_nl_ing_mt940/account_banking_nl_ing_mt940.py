@@ -3,7 +3,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2014 Therp BV (<http://therp.nl>).
+#    This module copyright (C) 2014 Therp BV <http://therp.nl>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -38,10 +38,10 @@ class IngMT940Parser(MT940, parser):
     name = _('ING MT940 (structured)')
     country_code = 'NL'
     code = 'INT_MT940_STRUC'
-    footer_regex = '^-}$'
+    footer_regex = '^-}$|^-XXX$'
 
     tag_61_regex = re.compile(
-        r'^(?P<date>\d{6})(?P<line_date>\d{4})'
+        r'^(?P<date>\d{6})(?P<line_date>\d{0,4})'
         r'(?P<sign>[CD])(?P<amount>\d+,\d{2})N(?P<type>.{3})'
         r'(?P<reference>\w{1,50})'
     )
@@ -63,7 +63,7 @@ class IngMT940Parser(MT940, parser):
             self.current_statement.id)
 
     def handle_tag_61(self, cr, data):
-        """Parse 61F tag containing transaction data."""
+        """Parse 61 tag containing transaction data."""
         super(IngMT940Parser, self).handle_tag_61(cr, data)
         re_61 = self.tag_61_regex.match(data)
         if not re_61:
@@ -75,7 +75,7 @@ class IngMT940Parser(MT940, parser):
         self.current_transaction.reference = parsed_data['reference']
 
     def handle_tag_86(self, cr, data):
-        """Parse 86F tag containing reference data."""
+        """Parse 86 tag containing reference data."""
         if not self.current_transaction:
             return
         super(IngMT940Parser, self).handle_tag_86(cr, data)
@@ -114,7 +114,7 @@ class IngMT940Parser(MT940, parser):
 
         if 'REMI' in subfields:
             self.current_transaction.message = (
-                '/'.join([x for x in subfields['REMI'] if x]))
+                '/'.join(x for x in subfields['REMI'] if x))
 
         if self.current_transaction.reference in subfields:
             self.current_transaction.reference = ''.join(
