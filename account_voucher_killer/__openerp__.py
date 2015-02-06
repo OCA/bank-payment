@@ -24,6 +24,7 @@
  'category': 'other',
  'author': 'Camptocamp',
  'website': 'http://www.camptocamp.com',
+ 'license': 'AGPL-3',
  'depends': ['account_voucher'],
  'data': ['invoice_data.xml',
           'invoice_view.xml'],
