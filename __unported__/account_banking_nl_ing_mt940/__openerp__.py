@@ -22,6 +22,7 @@
     "name": "MT940 import for Dutch ING",
     "version": "1.1",
     "author": "Therp BV",
+    "license": "AGPL-3",
     "complexity": "normal",
     "description": """
 This addon imports the structured MT940 format as offered by the Dutch ING

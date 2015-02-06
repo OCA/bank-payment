@@ -22,6 +22,7 @@
     "name": "MT940",
     "version": "1.0",
     "author": "Therp BV",
+    "license": "AGPL-3",
     "complexity": "expert",
     "description": """
 This addon provides a generic parser for MT940 files. Given that MT940 is a
