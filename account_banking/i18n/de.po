@@ -1,19 +1,20 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_banking
+# 	* account_banking
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-25 15:52+0000\n"
-"PO-Revision-Date: 2013-10-25 15:52+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2015-02-07 10:07+0100\n"
+"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. module: account_banking
 #: field:account.bank.statement.line,reconcile_id:0
@@ -46,7 +47,7 @@ msgstr "Anzahl der generierten Bankgebührenbelege"
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Write-Off"
-msgstr "Abschreibung"
+msgstr "Differenzausbuchung"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -59,8 +60,7 @@ msgid "Zip"
 msgstr "PLZ"
 
 #. module: account_banking
-#: view:account.bank.statement:0
-#: view:account.bank.statement.line:0
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
 msgid "Cancel transaction"
 msgstr "Transaktion abbrechen"
 
@@ -73,8 +73,12 @@ msgstr "Anzahl gefundener Fehler"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:224
 #, python-format
-msgid "Statement %(statement_id)s for account %(bank_account)s uses different currency than the defined bank journal."
-msgstr "Auszug %(statement_id)s für Konto %(bank_account)s hat andere Währung wie das zugehörige Bank-Journal."
+msgid ""
+"Statement %(statement_id)s for account %(bank_account)s uses different "
+"currency than the defined bank journal."
+msgstr ""
+"Auszug %(statement_id)s für Konto %(bank_account)s hat andere Währung wie "
+"das zugehörige Bank-Journal."
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -116,7 +120,9 @@ msgstr "Storno"
 #: code:addons/account_banking/wizard/banking_transaction_wizard.py:143
 #, python-format
 msgid "No entry found for the selected invoice. Try manual reconciliation."
-msgstr "Kein Eintrag zur ausgewählten Rechnung gefunden, versuchen Sie manuellen Ausgleich."
+msgstr ""
+"Kein Eintrag zur ausgewählten Rechnung gefunden, versuchen Sie manuellen "
+"Ausgleich."
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_eangl:0
@@ -135,15 +141,13 @@ msgid "Cannot link transaction %s with accounting entry"
 msgstr "Kann Transaktion %s nicht mit Finanzbuchung verknüpfen"
 
 #. module: account_banking
-#: view:account.bank.statement:0
-#: view:account.bank.statement.line:0
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
 #: view:banking.transaction.wizard:0
 msgid "Match"
 msgstr "Übereinstimmung"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0
-#: field:account.banking.bank.import,log:0
+#: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
 msgstr "Log"
 
@@ -162,7 +166,8 @@ msgstr "Vorgabe-Journal für Bankkonto"
 #: code:addons/account_banking/banking_import_transaction.py:661
 #, python-format
 msgid "Bank transaction %s: write off not implemented for this match type."
-msgstr "Bank-Geschäftsvorgang %s: Abschreibung ist für diese Art nicht implementiert."
+msgstr ""
+"Bank-Geschäftsvorgang %s: Abschreibung ist für diese Art nicht implementiert."
 
 #. module: account_banking
 #: field:account.bank.statement.line,parent_id:0
@@ -183,7 +188,8 @@ msgstr "Importdatei"
 #: code:addons/account_banking/banking_import_transaction.py:653
 #, python-format
 msgid "Cannot reconcile type %s. No method found to reconcile this type"
-msgstr "Kann Art %s nicht ausgleichen. Kein Weg diese Art auszugleichen gefunden"
+msgstr ""
+"Kann Art %s nicht ausgleichen. Kein Weg diese Art auszugleichen gefunden"
 
 #. module: account_banking
 #: field:account.banking.account.settings,company_id:0
@@ -203,8 +209,10 @@ msgstr "Zahlungsanweisung"
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:264
 #, python-format
-msgid "No period found covering statement date %(date)s, statement %(id)s skipped"
-msgstr "Keine Periode zum Auszugsdatum %(date)s gefunden, Auszug %(id)s übersprungen"
+msgid ""
+"No period found covering statement date %(date)s, statement %(id)s skipped"
+msgstr ""
+"Keine Periode zum Auszugsdatum %(date)s gefunden, Auszug %(id)s übersprungen"
 
 #. module: account_banking
 #: field:account.bank.statement.line,residual:0
@@ -251,7 +259,9 @@ msgstr "Bankgeschäfte"
 #: code:addons/account_banking/banking_import_transaction.py:1571
 #, python-format
 msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
-msgstr "Sie dürfen einen Geschäftsvorgang nicht bestätigen, der als Dublette gekennzeichnet ist (%s.%s)"
+msgstr ""
+"Sie dürfen einen Geschäftsvorgang nicht bestätigen, der als Dublette "
+"gekennzeichnet ist (%s.%s)"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:345
@@ -282,8 +292,7 @@ msgid "Reconciliaton"
 msgstr "Ausgleich"
 
 #. module: account_banking
-#: view:banking.link_partner:0
-#: view:banking.transaction.wizard:0
+#: view:banking.link_partner:0 view:banking.transaction.wizard:0
 msgid "Transaction data"
 msgstr "Vorgangsdaten"
 
@@ -341,8 +350,7 @@ msgid "Default Import Settings for Bank Account"
 msgstr "Vorgabe Importeinstellungen für Bankkonto"
 
 #. module: account_banking
-#: field:banking.import.line,amount:0
-#: field:banking.link_partner,amount:0
+#: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
 #: field:banking.transaction.wizard,amount:0
 msgid "Amount"
 msgstr "Betrag"
@@ -392,8 +400,7 @@ msgid "Cannot cancel type %s"
 msgstr "Kann Art %s nicht stornieren"
 
 #. module: account_banking
-#: field:banking.import.line,ref:0
-#: field:banking.link_partner,ref:0
+#: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
 msgstr "Referenz"
@@ -418,12 +425,16 @@ msgstr "Auszugsdatei importieren"
 #. module: account_banking
 #: constraint:account.bank.statement:0
 msgid "The journal and period chosen have to belong to the same company."
-msgstr "Das Journal und die gewählte Periode müssen dem gleichen Unternehmen angehören."
+msgstr ""
+"Das Journal und die gewählte Periode müssen dem gleichen Unternehmen "
+"angehören."
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1629
 #, python-format
-msgid "The bank statement that this transaction belongs to has already been confirmed"
+msgid ""
+"The bank statement that this transaction belongs to has already been "
+"confirmed"
 msgstr "Der Kontoauszug mit diesem Vorgang ist bereits bestätigt"
 
 #. module: account_banking
@@ -560,8 +571,7 @@ msgid "Transaction type"
 msgstr "Geschäftsvorgangsart"
 
 #. module: account_banking
-#: selection:banking.import.line,type:0
-#: field:banking.link_partner,supplier:0
+#: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
 msgstr "Lieferant"
 
@@ -624,8 +634,7 @@ msgid "Invoice payment"
 msgstr "Rechnungszahlung"
 
 #. module: account_banking
-#: view:account.bank.statement:0
-#: view:account.bank.statement.line:0
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
 #: view:banking.link_partner:0
 #: model:ir.model,name:account_banking.model_banking_link_partner
 msgid "Link partner"
@@ -672,7 +681,7 @@ msgstr "Importdetails"
 #: model:ir.model,name:account_banking.model_banking_transaction_wizard
 #, python-format
 msgid "Match transaction"
-msgstr "Geschäftsvorgang suchen"
+msgstr "Geschäftsvorgang zuordnen"
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.action_account_banking_journals
@@ -687,18 +696,31 @@ msgstr "Bankpartner"
 
 #. module: account_banking
 #: help:account.banking.bank.import,file:0
-msgid "The Transactions File to import. Please note that while it is perfectly safe to reload the same file multiple times or to load in timeframe overlapping statements files, there are formats that may introduce different sequencing, which may create double entries.\n"
+msgid ""
+"The Transactions File to import. Please note that while it is perfectly safe "
+"to reload the same file multiple times or to load in timeframe overlapping "
+"statements files, there are formats that may introduce different sequencing, "
+"which may create double entries.\n"
 "\n"
-"To stay on the safe side, always load bank statements files using the same format."
-msgstr "Die zu importierende Geschäftsvorgängedatei. Bitte beachten Sie, dass es problemlos möglich ist, eine identische Datei oder auch zeitversetzte, überlappende Dateien mehrere Male zu importieren, es gibt Formate, die durch Eintragsfolgen Dubletten erzeugen können.\n"
+"To stay on the safe side, always load bank statements files using the same "
+"format."
+msgstr ""
+"Die zu importierende Geschäftsvorgängedatei. Bitte beachten Sie, dass es "
+"problemlos möglich ist, eine identische Datei oder auch zeitversetzte, "
+"überlappende Dateien mehrere Male zu importieren, es gibt Formate, die durch "
+"Eintragsfolgen Dubletten erzeugen können.\n"
 "\n"
 "Um sicher zu sein, sollten Sie Auszüge immer im gleichen Format importieren."
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:200
 #, python-format
-msgid "Statements found for account %(bank_account)s, but no default journal was defined."
-msgstr "Auszug für Konto %(bank_account)s gefunden, es wurde jedoch kein Vorgabe-Journal festgelegt."
+msgid ""
+"Statements found for account %(bank_account)s, but no default journal was "
+"defined."
+msgstr ""
+"Auszug für Konto %(bank_account)s gefunden, es wurde jedoch kein Vorgabe-"
+"Journal festgelegt."
 
 #. module: account_banking
 #: field:banking.import.transaction,writeoff_account_id:0
@@ -733,7 +755,7 @@ msgstr "Importierte Kontoauszüge"
 #. module: account_banking
 #: field:banking.import.transaction,writeoff_amount:0
 msgid "Difference Amount"
-msgstr "Unterschiedsbetrag"
+msgstr "Differenzbetrag"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_banking_import_transaction
@@ -743,8 +765,12 @@ msgstr "Bankgeschäftsvorgänge-Import"
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:990
 #, python-format
-msgid "transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s uses different currency than the defined bank journal."
-msgstr "Geschäftsvorgang %(statement_id)s.%(transaction_id)s zum Konto %(bank_account)s hat andere Währung wie das zugeordnete Bank-Journal."
+msgid ""
+"transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s "
+"uses different currency than the defined bank journal."
+msgstr ""
+"Geschäftsvorgang %(statement_id)s.%(transaction_id)s zum Konto "
+"%(bank_account)s hat andere Währung wie das zugeordnete Bank-Journal."
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -769,7 +795,7 @@ msgstr "Fehler!"
 #: code:addons/account_banking/wizard/banktools.py:154
 #, python-format
 msgid "Account %(account_no)s is not owned by %(partner)s"
-msgstr "Konto (account_no)s hat nicht den Besitzer (partner)s"
+msgstr "Konto %(account_no)s hat nicht den Besitzer %(partner)s"
 
 #. module: account_banking
 #: field:account.banking.account.settings,partner_id:0
@@ -806,8 +832,14 @@ msgstr "oder verknüpfe bestehende Partner"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
-msgid "You can let the system try to match this bank statement line again after you have made any changes in the database (for instance, add an invoice or a bank account)."
-msgstr "Sie können das System anweisen diese Kontoauszugsposition nochmal zuzuordnen, nachdem Sie änderungen gemacht haben (z. B. eine Rechnung oder ein Konto ergänzt haben)."
+msgid ""
+"You can let the system try to match this bank statement line again after you "
+"have made any changes in the database (for instance, add an invoice or a "
+"bank account)."
+msgstr ""
+"Sie können das System anweisen diese Kontoauszugsposition nochmal "
+"zuzuordnen, nachdem Sie änderungen gemacht haben (z. B. eine Rechnung oder "
+"ein Konto ergänzt haben)."
 
 #. module: account_banking
 #: view:res.partner.bank:0
@@ -835,8 +867,7 @@ msgid "Match one or more invoices"
 msgstr "Rechnungen zuordnen"
 
 #. module: account_banking
-#: view:account.bank.statement:0
-#: view:account.banking.bank.import:0
+#: view:account.bank.statement:0 view:account.banking.bank.import:0
 #: field:account.banking.bank.import,line_ids:0
 msgid "Transactions"
 msgstr "Geschäftsvorgange"
@@ -870,7 +901,7 @@ msgstr "Bank-Landesschlüssel"
 #. module: account_banking
 #: field:banking.import.transaction,move_line_id:0
 msgid "Entry to reconcile"
-msgstr "Ausgleichsbuchung"
+msgstr "Auszugleichender Posten"
 
 #. module: account_banking
 #: field:banking.link_partner,message:0
@@ -882,13 +913,14 @@ msgstr "Meldung"
 #: code:addons/account_banking/wizard/banktools.py:131
 #, python-format
 msgid "More than one possible match found for partner with name %(name)s"
-msgstr "Mehrere Übereinstimmungen für Partner mit Namen (name)s gefunden"
+msgstr "Mehrere Übereinstimmungen für Partner mit Namen %(name)s gefunden"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:148
 #, python-format
-msgid "More than one bank account was found with the same number %(account_no)s"
-msgstr "Mehrere Bankkonten mit Nummer (account_no)s gefunden"
+msgid ""
+"More than one bank account was found with the same number %(account_no)s"
+msgstr "Mehrere Bankkonten mit Nummer %(account_no)s gefunden"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -929,7 +961,7 @@ msgstr "Sichtung"
 #: selection:banking.import.transaction,payment_option:0
 #: selection:banking.transaction.wizard,payment_option:0
 msgid "Reconcile Payment Balance"
-msgstr "Ausgleich Zahlsaldo"
+msgstr "Zahlsaldo ausgleichen"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:845
@@ -939,232 +971,256 @@ msgstr "Unzureichende Daten"
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_debit_account_id:0
-msgid "The account to use when an unexpected payment is received. This can be needed when a customer pays in advance or when no matching invoice can be found. Mind that you can correct movements before confirming them."
+msgid ""
+"The account to use when an unexpected payment is received. This can be "
+"needed when a customer pays in advance or when no matching invoice can be "
+"found. Mind that you can correct movements before confirming them."
 msgstr ""
+"Das bei unerwarteten Einzahlungen zu verwendende Konto. Dieses kann bei "
+"Vorauszahlungen eines Kunden benötigt werden oder wenn eine passende "
+"Rechnung nicht gefunden werden kann. Berücksichtigen Sie bitte, dass Sie "
+"Buchungen bearbeiten können bevor Sie diese bestätigen."
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:339
 #, python-format
 msgid "Total number of transactions"
-msgstr ""
+msgstr "Gesamtzahl Geschäftsvorgänge"
 
 #. module: account_banking
-#: field:banking.import.line,duplicate:0
-#: view:banking.transaction.wizard:0
+#: field:banking.import.line,duplicate:0 view:banking.transaction.wizard:0
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikat"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1578
 #, python-format
 msgid "You have to define an analytic journal on the '%s' journal!"
-msgstr ""
+msgstr "Sie müssen ein analytisches Journal zum Journal '%s' festlegen!"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1794
 #, python-format
 msgid "Configuration Error !"
-msgstr ""
+msgstr "Konfigurationsfehler!"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Disable reconciliation"
-msgstr ""
+msgstr "Ausgleichs ausschalten"
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
 msgid "Bank Statements File"
-msgstr ""
+msgstr "Bank-Kontoauszugsdatei"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:381
 #, python-format
 msgid "This is a stub. Please implement your own."
 msgstr ""
+"Dies ist eine Vorlage (Stub). Entwickeln Sie hierauf Ihren eigenen Code."
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #. module: account_banking
 #: field:banking.import.transaction,message:0
 msgid "message"
-msgstr ""
+msgstr "Mitteilung"
 
 #. module: account_banking
-#: view:account.bank.statement:0
-#: view:account.bank.statement.line:0
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
 msgid "Confirm transaction"
-msgstr ""
+msgstr "Vorgang freigeben"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/link_partner.py:88
 #, python-format
 msgid "Statement line is already linked to a bank account "
-msgstr ""
+msgstr "Auszugsposten ist bereits an ein Bankkonto gebunden"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
-msgid "Choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment."
+msgid ""
+"Choose what you want to do with the eventual difference between the paid "
+"amount and the sum of allocated amounts. You can either choose to keep open "
+"this difference on the partner's account, or reconcile it with the payment."
 msgstr ""
+"Entscheiden Sie, was Sie mit Differenzen zwischen gezahlten und den "
+"zugeordneten Beträgen tun möchten. Sie können diese offen auf des Partners "
+"Konto stehen lassen oder den offenen Posten durch die Zahlung ausgleichen."
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
-msgid "This bank transfer was marked as a duplicate. You can either confirm that this is not the case, or remove the bank transfer from the system."
+msgid ""
+"This bank transfer was marked as a duplicate. You can either confirm that "
+"this is not the case, or remove the bank transfer from the system."
 msgstr ""
+"Dieser Auszug wurde als Duplikat gekennzeichnet. Sie können bestätigen, dass "
+"dies nicht so ist, oder den Auszug aus dem System entfernen."
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
 #: model:ir.actions.act_window,name:account_banking.action_account_banking_imported_files
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_imported_files
 msgid "Imported Bank Statements Files"
-msgstr ""
+msgstr "Importierte Kontoauszugsdateien"
 
 #. module: account_banking
 #: help:banking.import.transaction,payment_option:0
-msgid "This field helps you to choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment(s)"
+msgid ""
+"This field helps you to choose what you want to do with the eventual "
+"difference between the paid amount and the sum of allocated amounts. You can "
+"either choose to keep open this difference on the partner's account, or "
+"reconcile it with the payment(s)"
 msgstr ""
+"Dieses Feld hilft Ihnen bei der Entscheidung, was Sie mit Differenzen "
+"zwischen gezahlten und den zugeordneten Beträgen tun möchten. Sie können "
+"diese offen auf des Partners Konto stehen lassen oder dieses durch die "
+"Zahlung(en) ausgleichen."
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:916
 #, python-format
 msgid "Transaction found for unknown account %(bank_account)s"
-msgstr ""
+msgstr "Transaktion mit unbekanntem Bankkonto %(bank_account)s gefunden"
 
 #. module: account_banking
 #: field:banking.link_partner,street2:0
 msgid "Street2"
-msgstr ""
+msgstr "Strasse2"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:192
 #, python-format
 msgid "Statements found for unknown account %(bank_account)s"
-msgstr ""
+msgstr "Kontoauszug für unbekanntes Bankkonto %(bank_account)s gefunden"
 
 #. module: account_banking
 #: selection:account.banking.bank.import,state:0
 msgid "init"
-msgstr ""
+msgstr "init"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:247
 #, python-format
 msgid "Statement %(id)s known - skipped"
-msgstr ""
+msgstr "Auszug %(id)s bekannt - übergangen"
 
 #. module: account_banking
 #: field:banking.link_partner,phone:0
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #. module: account_banking
 #: field:banking.import.transaction,duplicate:0
 msgid "duplicate"
-msgstr ""
+msgstr "duplikat"
 
 #. module: account_banking
 #: field:banking.link_partner,name:0
 msgid "Create partner with name"
-msgstr ""
+msgstr "Partner mit diesem Namen anlegen"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
 msgid "Aggregate payment order"
-msgstr ""
+msgstr "Sammel-Zahlungsanweisung"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_custno:0
 msgid "remote_owner_custno"
-msgstr ""
+msgstr "remote_owner_custno"
 
 #. module: account_banking
 #: view:account.banking.imported.file:0
 #: field:account.banking.imported.file,log:0
 msgid "Import Log"
-msgstr ""
+msgstr "Importprotokoll"
 
 #. module: account_banking
-#: field:banking.import.line,date:0
-#: field:banking.transaction.wizard,date:0
+#: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Generation of Bank Costs Invoices"
-msgstr ""
+msgstr "Anlage von Bankgebührrechnungen"
 
 #. module: account_banking
 #: field:account.bank.statement.line,link_partner_ok:0
 msgid "Can link partner"
-msgstr ""
+msgstr "Kann Partner zuordnen"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_account:0
 msgid "remote_account"
-msgstr ""
+msgstr "remote_account"
 
 #. module: account_banking
 #: field:banking.import.transaction,provision_costs:0
 msgid "provision_costs"
-msgstr ""
+msgstr "provision_costs"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "You can disable the reconciliation of this bank transfer"
-msgstr ""
+msgstr "Sie können den Ausgleich dieser Transaktion ausschalten"
 
 #. module: account_banking
 #: field:account.bank.statement.line,import_transaction_id:0
 #: field:banking.transaction.wizard,import_transaction_id:0
 msgid "Import transaction"
-msgstr ""
+msgstr "Bankvorgang importieren"
 
 #. module: account_banking
 #: field:banking.import.transaction,error_message:0
 msgid "error_message"
-msgstr ""
+msgstr "error_message"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:136
 #, python-format
 msgid "The imported statements appear to be invalid! Check your file."
-msgstr ""
+msgstr "Der Kontoauszug erscheint ungültig zu sein! Prüfen Sie die Datei."
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:879
 #, python-format
 msgid "The account number appears to be invalid for %s"
-msgstr ""
+msgstr "Die Kontonummer scheint für %s  ungültig zu sein"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_duns:0
 msgid "remote_bank_duns"
-msgstr ""
+msgstr "remote_bank_duns"
 
 #. module: account_banking
 #: field:banking.import.transaction,writeoff_analytic_id:0
 msgid "Write off analytic account"
-msgstr ""
+msgstr "Analytisches Konto für Abschreibungen"
 
 #. module: account_banking
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_actions
 #: model:ir.ui.menu,name:account_banking.menu_finance_banking_settings
 msgid "Banking"
-msgstr ""
+msgstr "Bankgeschäfte"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:122
 #, python-format
 msgid "Unable to import parser %(parser)s. Parser class not found."
 msgstr ""
+"Kann Parser %(parser)s nicht importieren. Parser-Klasse nicht gefunden."
 
 #. module: account_banking
 #: field:banking.import.transaction,transaction:0
 msgid "transaction"
-msgstr ""
+msgstr "transaction"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
@@ -1174,460 +1230,496 @@ msgstr ""
 #: code:addons/account_banking/wizard/link_partner.py:93
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:926
 #, python-format
-msgid "Transaction found for account %(bank_account)s, but no default journal was defined."
+msgid ""
+"Transaction found for account %(bank_account)s, but no default journal was "
+"defined."
 msgstr ""
+"Vorgang für Bankkonto %(bank_account)s gefunden, aber ein Vorgabejournal "
+"wurde nicht festgelegt."
 
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Statement lines"
-msgstr ""
+msgstr "Auszugspositionen"
 
 #. module: account_banking
 #: field:banking.transaction.wizard,move_line_ids:0
 msgid "Entry lines"
-msgstr ""
+msgstr "Posten"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Set write-off account"
-msgstr ""
+msgstr "Analytisches Konto für Abschreibungen setzen"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:961
 #, python-format
 msgid "Cannot perform match on a confirmed transction"
 msgstr ""
+"Darf zu einer bestätigten Transaktion keine Übereinstimmung feststellen"
 
 #. module: account_banking
 #: field:banking.import.transaction,invoice_id:0
 #: field:banking.transaction.wizard,invoice_id:0
 msgid "Invoice to reconcile"
-msgstr ""
+msgstr "Auszugleichende Rechnung"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:337
 #, python-format
 msgid "Total number of statements"
-msgstr ""
+msgstr "Gesamtzahl Auszüge"
 
 #. module: account_banking
 #: field:banking.import.transaction,provision_costs_description:0
 msgid "provision_costs_description"
-msgstr ""
+msgstr "provision_costs_description"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Manual match"
-msgstr ""
+msgstr "Manuelle zuordnung"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
-msgid "Multiple matches were found for this bank transfer. You must pick one of the matches or select a match manually below."
+msgid ""
+"Multiple matches were found for this bank transfer. You must pick one of the "
+"matches or select a match manually below."
 msgstr ""
+"Mehrere Übereinstimmungen wurden zu diesem Auszug entdeckt. Sie müssen eine "
+"auswählen oder unten manuell zuordnen."
 
 #. module: account_banking
 #: field:banking.transaction.wizard,writeoff_analytic_id:0
 msgid "Write-off analytic account"
-msgstr ""
+msgstr "Analytisches Konto für Abschreibungen"
 
 #. module: account_banking
 #: field:banking.import.transaction,type:0
 msgid "type"
-msgstr ""
+msgstr "Art"
 
 #. module: account_banking
 #: model:ir.actions.act_window,name:account_banking.action_account_banking_res_partner_banks
 #: model:ir.model,name:account_banking.model_res_partner_bank
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Bankkonten"
 
 #. module: account_banking
 #: field:banking.import.transaction,local_account:0
 msgid "local_account"
-msgstr ""
+msgstr "local_account"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banking_transaction_wizard.py:142
 #, python-format
 msgid "No entry found for the selected invoice"
-msgstr ""
+msgstr "Zu ausgewählter Rechnung keinen Posten gefunden"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_bank_statement
 msgid "Bank Statement"
-msgstr ""
+msgstr "Kontoauszug"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_postalcode:0
 msgid "remote_owner_postalcode"
-msgstr ""
+msgstr "remote_owner_postalcode"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Payment line"
-msgstr ""
+msgstr "Zahlungsposition"
 
 #. module: account_banking
 #: field:banking.import.transaction,writeoff_move_line_id:0
 msgid "Write off move line"
-msgstr ""
+msgstr "Differenzausbuchung"
 
 #. module: account_banking
 #: field:banking.import.line,banking_import_id:0
 msgid "Bank import"
-msgstr ""
+msgstr "Bankimport"
 
 #. module: account_banking
 #: selection:account.banking.bank.import,state:0
 msgid "error"
-msgstr ""
+msgstr "Fehler"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0
-#: view:banking.link_partner:0
+#: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0
-#: view:banking.transaction.wizard:0
+#: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #. module: account_banking
-#: field:banking.import.line,name:0
-#: field:banking.transaction.wizard,name:0
+#: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
 msgid "remote_owner_address"
-msgstr ""
+msgstr "remote_owner_address"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Journalposten"
 
 #. module: account_banking
 #: field:banking.import.line,invoice_ids:0
 #: field:banking.transaction.wizard,statement_line_parent_id:0
 msgid "unknown"
-msgstr ""
+msgstr "unbekannt"
 
 #. module: account_banking
 #: field:banking.link_partner,city:0
 msgid "City"
-msgstr ""
+msgstr "Stadt"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Unfinished"
-msgstr ""
+msgstr "Unerledigt"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banking_transaction_wizard.py:180
 #, python-format
 msgid "Cannot select for reconcilion"
-msgstr ""
+msgstr "Kann für Ausgleich nicht ausgewählt werden"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:960
 #, python-format
 msgid "Cannot perform match"
-msgstr ""
+msgstr "Kann Zuordnung nicht ausführen"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:347
 #, python-format
 msgid "Number of statements loaded"
-msgstr ""
+msgstr "Anzahl geladener Auszüge"
 
 #. module: account_banking
 #: view:res.partner.bank:0
-msgid "onchange_acc_number(acc_number, acc_number_domestic, state, partner_id, country_id)"
+msgid ""
+"onchange_acc_number(acc_number, acc_number_domestic, state, partner_id, "
+"country_id)"
 msgstr ""
+"onchange_acc_number(acc_number, acc_number_domestic, state, partner_id, "
+"country_id)"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:921
 #, python-format
 msgid "The IBAN number doesn't seem to be correct"
-msgstr ""
+msgstr "Die IBAN erscheint nicht zulässig zu sein"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
 msgid "Bank costs"
-msgstr ""
+msgstr "Bankgebühren"
 
 #. module: account_banking
 #: field:account.bank.statement.line,match_multi:0
 #: field:banking.import.transaction,match_multi:0
 msgid "Multi match"
-msgstr ""
+msgstr "Mehrfach-Übereinstimmung"
 
 #. module: account_banking
 #: view:banking.link_partner:0
 msgid "Create or link partner"
-msgstr ""
+msgstr "Partner anlegen oder zuweisen"
 
 #. module: account_banking
 #: help:banking.import.transaction,bank_country_code:0
-msgid "Fallback default country for new partner records, as defined by the import parser"
+msgid ""
+"Fallback default country for new partner records, as defined by the import "
+"parser"
 msgstr ""
+"Land als Ausweichvorgabe für neue Partner-Datensätze, wie im Import-Parser "
+"festgelegt"
 
 #. module: account_banking
 #: selection:account.banking.bank.import,state:0
 msgid "ready"
-msgstr ""
+msgstr "fertig"
 
 #. module: account_banking
 #: field:banking.import.transaction,move_line_ids:0
 msgid "Matching entries"
-msgstr ""
+msgstr "Zugeordnete Posten"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banking_transaction_wizard.py:181
 #, python-format
 msgid "No entry found for the selected invoice. "
-msgstr ""
+msgstr "Zu ausgewählter Rechnung keinen Posten gefunden."
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:321
 #, python-format
-msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: invoice %(invoice)s was already paid"
+msgid ""
+"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: invoice "
+"%(invoice)s was already paid"
 msgstr ""
+"Kann Transaktion %(trans)s (Ref. %(ref)s) der Rechnung %(invoice)s nicht "
+"zuordnen: Diese wurde bereits beglichen"
 
 #. module: account_banking
 #: field:account.banking.bank.import,parser:0
 #: field:account.banking.imported.file,format:0
 msgid "File Format"
-msgstr ""
+msgstr "Dateiformat"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1506
 #, python-format
 msgid "No bank account available to link partner to"
-msgstr ""
+msgstr "Kein Bankkonto gefunden, um dieses dem Partner zuzuweisen zu können"
 
 #. module: account_banking
 #: field:banking.import.transaction,move_currency_amount:0
 msgid "Match Amount"
-msgstr ""
+msgstr "Betrag zuordnen"
 
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_banking
 #: view:account.bank.statement:0
-msgid "black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate == True;grey:state == 'draft';"
+msgid ""
+"black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate "
+"== True;grey:state == 'draft';"
 msgstr ""
+"black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate "
+"== True;grey:state == 'draft';"
 
 #. module: account_banking
 #: field:account.banking.account.settings,costs_account_id:0
 msgid "Bank Costs Account"
-msgstr ""
+msgstr "Konto für Bankgebühren"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:632
 #, python-format
 msgid "No method found to cancel this type"
-msgstr ""
+msgstr "Keine Methode gefunden, um diese Art zu stornieren"
 
 #. module: account_banking
 #: field:banking.link_partner,mobile:0
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
-msgstr ""
+msgstr "Abgeschlossen"
 
 #. module: account_banking
 #: field:banking.link_partner,street:0
 msgid "Street"
-msgstr ""
+msgstr "Straße"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_ibei:0
 msgid "remote_bank_ibei"
-msgstr ""
+msgstr "remote_bank_ibei"
 
 #. module: account_banking
 #: code:addons/account_banking/account_banking.py:1005
 #, python-format
 msgid "Structured Reference"
-msgstr ""
+msgstr "Referenz-Hierarchie"
 
 #. module: account_banking
 #: view:banking.link_partner:0
 msgid "Address"
-msgstr ""
+msgstr "Anschrift"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
 msgid "Bank Account Details"
-msgstr ""
+msgstr "Bankkonto-Details"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_country_code:0
 msgid "remote_owner_country_code"
-msgstr ""
+msgstr "remote_owner_country_code"
 
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Anmerkungen"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Bank"
 
 #. module: account_banking
-#: selection:banking.import.line,type:0
-#: field:banking.link_partner,customer:0
+#: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Kunde"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:652
 #: code:addons/account_banking/banking_import_transaction.py:660
 #, python-format
 msgid "Cannot reconcile"
-msgstr ""
+msgstr "Kann nicht ausgleichen"
 
 #. module: account_banking
 #: field:banking.transaction.wizard,move_currency_amount:0
 msgid "Match Currency Amount"
-msgstr ""
+msgstr "Währungsbetrag zuordnen"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:343
 #, python-format
 msgid "Number of statements skipped due to errors"
-msgstr ""
+msgstr "Anzahl wegen Fehlern übergangener Auszüge"
 
 #. module: account_banking
 #: field:banking.link_partner,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:372
 #, python-format
 msgid "Review Bank Statements"
-msgstr ""
+msgstr "Kontoauszug sichten"
 
 #. module: account_banking
 #: field:account.bank.statement.line,partner_bank_id:0
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Bankkonto"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:349
 #, python-format
 msgid "Number of transactions loaded"
-msgstr ""
+msgstr "Anzahl geladener Vorgänge"
 
 #. module: account_banking
 #: help:account.banking.account.settings,costs_account_id:0
-msgid "The account to use when the bank invoices its own costs. Leave it blank to disable automatic invoice generation on bank costs."
+msgid ""
+"The account to use when the bank invoices its own costs. Leave it blank to "
+"disable automatic invoice generation on bank costs."
 msgstr ""
+"Das, für von der Bank in Rechnung gestellter Gebühren, zu verwendende Konto. "
+"Leer lassen, um automatische Rechnungsanlage für Bankgebühren abzustellen."
 
 #. module: account_banking
 #: field:account.bank.statement,banking_id:0
 msgid "Imported File"
-msgstr ""
+msgstr "Importierte Datei"
 
 #. module: account_banking
 #: field:banking.import.transaction,local_currency:0
 msgid "local_currency"
-msgstr ""
+msgstr "local_currency"
 
 #. module: account_banking
 #: field:banking.import.transaction,reference:0
 msgid "reference"
-msgstr ""
+msgstr "Zweck"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1829
 #, python-format
 msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
 msgstr ""
+"Sie dürfen einen Auszug mit bestätigten Auszugspositionen nicht löschen: '%s'"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:351
 #, python-format
 msgid "Number of transactions matched"
-msgstr ""
+msgstr "Anzahl zugeordneter Vorgänge"
 
 #. module: account_banking
-#: view:account.banking.bank.import:0
-#: view:account.banking.imported.file:0
+#: view:account.banking.bank.import:0 view:account.banking.imported.file:0
 #: field:account.banking.imported.file,statement_ids:0
 msgid "Statements"
-msgstr ""
+msgstr "Auszüge"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_banking_import_line
 msgid "Bank import lines"
-msgstr ""
+msgstr "Bank-Importpositionen"
 
 #. module: account_banking
 #: help:account.banking.account.settings,bank_partner_id:0
-msgid "The partner to use for bank costs. Banks are not partners by default. You will most likely have to create one."
+msgid ""
+"The partner to use for bank costs. Banks are not partners by default. You "
+"will most likely have to create one."
 msgstr ""
+"Den bei Bankgebühren zu verwendenden Partner. Banken sind per Vorgabe keine "
+"Partner. Diese werden Sie wahrscheinlich anlegen müssen."
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1801
 #, python-format
 msgid "The account entries lines are not in valid state."
-msgstr ""
+msgstr "Die Positionen haben ungültigen Status."
 
 #. module: account_banking
 #: selection:banking.import.transaction,payment_option:0
 #: selection:banking.transaction.wizard,payment_option:0
 msgid "Keep Open"
-msgstr ""
+msgstr "Offen lassen"
 
 #. module: account_banking
 #: help:account.banking.account.settings,default_credit_account_id:0
-msgid "The account to use when an unexpected payment was signaled. This can happen when a direct debit payment is cancelled by a customer, or when no matching payment can be found.  Mind that you can correct movements before confirming them."
+msgid ""
+"The account to use when an unexpected payment was signaled. This can happen "
+"when a direct debit payment is cancelled by a customer, or when no matching "
+"payment can be found.  Mind that you can correct movements before confirming "
+"them."
 msgstr ""
+"Das für unerwartete Zahlungen zu verwendende Konto. Dies kann geschehen, "
+"wenn ein Kunde eine Lastschrift zurückbucht oder eine passende Rechnung "
+"nicht zugeordnet werden kann. Bedenken Sie, dass Sie Posten vor der Buchung "
+"bearbeiten können."
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file
 msgid "Imported Bank Statements File"
-msgstr ""
+msgstr "Importierte Kontoauszugsdatei"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Transaction"
-msgstr ""
+msgstr "Vorgang"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1729
 #: code:addons/account_banking/banking_import_transaction.py:1742
 #, python-format
 msgid " (split)"
-msgstr ""
+msgstr " (split)"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_bank_chips_uid:0
 msgid "remote_bank_chips_uid"
-msgstr ""
-
+msgstr "remote_bank_chips_uid"
