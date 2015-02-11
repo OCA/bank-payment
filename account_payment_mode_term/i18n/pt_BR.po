@@ -18,12 +18,12 @@ msgstr ""
 #. module: account_payment_mode_term
 #: help:payment.mode,payment_term_ids:0
 msgid "Limit selected invoices to invoices with these payment terms"
-msgstr "Limitar as faturas selecionadas para serem pagas com estas condições de pagamento"
+msgstr "Limitar as faturas para serem pagas com estas condições de pagamento"
 
 #. module: account_payment_mode_term
 #: view:payment.mode:account_payment_mode_term.view_payment_mode_form_inherit
 msgid "Optional filter by payment term"
-msgstr "Filtro opcional por condição de pagamento"
+msgstr "Condições de pagamento permitidas"
 
 #. module: account_payment_mode_term
 #: model:ir.model,name:account_payment_mode_term.model_payment_mode
