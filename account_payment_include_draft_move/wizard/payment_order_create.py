@@ -31,6 +31,7 @@ class PaymentOrderCreate(models.TransientModel):
     @api.model
     def extend_payment_order_domain(self, payment_order, domain):
         if POSTED_MOVE_DOMAIN in domain:
-            domain.remove(POSTED_MOVE_DOMAIN)
+            pos = domain.index(POSTED_MOVE_DOMAIN)
+            domain[pos] = (1, '=', 1)
         return super(PaymentOrderCreate, self)\
             .extend_payment_order_domain(payment_order, domain)
