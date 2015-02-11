@@ -396,7 +396,8 @@ class bank_acc_rec_statement(orm.Model):
                     to_write['credit_move_line_ids'].append(res)
                 else:
                     to_write['debit_move_line_ids'].append(res)
-                obj.write(to_write)
+
+            obj.write(to_write)
 
         return True
 
