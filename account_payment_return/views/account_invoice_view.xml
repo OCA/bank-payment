@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="invoice_return_form" model="ir.ui.view">
+            <field name="name">account.invoice.form.return</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="reconciled"]' position="after">
+                    <field name="payment_returned" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_filter_return" model="ir.ui.view">
+            <field name="name">account.invoice.select.return</field>
+            <field name="model">account.invoice</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <filter name="unpaid" position="after">
+                    <separator/>
+                    <filter name="payment_returned" string="Returned" 
+                    		domain="[('payment_returned', '=', True)]"
+                    		help="Invoices whose payment has been returned"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>
