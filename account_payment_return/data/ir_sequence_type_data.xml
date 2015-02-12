@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="seq_type_account_return_order" model="ir.sequence.type">
+            <field name="name">Account Return Order</field>
+            <field name="code">account.return.order</field>
+        </record>
+
+    </data>
+</openerp>
