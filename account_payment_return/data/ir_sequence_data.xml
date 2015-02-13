@@ -2,6 +2,11 @@
 <openerp>
     <data noupdate="1">
 
+        <record id="seq_payment_return_type" model="ir.sequence.type">
+            <field name="name">Payment Return</field>
+            <field name="code">payment.return</field>
+        </record>
+
         <record id="seq_payment_return" model="ir.sequence">
             <field name="name">Payment return</field>
             <field name="code">payment.return</field>

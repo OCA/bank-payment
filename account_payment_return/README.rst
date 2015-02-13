@@ -1,10 +1,10 @@
-Return payment orders
-=====================
+Payment orders returns
+======================
 
 Features:
 ---------
 
- * This module implements the return of invoice payments.
+ * This module implements the return of invoice payments and allows to catch several reconciled account move lines, to give back to a state where the debt is still open, and letting history of it.
 
 
 Credits
@@ -14,7 +14,7 @@ Contributors
 ------------
 * 7 i TRIA <http://www.7itria.cat>
 * Avanzosc <http://www.avanzosc.com>
-* Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
+* Pedro M. Baeza <pedro.baeza at serviciosbaeza.com>
 * Markus Schneider <markus.schneider at initos.com>
 * Sergio Teruel <sergio at incaser.es>
 

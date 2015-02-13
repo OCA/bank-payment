@@ -8,7 +8,6 @@
 #                       Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 #    Copyright (c) 2014 initOS GmbH & Co. KG <http://initos.com/>
 #                       Markus Schneider <markus.schneider at initos.com>
-#    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -80,17 +79,6 @@ class PaymentReturn(models.Model):
                              'State', readonly=True, default='draft',
                              track_visibility='onchange')
 
-    @api.multi
-    def unlink(self):
-        attachment_obj = self.env['ir.attachment']
-        for id in self.ids:
-            # Remove file attachments (if any)
-            attachments = attachment_obj.search([
-                ('res_id', '=', id),
-                ('res_model', '=', 'payment.return')])
-            attachments.unlink()
-        return super(PaymentReturn, self).unlink()
-
     def _get_invoices(self, move_lines):
         invoice_moves = self.env['account.move']
         for invoice_move_line in move_lines.filtered('debit'):
@@ -121,38 +109,32 @@ class PaymentReturn(models.Model):
         if self.period_id:
             move['period_id'] = self.period_id.id
         else:
-            context_move = self._context.copy()
-            context_move.update({'company_id':
-                                 self.company_id.id})
             move['period_id'] = self.period_id.with_context(
-                context_move).find(self.date).id
-
+                company_id=self.company_id.id).find(self.date).id
         move_id = move_obj.create(move)
-
         for return_line in self.line_ids:
             move_line = return_line.move_line_id
-            if move_line:
-                old_reconcile = move_line.reconcile_id
-                lines2reconcile = old_reconcile.line_id
-                invoices = self._get_invoices(lines2reconcile)
-                move_line_id = move_line.copy(
-                    default={
-                        'move_id': move_id.id,
-                        'ref': move['ref'],
-                        'date': move['date'],
-                        'period_id': move['period_id'],
-                        'journal_id': move['journal_id'],
-                        'debit': return_line.amount,
-                        'credit': 0,
-                    })
-                lines2reconcile += move_line_id
-                move_line_id.copy(
-                    default={
-                        'debit': 0,
-                        'credit': return_line.amount,
-                        'account_id': move_line.move_id.journal_id
-                        .default_credit_account_id.id,
-                    })
+            old_reconcile = move_line.reconcile_id
+            lines2reconcile = old_reconcile.line_id
+            invoices = self._get_invoices(lines2reconcile)
+            move_line_id = move_line.copy(
+                default={
+                    'move_id': move_id.id,
+                    'ref': move['ref'],
+                    'date': move['date'],
+                    'period_id': move['period_id'],
+                    'journal_id': move['journal_id'],
+                    'debit': return_line.amount,
+                    'credit': 0,
+                })
+            lines2reconcile += move_line_id
+            move_line_id.copy(
+                default={
+                    'debit': 0,
+                    'credit': return_line.amount,
+                    'account_id': move_line.move_id.journal_id
+                    .default_credit_account_id.id,
+                })
             # Break old reconcile and
             # make a new one with at least three moves
             old_reconcile.unlink()
@@ -169,21 +151,22 @@ class PaymentReturn(models.Model):
 
     @api.one
     def action_cancel(self):
-        if self.move_id:
-            for return_line in self.line_ids:
-                if return_line.reconcile_id:
-                    reconcile = return_line.reconcile_id
-                    lines2reconcile = reconcile.line_partial_ids.filtered(
-                        lambda x: x.move_id != self.move_id)
-                    invoices = self._get_invoices(lines2reconcile)
-                    reconcile.unlink()
-                    if lines2reconcile:
-                        lines2reconcile.reconcile()
-                    return_line.write({'reconcile_id': False})
-                # Remove payment refused flag on invoice
-                invoices.write({'payment_returned': False})
-            self.move_id.button_cancel()
-            self.move_id.unlink()
+        if not self.move_id:
+            return True
+        for return_line in self.line_ids:
+            if return_line.reconcile_id:
+                reconcile = return_line.reconcile_id
+                lines2reconcile = reconcile.line_partial_ids.filtered(
+                    lambda x: x.move_id != self.move_id)
+                invoices = self._get_invoices(lines2reconcile)
+                reconcile.unlink()
+                if lines2reconcile:
+                    lines2reconcile.reconcile()
+                return_line.write({'reconcile_id': False})
+            # Remove payment refused flag on invoice
+            invoices.write({'payment_returned': False})
+        self.move_id.button_cancel()
+        self.move_id.unlink()
         self.write({'state': 'cancelled', 'move_id': False})
         return True
 

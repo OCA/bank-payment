@@ -30,16 +30,12 @@
 	                                    <field name="reason" />
 	                                    <field name="partner_name" />
 	                                    <field name="partner_id" />
-	                                    <!--<field name="invoice_id" -->
-	                                    	   <!--domain="[('commercial_partner_id', '=', partner_id),-->
-	                                    	   			<!--('reconciled', '=', True),-->
-	                                    	   			<!--('type', '=', 'out_invoice')]"/>-->
 	                                    <field name="move_line_id"
-	                                    		domain="[('partner_id', '=', partner_id),
-	                                    		('account_id.type', '=', 'receivable'),
-	                                    		('credit', '>', 0.0),
-                								('reconcile_ref', '!=', False)
-                								]"/>
+                                            domain="[('partner_id', '=', partner_id),
+                                            ('account_id.type', '=', 'receivable'),
+                                            ('credit', '>', 0.0),
+                                            ('reconcile_ref', '!=', False)
+                                            ]"/>
 	                                    <field name="amount" />
 	                                </tree>
 	                            </field>

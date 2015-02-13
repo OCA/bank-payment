@@ -8,7 +8,6 @@
 #                       Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 #    Copyright (c) 2014 initOS GmbH & Co. KG <http://initos.com/>
 #                       Markus Schneider <markus.schneider at initos.com>
-#    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -29,7 +28,7 @@ from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
 
 
-class payment_return_line(models.Model):
+class PaymentReturnLine(models.Model):
     _name = "payment.return.line"
     _description = 'Payment return lines'
 
@@ -54,8 +53,8 @@ class payment_return_line(models.Model):
     partner_id = fields.Many2one('res.partner', 'Customer',
                                  domain="[('customer', '=', True)]")
     amount = fields.Float('Amount',
-                          help="Amount customer returns, "
-                          "can be different from invoice amount",
+                          help="Returned amount. Can be different from "
+                          "the move amount",
                           digits_compute=dp.get_precision('Account'))
     reconcile_id = fields.Many2one('account.move.reconcile', 'Reconcile',
                                    help="Reference to the "

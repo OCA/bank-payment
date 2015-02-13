@@ -8,7 +8,6 @@
 #                       Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 #    Copyright (c) 2014 initOS GmbH & Co. KG <http://initos.com/>
 #                       Markus Schneider <markus.schneider at initos.com>
-#    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published

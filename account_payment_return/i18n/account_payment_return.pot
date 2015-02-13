@@ -22,12 +22,7 @@ msgstr ""
 
 #. module: account_payment_return
 #: help:payment.return.line,amount:0
-msgid "Amount customer returns, can be different from invoice amount"
-msgstr ""
-
-#. module: account_payment_return
-#: field:payment.return.line,invoice_id:0
-msgid "Associated invoice"
+msgid "Returned amount. Can be different from the move amount"
 msgstr ""
 
 #. module: account_payment_return
@@ -95,29 +90,14 @@ msgid "Draft"
 msgstr ""
 
 #. module: account_payment_return
-#: field:payment.return,message_follower_ids:0
-msgid "Followers"
-msgstr ""
-
-#. module: account_payment_return
 #: field:payment.return,period_id:0
 msgid "Forced period"
-msgstr ""
-
-#. module: account_payment_return
-#: help:payment.return,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 msgstr ""
 
 #. module: account_payment_return
 #: field:payment.return,id:0
 #: field:payment.return.line,id:0
 msgid "ID"
-msgstr ""
-
-#. module: account_payment_return
-#: help:payment.return,message_unread:0
-msgid "If checked new messages require your attention."
 msgstr ""
 
 #. module: account_payment_return
@@ -138,11 +118,6 @@ msgstr ""
 #. module: account_payment_return
 #: view:account.invoice:account_payment_return.view_account_invoice_filter_return
 msgid "Invoices whose payment has been returned"
-msgstr ""
-
-#. module: account_payment_return
-#: field:payment.return,message_is_follower:0
-msgid "Is a Follower"
 msgstr ""
 
 #. module: account_payment_return
@@ -170,16 +145,6 @@ msgstr ""
 #. module: account_payment_return
 #: view:payment.return:account_payment_return.payment_return_form_view
 msgid "Lines"
-msgstr ""
-
-#. module: account_payment_return
-#: field:payment.return,message_ids:0
-msgid "Messages"
-msgstr ""
-
-#. module: account_payment_return
-#: help:payment.return,message_ids:0
-msgid "Messages and communication history"
 msgstr ""
 
 #. module: account_payment_return

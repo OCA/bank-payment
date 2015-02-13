@@ -25,13 +25,8 @@ msgstr "Importe"
 
 #. module: account_payment_return
 #: help:payment.return.line,amount:0
-msgid "Amount customer returns, can be different from invoice amount"
-msgstr "Amount customer returns, can be different from invoice amount"
-
-#. module: account_payment_return
-#: field:payment.return.line,invoice_id:0
-msgid "Associated invoice"
-msgstr "Factura asociada"
+msgid "Returned amount. Can be different from the move amount"
+msgstr "Importe devuelto. Puede ser distinto al importe pagado"
 
 #. module: account_payment_return
 #: field:payment.return,journal_id:0
@@ -68,13 +63,13 @@ msgstr "Confirmar"
 #: field:payment.return,create_uid:0
 #: field:payment.return.line,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creado por"
 
 #. module: account_payment_return
 #: field:payment.return,create_date:0
 #: field:payment.return.line,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado el"
 
 #. module: account_payment_return
 #: field:payment.return.line,partner_id:0
@@ -84,7 +79,7 @@ msgstr "Cliente"
 #. module: account_payment_return
 #: help:payment.return,message_last_post:0
 msgid "Date of the last message posted on the record."
-msgstr "Date of the last message posted on the record."
+msgstr "Fecha del último mensaje publicado en el registro."
 
 #. module: account_payment_return
 #: selection:payment.return,state:0
@@ -98,34 +93,15 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: account_payment_return
-#: field:payment.return,message_follower_ids:0
-msgid "Followers"
-msgstr "Followers"
-
-#. module: account_payment_return
 #: field:payment.return,period_id:0
 msgid "Forced period"
 msgstr "Periodo forzado"
-
-#. module: account_payment_return
-#: help:payment.return,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is directly "
-"in html format in order to be inserted in kanban views."
-msgstr ""
-"Holds the Chatter summary (number of messages, ...). This summary is directly "
-"in html format in order to be inserted in kanban views."
 
 #. module: account_payment_return
 #: field:payment.return,id:0
 #: field:payment.return.line,id:0
 msgid "ID"
 msgstr "ID"
-
-#. module: account_payment_return
-#: help:payment.return,message_unread:0
-msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
 
 #. module: account_payment_return
 #: selection:payment.return,state:0
@@ -148,26 +124,21 @@ msgid "Invoices whose payment has been returned"
 msgstr "Facturas cuyo pago haya sido devuelto"
 
 #. module: account_payment_return
-#: field:payment.return,message_is_follower:0
-msgid "Is a Follower"
-msgstr "Is a Follower"
-
-#. module: account_payment_return
 #: field:payment.return,message_last_post:0
 msgid "Last Message Date"
-msgstr "Last Message Date"
+msgstr "Fecha del último mensaje"
 
 #. module: account_payment_return
 #: field:payment.return,write_uid:0
 #: field:payment.return.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Última actualización de"
 
 #. module: account_payment_return
 #: field:payment.return,write_date:0
 #: field:payment.return.line,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Última actualización en"
 
 #. module: account_payment_return
 #: field:payment.return,line_ids:0
@@ -178,16 +149,6 @@ msgstr "Line ids"
 #: view:payment.return:account_payment_return.payment_return_form_view
 msgid "Lines"
 msgstr "Líneas"
-
-#. module: account_payment_return
-#: field:payment.return,message_ids:0
-msgid "Messages"
-msgstr "Messages"
-
-#. module: account_payment_return
-#: help:payment.return,message_ids:0
-msgid "Messages and communication history"
-msgstr "Messages and communication history"
 
 #. module: account_payment_return
 #: view:payment.return:account_payment_return.payment_return_form_view
@@ -288,12 +249,12 @@ msgstr "Cambio de estado"
 #. module: account_payment_return
 #: model:mail.message.subtype,description:account_payment_return.mt_payment_return_state_change
 msgid "Status changed"
-msgstr "Status changed"
+msgstr "Estado cambiado"
 
 #. module: account_payment_return
 #: field:payment.return,message_summary:0
 msgid "Summary"
-msgstr "Summary"
+msgstr "Resumen"
 
 #. module: account_payment_return
 #: help:payment.return,date:0
@@ -303,16 +264,16 @@ msgstr "Esta fecha se utilizará como fecha del asiento contable."
 #. module: account_payment_return
 #: field:payment.return,message_unread:0
 msgid "Unread Messages"
-msgstr "Unread Messages"
+msgstr "Mensajes sin leer"
 
 #. module: account_payment_return
 #: field:payment.return,website_message_ids:0
 msgid "Website Messages"
-msgstr "Website Messages"
+msgstr "Mensajes del sitio web"
 
 #. module: account_payment_return
 #: help:payment.return,website_message_ids:0
 msgid "Website communication history"
-msgstr "Website communication history"
+msgstr "Historial de comunicación del sitio web"
 
 

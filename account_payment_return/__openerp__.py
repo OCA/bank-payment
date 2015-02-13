@@ -10,7 +10,6 @@
 #                       Markus Schneider <markus.schneider at initos.com>
 #    Copyright (c) 2015 Incaser Informatica <http://www.incaser.es/>
 #                       Sergio Teruel <sergio at incaser.es>
-#    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -39,7 +38,6 @@
             'security/ir.model.access.csv',
             'security/account_payment_return_security.xml',
             'views/payment_return_view.xml',
-            'data/ir_sequence_type_data.xml',
             'data/ir_sequence_data.xml',
             'views/account_invoice_view.xml',
     ],
