@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_banking_payment_export
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-31 22:52+0000\n"
+"PO-Revision-Date: 2014-10-31 22:52+0000\n"
+"Last-Translator: Danimar Ribeiro<danimaribeiro@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,active:0
+#: field:payment.mode.type,active:0
+msgid "Active"
+msgstr "Ativo"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
+msgstr "Selecionável em operações de venda"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr "Selecionável em operações de compra"
+
+#. module: account_banking_payment_export
+#: field:account.move.line,amount_to_pay:0
+msgid "Amount to pay"
+msgstr "Valor a pagar"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,create_uid:0
+#: field:payment.mode.type,create_uid:0
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,create_date:0
+#: field:payment.mode.type,create_date:0
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+msgid "Debit"
+msgstr "Débito"
+
+#. module: account_banking_payment_export
+#: selection:payment.order,payment_order_type:0
+msgid "Direct debit"
+msgstr "Débito direto"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:77
+#, python-format
+msgid "Entry Lines"
+msgstr "Linhas de pagamento"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:68
+#, python-format
+msgid "Error"
+msgstr "Erro"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,type:0
+msgid "Export type"
+msgstr "Tipo de exportação"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,id:0
+#: field:payment.mode.type,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_account_move_line
+msgid "Journal Items"
+msgstr "Itens de Diário"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,write_uid:0
+#: field:payment.mode.type,write_uid:0
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,write_date:0
+#: field:payment.mode.type,write_date:0
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Manual payment"
+msgstr "Pagamento manual"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,payment_order_type:0
+msgid "Order type"
+msgstr "Tipo de ordem"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+#: selection:payment.order,payment_order_type:0
+msgid "Payment"
+msgstr "Pagamento"
+
+#. module: account_banking_payment_export
+#: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
+#: model:ir.ui.menu,name:account_banking_payment_export.menu_payment_mode_type
+msgid "Payment Export Types"
+msgstr "Tipos de exportação dos Pagamentos"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pagamento"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
+msgid "Payment Mode Type"
+msgstr "Tipo do Modo de Pagamento"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:53
+#, python-format
+msgid "Payment Order Export"
+msgstr "Exportação da Ordem de Pagamento"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:169
+#, python-format
+msgid "Payment Orders"
+msgstr "Ordens de Pagamento"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: help:payment.mode.type,name:0
+msgid "Payment Type"
+msgstr "Tipo de pagamento"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_tree
+msgid "Payment Types"
+msgstr "Tipos de pagamento"
+
+#. module: account_banking_payment_export
+#: field:payment.order,payment_order_type:0
+msgid "Payment order type"
+msgstr "Tipo da ordem de pagamento"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,ir_model_id:0
+msgid "Payment wizard"
+msgstr "Assistente para Pagamentos"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Please execute payment order manually, and click OK when succesfully sent."
+msgstr "Por favor execute a ordem de pagamento manualmente, e clique OK quando terminar de enviar."
+
+#. module: account_banking_payment_export
+#: field:payment.order.create,populate_results:0
+msgid "Populate results directly"
+msgstr "Incluir diretamente os resultados"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,type:0
+msgid "Select the Export Payment Type for the Payment Mode."
+msgstr "Selecione os tipos de pagamento que permitem exportação para o Modo de Pagamento."
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,ir_model_id:0
+msgid "Select the Payment Wizard for payments of this type. Leave empty for manual processing"
+msgstr "Selecione o Assistente de Pagamento para pagamentos deste tipo. Deixe vazio para processamento manual"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_manual
+msgid "Send payment order(s) manually"
+msgstr "Enviar a(s) ordem(s) de pagamento manualmente"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,code:0
+msgid "Specify the Code for Payment Type"
+msgstr "Especifique o código para o Tipo de Pagamento"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: field:payment.mode.type,suitable_bank_types:0
+msgid "Suitable bank types"
+msgstr "Tipos de contas bancárias adequadas"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,payment_order_type:0
+msgid "This field determines if this type applies to customers (Debit) or suppliers (Payment)"
+msgstr "Este campo determina se este tipo se aplica a clientes (Cobrança) ou a fornecedores (Pagamentos)"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:69
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr "Você pode combinar ordens de pagamento do mesmo tipo"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
+msgid "launch_wizard"
+msgstr "launch_wizard"
