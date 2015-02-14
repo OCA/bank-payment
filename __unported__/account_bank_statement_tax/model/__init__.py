@@ -1,2 +1,0 @@
-import account_bank_statement_line
-import account_bank_statement
