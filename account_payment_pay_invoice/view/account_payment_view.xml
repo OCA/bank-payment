@@ -7,10 +7,6 @@
             <field name="inherit_id" ref="account_payment.view_payment_order_form" />
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//form[@string='Payment Order']/header/button[@name='set_done']" position="replace">
-                        <button name="set_done" states="open" string="Make Payments" type="object" class="oe_highlight"
-                                confirm="Did you send the BACS file to the bank (accessible from the top button 'More')?"/>
-                    </xpath>
                     <xpath expr="//tree[@string='Payment Line']/field[@name='amount']" position="replace">
                         <field name="amount" sum="Total in Company Currency" invisible="0"/>
                     </xpath>
