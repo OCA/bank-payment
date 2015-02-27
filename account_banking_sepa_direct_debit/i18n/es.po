@@ -102,19 +102,6 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: account_banking_sepa_direct_debit
-#: help:res.company,sepa_creditor_identifier:0
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
-"- your country ISO code (2 letters)\n"
-"- a 2-digits checkum\n"
-"- a 3-letters business code\n"
-"- a country-specific identifier"
-msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n"
-"- el código ISO de 2 letras de su país\n"
-"- dos dígitos de comprobación\n"
-"- tres letras de código de negocio\n"
-"- un identificador específico de país (en España, el NIF)"
-
-#. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
 msgstr "Empresa (B2B)"
@@ -215,12 +202,6 @@ msgid "If true, the bank statement will display only one credit line for all the
 msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:80
-#, python-format
-msgid "Invalid SEPA Creditor Identifier."
-msgstr "Identificador de acreedor SEPA no válido."
-
-#. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,write_uid:0
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
@@ -310,11 +291,6 @@ msgstr "Archivo SDD"
 #: view:res.partner.bank:account_banking_sepa_direct_debit.sdd_mandate_partner_bank_tree
 msgid "SDD Mandates"
 msgstr "Mandatos SDD"
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,sepa_creditor_identifier:0
-msgid "SEPA Creditor Identifier"
-msgstr "Identificador de acreedor SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:account_banking_sepa_direct_debit.view_banking_export_sdd_form

@@ -97,15 +97,6 @@ msgid "Draft"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: help:res.company,sepa_creditor_identifier:0
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
-"- your country ISO code (2 letters)\n"
-"- a 2-digits checkum\n"
-"- a 3-letters business code\n"
-"- a country-specific identifier"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
 msgstr ""
@@ -206,12 +197,6 @@ msgid "If true, the bank statement will display only one credit line for all the
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:80
-#, python-format
-msgid "Invalid SEPA Creditor Identifier."
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,write_uid:0
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
@@ -300,11 +285,6 @@ msgstr ""
 #: view:res.partner:account_banking_sepa_direct_debit.sdd_mandate_partner_form
 #: view:res.partner.bank:account_banking_sepa_direct_debit.sdd_mandate_partner_bank_tree
 msgid "SDD Mandates"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,sepa_creditor_identifier:0
-msgid "SEPA Creditor Identifier"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit

@@ -323,23 +323,6 @@ msgid "Recurring"
 msgstr "Terugkerend"
 
 #. module: account_banking_sepa_direct_debit
-#: help:res.company,sepa_creditor_identifier:0
-msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to "
-"make SEPA Direct Debits. This identifier is composed of :\n"
-"- your country ISO code (2 letters)\n"
-"- a 2-digits checkum\n"
-"- a 3-letters business code\n"
-"- a country-specific identifier"
-msgstr ""
-"Geef de Incassant-ID in, welke is toegewezen aan uw bedrijf om incasso's uit "
-"te voeren. De Incassant-ID is samengesteld uit:\n"
-"- uw ISO landcode (2 letters)\n"
-"- een 2 cijferig controlegetal\n"
-"- een 3 cijferig business code\n"
-"- een landspecifieke identifier"
-
-#. module: account_banking_sepa_direct_debit
 #: sql_constraint:sdd.mandate:0
 msgid "A Mandate with the same reference already exists for this company !"
 msgstr "Een machtiging met dezelfde referentie bestaat al vooR dit bedrijf!"
@@ -611,11 +594,6 @@ msgid "Mandate Expired"
 msgstr "Machtiging verlopen"
 
 #. module: account_banking_sepa_direct_debit
-#: constraint:res.company:0
-msgid "Invalid SEPA Creditor Identifier."
-msgstr "Ongeldige SEPA Incassant-ID."
-
-#. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_partner_bank
 msgid "Bank Accounts"
 msgstr "Bankrekeningen"
@@ -689,11 +667,6 @@ msgstr "Machtiging bevestigd"
 #: field:banking.export.sdd,file:0
 msgid "SEPA File"
 msgstr "SEPA bestand"
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,sepa_creditor_identifier:0
-msgid "SEPA Creditor Identifier"
-msgstr "SEPA Incassant-ID"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd

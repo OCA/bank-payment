@@ -320,23 +320,6 @@ msgid "Recurring"
 msgstr "Recurring"
 
 #. module: account_banking_sepa_direct_debit
-#: help:res.company,sepa_creditor_identifier:0
-msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to "
-"make SEPA Direct Debits. This identifier is composed of :\n"
-"- your country ISO code (2 letters)\n"
-"- a 2-digits checkum\n"
-"- a 3-letters business code\n"
-"- a country-specific identifier"
-msgstr ""
-"Entrez l'Identifiant créancier qui a été attribué à votre société pour "
-"réaliser des prélèvements SEPA. Cet identifiant est composé de :\n"
-"- du code ISO de votre pays (2 lettres)\n"
-"- un code de contrôle à 2 chiffres\n"
-"- un code d'activité à 3 lettres\n"
-"- un identifiant national"
-
-#. module: account_banking_sepa_direct_debit
 #: sql_constraint:sdd.mandate:0
 msgid "A Mandate with the same reference already exists for this company !"
 msgstr "Un mandat avec la même référence existe déjà pour cette société !"
@@ -607,11 +590,6 @@ msgid "Mandate Expired"
 msgstr "Mandat expiré"
 
 #. module: account_banking_sepa_direct_debit
-#: constraint:res.company:0
-msgid "Invalid SEPA Creditor Identifier."
-msgstr "Identifiant créancier SEPA invalide."
-
-#. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_partner_bank
 msgid "Bank Accounts"
 msgstr "Comptes bancaires"
@@ -685,11 +663,6 @@ msgstr "Mandat validé"
 #: field:banking.export.sdd,file:0
 msgid "SEPA File"
 msgstr "Fichier SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: field:res.company,sepa_creditor_identifier:0
-msgid "SEPA Creditor Identifier"
-msgstr "Identifiant créancier SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd
