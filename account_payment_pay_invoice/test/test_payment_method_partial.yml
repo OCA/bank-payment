@@ -1,0 +1,154 @@
+-
+  I create a supplier invoice
+-
+  !record {model: account.invoice, id: account_invoice_supplier2, view: account.invoice_supplier_form}:
+    check_total: 450.0
+    partner_id: base.res_partner_12
+    reference_type: none
+    type: in_invoice
+    account_id: account.a_pay
+    company_id: base.main_company
+    currency_id: base.EUR
+    invoice_line:
+      - account_id: account.a_expense
+        name: 'Some contact lenses'
+        price_unit: 450.0
+        quantity: 1.0
+    journal_id: account.expenses_journal
+-
+  Make sure that the type is in_invoice
+-
+  !python {model: account.invoice}: |
+    self.write(cr, uid, ref("account_invoice_supplier2"), {'type': 'in_invoice'})
+-
+  I change the state of invoice to open by clicking Validate button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier2}
+-
+  I check that the invoice state is now "Open"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier2}:
+    - state == 'open'
+    - type == 'in_invoice'
+-
+  I create a payment order on which I will select the invoice I created
+-
+  !record {model: payment.order, id: payment_order_2}:
+    mode: account_payment.payment_mode_1
+    date_prefered: 'due'
+-
+  !record {model: payment.order.create, id: payment_order_create_2}:
+    duedate: !eval time.strftime('%Y-%m-%d')
+-
+  I search for the invoice entries to make the payment.
+-
+  !python {model: payment.order.create}: |
+    self.search_entries(cr, uid, [ref("payment_order_create_2")], {
+      "active_model": "payment.order", "active_ids": [ref("payment_order_2")],
+      "active_id": ref("payment_order_2"), })
+-
+  I create payment lines entries.
+-
+  !python {model: payment.order.create}: |
+    invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier2"))
+    move_line = invoice.move_id.line_id[0]
+    self.write(cr, uid, [ref("payment_order_create_2")], {'entries': [(6,0,[move_line.id])]})
+    self.create_payment(cr, uid, [ref("payment_order_create_2")], {
+      "active_model": "payment.order", "active_ids": [ref("payment_order_2")],
+      "active_id": ref("payment_order_2")})
+    pay_obj = self.pool.get('payment.order')
+    pay = pay_obj.browse(cr, uid, ref('payment_order_2'))
+    assert pay.line_ids
+    for line in pay.line_ids:
+        assert line.amount != 0.0
+-
+  I change the amount paid to test the partial payment
+-
+  !python {model: payment.order}: |
+    line_ids = self.browse(cr, uid, ref('payment_order_2')).line_ids
+    self.pool.get('payment.line').write(cr, uid, line_ids[0].id, {'amount_currency':50})
+-
+  I confirm the payment order.
+-
+  !workflow {model: payment.order, action: open, ref: payment_order_2}
+-
+  I check that payment order is now "Confirmed".
+-
+  !assert {model: payment.order, id: payment_order_2, severity: error, string: Payment Order should be 'Confirmed'.}:
+    - state == 'open'
+-
+  After making this partial payment, I finish the payment order.
+-
+  !python {model: payment.order}: |
+    self.set_done(cr, uid, [ref("payment_order_2")])
+-
+  I check that payment order is now "Done".
+-
+  !assert {model: payment.order, id: payment_order_2, severity: error, string: Payment Order should be in 'Done' state}:
+    - state == 'done'
+-
+  I check that the invoice has payments associated
+-
+  !assert {model: account.invoice, id: account_invoice_supplier2, severity: error, string: payment_ids should be populated}:
+    - payment_ids
+-
+  I check the content of the payment
+-
+  !python {model: account.invoice}: |
+    inv = self.browse(cr, uid, ref("account_invoice_supplier2"))
+    assert inv.payment_ids[0].debit == 50
+    assert inv.payment_ids[0].credit == 0
+    assert inv.payment_ids[0].reconcile_partial_id.id != False
+    assert inv.state == 'open'
+-
+  I create a payment order on which I will select the invoice I created
+-
+  !record {model: payment.order, id: payment_order_3}:
+    mode: account_payment.payment_mode_1
+    date_prefered: 'due'
+-
+  !record {model: payment.order.create, id: payment_order_create_3}:
+    duedate: !eval time.strftime('%Y-%m-%d')
+-
+  I search for the invoice entries to make the payment.
+-
+  !python {model: payment.order.create}: |
+    self.search_entries(cr, uid, [ref("payment_order_create_3")], {
+      "active_model": "payment.order", "active_ids": [ref("payment_order_3")],
+      "active_id": ref("payment_order_3"), })
+-
+  I create payment lines entries.
+-
+  !python {model: payment.order.create}: |
+    invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier2"))
+    move_line = invoice.move_id.line_id[0]
+    self.write(cr, uid, [ref("payment_order_create_3")], {'entries': [(6,0,[move_line.id])]})
+    self.create_payment(cr, uid, [ref("payment_order_create_3")], {
+      "active_model": "payment.order", "active_ids": [ref("payment_order_3")],
+      "active_id": ref("payment_order_3")})
+    pay_obj = self.pool.get('payment.order')
+    pay = pay_obj.browse(cr, uid, ref('payment_order_3'))
+    assert pay.line_ids
+    for line in pay.line_ids:
+        assert line.amount != 0.0
+-
+  I check the remaining amount to pay, it should be 400 (450 - 50)
+-
+  !python {model: payment.order}: |
+    assert self.browse(cr, uid, ref('payment_order_3')).line_ids[0].amount_currency == 400.0
+-
+  I confirm the payment order.
+-
+  !workflow {model: payment.order, action: open, ref: payment_order_3}
+-
+  After making all payments, I finish the payment order.
+-
+  !python {model: payment.order}: |
+    self.set_done(cr, uid, [ref("payment_order_3")])
+-
+  I check the content of the payment
+-
+  !python {model: account.invoice}: |
+    inv = self.browse(cr, uid, ref("account_invoice_supplier2"))
+    assert inv.state == 'paid'
+
