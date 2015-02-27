@@ -497,8 +497,11 @@ class banking_import_transaction(orm.Model):
             'type': transaction.move_line_id.credit and 'dr' or 'cr',
         }
         voucher['line_ids'] = [(0, 0, vch_line)]
+        # Voucher insists of taking journal from the context
+        voucher_ctxt = dict(
+            context, journal_id=st_line.statement_id.journal_id.id)
         voucher_id = self.pool.get('account.voucher').create(
-            cr, uid, voucher, context=context)
+            cr, uid, voucher, context=voucher_ctxt)
         statement_line_pool.write(
             cr, uid, st_line.id,
             {'voucher_id': voucher_id}, context=context)
