@@ -150,10 +150,10 @@ class PaymentOrder(models.Model):
             'move_id': move.id,
             'partner_id': partner_id,
             'account_id': self.mode.transfer_account_id.id,
-            'credit': (self.payment_order_type == 'payment'
-                       and amount or 0.0),
-            'debit': (self.payment_order_type == 'debit'
-                      and amount or 0.0),
+            'credit': (self.payment_order_type == 'payment' and
+                       amount or 0.0),
+            'debit': (self.payment_order_type == 'debit' and
+                      amount or 0.0),
             }
         return vals
 
@@ -172,10 +172,10 @@ class PaymentOrder(models.Model):
             'move_id': move.id,
             'partner_id': line.partner_id.id,
             'account_id': account_id,
-            'credit': (self.payment_order_type == 'debit'
-                       and line.amount or 0.0),
-            'debit': (self.payment_order_type == 'payment'
-                      and line.amount or 0.0),
+            'credit': (self.payment_order_type == 'debit' and
+                       line.amount or 0.0),
+            'debit': (self.payment_order_type == 'payment' and
+                      line.amount or 0.0),
             }
         return vals
 
