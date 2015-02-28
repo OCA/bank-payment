@@ -38,6 +38,9 @@
         'view/payment_mode.xml',
         'workflow/account_payment.xml',
     ],
+    'test': [
+        'test/test_payment_method.yml',
+    ],
     'description': '''Payment order reconciliation infrastructure
 
     This module reconciles invoices as soon as the payment order
