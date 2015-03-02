@@ -25,7 +25,7 @@
     'summary': 'Banking mandates',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Compassion CH',
+    'author': "Compassion CH,Odoo Community Association (OCA)",
     'website': 'http://www.compassion.ch',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'category': 'Banking addons',
