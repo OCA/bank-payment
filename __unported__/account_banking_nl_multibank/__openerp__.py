@@ -23,7 +23,7 @@
     'name': 'Account Banking - NL Multibank import',
     'version': '0.62',
     'license': 'AGPL-3',
-    'author': 'EduSense BV',
+    'author': "EduSense BV,Odoo Community Association (OCA)",
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
     'depends': ['account_banking'],
