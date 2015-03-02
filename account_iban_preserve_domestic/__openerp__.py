@@ -30,7 +30,7 @@
     'name': 'Domestic bank account number',
     'version': '0.1.134',
     'license': 'AGPL-3',
-    'author': 'Therp BV',
+    'author': "Therp BV,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['base_iban','account'],

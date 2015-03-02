@@ -21,7 +21,7 @@
 {
     "name": "Bank statement instant voucher",
     "version": "1.0r028",
-    "author": "Therp BV",
+    "author": "Therp BV,Odoo Community Association (OCA)",
     "category": 'Base',
     'complexity': "normal",
     "description": """

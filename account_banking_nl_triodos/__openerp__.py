@@ -29,7 +29,7 @@
     'name': 'Triodos (NL) Bank Statements Import',
     'version': '0.168',
     'license': 'GPL-3',
-    'author': 'Therp BV / EduSense BV',
+    'author': "Therp BV / EduSense BV,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/account-banking',
     'category': 'Account Banking',
     'depends': ['account_banking'],

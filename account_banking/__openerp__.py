@@ -32,7 +32,7 @@
     'name': 'Account Banking',
     'version': '0.1.136',
     'license': 'GPL-3',
-    'author': 'Banking addons community',
+    'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['base', 'account', 'base_iban', 'account_payment',

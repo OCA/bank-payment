@@ -28,7 +28,7 @@
     'name': 'Direct Debit',
     'version': '6.1.1.134',
     'license': 'GPL-3',
-    'author': 'Therp BV / Smile',
+    'author': "Therp BV / Smile,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking', 'account_banking_payment_export'],

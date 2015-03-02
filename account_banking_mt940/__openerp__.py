@@ -21,7 +21,7 @@
 {
     "name" : "MT940",
     "version" : "1.0",
-    "author" : "Therp BV",
+    "author" : "Therp BV,Odoo Community Association (OCA)",
     "complexity": "expert",
     "description": """
 This addon provides a generic parser for MT940 files. Given that MT940 is a

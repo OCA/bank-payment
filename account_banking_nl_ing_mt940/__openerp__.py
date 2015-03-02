@@ -21,7 +21,7 @@
 {
     "name" : "MT940 import for Dutch ING",
     "version" : "1.0",
-    "author" : "Therp BV",
+    "author" : "Therp BV,Odoo Community Association (OCA)",
     "complexity": "normal",
     "description": """
 This addon imports the structured MT940 format as offered by the Dutch ING

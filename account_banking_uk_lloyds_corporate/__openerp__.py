@@ -22,7 +22,7 @@
     'name': 'Account Banking Lloyds Corporate CSV import',
     'version': '1.0',
     'license': 'AGPL-3',
-    'author': 'credativ Ltd',
+    'author': "credativ Ltd,Odoo Community Association (OCA)",
     'website': 'http://www.credativ.co.uk',
     'category': 'Account Banking',
     'depends': ['account_banking'],
