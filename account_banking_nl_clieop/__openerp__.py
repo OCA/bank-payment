@@ -21,7 +21,7 @@
     'name': 'Account Banking NL ClieOp',
     'version': '0.92',
     'license': 'AGPL-3',
-    'author': 'EduSense BV',
+    'author': "EduSense BV,Odoo Community Association (OCA)",
     'website': 'http://www.edusense.nl',
     'category': 'Account Banking',
     'depends': [

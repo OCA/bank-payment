@@ -21,7 +21,7 @@
 {'name': 'Payment Order Extension',
  'summary': 'Add an improved view for payment order',
  'version': '1.1',
- 'author': 'Camptocamp',
+ 'author': "Camptocamp,Odoo Community Association (OCA)",
  'maintainter': 'Camptocamp',
  'category': 'Accounting',
  'depends': ['account_payment'],

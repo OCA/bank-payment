@@ -22,7 +22,7 @@
             ' transactions',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Therp BV',
+    'author': "Therp BV,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],

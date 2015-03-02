@@ -22,7 +22,7 @@
     'name': 'Account Payment Invoice Selection Shortcut',
     'version': '1.134',
     'license': 'AGPL-3',
-    'author': 'Smile / Therp BV',
+    'author': "Smile / Therp BV,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_payment'],
