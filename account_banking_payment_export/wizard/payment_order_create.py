@@ -45,9 +45,22 @@ class PaymentOrderCreate(models.TransientModel):
     @api.model
     def extend_payment_order_domain(self, payment_order, domain):
         if payment_order.payment_order_type == 'payment':
-            domain += [('account_id.type', 'in', ('payable', 'receivable')),
-                       ('credit', '>', 0)]
-        return True
+            # For payables, propose all unreconciled credit lines,
+            # including partially reconciled ones.
+            # If they are partially reconciled with a supplier refund,
+            # the residual will be added to the payment order.
+            #
+            # For receivables, propose all unreconciled credit lines.
+            # (ie customer refunds): they can be refunded with a payment.
+            # Do not propose partially reconciled credit lines,
+            # as they are deducted from a customer invoice, and
+            # will not be refunded with a payment.
+            domain += [('credit', '>', 0),
+                       '|',
+                       ('account_id.type', '=', 'payable'),
+                       '&',
+                       ('account_id.type', '=', 'receivable'),
+                       ('reconcile_partial_id', '=', False)]
 
     @api.model
     def filter_lines(self, lines):
