@@ -29,6 +29,7 @@
         'account_accountant',
         'account_banking_payment_transfer',
         'account_banking_sepa_credit_transfer',
+        'account_banking_sepa_direct_debit',
         ],
     'description': '''
 This addon adds unit tests for the Banking addons. Installing this
