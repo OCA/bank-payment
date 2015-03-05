@@ -33,7 +33,7 @@ Account Payment Sale Stock
 This module copies *Payment Mode* from sale order to invoice when it is
 generated from the picking.
     """,
-    'author': 'Akretion',
+    'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'depends': ['sale_stock',

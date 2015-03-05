@@ -40,7 +40,7 @@ This module adds severals fields :
 On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will
 be filtered per Payment Mode.
     """,
-    'author': 'Akretion',
+    'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'depends': ['account_banking_payment_export'],

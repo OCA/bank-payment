@@ -28,7 +28,7 @@
     'name': 'Account Banking - Payments Term Filter',
     'version': '0.1.1',
     'license': 'AGPL-3',
-    'author': 'Banking addons community',
+    'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/banking',
     'category': 'Banking addons',
     'depends': [
