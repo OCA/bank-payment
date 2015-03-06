@@ -171,23 +171,24 @@ class PaymentOrder(models.Model):
         return vals
 
     @api.model
-    def _prepare_move_line_partner_account(self, line, move, labels):
+    def _prepare_move_line_partner_account(self, line, move, labels,
+                                           payment_order_type):
         if line.move_line_id:
             account_id = line.move_line_id.account_id.id
         else:
-            if self.payment_order_type == 'debit':
+            if payment_order_type == 'debit':
                 account_id = line.partner_id.property_account_receivable.id
             else:
                 account_id = line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
-                labels[self.payment_order_type], line.name),
+                labels[payment_order_type], line.name),
             'move_id': move.id,
             'partner_id': line.partner_id.id,
             'account_id': account_id,
-            'credit': (self.payment_order_type == 'debit' and
+            'credit': (payment_order_type == 'debit' and
                        line.amount or 0.0),
-            'debit': (self.payment_order_type == 'payment' and
+            'debit': (payment_order_type == 'payment' and
                       line.amount or 0.0),
             }
         return vals
@@ -198,7 +199,8 @@ class PaymentOrder(models.Model):
         return
 
     @api.model
-    def _create_move_line_partner_account(self, line, move, labels):
+    def _create_move_line_partner_account(self, line, move, labels,
+                                          order_type):
         """This method is designed to be inherited in a custom module"""
 
         # TODO: take multicurrency into account
@@ -207,7 +209,7 @@ class PaymentOrder(models.Model):
         # create the payment/debit counterpart move line
         # on the partner account
         partner_ml_vals = self._prepare_move_line_partner_account(
-            line, move, labels)
+            line, move, labels, order_type)
         partner_move_line = aml_obj.create(partner_ml_vals)
 
         # register the payment/debit move line
@@ -259,7 +261,8 @@ class PaymentOrder(models.Model):
                 total_amount = 0
                 for line in lines:
                     total_amount += line.amount
-                    self._create_move_line_partner_account(line, move, labels)
+                    self._create_move_line_partner_account(
+                        line, move, labels, self.payment_order_type)
                 # create the payment/debit move line on the transfer account
                 trf_ml_vals = self._prepare_move_line_transfer_account(
                     total_amount, move, lines, labels)
