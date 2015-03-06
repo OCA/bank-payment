@@ -43,6 +43,8 @@
         'test/data.yml',
         'test/test_payment_method.yml',
         'test/test_partial_payment_refunded.yml',
+        'test/test_partial_payment_transfer.yml',
+
 
     ],
     'description': '''Payment order reconciliation infrastructure
