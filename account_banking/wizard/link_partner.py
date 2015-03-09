@@ -56,7 +56,7 @@ class link_partner(orm.TransientModel):
             type='char', size=1024,
             string="Message", readonly=True),
         'remote_account': fields.char(
-            'Account number', size=24, readonly=True),
+            'Account number', readonly=True),
         # Partner values
         'street': fields.char('Street', size=128),
         'street2': fields.char('Street2', size=128),

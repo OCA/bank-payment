@@ -29,7 +29,7 @@
     'name': 'Account Banking PATU module',
     'version': '0.62',
     'license': 'AGPL-3',
-    'author': 'Sami Haahtinen',
+    'author': "Sami Haahtinen,Odoo Community Association (OCA)",
     'website': 'http://ressukka.net',
     'category': 'Account Banking',
     'depends': ['account_banking'],

@@ -24,7 +24,7 @@
     'summary': 'Base module for PAIN file generation',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Akretion, Noviat',
+    'author': "Akretion, Noviat,Odoo Community Association (OCA)",
     'website': 'http://openerp-community-association.org/',
     'category': 'Hidden',
     'depends': ['account_banking_payment_export'],
