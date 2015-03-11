@@ -24,7 +24,7 @@
     'summary': 'Create SEPA XML files for Credit Transfers',
     'version': '0.2',
     'license': 'AGPL-3',
-    'author': 'Akretion',
+    'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'category': 'Banking addons',

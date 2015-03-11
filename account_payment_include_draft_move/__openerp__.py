@@ -23,7 +23,7 @@
 {
     "name": "Account Payment Draft Move",
     "version": "1.0",
-    "author": "ACSONE SA/NV",
+    "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "http://www.acsone.eu",
     "images": [],
     "category": "Accounting",

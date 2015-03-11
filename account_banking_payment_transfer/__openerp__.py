@@ -28,7 +28,7 @@
     'name': 'Account Banking - Payments Transfer Account',
     'version': '0.2',
     'license': 'AGPL-3',
-    'author': 'Banking addons community',
+    'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/banking',
     'category': 'Banking addons',
     'depends': [
