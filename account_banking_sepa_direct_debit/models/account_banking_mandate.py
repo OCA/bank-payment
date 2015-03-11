@@ -70,12 +70,14 @@ class AccountBankingMandate(models.Model):
              "active.", default=True)
     original_mandate_identification = fields.Char(
         string='Original Mandate Identification', track_visibility='onchange',
+        size=35,
         help="When the field 'Migrated to SEPA' is not active, this field "
              "will be used as the Original Mandate Identification in the "
              "Direct Debit file.")
     scheme = fields.Selection([('CORE', 'Basic (CORE)'),
                                ('B2B', 'Enterprise (B2B)')],
                               string='Scheme', required=True, default="CORE")
+    unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
 
     @api.one
     @api.constrains('type', 'recurrent_sequence_type')
