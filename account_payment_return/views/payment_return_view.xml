@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="payment_return_form_view">
+            <field name="name">payment.return.form</field>
+            <field name="model">payment.return</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Payment return" version="7.0">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" states="draft,imported" class="oe_highlight" />
+                        <button name="action_cancel" string="Cancel" type="object" states="done" />
+                        <button name="action_draft" string="Draft" type="object" states="cancelled" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet string="Payment return">
+                        <group>
+		                    <field name="name"/>
+		                    <field name="journal_id" domain="[('type', 'in', ['bank', 'cash'])]"/>
+		                    <field name="date"/>
+		                    <field name="period_id"/>
+		                    <field name="company_id" groups="base.group_multi_company"/>
+	                    </group>
+	                    <notebook colspan="4">
+	                        <page string="Lines">
+	                            <field name="line_ids" colspan="4" nolabel="1" widget="one2many_list">
+	                                <tree string="Payment return lines" editable="top">
+	                                    <field name="date" />
+	                                    <field name="concept" />
+	                                    <field name="reason" />
+	                                    <field name="partner_name" />
+	                                    <field name="partner_id" />
+	                                    <field name="move_line_id"
+                                            domain="[('partner_id', '=', partner_id),
+                                            ('account_id.type', '=', 'receivable'),
+                                            ('credit', '>', 0.0),
+                                            ('reconcile_ref', '!=', False)
+                                            ]"/>
+	                                    <field name="amount" />
+	                                </tree>
+	                            </field>
+	                        </page>
+	                        <page string="Notes">
+	                           <group>
+	                               <field colspan="4" name="notes" nolabel="1"/>
+	                           </group>
+	                        </page>
+	                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="payment_return_tree_view">
+            <field name="name">payment.return.tree</field>
+            <field name="model">payment.return</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Payment returns">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="journal_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payment_return_action">
+            <field name="name">Payment returns</field>
+            <field name="res_model">payment.return</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="payment_return_menu" 
+            name="Payment returns" parent="account.menu_finance_receivables"
+            action="payment_return_action" sequence="20"/>
+
+    </data>
+</openerp>

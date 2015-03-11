@@ -1,0 +1,273 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_payment_return
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-17 09:22+0000\n"
+"PO-Revision-Date: 2014-07-17 11:22+0100\n"
+"Last-Translator: M\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#: selection:payment.return,state:0
+#. module: account_payment_return
+msgid "Imported"
+msgstr "Importiert"
+
+#: code:addons/account_payment_return/payment_return.py:126
+#. module: account_payment_return
+#, python-format
+msgid "You must complete all invoice references in the payment return."
+msgstr "Alle Zeilen müssen mit einer Rechnung verknüpft sein."
+
+#: view:payment.return:0
+#. module: account_payment_return
+msgid "Confirm"
+msgstr "Bestätigt"
+
+#: view:account.invoice:0
+#. module: account_payment_return
+msgid "Returned"
+msgstr "Zurückgebucht"
+
+#: view:account.invoice:0
+#. module: account_payment_return
+msgid "Invoices whose payment has been returned"
+msgstr "Rechnungen deren Zahlung zurück gebucht wurde."
+
+#: field:payment.return,state:0
+#. module: account_payment_return
+msgid "State"
+msgstr "Status"
+
+#: field:payment.return,message_follower_ids:0
+#. module: account_payment_return
+msgid "Followers"
+msgstr "Followers"
+
+#: model:ir.actions.act_window,name:account_payment_return.payment_return_action
+#: model:ir.ui.menu,name:account_payment_return.payment_return_menu
+#: view:payment.return:0
+#. module: account_payment_return
+msgid "Payment returns"
+msgstr "Kunden Rückbuchungen"
+
+#: field:payment.return.line,reason:0
+#. module: account_payment_return
+msgid "Return reason"
+msgstr "Rückbuchungsgrund"
+
+#: field:payment.return,move_id:0
+#. module: account_payment_return
+msgid "Reference to the created journal entry"
+msgstr "Journal"
+
+#: field:payment.return.line,partner_name:0
+#. module: account_payment_return
+msgid "Partner name"
+msgstr "Kunde"
+
+#: field:payment.return.line,invoice_id:0
+#. module: account_payment_return
+msgid "Associated invoice"
+msgstr "verknüpfte Rechnung"
+
+#: field:payment.return,message_unread:0
+#. module: account_payment_return
+msgid "Unread Messages"
+msgstr "Ungelesene Nachricht"
+
+#: field:payment.return,lines_id:0
+#. module: account_payment_return
+msgid "unknown"
+msgstr "Unbekannt"
+
+#: field:payment.return,company_id:0
+#: help:payment.return,company_id:0
+#. module: account_payment_return
+msgid "Company"
+msgstr "Firma"
+
+#: help:payment.return.line,reconcile_id:0
+#. module: account_payment_return
+msgid "Reference to the reconcile object."
+msgstr "verbundenes Buchungsobjekt"
+
+#: help:payment.return.line,amount:0
+#. module: account_payment_return
+msgid "Amount customer returns, can be different from invoice amount"
+msgstr "Betrag der Rückbuchung, kann vom Rechnungsbetrag abweichen."
+
+#: field:payment.return,message_is_follower:0
+#. module: account_payment_return
+msgid "Is a Follower"
+msgstr ""
+
+#: model:ir.model,name:account_payment_return.model_payment_return_line
+#: view:payment.return:0
+#. module: account_payment_return
+msgid "Payment return lines"
+msgstr "Rückbuchungszeilen"
+
+#: model:mail.message.subtype,description:account_payment_return.mt_payment_return_state_change
+#. module: account_payment_return
+msgid "Status changed"
+msgstr "Status geändert"
+
+#: view:payment.return:0
+#: field:payment.return,notes:0
+#: field:payment.return.line,notes:0
+#. module: account_payment_return
+msgid "Notes"
+msgstr "Notizen"
+
+#: field:payment.return.line,partner_id:0
+#. module: account_payment_return
+msgid "Customer"
+msgstr "Kunde"
+
+#: model:ir.model,name:account_payment_return.model_payment_return
+#: view:payment.return:0
+#: field:payment.return.line,return_id:0
+#. module: account_payment_return
+msgid "Payment return"
+msgstr "Kunden Zahlungsrückbuchung"
+
+#: field:payment.return,message_ids:0
+#. module: account_payment_return
+msgid "Messages"
+msgstr ""
+
+#: help:payment.return,message_ids:0
+#. module: account_payment_return
+msgid "Messages and communication history"
+msgstr ""
+
+#: field:account.invoice,payment_returned:0
+#. module: account_payment_return
+msgid "Payment returned"
+msgstr "Zahlung zurückgebucht"
+
+#: view:payment.return:0
+#. module: account_payment_return
+msgid "Lines"
+msgstr "Zeilen"
+
+#: field:payment.return,message_summary:0
+#. module: account_payment_return
+msgid "Summary"
+msgstr "Zusammenfassung"
+
+#: code:addons/account_payment_return/payment_return.py:125
+#. module: account_payment_return
+#, python-format
+msgid "Error!"
+msgstr "Fehler!"
+
+#: field:payment.return.line,amount:0
+#. module: account_payment_return
+msgid "Amount"
+msgstr "Betrag"
+
+#: field:payment.return.line,concept:0
+#. module: account_payment_return
+msgid "Concept"
+msgstr "Conzept"
+
+#: selection:payment.return,state:0
+#. module: account_payment_return
+msgid "Cancelled"
+msgstr "Abgebrochen"
+
+#: field:payment.return,date:0
+#: field:payment.return.line,date:0
+#. module: account_payment_return
+msgid "Return date"
+msgstr "Rückbuchungsdatum"
+
+#: help:payment.return.line,concept:0
+#: help:payment.return.line,date:0
+#: help:payment.return.line,partner_name:0
+#: help:payment.return.line,reason:0
+#. module: account_payment_return
+msgid "Readed from imported file. Only for reference."
+msgstr "Feld für Import, nur zur Information."
+
+#: help:payment.return,message_unread:0
+#. module: account_payment_return
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#: code:addons/account_payment_return/payment_return.py:131
+#. module: account_payment_return
+#, python-format
+msgid "Return %s"
+msgstr "Rücklastschrift %s"
+
+#: field:payment.return,journal_id:0
+#. module: account_payment_return
+msgid "Bank journal"
+msgstr "Banken Journal"
+
+#: field:payment.return.line,reconcile_id:0
+#. module: account_payment_return
+msgid "Reconcile"
+msgstr ""
+
+#: field:payment.return,name:0
+#. module: account_payment_return
+msgid "Reference"
+msgstr ""
+
+#: model:mail.message.subtype,name:account_payment_return.mt_payment_return_state_change
+#. module: account_payment_return
+msgid "Status Change"
+msgstr "Status geändert"
+
+#: help:account.invoice,payment_returned:0
+#. module: account_payment_return
+msgid "Invoice has been included on a payment that has been returned later."
+msgstr "Rechnung hat eine Zahlung die später zurück gebucht wurde."
+
+#: help:payment.return,message_summary:0
+#. module: account_payment_return
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#: help:payment.return,date:0
+#. module: account_payment_return
+msgid "This date will be used as the date for the account entry."
+msgstr ""
+
+#: selection:payment.return,state:0
+#. module: account_payment_return
+msgid "Done"
+msgstr "Erledigt"
+
+#: model:ir.model,name:account_payment_return.model_account_invoice
+#. module: account_payment_return
+msgid "Invoice"
+msgstr "Rechnung"
+
+#: field:payment.return,period_id:0
+#. module: account_payment_return
+msgid "Forced period"
+msgstr ""
+
+#: view:payment.return:0
+#. module: account_payment_return
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: view:payment.return:0
+#: selection:payment.return,state:0
+#. module: account_payment_return
+msgid "Draft"
+msgstr "Entwurf"
+
