@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+"""Parser for MT940 format files."""
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,10 +20,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-"""
-Parser for MT940 format files
-"""
 
 from __future__ import print_function
 import re
@@ -160,7 +157,8 @@ class MT940(object):
         pass
 
     def handle_tag_25(self, cr, data):
-        '''get account owner information'''
+        """Handle tag 25: local bank account information."""
+        data = data.replace('EUR', '').replace('.', '').strip()
         self.current_statement.local_account = data
 
     def handle_tag_28C(self, cr, data):

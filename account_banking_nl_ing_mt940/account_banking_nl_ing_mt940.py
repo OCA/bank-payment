@@ -50,10 +50,6 @@ class IngMT940Parser(MT940, parser):
         """Return customized Transaction class instance."""
         return Transaction()
 
-    def handle_tag_25(self, cr, data):
-        """ING: For current accounts: IBAN+ ISO 4217 currency code"""
-        self.current_statement.local_account = data[:-3]
-
     def handle_tag_60F(self, cr, data):
         """Parse 60F tag containing start balance / statement data."""
         super(IngMT940Parser, self).handle_tag_60F(cr, data)

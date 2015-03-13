@@ -69,11 +69,6 @@ class RaboMT940Parser(MT940, parser):
         """Return Rabobank Transaction (with overriden is_valid() method)."""
         return RabobankTransaction()
 
-    def handle_tag_25(self, cr, data):
-        """Handle tag 25: local bank account information."""
-        data = data.replace('EUR', '').replace('.', '').strip()
-        super(RaboMT940Parser, self).handle_tag_25(cr, data)
-
     def handle_tag_60F(self, cr, data):
         """get start balance and currency"""
         # For the moment only first 60F record
