@@ -14,6 +14,7 @@
 
 <record id="base.main_company" model="res.company">
     <field name="initiating_party_identifier">FR78ZZZ424242</field>
+    <field name="initiating_party_issuer">FR78ZZZ424242</field>
 </record>
 
 <record id="res_partner_12_mandate" model="account.banking.mandate">

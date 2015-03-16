@@ -199,6 +199,6 @@ msgstr "Ongeldige SEPA Initiërende-ID."
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:275
 #, python-format
-msgid "You must fill initiating party identifier and issuer."
+msgid "You must fill initiating party identifier and issuer in the company form."
 msgstr ""
 

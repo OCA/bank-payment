@@ -272,7 +272,8 @@ class BankingExportPain(orm.AbstractModel):
         if not initiating_party_identifier or not initiating_party_issuer:
             raise orm.except_orm(
                 _("Error"),
-                _("You must fill initiating party identifier and issuer."))
+                _("You must fill initiating party identifier and issuer in "
+                  "the company form."))
         iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
         iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
         iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')

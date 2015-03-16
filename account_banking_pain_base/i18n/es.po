@@ -178,6 +178,6 @@ msgstr "Identificador de iniciador SEPA no válido."
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:275
 #, python-format
-msgid "You must fill initiating party identifier and issuer."
-msgstr "Debe rellenar el identificador de emisor de la transacción."
+msgid "You must fill initiating party identifier and issuer in the company form."
+msgstr "Debe rellenar el identificador de emisor de la transacción en el formulario de la compañía."
 
