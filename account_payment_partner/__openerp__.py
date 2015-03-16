@@ -47,6 +47,7 @@ be filtered per Payment Mode.
     'data': [
         'views/res_partner_view.xml',
         'views/account_invoice_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': ['demo/partner_demo.xml'],
     'installable': True,
