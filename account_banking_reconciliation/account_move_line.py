@@ -19,16 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from osv import fields, osv
 
-from osv import fields,osv
 
 class account_move_line(osv.osv):
-    _inherit='account.move.line'
+    _inherit = 'account.move.line'
 
     _columns = {
-        'cleared_bank_account': fields.boolean('Cleared? ', help='Check if the transaction has cleared from the bank'),
-        'bank_acc_rec_statement_id': fields.many2one('bank.acc.rec.statement', 'Bank Acc Rec Statement', help="The Bank Acc Rec Statement linked with the journal item"),
-        'draft_assigned_to_statement': fields.boolean('Assigned to Statement? ', help='Check if the move line is assigned to statement lines')
+        'cleared_bank_account': fields.boolean(
+            'Cleared? ',
+            help='Check if the transaction has cleared from the bank'
+        ),
+        'bank_acc_rec_statement_id': fields.many2one(
+            'bank.acc.rec.statement',
+            'Bank Acc Rec Statement',
+            help="The Bank Acc Rec Statement linked with the journal item"
+        ),
+        'draft_assigned_to_statement': fields.boolean(
+            'Assigned to Statement? ',
+            help='Check if the move line is assigned to statement lines'
+        )
     }
 
     def copy_data(self, cr, uid, id, default=None, context=None):
@@ -41,6 +51,6 @@ class account_move_line(osv.osv):
             draft_assigned_to_statement=False,
         )
 
-        return super(account_move_line, self).copy_data(cr, uid, id,
-                                                        default=default,
-                                                        context=context)
+        return super(account_move_line, self).copy_data(
+            cr, uid, id, default=default, context=context
+        )
