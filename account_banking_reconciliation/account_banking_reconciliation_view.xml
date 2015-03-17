@@ -99,7 +99,7 @@
 						<field name="move_line_id"/>
 			                    </tree>
 				            </field>
-			                <group col="2" colspan="1" groups="npg_bank_account_reconciliation.group_bank_stmt_verifier">
+			                <group col="2" colspan="1" groups="account_banking_reconciliation.group_bank_stmt_verifier">
 			                    <button name="action_select_all" type="object" states="draft,to_be_reviewed" string="Select All" icon="gtk-go-forward"/>
 			                    <button name="action_unselect_all" type="object" states="draft,to_be_reviewed" string="Unselect All" icon="gtk-cancel"/>
 			                </group>
@@ -185,7 +185,7 @@
    <menuitem
     icon="STOCK_JUSTIFY_FILL"
     action="action_bank_acc_rec_statement"
-    id="npg_bank_acc_rec_statement_menu"
+    id="account_banking_rec_statement_menu"
     parent="account.menu_finance_bank_and_cash"
     sequence="5"/>
 

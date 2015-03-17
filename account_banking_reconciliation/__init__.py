@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-import npg_bank_account_reconciliation
+import account_banking_reconciliation
 import account_move_line
 import report

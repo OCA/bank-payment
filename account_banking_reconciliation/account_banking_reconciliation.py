@@ -34,7 +34,7 @@ class bank_acc_rec_statement(osv.osv):
         NOTE: DONE Bank Statements  are only allowed to be deleted by a Bank Statement Verifier."""
         model_data_obj = self.pool.get('ir.model.data')
         res_groups_obj = self.pool.get('res.groups')
-        group_verifier_id = model_data_obj._get_id(cr, uid, 'npg_bank_account_reconciliation', 'group_bank_stmt_verifier')
+        group_verifier_id = model_data_obj._get_id(cr, uid, 'account_banking_reconciliation', 'group_bank_stmt_verifier')
         for statement in self.browse(cr, uid, ids, context=context):
             if group_verifier_id:
                 res_id = model_data_obj.read(cr, uid, [group_verifier_id], ['res_id'])[0]['res_id']
