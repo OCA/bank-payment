@@ -23,7 +23,6 @@
 	<record id="view_deposit_ticket_tree" model="ir.ui.view">
 	    <field name="name">deposit.ticket.tree</field>
 	    <field name="model">deposit.ticket</field>
-	    <field name="type">tree</field>
 	    <field name="priority">2</field>
 	    <field name="arch" type="xml">
 	        <tree string="Deposit Tickets" colors="grey:state=='cancel';blue:state in ('to_be_reviewed')">
@@ -43,7 +42,6 @@
     <record id="view_deposit_ticket_form" model="ir.ui.view">
 		<field name="name">deposit.ticket.form</field>
         <field name="model">deposit.ticket</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Deposit Ticket" version="7.0">
                 <header>
@@ -114,7 +112,6 @@
     <record id="view_deposit_ticket_filter" model="ir.ui.view">
         <field name="name">deposit.ticket.select</field>
         <field name="model">deposit.ticket</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Search Deposit Tickets">
                 <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Deposit Tickets that haven't yet been confirmed"/>

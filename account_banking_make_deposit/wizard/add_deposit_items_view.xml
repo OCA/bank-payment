@@ -6,7 +6,6 @@
 		<record id="view_add_deposit_items" model="ir.ui.view">
             <field name="name">Add Deposit Items</field>
             <field name="model">add.deposit.items</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Select Payments for Deposit" version="7.0" >
                     <header>

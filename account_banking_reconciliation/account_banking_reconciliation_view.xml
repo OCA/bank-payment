@@ -7,7 +7,6 @@
 	<record id="view_bank_acc_rec_statement_tree" model="ir.ui.view">
 	    <field name="name">bank.acc.rec.statement.tree</field>
 	    <field name="model">bank.acc.rec.statement</field>
-	    <field name="type">tree</field>
 	    <field name="priority">2</field>
 	    <field name="arch" type="xml">
 	        <tree string="Bank Account Reconciliation Statements" colors="grey:state=='cancel';blue:state in ('to_be_reviewed')">
@@ -23,7 +22,6 @@
     <record id="view_bank_acc_rec_statement_form" model="ir.ui.view">
 		<field name="name">bank.acc.rec.statement.form</field>
         <field name="model">bank.acc.rec.statement</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
 			<form string="Bank Account Reconciliation Statement" version="7.0">
 			    <header>
@@ -150,7 +148,6 @@
     <record id="view_bank_acc_rec_statement_filter" model="ir.ui.view">
         <field name="name">bank.acc.rec.statement.select</field>
         <field name="model">bank.acc.rec.statement</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Search Bank Account Reconciliation Statements">
                 <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Statements that haven't yet been confirmed"/>
