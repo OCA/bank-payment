@@ -70,7 +70,10 @@ class bank_acc_rec_statement(orm.Model):
                     )
         return True
 
-    def copy(self, cr, uid, id, default={}, context=None):
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not default:
+            default = {}
+
         default.update({
             'credit_move_line_ids': [],
             'debit_move_line_ids': [],
