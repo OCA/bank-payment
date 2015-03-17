@@ -19,7 +19,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-
-import account_banking_reconciliation
-import account_move_line
-import report
+from . import account_banking_reconciliation
+from . import account_move_line
+from . import report

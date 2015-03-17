@@ -19,4 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-import deposit_ticket
+from . import deposit_ticket

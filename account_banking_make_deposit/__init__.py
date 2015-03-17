@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-import wizard
-import report
-import account_banking_make_deposit
-import account_move_line
+from . import wizard
+from . import report
+from . import account_banking_make_deposit
+from . import account_move_line
