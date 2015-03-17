@@ -64,9 +64,11 @@ Statement Reconciliation found in the US and other countries.
     'version': '1.4',
     'author': 'Novapoint Group LLC',
     'website': 'www.novapointgroup.com',
-    'depends': ['account_cancel', 'report_webkit'],
-    'init_xml': [],
-    'update_xml': [
+    'depends': [
+        'account_cancel',
+        'report_webkit'
+    ],
+    'data': [
         'security/account_banking_make_deposit_security.xml',
         'security/ir.model.access.csv',
         'wizard/add_deposit_items_view.xml',
@@ -74,11 +76,10 @@ Statement Reconciliation found in the US and other countries.
         'account_move_line_view.xml',
         'deposit_ticket_report.xml',
     ],
-    'demo_xml': [
+    'demo': [
         'demo/account_banking_make_deposit_demo.xml'
     ],
     'test': [],
     'active': False,
     'installable': True,
-    'certificate': ''
 }

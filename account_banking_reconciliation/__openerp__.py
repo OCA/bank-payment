@@ -184,15 +184,11 @@ Contributors
         'account_voucher',
         'report_webkit',
     ],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         "security/account_banking_reconciliation_security.xml",
         "security/ir.model.access.csv",
         "account_banking_reconciliation_view.xml",
-        "account_move_line_view.xml"
-    ],
-    'demo_xml': [],
-    'data': [
+        "account_move_line_view.xml",
         'report/report.xml',
     ],
     'installable': True,
