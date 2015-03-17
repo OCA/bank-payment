@@ -24,19 +24,23 @@ import time
 from report import report_sxw
 from osv import osv
 
-#Enter Report Class Information Here
+
+# Enter Report Class Information Here
 class deposit_ticket_webkit(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
-        super(deposit_ticket_webkit, self).__init__(cr, uid, name, context=context)
+        super(deposit_ticket_webkit, self).__init__(
+            cr, uid, name, context=context
+        )
         self.localcontext.update({
             'time': time,
-            'cr':cr,
+            'cr': cr,
             'uid': uid,
         })
 
-report_sxw.report_sxw('report.deposit.ticket.webkit',
-                       'deposit.ticket',
-                       'addons/deposit_ticket_report_webkit/report/deposit_ticket.mako',
-                       parser=deposit_ticket_webkit)
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+report_sxw.report_sxw(
+    'report.deposit.ticket.webkit',
+    'deposit.ticket',
+    'addons/deposit_ticket_report_webkit/report/deposit_ticket.mako',
+    parser=deposit_ticket_webkit
+)

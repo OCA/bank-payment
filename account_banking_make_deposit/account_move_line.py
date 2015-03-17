@@ -21,12 +21,22 @@
 ##############################################################################
 from osv import osv, fields
 
+
 class account_move_line(osv.osv):
     _inherit = 'account.move.line'
     _columns = {
-        'draft_assigned': fields.boolean('Draft Assigned', help="This field is checked when the move line is assigned to a draft deposit ticket.\
-                                                                     The deposit ticket is not still completely processed"),
-        'deposit_id': fields.many2one('deposit.ticket', 'Deposit Ticket')
+        'draft_assigned': fields.boolean(
+            'Draft Assigned',
+            help=(
+                "This field is checked when the move line is assigned "
+                "to a draft deposit ticket. The deposit ticket is not "
+                "still completely processed"
+            ),
+        ),
+        'deposit_id': fields.many2one(
+            'deposit.ticket',
+            'Deposit Ticket'
+        )
     }
 
 account_move_line()
