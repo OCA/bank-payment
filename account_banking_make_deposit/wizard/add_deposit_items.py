@@ -19,12 +19,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import fields, orm
+from openerp.tools.translate import _
 import decimal_precision as dp
 
 
-class add_deposit_items(osv.osv_memory):
+class add_deposit_items(orm.TransientModel):
     _name = "add.deposit.items"
     _description = "Add Deposit Items"
     _columns = {
@@ -147,14 +147,16 @@ class add_deposit_items(osv.osv_memory):
                 # Any Line cannot be manually added.
                 # Choose only from the selected lines.
                 if not line.move_line_id:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('Processing Error'),
                         _(
                             'You cannot add any new deposit line item '
                             'manually as of this revision!'
                         )
                     )
-                res_id = deposit_ticket_line_obj.create(
+
+                # Creating but not using the id of the new object anywhere
+                deposit_ticket_line_obj.create(
                     cr, uid,
                     {
                         'name': line.name,
@@ -182,10 +184,7 @@ class add_deposit_items(osv.osv_memory):
         return {'type': 'ir.actions.act_window_close'}
 
 
-add_deposit_items()
-
-
-class deposit_items_line(osv.osv_memory):
+class deposit_items_line(orm.TransientModel):
     _name = "deposit.items.line"
     _description = "Deposit Items Line"
     _columns = {
@@ -223,5 +222,3 @@ class deposit_items_line(osv.osv_memory):
             'Company'
         ),
     }
-
-deposit_items_line()

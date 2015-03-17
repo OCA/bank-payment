@@ -19,10 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class account_move_line(osv.osv):
+class account_move_line(orm.Model):
     _inherit = 'account.move.line'
     _columns = {
         'draft_assigned': fields.boolean(
@@ -38,5 +38,3 @@ class account_move_line(osv.osv):
             'Deposit Ticket'
         )
     }
-
-account_move_line()

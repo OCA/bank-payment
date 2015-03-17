@@ -20,12 +20,9 @@
 #
 ##############################################################################
 import time
-
-from report import report_sxw
-from osv import osv
+from openerp.report import report_sxw
 
 
-# Enter Report Class Information Here
 class deposit_ticket_webkit(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(deposit_ticket_webkit, self).__init__(

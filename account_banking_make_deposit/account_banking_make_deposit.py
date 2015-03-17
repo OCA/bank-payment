@@ -21,12 +21,12 @@
 ##############################################################################
 import time
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import fields, orm
+from openerp.tools.translate import _
 import decimal_precision as dp
 
 
-class deposit_method(osv.osv):
+class deposit_method(orm.Model):
     _name = "deposit.method"
     _description = "Deposit Method"
     _columns = {
@@ -38,10 +38,7 @@ class deposit_method(osv.osv):
     }
 
 
-deposit_method()
-
-
-class deposit_ticket(osv.osv):
+class deposit_ticket(orm.Model):
     _name = "deposit.ticket"
     _description = "Deposit Ticket"
 
@@ -74,7 +71,7 @@ class deposit_ticket(osv.osv):
                 )
                 group_user_ids = [user.id for user in group_verifier.users]
                 if deposit.state != 'draft' and uid not in group_user_ids:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('User Error'),
                         _(
                             "Only a member of '%s' group may delete/edit "
@@ -124,12 +121,12 @@ class deposit_ticket(osv.osv):
         move_lines = []
         for deposit in self.browse(cr, uid, ids, context=context):
             if not deposit.journal_id.sequence_id:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error !'),
                     _('Please define sequence on deposit journal')
                 )
             if deposit.journal_id.centralisation:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('UserError'),
                     _('Cannot create move on centralised journal')
                 )
@@ -438,10 +435,7 @@ class deposit_ticket(osv.osv):
         }
 
 
-deposit_ticket()
-
-
-class deposit_ticket_line(osv.osv):
+class deposit_ticket_line(orm.Model):
     _name = "deposit.ticket.line"
     _description = "Deposit Ticket Line"
     _columns = {
@@ -496,7 +490,7 @@ class deposit_ticket_line(osv.osv):
     def create(self, cr, uid, vals, context=None):
         # Any Line cannot be manually added. Use the wizard to add lines.
         if not vals.get('move_line_id', False):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Processing Error'),
                 _(
                     'You cannot add any new deposit ticket line '
@@ -523,6 +517,3 @@ class deposit_ticket_line(osv.osv):
         return super(deposit_ticket_line, self).unlink(
             cr, uid, ids, context=context
         )
-
-
-deposit_ticket_line()

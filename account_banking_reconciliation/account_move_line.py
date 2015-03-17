@@ -19,10 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields, osv
+from openerp.osv import fields, orm
 
 
-class account_move_line(osv.osv):
+class account_move_line(orm.Model):
     _inherit = 'account.move.line'
 
     _columns = {

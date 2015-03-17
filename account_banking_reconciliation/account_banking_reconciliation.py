@@ -21,14 +21,19 @@
 ##############################################################################
 import time
 
-from openerp.osv import fields, osv
+from openerp.osv import fields, orm
 from openerp.tools.translate import _
 import decimal_precision as dp
 
 
-class bank_acc_rec_statement(osv.osv):
+class bank_acc_rec_statement(orm.Model):
+
+    """Bank account rec statement."""
+
     def check_group(self, cr, uid, ids, context=None):
-        """Check if following security constraints are implemented for groups:
+        """
+        Check if following security constraints are implemented for groups.
+
         Bank Statement Preparer – they can create, view and delete any of
         the Bank Statements provided the Bank Statement is not in the DONE
         state, or the Ready for Review state.
@@ -55,7 +60,7 @@ class bank_acc_rec_statement(osv.osv):
                 )
                 group_user_ids = [user.id for user in group_verifier.users]
                 if statement.state != 'draft' and uid not in group_user_ids:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('User Error'),
                         _(
                             "Only a member of '%s' group may delete/edit "
@@ -105,10 +110,10 @@ class bank_acc_rec_statement(osv.osv):
         )
 
     def check_difference_balance(self, cr, uid, ids, context=None):
-        "Check if difference balance is zero or not."
+        """Check if difference balance is zero or not."""
         for statement in self.browse(cr, uid, ids, context=context):
             if statement.difference != 0.0:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Warning!'),
                     _(
                         "Prior to reconciling a statement, all differences "
@@ -120,12 +125,12 @@ class bank_acc_rec_statement(osv.osv):
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):
-        "Cancel the the statement."
+        """Cancel the the statement."""
         self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
         return True
 
     def action_review(self, cr, uid, ids, context=None):
-        "Change the status of statement from 'draft' to 'to_be_reviewed'."
+        """Change the status of statement from 'draft' to 'to_be_reviewed'."""
         # If difference balance not zero prevent further processing
         self.check_difference_balance(cr, uid, ids, context=context)
         self.write(cr, uid, ids, {'state': 'to_be_reviewed'}, context=context)
@@ -138,7 +143,6 @@ class bank_acc_rec_statement(osv.osv):
         are marked as 'Cleared'.
         """
         account_move_line_obj = self.pool.get('account.move.line')
-        statement_line_obj = self.pool.get('bank.acc.rec.statement.line')
         # If difference balance not zero prevent further processing
         self.check_difference_balance(cr, uid, ids, context=context)
         for statement in self.browse(cr, uid, ids, context=context):
@@ -707,10 +711,7 @@ class bank_acc_rec_statement(osv.osv):
     ]
 
 
-bank_acc_rec_statement()
-
-
-class bank_acc_rec_statement_line(osv.osv):
+class bank_acc_rec_statement_line(orm.Model):
     _name = "bank.acc.rec.statement.line"
     _description = "Statement Line"
     _columns = {
@@ -787,7 +788,7 @@ class bank_acc_rec_statement_line(osv.osv):
         # This would allow only onchange method to pre-populate
         # statement lines based on the filter rules.
         if not vals.get('move_line_id', False):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Processing Error'),
                 _('You cannot add any new bank statement line '
                   'manually as of this revision!')
@@ -823,6 +824,3 @@ class bank_acc_rec_statement_line(osv.osv):
         return super(bank_acc_rec_statement_line, self).unlink(
             cr, uid, ids, context=context
         )
-
-
-bank_acc_rec_statement_line()
