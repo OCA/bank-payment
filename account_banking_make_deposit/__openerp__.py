@@ -41,18 +41,19 @@ This module is seen as a prerequisite to support efficient Bank Account Statemen
     'website': 'www.novapointgroup.com',
     'depends': ['account_cancel', 'report_webkit'],
     'init_xml': [],
-    'update_xml': ['security/npg_account_make_deposit_security.xml',
-                   'security/ir.model.access.csv',
-                   'wizard/add_deposit_items_view.xml',
-                   'npg_account_make_deposit_view.xml',
-                   'account_move_line_view.xml',
-				   'deposit_ticket_report.xml',
-				   ],
-    'demo_xml': ['demo/npg_account_make_deposit_demo.xml'],
+    'update_xml': [
+        'security/account_banking_make_deposit_security.xml',
+        'security/ir.model.access.csv',
+        'wizard/add_deposit_items_view.xml',
+        'account_banking_make_deposit_view.xml',
+        'account_move_line_view.xml',
+        'deposit_ticket_report.xml',
+    ],
+    'demo_xml': [
+        'demo/account_banking_make_deposit_demo.xml'
+    ],
     'test': [],
     'active': False,
     'installable': True,
     'certificate':''
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

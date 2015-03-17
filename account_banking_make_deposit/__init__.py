@@ -21,7 +21,5 @@
 ##############################################################################
 import wizard
 import report
-import npg_account_make_deposit
+import account_banking_make_deposit
 import account_move_line
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

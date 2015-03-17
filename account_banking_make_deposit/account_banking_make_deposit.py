@@ -46,7 +46,7 @@ class deposit_ticket(osv.osv):
         NOTE: DONE Deposit Tickets are only allowed to be deleted by a Make Deposits Verifier."""
         model_data_obj = self.pool.get('ir.model.data')
         res_groups_obj = self.pool.get('res.groups')
-        group_verifier_id = model_data_obj._get_id(cr, uid, 'npg_account_make_deposit', 'group_make_deposits_verifier')
+        group_verifier_id = model_data_obj._get_id(cr, uid, 'account_banking__make_deposit', 'group_make_deposits_verifier')
         for deposit in self.browse(cr, uid, ids, context=context):
             if group_verifier_id:
                 res_id = model_data_obj.read(cr, uid, [group_verifier_id], ['res_id'])[0]['res_id']
@@ -287,5 +287,3 @@ class deposit_ticket_line(osv.osv):
         return super(deposit_ticket_line, self).unlink(cr, uid, ids, context=context)
 
 deposit_ticket_line()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
