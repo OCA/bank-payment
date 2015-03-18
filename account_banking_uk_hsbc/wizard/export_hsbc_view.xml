@@ -4,7 +4,6 @@
     <record id="wizard_banking_export_wizard_view" model="ir.ui.view">
       <field name="name">banking.export.hsbc.wizard.view</field>
       <field name="model">banking.export.hsbc.wizard</field>
-      <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="HSBC Export">
           <field name="state" invisible="True"/>
