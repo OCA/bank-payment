@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    French Letter of Change module for OpenERP
+#    French Letter of Change module for Odoo
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -20,4 +20,24 @@
 #
 ##############################################################################
 
-from . import export_lcr
+{
+    'name': 'French Letter of Change',
+    'summary': 'Create French LCR CFONB files',
+    'version': '0.1',
+    'license': 'AGPL-3',
+    'author': "Akretion,Odoo Community Association (OCA)",
+    'website': 'http://www.akretion.com',
+    'category': 'Banking addons',
+    'depends': ['account_direct_debit'],
+    'external_dependencies': {
+        'python': ['unidecode'],
+        },
+    'data': [
+        'account_banking_lcr_view.xml',
+        'wizard/export_lcr_view.xml',
+        'data/payment_type_lcr.xml',
+        'security/ir.model.access.csv',
+        ],
+    'demo': ['lcr_demo.xml'],
+    'installable': True,
+}

@@ -13,7 +13,7 @@
     <field name="name">banking.export.lcr.wizard.form</field>
     <field name="model">banking.export.lcr.wizard</field>
     <field name="arch" type="xml">
-        <form string="LCR File Generation" version="7.0">
+        <form string="LCR File Generation">
             <field name="state" invisible="1"/>
             <group states="finish">
                 <field name="total_amount" />
