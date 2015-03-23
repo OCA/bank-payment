@@ -13,7 +13,7 @@
     <field name="name">banking.export.lcr.form</field>
     <field name="model">banking.export.lcr</field>
     <field name="arch" type="xml">
-        <form string="LCR File" version="7.0">
+        <form string="LCR File">
             <header>
                 <field name="state" widget="statusbar"/>
             </header>
@@ -51,7 +51,6 @@
 <record id="banking_export_lcr_action" model="ir.actions.act_window">
     <field name="name">LCR Files</field>
     <field name="res_model">banking.export.lcr</field>
-    <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
 </record>
 
