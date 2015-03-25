@@ -23,10 +23,14 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
-from unidecode import unidecode
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import logging
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = None
 
 NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY = 36
 

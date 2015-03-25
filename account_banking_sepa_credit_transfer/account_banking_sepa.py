@@ -22,7 +22,11 @@
 
 from openerp.osv import orm, fields
 from openerp.addons.decimal_precision import decimal_precision as dp
-from unidecode import unidecode
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = None
 
 
 class banking_export_sepa(orm.Model):
