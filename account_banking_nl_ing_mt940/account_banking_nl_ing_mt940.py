@@ -22,7 +22,7 @@
 import re
 from openerp.tools.translate import _
 from openerp.addons.account_banking_mt940.mt940 import (
-    MT940, str2float, get_subfields, handle_common_subfields)
+    MT940, str2amount, get_subfields, handle_common_subfields)
 
 
 class IngMT940Parser(MT940):
@@ -45,9 +45,8 @@ class IngMT940Parser(MT940):
         if not re_61:
             raise ValueError(_("Cannot parse %s") % data)
         parsed_data = re_61.groupdict()
-        self.current_transaction.transferred_amount = \
-            (-1 if parsed_data['sign'] == 'D' else 1) * str2float(
-                parsed_data['amount'])
+        self.current_transaction.transferred_amount = (
+            str2amount(parsed_data['sign'], parsed_data['amount']))
         self.current_transaction.reference = parsed_data['reference']
 
     def handle_tag_86(self, data):

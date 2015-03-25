@@ -24,7 +24,7 @@ from string import printable
 from datetime import datetime
 from openerp.tools.translate import _
 from openerp.addons.account_banking_mt940.mt940 import (
-    MT940, str2float, get_subfields, handle_common_subfields)
+    MT940, str2amount, get_subfields, handle_common_subfields)
 
 
 class RaboMT940Parser(MT940):
@@ -56,8 +56,7 @@ class RaboMT940Parser(MT940):
         if not stmt.local_currency:
             stmt.local_currency = data[7:10]
             stmt.date = datetime.strptime(data[1:7], '%y%m%d')
-            stmt.start_balance = (
-                (1 if data[0] == 'C' else -1) * str2float(data[10:]))
+            stmt.start_balance = str2amount(data[0], data[10:])
             stmt.id = '%s-%s' % (
                 self.current_statement.date.strftime('%Y-%m-%d'),
                 self.current_statement.id)
@@ -66,9 +65,8 @@ class RaboMT940Parser(MT940):
         """Handle tag 61: transaction data."""
         super(RaboMT940Parser, self).handle_tag_61(data)
         parsed_data = self.tag_61_regex.match(data).groupdict()
-        self.current_transaction.transferred_amount = \
-            (-1 if parsed_data['sign'] == 'D' else 1) * str2float(
-                parsed_data['amount'])
+        self.current_transaction.transferred_amount = (
+            str2amount(parsed_data['sign'], parsed_data['amount']))
         self.current_transaction.reference = parsed_data['reference']
 
     def handle_tag_86(self, data):

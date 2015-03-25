@@ -47,6 +47,12 @@ except ImportError:
             pass
 
 
+def str2amount(sign, str):
+    """Convert sign (C or D) and amount in string to signed amount (float)."""
+    factor = (1 if sign == 'C' else -1)
+    return factor * float(str.replace(',', '.'))
+
+
 def get_subfields(data, codewords):
     """Return dictionary with value array for each codeword in data.
 
@@ -248,16 +254,16 @@ class MT940(parser):
         """get start balance and currency"""
         self.current_statement.local_currency = data[7:10]
         self.current_statement.date = datetime.strptime(data[1:7], '%y%m%d')
-        self.current_statement.start_balance = \
-            (1 if data[0] == 'C' else -1) * str2float(data[10:])
+        self.current_statement.start_balance = (
+            str2amount(data[0], data[10:]))
         self.current_statement.id = '%s/%s' % (
             self.current_statement.date.strftime('%Y-%m-%d'),
             self.current_statement.id)
 
     def handle_tag_62F(self, data):
         """get ending balance"""
-        self.current_statement.end_balance = \
-            (1 if data[0] == 'C' else -1) * str2float(data[10:])
+        self.current_statement.end_balance = (
+            str2amount(data[0], data[10:]))
 
     def handle_tag_64(self, data):
         """get current balance in currency"""
@@ -281,10 +287,6 @@ class MT940(parser):
         """details for previous transaction, here most differences between
         banks occur"""
         pass
-
-
-def str2float(string):
-    return float(string.replace(',', '.'))
 
 
 def main(filename):
