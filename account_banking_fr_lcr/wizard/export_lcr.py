@@ -25,8 +25,12 @@ from openerp.tools.translate import _
 from openerp import netsvc
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-from unidecode import unidecode
 import base64
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = None
 
 LCR_DATE_FORMAT = '%d%m%y'
 
