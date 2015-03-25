@@ -24,11 +24,16 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval
 from datetime import datetime
-from unidecode import unidecode
 from lxml import etree
 from openerp import tools
 import logging
 import base64
+
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = None
 
 logger = logging.getLogger(__name__)
 
