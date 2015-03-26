@@ -27,7 +27,7 @@
     'summary': """
         Prevent invoices under litigation to be proposed in payment orders.
     """,
-    'author': 'ACSONE SA/NV',
+    'author': 'ACSONE SA/NV,Odoo Community Association (OCA)',
     'website': 'http://acsone.eu',
     'depends': [
         'base',
@@ -35,16 +35,6 @@
     ],
     'data': [
         'view/account_invoice_view.xml'
-    ],
-    'test': [
-    ],
-    'demo': [
-    ],
-    'js': [
-    ],
-    'qweb': [
-    ],
-    'css': [
     ],
     'installable': True,
     'application': False,

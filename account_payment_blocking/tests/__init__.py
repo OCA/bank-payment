@@ -21,7 +21,3 @@
 ##############################################################################
 
 from . import test_account_banking_payment_blocking
-
-checks = [
-    test_account_banking_payment_blocking,
-]

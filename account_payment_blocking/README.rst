@@ -5,7 +5,7 @@ account_payment_blocking
 ========================
 
 This module was written to extend the functionality of payment orders
-to block invoices under litigation to be presented for inclusion un payment orders.
+to block invoices under litigation to be presented for inclusion in payment orders.
 
 This module uses the 'blocked' flag that is present on move lines,
 to filter out lines proposed in payment orders.
