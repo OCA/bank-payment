@@ -21,7 +21,7 @@
 ##############################################################################
 
 import openerp.tests.common as common
-from openerp import netsvc
+from openerp import workflow
 
 DB = common.DB
 ADMIN_USER_ID = common.ADMIN_USER_ID
@@ -60,9 +60,8 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
         move_line_obj = self.registry('account.move.line')
         invoice_id = create_simple_invoice(self, self.cr, self.uid,
                                            context=self.context)
-        netsvc.LocalService("workflow")\
-            .trg_validate(self.uid, 'account.invoice', invoice_id,
-                          'invoice_open', self.cr)
+        workflow.trg_validate(self.uid, 'account.invoice', invoice_id,
+                              'invoice_open', self.cr)
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
                                      context=self.context)[0]
         move_line_ids = move_line_obj\
