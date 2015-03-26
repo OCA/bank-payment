@@ -25,13 +25,18 @@ IBAN numbers and for consulting.
 import re
 import urllib
 import urllib2
-from BeautifulSoup import BeautifulSoup
+
 from openerp.addons.account_banking_iban_lookup.urlagent import (
     URLAgent,
     SoupForm,
 )
 from openerp.addons.account_banking.sepa.iban import IBAN
 from openerp.addons.account_banking.struct import struct
+
+try:
+    import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 
 __all__ = [
     'account_info',
