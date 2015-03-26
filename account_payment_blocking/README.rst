@@ -5,9 +5,9 @@ account_payment_blocking
 ========================
 
 This module was written to extend the functionality of payment orders
-to block invoices under litigation to be presented for inclusion in payment orders.
+to prevent invoices under litigation to be presented for inclusion in payment orders.
 
-This module uses the 'blocked' flag that is present on move lines,
+This module uses the 'blocked' flag that is present on journal items
 to filter out lines proposed in payment orders.
 
 In addition it exposes this flag on the supplier invoice form
@@ -28,9 +28,9 @@ Usage
 =====
 
 To use this module, set the "Blocked" flag on supplier invoices
-or on payable/receivable move lines.
+or on payable/receivable journal items.
 
-These moves will not be proposed for inclusion un payment orders.
+These invoices will not be proposed for inclusion in payment orders.
 
 For further information, please visit:
 
