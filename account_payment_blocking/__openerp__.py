@@ -24,14 +24,8 @@
     'name': 'account banking payment blocking',
     'version': '0.1',
     'category': 'Banking addons',
-    'description': """
-    Prevent invoices under litigation to be proposed in payment orders.
-
-    This module uses the 'blocked' flag that is present on move lines,
-    to filter out lines proposed in payment orders.
-
-    In addition it exposes this flag on the supplier invoice form
-    so it is easier to block an invoice.
+    'summary': """
+        Prevent invoices under litigation to be proposed in payment orders.
     """,
     'author': 'ACSONE SA/NV',
     'website': 'http://acsone.eu',
