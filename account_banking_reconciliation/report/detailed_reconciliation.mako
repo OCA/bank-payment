@@ -35,7 +35,10 @@
       width:100px;
       }
       .col_partner {
-      width:40px;
+          width:150px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
       }
       .right_col {
       text-align:right;
