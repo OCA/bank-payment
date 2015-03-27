@@ -1,4 +1,6 @@
+<!doctype html>
 <html>
+  <meta charset="UTF-8">
   <head>
     <style type="text/css">
       table {
@@ -29,7 +31,7 @@
       font-size: larger;
       }
       .col_date {
-      width:10px;
+          width:60px;
       }
       .col_amount {
       width:100px;
@@ -141,8 +143,10 @@
         <td>
           ${rec_line.ref and rec_line.ref or ""}
         </td>
-        <td class="col_partner">
-          ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+        <td>
+          <div class="col_partner">
+            ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          </div>
         </td>
         <td class="cell right_col col_amount">
           ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -176,7 +180,9 @@
           ${rec_line.ref and rec_line.ref or ""}
         </td>
         <td>
-          ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          <div class="col_partner">
+            ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          </div>
         </td>
         <td class="cell right_col">
           ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -245,7 +251,9 @@
           ${rec_line.ref and rec_line.ref or ""}
         </td>
         <td>
-          ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          <div class="col_partner">
+            ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          </div>
         </td>
         <td class="cell right_col">
           ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
@@ -279,7 +287,9 @@
           ${rec_line.ref and rec_line.ref or ""}
         </td>
         <td>
-          ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          <div class="col_partner">
+            ${rec_line.partner_id.name and rec_line.partner_id.name or ""}
+          </div>
         </td>
         <td class="cell right_col">
           ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
