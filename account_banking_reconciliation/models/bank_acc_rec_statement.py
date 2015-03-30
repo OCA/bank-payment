@@ -611,11 +611,18 @@ class bank_acc_rec_statement(orm.Model):
                 dt_ending = datetime.strptime(
                     ending_date, DEFAULT_SERVER_DATE_FORMAT,
                 ) + timedelta(days=-1)
+
                 if dt_ending.month == 1:
                     dt_ending = dt_ending.replace(year=dt_ending.year - 1,
                                                   month=12)
                 else:
-                    dt_ending = dt_ending.replace(month=dt_ending.month - 1)
+                    prev_month = (dt_ending.replace(day=1) - timedelta(days=1))
+
+                    if dt_ending.day <= prev_month.day:
+                        dt_ending = dt_ending.replace(month=dt_ending.month - 1)
+                    else:
+                        dt_ending = prev_month
+
                 val['value']['exchange_date'] = dt_ending.strftime(
                     DEFAULT_SERVER_DATE_FORMAT)
 
