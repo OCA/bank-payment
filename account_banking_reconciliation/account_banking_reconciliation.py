@@ -523,6 +523,7 @@ class bank_acc_rec_statement(orm.Model):
                 ('account_id', '=', obj.account_id.id),
                 ('move_id.state', '=', 'posted'),
                 ('cleared_bank_account', '=', False),
+                ('journal_id.type', '!=', 'situation'),
             ]
 
             # if not keep_previous_uncleared_entries:
@@ -646,7 +647,8 @@ class bank_acc_rec_statement(orm.Model):
             domain = [
                 ('account_id', '=', account_id),
                 ('move_id.state', '=', 'posted'),
-                ('cleared_bank_account', '=', False)
+                ('cleared_bank_account', '=', False),
+                ('journal_id.type', '!=', 'situation'),
             ]
             if not keep_previous_uncleared_entries:
                 domain += [('draft_assigned_to_statement', '=', False)]
