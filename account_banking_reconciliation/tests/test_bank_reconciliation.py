@@ -82,6 +82,8 @@ class test_bank_reconciliation(common.TransactionCase):
                 'ending_date': today,
                 'ending_balance': 100,
                 'starting_balance': 30,
+                'ending_balance_in_currency': 100,
+                'starting_balance_in_currency': 30,
             }, context=context)
 
         self.reconcile = self.reconcile_model.browse(
