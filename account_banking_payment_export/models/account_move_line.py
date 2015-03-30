@@ -19,11 +19,30 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp.osv import orm, fields
 
 
 class AccountMoveLine(orm.Model):
     _inherit = 'account.move.line'
+
+    def _get_journal_entry_ref(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res[record.id] = record.move_id.name
+            if record.move_id.state == 'draft':
+                if record.invoice.id:
+                    res[record.id] = record.invoice.number
+                else:
+                    res[record.id] = '*' + str(record.move_id.id)
+            else:
+                res[record.id] = record.move_id.name
+        return res
+
+    _columns = {
+        'journal_entry_ref': fields.function(_get_journal_entry_ref,
+                                             string='Journal Entry Ref',
+                                             type="char")
+    }
 
     def get_balance(self, cr, uid, ids, context=None):
         """
