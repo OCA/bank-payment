@@ -45,11 +45,11 @@ class deposit_ticket(orm.Model):
     def check_group(self, cr, uid, ids, context=None):
         """
         Check if following security constraints are implemented for groups:
-        Make Deposits Preparer – they can create, view and delete any of the
+        Make Deposits Preparer - they can create, view and delete any of the
         Deposit Tickets provided the Deposit Ticket is not in the DONE state,
 
         or the Ready for Review state.
-        Make Deposits Verifier – they can create, view, edit, and delete any of
+        Make Deposits Verifier - they can create, view, edit, and delete any of
         the Deposits Tickets information at any time.
         NOTE: DONE Deposit Tickets are only allowed to be deleted by a
         Make Deposits Verifier.
@@ -111,13 +111,15 @@ class deposit_ticket(orm.Model):
         return True
 
     def action_process(self, cr, uid, ids, context=None):
-        """ Do the following:
+        """
+        Do the following:
         1.The 'Verifier By'  field is populated by the name of the Verifier.
         2.The 'Deposit Ticket #' field is populated.
         3.The account.move.lines are updated and written with
           the 'Deposit Ticket #'
-        4.The status field is updated to “Done”
-        5.New GL entries are made."""
+        4.The status field is updated to "Done"
+        5.New GL entries are made.
+        """
         move_lines = []
         for deposit in self.browse(cr, uid, ids, context=context):
             if not deposit.journal_id.sequence_id:
@@ -179,11 +181,13 @@ class deposit_ticket(orm.Model):
         }
 
     def remove_all(self, cr, uid, ids, context=None):
-        """Reset the deposit ticket to draft state,
+        """
+        Reset the deposit ticket to draft state,
         and remove the entries associated with the DONE transactions (
         account moves, updating account.move.lines, resetting preparer
         and verifier and verified date fields.
-        Reflect all changes necessary."""
+        Reflect all changes necessary.
+        """
         account_move_line_obj = self.pool.get('account.move.line')
         account_move_obj = self.pool.get('account.move')
         move_line_ids = []
@@ -504,8 +508,10 @@ class deposit_ticket_line(orm.Model):
         )
 
     def unlink(self, cr, uid, ids, context=None):
-        """Set the 'draft_assigned' field to False for related account move
-        lines to allow to be entered for another deposit."""
+        """
+        Set the 'draft_assigned' field to False for related account move
+        lines to allow to be entered for another deposit.
+        """
         account_move_line_obj = self.pool.get('account.move.line')
         move_line_ids = [
             line.move_line_id.id

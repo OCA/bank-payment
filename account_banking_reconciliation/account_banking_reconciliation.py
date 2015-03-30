@@ -29,7 +29,6 @@ from openerp.report import report_sxw
 import openerp.addons.decimal_precision as dp
 
 
-
 class bank_acc_rec_statement(orm.Model):
 
     """Bank account rec statement."""
@@ -38,11 +37,11 @@ class bank_acc_rec_statement(orm.Model):
         """
         Check if following security constraints are implemented for groups.
 
-        Bank Statement Preparer – they can create, view and delete any of
+        Bank Statement Preparer - they can create, view and delete any of
         the Bank Statements provided the Bank Statement is not in the DONE
         state, or the Ready for Review state.
 
-        Bank Statement Verifier – they can create, view, edit, and delete any
+        Bank Statement Verifier - they can create, view, edit, and delete any
         of the Bank Statements information at any time.
 
         NOTE: DONE Bank Statements  are only allowed to be deleted by a Bank
@@ -94,7 +93,9 @@ class bank_acc_rec_statement(orm.Model):
                     cr, uid, [],
                     vals["exchange_date"], vals["account_id"],
                     context=context)['value'])
-        return super(bank_acc_rec_statement, self).create(cr, uid, vals, context=context)
+
+        base_func = super(bank_acc_rec_statement, self).create
+        return base_func(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
         # Check if the user is allowed to perform the action
@@ -365,16 +366,17 @@ class bank_acc_rec_statement(orm.Model):
         return True
 
     def _get_balance(self, cr, uid, ids, field_names, args, context=None):
-        """Computed as following:
+        """
+        Computed as following:
         A) Deposits, Credits, and Interest Amount:
            Total SUM of Amts of lines with Cleared = True
         Deposits, Credits, and Interest # of Items:
         Total of number of lines with Cleared = True
         B) Checks, Withdrawals, Debits, and Service Charges Amount:
         Checks, Withdrawals, Debits, and Service Charges Amount # of Items:
-        Cleared Balance (Total Sum of the Deposit Amount Cleared (A) –
+        Cleared Balance (Total Sum of the Deposit Amount Cleared (A) -
         Total Sum of Checks Amount Cleared (B))
-        Difference= (Ending Balance – Beginning Balance) -
+        Difference= (Ending Balance - Beginning Balance) -
         cleared balance = should be zero.
         """
         res = {}
@@ -382,7 +384,7 @@ class bank_acc_rec_statement(orm.Model):
             cr, uid, 'Account'
         )
         for statement in self.browse(cr, uid, ids, context=context):
-            currency_id = statement.company_id.currency_id.id
+
             res[statement.id] = sres = {
                 'sum_of_credits': 0.0,
                 'sum_of_credits_in_currency': 0.0,
@@ -672,7 +674,7 @@ class bank_acc_rec_statement(orm.Model):
     def _get_currency_help_label(self, cr, uid, currency_id, payment_rate,
                                  payment_rate_currency_id, context=None):
         """
-        This function builds a string to help the users to understand the
+        The function builds a string to help the users to understand the
         behavior of the payment rate fields they can specify on the voucher.
         This string is only used to improve the usability in the voucher form
         view and has no other effect.
@@ -681,9 +683,11 @@ class bank_acc_rec_statement(orm.Model):
         :type currency_id: integer
         :param payment_rate: the value of the payment_rate field of the voucher
         :type payment_rate: float
-        :param payment_rate_currency_id: the value of the payment_rate_currency_id field of the voucher
+        :param payment_rate_currency_id: the value of the
+        payment_rate_currency_id field of the voucher
         :type payment_rate_currency_id: integer
-        :return: translated string giving a tip on what's the effect of the current payment rate specified
+        :return: translated string giving a tip on what's the effect of
+        the current payment rate specified
         :rtype: str
         """
         rml_parser = report_sxw.rml_parse(cr, uid, 'currency_help_label',
@@ -693,14 +697,17 @@ class bank_acc_rec_statement(orm.Model):
         if currency_id:
             currency_str = rml_parser.formatLang(
                 1,
-                currency_obj=currency_pool.browse(cr, uid, currency_id,
-                                                     context=context))
+                currency_obj=currency_pool.browse(
+                    cr, uid, currency_id, context=context
+                )
+            )
         if payment_rate_currency_id:
-            payment_rate_str  = rml_parser.formatLang(
+            payment_rate_str = rml_parser.formatLang(
                 payment_rate,
-                currency_obj=currency_pool.browse(cr, uid,
-                                                  payment_rate_currency_id,
-                                                  context=context))
+                currency_obj=currency_pool.browse(
+                    cr, uid, payment_rate_currency_id, context=context
+                )
+            )
         currency_help_label = _(
             'At the starting date, the exchange rate was\n%s = %s'
         ) % (currency_str, payment_rate_str)
@@ -709,10 +716,12 @@ class bank_acc_rec_statement(orm.Model):
     def onchange_currency_rate(self, cr, uid, ids, exchange_rate,
                                start_balance, end_balance, context=None):
         if exchange_rate:
-            return {'value':{
-                'starting_balance': (start_balance or 0) * exchange_rate,
-                'ending_balance': (end_balance or 0) * exchange_rate,
-            }}
+            return {
+                'value': {
+                    'starting_balance': (start_balance or 0) * exchange_rate,
+                    'ending_balance': (end_balance or 0) * exchange_rate,
+                }
+            }
         else:
             return {}
 
@@ -774,7 +783,7 @@ class bank_acc_rec_statement(orm.Model):
         'exchange_date': fields.date(
             'Currency Exchange Date',
             required=False,
-            states={'done':[('readonly', True)]},
+            states={'done': [('readonly', True)]},
             help="The starting date of your bank statement.",
         ),
         'ending_date': fields.date(
@@ -796,7 +805,7 @@ class bank_acc_rec_statement(orm.Model):
             required=True,
             digits_compute=dp.get_precision('Account'),
             help="The Account Starting Balance on your bank statement",
-            states={'done':[('readonly', True)]},
+            states={'done': [('readonly', True)]},
         ),
         'ending_balance': fields.float(
             'Ending Balance',
@@ -811,7 +820,7 @@ class bank_acc_rec_statement(orm.Model):
             required=True,
             digits_compute=dp.get_precision('Account'),
             help="The Ending Balance on your bank statement.",
-            states={'done':[('readonly', True)]}
+            states={'done': [('readonly', True)]}
         ),
         'company_id': fields.many2one(
             'res.company',
@@ -1021,7 +1030,10 @@ class bank_acc_rec_statement(orm.Model):
             _get_balance,
             method=True,
             type='float',
-            string='Checks, Withdrawals, Debits, and Service Charges # of Items',
+            string=(
+                'Checks, Withdrawals, Debits, and Service Charges # of '
+                'Items'
+            ),
             help="Total of number of lines with Cleared = False",
             multi="balance",
         ),

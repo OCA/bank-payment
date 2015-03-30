@@ -23,6 +23,9 @@ from openerp.osv import orm, fields
 
 
 class account_move_line(orm.Model):
+
+    """Account move line."""
+
     _inherit = 'account.move.line'
     _columns = {
         'draft_assigned': fields.boolean(

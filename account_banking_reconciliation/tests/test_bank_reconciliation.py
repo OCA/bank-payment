@@ -92,6 +92,8 @@ class test_bank_reconciliation(common.TransactionCase):
         self.reconcile.refresh()
 
     def test_one_reconcile_line_per_move_line(self):
-        """Test that one line of reconciliation is created for
-        each account move for the account"""
+        """
+        Test that one line of reconciliation is created for
+        each account move for the account
+        """
         self.assertEqual(len(self.reconcile.credit_move_line_ids), 3)
