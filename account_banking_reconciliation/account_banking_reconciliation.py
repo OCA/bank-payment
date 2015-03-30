@@ -1028,17 +1028,6 @@ class bank_acc_rec_statement(orm.Model):
             type='float', help="Total of number of lines with Cleared = True",
             multi="balance"
         ),
-        'sum_of_credits_lines_unclear': fields.function(
-            _get_balance,
-            method=True,
-            type='float',
-            string=(
-                'Checks, Withdrawals, Debits, and Service Charges # of '
-                'Items'
-            ),
-            help="Total of number of lines with Cleared = False",
-            multi="balance",
-        ),
         'sum_of_debits_lines_unclear': fields.function(
             _get_balance,
             method=True,
