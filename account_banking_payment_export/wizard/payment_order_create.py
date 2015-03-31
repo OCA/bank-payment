@@ -86,22 +86,6 @@ class PaymentOrderCreate(models.TransientModel):
         to_exclude = set([l.move_line_id.id for l in payment_lines])
         return [l.id for l in lines if l.id not in to_exclude]
 
-    @api.model
-    def display_credit(self):
-        ir_module = self.env['ir.module.module']
-        res = ir_module\
-            .search([('name', '=', 'account_banking_sepa_credit_transfer'),
-                     ('state', '=', 'installed')])
-        return len(res) > 0
-
-    @api.model
-    def display_debit(self):
-        ir_module = self.env['ir.module.module']
-        res = ir_module\
-            .search([('name', '=', 'account_banking_sepa_direct_debit'),
-                     ('state', '=', 'installed')])
-        return len(res) > 0
-
     @api.multi
     def search_entries(self):
         """This method taken from account_payment module.
@@ -125,8 +109,12 @@ class PaymentOrderCreate(models.TransientModel):
         context = self.env.context.copy()
         context['line_ids'] = self.filter_lines(lines)
         context['populate_results'] = self.populate_results
-        context['display_credit'] = self.display_credit()
-        context['display_debit'] = self.display_debit()
+        if payment.payment_order_type == 'payment':
+            context['display_credit'] = True
+            context['display_debit'] = False
+        else:
+            context['display_credit'] = False
+            context['display_debit'] = True
         model_datas = model_data_obj.search(
             [('model', '=', 'ir.ui.view'),
              ('name', '=', 'view_create_payment_order_lines')])
