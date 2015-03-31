@@ -37,11 +37,25 @@
       width:100px;
       }
       .col_partner {
+          /*
+          Max of 2 lines in height
+          */
+          line-height: 15px;
+          max-height: 30px;
           width:150px;
           text-overflow: ellipsis;
           overflow: hidden;
-          white-space: nowrap;
       }
+
+      div.col_partner {
+        display: -webkit-box;
+        /*
+        Enable ellipsis on webkit browser for 2 lines
+        */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+
       .right_col {
       text-align:right;
       width:100px;
