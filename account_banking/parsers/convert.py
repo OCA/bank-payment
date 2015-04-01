@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 import unicodedata
 
 __all__ = ['str2date', 'date2str', 'date2date', 'to_swift']

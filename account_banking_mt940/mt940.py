@@ -20,8 +20,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from __future__ import print_function
 import re
 from datetime import datetime
 import logging
@@ -132,9 +130,6 @@ class MT940(parser):
     define functions to handle the tags you need to handle and adjust static
     variables as needed.
 
-    Note that order matters: You need to do your_parser(MT940, parser), not the
-    other way around!
-
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
     handle_tag_* functions receive the remainder of the the line (that is,
@@ -144,7 +139,6 @@ class MT940(parser):
     """One file can contain multiple statements, each with its own poorly
     documented header. For now, the best thing to do seems to skip that"""
 
-    footer_regex = '^-}$'
     footer_regex = '^-XXX$'
     'The line that denotes end of message, we need to create a new statement'
 
@@ -154,14 +148,18 @@ class MT940(parser):
     def __init__(self, *args, **kwargs):
         super(MT940, self).__init__(*args, **kwargs)
         self.current_statement = None
-        'type account_banking.parsers.models.mem_bank_statement'
         self.current_transaction = None
-        'type account_banking.parsers.models.mem_bank_transaction'
         self.statements = []
-        'parsed statements up to now'
+
+    def is_mt940(self, line):
+        """determine if a line is the header of a statement"""
+        if not bool(re.match(self.header_regex, line)):
+            raise ValueError(
+                'This does not seem to be a MT940 format bank statement.')
 
     def parse(self, cr, data):
-        'implements account_banking.parsers.models.parser.parse()'
+        """Implements account_banking.parsers.models.parser.parse()."""
+        self.is_mt940(data)
         iterator = data.replace('\r\n', '\n').split('\n').__iter__()
         line = None
         record_line = ''
@@ -197,8 +195,7 @@ class MT940(parser):
         return line + continuation_line
 
     def create_statement(self):
-        """create a mem_bank_statement - override if you need a custom
-        implementation"""
+        """Create a mem_bank_statement."""
         return mem_bank_statement()
 
     def create_transaction(self):
@@ -235,7 +232,6 @@ class MT940(parser):
         handler = getattr(self, 'handle_tag_%s' % tag)
         handler(line[tag_match.end():])
 
-
     def handle_tag_20(self, data):
         """ignore reference number"""
         pass
@@ -254,16 +250,15 @@ class MT940(parser):
         """get start balance and currency"""
         self.current_statement.local_currency = data[7:10]
         self.current_statement.date = datetime.strptime(data[1:7], '%y%m%d')
-        self.current_statement.start_balance = (
-            str2amount(data[0], data[10:]))
+        self.current_statement.start_balance = str2amount(data[0], data[10:])
         self.current_statement.id = '%s/%s' % (
             self.current_statement.date.strftime('%Y-%m-%d'),
-            self.current_statement.id)
+            self.current_statement.id,
+        )
 
     def handle_tag_62F(self, data):
         """get ending balance"""
-        self.current_statement.end_balance = (
-            str2amount(data[0], data[10:]))
+        self.current_statement.end_balance = str2amount(data[0], data[10:])
 
     def handle_tag_64(self, data):
         """get current balance in currency"""
@@ -279,7 +274,6 @@ class MT940(parser):
         self.current_statement.transactions.append(transaction)
         self.current_transaction = transaction
         transaction.execution_date = datetime.strptime(data[:6], '%y%m%d')
-        transaction.effective_date = datetime.strptime(data[:6], '%y%m%d')
         transaction.value_date = datetime.strptime(data[:6], '%y%m%d')
         #  ...and the rest already is highly bank dependent
 
@@ -294,12 +288,13 @@ def main(filename):
     parser = MT940()
     parser.parse(None, open(filename, 'r').read())
     for statement in parser.statements:
-        print("""statement found for %(local_account)s at %(date)s
-        with %(local_currency)s%(start_balance)s to %(end_balance)s
-        """ % statement.__dict__)
+        print (
+            "statement found for %(local_account)s at %(date)s"
+            " with %(local_currency)s%(start_balance)s to %(end_balance)s" %
+            statement.__dict__
+        )
         for transaction in statement.transactions:
-            print("""
-            transaction on %(execution_date)s""" % transaction.__dict__)
+            print "transaction on %(execution_date)s" % transaction.__dict__
 
 if __name__ == '__main__':
     import sys
