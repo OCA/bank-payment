@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_banking_export_lcr,Full access on banking.export.lcr to Account Payment grp,model_banking_export_lcr,account_payment.group_account_payment,1,1,1,1
