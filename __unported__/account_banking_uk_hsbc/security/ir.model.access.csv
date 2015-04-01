@@ -1,3 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_banking_hsbc_clientid","banking.hsbc.clientid","model_banking_hsbc_clientid","account_payment.group_account_payment",1,1,1,1
-"access_banking_export_hsbc","banking.export.hsbc","model_banking_export_hsbc","account_payment.group_account_payment",1,1,1,1
