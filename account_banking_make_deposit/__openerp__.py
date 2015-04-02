@@ -71,13 +71,16 @@ Statement Reconciliation found in the US and other countries.
     'data': [
         'security/account_banking_make_deposit_security.xml',
         'security/ir.model.access.csv',
+
         'wizard/add_deposit_items_view.xml',
-        'account_banking_make_deposit_view.xml',
-        'account_move_line_view.xml',
-        'deposit_ticket_report.xml',
+
+        'report/deposit_ticket.xml',
+
+        'views/account_move_line.xml',
+        'views/deposit_ticket.xml',
     ],
     'demo': [
-        'demo/account_banking_make_deposit_demo.xml'
+        'demo/deposit_method.xml'
     ],
     'test': [],
     'active': False,
