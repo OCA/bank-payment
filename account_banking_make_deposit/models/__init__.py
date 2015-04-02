@@ -19,6 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from . import wizard
-from . import report
-from . import models
+from . import account_banking_make_deposit
+from . import account_move_line
