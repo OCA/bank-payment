@@ -19,7 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from . import deposit_ticket
-from . import deposit_ticket_line
-from . import deposit_method
-from . import account_move_line
+from openerp.osv import fields, orm
+
+
+class deposit_method(orm.Model):
+    _name = "deposit.method"
+    _description = "Deposit Method"
+    _columns = {
+        'name': fields.char(
+            'Name', size=64,
+            required=True,
+            help='Name of the method used for deposit'
+        )
+    }

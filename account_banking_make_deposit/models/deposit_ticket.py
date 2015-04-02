@@ -26,18 +26,6 @@ from openerp.tools.translate import _
 import decimal_precision as dp
 
 
-class deposit_method(orm.Model):
-    _name = "deposit.method"
-    _description = "Deposit Method"
-    _columns = {
-        'name': fields.char(
-            'Name', size=64,
-            required=True,
-            help='Name of the method used for deposit'
-        )
-    }
-
-
 class deposit_ticket(orm.Model):
     _name = "deposit.ticket"
     _description = "Deposit Ticket"
@@ -437,89 +425,3 @@ class deposit_ticket(orm.Model):
             'domain': '[]',
             'context': dict(context, active_ids=ids)
         }
-
-
-class deposit_ticket_line(orm.Model):
-    _name = "deposit.ticket.line"
-    _description = "Deposit Ticket Line"
-    _columns = {
-        'name': fields.char(
-            'Name',
-            size=64,
-            required=True,
-            help="Derived from the related Journal Item."
-        ),
-        'ref': fields.char(
-            'Reference',
-            size=64,
-            help="Derived from related Journal Item."
-        ),
-        'partner_id': fields.many2one(
-            'res.partner',
-            string='Partner',
-            help="Derived from related Journal Item."
-        ),
-        'amount': fields.float(
-            'Amount',
-            digits_compute=dp.get_precision('Account'),
-            help="Derived from the 'debit' amount from related Journal Item."
-        ),
-        'date': fields.date(
-            'Date',
-            required=True,
-            help="Derived from related Journal Item."
-        ),
-        'deposit_id': fields.many2one(
-            'deposit.ticket',
-            'Deposit Ticket',
-            required=True,
-            ondelete='cascade'
-        ),
-        'company_id': fields.related(
-            'deposit_id',
-            'company_id',
-            type='many2one',
-            relation='res.company',
-            string='Company',
-            readonly=True,
-            help="Derived from related Journal Item."
-        ),
-        'move_line_id': fields.many2one(
-            'account.move.line',
-            'Journal Item',
-            help="Related Journal Item."
-        ),
-    }
-
-    def create(self, cr, uid, vals, context=None):
-        # Any Line cannot be manually added. Use the wizard to add lines.
-        if not vals.get('move_line_id', False):
-            raise orm.except_orm(
-                _('Processing Error'),
-                _(
-                    'You cannot add any new deposit ticket line '
-                    'manually as of this revision! '
-                    'Please use the button \"Add Deposit '
-                    'Items\" to add deposit ticket line!'
-                )
-            )
-        return super(deposit_ticket_line, self).create(
-            cr, uid, vals, context=context
-        )
-
-    def unlink(self, cr, uid, ids, context=None):
-        """
-        Set the 'draft_assigned' field to False for related account move
-        lines to allow to be entered for another deposit.
-        """
-        account_move_line_obj = self.pool.get('account.move.line')
-        move_line_ids = [
-            line.move_line_id.id
-            for line in self.browse(cr, uid, ids, context=context)
-        ]
-        account_move_line_obj.write(
-            cr, uid, move_line_ids, {'draft_assigned': False}, context=context
-        )
-        return super(deposit_ticket_line, self).unlink(
-            cr, uid, ids, context=context
-        )
