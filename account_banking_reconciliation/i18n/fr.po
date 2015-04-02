@@ -24,8 +24,8 @@ msgstr "Entrer un nom"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement.line,research_required:0
-msgid "Research Required? "
-msgstr "Recherche  nécessaires?"
+msgid "Research Required "
+msgstr "Recherche  nécessaires"
 
 #. module: account_banking_reconciliation
 #: field:account.move.line,bank_acc_rec_statement_id:0
@@ -70,7 +70,7 @@ msgstr "Mettre au brouillon"
 
 #. module: account_banking_reconciliation
 #: field:account.move.line,draft_assigned_to_statement:0
-msgid "Assigned to Statement? "
+msgid "Assigned to Statement "
 msgstr "Assigné à un relevé"
 
 #. module: account_banking_reconciliation
@@ -273,8 +273,8 @@ msgstr "Chèques, virements, débits et frais de service - Nb de lignes"
 #. module: account_banking_reconciliation
 #: field:account.move.line,cleared_bank_account:0
 #: field:bank.acc.rec.statement.line,cleared_bank_account:0
-msgid "Cleared? "
-msgstr "Réconcilié?"
+msgid "Cleared "
+msgstr "Réconcilié"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,difference:0

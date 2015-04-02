@@ -71,11 +71,11 @@ class bank_acc_rec_statement_line(orm.Model):
             help="Related Journal Item."
         ),
         'cleared_bank_account': fields.boolean(
-            'Cleared? ',
+            'Cleared ',
             help='Check if the transaction has cleared from the bank'
         ),
         'research_required': fields.boolean(
-            'Research Required? ',
+            'Research Required ',
             help=(
                 'Check if the transaction should be researched by '
                 'Accounting personal'

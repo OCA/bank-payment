@@ -22,7 +22,7 @@ msgstr ""
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement.line,research_required:0
-msgid "Research Required? "
+msgid "Research Required "
 msgstr ""
 
 #. module: account_banking_reconciliation
@@ -68,7 +68,7 @@ msgstr ""
 
 #. module: account_banking_reconciliation
 #: field:account.move.line,draft_assigned_to_statement:0
-msgid "Assigned to Statement? "
+msgid "Assigned to Statement "
 msgstr ""
 
 #. module: account_banking_reconciliation
@@ -266,7 +266,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: field:account.move.line,cleared_bank_account:0
 #: field:bank.acc.rec.statement.line,cleared_bank_account:0
-msgid "Cleared? "
+msgid "Cleared "
 msgstr ""
 
 #. module: account_banking_reconciliation

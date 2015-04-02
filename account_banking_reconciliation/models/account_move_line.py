@@ -27,7 +27,7 @@ class account_move_line(orm.Model):
 
     _columns = {
         'cleared_bank_account': fields.boolean(
-            'Cleared? ',
+            'Cleared ',
             help='Check if the transaction has cleared from the bank'
         ),
         'bank_acc_rec_statement_id': fields.many2one(
@@ -36,7 +36,7 @@ class account_move_line(orm.Model):
             help="The Bank Acc Rec Statement linked with the journal item"
         ),
         'draft_assigned_to_statement': fields.boolean(
-            'Assigned to Statement? ',
+            'Assigned to Statement ',
             help='Check if the move line is assigned to statement lines'
         )
     }
