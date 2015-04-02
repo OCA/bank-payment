@@ -33,6 +33,8 @@ class bank_acc_rec_statement(orm.Model):
 
     """Bank account rec statement."""
 
+    _name = "bank.acc.rec.statement"
+
     def check_group(self, cr, uid, ids, context=None):
         """
         Check if following security constraints are implemented for groups.
@@ -755,7 +757,6 @@ class bank_acc_rec_statement(orm.Model):
 
         return res
 
-    _name = "bank.acc.rec.statement"
     _columns = {
         'name': fields.char(
             'Name',
