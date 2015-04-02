@@ -77,6 +77,7 @@ Statement Reconciliation found in the US and other countries.
         'report/deposit_ticket.xml',
 
         'views/account_move_line.xml',
+        'views/deposit_method.xml',
         'views/deposit_ticket.xml',
     ],
     'demo': [
