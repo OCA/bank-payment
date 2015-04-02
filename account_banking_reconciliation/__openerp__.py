@@ -189,9 +189,11 @@ Contributors
     'data': [
         "security/account_banking_reconciliation_security.xml",
         "security/ir.model.access.csv",
-        "account_banking_reconciliation_view.xml",
-        "account_move_line_view.xml",
-        'report/report.xml',
+
+        "views/bank_acc_rec_statement.xml",
+        "views/account_move_line_view.xml",
+
+        "report/report.xml",
     ],
     'installable': True,
     'active': False,
