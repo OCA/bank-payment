@@ -18,6 +18,7 @@
 				<xpath expr="//field[@name='partner_id']" position="after">
 					<field name="type" on_change="mandate_type_change(type)"/>
 					<field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
+                    <field name="scheme"/>
 				</xpath>
 				<xpath expr="//field[@name='partner_bank_id']" position="attributes">
 					<attribute name="on_change">mandate_partner_bank_change(partner_bank_id, type, recurrent_sequence_type, last_debit_date, state)</attribute>
@@ -37,6 +38,7 @@
 		<field name="arch" type="xml">
 			<xpath expr="//field[@name='unique_mandate_reference']" position="after">
 				<field name="type" string="Type"/>
+                <field name="scheme"/>
 			</xpath>
 		</field>
 	</record>
@@ -44,10 +46,20 @@
 	<record id="sdd_mandate_search" model="ir.ui.view">
 		<field name="name">sdd.mandate.search</field>
 		<field name="model">account.banking.mandate</field>
+        <field name="inherit_id" ref="account_banking_mandate.view_mandate_search"/>
 		<field name="arch" type="xml">
 			<xpath expr="//filter[@name='expired']" position="after">
 				<filter name="oneoff" string="One-Off" domain="[('type', '=', 'oneoff')]" />
 				<filter name="recurrent" string="Recurrent" domain="[('type', '=', 'recurrent')]" />
+                <group string="Group By" name="groupby">
+                    <filter name="type_groupby" string="Type"
+                        context="{'group_by': 'type'}"/>
+                    <filter name="scheme_groupby" string="Scheme"
+                        context="{'group_by': 'scheme'}"/>
+                    <filter name="recurrent_sequence_type_groupby"
+                        string="Sequence Type"
+                        context="{'group_by': 'recurrent_sequence_type'}"/>
+                </group>
 			</xpath>
 		</field>
 	</record>

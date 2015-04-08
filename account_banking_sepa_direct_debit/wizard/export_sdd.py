@@ -195,6 +195,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                             "line with partner '%s' and Invoice ref '%s'.")
                         % (line.partner_id.name,
                             line.ml_inv_ref.number))
+                scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
                     raise orm.except_orm(
                         _('Error:'),
@@ -226,7 +227,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
 
-                key = (requested_date, priority, seq_type)
+                key = (requested_date, priority, seq_type, scheme)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
@@ -237,7 +238,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                         cr, uid, line.id,
                         {'date': requested_date}, context=context)
 
-        for (requested_date, priority, sequence_type), lines in \
+        for (requested_date, priority, sequence_type, scheme), lines in \
                 lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
@@ -246,7 +247,7 @@ class banking_export_sdd_wizard(orm.TransientModel):
                     "sepa_export.payment_order_ids[0].reference + '-' + "
                     "sequence_type + '-' + requested_date.replace('-', '')  "
                     "+ '-' + priority",
-                    priority, 'CORE', sequence_type, requested_date, {
+                    priority, scheme, sequence_type, requested_date, {
                         'sepa_export': sepa_export,
                         'sequence_type': sequence_type,
                         'priority': priority,
