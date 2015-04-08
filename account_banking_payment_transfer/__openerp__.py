@@ -37,6 +37,15 @@
     'data': [
         'view/payment_mode.xml',
         'workflow/account_payment.xml',
+        'view/account_payment.xml',
+    ],
+    'test': [
+        'test/data.yml',
+        'test/test_payment_method.yml',
+        'test/test_partial_payment_refunded.yml',
+        'test/test_partial_payment_transfer.yml',
+
+
     ],
     'description': '''Payment order reconciliation infrastructure
 

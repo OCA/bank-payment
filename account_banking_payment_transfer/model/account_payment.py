@@ -34,6 +34,18 @@ class PaymentOrder(models.Model):
     '''
     _inherit = 'payment.order'
 
+    @api.multi
+    def get_partial_reconcile_ids(self):
+        self.ensure_one()
+        reconcile_partial_ids = [line.move_line_id.reconcile_partial_id.id
+                                 for line in self.line_ids if
+                                 line.move_line_id.reconcile_partial_id.id]
+        return reconcile_partial_ids
+
+    @api.one
+    def get_partial_reconcile_count(self):
+        self.partial_reconcile_count = len(self.get_partial_reconcile_ids())
+
     date_scheduled = fields.Date(states={
         'sent': [('readonly', True)],
         'rejected': [('readonly', True)],
@@ -75,6 +87,9 @@ class PaymentOrder(models.Model):
         'done': [('readonly', True)]
         })
     date_sent = fields.Date(string='Send date', readonly=True)
+    partial_reconcile_count = fields\
+        .Integer(string='Partial Reconciles Counter',
+                 compute='get_partial_reconcile_count')
 
     def action_rejected(self, cr, uid, ids, context=None):
         return True
@@ -253,3 +268,22 @@ class PaymentOrder(models.Model):
         # State field is written by act_sent_wait
         self.write({'date_sent': fields.Date.context_today(self)})
         return True
+
+    @api.multi
+    def partial(self):
+        self.ensure_one()
+        view_id = self.env.ref('account.view_move_line_tree').id
+        reconcile_partial_ids = self.get_partial_reconcile_ids()
+        reconcile_partial_domain = [('reconcile_partial_id', 'in',
+                                     reconcile_partial_ids)]
+        return {
+            'name': _('Partial Reconcile Moves Line'),
+            'context': self.env.context,
+            'domain': reconcile_partial_domain,
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'account.move.line',
+            'views': [(view_id, 'tree')],
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
