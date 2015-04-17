@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Account Payment Blocking module for Odoo
-#    Copyright (C) 2014 ACSONE SA/NV (http://acsone.eu)
+#    Copyright (C) 2014-2015 ACSONE SA/NV (http://acsone.eu)
 #    @author Stéphane Bidoul <stephane.bidoul@acsone.eu>
 #
 #    This program is free software: you can redistribute it and/or modify
