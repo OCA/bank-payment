@@ -34,6 +34,8 @@ class account_invoice(orm.Model):
 
     def _set_move_blocked(self, cr, uid, ids, name, field_value, arg,
                           context=None):
+        if context is None:
+            context = {}
         if isinstance(ids, (int, long)):
                 ids = [ids]
         for invoice in self.browse(cr, uid, ids, context=context):
