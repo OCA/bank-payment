@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Blocking module for OpenERP
+#    Account Payment Blocking module for Odoo
 #    Copyright (C) 2014 ACSONE SA/NV (http://acsone.eu)
 #    @author Stéphane Bidoul <stephane.bidoul@acsone.eu>
 #
