@@ -30,7 +30,8 @@ class account_invoice(orm.Model):
         return self.pool.get('account.move.line')\
             .search(cr, uid, [('account_id.type', 'in',
                               ['payable', 'receivable']),
-                              ('invoice.id', '=', invoice_id)])
+                              ('invoice.id', '=', invoice_id)],
+                    context=context)
 
     def _set_move_blocked(self, cr, uid, ids, name, field_value, arg,
                           context=None):
