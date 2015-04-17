@@ -19,7 +19,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:res.partner.bank:0
 msgid "Direct Debit Mandates"
-msgstr "Mandats de débit direct"
+msgstr "Mandats de prélèvement"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,description:account_banking_mandate.mandate_cancel
@@ -93,7 +93,7 @@ msgstr "Mandat bancaire a expiré"
 #. module: account_banking_mandate
 #: field:account.invoice,mandate_id:0 field:payment.line,mandate_id:0
 msgid "Direct Debit Mandate"
-msgstr "Mandat de débit direct"
+msgstr "Mandat de prélèvement"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:121
@@ -102,7 +102,7 @@ msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
 msgstr ""
-"Le mandat '% s' ne peut pas avoir une date de la dernière débit avant la "
+"Le mandat '% s' ne peut pas avoir une date de dernier prélèvement avant la "
 "date de la signature."
 
 #. module: account_banking_mandate
@@ -119,7 +119,7 @@ msgstr "Mandat annulé"
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:189
 #, python-format
 msgid "Mandate should be in cancel state"
-msgstr "Mandat doit être au statut ​​annuler"
+msgstr "Le mandat devrait être à l'état annulé"
 
 #. module: account_banking_mandate
 #: constraint:account.banking.mandate:0 constraint:payment.line:0
@@ -263,7 +263,7 @@ msgstr "Date de signature du mandat"
 #. module: account_banking_mandate
 #: field:account.banking.mandate,last_debit_date:0
 msgid "Date of the Last Debit"
-msgstr "Date du dernier débit"
+msgstr "Date du dernier prélèvement"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0

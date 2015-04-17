@@ -19,7 +19,7 @@ msgstr ""
 #. module: account_direct_debit
 #: model:account.payment.term,note:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit in 14 days"
-msgstr "Débit direct en 14 jours"
+msgstr "Prélèvement dans 14 jours"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_order
@@ -86,12 +86,12 @@ msgstr "Débit refusé"
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
 #: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
 msgid "Direct Debit Orders"
-msgstr "Ordre de débit direct"
+msgstr "Ordres de prélèvement"
 
 #. module: account_direct_debit
 #: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
 msgid "Direct debit"
-msgstr "Débit direct"
+msgstr "Prélèvement"
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/account_invoice.py:150
@@ -107,7 +107,7 @@ msgstr ""
 #: code:addons/account_direct_debit/model/account_invoice.py:154
 #, python-format
 msgid "Invoice '%s': direct debit is denied."
-msgstr "Facture '% s': débit diretc est refusé."
+msgstr "Facture '% s': prélèvement refusé."
 
 #. module: account_direct_debit
 #: code:addons/account_direct_debit/model/payment_line.py:141

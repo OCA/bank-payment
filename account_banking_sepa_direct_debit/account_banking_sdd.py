@@ -166,10 +166,15 @@ class sdd_mandate(orm.Model):
             help="When the field 'Migrated to SEPA' is not active, this "
             "field will be used as the Original Mandate Identification in "
             "the Direct Debit file."),
+        'scheme': fields.selection([
+            ('CORE', 'Basic (CORE)'),
+            ('B2B', 'Enterprise (B2B)')
+            ], 'Scheme', required=True)
     }
 
     _defaults = {
         'sepa_migrated': True,
+        'scheme': 'CORE',
     }
 
     def _check_sdd_mandate(self, cr, uid, ids):
