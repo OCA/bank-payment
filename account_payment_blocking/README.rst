@@ -1,8 +1,8 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-account_payment_blocking
-========================
+Block payment of invoices
+=========================
 
 This module was written to extend the functionality of payment orders
 to prevent invoices under litigation to be presented for inclusion in payment orders.
