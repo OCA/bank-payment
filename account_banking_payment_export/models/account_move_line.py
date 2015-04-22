@@ -19,13 +19,27 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, fields, api
 
 
-class AccountMoveLine(orm.Model):
+class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    def get_balance(self, cr, uid, ids, context=None):
+    @api.one
+    def _get_journal_entry_ref(self):
+        if self.move_id.state == 'draft':
+            if self.invoice.id:
+                self.journal_entry_ref = self.invoice.number
+            else:
+                self.journal_entry_ref = '*' + str(self.move_id.id)
+        else:
+            self.journal_entry_ref = self.move_id.name
+
+    journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
+                                    string='Journal Entry Ref')
+
+    @api.multi
+    def get_balance(self):
         """
         Return the balance of any set of move lines.
 
@@ -33,9 +47,6 @@ class AccountMoveLine(orm.Model):
         returns the account balance that the move line applies to.
         """
         total = 0.0
-        if not ids:
-            return total
-        for line in self.read(
-                cr, uid, ids, ['debit', 'credit'], context=context):
-            total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
+        for line in self:
+            total += (line.debit or 0.0) - (line.credit or 0.0)
         return total

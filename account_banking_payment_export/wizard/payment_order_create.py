@@ -109,6 +109,12 @@ class PaymentOrderCreate(models.TransientModel):
         context = self.env.context.copy()
         context['line_ids'] = self.filter_lines(lines)
         context['populate_results'] = self.populate_results
+        if payment.payment_order_type == 'payment':
+            context['display_credit'] = True
+            context['display_debit'] = False
+        else:
+            context['display_credit'] = False
+            context['display_debit'] = True
         model_datas = model_data_obj.search(
             [('model', '=', 'ir.ui.view'),
              ('name', '=', 'view_create_payment_order_lines')])
