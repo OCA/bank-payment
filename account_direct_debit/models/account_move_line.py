@@ -58,7 +58,8 @@ class AccountMoveLine(orm.Model):
         if not args:
             return []
         line_obj = self.pool.get('account.move.line')
-        query = line_obj._query_get(cr, uid, context=context)
+        search_context = dict(context or {}, all_fiscalyear=True)
+        query = line_obj._query_get(cr, uid, context=search_context)
         where = ' and '.join(map(lambda x: '''(SELECT
         CASE WHEN l.amount_currency > 0
             THEN l.amount_currency
