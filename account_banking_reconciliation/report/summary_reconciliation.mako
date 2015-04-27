@@ -73,7 +73,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum">
-                ${formatLang(rec.starting_balance_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.starting_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif 
           <td class="cell right_col_sum">
@@ -95,7 +95,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum">
-                ${formatLang(rec.sum_of_debits_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.sum_of_debits_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell right_col_sum">
@@ -108,7 +108,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell line_sum right_col_sum">
-                ${formatLang(-rec.sum_of_credits_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(-rec.sum_of_credits_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell line_sum right_col_sum">
@@ -121,7 +121,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum line_sum">
-                ${formatLang(rec.cleared_balance_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.cleared_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell right_col_sum line_sum">
@@ -132,9 +132,10 @@
           <td class="cell left_col">
             ${_("Cleared Balance")}
           </td>
+          <% import pdb; pdb.set_trace() %>
           %if rec.multi_currency:
               <td class="cell important_number_table right_col_sum">
-                ${formatLang(rec.cleared_balance_in_currency + rec.starting_balance_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.cleared_balance_in_currency + rec.starting_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell important_number_table right_col_sum">
@@ -156,7 +157,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum">
-                ${formatLang(rec.sum_of_debits_unclear_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.sum_of_debits_unclear_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell right_col_sum">
@@ -169,7 +170,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum line_sum">
-                ${formatLang(-rec.sum_of_credits_unclear_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(-rec.sum_of_credits_unclear_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell right_col_sum line_sum">
@@ -182,7 +183,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell right_col_sum line_sum">
-                ${formatLang(rec.uncleared_balance_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.uncleared_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell right_col_sum line_sum">
@@ -195,7 +196,7 @@
           </td>
           %if rec.multi_currency:
               <td class="cell important_number_table right_col_sum">
-                ${formatLang(rec.starting_balance_in_currency + rec.cleared_balance_in_currency + rec.uncleared_balance_in_currency, monetary=True, currency_obj=rec.company_id.currency_id)}
+                ${formatLang(rec.starting_balance_in_currency + rec.cleared_balance_in_currency + rec.uncleared_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
               </td>
           %endif
           <td class="cell important_number_table right_col_sum">
