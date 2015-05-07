@@ -163,7 +163,10 @@ class MT940(parser):
         """determine if a line is the header of a statement"""
         if not bool(re.match(self.header_regex, data)):
             raise ValueError(
-                'This does not seem to be a MT940 format bank statement.')
+                'File starting with %s does not seem to be a'
+                ' MT940 format bank statement.' %
+                data[:12]
+            )
 
     def parse(self, cr, data):
         """Implements account_banking.parsers.models.parser.parse()."""
