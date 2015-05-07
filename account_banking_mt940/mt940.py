@@ -20,6 +20,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from __future__ import print_function
 import re
 from datetime import datetime
 import logging
@@ -32,23 +33,27 @@ try:
     )
 except ImportError:
     # this allows us to run this file standalone, see __main__ at the end
-
-    class mem_bank_statement:
+    class mem_bank_statement(object):
+        """Dummy class"""
         def __init__(self):
+            """Just define transactions array."""
             self.transactions = []
 
-    class mem_bank_transaction:
+    class mem_bank_transaction(object):
+        """Dummy class"""
         pass
 
-    class parser:
+    class parser(object):
+        """Dummy class"""
         def parse(self, cr, data):
+            """Dummy method, so super can be called."""
             pass
 
 
-def str2amount(sign, str):
+def str2amount(sign, str_amount):
     """Convert sign (C or D) and amount in string to signed amount (float)."""
     factor = (1 if sign == 'C' else -1)
-    return factor * float(str.replace(',', '.'))
+    return factor * float(str_amount.replace(',', '.'))
 
 
 def get_subfields(data, codewords):
@@ -111,6 +116,7 @@ def handle_common_subfields(transaction, subfields):
         transaction.reference = ''.join(
             subfields[transaction.reference])
 
+
 class MT940Transaction(mem_bank_transaction):
     """Extentions for MT940 transactions."""
 
@@ -139,6 +145,8 @@ class MT940(parser):
     """One file can contain multiple statements, each with its own poorly
     documented header. For now, the best thing to do seems to skip that"""
 
+    header_regex = '^{1|^:940'  # Ing or Rabobank
+
     footer_regex = '^-XXX$'
     'The line that denotes end of message, we need to create a new statement'
 
@@ -151,9 +159,9 @@ class MT940(parser):
         self.current_transaction = None
         self.statements = []
 
-    def is_mt940(self, line):
+    def is_mt940(self, data):
         """determine if a line is the header of a statement"""
-        if not bool(re.match(self.header_regex, line)):
+        if not bool(re.match(self.header_regex, data)):
             raise ValueError(
                 'This does not seem to be a MT940 format bank statement.')
 
@@ -210,13 +218,13 @@ class MT940(parser):
         """determine if a line has a tag"""
         return line and bool(re.match(self.tag_regex, line))
 
-    def handle_header(self, line, iterator):
+    def handle_header(self, dummy_line, iterator):
         """skip header lines, create current statement"""
         for dummy_i in range(self.header_lines):
             iterator.next()
         self.current_statement = self.create_statement()
 
-    def handle_footer(self, line, iterator):
+    def handle_footer(self, dummy_line, dummy_iterator):
         """add current statement to list, reset state"""
         self.statements.append(self.current_statement)
         self.current_statement = None
@@ -285,16 +293,17 @@ class MT940(parser):
 
 def main(filename):
     """testing"""
-    parser = MT940()
-    parser.parse(None, open(filename, 'r').read())
-    for statement in parser.statements:
-        print (
+    parser_obj = MT940()
+    parser_obj.parse(None, open(filename, 'r').read())
+    for statement in parser_obj.statements:
+        print(
             "statement found for %(local_account)s at %(date)s"
             " with %(local_currency)s%(start_balance)s to %(end_balance)s" %
             statement.__dict__
         )
         for transaction in statement.transactions:
-            print "transaction on %(execution_date)s" % transaction.__dict__
+            print(
+                "transaction on %(execution_date)s" % transaction.__dict__)
 
 if __name__ == '__main__':
     import sys
