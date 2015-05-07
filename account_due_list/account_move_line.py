@@ -44,7 +44,7 @@ class account_move_line(orm.Model):
             if len(inv_ids) > 1:
                 raise orm.except_orm(
                     _('Error'),
-                    _('Incongruent data: move %s has more than one invoice')
+                    _('Inconsistent data: move %s has more than one invoice')
                     % line.move_id.name
                 )
             if inv_ids:
