@@ -145,7 +145,7 @@ class MT940(parser):
     """One file can contain multiple statements, each with its own poorly
     documented header. For now, the best thing to do seems to skip that"""
 
-    header_regex = '^{1|^:940'  # Ing or Rabobank
+    header_regex = '^0000 01INGBNL2AXXXX|^{1|^:940'  # (old) Ing or Rabobank
 
     footer_regex = '^-XXX$'
     'The line that denotes end of message, we need to create a new statement'
