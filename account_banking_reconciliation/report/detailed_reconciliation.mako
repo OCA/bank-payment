@@ -4,47 +4,62 @@
   <head>
     <style type="text/css">
       table {
-      page-break-inside:auto
+        page-break-inside:auto
       }
+
       table tr {
-      page-break-inside:avoid;
-      page-break-after:auto;
+        page-break-inside:avoid;
+        page-break-after:auto;
       }
+
       thead {
-      display:table-header-group;
+        display:table-header-group;
       }
+
       .important_number_table {
-      font-weight:bold;
-      font-size: 110%;
+        font-weight:bold;
+        font-size: 110%;
       }
+
+      .important_number {
+        font-weight:bold;
+        font-size: 100%;
+      }
+
       .cell {
-      border:none;
+        border:none;
       }
+
       .col_header {
-      font-weight:bold;
-      width:30px;
+        font-weight:bold;
+        width:30px;
       }
+
       .col_header_third {
-      font-style:italic;
+        font-style:italic;
       }
+
       .col_header_first {
-      font-size: larger;
+        font-size: larger;
       }
+
       .col_date {
-          width:60px;
+        width:60px;
       }
+
       .col_amount {
-      width:100px;
+        width:100px;
       }
+
       .col_partner {
-          /*
-          Max of 2 lines in height
-          */
-          line-height: 15px;
-          max-height: 30px;
-          width:150px;
-          text-overflow: ellipsis;
-          overflow: hidden;
+        /*
+        Max of 2 lines in height
+        */
+        line-height: 15px;
+        max-height: 30px;
+        width:150px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       div.col_partner {
@@ -57,19 +72,23 @@
       }
 
       .right_col {
-      text-align:right;
-      width:100px;
+        text-align:right;
+        width:100px;
       }
+
       .line_sum {
-      border-style:solid;
-      border-width:0px;
-      border-bottom-width:5px;
+        border-style:solid;
+        border-width:0px;
+        border-bottom-width:5px;
+        font-weight:bold;
+        font-size: 110%;
       }
+
       .first_item {
-      text-align:center;
-      border-style:solid;
-      border-width:0px;
-      border-bottom-width:8px;
+        text-align:center;
+        border-style:solid;
+        border-width:0px;
+        border-bottom-width:8px;
       }
       ${css}
     </style>
@@ -116,8 +135,10 @@
         </td>
         <td>
         </td>
-        <td class="cell right_col">
-          ${formatLang(rec.starting_balance, monetary=True, currency_obj=rec.company_id.currency_id)}
+        <td class="cell important_number_table right_col">
+          ${formatLang(rec.multi_currency and rec.starting_balance_in_currency or rec.starting_balance,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       <tr>
@@ -139,8 +160,10 @@
         <td class="cell col_header col_header_third" colspan="4">
           ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_debits_lines)}${_("items")}
         </td>
-        <td class="cell right_col">
-          ${formatLang(rec.sum_of_debits, monetary=True, currency_obj=rec.company_id.currency_id)}
+        <td class="cell important_number right_col">
+          ${formatLang(rec.multi_currency and rec.sum_of_debits_in_currency or rec.sum_of_debits,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %for rec_line in [line for line in rec.debit_move_line_ids if line.cleared_bank_account]:
@@ -163,7 +186,9 @@
           </div>
         </td>
         <td class="cell right_col col_amount">
-          ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec_line.amount_in_currency or rec_line.amount,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec_line.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %endfor
@@ -175,8 +200,10 @@
         <td class="cell col_header col_header_third" colspan="4">
           ${_("Cheques and Debits")}${" - %s " % int(rec.sum_of_credits_lines)}${_("items")}
         </td>
-        <td class="cell line_sum right_col">
-          ${formatLang(-rec.sum_of_credits, monetary=True, currency_obj=rec.company_id.currency_id)}
+        <td class="cell important_number right_col">
+          ${formatLang(rec.multi_currency and rec.sum_of_credits_in_currency or rec.sum_of_credits,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %for rec_line in [line for line in rec.credit_move_line_ids if line.cleared_bank_account]:
@@ -199,7 +226,9 @@
           </div>
         </td>
         <td class="cell right_col">
-          ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec_line.amount_in_currency or rec_line.amount,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec_line.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %endfor
@@ -212,7 +241,9 @@
         <td>
         </td>
         <td class="cell right_col line_sum">
-          ${formatLang(rec.cleared_balance, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec.cleared_balance_in_currency or rec.cleared_balance,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       <tr>
@@ -224,7 +255,9 @@
         <td>
         </td>
         <td class="cell important_number_table right_col">
-          ${formatLang(rec.cleared_balance + rec.starting_balance, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and (rec.cleared_balance_in_currency + rec.starting_balance_in_currency) or (rec.cleared_balance + rec.starting_balance),
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       <tr>
@@ -246,8 +279,10 @@
         <td class="cell col_header col_header_third" colspan="4">
           ${_("Deposits and Credits")}${" - %s " % int(rec.sum_of_debits_lines_unclear)}${_("items")}
         </td>
-        <td class="cell right_col">
-          ${formatLang(rec.sum_of_debits_unclear, monetary=True, currency_obj=rec.company_id.currency_id)}
+        <td class="cell important_number right_col">
+          ${formatLang(rec.multi_currency and rec.sum_of_debits_unclear_in_currency or rec.sum_of_debits_unclear,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %for rec_line in [line for line in rec.debit_move_line_ids if not line.cleared_bank_account]:
@@ -270,7 +305,9 @@
           </div>
         </td>
         <td class="cell right_col">
-          ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec_line.amount_in_currency or rec_line.amount,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec_line.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %endfor
@@ -282,8 +319,10 @@
         <td class="cell col_header col_header_third" colspan="4">
           ${_("Cheques and Debits")}${" - %s " % int(rec.sum_of_credits_lines_unclear)}${_("items")}
         </td>
-        <td class="cell right_col line_sum">
-          ${formatLang(-rec.sum_of_credits_unclear, monetary=True, currency_obj=rec.company_id.currency_id)}
+        <td class="cell right_col important_number">
+          ${formatLang(rec.multi_currency and rec.sum_of_credits_unclear_in_currency or rec.sum_of_credits_unclear,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %for rec_line in [line for line in rec.credit_move_line_ids if not line.cleared_bank_account]:
@@ -306,7 +345,9 @@
           </div>
         </td>
         <td class="cell right_col">
-          ${formatLang(rec_line.amount, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec_line.amount_in_currency or rec_line.amount,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec_line.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       %endfor
@@ -319,17 +360,21 @@
         <td>
         </td>
         <td class="cell right_col line_sum">
-          ${formatLang(rec.uncleared_balance, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and rec.uncleared_balance_in_currency or rec.uncleared_balance,
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
       <tr>
         <td class="cell col_header col_header_first" colspan="5">
-          ${_("Register Balance as of")}${" %s" % formatLang(rec.ending_date, date=True, currency_obj=rec.company_id.currency_id)}
+          ${_("Register Balance as of")}${" %s" % formatLang(rec.ending_date, date=True)}
         </td>
         <td>
         </td>
         <td class="cell important_number_table right_col">
-          ${formatLang(rec.starting_balance + rec.cleared_balance + rec.uncleared_balance, monetary=True, currency_obj=rec.company_id.currency_id)}
+          ${formatLang(rec.multi_currency and (rec.starting_balance_in_currency + rec.cleared_balance_in_currency + rec.uncleared_balance_in_currency) or (rec.starting_balance + rec.cleared_balance + rec.uncleared_balance),
+                       monetary=True,
+                       currency_obj=rec.multi_currency and rec.account_id.currency_id or rec.company_id.currency_id)}
         </td>
       </tr>
     </table>
