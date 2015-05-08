@@ -1,13 +1,13 @@
 <html>
   <head>
     <style type="text/css">
-        table {
-               page-break-inside:auto
-    }
+      table {
+      page-break-inside:auto
+      }
 
-    table tr {
-                page-break-inside:avoid; page-break-after:auto;
-  }
+      table tr {
+      page-break-inside:avoid; page-break-after:auto;
+      }
       .important_number_table
       {
       font-weight:bold;
@@ -132,7 +132,6 @@
           <td class="cell left_col">
             ${_("Cleared Balance")}
           </td>
-          <% import pdb; pdb.set_trace() %>
           %if rec.multi_currency:
               <td class="cell important_number_table right_col_sum">
                 ${formatLang(rec.cleared_balance_in_currency + rec.starting_balance_in_currency, monetary=True, currency_obj=rec.account_id.currency_id)}
