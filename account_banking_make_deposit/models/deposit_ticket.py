@@ -112,12 +112,12 @@ class deposit_ticket(orm.Model):
         for deposit in self.browse(cr, uid, ids, context=context):
             if not deposit.journal_id.sequence_id:
                 raise orm.except_orm(
-                    _('Error !'),
+                    _('Error'),
                     _('Please define sequence on deposit journal')
                 )
             if deposit.journal_id.centralisation:
                 raise orm.except_orm(
-                    _('UserError'),
+                    _('User Error'),
                     _('Cannot create move on centralised journal')
                 )
             # Create the move lines first

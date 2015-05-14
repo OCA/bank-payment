@@ -145,7 +145,7 @@ class account_invoice(orm.Model):
                 number = self.read(
                     cr, uid, invoice_id, ['number'], context=context)['number']
                 raise orm.except_orm(
-                    _('Error !'),
+                    _('Error'),
                     _("You cannot set invoice '%s' to state 'debit denied', "
                       'as it is still reconciled.') % number)
         self.write(cr, uid, ids, {'state': 'debit_denied'}, context=context)

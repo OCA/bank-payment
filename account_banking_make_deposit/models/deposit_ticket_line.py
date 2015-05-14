@@ -84,8 +84,8 @@ class deposit_ticket_line(orm.Model):
                 _(
                     'You cannot add any new deposit ticket line '
                     'manually as of this revision! '
-                    'Please use the button \"Add Deposit '
-                    'Items\" to add deposit ticket line!'
+                    'Please use the button "Add Deposit '
+                    'Items" to add deposit ticket line!'
                 )
             )
         return super(deposit_ticket_line, self).create(

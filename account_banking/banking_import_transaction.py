@@ -1898,7 +1898,7 @@ class account_bank_statement(orm.Model):
             if (not st.journal_id.default_credit_account_id) \
                     or (not st.journal_id.default_debit_account_id):
                 raise orm.except_orm(
-                    _('Configuration Error !'),
+                    _('Configuration Error'),
                     _('Please verify that an account is defined in the '
                       'journal.')
                 )
@@ -1907,7 +1907,7 @@ class account_bank_statement(orm.Model):
             for line in st.move_line_ids:
                 if line.state != 'valid':
                     raise orm.except_orm(
-                        _('Error !'),
+                        _('Error'),
                         _('The account entries lines are not in valid state.')
                     )
 
