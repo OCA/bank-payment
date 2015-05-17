@@ -38,6 +38,8 @@ except ImportError:
         def __init__(self):
             """Just define transactions array."""
             self.transactions = []
+            self.local_currency = ''
+            self.local_account = ''
 
     class mem_bank_transaction(object):
         """Dummy class"""
@@ -253,23 +255,40 @@ class MT940(parser):
         self.current_statement.local_account = data
 
     def handle_tag_28C(self, data):
-        """get sequence number _within_this_batch_ - this alone
-        doesn't provide a unique id!"""
-        self.current_statement.id = data
+        """Sequence number within batch - normally only zeroes."""
+        pass
 
     def handle_tag_60F(self, data):
         """get start balance and currency"""
-        self.current_statement.local_currency = data[7:10]
-        self.current_statement.date = datetime.strptime(data[1:7], '%y%m%d')
-        self.current_statement.start_balance = str2amount(data[0], data[10:])
-        self.current_statement.id = '%s/%s' % (
-            self.current_statement.date.strftime('%Y-%m-%d'),
-            self.current_statement.id,
-        )
+        # For the moment only first 60F record
+        # The alternative would be to split the file and start a new
+        # statement for each 20: tag encountered.
+        stmt = self.current_statement
+        if not stmt.local_currency:
+            stmt.local_currency = data[7:10]
+            stmt.start_balance = str2amount(data[0], data[10:])
 
     def handle_tag_62F(self, data):
-        """get ending balance"""
-        self.current_statement.end_balance = str2amount(data[0], data[10:])
+        """Get ending balance, statement date and id.
+
+        We use the date on the last 62F tag as statement date, as the date
+        on the 60F record (previous end balance) might contain a date in
+        a previous period.
+
+        We generate the statement.id from the local_account and the end-date,
+        this should normally be unique, provided there is a maximum of
+        one statement per day.
+
+        Depending on the bank, there might be multiple 62F tags in the import
+        file. The last one counts.
+        """
+        stmt = self.current_statement
+        stmt.end_balance = str2amount(data[0], data[10:])
+        stmt.date = datetime.strptime(data[1:7], '%y%m%d')
+        stmt.id = '%s-%s' % (
+            stmt.local_account,
+            stmt.date.strftime('%Y-%m-%d'),
+        )
 
     def handle_tag_64(self, data):
         """get current balance in currency"""
@@ -310,6 +329,6 @@ def main(filename):
 
 if __name__ == '__main__':
     import sys
-    main(*sys.argv[1:])
+    main(sys.argv[1])
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
