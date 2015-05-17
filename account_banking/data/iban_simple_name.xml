@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Simplify template for IBAN bank name. Bank itself is part of IBAN
+            and BIC is no longer required.
+            Function write trick to handle noupdate. -->
+        <function model="res.partner.bank.type" name="write">
+            <value eval="[ref('base_iban.bank_iban')]" />
+            <value eval="{'format_layout': 'IBAN %(acc_number)s'}" />
+        </function>
+
+    </data>
+</openerp>
+
