@@ -140,22 +140,20 @@ class MT940(parser):
 
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
+
     handle_tag_* functions receive the remainder of the the line (that is,
-    without ':XX:') and are supposed to write into self.current_transaction"""
+    without ':XX:') and are supposed to write into self.current_transaction
+    """
 
-    header_lines = 3
-    """One file can contain multiple statements, each with its own poorly
-    documented header. For now, the best thing to do seems to skip that"""
+def __init__(self, *args, **kwargs):
+    """Initialize parser - override at least header_regex.
 
-    header_regex = '^0000 01INGBNL2AXXXX|^{1|^:940'  # (old) Ing or Rabobank
-
-    footer_regex = '^-XXX$'
-    'The line that denotes end of message, we need to create a new statement'
-
-    tag_regex = '^:[0-9]{2}[A-Z]*:'
-    'The beginning of a record, should be anchored to beginning of the line'
-
-    def __init__(self, *args, **kwargs):
+        This in fact uses the ING syntax, override in others."""
+        self.header_lines = 3  # Number of lines to skip
+        # (old) Ing or Rabobank header:
+        self.header_regex = '^0000 01INGBNL2AXXXX|^{1|^:940'
+        self.footer_regex = '^-}$|^-XXX$'  # Stop processing on seeing this
+        self.tag_regex = '^:[0-9]{2}[A-Z]*:'  # Start of new tag
         super(MT940, self).__init__(*args, **kwargs)
         self.current_statement = None
         self.current_transaction = None
@@ -268,6 +266,15 @@ class MT940(parser):
             stmt.local_currency = data[7:10]
             stmt.start_balance = str2amount(data[0], data[10:])
 
+    def handle_tag_61(self, data):
+        """get transaction values"""
+        transaction = self.create_transaction()
+        self.current_statement.transactions.append(transaction)
+        self.current_transaction = transaction
+        transaction.execution_date = datetime.strptime(data[:6], '%y%m%d')
+        transaction.value_date = datetime.strptime(data[:6], '%y%m%d')
+        #  ...and the rest already is highly bank dependent
+
     def handle_tag_62F(self, data):
         """Get ending balance, statement date and id.
 
@@ -297,15 +304,6 @@ class MT940(parser):
     def handle_tag_65(self, data):
         """get future balance in currency"""
         pass
-
-    def handle_tag_61(self, data):
-        """get transaction values"""
-        transaction = self.create_transaction()
-        self.current_statement.transactions.append(transaction)
-        self.current_transaction = transaction
-        transaction.execution_date = datetime.strptime(data[:6], '%y%m%d')
-        transaction.value_date = datetime.strptime(data[:6], '%y%m%d')
-        #  ...and the rest already is highly bank dependent
 
     def handle_tag_86(self, data):
         """details for previous transaction, here most differences between

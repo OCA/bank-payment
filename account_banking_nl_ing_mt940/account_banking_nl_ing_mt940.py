@@ -30,7 +30,6 @@ class IngMT940Parser(MT940):
     name = _('ING MT940 (structured)')
     country_code = 'NL'
     code = 'INT_MT940_STRUC'
-    footer_regex = '^-}$|^-XXX$'
 
     tag_61_regex = re.compile(
         r'^(?P<date>\d{6})(?P<line_date>\d{0,4})'
