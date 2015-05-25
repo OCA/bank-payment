@@ -24,8 +24,11 @@
     'summary': 'Base module for PAIN file generation',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': "Akretion, Noviat,Odoo Community Association (OCA)",
-    'website': 'http://openerp-community-association.org/',
+    'author': "Akretion, "
+              "Noviat, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
     'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
     'category': 'Hidden',
     'depends': ['account_banking_payment_export'],
