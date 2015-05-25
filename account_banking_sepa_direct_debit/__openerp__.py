@@ -24,9 +24,10 @@
     'summary': 'Create SEPA files for Direct Debit',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'http://www.akretion.com',
-    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
+    'author': "Akretion, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
     'depends': [
         'account_direct_debit',
