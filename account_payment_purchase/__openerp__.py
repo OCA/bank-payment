@@ -39,9 +39,10 @@ is that it doesn't depend on the *account_payment_extension* module (it's not
 the only module to conflict with *account_payment_extension*; all the SEPA
 modules in the banking addons conflict with *account_payment_extension*).
     """,
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'http://www.akretion.com',
-    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
+    'author': "Akretion, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
     'depends': [
         'purchase',
         'account_payment_partner'
