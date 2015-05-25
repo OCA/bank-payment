@@ -7,8 +7,6 @@
 #
 #    All other contributions are (C) by their respective contributors
 #
-#    All Rights Reserved
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -28,22 +26,15 @@
     'name': 'Account Banking - Payments Export Infrastructure',
     'version': '0.1.165',
     'license': 'AGPL-3',
-    'author': "Banking addons community,Odoo Community Association (OCA)",
-    'website': 'https://launchpad.net/banking-addons',
+    'author': "ACSONE SA/NV, "
+              "Therp BV, "
+              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Odoo Community Association (OCA)",
+    'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
     'depends': [
         'account_payment',
         'base_iban',  # for manual_bank_tranfer
-    ],
-    'conflicts': [
-        # lp:account-payment/account_payment_extension also adds
-        # a type field to payment.mode, with a very similar purpose.
-        # We can't add a dependency on account_payment_extension here
-        # because account_payment_extension adds many other features
-        # that probably conflict with other parts of lp:banking-addons.
-        # Proposal to resolve: make account_payment_extension depend
-        # on the present account_banking_payment_export module.
-        'account_payment_extension',
     ],
     'data': [
         'views/account_payment.xml',
