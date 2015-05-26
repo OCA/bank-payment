@@ -15,6 +15,7 @@
         <group name="account_grp" position="after">
             <group name="pain" string="Payment Initiation">
                 <field name="initiating_party_issuer"/>
+                <field name="initiating_party_identifier"/>
             </group>
         </group>
     </field>

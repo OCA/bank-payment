@@ -260,7 +260,7 @@ class BankingExportSddWizard(orm.TransientModel):
             self.generate_creditor_scheme_identification(
                 cr, uid, creditor_scheme_identification_2_27,
                 'sepa_export.payment_order_ids[0].company_id.'
-                'sepa_creditor_identifier',
+                'initiating_party_identifier',
                 'SEPA Creditor Identifier', {'sepa_export': sepa_export},
                 'SEPA', gen_args, context=context)
             transactions_count_2_4 = 0

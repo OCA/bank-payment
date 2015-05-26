@@ -65,6 +65,8 @@ class TestPaymentRoundtrip(TransactionCase):
                 'name': '_banking_addons_test_company',
                 'currency_id': self.currency_id,
                 'country_id': self.country_id,
+                'initiating_party_identifier': 'FR78ZZZ424242',
+                'initiating_party_issuer': 'FR78ZZZ424242',
                 })
         self.partner_id = reg('res.company').read(
             cr, uid, self.company_id, ['partner_id'])['partner_id'][0]

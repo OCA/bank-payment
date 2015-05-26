@@ -170,3 +170,35 @@ msgstr "Élevé"
 #: field:payment.mode,convert_to_ascii:0
 msgid "Convert to ASCII"
 msgstr "Convertir en ASCII"
+
+#. module: account_banking_sepa_direct_debit
+#: help:res.company,initiating_party_identifier:0
+msgid "Enter the SEPA Initiating Party Identifier that has been attributed to your company to make SEPA operations. This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+"Entrez l'Identifiant de initiateur qui a été attribué à votre société pour "
+"réaliser des operations SEPA. Cet identifiant est composé de :\n"
+"- du code ISO de votre pays (2 lettres)\n"
+"- un code de contrôle à 2 chiffres\n"
+"- un code d'activité à 3 lettres\n"
+"- un identifiant national"
+
+#. module: account_banking_sepa_direct_debit
+#: field:res.company,initiating_party_identifier:0
+msgid "SEPA Initiating Party Identifier"
+msgstr "Identifiant de initiateur SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: constraint:res.company:0
+msgid "Invalid SEPA Initiating Party Identifier."
+msgstr "Identifiant de initiateur SEPA invalide."
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:275
+#, python-format
+msgid "You must fill initiating party identifier and issuer in the company form."
+msgstr ""
+

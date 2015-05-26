@@ -3,14 +3,20 @@
 <openerp>
 <data noupdate="1">
 
-<record id="sepa_credit_transfer_mode" model="payment.mode">
-    <field name="name">SEPA Credit Transfer La Banque Postale</field>
-    <field name="journal" ref="account.bank_journal"/>
-    <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
-    <field name="company_id" ref="base.main_company"/>
-    <field name="type" ref="export_sepa_sct_001_001_03"/>
-    <field name="sale_ok" eval="False"/>
-</record>
+    <record id="sepa_credit_transfer_mode" model="payment.mode">
+        <field name="name">SEPA Credit Transfer La Banque Postale</field>
+        <field name="journal" ref="account.bank_journal"/>
+        <field name="bank_id" ref="account_banking_payment_export.main_company_iban"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type" ref="export_sepa_sct_001_001_03"/>
+        <field name="sale_ok" eval="False"/>
+    </record>
+
+    <record id="base.main_company" model="res.company">
+        <field name="initiating_party_identifier">FR78ZZZ424242</field>
+        <field name="initiating_party_issuer">FR78ZZZ424242</field>
+    </record>
+
 
 </data>
 </openerp>
