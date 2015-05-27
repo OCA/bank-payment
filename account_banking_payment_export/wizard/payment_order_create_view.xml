@@ -14,6 +14,8 @@
             <field name="arch" type="xml">
                 <field name="duedate" position="after">
                     <field name="populate_results"/>
+                    <field name="partners" widget="many2many_tags"/>
+                    <field name="accounts" widget="many2many_tags"/>
                 </field>
             </field>
         </record>

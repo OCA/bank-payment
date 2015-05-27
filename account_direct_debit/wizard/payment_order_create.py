@@ -5,8 +5,6 @@
 #
 #    All other contributions are (C) by their respective contributors
 #
-#    All Rights Reserved
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -23,10 +21,33 @@
 ##############################################################################
 
 from openerp import models, api
+from lxml import etree
 
 
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        """Modify view to accomodate fields to direct debit orders."""
+        res = super(PaymentOrderCreate, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+        payment_order = self.env['payment.order'].browse(
+            self.env.context['active_id'])
+        if payment_order.payment_order_type == 'debit' and view_type == 'form':
+            eview = etree.fromstring(res['arch'])
+            partners_fields = eview.xpath("//field[@name='partners']")
+            if partners_fields:
+                partners_fields[0].set(
+                    'domain', "[('customer', '=', True)]")
+            accounts_fields = eview.xpath("//field[@name='accounts']")
+            if accounts_fields:
+                accounts_fields[0].set(
+                    'domain', "[('type', '=', 'receivable')]")
+            res['arch'] = etree.tostring(eview)
+        return res
 
     @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
