@@ -87,8 +87,8 @@ msgstr "Factura '%s': adeudo directo denegado"
 
 #. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
-msgid "Invoices"
-msgstr "Facturas"
+msgid "Move lines"
+msgstr "Apuntes contables"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_move_line
@@ -107,8 +107,8 @@ msgstr "Orden de pago"
 
 #. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
-msgid "Select invoices to collect"
-msgstr "Seleccione facturas"
+msgid "Select move lines to collect"
+msgstr "Seleccione apuntes contables a incluir"
 
 #. module: account_direct_debit
 #: view:account.invoice:account_direct_debit.view_account_invoice_filter

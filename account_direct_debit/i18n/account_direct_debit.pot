@@ -87,7 +87,7 @@ msgstr ""
 
 #. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
-msgid "Invoices"
+msgid "Move lines"
 msgstr ""
 
 #. module: account_direct_debit
@@ -107,7 +107,7 @@ msgstr ""
 
 #. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
-msgid "Select invoices to collect"
+msgid "Select move lines to collect"
 msgstr ""
 
 #. module: account_direct_debit

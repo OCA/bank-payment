@@ -16,10 +16,12 @@
                 <field name="mode" position="after">
                     <field name="mode_type" invisible="1"/>
                 </field>
-                <xpath expr="//button[@string='Invoices']" position="attributes">
-                    <attribute name="attrs">{
-                        'invisible': [('state', '!=', 'draft')]}</attribute>
-                </xpath>
+                <button string="Invoices" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}</attribute>
+                    <attribute name="string">Move lines</attribute>
+                    <attribute name="icon">fa-list</attribute>
+                    <attribute name="help">Select move lines to pay</attribute>
+                </button>
             </field>
         </record>
 

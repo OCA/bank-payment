@@ -285,11 +285,10 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
-msgid "{\n"
-"                        'invisible': [('state', '!=', 'draft')]}"
+msgid "Move lines"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
-msgid "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
+msgid "Select move lines to pay"
 msgstr ""
