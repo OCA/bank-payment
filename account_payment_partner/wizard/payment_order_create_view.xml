@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_create_payment_order_invoices" model="ir.ui.view">
+            <field name="name">payment.order.create.form.export</field>
+            <field name="model">payment.order.create</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_create_payment_order"/>
+            <field name="arch" type="xml">
+                <field name="accounts" position="after">
+                    <field name="for_invoices" invisible="1"/>
+                </field>
+                <field name="accounts" position="attributes">
+                    <attribute name="attrs">{'invisible': [('for_invoices', '=', True)]}</attribute>
+                </field>
+                <field name="populate_results" position="after">
+                    <field name="include_invoices" attrs="{'invisible': [('for_invoices', '=', True)]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
