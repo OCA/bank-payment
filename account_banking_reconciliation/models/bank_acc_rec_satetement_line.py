@@ -94,6 +94,7 @@ class bank_acc_rec_statement_line(orm.Model):
             'Cr/Dr'
         ),
     }
+    _order = 'date asc'
 
     def create(self, cr, uid, vals, context=None):
         account_move_line_obj = self.pool.get('account.move.line')

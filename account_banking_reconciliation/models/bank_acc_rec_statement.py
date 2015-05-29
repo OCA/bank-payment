@@ -669,9 +669,9 @@ class bank_acc_rec_statement(orm.Model):
                         continue
                 res = self._get_move_line_write(line)
                 if res['type'] == 'cr':
-                    val['value']['credit_move_line_ids'].append(res)
+                    val['value']['credit_move_line_ids'].insert(0, res)
                 else:
-                    val['value']['debit_move_line_ids'].append(res)
+                    val['value']['debit_move_line_ids'].insert(0, res)
         return val
 
     # This method almost extracted from account_voucher
