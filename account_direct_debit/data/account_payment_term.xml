@@ -6,7 +6,6 @@
             <field name="note">Direct debit in 14 days</field>
         </record>
         <record id="payment_term_line_direct_debit" model="account.payment.term.line">
-            <field name="name">Direct debit in 14 days</field>
             <field name="value">balance</field>
             <field eval="14" name="days"/>
             <field eval="0" name="days2"/>
