@@ -26,13 +26,6 @@
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': "Manage payment mode when invoicing a sale from picking",
-    'description': """
-Account Payment Sale Stock
-==========================
-
-This module copies *Payment Mode* from sale order to invoice when it is
-generated from the picking.
-    """,
     'author': "Akretion, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
               "Odoo Community Association (OCA)",

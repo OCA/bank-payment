@@ -1,20 +1,20 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Account Payment Draft Move
+Account Payment Sale Stock
 ==========================
 
-Include draft moves in account payments
+This module should be used when the invoice is based on the delivery order.
 
-Add payment order line from unposted move lines.
-With account_default_draft_move, this module allows to add move lines
-to payment orders before making the periodic process of posting all moves.
+This module copies *Payment Mode* from sale order to invoice when it is
+generated from the delivery order.
 
 Installation
 ============
 
 This module depends on :
-* account_banking_payment_export
+- sale_stock
+- account_payment_sale
 
 This modules are parts of the OCA/bank-payment suite.
 
@@ -26,7 +26,11 @@ There is nothing to configure.
 Usage
 =====
 
-A new payment order allow to select draft journal items related to an invoice.
+You are able to add a payment mode directly on a partner.
+This payment mode is automatically associated to the sale order, then on related invoice. 
+This default value could be change in a draft sale order or draft invoice.
+When you create an direct debit order, only invoices related to chosen payment mode are displayed.
+Invoices without any payment mode are displayed to.
 
 For further information, please visit:
 
@@ -43,7 +47,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_include_draft_move%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_sale_stock%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======
@@ -51,9 +55,12 @@ Credits
 Contributors
 ------------
 
-* Adrien Peiffer <adrien.peiffer@acsone.eu>
+* Pedro M. Baeza
+* Alexis de Lattre
 * Alexandre Fayolle
-
+* Danimar Ribeiro
+* Raphaël Valyi
+     
 Maintainer
 ----------
 

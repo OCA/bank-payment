@@ -37,11 +37,6 @@
     'data': [
         'views/payment_mode.xml',
     ],
-    'description': '''Payment term filter on payment mode.
-
-    When set, only open invoices corresponding to the mode's
-    payment term are proposed when populating payment orders.
-    ''',
     'auto_install': False,
     'installable': True,
 }
