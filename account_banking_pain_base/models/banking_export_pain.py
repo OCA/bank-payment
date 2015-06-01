@@ -256,13 +256,18 @@ class BankingExportPain(orm.AbstractModel):
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
-        initiating_party_identifier = self.pool['res.company'].\
-            _get_initiating_party_identifier(
-                cr, uid,
-                gen_args['sepa_export'].payment_order_ids[0].company_id.id,
-                context=context)
-        initiating_party_issuer = gen_args['sepa_export'].\
-            payment_order_ids[0].company_id.initiating_party_issuer
+        initiating_party_identifier = self._prepare_field(
+            cr, uid, 'Initiating Party Identifier',
+            'sepa_export.payment_order_ids[0].company_id.'
+            'initiating_party_identifier',
+            {'sepa_export': gen_args['sepa_export']},
+            35, gen_args=gen_args, context=context)
+        initiating_party_issuer = self._prepare_field(
+            cr, uid, 'Initiating Party Issuer',
+            'sepa_export.payment_order_ids[0].company_id.'
+            'initiating_party_issuer',
+            {'sepa_export': gen_args['sepa_export']},
+            35, gen_args=gen_args, context=context)
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
