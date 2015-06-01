@@ -73,9 +73,6 @@ class PaymentMode(models.Model):
                 cr.execute('UPDATE "{table}" SET type=%s'.
                            format(table=self._table),
                            (default_type,))
-            else:
-                _logger.warning("manual bank transfer payment mode "
-                                "type not found")
         return super(PaymentMode, self)._auto_init(cr, context=context)
 
     def suitable_bank_types(self, cr, uid, payment_mode_id=None, context=None):
