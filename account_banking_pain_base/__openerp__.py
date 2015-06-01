@@ -40,6 +40,7 @@
         'views/payment_mode_view.xml',
         'views/res_company_view.xml',
     ],
+    'post_init_hook': 'set_default_initiating_party',
     'description': '''
 Base module for PAIN file generation
 ====================================
