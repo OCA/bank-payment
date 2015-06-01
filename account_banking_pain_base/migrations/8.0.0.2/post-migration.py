@@ -1,8 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    Copyright (C) 2015 Akretion (http://www.akretion.com/)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,5 +19,14 @@
 #
 ##############################################################################
 
-from . import models
-from .post_install import set_default_initiating_party
+from openerp.addons.account_banking_pain_base.post_install\
+    import set_default_initiating_party
+from openerp import pooler
+
+
+def migrate(cr, version):
+    if not version:
+        return
+
+    pool = pooler.get_pool(cr.dbname)
+    set_default_initiating_party(cr, pool)
