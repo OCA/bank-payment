@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    PAIN Base module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,5 +20,13 @@
 #
 ##############################################################################
 
-from . import models
-from .post_install import set_default_initiating_party
+from openerp import SUPERUSER_ID
+
+
+def set_default_initiating_party(cr, pool):
+    company_ids = pool['res.company'].search(cr, SUPERUSER_ID, [])
+    companies = pool['res.company'].browse(cr, SUPERUSER_ID, company_ids)
+    for company in companies:
+        pool['res.company']._default_initiating_party(
+            cr, SUPERUSER_ID, company)
+    return
