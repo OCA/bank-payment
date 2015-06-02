@@ -259,7 +259,6 @@ class BankingExportSepaWizard(orm.TransientModel):
         reconciliation.
         """
         sepa_export = self.browse(cr, uid, ids[0], context=context)
-        payment_order_ids = []
         for order in sepa_export.payment_order_ids:
             workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
             self.pool['ir.attachment'].create(
