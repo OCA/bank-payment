@@ -20,38 +20,13 @@
 #
 ##############################################################################
 
+from openerp import SUPERUSER_ID
 
-def set_default_initiating_party(cr, registry):
-    party_issuer_per_country = {
-        'BE': 'KBO-BCE',  # KBO-BCE = the registry of companies in Belgium
-    }
-    cr.execute('''
-        SELECT
-            res_company.id,
-            res_country.code AS country_code,
-            res_partner.vat,
-            res_company.initiating_party_identifier,
-            res_company.initiating_party_issuer
-        FROM res_company
-        LEFT JOIN res_partner ON res_partner.id = res_company.partner_id
-        LEFT JOIN res_country ON res_country.id = res_partner.country_id
-        ''')
-    for company in cr.dictfetchall():
-        country_code = company['country_code']
-        if not company['initiating_party_issuer']:
-            if country_code and country_code in party_issuer_per_country:
-                cr.execute(
-                    'UPDATE res_company SET initiating_party_issuer=%s '
-                    'WHERE id=%s',
-                    (party_issuer_per_country[country_code], company['id']))
-        party_identifier = False
-        if not company['initiating_party_identifier']:
-            if company['vat'] and country_code:
-                if country_code == 'BE':
-                    party_identifier = company['vat'][2:].replace(' ', '')
-            if party_identifier:
-                cr.execute(
-                    'UPDATE res_company SET initiating_party_identifier=%s '
-                    'WHERE id=%s',
-                    (party_identifier, company['id']))
+
+def set_default_initiating_party(cr, pool):
+    company_ids = pool['res.company'].search(cr, SUPERUSER_ID, [])
+    companies = pool['res.company'].browse(cr, SUPERUSER_ID, company_ids)
+    for company in companies:
+        pool['res.company']._default_initiating_party(
+            cr, SUPERUSER_ID, company)
     return
