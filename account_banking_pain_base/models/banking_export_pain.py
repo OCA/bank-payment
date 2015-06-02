@@ -246,6 +246,11 @@ class BankingExportPain(orm.AbstractModel):
         requested_date_2_17.text = requested_date
         return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
 
+    def _must_have_initiating_party(self, cr, uid, gen_args, context=None):
+        '''This method is designed to be inherited in localization modules for
+        countries in which the initiating party is required'''
+        return False
+
     def generate_initiating_party_block(
             self, cr, uid, parent_node, gen_args, context=None):
         my_company_name = self._prepare_field(
@@ -256,18 +261,12 @@ class BankingExportPain(orm.AbstractModel):
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
-        initiating_party_identifier = self._prepare_field(
-            cr, uid, 'Initiating Party Identifier',
-            'sepa_export.payment_order_ids[0].company_id.'
-            'initiating_party_identifier',
-            {'sepa_export': gen_args['sepa_export']},
-            35, gen_args=gen_args, context=context)
-        initiating_party_issuer = self._prepare_field(
-            cr, uid, 'Initiating Party Issuer',
-            'sepa_export.payment_order_ids[0].company_id.'
-            'initiating_party_issuer',
-            {'sepa_export': gen_args['sepa_export']},
-            35, gen_args=gen_args, context=context)
+        initiating_party_identifier =\
+            gen_args['sepa_export'].payment_order_ids[0].company_id.\
+            initiating_party_identifier
+        initiating_party_issuer =\
+            gen_args['sepa_export'].payment_order_ids[0].company_id.\
+            initiating_party_issuer
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
@@ -277,6 +276,14 @@ class BankingExportPain(orm.AbstractModel):
             iniparty_org_other_issuer = etree.SubElement(
                 iniparty_org_other, 'Issr')
             iniparty_org_other_issuer.text = initiating_party_issuer
+        elif self._must_have_initiating_party(cr, uid, gen_args,
+                                              context=context):
+            raise orm.except_orm(
+                _('Error:'),
+                _("Missing 'Initiating Party Issuer' and/or "
+                    "'Initiating Party Identifier' for the company '%s'. "
+                    "Both fields must have a value.")
+                % gen_args['sepa_export'].payment_order_ids[0].company_id.name)
         return True
 
     def generate_party_agent(
