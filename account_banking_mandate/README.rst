@@ -24,7 +24,7 @@ This modules are parts of the OCA/bank-payment suite.
 Configuration
 =============
 
-Need more informations ....
+TODO
 
 Usage
 =====
