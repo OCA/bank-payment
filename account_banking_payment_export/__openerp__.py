@@ -35,6 +35,7 @@
     'depends': [
         'account_payment',
         'base_iban',  # for manual_bank_tranfer
+        'document',  # to see the attachments on payment.order
     ],
     'data': [
         'views/account_payment.xml',
