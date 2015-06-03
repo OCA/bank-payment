@@ -25,8 +25,8 @@ Configuration
 
 To configure this module, you need to:
 
- * create a transfert account who allow reconciliation : option "Allow Reconciliation" activated.
- * configure transfert account on payment mode. Go to the menu Accounting > Configuration > Miscellaneous > Payment Mode and complete the section "Transfer move settings".
+ * create a transfer account who allow reconciliation : option "Allow Reconciliation" activated.
+ * configure transfer account on payment mode. Go to the menu Accounting > Configuration > Miscellaneous > Payment Mode and complete the section "Transfer move settings".
 
 Usage
 =====
