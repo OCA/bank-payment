@@ -36,7 +36,7 @@ class account_payment_populate_statement(models.TransientModel):
         res.update({
                     'name': payment_line.communication,
                     'ref': payment_line.order_id.reference or '?',
-                    'amount_currency': payment_line.amount_currency or 0.0,
+                    'amount_currency': - payment_line.amount_currency or 0.0,
                     'currency_id': payment_line.currency.id or False,
                     })
         return res
