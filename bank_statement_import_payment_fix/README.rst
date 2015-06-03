@@ -4,28 +4,29 @@
 Module name
 ===========
 
-This module was written to extend the functionality of ...
+This module was written to extend the functionality of importing payments as bank statement lines.
+It invert values of "communication" and "reference" fields
 
 Installation
 ============
 
 To install this module, you need to:
 
-* ...
+* install it
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-* ...
+* nothing
 
 Usage
 =====
 
 To use this module, you need to:
 
-* ...
+* nothing
 
 For further information, please visit:
 
@@ -51,6 +52,7 @@ Contributors
 ------------
 
 * Damien Crier <damien.crier@camptocamp.com>
+* Frédéric Clémenti <frederic.clementi@camptocamp.com>
 
 Maintainer
 ----------
