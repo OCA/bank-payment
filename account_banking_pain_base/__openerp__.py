@@ -22,7 +22,7 @@
 {
     'name': 'Account Banking PAIN Base Module',
     'summary': 'Base module for PAIN file generation',
-    'version': '0.1',
+    'version': '0.2',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Noviat, "
@@ -40,6 +40,7 @@
         'views/payment_mode_view.xml',
         'views/res_company_view.xml',
     ],
+    'post_init_hook': 'set_default_initiating_party',
     'description': '''
 Base module for PAIN file generation
 ====================================
