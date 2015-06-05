@@ -27,7 +27,7 @@ This module depends on :
 * account_banking_pain_base',
 * account_banking_mandate
 
-This modules are parts of the OCA/bank-payment suite.
+This module is part of the OCA/bank-payment suite.
 
 Configuration
 =============
@@ -48,7 +48,7 @@ For further information, please visit:
 Known issues / Roadmap
 ======================
 
- * ...
+ * No known issues
  
 Bug Tracker
 ===========

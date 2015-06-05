@@ -42,7 +42,7 @@ For further information, please visit:
 Known issues / Roadmap
 ======================
 
-None.
+ * No known issues.
 
 
 Bug Tracker

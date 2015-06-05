@@ -29,7 +29,7 @@ This module depends on :
 * account_payment
 * base_iban
 
-This modules are parts of the OCA/bank-payment suite.
+This modules is part of the OCA/bank-payment suite.
 
 Configuration
 =============
@@ -48,7 +48,7 @@ For further information, please visit:
 Known issues / Roadmap
 ======================
 
- * ...
+ * no known issues
  
 Bug Tracker
 ===========
