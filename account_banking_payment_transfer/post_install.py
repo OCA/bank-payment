@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN base module for Odoo
-#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
+#    Account Banking Payment Transfer module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,27 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Account Banking PAIN Base Module',
-    'summary': 'Base module for PAIN file generation',
-    'version': '0.2',
-    'license': 'AGPL-3',
-    'author': "Akretion, "
-              "Noviat, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
-              "Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/bank-payment',
-    'contributors': ['Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'],
-    'category': 'Hidden',
-    'depends': ['account_banking_payment_export'],
-    'external_dependencies': {
-        'python': ['unidecode', 'lxml'],
-    },
-    'data': [
-        'views/payment_line_view.xml',
-        'views/payment_mode_view.xml',
-        'views/res_company_view.xml',
-    ],
-    'post_init_hook': 'set_default_initiating_party',
-    'installable': True,
-}
+
+
+def set_date_sent(cr, pool):
+    cr.execute('UPDATE payment_order set date_sent=date_done')

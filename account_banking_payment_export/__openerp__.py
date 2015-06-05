@@ -44,6 +44,7 @@
         'wizard/bank_payment_manual.xml',
         'wizard/payment_order_create_view.xml',
         'data/payment_mode_type.xml',
+        'workflow/account_payment.xml',
         'security/ir.model.access.csv',
     ],
     'demo': ['demo/banking_demo.xml'],
