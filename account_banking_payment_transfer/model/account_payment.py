@@ -98,9 +98,7 @@ class PaymentOrder(models.Model):
     def action_done(self):
         for line in self.line_ids:
             line.date_done = fields.Date.context_today(self)
-        self.date_done = fields.Date.context_today(self)
-        # state is written in workflow definition
-        return True
+        return super(PaymentOrder, self).action_done()
 
     @api.multi
     def _get_transfer_move_lines(self):

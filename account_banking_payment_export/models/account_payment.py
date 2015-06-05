@@ -73,3 +73,11 @@ class PaymentOrder(models.Model):
                 workflow.trg_validate(self.env.uid, 'payment.order',
                                       order_id, 'done', self.env.cr)
             return {}
+
+    @api.multi
+    def action_done(self):
+        self.write({
+            'date_done': fields.Date.context_today(self),
+            'state': 'done',
+            })
+        return True

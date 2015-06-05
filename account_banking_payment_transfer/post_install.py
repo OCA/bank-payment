@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    SEPA Credit Transfer module for Odoo
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+#    Account Banking Payment Transfer module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,4 +20,6 @@
 #
 ##############################################################################
 
-from . import export_sepa
+
+def set_date_sent(cr, pool):
+    cr.execute('UPDATE payment_order set date_sent=date_done')

@@ -31,6 +31,7 @@
     'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/banking',
     'category': 'Banking addons',
+    'post_init_hook': 'set_date_sent',
     'depends': [
         'account_banking_payment_export',
     ],
