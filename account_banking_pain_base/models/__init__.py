@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
+#    PAIN Base module for Odoo
 #    Copyright (C) 2013 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -21,6 +21,7 @@
 ##############################################################################
 
 from . import payment_line
+from . import bank_payment_line
 from . import payment_mode
 from . import res_company
 from . import banking_export_pain
