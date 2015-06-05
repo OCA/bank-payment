@@ -21,75 +21,65 @@
 ##############################################################################
 
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 from openerp import workflow
 from lxml import etree
 
 
-class BankingExportSepaWizard(orm.TransientModel):
+class BankingExportSepaWizard(models.TransientModel):
     _name = 'banking.export.sepa.wizard'
     _inherit = ['banking.export.pain']
     _description = 'Export SEPA Credit Transfer File'
 
-    _columns = {
-        'state': fields.selection([('create', 'Create'),
-                                   ('finish', 'Finish')], 'State',
-                                  readonly=True),
-        'batch_booking': fields.boolean(
-            'Batch Booking',
-            help="If true, the bank statement will display only one debit "
-            "line for all the wire transfers of the SEPA XML file ; if "
-            "false, the bank statement will display one debit line per wire "
-            "transfer of the SEPA XML file."),
-        'charge_bearer': fields.selection(
-            [('SLEV', 'Following Service Level'),
-             ('SHAR', 'Shared'),
-             ('CRED', 'Borne by Creditor'),
-             ('DEBT', 'Borne by Debtor')], 'Charge Bearer', required=True,
-            help="Following service level : transaction charges are to be "
-                 "applied following the rules agreed in the service level "
-                 "and/or scheme (SEPA Core messages must use this). Shared : "
-                 "transaction charges on the debtor side are to be borne by "
-                 "the debtor, transaction charges on the creditor side are to "
-                 "be borne by the creditor. Borne by creditor : all "
-                 "transaction charges are to be borne by the creditor. Borne "
-                 "by debtor : all transaction charges are to be borne by the "
-                 "debtor."),
-        'nb_transactions': fields.integer(
-            string='Number of Transactions', readonly=True),
-        'total_amount': fields.float(
-            string='Total Amount', readonly=True),
-        'file': fields.binary(
-            string="File", readonly=True),
-        'filename': fields.char(
-            string="Filename", readonly=True),
-        'payment_order_ids': fields.many2many(
-            'payment.order', 'wiz_sepa_payorders_rel', 'wizard_id',
-            'payment_order_id', 'Payment Orders', readonly=True),
-    }
+    state = fields.Selection([
+        ('create', 'Create'),
+        ('finish', 'Finish')],
+        string='State', readonly=True, default='create')
+    batch_booking = fields.Boolean(
+        string='Batch Booking',
+        help="If true, the bank statement will display only one debit "
+        "line for all the wire transfers of the SEPA XML file ; if "
+        "false, the bank statement will display one debit line per wire "
+        "transfer of the SEPA XML file.")
+    charge_bearer = fields.Selection([
+        ('SLEV', 'Following Service Level'),
+        ('SHAR', 'Shared'),
+        ('CRED', 'Borne by Creditor'),
+        ('DEBT', 'Borne by Debtor')], string='Charge Bearer',
+        default='SLEV', required=True,
+        help="Following service level : transaction charges are to be "
+        "applied following the rules agreed in the service level "
+        "and/or scheme (SEPA Core messages must use this). Shared : "
+        "transaction charges on the debtor side are to be borne by "
+        "the debtor, transaction charges on the creditor side are to "
+        "be borne by the creditor. Borne by creditor : all "
+        "transaction charges are to be borne by the creditor. Borne "
+        "by debtor : all transaction charges are to be borne by the "
+        "debtor.")
+    nb_transactions = fields.Integer(
+        string='Number of Transactions', readonly=True)
+    total_amount = fields.Float(string='Total Amount', readonly=True)
+    file = fields.Binary(string="File", readonly=True)
+    filename = fields.Char(string="Filename", readonly=True)
+    payment_order_ids = fields.Many2many(
+        'payment.order', 'wiz_sepa_payorders_rel', 'wizard_id',
+        'payment_order_id', string='Payment Orders', readonly=True)
 
-    _defaults = {
-        'charge_bearer': 'SLEV',
-        'state': 'create',
-    }
-
-    def create(self, cr, uid, vals, context=None):
-        payment_order_ids = context.get('active_ids', [])
+    @api.model
+    def create(self, vals):
+        payment_order_ids = self._context.get('active_ids', [])
         vals.update({
             'payment_order_ids': [[6, 0, payment_order_ids]],
         })
-        return super(BankingExportSepaWizard, self).create(
-            cr, uid, vals, context=context)
+        return super(BankingExportSepaWizard, self).create(vals)
 
-    def create_sepa(self, cr, uid, ids, context=None):
+    @api.multi
+    def create_sepa(self):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
-        if context is None:
-            context = {}
-        sepa_export = self.browse(cr, uid, ids[0], context=context)
-        pain_flavor = sepa_export.payment_order_ids[0].mode.type.code
+        pain_flavor = self.payment_order_ids[0].mode.type.code
         convert_to_ascii = \
-            sepa_export.payment_order_ids[0].mode.convert_to_ascii
+            self.payment_order_ids[0].mode.convert_to_ascii
         if pain_flavor == 'pain.001.001.02':
             bic_xml_tag = 'BIC'
             name_maxsize = 70
@@ -115,8 +105,7 @@ class BankingExportSepaWizard(orm.TransientModel):
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
         else:
-            raise orm.except_orm(
-                _('Error:'),
+            raise Warning(
                 _("Payment Type Code '%s' is not supported. The only "
                   "Payment Type Codes supported for SEPA Credit Transfers "
                   "are 'pain.001.001.02', 'pain.001.001.03', "
@@ -129,7 +118,6 @@ class BankingExportSepaWizard(orm.TransientModel):
             'payment_method': 'TRF',
             'file_prefix': 'sct_',
             'pain_flavor': pain_flavor,
-            'sepa_export': sepa_export,
             'pain_xsd_file':
             'account_banking_sepa_credit_transfer/data/%s.xsd'
             % pain_flavor,
@@ -144,16 +132,15 @@ class BankingExportSepaWizard(orm.TransientModel):
             ['pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
-            self.generate_group_header_block(
-                cr, uid, pain_root, gen_args, context=context)
+            self.generate_group_header_block(pain_root, gen_args)
         transactions_count_1_6 = 0
         total_amount = 0.0
         amount_control_sum_1_7 = 0.0
         lines_per_group = {}
         # key = (requested_date, priority)
         # values = list of lines as object
-        today = fields.date.context_today(self, cr, uid, context=context)
-        for payment_order in sepa_export.payment_order_ids:
+        today = fields.Date.context_today(self)
+        for payment_order in self.payment_order_ids:
             total_amount = total_amount + payment_order.total
             for line in payment_order.line_ids:
                 priority = line.priority
@@ -170,32 +157,30 @@ class BankingExportSepaWizard(orm.TransientModel):
                     lines_per_group[key] = [line]
                 # Write requested_date on 'Payment date' of the pay line
                 if requested_date != line.date:
-                    self.pool['payment.line'].write(
-                        cr, uid, line.id,
-                        {'date': requested_date}, context=context)
+                    line.date = requested_date
         for (requested_date, priority), lines in lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
                 self.generate_start_payment_info_block(
-                    cr, uid, pain_root,
-                    "sepa_export.payment_order_ids[0].reference + '-' "
+                    pain_root,
+                    "self.payment_order_ids[0].reference + '-' "
                     "+ requested_date.replace('-', '')  + '-' + priority",
                     priority, False, False, requested_date, {
-                        'sepa_export': sepa_export,
+                        'self': self,
                         'priority': priority,
                         'requested_date': requested_date,
-                    }, gen_args, context=context)
+                    }, gen_args)
             self.generate_party_block(
-                cr, uid, payment_info_2_0, 'Dbtr', 'B',
-                'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.'
+                payment_info_2_0, 'Dbtr', 'B',
+                'self.payment_order_ids[0].mode.bank_id.partner_id.'
                 'name',
-                'sepa_export.payment_order_ids[0].mode.bank_id.acc_number',
-                'sepa_export.payment_order_ids[0].mode.bank_id.bank.bic or '
-                'sepa_export.payment_order_ids[0].mode.bank_id.bank_bic',
-                {'sepa_export': sepa_export},
-                gen_args, context=context)
+                'self.payment_order_ids[0].mode.bank_id.acc_number',
+                'self.payment_order_ids[0].mode.bank_id.bank.bic or '
+                'self.payment_order_ids[0].mode.bank_id.bank_bic',
+                {'self': self},
+                gen_args)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
-            charge_bearer_2_24.text = sepa_export.charge_bearer
+            charge_bearer_2_24.text = self.charge_bearer
             transactions_count_2_4 = 0
             amount_control_sum_2_5 = 0.0
             for line in lines:
@@ -209,13 +194,11 @@ class BankingExportSepaWizard(orm.TransientModel):
                 end2end_identification_2_30 = etree.SubElement(
                     payment_identification_2_28, 'EndToEndId')
                 end2end_identification_2_30.text = self._prepare_field(
-                    cr, uid, 'End to End Identification', 'line.name',
-                    {'line': line}, 35, gen_args=gen_args,
-                    context=context)
+                    'End to End Identification', 'line.name',
+                    {'line': line}, 35, gen_args=gen_args)
                 currency_name = self._prepare_field(
-                    cr, uid, 'Currency Code', 'line.currency.name',
-                    {'line': line}, 3, gen_args=gen_args,
-                    context=context)
+                    'Currency Code', 'line.currency.name',
+                    {'line': line}, 3, gen_args=gen_args)
                 amount_2_42 = etree.SubElement(
                     credit_transfer_transaction_info_2_27, 'Amt')
                 instructed_amount_2_43 = etree.SubElement(
@@ -224,48 +207,44 @@ class BankingExportSepaWizard(orm.TransientModel):
                 amount_control_sum_1_7 += line.amount_currency
                 amount_control_sum_2_5 += line.amount_currency
                 if not line.bank_id:
-                    raise orm.except_orm(
-                        _('Error:'),
+                    raise Warning(
                         _("Missing Bank Account on invoice '%s' (payment "
                             "order line reference '%s').")
                         % (line.ml_inv_ref.number, line.name))
                 self.generate_party_block(
-                    cr, uid, credit_transfer_transaction_info_2_27, 'Cdtr',
+                    credit_transfer_transaction_info_2_27, 'Cdtr',
                     'C', 'line.partner_id.name', 'line.bank_id.acc_number',
                     'line.bank_id.bank.bic or '
-                    'line.bank_id.bank_bic', {'line': line}, gen_args,
-                    context=context)
+                    'line.bank_id.bank_bic', {'line': line}, gen_args)
                 self.generate_remittance_info_block(
-                    cr, uid, credit_transfer_transaction_info_2_27,
-                    line, gen_args, context=context)
+                    credit_transfer_transaction_info_2_27, line, gen_args)
             if pain_flavor in pain_03_to_05:
-                nb_of_transactions_2_4.text = str(transactions_count_2_4)
+                nb_of_transactions_2_4.text = unicode(transactions_count_2_4)
                 control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
         if pain_flavor in pain_03_to_05:
-            nb_of_transactions_1_6.text = str(transactions_count_1_6)
+            nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
             control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
         else:
-            nb_of_transactions_1_6.text = str(transactions_count_1_6)
+            nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
             control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
         return self.finalize_sepa_file_creation(
-            cr, uid, ids, xml_root, total_amount, transactions_count_1_6,
-            gen_args, context=context)
+            xml_root, total_amount, transactions_count_1_6, gen_args)
 
-    def save_sepa(self, cr, uid, ids, context=None):
+    @api.multi
+    def save_sepa(self):
         """Save the SEPA file: send the done signal to all payment
         orders in the file. With the default workflow, they will
         transition to 'done', while with the advanced workflow in
         account_banking_payment they will transition to 'sent' waiting
         reconciliation.
         """
-        sepa_export = self.browse(cr, uid, ids[0], context=context)
-        for order in sepa_export.payment_order_ids:
-            workflow.trg_validate(uid, 'payment.order', order.id, 'done', cr)
-            self.pool['ir.attachment'].create(
-                cr, uid, {
-                    'res_model': 'payment.order',
-                    'res_id': order.id,
-                    'name': sepa_export.filename,
-                    'datas': sepa_export.file,
-                    }, context=context)
+        for order in self.payment_order_ids:
+            workflow.trg_validate(
+                self._uid, 'payment.order', order.id, 'done', self._cr)
+            self.env['ir.attachment'].create({
+                'res_model': 'payment.order',
+                'res_id': order.id,
+                'name': self.filename,
+                'datas': self.file,
+                })
         return True
