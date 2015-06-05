@@ -19,7 +19,7 @@ Installation
 This module depends on :
 * account_banking_payment_export
 
-This modules are parts of the OCA/bank-payment suite.
+This module is part of the OCA/bank-payment suite.
 
 Configuration
 =============
@@ -41,7 +41,7 @@ For further information, please visit:
 Known issues / Roadmap
 ======================
 
- * ...
+ * No known issues.
  
 Bug Tracker
 ===========
