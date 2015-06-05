@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    PAIN Base module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
-from openerp.tools.translate import _
+from openerp import models, api, _
+from openerp.exceptions import Warning
 from openerp.tools.safe_eval import safe_eval
 from datetime import datetime
 from lxml import etree
@@ -38,21 +38,21 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class BankingExportPain(orm.AbstractModel):
+class BankingExportPain(models.AbstractModel):
     _name = 'banking.export.pain'
 
-    def _validate_iban(self, cr, uid, iban, context=None):
+    @api.model
+    def _validate_iban(self, iban):
         """if IBAN is valid, returns IBAN
         if IBAN is NOT valid, raises an error message"""
-        partner_bank_obj = self.pool.get('res.partner.bank')
-        if partner_bank_obj.is_iban_valid(cr, uid, iban, context=context):
+        if self.env['res.partner.bank'].is_iban_valid(iban):
             return iban.replace(' ', '')
         else:
-            raise orm.except_orm(
-                _('Error:'), _("This IBAN is not valid : %s") % iban)
+            raise Warning(_("This IBAN is not valid : %s") % iban)
 
-    def _prepare_field(self, cr, uid, field_name, field_value, eval_ctx,
-                       max_size=0, gen_args=None, context=None):
+    @api.model
+    def _prepare_field(self, field_name, field_value, eval_ctx,
+                       max_size=0, gen_args=None):
         """This function is designed to be inherited !"""
         if gen_args is None:
             gen_args = {}
@@ -74,31 +74,28 @@ class BankingExportPain(orm.AbstractModel):
         except:
             line = eval_ctx.get('line')
             if line:
-                raise orm.except_orm(
-                    _('Error:'),
+                raise Warning(
                     _("Cannot compute the '%s' of the Payment Line with "
                         "reference '%s'.")
                     % (field_name, line.name))
             else:
-                raise orm.except_orm(
-                    _('Error:'),
+                raise Warning(
                     _("Cannot compute the '%s'.") % field_name)
         if not isinstance(value, (str, unicode)):
-            raise orm.except_orm(
-                _('Field type error:'),
+            raise Warning(
                 _("The type of the field '%s' is %s. It should be a string "
                     "or unicode.")
                 % (field_name, type(value)))
         if not value:
-            raise orm.except_orm(
-                _('Error:'),
+            raise Warning(
                 _("The '%s' is empty or 0. It should have a non-null value.")
                 % field_name)
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
 
-    def _validate_xml(self, cr, uid, xml_string, gen_args, context=None):
+    @api.model
+    def _validate_xml(self, xml_string, gen_args):
         xsd_etree_obj = etree.parse(
             tools.file_open(gen_args['pain_xsd_file']))
         official_pain_schema = etree.XMLSchema(xsd_etree_obj)
@@ -111,19 +108,18 @@ class BankingExportPain(orm.AbstractModel):
                 "The XML file is invalid against the XML Schema Definition")
             logger.warning(xml_string)
             logger.warning(e)
-            raise orm.except_orm(
-                _('Error:'),
+            raise Warning(
                 _("The generated XML file is not valid against the official "
                     "XML Schema Definition. The generated XML file and the "
                     "full error have been written in the server logs. Here "
                     "is the error, which may give you an idea on the cause "
                     "of the problem : %s")
-                % str(e))
+                % unicode(e))
         return True
 
+    @api.multi
     def finalize_sepa_file_creation(
-            self, cr, uid, ids, xml_root, total_amount, transactions_count,
-            gen_args, context=None):
+            self, xml_root, total_amount, transactions_count, gen_args):
         xml_string = etree.tostring(
             xml_root, pretty_print=True, encoding='UTF-8',
             xml_declaration=True)
@@ -131,44 +127,42 @@ class BankingExportPain(orm.AbstractModel):
             "Generated SEPA XML file in format %s below"
             % gen_args['pain_flavor'])
         logger.debug(xml_string)
-        self._validate_xml(cr, uid, xml_string, gen_args, context=context)
+        self._validate_xml(xml_string, gen_args)
 
         order_ref = []
-        for order in gen_args['sepa_export'].payment_order_ids:
+        for order in self.payment_order_ids:
             if order.reference:
                 order_ref.append(order.reference.replace('/', '-'))
         filename = '%s%s.xml' % (gen_args['file_prefix'], '-'.join(order_ref))
 
-        self.write(
-            cr, uid, ids, {
-                'nb_transactions': transactions_count,
-                'total_amount': total_amount,
-                'filename': filename,
-                'file': base64.encodestring(xml_string),
-                'state': 'finish',
-            }, context=context)
+        self.write({
+            'nb_transactions': transactions_count,
+            'total_amount': total_amount,
+            'filename': filename,
+            'file': base64.encodestring(xml_string),
+            'state': 'finish',
+            })
 
         action = {
-            'name': 'SEPA File',
+            'name': _('SEPA File'),
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form,tree',
             'res_model': self._name,
-            'res_id': ids[0],
+            'res_id': self.ids[0],
             'target': 'new',
         }
         return action
 
-    def generate_group_header_block(
-            self, cr, uid, parent_node, gen_args, context=None):
+    @api.model
+    def generate_group_header_block(self, parent_node, gen_args):
         group_header_1_0 = etree.SubElement(parent_node, 'GrpHdr')
         message_identification_1_1 = etree.SubElement(
             group_header_1_0, 'MsgId')
         message_identification_1_1.text = self._prepare_field(
-            cr, uid, 'Message Identification',
-            'sepa_export.payment_order_ids[0].reference',
-            {'sepa_export': gen_args['sepa_export']}, 35,
-            gen_args=gen_args, context=context)
+            'Message Identification',
+            'self.payment_order_ids[0].reference',
+            {'self': self}, 35, gen_args=gen_args)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
             datetime.today(), '%Y-%m-%dT%H:%M:%S')
@@ -176,8 +170,7 @@ class BankingExportPain(orm.AbstractModel):
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(group_header_1_0, 'BtchBookg')
-            batch_booking.text = \
-                str(gen_args['sepa_export'].batch_booking).lower()
+            batch_booking.text = unicode(self.batch_booking).lower()
         nb_of_transactions_1_6 = etree.SubElement(
             group_header_1_0, 'NbOfTxs')
         control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
@@ -185,30 +178,27 @@ class BankingExportPain(orm.AbstractModel):
         if gen_args.get('pain_flavor') == 'pain.001.001.02':
             grouping = etree.SubElement(group_header_1_0, 'Grpg')
             grouping.text = 'GRPD'
-        self.generate_initiating_party_block(
-            cr, uid, group_header_1_0, gen_args,
-            context=context)
+        self.generate_initiating_party_block(group_header_1_0, gen_args)
         return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
 
+    @api.model
     def generate_start_payment_info_block(
-            self, cr, uid, parent_node, payment_info_ident,
+            self, parent_node, payment_info_ident,
             priority, local_instrument, sequence_type, requested_date,
-            eval_ctx, gen_args, context=None):
+            eval_ctx, gen_args):
         payment_info_2_0 = etree.SubElement(parent_node, 'PmtInf')
         payment_info_identification_2_1 = etree.SubElement(
             payment_info_2_0, 'PmtInfId')
         payment_info_identification_2_1.text = self._prepare_field(
-            cr, uid, 'Payment Information Identification',
-            payment_info_ident, eval_ctx, 35,
-            gen_args=gen_args, context=context)
+            'Payment Information Identification',
+            payment_info_ident, eval_ctx, 35, gen_args=gen_args)
         payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
         payment_method_2_2.text = gen_args['payment_method']
         nb_of_transactions_2_4 = False
         control_sum_2_5 = False
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
             batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = \
-                str(gen_args['sepa_export'].batch_booking).lower()
+            batch_booking_2_3.text = unicode(self.batch_booking).lower()
         # The "SEPA Customer-to-bank
         # Implementation guidelines" for SCT and SDD says that control sum
         # and nb_of_transactions should be present
@@ -246,26 +236,26 @@ class BankingExportPain(orm.AbstractModel):
         requested_date_2_17.text = requested_date
         return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
 
-    def _must_have_initiating_party(self, cr, uid, gen_args, context=None):
+    @api.model
+    def _must_have_initiating_party(self, gen_args):
         '''This method is designed to be inherited in localization modules for
         countries in which the initiating party is required'''
         return False
 
-    def generate_initiating_party_block(
-            self, cr, uid, parent_node, gen_args, context=None):
+    @api.model
+    def generate_initiating_party_block(self, parent_node, gen_args):
         my_company_name = self._prepare_field(
-            cr, uid, 'Company Name',
-            'sepa_export.payment_order_ids[0].mode.bank_id.partner_id.name',
-            {'sepa_export': gen_args['sepa_export']},
-            gen_args.get('name_maxsize'), gen_args=gen_args, context=context)
+            'Company Name',
+            'self.payment_order_ids[0].mode.bank_id.partner_id.name',
+            {'self': self}, gen_args.get('name_maxsize'), gen_args=gen_args)
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
         initiating_party_identifier =\
-            gen_args['sepa_export'].payment_order_ids[0].company_id.\
+            self.payment_order_ids[0].company_id.\
             initiating_party_identifier
         initiating_party_issuer =\
-            gen_args['sepa_export'].payment_order_ids[0].company_id.\
+            self.payment_order_ids[0].company_id.\
             initiating_party_issuer
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
@@ -276,36 +266,34 @@ class BankingExportPain(orm.AbstractModel):
             iniparty_org_other_issuer = etree.SubElement(
                 iniparty_org_other, 'Issr')
             iniparty_org_other_issuer.text = initiating_party_issuer
-        elif self._must_have_initiating_party(cr, uid, gen_args,
-                                              context=context):
-            raise orm.except_orm(
-                _('Error:'),
+        elif self._must_have_initiating_party(gen_args):
+            raise Warning(
                 _("Missing 'Initiating Party Issuer' and/or "
                     "'Initiating Party Identifier' for the company '%s'. "
                     "Both fields must have a value.")
-                % gen_args['sepa_export'].payment_order_ids[0].company_id.name)
+                % self.payment_order_ids[0].company_id.name)
         return True
 
+    @api.model
     def generate_party_agent(
-            self, cr, uid, parent_node, party_type, party_type_label,
-            order, party_name, iban, bic, eval_ctx, gen_args, context=None):
+            self, parent_node, party_type, party_type_label,
+            order, party_name, iban, bic, eval_ctx, gen_args):
         """Generate the piece of the XML file corresponding to BIC
         This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         try:
             bic = self._prepare_field(
-                cr, uid, '%s BIC' % party_type_label, bic, eval_ctx,
-                gen_args=gen_args, context=context)
+                '%s BIC' % party_type_label, bic, eval_ctx, gen_args=gen_args)
             party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
             party_agent_institution = etree.SubElement(
                 party_agent, 'FinInstnId')
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = bic
-        except orm.except_orm:
+        except Warning:
             if order == 'C':
                 if iban[0:2] != gen_args['initiating_party_country_code']:
-                    raise orm.except_orm(
+                    raise Warning(
                         _('Error:'),
                         _("The bank account with IBAN '%s' of partner '%s' "
                             "must have an associated BIC because it is a "
@@ -327,9 +315,10 @@ class BankingExportPain(orm.AbstractModel):
             # as per the guidelines of the EPC
         return True
 
+    @api.model
     def generate_party_block(
-            self, cr, uid, parent_node, party_type, order, name, iban, bic,
-            eval_ctx, gen_args, context=None):
+            self, parent_node, party_type, order, name, iban, bic,
+            eval_ctx, gen_args):
         """Generate the piece of the XML file corresponding to Name+IBAN+BIC
         This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
@@ -338,23 +327,19 @@ class BankingExportPain(orm.AbstractModel):
         elif party_type == 'Dbtr':
             party_type_label = 'Debtor'
         party_name = self._prepare_field(
-            cr, uid, '%s Name' % party_type_label, name, eval_ctx,
-            gen_args.get('name_maxsize'),
-            gen_args=gen_args, context=context)
+            '%s Name' % party_type_label, name, eval_ctx,
+            gen_args.get('name_maxsize'), gen_args=gen_args)
         piban = self._prepare_field(
-            cr, uid, '%s IBAN' % party_type_label, iban, eval_ctx,
-            gen_args=gen_args,
-            context=context)
-        viban = self._validate_iban(cr, uid, piban, context=context)
+            '%s IBAN' % party_type_label, iban, eval_ctx, gen_args=gen_args)
+        viban = self._validate_iban(piban)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'B':
             gen_args['initiating_party_country_code'] = viban[0:2]
         elif order == 'C':
             self.generate_party_agent(
-                cr, uid, parent_node, party_type, party_type_label,
-                order, party_name, viban, bic,
-                eval_ctx, gen_args, context=context)
+                parent_node, party_type, party_type_label,
+                order, party_name, viban, bic, eval_ctx, gen_args)
         party = etree.SubElement(parent_node, party_type)
         party_nm = etree.SubElement(party, 'Nm')
         party_nm.text = party_name
@@ -366,14 +351,12 @@ class BankingExportPain(orm.AbstractModel):
         party_account_iban.text = viban
         if order == 'B':
             self.generate_party_agent(
-                cr, uid, parent_node, party_type, party_type_label,
-                order, party_name, viban, bic,
-                eval_ctx, gen_args, context=context)
+                parent_node, party_type, party_type_label,
+                order, party_name, viban, bic, eval_ctx, gen_args)
         return True
 
-    def generate_remittance_info_block(
-            self, cr, uid, parent_node, line, gen_args, context=None):
-
+    @api.model
+    def generate_remittance_info_block(self, parent_node, line, gen_args):
         remittance_info_2_91 = etree.SubElement(
             parent_node, 'RmtInf')
         if line.state == 'normal':
@@ -381,14 +364,12 @@ class BankingExportPain(orm.AbstractModel):
                 remittance_info_2_91, 'Ustrd')
             remittance_info_unstructured_2_99.text = \
                 self._prepare_field(
-                    cr, uid, 'Remittance Unstructured Information',
+                    'Remittance Unstructured Information',
                     'line.communication', {'line': line}, 140,
-                    gen_args=gen_args,
-                    context=context)
+                    gen_args=gen_args)
         else:
             if not line.struct_communication_type:
-                raise orm.except_orm(
-                    _('Error:'),
+                raise Warning(
                     _("Missing 'Structured Communication Type' on payment "
                         "line with reference '%s'.")
                     % line.name)
@@ -422,22 +403,21 @@ class BankingExportPain(orm.AbstractModel):
                 line.struct_communication_type
             creditor_reference_2_126.text = \
                 self._prepare_field(
-                    cr, uid, 'Creditor Structured Reference',
+                    'Creditor Structured Reference',
                     'line.communication', {'line': line}, 35,
-                    gen_args=gen_args,
-                    context=context)
+                    gen_args=gen_args)
         return True
 
+    @api.model
     def generate_creditor_scheme_identification(
-            self, cr, uid, parent_node, identification, identification_label,
-            eval_ctx, scheme_name_proprietary, gen_args, context=None):
+            self, parent_node, identification, identification_label,
+            eval_ctx, scheme_name_proprietary, gen_args):
         csi_id = etree.SubElement(parent_node, 'Id')
         csi_privateid = etree.SubElement(csi_id, 'PrvtId')
         csi_other = etree.SubElement(csi_privateid, 'Othr')
         csi_other_id = etree.SubElement(csi_other, 'Id')
         csi_other_id.text = self._prepare_field(
-            cr, uid, identification_label, identification, eval_ctx,
-            gen_args=gen_args, context=context)
+            identification_label, identification, eval_ctx, gen_args=gen_args)
         csi_scheme_name = etree.SubElement(csi_other, 'SchmeNm')
         csi_scheme_name_proprietary = etree.SubElement(
             csi_scheme_name, 'Prtry')
