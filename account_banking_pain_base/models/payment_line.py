@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    PAIN Base module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,33 +20,24 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class PaymentLine(orm.Model):
+class PaymentLine(models.Model):
     _inherit = 'payment.line'
 
-    def _get_struct_communication_types(self, cr, uid, context=None):
+    @api.model
+    def _get_struct_communication_types(self):
         return [('ISO', 'ISO')]
 
-    _columns = {
-        'priority': fields.selection(
-            [('NORM', 'Normal'),
-             ('HIGH', 'High')], 'Priority',
-            help="This field will be used as the 'Instruction Priority' in "
-                 "the generated PAIN file."),
-        # Update size from 64 to 140, because PAIN allows 140 caracters
-        'communication': fields.char(
-            'Communication', size=140, required=True,
-            help="Used as the message between ordering customer and current "
-            "company. Depicts 'What do you want to say to the recipient "
-            "about this order ?'"),
-        'struct_communication_type': fields.selection(
-            '_get_struct_communication_types',
-            'Structured Communication Type'),
-    }
-
-    _defaults = {
-        'priority': 'NORM',
-        'struct_communication_type': 'ISO',
-    }
+    priority = fields.Selection([
+        ('NORM', 'Normal'),
+        ('HIGH', 'High')],
+        string='Priority', default='NORM',
+        help="This field will be used as the 'Instruction Priority' in "
+             "the generated PAIN file.")
+    # Update size from 64 to 140, because PAIN allows 140 caracters
+    communication = fields.Char(size=140)
+    struct_communication_type = fields.Selection(
+        '_get_struct_communication_types',
+        string='Structured Communication Type', default='ISO')
