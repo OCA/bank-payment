@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    PAIN Base module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,20 +20,14 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class payment_mode(orm.Model):
+class PaymentMode(models.Model):
     _inherit = 'payment.mode'
 
-    _columns = {
-        'convert_to_ascii': fields.boolean(
-            'Convert to ASCII',
-            help="If active, Odoo will convert each accented caracter to "
-            "the corresponding unaccented caracter, so that only ASCII "
-            "caracters are used in the generated PAIN file."),
-    }
-
-    _defaults = {
-        'convert_to_ascii': True,
-    }
+    convert_to_ascii = fields.Boolean(
+        string='Convert to ASCII', default=True,
+        help="If active, Odoo will convert each accented caracter to "
+        "the corresponding unaccented caracter, so that only ASCII "
+        "caracters are used in the generated PAIN file.")

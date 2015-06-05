@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    PAIN Base module for OpenERP
+#    PAIN Base module for Odoo
 #    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    Copyright (C) 2013 Noviat (http://www.noviat.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
