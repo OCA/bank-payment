@@ -20,7 +20,7 @@
 ##############################################################################
 
 
-from openerp import models, fields, api
+from openerp import models, api
 
 
 class account_payment_populate_statement(models.TransientModel):
@@ -32,13 +32,17 @@ class account_payment_populate_statement(models.TransientModel):
         load amount_currency and currency_id from payment.line
         invert name and ref values
         """
-        res = super(account_payment_populate_statement, self)._prepare_statement_line_vals(payment_line, amount, statement)
+        res = super(
+            account_payment_populate_statement,
+            self
+            )._prepare_statement_line_vals(payment_line, amount, statement)
+
         res.update({
-                    'name': payment_line.communication,
-                    'ref': payment_line.order_id.reference or '?',
-                    'amount_currency': - payment_line.amount_currency or 0.0,
-                    'currency_id': payment_line.currency.id or False,
-                    })
+            'name': payment_line.communication,
+            'ref': payment_line.order_id.reference or '?',
+            'amount_currency': - payment_line.amount_currency or 0.0,
+            'currency_id': payment_line.currency.id or False,
+            })
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

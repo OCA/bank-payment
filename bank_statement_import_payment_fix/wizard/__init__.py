@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import account_payment_populate_statement
+from . import account_payment_populate_statement
