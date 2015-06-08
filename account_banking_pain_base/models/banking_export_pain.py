@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 class BankingExportPain(models.AbstractModel):
     _name = 'banking.export.pain'
 
+    @api.model
     def _validate_iban(self, iban):
         """if IBAN is valid, returns IBAN
         if IBAN is NOT valid, raises an error message"""
@@ -49,6 +50,7 @@ class BankingExportPain(models.AbstractModel):
         else:
             raise Warning(_("This IBAN is not valid : %s") % iban)
 
+    @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
                        max_size=0, gen_args=None):
         """This function is designed to be inherited !"""
@@ -92,6 +94,7 @@ class BankingExportPain(models.AbstractModel):
             value = value[0:max_size]
         return value
 
+    @api.model
     def _validate_xml(self, xml_string, gen_args):
         xsd_etree_obj = etree.parse(
             tools.file_open(gen_args['pain_xsd_file']))
@@ -151,6 +154,7 @@ class BankingExportPain(models.AbstractModel):
         }
         return action
 
+    @api.model
     def generate_group_header_block(self, parent_node, gen_args):
         group_header_1_0 = etree.SubElement(parent_node, 'GrpHdr')
         message_identification_1_1 = etree.SubElement(
@@ -177,6 +181,7 @@ class BankingExportPain(models.AbstractModel):
         self.generate_initiating_party_block(group_header_1_0, gen_args)
         return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
 
+    @api.model
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
             priority, local_instrument, sequence_type, requested_date,
@@ -231,11 +236,13 @@ class BankingExportPain(models.AbstractModel):
         requested_date_2_17.text = requested_date
         return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
 
+    @api.model
     def _must_have_initiating_party(self, gen_args):
         '''This method is designed to be inherited in localization modules for
         countries in which the initiating party is required'''
         return False
 
+    @api.model
     def generate_initiating_party_block(self, parent_node, gen_args):
         my_company_name = self._prepare_field(
             'Company Name',
@@ -267,6 +274,7 @@ class BankingExportPain(models.AbstractModel):
                 % self.payment_order_ids[0].company_id.name)
         return True
 
+    @api.model
     def generate_party_agent(
             self, parent_node, party_type, party_type_label,
             order, party_name, iban, bic, eval_ctx, gen_args):
@@ -307,6 +315,7 @@ class BankingExportPain(models.AbstractModel):
             # as per the guidelines of the EPC
         return True
 
+    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, name, iban, bic,
             eval_ctx, gen_args):
@@ -346,8 +355,8 @@ class BankingExportPain(models.AbstractModel):
                 order, party_name, viban, bic, eval_ctx, gen_args)
         return True
 
+    @api.model
     def generate_remittance_info_block(self, parent_node, line, gen_args):
-
         remittance_info_2_91 = etree.SubElement(
             parent_node, 'RmtInf')
         if line.state == 'normal':
@@ -399,6 +408,7 @@ class BankingExportPain(models.AbstractModel):
                     gen_args=gen_args)
         return True
 
+    @api.model
     def generate_creditor_scheme_identification(
             self, parent_node, identification, identification_label,
             eval_ctx, scheme_name_proprietary, gen_args):
