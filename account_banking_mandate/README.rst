@@ -1,37 +1,35 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
-    
-Prevent the usage of voucher from invoices
-==========================================
 
-This add-on disables the "Register Payment" button on
-customer invoices and the "Pay" button on supplier invoices.
+Account Banking Mandate
+=======================
 
-It also disables the voucher-related menus entries such as 
-"Sales Receipts", "Customer Payments", "Purchase Receipts", 
-"Supplier Payments" and "Journal Vouchers", "Sales Receipts Analysis".
+This module adds a generic model for banking mandates.
+These mandates can be specialized to fit any banking mandates (such as sepa or lsv).
 
-More precisely, this module adds a group "Use voucher in Invoices"
-and only users in that group see these buttons and menus.
+A banking mandate is attached to a bank account and represents an
+authorization that the bank account owner gives to a company for a
+specific operation (such as direct debit).
+You can setup mandates from the accounting menu or directly from a bank
+account.
 
 Installation
 ============
 
 This module depends on :
-* account_voucher
+* account_payment
 
-This modules are parts of the OCA/bank-payment suite.
+This module is part of the OCA/bank-payment suite.
 
 Configuration
 =============
 
-There is nothing to configure.
+TODO
 
 Usage
 =====
 
-See above the description of the module.
-
+To use this module, see menu "Accounting > payment > SEPA direct debit mandates" 
 
 For further information, please visit:
 
@@ -40,7 +38,7 @@ For further information, please visit:
 Known issues / Roadmap
 ======================
 
- * ...
+ * no known issues
  
 Bug Tracker
 ===========
@@ -48,7 +46,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_voucher_killer%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_mandate%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======
@@ -56,10 +54,10 @@ Credits
 Contributors
 ------------
 
-* Nicolas Bessi (camptocamp)
-* Stéphane Bidoul <stephane.bidoul@acsone.eu>
-* Anthony Muschang <anthony.muschang@acsone.eu>
-* Yannick Vaucher
+* Alexis de Lattre
+* Pedro M. Baeza
+* Alexandre Fayolle
+* Stéphane Bidoul		<stephane.bidoul@acsone.eu>
 
 Maintainer
 ----------
@@ -73,4 +71,3 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
 
 To contribute to this module, please visit http://odoo-community.org.
-

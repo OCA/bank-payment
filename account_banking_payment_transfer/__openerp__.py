@@ -47,14 +47,6 @@
 
 
     ],
-    'description': '''Payment order reconciliation infrastructure
-
-    This module reconciles invoices as soon as the payment order
-    is sent, by creating a move to a transfer account (aka suspense account).
-    When the moves on the suspense account are reconciled (typically through
-    the bank statement reconciliation, the payment order moves to the done
-    status).
-    ''',
     'auto_install': False,
     'installable': True,
 }

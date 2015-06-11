@@ -36,16 +36,5 @@
         'workflow/account_invoice.xml',
         'data/account_payment_term.xml',
     ],
-    'description': '''
-This module adds support for direct debit orders, analogous to payment orders.
-A new entry in the Accounting/Payment menu allow you to create a direct debit
-order that helps you to select any customer invoices for you to collect.
-
-This module explicitely implements direct debit orders as applicable
-in the Netherlands. Debit orders are advanced in total by the bank.
-Amounts that cannot be debited or are canceled by account owners are
-credited afterwards. Such a creditation is called a storno. This style of
-direct debit order may not apply to your country.
-    ''',
     'installable': True,
 }
