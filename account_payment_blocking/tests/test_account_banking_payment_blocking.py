@@ -23,9 +23,6 @@
 import openerp.tests.common as common
 from openerp import workflow
 
-DB = common.DB
-ADMIN_USER_ID = common.ADMIN_USER_ID
-
 
 def create_simple_invoice(self, cr, uid, context=None):
     partner_id = self.ref('base.res_partner_2')
