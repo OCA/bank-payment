@@ -39,6 +39,8 @@ def migrate(cr, version):
         ''')
 
     for sepa_file in cr.dictfetchall():
+        if not sepa_file['payment_order_id']:
+            continue
         filename = 'sct_%s.xml' % sepa_file['reference'].replace('/', '-')
         pool['ir.attachment'].create(
             cr, SUPERUSER_ID, {
