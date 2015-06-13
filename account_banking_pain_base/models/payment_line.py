@@ -20,12 +20,13 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class PaymentLine(models.Model):
     _inherit = 'payment.line'
 
+    @api.model
     def _get_struct_communication_types(self):
         return [('ISO', 'ISO')]
 
