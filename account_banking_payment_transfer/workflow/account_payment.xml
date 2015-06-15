@@ -68,8 +68,6 @@ write({'state':'rejected'})</field>
             unfortunately.
         -->
         <record id="account_payment.act_done" model="workflow.activity">
-            <field name="action">action_done()
-write({'state':'done'})</field>
             <field name="flow_stop" eval="False"/>
         </record>
 
