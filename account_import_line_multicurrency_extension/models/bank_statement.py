@@ -18,35 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{'name': 'Payment Order Extension',
- 'summary': 'Add an improved view for payment order',
- 'version': '1.1',
- 'author': "Camptocamp,Odoo Community Association (OCA)",
- 'maintainter': 'Camptocamp',
- 'category': 'Accounting',
- 'depends': ['account_payment','account'],
- 'description': """
-Payment Order
-==================
+from openerp import models, fields
 
-Add improved move line selection for multi-currency
 
-Contributors
-------------
+class AccountBankStatementLine(models.Model):
+    _inherit = "account.bank.statement.line"
 
-* Vincent revaville <vincent.renaville@camptocamp.com>
-""",
- 'website': 'http://www.camptocamp.com',
- 'data': ['view/payment_view.xml',
-          'view/account_statement_from_invoice_view.xml',
-          'view/bank_statement_view.xml',
-          ],
- 'tests': [],
- 'installable': True,
- 'auto_install': False,
- 'license': 'AGPL-3',
- 'conflicts': [
-     'account_banking_payment_export',
-     ],
- 'application': False,
- }
+    currency_symbol = fields.Char(
+        related='statement_id.currency.symbol', readonly=True)
