@@ -39,8 +39,8 @@
             <group col="4" colspan="4">
               <field name="deposit_from_account_id" placeholder="Enter Account Name (from)"/>
               <field name="deposit_to_account_id" placeholder="Enter Account Name (to)"/>
-              <field name="journal_id" placeholder="Enter journal name"/>
-              <field name="period_id" placeholder="Enter period"/>
+              <field name="journal_id" placeholder="Enter journal name" domain="[('type','=','bank')]"/>
+              <field name="period_id" placeholder="Enter period" domain="[('state','=','draft')]"/>
               <field name="date" placeholder="Enter deposite date"/>
               <field name="name" />
               <field name="deposit_bag_no" placeholder="Enter deposit bag no."/>
