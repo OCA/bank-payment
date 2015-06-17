@@ -46,7 +46,7 @@ class deposit_ticket(orm.Model):
         res_groups_obj = self.pool.get('res.groups')
         group_verifier_id = model_data_obj._get_id(
             cr, uid,
-            'account_banking__make_deposit', 'group_make_deposits_verifier'
+            'account_banking_make_deposit', 'group_make_deposits_verifier'
         )
         for deposit in self.browse(cr, uid, ids, context=context):
             if group_verifier_id:
@@ -232,6 +232,29 @@ class deposit_ticket(orm.Model):
             res[deposit.id] = len(deposit.ticket_line_ids)
         return res
 
+    def get_deposit_states(self, cr, uid, context=None):
+        return [
+            ('draft', _('Draft')),
+            ('to_be_reviewed', _('Ready for Review')),
+            ('done', _('Done')),
+            ('cancel', _('Cancel')),
+        ]
+
+    def get_state(self, cr, uid, ids, context=None):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+
+        assert len(ids) == 1, 'Expected one record'
+
+        deposit = self.browse(cr, uid, ids[0], context=context)
+
+        states = {
+            s[0]: s[1] for s in
+            self.get_deposit_states(cr, uid, context=context)
+        }
+
+        return states[deposit.state]
+
     _columns = {
         'memo': fields.char(
             'Memo',
@@ -379,12 +402,8 @@ class deposit_ticket(orm.Model):
             help="Counts the total # of line items in the deposit ticket."
         ),
         'state': fields.selection(
-            [
-                ('draft', 'Draft'),
-                ('to_be_reviewed', 'Ready for Review'),
-                ('done', 'Done'),
-                ('cancel', 'Cancel')
-            ],
+            lambda self, cr, uid, c={}: self.get_deposit_states(
+                cr, uid, context=c),
             'State',
             select=True,
             readonly=True

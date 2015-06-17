@@ -50,7 +50,7 @@
         %>
 
         %for deposit_ticket in objects:
-        <% setLang(user.context_lang) %>
+        <% setLang(user.lang) %>
 
         <h1 style="clear:both;">${deposit_ticket.name or ''}</h1>
 
@@ -61,7 +61,7 @@
                 <td>${_("Deposit Date")}</td>
                 <td>${_("Journal")}</td>
                 <td>${_("Force Period")}</td>
-                <td>${_("Company ID")}</td>
+                <td>${_("Company")}</td>
             </tr>
             <tr>
                 <td>${deposit_ticket.deposit_from_account_id.name}</td>
@@ -107,13 +107,13 @@
                 <td>${deposit_ticket.prepared_by_user_id and deposit_ticket.prepared_by_user_id.name or ''}</td>
                 <td>${deposit_ticket.verified_by_user_id and deposit_ticket.verified_by_user_id.name or ''}</td>
                 <td>${formatLang(deposit_ticket.verified_date or '',date=True)}</td>
-                <td>${deposit_ticket.state or ''}</td>
+                <td>${deposit_ticket.get_state()}</td>
             </tr>
         </table>
 
         <br />
 
-        <h3>Deposit Ticket Line</h3>
+        <h3>${_("Deposit Ticket Lines")}</h3>
 
         <table class="list_table" width="100%" style="margin-top: 20px;" cellspacing="0" >
             <tr>
@@ -122,7 +122,7 @@
                 <th>${_("Ref")}</th>
                 <th>${_("Customer")}</th>
                 <th class="amount">${_("Amount")}</th>
-                <th class="company">${_("Company ID")}</th>
+                <th class="company">${_("Company")}</th>
             </tr>
             %for line in deposit_ticket.ticket_line_ids:
             <tr id="noborder">

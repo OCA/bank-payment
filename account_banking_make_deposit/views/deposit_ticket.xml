@@ -101,9 +101,11 @@
           <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Deposit Tickets that haven't yet been confirmed"/>
           <filter icon="terp-dolar" string="To be Reviewed" domain="[('state','=','to_be_reviewed')]" help="Deposit Tickets that are ready for review"/>
           <filter icon="terp-check" string="Done" domain="[('state','=','done')]" help="Deposit Tickets that have been processed"/>
+          <filter name="filter_period_id_open" icon="terp-personal" string="Open Periods" domain="[('period_id.state', '=', 'draft')]"/>
           <separator orientation="vertical"/>
           <field name="name" select="1"/>
           <field name="date" select="1" string="Order date" />
+          <field name="period_id"/>
           <field name="journal_id" select="1"/>
           <field name="deposit_from_account_id" select="1"/>
           <field name="deposit_to_account_id" select="1"/>
@@ -114,9 +116,10 @@
             <filter domain="[('verified_by_user_id','=',uid)]" help="Verified by me" icon="terp-personal"/>
           </field>
           <newline/>
-          <group expand="0" string="Group By..." colspan="11" col="11" groups="base.group_extended">
+          <group string="Group By...">
             <filter string="Deposit From Account" icon="terp-personal" domain="[]" context="{'group_by':'deposit_from_account_id'}"/>
             <filter string="Deposit To Account" icon="terp-personal" domain="[]" context="{'group_by':'deposit_to_account_id'}"/>
+            <filter string="Period" icon="terp-personal" context="{'group_by': 'period_id'}"/>
             <separator orientation="vertical"/>
             <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
           </group>
@@ -131,6 +134,9 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="search_view_id" ref="view_deposit_ticket_filter"/>
+      <field name="context">{
+        'search_default_filter_period_id_open': 1,
+      }</field>
       <field name="help">With Deposit Tickets you can create new deposit tickets, by selecting and grouping customer payments, supplier refunds, or other payments into a Deposit Ticket. OpenERP automatically posts accounting entries for “Done” deposit tickets. The GL entry for the deposit is posted into the Current Period based on the date range selected.</field>
     </record>
 
