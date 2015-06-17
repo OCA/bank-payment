@@ -303,7 +303,7 @@ class deposit_ticket(orm.Model):
             'Force Period',
             required=True,
             states={'done': [('readonly', True)]},
-            help="Keep empty to use the period of the validation date.",
+            help="The period used for the accounting entries.",
         ),
         'deposit_method_id': fields.many2one(
             'deposit.method',
