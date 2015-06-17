@@ -6,14 +6,20 @@
 
 	<record id="group_bank_stmt_preparer" model="res.groups">
         	<field name="name">Bank Statement Preparer</field>
-        	<field name="implied_ids" eval="[(4, ref('account.group_account_user'))]"/>
     	</record>
 
     	<record id="group_bank_stmt_verifier" model="res.groups">
         	<field name="name">Bank Statement Verifier</field>
-        	<field name="implied_ids" eval="[(4, ref('account.group_account_manager'))]"/>
     	</record>
 
+    	<record id="account.group_account_user" model="res.groups">
+      		<field name="implied_ids" eval="(4, ref('group_bank_stmt_preparer'))"/>
+    	</record>
+    	
+    	<record id="account.group_account_manager" model="res.groups">
+      		<field name="implied_ids" eval="(4, ref('group_bank_stmt_verifier'))"/>
+    	</record>
+    	
     	<!-- Security Rule for Bank Rec Stmts -->
 
     	<record id="account_banking_reconciliation_comp_rule" model="ir.rule">
