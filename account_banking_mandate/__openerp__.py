@@ -42,6 +42,8 @@
         'data/mandate_reference_sequence.xml',
         'security/mandate_security.xml',
         'security/ir.model.access.csv',
+        'reports/account_banking_mandate_view.xml',
+        'reports/account_banking_mandate.xml',
     ],
     'demo': [],
     'test': ['test/banking_mandate.yml'],
