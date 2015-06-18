@@ -58,6 +58,7 @@ Contributors
 * Pedro M. Baeza
 * Alexandre Fayolle
 * Stéphane Bidoul		<stephane.bidoul@acsone.eu>
+* Sergio Teruel (Incaser)		<sergio@incaser.es>
 
 Maintainer
 ----------
