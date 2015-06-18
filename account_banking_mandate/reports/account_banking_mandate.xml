@@ -12,5 +12,9 @@
             file="account_banking_mandate.account_banking_mandate"
         />
 
+        <record id="report_account_banking_mandate" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="account_banking_mandate.paperformat_euro_sepa_lowmargin"/>
+        </record>
+
     </data>
 </openerp>
