@@ -15,6 +15,7 @@
                 </xpath>
                 <field name="mode" position="after">
                     <field name="mode_type" invisible="1"/>
+                    <field name="payment_order_type" invisible="1"/>
                 </field>
                 <button string="Invoices" position="attributes">
                     <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}</attribute>

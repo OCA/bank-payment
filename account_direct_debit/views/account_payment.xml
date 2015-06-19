@@ -29,9 +29,6 @@
             <field name="priority" eval="60"/>
             <field name="arch" type="xml">
                 <data>
-                    <form position="inside">
-                        <field name="payment_order_type" invisible="1"/>
-                    </form>
                     <div class=" oe_right oe_button_box" position="inside">
                         <button name="%(account_payment.action_create_payment_order)s"
                                 class="oe_inline oe_stat_button oe_right"
