@@ -402,8 +402,8 @@ class deposit_ticket(orm.Model):
             help="Counts the total # of line items in the deposit ticket."
         ),
         'state': fields.selection(
-            lambda self, cr, uid, c={}: self.get_deposit_states(
-                cr, uid, context=c),
+            lambda self, cr, uid, context={}: self.get_deposit_states(
+                cr, uid, context=context),
             'State',
             select=True,
             readonly=True
