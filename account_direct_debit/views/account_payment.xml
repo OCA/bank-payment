@@ -35,8 +35,8 @@
                     <div class=" oe_right oe_button_box" position="inside">
                         <button name="%(account_payment.action_create_payment_order)s"
                                 class="oe_inline oe_stat_button oe_right"
-                                string="Move lines"
-                                help="Select move lines to collect"
+                                string="Journal items"
+                                help="Select journal items to collect"
                                 type="action"
                                 attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'debit')]}"
                                 icon="fa-list"

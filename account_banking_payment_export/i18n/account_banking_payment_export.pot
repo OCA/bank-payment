@@ -285,10 +285,10 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
-msgid "Move lines"
+msgid "Journal items"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
-msgid "Select move lines to pay"
+msgid "Select journal items to pay"
 msgstr ""
