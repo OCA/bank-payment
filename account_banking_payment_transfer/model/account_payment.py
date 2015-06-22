@@ -205,7 +205,6 @@ class PaymentOrder(models.Model):
 
         # TODO: take multicurrency into account
         aml_obj = self.env['account.move.line']
-        pl_obj = self.env['payment.line']
         # create the payment/debit counterpart move line
         # on the partner account
         partner_ml_vals = self._prepare_move_line_partner_account(
@@ -216,10 +215,13 @@ class PaymentOrder(models.Model):
         # on the payment line and call reconciliation on it
         line.write({'transit_move_line_id': partner_move_line.id})
 
-        if line.move_line_id:
-            pl_obj.debit_reconcile(line.id)
-        else:
-            self.action_sent_no_move_line_hook(line)
+    def _reconcile_payment_lines(self, payment_lines):
+        pl_obj = self.env['payment.line']
+        for line in payment_lines:
+            if line.move_line_id:
+                pl_obj.debit_reconcile(line.id)
+            else:
+                self.action_sent_no_move_line_hook(line)
 
     @api.one
     def action_sent(self):
@@ -267,6 +269,7 @@ class PaymentOrder(models.Model):
                 trf_ml_vals = self._prepare_move_line_transfer_account(
                     total_amount, move, lines, labels)
                 aml_obj.create(trf_ml_vals)
+                self._reconcile_payment_lines(lines)
 
                 # post account move
                 move.post()
