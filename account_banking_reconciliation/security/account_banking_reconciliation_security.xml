@@ -13,11 +13,11 @@
     	</record>
 
     	<record id="account.group_account_user" model="res.groups">
-      		<field name="implied_ids" eval="(4, ref('group_bank_stmt_preparer'))"/>
+      		<field name="implied_ids" eval="[(4, ref('group_bank_stmt_preparer'))]"/>
     	</record>
     	
     	<record id="account.group_account_manager" model="res.groups">
-      		<field name="implied_ids" eval="(4, ref('group_bank_stmt_verifier'))"/>
+      		<field name="implied_ids" eval="[(4, ref('group_bank_stmt_verifier'))]"/>
     	</record>
     	
     	<!-- Security Rule for Bank Rec Stmts -->
