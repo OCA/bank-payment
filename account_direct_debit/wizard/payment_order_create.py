@@ -54,9 +54,8 @@ class PaymentOrderCreate(models.TransientModel):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
         if payment_order.payment_order_type == 'debit':
-            domain += ['|',
-                       ('invoice', '=', False),
-                       ('invoice.state', '!=', 'debit_denied'),
-                       ('account_id.type', '=', 'receivable'),
+            domain += [('account_id.type', '=', 'receivable'),
                        ('amount_to_receive', '>', 0)]
+            if self.env.context.get('invoices'):
+                domain += [('invoice.state', '!=', 'debit_denied')]
         return True
