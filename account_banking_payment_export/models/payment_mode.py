@@ -102,8 +102,19 @@ class PaymentMode(models.Model):
         selection=[('payment', 'Payment'), ('debit', 'Debit')],
         help="This field, that comes from export type, determines if this "
              "mode can be selected for customers or suppliers.")
-    active = fields.Boolean(string='Active', default=True)
-    sale_ok = fields.Boolean(string='Selectable on sale operations',
-                             default=True)
-    purchase_ok = fields.Boolean(string='Selectable on purchase operations',
-                                 default=True)
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+    sale_ok = fields.Boolean(
+        string='Selectable on sale operations',
+        default=True)
+    purchase_ok = fields.Boolean(
+        string='Selectable on purchase operations',
+        default=True)
+<<<<<<< HEAD
+    note = fields.Html(
+=======
+    note = fields.Char(
+>>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
+        string="Note",
+        translate=True)

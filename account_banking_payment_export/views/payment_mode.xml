@@ -15,6 +15,7 @@
                     <field name="type"/>
                     <field name="purchase_ok"/>
                     <field name="sale_ok"/>
+                    <field name="note"/>
                 </field>
             </field>
         </record>
