@@ -61,6 +61,10 @@ class account_statement_from_invoice_lines(models.TransientModel):
                 amount = from_currency_id.with_context(date=line_date).compute(line.amount_residual_currency,
                                                                                line.invoice.currency_id)
                 amount_currency = line.amount_residual_currency
+            # we test how to apply sign
+            if line.journal_id.type in ['sale_refund','purchase']:
+                amount_currency = -amount_currency
+                amount = -amount
             ctx = {}
             ctx.update({'move_line_ids': [line.id],
                             'invoice_id': line.invoice.id})
