@@ -28,7 +28,7 @@
 	          <field name="line_ids" position="replace">
 	                <field name="line_ids" 
 	                	   context="{'currency':True, 'tree_view_ref': 'account_import_line_multicurrency_extension.view_move_line_tree_bank_statement'}" 
-	                	   domain="[('account_id.type','in',['receivable','payable']), ('reconcile_id','=',False), ('state', '=', 'valid')]"> 
+	                	   domain="[('account_id.type','in',['receivable','payable']),('journal_id.type','in',['sale','purchase','sale_refund','purchase_refund']), ('reconcile_id','=',False), ('state', '=', 'valid')]"> 
 	                    <tree string="Move lines">
 	                        <field name="journal_id"/>
 	                        <field name="date"/>

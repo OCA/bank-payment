@@ -20,57 +20,59 @@
 ##############################################################################
 import time
 
-from openerp.osv import fields, osv
+from openerp import fields, models, api, _
 
-class account_statement_from_invoice_lines(osv.osv_memory):
+class account_statement_from_invoice_lines(models.TransientModel):
     """
     Generate Entries by Statement from Invoices
     """
     _inherit = "account.statement.from.invoice.lines"
-
-
-    def populate_statement(self, cr, uid, ids, context=None):
-        context = dict(context or {})
-        statement_id = context.get('statement_id', False)
+    
+    @api.multi
+    def populate_statement(self):
+        statement_id = self.env.context.get('statement_id', False)
         if not statement_id:
             return {'type': 'ir.actions.act_window_close'}
-        data = self.read(cr, uid, ids, context=context)[0]
-        line_ids = data['line_ids']
-        if not line_ids:
+        if not self.line_ids:
             return {'type': 'ir.actions.act_window_close'}
 
-        line_obj = self.pool.get('account.move.line')
-        statement_obj = self.pool.get('account.bank.statement')
-        statement_line_obj = self.pool.get('account.bank.statement.line')
-        currency_obj = self.pool.get('res.currency')
-        statement = statement_obj.browse(cr, uid, statement_id, context=context)
+        line_obj = self.env['account.move.line']
+        statement_obj = self.env['account.bank.statement']
+        statement_line_obj = self.env['account.bank.statement.line']
+        currency_obj = self.env['res.currency']
+        statement = statement_obj.browse(statement_id)
         line_date = statement.date
+        # Get the currency on the company if not set on the journal
+        if statement.journal_id.currency:
+            from_currency_id = statement.journal_id.currency
+        else:
+            from_currency_id = self.env.user.company_id.currency_id
 
         # for each selected move lines
-        for line in line_obj.browse(cr, uid, line_ids, context=context):
-            ctx = context.copy()
-            #  take the date for computation of currency => use payment date
-            ctx['date'] = line_date
-            amount = 0.0
-            amount_currency = 0.0
-            if line.invoice and line.invoice.currency_id == statement.currency_id:
+        for line in self.line_ids:
+            if line.invoice and line.invoice.currency_id == from_currency_id:
                 amount = line.amount_residual_currency
                 amount_currency = 0.0
             else:
-                amount = 0.0
+                if statement.journal_id.currency:
+                    from_currency_id = statement.journal_id.currency
+                else:
+                    from_currency_id = self.env.user.company_id.currency_id
+                amount = from_currency_id.with_context(date=line_date).compute(line.amount_residual_currency,
+                                                                               line.invoice.currency_id)
                 amount_currency = line.amount_residual_currency
-
-            context.update({'move_line_ids': [line.id],
+            ctx = {}
+            ctx.update({'move_line_ids': [line.id],
                             'invoice_id': line.invoice.id})
 
-            statement_line_obj.create(cr, uid, {
-                'name': line.name or '?',
+            statement_line_obj.with_context(ctx).create({
+                'name': line.ref or '?',
                 'amount': amount,
                 'partner_id': line.partner_id.id,
                 'statement_id': statement_id,
-                'ref': line.ref,
+                'ref': line.name,
                 'date': statement.date,
                 'amount_currency': amount_currency,
                 'currency_id': line.currency_id.id,
-            }, context=context)
+            })
         return {'type': 'ir.actions.act_window_close'}
