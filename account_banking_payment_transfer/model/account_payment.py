@@ -154,12 +154,11 @@ class PaymentOrder(models.Model):
             partner_id = payment_lines[0].partner_id.id
             name = _('%s line %s') % (
                 labels[self.payment_order_type], payment_lines[0].name)
-            date_maturity = payment_lines[0].date
         else:
             partner_id = False
             name = '%s %s' % (
                 labels[self.payment_order_type], self.reference)
-            date_maturity = False
+        date_maturity = payment_lines[0].date
         vals = {
             'name': name,
             'move_id': move.id,
