@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-
 		<!-- Add the payment mode type settings -->
 		<record id="view_payment_mode_form_inherit" model="ir.ui.view">
 			<field name="name">payment.mode.form.inherit</field>
@@ -21,6 +20,5 @@
 				</form>
 			</field>
 		</record>
-
 	</data>
 </openerp>
