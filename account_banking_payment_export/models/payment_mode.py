@@ -94,16 +94,27 @@ class PaymentMode(models.Model):
             or self.env['payment.mode.type']
 
     type = fields.Many2one(
-        'payment.mode.type', string='Export type', required=True,
+        'payment.mode.type',
+        string='Export type',
+        required=True,
         help='Select the Export Payment Type for the Payment Mode.',
         default=_default_type)
     payment_order_type = fields.Selection(
-        related='type.payment_order_type', readonly=True, string="Order Type",
+        related='type.payment_order_type',
+        readonly=True,
+        string="Order Type",
         selection=[('payment', 'Payment'), ('debit', 'Debit')],
         help="This field, that comes from export type, determines if this "
              "mode can be selected for customers or suppliers.")
-    active = fields.Boolean(string='Active', default=True)
-    sale_ok = fields.Boolean(string='Selectable on sale operations',
-                             default=True)
-    purchase_ok = fields.Boolean(string='Selectable on purchase operations',
-                                 default=True)
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+    sale_ok = fields.Boolean(
+        string='Selectable on sale operations',
+        default=True)
+    purchase_ok = fields.Boolean(
+        string='Selectable on purchase operations',
+        default=True)
+    note = fields.Html(
+        string="Note",
+        translate=True)
