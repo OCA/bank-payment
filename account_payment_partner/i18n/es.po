@@ -2,22 +2,13 @@
 # This file contains the translation of the following modules:
 # * account_payment_partner
 # angel <angel.moya@domatix.com>, 2015.
-<<<<<<< HEAD
-# Angel <angel.moya@domatix.com>, 2015.
-=======
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-19 17:28+0000\n"
-<<<<<<< HEAD
 "PO-Revision-Date: 2015-06-28 07:51+0200\n"
 "Last-Translator: Angel <angel.moya@domatix.com>\n"
-=======
-"PO-Revision-Date: 2015-06-19 19:29+0200\n"
-"Last-Translator: angel <angel.moya@domatix.com>\n"
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 "Language-Team: Domatix\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -29,11 +20,7 @@ msgstr ""
 #. module: account_payment_partner
 #: view:website:account.report_invoice_document
 msgid "Bank Account:"
-<<<<<<< HEAD
 msgstr "Cuenta bancaria:"
-=======
-msgstr "Bank Account:"
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 
 #. module: account_payment_partner
 #: field:res.partner,customer_payment_mode:0
@@ -58,11 +45,7 @@ msgstr "Modo de pago"
 #. module: account_payment_partner
 #: view:website:account.report_invoice_document
 msgid "Payment Mode:"
-<<<<<<< HEAD
 msgstr "Modo de pago:"
-=======
-msgstr "Payment Mode:"
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 
 #. module: account_payment_partner
 #: help:res.partner,customer_payment_mode:0

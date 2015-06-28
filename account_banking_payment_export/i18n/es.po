@@ -2,22 +2,13 @@
 # This file contains the translation of the following modules:
 # * account_banking_payment_export
 # angel <angel.moya@domatix.com>, 2015.
-<<<<<<< HEAD
-# Angel <angel.moya@domatix.com>, 2015.
-=======
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-19 17:29+0000\n"
-<<<<<<< HEAD
 "PO-Revision-Date: 2015-06-28 07:42+0200\n"
 "Last-Translator: Angel <angel.moya@domatix.com>\n"
-=======
-"PO-Revision-Date: 2015-06-19 19:30+0200\n"
-"Last-Translator: angel <angel.moya@domatix.com>\n"
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 "Language-Team: Domatix\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -239,11 +230,7 @@ msgstr "Especifica el código para el tipo de pago"
 #: code:addons/account_banking_payment_export/models/account_invoice.py:34
 #, python-format
 msgid "Structured Reference"
-<<<<<<< HEAD
 msgstr "Referencia estructurada"
-=======
-msgstr "Structured Reference"
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form

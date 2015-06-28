@@ -111,10 +111,6 @@ class PaymentMode(models.Model):
     purchase_ok = fields.Boolean(
         string='Selectable on purchase operations',
         default=True)
-<<<<<<< HEAD
     note = fields.Html(
-=======
-    note = fields.Char(
->>>>>>> eeef2c2... ADD description on payment mode and show it on invoice report
         string="Note",
         translate=True)
