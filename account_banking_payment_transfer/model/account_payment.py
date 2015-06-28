@@ -158,6 +158,7 @@ class PaymentOrder(models.Model):
             partner_id = False
             name = '%s %s' % (
                 labels[self.payment_order_type], self.reference)
+        date_maturity = payment_lines[0].date
         vals = {
             'name': name,
             'move_id': move.id,
@@ -167,7 +168,8 @@ class PaymentOrder(models.Model):
                        amount or 0.0),
             'debit': (self.payment_order_type == 'debit' and
                       amount or 0.0),
-            }
+            'date_maturity': date_maturity,
+        }
         return vals
 
     @api.model
