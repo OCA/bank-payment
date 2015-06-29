@@ -26,8 +26,8 @@
     'license': 'AGPL-3',
     'website': 'http://www.camptocamp.com',
     'data': [
+             'views/payment_view.xml',
     ],
     'installable': True,
     'auto_install': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
