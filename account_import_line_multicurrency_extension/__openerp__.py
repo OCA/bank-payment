@@ -18,35 +18,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{'name': 'Payment Order Extension',
- 'summary': 'Add an improved view for payment order',
+{'name': 'Bank Statement Multi currency Extension',
+ 'summary': 'Add an improved view for move line import in bank statement',
  'version': '1.1',
  'author': "Camptocamp,Odoo Community Association (OCA)",
  'maintainter': 'Camptocamp',
  'category': 'Accounting',
- 'depends': ['account_payment','account'],
- 'description': """
-Payment Order
-==================
-
-Add improved move line selection for multi-currency
-
-Contributors
-------------
-
-* Vincent revaville <vincent.renaville@camptocamp.com>
-""",
+ 'depends': ['account'],
  'website': 'http://www.camptocamp.com',
- 'data': ['view/payment_view.xml',
-          'view/account_statement_from_invoice_view.xml',
+ 'data': ['view/account_statement_from_invoice_view.xml',
           'view/bank_statement_view.xml',
           ],
  'tests': [],
  'installable': True,
- 'auto_install': False,
  'license': 'AGPL-3',
  'conflicts': [
      'account_banking_payment_export',
      ],
- 'application': False,
  }
