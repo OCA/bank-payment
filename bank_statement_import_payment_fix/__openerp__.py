@@ -26,7 +26,7 @@
     'license': 'AGPL-3',
     'website': 'http://www.camptocamp.com',
     'data': [
-             'views/payment_view.xml',
+        'views/payment_view.xml',
     ],
     'installable': True,
     'auto_install': False,
