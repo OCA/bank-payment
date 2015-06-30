@@ -436,31 +436,31 @@ class bank_acc_rec_statement(orm.Model):
                 sres['sum_of_debits'] - sres['sum_of_credits'],
                 account_precision)
             sres['cleared_balance_in_currency'] = round(
-                (sres['sum_of_debits_in_currency']
-                 - sres['sum_of_credits_in_currency']),
+                (sres['sum_of_debits_in_currency'] -
+                 sres['sum_of_credits_in_currency']),
                 account_precision)
             sres['uncleared_balance'] = round(
                 sres['sum_of_debits_unclear'] - sres['sum_of_credits_unclear'],
                 account_precision)
             sres['uncleared_balance_in_currency'] = round(
-                (sres['sum_of_debits_unclear_in_currency']
-                 - sres['sum_of_credits_unclear_in_currency']),
+                (sres['sum_of_debits_unclear_in_currency'] -
+                 sres['sum_of_credits_unclear_in_currency']),
                 account_precision)
             sres['difference'] = round(
-                (statement.ending_balance - statement.starting_balance)
-                - sres['cleared_balance'],
+                (statement.ending_balance - statement.starting_balance) -
+                sres['cleared_balance'],
                 account_precision)
             sres['difference_in_currency'] = round(
-                (statement.ending_balance_in_currency
-                 - sres['cleared_balance_in_currency']
-                 - statement.starting_balance_in_currency),
+                (statement.ending_balance_in_currency -
+                 sres['cleared_balance_in_currency'] -
+                 statement.starting_balance_in_currency),
                 account_precision)
             sres['general_ledger_balance'] = self._get_gl_balance(
                 cr, uid, statement.account_id.id, statement.ending_date)
             sres['registered_balance'] = round(
-                (statement.starting_balance
-                 + sres['cleared_balance']
-                 + sres['uncleared_balance']),
+                (statement.starting_balance +
+                 sres['cleared_balance'] +
+                 sres['uncleared_balance']),
                 account_precision)
 
         return res
@@ -619,7 +619,7 @@ class bank_acc_rec_statement(orm.Model):
                     prev_month = (dt_ending.replace(day=1) - timedelta(days=1))
 
                     if dt_ending.day <= prev_month.day:
-                        dt_ending = dt_ending.replace(month=dt_ending.month - 1)
+                        dt_ending = dt_ending.replace(month=dt_ending.month-1)
                     else:
                         dt_ending = prev_month
 
