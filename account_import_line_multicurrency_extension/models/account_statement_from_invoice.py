@@ -20,26 +20,23 @@
 ##############################################################################
 import time
 
-from openerp import fields, models, api, _
+from openerp import models, api
+
 
 class account_statement_from_invoice_lines(models.TransientModel):
     """
     Generate Entries by Statement from Invoices
     """
     _inherit = "account.statement.from.invoice.lines"
-    
+
     @api.multi
     def populate_statement(self):
         statement_id = self.env.context.get('statement_id', False)
-        if not statement_id:
-            return {'type': 'ir.actions.act_window_close'}
-        if not self.line_ids:
+        if not statement_id or not self.line_ids:
             return {'type': 'ir.actions.act_window_close'}
 
-        line_obj = self.env['account.move.line']
         statement_obj = self.env['account.bank.statement']
         statement_line_obj = self.env['account.bank.statement.line']
-        currency_obj = self.env['res.currency']
         statement = statement_obj.browse(statement_id)
         line_date = statement.date
         # Get the currency on the company if not set on the journal
@@ -58,16 +55,17 @@ class account_statement_from_invoice_lines(models.TransientModel):
                     from_currency_id = statement.journal_id.currency
                 else:
                     from_currency_id = self.env.user.company_id.currency_id
-                amount = from_currency_id.with_context(date=line_date).compute(line.amount_residual_currency,
-                                                                               line.invoice.currency_id)
+                amount = from_currency_id.with_context(date=line_date).compute(
+                    line.amount_residual_currency,
+                    line.invoice.currency_id)
                 amount_currency = line.amount_residual_currency
             # we test how to apply sign
-            if line.journal_id.type in ['sale_refund','purchase']:
+            if line.journal_id.type in ['sale_refund', 'purchase']:
                 amount_currency = -amount_currency
                 amount = -amount
             ctx = {}
             ctx.update({'move_line_ids': [line.id],
-                            'invoice_id': line.invoice.id})
+                        'invoice_id': line.invoice.id})
 
             statement_line_obj.with_context(ctx).create({
                 'name': line.ref or '?',
