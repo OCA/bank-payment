@@ -1,31 +1,24 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Module name
-===========
-
 Account Import Line Multi Currency Extension
+============================================
+
+* Improve the view of the import invoice wizard in the bank statement form in order to display more relevant columns. Especially if you work in multi-currency and handle partial payment.
+
+* A column 'Journal currency symbol' has been added just after the amount column to avoid confusion from end-users -> When the bank journal is in foreign currency then the amount column must be filled in that currency.
+
+* When importing lines in currencies amount, amount currency and currency are now correctly handled
+
+* When lines are imported the reference goes to the communication field (instead of reference of the bank statement line) in order to have a default proposal from the system during the reconciliation process.
+
+A check has been added when pressing 'Reconcile' button: no zero amount are accepted. (since it is obviously an user error)
 
 
 Configuration
 =============
 
 Nothing
-
-
-Usage
-=====
-
-* improve the view of the import invoice wizard in the bank statement form in order to display more relevant columns especially if you work in multi-currency and handle partial payment.
-
-* A columns 'Journal currency symbol' has been added just after the amount column to avoir confusion from end-users -> When the bank journal is in foreign currency then the amount culumn must be filled in that currency.
-
-* When importing lines in currencies amount, amount currency and currency are now correctely handled 
-
-* When lines are imported the reference goes to the communication field (instead of reference of the bank statement line) in order to have a default proposal from the system during the reconciliation process. 
-
-A check has been added when pressing 'Reconcile' button : no amount at zero are accepted. (since it is obviously an user error)
-
 
 
 Bug Tracker
