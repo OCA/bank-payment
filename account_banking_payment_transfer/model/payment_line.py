@@ -158,10 +158,6 @@ class PaymentLine(orm.Model):
         move_line_obj.reconcile_partial(cr, uid, line_ids, type='manual',
                                         context=context)
 
-        for line_id in line_ids:
-            workflow.trg_trigger(
-                uid, 'account.move.line', line_id, cr)
-
         # If a bank transaction of a storno was first confirmed
         # and now canceled (the invoice is now in state 'debit_denied'
         if torec_move_line.invoice:
