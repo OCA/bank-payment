@@ -155,7 +155,7 @@ class PaymentLine(orm.Model):
             )
 
         line_ids = [transit_move_line.id, torec_move_line.id]
-        move_line_obj.reconcile_partial(cr, uid, line_ids, type='manual',
+        move_line_obj.reconcile_partial(cr, uid, line_ids, type='auto',
                                         context=context)
 
         # If a bank transaction of a storno was first confirmed
