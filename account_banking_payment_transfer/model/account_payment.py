@@ -215,11 +215,11 @@ class PaymentOrder(models.Model):
         # on the payment line and call reconciliation on it
         line.write({'transit_move_line_id': partner_move_line.id})
 
+    @api.model
     def _reconcile_payment_lines(self, payment_lines):
-        pl_obj = self.env['payment.line']
         for line in payment_lines:
             if line.move_line_id:
-                pl_obj.debit_reconcile(line.id)
+                line.debit_reconcile()
             else:
                 self.action_sent_no_move_line_hook(line)
 

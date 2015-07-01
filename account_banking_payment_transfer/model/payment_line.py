@@ -24,7 +24,7 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
-from openerp import workflow
+from openerp import workflow, api
 from openerp.tools.translate import _
 
 
@@ -116,6 +116,7 @@ class PaymentLine(orm.Model):
 
         return False
 
+    @api.cr_uid_id_context
     def debit_reconcile(self, cr, uid, payment_line_id, context=None):
         """
         Reconcile a debit order's payment line with the the move line
