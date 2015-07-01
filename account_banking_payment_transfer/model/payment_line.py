@@ -154,10 +154,6 @@ class PaymentLine(orm.Model):
                 transit_move_line.name
             )
 
-        def is_zero(total):
-            return self.pool.get('res.currency').is_zero(
-                cr, uid, transit_move_line.company_id.currency_id, total)
-
         line_ids = [transit_move_line.id, torec_move_line.id]
         move_line_obj.reconcile_partial(cr, uid, line_ids, type='manual',
                                         context=context)
