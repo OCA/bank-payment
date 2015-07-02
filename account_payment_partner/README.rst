@@ -64,6 +64,7 @@ Contributors
 * Alexandre Fayolle
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Danimar Ribeiro
+* Angel Moya <angel.moya@domatix.com>
 
 Maintainer
 ----------
