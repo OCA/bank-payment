@@ -35,6 +35,7 @@
     'data': [
         'views/res_partner_view.xml',
         'views/account_invoice_view.xml',
+        'views/report_invoice.xml',
         'security/ir.model.access.csv',
     ],
     'demo': ['demo/partner_demo.xml'],
