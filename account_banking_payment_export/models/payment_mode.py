@@ -107,3 +107,4 @@ class PaymentMode(models.Model):
                              default=True)
     purchase_ok = fields.Boolean(string='Selectable on purchase operations',
                                  default=True)
+    note = fields.Text(string="Note", translate=True)

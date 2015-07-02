@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-31 22:52+0000\n"
-"PO-Revision-Date: 2014-10-31 22:52+0000\n"
+"POT-Creation-Date: 2015-07-02 10:51+0000\n"
+"PO-Revision-Date: 2015-07-02 10:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,21 +19,6 @@ msgstr ""
 #: field:payment.mode,active:0
 #: field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
-
-#. module: account_banking_payment_export
-#: field:payment.mode,sale_ok:0
-msgid "Selectable on sale operations"
-msgstr ""
-
-#. module: account_banking_payment_export
-#: field:payment.mode,purchase_ok:0
-msgid "Selectable on purchase operations"
-msgstr ""
-
-#. module: account_banking_payment_export
-#: field:account.move.line,amount_to_pay:0
-msgid "Amount to pay"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -69,7 +54,7 @@ msgid "Direct debit"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:77
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:121
 #, python-format
 msgid "Entry Lines"
 msgstr ""
@@ -92,6 +77,17 @@ msgid "ID"
 msgstr ""
 
 #. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Journal Entry"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
 msgstr ""
@@ -116,6 +112,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+#: field:payment.mode,note:0
+msgid "Note"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -157,7 +159,7 @@ msgid "Payment Order Export"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:169
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:213
 #, python-format
 msgid "Payment Orders"
 msgstr ""
@@ -204,6 +206,16 @@ msgid "Select the Payment Wizard for payments of this type. Leave empty for manu
 msgstr ""
 
 #. module: account_banking_payment_export
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
+msgstr ""
+
+#. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_manual
 msgid "Send payment order(s) manually"
 msgstr ""
@@ -211,6 +223,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.mode.type,code:0
 msgid "Specify the Code for Payment Type"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_invoice.py:34
+#, python-format
+msgid "Structured Reference"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -225,6 +243,16 @@ msgid "This field determines if this type applies to customers (Debit) or suppli
 msgstr ""
 
 #. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Credit"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Debit"
+msgstr ""
+
+#. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:69
 #, python-format
 msgid "You can only combine payment orders of the same type"
@@ -234,3 +262,15 @@ msgstr ""
 #: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
 msgid "launch_wizard"
 msgstr ""
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
+msgid "{\n"
+"                        'invisible': [('state', '!=', 'draft')]}"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
+msgid "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+msgstr ""
+
