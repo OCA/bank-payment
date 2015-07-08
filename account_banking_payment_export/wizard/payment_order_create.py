@@ -40,7 +40,11 @@ class PaymentOrderCreate(models.TransientModel):
     duedate = fields.Date(required=False)
     move_date = fields.Date(
         string='Move Date', default=fields.Date.context_today)
-    populate_results = fields.Boolean(string="Populate Results Directly")
+    populate_results = fields.Boolean(string="Populate results directly",
+                                      default=True)
+    journal_id = fields.Many2one('account.journal', string='Journal')
+    analytic_account_id = fields.Many2one(
+        'account.analytic.account', string='Analytic account')
 
     @api.model
     def default_get(self, field_list):
@@ -83,6 +87,11 @@ class PaymentOrderCreate(models.TransientModel):
                 ('account_id.type', '=', 'receivable'),
                 ('reconcile_partial_id', '=', False),
             ]
+        if self.journal_id:
+            domain += [('journal_id', '=', self.journal_id.id)]
+        if self.analytic_account_id:
+            domain += [
+                ('analytic_account_id', '=', self.analytic_account_id.id)]
 
     @api.multi
     def filter_lines(self, lines):
