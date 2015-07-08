@@ -375,6 +375,8 @@ class BankingExportSddWizard(models.TransientModel):
             first_mandates = abmo.browse([])
             all_mandates = abmo.browse([])
             for line in order.line_ids:
+                if line.mandate_id in all_mandates:
+                    continue
                 all_mandates += line.mandate_id
                 if line.mandate_id.type == 'oneoff':
                     to_expire_mandates += line.mandate_id
