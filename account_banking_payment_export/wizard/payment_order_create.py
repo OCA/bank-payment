@@ -130,10 +130,11 @@ class PaymentOrderCreate(models.TransientModel):
                 'target': 'new',
                 }
 
-    @api.model
+    @api.multi
     def _prepare_payment_line(self, payment, line):
         """This function is designed to be inherited
         The resulting dict is passed to the create method of payment.line"""
+        self.ensure_one()
         _today = fields.Date.context_today(self)
         date_to_pay = False  # no payment date => immediate payment
         if payment.date_prefered == 'due':
