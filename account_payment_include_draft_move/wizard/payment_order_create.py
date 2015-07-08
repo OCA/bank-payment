@@ -28,7 +28,7 @@ POSTED_MOVE_DOMAIN = ('move_id.state', '=', 'posted')
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    @api.model
+    @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
         if POSTED_MOVE_DOMAIN in domain:
             pos = domain.index(POSTED_MOVE_DOMAIN)
