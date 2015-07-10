@@ -16,6 +16,11 @@
                     <field name="purchase_ok"/>
                     <field name="sale_ok"/>
                 </field>
+                <form position="inside">
+                    <group string="Note" col="4">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </form>
             </field>
         </record>
 

@@ -76,6 +76,7 @@ Contributors
 * Erwin van der Ploeg
 * Raphaël Valyi
 * Sandy Carter
+* Angel Moya <angel.moya@domatix.com>
 
 Maintainer
 ----------
