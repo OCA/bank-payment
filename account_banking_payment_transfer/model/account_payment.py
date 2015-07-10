@@ -152,8 +152,15 @@ class PaymentOrder(models.Model):
             self, amount, move, payment_lines, labels):
         if len(payment_lines) == 1:
             partner_id = payment_lines[0].partner_id.id
-            name = _('%s line %s') % (
-                labels[self.payment_order_type], payment_lines[0].name)
+            name = _('%s line %s') % (labels[self.payment_order_type],
+                                      payment_lines[0].name)
+            if payment_lines[0].move_line_id.id and\
+                    payment_lines[0].move_line_id.move_id.state != 'draft':
+                name = "%s (%s)" % (name,
+                                    payment_lines[0].move_line_id.move_id.name)
+            elif payment_lines[0].ml_inv_ref.id:
+                name = "%s (%s)" % (name,
+                                    payment_lines[0].ml_inv_ref.number)
         else:
             partner_id = False
             name = '%s %s' % (
