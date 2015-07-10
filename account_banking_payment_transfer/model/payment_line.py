@@ -37,17 +37,15 @@ class PaymentLine(models.Model):
 
     @api.multi
     def _get_transfer_move_line(self):
-        res = {}
         for order_line in self:
             if order_line.transit_move_line_id:
                 order_type = order_line.order_id.payment_order_type
                 trf_lines = order_line.transit_move_line_id.move_id.line_id
                 for move_line in trf_lines:
                     if order_type == 'debit' and move_line.debit > 0:
-                        self.transfer_move_line_id = move_line
+                        order_line.transfer_move_line_id = move_line
                     elif order_type == 'payment' and move_line.credit > 0:
-                        self.transfer_move_line_id = move_line
-        return res
+                        order_line.transfer_move_line_id = move_line
 
     msg = fields.Char('Message', required=False, readonly=True, default='')
     date_done = fields.Date('Date Confirmed', select=True, readonly=True)
