@@ -91,7 +91,8 @@ class PaymentOrder(models.Model):
         .Integer(string='Partial Reconciles Counter',
                  compute='get_partial_reconcile_count')
 
-    def action_rejected(self, cr, uid, ids, context=None):
+    @api.multi
+    def action_rejected(self):
         return True
 
     @api.multi
@@ -133,13 +134,8 @@ class PaymentOrder(models.Model):
     def test_undo_done(self):
         return not self.test_done()
 
-    @api.model
+    @api.multi
     def _prepare_transfer_move(self):
-        # TODO question : can I use self.mode.xxx in an @api.model ??
-        # It works, but I'm not sure we are supposed to do that !
-        # I didn't want to use api.one to avoid having to
-        # do self._prepare_transfer_move()[0] in action_sent
-        # I prefer to just have to do self._prepare_transfer_move()
         vals = {
             'journal_id': self.mode.transfer_journal_id.id,
             'ref': '%s %s' % (
@@ -147,7 +143,7 @@ class PaymentOrder(models.Model):
             }
         return vals
 
-    @api.model
+    @api.multi
     def _prepare_move_line_transfer_account(
             self, amount, move, payment_lines, labels):
         if len(payment_lines) == 1:
@@ -170,37 +166,35 @@ class PaymentOrder(models.Model):
             }
         return vals
 
-    @api.model
-    def _prepare_move_line_partner_account(self, line, move, labels,
-                                           payment_order_type):
+    @api.multi
+    def _prepare_move_line_partner_account(self, line, move, labels):
         if line.move_line_id:
             account_id = line.move_line_id.account_id.id
         else:
-            if payment_order_type == 'debit':
+            if self.payment_order_type == 'debit':
                 account_id = line.partner_id.property_account_receivable.id
             else:
                 account_id = line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
-                labels[payment_order_type], line.name),
+                labels[self.payment_order_type], line.name),
             'move_id': move.id,
             'partner_id': line.partner_id.id,
             'account_id': account_id,
-            'credit': (payment_order_type == 'debit' and
+            'credit': (self.payment_order_type == 'debit' and
                        line.amount or 0.0),
-            'debit': (payment_order_type == 'payment' and
+            'debit': (self.payment_order_type == 'payment' and
                       line.amount or 0.0),
             }
         return vals
 
-    @api.model
+    @api.multi
     def action_sent_no_move_line_hook(self, pay_line):
         """This function is designed to be inherited"""
         return
 
-    @api.model
-    def _create_move_line_partner_account(self, line, move, labels,
-                                          order_type):
+    @api.multi
+    def _create_move_line_partner_account(self, line, move, labels):
         """This method is designed to be inherited in a custom module"""
 
         # TODO: take multicurrency into account
@@ -208,14 +202,14 @@ class PaymentOrder(models.Model):
         # create the payment/debit counterpart move line
         # on the partner account
         partner_ml_vals = self._prepare_move_line_partner_account(
-            line, move, labels, order_type)
+            line, move, labels)
         partner_move_line = aml_obj.create(partner_ml_vals)
 
         # register the payment/debit move line
         # on the payment line and call reconciliation on it
         line.write({'transit_move_line_id': partner_move_line.id})
 
-    @api.model
+    @api.multi
     def _reconcile_payment_lines(self, payment_lines):
         for line in payment_lines:
             if line.move_line_id:
@@ -263,8 +257,7 @@ class PaymentOrder(models.Model):
                 total_amount = 0
                 for line in lines:
                     total_amount += line.amount
-                    self._create_move_line_partner_account(
-                        line, move, labels, self.payment_order_type)
+                    self._create_move_line_partner_account(line, move, labels)
                 # create the payment/debit move line on the transfer account
                 trf_ml_vals = self._prepare_move_line_transfer_account(
                     total_amount, move, lines, labels)
