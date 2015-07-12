@@ -61,13 +61,9 @@ class PaymentOrder(models.Model):
         'rejected': [('readonly', True)],
         'done': [('readonly', True)],
         })
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('open', 'Confirmed'),
-        ('cancel', 'Cancelled'),
+    state = fields.Selection(selection_add=[
         ('sent', 'Sent'),
         ('rejected', 'Rejected'),
-        ('done', 'Done'),
         ], string='State')
     line_ids = fields.One2many(states={
         'open': [('readonly', True)],
