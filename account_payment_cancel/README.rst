@@ -4,7 +4,7 @@
 Account Payment Purchase
 ========================
 
-This module allow cancel payment orders in done state if lines don't have account move reconciled.
+This module allows cancel payment orders in done state if lines don't have account move reconciled.
 
 Installation
 ============

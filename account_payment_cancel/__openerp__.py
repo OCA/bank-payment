@@ -2,7 +2,7 @@
 ###############################################################################
 #
 #    Trey, Kilobytes de Soluciones
-#    Copyright (C) 2014-Today Trey, Kilobytes de Soluciones <www.trey.es>
+#    Copyright (C) 2015-Today Trey, Kilobytes de Soluciones <www.trey.es>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,7 +24,7 @@
     'summary': 'Allow cancel payment order',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Trey Kilobytes de Soluciones - Roberto Lizana (www.trey.es), '
+    'author': 'Trey Kilobytes de Soluciones, '
               'Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/bank-payment',
     'depends': [
