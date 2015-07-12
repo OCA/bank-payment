@@ -23,9 +23,10 @@
     'category': 'Accounting & Finance',
     'summary': 'Allow cancel payment order',
     'version': '0.1',
-    'description': '''
-    ''',
-    'author': 'Trey Kilobytes de Soluciones (www.trey.es)',
+    'license': 'AGPL-3',
+    'author': 'Trey Kilobytes de Soluciones - Roberto Lizana (www.trey.es), '
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/bank-payment',
     'depends': [
         'account_payment',
     ],
