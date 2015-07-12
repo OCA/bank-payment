@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_cancel
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-12 07:09+0000\n"
+"PO-Revision-Date: 2015-07-12 09:14+0100\n"
+"Last-Translator: Roberto Lizana <robertolizana@trey.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: account_payment_cancel
+#: view:payment.order:account_payment_cancel.view_payment_order_cancel_form
+msgid "Cancel Payments"
+msgstr "Cancelar Pagos"
+
+#. module: account_payment_cancel
+#: code:addons/account_payment_cancel/models/payment.py:21
+#, python-format
+msgid ""
+"You cannot cancel, the next lines has already been reconciled: \n"
+"%s\n"
+msgstr ""
+"No se puede cancelar, las siguientes líneas ya han sido conciliadas:\n"
+"%s\n"
