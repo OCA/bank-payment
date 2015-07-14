@@ -12,7 +12,7 @@
             <field name="currency_symbol"/>
         </field>
         <xpath expr="//button[@string='Reconcile']" position="replace">
-        	<button name="check_line_amount_zero" states="draft" string="Reconcile" type="object" class="oe_highlight"/>
+          <button name="check_line_amount_zero" states="draft" string="Reconcile" type="object" class="oe_highlight"/>
         </xpath>
       </field>
     </record>
