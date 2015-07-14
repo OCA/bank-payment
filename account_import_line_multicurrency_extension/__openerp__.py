@@ -32,7 +32,4 @@
  'tests': [],
  'installable': True,
  'license': 'AGPL-3',
- 'conflicts': [
-     'account_banking_payment_export',
-     ],
  }
