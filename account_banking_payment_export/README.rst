@@ -4,11 +4,12 @@
 Account Banking - Payments Export Infrastructure
 ================================================
 
-This module provide an infrastructure to export payment orders. 
+This module provide an infrastructure to export payment orders.
 It includes some bug fixes and obvious enhancements to payment orders that will hopefully land in offical addons one
 day.
 This technical module provides the base infrastructure to export payment orders
 for electronic banking. It provides the following technical features:
+
 * a new payment.mode.type model
 * payment.mode now has a mandatory type
 * a better implementation of payment_mode.suitable_bank_types() based on
@@ -25,7 +26,8 @@ it adds a payment_order_type (payment|debit) as a basis of direct debit support
 Installation
 ============
 
-This module depends on :
+This module depends on:
+
 * account_payment
 * base_iban
 
