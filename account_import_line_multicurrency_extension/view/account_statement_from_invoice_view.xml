@@ -7,15 +7,15 @@
       <field name="model">account.move.line</field>
       <field name="arch" type="xml">
         <tree string="Move lines">
-          <field name="journal_id" readonly="True"/>
-          <field name="date" readonly="True"/>
-          <field name="name" readonly="True"/>
-          <field name="partner_id" readonly="True" />
-          <field name="ref" readonly="True" />
-          <field name="amount_residual_currency" readonly="True"/>
-          <field name="currency_id" readonly="True"  />
-          <field name="date_maturity" readonly="True"/>
-          <field name="reconcile_partial_id" readonly="True"/>
+          <field name="journal_id"/>
+          <field name="date"/>
+          <field name="name"/>
+          <field name="partner_id"/>
+          <field name="ref"/>
+          <field name="amount_residual_currency"/>
+          <field name="currency_id"/>
+          <field name="date_maturity"/>
+          <field name="reconcile_partial_id"/>
         </tree>
       </field>
     </record>
