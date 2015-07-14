@@ -13,7 +13,7 @@
           <field name="partner_id"/>
           <field name="ref"/>
           <field name="amount_residual_currency"/>
-          <field name="currency_id"/>
+          <field name="currency_id" groups="base.group_multi_currency"/>
           <field name="date_maturity"/>
           <field name="reconcile_partial_id"/>
         </tree>
@@ -36,7 +36,7 @@
               <field name="partner_id" />
               <field name="ref" />
               <field name="amount_residual_currency"/>
-              <field name="currency_id"/>
+              <field name="currency_id" groups="base.group_multi_currency"/>
               <field name="date_maturity"/>
               <field name="reconcile_partial_id"/>
             </tree>
