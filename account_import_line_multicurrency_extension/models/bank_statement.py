@@ -38,7 +38,7 @@ class AccountBankStatement(models.Model):
         msg = ''
         for line in self.line_ids:
             if not line.amount:
-                msg += 'Amount on line %s is not set. \n' % (line.name)
+                msg += _('Amount on line %s is not set. \n') % (line.name)
         if msg:
             raise exceptions.Warning(
                 _("Error on bank statement: \n %s") % msg)
