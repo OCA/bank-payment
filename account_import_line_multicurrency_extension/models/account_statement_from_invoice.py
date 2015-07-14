@@ -66,11 +66,11 @@ class account_statement_from_invoice_lines(models.TransientModel):
                         'invoice_id': line.invoice.id})
 
             statement_line_obj.with_context(ctx).create({
-                'name': line.ref or '?',
+                'name': line.name or '?',
                 'amount': amount,
                 'partner_id': line.partner_id.id,
                 'statement_id': statement_id,
-                'ref': line.name,
+                'ref': line.ref,
                 'date': statement.date,
                 'amount_currency': amount_currency,
                 'currency_id': line.currency_id.id,

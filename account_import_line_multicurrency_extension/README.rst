@@ -10,9 +10,11 @@ Account Import Line Multi Currency Extension
 
 * When importing lines in currencies amount, amount currency and currency are now correctly handled
 
-* When lines are imported the reference goes to the communication field (instead of reference of the bank statement line) in order to have a default proposal from the system during the reconciliation process.
-
 A check has been added when pressing 'Reconcile' button: no zero amount are accepted. (since it is obviously an user error)
+
+
+The following feature have been moved in `bank_statement_import_invoices_fix`
+* When lines are imported the reference goes to the communication field (instead of reference of the bank statement line) in order to have a default proposal from the system during the reconciliation process.
 
 
 Configuration
