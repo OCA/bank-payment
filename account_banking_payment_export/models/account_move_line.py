@@ -26,6 +26,7 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
     @api.one
+    @api.depends('move_id.state', 'move_id.name', 'invoice.number')
     def _get_journal_entry_ref(self):
         if self.move_id.state == 'draft':
             if self.invoice.id:
@@ -36,7 +37,7 @@ class AccountMoveLine(models.Model):
             self.journal_entry_ref = self.move_id.name
 
     journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
-                                    string='Journal Entry Ref')
+                                    string='Journal Entry Ref', store=True)
 
     @api.multi
     def get_balance(self):
