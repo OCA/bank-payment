@@ -24,7 +24,7 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
-from openerp import workflow
+from openerp import workflow, api
 from openerp.tools.translate import _
 
 
@@ -116,6 +116,7 @@ class PaymentLine(orm.Model):
 
         return False
 
+    @api.cr_uid_id_context
     def debit_reconcile(self, cr, uid, payment_line_id, context=None):
         """
         Reconcile a debit order's payment line with the the move line
@@ -129,7 +130,6 @@ class PaymentLine(orm.Model):
 
         if isinstance(payment_line_id, (list, tuple)):
             payment_line_id = payment_line_id[0]
-        reconcile_obj = self.pool.get('account.move.reconcile')
         move_line_obj = self.pool.get('account.move.line')
         payment_line = self.browse(cr, uid, payment_line_id, context=context)
 
@@ -155,36 +155,9 @@ class PaymentLine(orm.Model):
                 transit_move_line.name
             )
 
-        def is_zero(total):
-            return self.pool.get('res.currency').is_zero(
-                cr, uid, transit_move_line.company_id.currency_id, total)
-
         line_ids = [transit_move_line.id, torec_move_line.id]
-        if torec_move_line.reconcile_partial_id:
-            line_ids = [
-                x.id for x in
-                torec_move_line.reconcile_partial_id.line_partial_ids
-                ] + [transit_move_line.id]
-
-        total = move_line_obj.get_balance(cr, uid, line_ids)
-        vals = {
-            'type': 'auto',
-            'line_id': is_zero(total) and [(6, 0, line_ids)] or [(6, 0, [])],
-            'line_partial_ids': (is_zero(total) and
-                                 [(6, 0, [])] or
-                                 [(6, 0, line_ids)]),
-            }
-
-        if torec_move_line.reconcile_partial_id:
-            reconcile_obj.write(
-                cr, uid, [torec_move_line.reconcile_partial_id.id],
-                vals, context=context)
-        else:
-            reconcile_obj.create(
-                cr, uid, vals, context=context)
-        for line_id in line_ids:
-            workflow.trg_trigger(
-                uid, 'account.move.line', line_id, cr)
+        move_line_obj.reconcile_partial(cr, uid, line_ids, type='auto',
+                                        context=context)
 
         # If a bank transaction of a storno was first confirmed
         # and now canceled (the invoice is now in state 'debit_denied'
