@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="payment_order_populate_view_move_line_tree" model="ir.ui.view">
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account_banking_payment_export.payment_order_populate_view_move_line_tree" />
+            <field name="arch" type="xml">
+                <field name="move_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_id" position="after">
+                    <field name="journal_entry_ref" string="Journal Entry" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -41,7 +41,7 @@
                     <field name="ref"/>
                     <field name="partner_id" />
                     <field name="account_id" />
-                    <field name="journal_entry_ref" string="Journal Entry" />
+                    <field name="move_id" />
                     <field name="debit" sum="Total Debit" invisible="not context.get('display_debit', False)"/>
                     <field name="credit" sum="Total Credit" invisible="not context.get('display_credit', False)"/>
                     <field name="amount_residual" />

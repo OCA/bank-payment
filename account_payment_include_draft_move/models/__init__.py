@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-#
 ##############################################################################
 #
-#     Authors: Adrien Peiffer
-#    Copyright (c) 2014 Acsone SA/NV (http://www.acsone.eu)
+#    OpenERP, Open Source Management Solution
+#    This module copyright (C) 2015 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,21 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    "name": "Account Payment Draft Move",
-    "version": "1.0",
-    "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
-    "website": "http://www.acsone.eu",
-    "images": [],
-    "category": "Accounting",
-    "depends": ["account_banking_payment_export"],
-    "data": [
-        "wizard/payment_order_create.xml",
-    ],
-    "demo": [],
-    "test": [],
-    "licence": "AGPL-3",
-    "installable": True,
-    "active": False,
-}
+from . import account_move_line
