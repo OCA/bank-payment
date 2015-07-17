@@ -28,7 +28,7 @@ from openerp import models, api
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    @api.model
+    @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)

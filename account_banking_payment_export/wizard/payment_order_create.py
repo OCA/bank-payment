@@ -42,8 +42,9 @@ class PaymentOrderCreate(models.TransientModel):
             res.update({'entries': context['line_ids']})
         return res
 
-    @api.model
+    @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
+        self.ensure_one()
         if payment_order.payment_order_type == 'payment':
             # For payables, propose all unreconciled credit lines,
             # including partially reconciled ones.
@@ -62,7 +63,7 @@ class PaymentOrderCreate(models.TransientModel):
                        ('account_id.type', '=', 'receivable'),
                        ('reconcile_partial_id', '=', False)]
 
-    @api.model
+    @api.multi
     def filter_lines(self, lines):
         """ Filter move lines before proposing them for inclusion
             in the payment order.
@@ -80,6 +81,7 @@ class PaymentOrderCreate(models.TransientModel):
         :param lines: recordset of move lines
         :returns: list of move line ids
         """
+        self.ensure_one()
         payment_lines = self.env['payment.line'].\
             search([('order_id.state', 'in', ('draft', 'open')),
                     ('move_line_id', 'in', lines.ids)])
@@ -128,10 +130,11 @@ class PaymentOrderCreate(models.TransientModel):
                 'target': 'new',
                 }
 
-    @api.model
+    @api.multi
     def _prepare_payment_line(self, payment, line):
         """This function is designed to be inherited
         The resulting dict is passed to the create method of payment.line"""
+        self.ensure_one()
         _today = fields.Date.context_today(self)
         date_to_pay = False  # no payment date => immediate payment
         if payment.date_prefered == 'due':
