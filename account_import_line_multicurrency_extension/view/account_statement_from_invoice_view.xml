@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="view_move_line_tree_bank_statement" model="ir.ui.view">
+      <field name="name">account.move.line.tree.bank.statement</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+        <tree string="Move lines">
+          <field name="journal_id"/>
+          <field name="date"/>
+          <field name="name"/>
+          <field name="partner_id"/>
+          <field name="ref"/>
+          <field name="amount_residual_currency"/>
+          <field name="currency_id" groups="base.group_multi_currency"/>
+          <field name="date_maturity"/>
+          <field name="reconcile_partial_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_account_statement_from_invoice_lines_over" model="ir.ui.view">
+      <field name="name">account.statement.from.invoice.lines.form.over</field>
+      <field name="model">account.statement.from.invoice.lines</field>
+      <field name="inherit_id" ref="account.view_account_statement_from_invoice_lines"/>
+      <field name="arch" type="xml">
+        <field name="line_ids" position="replace">
+          <field name="line_ids"
+            context="{'currency':True, 'tree_view_ref': 'account_import_line_multicurrency_extension.view_move_line_tree_bank_statement'}"
+            domain="[('account_id.type','in',['receivable','payable']),('journal_id.type','in',['sale','purchase','sale_refund','purchase_refund']), ('reconcile_id','=',False), ('state', '=', 'valid')]">
+            <tree string="Move lines">
+              <field name="journal_id"/>
+              <field name="date"/>
+              <field name="name"/>
+              <field name="partner_id" />
+              <field name="ref" />
+              <field name="amount_residual_currency"/>
+              <field name="currency_id" groups="base.group_multi_currency"/>
+              <field name="date_maturity"/>
+              <field name="reconcile_partial_id"/>
+            </tree>
+
+          </field>
+        </field>
+      </field>
+    </record>
+
+    </data>
+</openerp>
