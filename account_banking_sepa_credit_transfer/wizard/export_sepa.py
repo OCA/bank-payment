@@ -104,12 +104,20 @@ class BankingExportSepaWizard(models.TransientModel):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
+        # added pain.001.003.03 for German Banks
+        # it is not in the offical ISO 20022 documentations, but nearly all
+        # german banks are working with this instead 001.001.03
+        elif pain_flavor == 'pain.001.003.03':
+            bic_xml_tag = 'BIC'
+            name_maxsize = 70
+            root_xml_tag = 'CstmrCdtTrfInitn'
         else:
             raise Warning(
                 _("Payment Type Code '%s' is not supported. The only "
                   "Payment Type Codes supported for SEPA Credit Transfers "
                   "are 'pain.001.001.02', 'pain.001.001.03', "
-                  "'pain.001.001.04' and 'pain.001.001.05'.") %
+                  "'pain.001.001.04', 'pain.001.001.05'"
+                  " and 'pain.001.003.03'.") %
                 pain_flavor)
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
@@ -128,8 +136,12 @@ class BankingExportSepaWizard(models.TransientModel):
         }
         xml_root = etree.Element('Document', nsmap=pain_ns)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
-        pain_03_to_05 = \
-            ['pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05']
+        pain_03_to_05 = [
+            'pain.001.001.03',
+            'pain.001.001.04',
+            'pain.001.001.05',
+            'pain.001.003.03'
+        ]
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
             self.generate_group_header_block(pain_root, gen_args)
