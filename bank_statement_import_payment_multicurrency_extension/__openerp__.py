@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name": "Bank statement import payment fix",
+    "name": "Bank statement import payment multicurrency extension",
     "version": "1.0",
     "depends": ['base', 'account', 'account_payment'],
     "author": "Camptocamp,Odoo Community Association (OCA)",
