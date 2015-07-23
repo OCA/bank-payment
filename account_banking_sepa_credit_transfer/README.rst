@@ -17,6 +17,10 @@ European Payments Council (http://http://www.europeanpaymentscouncil.eu) use
 PAIN version 001.001.03, so it's probably the version of PAIN that you should
 try first.
 
+It also includes pain.001.003.03 which is used in Germany instead of 001.001.03.
+You can read more about this here (only in german language):
+http://www.ebics.de/startseite/
+
 Installation
 ============
 
