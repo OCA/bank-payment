@@ -27,8 +27,8 @@ class payment_order_create(orm.TransientModel):
     _inherit = 'payment.order.create'
 
     def extend_payment_order_domain(
-            self, cr, uid, payment_order, domain, context=None):
+            self, cr, uid, ids, payment_order, domain, context=None):
         super(payment_order_create, self).extend_payment_order_domain(
-            cr, uid, payment_order, domain, context=context)
+            cr, uid, ids, payment_order, domain, context=context)
         domain += [('blocked', '!=', True)]
         return True
