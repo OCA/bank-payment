@@ -1,3 +1,4 @@
+[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/173/8.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-bank-payment-173)
 [![Build Status](https://travis-ci.org/OCA/bank-payment.svg?branch=8.0)](https://travis-ci.org/OCA/bank-payment)
 [![Coverage Status](https://coveralls.io/repos/OCA/bank-payment/badge.png?branch=8.0)](https://coveralls.io/r/OCA/bank-payment?branch=8.0)
 
