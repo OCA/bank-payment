@@ -26,7 +26,8 @@ class AccountBankStatementLine(models.Model):
 
     currency_symbol = fields.Char(
         string='Journal Currency',
-        related='statement_id.currency.symbol', readonly=True)
+        related='statement_id.currency.symbol',
+        related_sudo=False, readonly=True)
 
 
 class AccountBankStatement(models.Model):
