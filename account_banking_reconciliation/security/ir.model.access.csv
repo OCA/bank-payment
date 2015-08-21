@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_bank_acc_rec_statement_preparer","access.bank.acc.rec.statement.preparer","model_bank_acc_rec_statement","group_bank_stmt_preparer",1,1,1,1
+"access_bank_acc_rec_statement_verifier","access.bank.acc.rec.statement.verifier","model_bank_acc_rec_statement","group_bank_stmt_verifier",1,1,1,1
+"access_bank_acc_rec_statement_line_preparer","access.bank.acc.rec.statement.line.preparer","model_bank_acc_rec_statement_line","group_bank_stmt_preparer",1,1,1,1
+"access_bank_acc_rec_statement_line_verifier","access.bank.acc.rec.statement.line.verifier","model_bank_acc_rec_statement_line","group_bank_stmt_verifier",1,1,1,1

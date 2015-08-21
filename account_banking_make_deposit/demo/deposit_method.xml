@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<openerp>
+  <data noupdate="1">
+
+    <record id="deposit_method_teller" model="deposit.method">
+      <field name="name">Teller</field>
+    </record>
+
+    <record id="deposit_method_atm" model="deposit.method">
+      <field name="name">ATM</field>
+    </record>
+
+    <record id="deposit_method_remote_deposit_capture" model="deposit.method">
+      <field name="name">Remote Deposit Capture</field>
+    </record>
+
+    <record id="deposit_method_online_deposit_capture" model="deposit.method">
+      <field name="name">Online Deposit Capture</field>
+    </record>
+
+    <record id="deposit_method_night_drop" model="deposit.method">
+      <field name="name">Night Drop</field>
+    </record>
+
+  </data>
+</openerp>
