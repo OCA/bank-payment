@@ -36,6 +36,15 @@
     <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
 </record>
 
+<record id="export_sepa_sct_001_003_03" model="payment.mode.type">
+    <field name="name">SEPA Credit Transfer pain 001.003.03 (used in Germany)</field>
+    <field name="code">pain.001.003.03</field>
+    <field name="payment_order_type">payment</field>
+    <field name="suitable_bank_types"
+       eval="[(6,0,[ref('base_iban.bank_iban')])]" />
+    <field name="ir_model_id" ref="model_banking_export_sepa_wizard"/>
+</record>
+
 
 </data>
 </openerp>
