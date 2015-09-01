@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_cash_discount_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-20 11:23+0000\n"
+"PO-Revision-Date: 2015-05-20 11:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_cash_discount_base
+#: view:website:account.report_invoice_document
+msgid "% discount for payment before"
+msgstr "% d'escompte pour un paiement avant le"
+
+#. module: account_cash_discount_base
+#: view:account.invoice:account_cash_discount_base.invoice_form_inherit
+#: view:account.invoice:account_cash_discount_base.invoice_supplier_form_inherit
+msgid "(update)"
+msgstr "(mise à jour)"
+
+#. module: account_cash_discount_base
+#: field:account.invoice,discount:0
+msgid "Amount Discount"
+msgstr "Montant de l'escompte"
+
+#. module: account_cash_discount_base
+#: field:account.invoice,discount_amount:0
+msgid "Amount Discount deducted"
+msgstr "Montant total escompte déduit"
+
+#. module: account_cash_discount_base
+#: field:payment.order.create,cash_discount_date:0
+msgid "Cash Discount Due Date"
+msgstr "Date d'échéance de l'escompte"
+
+#. module: account_cash_discount_base
+#: view:account.invoice:account_cash_discount_base.invoice_form_inherit
+#: view:account.invoice:account_cash_discount_base.invoice_supplier_form_inherit
+msgid "Cash discount"
+msgstr "Escompte"
+
+#. module: account_cash_discount_base
+#: field:payment.line,discount_amount:0
+msgid "Discount Amount"
+msgstr "Escompte"
+
+#. module: account_cash_discount_base
+#: field:account.invoice,discount_due_date:0
+msgid "Discount Due Date"
+msgstr "Date d'échéance de l'escompte"
+
+#. module: account_cash_discount_base
+#: model:ir.model,name:account_cash_discount_base.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: account_cash_discount_base
+#: model:ir.model,name:account_cash_discount_base.model_payment_line
+msgid "Payment Line"
+msgstr "Ligne de paiement"
+
+#. module: account_cash_discount_base
+#: view:account.invoice:account_cash_discount_base.invoice_form_inherit
+#: view:account.invoice:account_cash_discount_base.invoice_supplier_form_inherit
+msgid "Payments"
+msgstr "Règlements"
+
+#. module: account_cash_discount_base
+#: view:account.invoice:account_cash_discount_base.invoice_form_inherit
+#: view:account.invoice:account_cash_discount_base.invoice_supplier_form_inherit
+msgid "Recompute taxes and total"
+msgstr "Recalculer les taxes et le total"
+
+#. module: account_cash_discount_base
+#: view:website:account.report_invoice_document
+msgid "Total With a"
+msgstr "Total avec"
+
+#. module: account_cash_discount_base
+#: code:addons/account_cash_discount_base/models/account_invoice.py:91
+#, python-format
+msgid "Warning !\n"
+" You have to define a discount due date"
+msgstr "Attention !\n"
+" Vous devez définir une date d'échéance de l'escompte"
+

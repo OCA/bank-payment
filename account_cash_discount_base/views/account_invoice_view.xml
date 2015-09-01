@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_supplier_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form (account_cash_discount_base)</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='residual']" position="before">
+                        <field name="discount_percent" />
+                        <field name="force_discount_amount" />
+                        <field name="discount_amount" />
+                        <field name="discount" />
+                </xpath>
+                <xpath expr="//field[@name='date_due']" position="after">
+                    <field name="discount_delay" />
+                    <field name="discount_due_date" attrs="{'readonly': ['|', ('discount_delay', '!=', 0), ('state', '!=', 'draft')]}" />
+                </xpath>
+            </field>
+        </record>
+        <record id="invoice_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.form (account_cash_discount_base)</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='residual']" position="before">
+                        <field name="discount_percent" />
+                        <field name="discount_amount" readonly="1"/>
+                        <field name="discount" />
+                </xpath>
+                <xpath expr="//field[@name='date_due']" position="after">
+                    <field name="discount_delay" />
+                    <field name="discount_due_date" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
