@@ -86,7 +86,7 @@ class AccountMoveLine(orm.Model):
             return [('id', '=', '0')]
         return [('id', 'in', map(lambda x:x[0], res))]
 
-    def line2bank(self, cr, uid, ids, payment_mode_id, context=None):
+    def line2bank(self, cr, uid, ids, payment_type=None, context=None):
         """I have to inherit this function for direct debits to fix the
         following issue : if the customer invoice has a value for
         'partner_bank_id', then it will take this partner_bank_id
@@ -95,13 +95,13 @@ class AccountMoveLine(orm.Model):
         not the bank account of the customer !
         """
         pay_mode_obj = self.pool['payment.mode']
-        if payment_mode_id:
+        if payment_type:
             pay_mode = pay_mode_obj.browse(
-                cr, uid, payment_mode_id, context=context)
+                cr, uid, payment_type, context=context)
             if pay_mode.type.payment_order_type == 'debit':
                 line2bank = {}
                 bank_type = pay_mode_obj.suitable_bank_types(
-                    cr, uid, payment_mode_id, context=context)
+                    cr, uid, pay_mode.id, context=context)
                 for line in self.browse(cr, uid, ids, context=context):
                     line2bank[line.id] = False
                     if line.partner_id:
@@ -111,7 +111,7 @@ class AccountMoveLine(orm.Model):
                                 break
                 return line2bank
         return super(AccountMoveLine, self).line2bank(
-            cr, uid, ids, payment_mode_id, context=context)
+            cr, uid, ids, payment_type=pay_mode.id, context=context)
 
     _columns = {
         'amount_to_receive': fields.function(
