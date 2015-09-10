@@ -38,7 +38,7 @@ Credits
 Contributors
 ------------
 
-* Vincent renaville <vincent.renaville@camptocamp.com>
+* Vincent Renaville <vincent.renaville@camptocamp.com>
 
 Maintainer
 ----------
