@@ -43,6 +43,9 @@ class PaymentOrder(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     mode_type = fields.Many2one('payment.mode.type', related='mode.type',
                                 string='Payment Type')
+    bank_line_ids = fields.One2many(
+        'bank.payment.line', 'order_id', string="Bank Payment Lines",
+        readonly=True)
     total = fields.Float(compute='_compute_total', store=True)
 
     @api.depends('line_ids', 'line_ids.amount')
@@ -95,3 +98,56 @@ class PaymentOrder(models.Model):
             'state': 'done',
             })
         return True
+
+    @api.multi
+    def action_cancel(self):
+        for order in self:
+            order.write({'state': 'cancel'})
+            order.bank_line_ids.unlink()
+        return True
+
+    @api.model
+    def _prepare_bank_payment_line(self, paylines):
+        return {
+            'order_id': paylines[0].order_id.id,
+            'payment_line_ids': [(6, 0, paylines.ids)],
+            'communication': '-'.join(
+                [line.communication for line in paylines]),
+            }
+
+    @api.multi
+    def action_open(self):
+        """
+        Called when you click on the 'Confirm' button
+        Set the 'date' on payment line depending on the 'date_prefered'
+        setting of the payment.order
+        Re-generate the bank payment lines
+        """
+        res = super(PaymentOrder, self).action_open()
+        bplo = self.env['bank.payment.line']
+        today = fields.Date.context_today(self)
+        for order in self:
+            # Delete existing bank payment lines
+            order.bank_line_ids.unlink()
+            # Create the bank payment lines from the payment lines
+            group_paylines = {}  # id = hashcode, value = payment lines
+            for payline in order.line_ids:
+                # Compute requested payment date
+                if order.date_prefered == 'due':
+                    requested_date = payline.ml_maturity_date or today
+                elif order.date_prefered == 'fixed':
+                    requested_date = order.date_scheduled or today
+                else:
+                    requested_date = today
+                # Write requested_date on 'date' field of payment line
+                payline.date = requested_date
+                hashcode = payline.payment_line_hashcode()
+                if hashcode in group_paylines:
+                    group_paylines[hashcode] += payline
+                else:
+                    group_paylines[hashcode] = payline
+            # Create bank payment lines
+            for paylines in group_paylines.values():
+                vals = self._prepare_bank_payment_line(paylines)
+                bplo.create(vals)
+        return res

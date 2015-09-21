@@ -6,3 +6,5 @@ from . import payment_mode_type
 from . import payment_mode
 from . import account_move_line
 from . import account_invoice
+from . import bank_payment_line
+from . import payment_line

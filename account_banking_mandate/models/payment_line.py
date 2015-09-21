@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Mandate module for openERP
+#    Mandate module for Odoo
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    @author: Cyril Sester <csester@compassion.ch>,
 #             Alexis de Lattre <alexis.delattre@akretion.com>

@@ -37,6 +37,7 @@
     },
     'data': [
         'views/payment_line_view.xml',
+        'views/bank_payment_line_view.xml',
         'views/payment_mode_view.xml',
         'views/res_company_view.xml',
     ],

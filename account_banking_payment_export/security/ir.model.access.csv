@@ -1,2 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_payment_mode_type","payment.mode.type","model_payment_mode_type","account_payment.group_account_payment",1,1,1,1
+"access_bank_payment_line","Full access on bank.payment.line to Payment Manager","model_bank_payment_line","account_payment.group_account_payment",1,1,1,1
