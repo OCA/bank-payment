@@ -144,25 +144,22 @@ class BankingExportSddWizard(models.TransientModel):
         # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
         # Iterate on payment orders
-        today = fields.Date.context_today(self)
         for payment_order in self.payment_order_ids:
             total_amount = total_amount + payment_order.total
             # Iterate each payment lines
-            for line in payment_order.line_ids:
+            for line in payment_order.bank_line_ids:
                 transactions_count_1_6 += 1
                 priority = line.priority
-                if payment_order.date_prefered == 'due':
-                    requested_date = line.ml_maturity_date or today
-                elif payment_order.date_prefered == 'fixed':
-                    requested_date = payment_order.date_scheduled or today
-                else:
-                    requested_date = today
+                # The field line.date is the requested payment date
+                # taking into account the 'date_prefered' setting
+                # cf account_banking_payment_export/models/account_payment.py
+                # in the inherit of action_open()
                 if not line.mandate_id:
                     raise Warning(
-                        _("Missing SEPA Direct Debit mandate on the payment "
-                          "line with partner '%s' and Invoice ref '%s'.")
-                        % (line.partner_id.name,
-                           line.ml_inv_ref.number))
+                        _("Missing SEPA Direct Debit mandate on the "
+                          "bank payment line with partner '%s' "
+                          "(reference '%s'.")
+                        % (line.partner_id.name, line.name))
                 scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
                     raise Warning(
@@ -191,14 +188,11 @@ class BankingExportSddWizard(models.TransientModel):
                         line.mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
-                key = (requested_date, priority, seq_type, scheme)
+                key = (line.date, priority, seq_type, scheme)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
                     lines_per_group[key] = [line]
-                # Write requested_exec_date on 'Payment date' of the pay line
-                if requested_date != line.date:
-                    line.date = requested_date
 
         for (requested_date, priority, sequence_type, scheme), lines in \
                 lines_per_group.items():
@@ -374,18 +368,18 @@ class BankingExportSddWizard(models.TransientModel):
             to_expire_mandates = abmo.browse([])
             first_mandates = abmo.browse([])
             all_mandates = abmo.browse([])
-            for line in order.line_ids:
-                if line.mandate_id in all_mandates:
+            for bline in order.bank_line_ids:
+                if bline.mandate_id in all_mandates:
                     continue
-                all_mandates += line.mandate_id
-                if line.mandate_id.type == 'oneoff':
-                    to_expire_mandates += line.mandate_id
-                elif line.mandate_id.type == 'recurrent':
-                    seq_type = line.mandate_id.recurrent_sequence_type
+                all_mandates += bline.mandate_id
+                if bline.mandate_id.type == 'oneoff':
+                    to_expire_mandates += bline.mandate_id
+                elif bline.mandate_id.type == 'recurrent':
+                    seq_type = bline.mandate_id.recurrent_sequence_type
                     if seq_type == 'final':
-                        to_expire_mandates += line.mandate_id
+                        to_expire_mandates += bline.mandate_id
                     elif seq_type == 'first':
-                        first_mandates += line.mandate_id
+                        first_mandates += bline.mandate_id
             all_mandates.write(
                 {'last_debit_date': fields.Date.context_today(self)})
             to_expire_mandates.write({'state': 'expired'})
