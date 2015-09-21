@@ -10,14 +10,18 @@
 <record id="view_mandate_payment_order_form" model="ir.ui.view">
     <field name="name">mandate.payment.order.form</field>
     <field name="model">payment.order</field>
-    <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+    <field name="inherit_id" ref="account_banking_payment_export.view_payment_order_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='line_ids']/form/notebook/page/group/field[@name='bank_id']" position="after">
-            <field name="mandate_id" domain="[('partner_bank_id', '=', bank_id), ('state', '=', 'valid')]" invisible="context.get('search_payment_order_type')!='debit'" context="{'default_partner_bank_id': bank_id}"/>
+        <xpath expr="//field[@name='line_ids']/form//field[@name='bank_id']" position="after">
+            <field name="mandate_id"
+                domain="[('partner_bank_id', '=', bank_id), ('state', '=', 'valid')]"
+                invisible="context.get('search_payment_order_type')!='debit'"
+                context="{'default_partner_bank_id': bank_id}"/>
             <newline />
         </xpath>
         <xpath expr="//field[@name='line_ids']/tree/field[@name='bank_id']" position="after">
-            <field name="mandate_id" string="DD Mandate" invisible="context.get('search_payment_order_type')!='debit'"/>
+            <field name="mandate_id" string="Mandate"
+                invisible="context.get('search_payment_order_type')!='debit'"/>
         </xpath>
     </field>
 </record>
