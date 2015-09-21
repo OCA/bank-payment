@@ -151,25 +151,19 @@ class BankingExportSepaWizard(models.TransientModel):
         lines_per_group = {}
         # key = (requested_date, priority)
         # values = list of lines as object
-        today = fields.Date.context_today(self)
         for payment_order in self.payment_order_ids:
             total_amount = total_amount + payment_order.total
-            for line in payment_order.line_ids:
+            for line in payment_order.bank_line_ids:
                 priority = line.priority
-                if payment_order.date_prefered == 'due':
-                    requested_date = line.ml_maturity_date or today
-                elif payment_order.date_prefered == 'fixed':
-                    requested_date = payment_order.date_scheduled or today
-                else:
-                    requested_date = today
-                key = (requested_date, priority)
+                # The field line.date is the requested payment date
+                # taking into account the 'date_prefered' setting
+                # cf account_banking_payment_export/models/account_payment.py
+                # in the inherit of action_open()
+                key = (line.date, priority)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
                     lines_per_group[key] = [line]
-                # Write requested_date on 'Payment date' of the pay line
-                if requested_date != line.date:
-                    line.date = requested_date
         for (requested_date, priority), lines in lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
@@ -220,9 +214,9 @@ class BankingExportSepaWizard(models.TransientModel):
                 amount_control_sum_2_5 += line.amount_currency
                 if not line.bank_id:
                     raise Warning(
-                        _("Missing Bank Account on invoice '%s' (payment "
-                            "order line reference '%s').")
-                        % (line.ml_inv_ref.number, line.name))
+                        _("Bank account is missing on the bank payment line "
+                            "of partner '%s' (reference '%s').")
+                        % (line.partner_id.name, line.name))
                 self.generate_party_block(
                     credit_transfer_transaction_info_2_27, 'Cdtr',
                     'C', 'line.partner_id.name', 'line.bank_id.acc_number',
