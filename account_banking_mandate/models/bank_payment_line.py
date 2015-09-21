@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Mandate module for openERP
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    @author: Cyril Sester <csester@compassion.ch>,
-#             Alexis de Lattre <alexis.delattre@akretion.com>
+#    Mandate module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
+#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,8 +19,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import account_banking_mandate
-from . import account_invoice
-from . import res_partner_bank
-from . import payment_line
-from . import bank_payment_line
+
+from openerp import models, fields, api
+
+
+class BankPaymentLine(models.Model):
+    _inherit = 'bank.payment.line'
+
+    mandate_id = fields.Many2one(
+        comodel_name='account.banking.mandate', string='Direct Debit Mandate',
+        related='payment_line_ids.mandate_id')
+
+    @api.model
+    def same_fields_payment_line_and_bank_payment_line(self):
+        res = super(BankPaymentLine, self).\
+            same_fields_payment_line_and_bank_payment_line()
+        res.append('mandate_id')
+        return res
