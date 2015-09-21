@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2015 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+<record id="bank_payment_line_form" model="ir.ui.view">
+    <field name="name">banking.mandate.bank.payment.line.form</field>
+    <field name="model">bank.payment.line</field>
+    <field name="inherit_id" ref="account_banking_payment_export.bank_payment_line_form"/>
+    <field name="arch" type="xml">
+        <field name="bank_id" position="after">
+            <field name="mandate_id"
+                invisible="context.get('search_payment_order_type')!='debit'"/>
+        </field>
+    </field>
+</record>
+
+<record id="bank_payment_line_tree" model="ir.ui.view">
+    <field name="name">banking.mandate.bank.payment.line.tree</field>
+    <field name="model">bank.payment.line</field>
+    <field name="inherit_id" ref="account_banking_payment_export.bank_payment_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="bank_id" position="after">
+            <field name="mandate_id" string="Mandate"
+                invisible="context.get('search_payment_order_type')!='debit'"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

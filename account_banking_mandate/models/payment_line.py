@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Mandate module for openERP
+#    Mandate module for Odoo
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    @author: Cyril Sester <csester@compassion.ch>,
 #             Alexis de Lattre <alexis.delattre@akretion.com>
@@ -69,6 +69,8 @@ class PaymentLine(models.Model):
                   "'%s' which is not attached to the mandate '%s' (this "
                   "mandate is attached to the bank account '%s').") %
                 (self.name,
-                 self.bank_id.name_get()[0][1],
+                 self.env['res.partner.bank'].name_get(
+                     [self.bank_id.id])[0][1],
                  self.mandate_id.unique_mandate_reference,
-                 self.mandate_id.partner_bank_id.name_get()[0][1]))
+                 self.env['res.partner.bank'].name_get(
+                     [self.mandate_id.partner_bank_id.id])[0][1]))

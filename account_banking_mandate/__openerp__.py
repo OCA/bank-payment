@@ -32,13 +32,14 @@
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
     'depends': [
-        'account_payment',
+        'account_banking_payment_export',
     ],
     'data': [
         'views/account_banking_mandate_view.xml',
         'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
         'views/res_partner_bank_view.xml',
+        'views/bank_payment_line_view.xml',
         'data/mandate_reference_sequence.xml',
         'data/report_paperformat.xml',
         'security/mandate_security.xml',
