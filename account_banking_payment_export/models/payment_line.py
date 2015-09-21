@@ -1,10 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Mandate module for openERP
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    @author: Cyril Sester <csester@compassion.ch>,
-#             Alexis de Lattre <alexis.delattre@akretion.com>
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,8 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import account_banking_mandate
-from . import account_invoice
-from . import res_partner_bank
-from . import payment_line
-from . import bank_payment_line
+
+from openerp import models, fields, api
+
+
+class PaymentLine(models.Model):
+    _inherit = 'payment.line'
+
+    bank_line_id = fields.Many2one(
+        'bank.payment.line', string='Bank Payment Line')
+
+    @api.multi
+    def payment_line_hashcode(self):
+        self.ensure_one()
+        bplo = self.env['bank.payment.line']
+        values = []
+        for field in bplo.same_fields_payment_line_and_bank_payment_line():
+            values.append(unicode(self[field]))
+        hashcode = '-'.join(values)
+        return hashcode

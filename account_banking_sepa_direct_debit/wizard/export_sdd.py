@@ -144,25 +144,22 @@ class BankingExportSddWizard(models.TransientModel):
         # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
         # Iterate on payment orders
-        today = fields.Date.context_today(self)
         for payment_order in self.payment_order_ids:
             total_amount = total_amount + payment_order.total
             # Iterate each payment lines
-            for line in payment_order.line_ids:
+            for line in payment_order.bank_line_ids:
                 transactions_count_1_6 += 1
                 priority = line.priority
-                if payment_order.date_prefered == 'due':
-                    requested_date = line.ml_maturity_date or today
-                elif payment_order.date_prefered == 'fixed':
-                    requested_date = payment_order.date_scheduled or today
-                else:
-                    requested_date = today
+                # The field line.date is the requested payment date
+                # taking into account the 'date_prefered' setting
+                # cf account_banking_payment_export/models/account_payment.py
+                # in the inherit of action_open()
                 if not line.mandate_id:
                     raise Warning(
-                        _("Missing SEPA Direct Debit mandate on the payment "
-                          "line with partner '%s' and Invoice ref '%s'.")
-                        % (line.partner_id.name,
-                           line.ml_inv_ref.number))
+                        _("Missing SEPA Direct Debit mandate on the "
+                          "bank payment line with partner '%s' "
+                          "(reference '%s'.")
+                        % (line.partner_id.name, line.name))
                 scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
                     raise Warning(
@@ -191,14 +188,11 @@ class BankingExportSddWizard(models.TransientModel):
                         line.mandate_id.recurrent_sequence_type
                     assert seq_type_label is not False
                     seq_type = seq_type_map[seq_type_label]
-                key = (requested_date, priority, seq_type, scheme)
+                key = (line.date, priority, seq_type, scheme)
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
                     lines_per_group[key] = [line]
-                # Write requested_exec_date on 'Payment date' of the pay line
-                if requested_date != line.date:
-                    line.date = requested_date
 
         for (requested_date, priority, sequence_type, scheme), lines in \
                 lines_per_group.items():

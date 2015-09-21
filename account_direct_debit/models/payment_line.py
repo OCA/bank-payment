@@ -129,3 +129,6 @@ class PaymentLine(models.Model):
         'Storno', readonly=True,
         help="If this is true, the debit order has been canceled by the bank "
         "or by the customer")
+    # The original string is "Destination Bank Account"...
+    # but in direct debit this field is the *Source* Bank Account !
+    bank_id = fields.Many2one(string='Partner Bank Account')
