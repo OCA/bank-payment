@@ -130,7 +130,7 @@ class PaymentOrder(models.Model):
             # Delete existing bank payment lines
             order.bank_line_ids.unlink()
             # Create the bank payment lines from the payment lines
-            group_paylines = {}  # id = hashcode, value = payment lines
+            group_paylines = {}  # key = hashcode
             for payline in order.line_ids:
                 # Compute requested payment date
                 if order.date_prefered == 'due':
@@ -143,11 +143,22 @@ class PaymentOrder(models.Model):
                 payline.date = requested_date
                 hashcode = payline.payment_line_hashcode()
                 if hashcode in group_paylines:
-                    group_paylines[hashcode] += payline
+                    group_paylines[hashcode]['paylines'] += payline
+                    group_paylines[hashcode]['total'] +=\
+                        payline.amount_currency
                 else:
-                    group_paylines[hashcode] = payline
+                    group_paylines[hashcode] = {
+                        'paylines': payline,
+                        'total': payline.amount_currency,
+                        }
             # Create bank payment lines
-            for paylines in group_paylines.values():
-                vals = self._prepare_bank_payment_line(paylines)
+            for paydict in group_paylines.values():
+                # Block if a bank payment line is <= 0
+                if paydict['total'] <= 0:
+                    raise exceptions.Warning(
+                        _("The amount for Partner '%s' is negative (%.2f) !")
+                        % (paydict['paylines'][0].partner_id.name,
+                           paydict['total']))
+                vals = self._prepare_bank_payment_line(paydict['paylines'])
                 bplo.create(vals)
         return res

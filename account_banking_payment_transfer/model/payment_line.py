@@ -35,29 +35,8 @@ class PaymentLine(models.Model):
     '''
     _inherit = 'payment.line'
 
-    @api.multi
-    def _get_transfer_move_line(self):
-        for order_line in self:
-            if order_line.transit_move_line_id:
-                order_type = order_line.order_id.payment_order_type
-                trf_lines = order_line.transit_move_line_id.move_id.line_id
-                for move_line in trf_lines:
-                    if order_type == 'debit' and move_line.debit > 0:
-                        order_line.transfer_move_line_id = move_line
-                    elif order_type == 'payment' and move_line.credit > 0:
-                        order_line.transfer_move_line_id = move_line
-
     msg = fields.Char('Message', required=False, readonly=True, default='')
     date_done = fields.Date('Date Confirmed', select=True, readonly=True)
-    transit_move_line_id = fields.Many2one(
-        'account.move.line', string='Transfer move line', readonly=True,
-        help="Move line through which the payment/debit order "
-        "pays the invoice")
-    transfer_move_line_id = fields.Many2one(
-        'account.move.line', compute='_get_transfer_move_line',
-        string='Transfer move line counterpart',
-        help="Counterpart move line on the transfer account")
-
     """
     Hooks for processing direct debit orders, such as implemented in
     account_direct_debit module.
@@ -98,6 +77,31 @@ class PaymentLine(models.Model):
 
         return False
 
+
+class BankPaymentLine(models.Model):
+    _inherit = 'bank.payment.line'
+
+    transit_move_line_id = fields.Many2one(
+        'account.move.line', string='Transfer move line', readonly=True,
+        help="Move line through which the payment/debit order "
+        "pays the invoice")
+    transfer_move_line_id = fields.Many2one(
+        'account.move.line', compute='_get_transfer_move_line',
+        string='Transfer move line counterpart',
+        help="Counterpart move line on the transfer account")
+
+    @api.multi
+    def _get_transfer_move_line(self):
+        for bank_line in self:
+            if bank_line.transit_move_line_id:
+                order_type = bank_line.order_id.payment_order_type
+                trf_lines = bank_line.transit_move_line_id.move_id.line_id
+                for move_line in trf_lines:
+                    if order_type == 'debit' and move_line.debit > 0:
+                        bank_line.transfer_move_line_id = move_line
+                    elif order_type == 'payment' and move_line.credit > 0:
+                        bank_line.transfer_move_line_id = move_line
+
     @api.one
     def debit_reconcile(self):
         """
@@ -111,34 +115,32 @@ class PaymentLine(models.Model):
         """
 
         transit_move_line = self.transit_move_line_id
-        torec_move_line = self.move_line_id
 
-        if (not transit_move_line or not torec_move_line):
-            raise exceptions.except_orm(
-                _('Can not reconcile'),
-                _('No move line for line %s') % self.name
-            )
-        if torec_move_line.reconcile_id:
-            raise exceptions.except_orm(
-                _('Error'),
-                _('Move line %s has already been reconciled') %
-                torec_move_line.name
-                )
-        if (transit_move_line.reconcile_id or
-                transit_move_line.reconcile_partial_id):
-            raise exceptions.except_orm(
-                _('Error'),
-                _('Move line %s has already been reconciled') %
-                transit_move_line.name
-            )
+#        if (not transit_move_line or not torec_move_line):
+#            raise exceptions.UserError(
+#                _('Can not reconcile: no move line for line %s') % self.name
+#            )
+#        if torec_move_line.reconcile_id:
+#            raise exceptions.UserError(
+#                _('Move line %s has already been reconciled') %
+#                torec_move_line.name
+#                )
+#        if (transit_move_line.reconcile_id or
+#                transit_move_line.reconcile_partial_id):
+#            raise exceptions.UserError(
+#                _('Move line %s has already been reconciled') %
+#                transit_move_line.name
+#            )
 
-        line_ids = [transit_move_line.id, torec_move_line.id]
-        self.env['account.move.line'].browse(line_ids).reconcile_partial(
-            type='auto')
+        lines_to_rec = transit_move_line
+        for payment_line in self.payment_line_ids:
+            lines_to_rec += payment_line.move_line_id
+
+        lines_to_rec.reconcile_partial(type='auto')
 
         # If a bank transaction of a storno was first confirmed
         # and now canceled (the invoice is now in state 'debit_denied'
-        if torec_move_line.invoice:
-            workflow.trg_validate(
-                self.env.uid, 'account.invoice', torec_move_line.invoice.id,
-                'undo_debit_denied', self.env.cr)
+#        if torec_move_line.invoice:
+#            workflow.trg_validate(
+#                self.env.uid, 'account.invoice', torec_move_line.invoice.id,
+#                'undo_debit_denied', self.env.cr)

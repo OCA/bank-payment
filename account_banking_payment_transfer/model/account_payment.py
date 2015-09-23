@@ -104,8 +104,8 @@ class PaymentOrder(models.Model):
         """
         res = []
         for order in self:
-            for order_line in order.line_ids:
-                move_line = order_line.transfer_move_line_id
+            for bank_line in order.bank_line_ids:
+                move_line = bank_line.transfer_move_line_id
                 if move_line:
                     res.append(move_line)
         return res
@@ -141,23 +141,16 @@ class PaymentOrder(models.Model):
 
     @api.multi
     def _prepare_move_line_transfer_account(
-            self, amount, move, payment_lines, labels):
-        if len(payment_lines) == 1:
-            partner_id = payment_lines[0].partner_id.id
-            name = _('%s line %s') % (labels[self.payment_order_type],
-                                      payment_lines[0].name)
-            if payment_lines[0].move_line_id.id and\
-                    payment_lines[0].move_line_id.move_id.state != 'draft':
-                name = "%s (%s)" % (name,
-                                    payment_lines[0].move_line_id.move_id.name)
-            elif payment_lines[0].ml_inv_ref.id:
-                name = "%s (%s)" % (name,
-                                    payment_lines[0].ml_inv_ref.number)
+            self, amount, move, bank_payment_lines, labels):
+        if len(bank_payment_lines) == 1:
+            partner_id = bank_payment_lines[0].partner_id.id
+            name = _('%s bank line %s') % (labels[self.payment_order_type],
+                                           bank_payment_lines[0].name)
         else:
             partner_id = False
             name = '%s %s' % (
                 labels[self.payment_order_type], self.reference)
-        date_maturity = payment_lines[0].date
+        date_maturity = bank_payment_lines[0].date
         vals = {
             'name': name,
             'move_id': move.id,
@@ -173,13 +166,12 @@ class PaymentOrder(models.Model):
 
     @api.multi
     def _prepare_move_line_partner_account(self, line, move, labels):
-        if line.move_line_id:
-            account_id = line.move_line_id.account_id.id
+        # TODO : ALEXIS check don't group if move_line_id.account_id
+        # is not the same
+        if self.payment_order_type == 'debit':
+            account_id = line.partner_id.property_account_receivable.id
         else:
-            if self.payment_order_type == 'debit':
-                account_id = line.partner_id.property_account_receivable.id
-            else:
-                account_id = line.partner_id.property_account_payable.id
+            account_id = line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
                 labels[self.payment_order_type], line.name),
@@ -187,9 +179,9 @@ class PaymentOrder(models.Model):
             'partner_id': line.partner_id.id,
             'account_id': account_id,
             'credit': (self.payment_order_type == 'debit' and
-                       line.amount or 0.0),
+                       line.amount_currency or 0.0),
             'debit': (self.payment_order_type == 'payment' and
-                      line.amount or 0.0),
+                      line.amount_currency or 0.0),
             }
         return vals
 
@@ -215,12 +207,12 @@ class PaymentOrder(models.Model):
         line.write({'transit_move_line_id': partner_move_line.id})
 
     @api.multi
-    def _reconcile_payment_lines(self, payment_lines):
-        for line in payment_lines:
-            if line.move_line_id:
-                line.debit_reconcile()
+    def _reconcile_payment_lines(self, bank_payment_lines):
+        for bline in bank_payment_lines:
+            if all([pline.move_line_id for pline in bline.payment_line_ids]):
+                bline.debit_reconcile()
             else:
-                self.action_sent_no_move_line_hook(line)
+                self.action_sent_no_move_line_hook(bline)
 
     @api.one
     def action_sent(self):
@@ -232,8 +224,8 @@ class PaymentOrder(models.Model):
         am_obj = self.env['account.move']
         aml_obj = self.env['account.move.line']
         labels = {
-            'payment': _('Payment order'),
-            'debit': _('Direct debit order'),
+            'payment': _('Payment'),
+            'debit': _('Direct debit'),
             }
         if self.mode.transfer_journal_id and self.mode.transfer_account_id:
             # prepare a dict "trfmoves" that can be used when
@@ -242,26 +234,21 @@ class PaymentOrder(models.Model):
             # value = [pay_line1, pay_line2, ...]
             trfmoves = {}
             if self.mode.transfer_move_option == 'line':
-                for line in self.line_ids:
+                for line in self.bank_line_ids:
                     trfmoves[line.id] = [line]
             else:
-                if self.date_prefered in ('now', 'fixed'):
-                    trfmoves[True] = []
-                    for line in self.line_ids:
-                        trfmoves[True].append(line)
-                else:  # date_prefered == due
-                    for line in self.line_ids:
-                        if line.date in trfmoves:
-                            trfmoves[line.date].append(line)
-                        else:
-                            trfmoves[line.date] = [line]
+                for line in self.bank_line_ids:
+                    if line.date in trfmoves:
+                        trfmoves[line.date].append(line)
+                    else:
+                        trfmoves[line.date] = [line]
 
             for identifier, lines in trfmoves.iteritems():
                 mvals = self._prepare_transfer_move()
                 move = am_obj.create(mvals)
                 total_amount = 0
                 for line in lines:
-                    total_amount += line.amount
+                    total_amount += line.amount_currency
                     self._create_move_line_partner_account(line, move, labels)
                 # create the payment/debit move line on the transfer account
                 trf_ml_vals = self._prepare_move_line_transfer_account(
