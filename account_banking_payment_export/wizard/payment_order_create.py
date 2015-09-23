@@ -56,8 +56,7 @@ class PaymentOrderCreate(models.TransientModel):
             # Do not propose partially reconciled credit lines,
             # as they are deducted from a customer invoice, and
             # will not be refunded with a payment.
-            domain += [('credit', '>', 0),
-                       '|',
+            domain += ['|',
                        ('account_id.type', '=', 'payable'),
                        '&',
                        ('account_id.type', '=', 'receivable'),
@@ -171,7 +170,13 @@ class PaymentOrderCreate(models.TransientModel):
                 # customer invoice number (in the case of debit order)
                 communication = line.invoice.number.replace('/', '')
                 state = 'structured'
-        amount_currency = line.amount_residual_currency
+        # support debit orders when enabled
+        if line.debit > 0:
+            amount_currency = line.amount_residual_currency * -1
+        else:
+            amount_currency = line.amount_residual_currency
+        if payment.payment_order_type == 'debit':
+            amount_currency *= -1
         line2bank = line.line2bank(payment.mode.id)
         # -- end account banking
         res = {'move_line_id': line.id,
