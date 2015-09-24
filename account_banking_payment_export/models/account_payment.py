@@ -35,6 +35,12 @@ class PaymentOrder(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     mode_type = fields.Many2one('payment.mode.type', related='mode.type',
                                 string='Payment Type')
+    total = fields.Float(compute='_compute_total', store=True)
+
+    @api.depends('line_ids', 'line_ids.amount')
+    @api.one
+    def _compute_total(self):
+        self.total = sum(self.mapped('line_ids.amount') or [0.0])
 
     @api.multi
     def launch_wizard(self):
