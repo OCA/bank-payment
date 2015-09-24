@@ -4,7 +4,7 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #              (C) 2014 ACSONE SA (<http://acsone.eu>).
-#              (C) 2014 Akretion (www.akretion.com)
+#              (C) 2014-2015 Akretion (www.akretion.com)
 #
 #    All other contributions are (C) by their respective contributors
 #
@@ -26,6 +26,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 
 class PaymentOrder(models.Model):
@@ -165,23 +166,23 @@ class PaymentOrder(models.Model):
         return vals
 
     @api.multi
-    def _prepare_move_line_partner_account(self, line, move, labels):
+    def _prepare_move_line_partner_account(self, bank_line, move, labels):
         # TODO : ALEXIS check don't group if move_line_id.account_id
         # is not the same
         if self.payment_order_type == 'debit':
-            account_id = line.partner_id.property_account_receivable.id
+            account_id = bank_line.partner_id.property_account_receivable.id
         else:
-            account_id = line.partner_id.property_account_payable.id
+            account_id = bank_line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
-                labels[self.payment_order_type], line.name),
+                labels[self.payment_order_type], bank_line.name),
             'move_id': move.id,
-            'partner_id': line.partner_id.id,
+            'partner_id': bank_line.partner_id.id,
             'account_id': account_id,
             'credit': (self.payment_order_type == 'debit' and
-                       line.amount_currency or 0.0),
+                       bank_line.amount_currency or 0.0),
             'debit': (self.payment_order_type == 'payment' and
-                      line.amount_currency or 0.0),
+                      bank_line.amount_currency or 0.0),
             }
         return vals
 
@@ -191,20 +192,27 @@ class PaymentOrder(models.Model):
         return
 
     @api.multi
-    def _create_move_line_partner_account(self, line, move, labels):
+    def _create_move_line_partner_account(self, bank_line, move, labels):
         """This method is designed to be inherited in a custom module"""
-
         # TODO: take multicurrency into account
+        company_currency = self.env.user.company_id.currency_id
+        if bank_line.currency != company_currency:
+            raise UserError(_(
+                "Cannot generate the transfer move when "
+                "the currency of the payment (%s) is not the "
+                "same as the currency of the company. This "
+                "is not supported for the moment.")
+                % (bank_line.currency.name, company_currency.name))
         aml_obj = self.env['account.move.line']
         # create the payment/debit counterpart move line
         # on the partner account
         partner_ml_vals = self._prepare_move_line_partner_account(
-            line, move, labels)
+            bank_line, move, labels)
         partner_move_line = aml_obj.create(partner_ml_vals)
 
         # register the payment/debit move line
         # on the payment line and call reconciliation on it
-        line.write({'transit_move_line_id': partner_move_line.id})
+        bank_line.write({'transit_move_line_id': partner_move_line.id})
 
     @api.multi
     def _reconcile_payment_lines(self, bank_payment_lines):
@@ -233,28 +241,25 @@ class PaymentOrder(models.Model):
             # key = unique identifier (date or True or line.id)
             # value = [pay_line1, pay_line2, ...]
             trfmoves = {}
-            if self.mode.transfer_move_option == 'line':
-                for line in self.bank_line_ids:
-                    trfmoves[line.id] = [line]
-            else:
-                for line in self.bank_line_ids:
-                    if line.date in trfmoves:
-                        trfmoves[line.date].append(line)
-                    else:
-                        trfmoves[line.date] = [line]
+            for bline in self.bank_line_ids:
+                hashcode = bline.move_line_transfer_account_hashcode()
+                if hashcode in trfmoves:
+                    trfmoves[hashcode].append(bline)
+                else:
+                    trfmoves[hashcode] = [bline]
 
-            for identifier, lines in trfmoves.iteritems():
+            for hashcode, blines in trfmoves.iteritems():
                 mvals = self._prepare_transfer_move()
                 move = am_obj.create(mvals)
                 total_amount = 0
-                for line in lines:
-                    total_amount += line.amount_currency
-                    self._create_move_line_partner_account(line, move, labels)
+                for bline in blines:
+                    total_amount += bline.amount_currency
+                    self._create_move_line_partner_account(bline, move, labels)
                 # create the payment/debit move line on the transfer account
                 trf_ml_vals = self._prepare_move_line_transfer_account(
-                    total_amount, move, lines, labels)
+                    total_amount, move, blines, labels)
                 aml_obj.create(trf_ml_vals)
-                self._reconcile_payment_lines(lines)
+                self._reconcile_payment_lines(blines)
 
                 # consider entry_posted on account_journal
                 if move.journal_id.entry_posted:
