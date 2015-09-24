@@ -37,5 +37,5 @@ class BankPaymentLine(models.Model):
         """
         hashcode = super(BankPaymentLine, self).\
             move_line_transfer_account_hashcode()
-        hashcode += self.mandate_id.type
+        hashcode += '-' + unicode(self.mandate_id.recurrent_sequence_type)
         return hashcode
