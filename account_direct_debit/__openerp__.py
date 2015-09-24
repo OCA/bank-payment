@@ -30,7 +30,6 @@
     'depends': ['account_banking_payment_export'],
     'data': [
         'views/account_payment.xml',
-        'views/account_invoice.xml',
         'views/payment_mode.xml',
         'views/payment_mode_type.xml',
         'data/account_payment_term.xml',
