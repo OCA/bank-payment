@@ -37,45 +37,6 @@ class PaymentLine(models.Model):
 
     msg = fields.Char('Message', required=False, readonly=True, default='')
     date_done = fields.Date('Date Confirmed', select=True, readonly=True)
-    """
-    Hooks for processing direct debit orders, such as implemented in
-    account_direct_debit module.
-    """
-    @api.multi
-    def get_storno_account_id(self, amount, currency_id):
-        """
-        Hook for verifying a match of the payment line with the amount.
-        Return the account associated with the storno.
-        Used in account_banking interactive mode
-        :param payment_line_id: the single payment line id
-        :param amount: the (signed) amount debited from the bank account
-        :param currency: the bank account's currency *browse object*
-        :return: an account if there is a full match, False otherwise
-        :rtype: database id of an account.account resource.
-        """
-
-        return False
-
-    @api.multi
-    def debit_storno(self, amount, currency_id, storno_retry=True):
-        """
-        Hook for handling a canceled item of a direct debit order.
-        Presumably called from a bank statement import routine.
-
-        Decide on the direction that the invoice's workflow needs to take.
-        You may optionally return an incomplete reconcile for the caller
-        to reconcile the now void payment.
-
-        :param payment_line_id: the single payment line id
-        :param amount: the (negative) amount debited from the bank account
-        :param currency: the bank account's currency *browse object*
-        :param boolean storno_retry: whether the storno is considered fatal \
-        or not.
-        :return: an incomplete reconcile for the caller to fill
-        :rtype: database id of an account.move.reconcile resource.
-        """
-
-        return False
 
 
 class BankPaymentLine(models.Model):
@@ -137,10 +98,3 @@ class BankPaymentLine(models.Model):
             lines_to_rec += payment_line.move_line_id
 
         lines_to_rec.reconcile_partial(type='auto')
-
-        # If a bank transaction of a storno was first confirmed
-        # and now canceled (the invoice is now in state 'debit_denied'
-#        if torec_move_line.invoice:
-#            workflow.trg_validate(
-#                self.env.uid, 'account.invoice', torec_move_line.invoice.id,
-#                'undo_debit_denied', self.env.cr)

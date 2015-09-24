@@ -47,17 +47,5 @@
             </field>
         </record>
 
-        <record id="view_payment_line_tree" model="ir.ui.view">
-            <field name="name">Payment Lines</field>
-            <field name="model">payment.line</field>
-            <field name="inherit_id" ref="account_payment.view_payment_line_tree"/>
-            <field eval="4" name="priority"/>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="storno"/>
-                </field>
-            </field>
-        </record>
-
     </data>
 </openerp>

@@ -33,7 +33,6 @@
         'views/account_invoice.xml',
         'views/payment_mode.xml',
         'views/payment_mode_type.xml',
-        'workflow/account_invoice.xml',
         'data/account_payment_term.xml',
         'data/payment_mode_type.xml'
     ],
