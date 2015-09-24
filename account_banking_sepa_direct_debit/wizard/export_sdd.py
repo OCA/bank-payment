@@ -368,18 +368,18 @@ class BankingExportSddWizard(models.TransientModel):
             to_expire_mandates = abmo.browse([])
             first_mandates = abmo.browse([])
             all_mandates = abmo.browse([])
-            for line in order.line_ids:
-                if line.mandate_id in all_mandates:
+            for bline in order.bank_line_ids:
+                if bline.mandate_id in all_mandates:
                     continue
-                all_mandates += line.mandate_id
-                if line.mandate_id.type == 'oneoff':
-                    to_expire_mandates += line.mandate_id
-                elif line.mandate_id.type == 'recurrent':
-                    seq_type = line.mandate_id.recurrent_sequence_type
+                all_mandates += bline.mandate_id
+                if bline.mandate_id.type == 'oneoff':
+                    to_expire_mandates += bline.mandate_id
+                elif bline.mandate_id.type == 'recurrent':
+                    seq_type = bline.mandate_id.recurrent_sequence_type
                     if seq_type == 'final':
-                        to_expire_mandates += line.mandate_id
+                        to_expire_mandates += bline.mandate_id
                     elif seq_type == 'first':
-                        first_mandates += line.mandate_id
+                        first_mandates += bline.mandate_id
             all_mandates.write(
                 {'last_debit_date': fields.Date.context_today(self)})
             to_expire_mandates.write({'state': 'expired'})
