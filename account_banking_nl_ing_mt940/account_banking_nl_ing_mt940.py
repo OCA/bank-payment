@@ -2,7 +2,6 @@
 """Define mt940 parser for Dutch ING bank."""
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2014-2015 Therp BV <http://therp.nl>.
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -62,5 +61,3 @@ class IngMT940Parser(MT940):
             handle_common_subfields(transaction, subfields)
         # Prevent handling tag 86 later for non transaction details:
         self.current_transaction = None
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

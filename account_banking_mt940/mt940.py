@@ -3,7 +3,6 @@
 """Parser for MT940 format files."""
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2014-2015 Therp BV <http://therp.nl>.
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -329,5 +328,3 @@ def main(filename):
 if __name__ == '__main__':
     import sys
     main(sys.argv[1])
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
