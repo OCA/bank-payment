@@ -145,10 +145,11 @@ class MT940(parser):
     without ':XX:') and are supposed to write into self.current_transaction
     """
 
-def __init__(self, *args, **kwargs):
-    """Initialize parser - override at least header_regex.
+    def __init__(self, *args, **kwargs):
+        """Initialize parser - override at least header_regex.
 
-        This in fact uses the ING syntax, override in others."""
+        This in fact uses the ING syntax, override in others.
+        """
         self.header_lines = 3  # Number of lines to skip
         # (old) Ing or Rabobank header:
         self.header_regex = '^0000 01INGBNL2AXXXX|^{1|^:940'
