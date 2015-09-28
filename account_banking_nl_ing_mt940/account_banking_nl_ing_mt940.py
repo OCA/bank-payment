@@ -39,7 +39,9 @@ class IngMT940Parser(MT940):
     def handle_tag_61(self, data):
         """Parse 61 tag containing transaction data."""
         super(IngMT940Parser, self).handle_tag_61(data)
-            raise ValueError(_("Cannot parse %s") % data)
+        re_61 = self.tag_61_regex.match(data)
+        if not re_61:
+            raise ValueError("Cannot parse %s" % data)
         parsed_data = re_61.groupdict()
         self.current_transaction.transferred_amount = (
             str2amount(parsed_data['sign'], parsed_data['amount']))
