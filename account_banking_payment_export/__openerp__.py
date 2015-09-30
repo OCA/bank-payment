@@ -24,7 +24,7 @@
 
 {
     'name': 'Account Banking - Payments Export Infrastructure',
-    'version': '0.1.165',
+    'version': '8.0.0.1.166',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "
