@@ -186,20 +186,19 @@ class PaymentOrderCreate(models.TransientModel):
         state = 'normal'
         communication = line.ref or '-'
         if line.invoice:
-            if line.invoice.type in ('in_invoice', 'in_refund'):
-                if line.invoice.reference_type == 'structured':
-                    state = 'structured'
-                    communication = line.invoice.reference
-                else:
-                    if line.invoice.reference:
-                        communication = line.invoice.reference
-                    elif line.invoice.supplier_invoice_number:
-                        communication = line.invoice.supplier_invoice_number
-            else:
-                # Make sure that the communication includes the
-                # customer invoice number (in the case of debit order)
-                communication = line.invoice.number.replace('/', '')
+            if line.invoice.reference_type == 'structured':
                 state = 'structured'
+                # Fallback to invoice number to keep previous behaviour
+                communication = line.invoice.reference or line.invoice.number
+            else:
+                if line.invoice.type in ('in_invoice', 'in_refund'):
+                    communication = (
+                        line.invoice.reference or
+                        line.invoice.supplier_invoice_number or line.ref)
+                else:
+                    # Make sure that the communication includes the
+                    # customer invoice number (in the case of debit order)
+                    communication = line.invoice.number
         # support debit orders when enabled
         if line.debit > 0:
             amount_currency = line.amount_residual_currency * -1
