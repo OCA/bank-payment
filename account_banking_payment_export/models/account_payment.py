@@ -24,6 +24,14 @@
 ##############################################################################
 
 from openerp import models, fields, api, exceptions, workflow, _
+try:
+    # This is to avoid the drop of the column total each time you update
+    # the module account_payment, because the store attribute is set later
+    # and Odoo doesn't defer this removal
+    from openerp.addons.account_payment.account_payment import payment_order
+    payment_order._columns['total'].nodrop = True
+except ImportError:
+    pass
 
 
 class PaymentOrder(models.Model):
