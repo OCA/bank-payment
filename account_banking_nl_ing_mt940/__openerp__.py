@@ -18,22 +18,20 @@
 #
 ##############################################################################
 {
-    "name": "MT940 import for Dutch ING",
-    "version": "1.1",
-    "author": "Therp BV,Odoo Community Association (OCA)",
-    "complexity": "normal",
-    "description": """
-This addon imports the structured MT940 format as offered by the Dutch ING
+    'name': 'MT940 import for Dutch ING',
+    'version': '7.0.1.1.1',
+    'license': 'AGPL-3',
+    'author': 'Therp BV,Odoo Community Association (OCA)',
+    'complexity': 'normal',
+    'description': """
+This module imports the structured MT940 format as offered by the Dutch ING
 bank.
     """,
-    "category": "Account Banking",
-    "depends": [
+    'category': 'Banking addons',
+    'depends': [
         'account_banking_mt940',
     ],
-    "auto_install": False,
-    "installable": True,
-    "application": False,
-    "external_dependencies": {
-        'python': [],
-    },
+    'auto_install': False,
+    'installable': True,
+    'application': False,
 }

@@ -18,19 +18,19 @@
 #
 ##############################################################################
 {
-    "name": "MT940 import for dutch Rabobank",
-    "version": "1.1",
-    "author": "Therp BV,Odoo Community Association (OCA)",
-    "complexity": "normal",
-    "description": """
-This addon imports the structured MT940 format as offered by the dutch
+    'name': 'MT940 import for dutch Rabobank',
+    'version': '7.0.1.1.1',
+    'license': 'AGPL-3',
+    'author': 'Therp BV,Odoo Community Association (OCA)',
+    'description': """
+This module imports the structured MT940 format as offered by the dutch
     Rabobank.
     """,
-    "category": "Account Banking",
-    "depends": [
+    'category': 'Banking addons',
+    'depends': [
         'account_banking_mt940',
     ],
-    "auto_install": False,
-    "installable": True,
-    "application": False,
+    'auto_install': False,
+    'installable': True,
+    'application': False,
 }
