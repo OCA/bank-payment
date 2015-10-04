@@ -19,9 +19,9 @@
                 </field>
                 <button string="Invoices" position="attributes">
                     <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}</attribute>
-                    <attribute name="string">Move lines</attribute>
+                    <attribute name="string">Journal Items</attribute>
                     <attribute name="icon">fa-list</attribute>
-                    <attribute name="help">Select move lines to pay</attribute>
+                    <attribute name="help">Select journal items to pay</attribute>
                 </button>
             </field>
         </record>

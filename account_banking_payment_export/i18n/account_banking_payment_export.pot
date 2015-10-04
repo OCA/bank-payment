@@ -88,6 +88,7 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
 msgstr ""
@@ -281,11 +282,6 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.order.create,partners:0
 msgid "Filter elements by the selected partners (Leave it blank for all partners)"
-msgstr ""
-
-#. module: account_banking_payment_export
-#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
-msgid "Journal items"
 msgstr ""
 
 #. module: account_banking_payment_export
