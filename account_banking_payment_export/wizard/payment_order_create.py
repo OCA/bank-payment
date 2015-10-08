@@ -171,12 +171,7 @@ class PaymentOrderCreate(models.TransientModel):
                 # customer invoice number (in the case of debit order)
                 communication = line.invoice.number.replace('/', '')
                 state = 'structured'
-        # support debit orders when enabled
-        if (payment.payment_order_type == 'debit' and
-                'amount_to_receive' in line):
-            amount_currency = line.amount_to_receive
-        else:
-            amount_currency = line.amount_residual_currency
+        amount_currency = line.amount_residual_currency
         line2bank = line.line2bank(payment.mode.id)
         # -- end account banking
         res = {'move_line_id': line.id,
