@@ -20,7 +20,7 @@
 ##############################################################################
 {'name': 'Bank Statement Multi currency Extension',
  'summary': 'Add an improved view for move line import in bank statement',
- 'version': '1.1',
+ 'version': '8.0.1.1.0',
  'author': "Camptocamp,Odoo Community Association (OCA)",
  'maintainter': 'Camptocamp',
  'category': 'Accounting',

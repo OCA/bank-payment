@@ -20,7 +20,7 @@
 
 {
     'name': 'Banking Addons - Tests',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'license': 'AGPL-3',
     'author': "Therp BV,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',

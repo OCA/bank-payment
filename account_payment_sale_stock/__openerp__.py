@@ -22,7 +22,7 @@
 
 {
     'name': 'Account Payment Sale Stock',
-    'version': '1.0',
+    'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': "Manage payment mode when invoicing a sale from picking",

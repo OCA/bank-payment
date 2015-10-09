@@ -22,7 +22,7 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '0.2',
+    'version': '8.0.0.2.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
