@@ -22,7 +22,7 @@
 {
     'name': 'Account Banking SEPA Credit Transfer',
     'summary': 'Create SEPA XML files for Credit Transfers',
-    'version': '0.3',
+    'version': '8.0.0.3.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
