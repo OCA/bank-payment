@@ -48,8 +48,8 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[account_banking](__unported__/account_banking/) | 0.4 (unported) | Account Banking
-[bank_statement_instant_voucher](__unported__/bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
+[account_banking](account_banking/) | 0.4 (unported) | Account Banking
+[bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
 
 [//]: # (end addons)
 
