@@ -22,6 +22,30 @@ Other features can now be found in these repositories:
  * https://github.com/OCA/bank-statement-reconcile
 
 [//]: # (addons)
+Unported addons
+---------------
+addon | version | summary
+--- | --- | ---
+[account_banking](account_banking/) | 0.4 (unported) | Account Banking
+[account_banking_mandate](account_banking_mandate/) | 8.0.0.1.0 (unported) | Banking mandates
+[account_banking_pain_base](account_banking_pain_base/) | 8.0.0.2.0 (unported) | Base module for PAIN file generation
+[account_banking_payment_export](account_banking_payment_export/) | 8.0.0.1.165 (unported) | Account Banking - Payments Export Infrastructure
+[account_banking_payment_transfer](account_banking_payment_transfer/) | 8.0.0.2.0 (unported) | Account Banking - Payments Transfer Account
+[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 8.0.0.3.0 (unported) | Create SEPA XML files for Credit Transfers
+[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 8.0.0.2.0 (unported) | Create SEPA files for Direct Debit
+[account_banking_tests](account_banking_tests/) | 8.0.0.1.0 (unported) | Banking Addons - Tests
+[account_direct_debit](account_direct_debit/) | 8.0.2.0.0 (unported) | Direct Debit
+[account_import_line_multicurrency_extension](account_import_line_multicurrency_extension/) | 8.0.1.1.0 (unported) | Add an improved view for move line import in bank statement
+[account_payment_blocking](account_payment_blocking/) | 8.0.0.1.0 (unported) | Prevent invoices under litigation to be proposed in payment orders.
+[account_payment_include_draft_move](account_payment_include_draft_move/) | 8.0.1.0.0 (unported) | Account Payment Draft Move
+[account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.1 (unported) | Account Banking - Payments Term Filter
+[account_payment_partner](account_payment_partner/) | 8.0.0.1.0 (unported) | Adds payment mode on partners and invoices
+[account_payment_purchase](account_payment_purchase/) | 8.0.1.0.0 (unported) | Adds Bank Account and Payment Mode on Purchase Orders
+[account_payment_sale](account_payment_sale/) | 8.0.1.0.0 (unported) | Adds payment mode on sale orders
+[account_payment_sale_stock](account_payment_sale_stock/) | 8.0.1.0.0 (unported) | Manage payment mode when invoicing a sale from picking
+[account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 (unported) | Accounting voucher killer
+[bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
+
 [//]: # (end addons)
 
 ----
