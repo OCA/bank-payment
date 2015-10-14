@@ -39,5 +39,5 @@
         'security/ir.model.access.csv',
     ],
     'demo': ['demo/partner_demo.xml'],
-    'installable': True,
+    'installable': False,
 }
