@@ -34,5 +34,5 @@
                 'account_payment_sale'],
     'conflicts': ['account_payment_extension'],
     'auto_install': True,
-    'installable': True,
+    'installable': False,
 }

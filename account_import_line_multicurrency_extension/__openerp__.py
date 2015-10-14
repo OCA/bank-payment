@@ -30,6 +30,6 @@
           'view/bank_statement_view.xml',
           ],
  'tests': [],
- 'installable': True,
+ 'installable': False,
  'license': 'AGPL-3',
  }

@@ -43,5 +43,5 @@
         'security/original_mandate_required_security.xml',
     ],
     'demo': ['demo/sepa_direct_debit_demo.xml'],
-    'installable': True,
+    'installable': False,
 }

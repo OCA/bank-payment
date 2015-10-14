@@ -36,7 +36,7 @@
     'data': [
         'view/account_invoice_view.xml'
     ],
-    'installable': True,
+    'installable': False,
     'application': False,
     'auto_install': False,
     'license': 'AGPL-3',

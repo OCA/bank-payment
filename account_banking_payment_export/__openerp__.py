@@ -48,5 +48,5 @@
         'security/ir.model.access.csv',
     ],
     'demo': ['demo/banking_demo.xml'],
-    'installable': True,
+    'installable': False,
 }

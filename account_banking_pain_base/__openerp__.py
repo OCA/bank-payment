@@ -41,5 +41,5 @@
         'views/res_company_view.xml',
     ],
     'post_init_hook': 'set_default_initiating_party',
-    'installable': True,
+    'installable': False,
 }
