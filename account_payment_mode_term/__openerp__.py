@@ -38,5 +38,5 @@
         'views/payment_mode.xml',
     ],
     'auto_install': False,
-    'installable': True,
+    'installable': False,
 }
