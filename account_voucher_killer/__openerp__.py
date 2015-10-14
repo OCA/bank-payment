@@ -29,6 +29,6 @@
  'data': ['invoice_data.xml',
           'invoice_view.xml'],
  'test': [],
- 'installable': True,
+ 'installable': False,
  'active': False,
  }
