@@ -37,5 +37,5 @@
     'demo': [
         'demo/sepa_credit_transfer_demo.xml'
     ],
-    'installable': True,
+    'installable': False,
 }
