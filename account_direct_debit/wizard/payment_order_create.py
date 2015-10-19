@@ -38,8 +38,5 @@ class PaymentOrderCreate(models.TransientModel):
             # invoices and payment lines linked to customer refunds
             # in order to debit the customer of the total of his
             # invoices minus his refunds
-            domain += ['|',
-                       ('invoice', '=', False),
-                       ('invoice.state', '!=', 'debit_denied'),
-                       ('account_id.type', '=', 'receivable')]
+            domain += [('account_id.type', '=', 'receivable')]
         return True
