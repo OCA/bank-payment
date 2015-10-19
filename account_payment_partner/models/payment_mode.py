@@ -1,8 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,26 +19,17 @@
 #
 ##############################################################################
 
+from openerp import models, fields
 
-{
-    'name': 'Account Payment Partner',
-    'version': '8.0.0.1.0',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'summary': 'Adds payment mode on partners and invoices',
-    'author': "Akretion, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
-              "Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/bank-payment',
-    'depends': ['account_banking_payment_export'],
-    'data': [
-        'views/res_partner_view.xml',
-        'views/account_invoice_view.xml',
-        'views/report_invoice.xml',
-        'views/payment_mode.xml',
-        'security/ir.model.access.csv',
-        'wizard/payment_order_create_view.xml',
-    ],
-    'demo': ['demo/partner_demo.xml'],
-    'installable': True,
-}
+
+class PaymentMode(models.Model):
+    _inherit = "payment.mode"
+
+    label = fields.Char(
+        string='Label', translate=True,
+        help="This field is designed to be used in the invoice report")
+    default_payment_mode = fields.Selection([
+        ('same', 'Same'),
+        ('same_or_null', 'Same or empty'),
+        ('any', 'Any'),
+        ], string='Payment Mode on Invoice', default='same')
