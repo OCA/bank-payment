@@ -20,7 +20,14 @@
 
 
 def migrate(cr, version):
-    cr.execute('alter table payment_order add column total numeric')
+    cr.execute(
+        'SELECT count(attname) FROM pg_attribute '
+        'WHERE attrelid = '
+        '( SELECT oid FROM pg_class WHERE relname = %s ) '
+        'AND attname = %s',
+        ('payment_order', 'total'))
+    if cr.fetchone()[0] == 0:
+        cr.execute('alter table payment_order add column total numeric')
     cr.execute(
         'update payment_order '
         'set total=totals.total '
