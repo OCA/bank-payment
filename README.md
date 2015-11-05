@@ -28,7 +28,7 @@ addon | version | summary
 --- | --- | ---
 [account_banking_mandate](account_banking_mandate/) | 8.0.0.1.0 | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 8.0.0.2.0 | Base module for PAIN file generation
-[account_banking_payment_export](account_banking_payment_export/) | 8.0.0.1.165 | Account Banking - Payments Export Infrastructure
+[account_banking_payment_export](account_banking_payment_export/) | 8.0.0.1.166 | Account Banking - Payments Export Infrastructure
 [account_banking_payment_transfer](account_banking_payment_transfer/) | 8.0.0.2.0 | Account Banking - Payments Transfer Account
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 8.0.0.3.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 8.0.0.2.0 | Create SEPA files for Direct Debit
