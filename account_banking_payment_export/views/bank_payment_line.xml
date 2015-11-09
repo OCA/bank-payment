@@ -46,7 +46,8 @@
             <field name="bank_id"/>
             <field name="date"/>
             <field name="amount_currency" widget="monetary"
-                options="{'currency_field': 'currency'}"/>
+                options="{'currency_field': 'currency'}"
+                sum="Total Amount"/>
             <field name="currency"/>
             <field name="name"/>
             <field name="company_id" groups="base.group_multi_company"
