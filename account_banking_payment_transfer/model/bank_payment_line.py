@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 
 class BankPaymentLine(models.Model):
@@ -74,24 +75,42 @@ class BankPaymentLine(models.Model):
 
         transit_move_line = self.transit_move_line_id
 
-#        if (not transit_move_line or not torec_move_line):
-#            raise exceptions.Warning(
-#                _('Can not reconcile: no move line for line %s') % self.name
-#            )
-#        if torec_move_line.reconcile_id:
-#            raise exceptions.Warning(
-#                _('Move line %s has already been reconciled') %
-#                torec_move_line.name
-#                )
-#        if (transit_move_line.reconcile_id or
-#                transit_move_line.reconcile_partial_id):
-#            raise exceptions.Warning(
-#                _('Move line %s has already been reconciled') %
-#                transit_move_line.name
-#            )
-
+        assert not transit_move_line.reconcile_id,\
+            'Transit move should not be reconciled'
+        assert not transit_move_line.reconcile_partial_id,\
+            'Transit move should not be partially reconciled'
         lines_to_rec = transit_move_line
         for payment_line in self.payment_line_ids:
+
+            if not payment_line.move_line_id:
+                raise UserError(_(
+                    "Can not reconcile: no move line for "
+                    "payment line %s of partner '%s'.") % (
+                        payment_line.name,
+                        payment_line.partner_id.name))
+            if payment_line.move_line_id.reconcile_id:
+                raise UserError(_(
+                    "Move line '%s' of partner '%s' has already "
+                    "been reconciled") % (
+                        payment_line.move_line_id.name,
+                        payment_line.partner_id.name))
+            if payment_line.move_line_id.reconcile_partial_id:
+                raise UserError(_(
+                    "Move line '%s' of partner '%s' has already "
+                    "been partially reconciled") % (
+                        payment_line.move_line_id.name,
+                        payment_line.partner_id.name))
+            if (
+                    payment_line.move_line_id.account_id !=
+                    transit_move_line.account_id):
+                raise UserError(_(
+                    "For partner '%s', the account of the account "
+                    "move line to pay (%s) is different from the "
+                    "account of of the transit move line (%s).") % (
+                        payment_line.move_line_id.partner_id.name,
+                        payment_line.move_line_id.account_id.code,
+                        transit_move_line.account_id.code))
+
             lines_to_rec += payment_line.move_line_id
 
         lines_to_rec.reconcile_partial(type='auto')
