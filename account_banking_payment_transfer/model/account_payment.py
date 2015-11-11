@@ -169,10 +169,15 @@ class PaymentOrder(models.Model):
     def _prepare_move_line_partner_account(self, bank_line, move, labels):
         # TODO : ALEXIS check don't group if move_line_id.account_id
         # is not the same
-        if self.payment_order_type == 'debit':
-            account_id = bank_line.partner_id.property_account_receivable.id
+        if bank_line.payment_line_ids[0].move_line_id:
+            account_id =\
+                bank_line.payment_line_ids[0].move_line_id.account_id.id
         else:
-            account_id = bank_line.partner_id.property_account_payable.id
+            if self.payment_order_type == 'debit':
+                account_id =\
+                    bank_line.partner_id.property_account_receivable.id
+            else:
+                account_id = bank_line.partner_id.property_account_payable.id
         vals = {
             'name': _('%s line %s') % (
                 labels[self.payment_order_type], bank_line.name),
