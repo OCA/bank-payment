@@ -14,7 +14,8 @@
         </xpath>
         <field name="mode" position="after">
             <field name="mode_type" invisible="1"/>
-            <field name="payment_order_type" invisible="0"/>
+            <field name="payment_order_type" invisible="1"/>
+            <field name="bank_line_count" attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
         </field>
         <xpath expr="//button[@string='Invoices']" position="attributes">
             <attribute name="attrs">{
@@ -91,6 +92,16 @@
     </field>
 </record>
 
+<record id="view_payment_order_tree" model="ir.ui.view">
+    <field name="name">account_banking_payment_export.payment.order.tree</field>
+    <field name="inherit_id" ref="account_payment.view_payment_order_tree" />
+    <field name="model">payment.order</field>
+    <field name="arch" type="xml">
+        <field name="date_done" position="after">
+            <field name="bank_line_count"/>
+        </field>
+    </field>
+</record>
 
 </data>
 </openerp>
