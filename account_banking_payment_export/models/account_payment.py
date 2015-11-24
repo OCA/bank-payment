@@ -47,11 +47,19 @@ class PaymentOrder(models.Model):
         'bank.payment.line', 'order_id', string="Bank Payment Lines",
         readonly=True)
     total = fields.Float(compute='_compute_total', store=True)
+    bank_line_count = fields.Integer(
+        compute='_bank_line_count', string='Number of Bank Lines')
 
     @api.depends('line_ids', 'line_ids.amount')
     @api.one
     def _compute_total(self):
         self.total = sum(self.mapped('line_ids.amount') or [0.0])
+
+    @api.multi
+    @api.depends('bank_line_ids')
+    def _bank_line_count(self):
+        for order in self:
+            order.bank_line_count = len(order.bank_line_ids)
 
     @api.multi
     def launch_wizard(self):
