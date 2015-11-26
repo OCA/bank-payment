@@ -11,11 +11,12 @@
 This addon imports the structured MT940 format as offered by the Dutch ING
 bank.
     """,
-    "category": "Account Banking",
-    "depends": [
+    'category': 'Account Banking',
+    'depends': [
         'account_banking_mt940',
     ],
-    "auto_install": False,
-    "installable": True,
-    "application": False,
+    'images': [],  # Satisfy travis
+    'auto_install': False,
+    'installable': True,
+    'application': False,
 }
