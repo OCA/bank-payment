@@ -5,7 +5,7 @@ Bank statement import payment multicurrency extension
 =====================================================
 
 This module was written to extend the functionality of importing payments as bank statement lines.
-It invert values of "communication" and "reference" fields for reconciliation to easily find the corresponding counterpart
+It inverts values of "communication" and "reference" fields for reconciliation to easily find the corresponding counterpart
 
 Usage
 =====
