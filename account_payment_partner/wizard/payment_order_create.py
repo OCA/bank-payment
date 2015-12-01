@@ -30,7 +30,7 @@ class PaymentOrderCreate(models.TransientModel):
         ('same', 'Same'),
         ('same_or_null', 'Same or empty'),
         ('any', 'Any'),
-        ], string='Payment Mode on Invoice', default='same')
+        ], string='Payment Mode on Invoice')
 
     @api.model
     def default_get(self, field_list):
@@ -40,7 +40,7 @@ class PaymentOrderCreate(models.TransientModel):
             'active_model should be payment.order'
         assert context.get('active_id'), 'Missing active_id in context !'
         pay_order = self.env['payment.order'].browse(context['active_id'])
-        res['payment_mode'] = pay_order.mode.default_payment_mode,
+        res['payment_mode'] = pay_order.mode.default_payment_mode
         return res
 
     @api.multi
