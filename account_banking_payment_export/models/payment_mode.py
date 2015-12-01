@@ -86,20 +86,11 @@ class PaymentMode(models.Model):
             res = [t.code for t in payment_mode.type.suitable_bank_types]
         return res
 
-    @api.model
-    def _default_type(self):
-        return self.env.ref(
-            'account_banking_payment_export.'
-            'manual_bank_tranfer', raise_if_not_found=False)\
-            or self.env['payment.mode.type']
-
     type = fields.Many2one(
         'payment.mode.type', string='Export type', required=True,
-        help='Select the Export Payment Type for the Payment Mode.',
-        default=_default_type)
+        help='Select the Export Payment Type for the Payment Mode.')
     payment_order_type = fields.Selection(
         related='type.payment_order_type', readonly=True, string="Order Type",
-        selection=[('payment', 'Payment'), ('debit', 'Debit')],
         help="This field, that comes from export type, determines if this "
              "mode can be selected for customers or suppliers.")
     active = fields.Boolean(string='Active', default=True)
@@ -119,3 +110,16 @@ class PaymentMode(models.Model):
         ], default='due', string="Type of Date Filter")
     default_populate_results = fields.Boolean(
         string='Populate Results Directly')
+
+    @api.onchange('type')
+    def type_on_change(self):
+        if self.type:
+            ajo = self.env['account.journal']
+            aj_ids = []
+            if self.type.payment_order_type == 'payment':
+                aj_ids = ajo.search([
+                    ('type', 'in', ('purchase_refund', 'purchase'))]).ids
+            elif self.type.payment_order_type == 'debit':
+                aj_ids = ajo.search([
+                    ('type', 'in', ('sale_refund', 'sale'))]).ids
+            self.default_journal_ids = [(6, 0, aj_ids)]

@@ -94,12 +94,6 @@ class BankPaymentLine(models.Model):
                     "been reconciled") % (
                         payment_line.move_line_id.name,
                         payment_line.partner_id.name))
-            if payment_line.move_line_id.reconcile_partial_id:
-                raise UserError(_(
-                    "Move line '%s' of partner '%s' has already "
-                    "been partially reconciled") % (
-                        payment_line.move_line_id.name,
-                        payment_line.partner_id.name))
             if (
                     payment_line.move_line_id.account_id !=
                     transit_move_line.account_id):
