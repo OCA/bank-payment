@@ -108,3 +108,14 @@ class PaymentMode(models.Model):
     purchase_ok = fields.Boolean(string='Selectable on purchase operations',
                                  default=True)
     note = fields.Text(string="Note", translate=True)
+    # Default options for the "payment.order.create" wizard
+    default_journal_ids = fields.Many2many(
+        'account.journal', string="Journals Filter")
+    default_invoice = fields.Boolean(
+        string='Linked to an Invoice or Refund', default=True)
+    default_date_type = fields.Selection([
+        ('due', 'Due'),
+        ('move', 'Move'),
+        ], default='due', string="Type of Date Filter")
+    default_populate_results = fields.Boolean(
+        string='Populate Results Directly')
