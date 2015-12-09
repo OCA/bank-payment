@@ -9,12 +9,14 @@
                 <xpath expr="//field[@name='residual']" position="before">
                         <field name="discount_percent" />
                         <field name="force_discount_amount" />
-                        <field name="discount_amount" />
+                        <field name="forced_discount_amount" attrs="{'invisible': [('force_discount_amount', '=', False)]}"/>
+                        <field name="discount_amount" attrs="{'invisible': [('force_discount_amount', '=', True)]}"/>
                         <field name="discount" />
                 </xpath>
                 <xpath expr="//field[@name='date_due']" position="after">
                     <field name="discount_delay" />
-                    <field name="discount_due_date" attrs="{'readonly': ['|', ('discount_delay', '!=', 0), ('state', '!=', 'draft')]}" />
+                    <field name="discount_due_date" attrs="{'invisible': [('discount_delay', '!=', 0)]}" />
+                    <field name="discount_due_date_readonly" attrs="{'invisible': [('discount_delay', '=', 0)]}" />
                 </xpath>
             </field>
         </record>
@@ -25,12 +27,13 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='residual']" position="before">
                         <field name="discount_percent" />
-                        <field name="discount_amount" readonly="1"/>
+                        <field name="discount_amount" />
                         <field name="discount" />
                 </xpath>
                 <xpath expr="//field[@name='date_due']" position="after">
                     <field name="discount_delay" />
-                    <field name="discount_due_date" readonly="1"/>
+                    <field name="discount_due_date" invisible="1" />
+                    <field name="discount_due_date_readonly"/>
                 </xpath>
             </field>
         </record>

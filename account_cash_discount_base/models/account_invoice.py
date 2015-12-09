@@ -32,21 +32,30 @@ class account_invoice(models.Model):
         .Float(string='Discount Percent', readonly=True,
                states={'draft': [('readonly', False)]})
     discount_amount = fields\
+        .Float(string='Amount Discount deducted',
+               compute='_compute_discount_amount')
+    forced_discount_amount = fields\
         .Float(string='Amount Discount deducted', readonly=True,
                states={'draft': [('readonly', False)]})
     discount = fields\
-        .Float(compute='_compute_discount', string='Amount Discount',
-               store=True)
+        .Float(compute='_compute_discount', string='Amount Discount')
     discount_delay = fields\
         .Integer(string='Discount Delay (days)', readonly=True,
                  states={'draft': [('readonly', False)]})
     discount_due_date = fields.Date(string='Discount Due Date', readonly=True,
                                     states={'draft': [('readonly', False)]})
+    discount_due_date_readonly =\
+        fields.Date(string='Discount Due Date',
+                    compute='_compute_discount_due_date')
     force_discount_amount = fields.Boolean(string="Force Discount Amount",
                                            states={'draft': [('readonly',
                                                               False)]})
 
-    @api.depends('discount_amount')
+    @api.depends('discount_due_date')
+    @api.one
+    def _compute_discount_due_date(self):
+        self.discount_due_date_readonly = self.discount_due_date
+
     @api.one
     def _compute_discount(self):
         self.discount = self.amount_total - self.discount_amount
@@ -63,9 +72,10 @@ class account_invoice(models.Model):
             due_date = date_invoice + timedelta(days=self.discount_delay)
             self.discount_due_date = due_date.date()
 
-    @api.onchange('discount_percent', 'amount_tax', 'amount_total')
+    @api.depends('discount_percent', 'amount_tax', 'amount_total',
+                 'force_discount_amount', 'forced_discount_amount')
     @api.one
-    def _change_discount_amount(self):
+    def _compute_discount_amount(self):
         if not self.force_discount_amount:
             discount_amount = 0.0
             if self.discount_percent == 0.0:
@@ -75,6 +85,8 @@ class account_invoice(models.Model):
                     (0.0 + self.discount_percent/100)
                 discount_amount = (self.amount_total - discount)
             self.discount_amount = discount_amount
+        else:
+            self.discount_amount = self.forced_discount_amount
 
     @api.multi
     def action_move_create(self):
