@@ -57,6 +57,8 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
         move_line_obj = self.registry('account.move.line')
         invoice_id = create_simple_invoice(self, self.cr, self.uid,
                                            context=self.context)
+        invoice_obj.write(self.cr, self.uid, [invoice_id],
+                          {'draft_blocked': True})
         workflow.trg_validate(self.uid, 'account.invoice', invoice_id,
                               'invoice_open', self.cr)
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
@@ -66,10 +68,11 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
                                          ['payable', 'receivable']),
                                         ('invoice.id', '=', invoice.id)])
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]
+        self.assertTrue(move_line.blocked)
         self.assertEqual(invoice.blocked, move_line.blocked,
                          'Blocked values are not equals')
         move_line_obj.write(self.cr, self.uid, move_line_ids,
-                            {'blocked': True})
+                            {'blocked': False})
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
                                      context=self.context)[0]
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]

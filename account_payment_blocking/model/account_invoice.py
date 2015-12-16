@@ -33,6 +33,21 @@ class account_invoice(orm.Model):
                               ('invoice.id', '=', invoice_id)],
                     context=context)
 
+    def _update_blocked(self, cr, uid, invoice, value, context=None):
+        if context is None:
+            context = {}
+        else:
+            context = context.copy()
+        if invoice.move_id.id:
+            move_line_ids = self._get_move_line(cr, uid, invoice.id,
+                                                context=context)
+            assert len(move_line_ids) == 1
+            # work with account_constraints from OCA/AFT:
+            context.update({'from_parent_object': True})
+            self.pool.get('account.move.line')\
+                .write(cr, uid, move_line_ids, {'blocked': value},
+                       context=context)
+
     def _set_move_blocked(self, cr, uid, ids, name, field_value, arg,
                           context=None):
         if context is None:
@@ -40,15 +55,16 @@ class account_invoice(orm.Model):
         if isinstance(ids, (int, long)):
                 ids = [ids]
         for invoice in self.browse(cr, uid, ids, context=context):
-            if invoice.move_id.id:
-                move_line_ids = self._get_move_line(cr, uid, invoice.id,
-                                                    context=context)
-                assert len(move_line_ids) == 1
-                # work with account_constraints from OCA/AFT:
-                context.update({'from_parent_object': True})
-                self.pool.get('account.move.line')\
-                    .write(cr, uid, move_line_ids, {'blocked': field_value},
-                           context=context)
+            self._update_blocked(cr, uid, invoice, field_value,
+                                 context=context)
+
+    def action_move_create(self, cr, uid, ids, context=None):
+        res = super(account_invoice, self).action_move_create(cr, uid, ids,
+                                                              context=context)
+        for invoice in self.browse(cr, uid, ids, context=context):
+            self._update_blocked(cr, uid, invoice, invoice.draft_blocked,
+                                 context=context)
+        return res
 
     def _get_move_blocked(self, cr, uid, ids, name, arg, context=None):
         res = {}
@@ -72,4 +88,5 @@ class account_invoice(orm.Model):
                                    type='boolean', string='No Follow Up',
                                    states={'draft': [('readonly',
                                                       True)]}),
+        'draft_blocked': fields.boolean(string='No Follow Up'),
     }
