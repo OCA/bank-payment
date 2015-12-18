@@ -34,7 +34,7 @@ class PaymentOrderCreate(models.TransientModel):
             payment_order, domain)
         if payment_order.payment_order_type == 'debit':
             # Monkey patch for fixing problem with the core search function
-            # when args has ('invoice', '=', False), referred in the issue #4857
+            # when args has ('invoice', '=', False), referred in issue #4857
             # (https://github.com/odoo/odoo/issues/4857)
             #
             # Original domain:
