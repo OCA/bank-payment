@@ -33,8 +33,29 @@ class PaymentOrderCreate(models.TransientModel):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
         if payment_order.payment_order_type == 'debit':
+            # Monkey patch for fixing problem with the core search function
+            # when args has ('invoice', '=', False), referred in the issue #4857
+            # (https://github.com/odoo/odoo/issues/4857)
+            #
+            # Original domain:
+            # domain += ['|',
+            #            ('invoice', '=', False),
+            #            ('invoice.state', '!=', 'debit_denied'),
+            #            ('account_id.type', '=', 'receivable'),
+            #            ('amount_to_receive', '>', 0)]
+            self.env.cr.execute(
+                "SELECT l.id "
+                "FROM account_move_line l "
+                "LEFT OUTER JOIN account_invoice i "
+                "ON l.move_id = i.move_id "
+                "INNER JOIN account_account a "
+                "ON a.id = l.account_id "
+                "WHERE i.id IS NULL"
+                "  AND l.reconcile_id IS NULL"
+                "  AND a.type in ('receivable', 'payable')")
+            ids = [x[0] for x in self.env.cr.fetchall()]
             domain += ['|',
-                       ('invoice', '=', False),
+                       ('id', 'in', ids),
                        ('invoice.state', '!=', 'debit_denied'),
                        ('account_id.type', '=', 'receivable'),
                        ('amount_to_receive', '>', 0)]
