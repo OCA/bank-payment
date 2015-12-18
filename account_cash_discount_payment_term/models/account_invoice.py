@@ -26,9 +26,15 @@ from openerp import api, models
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
 
-    @api.one
-    @api.onchange('payment_term')
-    def change_payment_term_discount(self):
+    @api.multi
+    def onchange_payment_term_date_invoice(self, payment_term_id,
+                                           date_invoice):
+        res = super(account_invoice, self)\
+            .onchange_payment_term_date_invoice(payment_term_id, date_invoice)
+        pterm = self.env['account.payment.term'].browse(payment_term_id)
+        self = len(self.ids) > 0 and self[0] or self
         if self.type in ['in_invoice', 'out_invoice']:
-            self.discount_percent = self.payment_term.discount_percent
-            self.discount_delay = self.payment_term.discount_delay
+            res['value']['discount_percent'] =\
+                pterm.discount_percent
+            res['value']['discount_delay'] = pterm.discount_delay
+        return res
