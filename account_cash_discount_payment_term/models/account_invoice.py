@@ -29,11 +29,12 @@ class account_invoice(models.Model):
     @api.multi
     def onchange_payment_term_date_invoice(self, payment_term_id,
                                            date_invoice):
+        context = self.env.context.copy()
         res = super(account_invoice, self)\
             .onchange_payment_term_date_invoice(payment_term_id, date_invoice)
         pterm = self.env['account.payment.term'].browse(payment_term_id)
         self = len(self.ids) > 0 and self[0] or self
-        if self.type in ['in_invoice', 'out_invoice']:
+        if context.get('type', False) in ['in_invoice', 'out_invoice']:
             res['value']['discount_percent'] =\
                 pterm.discount_percent
             res['value']['discount_delay'] = pterm.discount_delay
