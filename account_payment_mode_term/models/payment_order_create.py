@@ -24,16 +24,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import api, models
 
 
-class payment_order_create(orm.TransientModel):
+class payment_order_create(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    def extend_payment_order_domain(
-            self, cr, uid, ids, payment_order, domain, context=None):
+    @api.multi
+    def extend_payment_order_domain(self, payment_order, domain):
         super(payment_order_create, self).extend_payment_order_domain(
-            cr, uid, ids, payment_order, domain, context=context)
+            payment_order, domain)
         # apply payment term filter
         if payment_order.mode.payment_term_ids:
             domain += [
