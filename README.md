@@ -37,7 +37,7 @@ addon | version | summary
 [account_import_line_multicurrency_extension](account_import_line_multicurrency_extension/) | 8.0.1.1.0 | Add an improved view for move line import in bank statement
 [account_payment_blocking](account_payment_blocking/) | 8.0.0.1.0 | Prevent invoices under litigation to be proposed in payment orders.
 [account_payment_include_draft_move](account_payment_include_draft_move/) | 8.0.1.0.0 | Account Payment Draft Move
-[account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.1 | Account Banking - Payments Term Filter
+[account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.2 | Account Banking - Payments Term Filter
 [account_payment_partner](account_payment_partner/) | 8.0.0.1.0 | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 8.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 8.0.1.0.0 | Adds payment mode on sale orders
