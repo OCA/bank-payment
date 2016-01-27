@@ -34,8 +34,8 @@ class PaymentOrderCreate(models.TransientModel):
     invoice = fields.Boolean(
         string='Linked to an Invoice or Refund')
     date_type = fields.Selection([
-        ('due', 'Due'),
-        ('move', 'Move'),
+        ('due', 'Due Date'),
+        ('move', 'Move Date'),
         ], string="Type of Date Filter", required=True)
     duedate = fields.Date(required=False)
     move_date = fields.Date(

@@ -163,8 +163,9 @@ class PaymentOrder(models.Model):
             for paydict in group_paylines.values():
                 # Block if a bank payment line is <= 0
                 if paydict['total'] <= 0:
-                    raise exceptions.Warning(
-                        _("The amount for Partner '%s' is negative (%.2f) !")
+                    raise exceptions.Warning(_(
+                        "The amount for Partner '%s' is negative "
+                        "or null (%.2f) !")
                         % (paydict['paylines'][0].partner_id.name,
                            paydict['total']))
                 vals = self._prepare_bank_payment_line(paydict['paylines'])
