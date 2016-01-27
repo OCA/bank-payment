@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Therp BV (<http://therp.nl>).
-#    All Rights Reserved
+#    SEPA Direct Debit module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
+#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,14 +20,22 @@
 #
 ##############################################################################
 
+from openerp import models, api
 
-def migrate(cr, version):
-    if not version:
-        return
 
-    # Rename value date column
-    cr.execute(
+class BankPaymentLine(models.Model):
+    _inherit = 'bank.payment.line'
+
+    @api.multi
+    def move_line_transfer_account_hashcode(self):
         """
-        ALTER TABLE banking_import_transaction
-        RENAME COLUMN effective_date TO value_date
-        """)
+        From my experience, even when you ask several direct debits
+        at the same date with enough delay, you will have several credits
+        on your bank statement: one for each mandate types.
+        So we split the transfer move lines by mandate type, so easier
+        reconciliation of the bank statement.
+        """
+        hashcode = super(BankPaymentLine, self).\
+            move_line_transfer_account_hashcode()
+        hashcode += '-' + unicode(self.mandate_id.recurrent_sequence_type)
+        return hashcode

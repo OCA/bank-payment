@@ -33,9 +33,10 @@ class PaymentOrderCreate(models.TransientModel):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
         if payment_order.payment_order_type == 'debit':
-            domain += ['|',
-                       ('invoice', '=', False),
-                       ('invoice.state', '!=', 'debit_denied'),
-                       ('account_id.type', '=', 'receivable'),
-                       ('amount_to_receive', '>', 0)]
+            # With the new system with bank.payment.line, we want
+            # to be able to have payment lines linked to customer
+            # invoices and payment lines linked to customer refunds
+            # in order to debit the customer of the total of his
+            # invoices minus his refunds
+            domain += [('account_id.type', '=', 'receivable')]
         return True

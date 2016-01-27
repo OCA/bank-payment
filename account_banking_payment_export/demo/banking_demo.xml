@@ -86,6 +86,7 @@
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
     <field name="sale_ok" eval="False"/>
+    <field name="default_journal_ids" search="[('type', 'in', ('purchase', 'purchase_refund'))]"/>
 </record>
 
 <record id="payment_mode_3" model="payment.mode">
@@ -95,6 +96,7 @@
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
     <field name="sale_ok" eval="False"/>
+    <field name="default_journal_ids" search="[('type', 'in', ('purchase', 'purchase_refund'))]"/>
 </record>
 
 

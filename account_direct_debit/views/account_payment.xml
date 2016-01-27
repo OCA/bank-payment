@@ -23,43 +23,26 @@
         <menuitem action="action_debit_order_tree" id="menu_action_debit_order_form" parent="account_payment.menu_main_payment" sequence="4"/>
 
         <record id="view_payment_order_form" model="ir.ui.view">
-            <field name="name">payment.order.form</field>
+            <field name="name">direct.debit.payment.order.form</field>
             <field name="model">payment.order</field>
-            <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_order_form"/>
             <field name="priority" eval="60"/>
             <field name="arch" type="xml">
-                <data>
-                    <form position="inside">
-                        <field name="payment_order_type" invisible="1"/>
-                    </form>
-                    <button string="Invoices" position="attributes">
-                        <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}</attribute>
-                    </button>
-                    <div class=" oe_right oe_button_box" position="inside">
-                        <button name="%(account_payment.action_create_payment_order)s"
-                                class="oe_inline oe_stat_button oe_right"
-                                string="Invoices"
-                                help="Select invoices to collect"
-                                type="action"
-                                attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'debit')]}"
-                                icon="fa-pencil-square-o"
-                                widget="statinfo"/>
-                    </div>
-                    <field name="mode" position="attributes">
-                        <attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>
-                    </field>
-                </data>
-            </field>
-        </record>
-
-        <record id="view_payment_line_tree" model="ir.ui.view">
-            <field name="name">Payment Lines</field>
-            <field name="model">payment.line</field>
-            <field name="inherit_id" ref="account_payment.view_payment_line_tree"/>
-            <field eval="4" name="priority"/>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="storno"/>
+                <button string="Invoices" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}</attribute>
+                </button>
+                <div class=" oe_right oe_button_box" position="inside">
+                    <button name="%(account_payment.action_create_payment_order)s"
+                            class="oe_inline oe_stat_button oe_right"
+                            string="Invoices"
+                            help="Select invoices to collect"
+                            type="action"
+                            attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'debit')]}"
+                            icon="fa-pencil-square-o"
+                            widget="statinfo"/>
+                </div>
+                <field name="mode" position="attributes">
+                    <attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>
                 </field>
             </field>
         </record>

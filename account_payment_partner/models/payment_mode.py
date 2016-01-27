@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright 2011 - 2014 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,15 +18,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm
+
+from openerp import models, fields
 
 
-class ResBank(orm.Model):
-    _inherit = 'res.bank'
+class PaymentMode(models.Model):
+    _inherit = "payment.mode"
 
-    def online_bank_info(self, cr, uid, bic, context=None):
-        """
-        API hook for legacy online lookup of BICs,
-        to be removed in OpenERP 8.0.
-        """
-        return False, False
+    label = fields.Char(
+        string='Label', translate=True,
+        help="This field is designed to be used in the invoice report")
+    default_payment_mode = fields.Selection([
+        ('same', 'Same'),
+        ('same_or_null', 'Same or empty'),
+        ('any', 'Any'),
+        ], string='Payment Mode on Invoice', default='same')

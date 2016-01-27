@@ -12,5 +12,9 @@
     <field name="action">action_done()</field>
 </record>
 
+<record id="account_payment.act_cancel" model="workflow.activity">
+    <field name="action">action_cancel()</field>
+</record>
+
 </data>
 </openerp>
