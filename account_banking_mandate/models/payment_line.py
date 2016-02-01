@@ -69,8 +69,6 @@ class PaymentLine(models.Model):
                   "'%s' which is not attached to the mandate '%s' (this "
                   "mandate is attached to the bank account '%s').") %
                 (self.name,
-                 self.env['res.partner.bank'].name_get(
-                     [self.bank_id.id])[0][1],
+                 self.bank_id.name_get()[0][1],
                  self.mandate_id.unique_mandate_reference,
-                 self.env['res.partner.bank'].name_get(
-                     [self.mandate_id.partner_bank_id.id])[0][1]))
+                 self.mandate_id.partner_bank_id.name_get()[0][1]))
