@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_payment_order_form_invoices" model="ir.ui.view">
+            <field name="name">account.payment.order.form.invoices</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form" />
+            <field name="model">payment.order</field>
+            <field name="arch" type="xml">
+                <div class=" oe_right oe_button_box" position="inside">
+                    <button name="%(account_payment.action_create_payment_order)s"
+                            class="oe_inline oe_stat_button oe_right"
+                            string="Invoices"
+                            help="Select invoices"
+                            type="action"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            context="{'invoices': True}"
+                            icon="fa-pencil-square-o"
+                            widget="statinfo"/>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</openerp>

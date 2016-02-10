@@ -60,3 +60,8 @@ msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como p
 msgid "Supplier Payment Mode"
 msgstr "Modo de pago de proveedor"
 
+#. module: account_payment_partner
+#: field:payment.order.create,include_invoices:0
+msgid "Include also invoices"
+msgstr "Incluir también facturas"
+

@@ -60,3 +60,8 @@ msgstr ""
 msgid "Supplier Payment Mode"
 msgstr ""
 
+#. module: account_payment_partner
+#: field:payment.order.create,include_invoices:0
+msgid "Include also invoices"
+msgstr ""
+

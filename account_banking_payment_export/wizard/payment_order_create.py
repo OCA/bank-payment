@@ -7,8 +7,6 @@
 #
 #    All other contributions are (C) by their respective contributors
 #
-#    All Rights Reserved
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -30,8 +28,16 @@ from openerp import models, fields, api, _
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    populate_results = fields.Boolean(string="Populate results directly",
-                                      default=True)
+    populate_results = fields.Boolean(
+        string="Populate results directly", default=True)
+    partners = fields.Many2many(
+        comodel_name='res.partner', domain="[('supplier', '=', True)]",
+        help="Filter elements by the selected partners (Leave it blank for "
+             "all partners)")
+    accounts = fields.Many2many(
+        comodel_name='account.account', domain="[('type', '=', 'payable')]",
+        help="Filter elements by the selected accounts (Leave it blank for "
+             "all accounts)")
 
     @api.model
     def default_get(self, field_list):
@@ -62,6 +68,10 @@ class PaymentOrderCreate(models.TransientModel):
                        '&',
                        ('account_id.type', '=', 'receivable'),
                        ('reconcile_partial_id', '=', False)]
+        if self.partners:
+            domain += [('partner_id', 'child_of', self.partners.ids)]
+        if self.accounts:
+            domain += [('account_id', 'in', self.accounts.ids)]
 
     @api.multi
     def filter_lines(self, lines):
