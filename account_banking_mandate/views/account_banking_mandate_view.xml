@@ -32,8 +32,7 @@
                 <group name="main">
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="partner_bank_id"
-                        invisible="context.get('mandate_bank_partner_view')"
-                        domain="[('partner_id', '=', partner_id)]" />
+                        invisible="context.get('mandate_bank_partner_view')" />
                     <field name="partner_id"
                         invisible="context.get('mandate_bank_partner_view')"
                         readonly="True"/>
