@@ -13,6 +13,10 @@
     <field name="name">Banking Mandate multi-company</field>
     <field name="model_id" ref="model_account_banking_mandate"/>
     <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="False"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_create" eval="True"/>
 </record>
 
 </data>
