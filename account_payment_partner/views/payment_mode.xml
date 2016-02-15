@@ -12,9 +12,6 @@
             <field name="default_payment_mode"
                 attrs="{'invisible': [('default_invoice', '=', False)]}"/>
         </group>
-        <field name="name" position="after">
-            <field name="label"/>
-        </field>
     </field>
 </record>
 
