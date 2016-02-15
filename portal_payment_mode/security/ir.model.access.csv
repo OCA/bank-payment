@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payment_portal,Read access on payment.mode to Portal Users,account_payment.model_payment_mode,base.group_portal,1,0,0,0
