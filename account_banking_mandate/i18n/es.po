@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-13 19:13+0000\n"
-"PO-Revision-Date: 2016-02-13 19:13+0000\n"
+"POT-Creation-Date: 2016-02-16 07:21+0000\n"
+"PO-Revision-Date: 2016-02-16 07:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,12 @@ msgstr "Cuenta bancaria"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Cuentas bancarias"
+msgstr "Cuentas de banco"
+
+#. module: account_banking_mandate
+#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
+msgid "Bank Payment Lines"
+msgstr "Líneas de pago bancario"
 
 #. module: account_banking_mandate
 #: view:website:account_banking_mandate.account_banking_mandate_document
@@ -119,13 +124,13 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:110
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:93
 #, python-format
 msgid "Cannot validate the mandate '%s' because it is not attached to a bank account."
 msgstr "No se puede validar el mandato '%s' porque no tiene ninguna cuenta bancaria asociada."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:106
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:89
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "No se puede validar el mandato '%s' sin una fecha de firma."
@@ -144,11 +149,6 @@ msgstr "Creado por"
 #: field:account.banking.mandate,create_date:0
 msgid "Created on"
 msgstr "Creado en"
-
-#. module: account_banking_mandate
-#: view:payment.order:account_banking_mandate.view_mandate_payment_order_form
-msgid "DD Mandate"
-msgstr "Mandato bancario"
 
 #. module: account_banking_mandate
 #: view:res.partner:account_banking_mandate.mandate_partner_form
@@ -299,7 +299,9 @@ msgid "Location and sign: _______________________, at ______ from ____________ f
 msgstr "Lugar y fecha de la firma: _______________________, a ______ de ____________ de"
 
 #. module: account_banking_mandate
+#: view:bank.payment.line:account_banking_mandate.bank_payment_line_tree
 #: model:ir.actions.report.xml,name:account_banking_mandate.report_account_banking_mandate
+#: view:payment.order:account_banking_mandate.view_mandate_payment_order_form
 msgid "Mandate"
 msgstr "Mandato SEPA"
 
@@ -319,19 +321,19 @@ msgid "Mandate Validated"
 msgstr "Mandato validado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:152
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #, python-format
 msgid "Mandate should be in cancel state"
 msgstr "El mandato debe estar en estado cancelado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:140
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
 #, python-format
 msgid "Mandate should be in draft or valid state"
 msgstr "El mandato debe estar en estado borrador o validado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:131
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #, python-format
 msgid "Mandate should be in draft state"
 msgstr "El mandato debe estar en estado borrador"
@@ -459,19 +461,19 @@ msgid "Summary"
 msgstr "Resumen"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:92
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:75
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future !"
 msgstr "La fecha de firma del mandato '%s' no puede ser superior a la actual"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:80
 #, python-format
 msgid "The mandate '%s' can't have a date of last debit before the date of signature."
 msgstr "El mandato '%s' no puede tener una fecha de último cobro antes de la fecha de firma."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/payment_line.py:68
+#: code:addons/account_banking_mandate/models/payment_line.py:51
 #, python-format
 msgid "The payment line with reference '%s' has the bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s')."
 msgstr "La línea de pago con referencia '%s' tiene la cuenta bancaria '%s', que no está puesta en el mandato '%s' (este mandato tiene como cuenta bancaria '%s')."
