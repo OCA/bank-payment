@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <!-- Add Deposit Items -->
+    <record id="view_add_deposit_items" model="ir.ui.view">
+      <field name="name">Add Deposit Items</field>
+      <field name="model">add.deposit.items</field>
+      <field name="arch" type="xml">
+        <form string="Select Payments for Deposit" version="7.0" >
+          <header>
+            <button name="select_all" string="_Select All" type="object" icon="gtk-apply"/>
+            <button name="unselect_all" string="_Unselect All" type="object" icon="gtk-cancel"/>
+            <button special="cancel" string="_Cancel" icon="gtk-cancel"/>
+            <button name="add_deposit_lines" string="_OK" type="object" icon="gtk-apply"/>
+          </header>
+          <sheet>
+            <field colspan="4" mode="tree" name="deposit_items_line_ids" nolabel="1" widget="one2many_list" width="550">
+              <tree string="Select Payments to Deposit" editable="top">
+                <field name="draft_assigned"/>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="move_line_id"/>
+              </tree>
+              <form string="Select Payments to Deposit" version="7.0">
+                <group>
+                  <field name="date"/>
+                  <field name="name"/>
+                  <field name="ref"/>
+                  <field name="partner_id"/>
+                  <field name="amount"/>
+                  <field name="move_line_id"/>
+                </group>
+              </form>
+            </field>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_view_add_deposit_items" model="ir.actions.act_window">
+      <field name="name">Add Deposit Items</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">add.deposit.items</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="view_add_deposit_items"/>
+      <field name="target">new</field>
+    </record>
+  </data>
+</openerp>

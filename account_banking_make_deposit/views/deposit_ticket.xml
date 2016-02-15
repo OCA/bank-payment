@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <!-- Bank Deposit Ticket -->
+
+    <record id="view_deposit_ticket_tree" model="ir.ui.view">
+      <field name="name">deposit.ticket.tree</field>
+      <field name="model">deposit.ticket</field>
+      <field name="priority">2</field>
+      <field name="arch" type="xml">
+        <tree string="Deposit Tickets" colors="grey:state=='cancel';blue:state in ('to_be_reviewed')">
+          <field name="name"/>
+          <field name="date"/>
+          <field name="deposit_from_account_id"/>
+          <field name="deposit_to_account_id"/>
+          <field name="amount"/>
+          <field name="count_total"/>
+          <field name="prepared_by_user_id"/>
+          <field name="verified_by_user_id"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_deposit_ticket_form" model="ir.ui.view">
+      <field name="name">deposit.ticket.form</field>
+      <field name="model">deposit.ticket</field>
+      <field name="arch" type="xml">
+        <form string="Deposit Ticket" version="7.0">
+          <header>
+            <button name="action_cancel" type="object" states="draft,to_be_reviewed" string="Cancel" icon="gtk-cancel"/>
+            <button name="action_review" type="object" states="draft" string="Ready for Review" icon="gtk-go-forward"/>
+            <button name="action_process" type="object" states="to_be_reviewed" string="Process" icon="gtk-apply"/>
+            <button name="action_cancel_draft" states="cancel,done" string="Set to Draft" type="object" icon="gtk-convert"/>
+            <field name="state" widget="statusbar" nolabel="1"/>
+          </header>
+          <sheet>
+            <group col="4" colspan="4">
+              <field name="deposit_from_account_id" placeholder="Enter Account Name (from)"/>
+              <field name="deposit_to_account_id" placeholder="Enter Account Name (to)"/>
+              <field name="journal_id" placeholder="Enter journal name" domain="[('type','=','bank')]"/>
+              <field name="period_id" placeholder="Enter period" domain="[('state','=','draft')]"/>
+              <field name="date" placeholder="Enter deposite date"/>
+              <field name="name" />
+              <field name="deposit_bag_no" placeholder="Enter deposit bag no."/>
+              <field name="bank_tracking_no" placeholder="Enter deposit tracking no."/>
+              <field name="deposit_method_id" placeholder="Enter deposit method"/>
+              <field name="memo" placeholder="Enter memo"/>
+              <field name="company_id" groups="base.group_multi_company" placeholder="Enter company Name"/>
+              <group col="2" colspan="2">
+                <button name="add_deposit_items" states="draft,to_be_reviewed" string="Add Deposit Items" type="object" icon="gtk-execute"/>
+              </group>
+            </group>
+            <notebook colspan="5">
+              <page string="Deposit Ticket Lines">
+                <field colspan="4" mode="tree" name="ticket_line_ids" widget="one2many_list" nolabel="1">
+                  <tree string="Deposit Ticket Lines">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                    <field name="amount"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                  </tree>
+                  <form string="Deposit Ticket Lines" version="7.0">
+                    <group>
+                      <field name="name"/>
+                      <field name="ref"/>
+                      <field name="partner_id"/>
+                      <field name="amount"/>
+                      <field name="date"/>
+                      <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                  </form>
+                </field>
+                <group name="calculation" col="4" colspan="2">
+                  <field name="amount"/>
+                  <field name="count_total"/>
+                </group>
+              </page>
+              <page string="Other Information">
+                <separator string="Tracking Information" colspan="4"/>
+                <group colspan="2" col="2">
+                  <field name="verified_by_user_id" placeholder="Enter user name who varified"/>
+                  <field name="prepared_by_user_id" placeholder="Enter user name who prepared"/>
+                  <field name="verified_date" placeholder="Enter date of varification"/>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_deposit_ticket_filter" model="ir.ui.view">
+      <field name="name">deposit.ticket.select</field>
+      <field name="model">deposit.ticket</field>
+      <field name="arch" type="xml">
+        <search string="Search Deposit Tickets">
+          <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Deposit Tickets that haven't yet been confirmed"/>
+          <filter icon="terp-dolar" string="To be Reviewed" domain="[('state','=','to_be_reviewed')]" help="Deposit Tickets that are ready for review"/>
+          <filter icon="terp-check" string="Done" domain="[('state','=','done')]" help="Deposit Tickets that have been processed"/>
+          <filter name="filter_period_id_open" icon="terp-personal" string="Open Periods" domain="[('period_id.state', '=', 'draft')]"/>
+          <separator orientation="vertical"/>
+          <field name="name" select="1"/>
+          <field name="date" select="1" string="Order date" />
+          <field name="period_id"/>
+          <field name="journal_id" select="1"/>
+          <field name="deposit_from_account_id" select="1"/>
+          <field name="deposit_to_account_id" select="1"/>
+          <field name="prepared_by_user_id" select="1">
+            <filter domain="[('prepared_by_user_id','=',uid)]" help="Prepared by me" icon="terp-personal"/>
+          </field>
+          <field name="verified_by_user_id" select="1">
+            <filter domain="[('verified_by_user_id','=',uid)]" help="Verified by me" icon="terp-personal"/>
+          </field>
+          <newline/>
+          <group string="Group By...">
+            <filter string="Deposit From Account" icon="terp-personal" domain="[]" context="{'group_by':'deposit_from_account_id'}"/>
+            <filter string="Deposit To Account" icon="terp-personal" domain="[]" context="{'group_by':'deposit_to_account_id'}"/>
+            <filter string="Period" icon="terp-personal" context="{'group_by': 'period_id'}"/>
+            <separator orientation="vertical"/>
+            <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record id="action_deposit_ticket" model="ir.actions.act_window">
+      <field name="name">Deposit Ticket</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">deposit.ticket</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="view_deposit_ticket_filter"/>
+      <field name="context">{
+        'search_default_filter_period_id_open': 1,
+      }</field>
+      <field name="help">With Deposit Tickets you can create new deposit tickets, by selecting and grouping customer payments, supplier refunds, or other payments into a Deposit Ticket. OpenERP automatically posts accounting entries for “Done” deposit tickets. The GL entry for the deposit is posted into the Current Period based on the date range selected.</field>
+    </record>
+
+
+    <menuitem
+      id="menu_make_deposit_tickets"
+      name="Make Deposits"
+      parent="account.menu_finance_bank_and_cash"
+      groups="group_make_deposits_preparer,group_make_deposits_verifier"
+      action="action_deposit_ticket"
+      sequence="8" />
+
+  </data>
+</openerp>

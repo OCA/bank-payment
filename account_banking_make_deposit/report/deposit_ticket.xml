@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <report
+      id="report_deposit_ticket"
+      model="deposit.ticket"
+      auto="False"
+      name="deposit.ticket"
+      file="account_banking_make_deposit/report/deposit_ticket.mako"
+      string="Internal Deposit Ticket"
+      report_type="webkit" />
+
+  </data>
+</openerp>
