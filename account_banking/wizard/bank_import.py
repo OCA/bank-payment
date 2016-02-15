@@ -316,9 +316,9 @@ class banking_import(orm.TransientModel):
                 for attr in transaction.__slots__ + ['type']:
                     if attr in import_transaction_obj.column_map:
                         values[import_transaction_obj.column_map[attr]] = \
-                            eval('transaction.%s' % attr)
+                            getattr(transaction, attr)
                     elif attr in import_transaction_obj._columns:
-                        values[attr] = eval('transaction.%s' % attr)
+                        values[attr] = getattr(transaction, attr)
                 values['statement_id'] = statement_id
                 values['bank_country_code'] = bank_country_code
                 values['local_account'] = statement.local_account
