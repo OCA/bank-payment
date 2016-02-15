@@ -158,7 +158,7 @@ class BankingExportSddWizard(models.TransientModel):
                     raise Warning(
                         _("Missing SEPA Direct Debit mandate on the "
                           "bank payment line with partner '%s' "
-                          "(reference '%s'.")
+                          "(reference '%s').")
                         % (line.partner_id.name, line.name))
                 scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
