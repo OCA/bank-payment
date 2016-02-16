@@ -245,9 +245,9 @@ class PaymentOrder(models.Model):
                     total_amount, move, blines, labels)
                 aml_obj.create(trf_ml_vals)
                 self._reconcile_payment_lines(blines)
-
-                # post account move
-                move.post()
+                # consider entry_posted on account_journal
+                if move.journal_id.entry_posted:
+                    move.post()
 
         # State field is written by act_sent_wait
         self.write({'date_sent': fields.Date.context_today(self)})
