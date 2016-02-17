@@ -43,12 +43,12 @@ addon | version | summary
 [account_payment_sale](account_payment_sale/) | 8.0.1.0.0 | Adds payment mode on sale orders
 [account_payment_sale_stock](account_payment_sale_stock/) | 8.0.1.0.0 | Manage payment mode when invoicing a sale from picking
 [account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 | Accounting voucher killer
+[portal_payment_mode](portal_payment_mode/) | 8.0.1.0.0 | Adds payment mode ACL's for portal users
 
 Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[account_banking](account_banking/) | 0.4 (unported) | Account Banking
 [bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
 
 [//]: # (end addons)
