@@ -24,25 +24,21 @@ class PaymentOrder(models.Model):
     _inherit = 'payment.order'
 
     @api.multi
-    def _reconcile_payment_lines(self, payment_lines):
-        if config['test_enable']:
+    def _reconcile_payment_lines(self, bank_payment_lines):
+        if config['test_enable'] or self.env.context.get('no_connector'):
             return super(PaymentOrder, self)._reconcile_payment_lines(
-                payment_lines)
-        session = ConnectorSession(
-            self.env.cr, self.env.uid, context=self.env.context)
-        for line in payment_lines:
-            if line.move_line_id:
-                reconcile_one_move.delay(
-                    session, 'payment.line', line.id)
-            else:
-                self.action_sent_no_move_line_hook(line)
+                bank_payment_lines)
+        session = ConnectorSession.from_env(self.env)
+        for bline in bank_payment_lines:
+            reconcile_one_move.delay(session, bline._name, bline.id)
 
 
 @job(default_channel='root.account_payment_transfer_reconcile_batch')
-def reconcile_one_move(session, model_name, payment_line_id):
-    payment_line_pool = session.pool[model_name]
-    if payment_line_pool.exists(session.cr, session.uid, payment_line_id):
-        payment_line_pool.debit_reconcile(
-            session.cr, session.uid, [payment_line_id])
+def reconcile_one_move(session, model_name, bank_payment_line_id):
+    bline_model = session.env[model_name]
+    bline = bline_model.browse(bank_payment_line_id)
+    if bline.exists():
+        obj = session.env['payment.order'].with_context(no_connector=True)
+        obj._reconcile_payment_lines(bline)
     else:
         return _(u'Nothing to do because the record has been deleted')
