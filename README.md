@@ -26,7 +26,6 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[account_banking](account_banking/) | 0.4 (unported) | Account Banking
 [account_banking_mandate](account_banking_mandate/) | 8.0.0.1.0 (unported) | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 8.0.0.2.0 (unported) | Base module for PAIN file generation
 [account_banking_payment_export](account_banking_payment_export/) | 8.0.0.1.165 (unported) | Account Banking - Payments Export Infrastructure
