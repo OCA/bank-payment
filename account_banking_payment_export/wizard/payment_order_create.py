@@ -75,11 +75,14 @@ class PaymentOrderCreate(models.TransientModel):
             # Do not propose partially reconciled credit lines,
             # as they are deducted from a customer invoice, and
             # will not be refunded with a payment.
-            domain += ['|',
-                       ('account_id.type', '=', 'payable'),
-                       '&',
-                       ('account_id.type', '=', 'receivable'),
-                       ('reconcile_partial_id', '=', False)]
+            domain += [
+                ('credit', '>', 0),
+                '|',
+                ('account_id.type', '=', 'payable'),
+                '&',
+                ('account_id.type', '=', 'receivable'),
+                ('reconcile_partial_id', '=', False),
+            ]
 
     @api.multi
     def filter_lines(self, lines):
