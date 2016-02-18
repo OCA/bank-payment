@@ -30,7 +30,7 @@ class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
     journal_ids = fields.Many2many(
-        'account.journal', string='Journals Filter', required=True)
+        'account.journal', string='Journals Filter')
     invoice = fields.Boolean(
         string='Linked to an Invoice or Refund')
     date_type = fields.Selection([
@@ -117,10 +117,11 @@ class PaymentOrderCreate(models.TransientModel):
         payment = self.env['payment.order'].browse(
             self.env.context['active_id'])
         # Search for move line to pay:
+        journals = self.journal_ids or self.env['account.journal'].search([])
         domain = [('move_id.state', '=', 'posted'),
                   ('reconcile_id', '=', False),
                   ('company_id', '=', payment.mode.company_id.id),
-                  ('journal_id', 'in', self.journal_ids.ids)]
+                  ('journal_id', 'in', journals.ids)]
         if self.date_type == 'due':
             domain += [
                 '|',
