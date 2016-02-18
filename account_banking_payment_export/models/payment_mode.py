@@ -84,7 +84,7 @@ class PaymentMode(models.Model):
     default_journal_ids = fields.Many2many(
         'account.journal', string="Journals Filter")
     default_invoice = fields.Boolean(
-        string='Linked to an Invoice or Refund', default=True)
+        string='Linked to an Invoice or Refund', default=False)
     default_date_type = fields.Selection([
         ('due', 'Due'),
         ('move', 'Move'),
