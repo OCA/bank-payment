@@ -21,8 +21,8 @@ class BankPaymentLine(models.Model):
     # see bug report https://github.com/odoo/odoo/issues/8632
     amount_currency = fields.Float(
         string='Amount', digits=dp.get_precision('Account'),
-        compute='_compute_amount')
-    # I would have prefered currency_id, but I need to keep the field names
+        compute='_compute_amount', store=True)
+    # I would have preferred currency_id, but I need to keep the field names
     # similar to the field names of payment.line
     currency = fields.Many2one(
         'res.currency', string='Currency', required=True,
@@ -52,13 +52,12 @@ class BankPaymentLine(models.Model):
             'bank_id', 'date', 'state']
         return same_fields
 
-    @api.one
-    @api.depends('payment_line_ids.amount_currency')
+    @api.multi
+    @api.depends('payment_line_ids', 'payment_line_ids.amount_currency')
     def _compute_amount(self):
-        amount = 0.0
-        for payline in self.payment_line_ids:
-            amount += payline.amount_currency
-        self.amount_currency = amount
+        for line in self:
+            line.amount_currency = sum(
+                line.mapped('payment_line_ids.amount_currency'))
 
     @api.model
     @api.returns('self')
