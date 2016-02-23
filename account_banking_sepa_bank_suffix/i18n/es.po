@@ -33,5 +33,5 @@ msgstr "Sufijo para identificadores sepa con este modo de pago. Si no se estable
 #. module: account_banking_sepa_bank_suffix
 #: code:addons/account_banking_sepa_bank_suffix/models/payment_mode.py:41
 #, python-format
-msgid "Suffix must be compound by 3 numbers"
-msgstr "El sufijo debe estar compuesto por 3 números"
+msgid "Suffix must be compound by 3 digits"
+msgstr "El sufijo debe estar compuesto por 3 dígitos"
