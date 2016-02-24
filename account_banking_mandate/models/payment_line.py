@@ -1,25 +1,8 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Mandate module for openERP
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    @author: Cyril Sester <csester@compassion.ch>,
-#             Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
+# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, exceptions, _
 
@@ -69,6 +52,8 @@ class PaymentLine(models.Model):
                   "'%s' which is not attached to the mandate '%s' (this "
                   "mandate is attached to the bank account '%s').") %
                 (self.name,
-                 self.bank_id.name_get()[0][1],
+                 self.env['res.partner.bank'].name_get(
+                     [self.bank_id.id])[0][1],
                  self.mandate_id.unique_mandate_reference,
-                 self.mandate_id.partner_bank_id.name_get()[0][1]))
+                 self.env['res.partner.bank'].name_get(
+                     [self.mandate_id.partner_bank_id.id])[0][1]))

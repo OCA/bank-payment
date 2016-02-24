@@ -42,7 +42,7 @@
         quantity: 1.0
     journal_id: account.expenses_journal
 -
-  Make sure that the type is in_invoice
+  Make sure that the type is in_refund
 -
   !python {model: account.invoice}: |
     self.write(cr, uid, ref("account_refund_supplier_refunded"), {'type': 'in_refund'})
@@ -51,67 +51,38 @@
 -
   !workflow {model: account.invoice, action: invoice_open, ref: account_refund_supplier_refunded}
 -
-  I reconcile the invoice and the refund
--
-  !record {model: account.move.line.reconcile, id: account_move_line_reconcile0}:
-    trans_nbr: 2
-    credit: 600.0
-    debit: 200.0
-    writeoff: -400.0
--
-  Then I click on the 'Partial Reconcile' button
--
-  !python {model: account.move.line.reconcile}: |
-    move_line_obj = self.pool.get('account.move.line')
-    inv_obj = self.pool.get('account.invoice')
-    invoice_move_id = inv_obj.browse(cr, uid, ref("account_invoice_supplier_refunded")).move_id.id
-    refund_move_id = inv_obj.browse(cr, uid, ref("account_refund_supplier_refunded")).move_id.id
-    debit_line_id = move_line_obj.search(cr, uid, [('move_id', '=', refund_move_id),('debit', '=', 200)])[0]
-    credit_line_id = move_line_obj.search(cr, uid, [('move_id', '=', invoice_move_id),('credit', '=', 600)])[0]
-    ids = [debit_line_id, credit_line_id]
-    partial_reconcile = self.trans_rec_reconcile_partial_reconcile(cr, uid, [ref('account_move_line_reconcile0')], {
-    'active_model': 'account.move.line', 'active_ids': ids, 'tz': False, 'active_id': ids[1]})
-    move_line = move_line_obj.browse(cr, uid, ids)
-    assert move_line[0].reconcile_partial_id, "Partial reconcilation is not done"
--
-  I check that the invoice balance (residual) is now 400
--
-  !assert {model: account.invoice, id: account_invoice_supplier_refunded, severity: error, string: Invoice residual should be 400.}:
-    - residual == 400
-    - amount_total == 600
--
-  I create a payment order on which I will select the invoice I created
+  I create a payment order
 -
   !record {model: payment.order, id: partial_payment_order_1}:
     mode: account_banking_payment_transfer.payment_mode0
-    date_prefered: 'due'
+    date_prefered: 'now'
 -
-  !record {model: payment.order.create, id: payment_order_create_1}:
-    duedate: !eval time.strftime('%Y-%m-%d')
--
-  I search for the invoice entries to make the payment.
+  I run the select move line to pay wizard
 -
   !python {model: payment.order.create}: |
-    self.search_entries(cr, uid, [ref("payment_order_create_1")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_payment_order_1")],
-      "active_id": ref("partial_payment_order_1"), })
--
-  I create payment lines entries.
--
-  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("partial_payment_order_1")],
+        "active_id": ref("partial_payment_order_1"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
+    mline_ids = []
     invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier_refunded"))
     for l in invoice.move_id.line_id:
         if not l.debit and l.credit:
-            move_line = l
+            mline_ids.append(l.id)
             break
-    self.write(cr, uid, [ref("payment_order_create_1")], {'entries': [(6,0,[move_line.id])]})
-    self.create_payment(cr, uid, [ref("payment_order_create_1")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_payment_order_1")],
-      "active_id": ref("partial_payment_order_1")})
+    refund = self.pool.get('account.invoice').browse(cr, uid, ref("account_refund_supplier_refunded"))
+    for l in refund.move_id.line_id:
+        if not l.credit and l.debit:
+            mline_ids.append(l.id)
+            break
+    self.write(cr, uid, [wiz_id], {'entries': [(6, 0, mline_ids)]})
+    self.create_payment(cr, uid, [wiz_id], context=context)
     pay_obj = self.pool.get('payment.order')
     pay = pay_obj.browse(cr, uid, ref('partial_payment_order_1'))
-    assert pay.line_ids[0].amount_currency == 400
-    assert pay.total == 400
+    assert len(pay.line_ids) == 2
 -
   I confirm the payment order.
 -
@@ -121,6 +92,7 @@
 -
   !assert {model: payment.order, id: partial_payment_order_1, severity: error, string: Payment Order should be 'Confirmed'.}:
     - state == 'open'
+    - total == 400.0
 -
   I create the wizard for paying the payment
 -
