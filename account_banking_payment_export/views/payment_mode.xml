@@ -10,6 +10,12 @@
             <field name="model">payment.mode</field>
             <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
             <field name="arch" type="xml">
+                <field name="bank_id" position="attributes">
+                  <attribute name="attrs">{'required':[('check_required','=', True)]}</attribute>
+                </field>
+                <field name="bank_id" position="after">
+                    <field name="check_required"/>
+                </field>
                 <field name="company_id" position="after">
                     <field name="active"/>
                     <field name="type"/>
