@@ -29,7 +29,7 @@ class PaymentOrderCreate(models.TransientModel):
     @api.multi
     def extend_payment_order_domain(
             self, payment_order, domain):
-        super(payment_order_create, self).extend_payment_order_domain(
+        super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
         domain += [('blocked', '!=', True)]
         return True
