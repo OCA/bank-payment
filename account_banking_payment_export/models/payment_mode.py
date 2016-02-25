@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<http://therp.nl>)
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2014-2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, SUPERUSER_ID
@@ -91,6 +91,19 @@ class PaymentMode(models.Model):
         ], default='due', string="Type of Date Filter")
     default_populate_results = fields.Boolean(
         string='Populate Results Directly')
+    group_lines = fields.Boolean(
+        string="Group lines in payment orders", default=True,
+        help="If this mark is checked, the payment order lines will be "
+             "grouped when validating the payment order before exporting the "
+             "bank file. The grouping will be done only if the following "
+             "fields matches:\n"
+             "* Partner\n"
+             "* Currency\n"
+             "* Destination Bank Account\n"
+             "* Communication Type (structured, free)\n"
+             "* Payment Date\n"
+             "(other modules can set additional fields to restrict the "
+             "grouping.)")
 
     @api.onchange('type')
     def type_on_change(self):

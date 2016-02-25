@@ -2,12 +2,12 @@
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<http://therp.nl>)
 # © 2013-2014 ACSONE SA (<http://acsone.eu>).
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2014-2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Banking - Payments Export Infrastructure',
-    'version': '8.0.0.2.0',
+    'version': '8.0.0.3.0',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "

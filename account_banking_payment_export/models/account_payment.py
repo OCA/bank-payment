@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<http://therp.nl>)
+# © 2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, exceptions, workflow, _
@@ -129,7 +130,12 @@ class PaymentOrder(models.Model):
                     requested_date = today
                 # Write requested_date on 'date' field of payment line
                 payline.date = requested_date
-                hashcode = payline.payment_line_hashcode()
+                # Group options
+                if order.mode.group_lines:
+                    hashcode = payline.payment_line_hashcode()
+                else:
+                    # Use line ID as hascode, which actually means no grouping
+                    hashcode = payline.id
                 if hashcode in group_paylines:
                     group_paylines[hashcode]['paylines'] += payline
                     group_paylines[hashcode]['total'] +=\
@@ -138,7 +144,7 @@ class PaymentOrder(models.Model):
                     group_paylines[hashcode] = {
                         'paylines': payline,
                         'total': payline.amount_currency,
-                        }
+                    }
             # Create bank payment lines
             for paydict in group_paylines.values():
                 # Block if a bank payment line is <= 0
