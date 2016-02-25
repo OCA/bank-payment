@@ -23,7 +23,7 @@
 from openerp import api, models
 
 
-class payment_order_create(models.TransientModel):
+class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
     @api.multi
