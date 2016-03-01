@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-18 08:37+0000\n"
-"PO-Revision-Date: 2016-02-18 08:37+0000\n"
+"POT-Creation-Date: 2016-02-25 17:56+0000\n"
+"PO-Revision-Date: 2016-02-25 17:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,7 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: account_banking_payment_export
+#: field:bank.payment.line,amount_currency:0
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 msgid "Amount"
 msgstr "Importe"
@@ -123,7 +124,7 @@ msgid "Entry Information"
 msgstr "Información del asiento"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:149
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:152
 #, python-format
 msgid "Entry Lines"
 msgstr "Líneas de pago"
@@ -145,11 +146,33 @@ msgid "General Information"
 msgstr "Información General"
 
 #. module: account_banking_payment_export
+#: field:payment.mode,group_lines:0
+msgid "Group lines in payment orders"
+msgstr "Agrupar líneas en las órdenes de pago"
+
+#. module: account_banking_payment_export
 #: field:bank.payment.line,id:0
 #: field:payment.manual,id:0
 #: field:payment.mode.type,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,group_lines:0
+msgid "If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
+"* Partner\n"
+"* Currency\n"
+"* Destination Bank Account\n"
+"* Communication Type (structured, free)\n"
+"* Payment Date\n"
+"(other modules can set additional fields to restrict the grouping.)"
+msgstr "Si esta casilla está marcada, las líneas de las órdenes de pago serán agrupadas cuando se valide la orden de pago antes de la exportación al archivo bancario. La agrupación se realizará sólo si los siguientes campos casan:\n"
+"* Empresa\n"
+"* Moneda\n"
+"* Cuenta bancaria destino\n"
+"* Tipo de comunicacion (estructurada, libre)\n"
+"* Fecha de pago\n"
+"(otros módulo pueden establecer campos adicionales para restringir la agrupación.)"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -196,6 +219,11 @@ msgstr "Última actualización por"
 #: field:payment.mode.type,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+msgid "Line grouping"
+msgstr "Agrupación de líneas"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_invoice:0
@@ -297,7 +325,7 @@ msgid "Payment Order Export"
 msgstr "Exportación de la orden de pago"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:243
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:246
 #, python-format
 msgid "Payment Orders"
 msgstr "Órdenes de pago"
@@ -342,7 +370,7 @@ msgstr "Líneas de pago relacionadas"
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
 msgid "Select Move Lines to Pay - Default Values"
-msgstr "Seleccione los apuntes a pagar - Valores por defecto"
+msgstr "Selección de los apuntes - Valores por defecto"
 
 #. module: account_banking_payment_export
 #: help:payment.mode,type:0
@@ -387,7 +415,7 @@ msgid "Suitable bank types"
 msgstr "Tipos de cuentas bancarias adecuadas"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:146
+#: code:addons/account_banking_payment_export/models/account_payment.py:151
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr "El importe para el empresa '%s' es negativo o nulo (%.2f) !"
