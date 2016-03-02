@@ -34,7 +34,7 @@ def migrate(cr, installed_version):
     if not installed_version:
         return
 
-    def table_exists(cr, table):                                                      
+    def table_exists(cr, table):
         cr.execute(
             "SELECT 1 FROM information_schema.tables"
             " WHERE table_name='%s' LIMIT 1;" % table
@@ -52,7 +52,7 @@ def migrate(cr, installed_version):
             "SELECT id, create_uid, create_date, write_date, write_uid, "
             "partner_bank_id, last_debit_date, scan, company_id, state, "
             "unique_mandate_reference, signature_date, sepa_migrated, "
-            "original_mandate_identification, recurrent_sequence_type, type, "\
+            "original_mandate_identification, recurrent_sequence_type, type, "
             "'CORE' "
             "FROM sdd_mandate"
         )
