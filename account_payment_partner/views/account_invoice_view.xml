@@ -15,7 +15,7 @@
         <field name="inherit_id" ref="account.view_account_invoice_filter"/>
         <field name="arch" type="xml">
             <filter string="Status" position="after">
-                <filter string="Payment mode" context="{'group_by':'payment_mode_id'}"/>
+                <filter string="Payment mode" name="filter_payment_mode" context="{'group_by':'payment_mode_id'}"/>
             </filter>
         </field>
     </record>
