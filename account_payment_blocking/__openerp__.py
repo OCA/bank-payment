@@ -22,7 +22,7 @@
 ##############################################################################
 {
     'name': 'account banking payment blocking',
-    'version': '8.0.0.1.0',
+    'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'summary': """
         Prevent invoices under litigation to be proposed in payment orders.
