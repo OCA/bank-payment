@@ -35,7 +35,7 @@ addon | version | summary
 [account_banking_tests](account_banking_tests/) | 8.0.0.1.0 | Banking Addons - Tests
 [account_direct_debit](account_direct_debit/) | 8.0.2.1.0 | Direct Debit
 [account_import_line_multicurrency_extension](account_import_line_multicurrency_extension/) | 8.0.1.1.0 | Add an improved view for move line import in bank statement
-[account_payment_blocking](account_payment_blocking/) | 8.0.0.1.0 | Prevent invoices under litigation to be proposed in payment orders.
+[account_payment_blocking](account_payment_blocking/) | 8.0.1.0.0 | Prevent invoices under litigation to be proposed in payment orders.
 [account_payment_include_draft_move](account_payment_include_draft_move/) | 8.0.1.0.0 | Account Payment Draft Move
 [account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.2 | Account Banking - Payments Term Filter
 [account_payment_partner](account_payment_partner/) | 8.0.0.2.0 | Adds payment mode on partners and invoices
