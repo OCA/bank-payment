@@ -1,6 +1,6 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
-    
+
 Account Banking SEPA Credit Transfer
 ====================================
 
@@ -47,7 +47,7 @@ Known issues / Roadmap
 ======================
 
  * No known issues
- 
+
 Bug Tracker
 ===========
 
@@ -62,15 +62,16 @@ Credits
 Contributors
 ------------
 
-Alexis de Lattre
-Pedro M. Baeza
-Stéphane Bidoul <stephane.bidoul@acsone.eu>
-Stefan Rijnhart
-Julien Laloux
-Alexandre Fayolle
-Raphaël Valyi
-Erwin van der Ploeg
-Sandy Carter
+* Alexis de Lattre
+* Pedro M. Baeza
+* Stéphane Bidoul <stephane.bidoul@acsone.eu>
+* Stefan Rijnhart
+* Julien Laloux
+* Alexandre Fayolle
+* Raphaël Valyi
+* Erwin van der Ploeg
+* Sandy Carter
+* Antonio Espinosa <antonioea@antiun.com>
 
 Maintainer
 ----------
