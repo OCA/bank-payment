@@ -39,7 +39,7 @@ Known issues / Roadmap
 ======================
 
  * no known issues
- 
+
 Bug Tracker
 ===========
 
@@ -62,6 +62,7 @@ Contributors
 * Raphaël Valyi
 * Sandy Carter
 * Stefan Rijnhart (Therp)
+* Antonio Espinosa <antonioea@antiun.com>
 
 Maintainer
 ----------
