@@ -225,7 +225,7 @@ class BankingExportSddWizard(models.TransientModel):
             self.generate_creditor_scheme_identification(
                 creditor_scheme_identification_2_27,
                 'self.payment_order_ids[0].mode.'
-                'sepa_creditor_identifier or'
+                'sepa_creditor_identifier or '
                 'self.payment_order_ids[0].company_id.'
                 'sepa_creditor_identifier',
                 'SEPA Creditor Identifier', {'self': self}, 'SEPA', gen_args)
@@ -328,7 +328,7 @@ class BankingExportSddWizard(models.TransientModel):
                         self.generate_creditor_scheme_identification(
                             ori_creditor_scheme_id_2_53,
                             'self.payment_order_ids[0].mode.'
-                            'original_creditor_identifier or'
+                            'original_creditor_identifier or '
                             'self.payment_order_ids[0].company_id.'
                             'original_creditor_identifier',
                             'Original Creditor Identifier',
