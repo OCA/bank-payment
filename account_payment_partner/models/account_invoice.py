@@ -27,10 +27,13 @@ class AccountInvoice(models.Model):
                 res['value']['payment_mode_id'] = \
                     partner.supplier_payment_mode.id
             elif type == 'out_invoice':
-                res['value'].update({
-                    'payment_mode_id': partner.customer_payment_mode.id,
-                    'partner_bank_id': partner.customer_payment_mode.bank_id.id
-                })
+                res['value']['payment_mode_id'] = \
+                    partner.customer_payment_mode.id
+                # Do not change the default value of partner_bank_id if
+                # partner.customer_payment_mode is False
+                if partner.customer_payment_mode.bank_id:
+                    res['value']['partner_bank_id'] = \
+                        partner.customer_payment_mode.bank_id.id
         else:
             res['value']['payment_mode_id'] = False
         return res
