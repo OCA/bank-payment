@@ -31,6 +31,10 @@ class AccountBankingMandate(models.Model):
         }
     }
 
+    format = fields.Selection(
+        selection_add=[('sepa', _('Sepa Mandate'))],
+        default='sepa',
+    )
     type = fields.Selection([('recurrent', 'Recurrent'),
                              ('oneoff', 'One-Off')],
                             string='Type of Mandate', required=True,
@@ -90,6 +94,18 @@ class AccountBankingMandate(models.Model):
                 _("You must set the 'Original Mandate Identification' on the "
                   "recurrent mandate '%s' which is not marked as 'Migrated to "
                   "SEPA'.") % self.unique_mandate_reference)
+
+    @api.model
+    def _get_mandate_format(self):
+        res = super(AccountBankingMandate, self)._get_mandate_format()
+        res.append(('sepa', _('Sepa Mandate')))
+        return res
+
+
+    @api.model
+    def _default_mandate_format(self):
+        res = super(AccountBankingMandate, self).default_mandate_format()
+        return 'sepa'
 
     @api.one
     @api.onchange('partner_bank_id')
