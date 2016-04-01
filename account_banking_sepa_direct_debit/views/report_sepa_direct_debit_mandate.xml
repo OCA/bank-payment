@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <template id="sepa_direct_debit_mandate_document">
+        <div class="page">
+            <style type="text/css">
+                .under-line{
+                    border-bottom:1px solid;
+                }
+                input{
+                    vertical-align: baseline;
+                }
+                .panel-default{
+                    border:2px solid;
+                }
+                p{
+                  font-size: 8px;
+                }
+            </style>
+            <div class="row mt0">
+                <div class="col-xs-3">
+                    <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-12 text-center">
+                    <h4 t-if="o.scheme != 'B2B'"><strong>Sepa Direct Debit Mandate</strong></h4>
+                    <h4 t-if="o.scheme == 'B2B'"><strong>Sepa Business-To-Business Direct debit Mandate</strong></h4>
+                </div>
+            </div>
+            <div class="row mt8">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <span class="col-xs-12 text-right" style="font-size:8px;">To be completed by the creditor</span>
+                        <div class="panel-body mb8">
+                            <div class="col-xs-12"><em>Mandate Reference:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.unique_mandate_reference"/></div>
+                            <div class="col-xs-12"><em>Identifier:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.company_id.sepa_creditor_identifier"/></div>
+                            <div class="col-xs-12"><em>Creditor's Name:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.company_id.partner_id.name"/></div>
+                            <div class="col-xs-12"><em>Address:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.company_id.partner_id.street"/></div>
+                            <div class="col-xs-12"><em>Postal Code - City - Town:</em></div>
+                            <div class="col-xs-10 col-xs-offset-2 under-line  mt8">
+                                <span t-field="o.company_id.partner_id.zip"/> -
+                                <span t-field="o.company_id.partner_id.city"/> -
+                                <span t-field="o.company_id.partner_id.state_id"/>
+                            </div>
+                            <div class="col-xs-12"><em>Country:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.company_id.partner_id.country_id"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt0">
+                <div class="col-xs-12">
+                    <p>By signing this mandate form, you authorise (A) <strong t-if="o.scheme == 'B2B'"><span t-field="o.company_id.name"/></strong>
+                       to send instructions to your bank to debit your account and (B) your bank to
+                       debit your account in accordance with the instructions from <strong t-if="o.scheme == 'B2B'"><span t-field="o.company_id.name"/></strong>.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <p t-if="o.scheme == 'B2B'">
+                        This mandate is only intended for business-to-business transactions.
+                        You are not entitled to a refund from your bank after your account has
+                        been debited, but you are entitled to request your bank
+                        not to debit your account up until the day on which the payment is due.
+                    </p>
+                    <p t-if="o.scheme != 'B2B'">
+                        As part of your rights, you are entitled to a refund from
+                        your bank under the terms and conditions of your agreement
+                        with your bank.
+                        A refund must be claimed within 8 weeks starting from the date on which your account was debited.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <span class="col-xs-12 text-right" style="font-size:8px;">To be completed by the debtor</span>
+                        <div class="panel-body">
+                            <div class="col-xs-12"><em>Debtor's Name:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_id"/></div>
+                            <div class="col-xs-12"><em>Address of the Debtor:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_id.street"/></div>
+                            <div class="col-xs-12"><em>Postal Code - City - Town:</em></div>
+                            <div class="col-xs-10 col-xs-offset-2 under-line mt4">
+                                <span t-field="o.partner_id.zip"/> -
+                                <span t-field="o.partner_id.city"/> -
+                                <span t-field="o.partner_id.state_id"/>
+                            </div>
+                            <div class="col-xs-12"><em>Country of the debtor:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_id.country_id"/></div>
+                            <div class="col-xs-12"><em>Swift BIC (up to 8 or 11 characteres):</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_bank_id.bank_bic"/></div>
+                            <div class="col-xs-12"><em>Account Number - IBAN:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_bank_id.acc_number"/></div>
+                            <div class="col-xs-12"><em>Type of payment:</em></div>
+                            <div class="col-xs-10 col-xs-offset-2 mt4">
+                                <input type="checkbox" t-att-checked="o.type=='recurrent' or None">  Recurrent</input>
+                                <input type="checkbox" t-att-checked="o.type=='oneoff' or None">  One-Off</input>
+                            </div>
+                            <div class="col-xs-12"><em>Date - Location:</em></div>
+                            <div class="col-xs-10 col-xs-offset-2 under-line mt16"/>
+                            <div class="col-xs-12"><em>Signature of the debtor:</em></div>
+                            <div class="col-xs-10 col-xs-offset-2 under-line mt16"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <p t-if="o.scheme != 'B2B'">ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.</p>
+                    <p t-if="o.scheme == 'B2B'">ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.
+                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.
+                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="sepa_direct_debit_mandate">
+        <t t-call="report.html_container">
+            <t t-foreach="doc_ids" t-as="doc_id">
+                <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document')"/>
+            </t>
+        </t>
+    </template>
+
+</data>
+</openerp>

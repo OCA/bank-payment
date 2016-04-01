@@ -7,7 +7,7 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '8.0.0.4.0',
+    'version': '8.0.0.5.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
@@ -27,6 +27,9 @@
         'wizard/export_sdd_view.xml',
         'data/mandate_expire_cron.xml',
         'data/payment_type_sdd.xml',
+        'data/report_paperformat.xml',
+        'reports/sepa_direct_debit_mandate.xml',
+        'views/report_sepa_direct_debit_mandate.xml',
         'security/original_mandate_required_security.xml',
     ],
     'demo': ['demo/sepa_direct_debit_demo.xml'],
