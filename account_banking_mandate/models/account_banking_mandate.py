@@ -35,6 +35,11 @@ class AccountBankingMandate(models.Model):
                 ('expired', 'Expired'),
                 ('cancel', 'Cancelled')]
 
+    @api.model
+    def _get_mandate_format(self):
+        return [('basic', _('Basic Mandate'))]
+
+    format = fields.Selection('_get_mandate_format', string='Mandate Format')
     partner_bank_id = fields.Many2one(
         comodel_name='res.partner.bank', string='Bank Account',
         track_visibility='onchange')
