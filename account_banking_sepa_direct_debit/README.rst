@@ -71,6 +71,7 @@ Contributors
 * Raphaël Valyi
 * Sandy Carter
 * Antonio Espinosa <antonioea@antiun.com>
+* Sergio Teruel <sergio.teruel@tecnativa.com>
 
 
 Maintainer
