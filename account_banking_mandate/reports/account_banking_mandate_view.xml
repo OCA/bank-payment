@@ -21,6 +21,7 @@
                             Service Provider / Creditor:
                         </div>
                         <div class="panel-body mb8">
+                            Identifier: <span t-field="o.company_id.sepa_creditor_identifier"/><br/>
                             <strong t-field="o.company_id.partner_id and o.company_id.partner_id.name"/><br/>
                             <span t-if="o.company_id.partner_id.vat">VAT: <span t-field="o.company_id.partner_id.vat"/></span>
                             <span t-field="o.company_id.partner_id"
