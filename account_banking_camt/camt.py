@@ -152,7 +152,7 @@ CAMT Format parser
 
         # Assuming If there is no Ccy tag then it belongs to defaut currency
         if not self.xpath(node, './ns:Acct/ns:Ccy'):
-            statement.local_currency = statement.company_id.currency_id.id
+            statement.local_currency = 'EUR'
         else:
             statement.local_currency = self.xpath(node,
                                                   './ns:Acct/ns:Ccy')[0].text
