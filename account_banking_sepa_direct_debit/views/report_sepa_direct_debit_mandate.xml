@@ -46,9 +46,9 @@
             </div>
             <div class="row mt0" style="font-size:12px;">
                 <div class="col-xs-12">
-                    <p>By signing this mandate form, you authorise (A) <strong><span t-field="o.company_id.name"/></strong>
+                    <p>By signing this mandate form, you authorise (A) <strong t-if="o.scheme == 'B2B'"><span t-field="o.company_id.name"/></strong>
                        to send instructions to your bank to debit your account and (B) your bank to
-                       debit your account in accordance with the instructions from <strong><span t-field="o.company_id.name"/></strong>.
+                       debit your account in accordance with the instructions from <strong t-if="o.scheme == 'B2B'"><span t-field="o.company_id.name"/></strong>.
                     </p>
                 </div>
             </div>
