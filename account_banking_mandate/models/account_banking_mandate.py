@@ -38,6 +38,7 @@ class AccountBankingMandate(models.Model):
     format = fields.Selection(
         [('basic', _('Basic Mandate'))],
         default='basic',
+        required=True,
         string='Mandate Format',
     )
     partner_bank_id = fields.Many2one(
