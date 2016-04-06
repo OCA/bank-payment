@@ -77,14 +77,14 @@ class AccountBankingMandate(models.Model):
     def _check_dates(self):
         for mandate in self:
             if (mandate.signature_date and
-                        mandate.signature_date > fields.Date.context_today(
+                    mandate.signature_date > fields.Date.context_today(
                         mandate)):
                 raise exceptions.Warning(
                     _("The date of signature of mandate '%s' "
                       "is in the future !")
                     % mandate.unique_mandate_reference)
             if (mandate.signature_date and mandate.last_debit_date and
-                        mandate.signature_date > mandate.last_debit_date):
+                    mandate.signature_date > mandate.last_debit_date):
                 raise exceptions.Warning(
                     _("The mandate '%s' can't have a date of last debit "
                       "before the date of signature."
