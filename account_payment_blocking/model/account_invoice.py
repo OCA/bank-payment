@@ -41,7 +41,6 @@ class account_invoice(orm.Model):
         if invoice.move_id.id:
             move_line_ids = self._get_move_line(cr, uid, invoice.id,
                                                 context=context)
-            assert len(move_line_ids) == 1
             # work with account_constraints from OCA/AFT:
             context.update({'from_parent_object': True})
             self.pool.get('account.move.line')\
@@ -74,10 +73,10 @@ class account_invoice(orm.Model):
             if invoice.move_id.id:
                 move_line_ids = self._get_move_line(cr, uid, invoice.id,
                                                     context=context)
-                assert len(move_line_ids) == 1
-                move_line = self.pool.get('account.move.line')\
-                    .browse(cr, uid, move_line_ids, context=context)[0]
-                res[invoice.id] = move_line.blocked
+                move_lines = self.pool.get('account.move.line')\
+                    .browse(cr, uid, move_line_ids, context=context)
+                res[invoice.id] = move_lines and\
+                    all(line.blocked for line in move_lines) or False
             else:
                 res[invoice.id] = False
         return res
