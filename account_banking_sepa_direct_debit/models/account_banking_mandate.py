@@ -81,11 +81,12 @@ class AccountBankingMandate(models.Model):
     def _check_migrated_to_sepa(self):
         for mandate in self:
             if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
-                        mandate.recurrent_sequence_type != 'first'):
+                    mandate.recurrent_sequence_type != 'first'):
                 raise exceptions.Warning(
                     _("The recurrent mandate '%s' which is not marked as "
-                      "'Migrated to SEPA' must have its recurrent sequence type "
-                      "set to 'First'.") % mandate.unique_mandate_reference)
+                      "'Migrated to SEPA' must have its recurrent sequence "
+                      "type set to 'First'.")
+                    % mandate.unique_mandate_reference)
 
     @api.multi
     @api.constrains('type', 'original_mandate_identification', 'sepa_migrated')
@@ -94,9 +95,10 @@ class AccountBankingMandate(models.Model):
             if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
                     not mandate.original_mandate_identification):
                 raise exceptions.Warning(
-                    _("You must set the 'Original Mandate Identification' on the "
-                      "recurrent mandate '%s' which is not marked as 'Migrated to "
-                      "SEPA'.") % mandate.unique_mandate_reference)
+                    _("You must set the 'Original Mandate Identification' on "
+                      "the recurrent mandate '%s' which is not marked as "
+                      "'Migrated to SEPA'.")
+                    % mandate.unique_mandate_reference)
 
     @api.multi
     @api.onchange('partner_bank_id')
@@ -111,9 +113,9 @@ class AccountBankingMandate(models.Model):
                 mandate.recurrent_sequence_type = 'first'
                 res['warning'] = {
                     'title': _('Mandate update'),
-                    'message': _("As you changed the bank account attached to "
-                                 "this mandate, the 'Sequence Type' has been set "
-                                 "back to 'First'."),
+                    'message': _("As you changed the bank account attached "
+                                 "to this mandate, the 'Sequence Type' has "
+                                 "been set back to 'First'."),
                 }
             return res
 
