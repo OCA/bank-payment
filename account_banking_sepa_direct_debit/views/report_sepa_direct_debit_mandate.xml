@@ -14,6 +14,9 @@
                 .panel-default{
                     border:2px solid;
                 }
+                p{
+                  font-size: 8px;
+                }
             </style>
             <div class="row mt0">
                 <div class="col-xs-3">
@@ -27,7 +30,7 @@
             <div class="row mt8">
                 <div class="col-xs-12">
                     <div class="panel panel-default">
-                        <span class="col-xs-12 text-right" style="font-size:10px;">To be completed by the creditor</span>
+                        <span class="col-xs-12 text-right" style="font-size:8px;">To be completed by the creditor</span>
                         <div class="panel-body mb8">
                             <div class="col-xs-12"><em>Mandate Reference:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.unique_mandate_reference"/></div>
                             <div class="col-xs-12"><em>Identifier:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.company_id.sepa_creditor_identifier"/></div>
@@ -44,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt0" style="font-size:12px;">
+            <div class="row mt0">
                 <div class="col-xs-12">
                     <p>By signing this mandate form, you authorise (A) <strong t-if="o.scheme == 'B2B'"><span t-field="o.company_id.name"/></strong>
                        to send instructions to your bank to debit your account and (B) your bank to
@@ -52,7 +55,7 @@
                     </p>
                 </div>
             </div>
-            <div class="row" style="font-size:12px;">
+            <div class="row">
                 <div class="col-xs-12">
                     <p t-if="o.scheme == 'B2B'">
                         This mandate is only intended for business-to-business transactions.
@@ -71,7 +74,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-default">
-                        <span class="col-xs-12 text-right" style="font-size:10px;">To be completed by the debtor</span>
+                        <span class="col-xs-12 text-right" style="font-size:8px;">To be completed by the debtor</span>
                         <div class="panel-body">
                             <div class="col-xs-12"><em>Debtor's Name:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_id"/></div>
                             <div class="col-xs-12"><em>Address of the Debtor:</em></div><div class="col-xs-10 col-xs-offset-2 under-line mt4"><span t-field="o.partner_id.street"/></div>
@@ -98,7 +101,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 text-center" style="font-size:10px;">
+                <div class="col-xs-12 text-center">
                     <p t-if="o.scheme != 'B2B'">ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.</p>
                     <p t-if="o.scheme == 'B2B'">ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.
                         NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.
