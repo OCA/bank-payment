@@ -21,12 +21,13 @@ class ResCompany(models.Model):
     original_creditor_identifier = fields.Char(
         string='Original Creditor Identifier', size=70)
 
-    @api.one
+    @api.multi
     @api.constrains('sepa_creditor_identifier')
     def _check_sepa_creditor_identifier(self):
-        if self.sepa_creditor_identifier:
-            if not is_sepa_creditor_identifier_valid(
-                    self.sepa_creditor_identifier):
-                raise exceptions.Warning(
-                    _('Error'),
-                    _("Invalid SEPA Creditor Identifier."))
+        for company in self:
+            if company.sepa_creditor_identifier:
+                if not is_sepa_creditor_identifier_valid(
+                        company.sepa_creditor_identifier):
+                    raise exceptions.Warning(
+                        _('Error'),
+                        _("Invalid SEPA Creditor Identifier."))

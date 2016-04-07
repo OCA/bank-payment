@@ -17,9 +17,13 @@
     <field name="inherit_id" ref="account_banking_mandate.view_mandate_form"/>
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="type"/>
-            <field name="recurrent_sequence_type" attrs="{'invisible': [('type', '=', 'oneoff')], 'required': [('type', '=', 'recurrent')]}"/>
-            <field name="scheme"/>
+            <field name="type" attrs="{'invisible': [('format', '!=', 'sepa')],
+                                       'required': [('format', '=', 'sepa')]}"/>
+            <field name="recurrent_sequence_type"
+                   attrs="{'invisible': ['|', ('type', '=', 'oneoff'), ('format', '!=', 'sepa')],
+                           'required': [('type', '=', 'recurrent')]}"/>
+            <field name="scheme" attrs="{'invisible': [('format', '!=', 'sepa')],
+                                         'required': [('format', '=', 'sepa')]}"/>
         </field>
         <field name="last_debit_date" position="after">
             <field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
@@ -123,7 +127,6 @@
     <field name="default" eval="False"/>
     <field name="description">Sequence Type set to Final</field>
 </record>
-
 
 </data>
 </openerp>
