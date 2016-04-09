@@ -1,20 +1,21 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_make_deposit
-#
+# * account_banking_make_deposit
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-17 00:47+0000\n"
-"PO-Revision-Date: 2015-06-16 20:49-0500\n"
-"Last-Translator: David Dufresne <david.dufresne@savoirfairelinux.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"PO-Revision-Date: 2016-04-06 00:23+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 1.5.4\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,move_id:0
@@ -27,6 +28,7 @@ msgid "Enter company Name"
 msgstr "Entrer le nom de la société"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:59
 #: view:deposit.ticket:0
 msgid "Deposit From Account"
 msgstr "Dépôt à partir du compte"
@@ -35,6 +37,11 @@ msgstr "Dépôt à partir du compte"
 #: field:deposit.ticket,name:0
 msgid "Deposit Ticket #"
 msgstr "Numéro de bordereau de dépôt"
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,period_id:0
+msgid "The period used for the accounting entries."
+msgstr ""
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -59,6 +66,8 @@ msgid "Select Payments for Deposit"
 msgstr "Sélectionner les paiements"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:64
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:125
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
@@ -101,6 +110,8 @@ msgid "Journal Item"
 msgstr "Écriture Comptable"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:84
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:124
 #: field:deposit.items.line,amount:0 field:deposit.ticket,amount:0
 #: field:deposit.ticket.line,amount:0
 msgid "Amount"
@@ -133,6 +144,7 @@ msgid "Deposit Tickets"
 msgstr "Bordereau de dépôt"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:63
 #: field:deposit.ticket,period_id:0
 msgid "Force Period"
 msgstr "Forcer la période"
@@ -164,6 +176,7 @@ msgid "Select"
 msgstr "Sélectionner"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:81
 #: field:deposit.ticket,deposit_bag_no:0
 msgid "Deposit Bag No"
 msgstr "Enveloppe de dépôt"
@@ -184,11 +197,7 @@ msgid "The Company for which the deposit ticket is made to"
 msgstr "La société pour laquelle le dépôt est fait."
 
 #. module: account_banking_make_deposit
-#: help:deposit.ticket,period_id:0
-msgid "Keep empty to use the period of the validation date."
-msgstr "Conserver vide si la période est celle de la date de validation."
-
-#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
 #: view:deposit.ticket:0 field:deposit.ticket,state:0
 msgid "State"
 msgstr "État"
@@ -204,14 +213,17 @@ msgstr "Information de repérage"
 msgid ""
 "You cannot add any new deposit ticket line manually as of this revision! "
 "Please use the button \"Add Deposit Items\" to add deposit ticket line!"
-msgstr ""
-"Vous ne pouvex pas ajouter de ligne manuellement dans la version courante. "
-"Veuillez utiliser le bouton \"Ajouter des lignes de dépôt\"."
+msgstr "Vous ne pouvex pas ajouter de ligne manuellement dans la version courante. Veuillez utiliser le bouton \"Ajouter des lignes de dépôt\"."
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
 msgid "Enter Account Name (to)"
 msgstr "Entrez le nom du compte"
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:122
+msgid "Ref"
+msgstr ""
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,prepared_by_user_id:0
@@ -221,6 +233,7 @@ msgid ""
 msgstr "Dernier usager à avoir modifier le document. Généré par le système."
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:83
 #: field:deposit.ticket,count_total:0
 msgid "Total Items"
 msgstr "Total général"
@@ -243,11 +256,17 @@ msgid ""
 msgstr "Calcule le total des lignes de dépôt."
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:80
 #: field:deposit.ticket,deposit_method_id:0
 #: model:ir.actions.act_window,name:account_banking_make_deposit.action_deposit_method
 #: model:ir.model,name:account_banking_make_deposit.model_deposit_method
 msgid "Deposit Method"
 msgstr "Méthode de dépôt"
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:61
+msgid "Deposit Date"
+msgstr ""
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,bank_tracking_no:0
@@ -280,6 +299,7 @@ msgid "Other Information"
 msgstr "Autres informations"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:82
 #: field:deposit.ticket,bank_tracking_no:0
 msgid "Deposit Tracking No"
 msgstr "Numéro de repérage"
@@ -342,9 +362,7 @@ msgstr "Usager ayant validé le dépôt"
 msgid ""
 "Only a member of '%s' group may delete/edit deposit tickets when not in "
 "draft state!"
-msgstr ""
-"Seulement un membre du groupe %s peut suprimer un dépôt qui n'est pas à "
-"l'état brouillon."
+msgstr "Seulement un membre du groupe %s peut suprimer un dépôt qui n'est pas à l'état brouillon."
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket.line,move_line_id:0
@@ -364,6 +382,7 @@ msgid "Set to Draft"
 msgstr "Mettre à brouillon"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:102
 #: field:deposit.ticket,verified_by_user_id:0
 msgid "Verified By"
 msgstr "Validé par"
@@ -384,12 +403,13 @@ msgid "Deposit From Acct"
 msgstr "Compte de provenance"
 
 #. module: account_banking_make_deposit
-#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:0
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:116
 #: view:deposit.ticket:0
 msgid "Deposit Ticket Lines"
 msgstr "Lignes de dépôt"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:120
 #: field:deposit.items.line,date:0 field:deposit.ticket.line,date:0
 msgid "Date"
 msgstr "Date"
@@ -461,10 +481,7 @@ msgid ""
 "Deposit Ticket. OpenERP automatically posts accounting entries for “Done” "
 "deposit tickets. The GL entry for the deposit is posted into the Current "
 "Period based on the date range selected."
-msgstr ""
-"Vous pouvez grouper des paiement client ou fournisseurs dans un même "
-"bordereau de dépôt. Les écritures comptables seront créées automatiquement. "
-"La période comptable est fonction de l'intervalle de dates sélectionnées."
+msgstr "Vous pouvez grouper des paiement client ou fournisseurs dans un même bordereau de dépôt. Les écritures comptables seront créées automatiquement. La période comptable est fonction de l'intervalle de dates sélectionnées."
 
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:116
@@ -495,6 +512,7 @@ msgid "Done"
 msgstr "Terminé"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
 #: field:deposit.ticket,verified_date:0
 msgid "Verified Date"
 msgstr "Date de validation"
@@ -512,6 +530,7 @@ msgid "Enter deposit method"
 msgstr "Entrez la méthode de dépôt"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:101
 #: field:deposit.ticket,prepared_by_user_id:0
 msgid "Prepared By"
 msgstr "Préparé par"
@@ -552,6 +571,7 @@ msgid "Deposit To Acct"
 msgstr "Compte de destination"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:62
 #: field:deposit.ticket,journal_id:0
 msgid "Journal"
 msgstr "Journal"
@@ -567,8 +587,15 @@ msgid "Make Deposits"
 msgstr "Préparer un dépôt"
 
 #. module: account_banking_make_deposit
-#: field:add.deposit.items,name:0 field:deposit.items.line,name:0
-#: field:deposit.method,name:0 field:deposit.ticket.line,name:0
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
+msgid "Customer"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:add.deposit.items,name:0
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:121
+#: field:deposit.items.line,name:0 field:deposit.method,name:0
+#: field:deposit.ticket.line,name:0
 msgid "Name"
 msgstr "Nom"
 
@@ -588,6 +615,7 @@ msgid "Verified by me"
 msgstr "Vérifiés par moi"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:60
 #: view:deposit.ticket:0
 msgid "Deposit To Account"
 msgstr "Dépôt dans le compte"
@@ -609,8 +637,7 @@ msgstr "Vous ne pouvez pas créer de ligne de dépôt manuellement."
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:121
 #, python-format
 msgid "Cannot create move on centralised journal"
-msgstr ""
-"Vous ne pouvez pas créer d'écriture comptable dans un journal centralisé."
+msgstr "Vous ne pouvez pas créer d'écriture comptable dans un journal centralisé."
 
 #. module: account_banking_make_deposit
 #: model:res.groups,name:account_banking_make_deposit.group_make_deposits_verifier
@@ -628,15 +655,7 @@ msgid "Draft Assigned"
 msgstr "Assigné"
 
 #. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:85
 #: field:deposit.ticket,memo:0
 msgid "Memo"
 msgstr "Mémo"
-
-#~ msgid "Ref"
-#~ msgstr "Référence"
-
-#~ msgid "Deposit Date"
-#~ msgstr "Date de dépôt"
-
-#~ msgid "Customer"
-#~ msgstr "Client"
