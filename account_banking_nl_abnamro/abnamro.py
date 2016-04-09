@@ -204,10 +204,8 @@ class transaction(models.mem_bank_transaction):
                 key_info = _get_next_key(items, item_index)
                 value_end_index = (key_info and key_info[1]) or items_len
                 sepa_value = (
-                    (
-                        (value_end_index > item_index)
-                        and '/'.join(items[item_index:value_end_index]))
-                    or '')
+                    ((value_end_index > item_index) and
+                     '/'.join(items[item_index:value_end_index])) or '')
                 sepa_dict[sepa_key] = sepa_value
             return sepa_dict
 

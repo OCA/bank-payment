@@ -20,10 +20,10 @@
 ##############################################################################
 
 import unicodedata
+from datetime import datetime
+
 
 __all__ = ['str2date', 'date2str', 'date2date', 'to_swift']
-
-from datetime import datetime
 
 
 def str2date(datestr, format='%d/%m/%y'):

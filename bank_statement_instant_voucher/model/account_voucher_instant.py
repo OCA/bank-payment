@@ -195,8 +195,8 @@ class instant_voucher(orm.TransientModel):
                         counteramount = line.debit - line.credit
             else:
                 amount = abs(instant.statement_line_id.amount)
-                counteramount = abs(instant.voucher_id
-                                    and instant.voucher_id.amount or 0.0)
+                counteramount = abs(instant.voucher_id and
+                                    instant.voucher_id.amount or 0.0)
             res[instant.id] = amount - counteramount
         return res
 

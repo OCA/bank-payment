@@ -230,13 +230,13 @@ class payment_order(orm.Model):
         vals = {
             'journal_id': order.mode.transfer_journal_id.id,
             'name': '%s %s' % (labels[order.payment_order_type],
-                               line.move_line_id
-                               and line.move_line_id.move_id.name
-                               or line.communication),
+                               line.move_line_id and
+                               line.move_line_id.move_id.name or
+                               line.communication),
             'ref': '%s %s' % (order.payment_order_type[:3].upper(),
-                              line.move_line_id
-                              and line.move_line_id.move_id.name
-                              or line.communication),
+                              line.move_line_id and
+                              line.move_line_id.move_id.name or
+                              line.communication),
         }
         return vals
 
@@ -245,17 +245,17 @@ class payment_order(orm.Model):
         vals = {
             'name': _('%s for %s') % (
                 labels[order.payment_order_type],
-                line.move_line_id and (line.move_line_id.invoice
-                                       and line.move_line_id.invoice.number
-                                       or line.move_line_id.name)
-                or line.communication),
+                line.move_line_id and (line.move_line_id.invoice and
+                                       line.move_line_id.invoice.number or
+                                       line.move_line_id.name) or
+                line.communication),
             'move_id': move_id,
             'partner_id': False,
             'account_id': order.mode.transfer_account_id.id,
-            'credit': (order.payment_order_type == 'payment'
-                       and line.amount or 0.0),
-            'debit': (order.payment_order_type == 'debit'
-                      and line.amount or 0.0),
+            'credit': (order.payment_order_type == 'payment' and
+                       line.amount or 0.0),
+            'debit': (order.payment_order_type == 'debit' and
+                      line.amount or 0.0),
             'date': fields.date.context_today(
                 self, cr, uid, context=context),
         }
@@ -265,16 +265,16 @@ class payment_order(orm.Model):
             self, cr, uid, order, line, vals, context=None):
         vals.update({
             'partner_id': line.partner_id.id,
-            'account_id': (line.move_line_id
-                           and line.move_line_id.account_id.id
-                           or False),
+            'account_id': (line.move_line_id and
+                           line.move_line_id.account_id.id or
+                           False),
             # if not line.move_line_id, the field 'account_id' must be set by
             # another module that inherit this function, like for example in
             # the module purchase_payment_order
-            'credit': (order.payment_order_type == 'debit'
-                       and line.amount or 0.0),
-            'debit': (order.payment_order_type == 'payment'
-                      and line.amount or 0.0),
+            'credit': (order.payment_order_type == 'debit' and
+                       line.amount or 0.0),
+            'debit': (order.payment_order_type == 'payment' and
+                      line.amount or 0.0),
         })
         return vals
 

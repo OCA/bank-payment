@@ -204,8 +204,8 @@ class banking_import_transaction(orm.Model):
                     iname = invoice.name.upper()
                     if iname in ref or iname in msg:
                         return True
-                if (invoice.supplier_invoice_number
-                        and len(invoice.supplier_invoice_number) > 2):
+                if (invoice.supplier_invoice_number and
+                        len(invoice.supplier_invoice_number) > 2):
                     supp_ref = invoice.supplier_invoice_number.upper()
                     if supp_ref in ref or supp_ref in msg:
                         return True
@@ -257,8 +257,8 @@ class banking_import_transaction(orm.Model):
                 if x.partner_id.id in partner_ids and
                 (convert.str2date(x.date, '%Y-%m-%d') <=
                  (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                  self.payment_window))
-                and (not _cached(x) or _remaining(x))
+                  self.payment_window)) and
+                (not _cached(x) or _remaining(x))
             ]
         else:
             candidates = []
@@ -279,10 +279,10 @@ class banking_import_transaction(orm.Model):
                 if (x.invoice and has_id_match(x.invoice, ref, msg) and
                     convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                     self.payment_window)
-                    and (not _cached(x) or _remaining(x))
-                    and (not partner_ids
-                         or x.invoice.partner_id.id in partner_ids))
+                     self.payment_window) and
+                    (not _cached(x) or _remaining(x)) and
+                    (not partner_ids or
+                     x.invoice.partner_id.id in partner_ids))
             ]
 
         # Match on amount expected. Limit this kind of search to known
@@ -291,12 +291,12 @@ class banking_import_transaction(orm.Model):
             candidates = [
                 x for x in move_lines
                 if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                            trans.statement_line_id.amount)
-                    and convert.str2date(x.date, '%Y-%m-%d') <=
+                            trans.statement_line_id.amount) and
+                    convert.str2date(x.date, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                    self.payment_window)
-                    and (not _cached(x) or _remaining(x))
-                    and x.partner_id.id in partner_ids)
+                    self.payment_window) and
+                    (not _cached(x) or _remaining(x)) and
+                    x.partner_id.id in partner_ids)
             ]
 
         move_line = False
@@ -309,8 +309,8 @@ class banking_import_transaction(orm.Model):
             best = [
                 x for x in candidates
                 if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
-                            trans.statement_line_id.amount)
-                    and convert.str2date(x.date, '%Y-%m-%d') <=
+                            trans.statement_line_id.amount) and
+                    convert.str2date(x.date, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                      self.payment_window))
             ]
@@ -329,10 +329,10 @@ class banking_import_transaction(orm.Model):
                 # transfers first
                 paid = [
                     x for x in move_lines
-                    if x.invoice and has_id_match(x.invoice, ref, msg)
-                    and convert.str2date(x.invoice.date_invoice, '%Y-%m-%d')
-                    <= convert.str2date(trans.execution_date, '%Y-%m-%d')
-                    and (_cached(x) and not _remaining(x))
+                    if x.invoice and has_id_match(x.invoice, ref, msg) and
+                    convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
+                    convert.str2date(trans.execution_date, '%Y-%m-%d') and
+                    (_cached(x) and not _remaining(x))
                 ]
                 if paid:
                     log.append(
@@ -524,12 +524,10 @@ class banking_import_transaction(orm.Model):
         """
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
-        is_zero = lambda amount: self.pool.get('res.currency').is_zero(
-            cr, uid, currency, amount)
         move_lines = move_line_obj.browse(cr, uid, move_line_ids,
                                           context=context)
-        reconcile = (move_lines[0].reconcile_id
-                     or move_lines[0].reconcile_partial_id)
+        reconcile = (move_lines[0].reconcile_id or
+                     move_lines[0].reconcile_partial_id)
         line_ids = [
             x.id
             for x in reconcile.line_id or reconcile.line_partial_ids
@@ -537,7 +535,9 @@ class banking_import_transaction(orm.Model):
         for move_line_id in move_line_ids:
             line_ids.remove(move_line_id)
         if len(line_ids) > 1:
-            full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
+            full = self.pool['res.currency'].is_zero(
+                cr, uid, currency,
+                move_line_obj.get_balance(cr, uid, line_ids))
             if full:
                 line_partial_ids = []
             else:
@@ -633,8 +633,8 @@ class banking_import_transaction(orm.Model):
                     cr, uid, [st_line.voucher_id.id], context=context)
                 voucher_pool.unlink(
                     cr, uid, [st_line.voucher_id.id], context=context)
-                if (transaction.move_line_id
-                        and transaction.move_line_id.invoice):
+                if (transaction.move_line_id and
+                        transaction.move_line_id.invoice):
                     # reopening the invoice
                     netsvc.LocalService('workflow').trg_validate(
                         uid, 'account.invoice',
@@ -934,8 +934,8 @@ class banking_import_transaction(orm.Model):
                 move_lines = []
 
             # Create fallback currency code
-            currency_code = (transaction.local_currency
-                             or company.currency_id.name)
+            currency_code = (transaction.local_currency or
+                             company.currency_id.name)
 
             # Check cache for account info/currency
             if transaction.local_account in info and \
@@ -1045,8 +1045,8 @@ class banking_import_transaction(orm.Model):
                 continue
 
             # When bank costs are part of transaction itself, split it.
-            if (transaction.type != bt.BANK_COSTS
-                    and transaction.provision_costs):
+            if (transaction.type != bt.BANK_COSTS and
+                    transaction.provision_costs):
                 # Create new transaction for bank costs
                 cost_id = self.copy(
                     cr, uid, transaction.id,
@@ -1132,9 +1132,9 @@ class banking_import_transaction(orm.Model):
                                 cr, uid, [partner_bank_id], context=context)
 
             # Credit means payment... isn't it?
-            if (not move_info
-                    and transaction.statement_line_id.amount < 0
-                    and payment_lines):
+            if (not move_info and
+                    transaction.statement_line_id.amount < 0 and
+                    payment_lines):
                 # Link open payment - if any
                 # Note that _match_payment is defined in the
                 # account_banking_payment module which should be installed
@@ -1192,13 +1192,11 @@ class banking_import_transaction(orm.Model):
                 values['type'] = move_info['type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
-            if (not values['partner_id']
-                    and partner_ids
-                    and len(partner_ids) == 1):
+            if (not values['partner_id'] and partner_ids and
+                    len(partner_ids) == 1):
                 values['partner_id'] = partner_ids[0]
-            if (not values['partner_bank_id']
-                    and partner_banks
-                    and len(partner_banks) == 1):
+            if (not values['partner_bank_id'] and partner_banks and
+                    len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
             statement_line_obj.write(
@@ -1303,14 +1301,14 @@ class banking_import_transaction(orm.Model):
                     transaction.move_line_id.amount_residual_currency)
                 statement = transaction.statement_line_id.statement_id
                 to_curr_id = (
-                    statement.journal_id.currency
-                    and statement.journal_id.currency.id
-                    or statement.company_id.currency_id.id
+                    statement.journal_id.currency and
+                    statement.journal_id.currency.id or
+                    statement.company_id.currency_id.id
                 )
                 from_curr_id = (
-                    transaction.move_line_id.currency_id
-                    and transaction.move_line_id.currency_id.id
-                    or statement.company_id.currency_id.id
+                    transaction.move_line_id.currency_id and
+                    transaction.move_line_id.currency_id.id or
+                    statement.company_id.currency_id.id
                 )
                 if from_curr_id != to_curr_id:
                     amount_currency = stline_pool._convert_currency(
@@ -1325,8 +1323,8 @@ class banking_import_transaction(orm.Model):
                     if transaction.move_line_id.amount_currency < 0:
                         sign = -1
                 else:
-                    if (transaction.move_line_id.debit
-                            - transaction.move_line_id.credit) < 0:
+                    if (transaction.move_line_id.debit -
+                            transaction.move_line_id.credit) < 0:
                         sign = -1
                 res[transaction.id] = sign * amount_currency
 
@@ -1497,10 +1495,9 @@ class account_bank_statement_line(orm.Model):
         res = {}
         for line in self.browse(cr, uid, ids, context):
             res[line.id] = bool(
-                line.state == 'draft'
-                and not line.partner_id
-                and line.import_transaction_id
-                and line.import_transaction_id.remote_account)
+                line.state == 'draft' and not line.partner_id and
+                line.import_transaction_id and
+                line.import_transaction_id.remote_account)
         return res
 
     _columns = {
@@ -1587,8 +1584,8 @@ class account_bank_statement_line(orm.Model):
                 {'partner_id': statement_line.partner_bank_id.partner_id.id})
             return True
 
-        if (not statement_line.import_transaction_id
-                or not statement_line.import_transaction_id.remote_account):
+        if (not statement_line.import_transaction_id or
+                not statement_line.import_transaction_id.remote_account):
             raise orm.except_orm(
                 _("Error"),
                 _("No bank account available to link partner to"))
@@ -1828,8 +1825,8 @@ class account_bank_statement_line(orm.Model):
                 cr, uid, this.import_transaction_id.id
             )
             transaction_data['transferred_amount'] = amount
-            transaction_data['message'] = ((transaction_data['message'] or '')
-                                           + _(' (split)'))
+            transaction_data['message'] = (
+                (transaction_data['message'] or '') + _(' (split)'))
             transaction_data['parent_id'] = this.import_transaction_id.id
             transaction_id = transaction_pool.create(
                 cr,

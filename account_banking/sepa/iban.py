@@ -327,8 +327,8 @@ class IBAN(str):
         '''
         _buffer = self[4:] + self[:4]
         return (
-            self.countrycode in self.countries
-            and int(base36_to_base10str(_buffer)) % 97 == 1
+            self.countrycode in self.countries and
+            int(base36_to_base10str(_buffer)) % 97 == 1
         )
 
     def __repr__(self):

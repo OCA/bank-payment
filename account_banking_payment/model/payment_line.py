@@ -124,8 +124,8 @@ class payment_line(orm.Model):
                 _('Move line %s has already been reconciled') %
                 torec_move_line.name
             )
-        if (transit_move_line.reconcile_id
-                or transit_move_line.reconcile_partial_id):
+        if (transit_move_line.reconcile_id or
+                transit_move_line.reconcile_partial_id):
             raise orm.except_orm(
                 _('Error'),
                 _('Move line %s has already been reconciled') %
@@ -147,9 +147,9 @@ class payment_line(orm.Model):
         vals = {
             'type': 'auto',
             'line_id': is_zero(total) and [(6, 0, line_ids)] or [(6, 0, [])],
-            'line_partial_ids': (is_zero(total)
-                                 and [(6, 0, [])]
-                                 or [(6, 0, line_ids)]),
+            'line_partial_ids': (is_zero(total) and
+                                 [(6, 0, [])] or
+                                 [(6, 0, line_ids)]),
         }
 
         if torec_move_line.reconcile_partial_id:

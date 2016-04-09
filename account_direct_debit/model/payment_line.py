@@ -108,8 +108,8 @@ class payment_line(orm.Model):
                            {'storno': True}, context=context)
                 # put forth the invoice workflow
                 if line.move_line_id.invoice:
-                    activity = (storno_retry and 'open_test'
-                                or 'invoice_debit_denied')
+                    activity = (storno_retry and 'open_test' or
+                                'invoice_debit_denied')
                     netsvc.LocalService("workflow").trg_validate(
                         uid, 'account.invoice', line.move_line_id.invoice.id,
                         activity, cr)

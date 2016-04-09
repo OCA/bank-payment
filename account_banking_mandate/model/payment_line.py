@@ -44,13 +44,13 @@ class payment_line(orm.Model):
             vals = {}
         partner_bank_id = vals.get('bank_id')
         move_line_id = vals.get('move_line_id')
-        if (context.get('search_payment_order_type') == 'debit'
-                and 'mandate_id' not in vals):
+        if (context.get('search_payment_order_type') == 'debit' and
+                'mandate_id' not in vals):
             if move_line_id:
                 line = self.pool['account.move.line'].browse(
                     cr, uid, move_line_id, context=context)
-                if (line.invoice and line.invoice.type == 'out_invoice'
-                        and line.invoice.mandate_id):
+                if (line.invoice and line.invoice.type == 'out_invoice' and
+                        line.invoice.mandate_id):
                     vals.update({
                         'mandate_id': line.invoice.mandate_id.id,
                         'bank_id':
@@ -68,8 +68,8 @@ class payment_line(orm.Model):
 
     def _check_mandate_bank_link(self, cr, uid, ids):
         for payline in self.browse(cr, uid, ids):
-            if (payline.mandate_id and payline.bank_id
-                    and payline.mandate_id.partner_bank_id.id !=
+            if (payline.mandate_id and payline.bank_id and
+                    payline.mandate_id.partner_bank_id.id !=
                     payline.bank_id.id):
                 raise orm.except_orm(
                     _('Error:'),
