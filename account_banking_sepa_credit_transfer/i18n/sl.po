@@ -3,19 +3,20 @@
 # * account_banking_sepa_credit_transfer
 # 
 # Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"PO-Revision-Date: 2016-04-08 05:44+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:199
@@ -23,72 +24,72 @@ msgstr ""
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
-msgstr "Falta la cuenta bancaria en la línea de pago de la empresa '%s' (referencia '%s')."
+msgstr "Pri postavki bančnega plačila partnerja '%s' (sklic '%s') manjka bančni račun."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr "Registro en lote"
+msgstr "Skupinska rezervacija"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "A cargo del acreedor"
+msgstr "Nosi upnik"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "A cargo del deudor"
+msgstr "Nosi dolžnik"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Preklic"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr "A cargo del portador"
+msgstr "Nosilec stroškov"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
 msgid "Create"
-msgstr "Crear"
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
-msgstr "Creado por"
+msgstr "Ustvaril"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_date:0
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Ustvarjeno"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
 msgid "Export SEPA Credit Transfer File"
-msgstr "Exportar archivo de transferencia SEPA"
+msgstr "Izvoz datoteke SEPA prenosov obremenitev"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
 msgid "File"
-msgstr "Archivo"
+msgstr "Datoteka"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,filename:0
 msgid "Filename"
-msgstr "Nombre de archivo"
+msgstr "Naziv datoteke"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
 msgid "Finish"
-msgstr "Finalizar"
+msgstr "Dokončaj"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr "Según el acuerdo de servicio"
+msgstr "Raven storitev"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,charge_bearer:0
@@ -100,12 +101,12 @@ msgid ""
 "the creditor. Borne by creditor : all transaction charges are to be borne by"
 " the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
-msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
+msgstr "Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to uporabljati). Deljeno: stroške transakcije na strani dolžnika nosi dolžnik sam, stroške na strani upnika pa upnik. Nosi upnik: vse stroške transakcije nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Generate"
-msgstr "Generar"
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,id:0
@@ -118,32 +119,32 @@ msgid ""
 "If true, the bank statement will display only one debit line for all the "
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
-msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
+msgstr "Če pravilno, bančni izpisek prikaže le eno postavko obremenitve za vse transakcije v SEPA XML datoteki ; če napačno, bančni izpisek prikaže le eno obremenitve za vsako transakcijo v SEPA XML datoteki."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Zadnji posodobil"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Zadnjič posodobljeno"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr "Nº de transacciones"
+msgstr "Število transakcij"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_payment_mode
 msgid "Payment Mode"
-msgstr "Modo de pago"
+msgstr "Metoda plačila"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr "Órdenes de pago"
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:98
@@ -153,29 +154,29 @@ msgid ""
 "supported for SEPA Credit Transfers are 'pain.001.001.02', "
 "'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' and "
 "'pain.001.003.03'."
-msgstr "El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo de pago soportados para una transferencia de crédito SEPA son 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' y 'pain.001.003.03'."
+msgstr "Koda tipa plačila '%s' ni podprta. Edine kode tipov plačil, ki so podprte za SEPA bremenilne transakcije, so 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' in 'pain.001.003.03'."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "SEPA File Generation"
-msgstr "Generación de archivo SEPA"
+msgstr "Generiranje SEPA datoteke"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
-msgstr "Compartidos"
+msgstr "V souporabi"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,state:0
 msgid "State"
-msgstr "Estado"
+msgstr "Stanje"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,total_amount:0
 msgid "Total Amount"
-msgstr "Importe total"
+msgstr "Skupni znesek"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Validate"
-msgstr "Validar"
+msgstr "Potrdi"
