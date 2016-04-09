@@ -1,20 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_sepa_direct_debit
-#
+# * account_banking_sepa_direct_debit
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-05 20:32+0000\n"
-"PO-Revision-Date: 2016-04-05 23:01+0100\n"
-"Last-Translator: Sergio Teruel <sergio.teruel@tecnativa.com>\n"
-"Language-Team: \n"
-"Language: es_ES\n"
+"POT-Creation-Date: 2016-04-08 00:46+0000\n"
+"PO-Revision-Date: 2016-04-07 16:04+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
@@ -22,19 +23,10 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "        Click to create a new SEPA Direct Debit Mandate.\n"
 "        </p><p>\n"
-"        A SEPA Direct Debit Mandate is a document signed by your customer "
-"that gives you the autorization to do one or several direct debits on his "
-"bank account.\n"
+"        A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.\n"
 "        </p>\n"
 "    "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"        Pulse para crear un nuevo mandato bancario.\n"
-"        </p><p>\n"
-"        Un mandato bancario es un documento firmado por su cliente que le da "
-"la autorización para hacer una o varias operaciones en su cuenta bancaria.\n"
-"        </p>\n"
-"    "
+msgstr "<p class=\"oe_view_nocontent_create\">\n        Pulse para crear un nuevo mandato bancario.\n        </p><p>\n        Un mandato bancario es un documento firmado por su cliente que le da la autorización para hacer una o varias operaciones en su cuenta bancaria.\n        </p>\n    "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
@@ -46,25 +38,15 @@ msgstr "Un mandato bancario genérico"
 msgid ""
 "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
 "CREDITOR FOR STORAGE."
-msgstr ""
-"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA "
-"ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA."
+msgstr "TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
-"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
-"CREDITOR FOR STORAGE.\n"
-"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S "
-"AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
-"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED "
-"AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
-msgstr ""
-"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA "
-"ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA.LA "
-"ENTIDAD DE DEUDOR REQUIERE AUTORIZACIÓN DE ÉSTE PREVIA AL CARGO EN CUENTA DE "
-"LOS ADEUDOS DIRECTOS B2B.EL DEUDOR PODRÁ GESTIONAR DICHA AUTORIZACIÓN CON "
-"LOS MEDIOS QUE SU ENTIDAD PONGA A SU DISPOSICIÓN."
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
+"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
+"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
+msgstr "TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA.LA ENTIDAD DE DEUDOR REQUIERE AUTORIZACIÓN DE ÉSTE PREVIA AL CARGO EN CUENTA DE LOS ADEUDOS DIRECTOS B2B.EL DEUDOR PODRÁ GESTIONAR DICHA AUTORIZACIÓN CON LOS MEDIOS QUE SU ENTIDAD PONGA A SU DISPOSICIÓN."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -85,27 +67,18 @@ msgstr "Dirección:"
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "As part of your rights, you are entitled to a refund from\n"
-"                        your bank under the terms and conditions of your "
-"agreement\n"
+"                        your bank under the terms and conditions of your agreement\n"
 "                        with your bank.\n"
-"                        A refund must be claimed within 8 weeks starting "
-"from the date on which your account was debited."
-msgstr ""
-"Como parte de sus derechos, el deudor está legitimado al reembolso por su "
-"entidad en los términos y condiciones del contrato suscrito con la misma. La "
-"solicitud de reembolso deberá efectuarse dentro de las ocho semanas que "
-"siguen a la fecha de adeudo en cuenta. Puede obtener información adicional "
-"sobre sus derechos en su entidad financiera."
+"                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
+msgstr "Como parte de sus derechos, el deudor está legitimado al reembolso por su entidad en los términos y condiciones del contrato suscrito con la misma. La solicitud de reembolso deberá efectuarse dentro de las ocho semanas que siguen a la fecha de adeudo en cuenta. Puede obtener información adicional sobre sus derechos en su entidad financiera."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:110
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:116
 #, python-format
 msgid ""
 "As you changed the bank account attached to this mandate, the 'Sequence "
 "Type' has been set back to 'First'."
-msgstr ""
-"Puesto que ha cambiado la cuenta bancaria relacionada con este mandato, el "
-"'Tipo de secuencia' se ha vuelto a 'Inicial'."
+msgstr "Puesto que ha cambiado la cuenta bancaria relacionada con este mandato, el 'Tipo de secuencia' se ha vuelto a 'Inicial'."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -135,8 +108,7 @@ msgstr "A cargo del deudor"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "By signing this mandate form, you authorise (A)"
-msgstr ""
-"Mediante la firma de esta orden de domiciliación, el deudor autoriza (A) "
+msgstr "Mediante la firma de esta orden de domiciliación, el deudor autoriza (A) "
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
@@ -196,40 +168,23 @@ msgstr "Nombre del deudor:"
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
 msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to "
-"make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from "
-"company will be used.\n"
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
 "This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr ""
-"Introduzca el identificador de acreedor que se le ha atribuido a su compañía "
-"para realizar adeudos directos SEPA. Su banco suele poseer esta información. "
-"Este identificador se compone de:\n"
-"- el código ISO de 2 letras de su país\n"
-"- dos dígitos de comprobación\n"
-"- tres letras de código de negocio\n"
-"- un identificador específico de país (en España, el NIF)"
+msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n- el código ISO de 2 letras de su país\n- dos dígitos de comprobación\n- tres letras de código de negocio\n- un identificador específico de país (en España, el NIF)"
 
 #. module: account_banking_sepa_direct_debit
 #: help:res.company,sepa_creditor_identifier:0
 msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to "
-"make SEPA Direct Debits. This identifier is composed of :\n"
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr ""
-"Introduzca el identificador de acreedor que se le ha atribuido a su compañía "
-"para realizar adeudos directos SEPA. Su banco suele poseer esta información. "
-"Este identificador se compone de:\n"
-"- el código ISO de 2 letras de su país\n"
-"- dos dígitos de comprobación\n"
-"- tres letras de código de negocio\n"
-"- un identificador específico de país (en España, el NIF)"
+msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n- el código ISO de 2 letras de su país\n- dos dígitos de comprobación\n- tres letras de código de negocio\n- un identificador específico de país (en España, el NIF)"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
@@ -237,8 +192,8 @@ msgid "Enterprise (B2B)"
 msgstr "Empresa (B2B)"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:41
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:31
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:42
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:32
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -282,21 +237,13 @@ msgstr "Según el acuerdo de servicio"
 #: help:banking.export.sdd.wizard,charge_bearer:0
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must "
-"use this). Shared : transaction charges on the creditor side are to be borne "
-"by the creditor, transaction charges on the debtor side are to be borne by "
-"the debtor. Borne by creditor : all transaction charges are to be borne by "
-"the creditor. Borne by debtor : all transaction charges are to be borne by "
-"the debtor."
-msgstr ""
-"Según el acuerdo de servicio: los costes de la transacción se aplicarán "
-"siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema "
-"(las remesas SEPA Core deben usar esta opción). Compartidos: los costes de "
-"la transacción en la parte del acreedor están a cargo del acreedor, y los "
-"costes de la transacción del lado del deudor estarán a cargo del deudor. A "
-"cargo del acreedor: todos los costes de la transacción estarán a cargo del "
-"acreedor. A cargo del deudor: Todos los costes de la transacción estarán a "
-"cargo del deudor."
+"the rules agreed in the service level and/or scheme (SEPA Core messages must"
+" use this). Shared : transaction charges on the creditor side are to be "
+"borne by the creditor, transaction charges on the debtor side are to be "
+"borne by the debtor. Borne by creditor : all transaction charges are to be "
+"borne by the creditor. Borne by debtor : all transaction charges are to be "
+"borne by the debtor."
+msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
@@ -315,7 +262,8 @@ msgstr "Identificador:"
 
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,original_creditor_identifier:0
-msgid "If not defined, Original Creditor Identifier from company will be used."
+msgid ""
+"If not defined, Original Creditor Identifier from company will be used."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -327,13 +275,7 @@ msgid ""
 "required in a few countries (Belgium for instance), but not in all "
 "countries. If this is not required in your country, you should keep this "
 "field always active."
-msgstr ""
-"Si este campo no está marcado, la sección 'mandato' del próximo archivo de "
-"adeudo directo que lo incluya contendrá el valor de los campos "
-"'Identificación del mandato original' y 'Identificación del esquema original "
-"del acreedor'. Esto se requiere en algunos países (Bélgica por ejemplo), "
-"pero no en todos ellos. Si no es un requisito en su país, este campo siempre "
-"debe estar marcado."
+msgstr "Si este campo no está marcado, la sección 'mandato' del próximo archivo de adeudo directo que lo incluya contendrá el valor de los campos 'Identificación del mandato original' y 'Identificación del esquema original del acreedor'. Esto se requiere en algunos países (Bélgica por ejemplo), pero no en todos ellos. Si no es un requisito en su país, este campo siempre debe estar marcado."
 
 #. module: account_banking_sepa_direct_debit
 #: help:banking.export.sdd.wizard,batch_booking:0
@@ -341,15 +283,11 @@ msgid ""
 "If true, the bank statement will display only one credit line for all the "
 "direct debits of the SEPA file ; if false, the bank statement will display "
 "one credit line per direct debit of the SEPA file."
-msgstr ""
-"Si está marcado, el extracto bancario mostrará sólo una línea del haber para "
-"todos los adeudos directos del archivo SEPA; si no está marcado, entonces el "
-"extracto bancario mostrará una línea por cada adeudo directo del archivo "
-"SEPA."
+msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:42
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:32
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:43
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:33
 #, python-format
 msgid "Invalid SEPA Creditor Identifier."
 msgstr "Identificador de acreedor SEPA no válido."
@@ -370,7 +308,7 @@ msgid "Mandate Reference:"
 msgstr "Referencia del mandato:"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:109
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:115
 #, python-format
 msgid "Mandate update"
 msgstr "Actualizacion de mandato"
@@ -384,11 +322,9 @@ msgstr "Migrado a SEPA"
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:159
 #, python-format
 msgid ""
-"Missing SEPA Direct Debit mandate on the bank payment line with partner "
-"'%s' (reference '%s')."
-msgstr ""
-"Falta el mandato de adeudo directo SEPA en la linea de pago bancario con la "
-"empresa '%s' (referencia '%s')."
+"Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
+" (reference '%s')."
+msgstr "Falta el mandato de adeudo directo SEPA en la linea de pago bancario con la empresa '%s' (referencia '%s')."
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,nb_transactions:0
@@ -433,12 +369,9 @@ msgstr "Órdenes de pago"
 #, python-format
 msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
-"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and "
-"'pain.008.001.04'."
-msgstr ""
-"El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo "
-"de pago soportados para los adedudos directos SEPA son 'pain.008.001.02', "
-"'pain.008.001.03' y 'pain.008.001.04'."
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
+" 'pain.008.001.04'."
+msgstr "El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo de pago soportados para los adedudos directos SEPA son 'pain.008.001.02', 'pain.008.001.03' y 'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -557,9 +490,7 @@ msgstr "Swift BIC (puede contener 8 u 11 posiciones):"
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
 "expired."
-msgstr ""
-"El mandato de adeudo directo SEPA con referencia '%s' para la empresa '%s' "
-"ha expirado."
+msgstr "El mandato de adeudo directo SEPA con referencia '%s' para la empresa '%s' ha expirado."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:174
@@ -567,25 +498,21 @@ msgstr ""
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
-msgstr ""
-"El mandato con referencia '%s' para la empresa '%s' tipo como 'Único', ya "
-"tiene como fecha de último cobro '%s', por lo que no se puede usar."
+msgstr "El mandato con referencia '%s' para la empresa '%s' tipo como 'Único', ya tiene como fecha de último cobro '%s', por lo que no se puede usar."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
 msgstr "El mandato periódico '%s' debe tener un tipo de secuencia."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:84
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:86
 #, python-format
 msgid ""
 "The recurrent mandate '%s' which is not marked as 'Migrated to SEPA' must "
 "have its recurrent sequence type set to 'First'."
-msgstr ""
-"El mandato periódico '%s', que no está marcado como 'Migrado a SEPA', debe "
-"establecer su tipo de secuencia a 'Inicial'."
+msgstr "El mandato periódico '%s', que no está marcado como 'Migrado a SEPA', debe establecer su tipo de secuencia a 'Inicial'."
 
 #. module: account_banking_sepa_direct_debit
 #: help:account.banking.mandate,recurrent_sequence_type:0
@@ -597,19 +524,10 @@ msgstr "Este campo se utiliza sólo para mandatos periódicos, no para únicos."
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "This mandate is only intended for business-to-business transactions.\n"
-"                        You are not entitled to a refund from your bank "
-"after your account has\n"
-"                        been debited, but you are entitled to request your "
-"bank\n"
-"                        not to debit your account up until the day on which "
-"the payment is due."
-msgstr ""
-"Esta orden de domiciliación está prevista para operaciones exclusivamente "
-"entre empresas y/o autónomos. El deudor no tiene derecho a que su entidad le "
-"reembolse una vez que se haya realizado el cargo en cuenta, pero puede "
-"solicitar a su entidad que no efectúe el adeudo en la cuenta hasta la fecha "
-"debida. Podrá obtener información detallada del procedimiento en su entidad "
-"financiera."
+"                        You are not entitled to a refund from your bank after your account has\n"
+"                        been debited, but you are entitled to request your bank\n"
+"                        not to debit your account up until the day on which the payment is due."
+msgstr "Esta orden de domiciliación está prevista para operaciones exclusivamente entre empresas y/o autónomos. El deudor no tiene derecho a que su entidad le reembolse una vez que se haya realizado el cargo en cuenta, pero puede solicitar a su entidad que no efectúe el adeudo en la cuenta hasta la fecha debida. Podrá obtener información detallada del procedimiento en su entidad financiera."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -652,28 +570,19 @@ msgstr "Validar"
 msgid ""
 "When the field 'Migrated to SEPA' is not active, this field will be used as "
 "the Original Mandate Identification in the Direct Debit file."
-msgstr ""
-"Cuando el campo 'Migrado a SEPA' no está marcado, este campo se usa como "
-"identificación del mandato original en el archivo de adeudo directo."
+msgstr "Cuando el campo 'Migrado a SEPA' no está marcado, este campo se usa como identificación del mandato original en el archivo de adeudo directo."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:94
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:98
 #, python-format
 msgid ""
 "You must set the 'Original Mandate Identification' on the recurrent mandate "
 "'%s' which is not marked as 'Migrated to SEPA'."
-msgstr ""
-"Debe establecer el campo 'Identificación de mandato original en el mandato "
-"periódico '%s', que no está marcado como 'Migrado a SEPA'."
+msgstr "Debe establecer el campo 'Identificación de mandato original en el mandato periódico '%s', que no está marcado como 'Migrado a SEPA'."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
-"to send instructions to your bank to debit your account and (B) your bank "
-"to\n"
-"                       debit your account in accordance with the "
-"instructions from"
-msgstr ""
-"a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
-"a la entidad para efectuar los adeudos en su cuenta siguiendo las "
-"instrucciones del acreedor "
+"to send instructions to your bank to debit your account and (B) your bank to\n"
+"                       debit your account in accordance with the instructions from"
+msgstr "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) a la entidad para efectuar los adeudos en su cuenta siguiendo las instrucciones del acreedor "
