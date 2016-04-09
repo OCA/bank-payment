@@ -11,17 +11,17 @@ msgstr ""
 "POT-Creation-Date: 2016-07-01 19:28+0000\n"
 "PO-Revision-Date: 2016-07-01 19:28+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/23907/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
+msgstr "Linhas de pagamento bancária"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
@@ -43,13 +43,13 @@ msgstr ""
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgstr ""
-"No se puede procesar el campo '%s' de la línea de pago con referencia '%s'."
+"Não foi possível calcular a '%s' da linha de pagamento com referência '%s'"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:111
 #, python-format
 msgid "Cannot compute the '%s'."
-msgstr "No se puede procesar el campo '%s'."
+msgstr "Não foi possível computar o '%s'"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
@@ -59,12 +59,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
-msgstr "Compañías"
+msgstr "Empresas"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
 msgid "Convert to ASCII"
-msgstr "Convertir a ASCII"
+msgstr "Converter para ASCII"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -86,7 +86,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
 msgid "High"
-msgstr "Alta"
+msgstr "Alto"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method_convert_to_ascii
@@ -108,13 +108,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_identifier
 msgid "Initiating Party Identifier"
-msgstr "Identificador del iniciador de la transacción"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_issuer
 msgid "Initiating Party Issuer"
-msgstr "Emisor de la transacción"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_local_instrument
@@ -129,8 +129,6 @@ msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
 msgstr ""
-"Falta el 'Emisor de la transacción' y/o 'Identificador del iniciador de la "
-"transacción' para la compañía '%s'. Ambos campos deben tener un valor."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:23
@@ -151,7 +149,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.ui.view,arch_db:account_banking_pain_base.view_company_form
 msgid "Payment Initiation"
-msgstr "Iniciación del pago"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -177,7 +175,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_priority
 msgid "Priority"
-msgstr "Prioridad"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
@@ -193,7 +191,7 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:119
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
-msgstr "'%s' está vacío o es 0. Debería tener un valor no nulo."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:140
@@ -204,16 +202,12 @@ msgid ""
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %s"
 msgstr ""
-"El archivo XML generado no se puede validar contra la definición de esquema "
-"XML oficial. El archivo XML generado el error completo se ha escrito en los "
-"registros del servidor. Aquí está el error, que le puede dar una idea de la "
-"causa del problema : %s"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:114
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
-msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_priority
@@ -229,8 +223,6 @@ msgid ""
 "This will be used as the 'Initiating Party Identifier' in the PAIN files "
 "generated by Odoo."
 msgstr ""
-"Esto se usará como el 'Identificador del iniciador de la transacción' en los"
-" archivos PAIN generados por Odoo."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
@@ -248,8 +240,6 @@ msgid ""
 "This will be used as the 'Initiating Party Issuer' in the PAIN files "
 "generated by Odoo."
 msgstr ""
-"Este campo se usará como 'Emisor de la transacción' en los archivos PAIN "
-"generados por Odoo."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
