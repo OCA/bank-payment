@@ -1,24 +1,50 @@
-# Dutch translation for banking-addons
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the banking-addons package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_partner
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2016
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: banking-addons\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-09 23:22+0000\n"
-"PO-Revision-Date: 2014-06-26 14:13+0000\n"
-"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-22 23:52+0000\n"
+"PO-Revision-Date: 2016-07-22 23:52+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-27 07:13+0000\n"
-"X-Generator: Launchpad (build 17077)\n"
+"Content-Transfer-Encoding: \n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_partner
-#: field:res.partner,customer_payment_mode:0
+#: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
+msgid "<strong>Bank Account:</strong>"
+msgstr "<strong>Bankrekening:</strong>"
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Betaalmode:</strong>"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_invoice_bank_account_required
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
+msgstr ""
+"Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer"
+" van uw klant of leverancier kent."
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
+msgid "Bank Account Required"
+msgstr "Bankrekening verplicht"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Betaalwijze klant"
 
@@ -28,31 +54,38 @@ msgid "Invoice"
 msgstr "Factuur"
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_move_line
+msgid "Journal Item"
+msgstr "Boekingsregel"
+
+#. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Partner"
 msgstr "Relatie"
 
 #. module: account_payment_partner
-#: field:account.invoice,payment_mode_id:0
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line_payment_mode_id
+#: model:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
 msgstr "Betaalwijze"
 
 #. module: account_payment_partner
-#: help:res.partner,customer_payment_mode:0
+#: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
+msgid "Payments"
+msgstr "Betalingen"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr "Selecteer de standaard betaalwijze voor deze klant."
 
 #. module: account_payment_partner
-#: help:res.partner,supplier_payment_mode:0
+#: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
 msgstr "Selecteer de standaard betaalwijze voor deze leverancier."
 
 #. module: account_payment_partner
-#: field:res.partner,supplier_payment_mode:0
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Betaalwijze leverancier"
-
-#. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_payment_order_create
-msgid "payment.order.create"
-msgstr "payment.order.create"
