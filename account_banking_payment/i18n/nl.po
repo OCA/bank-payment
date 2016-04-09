@@ -1,20 +1,21 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_payment
-#
+# * account_banking_payment
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 15:58+0000\n"
-"PO-Revision-Date: 2014-03-26 14:48+0000\n"
-"Last-Translator: Erwin van der Ploeg (BAS Solutions) <Unknown>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-31 06:02+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"Content-Transfer-Encoding: \n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_order_create
@@ -22,21 +23,10 @@ msgid "payment.order.create"
 msgstr "payment.order.create"
 
 #. module: account_banking_payment
-#: view:payment.order:0
-msgid ""
-"{\n"
-"                        'readonly': [('state', '=', 'normal')]\n"
-"                        }"
-msgstr ""
-"{\n"
-"                        'readonly': [('state', '=', 'normal')]\n"
-"                        }"
-
-#. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:204
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:224
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:236
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:240
+#: code:addons/account_banking_payment/model/account_payment.py:201
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:244
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:256
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:260
 #, python-format
 msgid "Cannot unreconcile"
 msgstr "Kan niet afletteren"
@@ -52,16 +42,9 @@ msgid "Payment Order"
 msgstr "Betalingsopdracht"
 
 #. module: account_banking_payment
-#: field:payment.mode.type,payment_order_type:0
-#: field:payment.order,payment_order_type:0
-msgid "Payment order type"
-msgstr "Type betaalopdracht"
-
-#. module: account_banking_payment
 #: help:payment.mode,payment_term_ids:0
 msgid "Limit selected invoices to invoices with these payment terms"
-msgstr ""
-"Beperk de geselecteerde facturen tot facturen met deze betaalconditie"
+msgstr "Beperk de geselecteerde facturen tot facturen met deze betaalconditie"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_line
@@ -69,18 +52,12 @@ msgid "Payment Line"
 msgstr "Betaalregel"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:251
-#, python-format
-msgid "No move line provided for line %s"
-msgstr "Geen mutatieregel beschikbaar voor regel %s"
-
-#. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_mode
 msgid "Payment Mode"
 msgstr "Betaalwijze"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:131
+#: code:addons/account_banking_payment/model/payment_line.py:118
 #, python-format
 msgid "Can not reconcile"
 msgstr "Kan niet afletteren"
@@ -91,99 +68,65 @@ msgid "Date Confirmed"
 msgstr "Datum bevestigd"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:179
-#, python-format
-msgid "Cannot reconcile"
-msgstr "Kan niet afletteren"
-
-#. module: account_banking_payment
+#: view:banking.transaction.wizard:0
 #: field:banking.transaction.wizard,manual_payment_order_id:0
 msgid "Match this payment order"
 msgstr "Match deze betaalopdracht"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:255
+#: code:addons/account_banking_payment/model/account_payment.py:307
 #, python-format
 msgid "Move line %s has already been paid/reconciled"
 msgstr "Mutatie regel %s is al betaald/afgeletterd"
 
 #. module: account_banking_payment
-#: help:payment.mode,transfer_account_id:0
-msgid ""
-"Pay off lines in sent orders with a move on this account. For debit type "
-"modes only. You can only select accounts of type regular that are marked for "
-"reconciliation"
-msgstr ""
-"Betaalregels in verzonden opdrachten met een mutatie op deze rekening.  "
-"Alleen voor incasso's. U kunt alleen een rekening selecteren van het "
-"standaard soort, welke zijn gemarkeerd voor afletteren."
-
-#. module: account_banking_payment
-#: view:payment.order:0
-msgid ""
-"{\n"
-"                            'invisible':[('state','!=','draft')]\n"
-"                        }"
-msgstr ""
-"{\n"
-"                            'invisible':[('state','!=','draft')]\n"
-"                        }"
-
-#. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:261
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:265
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:284
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:281
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:285
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:304
 #, python-format
 msgid "Cannot cancel link with storno"
 msgstr "Niet mogelijk koppeling met storno te annuleren"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:237
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:257
 #, python-format
 msgid "Cannot unreconcile: no payment or direct debit order"
-msgstr ""
-"Alettering ongedaan maken niet mogelijk: Geen betaling of incasso opdracht"
+msgstr "Alettering ongedaan maken niet mogelijk: Geen betaling of incasso opdracht"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:205
+#: code:addons/account_banking_payment/model/account_payment.py:202
 #, python-format
 msgid "Cannot unreconcile payment order: Workflow will not allow it."
-msgstr ""
-"Alettering ongedaan maken betaalopdracht niet mogelijk: Workflow staat dit "
-"niet toe."
+msgstr "Alettering ongedaan maken betaalopdracht niet mogelijk: Workflow staat dit niet toe."
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:241
+#: code:addons/account_banking_payment/model/account_payment.py:296
 #, python-format
 msgid "Direct debit order"
 msgstr "Incasso opdracht"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:154
+#: field:payment.order,date_sent:0
+msgid "Send date"
+msgstr "Datum verstuurd"
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:171
 #, python-format
 msgid "Cannot link with storno"
 msgstr "Kan niet koppelen met een storno"
 
 #. module: account_banking_payment
-#: field:banking.import.transaction,payment_order_id:0
-#: field:banking.transaction.wizard,payment_order_id:0
-msgid "Payment order to reconcile"
-msgstr "Betaalopdracht ter aflettering"
+#: field:banking.transaction.wizard,payment_line_id:0
+msgid "Matching payment or storno"
+msgstr "Gevonden betaling of storno"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:241
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:261
 #, python-format
 msgid ""
 "Payment orders without transfer move lines cannot be unreconciled this way"
-msgstr ""
-"Van betaalopdrachten zonder een transactie mutatie, kan het afletteren niet "
-"ongedaan worden gemaakt op deze manier."
-
-#. module: account_banking_payment
-#: selection:payment.mode.type,payment_order_type:0
-#: selection:payment.order,payment_order_type:0
-msgid "Payment"
-msgstr "Betaling"
+msgstr "Van betaalopdrachten zonder een transactie mutatie, kan het afletteren niet ongedaan worden gemaakt op deze manier."
 
 #. module: account_banking_payment
 #: field:payment.mode,payment_term_ids:0
@@ -196,10 +139,10 @@ msgid "Transfer move settings"
 msgstr "Overschrijving instellingen"
 
 #. module: account_banking_payment
-#: selection:payment.mode.type,payment_order_type:0
-#: selection:payment.order,payment_order_type:0
-msgid "Direct debit"
-msgstr "Incasso-opdracht"
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:196
+#, python-format
+msgid "Cannot reconcile"
+msgstr "Kan niet afletteren"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_banking_import_transaction
@@ -212,14 +155,14 @@ msgid "Optional filter by payment term"
 msgstr "Optioneel filter op betaalconditie"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:136
-#: code:addons/account_banking_payment/model/payment_line.py:142
+#: code:addons/account_banking_payment/model/payment_line.py:124
+#: code:addons/account_banking_payment/model/payment_line.py:131
 #, python-format
 msgid "Move line %s has already been reconciled"
 msgstr "Mutatieregel %s is al afgeletterd"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:271
+#: code:addons/account_banking_payment/model/account_payment.py:246
 #, python-format
 msgid "%s for %s"
 msgstr "%s voor %s"
@@ -230,38 +173,42 @@ msgid "Payment orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:155
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:262
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:172
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:282
 #, python-format
 msgid "No direct debit order item"
 msgstr "Geen incasso opdracht item"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:266
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:286
 #, python-format
 msgid "The direct debit order item is not marked for storno"
 msgstr "Het incasso opdracht item is niet gemarkeerd voor storno"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:285
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:305
 #, python-format
 msgid "Line id not found"
 msgstr "Regel ID niet gevonden"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:62
-#, python-format
-msgid "When matching a payment order, the amounts have to match exactly"
+#: help:payment.mode,transfer_account_id:0
+msgid ""
+"Pay off lines in sent orders with a move on this account. You can only "
+"select accounts of type regular that are marked for reconciliation"
 msgstr ""
-"Bij het matchen van een betaalopdracht, dienen de bedragen exact overeen te "
-"komen."
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:250
-#: code:addons/account_banking_payment/model/account_payment.py:254
-#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:61
-#: code:addons/account_banking_payment/model/payment_line.py:135
-#: code:addons/account_banking_payment/model/payment_line.py:141
+#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:64
+#, python-format
+msgid "When matching a payment order, the amounts have to match exactly"
+msgstr "Bij het matchen van een betaalopdracht, dienen de bedragen exact overeen te komen."
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/account_payment.py:306
+#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:63
+#: code:addons/account_banking_payment/model/payment_line.py:123
+#: code:addons/account_banking_payment/model/payment_line.py:130
 #, python-format
 msgid "Error"
 msgstr "Fout"
@@ -272,24 +219,12 @@ msgid "Transfer account"
 msgstr "Overschrijf rekening"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:225
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:245
 #, python-format
 msgid ""
 "Cannot unreconcile: this operation is not yet supported for match type "
 "'payment'"
-msgstr ""
-"Afletteren ongedaan maken niet mogelijk: deze bewerking wordt nog niet "
-"ondersteund voor het match type 'betaling'"
-
-#. module: account_banking_payment
-#: field:banking.transaction.wizard,payment_line_id:0
-msgid "Matching payment or storno"
-msgstr "Gevonden betaling of storno"
-
-#. module: account_banking_payment
-#: field:payment.order,date_sent:0
-msgid "Send date"
-msgstr "Datum verstuurd"
+msgstr "Afletteren ongedaan maken niet mogelijk: deze bewerking wordt nog niet ondersteund voor het match type 'betaling'"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_banking_import_line
@@ -297,18 +232,24 @@ msgid "Bank import lines"
 msgstr "Bankimportregels"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_order_create.py:88
-#, python-format
-msgid "Entry Lines"
-msgstr "Boekingsregels"
+#: field:banking.import.transaction,payment_order_id:0
+#: field:banking.transaction.wizard,payment_order_id:0
+msgid "Payment order to reconcile"
+msgstr "Betaalopdracht ter aflettering"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:132
+#: view:banking.transaction.wizard:0
+msgid "Manual match"
+msgstr "Handmatige match"
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/payment_line.py:119
 #, python-format
 msgid "No move line for line %s"
 msgstr "Geen boekingsregel voor regel %s"
 
 #. module: account_banking_payment
+#: view:banking.transaction.wizard:0
 #: field:banking.transaction.wizard,manual_payment_line_id:0
 msgid "Match this payment line"
 msgstr "Match deze betaalregel"
@@ -319,19 +260,19 @@ msgid "Matching payment orders"
 msgstr "Gekoppelde betaalopdrachten"
 
 #. module: account_banking_payment
-#: field:payment.line,transit_move_line_id:0
-msgid "Debit move line"
-msgstr "Debit regel"
+#: view:banking.transaction.wizard:0
+msgid "Match Payments"
+msgstr ""
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:240
+#: code:addons/account_banking_payment/model/account_payment.py:295
 #: field:banking.import.line,payment_order_id:0
 #, python-format
 msgid "Payment order"
 msgstr "Betaalopdracht"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:180
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:197
 #, python-format
 msgid "Cannot reconcile: no direct debit order"
 msgstr "Alettering niet mogelijk: Geen incasso opdracht"
@@ -340,14 +281,15 @@ msgstr "Alettering niet mogelijk: Geen incasso opdracht"
 #: help:payment.mode,transfer_journal_id:0
 msgid ""
 "Journal to write payment entries when confirming a debit order of this mode"
-msgstr ""
-"Dagboek voor het boeken van betalingen bij het bevestigen van een incasso in "
-"deze mode"
+msgstr "Dagboek voor het boeken van betalingen bij het bevestigen van een incasso in deze mode"
 
 #. module: account_banking_payment
-#: model:ir.model,name:account_banking_payment.model_payment_mode_type
-msgid "Payment Mode Type"
-msgstr "Betaalmode soort"
+#: view:payment.order:0
+msgid ""
+"{\n"
+"                            'invisible':[('state','!=','draft')]\n"
+"                        }"
+msgstr "{\n                            'invisible':[('state','!=','draft')]\n                        }"
 
 #. module: account_banking_payment
 #: field:banking.import.transaction,payment_line_id:0
@@ -368,3 +310,8 @@ msgstr "Mutatie waardoor de incasso opdracht de factuur betaald."
 #: field:payment.line,msg:0
 msgid "Message"
 msgstr "Bericht"
+
+#. module: account_banking_payment
+#: field:payment.line,transit_move_line_id:0
+msgid "Debit move line"
+msgstr "Debit regel"

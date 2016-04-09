@@ -1,20 +1,21 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_pain_base
-#
+# * account_banking_pain_base
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-10 14:04+0000\n"
-"PO-Revision-Date: 2015-01-17 18:20+0100\n"
-"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"PO-Revision-Date: 2016-04-06 00:24+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"Content-Transfer-Encoding: \n"
 "Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_pain_base
 #: field:res.company,initiating_party_issuer:0
@@ -22,18 +23,14 @@ msgid "Initiating Party Issuer"
 msgstr "Initiierender Aussteller"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:126
+#: code:addons/account_banking_pain_base/banking_export_pain.py:131
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
 "Definition. The generated XML file and the full error have been written in "
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %s"
-msgstr ""
-"Die generierte XML-Datei ist, gemäß der offiziellen XML-Schema-Definition, "
-"nicht gültig. Das generierte XML und die volle Fehlermeldung wurden in die "
-"Server-Logs geschrieben. Hier ist der Fehler, welcher Ihnen vllt. hilft die "
-"Ursache für den Fehler ausfindig zu machen: %s"
+msgstr "Die generierte XML-Datei ist, gemäß der offiziellen XML-Schema-Definition, nicht gültig. Das generierte XML und die volle Fehlermeldung wurden in die Server-Logs geschrieben. Hier ist der Fehler, welcher Ihnen vllt. hilft die Ursache für den Fehler ausfindig zu machen: %s"
 
 #. module: account_banking_pain_base
 #: field:payment.line,priority:0
@@ -51,14 +48,12 @@ msgid "Payment Mode"
 msgstr "Zahlweise"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:303
+#: code:addons/account_banking_pain_base/banking_export_pain.py:308
 #, python-format
 msgid ""
 "The bank account with IBAN '%s' of partner '%s' must have an associated BIC "
 "because it is a cross-border SEPA operation."
-msgstr ""
-"Das Bankkonto mit der IBAN '%s' des Partners '%s' muss eine zugehörige BIC "
-"auffweisen, da dies ein Grenzübergreifender SEPA-Vorgang ist."
+msgstr "Das Bankkonto mit der IBAN '%s' des Partners '%s' muss eine zugehörige BIC auffweisen, da dies ein Grenzübergreifender SEPA-Vorgang ist."
 
 #. module: account_banking_pain_base
 #: help:res.company,initiating_party_issuer:0
@@ -73,17 +68,16 @@ msgid "Normal"
 msgstr "Standard"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:81
+#: code:addons/account_banking_pain_base/banking_export_pain.py:86
 #, python-format
 msgid "Cannot compute the '%s'."
 msgstr "Kann '%s' nicht ermitteln."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:85
+#: code:addons/account_banking_pain_base/banking_export_pain.py:90
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
-msgstr ""
-"Die Art des Feldes '%s' ist %s. Es sollte ein String oder Unicode sein."
+msgstr "Die Art des Feldes '%s' ist %s. Es sollte ein String oder Unicode sein."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
@@ -91,13 +85,13 @@ msgid "Companies"
 msgstr "Unternehmen"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:47
-#: code:addons/account_banking_pain_base/banking_export_pain.py:74
-#: code:addons/account_banking_pain_base/banking_export_pain.py:80
-#: code:addons/account_banking_pain_base/banking_export_pain.py:90
-#: code:addons/account_banking_pain_base/banking_export_pain.py:125
-#: code:addons/account_banking_pain_base/banking_export_pain.py:302
-#: code:addons/account_banking_pain_base/banking_export_pain.py:384
+#: code:addons/account_banking_pain_base/banking_export_pain.py:52
+#: code:addons/account_banking_pain_base/banking_export_pain.py:79
+#: code:addons/account_banking_pain_base/banking_export_pain.py:85
+#: code:addons/account_banking_pain_base/banking_export_pain.py:95
+#: code:addons/account_banking_pain_base/banking_export_pain.py:130
+#: code:addons/account_banking_pain_base/banking_export_pain.py:307
+#: code:addons/account_banking_pain_base/banking_export_pain.py:389
 #, python-format
 msgid "Error:"
 msgstr "Fehler:"
@@ -110,19 +104,19 @@ msgid ""
 msgstr "Dieses Feld wird als 'Anweisungspriorität' in PAIN-Dateien genutzt."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:75
+#: code:addons/account_banking_pain_base/banking_export_pain.py:80
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgstr "Kann '%s' aus der Zahlungsposition mit Referenz '%s' nicht ermitteln."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:47
+#: code:addons/account_banking_pain_base/banking_export_pain.py:52
 #, python-format
 msgid "This IBAN is not valid : %s"
 msgstr "Diese IBAN ist nicht gültig: %s"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:84
+#: code:addons/account_banking_pain_base/banking_export_pain.py:89
 #, python-format
 msgid "Field type error:"
 msgstr "Feldart-Fehler:"
@@ -133,7 +127,7 @@ msgid "Structured Communication Type"
 msgstr "Strukturierte Kommunikationsart"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:91
+#: code:addons/account_banking_pain_base/banking_export_pain.py:96
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' ist leer oder 0. Es sollte aber einen Wert ungleich 0 haben."
@@ -149,10 +143,7 @@ msgid ""
 "If active, OpenERP will convert each accented caracter to the corresponding "
 "unaccented caracter, so that only ASCII caracters are used in the generated "
 "PAIN file."
-msgstr ""
-"Wenn gesetzt, wird OpnERP jedes Sonder-Zeichen in seine Sonderzeichenfreie "
-"Darstellung umsetzen, so dass die erzeugte PAIN-Datei nur ASCII-Zeichen "
-"enthält."
+msgstr "Wenn gesetzt, wird OpnERP jedes Sonder-Zeichen in seine Sonderzeichenfreie Darstellung umsetzen, so dass die erzeugte PAIN-Datei nur ASCII-Zeichen enthält."
 
 #. module: account_banking_pain_base
 #: view:res.company:0
@@ -170,10 +161,8 @@ msgid "Convert to ASCII"
 msgstr "In ASCII umwandeln"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/banking_export_pain.py:385
+#: code:addons/account_banking_pain_base/banking_export_pain.py:390
 #, python-format
 msgid ""
 "Missing 'Structured Communication Type' on payment line with reference '%s'."
-msgstr ""
-"Fehlende 'Strukturierte Kommunikationsart' in Zahlungsposition mit Referenz "
-"'%s'."
+msgstr "Fehlende 'Strukturierte Kommunikationsart' in Zahlungsposition mit Referenz '%s'."

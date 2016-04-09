@@ -1,36 +1,26 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_mandate
-#
+# * account_banking_mandate
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-08 15:44+0000\n"
-"PO-Revision-Date: 2015-01-17 18:05+0100\n"
-"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"Content-Transfer-Encoding: \n"
 "Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
 #: view:res.partner.bank:0
 msgid "Direct Debit Mandates"
 msgstr "Lastschrift-Mandate"
-
-#. module: account_banking_mandate
-#: model:mail.message.subtype,description:account_banking_mandate.mandate_cancel
-msgid "Banking Mandate Cancelled"
-msgstr "Bank-Mandat storniert"
-
-#. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:174
-#, python-format
-msgid "Mandate should be in draft or valid state"
-msgstr "Mandat muss im Entwurf oder gültig vorliegen"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/payment_line.py:76
@@ -39,28 +29,41 @@ msgid ""
 "The payment line with reference '%s' has the bank account '%s' which is not "
 "attached to the mandate '%s' (this mandate is attached to the bank account "
 "'%s')."
-msgstr ""
-"Sie Zahlungspostion mit Referenz '%s' läuft auf das Bankkonto '%s', welches "
-"nicht vom Mandat '%s' angesprochen wird. Dieses Mandat gilt für das "
-"Bankkonto '%s')."
+msgstr "Sie Zahlungspostion mit Referenz '%s' läuft auf das Bankkonto '%s', welches nicht vom Mandat '%s' angesprochen wird. Dieses Mandat gilt für das Bankkonto '%s')."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:137
+#: model:mail.message.subtype,description:account_banking_mandate.mandate_cancel
+msgid "Banking Mandate Cancelled"
+msgstr "Bank-Mandat storniert"
+
+#. module: account_banking_mandate
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:175
+#, python-format
+msgid "Mandate should be in draft or valid state"
+msgstr "Mandat muss im Entwurf oder gültig vorliegen"
+
+#. module: account_banking_mandate
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:122
+#, python-format
+msgid ""
+"The mandate '%s' can't have a date of last debit before the date of "
+"signature."
+msgstr "Das Datum der letzten Lastschrift von Mandat '%s' darf nicht vor dem Signaturdatum liegen."
+
+#. module: account_banking_mandate
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:138
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr ""
-"Kann das Mandat '%s' nicht prüfen, da es nicht an ein Bankkonto gebunden ist."
+msgstr "Kann das Mandat '%s' nicht prüfen, da es nicht an ein Bankkonto gebunden ist."
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,state:0
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr ""
-"Nur gültige Mandate dürfen in einer Zahlung verwendet werden. Ein "
-"storniertes Mandat wurde vom Kunden storniert."
+msgstr "Nur gültige Mandate dürfen in einer Zahlung verwendet werden. Ein storniertes Mandat wurde vom Kunden storniert."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_follower_ids:0
@@ -95,14 +98,9 @@ msgid "Direct Debit Mandate"
 msgstr "Lastschrift-Mandat"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:121
-#, python-format
-msgid ""
-"The mandate '%s' can't have a date of last debit before the date of "
-"signature."
-msgstr ""
-"Das Datum der letzten Lastschrift von Mandat '%s' darf nicht vor dem "
-"Signaturdatum liegen."
+#: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
+msgid "SEPA Direct Debit Mandates"
+msgstr "SEPA-Lastschrift-Mandate"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,state:0
@@ -115,7 +113,7 @@ msgid "Mandate Cancelled"
 msgstr "Mandat storniert"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:189
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:190
 #, python-format
 msgid "Mandate should be in cancel state"
 msgstr "Mandat muss storniert sein"
@@ -133,7 +131,6 @@ msgstr "Unternehmen"
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/partner_bank.py:34
 #: model:ir.actions.act_window,name:account_banking_mandate.mandate_action
-#: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
 #: field:res.partner.bank,mandate_ids:0
 #, python-format
 msgid "Banking Mandates"
@@ -160,7 +157,7 @@ msgid "Payment Line"
 msgstr "Zahlungsposition"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:163
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:164
 #, python-format
 msgid "Mandate should be in draft state"
 msgstr "Mandat muss im Entwurfsstatus vorliegen"
@@ -186,10 +183,10 @@ msgid "Unique Mandate Reference"
 msgstr "Eindeutiger Mandatsbezug"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:112
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:120
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:130
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:136
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:113
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:121
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:131
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:137
 #: code:addons/account_banking_mandate/model/payment_line.py:75
 #, python-format
 msgid "Error:"
@@ -206,7 +203,7 @@ msgid "Messages"
 msgstr "Mitteilungen"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:113
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:114
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future !"
 msgstr "Das Datum der Signatur von Mandat '%s' liegt in der Zukunft!"
@@ -239,7 +236,7 @@ msgid "Cancelled"
 msgstr "Storniert"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/model/account_banking_mandate.py:131
+#: code:addons/account_banking_mandate/model/account_banking_mandate.py:132
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "Kann Mandat '%s' nicht ohne Signaturdatum freigeben."
@@ -269,9 +266,7 @@ msgstr "Datum der letzten Lastschrift"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue ?"
-msgstr ""
-"Sie sollten ein Mandat nur bei versehentlichem Storno auf Entwurf "
-"zurücksetzen. Wollen Sie fortsetzen?"
+msgstr "Sie sollten ein Mandat nur bei versehentlichem Storno auf Entwurf zurücksetzen. Wollen Sie fortsetzen?"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_expired
@@ -302,9 +297,7 @@ msgstr "Bankkonten"
 msgid ""
 "Banking mandates represents an authorization that the bank account owner "
 "gives to a company for a specific operation"
-msgstr ""
-"Bank-Mandate stellen eine Erlaubnis des Kontoeigentümers an das Unternehmen "
-"dar, bestimmte Geschäfte ausführen zu dürfen."
+msgstr "Bank-Mandate stellen eine Erlaubnis des Kontoeigentümers an das Unternehmen dar, bestimmte Geschäfte ausführen zu dürfen."
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -312,18 +305,10 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "\t\t\tClick to create a new Banking Mandate.\n"
 "\t\t\t</p><p>\n"
-"\t\t\tA Banking Mandate is a document signed by your customer that gives you "
-"the autorization to do one or several operations on his bank account.\n"
+"\t\t\tA Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.\n"
 "\t\t\t</p>\n"
 "\t\t"
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"\t\t\tKlicken Sie, um ein neues Mandat anzulegen.\n"
-"\t\t\t</p><p>\n"
-"\t\t\tEin Bank-Mandat ist ein vom Kunden unterschriebenes Dokument, dass "
-"Ihnen die Berechtigung erteilt, ein oder mehrere Bankgeschäft(e) über sein "
-"Bankkonto abzuwickeln</p>\n"
-"\t\t"
+msgstr "<p class=\"oe_view_nocontent_create\">\n\t\t\tKlicken Sie, um ein neues Mandat anzulegen.\n\t\t\t</p><p>\n\t\t\tEin Bank-Mandat ist ein vom Kunden unterschriebenes Dokument, dass Ihnen die Berechtigung erteilt, ein oder mehrere Bankgeschäft(e) über sein Bankkonto abzuwickeln</p>\n\t\t"
 
 #. module: account_banking_mandate
 #: view:res.partner:0 view:res.partner.bank:0
@@ -340,10 +325,7 @@ msgstr "Ungelesene Mitteilungen"
 msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
-msgstr ""
-"Hält die Nachrichten zusammengefasst (Anzahl,...) bereit. Diese "
-"Zusammenfassung ist HTML, so dass diese direkt in Kanban-Sichten eingesetzt "
-"werden kann."
+msgstr "Hält die Nachrichten zusammengefasst (Anzahl,...) bereit. Diese Zusammenfassung ist HTML, so dass diese direkt in Kanban-Sichten eingesetzt werden kann."
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0

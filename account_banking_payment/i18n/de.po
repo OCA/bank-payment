@@ -1,20 +1,21 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* account_banking_payment
-#
+# * account_banking_payment
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 15:58+0000\n"
-"PO-Revision-Date: 2015-01-17 19:01+0100\n"
-"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Language: de\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_order_create
@@ -22,21 +23,10 @@ msgid "payment.order.create"
 msgstr "payment.order.create"
 
 #. module: account_banking_payment
-#: view:payment.order:0
-msgid ""
-"{\n"
-"                        'readonly': [('state', '=', 'normal')]\n"
-"                        }"
-msgstr ""
-"{\n"
-"                        'readonly': [('state', '=', 'normal')]\n"
-"                        }"
-
-#. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:204
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:224
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:236
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:240
+#: code:addons/account_banking_payment/model/account_payment.py:201
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:244
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:256
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:260
 #, python-format
 msgid "Cannot unreconcile"
 msgstr "Kann Ausgleich nicht stornieren"
@@ -52,17 +42,9 @@ msgid "Payment Order"
 msgstr "Zahlungsanweisung"
 
 #. module: account_banking_payment
-#: field:payment.mode.type,payment_order_type:0
-#: field:payment.order,payment_order_type:0
-msgid "Payment order type"
-msgstr "Zahlungsanweisungsart"
-
-#. module: account_banking_payment
 #: help:payment.mode,payment_term_ids:0
 msgid "Limit selected invoices to invoices with these payment terms"
-msgstr ""
-"Ausgewählte Rechnungen aus Rechnungen mit dieser Zahlungsbedingung "
-"einschränken"
+msgstr "Ausgewählte Rechnungen aus Rechnungen mit dieser Zahlungsbedingung einschränken"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_line
@@ -70,18 +52,12 @@ msgid "Payment Line"
 msgstr "Zahlungsposition"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:251
-#, python-format
-msgid "No move line provided for line %s"
-msgstr "Keine Buchung für Position %s mitgegeben"
-
-#. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_mode
 msgid "Payment Mode"
 msgstr "Zahlweise"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:131
+#: code:addons/account_banking_payment/model/payment_line.py:118
 #, python-format
 msgid "Can not reconcile"
 msgstr "Kann nicht ausgleichen"
@@ -92,96 +68,65 @@ msgid "Date Confirmed"
 msgstr "Freigabedatum"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:179
-#, python-format
-msgid "Cannot reconcile"
-msgstr "Kann nicht ausgleichen"
-
-#. module: account_banking_payment
+#: view:banking.transaction.wizard:0
 #: field:banking.transaction.wizard,manual_payment_order_id:0
 msgid "Match this payment order"
 msgstr "Diese Zahlanweisung finden"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:255
+#: code:addons/account_banking_payment/model/account_payment.py:307
 #, python-format
 msgid "Move line %s has already been paid/reconciled"
 msgstr "Buchung %s wurde schon bezahlt/beglichen"
 
 #. module: account_banking_payment
-#: help:payment.mode,transfer_account_id:0
-msgid ""
-"Pay off lines in sent orders with a move on this account. For debit type "
-"modes only. You can only select accounts of type regular that are marked for "
-"reconciliation"
-msgstr ""
-"Auszahlungen gesendeter Aufträge mit Buchungen auf dieses Konto. Nur für "
-"Forderungs-Zahlungen. Sie können nur reguläre Konten auswählen, die als "
-"Ausgleichbar gekennzeichnet sind."
-
-#. module: account_banking_payment
-#: view:payment.order:0
-msgid ""
-"{\n"
-"                            'invisible':[('state','!=','draft')]\n"
-"                        }"
-msgstr ""
-"{\n"
-"                            'invisible':[('state','!=','draft')]\n"
-"                        }"
-
-#. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:261
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:265
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:284
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:281
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:285
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:304
 #, python-format
 msgid "Cannot cancel link with storno"
 msgstr "Kann Verknüpfung mit Storno nicht abbrechen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:237
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:257
 #, python-format
 msgid "Cannot unreconcile: no payment or direct debit order"
-msgstr ""
-"Kann Ausgleich nicht aufheben. Keine Überweisungs- oder Lastschrift-Auftrag"
+msgstr "Kann Ausgleich nicht aufheben. Keine Überweisungs- oder Lastschrift-Auftrag"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:205
+#: code:addons/account_banking_payment/model/account_payment.py:202
 #, python-format
 msgid "Cannot unreconcile payment order: Workflow will not allow it."
 msgstr "Kann Überweisungsauftrag nicht aufheben. Workflow erlaubt dies nicht."
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:241
+#: code:addons/account_banking_payment/model/account_payment.py:296
 #, python-format
 msgid "Direct debit order"
 msgstr "Lastschrift-Auftrag"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:154
+#: field:payment.order,date_sent:0
+msgid "Send date"
+msgstr "Versanddatum"
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:171
 #, python-format
 msgid "Cannot link with storno"
 msgstr "Kann nicht mit Storno Verknüpfen"
 
 #. module: account_banking_payment
-#: field:banking.import.transaction,payment_order_id:0
-#: field:banking.transaction.wizard,payment_order_id:0
-msgid "Payment order to reconcile"
-msgstr "Ausgleichsüberweisung"
+#: field:banking.transaction.wizard,payment_line_id:0
+msgid "Matching payment or storno"
+msgstr "Übereinstimmende Zahlung oder Storno"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:241
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:261
 #, python-format
 msgid ""
 "Payment orders without transfer move lines cannot be unreconciled this way"
-msgstr ""
-"Überweisungsaufträge ohne Transferbuchungen können so nicht aufgehoben werden"
-
-#. module: account_banking_payment
-#: selection:payment.mode.type,payment_order_type:0
-#: selection:payment.order,payment_order_type:0
-msgid "Payment"
-msgstr "Zahlung"
+msgstr "Überweisungsaufträge ohne Transferbuchungen können so nicht aufgehoben werden"
 
 #. module: account_banking_payment
 #: field:payment.mode,payment_term_ids:0
@@ -194,10 +139,10 @@ msgid "Transfer move settings"
 msgstr "Einstellungen zu Transferbuchungen"
 
 #. module: account_banking_payment
-#: selection:payment.mode.type,payment_order_type:0
-#: selection:payment.order,payment_order_type:0
-msgid "Direct debit"
-msgstr "Lastschrift"
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:196
+#, python-format
+msgid "Cannot reconcile"
+msgstr "Kann nicht ausgleichen"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_banking_import_transaction
@@ -210,14 +155,14 @@ msgid "Optional filter by payment term"
 msgstr "Wahlfreier Filter auf Zahlungsbedingungen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:136
-#: code:addons/account_banking_payment/model/payment_line.py:142
+#: code:addons/account_banking_payment/model/payment_line.py:124
+#: code:addons/account_banking_payment/model/payment_line.py:131
 #, python-format
 msgid "Move line %s has already been reconciled"
 msgstr "Buchung %s wurde bereits ausgeglichen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:271
+#: code:addons/account_banking_payment/model/account_payment.py:246
 #, python-format
 msgid "%s for %s"
 msgstr "%s für %s"
@@ -228,36 +173,42 @@ msgid "Payment orders"
 msgstr "Zahlungsanweisungen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:155
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:262
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:172
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:282
 #, python-format
 msgid "No direct debit order item"
 msgstr "Keine Lastschrift-Auftragsposition"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:266
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:286
 #, python-format
 msgid "The direct debit order item is not marked for storno"
 msgstr "Der Lastschrift-Auftragsposition ist nicht als Storno gekennzeichnet"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:285
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:305
 #, python-format
 msgid "Line id not found"
 msgstr "Positions-ID nicht gefunden"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:62
+#: help:payment.mode,transfer_account_id:0
+msgid ""
+"Pay off lines in sent orders with a move on this account. You can only "
+"select accounts of type regular that are marked for reconciliation"
+msgstr ""
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:64
 #, python-format
 msgid "When matching a payment order, the amounts have to match exactly"
 msgstr "Beim Matchen einer Überweisung, müssen die Beträge übereinstimmen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:250
-#: code:addons/account_banking_payment/model/account_payment.py:254
-#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:61
-#: code:addons/account_banking_payment/model/payment_line.py:135
-#: code:addons/account_banking_payment/model/payment_line.py:141
+#: code:addons/account_banking_payment/model/account_payment.py:306
+#: code:addons/account_banking_payment/model/banking_transaction_wizard.py:63
+#: code:addons/account_banking_payment/model/payment_line.py:123
+#: code:addons/account_banking_payment/model/payment_line.py:130
 #, python-format
 msgid "Error"
 msgstr "Fehler"
@@ -268,24 +219,12 @@ msgid "Transfer account"
 msgstr "Bankvorgangskonto"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:225
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:245
 #, python-format
 msgid ""
 "Cannot unreconcile: this operation is not yet supported for match type "
 "'payment'"
-msgstr ""
-"Kann Ausgleich nicht aufheben: Dieser Vorgang ist für Matchart 'Zahlung' "
-"noch nicht umgesetzt"
-
-#. module: account_banking_payment
-#: field:banking.transaction.wizard,payment_line_id:0
-msgid "Matching payment or storno"
-msgstr "Übereinstimmende Zahlung oder Storno"
-
-#. module: account_banking_payment
-#: field:payment.order,date_sent:0
-msgid "Send date"
-msgstr "Versanddatum"
+msgstr "Kann Ausgleich nicht aufheben: Dieser Vorgang ist für Matchart 'Zahlung' noch nicht umgesetzt"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_banking_import_line
@@ -293,18 +232,24 @@ msgid "Bank import lines"
 msgstr "Bank-Importzeilen"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_order_create.py:88
-#, python-format
-msgid "Entry Lines"
-msgstr "Leere Zeilen"
+#: field:banking.import.transaction,payment_order_id:0
+#: field:banking.transaction.wizard,payment_order_id:0
+msgid "Payment order to reconcile"
+msgstr "Ausgleichsüberweisung"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/payment_line.py:132
+#: view:banking.transaction.wizard:0
+msgid "Manual match"
+msgstr "Manuelle zuordnung"
+
+#. module: account_banking_payment
+#: code:addons/account_banking_payment/model/payment_line.py:119
 #, python-format
 msgid "No move line for line %s"
 msgstr "Keine Buchung für Position %s"
 
 #. module: account_banking_payment
+#: view:banking.transaction.wizard:0
 #: field:banking.transaction.wizard,manual_payment_line_id:0
 msgid "Match this payment line"
 msgstr "Diese Zahlungsposition finden"
@@ -315,19 +260,19 @@ msgid "Matching payment orders"
 msgstr "Übereinstimmende Zahlungsanweisungen"
 
 #. module: account_banking_payment
-#: field:payment.line,transit_move_line_id:0
-msgid "Debit move line"
-msgstr "Lastschriftbuchung"
+#: view:banking.transaction.wizard:0
+msgid "Match Payments"
+msgstr ""
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/account_payment.py:240
+#: code:addons/account_banking_payment/model/account_payment.py:295
 #: field:banking.import.line,payment_order_id:0
 #, python-format
 msgid "Payment order"
 msgstr "Zahlungsanweisung"
 
 #. module: account_banking_payment
-#: code:addons/account_banking_payment/model/banking_import_transaction.py:180
+#: code:addons/account_banking_payment/model/banking_import_transaction.py:197
 #, python-format
 msgid "Cannot reconcile: no direct debit order"
 msgstr "Kann nicht ausgleichen: Kein Lastschrift-Auftrag"
@@ -336,14 +281,15 @@ msgstr "Kann nicht ausgleichen: Kein Lastschrift-Auftrag"
 #: help:payment.mode,transfer_journal_id:0
 msgid ""
 "Journal to write payment entries when confirming a debit order of this mode"
-msgstr ""
-"Bei Zahlungen zu bebuchendes Journal bei Freigabe von Lastschriften dieses "
-"Modus"
+msgstr "Bei Zahlungen zu bebuchendes Journal bei Freigabe von Lastschriften dieses Modus"
 
 #. module: account_banking_payment
-#: model:ir.model,name:account_banking_payment.model_payment_mode_type
-msgid "Payment Mode Type"
-msgstr "Zahlweisen-Art"
+#: view:payment.order:0
+msgid ""
+"{\n"
+"                            'invisible':[('state','!=','draft')]\n"
+"                        }"
+msgstr "{\n                            'invisible':[('state','!=','draft')]\n                        }"
 
 #. module: account_banking_payment
 #: field:banking.import.transaction,payment_line_id:0
@@ -364,3 +310,8 @@ msgstr "Buchung durch die die Rechnung per Lastschrift bezahlt wird"
 #: field:payment.line,msg:0
 msgid "Message"
 msgstr "Mitteilung"
+
+#. module: account_banking_payment
+#: field:payment.line,transit_move_line_id:0
+msgid "Debit move line"
+msgstr "Lastschriftbuchung"
