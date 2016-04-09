@@ -3,19 +3,20 @@
 # * account_banking_sepa_direct_debit
 # 
 # Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-07 16:04+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
+"POT-Creation-Date: 2016-04-18 10:57+0000\n"
+"PO-Revision-Date: 2016-04-22 06:53+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
@@ -26,19 +27,19 @@ msgid ""
 "        A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.\n"
 "        </p>\n"
 "    "
-msgstr "<p class=\"oe_view_nocontent_create\">\n        Cliquez pour créer un mandat de prélèvement SEPA.\n        </p><p>\n        Un mandat de prélèvement SEPA est un document signé par votre client qui vous donne l'autorisation de réaliser un ou plusieurs prélèvements sur son compte bancaire.\n        </p>\n    "
+msgstr "<p class=\"oe_view_nocontent_create\">\n        Ustvari nov SEPA mandat za direktno bremenitev.\n        </p><p>\n        SEPA mandat za direktno bremenitev je s strani kupca podpisan dokument, ki vas pooblašča za izvajanje ene ali več bremenitev njegovega bančnega računa.\n        </p>\n    "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Generični bančni mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
 "CREDITOR FOR STORAGE."
-msgstr ""
+msgstr "VSE VRZELI SO OBVEZNE. PO PODPISU MANDATA, SE GA MORA POSLATI UPNIKU V HRANJENJE."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -46,22 +47,22 @@ msgid ""
 "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
 "                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
 "                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
-msgstr ""
+msgstr "VSE VRZELI SO OBVEZNE. PO PODPISU MANDATA, SE GA MORA POSLATI UPNIKU V HRANJENJE.\n                        KLJUB VSEMU, BANKA DOLŽNIKA ZAHTEVA DOLŽNIKOVO POOBLASTILO PRED NEPOSREDNO B2B OBREMENITVIJO RAČUNA.\n                        DOLŽNIK BI LAHKO UPRAVLJAL OMENJENO POOBLASTILO NA NAČIN, KI MU GA OMOGOČA NJEGOVA BANKA."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Account Number - IBAN:"
-msgstr ""
+msgstr "Številka računa - IBAN:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Address of the Debtor:"
-msgstr ""
+msgstr "Naslov dolžnika:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Address:"
-msgstr ""
+msgstr "Naslov:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -70,7 +71,7 @@ msgid ""
 "                        your bank under the terms and conditions of your agreement\n"
 "                        with your bank.\n"
 "                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
-msgstr ""
+msgstr "V sklopu vaših pravic je dobropis/povračilo vaše banke\n                        v skladu s splošnimi pogoji vašega dogovora\n                        z banko.\n                        Povračilo je potrebno zahtevati v do 8 tednih od datuma, na katerega je bil vaš račun obremenjen."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:116
@@ -78,92 +79,92 @@ msgstr ""
 msgid ""
 "As you changed the bank account attached to this mandate, the 'Sequence "
 "Type' has been set back to 'First'."
-msgstr "Etant donné que vous avez changé le compte bancaire associé à ce mandat, le 'Type de séquence' a été remis à 'First'."
+msgstr "Ker ste spremenili bančni račun pripet temu mandatu, se je tip zaporedja vrnil v 'Prvi'."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Postavke bančnih plačil"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Basic (CORE)"
-msgstr ""
+msgstr "Osnovna (CORE)"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr "Crédit groupé"
+msgstr "Skupinska rezervacija"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "Supportés par le créancier"
+msgstr "Nosi upnik"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "Supportés par le débiteur"
+msgstr "Nosi dolžnik"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "By signing this mandate form, you authorise (A)"
-msgstr ""
+msgstr "S podpisom tega mandata vi pooblaščate (A)"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Preklic"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr "Répartition des frais"
+msgstr "Sprememba nosilca"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
 msgid "Companies"
-msgstr "Sociétés"
+msgstr "Družbe"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Country of the debtor:"
-msgstr ""
+msgstr "Država dolžnika:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Country:"
-msgstr ""
+msgstr "Država:"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
 msgid "Create"
-msgstr "Créer"
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Ustvaril"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Ustvarjeno"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Creditor's Name:"
-msgstr ""
+msgstr "Naziv upnika:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Date - Location:"
-msgstr ""
+msgstr "Datum - lokacija:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Debtor's Name:"
-msgstr ""
+msgstr "Naziv dolžnika:"
 
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
@@ -174,7 +175,7 @@ msgid ""
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr ""
+msgstr "Vnesi identifikator upnika, ki je bil dodeljen vaši družbi za izvajanje SEPA direktnih obremenitev. Če ni določen, se uporabi SEPA identifikator upnika iz nastavitev družbe.\nIdentifikator sestavljajo:\n- ISO koda vaše države (2 znaka)\n- 2-značna checkum koda\n- 3-značna poslovna koda\n- specifični identifikator glede na državo"
 
 #. module: account_banking_sepa_direct_debit
 #: help:res.company,sepa_creditor_identifier:0
@@ -184,54 +185,54 @@ msgid ""
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr "Entrez l'Identifiant créancier qui a été attribué à votre société pour réaliser des prélèvements SEPA. Cet identifiant est composé de :\n- du code ISO de votre pays (2 lettres)\n- un code de contrôle à 2 chiffres\n- un code d'activité à 3 lettres\n- un identifiant national"
+msgstr "Vnesi identifikator upnika, ki je bil dodeljen vaši družbi za izvajanje SEPA direktnih obremenitev. Identifikator sestavljajo:\n- ISO koda vaše države (2 znaka)\n- 2-značna checkum koda\n- 3-značna poslovna koda\n- specifični identifikator glede na državo"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr ""
+msgstr "Podjetje (B2B)"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:42
 #: code:addons/account_banking_sepa_direct_debit/models/res_company.py:32
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Napaka"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd_wizard
 msgid "Export SEPA Direct Debit File"
-msgstr "Export du fichier de prélèvement SEPA"
+msgstr "Izvoz datoteke SEPA direktne obremenitve"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,file:0
 msgid "File"
-msgstr "Fichier"
+msgstr "Datoteka"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr "Nom du fichier"
+msgstr "Naziv datoteke"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Final"
-msgstr "Final"
+msgstr "Končna"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
 msgid "Finish"
-msgstr "Finir"
+msgstr "Dokončaj"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "First"
-msgstr "First"
+msgstr "Prva"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr "Suivant le niveau de service"
+msgstr "Nivo sledenja"
 
 #. module: account_banking_sepa_direct_debit
 #: help:banking.export.sdd.wizard,charge_bearer:0
@@ -243,28 +244,28 @@ msgid ""
 "borne by the debtor. Borne by creditor : all transaction charges are to be "
 "borne by the creditor. Borne by debtor : all transaction charges are to be "
 "borne by the debtor."
-msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créancier sont à la charge du créancier. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
+msgstr "Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to uporabljati). Deljeno: stroške transakcije na strani upnika nosi upnik sam, stroške na strani dolžnika pa dolžnik. Nosi upnik: vse stroške transakcije nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Generate"
-msgstr "Générer"
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Identifier:"
-msgstr ""
+msgstr "Identifikator:"
 
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,original_creditor_identifier:0
 msgid ""
 "If not defined, Original Creditor Identifier from company will be used."
-msgstr ""
+msgstr "Če ni določeno, se uporabi izvorni identifikator upnika iz nastavitev družbe."
 
 #. module: account_banking_sepa_direct_debit
 #: help:account.banking.mandate,sepa_migrated:0
@@ -275,7 +276,7 @@ msgid ""
 "required in a few countries (Belgium for instance), but not in all "
 "countries. If this is not required in your country, you should keep this "
 "field always active."
-msgstr "Si cette option n'est pas activée, la section qui concerne le mandat dans le prochain fichier de prélèvement qui incluera ce mandat contiendra les champs 'Original Mandate Identification' et 'Original Creditor Scheme Identification'. Ces champs sont requis dans certains pays (en Belgique notamment), mais pas dans tous les pays. Si ces champs ne sont pas requis dans votre pays, vous devriez garder ce champ toujours actif."
+msgstr "Če je to polje neaktivno, bo odsek datoteke naslednje direktne obremenitve, ki vključuje ta mandat, vseboval 'Identifikator izvornega mandata' in 'Identifikator izvorne sheme upnika'. To se zahteva v nekaj državah (npr. Belgiji), a ne pri vseh državah. Če v vaši državi to ni zahtevano, naj bo to polje zmeraj aktivno."
 
 #. module: account_banking_sepa_direct_debit
 #: help:banking.export.sdd.wizard,batch_booking:0
@@ -283,40 +284,40 @@ msgid ""
 "If true, the bank statement will display only one credit line for all the "
 "direct debits of the SEPA file ; if false, the bank statement will display "
 "one credit line per direct debit of the SEPA file."
-msgstr "Si activé, le relevé de compte ne fera apparaître qu'une ligne de crédit pour tous les prélèvements du fichier SEPA ; si désactivé, le relevé de banque fera apparaître une ligne de crédit pour chaque prélèvement du fichier SEPA."
+msgstr "Če pravilno, bančni izpisek prikaže le eno postavko v dobro za vse direktne obremenitve v SEPA XML datoteki ; če napačno, bančni izpisek prikaže le eno postavko v dobro za vsako direktno obremenitev v SEPA datoteki."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:43
 #: code:addons/account_banking_sepa_direct_debit/models/res_company.py:33
 #, python-format
 msgid "Invalid SEPA Creditor Identifier."
-msgstr "Identifiant créancier SEPA invalide."
+msgstr "Neveljaven identifikator SEPA upnika."
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Zadnji posodobil"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Zadnjič posodobljeno"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Mandate Reference:"
-msgstr ""
+msgstr "Sklic mandata:"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:115
 #, python-format
 msgid "Mandate update"
-msgstr "Mise-à-jour du mandat"
+msgstr "Posodobitev mandata"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,sepa_migrated:0
 msgid "Migrated to SEPA"
-msgstr "Migré à SEPA"
+msgstr "Preseljeno v SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:159
@@ -324,45 +325,45 @@ msgstr "Migré à SEPA"
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
 " (reference '%s')."
-msgstr ""
+msgstr "Pri postavki bančnega plačila partnerja '%s' (sklic '%s') manjka SEPA direktna obremenitev."
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr "Nombre de transactions"
+msgstr "Število transakcij"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: selection:account.banking.mandate,type:0
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "One-Off"
-msgstr "One-Off"
+msgstr "Enkratna"
 
 #. module: account_banking_sepa_direct_debit
 #: field:payment.mode,original_creditor_identifier:0
 #: field:res.company,original_creditor_identifier:0
 msgid "Original Creditor Identifier"
-msgstr "Ancien Identifiant Créancier"
+msgstr "Identifikator izvornega upnika"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,original_mandate_identification:0
 msgid "Original Mandate Identification"
-msgstr "Ancien Identifiant du Mandat"
+msgstr "Identifikator izvornega mandata"
 
 #. module: account_banking_sepa_direct_debit
 #: model:res.groups,name:account_banking_sepa_direct_debit.group_original_mandate_required
 msgid "Original Mandate Required (SEPA)"
-msgstr "Ancien mandat requis (SEPA)"
+msgstr "Zahteva se izvorni mandat (SEPA)"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_payment_mode
 msgid "Payment Mode"
-msgstr "Mode de paiement"
+msgstr "Metoda plačila"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr "Ordres de paiement"
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:117
@@ -371,118 +372,118 @@ msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
 "supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
 " 'pain.008.001.04'."
-msgstr "Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de Type de paiement supportés pour les prélèvements SEPA sont 'pain.008.001.02', 'pain.008.001.03' et 'pain.008.001.04'."
+msgstr "Koda tipa plačila '%s' ni podprta. Edine kode tipov plačil, ki so podprte za SEPA bremenilne transakcije, so 'pain.008.001.02', 'pain.008.001.03' in 'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Postal Code - City - Town:"
-msgstr ""
+msgstr "Poštna številka - Mesto - Kraj:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: selection:account.banking.mandate,type:0
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Recurrent"
-msgstr "Récurrent"
+msgstr "Ponavljajoče se"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Recurring"
-msgstr "Recurring"
+msgstr "Ponavljajoč"
 
 #. module: account_banking_sepa_direct_debit
 #: view:res.partner:account_banking_sepa_direct_debit.sdd_mandate_partner_form
 #: view:res.partner.bank:account_banking_sepa_direct_debit.sdd_mandate_partner_bank_tree
 msgid "SDD Mandates"
-msgstr "Mandats SEPA"
+msgstr "SDD mandati"
 
 #. module: account_banking_sepa_direct_debit
 #: field:payment.mode,sepa_creditor_identifier:0
 #: field:res.company,sepa_creditor_identifier:0
 msgid "SEPA Creditor Identifier"
-msgstr "Identifiant créancier SEPA"
+msgstr "Identifikator SEPA upnika"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.mandate_action
 msgid "SEPA Direct Debit Mandates"
-msgstr "Mandats de prélèvement SEPA"
+msgstr "SEPA mandat za direktno obremenitev"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "SEPA Direct Debit XML file generation"
-msgstr "Génération de fichiers de prélèvement SEPA XML"
+msgstr "Ustvarjanje XML datoteke SEPA direktne obremenitve"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: field:account.banking.mandate,scheme:0
 msgid "Scheme"
-msgstr ""
+msgstr "Shema"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Sepa Business-To-Business Direct debit Mandate"
-msgstr ""
+msgstr "SEPA Business-To-Business mandat za direktno obremenitev"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Sepa Direct Debit Mandate"
-msgstr ""
+msgstr "SEPA mandat za direktno obremenitev"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:35
 #: model:ir.actions.report.xml,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 #, python-format
 msgid "Sepa Mandate"
-msgstr ""
+msgstr "SEPA mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
 msgid "Sequence Type"
-msgstr ""
+msgstr "Tip zaporedja"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,recurrent_sequence_type:0
 msgid "Sequence Type for Next Debit"
-msgstr "Type de séquence pour le prochain prélèvement"
+msgstr "Tip zaporedja za naslednjo obremenitev"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final
 #: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_final
 msgid "Sequence Type set to Final"
-msgstr "Type de Séquence mis à Final"
+msgstr "Tip zaporedja nastavljen kot končni"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_first
 #: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_first
 msgid "Sequence Type set to First"
-msgstr "Type de Séquence mis à First"
+msgstr "Tip zaporedja nastavljen kot prvi"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
 #: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
 msgid "Sequence Type set to Recurring"
-msgstr "Type de séquence mis à Recurring"
+msgstr "Tip zaporedja nastavljen kot ponavljajoči se"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Shared"
-msgstr "Partagée"
+msgstr "V souporabi"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Signature of the debtor:"
-msgstr ""
+msgstr "Podpis dolžnika:"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,state:0
 msgid "State"
-msgstr "État"
+msgstr "Stanje"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Swift BIC (up to 8 or 11 characteres):"
-msgstr ""
+msgstr "Swift BIC (8 ali 11 znakov):"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:166
@@ -490,7 +491,7 @@ msgstr ""
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
 "expired."
-msgstr "Le mandat de prélèvement SEPA portant la référence '%s' pour le partenaire '%s' a expiré."
+msgstr "SEPA mandat za direktno obremenitev s sklicem '%s' za partnerja '%s' je potekel."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:174
@@ -498,13 +499,13 @@ msgstr "Le mandat de prélèvement SEPA portant la référence '%s' pour le part
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
-msgstr "Le mandat portant la référence '%s' pour le partenaire '%s' est de type 'One-Off' et il a une date de dernier débit au '%s', donc il n'est pas utilisable."
+msgstr "Pri mandatu s sklicem '%s' za partnerja '%s' je tip nastavljen na 'enkraten', zadnji datum obremenitve pa ima nastavljen na '%s', zato ga ne moremo uporabiti."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
-msgstr "Le mandat récurrent '%s' doit avoir un type de séquence."
+msgstr "Ponavljajoči se mandat '%s' mora vsebovati tip zaporedja."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:86
@@ -512,13 +513,13 @@ msgstr "Le mandat récurrent '%s' doit avoir un type de séquence."
 msgid ""
 "The recurrent mandate '%s' which is not marked as 'Migrated to SEPA' must "
 "have its recurrent sequence type set to 'First'."
-msgstr "Le mandat récurrent '%s' dont l'option 'Migré à SEPA' n'est pas activée doit avec sa séquence mise à 'First'."
+msgstr "Ponavljajoči se mandat '%s', ki ni označen kot 'Preseljen v SEPA', mora imeti svoj ponavljajoči se tip zaporedja nastavljen kot 'Prvi'."
 
 #. module: account_banking_sepa_direct_debit
 #: help:account.banking.mandate,recurrent_sequence_type:0
 msgid ""
 "This field is only used for Recurrent mandates, not for One-Off mandates."
-msgstr "Ce champ n'est utilisé que pour les mandats récurrents, pas pour les mandats One-Off."
+msgstr "To polje se uporablja le za ponavljajoče se mandate, ne pa za enkratne mandate."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -527,50 +528,50 @@ msgid ""
 "                        You are not entitled to a refund from your bank after your account has\n"
 "                        been debited, but you are entitled to request your bank\n"
 "                        not to debit your account up until the day on which the payment is due."
-msgstr ""
+msgstr "Ta mandat je mišljen le za transakcije med pravnimi osebami.\n                        Po obremenitvi vašega računa nimate pravice do povračila\n                        svoje banke,, lahko pa pri banki zahtevate, da se računa\n                        ne bremeni do dneva zapadlosti plačila."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "To be completed by the creditor"
-msgstr ""
+msgstr "Izpolniti mora upnik"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "To be completed by the debtor"
-msgstr ""
+msgstr "Izpolniti mora dolžnik"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,total_amount:0
 msgid "Total Amount"
-msgstr "Montant total"
+msgstr "Skupni znesek"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
 msgid "Type"
-msgstr "Type"
+msgstr "Tip"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
 msgid "Type of Mandate"
-msgstr "Type de mandat"
+msgstr "Tip mandata"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Type of payment:"
-msgstr ""
+msgstr "Tip plačila:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Validate"
-msgstr "Valider"
+msgstr "Potrdi"
 
 #. module: account_banking_sepa_direct_debit
 #: help:account.banking.mandate,original_mandate_identification:0
 msgid ""
 "When the field 'Migrated to SEPA' is not active, this field will be used as "
 "the Original Mandate Identification in the Direct Debit file."
-msgstr "Quand le champ 'Migré à SEPA' n'est pas activé, ce champ sera le 'Original Mandate Identification' dans le fichier de prélèvement."
+msgstr "Kadar polje 'Preseljeno v SEPA' ni aktivno, se to polje uporabi za identifikator izvornega mandata v datoteki direktne obremenitve."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:98
@@ -578,11 +579,11 @@ msgstr "Quand le champ 'Migré à SEPA' n'est pas activé, ce champ sera le 'Ori
 msgid ""
 "You must set the 'Original Mandate Identification' on the recurrent mandate "
 "'%s' which is not marked as 'Migrated to SEPA'."
-msgstr "Vous devez renseigner le champ 'Ancien identifiant du mandat' sur le mandat récurrent '%s' qui n'est pas marqué comme étant 'Migré à SEPA'."
+msgstr "Na ponavljajočem se mandatu '%s', ki ni označen kot 'Preseljen v SEPA' morate nastaviti 'Identifikacijo izvornega mandata'."
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "to send instructions to your bank to debit your account and (B) your bank to\n"
 "                       debit your account in accordance with the instructions from"
-msgstr ""
+msgstr "za pošiljanje navodil svoji banki glede bremenitve vašega računa in (B) svoji banki\n                       naj bremeni vaš račun v skladu z navodili iz"
