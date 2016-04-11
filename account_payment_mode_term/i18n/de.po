@@ -1,0 +1,38 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_mode_term
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-09 11:53+0100\n"
+"PO-Revision-Date: 2016-03-09 11:55+0100\n"
+"Language-Team: rs@techno-flex.de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: rs@techno-flex.de\n"
+"Language: de\n"
+
+#. module: account_payment_mode_term
+#: help:payment.mode,payment_term_ids:0
+msgid "Limit selected invoices to invoices with these payment terms"
+msgstr "Beschränke ausgewählte Rechnungen auf diese Zahlungsbedingungen"
+
+#. module: account_payment_mode_term
+#: view:payment.mode:account_payment_mode_term.view_payment_mode_form_inherit
+msgid "Optional filter by payment term"
+msgstr "Optionaler Filter auf Zahlungsbedingungen"
+
+#. module: account_payment_mode_term
+#: model:ir.model,name:account_payment_mode_term.model_payment_mode
+msgid "Payment Mode"
+msgstr "Zahlverfahren"
+
+#. module: account_payment_mode_term
+#: field:payment.mode,payment_term_ids:0
+msgid "Payment terms"
+msgstr "Zahlungsbedingungen"

@@ -1,0 +1,287 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_banking_payment_export
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-07 15:03+0100\n"
+"PO-Revision-Date: 2016-03-07 16:05+0100\n"
+"Language-Team: rs@techno-flex.de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: rs@techno-flex.de\n"
+"Language: de\n"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,active:0 field:payment.mode.type,active:0
+msgid "Active"
+msgstr "Aktiv"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Cancel"
+msgstr "Stornieren"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,code:0
+msgid "Code"
+msgstr "Schlüssel"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,create_uid:0 field:payment.mode.type,create_uid:0
+msgid "Created by"
+msgstr "Angelegt durch"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,create_date:0 field:payment.mode.type,create_date:0
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+msgid "Debit"
+msgstr "Soll"
+
+#. module: account_banking_payment_export
+#: selection:payment.order,payment_order_type:0
+msgid "Direct debit"
+msgstr "Lastschrift"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:121
+#, python-format
+msgid "Entry Lines"
+msgstr "Positionen"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:68
+#, python-format
+msgid "Error"
+msgstr "Fehler"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,type:0
+msgid "Export type"
+msgstr "Exportart"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,id:0 field:payment.mode.type,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_account_invoice
+msgid "Invoice"
+msgstr "Rechnung"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Journal Entry"
+msgstr "Journalbuchung"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+#: model:ir.model,name:account_banking_payment_export.model_account_move_line
+msgid "Journal Items"
+msgstr "Journalposten"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,write_uid:0 field:payment.mode.type,write_uid:0
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert durch"
+
+#. module: account_banking_payment_export
+#: field:payment.manual,write_date:0 field:payment.mode.type,write_date:0
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Manual payment"
+msgstr "Manuelle Zahlung"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,name:0
+msgid "Name"
+msgstr "Bezeichnung"
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+#: field:payment.mode,note:0
+msgid "Note"
+msgstr "Hinweis"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,payment_order_type:0
+msgid "Order type"
+msgstr "Auftragsart"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+#: selection:payment.order,payment_order_type:0
+msgid "Payment"
+msgstr "Zahlung"
+
+#. module: account_banking_payment_export
+#: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
+#: model:ir.ui.menu,name:account_banking_payment_export.menu_payment_mode_type
+msgid "Payment Export Types"
+msgstr "Zahlungsexportarten"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode
+msgid "Payment Mode"
+msgstr "Zahlweise"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
+msgid "Payment Mode Type"
+msgstr "Zahlweisenart"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_order
+msgid "Payment Order"
+msgstr "Zahlungsanweisung"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:53
+#, python-format
+msgid "Payment Order Export"
+msgstr "Zahlungsanweisungenexport"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:213
+#, python-format
+msgid "Payment Orders"
+msgstr "Zahlungsanweisungen"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: help:payment.mode.type,name:0
+msgid "Payment Type"
+msgstr "Zahlweise"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_tree
+msgid "Payment Types"
+msgstr "Zahlweisen"
+
+#. module: account_banking_payment_export
+#: field:payment.order,payment_order_type:0
+msgid "Payment order type"
+msgstr "Zahlungsanweisungsart"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,ir_model_id:0
+msgid "Payment wizard"
+msgstr "Zahlungsassistent"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid ""
+"Please execute payment order manually, and click OK when succesfully sent."
+msgstr ""
+"Führen Sie bitte die Zahlung manuell aus und klicken auf OK, wenn "
+"erfolgreich versandt."
+
+#. module: account_banking_payment_export
+#: field:payment.order.create,populate_results:0
+msgid "Populate results directly"
+msgstr "Ergebnisse direkt einpflegen"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,type:0
+msgid "Select the Export Payment Type for the Payment Mode."
+msgstr "Wählen Sie die Zahlweise zum Zahlverfahren aus."
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,ir_model_id:0
+msgid ""
+"Select the Payment Wizard for payments of this type. Leave empty for manual "
+"processing"
+msgstr ""
+"Wählen Sie den Zahlungsassistenten für Zahlungen dieser Art. Leer lassen zur "
+"manuellen Bearbeitung"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr "Wählbar bei Einkaufsvorgängen"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
+msgstr "Wählbar bei Verkaufsvorgängen"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_manual
+msgid "Send payment order(s) manually"
+msgstr "Sende Zahlungsanweisung(en) manuell"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,code:0
+msgid "Specify the Code for Payment Type"
+msgstr "Geben Sie den Schlüssel der Zahlweise an"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_invoice.py:34
+#, python-format
+msgid "Structured Reference"
+msgstr "Strukturierte Referenz"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: field:payment.mode.type,suitable_bank_types:0
+msgid "Suitable bank types"
+msgstr "Passende Bankarten"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,payment_order_type:0
+msgid ""
+"This field determines if this type applies to customers (Debit) or suppliers "
+"(Payment)"
+msgstr ""
+"Dieses Feld bestimmt, ob diese Art für Kunden (Einzug) oder Lieferanten "
+"(Zahlung) anzuwenden ist"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Credit"
+msgstr "Gesamt-Haben"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Debit"
+msgstr "Gesamt-Soll"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:69
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr "Sie dürfen nur Zahlungsanweisungen der gleichen Art kombinieren"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
+msgid "launch_wizard"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_banking_payment_order_form_1
+msgid ""
+"{\n"
+"                        'invisible': [('state', '!=', 'draft')]}"
+msgstr ""
+
+#. module: account_banking_payment_export
+#: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
+msgid ""
+"{'display_credit': context.get('display_credit', False),'display_debit': "
+"context.get('display_debit', False),'journal_type': 'sale', "
+"'tree_view_ref' : 'account_banking_payment_export."
+"payment_order_populate_view_move_line_tree'}"
+msgstr ""
