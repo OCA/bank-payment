@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-08 05:56+0000\n"
+"POT-Creation-Date: 2016-04-09 06:21+0000\n"
+"PO-Revision-Date: 2016-04-15 11:26+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -276,7 +276,7 @@ msgstr ""
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 #: selection:payment.order,payment_order_type:0
 msgid "Payment"
-msgstr ""
+msgstr "Plačilo"
 
 #. module: account_banking_payment_export
 #: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
@@ -309,7 +309,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Plačilni nalog"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:59
