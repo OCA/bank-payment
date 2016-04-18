@@ -185,7 +185,7 @@ class PaymentOrder(models.Model):
             raise UserError(_(
                 "Cannot generate the transfer move when "
                 "the currency of the payment (%s) is not the "
-                "same as the currency of the company. This "
+                "same as the currency of the company (%s). This "
                 "is not supported for the moment.")
                 % (bank_line.currency.name, company_currency.name))
         aml_obj = self.env['account.move.line']
