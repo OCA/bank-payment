@@ -17,6 +17,15 @@
                     <field name="sale_ok"/>
                 </field>
                 <form position="inside">
+                    <group name="payment_order_create_defaults" string="Select Move Lines to Pay - Default Values">
+                        <field name="default_populate_results"/>
+                        <field name="default_journal_ids" widget="many2many_tags"/>
+                        <field name="default_invoice"/>
+                        <field name="default_date_type"/>
+                    </group>
+                    <group name="group_grouping" string="Line grouping">
+                        <field name="group_lines"/>
+                    </group>
                     <group string="Note" col="4">
                         <field name="note" nolabel="1"/>
                     </group>

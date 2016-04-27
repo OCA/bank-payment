@@ -1,0 +1,28 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_blocking
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-08 00:46+0000\n"
+"PO-Revision-Date: 2016-04-06 00:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_payment_blocking
+#: model:ir.model,name:account_payment_blocking.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: account_payment_blocking
+#: field:account.invoice,blocked:0 field:account.invoice,draft_blocked:0
+msgid "No Follow Up"
+msgstr ""

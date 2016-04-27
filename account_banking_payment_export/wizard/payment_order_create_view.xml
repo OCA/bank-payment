@@ -13,7 +13,19 @@
             <field name="inherit_id" ref="account_payment.view_create_payment_order"/>
             <field name="arch" type="xml">
                 <field name="duedate" position="after">
+                    <field name="journal_ids"
+                           widget="many2many_tags"
+                           placeholder="Keep empty for using all journals"
+                    />
+                    <field name="invoice"/>
                     <field name="populate_results"/>
+                </field>
+                <field name="duedate" position="before">
+                    <field name="date_type"/>
+                    <field name="move_date" attrs="{'required': [('date_type', '=', 'move')], 'invisible': [('date_type', '!=', 'move')]}"/>
+                </field>
+                <field name="duedate" position="attributes">
+                    <attribute name="attrs">{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}</attribute>
                 </field>
             </field>
         </record>

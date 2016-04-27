@@ -49,7 +49,7 @@ Known issues / Roadmap
 ======================
 
  * No known issues
- 
+
 Bug Tracker
 ===========
 
@@ -64,13 +64,14 @@ Credits
 Contributors
 ------------
 
-* Firsname Lastname <email.address@acsone.eu>
 * Alexis de Lattre
 * Pedro M. Baeza
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Alexandre Fayolle
 * Raphaël Valyi
 * Sandy Carter
+* Antonio Espinosa <antonioea@antiun.com>
+* Sergio Teruel <sergio.teruel@tecnativa.com>
 
 
 Maintainer

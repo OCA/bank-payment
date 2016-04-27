@@ -1,0 +1,39 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_mode_term
+# 
+# Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-08 00:46+0000\n"
+"PO-Revision-Date: 2016-04-08 05:48+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#. module: account_payment_mode_term
+#: help:payment.mode,payment_term_ids:0
+msgid "Limit selected invoices to invoices with these payment terms"
+msgstr "Omeji izbrane računa na račune s temi plačilnimi pogoji"
+
+#. module: account_payment_mode_term
+#: view:payment.mode:account_payment_mode_term.view_payment_mode_form_inherit
+msgid "Optional filter by payment term"
+msgstr "Opcijski filter po plačilnem pogoju"
+
+#. module: account_payment_mode_term
+#: model:ir.model,name:account_payment_mode_term.model_payment_mode
+msgid "Payment Mode"
+msgstr "Metoda plačila"
+
+#. module: account_payment_mode_term
+#: field:payment.mode,payment_term_ids:0
+msgid "Payment terms"
+msgstr "Plačilni pogoji"

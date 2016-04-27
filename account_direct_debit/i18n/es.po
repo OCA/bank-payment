@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-31 23:05+0000\n"
-"PO-Revision-Date: 2014-10-31 23:05+0000\n"
+"POT-Creation-Date: 2016-02-16 07:59+0000\n"
+"PO-Revision-Date: 2016-02-16 07:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,33 +19,6 @@ msgstr ""
 #: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
 msgid "A debit order is a debit request from your company to collect customer invoices. Here you can register all debit orders that should be done, keep track of all debit orders and mention the invoice reference and the partner the withdrawal should be done for."
 msgstr "Una orden de cobro es una petición de dinero de su compañía para saldar las facturas de cliente. Aquí puede registrar todas las órdenes de cobro que se deban realizar, seguirles el rastro, y apuntar la referencia de factura y de la empresa para la que se debe hacer el cargo."
-
-#. module: account_direct_debit
-#: field:account.move.line,amount_to_receive:0
-msgid "Amount to receive"
-msgstr "Importe a cobrar"
-
-#. module: account_direct_debit
-#: code:addons/account_direct_debit/models/payment_line.py:133
-#, python-format
-msgid "Can not reconcile"
-msgstr "No puede ser conciliada"
-
-#. module: account_direct_debit
-#: code:addons/account_direct_debit/models/payment_line.py:134
-#, python-format
-msgid "Cancelation of payment line '%s' has already been processed"
-msgstr ""
-
-#. module: account_direct_debit
-#: view:account.invoice:account_direct_debit.invoice_form
-msgid "Debit Denied"
-msgstr "Cobro denegado"
-
-#. module: account_direct_debit
-#: view:account.invoice:account_direct_debit.view_account_invoice_filter
-msgid "Debit denied"
-msgstr "Cobro denegado"
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
@@ -64,28 +37,6 @@ msgid "Direct debit in 14 days"
 msgstr "Adeudo directo en 14 días"
 
 #. module: account_direct_debit
-#: code:addons/account_direct_debit/models/account_invoice.py:149
-#, python-format
-msgid "Error !"
-msgstr "Error"
-
-#. module: account_direct_debit
-#: help:payment.line,storno:0
-msgid "If this is true, the debit order has been canceled by the bank or by the customer"
-msgstr "Si la casilla está marcada, la orden de cobro ha sido cancelada por el banco o por el cliente"
-
-#. module: account_direct_debit
-#: model:ir.model,name:account_direct_debit.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
-
-#. module: account_direct_debit
-#: code:addons/account_direct_debit/models/account_invoice.py:154
-#, python-format
-msgid "Invoice '%s': direct debit is denied."
-msgstr "Factura '%s': adeudo directo denegado"
-
-#. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
 msgid "Invoices"
 msgstr "Facturas"
@@ -93,7 +44,7 @@ msgstr "Facturas"
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_move_line
 msgid "Journal Items"
-msgstr "Asientos contables"
+msgstr "Apuntes contables"
 
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_payment_line
@@ -101,27 +52,17 @@ msgid "Payment Line"
 msgstr "Línea de pago"
 
 #. module: account_direct_debit
-#: model:ir.model,name:account_direct_debit.model_payment_order
-msgid "Payment Order"
-msgstr "Orden de pago"
-
-#. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
 msgid "Select invoices to collect"
 msgstr "Seleccione facturas"
 
 #. module: account_direct_debit
-#: view:account.invoice:account_direct_debit.view_account_invoice_filter
-msgid "Show only invoices with state Debit denied"
-msgstr "Mostrar sólo facturas con el cobro denegado"
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid "[('payment_order_type', '=', payment_order_type)]"
+msgstr "[('payment_order_type', '=', payment_order_type)]"
 
 #. module: account_direct_debit
-#: field:payment.line,storno:0
-msgid "Storno"
-msgstr "Storno"
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"
+msgstr "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"
 
-#. module: account_direct_debit
-#: code:addons/account_direct_debit/models/account_invoice.py:150
-#, python-format
-msgid "You cannot set invoice '%s' to state 'debit denied', as it is still reconciled."
-msgstr "No puede establecer la factura '%s' al estado 'cobro denegado', ya que ya se encuentra conciliada."

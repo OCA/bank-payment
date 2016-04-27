@@ -24,13 +24,14 @@ import openerp.tests.common as common
 from openerp import workflow
 
 
-def create_simple_invoice(self, cr, uid, context=None):
+def create_simple_invoice(self, cr, uid, payment_term=False, context=None):
     partner_id = self.ref('base.res_partner_2')
     product_id = self.ref('product.product_product_4')
     return self.registry('account.invoice')\
         .create(cr, uid, {'partner_id': partner_id,
                           'account_id':
                           self.ref('account.a_recv'),
+                          'payment_term': payment_term,
                           'journal_id':
                           self.ref('account.expenses_journal'),
                           'invoice_line': [(0, 0, {'name': 'test',
@@ -57,6 +58,8 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
         move_line_obj = self.registry('account.move.line')
         invoice_id = create_simple_invoice(self, self.cr, self.uid,
                                            context=self.context)
+        invoice_obj.write(self.cr, self.uid, [invoice_id],
+                          {'draft_blocked': True})
         workflow.trg_validate(self.uid, 'account.invoice', invoice_id,
                               'invoice_open', self.cr)
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
@@ -66,12 +69,40 @@ class TestAccountBankingPaymentBlocking(common.TransactionCase):
                                          ['payable', 'receivable']),
                                         ('invoice.id', '=', invoice.id)])
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]
+        self.assertTrue(move_line.blocked)
         self.assertEqual(invoice.blocked, move_line.blocked,
                          'Blocked values are not equals')
         move_line_obj.write(self.cr, self.uid, move_line_ids,
-                            {'blocked': True})
+                            {'blocked': False})
         invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
                                      context=self.context)[0]
         move_line = move_line_obj.browse(self.cr, self.uid, move_line_ids)[0]
         self.assertEqual(invoice.blocked, move_line.blocked,
+                         'Blocked values are not equals')
+
+    def test_invoice_payment_term(self):
+        invoice_obj = self.registry('account.invoice')
+        move_line_obj = self.registry('account.move.line')
+        payment_term_advance = self.ref('account.account_payment_term_advance')
+        invoice_id = create_simple_invoice(self, self.cr, self.uid,
+                                           payment_term=payment_term_advance,
+                                           context=self.context)
+        invoice_obj.write(self.cr, self.uid, [invoice_id],
+                          {'draft_blocked': True})
+        workflow.trg_validate(self.uid, 'account.invoice', invoice_id,
+                              'invoice_open', self.cr)
+        invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
+                                     context=self.context)[0]
+        move_line_ids = move_line_obj\
+            .search(self.cr, self.uid, [('account_id.type', 'in',
+                                         ['payable', 'receivable']),
+                                        ('invoice.id', '=', invoice.id)])
+        move_lines = move_line_obj.browse(self.cr, self.uid, move_line_ids)
+        self.assertTrue(
+            move_lines and all(line.blocked for line in move_lines) or False)
+        move_line_obj.write(self.cr, self.uid, move_line_ids,
+                            {'blocked': False})
+        invoice = invoice_obj.browse(self.cr, self.uid, [invoice_id],
+                                     context=self.context)[0]
+        self.assertEqual(invoice.blocked, False,
                          'Blocked values are not equals')

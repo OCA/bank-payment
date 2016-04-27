@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_direct_debit
+# 
+# Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-08 00:46+0000\n"
+"PO-Revision-Date: 2016-04-08 05:55+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#. module: account_direct_debit
+#: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
+msgid ""
+"A debit order is a debit request from your company to collect customer "
+"invoices. Here you can register all debit orders that should be done, keep "
+"track of all debit orders and mention the invoice reference and the partner "
+"the withdrawal should be done for."
+msgstr "Bremenilni nalog je zahtevek vaše družbe po obremenitvi za zbir prejetih računov. Registrirate lahko vse bremenilne naloge, ki naj bi se izvedli, sledite bremenilnim nalogom in navedete sklic računa in partnerja, za katerega se izvaja nakazilo."
+
+#. module: account_direct_debit
+#: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
+#: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
+msgid "Direct Debit Orders"
+msgstr "Nalogi za direktne obremenitve"
+
+#. module: account_direct_debit
+#: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
+msgid "Direct debit"
+msgstr "Direktna obremenitev"
+
+#. module: account_direct_debit
+#: model:account.payment.term,note:account_direct_debit.payment_term_direct_debit
+msgid "Direct debit in 14 days"
+msgstr "Direktna obremenitev v 14 dneh"
+
+#. module: account_direct_debit
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid "Invoices"
+msgstr "Računi"
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_account_move_line
+msgid "Journal Items"
+msgstr "Dnevniške postavke"
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_payment_line
+msgid "Payment Line"
+msgstr "Plačilna postavka"
+
+#. module: account_direct_debit
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid "Select invoices to collect"
+msgstr "Izbira zbira računov"
+
+#. module: account_direct_debit
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid "[('payment_order_type', '=', payment_order_type)]"
+msgstr "[('payment_order_type', '=', payment_order_type)]"
+
+#. module: account_direct_debit
+#: view:payment.order:account_direct_debit.view_payment_order_form
+msgid ""
+"{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', "
+"'payment')]}"
+msgstr "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"

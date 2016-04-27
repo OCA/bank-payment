@@ -9,6 +9,17 @@
 <openerp>
 <data>
 
+    <record id="invoice_filter" model="ir.ui.view">
+        <field name="name">account_payment_partner.invoice_filter</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <filter string="Status" position="after">
+                <filter string="Payment mode" name="filter_payment_mode" context="{'group_by':'payment_mode_id'}"/>
+            </filter>
+        </field>
+    </record>
+
 
     <record id="invoice_form" model="ir.ui.view">
         <field name="name">account_payment_partner.invoice_form</field>

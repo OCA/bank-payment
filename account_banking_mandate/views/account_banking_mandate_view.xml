@@ -12,7 +12,7 @@
     <field name="name">view.mandate.form</field>
     <field name="model">account.banking.mandate</field>
     <field name="arch" type="xml">
-        <form string="Banking Mandate" version="7.0">
+        <form string="Banking Mandate">
             <header>
                 <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"/>
                 <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
@@ -31,9 +31,9 @@
                 </div>
                 <group name="main">
                     <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="format" string="Format"/>
                     <field name="partner_bank_id"
-                        invisible="context.get('mandate_bank_partner_view')"
-                        domain="[('partner_id', '=', partner_id)]" />
+                        invisible="context.get('mandate_bank_partner_view')" />
                     <field name="partner_id"
                         invisible="context.get('mandate_bank_partner_view')"
                         readonly="True"/>
@@ -60,6 +60,7 @@
         <tree string="Banking Mandate" colors="blue:state=='draft';black:state in ('expired', 'cancel')">
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="partner_id" invisible="context.get('mandate_bank_partner_view')"/>
+            <field name="format" string="Format"/>
             <field name="unique_mandate_reference" string="Reference"/>
             <field name="signature_date" string="Signature Date"/>
             <field name="last_debit_date"/>

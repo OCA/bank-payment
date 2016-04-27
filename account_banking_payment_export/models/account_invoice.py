@@ -1,28 +1,10 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2014 ACSONE SA (<http://acsone.eu>).
-#
-#    All other contributions are (C) by their respective contributors
-#
-#    All Rights Reserved
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2013-2014 ACSONE SA (<http://acsone.eu>).
+# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import api, models, _
+from lxml import etree
 
 
 class AccountInvoice(models.Model):
@@ -33,3 +15,34 @@ class AccountInvoice(models.Model):
         rt = super(AccountInvoice, self)._get_reference_type()
         rt.append(('structured', _('Structured Reference')))
         return rt
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False,
+                        submenu=False):
+        """This adds the field 'reference_type' only if the view doesn't
+        contain this field (this is for customer invoice and with
+        l10n_be_invoice_bba not installed).
+        """
+        res = super(AccountInvoice, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+        if view_type != 'form':
+            return res
+        field_name = 'reference_type'
+        doc = etree.XML(res['arch'])
+        if not doc.xpath("//field[@name='%s']" % field_name):
+            nodes = doc.xpath("//field[@name='origin']")
+            if nodes:
+                field = self.fields_get([field_name])[field_name]
+                field_xml = etree.Element(
+                    'field', {'name': field_name,
+                              'widget': 'selection',
+                              'states': str(field['states']),
+                              'selection': str(field['selection']),
+                              'required': '1' if field['required'] else '0',
+                              'string': field['string'],
+                              'nolabel': '0'})
+                nodes[0].addnext(field_xml)
+                res['arch'] = etree.tostring(doc)
+                res['fields'][field_name] = field
+        return res

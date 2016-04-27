@@ -10,6 +10,7 @@
     <field name="company_id" ref="base.main_company"/>
     <field name="type" ref="export_sdd_008_001_02"/>
     <field name="purchase_ok" eval="False"/>
+    <field name="default_journal_ids" search="[('type', 'in', ('sale', 'sale_refund'))]"/>
 </record>
 
 <record id="base.main_company" model="res.company">
@@ -18,6 +19,7 @@
 
 <record id="res_partner_12_mandate" model="account.banking.mandate">
     <field name="partner_bank_id" ref="account_banking_payment_export.res_partner_12_iban"/>
+    <field name="format">sepa</field>
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
     <field name="signature_date">2014-02-01</field>
@@ -26,6 +28,7 @@
 
 <record id="res_partner_2_mandate" model="account.banking.mandate">
     <field name="partner_bank_id" ref="account_banking_payment_export.res_partner_2_iban"/>
+    <field name="format">sepa</field>
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
     <field name="signature_date" eval="time.strftime('%Y-%m-01')" />
