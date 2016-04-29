@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, api
@@ -9,7 +9,7 @@ class BankPaymentLine(models.Model):
     _inherit = 'bank.payment.line'
 
     @api.multi
-    def move_line_transfer_account_hashcode(self):
+    def move_line_offsetting_account_hashcode(self):
         """
         From my experience, even when you ask several direct debits
         at the same date with enough delay, you will have several credits
@@ -18,6 +18,6 @@ class BankPaymentLine(models.Model):
         reconciliation of the bank statement.
         """
         hashcode = super(BankPaymentLine, self).\
-            move_line_transfer_account_hashcode()
+            move_line_offsetting_account_hashcode()
         hashcode += '-' + unicode(self.mandate_id.recurrent_sequence_type)
         return hashcode
