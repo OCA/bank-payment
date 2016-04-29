@@ -10,12 +10,14 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     supplier_payment_mode = fields.Many2one(
-        'payment.mode', string='Supplier Payment Mode', company_dependent=True,
-        domain="[('purchase_ok', '=', True)]",
+        'account.payment.mode', string='Supplier Payment Mode',
+        company_dependent=True,
+        domain=[('payment_type', '=', 'outbound')],
         help="Select the default payment mode for this supplier.")
     customer_payment_mode = fields.Many2one(
-        'payment.mode', string='Customer Payment Mode', company_dependent=True,
-        domain="[('sale_ok', '=', True)]",
+        'account.payment.mode', string='Customer Payment Mode',
+        company_dependent=True,
+        domain=[('payment_type', '=', 'inbound')],
         help="Select the default payment mode for this customer.")
 
     @api.model

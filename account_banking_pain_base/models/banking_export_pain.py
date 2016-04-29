@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-# © 2013-2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 from datetime import datetime
 from lxml import etree
 from openerp import tools
 import logging
-import base64
 
 
 try:
@@ -22,17 +21,8 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class BankingExportPain(models.AbstractModel):
-    _name = 'banking.export.pain'
-
-    @api.model
-    def _validate_iban(self, iban):
-        """if IBAN is valid, returns IBAN
-        if IBAN is NOT valid, raises an error message"""
-        if self.env['res.partner.bank'].is_iban_valid(iban):
-            return iban.replace(' ', '')
-        else:
-            raise Warning(_("This IBAN is not valid : %s") % iban)
+class AccountPaymentOrder(models.Model):
+    _inherit = 'account.payment.order'
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
@@ -58,20 +48,20 @@ class BankingExportPain(models.AbstractModel):
         except:
             line = eval_ctx.get('line')
             if line:
-                raise Warning(
+                raise UserError(
                     _("Cannot compute the '%s' of the Payment Line with "
                         "reference '%s'.")
                     % (field_name, line.name))
             else:
-                raise Warning(
+                raise UserError(
                     _("Cannot compute the '%s'.") % field_name)
         if not isinstance(value, (str, unicode)):
-            raise Warning(
+            raise UserError(
                 _("The type of the field '%s' is %s. It should be a string "
                     "or unicode.")
                 % (field_name, type(value)))
         if not value:
-            raise Warning(
+            raise UserError(
                 _("The '%s' is empty or 0. It should have a non-null value.")
                 % field_name)
         if max_size and len(value) > max_size:
@@ -92,7 +82,7 @@ class BankingExportPain(models.AbstractModel):
                 "The XML file is invalid against the XML Schema Definition")
             logger.warning(xml_string)
             logger.warning(e)
-            raise Warning(
+            raise UserError(
                 _("The generated XML file is not valid against the official "
                     "XML Schema Definition. The generated XML file and the "
                     "full error have been written in the server logs. Here "
@@ -102,8 +92,7 @@ class BankingExportPain(models.AbstractModel):
         return True
 
     @api.multi
-    def finalize_sepa_file_creation(
-            self, xml_root, total_amount, transactions_count, gen_args):
+    def finalize_sepa_file_creation(self, xml_root, gen_args):
         xml_string = etree.tostring(
             xml_root, pretty_print=True, encoding='UTF-8',
             xml_declaration=True)
@@ -113,30 +102,8 @@ class BankingExportPain(models.AbstractModel):
         logger.debug(xml_string)
         self._validate_xml(xml_string, gen_args)
 
-        order_ref = []
-        for order in self.payment_order_ids:
-            if order.reference:
-                order_ref.append(order.reference.replace('/', '-'))
-        filename = '%s%s.xml' % (gen_args['file_prefix'], '-'.join(order_ref))
-
-        self.write({
-            'nb_transactions': transactions_count,
-            'total_amount': total_amount,
-            'filename': filename,
-            'file': base64.encodestring(xml_string),
-            'state': 'finish',
-            })
-
-        action = {
-            'name': _('SEPA File'),
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form,tree',
-            'res_model': self._name,
-            'res_id': self.ids[0],
-            'target': 'new',
-        }
-        return action
+        filename = '%s%s.xml' % (gen_args['file_prefix'], self.name)
+        return (xml_string, filename)
 
     @api.model
     def generate_group_header_block(self, parent_node, gen_args):
@@ -145,7 +112,7 @@ class BankingExportPain(models.AbstractModel):
             group_header_1_0, 'MsgId')
         message_identification_1_1.text = self._prepare_field(
             'Message Identification',
-            'self.payment_order_ids[0].reference',
+            'self.name',
             {'self': self}, 35, gen_args=gen_args)
         creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
         creation_date_time_1_2.text = datetime.strftime(
@@ -196,10 +163,11 @@ class BankingExportPain(models.AbstractModel):
             instruction_priority_2_7 = etree.SubElement(
                 payment_type_info_2_6, 'InstrPrty')
             instruction_priority_2_7.text = priority
-        service_level_2_8 = etree.SubElement(
-            payment_type_info_2_6, 'SvcLvl')
-        service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-        service_level_code_2_9.text = 'SEPA'
+        if self.sepa:
+            service_level_2_8 = etree.SubElement(
+                payment_type_info_2_6, 'SvcLvl')
+            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
+            service_level_code_2_9.text = 'SEPA'
         if local_instrument:
             local_instrument_2_11 = etree.SubElement(
                 payment_type_info_2_6, 'LclInstrm')
@@ -230,18 +198,17 @@ class BankingExportPain(models.AbstractModel):
     def generate_initiating_party_block(self, parent_node, gen_args):
         my_company_name = self._prepare_field(
             'Company Name',
-            'self.payment_order_ids[0].mode.bank_id.partner_id.name',
+            'self.company_partner_bank_id.partner_id.name',
             {'self': self}, gen_args.get('name_maxsize'), gen_args=gen_args)
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
-        payment = self.payment_order_ids[0]
         initiating_party_identifier = (
-            payment.mode.initiating_party_identifier or
-            payment.company_id.initiating_party_identifier)
+            self.payment_mode_id.initiating_party_identifier or
+            self.payment_mode_id.company_id.initiating_party_identifier)
         initiating_party_issuer = (
-            payment.mode.initiating_party_issuer or
-            payment.company_id.initiating_party_issuer)
+            self.payment_mode_id.initiating_party_issuer or
+            self.payment_mode_id.company_id.initiating_party_issuer)
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
@@ -252,11 +219,11 @@ class BankingExportPain(models.AbstractModel):
                 iniparty_org_other, 'Issr')
             iniparty_org_other_issuer.text = initiating_party_issuer
         elif self._must_have_initiating_party(gen_args):
-            raise Warning(
+            raise UserError(
                 _("Missing 'Initiating Party Issuer' and/or "
                     "'Initiating Party Identifier' for the company '%s'. "
                     "Both fields must have a value.")
-                % payment.company_id.name)
+                % self.company_id.name)
         return True
 
     @api.model
@@ -275,11 +242,10 @@ class BankingExportPain(models.AbstractModel):
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = bic
-        except Warning:
+        except UserError:
             if order == 'C':
                 if iban[0:2] != gen_args['initiating_party_country_code']:
-                    raise Warning(
-                        _('Error:'),
+                    raise UserError(
                         _("The bank account with IBAN '%s' of partner '%s' "
                             "must have an associated BIC because it is a "
                             "cross-border SEPA operation.")
@@ -314,9 +280,10 @@ class BankingExportPain(models.AbstractModel):
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,
             gen_args.get('name_maxsize'), gen_args=gen_args)
-        piban = self._prepare_field(
+        viban = self._prepare_field(
             '%s IBAN' % party_type_label, iban, eval_ctx, gen_args=gen_args)
-        viban = self._validate_iban(piban)
+        # TODO : add support for bank accounts other than IBAN
+        #viban = self._validate_iban(piban)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'B':
@@ -353,11 +320,6 @@ class BankingExportPain(models.AbstractModel):
                     'line.communication', {'line': line}, 140,
                     gen_args=gen_args)
         else:
-            if not line.struct_communication_type:
-                raise Warning(
-                    _("Missing 'Structured Communication Type' on payment "
-                        "line with reference '%s'.")
-                    % line.name)
             remittance_info_structured_2_100 = etree.SubElement(
                 remittance_info_2_91, 'Strd')
             creditor_ref_information_2_120 = etree.SubElement(
@@ -385,7 +347,7 @@ class BankingExportPain(models.AbstractModel):
 
             creditor_ref_info_type_code_2_123.text = 'SCOR'
             creditor_ref_info_type_issuer_2_125.text = \
-                line.struct_communication_type
+                line.communication_type
             creditor_reference_2_126.text = \
                 self._prepare_field(
                     'Creditor Structured Reference',
