@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2016 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="view_move_line_form" model="ir.ui.view">
+    <field name="name">account_payment_partner.move_line_form</field>
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.view_move_line_form" />
+    <field name="arch" type="xml">
+        <group groups="analytic.group_analytic_accounting" position="after">
+            <group name="payments" string="Payments">
+                <field name="payment_mode_id" widget="selection"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+
+</data>
+</openerp>
