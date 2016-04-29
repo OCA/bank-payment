@@ -1,0 +1,28 @@
+-
+  I create a transfer account
+-
+  !record {model: account.account, id: account_account_transfer0}:
+    code: TRANSF
+    name: Transfer
+    user_type: account.data_account_type_liability
+    type: other
+    reconcile: True
+-
+  I create a transfer journal
+-
+  !record {model: account.journal, id: transfer_journal0}:
+    name: Transfer journal
+    code: TR
+    type: general
+    company_id: base.main_company
+-
+  I create a payment mode
+-
+  !record {model: payment.mode, id: payment_mode0}:
+    name: Payment Mode Test
+    journal: account.bank_journal
+    bank_id: account_payment.partner_bank_1
+    company_id: base.main_company
+    transfer_account_id: account_account_transfer0
+    transfer_journal_id: transfer_journal0
+    type: account_banking_payment_export.manual_bank_tranfer
