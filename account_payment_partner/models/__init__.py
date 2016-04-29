@@ -2,4 +2,4 @@
 
 from . import res_partner
 from . import account_invoice
-from . import payment_mode
+from . import account_move_line
