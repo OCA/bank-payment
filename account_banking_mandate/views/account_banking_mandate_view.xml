@@ -81,6 +81,7 @@
             <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
             <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]" />
             <group string="Group By" name="groupby">
+                <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
                 <filter name="signature_date_groupby" string="Signature Date" context="{'group_by': 'signature_date'}"/>
             </group>
         </search>
@@ -101,32 +102,10 @@
 </record>
 
 <menuitem id="mandate_menu"
-    parent="account_payment.menu_main_payment"
+    parent="account_payment_order.payment_root"
     action="mandate_action"
-    sequence="20"
+    sequence="30"
     />
-
-<!-- notifications in the chatter -->
-<record id="mandate_valid" model="mail.message.subtype">
-    <field name="name">Mandate Validated</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate Validated</field>
-</record>
-
-<record id="mandate_expired" model="mail.message.subtype">
-    <field name="name">Mandate Expired</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate has Expired</field>
-</record>
-
-<record id="mandate_cancel" model="mail.message.subtype">
-    <field name="name">Mandate Cancelled</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate Cancelled</field>
-</record>
 
 
 </data>
