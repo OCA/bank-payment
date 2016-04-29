@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+<data>
+
+<record id="invoice_form" model="ir.ui.view">
+    <field name="name">account_payment_order.invoice_form</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account_payment_partner.invoice_form" />
+    <field name="arch" type="xml">
+        <button name="%(account.action_account_invoice_payment)d" type="action" position="after">
+            <button name="create_account_payment_line" type="object"
+                string="Add to Debit Order"
+                groups="account_payment_order.group_account_payment"
+                attrs="{'invisible': ['|', ('payment_order_ok', '=', False), ('state', '!=', 'open')]}"/>
+            <!-- For customer refunds:
+             'Add to Direct Debit Order' will deduct the refund from a customer invoice
+             We could also need a button 'Add to Payment Order' to reimburse
+             a customer via wire transfer... but I prefer to keep things
+             simple ; to do that, the user should manually create a payment order
+             and select the move lines  -->
+        </button>
+        <field name="payment_mode_id" position="after">
+            <field name="payment_order_ok" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+<record id="invoice_supplier_form" model="ir.ui.view">
+    <field name="name">account_payment_order.invoice_supplier_form</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account_payment_partner.invoice_supplier_form" />
+    <field name="arch" type="xml">
+        <button name="%(account.action_account_invoice_payment)d" type="action" position="after">
+            <button name="create_account_payment_line" type="object"
+                string="Add to Payment Order"
+                groups="account_payment_order.group_account_payment"
+                attrs="{'invisible': ['|', ('payment_order_ok', '=', False), ('state', '!=', 'open')]}"/>
+        </button>
+        <field name="payment_mode_id" position="after">
+            <field name="payment_order_ok" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+<act_window id="account_invoice_create_account_payment_line_action"
+    multi="True"
+    key2="client_action_multi"
+    name="Add to Payment/Debit Order"
+    res_model="account.invoice.payment.line.multi"
+    src_model="account.invoice"
+    view_mode="form"
+    target="new"/>
+
+</data>
+</odoo>
