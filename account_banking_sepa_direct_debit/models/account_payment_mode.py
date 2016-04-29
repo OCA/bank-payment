@@ -2,12 +2,13 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, exceptions, _
+from openerp import models, fields, api, _
 from .common import is_sepa_creditor_identifier_valid
+from openerp.exceptions import ValidationError
 
 
-class PaymentMode(models.Model):
-    _inherit = 'payment.mode'
+class AccountPaymentMode(models.Model):
+    _inherit = 'account.payment.mode'
 
     sepa_creditor_identifier = fields.Char(
         string='SEPA Creditor Identifier', size=35,
@@ -19,13 +20,9 @@ class PaymentMode(models.Model):
              "- a 2-digits checkum\n"
              "- a 3-letters business code\n"
              "- a country-specific identifier")
-    original_creditor_identifier = fields.Char(
-        string='Original Creditor Identifier', size=70,
-        help="If not defined, Original Creditor Identifier from company "
-             "will be used.")
 
     def _sepa_type_get(self):
-        res = super(PaymentMode, self)._sepa_type_get()
+        res = super(AccountPaymentMode, self)._sepa_type_get()
         if not res:
             if self.type.code and self.type.code.startswith('pain.008'):
                 res = 'sepa_direct_debit'
@@ -38,6 +35,6 @@ class PaymentMode(models.Model):
             if payment_mode.sepa_creditor_identifier:
                 if not is_sepa_creditor_identifier_valid(
                         payment_mode.sepa_creditor_identifier):
-                    raise exceptions.Warning(
-                        _('Error'),
-                        _("Invalid SEPA Creditor Identifier."))
+                    raise ValidationError(
+                        _("The SEPA Creditor Identifier '%s' is invalid.")
+                        % payment_mode.sepa_creditor_identifier)
