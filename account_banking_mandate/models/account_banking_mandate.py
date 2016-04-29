@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, exceptions, api, _
+from openerp import models, fields, api, _
+from openerp.exceptions import UserError, ValidationError
 
 
 class AccountBankingMandate(models.Model):
@@ -17,30 +18,10 @@ class AccountBankingMandate(models.Model):
     _rec_name = 'unique_mandate_reference'
     _inherit = ['mail.thread']
     _order = 'signature_date desc'
-    _track = {
-        'state': {
-            'account_banking_mandate.mandate_valid': (
-                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'valid'),
-            'account_banking_mandate.mandate_expired': (
-                lambda self, cr, uid, obj, ctx=None:
-                obj['state'] == 'expired'),
-            'account_banking_mandate.mandate_cancel': (
-                lambda self, cr, uid, obj, ctx=None: obj['state'] == 'cancel'),
-        },
-    }
-
-    def _get_states(self):
-        return [('draft', 'Draft'),
-                ('valid', 'Valid'),
-                ('expired', 'Expired'),
-                ('cancel', 'Cancelled')]
 
     format = fields.Selection(
-        [('basic', _('Basic Mandate'))],
-        default='basic',
-        required=True,
-        string='Mandate Format',
-    )
+        [('basic', 'Basic Mandate')], default='basic', required=True,
+        string='Mandate Format', track_visibility='onchange')
     partner_bank_id = fields.Many2one(
         comodel_name='res.partner.bank', string='Bank Account',
         track_visibility='onchange')
@@ -52,25 +33,28 @@ class AccountBankingMandate(models.Model):
         default=lambda self: self.env['res.company']._company_default_get(
             'account.banking.mandate'))
     unique_mandate_reference = fields.Char(
-        string='Unique Mandate Reference', track_visibility='always',
-        default='/')
+        string='Unique Mandate Reference', track_visibility='onchange')
     signature_date = fields.Date(string='Date of Signature of the Mandate',
                                  track_visibility='onchange')
     scan = fields.Binary(string='Scan of the Mandate')
     last_debit_date = fields.Date(string='Date of the Last Debit',
                                   readonly=True)
-    state = fields.Selection(
-        _get_states, string='Status', default='draft',
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('valid', 'Valid'),
+        ('expired', 'Expired'),
+        ('cancel', 'Cancelled'),
+        ], string='Status', default='draft', track_visibility='onchange',
         help="Only valid mandates can be used in a payment line. A cancelled "
-             "mandate is a mandate that has been cancelled by the customer.")
+        "mandate is a mandate that has been cancelled by the customer.")
     payment_line_ids = fields.One2many(
-        comodel_name='payment.line', inverse_name='mandate_id',
+        comodel_name='account.payment.line', inverse_name='mandate_id',
         string="Related Payment Lines")
 
     _sql_constraints = [(
         'mandate_ref_company_uniq',
         'unique(unique_mandate_reference, company_id)',
-        'A Mandate with the same reference already exists for this company !')]
+        'A Mandate with the same reference already exists for this company!')]
 
     @api.multi
     @api.constrains('signature_date', 'last_debit_date')
@@ -79,13 +63,13 @@ class AccountBankingMandate(models.Model):
             if (mandate.signature_date and
                     mandate.signature_date > fields.Date.context_today(
                         mandate)):
-                raise exceptions.Warning(
+                raise ValidationError(
                     _("The date of signature of mandate '%s' "
-                      "is in the future !")
+                      "is in the future!")
                     % mandate.unique_mandate_reference)
             if (mandate.signature_date and mandate.last_debit_date and
                     mandate.signature_date > mandate.last_debit_date):
-                raise exceptions.Warning(
+                raise ValidationError(
                     _("The mandate '%s' can't have a date of last debit "
                       "before the date of signature."
                       ) % mandate.unique_mandate_reference)
@@ -96,20 +80,21 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             if mandate.state == 'valid':
                 if not mandate.signature_date:
-                    raise exceptions.Warning(
+                    raise ValidationError(
                         _("Cannot validate the mandate '%s' without a date of "
                           "signature.") % mandate.unique_mandate_reference)
                 if not mandate.partner_bank_id:
-                    raise exceptions.Warning(
+                    raise ValidationError(
                         _("Cannot validate the mandate '%s' because it is not "
                           "attached to a bank account.") %
                         mandate.unique_mandate_reference)
 
     @api.model
     def create(self, vals=None):
-        if vals.get('unique_mandate_reference', '/') == '/':
+        if vals.get('unique_mandate_reference', 'New') == 'New':
             vals['unique_mandate_reference'] = \
-                self.env['ir.sequence'].next_by_code('account.banking.mandate')
+                self.env['ir.sequence'].next_by_code(
+                    'account.banking.mandate') or 'New'
         return super(AccountBankingMandate, self).create(vals)
 
     @api.multi
@@ -122,8 +107,8 @@ class AccountBankingMandate(models.Model):
     def validate(self):
         for mandate in self:
             if mandate.state != 'draft':
-                raise exceptions.Warning(
-                    _('Mandate should be in draft state'))
+                raise UserError(
+                    _('Mandate should be in draft state.'))
         self.write({'state': 'valid'})
         return True
 
@@ -131,8 +116,8 @@ class AccountBankingMandate(models.Model):
     def cancel(self):
         for mandate in self:
             if mandate.state not in ('draft', 'valid'):
-                raise exceptions.Warning(
-                    _('Mandate should be in draft or valid state'))
+                raise UserError(
+                    _('Mandate should be in draft or valid state.'))
         self.write({'state': 'cancel'})
         return True
 
@@ -143,7 +128,7 @@ class AccountBankingMandate(models.Model):
         """
         for mandate in self:
             if mandate.state != 'cancel':
-                raise exceptions.Warning(
-                    _('Mandate should be in cancel state'))
+                raise UserError(
+                    _('Mandate should be in cancel state.'))
         self.write({'state': 'draft'})
         return True
