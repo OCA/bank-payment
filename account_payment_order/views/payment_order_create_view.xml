@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+<record id="view_create_payment_order_lines" model="ir.ui.view">
+    <field name="name">add.context.to.display.maturity.date</field>
+    <field name="model">payment.order.create</field>
+    <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
+    <field name="arch" type="xml">
+        <field name="entries" position="attributes">
+            <attribute name="context">{'journal_type': 'sale'}</attribute>
+            <attribute name="nolabel">1</attribute>
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
