@@ -10,13 +10,13 @@ class BankPaymentLine(models.Model):
 
     priority = fields.Selection(
         related='payment_line_ids.priority', string='Priority')
-    struct_communication_type = fields.Selection(
-        related='payment_line_ids.struct_communication_type',
-        string='Structured Communication Type')
+    local_instrument = fields.Selection(
+        related='payment_line_ids.local_instrument',
+        string='Local Instrument')
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
         res = super(BankPaymentLine, self).\
             same_fields_payment_line_and_bank_payment_line()
-        res += ['priority', 'struct_communication_type']
+        res += ['priority', 'local_instrument']
         return res
