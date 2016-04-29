@@ -217,8 +217,8 @@ class NorthAmericanAccount(UKAccount):
     sortcode = property(_get_sortcode, _set_sortcode)
 
     def _set_bic(self, bic):
-        if (not edifact_isalnum_size(bic, 8)
-                and not edifact_isalnum_size(bic, 11)):
+        if (not edifact_isalnum_size(bic, 8) and
+                not edifact_isalnum_size(bic, 11)):
             raise ValueError("Account BIC/Swift code must be 8 or 11 "
                              "characters long: %s" % ustr(bic))
         self._bic = bic
@@ -267,8 +267,8 @@ class SWIFTAccount(UKAccount):
     sortcode = property(_get_sortcode, _set_sortcode)
 
     def _set_bic(self, bic):
-        if (not edifact_isalnum_size(bic, 8)
-                and not edifact_isalnum_size(bic, 11)):
+        if (not edifact_isalnum_size(bic, 8) and
+                not edifact_isalnum_size(bic, 11)):
             raise ValueError("Account BIC/Swift code must be 8 or 11 "
                              "characters long: %s" % ustr(bic))
         self._bic = bic

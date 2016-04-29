@@ -84,10 +84,7 @@ class transaction_message(object):
         '''
         retval = super(transaction_message, self).__getattribute__(attr)
         return attr != (
-            'strattrs'
-            and attr in self.strattrs
-            and to_swift(retval)
-            or retval
+            'strattrs' and attr in self.strattrs and to_swift(retval) or retval
         )
 
     def genid(self):
@@ -115,10 +112,10 @@ class transaction_message(object):
         if self.direction == 'A':
             self.transferred_amount = -float(self.transferred_amount)
             # payment batch done via clieop
-            if (self.transfer_type == 'VZ'
-                    and (not self.remote_account or self.remote_account == '0')
-                    and (not self.message or re.match(r'^\s*$', self.message))
-                    and self.remote_owner.startswith('TOTAAL ')):
+            if (self.transfer_type == 'VZ' and
+                    (not self.remote_account or self.remote_account == '0') and
+                    (not self.message or re.match(r'^\s*$', self.message)) and
+                    self.remote_owner.startswith('TOTAAL ')):
                 self.transfer_type = 'PB'
                 self.message = self.remote_owner
                 self.remove_owner = False

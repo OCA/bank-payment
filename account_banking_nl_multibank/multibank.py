@@ -153,9 +153,9 @@ class transaction(models.mem_bank_transaction):
         have their transfer_type set to 'OPN'.
         '''
         return ((
-            self.transferred_amount and self.execution_date
-            and self.value_date)
-            and (self.remote_account or self.transfer_type in [
+            self.transferred_amount and self.execution_date and
+            self.value_date) and (
+            self.remote_account or self.transfer_type in [
                 'KST', 'PRV', 'BTL', 'BEA', 'OPN', 'KNT', 'DIV'
             ] and not self.error_message))
 

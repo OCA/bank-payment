@@ -136,9 +136,9 @@ class transaction(models.mem_bank_transaction):
         self.message = ''
         # Decompose structured messages
         self.parse_message()
-        if (self.transfer_type == 'OV'
-                and not self.remote_account
-                and not self.remote_owner):
+        if (self.transfer_type == 'OV' and
+                not self.remote_account and
+                not self.remote_owner):
             self.transfer_type = 'KN'
 
     def is_valid(self):

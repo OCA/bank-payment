@@ -81,8 +81,8 @@ class res_partner_bank(orm.Model):
         Create dual function IBAN account for SEPA countries
         '''
         if vals.get('state') == 'iban':
-            iban = (vals.get('acc_number')
-                    or vals.get('acc_number_domestic', False))
+            iban = (vals.get('acc_number') or
+                    vals.get('acc_number_domestic', False))
             vals['acc_number'], vals['acc_number_domestic'] = (
                 self._correct_IBAN(iban))
         return super(res_partner_bank, self).create(

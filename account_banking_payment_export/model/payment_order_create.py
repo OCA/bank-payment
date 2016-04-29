@@ -133,8 +133,8 @@ class payment_order_create(orm.TransientModel):
                 state = 'structured'
 
         # support debit orders when enabled
-        if (payment.payment_order_type == 'debit'
-                and 'amount_to_receive' in line):
+        if (payment.payment_order_type == 'debit' and
+                'amount_to_receive' in line):
             amount_currency = line.amount_to_receive
         else:
             amount_currency = line.amount_to_pay
@@ -159,9 +159,9 @@ class payment_order_create(orm.TransientModel):
             'state': state,
             # end account banking
             'date': date_to_pay,
-            'currency': (line.invoice and line.invoice.currency_id.id
-                         or line.journal_id.currency.id
-                         or line.journal_id.company_id.currency_id.id),
+            'currency': (line.invoice and line.invoice.currency_id.id or
+                         line.journal_id.currency.id or
+                         line.journal_id.company_id.currency_id.id),
         }
         return res
 

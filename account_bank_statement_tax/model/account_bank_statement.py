@@ -50,8 +50,8 @@ class AccountBankStatement(orm.Model):
 
         fiscal_position = (
             st_line.partner_id.property_account_position
-            if st_line.partner_id
-            and st_line.partner_id.property_account_position
+            if (st_line.partner_id and
+                st_line.partner_id.property_account_position)
             else False)
         tax_ids = self.pool.get('account.fiscal.position').map_tax(
             cr, uid, fiscal_position, [st_line.tax_id])
@@ -77,8 +77,8 @@ class AccountBankStatement(orm.Model):
                 move_lines.append({
                     'move_id': defaults['move_id'],
                     'name': (
-                        defaults.get('name', '')
-                        + ' ' + ustr(tax['name'] or '')),
+                        defaults.get('name', '') + ' ' +
+                        ustr(tax['name'] or '')),
                     'date': defaults.get('date', False),
                     'partner_id': defaults.get('partner_id', False),
                     'ref': defaults.get('ref', False),
