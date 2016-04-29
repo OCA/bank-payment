@@ -10,7 +10,6 @@
   I create a partner bank account
 -
   !record {model: res.partner.bank, id: mandate_partner_bank, view: False}:
-    state: 'bank'
     acc_number: '1234'
     partner_id: mandate_partner
 -
