@@ -3,11 +3,6 @@
 <data noupdate="1">
 
 
-<record id="dd_mandate_seq_type" model="ir.sequence.type">
-    <field name="name">DD Mandate Reference</field>
-    <field name="code">account.banking.mandate</field>
-</record>
-
 <record id="dd_mandate_seq" model="ir.sequence">
     <field name="name">DD Mandate Reference</field>
     <field name="code">account.banking.mandate</field>

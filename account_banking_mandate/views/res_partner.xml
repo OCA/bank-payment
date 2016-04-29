@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2016 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+<record id="partner_view_buttons" model="ir.ui.view">
+    <field name="name">mandate.res.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.partner_view_buttons"/>
+    <field name="arch" type="xml">
+        <xpath expr="//button[@name='%(base.action_res_partner_bank_account_form)d']" position="after">
+            <button type="action" class="btn-link"
+                    name="%(account_banking_mandate.mandate_action)d"
+                    context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}">
+                <field string="Mandate(s)" name="mandate_count" widget="statinfo"/>
+            </button>
+        </xpath>
+    </field>
+</record>
+
+</data>
+</openerp>
