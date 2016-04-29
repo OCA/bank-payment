@@ -1,0 +1,159 @@
+-
+  I create a supplier invoice
+-
+  !record {model: account.invoice, id: account_invoice_supplier0, view: account.invoice_supplier_form}:
+    check_total: 1005.55
+    partner_id: base.res_partner_4
+    reference_type: none
+    type: in_invoice
+    account_id: account.a_pay
+    company_id: base.main_company
+    currency_id: base.EUR
+    invoice_line:
+      - account_id: account.a_expense
+        name: 'Some expenses'
+        price_unit: 450.0
+        quantity: 1.0
+      - account_id: account.a_expense
+        name: 'Some other expenses'
+        price_unit: 555.55
+        quantity: 1.0
+    journal_id: account.expenses_journal
+-
+  Make sure that the type is in_invoice
+-
+  !python {model: account.invoice}: |
+    self.write(cr, uid, ref("account_invoice_supplier0"), {'type': 'in_invoice'})
+-
+  I change the state of invoice to open by clicking Validate button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier0}
+-
+  I check that the invoice state is now "Open"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0}:
+    - state == 'open'
+    - type == 'in_invoice'
+-
+  I create a payment order
+-
+  !record {model: payment.order, id: payment_order_0}:
+    mode: account_banking_payment_transfer.payment_mode0
+    date_prefered: 'due'
+-
+  I run the select move line to pay wizard
+-
+  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("payment_order_0")],
+        "active_id": ref("payment_order_0"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
+    invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier0"))
+    entries = []
+    for move_line in invoice.move_id.line_id:
+        if move_line.credit and not move_line.debit:
+            entries.append((6, 0, [move_line.id]))
+    self.write(cr, uid, [wiz_id], {'entries': entries})
+    self.create_payment(cr, uid, [wiz_id], context=context)
+    pay_obj = self.pool.get('payment.order')
+    pay = pay_obj.browse(cr, uid, ref('payment_order_0'))
+    for line in pay.line_ids:
+        assert line.amount != 0.0
+-
+  I confirm the payment order.
+-
+  !workflow {model: payment.order, action: open, ref: payment_order_0}
+-
+  I check that payment order is now "Confirmed".
+-
+  !assert {model: payment.order, id: payment_order_0, severity: error, string: Payment Order should be 'Confirmed'.}:
+    - state == 'open'
+-
+  I create the wizard for paying the payment
+-
+  !record {model: payment.manual, id: payment_manual_0}:
+    create_date: !eval time.strftime('%Y-%m-%d')
+-
+  I click OK
+-
+  !python {model: payment.manual}: |
+    if context is None:
+      context = {}
+    context.update({'active_ids': [ref("payment_order_0")]})
+    self.button_ok(cr, uid, ref("payment_manual_0"), context)
+-
+  I check that the payment order is now "Sent".
+-
+  !assert {model: payment.order, id: payment_order_0, severity: error, string: Payment Order should be 'Sent'.}:
+    - state == 'sent'
+-
+  I check that the invoice has payments associated
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0, severity: error, string: payment_ids should be populated}:
+    - payment_ids
+-
+  I check the content of the payment of the invoice
+-
+  !python {model: account.invoice}: |
+    inv = self.browse(cr, uid, ref("account_invoice_supplier0"))
+    assert round(inv.payment_ids[0].debit, 2) == 1005.55
+    assert inv.payment_ids[0].credit == 0
+    assert inv.payment_ids[0].reconcile_id.id != False
+    assert inv.payment_ids[0].reconcile_ref != False
+    assert inv.state == 'paid'
+-
+  I create the bank statement to reconcile the transfer account move
+-
+  !record {model: account.bank.statement, id: bank_statement_0}:
+    name: BK test
+    balance_end_real: 0.0
+    balance_start: 0.0
+    date: !eval time.strftime('%Y-%m-%d')
+    journal_id: account.bank_journal
+-
+  I create bank statement line
+-
+  !python {model: account.bank.statement.line}: |
+    vals = {
+        'amount': -1005.55,
+        'partner_id': ref('base.res_partner_4'),
+        'statement_id': ref('bank_statement_0'),
+        'name': 'Pay invoice',
+        'journal_id': ref("account.bank_journal"),
+    }
+    line_id = self.create(cr, uid, vals)
+    assert line_id, "Account bank statement line has not been created"
+-
+  I reconcile the move transfer (not the invoice) with the payment.
+-
+  !python {model: account.bank.statement}: |
+    inv_obj = self.pool.get('account.invoice')
+    statement_obj = self.pool.get('account.bank.statement.line')
+    transfer_entry = inv_obj.browse(cr, uid, ref("account_invoice_supplier0")).payment_ids[0].move_id
+    for line in transfer_entry.line_id:
+      if not line.reconcile_id and line.credit:
+          counterpart_move_line = line
+          break
+    browse_payment = self.browse(cr, uid, ref("bank_statement_0"))
+    for line in browse_payment.line_ids:
+      statement_obj.process_reconciliation(cr, uid, line.id, [{
+        'counterpart_move_line_id': counterpart_move_line.id,
+        'credit':0,
+        'debit': counterpart_move_line.credit,
+        'name': line.name,
+      }])
+    self.write(cr, uid, ref("bank_statement_0"), {'balance_end_real': -1005.55})
+    self.button_confirm_bank(cr, uid, ref("bank_statement_0"))
+-
+  I check that the bank statement is confirm
+-
+  !assert {model: account.bank.statement, id: bank_statement_0, severity: error, string: Bank Statement should be confirm}:
+    - state == 'confirm'
+-
+  I check that the payment is done
+-
+  !assert {model: payment.order, id: payment_order_0, severity: error, string: Payment Order should be done}:
+    - state == 'done'
