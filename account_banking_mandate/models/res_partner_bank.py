@@ -12,5 +12,5 @@ class ResPartnerBank(models.Model):
     mandate_ids = fields.One2many(
         comodel_name='account.banking.mandate', inverse_name='partner_bank_id',
         string='Direct Debit Mandates',
-        help='Banking mandates represents an authorization that the bank '
-             'account owner gives to a company for a specific operation')
+        help='Banking mandates represent an authorization that the bank '
+             'account owner gives to a company for a specific operation.')
