@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-04-29 08:52+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
@@ -24,7 +24,7 @@ msgid "No remote account for transaction type %s"
 msgstr "Geen tegenrekening bij transactietype %s"
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:363
+#: code:addons/account_banking_nl_abnamro/abnamro.py:361
 #, python-format
 msgid "Abnamro (NL)"
 msgstr "Abnamro (NL)"
@@ -37,7 +37,7 @@ msgstr "Ongeldige gegevesn gevonden voor key %s"
 
 #. module: account_banking_nl_abnamro
 #: code:addons/account_banking_nl_abnamro/abnamro.py:128
-#: code:addons/account_banking_nl_abnamro/abnamro.py:232
+#: code:addons/account_banking_nl_abnamro/abnamro.py:230
 #, python-format
 msgid "Error !"
 msgstr "Fout !"
@@ -67,13 +67,13 @@ msgid "unable to parse SEPA string: %s - %s"
 msgstr "Niet mogelijk om SEPA string: %s - %s te verwerken"
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:233
+#: code:addons/account_banking_nl_abnamro/abnamro.py:231
 #, python-format
 msgid "unable to parse GIRO string: %s"
 msgstr "Niet mogelijk om GIRO string: %s te verwerken"
 
 #. module: account_banking_nl_abnamro
-#: code:addons/account_banking_nl_abnamro/abnamro.py:364
+#: code:addons/account_banking_nl_abnamro/abnamro.py:362
 #, python-format
 msgid ""
 "The Dutch Abnamro format is a tab separated text format. The last of these\n"
