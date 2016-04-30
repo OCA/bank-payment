@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 10:57+0000\n"
-"PO-Revision-Date: 2016-04-18 10:57+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-27 19:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,11 @@ msgid ""
 "not the same as the currency of the company (%s). This is not supported for "
 "the moment."
 msgstr "Cannot generate the transfer move when the currency of the payment (%s) is not the same as the currency of the company (%s). This is not supported for the moment."
+
+#. module: account_banking_payment_transfer
+#: help:bank.payment.line,transfer_move_line_id:0
+msgid "Counterpart move line on the transfer account"
+msgstr "Counterpart move line on the transfer account"
 
 #. module: account_banking_payment_transfer
 #: field:payment.line,date_done:0
@@ -112,6 +117,11 @@ msgid "Partial Reconcile Moves Line"
 msgstr "Partial Reconcile Moves Line"
 
 #. module: account_banking_payment_transfer
+#: field:payment.order,partial_reconcile_count:0
+msgid "Partial Reconciles Counter"
+msgstr "Partial Reconciles Counter"
+
+#. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_account_id:0
 msgid ""
 "Pay off lines in sent orders with a move on this account. You can only "
@@ -158,6 +168,11 @@ msgstr "Transfer journal"
 #: field:bank.payment.line,transit_move_line_id:0
 msgid "Transfer move line"
 msgstr "Transfer move line"
+
+#. module: account_banking_payment_transfer
+#: field:bank.payment.line,transfer_move_line_id:0
+msgid "Transfer move line counterpart"
+msgstr "Transfer move line counterpart"
 
 #. module: account_banking_payment_transfer
 #: field:payment.mode,transfer_move_option:0

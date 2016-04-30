@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 10:57+0000\n"
-"PO-Revision-Date: 2016-04-22 06:53+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-30 05:22+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -167,6 +167,11 @@ msgid "Debtor's Name:"
 msgstr "Naziv dolžnika:"
 
 #. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,display_name:0
+msgid "Display Name"
+msgstr "Prikazni naziv"
+
+#. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
 msgid ""
 "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
@@ -292,6 +297,11 @@ msgstr "Če pravilno, bančni izpisek prikaže le eno postavko v dobro za vse di
 #, python-format
 msgid "Invalid SEPA Creditor Identifier."
 msgstr "Neveljaven identifikator SEPA upnika."
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Zadnjič spremenjeno"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0

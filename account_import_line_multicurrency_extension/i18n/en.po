@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-27 19:49+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,11 @@ msgid "Bank Statement Line"
 msgstr "Bank Statement Line"
 
 #. module: account_import_line_multicurrency_extension
+#: help:account.bank.statement.line,currency_symbol:0
+msgid "Currency sign, to be used when printing amounts."
+msgstr "Currency sign, to be used when printing amounts."
+
+#. module: account_import_line_multicurrency_extension
 #: model:ir.model,name:account_import_line_multicurrency_extension.model_account_statement_from_invoice_lines
 msgid "Entries by Statement from Invoices"
 msgstr "Entries by Statement from Invoices"
@@ -45,6 +50,11 @@ msgid ""
 "Error on bank statement: \n"
 " %s"
 msgstr "Error on bank statement: \n %s"
+
+#. module: account_import_line_multicurrency_extension
+#: field:account.bank.statement.line,currency_symbol:0
+msgid "Journal Currency"
+msgstr "Journal Currency"
 
 #. module: account_import_line_multicurrency_extension
 #: view:account.move.line:account_import_line_multicurrency_extension.view_move_line_tree_bank_statement

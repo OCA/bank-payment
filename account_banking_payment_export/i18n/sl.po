@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 10:57+0000\n"
-"PO-Revision-Date: 2016-04-19 08:59+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-30 05:21+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,11 @@ msgstr "Znesek"
 #: model:ir.model,name:account_banking_payment_export.model_res_bank
 msgid "Bank"
 msgstr "Banka"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,bank_id:0
+msgid "Bank Account"
+msgstr "Bančni račun"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_partner_bank
@@ -84,6 +89,11 @@ msgid "Communication"
 msgstr "Komunikacija"
 
 #. module: account_banking_payment_export
+#: field:bank.payment.line,state:0
+msgid "Communication Type"
+msgstr "Tip komunikacije"
+
+#. module: account_banking_payment_export
 #: field:bank.payment.line,company_id:0
 msgid "Company"
 msgstr "Družba"
@@ -101,6 +111,11 @@ msgid "Created on"
 msgstr "Ustvarjeno"
 
 #. module: account_banking_payment_export
+#: field:bank.payment.line,currency:0
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_banking_payment_export
 #: selection:payment.mode.type,payment_order_type:0
 msgid "Debit"
 msgstr "Breme"
@@ -109,6 +124,12 @@ msgstr "Breme"
 #: selection:payment.order,payment_order_type:0
 msgid "Direct debit"
 msgstr "Neposredno breme"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
+#: field:payment.mode.type,display_name:0
+msgid "Display Name"
+msgstr "Prikazni naziv"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -159,6 +180,13 @@ msgid "ID"
 msgstr "ID"
 
 #. module: account_banking_payment_export
+#: help:bank.payment.line,date:0
+msgid ""
+"If no payment date is specified, the bank will treat this payment line "
+"directly"
+msgstr "Če datum plačila ni določen, bo banka to postavko plačila obravnavala neposredno"
+
+#. module: account_banking_payment_export
 #: help:payment.mode,group_lines:0
 msgid ""
 "If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
@@ -186,6 +214,11 @@ msgid "Journal Entry"
 msgstr "Dnevniški vnos"
 
 #. module: account_banking_payment_export
+#: field:account.move.line,journal_entry_ref:0
+msgid "Journal Entry Ref"
+msgstr "Sklic dnevniškega vnosa"
+
+#. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
@@ -201,6 +234,13 @@ msgstr "Dnevniški filter"
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order
 msgid "Keep empty for using all journals"
 msgstr "Pustite prazno za uporabo vseh dnevnikov"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,__last_update:0
+#: field:payment.manual,__last_update:0
+#: field:payment.mode.type,__last_update:0
+msgid "Last Modified on"
+msgstr "Zadnjič spremenjeno"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
@@ -252,9 +292,19 @@ msgid "Note"
 msgstr "Opomba"
 
 #. module: account_banking_payment_export
+#: field:payment.order,bank_line_count:0
+msgid "Number of Bank Lines"
+msgstr "Število bančnih postavk"
+
+#. module: account_banking_payment_export
 #: field:bank.payment.line,order_id:0
 msgid "Order"
 msgstr "Nalog"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,payment_order_type:0
+msgid "Order Type"
+msgstr "Tip naloga"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,payment_order_type:0
@@ -267,6 +317,11 @@ msgid "Owner Account"
 msgstr "Račun lastnika"
 
 #. module: account_banking_payment_export
+#: field:bank.payment.line,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 msgid "Partner Bank Account"
 msgstr "Bančni račun partnerja"
@@ -277,6 +332,11 @@ msgstr "Bančni račun partnerja"
 #: selection:payment.order,payment_order_type:0
 msgid "Payment"
 msgstr "Plačilo"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,date:0
+msgid "Payment Date"
+msgstr "Datum plačila"
 
 #. module: account_banking_payment_export
 #: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
@@ -325,7 +385,7 @@ msgstr "Plačilni nalogi"
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
-#: help:payment.mode.type,name:0
+#: help:payment.mode.type,name:0 field:payment.order,mode_type:0
 msgid "Payment Type"
 msgstr "Tip plačila"
 
@@ -367,7 +427,7 @@ msgid "Select Move Lines to Pay - Default Values"
 msgstr "Izbira postavk premikov za plačilo - privzete vrednosti"
 
 #. module: account_banking_payment_export
-#: help:payment.mode,type:0
+#: help:payment.mode,type:0 help:payment.order,mode_type:0
 msgid "Select the Export Payment Type for the Payment Mode."
 msgstr "Izbira tipa izvoza plačila za metodo plačila."
 
@@ -411,6 +471,11 @@ msgid "Suitable bank types"
 msgstr "Ustrezni tipi bank"
 
 #. module: account_banking_payment_export
+#: help:bank.payment.line,partner_id:0
+msgid "The Ordering Customer"
+msgstr "Naročnik"
+
+#. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:152
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
@@ -422,6 +487,13 @@ msgid ""
 "This field determines if this type applies to customers (Debit) or suppliers"
 " (Payment)"
 msgstr "To polje določa, če se ta tip nanaša na kupce (breme) ali dobavitelje (plačilo )"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,payment_order_type:0
+msgid ""
+"This field, that comes from export type, determines if this mode can be "
+"selected for customers or suppliers."
+msgstr "To polje, ki izhaja iz tipa izvoza, določa, če se ta način lahko izbira za kupce ali dobavitelje."
 
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:14+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-27 19:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,11 @@ msgid "Convert to ASCII"
 msgstr "Converteer naar ASCII"
 
 #. module: account_banking_pain_base
+#: field:banking.export.pain,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:282
 #, python-format
 msgid "Error:"
@@ -85,6 +90,11 @@ msgstr ""
 #: field:res.company,initiating_party_issuer:0
 msgid "Initiating Party Issuer"
 msgstr "Initiating Party Issuer"
+
+#. module: account_banking_pain_base
+#: field:banking.export.pain,__last_update:0
+msgid "Last Modified on"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:256
@@ -122,7 +132,7 @@ msgid "Payment Mode"
 msgstr "Betaalwijze"
 
 #. module: account_banking_pain_base
-#: field:payment.line,priority:0
+#: field:bank.payment.line,priority:0 field:payment.line,priority:0
 msgid "Priority"
 msgstr "Prioriteit"
 
@@ -138,6 +148,12 @@ msgid "SEPA identifiers"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: field:payment.mode,sepa_type:0
+msgid "Sepa type"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: field:bank.payment.line,struct_communication_type:0
 #: field:payment.line,struct_communication_type:0
 msgid "Structured Communication Type"
 msgstr "Structured Communication Type"
@@ -179,7 +195,7 @@ msgid "This IBAN is not valid : %s"
 msgstr "Deze IBAN is niet geldig : %s"
 
 #. module: account_banking_pain_base
-#: help:payment.line,priority:0
+#: help:bank.payment.line,priority:0 help:payment.line,priority:0
 msgid ""
 "This field will be used as the 'Instruction Priority' in the generated PAIN "
 "file."

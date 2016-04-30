@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-09 06:21+0000\n"
-"PO-Revision-Date: 2016-04-15 11:04+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-30 05:18+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,11 @@ msgid "Convert to ASCII"
 msgstr "Pretvori v ASCII"
 
 #. module: account_banking_pain_base
+#: field:banking.export.pain,display_name:0
+msgid "Display Name"
+msgstr "Prikazni naziv"
+
+#. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:282
 #, python-format
 msgid "Error:"
@@ -85,6 +90,11 @@ msgstr "Identifikator začetne stranke"
 #: field:res.company,initiating_party_issuer:0
 msgid "Initiating Party Issuer"
 msgstr "Izdajatelj začetne stranke"
+
+#. module: account_banking_pain_base
+#: field:banking.export.pain,__last_update:0
+msgid "Last Modified on"
+msgstr "Zadnjič spremenjeno"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:256
@@ -122,7 +132,7 @@ msgid "Payment Mode"
 msgstr "Metoda plačila"
 
 #. module: account_banking_pain_base
-#: field:payment.line,priority:0
+#: field:bank.payment.line,priority:0 field:payment.line,priority:0
 msgid "Priority"
 msgstr "Prioriteta"
 
@@ -138,6 +148,12 @@ msgid "SEPA identifiers"
 msgstr "SEPA identifikatorji"
 
 #. module: account_banking_pain_base
+#: field:payment.mode,sepa_type:0
+msgid "Sepa type"
+msgstr "Tip SEPA"
+
+#. module: account_banking_pain_base
+#: field:bank.payment.line,struct_communication_type:0
 #: field:payment.line,struct_communication_type:0
 msgid "Structured Communication Type"
 msgstr "Tip strukturirane komunikacije"
@@ -179,7 +195,7 @@ msgid "This IBAN is not valid : %s"
 msgstr "Ta IBAN ni veljaven : %s"
 
 #. module: account_banking_pain_base
-#: help:payment.line,priority:0
+#: help:bank.payment.line,priority:0 help:payment.line,priority:0
 msgid ""
 "This field will be used as the 'Instruction Priority' in the generated PAIN "
 "file."

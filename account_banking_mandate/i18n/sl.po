@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-08 05:56+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-30 05:18+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,8 @@ msgid "Date of the last message posted on the record."
 msgstr "Datum objave zadnjega sporočila na zapisu."
 
 #. module: account_banking_mandate
-#: field:account.invoice,mandate_id:0 field:payment.line,mandate_id:0
+#: field:account.invoice,mandate_id:0 field:bank.payment.line,mandate_id:0
+#: field:payment.line,mandate_id:0
 msgid "Direct Debit Mandate"
 msgstr "Mandat za direktne obremenitve"
 
@@ -169,6 +170,11 @@ msgstr "Mandat za direktne obremenitve"
 #: field:res.partner.bank,mandate_ids:0
 msgid "Direct Debit Mandates"
 msgstr "Mandati za direktne obremenitve"
+
+#. module: account_banking_mandate
+#: field:account.banking.mandate,display_name:0
+msgid "Display Name"
+msgstr "Prikazni naziv"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -227,6 +233,11 @@ msgstr "Je sledilec"
 #: field:account.banking.mandate,message_last_post:0
 msgid "Last Message Date"
 msgstr "Datum zadnjega sporočila"
+
+#. module: account_banking_mandate
+#: field:account.banking.mandate,__last_update:0
+msgid "Last Modified on"
+msgstr "Zadnjič spremenjeno"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0

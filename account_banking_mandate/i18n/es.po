@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-07 16:04+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-27 19:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,8 @@ msgid "Date of the last message posted on the record."
 msgstr "Fecha del último mensaje publicado en el registro."
 
 #. module: account_banking_mandate
-#: field:account.invoice,mandate_id:0 field:payment.line,mandate_id:0
+#: field:account.invoice,mandate_id:0 field:bank.payment.line,mandate_id:0
+#: field:payment.line,mandate_id:0
 msgid "Direct Debit Mandate"
 msgstr "Mandato de adeudo directo"
 
@@ -168,6 +169,11 @@ msgstr "Mandato de adeudo directo"
 #: field:res.partner.bank,mandate_ids:0
 msgid "Direct Debit Mandates"
 msgstr "Mandatos de adeudo directo"
+
+#. module: account_banking_mandate
+#: field:account.banking.mandate,display_name:0
+msgid "Display Name"
+msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -226,6 +232,11 @@ msgstr "Es un seguidor"
 #: field:account.banking.mandate,message_last_post:0
 msgid "Last Message Date"
 msgstr "Fecha del último mensaje"
+
+#. module: account_banking_mandate
+#: field:account.banking.mandate,__last_update:0
+msgid "Last Modified on"
+msgstr ""
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0

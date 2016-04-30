@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 10:57+0000\n"
-"PO-Revision-Date: 2016-04-19 08:58+0000\n"
+"POT-Creation-Date: 2016-04-28 11:43+0000\n"
+"PO-Revision-Date: 2016-04-30 05:22+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -54,6 +54,11 @@ msgid ""
 "not the same as the currency of the company (%s). This is not supported for "
 "the moment."
 msgstr "Ni mogoče ustvariti premika transferja, kadar je valuta plačila (%s) drugačna od valute družbe (%s). Ta opcija trenutno ni podprta."
+
+#. module: account_banking_payment_transfer
+#: help:bank.payment.line,transfer_move_line_id:0
+msgid "Counterpart move line on the transfer account"
+msgstr "Proti-postavka premika na kontu transferja"
 
 #. module: account_banking_payment_transfer
 #: field:payment.line,date_done:0
@@ -113,6 +118,11 @@ msgid "Partial Reconcile Moves Line"
 msgstr "Delno usklajevanje postavk premikov"
 
 #. module: account_banking_payment_transfer
+#: field:payment.order,partial_reconcile_count:0
+msgid "Partial Reconciles Counter"
+msgstr "Števec delnih uskladitev"
+
+#. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_account_id:0
 msgid ""
 "Pay off lines in sent orders with a move on this account. You can only "
@@ -159,6 +169,11 @@ msgstr "Dnevnik transferja"
 #: field:bank.payment.line,transit_move_line_id:0
 msgid "Transfer move line"
 msgstr "Postavka premika transferja"
+
+#. module: account_banking_payment_transfer
+#: field:bank.payment.line,transfer_move_line_id:0
+msgid "Transfer move line counterpart"
+msgstr "Proti-postavka postavke transferja"
 
 #. module: account_banking_payment_transfer
 #: field:payment.mode,transfer_move_option:0
