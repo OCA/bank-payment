@@ -5,7 +5,8 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 
 class AccountPaymentMode(models.Model):
@@ -42,6 +43,38 @@ class AccountPaymentMode(models.Model):
              "* Payment Date\n"
              "(other modules can set additional fields to restrict the "
              "grouping.)")
+    transfer_move = fields.Boolean(
+        'Generate Accounting Entries On File Upload')
+    transfer_account_id = fields.Many2one(
+        'account.account', string='Transfer Account',
+        domain=[('internal_type', '=', 'other'), ('reconcile', '=', True)],
+        help="Pay off lines in 'file uploaded' payment orders with a move on "
+        "this account. You can only select accounts of type regular "
+        "that are marked for reconciliation")
+    transfer_journal_id = fields.Many2one(
+        'account.journal', string='Transfer Journal',
+        help='Journal to write payment entries when confirming '
+        'payment/debit orders of this mode')
+    transfer_move_option = fields.Selection([
+        ('date', 'One move per payment date'),
+        ('line', 'One move per payment line'),
+        ], string='Transfer Move Option', default='date')
+
+    @api.multi
+    @api.constrains(
+        'transfer_move', 'transfer_account_id', 'transfer_journal_id',
+        'transfer_move_option')
+    def transfer_move_constrains(self):
+        for mode in self:
+            if mode.transfer_move and (
+                    not mode.transfer_account_id or
+                    not mode.transfer_journal_id or
+                    not mode.transfer_move_option):
+                raise ValidationError(_(
+                    "The option 'Generate Accounting Entries On File Upload' "
+                    "is active on payment mode '%s', so the three parameters "
+                    "'Transfer Account', 'Transfer Journal' and "
+                    "'Transfer Move Option' must be set.") % mode.name)
 
     @api.onchange('payment_method_id')
     def payment_method_id_change(self):

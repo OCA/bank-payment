@@ -28,7 +28,7 @@ Installation
 
 This module depends on:
 
-* account_payment
+* account_payment_partner
 * base_iban
 
 This modules is part of the OCA/bank-payment suite.
@@ -36,16 +36,16 @@ This modules is part of the OCA/bank-payment suite.
 Configuration
 =============
 
-No configuration required.
+This module adds several options on Payment Modes, cf Accounting > Configuration > Management > Payment Modes.
 
 Usage
 =====
 
-This module provides a menu to configure payment order types : Accounting > Configuration > Miscellaneous > Payment Export Types 
+You can create a Payment Order via the menu Accounting > Payments > Payment Orders and then select the move lines to pay.
 
-For further information, please visit:
+You can create a Debit Order via the menu Accounting > Payments > Debit Orders and then select the move lines to debit.
 
- * https://www.odoo.com/forum/help-1
+This module also adds a button *Add to Payment Order* on supplier invoices and a button *Add to Debit Order* on customer invoices.
 
 Known issues / Roadmap
 ======================
@@ -58,7 +58,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_payment_export%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_payment_export%0Aversion:%209.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 
 Credits

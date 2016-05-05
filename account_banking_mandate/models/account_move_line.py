@@ -16,7 +16,6 @@ class AccountMoveLine(models.Model):
     def _prepare_payment_line_vals(self, payment_order):
         vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
             payment_order)
-        # TODO : test on the view field "mandate required ?"
         if payment_order.payment_type == 'inbound' and self.mandate_id:
             vals['mandate_id'] = self.mandate_id.id or False
             vals['partner_bank_id'] = self.mandate_id.partner_bank_id.id or False

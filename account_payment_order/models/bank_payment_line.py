@@ -29,6 +29,7 @@ class BankPaymentLine(models.Model):
         readonly=True)
     # Function Float fields are sometimes badly displayed in tree view,
     # see bug report https://github.com/odoo/odoo/issues/8632
+    # But is it still true in v9 ?
     amount_currency = fields.Monetary(
         string='Amount', currency_field='currency_id',
         compute='_compute_amount', store=True, readonly=True)
@@ -48,6 +49,28 @@ class BankPaymentLine(models.Model):
     company_id = fields.Many2one(
         related='order_id.payment_mode_id.company_id', store=True,
         readonly=True)
+    # TODO : not shown in view ?
+    # why on bank payment line and not on payment line ?
+    transit_move_line_id = fields.Many2one(
+        'account.move.line', string='Transfer Move Line', readonly=True,
+        help="Move line through which the payment/debit order "
+        "pays the invoice")
+    transfer_move_line_id = fields.Many2one(
+        'account.move.line', compute='_get_transfer_move_line',
+        string='Transfer move line counterpart',
+        help="Counterpart move line on the transfer account")
+
+    @api.multi
+    def _get_transfer_move_line(self):
+        for bank_line in self:
+            if bank_line.transit_move_line_id:
+                payment_type = bank_line.payment_type
+                trf_lines = bank_line.transit_move_line_id.move_id.line_id
+                for move_line in trf_lines:
+                    if payment_type == 'inbound' and move_line.debit > 0:
+                        bank_line.transfer_move_line_id = move_line
+                    elif payment_type == 'outbound' and move_line.credit > 0:
+                        bank_line.transfer_move_line_id = move_line
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
@@ -76,3 +99,17 @@ class BankPaymentLine(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'bank.payment.line') or 'New'
         return super(BankPaymentLine, self).create(vals)
+
+    @api.multi
+    def move_line_transfer_account_hashcode(self):
+        """
+        This method is inherited in the module
+        account_banking_sepa_direct_debit
+        """
+        self.ensure_one()
+        if self.order_id.payment_mode_id.transfer_move_option == 'date':
+            hashcode = self.date
+        else:
+            hashcode = unicode(self.id)
+        return hashcode
+
