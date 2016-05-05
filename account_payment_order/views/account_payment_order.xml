@@ -88,6 +88,11 @@
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
         <search string="Search Payment Orders">
+            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+            <filter name="open" string="Confirmed" domain="[('state', '=', 'open')]"/>
+            <filter name="generated" string="File Generated" domain="[('state', '=', 'generated')]"/>
+            <filter name="uploaded" string="File Uploaded" domain="[('state', '=', 'uploaded')]"/>
+            <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
             <group string="Group By" name="groupby">
                 <filter name="payment_mode_groupby" string="Payment Mode" context="{'group_by': 'payment_mode_id'}"/>
                 <filter name="journal_groupby" string="Bank Journal" context="{'group_by': 'journal_id'}"/>
@@ -98,10 +103,33 @@
     </field>
 </record>
 
+<record id="account_payment_order_graph" model="ir.ui.view">
+    <field name="name">account.payment.order.graph</field>
+    <field name="model">account.payment.order</field>
+    <field name="arch" type="xml">
+        <graph string="Payment Orders">
+            <field name="date_generated" type="row" interval="month"/>
+            <field name="total_company_currency" type="measure"/>
+        </graph>
+    </field>
+</record>
+
+<record id="account_payment_order_pivot" model="ir.ui.view">
+    <field name="name">account.payment.order.pivot</field>
+    <field name="model">account.payment.order</field>
+    <field name="arch" type="xml">
+        <pivot string="Payment Orders">
+            <field name="date_generated" type="row" interval="month"/>
+            <field name="total_company_currency" type="measure"/>
+        </pivot>
+    </field>
+</record>
+
+
 <record id="account_payment_order_outbound_action" model="ir.actions.act_window">
     <field name="name">Payment Orders</field>
     <field name="res_model">account.payment.order</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,pivot,graph</field>
     <field name="domain">[('payment_type', '=', 'outbound')]</field>
     <field name="context">{'default_payment_type': 'outbound'}</field>
 </record>
@@ -109,7 +137,7 @@
 <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
     <field name="name">Debit Orders</field>
     <field name="res_model">account.payment.order</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,pivot,graph</field>
     <field name="domain">[('payment_type', '=', 'inbound')]</field>
     <field name="context">{'default_payment_type': 'inbound'}</field>
 </record>

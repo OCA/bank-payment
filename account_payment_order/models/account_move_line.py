@@ -45,17 +45,22 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         assert payment_order, 'Missing payment order'
         aplo = self.env['account.payment.line']
+        # default values for communication_type and communication
         communication_type = 'normal'
         communication = self.move_id.name or '-'
-        ref2comm_type = aplo.invoice_reference_type2communication_type()
-        if (
-                self.invoice_id and
-                self.invoice_id.type in ('in_invoice', 'in_refund') and
-                self.invoice_id.reference):
-            communication = self.invoice_id.reference
-            if self.invoice_id.reference_type:
+        # change these default values if move line is linked to an invoice
+        if self.invoice_id:
+            if self.invoice_id.reference_type != 'none':
+                communication = self.invoice_id.reference
+                ref2comm_type =\
+                    aplo.invoice_reference_type2communication_type()
                 communication_type =\
                     ref2comm_type[self.invoice_id.reference_type]
+            else:
+                if (
+                        self.invoice_id.type in ('in_invoice', 'in_refund')
+                        and self.invoice_id.reference):
+                    communication = self.invoice_id.reference
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency
@@ -66,7 +71,6 @@ class AccountMoveLine(models.Model):
         precision = self.env['decimal.precision'].precision_get('Account')
         if payment_order.payment_type == 'outbound':
             amount_currency *= -1
-        # TODO : inherit for mandate
         vals = {
             'order_id': payment_order.id,
             'partner_bank_id': self.partner_bank_id.id,

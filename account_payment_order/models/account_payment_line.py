@@ -20,6 +20,9 @@ class AccountPaymentLine(models.Model):
         related='order_id.company_currency_id', store=True, readonly=True)
     payment_type = fields.Selection(
         related='order_id.payment_type', store=True, readonly=True)
+    state = fields.Selection(
+        related='order_id.state', string='State',
+        readonly=True, store=True)
     move_line_id = fields.Many2one(
         'account.move.line', string='Journal Item')
     ml_maturity_date = fields.Date(
@@ -83,6 +86,11 @@ class AccountPaymentLine(models.Model):
         values = []
         for field in bplo.same_fields_payment_line_and_bank_payment_line():
             values.append(unicode(self[field]))
+        # Don't group the payment lines that are attached to the same supplier
+        # but to move lines with different accounts (very unlikely),
+        # for easier generation/comprehension of the transfer move
+        # TODO Alexis : but this is for ????
+        values.append(unicode(self.move_line_id.account_id or False))
         hashcode = '-'.join(values)
         return hashcode
 

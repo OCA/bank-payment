@@ -35,7 +35,9 @@ class AccountPaymentOrder(models.Model):
         related='payment_mode_id.bank_account_link', readonly=True)
     journal_id = fields.Many2one(
         'account.journal', string='Bank Journal',
-        required=True)
+        readonly=True, states={'draft': [('readonly', False)]})
+    # The journal_id field is only required at confirm step, to
+    # allow auto-creation of payment order from invoice
     company_partner_bank_id = fields.Many2one(
         related='journal_id.bank_account_id', string='Company Bank Account',
         readonly=True)
@@ -174,6 +176,9 @@ class AccountPaymentOrder(models.Model):
         bplo = self.env['bank.payment.line']
         today = fields.Date.context_today(self)
         for order in self:
+            if not order.journal_id:
+                raise UserError(_(
+                    'Missing Bank Journal on payment order %s') % order.name)
             # Delete existing bank payment lines
             order.bank_line_ids.unlink()
             # Create the bank payment lines from the payment lines
@@ -257,5 +262,144 @@ class AccountPaymentOrder(models.Model):
 
     @api.multi
     def generated2uploaded(self):
+        for order in self:
+            if order.payment_mode_id.transfer_move:
+                order.generate_transfer_move()
         self.write({'state': 'uploaded'})
         return True
+
+    # Generation of transfer move
+    @api.multi
+    def _prepare_transfer_move(self):
+        vals = {
+            'journal_id': self.mode.transfer_journal_id.id,
+            'ref': '%s %s' % (
+                self.payment_order_type[:3].upper(), self.reference)
+            }
+        return vals
+
+    @api.multi
+    def _prepare_move_line_transfer_account(
+            self, amount, move, bank_payment_lines, labels):
+        if len(bank_payment_lines) == 1:
+            partner_id = bank_payment_lines[0].partner_id.id
+            name = _('%s bank line %s') % (labels[self.payment_order_type],
+                                           bank_payment_lines[0].name)
+        else:
+            partner_id = False
+            name = '%s %s' % (
+                labels[self.payment_order_type], self.reference)
+        date_maturity = bank_payment_lines[0].date
+        vals = {
+            'name': name,
+            'move_id': move.id,
+            'partner_id': partner_id,
+            'account_id': self.mode.transfer_account_id.id,
+            'credit': (self.payment_order_type == 'payment' and
+                       amount or 0.0),
+            'debit': (self.payment_order_type == 'debit' and
+                      amount or 0.0),
+            'date_maturity': date_maturity,
+        }
+        return vals
+
+    @api.multi
+    def _prepare_move_line_partner_account(self, bank_line, move, labels):
+        # TODO : ALEXIS check don't group if move_line_id.account_id
+        # is not the same
+        if bank_line.payment_line_ids[0].move_line_id:
+            account_id =\
+                bank_line.payment_line_ids[0].move_line_id.account_id.id
+        else:
+            if self.payment_order_type == 'debit':
+                account_id =\
+                    bank_line.partner_id.property_account_receivable.id
+            else:
+                account_id = bank_line.partner_id.property_account_payable.id
+        vals = {
+            'name': _('%s line %s') % (
+                labels[self.payment_order_type], bank_line.name),
+            'move_id': move.id,
+            'partner_id': bank_line.partner_id.id,
+            'account_id': account_id,
+            'credit': (self.payment_order_type == 'debit' and
+                       bank_line.amount_currency or 0.0),
+            'debit': (self.payment_order_type == 'payment' and
+                      bank_line.amount_currency or 0.0),
+            }
+        return vals
+
+    @api.multi
+    def action_sent_no_move_line_hook(self, pay_line):
+        """This function is designed to be inherited"""
+        return
+
+    @api.multi
+    def _create_move_line_partner_account(self, bank_line, move, labels):
+        """This method is designed to be inherited in a custom module"""
+        # TODO: take multicurrency into account
+        company_currency = self.env.user.company_id.currency_id
+        if bank_line.currency != company_currency:
+            raise UserError(_(
+                "Cannot generate the transfer move when "
+                "the currency of the payment (%s) is not the "
+                "same as the currency of the company (%s). This "
+                "is not supported for the moment.")
+                % (bank_line.currency.name, company_currency.name))
+        aml_obj = self.env['account.move.line']
+        # create the payment/debit counterpart move line
+        # on the partner account
+        partner_ml_vals = self._prepare_move_line_partner_account(
+            bank_line, move, labels)
+        partner_move_line = aml_obj.create(partner_ml_vals)
+
+        # register the payment/debit move line
+        # on the payment line and call reconciliation on it
+        bank_line.write({'transit_move_line_id': partner_move_line.id})
+
+    @api.multi
+    def _reconcile_payment_lines(self, bank_payment_lines):
+        for bline in bank_payment_lines:
+            if all([pline.move_line_id for pline in bline.payment_line_ids]):
+                bline.debit_reconcile()
+            else:
+                self.action_sent_no_move_line_hook(bline)
+
+    @api.multi
+    def generate_transfer_move(self):
+        """
+        Create the moves that pay off the move lines from
+        the debit order.
+        """
+        self.ensure_one()
+        am_obj = self.env['account.move']
+        aml_obj = self.env['account.move.line']
+        labels = {
+            'outbound': _('Payment'),
+            'inbound': _('Direct debit'),
+            }
+        # prepare a dict "trfmoves" that can be used when
+        # self.mode.transfer_move_option = date or line
+        # key = unique identifier (date or True or line.id)
+        # value = [pay_line1, pay_line2, ...]
+        trfmoves = {}
+        for bline in self.bank_line_ids:
+            hashcode = bline.move_line_transfer_account_hashcode()
+            if hashcode in trfmoves:
+                trfmoves[hashcode].append(bline)
+            else:
+                trfmoves[hashcode] = [bline]
+
+        for hashcode, blines in trfmoves.iteritems():
+            mvals = self._prepare_transfer_move()
+            move = am_obj.create(mvals)
+            total_amount = 0
+            for bline in blines:
+                total_amount += bline.amount_currency
+                self._create_move_line_partner_account(bline, move, labels)
+            # create the payment/debit move line on the transfer account
+            trf_ml_vals = self._prepare_move_line_transfer_account(
+                total_amount, move, blines, labels)
+            aml_obj.create(trf_ml_vals)
+            self._reconcile_payment_lines(blines)
+            move.post()

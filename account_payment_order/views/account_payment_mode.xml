@@ -19,6 +19,16 @@
                 <field name="default_invoice"/>
                 <field name="default_date_type"/>
             </group>
+            <group name="trf-move-config" string="Accounting Entries Options">
+                <field name="transfer_move"/>
+                <field name="transfer_account_id"
+                    attrs="{'invisible': [('transfer_move', '=', False)], 'required': [('transfer_move', '=', True)]}"
+                    context="{'default_internal_type': 'other', 'default_reconcile': True, 'default_company_id': company_id}"/>
+                <field name="transfer_journal_id"
+                    attrs="{'invisible': [('transfer_move', '=', False)], 'required': [('transfer_move', '=', True)]}"/>
+                <field name="transfer_move_option"
+                    attrs="{'invisible': [('transfer_move', '=', False)], 'required': [('transfer_move', '=', True)]}"/>
+            </group>
         </group>
     </field>
 </record>

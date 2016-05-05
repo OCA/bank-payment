@@ -102,6 +102,13 @@ class AccountPaymentLineCreate(models.TransientModel):
                 ('debit', '>', 0),
                 ('account_id.internal_type', '=', 'receivable'),
                 ]
+        # Exclude lines that are already in a non-cancelled payment order
+        paylines = self.env['account.payment.line'].search([
+            ('state', '!=', 'cancel'),
+            ('move_line_id', '!=', False)])
+        if paylines:
+            move_lines_ids = [payline.move_line_id.id for payline in paylines]
+            domain += [('id', 'not in', move_lines_ids)]
         return domain
 
     @api.multi
@@ -128,105 +135,8 @@ class AccountPaymentLineCreate(models.TransientModel):
         return res
 
     @api.multi
-    def filter_lines(self, lines):
-        """ Filter move lines before proposing them for inclusion
-            in the payment order.
-
-        This implementation filters out move lines that are already
-        included in draft or open payment orders. This prevents the
-        user to include the same line in two different open payment
-        orders. When the payment order is sent, it is assumed that
-        the move will be reconciled soon (or immediately with
-        account_banking_payment_transfer), so it will not be
-        proposed anymore for payment.
-
-        See also https://github.com/OCA/bank-payment/issues/93.
-
-        :param lines: recordset of move lines
-        :returns: list of move line ids
-        """
-        self.ensure_one()
-        payment_lines = self.env['account.payment.line'].\
-            search([('order_id.state', 'in', ('draft', 'open')),
-                    ('move_line_id', 'in', lines.ids)])
-        to_exclude = set([l.move_line_id.id for l in payment_lines])
-        return [l.id for l in lines if l.id not in to_exclude]
-
-    @api.multi
-    def _prepare_payment_line(self, payment, line):
-        """This function is designed to be inherited
-        The resulting dict is passed to the create method of payment.line"""
-        self.ensure_one()
-        _today = fields.Date.context_today(self)
-        date_to_pay = False  # no payment date => immediate payment
-        if payment.date_prefered == 'due':
-            # -- account_banking
-            # date_to_pay = line.date_maturity
-            date_to_pay = (
-                line.date_maturity
-                if line.date_maturity and line.date_maturity > _today
-                else False)
-            # -- end account banking
-        elif payment.date_prefered == 'fixed':
-            # -- account_banking
-            # date_to_pay = payment.date_scheduled
-            date_to_pay = (
-                payment.date_scheduled
-                if payment.date_scheduled and payment.date_scheduled > _today
-                else False)
-            # -- end account banking
-        # -- account_banking
-        state = 'normal'
-        communication = line.ref or '-'
-        if line.invoice:
-            if line.invoice.reference_type == 'structured':
-                state = 'structured'
-                # Fallback to invoice number to keep previous behaviour
-                communication = line.invoice.reference or line.invoice.number
-            else:
-                if line.invoice.type in ('in_invoice', 'in_refund'):
-                    communication = (
-                        line.invoice.reference or
-                        line.invoice.supplier_invoice_number or line.ref)
-                else:
-                    # Make sure that the communication includes the
-                    # customer invoice number (in the case of debit order)
-                    communication = line.invoice.number
-        # support debit orders when enabled
-        if line.debit > 0:
-            amount_currency = line.amount_residual_currency * -1
-        else:
-            amount_currency = line.amount_residual_currency
-        if payment.payment_order_type == 'debit':
-            amount_currency *= -1
-        line2bank = line.line2bank(payment.mode.id)
-        # -- end account banking
-        res = {'move_line_id': line.id,
-               'amount_currency': amount_currency,
-               'bank_id': line2bank.get(line.id),
-               'order_id': payment.id,
-               'partner_id': line.partner_id and line.partner_id.id or False,
-               # account banking
-               'communication': communication,
-               'state': state,
-               # end account banking
-               'date': date_to_pay,
-               'currency': (line.invoice and line.invoice.currency_id.id or
-                            line.journal_id.currency.id or
-                            line.journal_id.company_id.currency_id.id)}
-        return res
-
-    @api.multi
     def create_payment_lines(self):
         if self.move_line_ids:
             self.move_line_ids.create_payment_line_from_move_line(
                 self.order_id)
         return True
-        # Force reload of payment order view as a workaround for lp:1155525
-        return {'name': _('Payment Orders'),
-                'context': context,
-                'view_type': 'form',
-                'view_mode': 'form,tree',
-                'res_model': 'payment.order',
-                'res_id': context['active_id'],
-                'type': 'ir.actions.act_window'}
