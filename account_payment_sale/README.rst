@@ -55,7 +55,7 @@ Contributors
 ------------
 
 * Pedro M. Baeza
-* Alexis de Lattre
+* Alexis de Lattre <alexis.delattre@akretion.com>
 * Alexandre Fayolle
 * Danimar Ribeiro
 * Raphaël Valyi
