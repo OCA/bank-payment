@@ -57,7 +57,7 @@
 </record>
 
 <record id="account_payment_mode_action" model="ir.actions.act_window">
-    <field name="name">Payment Mode</field>
+    <field name="name">Payment Modes</field>
     <field name="res_model">account.payment.mode</field>
     <field name="view_mode">tree,form</field>
 </record>
