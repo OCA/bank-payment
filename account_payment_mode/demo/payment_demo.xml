@@ -2,12 +2,12 @@
 <openerp>
 <data noupdate="1">
 
-<record id="bank_fortuneo" model="res.bank">
-    <field name="name">Fortuneo Banque</field>
-    <field name="bic">FTNOFRP1XXX</field>
-    <field name="street">26 avenue des Champs Elysées</field>
-    <field name="zip">75008</field>
-    <field name="city">Paris</field>
+<record id="bank_fiducial" model="res.bank">
+    <field name="name">Fiducial Banque</field>
+    <field name="bic">FIDCFR21XXX</field>
+    <field name="street">38 rue Sergent Michel Berthet</field>
+    <field name="zip">69009</field>
+    <field name="city">Lyon</field>
     <field name="country" ref="base.fr"/>
 </record>
 
@@ -51,7 +51,7 @@
 
 <record id="res_partner_12_iban" model="res.partner.bank">
     <field name="acc_number">FR66 1212 1212 1212 1212 1212 121</field>
-    <field name="bank_id" ref="bank_fortuneo"/>
+    <field name="bank_id" ref="bank_fiducial"/>
     <field name="partner_id" ref="base.res_partner_12" />
 </record>
 
@@ -60,6 +60,8 @@
     <field name="bank_id" ref="bank_fortis"/>
     <field name="partner_id" ref="base.res_partner_2" />
 </record>
+
+<!-- Asustek already has a demo IBAN provided by base_iban -->
 
 <record id="payment_mode_outbound_ct1" model="account.payment.mode">
     <field name="name">Credit Transfer to Suppliers</field>
