@@ -283,7 +283,7 @@ class AccountPaymentOrder(models.Model):
         viban = self._prepare_field(
             '%s IBAN' % party_type_label, iban, eval_ctx, gen_args=gen_args)
         # TODO : add support for bank accounts other than IBAN
-        #viban = self._validate_iban(piban)
+        #  viban = self._validate_iban(piban)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'B':

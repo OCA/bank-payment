@@ -2,7 +2,8 @@
 # © 2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import UserError
 
 
 class BankPaymentLine(models.Model):
@@ -45,32 +46,10 @@ class BankPaymentLine(models.Model):
         related='payment_line_ids.communication_type', readonly=True)
     communication = fields.Char(
         string='Communication', required=True,
-        readonly=True)  #, states={'draft': [('readonly', False)]})
+        readonly=True)
     company_id = fields.Many2one(
         related='order_id.payment_mode_id.company_id', store=True,
         readonly=True)
-    # TODO : not shown in view ?
-    # why on bank payment line and not on payment line ?
-    transit_move_line_id = fields.Many2one(
-        'account.move.line', string='Transfer Move Line', readonly=True,
-        help="Move line through which the payment/debit order "
-        "pays the invoice")
-    transfer_move_line_id = fields.Many2one(
-        'account.move.line', compute='_get_transfer_move_line',
-        string='Transfer move line counterpart',
-        help="Counterpart move line on the transfer account")
-
-    @api.multi
-    def _get_transfer_move_line(self):
-        for bank_line in self:
-            if bank_line.transit_move_line_id:
-                payment_type = bank_line.payment_type
-                trf_lines = bank_line.transit_move_line_id.move_id.line_id
-                for move_line in trf_lines:
-                    if payment_type == 'inbound' and move_line.debit > 0:
-                        bank_line.transfer_move_line_id = move_line
-                    elif payment_type == 'outbound' and move_line.credit > 0:
-                        bank_line.transfer_move_line_id = move_line
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
@@ -113,3 +92,54 @@ class BankPaymentLine(models.Model):
             hashcode = unicode(self.id)
         return hashcode
 
+    @api.multi
+    def reconcile_payment_lines(self):
+        for bline in self:
+            if all([pline.move_line_id for pline in bline.payment_line_ids]):
+                bline.reconcile()
+            else:
+                bline.no_reconcile_hook()
+
+    @api.multi
+    def no_reconcile_hook(self):
+        """This method is designed to be inherited if needed"""
+        return
+
+    @api.multi
+    def reconcile(self):
+        self.ensure_one()
+        amlo = self.env['account.move.line']
+        transit_mlines = amlo.search([('bank_payment_line_id', '=', self.id)])
+        assert len(transit_mlines) == 1, 'We should have only 1 move'
+        transit_mline = transit_mlines[0]
+        assert not transit_mline.reconciled,\
+            'Transit move should not be reconciled'
+        lines_to_rec = transit_mline
+        for payment_line in self.payment_line_ids:
+
+            if not payment_line.move_line_id:
+                raise UserError(_(
+                    "Can not reconcile: no move line for "
+                    "payment line %s of partner '%s'.") % (
+                        payment_line.name,
+                        payment_line.partner_id.name))
+            if payment_line.move_line_id.reconciled:
+                raise UserError(_(
+                    "Move line '%s' of partner '%s' has already "
+                    "been reconciled") % (
+                        payment_line.move_line_id.name,
+                        payment_line.partner_id.name))
+            if (
+                    payment_line.move_line_id.account_id !=
+                    transit_mline.account_id):
+                raise UserError(_(
+                    "For partner '%s', the account of the account "
+                    "move line to pay (%s) is different from the "
+                    "account of of the transit move line (%s).") % (
+                        payment_line.move_line_id.partner_id.name,
+                        payment_line.move_line_id.account_id.code,
+                        transit_mline.account_id.code))
+
+            lines_to_rec += payment_line.move_line_id
+
+        lines_to_rec.reconcile()
