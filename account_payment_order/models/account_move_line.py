@@ -4,41 +4,17 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
-from openerp.tools import float_is_zero
 
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    # TODO Should we keep this field ?
-#    journal_entry_ref = fields.Char(compute='_get_journal_entry_ref',
-#                                    string='Journal Entry Ref')
     partner_bank_id = fields.Many2one(
         'res.partner.bank', string='Partner Bank Account',
         help='Bank account on which we should pay the supplier')
-
-#    @api.one
-#    def _get_journal_entry_ref(self):
-#        if self.move_id.state == 'draft':
-#            if self.invoice.id:
-#                self.journal_entry_ref = self.invoice.number
-#            else:
-#                self.journal_entry_ref = '*' + str(self.move_id.id)
-#        else:
-#            self.journal_entry_ref = self.move_id.name
-
-    @api.multi
-    def get_balance(self):
-        """
-        Return the balance of any set of move lines.
-
-        Not to be confused with the 'balance' field on this model, which
-        returns the account balance that the move line applies to.
-        """
-        total = 0.0
-        for line in self:
-            total += (line.debit or 0.0) - (line.credit or 0.0)
-        return total
+    bank_payment_line_id = fields.Many2one(
+        'bank.payment.line', string='Bank Payment Line',
+        readonly=True)
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
@@ -67,8 +43,8 @@ class AccountMoveLine(models.Model):
         else:
             currency_id = self.company_id.currency_id.id
             amount_currency = self.amount_residual
-            # TODO : check that self.amount_residual_currency is 0 in this case
-        precision = self.env['decimal.precision'].precision_get('Account')
+            # TODO : check that self.amount_residual_currency is 0
+            # in this case
         if payment_order.payment_type == 'outbound':
             amount_currency *= -1
         vals = {

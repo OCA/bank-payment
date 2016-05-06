@@ -59,6 +59,9 @@
                         <field name="bank_line_ids"
                             context="{'default_payment_type': payment_type}"/>
                     </page>
+                    <page name="moves" string="Transfer Journal Entries">
+                        <field name="move_ids"/>
+                    </page>
                 </notebook>
             </sheet>
         </form>

@@ -38,7 +38,8 @@ class AccountInvoice(models.Model):
             }
         if self.payment_mode_id.bank_account_link == 'fixed':
             vals['journal_id'] = self.payment_mode_id.fixed_journal_id.id
-        # TODO : else: no filter on allowed bank accounts, because onchange not played ??
+        # TODO : else: no filter on allowed bank accounts,
+        # because onchange not played ??
         return vals
 
     @api.multi

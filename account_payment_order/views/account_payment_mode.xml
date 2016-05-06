@@ -23,7 +23,7 @@
                 <field name="transfer_move"/>
                 <field name="transfer_account_id"
                     attrs="{'invisible': [('transfer_move', '=', False)], 'required': [('transfer_move', '=', True)]}"
-                    context="{'default_internal_type': 'other', 'default_reconcile': True, 'default_company_id': company_id}"/>
+                    context="{'default_reconcile': True, 'default_company_id': company_id}"/> <!-- We can't put a default vue to user_type_id... -->
                 <field name="transfer_journal_id"
                     attrs="{'invisible': [('transfer_move', '=', False)], 'required': [('transfer_move', '=', True)]}"/>
                 <field name="transfer_move_option"
