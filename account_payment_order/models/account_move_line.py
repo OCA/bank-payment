@@ -34,8 +34,8 @@ class AccountMoveLine(models.Model):
                     ref2comm_type[self.invoice_id.reference_type]
             else:
                 if (
-                        self.invoice_id.type in ('in_invoice', 'in_refund')
-                        and self.invoice_id.reference):
+                        self.invoice_id.type in ('in_invoice', 'in_refund') and
+                        self.invoice_id.reference):
                     communication = self.invoice_id.reference
         if self.currency_id:
             currency_id = self.currency_id.id
