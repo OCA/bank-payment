@@ -15,6 +15,7 @@
     <field name="sepa_creditor_identifier">FR78ZZZ424242</field>
 </record>
 
+<!-- Camptocamp -->
 <record id="res_partner_12_mandate" model="account.banking.mandate">
     <field name="partner_bank_id" ref="account_payment_mode.res_partner_12_iban"/>
     <field name="format">sepa</field>
@@ -24,6 +25,12 @@
     <field name="state">valid</field>
 </record>
 
+<record id="base.res_partner_12" model="res.partner">
+    <field name="customer_payment_mode" ref="payment_mode_inbound_sepa_dd1"/>
+</record>
+
+
+<!-- Agrolait -->
 <record id="res_partner_2_mandate" model="account.banking.mandate">
     <field name="partner_bank_id" ref="account_payment_mode.res_partner_2_iban"/>
     <field name="format">sepa</field>
@@ -32,6 +39,11 @@
     <field name="signature_date" eval="time.strftime('%Y-%m-01')" />
     <field name="state">valid</field>
 </record>
+
+<record id="base.res_partner_2" model="res.partner">
+    <field name="customer_payment_mode" ref="payment_mode_inbound_sepa_dd1"/>
+</record>
+
 
 </data>
 </openerp>
