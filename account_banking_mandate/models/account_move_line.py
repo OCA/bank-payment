@@ -17,6 +17,6 @@ class AccountMoveLine(models.Model):
         vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
             payment_order)
         if payment_order.payment_type == 'inbound' and self.mandate_id:
-            vals['mandate_id'] = self.mandate_id.id or False
-            vals['partner_bank_id'] = self.mandate_id.partner_bank_id.id or False
+            vals['mandate_id'] = self.mandate_id.id
+            vals['partner_bank_id'] = self.mandate_id.partner_bank_id.id
         return vals
