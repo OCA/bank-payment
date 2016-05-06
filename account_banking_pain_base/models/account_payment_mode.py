@@ -4,7 +4,7 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, fields
 
 
 class AccountPaymentMode(models.Model):
@@ -33,18 +33,3 @@ class AccountPaymentMode(models.Model):
         "- Country code (2, optional)\n"
         "- Company idenfier (N, VAT)\n"
         "- Service suffix (N, issued by bank)")
-    # I plan to change this -- Alexis
-    #sepa_type = fields.Char(compute="_compute_sepa_type")
-
-    #def _sepa_type_get(self):
-    #    """Defined to be inherited by child addons, for instance:
-    #        - account_banking_sepa_credit_transfer
-    #        - account_banking_sepa_direct_debit
-    #    """
-    #    return False
-
-    #@api.multi
-    #@api.depends('type')
-    #def _compute_sepa_type(self):
-    #    for mode in self:
-    #        mode.sepa_type = mode._sepa_type_get()
