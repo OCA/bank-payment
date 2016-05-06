@@ -20,6 +20,6 @@
         'views/account_move_line.xml',
         'views/report_invoice.xml',
     ],
-#    'demo': ['demo/partner_demo.xml'],
+    'demo': ['demo/partner_demo.xml'],
     'installable': True,
 }
