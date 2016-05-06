@@ -97,7 +97,7 @@ class AccountPaymentLine(models.Model):
     @api.onchange('partner_id')
     def partner_id_change(self):
         partner_bank = False
-        if self.partner_id and self.partner_id.bank_ids:
+        if self.partner_id.bank_ids:
             partner_bank = self.partner_id.bank_ids[0]
         self.partner_bank_id = partner_bank
 

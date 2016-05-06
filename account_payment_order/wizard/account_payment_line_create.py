@@ -115,7 +115,7 @@ class AccountPaymentLineCreate(models.TransientModel):
     def populate(self):
         domain = self._prepare_move_line_domain()
         lines = self.env['account.move.line'].search(domain)
-        self.move_line_ids = [(6, 0, lines.ids)]
+        self.move_line_ids = lines
         action = {
             'name': _('Select Move Lines to Create Transactions'),
             'type': 'ir.actions.act_window',
