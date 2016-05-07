@@ -16,6 +16,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         'account.payment.order', string='Payment Order')
     journal_ids = fields.Many2many(
         'account.journal', string='Journals Filter')
+    target_move = fields.Selection([
+        ('posted', 'All Posted Entries'),
+        ('all', 'All Entries'),
+        ], string='Target Moves')
     invoice = fields.Boolean(
         string='Linked to an Invoice or Refund')
     date_type = fields.Selection([
@@ -44,6 +48,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         mode = order.payment_mode_id
         res.update({
             'journal_ids': mode.default_journal_ids.ids or False,
+            'target_move': mode.default_target_move,
             'invoice': mode.default_invoice,
             'date_type': mode.default_date_type,
             'payment_mode': mode.default_payment_mode,
@@ -55,10 +60,11 @@ class AccountPaymentLineCreate(models.TransientModel):
     def _prepare_move_line_domain(self):
         self.ensure_one()
         journals = self.journal_ids or self.env['account.journal'].search([])
-        domain = [('move_id.state', '=', 'posted'),
-                  ('reconciled', '=', False),
+        domain = [('reconciled', '=', False),
                   ('company_id', '=', self.order_id.company_id.id),
                   ('journal_id', 'in', journals.ids)]
+        if self.target_move == 'posted':
+            domain += [('move_id.state', '=', 'posted')]
         if self.date_type == 'due':
             domain += [
                 '|',
