@@ -20,9 +20,9 @@ class AccountInvoice(models.Model):
         if self.partner_id and self.type:
             if self.type == 'in_invoice':
                 self.payment_mode_id =\
-                    self.partner_id.supplier_payment_mode
+                    self.partner_id.supplier_payment_mode_id
             elif self.type == 'out_invoice':
-                payment_mode = self.partner_id.customer_payment_mode
+                payment_mode = self.partner_id.customer_payment_mode_id
                 self.payment_mode_id = payment_mode
                 if payment_mode and payment_mode.bank_account_link == 'fixed':
                     self.partner_bank_id = payment_mode.fixed_journal_id.\
