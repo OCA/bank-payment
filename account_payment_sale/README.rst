@@ -35,6 +35,10 @@ You are able to add a payment mode directly on a partner.
 This payment mode is automatically associated to the sale order, then on related invoice. 
 This default value could be change in a draft sale order or draft invoice.
 
+.. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
+   :alt: Try me on Runbot
+   :target: https://runbot.odoo-community.org/runbot/173/9.0
+
 Known issues / Roadmap
 ======================
 
@@ -43,10 +47,14 @@ Known issues / Roadmap
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_sale%0Aversion:%209.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+Bugs are tracked on `GitHub Issues
+<https://github.com/OCA/bank-payment/issues>`_. In case of trouble, please
+check there if your issue has already been reported. If you spotted it first,
+help us smashing it by providing a detailed and welcomed `feedback
+<https://github.com/OCA/
+bank-payment/issues/new?body=module:%20
+account_payment_sale%0Aversion:%20
+9.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======
