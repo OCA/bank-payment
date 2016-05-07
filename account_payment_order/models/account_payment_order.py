@@ -36,6 +36,9 @@ class AccountPaymentOrder(models.Model):
     journal_id = fields.Many2one(
         'account.journal', string='Bank Journal',
         readonly=True, states={'draft': [('readonly', False)]})
+    allowed_journal_ids = fields.Many2many(
+        'account.journal', compute='_compute_allowed_journals', readonly=True,
+        string='Selectable Bank Journals')
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
     company_partner_bank_id = fields.Many2one(
@@ -110,34 +113,38 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.bank_line_count = len(order.bank_line_ids)
 
+    @api.multi
+    @api.depends('payment_mode_id')
+    def _compute_allowed_journals(self):
+        for order in self:
+            allowed_journal_ids = False
+            if order.payment_mode_id:
+                if order.payment_mode_id.bank_account_link == 'fixed':
+                    allowed_journal_ids = order.payment_mode_id.fixed_journal_id
+                else:
+                    allowed_journal_ids = order.payment_mode_id.variable_journal_ids
+            order.allowed_journal_ids = allowed_journal_ids
+
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'account.payment.order') or 'New'
+        if vals.get('payment_mode_id'):
+            payment_mode = self.env['account.payment.mode'].browse(
+                vals['payment_mode_id'])
+            vals['payment_type'] = payment_mode.payment_type
+            if payment_mode.bank_account_link == 'fixed':
+                vals['journal_id'] = payment_mode.fixed_journal_id.id
         return super(AccountPaymentOrder, self).create(vals)
 
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
-        res = {'domain': {}}
+        journal_id = False
         if self.payment_mode_id:
             if self.payment_mode_id.bank_account_link == 'fixed':
-                self.journal_id = self.payment_mode_id.fixed_journal_id
-                # journal_id is a required field, so I can't set it readonly
-                # so I restrict the domain so that the user cannot change
-                # the journal
-                res['domain']['journal_id'] = [(
-                    'id',
-                    '=',
-                    self.payment_mode_id.fixed_journal_id.id)]
-            else:
-                res['domain']['journal_id'] = [(
-                    'id',
-                    'in',
-                    self.payment_mode_id.variable_journal_ids.ids)]
-        else:
-            self.journal_id = False
-        return res
+                journal_id = self.payment_mode_id.fixed_journal_id
+        self.journal_id = journal_id
 
     @api.multi
     def action_done(self):

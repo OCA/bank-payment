@@ -32,14 +32,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def _prepare_new_payment_order(self):
         self.ensure_one()
-        vals = {
-            'payment_mode_id': self.payment_mode_id.id,
-            'payment_type': self.payment_mode_id.payment_type,
-            }
-        if self.payment_mode_id.bank_account_link == 'fixed':
-            vals['journal_id'] = self.payment_mode_id.fixed_journal_id.id
-        # TODO : else: no filter on allowed bank accounts,
-        # because onchange not played ??
+        vals = {'payment_mode_id': self.payment_mode_id.id}
         return vals
 
     @api.multi
