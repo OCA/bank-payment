@@ -34,7 +34,7 @@ class AccountPaymentOrder(models.Model):
     bank_account_link = fields.Selection(
         related='payment_mode_id.bank_account_link', readonly=True)
     journal_id = fields.Many2one(
-        'account.journal', string='Bank Journal',
+        'account.journal', string='Bank Journal', ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]})
     allowed_journal_ids = fields.Many2many(
         'account.journal', compute='_compute_allowed_journals', readonly=True,

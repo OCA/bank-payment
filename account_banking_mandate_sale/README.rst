@@ -1,35 +1,23 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Account Banking Mandate
-=======================
+Account Banking Mandate Sale
+============================
 
-This module adds a generic model for banking mandates.
-These mandates can be specialized to fit any banking mandates (such as sepa or lsv).
-
-A banking mandate is attached to a bank account and represents an
-authorization that the bank account owner gives to a company for a
-specific operation (such as direct debit).
-You can setup mandates from the accounting menu or directly from a bank
-account.
-
-Installation
-============
-
-This module depends on :
-* account_payment
-
-This module is part of the OCA/bank-payment suite.
+This modules adds the field *Direct Debit Mandate* on sale orders.
 
 Configuration
 =============
 
-TODO
+There is nothing to configure.
 
 Usage
 =====
 
-To use this module, see menu "Accounting > payment > SEPA direct debit mandates" 
+When you select a payment mode that requires mandate on a sale order, Odoo will
+select by default the first valid mandate of this customer.
+
+The mandate will be copied from the sale order to the invoice.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -38,7 +26,7 @@ To use this module, see menu "Accounting > payment > SEPA direct debit mandates"
 Known issues / Roadmap
 ======================
 
- * no known issues
+ * No known issues.
 
 Bug Tracker
 ===========
@@ -49,20 +37,21 @@ check there if your issue has already been reported. If you spotted it first,
 help us smashing it by providing a detailed and welcomed `feedback
 <https://github.com/OCA/
 bank-payment/issues/new?body=module:%20
-account_banking_mandate%0Aversion:%20
+account_banking_mandate_sale%0Aversion:%20
 9.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======
 
+Images
+------
+
+* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+
 Contributors
 ------------
 
 * Alexis de Lattre <alexis.delattre@akretion.com>
-* Pedro M. Baeza
-* Alexandre Fayolle
-* Stéphane Bidoul <stephane.bidoul@acsone.eu>
-* Sergio Teruel (Incaser) <sergio@incaser.es>
 
 Maintainer
 ----------
@@ -73,6 +62,8 @@ Maintainer
 
 This module is maintained by the OCA.
 
-OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
+OCA, or the Odoo Community Association, is a nonprofit organization
+whose mission is to support the collaborative development of Odoo
+features and promote its widespread use.
 
 To contribute to this module, please visit http://odoo-community.org.

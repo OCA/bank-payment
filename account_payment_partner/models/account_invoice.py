@@ -11,6 +11,7 @@ class AccountInvoice(models.Model):
 
     payment_mode_id = fields.Many2one(
         comodel_name='account.payment.mode', string="Payment Mode",
+        ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]})
 
     @api.onchange('partner_id', 'company_id', 'type')

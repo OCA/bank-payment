@@ -32,12 +32,21 @@ This module is part of the OCA/bank-payment suite.
 Configuration
 =============
 
-No specific configuration.
+Create a Payment Mode dedicated to SEPA Credit Transfer and select
+the Payment Method *SEPA Credit Transfer to suppliers* (which is
+automatically created upon module installation) and check that this
+payment method uses the proper version of PAIN.
 
 Usage
 =====
 
-* You need to choose first an SEPA export type on a payment mode.
+In the menu *Accounting > Payments > Payment Order*, create a new
+payment order and select the Payment Mode dedicated to SEPA Credit
+Transfer that you created during the configuration step.
+
+.. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
+   :alt: Try me on Runbot
+   :target: https://runbot.odoo-community.org/runbot/173/9.0
 
 Known issues / Roadmap
 ======================
@@ -47,10 +56,14 @@ Known issues / Roadmap
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_sepa_credit_transfer%0Aversion:%209.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+Bugs are tracked on `GitHub Issues
+<https://github.com/OCA/bank-payment/issues>`_. In case of trouble, please
+check there if your issue has already been reported. If you spotted it first,
+help us smashing it by providing a detailed and welcomed `feedback
+<https://github.com/OCA/
+bank-payment/issues/new?body=module:%20
+account_banking_sepa_credit_transfer%0Aversion:%20
+9.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======

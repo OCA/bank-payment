@@ -40,3 +40,17 @@ class AccountInvoice(models.Model):
         if invoice.type == 'out_invoice':
             vals['mandate_id'] = invoice.mandate_id.id
         return vals
+
+    @api.onchange('payment_mode_id')
+    def payment_mode_change(self):
+        """Select by default the first valid mandate of the partner"""
+        if (
+                self.type in ('out_invoice', 'out_refund') and
+                self.payment_mode_id.payment_type == 'inbound' and
+                self.payment_mode_id.mandate_required and
+                self.partner_id):
+            mandates = self.env['account.banking.mandate'].search([
+                ('state', '=', 'valid'),
+                ('partner_id', '=', self.commercial_partner_id.id),
+                ])
+            self.mandate_id = mandates[0]
