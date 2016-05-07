@@ -25,3 +25,18 @@ class AccountInvoice(models.Model):
             if invoice.type in ('out_invoice', 'out_refund'):
                 res['mandate_id'] = invoice.mandate_id.id or False
         return res
+
+    # If a customer pays via direct debit, it's refunds should
+    # be deducted form the next debit by default. The module
+    # account_payment_partner copies payment_mode_id from invoice
+    # to refund, and we also need to copy mandate from invoice to refund
+    @api.model
+    def _prepare_refund(
+            self, invoice, date_invoice=None, date=None, description=None,
+            journal_id=None):
+        vals = super(AccountInvoice, self)._prepare_refund(
+            invoice, date_invoice=date_invoice, date=date,
+            description=description, journal_id=journal_id)
+        if invoice.type == 'out_invoice':
+            vals['mandate_id'] = invoice.mandate_id.id
+        return vals

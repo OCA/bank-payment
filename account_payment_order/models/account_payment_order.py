@@ -119,10 +119,11 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             allowed_journal_ids = False
             if order.payment_mode_id:
-                if order.payment_mode_id.bank_account_link == 'fixed':
-                    allowed_journal_ids = order.payment_mode_id.fixed_journal_id
+                mode = order.payment_mode_id
+                if mode.bank_account_link == 'fixed':
+                    allowed_journal_ids = mode.fixed_journal_id
                 else:
-                    allowed_journal_ids = order.payment_mode_id.variable_journal_ids
+                    allowed_journal_ids = mode.variable_journal_ids
             order.allowed_journal_ids = allowed_journal_ids
 
     @api.model
