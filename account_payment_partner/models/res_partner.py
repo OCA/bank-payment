@@ -9,12 +9,12 @@ from openerp import models, fields, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    supplier_payment_mode = fields.Many2one(
+    supplier_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Supplier Payment Mode',
         company_dependent=True,
         domain=[('payment_type', '=', 'outbound')],
         help="Select the default payment mode for this supplier.")
-    customer_payment_mode = fields.Many2one(
+    customer_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Customer Payment Mode',
         company_dependent=True,
         domain=[('payment_type', '=', 'inbound')],
@@ -23,5 +23,5 @@ class ResPartner(models.Model):
     @api.model
     def _commercial_fields(self):
         res = super(ResPartner, self)._commercial_fields()
-        res += ['supplier_payment_mode', 'customer_payment_mode']
+        res += ['supplier_payment_mode_id', 'customer_payment_mode_id']
         return res
