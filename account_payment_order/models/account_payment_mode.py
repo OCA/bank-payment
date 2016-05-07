@@ -26,6 +26,10 @@ class AccountPaymentMode(models.Model):
         'account.journal', string="Journals Filter")
     default_invoice = fields.Boolean(
         string='Linked to an Invoice or Refund', default=False)
+    default_target_move = fields.Selection([
+        ('posted', 'All Posted Entries'),
+        ('all', 'All Entries'),
+        ], string='Target Moves', default='posted')
     default_date_type = fields.Selection([
         ('due', 'Due'),
         ('move', 'Move'),

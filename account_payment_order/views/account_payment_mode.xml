@@ -16,6 +16,7 @@
             <group name="payment_order_create_defaults" string="Select Move Lines to Pay - Default Values">
                 <field name="default_journal_ids" widget="many2many_tags"/>
                 <field name="default_payment_mode"/>
+                <field name="default_target_move" widget="radio"/>
                 <field name="default_invoice"/>
                 <field name="default_date_type"/>
             </group>

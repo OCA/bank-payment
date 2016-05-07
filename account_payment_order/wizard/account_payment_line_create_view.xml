@@ -21,6 +21,7 @@
                    widget="many2many_tags"
                     placeholder="Keep empty for using all journals"/>
                 <field name="payment_mode"/>
+                <field name="target_move" widget="radio"/>
                 <field name="invoice"/>
                 <label string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria." colspan="2"/>
                 <button name="populate" type="object" string="Add All Move Lines"/>
