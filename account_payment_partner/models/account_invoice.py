@@ -37,3 +37,19 @@ class AccountInvoice(models.Model):
             invoice = self.browse(line['invoice_id'])
             res['payment_mode_id'] = invoice.payment_mode_id.id or False
         return res
+
+    # I think copying payment mode from invoice to refund by default
+    # is a good idea because the most common way of "paying" a refund is to
+    # deduct it on the payment of the next invoice (and OCA/bank-payment
+    # allows to have negative payment lines since March 2016)
+    @api.model
+    def _prepare_refund(
+            self, invoice, date_invoice=None, date=None, description=None,
+            journal_id=None):
+        vals = super(AccountInvoice, self)._prepare_refund(
+            invoice, date_invoice=date_invoice, date=date,
+            description=description, journal_id=journal_id)
+        vals['payment_mode_id'] = invoice.payment_mode_id.id
+        if invoice.type == 'in_invoice':
+            vals['partner_bank_id'] = invoice.partner_bank_id.id
+        return vals
