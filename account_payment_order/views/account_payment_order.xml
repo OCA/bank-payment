@@ -49,7 +49,7 @@
                             attrs="{'readonly': [('date_prefered', '!=', 'fixed')]}"/>
                         <field name="date_generated"/>
                         <field name="generated_user_id"/>
-                        <field name="date_done"/>
+                        <field name="date_uploaded"/>
                     </group>
                 </group>
                 <notebook>
@@ -74,13 +74,12 @@
     <field name="name">account.payment.order.tree</field>
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
-        <tree string="Payment Orders" colors="blue: state=='draft'; green: state=='generated'; gray: state=='cancel'; black: state=='open'" decoration-muted="state=='cancel'">
+        <tree string="Payment Orders" colors="blue: state=='draft'; green: state=='generated'; gray: state=='cancel'; red: state=='open'" decoration-muted="state=='cancel'">
             <field name="name"/>
             <field name="payment_mode_id"/>
             <field name="journal_id"/>
             <field name="company_id" groups="base.group_multi_company"/>
-            <field name="date_generated"/>
-            <field name="date_done"/>
+            <field name="date_uploaded"/>
             <field name="total_company_currency" sum="Total Company Currency"/>
             <field name="company_currency_id" invisible="1"/>
             <field name="state"/>
@@ -97,11 +96,11 @@
             <filter name="open" string="Confirmed" domain="[('state', '=', 'open')]"/>
             <filter name="generated" string="File Generated" domain="[('state', '=', 'generated')]"/>
             <filter name="uploaded" string="File Uploaded" domain="[('state', '=', 'uploaded')]"/>
-            <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
             <group string="Group By" name="groupby">
                 <filter name="payment_mode_groupby" string="Payment Mode" context="{'group_by': 'payment_mode_id'}"/>
                 <filter name="journal_groupby" string="Bank Journal" context="{'group_by': 'journal_id'}"/>
-                <filter name="date_generated_groupby" string="Date Generated" context="{'group_by': 'date_generated'}"/>
+                <filter name="date_generated_groupby" string="File Generation Date" context="{'group_by': 'date_generated'}"/>
+                <filter name="date_uploaded_groupby" string="File Upload Date" context="{'group_by': 'date_uploaded'}"/>
                 <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
             </group>
         </search>
@@ -113,7 +112,7 @@
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
         <graph string="Payment Orders">
-            <field name="date_generated" type="row" interval="month"/>
+            <field name="date_uploaded" type="row" interval="month"/>
             <field name="total_company_currency" type="measure"/>
         </graph>
     </field>
@@ -124,7 +123,7 @@
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
         <pivot string="Payment Orders">
-            <field name="date_generated" type="row" interval="month"/>
+            <field name="date_uploaded" type="row" interval="month"/>
             <field name="total_company_currency" type="measure"/>
         </pivot>
     </field>
