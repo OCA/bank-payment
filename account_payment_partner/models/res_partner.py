@@ -9,6 +9,7 @@ from openerp import models, fields, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    # v8 fields : same without the _id suffix
     supplier_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Supplier Payment Mode',
         company_dependent=True,
