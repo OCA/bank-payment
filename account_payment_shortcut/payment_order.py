@@ -45,10 +45,10 @@ class payment_order_create(orm.TransientModel):
         res = super(payment_order_create, self).default_get(
             cr, uid, fields_list, context=context)
 
-        if (fields_list
-                and 'entries' in fields_list
-                and 'entries' not in res
-                and context.get('line_ids', False)):
+        if (fields_list and
+                'entries' in fields_list and
+                'entries' not in res and
+                context.get('line_ids', False)):
             res['entries'] = context['line_ids']
 
         return res

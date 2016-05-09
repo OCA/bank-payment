@@ -169,7 +169,7 @@ class sdd_mandate(orm.Model):
         'scheme': fields.selection([
             ('CORE', 'Basic (CORE)'),
             ('B2B', 'Enterprise (B2B)')
-            ], 'Scheme', required=True)
+        ], 'Scheme', required=True)
     }
 
     _defaults = {
@@ -179,22 +179,22 @@ class sdd_mandate(orm.Model):
 
     def _check_sdd_mandate(self, cr, uid, ids):
         for mandate in self.browse(cr, uid, ids):
-            if (mandate.type == 'recurrent'
-                    and not mandate.recurrent_sequence_type):
+            if (mandate.type == 'recurrent' and
+                    not mandate.recurrent_sequence_type):
                 raise orm.except_orm(
                     _('Error:'),
                     _("The recurrent mandate '%s' must have a sequence type.")
                     % mandate.unique_mandate_reference)
-            if (mandate.type == 'recurrent' and not mandate.sepa_migrated
-                    and mandate.recurrent_sequence_type != 'first'):
+            if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
+                    mandate.recurrent_sequence_type != 'first'):
                 raise orm.except_orm(
                     _('Error:'),
                     _("The recurrent mandate '%s' which is not marked as "
                         "'Migrated to SEPA' must have its recurrent sequence "
                         "type set to 'First'.")
                     % mandate.unique_mandate_reference)
-            if (mandate.type == 'recurrent' and not mandate.sepa_migrated
-                    and not mandate.original_mandate_identification):
+            if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
+                    not mandate.original_mandate_identification):
                 raise orm.except_orm(
                     _('Error:'),
                     _("You must set the 'Original Mandate Identification' "
@@ -230,9 +230,9 @@ class sdd_mandate(orm.Model):
             last_debit_date, state):
         res = super(sdd_mandate, self).mandate_partner_bank_change(
             cr, uid, ids, partner_bank_id, last_debit_date, state)
-        if (state == 'valid' and partner_bank_id
-                and type == 'recurrent'
-                and recurrent_sequence_type != 'first'):
+        if (state == 'valid' and partner_bank_id and
+                type == 'recurrent' and
+                recurrent_sequence_type != 'first'):
             res['value']['recurrent_sequence_type'] = 'first'
             res['warning'] = {
                 'title': _('Mandate update'),

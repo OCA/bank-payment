@@ -39,8 +39,8 @@ class banking_import_transaction(orm.Model):
             self, cr, uid, trans, log, order_type='payment', context=None):
 
         def equals_order_amount(payment_order, transferred_amount):
-            if (not hasattr(payment_order, 'payment_order_type')
-                    or payment_order.payment_order_type == 'payment'):
+            if (not hasattr(payment_order, 'payment_order_type') or
+                    payment_order.payment_order_type == 'payment'):
                 sign = 1
             else:
                 sign = -1
@@ -137,10 +137,10 @@ class banking_import_transaction(orm.Model):
         digits = dp.get_precision('Account')(cr)[1]
         candidates = [
             line for line in payment_lines
-            if (line.communication == trans.reference
-                and round(line.amount, digits) == -round(
-                    trans.statement_line_id.amount, digits)
-                and bank_match(trans.remote_account, line.bank_id))
+            if (line.communication == trans.reference and
+                round(line.amount, digits) == -round(
+                    trans.statement_line_id.amount, digits) and
+                bank_match(trans.remote_account, line.bank_id))
         ]
         if len(candidates) == 1:
             candidate = candidates[0]
@@ -303,8 +303,8 @@ class banking_import_transaction(orm.Model):
             raise orm.except_orm(
                 _("Cannot cancel link with storno"),
                 _("Line id not found"))
-        reconcile = (cancel_line.reconcile_id
-                     or cancel_line.reconcile_partial_id)
+        reconcile = (cancel_line.reconcile_id or
+                     cancel_line.reconcile_partial_id)
         lines_reconcile = reconcile.line_id or reconcile.line_partial_ids
         if len(lines_reconcile) < 3:
             # delete the full reconciliation

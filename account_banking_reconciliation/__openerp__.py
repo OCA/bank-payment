@@ -195,6 +195,6 @@ Contributors
 
         "report/report.xml",
     ],
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -53,6 +53,6 @@ November 21st 2013 in Epiais les Louvres (France).
 
 Module contains some pieces of code not ISO 20022 but used by Italian Banks.
     ''',
-    'active': False,
+    'active': True,
     'installable': True,
 }

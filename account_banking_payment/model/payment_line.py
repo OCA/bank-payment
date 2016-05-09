@@ -57,6 +57,7 @@ class payment_line(orm.Model):
     Hooks for processing direct debit orders, such as implemented in
     account_direct_debit module.
     """
+
     def get_storno_account_id(self, cr, uid, payment_line_id, amount,
                               currency_id, context=None):
         """
@@ -85,8 +86,8 @@ class payment_line(orm.Model):
         :param payment_line_id: the single payment line id
         :param amount: the (negative) amount debited from the bank account
         :param currency: the bank account's currency *browse object*
-        :param boolean storno_retry: whether the storno is considered fatal \
-        or not.
+        :param boolean storno_retry: whether the storno is considered fatal or
+        not.
         :return: an incomplete reconcile for the caller to fill
         :rtype: database id of an account.move.reconcile resource.
         """
@@ -124,8 +125,8 @@ class payment_line(orm.Model):
                 _('Move line %s has already been reconciled') %
                 torec_move_line.name
             )
-        if (transit_move_line.reconcile_id
-                or transit_move_line.reconcile_partial_id):
+        if (transit_move_line.reconcile_id or
+                transit_move_line.reconcile_partial_id):
             raise orm.except_orm(
                 _('Error'),
                 _('Move line %s has already been reconciled') %
@@ -147,9 +148,9 @@ class payment_line(orm.Model):
         vals = {
             'type': 'auto',
             'line_id': is_zero(total) and [(6, 0, line_ids)] or [(6, 0, [])],
-            'line_partial_ids': (is_zero(total)
-                                 and [(6, 0, [])]
-                                 or [(6, 0, line_ids)]),
+            'line_partial_ids': (is_zero(total) and
+                                 [(6, 0, [])] or
+                                 [(6, 0, line_ids)]),
         }
 
         if torec_move_line.reconcile_partial_id:

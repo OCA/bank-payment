@@ -195,8 +195,8 @@ class instant_voucher(orm.TransientModel):
                         counteramount = line.debit - line.credit
             else:
                 amount = abs(instant.statement_line_id.amount)
-                counteramount = abs(instant.voucher_id
-                                    and instant.voucher_id.amount or 0.0)
+                counteramount = abs(instant.voucher_id and
+                                    instant.voucher_id.amount or 0.0)
             res[instant.id] = amount - counteramount
         return res
 
@@ -206,8 +206,8 @@ class instant_voucher(orm.TransientModel):
         Post the voucher's move lines if necessary
         Sanity checks on currency and residual = 0.0
 
-        If the account_banking module is installed, perform matching
-        and reconciliation. If not, the user is left to manual
+        If the account_banking module is installed, perform matching and
+        reconciliation. If not, the user is left to manual
         reconciliation of OpenERP.
         """
         assert len(ids) == 1, "Will only take one resource id"

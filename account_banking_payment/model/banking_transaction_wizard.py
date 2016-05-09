@@ -64,8 +64,8 @@ class banking_transaction_wizard(orm.TransientModel):
                         _('When matching a payment order, the amounts have to '
                           'match exactly'))
 
-                if (payment_order.mode
-                        and payment_order.mode.transfer_account_id):
+                if (payment_order.mode and
+                        payment_order.mode.transfer_account_id):
                     transaction_id.statement_line_id.write({
                         'account_id': (
                             payment_order.mode.transfer_account_id.id),

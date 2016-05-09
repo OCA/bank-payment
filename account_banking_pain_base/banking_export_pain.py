@@ -24,14 +24,11 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval
 from datetime import datetime
+from unidecode import unidecode
 from lxml import etree
 from openerp import tools
 import logging
 import base64
-try:
-    from unidecode import unidecode
-except ImportError:
-    unidecode = None
 
 logger = logging.getLogger(__name__)
 
@@ -352,13 +349,15 @@ class banking_export_pain(orm.AbstractModel):
                 party_agent_bic.text = bic
         except orm.except_orm:
             if order == 'C':
-                if iban[0:2] != gen_args['initiating_party_country_code']:
-                    raise orm.except_orm(
-                        _('Error:'),
-                        _("The bank account with IBAN '%s' of partner '%s' "
-                            "must have an associated BIC because it is a "
-                            "cross-border SEPA operation.")
-                        % (iban, party_name))
+                # [antoniov: 2017-04-08] No BIC
+                pass
+                # if iban[0:2] != gen_args['initiating_party_country_code']:
+                #     raise orm.except_orm(
+                #         _('Error:'),
+                #         _("The bank account with IBAN '%s' of partner '%s' "
+                #             "must have an associated BIC because it is a "
+                #             "cross-border SEPA operation.")
+                #        % (iban, party_name))
             elif order == 'B' or (
                     order == 'C' and gen_args['payment_method'] == 'DD'):
                 party_agent = etree.SubElement(
@@ -442,16 +441,22 @@ class banking_export_pain(orm.AbstractModel):
                         party_org_other_id.text = partner.vat
                     else:
                         party_pstladr = etree.SubElement(party, 'PstlAdr')
-                        party_strt = etree.SubElement(party_pstladr, 'StrtNm')
                         street = self._cvt2bankcodeset(partner.street,
                                                        gen_args,
                                                        context)
-                        party_strt.text = street
+                        if street:
+                            party_strt = etree.SubElement(party_pstladr,
+                                                          'StrtNm')
+                            party_strt.text = street
                         party_twn = etree.SubElement(party_pstladr, 'TwnNm')
                         town = self._cvt2bankcodeset(partner.city,
                                                      gen_args,
                                                      context)
                         party_twn.text = town
+                        if not town:
+                            raise orm.except_orm(
+                                _('Error:'),
+                                _("Partner %s w/o town" % partner.name))
                 else:
                     if partner and partner.vat:
                         party_id = etree.SubElement(party, 'Id')
