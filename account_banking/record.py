@@ -22,6 +22,7 @@
 import unicodedata
 from datetime import datetime, date
 
+
 __all__ = [
     'Field', 'Filler', 'DateField', 'NumberField', 'RightAlignedField',
     'RecordType', 'Record', 'asciify'

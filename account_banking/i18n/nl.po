@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-04-29 08:52+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
@@ -97,7 +97,7 @@ msgid "Payment line (manual)"
 msgstr "Betaalregel (handmatig)"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/link_partner.py:98
+#: code:addons/account_banking/wizard/link_partner.py:97
 #, python-format
 msgid "No transaction data on statement line"
 msgstr "Geen transactiegegevens op bankafschriftregel"
@@ -216,7 +216,7 @@ msgid "Residual"
 msgstr "Restbedrag"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1765
+#: code:addons/account_banking/banking_import_transaction.py:1762
 #, python-format
 msgid "Confirmed Statement Line"
 msgstr "Bevestigde afschriftregel"
@@ -250,7 +250,7 @@ msgid "Bank Transactions"
 msgstr "Bankmutaties"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1660
+#: code:addons/account_banking/banking_import_transaction.py:1657
 #, python-format
 msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
 msgstr "Het is niet mogelijk een bankafschrift te bevestigen welke is gemarkeerd als duplicaat (%s.%s)."
@@ -309,7 +309,7 @@ msgid "remote_currency"
 msgstr "remote_currency"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1940
+#: code:addons/account_banking/banking_import_transaction.py:1937
 #, python-format
 msgid "Confirmed Statement Lines"
 msgstr "Bevestigde afschriftregels"
@@ -409,7 +409,7 @@ msgid "The journal and period chosen have to belong to the same company."
 msgstr "Het gekozen dagboek en periode moeten behoren tot hetzelfde bedrijf."
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1728
+#: code:addons/account_banking/banking_import_transaction.py:1725
 #, python-format
 msgid ""
 "The bank statement that this transaction belongs to has already been "
@@ -422,7 +422,7 @@ msgid "Analytic Account"
 msgstr "Kostenplaats"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1659
+#: code:addons/account_banking/banking_import_transaction.py:1656
 #, python-format
 msgid "Bank transfer flagged as duplicate"
 msgstr "Bankafschriftregel gemarkeerd als duplicaat"
@@ -535,7 +535,7 @@ msgid "Default credit account"
 msgstr "Standaard creditrekening"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1766
+#: code:addons/account_banking/banking_import_transaction.py:1763
 #, python-format
 msgid "You cannot delete a confirmed Statement Line: '%s'"
 msgstr "Het is niet toegestaan een reeds bevestigde bankafschriftregel te verwijderen: '%s'"
@@ -557,7 +557,7 @@ msgid "Supplier"
 msgstr "Leverancier"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1902
+#: code:addons/account_banking/banking_import_transaction.py:1899
 #, python-format
 msgid "Please verify that an account is defined in the journal."
 msgstr "Controleer alstublieft of een grootboekrekening is opgegeven in het dagboek"
@@ -622,7 +622,7 @@ msgid "Link partner"
 msgstr "Koppel relatie"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1727
+#: code:addons/account_banking/banking_import_transaction.py:1724
 #, python-format
 msgid "Cannot cancel bank transaction"
 msgstr "Kan banktransactie niet annuleren"
@@ -633,7 +633,7 @@ msgid "Is a Company"
 msgstr "Is dit een bedrijf?"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1911
+#: code:addons/account_banking/banking_import_transaction.py:1908
 #, python-format
 msgid "The account entries lines are not in valid state."
 msgstr "De boekingsregels zijn niet in een geldige status."
@@ -644,7 +644,7 @@ msgid "provision_costs_currency"
 msgstr "provision_costs_currency"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1666
+#: code:addons/account_banking/banking_import_transaction.py:1663
 #, python-format
 msgid "No Analytic Journal !"
 msgstr "Geen kostenplaatsdagboek !"
@@ -697,7 +697,7 @@ msgid "Write-off account"
 msgstr "Grootboekrekening afschrijven"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1919
+#: code:addons/account_banking/banking_import_transaction.py:1916
 #, python-format
 msgid "Statement %s confirmed, journal items were created."
 msgstr "Afschrift %s bevestigd, regels zijn aangemaakt."
@@ -830,7 +830,7 @@ msgid "Currency"
 msgstr "Valuta"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1901
+#: code:addons/account_banking/banking_import_transaction.py:1898
 #, python-format
 msgid "Configuration Error"
 msgstr ""
@@ -924,7 +924,7 @@ msgid "Duplicate"
 msgstr "Duplicaat"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1667
+#: code:addons/account_banking/banking_import_transaction.py:1664
 #, python-format
 msgid "You have to define an analytic journal on the '%s' journal!"
 msgstr "U moet een een kostenplaatsdagboek definiëren bij het '%s' dagboek!"
@@ -1143,11 +1143,11 @@ msgstr "Boekdatum"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
-#: code:addons/account_banking/banking_import_transaction.py:1593
-#: code:addons/account_banking/banking_import_transaction.py:1910
+#: code:addons/account_banking/banking_import_transaction.py:1590
+#: code:addons/account_banking/banking_import_transaction.py:1907
 #: code:addons/account_banking/wizard/bank_import.py:398
 #: code:addons/account_banking/wizard/link_partner.py:91
-#: code:addons/account_banking/wizard/link_partner.py:97
+#: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
 msgid "Error"
 msgstr "Fout"
@@ -1391,7 +1391,7 @@ msgid "File Format"
 msgstr "Bestandsformaat"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1594
+#: code:addons/account_banking/banking_import_transaction.py:1591
 #, python-format
 msgid "No bank account available to link partner to"
 msgstr "Geen bankrekening beschikbaar om relatie aan te koppelen"
@@ -1557,7 +1557,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1941
+#: code:addons/account_banking/banking_import_transaction.py:1938
 #, python-format
 msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
 msgstr "Het is niet mogelijk een bankafschrift te verwijderen met bevestigde regels: '%s'"
@@ -1613,8 +1613,8 @@ msgid "Imported Bank Statements File"
 msgstr "Geïmporteerd bankafschriftbestand"
 
 #. module: account_banking
-#: code:addons/account_banking/banking_import_transaction.py:1832
-#: code:addons/account_banking/banking_import_transaction.py:1844
+#: code:addons/account_banking/banking_import_transaction.py:1829
+#: code:addons/account_banking/banking_import_transaction.py:1841
 #, python-format
 msgid " (split)"
 msgstr " (splits)"

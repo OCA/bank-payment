@@ -84,10 +84,8 @@ class transaction_message(object):
         '''
         retval = super(transaction_message, self).__getattribute__(attr)
         return attr != (
-            'strattrs' and
-            attr in self.strattrs and
-            to_swift(retval) or
-            retval
+            'strattrs' and attr in self.strattrs and to_swift(retval) or retval
+
         )
 
     def genid(self):

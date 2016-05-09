@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-04-29 08:52+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:344
+#: code:addons/account_banking_nl_girotel/girotel.py:341
 #, python-format
 msgid "Dutch Girotel - Kommagescheiden"
 msgstr "Nederlands Girotel - Kommagescheiden"
 
 #. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:346
+#: code:addons/account_banking_nl_girotel/girotel.py:343
 #, python-format
 msgid ""
 "The Dutch Girotel - Kommagescheiden format is basicly a MS Excel CSV "
@@ -32,7 +32,7 @@ msgid ""
 msgstr "Het Nederlandse Girotel - kommagescheiden formaat is in opzet een MS Excel CSV-formaat.\n"
 
 #. module: account_banking_nl_girotel
-#: code:addons/account_banking_nl_girotel/girotel.py:110
+#: code:addons/account_banking_nl_girotel/girotel.py:107
 #, python-format
 msgid "Invalid transaction line: expected %d columns, found %d"
 msgstr "Ongeldige transactieregel: %d kolommen verwacht, %d aangetroffen"

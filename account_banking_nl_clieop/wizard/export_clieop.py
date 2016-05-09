@@ -114,7 +114,7 @@ class banking_export_clieop_wizard(orm.TransientModel):
         ),
         'no_transactions': fields.related(
             'file_id', 'no_transactions',
-            type ='integer',
+            type='integer',
             string='Number of Transactions',
             readonly=True,
         ),
@@ -245,8 +245,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
             if not clieopfile:
                 # Just once: create clieop file
                 our_account_owner = (
-                    payment_order.mode.bank_id.owner_name
-                    or payment_order.mode.bank_id.partner_id.name
+                    payment_order.mode.bank_id.owner_name or
+                    payment_order.mode.bank_id.partner_id.name
                 )
 
                 if payment_order.mode.bank_id.state == 'iban':
@@ -306,8 +306,8 @@ class banking_export_clieop_wizard(orm.TransientModel):
                           )
                     )
                 kwargs = dict(
-                    name=line.bank_id.owner_name
-                    or line.bank_id.partner_id.name,
+                    name=(line.bank_id.owner_name or
+                          line.bank_id.partner_id.name),
                     amount=line.amount_currency,
                     reference=line.communication or None,
                 )

@@ -294,7 +294,7 @@ class banking_import_transaction(orm.Model):
                             trans.statement_line_id.amount) and
                     convert.str2date(x.date, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                     self.payment_window) and
+                    self.payment_window) and
                     (not _cached(x) or _remaining(x)) and
                     x.partner_id.id in partner_ids)
             ]
@@ -524,8 +524,6 @@ class banking_import_transaction(orm.Model):
         """
         move_line_obj = self.pool.get('account.move.line')
         reconcile_obj = self.pool.get('account.move.reconcile')
-        is_zero = lambda amount: self.pool.get('res.currency').is_zero(
-            cr, uid, currency, amount)
         move_lines = move_line_obj.browse(cr, uid, move_line_ids,
                                           context=context)
         reconcile = (move_lines[0].reconcile_id or
@@ -537,7 +535,9 @@ class banking_import_transaction(orm.Model):
         for move_line_id in move_line_ids:
             line_ids.remove(move_line_id)
         if len(line_ids) > 1:
-            full = is_zero(move_line_obj.get_balance(cr, uid, line_ids))
+            full = self.pool['res.currency'].is_zero(
+                cr, uid, currency,
+                move_line_obj.get_balance(cr, uid, line_ids))
             if full:
                 line_partial_ids = []
             else:
@@ -1192,12 +1192,19 @@ class banking_import_transaction(orm.Model):
                 values['type'] = move_info['type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
+<<<<<<< HEAD
             if (not values['partner_id'] and
                     partner_ids and
                     len(partner_ids) == 1):
                 values['partner_id'] = partner_ids[0]
             if (not values['partner_bank_id'] and
                     partner_banks and
+=======
+            if (not values['partner_id'] and partner_ids and
+                    len(partner_ids) == 1):
+                values['partner_id'] = partner_ids[0]
+            if (not values['partner_bank_id'] and partner_banks and
+>>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
                     len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
@@ -1497,8 +1504,12 @@ class account_bank_statement_line(orm.Model):
         res = {}
         for line in self.browse(cr, uid, ids, context):
             res[line.id] = bool(
+<<<<<<< HEAD
                 line.state == 'draft' and
                 not line.partner_id and
+=======
+                line.state == 'draft' and not line.partner_id and
+>>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
                 line.import_transaction_id and
                 line.import_transaction_id.remote_account)
         return res
@@ -1828,9 +1839,14 @@ class account_bank_statement_line(orm.Model):
                 cr, uid, this.import_transaction_id.id
             )
             transaction_data['transferred_amount'] = amount
+<<<<<<< HEAD
             transaction_data['message'] = ((transaction_data['message'] or
                                             '') +
                                            _(' (split)'))
+=======
+            transaction_data['message'] = (
+                (transaction_data['message'] or '') + _(' (split)'))
+>>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
             transaction_data['parent_id'] = this.import_transaction_id.id
             transaction_id = transaction_pool.create(
                 cr,

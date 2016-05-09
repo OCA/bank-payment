@@ -119,9 +119,9 @@ class HSBCParser(object):
             datestring = matchdict[field]
 
             post_check = False
-            if (len(datestring) == 4
-                    and field == "bookingdate"
-                    and "valuedate" in matchdict):
+            if (len(datestring) == 4 and
+                    field == "bookingdate" and
+                    "valuedate" in matchdict):
                 # Get year from valuedate
                 datestring = matchdict['valuedate'].strftime('%y') + datestring
                 post_check = True

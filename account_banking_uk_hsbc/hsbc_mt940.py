@@ -25,12 +25,12 @@ import logging
 
 from account_banking.parsers import models
 from .mt940_parser import HSBCParser
+from openerp.tools.translate import _
+from openerp.osv import orm
+
 
 bt = models.mem_bank_transaction
 logger = logging.getLogger('hsbc_mt940')
-
-from openerp.tools.translate import _
-from openerp.osv import orm
 
 
 def record2float(record, value):
@@ -82,8 +82,8 @@ class transaction(models.mem_bank_transaction):
         '''
         We don't have remote_account so override base
         '''
-        return (self.execution_date
-                and self.transferred_amount and True) or False
+        return (self.execution_date and
+                self.transferred_amount and True) or False
 
 
 class statement(models.mem_bank_statement):
