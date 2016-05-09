@@ -77,13 +77,8 @@ class AccountBankStatement(orm.Model):
                 move_lines.append({
                     'move_id': defaults['move_id'],
                     'name': (
-<<<<<<< HEAD
-                        defaults.get('name', '') +
-                        ' ' + ustr(tax['name'] or '')),
-=======
                         defaults.get('name', '') + ' ' +
                         ustr(tax['name'] or '')),
->>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
                     'date': defaults.get('date', False),
                     'partner_id': defaults.get('partner_id', False),
                     'ref': defaults.get('ref', False),

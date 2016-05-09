@@ -91,7 +91,6 @@ class link_partner(orm.TransientModel):
                     _('Error'),
                     _('Statement line is already linked to a bank account '))
 
-
             if not (transaction and transaction.remote_account):
                 raise orm.except_orm(
                     _('Error'),

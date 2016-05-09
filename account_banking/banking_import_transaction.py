@@ -1192,19 +1192,12 @@ class banking_import_transaction(orm.Model):
                 values['type'] = move_info['type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
-<<<<<<< HEAD
             if (not values['partner_id'] and
                     partner_ids and
                     len(partner_ids) == 1):
                 values['partner_id'] = partner_ids[0]
             if (not values['partner_bank_id'] and
                     partner_banks and
-=======
-            if (not values['partner_id'] and partner_ids and
-                    len(partner_ids) == 1):
-                values['partner_id'] = partner_ids[0]
-            if (not values['partner_bank_id'] and partner_banks and
->>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
                     len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
@@ -1504,12 +1497,7 @@ class account_bank_statement_line(orm.Model):
         res = {}
         for line in self.browse(cr, uid, ids, context):
             res[line.id] = bool(
-<<<<<<< HEAD
-                line.state == 'draft' and
-                not line.partner_id and
-=======
                 line.state == 'draft' and not line.partner_id and
->>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
                 line.import_transaction_id and
                 line.import_transaction_id.remote_account)
         return res
@@ -1839,14 +1827,8 @@ class account_bank_statement_line(orm.Model):
                 cr, uid, this.import_transaction_id.id
             )
             transaction_data['transferred_amount'] = amount
-<<<<<<< HEAD
-            transaction_data['message'] = ((transaction_data['message'] or
-                                            '') +
-                                           _(' (split)'))
-=======
             transaction_data['message'] = (
                 (transaction_data['message'] or '') + _(' (split)'))
->>>>>>> e1dec3cbec8c2ff0e06aa447dd57eecdec24524e
             transaction_data['parent_id'] = this.import_transaction_id.id
             transaction_id = transaction_pool.create(
                 cr,
