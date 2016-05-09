@@ -228,28 +228,22 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_party_agent(
-            self, parent_node, party_type, party_type_label,
-            order, party_name, iban, bic, eval_ctx, gen_args):
+            self, parent_node, party_type, order, partner_bank, gen_args):
         """Generate the piece of the XML file corresponding to BIC
-        This code is mutualized between TRF and DD"""
+        This code is mutualized between TRF and DD
+        Starting from Feb 1st 2016, we should be able to do
+        cross-border SEPA transfers without BIC, cf
+        http://www.europeanpaymentscouncil.eu/index.cfm/
+        sepa-credit-transfer/iban-and-bic/"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
-        try:
-            bic = self._prepare_field(
-                '%s BIC' % party_type_label, bic, eval_ctx, gen_args=gen_args)
+        if partner_bank.bank_bic:
             party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
             party_agent_institution = etree.SubElement(
                 party_agent, 'FinInstnId')
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
-            party_agent_bic.text = bic
-        except UserError:
-            if order == 'C':
-                if iban[0:2] != gen_args['initiating_party_country_code']:
-                    raise UserError(
-                        _("The bank account with IBAN '%s' of partner '%s' "
-                            "must have an associated BIC because it is a "
-                            "cross-border SEPA operation.")
-                        % (iban, party_name))
+            party_agent_bic.text = partner_bank.bank_bic
+        else:
             if order == 'B' or (
                     order == 'C' and gen_args['payment_method'] == 'DD'):
                 party_agent = etree.SubElement(
@@ -268,8 +262,7 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_party_block(
-            self, parent_node, party_type, order, name, iban, bic,
-            eval_ctx, gen_args):
+            self, parent_node, party_type, order, partner_bank, gen_args):
         """Generate the piece of the XML file corresponding to Name+IBAN+BIC
         This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
@@ -277,34 +270,35 @@ class AccountPaymentOrder(models.Model):
             party_type_label = 'Creditor'
         elif party_type == 'Dbtr':
             party_type_label = 'Debtor'
+        name = 'partner_bank.partner_id.name'
+        eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,
             gen_args.get('name_maxsize'), gen_args=gen_args)
-        viban = self._prepare_field(
-            '%s IBAN' % party_type_label, iban, eval_ctx, gen_args=gen_args)
-        # TODO : add support for bank accounts other than IBAN
-        #  viban = self._validate_iban(piban)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
-        if order == 'B':
-            gen_args['initiating_party_country_code'] = viban[0:2]
-        elif order == 'C':
+        if order == 'C':
             self.generate_party_agent(
-                parent_node, party_type, party_type_label,
-                order, party_name, viban, bic, eval_ctx, gen_args)
+                parent_node, party_type, order, partner_bank, gen_args)
         party = etree.SubElement(parent_node, party_type)
         party_nm = etree.SubElement(party, 'Nm')
         party_nm.text = party_name
         party_account = etree.SubElement(
             parent_node, '%sAcct' % party_type)
         party_account_id = etree.SubElement(party_account, 'Id')
-        party_account_iban = etree.SubElement(
-            party_account_id, 'IBAN')
-        party_account_iban.text = viban
+        if partner_bank.acc_type == 'iban':
+            party_account_iban = etree.SubElement(
+                party_account_id, 'IBAN')
+            party_account_iban.text = partner_bank.sanitized_acc_number
+        else:
+            party_account_other = etree.SubElement(
+                party_account_id, 'Othr')
+            party_account_other_id = etree.SubElement(
+                party_account_other, 'Id')
+            party_account_other_id.text = partner_bank.sanitized_acc_number
         if order == 'B':
             self.generate_party_agent(
-                parent_node, party_type, party_type_label,
-                order, party_name, viban, bic, eval_ctx, gen_args)
+                parent_node, party_type, order, partner_bank, gen_args)
         return True
 
     @api.model
