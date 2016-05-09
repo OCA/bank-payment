@@ -99,6 +99,18 @@ class AccountPaymentOrder(models.Model):
                         order.payment_type,
                         order.payment_mode_id.payment_type))
 
+    @api.multi
+    @api.constrains('date_scheduled')
+    def check_date_scheduled(self):
+        today = fields.Date.context_today(self)
+        for order in self:
+            if order.date_scheduled:
+                if order.date_scheduled < today:
+                    raise ValidationError(_(
+                        "On payment order %s, the Payment Execution Date "
+                        "is in the past (%s).")
+                        % (order.name, order.date_scheduled))
+
     @api.one
     @api.depends(
         'payment_line_ids', 'payment_line_ids.amount_company_currency')
@@ -201,6 +213,9 @@ class AccountPaymentOrder(models.Model):
                 elif order.date_prefered == 'fixed':
                     requested_date = order.date_scheduled or today
                 else:
+                    requested_date = today
+                # No payment date in the past
+                if requested_date < today:
                     requested_date = today
                 # Write requested_date on 'date' field of payment line
                 payline.date = requested_date
