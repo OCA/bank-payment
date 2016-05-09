@@ -151,10 +151,7 @@ class AccountPaymentOrder(models.Model):
 
             self.generate_party_block(
                 payment_info_2_0, 'Cdtr', 'B',
-                'self.company_partner_bank_id.partner_id.name',
-                'self.company_partner_bank_id.sanitized_acc_number',
-                'self.company_partner_bank_id.bank_bic',
-                {'self': self}, gen_args)
+                self.company_partner_bank_id, gen_args)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             if self.sepa:
                 charge_bearer = 'SLEV'
@@ -250,10 +247,7 @@ class AccountPaymentOrder(models.Model):
 
                 self.generate_party_block(
                     dd_transaction_info_2_28, 'Dbtr', 'C',
-                    'line.partner_id.name',
-                    'line.partner_bank_id.sanitized_acc_number',
-                    'line.partner_bank_id.bank_bic',
-                    {'line': line}, gen_args)
+                    line.partner_bank_id, gen_args)
 
                 self.generate_remittance_info_block(
                     dd_transaction_info_2_28, line, gen_args)
