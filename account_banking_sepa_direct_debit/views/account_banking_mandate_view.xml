@@ -17,13 +17,13 @@
     <field name="inherit_id" ref="account_banking_mandate.view_mandate_form"/>
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
+            <field name="scheme" attrs="{'invisible': [('format', '!=', 'sepa')],
+                                         'required': [('format', '=', 'sepa')]}"/>
             <field name="type" attrs="{'invisible': [('format', '!=', 'sepa')],
                                        'required': [('format', '=', 'sepa')]}"/>
             <field name="recurrent_sequence_type"
                    attrs="{'invisible': ['|', ('type', '=', 'oneoff'), ('format', '!=', 'sepa')],
                            'required': [('type', '=', 'recurrent')]}"/>
-            <field name="scheme" attrs="{'invisible': [('format', '!=', 'sepa')],
-                                         'required': [('format', '=', 'sepa')]}"/>
         </field>
     </field>
 </record>
@@ -34,8 +34,8 @@
     <field name="inherit_id" ref="account_banking_mandate.view_mandate_tree"/>
     <field name="arch" type="xml">
         <field name="unique_mandate_reference" position="after">
-            <field name="type" string="Type"/>
             <field name="scheme"/>
+            <field name="type" string="Type"/>
             <field name="recurrent_sequence_type" string="Sequence Type"/>
         </field>
     </field>
