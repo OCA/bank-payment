@@ -35,7 +35,7 @@ class AccountPaymentMode(models.Model):
         ('move', 'Move'),
         ], default='due', string="Type of Date Filter")
     group_lines = fields.Boolean(
-        string="Group lines in payment orders", default=True,
+        string="Group Lines in Payment Orders", default=True,
         help="If this mark is checked, the payment order lines will be "
              "grouped when validating the payment order before exporting the "
              "bank file. The grouping will be done only if the following "
