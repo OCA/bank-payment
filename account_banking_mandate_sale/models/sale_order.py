@@ -28,7 +28,9 @@ class SaleOrder(models.Model):
     @api.onchange('payment_mode_id')
     def payment_mode_change(self):
         """Select by default the first valid mandate of the partner"""
-        if self.payment_mode_id.mandate_required and self.partner_id:
+        if (
+                self.payment_mode_id.payment_method_id.mandate_required and
+                self.partner_id):
             mandates = self.env['account.banking.mandate'].search([
                 ('state', '=', 'valid'),
                 ('partner_id', '=', self.commercial_partner_id.id),
