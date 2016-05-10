@@ -14,12 +14,10 @@
     <field name="model">account.payment.mode</field>
     <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
     <field name="arch" type="xml">
-        <group name="payment_order_options" position="after">
-            <group name="pain_options" string="Options for PAIN">
-                <!-- To be set visible in the localisation modules that need it -->
-                <field name="initiating_party_identifier" invisible="1"/>
-                <field name="initiating_party_issuer" invisible="1"/>
-            </group>
+        <group name="main" position="inside">
+            <!-- To be set visible in the localisation modules that need it -->
+            <field name="initiating_party_identifier" invisible="1"/>
+            <field name="initiating_party_issuer" invisible="1"/>
         </group>
     </field>
 </record>
