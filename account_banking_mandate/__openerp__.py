@@ -24,6 +24,7 @@
         'views/account_invoice_view.xml',
         'views/account_payment_line.xml',
         'views/res_partner_bank_view.xml',
+        'views/res_partner.xml',
         'views/bank_payment_line_view.xml',
         'views/account_move_line.xml',
         'data/mandate_reference_sequence.xml',
