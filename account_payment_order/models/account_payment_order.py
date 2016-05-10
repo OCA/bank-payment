@@ -16,8 +16,7 @@ class AccountPaymentOrder(models.Model):
     _order = 'id desc'
 
     name = fields.Char(
-        string='Number', readonly=True, copy=False,
-        track_visibility='onchange')  # v8 field : name
+        string='Number', readonly=True, copy=False)  # v8 field : name
     payment_mode_id = fields.Many2one(
         'account.payment.mode', 'Payment Method', required=True,
         ondelete='restrict', track_visibility='onchange',
@@ -35,7 +34,8 @@ class AccountPaymentOrder(models.Model):
         related='payment_mode_id.bank_account_link', readonly=True)
     journal_id = fields.Many2one(
         'account.journal', string='Bank Journal', ondelete='restrict',
-        readonly=True, states={'draft': [('readonly', False)]})
+        readonly=True, states={'draft': [('readonly', False)]},
+        track_visibility='onchange')
     allowed_journal_ids = fields.Many2many(
         'account.journal', compute='_compute_allowed_journals', readonly=True,
         string='Selectable Bank Journals')
@@ -200,7 +200,11 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             if not order.journal_id:
                 raise UserError(_(
-                    'Missing Bank Journal on payment order %s') % order.name)
+                    'Missing Bank Journal on payment order %s.') % order.name)
+            if not order.payment_line_ids:
+                raise UserError(_(
+                    'There are no transactions on payment order %s.')
+                    % order.name)
             # Delete existing bank payment lines
             order.bank_line_ids.unlink()
             # Create the bank payment lines from the payment lines
