@@ -21,7 +21,7 @@
                     attrs="{'invisible': [('bank_account_link', '!=', 'variable')], 'required': [('bank_account_link', '=', 'variable')]}"
                     widget="many2many_tags"/>
             </group>
-            <group string="Note" col="4">
+            <group string="Note" name="note">
                 <field name="note" nolabel="1"/>
             </group>
         </form>
