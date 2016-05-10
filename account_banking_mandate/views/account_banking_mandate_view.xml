@@ -81,6 +81,7 @@
             <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
             <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]" />
             <group string="Group By" name="groupby">
+                <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
                 <filter name="signature_date_groupby" string="Signature Date" context="{'group_by': 'signature_date'}"/>
             </group>
         </search>
