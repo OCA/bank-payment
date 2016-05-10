@@ -16,7 +16,6 @@
     <field name="arch" type="xml">
         <group name="payment_order_options" position="after">
             <group name="pain_options" string="Options for PAIN">
-                <field name="convert_to_ascii"/>
                 <!-- To be set visible in the localisation modules that need it -->
                 <field name="initiating_party_identifier" invisible="1"/>
                 <field name="initiating_party_issuer" invisible="1"/>
