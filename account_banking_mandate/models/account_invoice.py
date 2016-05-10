@@ -47,7 +47,7 @@ class AccountInvoice(models.Model):
         if (
                 self.type in ('out_invoice', 'out_refund') and
                 self.payment_mode_id.payment_type == 'inbound' and
-                self.payment_mode_id.mandate_required and
+                self.payment_mode_id.payment_method_id.mandate_required and
                 self.partner_id):
             mandates = self.env['account.banking.mandate'].search([
                 ('state', '=', 'valid'),
