@@ -57,11 +57,12 @@ class AccountPaymentOrder(models.Model):
         else:
             raise UserError(
                 _("PAIN version '%s' is not supported.") % pain_flavor)
-        xsd_file = self.payment_mode_id.payment_method_id.get_xsd_file_path()
+        pay_method = self.payment_mode_id.payment_method_id
+        xsd_file = pay_method.get_xsd_file_path()
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
-            'convert_to_ascii': self.payment_mode_id.convert_to_ascii,
+            'convert_to_ascii': pay_method.convert_to_ascii,
             'payment_method': 'TRF',
             'file_prefix': 'sct_',
             'pain_flavor': pain_flavor,
