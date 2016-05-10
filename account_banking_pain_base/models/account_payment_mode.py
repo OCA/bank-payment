@@ -10,11 +10,6 @@ from openerp import models, fields
 class AccountPaymentMode(models.Model):
     _inherit = 'account.payment.mode'
 
-    convert_to_ascii = fields.Boolean(
-        string='Convert to ASCII', default=True,
-        help="If active, Odoo will convert each accented caracter to "
-        "the corresponding unaccented caracter, so that only ASCII "
-        "caracters are used in the generated PAIN file.")
     initiating_party_issuer = fields.Char(
         string='Initiating Party Issuer', size=35,
         help="This will be used as the 'Initiating Party Issuer' in the "

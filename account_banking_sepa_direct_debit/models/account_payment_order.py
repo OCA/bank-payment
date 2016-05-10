@@ -62,11 +62,12 @@ class AccountPaymentOrder(models.Model):
                   "Payment Type Code supported for SEPA Direct Debit are "
                   "'pain.008.001.02', 'pain.008.001.03' and "
                   "'pain.008.001.04'.") % pain_flavor)
-        xsd_file = self.payment_mode_id.payment_method_id.get_xsd_file_path()
+        pay_method = self.payment_mode_id.payment_method_id
+        xsd_file = pay_method.get_xsd_file_path()
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
-            'convert_to_ascii': self.payment_mode_id.convert_to_ascii,
+            'convert_to_ascii': pay_method.convert_to_ascii,
             'payment_method': 'DD',
             'file_prefix': 'sdd_',
             'pain_flavor': pain_flavor,

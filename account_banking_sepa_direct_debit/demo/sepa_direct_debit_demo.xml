@@ -9,7 +9,6 @@
     <field name="bank_account_link">variable</field>
     <field name="payment_method_id" ref="sepa_direct_debit"/>
     <field name="default_journal_ids" search="[('type', 'in', ('sale', 'sale_refund'))]"/>
-    <field name="mandate_required" eval="True"/>
 </record>
 
 <record id="base.main_company" model="res.company">

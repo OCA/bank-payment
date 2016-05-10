@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 class AccountBankingMandate(models.Model):
     """SEPA Direct Debit Mandate"""
     _inherit = 'account.banking.mandate'
+    _rec_name = 'display_name'
 
     format = fields.Selection(
         selection_add=[('sepa', 'Sepa Mandate')], default='sepa')
@@ -35,6 +36,7 @@ class AccountBankingMandate(models.Model):
         ('B2B', 'Enterprise (B2B)')],
         string='Scheme', default="CORE", track_visibility='onchange')
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
+    display_name = fields.Char(compute='compute_display_name', store=True)
 
     @api.multi
     @api.constrains('type', 'recurrent_sequence_type')
@@ -45,6 +47,18 @@ class AccountBankingMandate(models.Model):
                 raise exceptions.Warning(
                     _("The recurrent mandate '%s' must have a sequence type.")
                     % mandate.unique_mandate_reference)
+
+    @api.multi
+    @api.depends('unique_mandate_reference', 'recurrent_sequence_type')
+    def compute_display_name(self):
+        for mandate in self:
+            if mandate.format == 'sepa':
+                name = '%s (%s)' % (
+                    mandate.unique_mandate_reference,
+                    mandate.recurrent_sequence_type)
+            else:
+                name = mandate.unique_mandate_reference
+            mandate.display_name = name
 
     @api.multi
     @api.onchange('partner_bank_id')

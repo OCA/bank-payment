@@ -12,7 +12,7 @@ class AccountPaymentOrder(models.Model):
     @api.multi
     def draft2open(self):
         for order in self:
-            if order.payment_mode_id.mandate_required:
+            if order.payment_mode_id.payment_method_id.mandate_required:
                 for line in order.payment_line_ids:
                     if not line.mandate_id:
                         raise UserError(_(
