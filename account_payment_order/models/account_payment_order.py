@@ -221,6 +221,21 @@ class AccountPaymentOrder(models.Model):
                 # No payment date in the past
                 if requested_date < today:
                     requested_date = today
+                # inbound: check option no_debit_before_maturity
+                if (
+                        order.payment_type == 'inbound' and
+                        order.payment_mode_id.no_debit_before_maturity and
+                        payline.ml_maturity_date and
+                        requested_date < payline.ml_maturity_date):
+                    raise UserError(_(
+                        "The payment mode '%s' has the option "
+                        "'Disallow Debit Before Maturity Date'. The "
+                        "payment line %s has a maturity date %s "
+                        "which is after the computed payment date %s.") % (
+                            order.payment_mode_id.name,
+                            payline.name,
+                            payline.ml_maturity_date,
+                            requested_date))
                 # Write requested_date on 'date' field of payment line
                 payline.date = requested_date
                 # Group options
