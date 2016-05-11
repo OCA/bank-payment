@@ -11,6 +11,8 @@
         <group name="main" position="after">
             <group name="payment_order_options" string="Options for Payment Orders">
                 <field name="payment_order_ok"/>
+                <field name="no_debit_before_maturity"
+                    attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"/>
                 <field name="group_lines"/>
             </group>
             <group name="payment_order_create_defaults" string="Select Move Lines to Pay - Default Values">

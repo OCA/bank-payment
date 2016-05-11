@@ -16,6 +16,12 @@ class AccountPaymentMode(models.Model):
 
     payment_order_ok = fields.Boolean(
         string='Selectable in Payment Orders', default=True)
+    no_debit_before_maturity = fields.Boolean(
+        string="Disallow Debit Before Maturity Date",
+        help="If you activate this option on an Inbound payment mode, "
+        "you will have an error message when you confirm a debit order "
+        "that has a payment line with a payment date before the maturity "
+        "date.")
     # Default options for the "payment.order.create" wizard
     default_payment_mode = fields.Selection([
         ('same', 'Same'),
