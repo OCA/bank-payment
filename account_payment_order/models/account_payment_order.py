@@ -83,7 +83,7 @@ class AccountPaymentOrder(models.Model):
         compute='_bank_line_count', string='Number of Bank Lines',
         readonly=True)
     move_ids = fields.One2many(
-        'account.move', 'payment_order_id', string='Transfer Journal Entries',
+        'account.move', 'payment_order_id', string='Journal Entries',
         readonly=True)
 
     @api.multi
@@ -292,23 +292,26 @@ class AccountPaymentOrder(models.Model):
     @api.multi
     def generated2uploaded(self):
         for order in self:
-            if order.payment_mode_id.transfer_move:
-                order.generate_transfer_move()
+            if order.payment_mode_id.generate_move:
+                order.generate_move()
         self.write({
             'state': 'uploaded',
             'date_uploaded': fields.Date.context_today(self),
             })
         return True
 
-    # Generation of transfer move
     @api.multi
-    def _prepare_transfer_move(self):
+    def _prepare_move(self):
         if self.payment_type == 'outbound':
             ref = _('Payment order %s') % self.name
         else:
             ref = _('Debit order %s') % self.name
+        if self.payment_mode_id.offsetting_account == 'bank_account':
+            journal_id = self.journal_id.id
+        elif self.payment_mode_id.offsetting_account == 'transfer_account':
+            journal_id = self.payment_mode_id.transfer_journal_id.id
         vals = {
-            'journal_id': self.payment_mode_id.transfer_journal_id.id,
+            'journal_id': journal_id,
             'ref': ref,
             'payment_order_id': self.id,
             'line_ids': [],
@@ -316,17 +319,21 @@ class AccountPaymentOrder(models.Model):
         return vals
 
     @api.multi
-    def _prepare_move_line_transfer_account(
+    def _prepare_move_line_offsetting_account(
             self, amount, bank_payment_lines):
         if self.payment_type == 'outbound':
             name = _('Payment order %s') % self.name
         else:
             name = _('Debit order %s') % self.name
         date_maturity = bank_payment_lines[0].date
+        if self.payment_mode_id.offsetting_account == 'bank_account':
+            account_id = self.journal_id.default_debit_account_id.id
+        elif self.payment_mode_id.offsetting_account == 'transfer_account':
+            account_id = self.payment_mode_id.transfer_account_id.id
         vals = {
             'name': name,
             'partner_id': False,
-            'account_id': self.payment_mode_id.transfer_account_id.id,
+            'account_id': account_id,
             'credit': (self.payment_type == 'outbound' and
                        amount or 0.0),
             'debit': (self.payment_type == 'inbound' and
@@ -366,7 +373,7 @@ class AccountPaymentOrder(models.Model):
         return vals
 
     @api.multi
-    def generate_transfer_move(self):
+    def generate_move(self):
         """
         Create the moves that pay off the move lines from
         the payment/debit order.
@@ -374,12 +381,12 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         am_obj = self.env['account.move']
         # prepare a dict "trfmoves" that can be used when
-        # self.payment_mode_id.transfer_move_option = date or line
+        # self.payment_mode_id.move_option = date or line
         # key = unique identifier (date or True or line.id)
         # value = bank_pay_lines (recordset that can have several entries)
         trfmoves = {}
         for bline in self.bank_line_ids:
-            hashcode = bline.move_line_transfer_account_hashcode()
+            hashcode = bline.move_line_offsetting_account_hashcode()
             if hashcode in trfmoves:
                 trfmoves[hashcode] += bline
             else:
@@ -387,13 +394,13 @@ class AccountPaymentOrder(models.Model):
 
         company_currency = self.env.user.company_id.currency_id
         for hashcode, blines in trfmoves.iteritems():
-            mvals = self._prepare_transfer_move()
+            mvals = self._prepare_move()
             total_amount = 0
             for bline in blines:
                 total_amount += bline.amount_currency
                 if bline.currency_id != company_currency:
                     raise UserError(_(
-                        "Cannot generate the transfer move when "
+                        "Cannot generate the account move when "
                         "the currency of the payment (%s) is not the "
                         "same as the currency of the company (%s). This "
                         "is not supported for the moment.")
@@ -402,7 +409,7 @@ class AccountPaymentOrder(models.Model):
                 partner_ml_vals = self._prepare_move_line_partner_account(
                     bline)
                 mvals['line_ids'].append((0, 0, partner_ml_vals))
-            trf_ml_vals = self._prepare_move_line_transfer_account(
+            trf_ml_vals = self._prepare_move_line_offsetting_account(
                 total_amount, blines)
             mvals['line_ids'].append((0, 0, trf_ml_vals))
             move = am_obj.create(mvals)

@@ -47,8 +47,12 @@ class AccountPaymentMode(models.Model):
              "* Payment Date\n"
              "(other modules can set additional fields to restrict the "
              "grouping.)")
-    transfer_move = fields.Boolean(
+    generate_move = fields.Boolean(
         'Generate Accounting Entries On File Upload')
+    offsetting_account = fields.Selection([
+        ('bank_account', 'Bank Account'),
+        ('transfer_account', 'Transfer Account'),
+        ], string='Offsetting Account')
     transfer_account_id = fields.Many2one(
         'account.account', string='Transfer Account',
         domain=[('internal_type', '=', 'other'), ('reconcile', '=', True)],
@@ -59,26 +63,39 @@ class AccountPaymentMode(models.Model):
         'account.journal', string='Transfer Journal',
         help='Journal to write payment entries when confirming '
         'payment/debit orders of this mode')
-    transfer_move_option = fields.Selection([
+    move_option = fields.Selection([
         ('date', 'One move per payment date'),
         ('line', 'One move per payment line'),
-        ], string='Transfer Move Option', default='date')
+        ], string='Move Option')
 
     @api.multi
     @api.constrains(
-        'transfer_move', 'transfer_account_id', 'transfer_journal_id',
-        'transfer_move_option')
+        'generate_move', 'offsetting_account',
+        'transfer_account_id', 'transfer_journal_id', 'move_option')
     def transfer_move_constrains(self):
         for mode in self:
-            if mode.transfer_move and (
-                    not mode.transfer_account_id or
-                    not mode.transfer_journal_id or
-                    not mode.transfer_move_option):
-                raise ValidationError(_(
-                    "The option 'Generate Accounting Entries On File Upload' "
-                    "is active on payment mode '%s', so the three parameters "
-                    "'Transfer Account', 'Transfer Journal' and "
-                    "'Transfer Move Option' must be set.") % mode.name)
+            if mode.generate_move:
+                if not mode.offsetting_account:
+                    raise ValidationError(_(
+                        "On the payment mode '%s', you must select an "
+                        "option for the 'Offsetting Account' parameter")
+                        % mode.name)
+                elif mode.offsetting_account == 'transfer_account':
+                    if not mode.transfer_account_id:
+                        raise ValidationError(_(
+                            "On the payment mode '%s', you must "
+                            "select a value for the 'Transfer Account'.")
+                            % mode.name)
+                    if not mode.transfer_journal_id:
+                        raise ValidationError(_(
+                            "On the payment mode '%s', you must "
+                            "select a value for the 'Transfer Journal'.")
+                            % mode.name)
+                if not mode.move_option:
+                    raise ValidationError(_(
+                        "On the payment mode '%s', you must "
+                        "choose an option for the 'Move Option' "
+                        "parameter.") % mode.name)
 
     @api.onchange('payment_method_id')
     def payment_method_id_change(self):
@@ -92,3 +109,21 @@ class AccountPaymentMode(models.Model):
                 aj_ids = ajo.search([
                     ('type', 'in', ('sale_refund', 'sale'))]).ids
             self.default_journal_ids = [(6, 0, aj_ids)]
+
+    @api.onchange('generate_move')
+    def generate_move_change(self):
+        if self.generate_move:
+            # default values
+            self.offsetting_account = 'bank_account'
+            self.move_option = 'date'
+        else:
+            self.offsetting_account = False
+            self.transfer_account_id = False
+            self.transfer_journal_id = False
+            self.move_option = False
+
+    @api.onchange('offsetting_account')
+    def offsetting_account_change(self):
+        if self.offsetting_account == 'bank_account':
+            self.transfer_account_id = False
+            self.transfer_journal_id = False

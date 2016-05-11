@@ -80,13 +80,13 @@ class BankPaymentLine(models.Model):
         return super(BankPaymentLine, self).create(vals)
 
     @api.multi
-    def move_line_transfer_account_hashcode(self):
+    def move_line_offsetting_account_hashcode(self):
         """
         This method is inherited in the module
         account_banking_sepa_direct_debit
         """
         self.ensure_one()
-        if self.order_id.payment_mode_id.transfer_move_option == 'date':
+        if self.order_id.payment_mode_id.move_option == 'date':
             hashcode = self.date
         else:
             hashcode = unicode(self.id)
