@@ -22,6 +22,7 @@
     'data': [
         'views/account_banking_mandate_view.xml',
         'views/res_company_view.xml',
+        'views/res_config.xml',
         'views/account_payment_mode.xml',
         'data/mandate_expire_cron.xml',
         'data/account_payment_method.xml',
