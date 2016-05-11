@@ -15,6 +15,7 @@
         'views/account_payment_method.xml',
         'views/account_payment_mode.xml',
         'views/res_partner_bank.xml',
+        'views/res_partner.xml',
     ],
     'demo': ['demo/payment_demo.xml'],
     'installable': True,
