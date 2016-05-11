@@ -305,7 +305,7 @@ class AccountPaymentOrder(models.Model):
     def generate_remittance_info_block(self, parent_node, line, gen_args):
         remittance_info_2_91 = etree.SubElement(
             parent_node, 'RmtInf')
-        if line.state == 'normal':
+        if line.communication_type == 'normal':
             remittance_info_unstructured_2_99 = etree.SubElement(
                 remittance_info_2_91, 'Ustrd')
             remittance_info_unstructured_2_99.text = \
