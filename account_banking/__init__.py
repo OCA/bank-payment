@@ -2,6 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
+#              (C) 2011 - 2014 Banking addons community
 #    All Rights Reserved
 #
 #    WARNING: This program as such is intended to be used by professional
@@ -34,3 +35,4 @@ from . import wizard
 from . import res_partner
 from . import res_bank
 from . import res_partner_bank
+from . import bank_statement_monkeypatch
