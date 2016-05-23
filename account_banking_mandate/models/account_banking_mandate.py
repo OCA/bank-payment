@@ -54,7 +54,7 @@ class AccountBankingMandate(models.Model):
     _sql_constraints = [(
         'mandate_ref_company_uniq',
         'unique(unique_mandate_reference, company_id)',
-        'A Mandate with the same reference already exists for this company !')]
+        'A Mandate with the same reference already exists for this company!')]
 
     @api.multi
     @api.constrains('signature_date', 'last_debit_date')
@@ -65,7 +65,7 @@ class AccountBankingMandate(models.Model):
                         mandate)):
                 raise ValidationError(
                     _("The date of signature of mandate '%s' "
-                      "is in the future !")
+                      "is in the future!")
                     % mandate.unique_mandate_reference)
             if (mandate.signature_date and mandate.last_debit_date and
                     mandate.signature_date > mandate.last_debit_date):
@@ -108,7 +108,7 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             if mandate.state != 'draft':
                 raise UserError(
-                    _('Mandate should be in draft state'))
+                    _('Mandate should be in draft state.'))
         self.write({'state': 'valid'})
         return True
 
@@ -117,7 +117,7 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             if mandate.state not in ('draft', 'valid'):
                 raise UserError(
-                    _('Mandate should be in draft or valid state'))
+                    _('Mandate should be in draft or valid state.'))
         self.write({'state': 'cancel'})
         return True
 
@@ -129,6 +129,6 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             if mandate.state != 'cancel':
                 raise UserError(
-                    _('Mandate should be in cancel state'))
+                    _('Mandate should be in cancel state.'))
         self.write({'state': 'draft'})
         return True

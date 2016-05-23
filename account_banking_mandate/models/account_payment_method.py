@@ -10,5 +10,5 @@ class AccountPaymentMethod(models.Model):
 
     mandate_required = fields.Boolean(
         string='Mandate Required',
-        help="Activate this option is this payment method requires your "
+        help="Activate this option if this payment method requires your "
         "customer to sign a direct debit mandate with your company.")
