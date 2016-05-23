@@ -15,8 +15,8 @@ class ResBank(models.Model):
         for bank in self:
             if bank.bic and len(bank.bic) not in (8, 11):
                 raise ValidationError(_(
-                    "A valid BIC contains 8 or 11 caracters. The BIC '%s' "
-                    "contains %d caracters, so it is not valid.")
+                    "A valid BIC contains 8 or 11 characters. The BIC '%s' "
+                    "contains %d characters, so it is not valid.")
                     % (bank.bic, len(bank.bic)))
 
 # in v9, on res.partner.bank bank_bic is a related of bank_id.bic
