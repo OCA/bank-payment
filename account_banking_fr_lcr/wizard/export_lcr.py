@@ -355,7 +355,6 @@ class banking_export_lcr_wizard(orm.TransientModel):
         self.pool['banking.export.lcr'].write(
             cr, uid, lcr_export.file_id.id, {'state': 'sent'},
             context=context)
-        wf_service = netsvc.LocalService('workflow')
-        for order in lcr_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
+        self.pool['payment.order'].set_done(
+            cr, uid, [r.id for r in lcr_export.payment_order_ids])
         return {'type': 'ir.actions.act_window_close'}

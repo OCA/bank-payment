@@ -85,9 +85,5 @@ class payment_order(orm.Model):
                           'type')
                     )
             # process manual payments
-            wf_service = netsvc.LocalService('workflow')
-            for order_id in ids:
-                wf_service.trg_validate(
-                    uid, 'payment.order', order_id, 'done', cr
-                )
+            self.set_done(cr, uid, ids)
         return result

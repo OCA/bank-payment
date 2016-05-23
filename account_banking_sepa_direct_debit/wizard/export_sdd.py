@@ -423,9 +423,8 @@ class banking_export_sdd_wizard(orm.TransientModel):
         self.pool.get('banking.export.sdd').write(
             cr, uid, sepa_export.file_id.id, {'state': 'sent'},
             context=context)
-        wf_service = netsvc.LocalService('workflow')
         for order in sepa_export.payment_order_ids:
-            wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
+            self.pool['payment.order'].set_done(cr, uid, [order.id])
             mandate_ids = [line.mandate_id.id for line in order.line_ids]
             self.pool['account.banking.mandate'].write(
                 cr, uid, mandate_ids,
