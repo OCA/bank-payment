@@ -13,9 +13,9 @@ class AccountPaymentLine(models.Model):
         ('NORM', 'Normal'),
         ('HIGH', 'High')],
         string='Priority', default='NORM',
-        help="This field will be used as the 'Instruction Priority' in "
+        help="This field will be used as 'Instruction Priority' in "
              "the generated PAIN file.")
-    # PAIN allows 140 caracters
+    # PAIN allows 140 characters
     communication = fields.Char(size=140)
     # The field struct_communication_type has been dropped in v9
     # We now use communication_type ; you should add an option
