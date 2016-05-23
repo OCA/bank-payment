@@ -653,3 +653,15 @@ class account_move_line(orm.Model):
                 cr, uid, ids, ['debit', 'credit'], context=context):
             total += (line['debit'] or 0.0) - (line['credit'] or 0.0)
         return total
+
+    def unlink(self, cr, uid, ids, context=None):
+        if any(
+            this.statement_id.state == 'confirm'
+            for this in self.browse(cr, uid, ids, context=context)
+        ):
+            raise except_osv(
+                _('Error'),
+                _('Cannot delete lines belonging to confirmed bank statements')
+            )
+        return super(account_move_line, self).unlink(
+            cr, uid, ids, context=context)
