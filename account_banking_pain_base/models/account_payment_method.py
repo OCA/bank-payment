@@ -12,9 +12,9 @@ class AccountPaymentMethod(models.Model):
     pain_version = fields.Selection([], string='PAIN Version')
     convert_to_ascii = fields.Boolean(
         string='Convert to ASCII', default=True,
-        help="If active, Odoo will convert each accented caracter to "
-        "the corresponding unaccented caracter, so that only ASCII "
-        "caracters are used in the generated PAIN file.")
+        help="If active, Odoo will convert each accented character to "
+        "the corresponding unaccented character, so that only ASCII "
+        "characters are used in the generated PAIN file.")
 
     @api.multi
     def get_xsd_file_path(self):
