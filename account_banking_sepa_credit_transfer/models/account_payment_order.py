@@ -23,11 +23,14 @@ class AccountPaymentOrder(models.Model):
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
         if not pain_flavor:
             pain_flavor = 'pain.001.001.03'
-        if pain_flavor == 'pain.001.001.02':
+        # We use pain_flavor.startswith('pain.001.001.xx')
+        # to support country-specific extensions such as
+        # pain.001.001.03.ch.02 (cf l10n_ch_sepa)
+        if pain_flavor.startswith('pain.001.001.02'):
             bic_xml_tag = 'BIC'
             name_maxsize = 70
             root_xml_tag = 'pain.001.001.02'
-        elif pain_flavor == 'pain.001.001.03':
+        elif pain_flavor.startswith('pain.001.001.03'):
             bic_xml_tag = 'BIC'
             # size 70 -> 140 for <Nm> with pain.001.001.03
             # BUT the European Payment Council, in the document
@@ -39,11 +42,11 @@ class AccountPaymentOrder(models.Model):
             # and we put 70 and not 140
             name_maxsize = 70
             root_xml_tag = 'CstmrCdtTrfInitn'
-        elif pain_flavor == 'pain.001.001.04':
+        elif pain_flavor.startswith('pain.001.001.04'):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
-        elif pain_flavor == 'pain.001.001.05':
+        elif pain_flavor.startswith('pain.001.001.05'):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
@@ -68,19 +71,10 @@ class AccountPaymentOrder(models.Model):
             'pain_flavor': pain_flavor,
             'pain_xsd_file': xsd_file,
         }
-        # TODO: make it inheritable
-        pain_ns = {
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-        }
-        xml_root = etree.Element('Document', nsmap=pain_ns)
+        nsmap = self.generate_pain_nsmap()
+        attrib = self.generate_pain_attrib()
+        xml_root = etree.Element('Document', nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
-        pain_03_to_05 = [
-            'pain.001.001.03',
-            'pain.001.001.04',
-            'pain.001.001.05',
-            'pain.001.003.03'
-        ]
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
             self.generate_group_header_block(pain_root, gen_args)
@@ -156,10 +150,10 @@ class AccountPaymentOrder(models.Model):
                     'C', line.partner_bank_id, gen_args)
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info_2_27, line, gen_args)
-            if pain_flavor in pain_03_to_05:
+            if not pain_flavor.startswith('pain.001.001.02'):
                 nb_of_transactions_2_4.text = unicode(transactions_count_2_4)
                 control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
-        if pain_flavor in pain_03_to_05:
+        if not pain_flavor.startswith('pain.001.001.02'):
             nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
             control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
         else:

@@ -20,7 +20,7 @@
                     string="File Successfully Uploaded" class="oe_highlight"/>
                 <button name="cancel2draft" type="object" states="cancel"
                     string="Back to Draft" />
-                <button name="action_cancel" type="object" states="draft,open"
+                <button name="action_cancel" type="object" states="draft,open,generated"
                     string="Cancel Payments"/>
                 <field name="state" widget="statusbar"/>
             </header>
