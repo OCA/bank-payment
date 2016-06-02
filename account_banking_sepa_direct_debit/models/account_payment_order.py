@@ -73,11 +73,9 @@ class AccountPaymentOrder(models.Model):
             'pain_flavor': pain_flavor,
             'pain_xsd_file': xsd_file,
         }
-        pain_ns = {
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-        }
-        xml_root = etree.Element('Document', nsmap=pain_ns)
+        nsmap = self.generate_pain_nsmap()
+        attrib = self.generate_pain_attrib()
+        xml_root = etree.Element('Document', nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
         group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
