@@ -40,19 +40,22 @@ class AccountPaymentOrder(models.Model):
                 'sepa_direct_debit'):
             return super(AccountPaymentOrder, self).generate_payment_file()
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
-        if pain_flavor == 'pain.008.001.02':
+        # We use pain_flavor.startswith('pain.008.001.xx')
+        # to support country-specific extensions such as
+        # pain.008.001.02.ch.01 (cf l10n_ch_sepa)
+        if pain_flavor.startswith('pain.008.001.02'):
             bic_xml_tag = 'BIC'
             name_maxsize = 70
             root_xml_tag = 'CstmrDrctDbtInitn'
-        elif pain_flavor == 'pain.008.003.02':
+        elif pain_flavor.startswith('pain.008.003.02'):
             bic_xml_tag = 'BIC'
             name_maxsize = 70
             root_xml_tag = 'CstmrDrctDbtInitn'
-        elif pain_flavor == 'pain.008.001.03':
+        elif pain_flavor.startswith('pain.008.001.03'):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrDrctDbtInitn'
-        elif pain_flavor == 'pain.008.001.04':
+        elif pain_flavor.startswith('pain.008.001.04'):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrDrctDbtInitn'
@@ -173,6 +176,12 @@ class AccountPaymentOrder(models.Model):
                     payment_info_2_0, 'DrctDbtTxInf')
                 payment_identification_2_29 = etree.SubElement(
                     dd_transaction_info_2_28, 'PmtId')
+                if pain_flavor == 'pain.008.001.02.ch.01':
+                    instruction_identification = etree.SubElement(
+                        payment_identification_2_29, 'InstrId')
+                    instruction_identification.text = self._prepare_field(
+                        'Intruction Identification', 'line.name',
+                        {'line': line}, 35, gen_args=gen_args)
                 end2end_identification_2_31 = etree.SubElement(
                     payment_identification_2_29, 'EndToEndId')
                 end2end_identification_2_31.text = self._prepare_field(
