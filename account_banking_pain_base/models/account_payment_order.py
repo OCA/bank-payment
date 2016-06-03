@@ -282,15 +282,18 @@ class AccountPaymentOrder(models.Model):
         initiating_party_issuer = (
             self.payment_mode_id.initiating_party_issuer or
             self.payment_mode_id.company_id.initiating_party_issuer)
-        if initiating_party_identifier and initiating_party_issuer:
+        # in pain.008.001.02.ch.01.xsd files they use
+        # initiating_party_identifier but not initiating_party_issuer
+        if initiating_party_identifier:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
             iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
             iniparty_org_other_id.text = initiating_party_identifier
-            iniparty_org_other_issuer = etree.SubElement(
-                iniparty_org_other, 'Issr')
-            iniparty_org_other_issuer.text = initiating_party_issuer
+            if initiating_party_issuer:
+                iniparty_org_other_issuer = etree.SubElement(
+                    iniparty_org_other, 'Issr')
+                iniparty_org_other_issuer.text = initiating_party_issuer
         elif self._must_have_initiating_party(gen_args):
             raise UserError(
                 _("Missing 'Initiating Party Issuer' and/or "
@@ -359,22 +362,6 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
-            if partner.zip:
-                post_code = etree.SubElement(postal_address, 'PstCd')
-                post_code.text = self._prepare_field(
-                    'Postal Code', 'partner.zip',
-                    {'partner': partner}, 16, gen_args=gen_args)
-            if partner.city:
-                town = etree.SubElement(postal_address, 'TwnNm')
-                town.text = self._prepare_field(
-                    'Town Name', 'partner.city',
-                    {'partner': partner}, 35, gen_args=gen_args)
-            if partner.state_id:
-                country_subdiv = etree.SubElement(
-                    postal_address, 'CtrySubDvsn')
-                country_subdiv.text = self._prepare_field(
-                    'Country SubDivision', 'partner.state_id.name',
-                    {'partner': partner}, 35, gen_args=gen_args)
             country = etree.SubElement(postal_address, 'Ctry')
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
@@ -382,12 +369,12 @@ class AccountPaymentOrder(models.Model):
             if partner.street:
                 adrline1 = etree.SubElement(postal_address, 'AdrLine')
                 adrline1.text = self._prepare_field(
-                    'Street', 'partner.street',
+                    'Adress Line1', 'partner.street',
                     {'partner': partner}, 70, gen_args=gen_args)
-            if partner.street2:
+            if partner.city and partner.zip:
                 adrline2 = etree.SubElement(postal_address, 'AdrLine')
                 adrline2.text = self._prepare_field(
-                    'Street2', 'partner.street2',
+                    'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
 
         party_account = etree.SubElement(
