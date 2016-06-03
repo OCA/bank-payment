@@ -9,10 +9,10 @@ class AccountPaymentMethod(models.Model):
     _inherit = 'account.payment.method'
 
     pain_version = fields.Selection(selection_add=[
-        ('pain.008.001.02', 'pain.008.001.02 (recommended)'),
+        ('pain.008.001.02', 'pain.008.001.02 (recommended for direct debit)'),
         ('pain.008.001.03', 'pain.008.001.03'),
         ('pain.008.001.04', 'pain.008.001.04'),
-        ('pain.008.003.02', 'pain.008.003.02 (used in Germany)'),
+        ('pain.008.003.02', 'pain.008.003.02 (direct debit in Germany)'),
         ])
 
     @api.multi
