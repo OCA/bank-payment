@@ -14,6 +14,7 @@
     <field name="arch" type="xml">
         <field name="communication_type" position="before">
             <field name="priority"/>
+            <field name="local_instrument" invisible="1"/>
         </field>
     </field>
 </record>

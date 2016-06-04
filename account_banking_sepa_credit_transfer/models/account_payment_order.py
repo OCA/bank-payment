@@ -81,27 +81,29 @@ class AccountPaymentOrder(models.Model):
         transactions_count_1_6 = 0
         amount_control_sum_1_7 = 0.0
         lines_per_group = {}
-        # key = (requested_date, priority)
+        # key = (requested_date, priority, local_instrument)
         # values = list of lines as object
         for line in self.bank_line_ids:
             priority = line.priority
+            local_instrument = line.local_instrument
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting
             # cf account_banking_payment_export/models/account_payment.py
             # in the inherit of action_open()
-            key = (line.date, priority)
+            key = (line.date, priority, local_instrument)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
-        for (requested_date, priority), lines in lines_per_group.items():
+        for (requested_date, priority, local_instrument), lines in\
+                lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
                 self.generate_start_payment_info_block(
                     pain_root,
                     "self.name + '-' "
                     "+ requested_date.replace('-', '')  + '-' + priority",
-                    priority, False, False, requested_date, {
+                    priority, local_instrument, False, requested_date, {
                         'self': self,
                         'priority': priority,
                         'requested_date': requested_date,

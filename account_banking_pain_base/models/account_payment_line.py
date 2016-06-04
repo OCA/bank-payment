@@ -15,6 +15,10 @@ class AccountPaymentLine(models.Model):
         string='Priority', default='NORM',
         help="This field will be used as 'Instruction Priority' in "
              "the generated PAIN file.")
+    # local_instrument is used in some countries, for example
+    # switzerland, cf l10n_ch_sepa that adds some entries in
+    # the selection field
+    local_instrument = fields.Selection([], string='Local Instrument')
     # PAIN allows 140 characters
     communication = fields.Char(size=140)
     # The field struct_communication_type has been dropped in v9
