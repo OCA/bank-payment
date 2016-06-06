@@ -89,8 +89,11 @@ class AccountPaymentLine(models.Model):
         # Don't group the payment lines that are attached to the same supplier
         # but to move lines with different accounts (very unlikely),
         # for easier generation/comprehension of the transfer move
-        # TODO Alexis : but this is for ????
         values.append(unicode(self.move_line_id.account_id or False))
+        # Don't group the payment lines that use a structured communication
+        # otherwise it would break the structured communication system !
+        if self.communication_type != 'normal':
+            values.append(unicode(self.id))
         hashcode = '-'.join(values)
         return hashcode
 
