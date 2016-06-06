@@ -304,13 +304,16 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_party_agent(
-            self, parent_node, party_type, order, partner_bank, gen_args):
+            self, parent_node, party_type, order, partner_bank, gen_args,
+            bank_line=None):
         """Generate the piece of the XML file corresponding to BIC
         This code is mutualized between TRF and DD
         Starting from Feb 1st 2016, we should be able to do
         cross-border SEPA transfers without BIC, cf
         http://www.europeanpaymentscouncil.eu/index.cfm/
-        sepa-credit-transfer/iban-and-bic/"""
+        sepa-credit-transfer/iban-and-bic/
+        In some localization (l10n_ch_sepa for example), they need the
+        bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         if partner_bank.bank_bic:
             party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
@@ -338,9 +341,12 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_party_block(
-            self, parent_node, party_type, order, partner_bank, gen_args):
+            self, parent_node, party_type, order, partner_bank, gen_args,
+            bank_line=None):
         """Generate the piece of the XML file corresponding to Name+IBAN+BIC
-        This code is mutualized between TRF and DD"""
+        This code is mutualized between TRF and DD
+        In some localization (l10n_ch_sepa for example), they need the
+        bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         if party_type == 'Cdtr':
             party_type_label = 'Creditor'
@@ -355,7 +361,8 @@ class AccountPaymentOrder(models.Model):
         # At B level, the order is : Name, IBAN, BIC
         if order == 'C':
             self.generate_party_agent(
-                parent_node, party_type, order, partner_bank, gen_args)
+                parent_node, party_type, order, partner_bank, gen_args,
+                bank_line=bank_line)
         party = etree.SubElement(parent_node, party_type)
         party_nm = etree.SubElement(party, 'Nm')
         party_nm.text = party_name
@@ -392,7 +399,8 @@ class AccountPaymentOrder(models.Model):
             party_account_other_id.text = partner_bank.sanitized_acc_number
         if order == 'B':
             self.generate_party_agent(
-                parent_node, party_type, order, partner_bank, gen_args)
+                parent_node, party_type, order, partner_bank, gen_args,
+                bank_line=bank_line)
         return True
 
     @api.model
