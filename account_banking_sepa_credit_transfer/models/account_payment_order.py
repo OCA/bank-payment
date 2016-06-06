@@ -151,7 +151,7 @@ class AccountPaymentOrder(models.Model):
                         % (line.partner_id.name, line.name))
                 self.generate_party_block(
                     credit_transfer_transaction_info_2_27, 'Cdtr',
-                    'C', line.partner_bank_id, gen_args)
+                    'C', line.partner_bank_id, gen_args, line)
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info_2_27, line, gen_args)
             if not pain_flavor.startswith('pain.001.001.02'):
