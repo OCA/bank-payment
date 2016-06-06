@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-    Copyright (C) 2014-2016 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
+<odoo>
 <data>
 
     <record id="view_account_invoice_filter" model="ir.ui.view">
@@ -33,7 +31,6 @@
                        widget="selection"/>
                 <field name="commercial_partner_id" invisible="1"/>
             </field>
-            <!-- TODO : check if we have to add/fix domain -->
             <field name="partner_bank_id" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
@@ -53,14 +50,34 @@
                 <field name="commercial_partner_id" invisible="1"/>
             </field>
             <field name="partner_bank_id" position="attributes">
+                <attribute name="domain">[('partner_id', '=', commercial_partner_id)]</attribute>
                 <attribute name="invisible">0</attribute>
             </field>
-            <field name="partner_bank_id" position="attributes">
-                <attribute name="domain">[('partner_id', '=', commercial_partner_id)]</attribute>
+        </field>
+    </record>
+
+    <record id="invoice_tree" model="ir.ui.view">
+        <field name="name">account_payment_partner.customer_invoice_tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="residual_signed" position="after">
+                <field name="payment_mode_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="invoice_supplier_tree" model="ir.ui.view">
+        <field name="name">account_payment_partner.supplier_invoice_tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+        <field name="arch" type="xml">
+            <field name="residual_signed" position="after">
+                <field name="payment_mode_id"/>
             </field>
         </field>
     </record>
 
 
 </data>
-</openerp>
+</odoo>
