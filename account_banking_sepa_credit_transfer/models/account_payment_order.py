@@ -102,11 +102,13 @@ class AccountPaymentOrder(models.Model):
                 self.generate_start_payment_info_block(
                     pain_root,
                     "self.name + '-' "
-                    "+ requested_date.replace('-', '')  + '-' + priority",
+                    "+ requested_date.replace('-', '')  + '-' + priority + "
+                    "'-' + local_instrument",
                     priority, local_instrument, False, requested_date, {
                         'self': self,
                         'priority': priority,
                         'requested_date': requested_date,
+                        'local_instrument': local_instrument or 'NOinstr',
                     }, gen_args)
             self.generate_party_block(
                 payment_info_2_0, 'Dbtr', 'B',
