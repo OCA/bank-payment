@@ -62,7 +62,6 @@
             <filter name="inbound" string="Inbound" domain="[('payment_type', '=', 'inbound')]" />
             <filter name="outbound" string="Outbound" domain="[('payment_type', '=', 'outbound')]" />
             <group string="Group By" name="groupby">
-                <filter name="currency_groupby" string="Currency" context="{'group_by': 'currency_id'}"/>
                 <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
                 <filter name="partner_groupby" string="Partner" context="{'group_by': 'partner_id'}"/>
             </group>

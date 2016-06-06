@@ -10,7 +10,7 @@
         <form string="Payment Order">
             <header>
                 <button name="%(account_payment_line_create_action)d" type="action"
-                    string="Create Payment Lines from Move Lines"
+                    string="Create Payment Lines from Journal Items"
                     states="draft" class="oe_highlight" />
                 <button name="draft2open" type="object" states="draft"
                     string="Confirm Payments" class="oe_highlight"/>
