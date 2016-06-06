@@ -12,9 +12,11 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account_payment_partner.invoice_form"/>
     <field name="arch" type="xml">
-        <field name="partner_bank_id" position="after">
+        <field name="payment_mode_id" position="after">
             <field name="mandate_id"
-                domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"/>
+                domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
+                attrs="{'required': [('mandate_required', '=', True)], 'invisible': [('mandate_required', '=', False)]}"/>
+            <field name="mandate_required" invisible="1"/>
         </field>
     </field>
 </record>
