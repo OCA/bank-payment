@@ -255,7 +255,7 @@ class AccountPaymentOrder(models.Model):
 
                 self.generate_party_block(
                     dd_transaction_info_2_28, 'Dbtr', 'C',
-                    line.partner_bank_id, gen_args)
+                    line.partner_bank_id, gen_args, line)
 
                 self.generate_remittance_info_block(
                     dd_transaction_info_2_28, line, gen_args)
