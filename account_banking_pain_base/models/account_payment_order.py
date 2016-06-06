@@ -340,6 +340,25 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_party_bank_account(
+            self, parent_node, party_type, order, partner_bank, gen_args,
+            bank_line=None):
+        party_account = etree.SubElement(
+            parent_node, '%sAcct' % party_type)
+        party_account_id = etree.SubElement(party_account, 'Id')
+        if partner_bank.acc_type == 'iban':
+            party_account_iban = etree.SubElement(
+                party_account_id, 'IBAN')
+            party_account_iban.text = partner_bank.sanitized_acc_number
+        else:
+            party_account_other = etree.SubElement(
+                party_account_id, 'Othr')
+            party_account_other_id = etree.SubElement(
+                party_account_other, 'Id')
+            party_account_other_id.text = partner_bank.sanitized_acc_number
+        return True
+
+    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -384,19 +403,10 @@ class AccountPaymentOrder(models.Model):
                     'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
 
-        party_account = etree.SubElement(
-            parent_node, '%sAcct' % party_type)
-        party_account_id = etree.SubElement(party_account, 'Id')
-        if partner_bank.acc_type == 'iban':
-            party_account_iban = etree.SubElement(
-                party_account_id, 'IBAN')
-            party_account_iban.text = partner_bank.sanitized_acc_number
-        else:
-            party_account_other = etree.SubElement(
-                party_account_id, 'Othr')
-            party_account_other_id = etree.SubElement(
-                party_account_other, 'Id')
-            party_account_other_id.text = partner_bank.sanitized_acc_number
+        self.generate_party_bank_account(
+            parent_node, party_type, order, partner_bank, gen_args,
+            bank_line=bank_line)
+
         if order == 'B':
             self.generate_party_agent(
                 parent_node, party_type, order, partner_bank, gen_args,
