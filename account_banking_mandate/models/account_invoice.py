@@ -15,6 +15,9 @@ class AccountInvoice(models.Model):
         'account.banking.mandate', string='Direct Debit Mandate',
         ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]})
+    mandate_required = fields.Boolean(
+        related='payment_mode_id.payment_method_id.mandate_required',
+        readonly=True)
 
     @api.model
     def line_get_convert(self, line, part):
@@ -41,16 +44,32 @@ class AccountInvoice(models.Model):
             vals['mandate_id'] = invoice.mandate_id.id
         return vals
 
-    @api.onchange('payment_mode_id')
-    def payment_mode_change(self):
+    @api.onchange('partner_id', 'company_id')
+    def _onchange_partner_id(self):
         """Select by default the first valid mandate of the partner"""
+        super(AccountInvoice, self)._onchange_partner_id()
         if (
-                self.type in ('out_invoice', 'out_refund') and
-                self.payment_mode_id.payment_type == 'inbound' and
-                self.payment_mode_id.payment_method_id.mandate_required and
-                self.partner_id):
+                self.type == 'out_invoice' and
+                self.partner_id.customer_payment_mode_id.\
+                payment_type == 'inbound' and
+                self.partner_id.customer_payment_mode_id.payment_method_id.\
+                mandate_required and
+                self.commercial_partner_id):
             mandates = self.env['account.banking.mandate'].search([
                 ('state', '=', 'valid'),
                 ('partner_id', '=', self.commercial_partner_id.id),
                 ])
             self.mandate_id = mandates[0]
+        else:
+            self.mandate_id = False
+
+    @api.onchange('payment_mode_id')
+    def payment_mode_id_change(self):
+        super(AccountInvoice, self).payment_mode_id_change()
+        if (
+                self.payment_mode_id and
+                self.payment_mode_id.payment_type == 'inbound' and
+                not self.payment_mode_id.payment_method_id.mandate_required):
+            self.mandate_id = False
+        elif not self.payment_mode_id:
+            self.mandate_id = False

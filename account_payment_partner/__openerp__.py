@@ -16,6 +16,7 @@
     'depends': ['account_payment_mode'],
     'data': [
         'views/res_partner_view.xml',
+        'views/account_payment_method.xml',
         'views/account_invoice_view.xml',
         'views/account_move_line.xml',
         'views/report_invoice.xml',
