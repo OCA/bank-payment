@@ -8,6 +8,6 @@ from openerp import models, fields
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
-    # TODO: It doesn't work, I don't understand why
-    # So I change the label of the field in the view
-    acc_type = fields.Char(string='Bank Account Type')
+    # I also have to change the label of the field in the view
+    # I store the field, so that we can do groupby and search on it
+    acc_type = fields.Char(string='Bank Account Type', store=True)
