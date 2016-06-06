@@ -26,6 +26,7 @@
         'security/payment_security.xml',
         'security/ir.model.access.csv',
         'wizard/account_payment_line_create_view.xml',
+        'wizard/account_invoice_payment_line_multi_view.xml',
         'views/account_payment_mode.xml',
         'views/account_payment_order.xml',
         'views/account_payment_line.xml',

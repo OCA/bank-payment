@@ -27,7 +27,7 @@ class BankPaymentLine(models.Model):
         readonly=True)
     partner_id = fields.Many2one(
         'res.partner', related='payment_line_ids.partner_id',
-        readonly=True)
+        readonly=True, store=True)  # store=True for groupby
     # Function Float fields are sometimes badly displayed in tree view,
     # see bug report https://github.com/odoo/odoo/issues/8632
     # But is it still true in v9 ?
