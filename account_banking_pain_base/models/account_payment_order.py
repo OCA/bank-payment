@@ -176,70 +176,69 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_group_header_block(self, parent_node, gen_args):
-        group_header_1_0 = etree.SubElement(parent_node, 'GrpHdr')
-        message_identification_1_1 = etree.SubElement(
-            group_header_1_0, 'MsgId')
-        message_identification_1_1.text = self._prepare_field(
+        group_header = etree.SubElement(parent_node, 'GrpHdr')
+        message_identification = etree.SubElement(
+            group_header, 'MsgId')
+        message_identification.text = self._prepare_field(
             'Message Identification',
             'self.name',
             {'self': self}, 35, gen_args=gen_args)
-        creation_date_time_1_2 = etree.SubElement(group_header_1_0, 'CreDtTm')
-        creation_date_time_1_2.text = datetime.strftime(
+        creation_date_time = etree.SubElement(group_header, 'CreDtTm')
+        creation_date_time.text = datetime.strftime(
             datetime.today(), '%Y-%m-%dT%H:%M:%S')
         if gen_args.get('pain_flavor') == 'pain.001.001.02':
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
-            batch_booking = etree.SubElement(group_header_1_0, 'BtchBookg')
+            batch_booking = etree.SubElement(group_header, 'BtchBookg')
             batch_booking.text = unicode(self.batch_booking).lower()
-        nb_of_transactions_1_6 = etree.SubElement(
-            group_header_1_0, 'NbOfTxs')
-        control_sum_1_7 = etree.SubElement(group_header_1_0, 'CtrlSum')
+        nb_of_transactions = etree.SubElement(
+            group_header, 'NbOfTxs')
+        control_sum = etree.SubElement(group_header, 'CtrlSum')
         # Grpg removed in pain.001.001.03
         if gen_args.get('pain_flavor') == 'pain.001.001.02':
-            grouping = etree.SubElement(group_header_1_0, 'Grpg')
+            grouping = etree.SubElement(group_header, 'Grpg')
             grouping.text = 'GRPD'
-        self.generate_initiating_party_block(group_header_1_0, gen_args)
-        return group_header_1_0, nb_of_transactions_1_6, control_sum_1_7
+        self.generate_initiating_party_block(group_header, gen_args)
+        return group_header, nb_of_transactions, control_sum
 
     @api.model
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
             priority, local_instrument, sequence_type, requested_date,
             eval_ctx, gen_args):
-        payment_info_2_0 = etree.SubElement(parent_node, 'PmtInf')
-        payment_info_identification_2_1 = etree.SubElement(
-            payment_info_2_0, 'PmtInfId')
-        payment_info_identification_2_1.text = self._prepare_field(
+        payment_info = etree.SubElement(parent_node, 'PmtInf')
+        payment_info_identification = etree.SubElement(
+            payment_info, 'PmtInfId')
+        payment_info_identification.text = self._prepare_field(
             'Payment Information Identification',
             payment_info_ident, eval_ctx, 35, gen_args=gen_args)
-        payment_method_2_2 = etree.SubElement(payment_info_2_0, 'PmtMtd')
-        payment_method_2_2.text = gen_args['payment_method']
-        nb_of_transactions_2_4 = False
-        control_sum_2_5 = False
+        payment_method = etree.SubElement(payment_info, 'PmtMtd')
+        payment_method.text = gen_args['payment_method']
+        nb_of_transactions = False
+        control_sum = False
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
-            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
-            batch_booking_2_3.text = unicode(self.batch_booking).lower()
+            batch_booking = etree.SubElement(payment_info, 'BtchBookg')
+            batch_booking.text = unicode(self.batch_booking).lower()
         # The "SEPA Customer-to-bank
         # Implementation guidelines" for SCT and SDD says that control sum
         # and nb_of_transactions should be present
         # at both "group header" level and "payment info" level
-            nb_of_transactions_2_4 = etree.SubElement(
-                payment_info_2_0, 'NbOfTxs')
-            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
-        payment_type_info_2_6 = etree.SubElement(
-            payment_info_2_0, 'PmtTpInf')
+            nb_of_transactions = etree.SubElement(
+                payment_info, 'NbOfTxs')
+            control_sum = etree.SubElement(payment_info, 'CtrlSum')
+        payment_type_info = etree.SubElement(
+            payment_info, 'PmtTpInf')
         if priority and gen_args['payment_method'] != 'DD':
-            instruction_priority_2_7 = etree.SubElement(
-                payment_type_info_2_6, 'InstrPrty')
-            instruction_priority_2_7.text = priority
+            instruction_priority = etree.SubElement(
+                payment_type_info, 'InstrPrty')
+            instruction_priority.text = priority
         if self.sepa:
-            service_level_2_8 = etree.SubElement(
-                payment_type_info_2_6, 'SvcLvl')
-            service_level_code_2_9 = etree.SubElement(service_level_2_8, 'Cd')
-            service_level_code_2_9.text = 'SEPA'
+            service_level = etree.SubElement(payment_type_info, 'SvcLvl')
+            service_level_code = etree.SubElement(service_level, 'Cd')
+            service_level_code.text = 'SEPA'
         if local_instrument:
             local_instrument_root = etree.SubElement(
-                payment_type_info_2_6, 'LclInstrm')
+                payment_type_info, 'LclInstrm')
             if gen_args.get('local_instrument_type') == 'proprietary':
                 local_instr_value = etree.SubElement(
                     local_instrument_root, 'Prtry')
@@ -248,18 +247,18 @@ class AccountPaymentOrder(models.Model):
                     local_instrument_root, 'Cd')
             local_instr_value.text = local_instrument
         if sequence_type:
-            sequence_type_2_14 = etree.SubElement(
-                payment_type_info_2_6, 'SeqTp')
-            sequence_type_2_14.text = sequence_type
+            sequence_type_node = etree.SubElement(
+                payment_type_info, 'SeqTp')
+            sequence_type_node.text = sequence_type
 
         if gen_args['payment_method'] == 'DD':
             request_date_tag = 'ReqdColltnDt'
         else:
             request_date_tag = 'ReqdExctnDt'
-        requested_date_2_17 = etree.SubElement(
-            payment_info_2_0, request_date_tag)
-        requested_date_2_17.text = requested_date
-        return payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5
+        requested_date_node = etree.SubElement(
+            payment_info, request_date_tag)
+        requested_date_node.text = requested_date
+        return payment_info, nb_of_transactions, control_sum
 
     @api.model
     def _must_have_initiating_party(self, gen_args):
@@ -273,8 +272,8 @@ class AccountPaymentOrder(models.Model):
             'Company Name',
             'self.company_partner_bank_id.partner_id.name',
             {'self': self}, gen_args.get('name_maxsize'), gen_args=gen_args)
-        initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
-        initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
+        initiating_party = etree.SubElement(parent_node, 'InitgPty')
+        initiating_party_name = etree.SubElement(initiating_party, 'Nm')
         initiating_party_name.text = my_company_name
         initiating_party_identifier = (
             self.payment_mode_id.initiating_party_identifier or
@@ -285,7 +284,7 @@ class AccountPaymentOrder(models.Model):
         # in pain.008.001.02.ch.01.xsd files they use
         # initiating_party_identifier but not initiating_party_issuer
         if initiating_party_identifier:
-            iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
+            iniparty_id = etree.SubElement(initiating_party, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
             iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
@@ -340,7 +339,7 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
-    def generate_party_bank_account(
+    def generate_party_acc_number(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
         party_account = etree.SubElement(
@@ -403,7 +402,7 @@ class AccountPaymentOrder(models.Model):
                     'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
 
-        self.generate_party_bank_account(
+        self.generate_party_acc_number(
             parent_node, party_type, order, partner_bank, gen_args,
             bank_line=bank_line)
 
@@ -415,51 +414,52 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_remittance_info_block(self, parent_node, line, gen_args):
-        remittance_info_2_91 = etree.SubElement(
+        remittance_info = etree.SubElement(
             parent_node, 'RmtInf')
         if line.communication_type == 'normal':
-            remittance_info_unstructured_2_99 = etree.SubElement(
-                remittance_info_2_91, 'Ustrd')
-            remittance_info_unstructured_2_99.text = \
+            remittance_info_unstructured = etree.SubElement(
+                remittance_info, 'Ustrd')
+            remittance_info_unstructured.text = \
                 self._prepare_field(
                     'Remittance Unstructured Information',
                     'line.communication', {'line': line}, 140,
                     gen_args=gen_args)
         else:
-            remittance_info_structured_2_100 = etree.SubElement(
-                remittance_info_2_91, 'Strd')
-            creditor_ref_information_2_120 = etree.SubElement(
-                remittance_info_structured_2_100, 'CdtrRefInf')
+            remittance_info_structured = etree.SubElement(
+                remittance_info, 'Strd')
+            creditor_ref_information = etree.SubElement(
+                remittance_info_structured, 'CdtrRefInf')
             if gen_args.get('pain_flavor') == 'pain.001.001.02':
-                creditor_ref_info_type_2_121 = etree.SubElement(
-                    creditor_ref_information_2_120, 'CdtrRefTp')
-                creditor_ref_info_type_code_2_123 = etree.SubElement(
-                    creditor_ref_info_type_2_121, 'Cd')
-                creditor_ref_info_type_code_2_123.text = 'SCOR'
-                creditor_ref_info_type_issuer_2_125 = etree.SubElement(
-                    creditor_ref_info_type_2_121, 'Issr')
-                creditor_ref_info_type_issuer_2_125.text = \
+                creditor_ref_info_type = etree.SubElement(
+                    creditor_ref_information, 'CdtrRefTp')
+                creditor_ref_info_type_code = etree.SubElement(
+                    creditor_ref_info_type, 'Cd')
+                creditor_ref_info_type_code.text = 'SCOR'
+                # SCOR means "Structured Communication Reference"
+                creditor_ref_info_type_issuer = etree.SubElement(
+                    creditor_ref_info_type, 'Issr')
+                creditor_ref_info_type_issuer.text = \
                     line.communication_type
-                creditor_reference_2_126 = etree.SubElement(
-                    creditor_ref_information_2_120, 'CdtrRef')
+                creditor_reference = etree.SubElement(
+                    creditor_ref_information, 'CdtrRef')
             else:
                 if gen_args.get('structured_remittance_issuer', True):
-                    creditor_ref_info_type_2_121 = etree.SubElement(
-                        creditor_ref_information_2_120, 'Tp')
-                    creditor_ref_info_type_or_2_122 = etree.SubElement(
-                        creditor_ref_info_type_2_121, 'CdOrPrtry')
-                    creditor_ref_info_type_code_2_123 = etree.SubElement(
-                        creditor_ref_info_type_or_2_122, 'Cd')
-                    creditor_ref_info_type_code_2_123.text = 'SCOR'
-                    creditor_ref_info_type_issuer_2_125 = etree.SubElement(
-                        creditor_ref_info_type_2_121, 'Issr')
-                    creditor_ref_info_type_issuer_2_125.text = \
+                    creditor_ref_info_type = etree.SubElement(
+                        creditor_ref_information, 'Tp')
+                    creditor_ref_info_type_or = etree.SubElement(
+                        creditor_ref_info_type, 'CdOrPrtry')
+                    creditor_ref_info_type_code = etree.SubElement(
+                        creditor_ref_info_type_or, 'Cd')
+                    creditor_ref_info_type_code.text = 'SCOR'
+                    creditor_ref_info_type_issuer = etree.SubElement(
+                        creditor_ref_info_type, 'Issr')
+                    creditor_ref_info_type_issuer.text = \
                         line.communication_type
 
-                creditor_reference_2_126 = etree.SubElement(
-                    creditor_ref_information_2_120, 'Ref')
+                creditor_reference = etree.SubElement(
+                    creditor_ref_information, 'Ref')
 
-            creditor_reference_2_126.text = \
+            creditor_reference.text = \
                 self._prepare_field(
                     'Creditor Structured Reference',
                     'line.communication', {'line': line}, 35,

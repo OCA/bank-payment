@@ -76,10 +76,10 @@ class AccountPaymentOrder(models.Model):
         xml_root = etree.Element('Document', nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
-        group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
+        group_header, nb_of_transactions_a, control_sum_a = \
             self.generate_group_header_block(pain_root, gen_args)
-        transactions_count_1_6 = 0
-        amount_control_sum_1_7 = 0.0
+        transactions_count_a = 0
+        amount_control_sum_a = 0.0
         lines_per_group = {}
         # key = (requested_date, priority, local_instrument)
         # values = list of lines as object
@@ -98,7 +98,7 @@ class AccountPaymentOrder(models.Model):
         for (requested_date, priority, local_instrument), lines in\
                 lines_per_group.items():
             # B. Payment info
-            payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
+            payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
                     "self.name + '-' "
@@ -111,56 +111,56 @@ class AccountPaymentOrder(models.Model):
                         'local_instrument': local_instrument or 'NOinstr',
                     }, gen_args)
             self.generate_party_block(
-                payment_info_2_0, 'Dbtr', 'B',
+                payment_info, 'Dbtr', 'B',
                 self.company_partner_bank_id, gen_args)
-            charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
+            charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
             if self.sepa:
-                charge_bearer = 'SLEV'
+                charge_bearer_text = 'SLEV'
             else:
-                charge_bearer = self.charge_bearer
-            charge_bearer_2_24.text = charge_bearer
-            transactions_count_2_4 = 0
-            amount_control_sum_2_5 = 0.0
+                charge_bearer_text = self.charge_bearer
+            charge_bearer.text = charge_bearer_text
+            transactions_count_b = 0
+            amount_control_sum_b = 0.0
             for line in lines:
-                transactions_count_1_6 += 1
-                transactions_count_2_4 += 1
+                transactions_count_a += 1
+                transactions_count_b += 1
                 # C. Credit Transfer Transaction Info
-                credit_transfer_transaction_info_2_27 = etree.SubElement(
-                    payment_info_2_0, 'CdtTrfTxInf')
-                payment_identification_2_28 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'PmtId')
-                end2end_identification_2_30 = etree.SubElement(
-                    payment_identification_2_28, 'EndToEndId')
-                end2end_identification_2_30.text = self._prepare_field(
+                credit_transfer_transaction_info = etree.SubElement(
+                    payment_info, 'CdtTrfTxInf')
+                payment_identification = etree.SubElement(
+                    credit_transfer_transaction_info, 'PmtId')
+                end2end_identification = etree.SubElement(
+                    payment_identification, 'EndToEndId')
+                end2end_identification.text = self._prepare_field(
                     'End to End Identification', 'line.name',
                     {'line': line}, 35, gen_args=gen_args)
                 currency_name = self._prepare_field(
                     'Currency Code', 'line.currency_id.name',
                     {'line': line}, 3, gen_args=gen_args)
-                amount_2_42 = etree.SubElement(
-                    credit_transfer_transaction_info_2_27, 'Amt')
-                instructed_amount_2_43 = etree.SubElement(
-                    amount_2_42, 'InstdAmt', Ccy=currency_name)
-                instructed_amount_2_43.text = '%.2f' % line.amount_currency
-                amount_control_sum_1_7 += line.amount_currency
-                amount_control_sum_2_5 += line.amount_currency
+                amount = etree.SubElement(
+                    credit_transfer_transaction_info, 'Amt')
+                instructed_amount = etree.SubElement(
+                    amount, 'InstdAmt', Ccy=currency_name)
+                instructed_amount.text = '%.2f' % line.amount_currency
+                amount_control_sum_a += line.amount_currency
+                amount_control_sum_b += line.amount_currency
                 if not line.partner_bank_id:
                     raise UserError(
                         _("Bank account is missing on the bank payment line "
                             "of partner '%s' (reference '%s').")
                         % (line.partner_id.name, line.name))
                 self.generate_party_block(
-                    credit_transfer_transaction_info_2_27, 'Cdtr',
+                    credit_transfer_transaction_info, 'Cdtr',
                     'C', line.partner_bank_id, gen_args, line)
                 self.generate_remittance_info_block(
-                    credit_transfer_transaction_info_2_27, line, gen_args)
+                    credit_transfer_transaction_info, line, gen_args)
             if not pain_flavor.startswith('pain.001.001.02'):
-                nb_of_transactions_2_4.text = unicode(transactions_count_2_4)
-                control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
+                nb_of_transactions_b.text = unicode(transactions_count_b)
+                control_sum_b.text = '%.2f' % amount_control_sum_b
         if not pain_flavor.startswith('pain.001.001.02'):
-            nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
-            control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
+            nb_of_transactions_a.text = unicode(transactions_count_a)
+            control_sum_a.text = '%.2f' % amount_control_sum_a
         else:
-            nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
-            control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
+            nb_of_transactions_a.text = unicode(transactions_count_a)
+            control_sum_a.text = '%.2f' % amount_control_sum_a
         return self.finalize_sepa_file_creation(xml_root, gen_args)
