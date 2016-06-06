@@ -13,22 +13,46 @@ class AccountInvoice(models.Model):
         comodel_name='account.payment.mode', string="Payment Mode",
         ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]})
+    bank_account_required = fields.Boolean(
+        related='payment_mode_id.payment_method_id.bank_account_required',
+        readonly=True)
 
-    @api.onchange('partner_id', 'company_id', 'type')
+    @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         super(AccountInvoice, self)._onchange_partner_id()
-        if self.partner_id and self.type:
+        if self.partner_id:
             if self.type == 'in_invoice':
-                self.payment_mode_id =\
-                    self.partner_id.supplier_payment_mode_id
+                pay_mode = self.partner_id.supplier_payment_mode_id
+                self.payment_mode_id = pay_mode
+                if (
+                        pay_mode and
+                        pay_mode.payment_type == 'outbound' and
+                        pay_mode.payment_method_id.bank_account_required and
+                        self.commercial_partner_id.bank_ids):
+                    self.partner_bank_id = self.commercial_partner_id.bank_ids[0]
             elif self.type == 'out_invoice':
-                payment_mode = self.partner_id.customer_payment_mode_id
-                self.payment_mode_id = payment_mode
-                if payment_mode and payment_mode.bank_account_link == 'fixed':
-                    self.partner_bank_id = payment_mode.fixed_journal_id.\
+                pay_mode = self.partner_id.customer_payment_mode_id
+                self.payment_mode_id = pay_mode
+                if pay_mode and pay_mode.bank_account_link == 'fixed':
+                    self.partner_bank_id = pay_mode.fixed_journal_id.\
                         bank_account_id
         else:
             self.payment_mode_id = False
+            if self.type == 'in_invoice':
+                self.partner_bank_id = False
+
+    @api.onchange('payment_mode_id')
+    def payment_mode_id_change(self):
+        if (
+                self.payment_mode_id and
+                self.payment_mode_id.payment_type == 'outbound' and
+                not self.payment_mode_id.payment_method_id.\
+                    bank_account_required):
+            self.partner_bank_id = False
+            print "false"
+        elif not self.payment_mode_id:
+            self.partner_bank_id = False
+            print "false"
 
     @api.model
     def line_get_convert(self, line, part):

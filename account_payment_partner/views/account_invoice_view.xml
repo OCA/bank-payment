@@ -43,15 +43,17 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form" />
         <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
+            <field name="partner_bank_id" position="before">
                 <field name="payment_mode_id"
                        domain="[('payment_type', '=', 'outbound')]"
                        widget="selection"/>
                 <field name="commercial_partner_id" invisible="1"/>
+                <field name="bank_account_required" invisible="1"/>
             </field>
             <field name="partner_bank_id" position="attributes">
                 <attribute name="domain">[('partner_id', '=', commercial_partner_id)]</attribute>
                 <attribute name="invisible">0</attribute>
+                <attribute name="attrs">{'invisible': [('bank_account_required', '=', False)], 'required': [('bank_account_required', '=', True)]}</attribute>
             </field>
         </field>
     </record>
