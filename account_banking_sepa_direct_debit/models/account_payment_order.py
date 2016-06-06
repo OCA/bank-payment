@@ -81,15 +81,15 @@ class AccountPaymentOrder(models.Model):
         xml_root = etree.Element('Document', nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
-        group_header_1_0, nb_of_transactions_1_6, control_sum_1_7 = \
+        group_header, nb_of_transactions_a, control_sum_a = \
             self.generate_group_header_block(pain_root, gen_args)
-        transactions_count_1_6 = 0
-        amount_control_sum_1_7 = 0.0
+        transactions_count_a = 0
+        amount_control_sum_a = 0.0
         lines_per_group = {}
         # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
         for line in self.bank_line_ids:
-            transactions_count_1_6 += 1
+            transactions_count_a += 1
             priority = line.priority
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting
@@ -138,7 +138,7 @@ class AccountPaymentOrder(models.Model):
         for (requested_date, priority, sequence_type, scheme), lines in \
                 lines_per_group.items():
             # B. Payment info
-            payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
+            payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
                     "self.name + '-' + "
@@ -152,80 +152,80 @@ class AccountPaymentOrder(models.Model):
                     }, gen_args)
 
             self.generate_party_block(
-                payment_info_2_0, 'Cdtr', 'B',
+                payment_info, 'Cdtr', 'B',
                 self.company_partner_bank_id, gen_args)
-            charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
+            charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
             if self.sepa:
-                charge_bearer = 'SLEV'
+                charge_bearer_text = 'SLEV'
             else:
-                charge_bearer = self.charge_bearer
-            charge_bearer_2_24.text = charge_bearer
-            creditor_scheme_identification_2_27 = etree.SubElement(
-                payment_info_2_0, 'CdtrSchmeId')
+                charge_bearer_text = self.charge_bearer
+            charge_bearer.text = charge_bearer_text
+            creditor_scheme_identification = etree.SubElement(
+                payment_info, 'CdtrSchmeId')
             self.generate_creditor_scheme_identification(
-                creditor_scheme_identification_2_27,
+                creditor_scheme_identification,
                 'self.payment_mode_id.sepa_creditor_identifier or '
                 'self.company_id.sepa_creditor_identifier',
                 'SEPA Creditor Identifier', {'self': self}, 'SEPA', gen_args)
-            transactions_count_2_4 = 0
-            amount_control_sum_2_5 = 0.0
+            transactions_count_b = 0
+            amount_control_sum_b = 0.0
             for line in lines:
-                transactions_count_2_4 += 1
+                transactions_count_b += 1
                 # C. Direct Debit Transaction Info
-                dd_transaction_info_2_28 = etree.SubElement(
-                    payment_info_2_0, 'DrctDbtTxInf')
-                payment_identification_2_29 = etree.SubElement(
-                    dd_transaction_info_2_28, 'PmtId')
+                dd_transaction_info = etree.SubElement(
+                    payment_info, 'DrctDbtTxInf')
+                payment_identification = etree.SubElement(
+                    dd_transaction_info, 'PmtId')
                 if pain_flavor == 'pain.008.001.02.ch.01':
                     instruction_identification = etree.SubElement(
-                        payment_identification_2_29, 'InstrId')
+                        payment_identification, 'InstrId')
                     instruction_identification.text = self._prepare_field(
                         'Intruction Identification', 'line.name',
                         {'line': line}, 35, gen_args=gen_args)
-                end2end_identification_2_31 = etree.SubElement(
-                    payment_identification_2_29, 'EndToEndId')
-                end2end_identification_2_31.text = self._prepare_field(
+                end2end_identification = etree.SubElement(
+                    payment_identification, 'EndToEndId')
+                end2end_identification.text = self._prepare_field(
                     'End to End Identification', 'line.name',
                     {'line': line}, 35, gen_args=gen_args)
                 currency_name = self._prepare_field(
                     'Currency Code', 'line.currency_id.name',
                     {'line': line}, 3, gen_args=gen_args)
-                instructed_amount_2_44 = etree.SubElement(
-                    dd_transaction_info_2_28, 'InstdAmt', Ccy=currency_name)
-                instructed_amount_2_44.text = '%.2f' % line.amount_currency
-                amount_control_sum_1_7 += line.amount_currency
-                amount_control_sum_2_5 += line.amount_currency
-                dd_transaction_2_46 = etree.SubElement(
-                    dd_transaction_info_2_28, 'DrctDbtTx')
-                mandate_related_info_2_47 = etree.SubElement(
-                    dd_transaction_2_46, 'MndtRltdInf')
-                mandate_identification_2_48 = etree.SubElement(
-                    mandate_related_info_2_47, 'MndtId')
-                mandate_identification_2_48.text = self._prepare_field(
+                instructed_amount = etree.SubElement(
+                    dd_transaction_info, 'InstdAmt', Ccy=currency_name)
+                instructed_amount.text = '%.2f' % line.amount_currency
+                amount_control_sum_a += line.amount_currency
+                amount_control_sum_b += line.amount_currency
+                dd_transaction = etree.SubElement(
+                    dd_transaction_info, 'DrctDbtTx')
+                mandate_related_info = etree.SubElement(
+                    dd_transaction, 'MndtRltdInf')
+                mandate_identification = etree.SubElement(
+                    mandate_related_info, 'MndtId')
+                mandate_identification.text = self._prepare_field(
                     'Unique Mandate Reference',
                     'line.mandate_id.unique_mandate_reference',
                     {'line': line}, 35, gen_args=gen_args)
-                mandate_signature_date_2_49 = etree.SubElement(
-                    mandate_related_info_2_47, 'DtOfSgntr')
-                mandate_signature_date_2_49.text = self._prepare_field(
+                mandate_signature_date = etree.SubElement(
+                    mandate_related_info, 'DtOfSgntr')
+                mandate_signature_date.text = self._prepare_field(
                     'Mandate Signature Date',
                     'line.mandate_id.signature_date',
                     {'line': line}, 10, gen_args=gen_args)
                 if sequence_type == 'FRST' and line.mandate_id.last_debit_date:
                     previous_bank = self._get_previous_bank(line)
                     if previous_bank:
-                        amendment_indicator_2_50 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInd')
-                        amendment_indicator_2_50.text = 'true'
-                        amendment_info_details_2_51 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInfDtls')
+                        amendment_indicator = etree.SubElement(
+                            mandate_related_info, 'AmdmntInd')
+                        amendment_indicator.text = 'true'
+                        amendment_info_details = etree.SubElement(
+                            mandate_related_info, 'AmdmntInfDtls')
                         if (
                                 previous_bank.bank_bic ==
                                 line.partner_bank_id.bank_bic):
-                            ori_debtor_account_2_57 = etree.SubElement(
-                                amendment_info_details_2_51, 'OrgnlDbtrAcct')
+                            ori_debtor_account = etree.SubElement(
+                                amendment_info_details, 'OrgnlDbtrAcct')
                             ori_debtor_account_id = etree.SubElement(
-                                ori_debtor_account_2_57, 'Id')
+                                ori_debtor_account, 'Id')
                             ori_debtor_account_iban = etree.SubElement(
                                 ori_debtor_account_id, 'IBAN')
                             ori_debtor_account_iban.text = self._validate_iban(
@@ -235,10 +235,10 @@ class AccountPaymentOrder(models.Model):
                                     {'previous_bank': previous_bank},
                                     gen_args=gen_args))
                         else:
-                            ori_debtor_agent_2_58 = etree.SubElement(
-                                amendment_info_details_2_51, 'OrgnlDbtrAgt')
+                            ori_debtor_agent = etree.SubElement(
+                                amendment_info_details, 'OrgnlDbtrAgt')
                             ori_debtor_agent_institution = etree.SubElement(
-                                ori_debtor_agent_2_58, 'FinInstnId')
+                                ori_debtor_agent, 'FinInstnId')
                             ori_debtor_agent_bic = etree.SubElement(
                                 ori_debtor_agent_institution, bic_xml_tag)
                             ori_debtor_agent_bic.text = self._prepare_field(
@@ -254,16 +254,16 @@ class AccountPaymentOrder(models.Model):
                             # SMNDA = Same Mandate New Debtor Agent
 
                 self.generate_party_block(
-                    dd_transaction_info_2_28, 'Dbtr', 'C',
+                    dd_transaction_info, 'Dbtr', 'C',
                     line.partner_bank_id, gen_args, line)
 
                 self.generate_remittance_info_block(
-                    dd_transaction_info_2_28, line, gen_args)
+                    dd_transaction_info, line, gen_args)
 
-            nb_of_transactions_2_4.text = unicode(transactions_count_2_4)
-            control_sum_2_5.text = '%.2f' % amount_control_sum_2_5
-        nb_of_transactions_1_6.text = unicode(transactions_count_1_6)
-        control_sum_1_7.text = '%.2f' % amount_control_sum_1_7
+            nb_of_transactions_b.text = unicode(transactions_count_b)
+            control_sum_b.text = '%.2f' % amount_control_sum_b
+        nb_of_transactions_a.text = unicode(transactions_count_a)
+        control_sum_a.text = '%.2f' % amount_control_sum_a
 
         return self.finalize_sepa_file_creation(
             xml_root, gen_args)
