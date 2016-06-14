@@ -43,6 +43,15 @@ class PaymentOrder(models.Model):
             order.bank_line_count = len(order.bank_line_ids)
 
     @api.multi
+    def unlink(self):
+        for order in self:
+            if order.state not in ('draft', 'cancel'):
+                raise exceptions.Warning(
+                    _("You cannot remove any order that is not in 'draft' or "
+                      "'cancel' state."))
+        return super(PaymentOrder, self).unlink()
+
+    @api.multi
     def launch_wizard(self):
         """Search for a wizard to launch according to the type.
         If type is manual. just confirm the order.
