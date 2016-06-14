@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2013-2016 Akretion (http://www.akretion.com)
-  @author: Alexis de Lattre <alexis.delattre@akretion.com>
-  The licence is in the file __openerp__.py
+  © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-<openerp>
+<odoo>
 <data>
 
 <record id="account_payment_line_form" model="ir.ui.view">
@@ -13,9 +12,10 @@
     <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
     <field name="arch" type="xml">
         <field name="partner_bank_id" position="after">
+            <field name="mandate_required" invisible="1"/>
             <field name="mandate_id"
                 domain="[('partner_bank_id', '=', partner_bank_id), ('state', '=', 'valid')]"
-                invisible="context.get('default_payment_type') != 'inbound'"
+                attrs="{'invisible': [('mandate_required', '=', False)], 'required': [('mandate_required', '=', True)]}"
                 context="{'default_partner_bank_id': partner_bank_id}"/>
         </field>
     </field>
@@ -34,4 +34,4 @@
 </record>
 
 </data>
-</openerp>
+</odoo>
