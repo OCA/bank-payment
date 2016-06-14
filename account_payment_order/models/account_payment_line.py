@@ -20,6 +20,9 @@ class AccountPaymentLine(models.Model):
         related='order_id.company_currency_id', store=True, readonly=True)
     payment_type = fields.Selection(
         related='order_id.payment_type', store=True, readonly=True)
+    bank_account_required = fields.Boolean(
+        related='order_id.payment_method_id.bank_account_required',
+        readonly=True)
     state = fields.Selection(
         related='order_id.state', string='State',
         readonly=True, store=True)
@@ -127,9 +130,8 @@ class AccountPaymentLine(models.Model):
         return res
 
     @api.multi
-    def check_payment_line(self):
-        for line in self:
-            if not line.partner_bank_id:
-                raise UserError(_(
-                    'Missing Partner Bank Account on payment line %s')
-                    % line.name)
+    def draft2open_payment_line_check(self):
+        self.ensure_one()
+        if self.bank_account_required and not self.partner_bank_id:
+            raise UserError(_(
+                'Missing Partner Bank Account on payment line %s') % self.name)

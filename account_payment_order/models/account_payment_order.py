@@ -25,6 +25,9 @@ class AccountPaymentOrder(models.Model):
         ('inbound', 'Inbound'),
         ('outbound', 'Outbound'),
         ], string='Payment Type', readonly=True, required=True)
+    payment_method_id = fields.Many2one(
+        'account.payment.method', related='payment_mode_id.payment_method_id',
+        readonly=True, store=True)
     company_id = fields.Many2one(
         related='payment_mode_id.company_id', store=True, readonly=True)
     company_currency_id = fields.Many2one(
@@ -210,7 +213,7 @@ class AccountPaymentOrder(models.Model):
             # Create the bank payment lines from the payment lines
             group_paylines = {}  # key = hashcode
             for payline in order.payment_line_ids:
-                payline.check_payment_line()
+                payline.draft2open_payment_line_check()
                 # Compute requested payment date
                 if order.date_prefered == 'due':
                     requested_date = payline.ml_maturity_date or today
