@@ -29,7 +29,8 @@ class AccountInvoice(models.Model):
                         pay_mode.payment_type == 'outbound' and
                         pay_mode.payment_method_id.bank_account_required and
                         self.commercial_partner_id.bank_ids):
-                    self.partner_bank_id = self.commercial_partner_id.bank_ids[0]
+                    self.partner_bank_id =\
+                        self.commercial_partner_id.bank_ids[0]
             elif self.type == 'out_invoice':
                 pay_mode = self.partner_id.customer_payment_mode_id
                 self.payment_mode_id = pay_mode
@@ -46,13 +47,11 @@ class AccountInvoice(models.Model):
         if (
                 self.payment_mode_id and
                 self.payment_mode_id.payment_type == 'outbound' and
-                not self.payment_mode_id.payment_method_id.\
-                    bank_account_required):
+                not self.payment_mode_id.payment_method_id.
+                bank_account_required):
             self.partner_bank_id = False
-            print "false"
         elif not self.payment_mode_id:
             self.partner_bank_id = False
-            print "false"
 
     @api.model
     def line_get_convert(self, line, part):

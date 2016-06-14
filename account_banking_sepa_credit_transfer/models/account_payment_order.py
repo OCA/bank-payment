@@ -15,12 +15,10 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
         self.ensure_one()
-        if (
-                self.payment_mode_id.payment_method_id.code !=
-                'sepa_credit_transfer'):
+        if self.payment_method_id.code != 'sepa_credit_transfer':
             return super(AccountPaymentOrder, self).generate_payment_file()
 
-        pain_flavor = self.payment_mode_id.payment_method_id.pain_version
+        pain_flavor = self.payment_method_id.pain_version
         if not pain_flavor:
             pain_flavor = 'pain.001.001.03'
         # We use pain_flavor.startswith('pain.001.001.xx')
@@ -60,12 +58,11 @@ class AccountPaymentOrder(models.Model):
         else:
             raise UserError(
                 _("PAIN version '%s' is not supported.") % pain_flavor)
-        pay_method = self.payment_mode_id.payment_method_id
-        xsd_file = pay_method.get_xsd_file_path()
+        xsd_file = self.payment_method_id.get_xsd_file_path()
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
-            'convert_to_ascii': pay_method.convert_to_ascii,
+            'convert_to_ascii': self.payment_method_id.convert_to_ascii,
             'payment_method': 'TRF',
             'file_prefix': 'sct_',
             'pain_flavor': pain_flavor,

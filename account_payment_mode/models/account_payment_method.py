@@ -15,7 +15,10 @@ class AccountPaymentMethod(models.Model):
         "this payment method. Therefore, if you change it, "
         "the generation of the payment file may fail.")
     active = fields.Boolean(string='Active', default=True)
-    # In the pain_base module, we will add a default_pain_version
+    bank_account_required = fields.Boolean(
+        string='Bank Account Required',
+        help="Activate this option if this payment method requires you to "
+        "know the bank account number of your customer or supplier.")
     display_name = fields.Char(
         compute='compute_display_name',
         store=True, string='Display Name')

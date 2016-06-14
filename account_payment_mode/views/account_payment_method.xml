@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 <data>
 
 <!-- The object account.payment.method is defined in the account module
@@ -14,6 +14,7 @@ here. I hate the objects that don't have a view... -->
                 <field name="name"/>
                 <field name="code"/>
                 <field name="payment_type"/>
+                <field name="bank_account_required"/>
                 <field name="active"/>
             </group>
         </form>
@@ -59,4 +60,4 @@ here. I hate the objects that don't have a view... -->
             sequence="30" />
 
 </data>
-</openerp>
+</odoo>

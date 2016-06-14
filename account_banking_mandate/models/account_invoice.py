@@ -50,9 +50,9 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self)._onchange_partner_id()
         if (
                 self.type == 'out_invoice' and
-                self.partner_id.customer_payment_mode_id.\
+                self.partner_id.customer_payment_mode_id.
                 payment_type == 'inbound' and
-                self.partner_id.customer_payment_mode_id.payment_method_id.\
+                self.partner_id.customer_payment_mode_id.payment_method_id.
                 mandate_required and
                 self.commercial_partner_id):
             mandates = self.env['account.banking.mandate'].search([
