@@ -274,37 +274,42 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
-        raise UserError(_(
-            "No handler for this payment method. Maybe you haven't "
-            "installed the related Odoo module."))
+        if self.payment_method_id.code == 'manual':
+            return (False, False)
+        else:
+            raise UserError(_(
+                "No handler for this payment method. Maybe you haven't "
+                "installed the related Odoo module."))
 
     @api.multi
     def open2generated(self):
         self.ensure_one()
         payment_file_str, filename = self.generate_payment_file()
-        attachment = self.env['ir.attachment'].create({
-            'res_model': 'account.payment.order',
-            'res_id': self.id,
-            'name': filename,
-            'datas': payment_file_str.encode('base64'),
-            'datas_fname': filename,
-            })
+        action = {}
+        if payment_file_str and filename:
+            attachment = self.env['ir.attachment'].create({
+                'res_model': 'account.payment.order',
+                'res_id': self.id,
+                'name': filename,
+                'datas': payment_file_str.encode('base64'),
+                'datas_fname': filename,
+                })
+            simplified_form_view = self.env.ref(
+                'account_payment_order.view_attachment_simplified_form')
+            action = {
+                'name': _('Payment File'),
+                'view_mode': 'form',
+                'view_id': simplified_form_view.id,
+                'res_model': 'ir.attachment',
+                'type': 'ir.actions.act_window',
+                'target': 'current',
+                'res_id': attachment.id,
+                }
         self.write({
             'date_generated': fields.Date.context_today(self),
             'state': 'generated',
             'generated_user_id': self._uid,
             })
-        simplified_form_view = self.env.ref(
-            'account_payment_order.view_attachment_simplified_form')
-        action = {
-            'name': _('Payment File'),
-            'view_mode': 'form',
-            'view_id': simplified_form_view.id,
-            'res_model': 'ir.attachment',
-            'type': 'ir.actions.act_window',
-            'target': 'current',
-            'res_id': attachment.id,
-            }
         return action
 
     @api.multi
