@@ -54,11 +54,11 @@ class AccountPaymentMode(models.Model):
              "(other modules can set additional fields to restrict the "
              "grouping.)")
     generate_move = fields.Boolean(
-        'Generate Accounting Entries On File Upload')
+        string='Generate Accounting Entries On File Upload', default=True)
     offsetting_account = fields.Selection([
         ('bank_account', 'Bank Account'),
         ('transfer_account', 'Transfer Account'),
-        ], string='Offsetting Account')
+        ], string='Offsetting Account', default='bank_account')
     transfer_account_id = fields.Many2one(
         'account.account', string='Transfer Account',
         domain=[('internal_type', '=', 'other'), ('reconcile', '=', True)],
@@ -72,7 +72,7 @@ class AccountPaymentMode(models.Model):
     move_option = fields.Selection([
         ('date', 'One move per payment date'),
         ('line', 'One move per payment line'),
-        ], string='Move Option')
+        ], string='Move Option', default='date')
 
     @api.multi
     @api.constrains(
