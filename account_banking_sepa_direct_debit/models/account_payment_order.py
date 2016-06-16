@@ -35,9 +35,7 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
         self.ensure_one()
-        if (
-                self.payment_method_id.code !=
-                'sepa_direct_debit'):
+        if self.payment_method_id.code != 'sepa_direct_debit':
             return super(AccountPaymentOrder, self).generate_payment_file()
         pain_flavor = self.payment_method_id.pain_version
         # We use pain_flavor.startswith('pain.008.001.xx')
