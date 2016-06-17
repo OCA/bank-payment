@@ -29,6 +29,15 @@
             <field name="sepa_migrated" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
             <field name="original_mandate_identification" attrs="{'invisible': [('sepa_migrated', '=', True)], 'required': [('sepa_migrated', '=', False)]}" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
         </field>
+        <group name="payment_lines" position="before">
+            <group name="amendment" string="Amendment">
+                <field name="amendment_state"/>
+                <field name="amendment_type"
+                       attrs="{'required': [('amendment_state', '!=', False)]}"/>
+                <field name="original_debtor_account"/>
+                <field name="original_debtor_agent"/>
+            </group>
+        </group>
     </field>
 </record>
 

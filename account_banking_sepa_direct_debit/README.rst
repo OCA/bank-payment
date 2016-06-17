@@ -19,6 +19,13 @@ Payments Council (http://http://www.europeanpaymentscouncil.eu) use PAIN
 version 008.001.02. So if you don't know which version your bank supports, you
 should try version 008.001.02 first.
 
+Amendments
+----------
+Changes to previously used mandates are passed on to the bank using so-called
+amendments in the SDD files. Currently supported is the re-use of the same
+amendment for a different bank account. This is configured automatically on the
+mandate when it is associated with a different bank account.
+
 Installation
 ============
 
@@ -72,6 +79,7 @@ Contributors
 * Sandy Carter
 * Antonio Espinosa <antonioea@antiun.com>
 * Sergio Teruel <sergio.teruel@tecnativa.com>
+* Stefan Rijnhart <stefan@opener.amsterdam>
 
 
 Maintainer

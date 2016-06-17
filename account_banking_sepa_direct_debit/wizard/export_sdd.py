@@ -73,27 +73,6 @@ class BankingExportSddWizard(models.TransientModel):
         })
         return super(BankingExportSddWizard, self).create(vals)
 
-    def _get_previous_bank(self, payline):
-        previous_bank = False
-        older_lines = self.env['payment.line'].search([
-            ('mandate_id', '=', payline.mandate_id.id),
-            ('bank_id', '!=', payline.bank_id.id)])
-        if older_lines:
-            previous_date = False
-            previous_payline = False
-            for older_line in older_lines:
-                if hasattr(older_line.order_id, 'date_sent'):
-                    older_line_date = older_line.order_id.date_sent
-                else:
-                    older_line_date = older_line.order_id.date_done
-                if (older_line_date and
-                        older_line_date > previous_date):
-                    previous_date = older_line_date
-                    previous_payline = older_line
-            if previous_payline:
-                previous_bank = previous_payline.bank_id
-        return previous_bank
-
     @api.multi
     def create_sepa(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
@@ -267,33 +246,24 @@ class BankingExportSddWizard(models.TransientModel):
                     'Mandate Signature Date',
                     'line.mandate_id.signature_date',
                     {'line': line}, 10, gen_args=gen_args)
-                if sequence_type == 'FRST' and (
-                        line.mandate_id.last_debit_date or
+
+                if (line.mandate_id.amendment_state == 'next' or
                         not line.mandate_id.sepa_migrated):
-                    previous_bank = self._get_previous_bank(line)
-                    if previous_bank or not line.mandate_id.sepa_migrated:
-                        amendment_indicator_2_50 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInd')
-                        amendment_indicator_2_50.text = 'true'
-                        amendment_info_details_2_51 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInfDtls')
-                    if previous_bank:
-                        if (previous_bank.bank.bic or
-                            previous_bank.bank_bic) == \
-                            (line.bank_id.bank.bic or
-                             line.bank_id.bank_bic):
+                    amendment_indicator_2_50 = etree.SubElement(
+                        mandate_related_info_2_47, 'AmdmntInd')
+                    amendment_indicator_2_50.text = 'true'
+                    amendment_info_details_2_51 = etree.SubElement(
+                        mandate_related_info_2_47, 'AmdmntInfDtls')
+                    if line.mandate_id.amendment_type == 'account':
+                        if not line.mandate_id.original_debtor_agent:
                             ori_debtor_account_2_57 = etree.SubElement(
                                 amendment_info_details_2_51, 'OrgnlDbtrAcct')
                             ori_debtor_account_id = etree.SubElement(
                                 ori_debtor_account_2_57, 'Id')
                             ori_debtor_account_iban = etree.SubElement(
                                 ori_debtor_account_id, 'IBAN')
-                            ori_debtor_account_iban.text = self._validate_iban(
-                                self._prepare_field(
-                                    'Original Debtor Account',
-                                    'previous_bank.acc_number',
-                                    {'previous_bank': previous_bank},
-                                    gen_args=gen_args))
+                            ori_debtor_account_iban.text = (
+                                line.mandate_id.original_debtor_account)
                         else:
                             ori_debtor_agent_2_58 = etree.SubElement(
                                 amendment_info_details_2_51, 'OrgnlDbtrAgt')
@@ -301,12 +271,8 @@ class BankingExportSddWizard(models.TransientModel):
                                 ori_debtor_agent_2_58, 'FinInstnId')
                             ori_debtor_agent_bic = etree.SubElement(
                                 ori_debtor_agent_institution, bic_xml_tag)
-                            ori_debtor_agent_bic.text = self._prepare_field(
-                                'Original Debtor Agent',
-                                'previous_bank.bank.bic or '
-                                'previous_bank.bank_bic',
-                                {'previous_bank': previous_bank},
-                                gen_args=gen_args)
+                            ori_debtor_agent_bic.text = (
+                                line.mandate_id.original_debtor_agent)
                             ori_debtor_agent_other = etree.SubElement(
                                 ori_debtor_agent_institution, 'Othr')
                             ori_debtor_agent_other_id = etree.SubElement(

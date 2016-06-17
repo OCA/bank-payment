@@ -65,6 +65,22 @@ class AccountBankingMandate(models.Model):
                                ('B2B', 'Enterprise (B2B)')],
                               string='Scheme', default="CORE")
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
+    amendment_state = fields.Selection(
+        [('next', 'At next debit order'),
+         ('sent', 'Sent in last debit order')])
+    amendment_type = fields.Selection(
+        [('account', 'Change of customer bank account')])
+    original_debtor_account = fields.Char(
+        string="Previous customer bank account number",
+        help=("If the new bank account of this mandate is at the same bank, "
+              "this field should contain the old bank account number, and the "
+              "BIC below should be left empty."))
+    original_debtor_agent = fields.Char(
+        string="Previous customer bank's BIC",
+        help=("If the new bank account of this mandate is not at the same "
+              "bank, this field should contain the old bank's BIC. In that "
+              "case, the original bank account number is just for reference "
+              "purposes and is not included in the amendment."))
 
     @api.multi
     @api.constrains('type', 'recurrent_sequence_type')
@@ -101,6 +117,19 @@ class AccountBankingMandate(models.Model):
                     % mandate.unique_mandate_reference)
 
     @api.multi
+    @api.constrains('amendment_type', 'original_debtor_account',
+                    'original_debtor_agent')
+    def _check_amendment(self):
+        for mandate in self:
+            if (mandate.amendment_type == 'account' and
+                not (mandate.original_debtor_account or
+                     mandate.original_debtor_agent)):
+                raise exceptions.Warning(
+                    _("Mandate '%s' has an amendment of type 'account' and "
+                      "must contain the original account number or original "
+                      "BIC.") % mandate.unique_mandate_reference)
+
+    @api.multi
     @api.onchange('partner_bank_id')
     def mandate_partner_bank_change(self):
         for mandate in self:
@@ -110,12 +139,11 @@ class AccountBankingMandate(models.Model):
                     mandate.partner_bank_id and
                     mandate.type == 'recurrent' and
                     mandate.recurrent_sequence_type != 'first'):
-                mandate.recurrent_sequence_type = 'first'
                 res['warning'] = {
                     'title': _('Mandate update'),
                     'message': _("As you changed the bank account attached "
-                                 "to this mandate, the 'Sequence Type' has "
-                                 "been set back to 'First'."),
+                                 "to this mandate, the mandate info will be "
+                                 "updated when you save it."),
                 }
             return res
 
@@ -139,3 +167,58 @@ class AccountBankingMandate(models.Model):
         else:
             logger.info('0 SDD Mandates must be set to Expired')
         return True
+
+    @api.multi
+    def amendment_sent(self):
+        """ If amendments are in state 'next', put forward to state 'sent'. For
+        amendments that were already in this state, assume that the amendment
+        was sent in the previous order and that no rejection has taken place.
+        In that case, clear the amendment. """
+        self.filtered(lambda md: md.amendment_state == 'sent').write({
+            'amendment_state': False,
+            'amendment_type': False,
+            'original_debtor_account': False,
+            'original_debtor_agent': False
+        })
+        self.filtered(lambda md: md.amendment_state == 'next').write(
+            {'amendment_state': 'sent'})
+
+    @api.multi
+    def amendment_reset(self):
+        """ A rejection has taken place. Set pending amendments back to next
+        and reset mandate to FRST if this is a different financial institution
+        """
+        self.filtered(lambda md: md.amendment_state == 'sent').write(
+            {'amendment_state': 'next'})
+        self.filtered(lambda md: md.amendment_state == 'next' and
+                      md.amendment_type == 'account' and
+                      md.original_debtor_agent).write(
+                          {'recurrent_sequence_type': 'first'})
+
+    @api.model
+    def get_amendment_vals(self, old_bank, new_bank):
+        vals = {
+            'amendment_state': 'next',
+            'amendment_type': 'account',
+            'original_debtor_account': old_bank.acc_number,
+        }
+        new_bic = new_bank.bank_bic or new_bank.bank.bic
+        old_bic = old_bank.bank_bic or old_bank.bank.bic
+        if new_bic and old_bic and new_bic != old_bic:
+            vals.update({
+                'original_debtor_agent': old_bic,
+                'recurrent_sequence_type': 'first',
+            })
+        return vals
+
+    @api.multi
+    def write(self, vals):
+        """ Inject amendment vals if the bank account changes """
+        if (vals.get('partner_bank_id') and len(self) == 1 and
+                self.partner_bank_id and self.state == 'valid' and
+                self.type == 'recurrent' and self.amendment_state != 'next' and
+                self.recurrent_sequence_type == 'recurring'):
+            vals.update(self.get_amendment_vals(
+                self.partner_bank_id,
+                self.env['res.partner.bank'].browse(vals['partner_bank_id'])))
+        return super(AccountBankingMandate, self).write(vals)
