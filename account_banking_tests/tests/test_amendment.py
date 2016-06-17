@@ -14,9 +14,9 @@ class TestAmendment(TransactionCase):
         self.mandate = self.env.ref(
             'account_banking_sepa_direct_debit.res_partner_12_mandate')
         self.old_bank = self.env.ref(
-                    'account_banking_payment_export.res_partner_12_iban')
+            'account_banking_payment_export.res_partner_12_iban')
         self.new_bank = self.env.ref(
-                    'account_banking_payment_export.res_partner_2_iban')
+            'account_banking_payment_export.res_partner_2_iban')
 
     def create_payment_order(self):
         payment = self.env['payment.order'].create({

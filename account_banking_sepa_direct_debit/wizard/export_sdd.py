@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #    SEPA Direct Debit module for Odoo
@@ -22,7 +22,7 @@
 
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 from openerp import workflow
 from lxml import etree
 
@@ -92,7 +92,7 @@ class BankingExportSddWizard(models.TransientModel):
             name_maxsize = 140
             root_xml_tag = 'CstmrDrctDbtInitn'
         else:
-            raise Warning(
+            raise UserError(
                 _("Payment Type Code '%s' is not supported. The only "
                   "Payment Type Code supported for SEPA Direct Debit are "
                   "'pain.008.001.02', 'pain.008.001.03' and "
@@ -134,14 +134,14 @@ class BankingExportSddWizard(models.TransientModel):
                 # cf account_banking_payment_export/models/account_payment.py
                 # in the inherit of action_open()
                 if not line.mandate_id:
-                    raise Warning(
+                    raise UserError(
                         _("Missing SEPA Direct Debit mandate on the "
                           "bank payment line with partner '%s' "
                           "(reference '%s').")
                         % (line.partner_id.name, line.name))
                 scheme = line.mandate_id.scheme
                 if line.mandate_id.state != 'valid':
-                    raise Warning(
+                    raise UserError(
                         _("The SEPA Direct Debit mandate with reference '%s' "
                           "for partner '%s' has expired.")
                         % (line.mandate_id.unique_mandate_reference,
@@ -149,7 +149,7 @@ class BankingExportSddWizard(models.TransientModel):
                 if line.mandate_id.type == 'oneoff':
                     seq_type = 'OOFF'
                     if line.mandate_id.last_debit_date:
-                        raise Warning(
+                        raise UserError(
                             _("The mandate with reference '%s' for partner "
                               "'%s' has type set to 'One-Off' and it has a "
                               "last debit date set to '%s', so we can't use "
