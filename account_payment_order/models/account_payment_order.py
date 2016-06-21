@@ -18,7 +18,7 @@ class AccountPaymentOrder(models.Model):
     name = fields.Char(
         string='Number', readonly=True, copy=False)  # v8 field : name
     payment_mode_id = fields.Many2one(
-        'account.payment.mode', 'Payment Method', required=True,
+        'account.payment.mode', 'Payment Mode', required=True,
         ondelete='restrict', track_visibility='onchange',
         readonly=True, states={'draft': [('readonly', False)]})
     payment_type = fields.Selection([
