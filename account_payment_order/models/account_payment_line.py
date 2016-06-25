@@ -27,7 +27,8 @@ class AccountPaymentLine(models.Model):
         related='order_id.state', string='State',
         readonly=True, store=True)
     move_line_id = fields.Many2one(
-        'account.move.line', string='Journal Item')
+        'account.move.line', string='Journal Item',
+        ondelete='restrict')
     ml_maturity_date = fields.Date(
         related='move_line_id.date_maturity', readonly=True)
     currency_id = fields.Many2one(
