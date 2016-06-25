@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-28 11:43+0000\n"
-"PO-Revision-Date: 2016-04-27 19:48+0000\n"
+"POT-Creation-Date: 2016-06-20 07:53+0000\n"
+"PO-Revision-Date: 2016-06-20 07:54+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgid "Entry Lines"
 msgstr "Entry Lines"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:74
+#: code:addons/account_banking_payment_export/models/account_payment.py:83
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -371,7 +371,7 @@ msgid "Payment Order"
 msgstr "Payment Order"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:59
+#: code:addons/account_banking_payment_export/models/account_payment.py:68
 #, python-format
 msgid "Payment Order Export"
 msgstr "Payment Order Export"
@@ -475,7 +475,7 @@ msgid "The Ordering Customer"
 msgstr "The Ordering Customer"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:152
+#: code:addons/account_banking_payment_export/models/account_payment.py:161
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr "The amount for Partner '%s' is negative or null (%.2f) !"
@@ -526,10 +526,16 @@ msgid "Type of Date Filter"
 msgstr "Type of Date Filter"
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:75
+#: code:addons/account_banking_payment_export/models/account_payment.py:84
 #, python-format
 msgid "You can only combine payment orders of the same type"
 msgstr "You can only combine payment orders of the same type"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:50
+#, python-format
+msgid "You cannot remove any order that is not in 'draft' or 'cancel' state."
+msgstr "You cannot remove any order that is not in 'draft' or 'cancel' state."
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
