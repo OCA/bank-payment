@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2013 Akretion (http://www.akretion.com)
+  Copyright (C) 2013-2016 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
@@ -10,10 +10,13 @@
 <record id="invoice_form" model="ir.ui.view">
     <field name="name">add.mandate.on.customer.invoice.form</field>
     <field name="model">account.invoice</field>
-    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="inherit_id" ref="account_payment_partner.invoice_form"/>
     <field name="arch" type="xml">
-        <field name="partner_bank_id" position="after">
-            <field name="mandate_id" domain="[('partner_id', '=', partner_id), ('state', '=', 'valid')]" attrs="{'invisible': [('type', '=', 'out_refund')]}"/>
+        <field name="payment_mode_id" position="after">
+            <field name="mandate_id"
+                domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
+                attrs="{'required': [('mandate_required', '=', True)], 'invisible': [('mandate_required', '=', False)]}"/>
+            <field name="mandate_required" invisible="1"/>
         </field>
     </field>
 </record>

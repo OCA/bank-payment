@@ -12,7 +12,7 @@
     <field name="name">view.mandate.form</field>
     <field name="model">account.banking.mandate</field>
     <field name="arch" type="xml">
-        <form string="Banking Mandate" version="7.0">
+        <form string="Banking Mandate">
             <header>
                 <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"/>
                 <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
@@ -31,9 +31,9 @@
                 </div>
                 <group name="main">
                     <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="format" string="Format"/>
                     <field name="partner_bank_id"
-                        invisible="context.get('mandate_bank_partner_view')"
-                        domain="[('partner_id', '=', partner_id)]" />
+                        invisible="context.get('mandate_bank_partner_view')" />
                     <field name="partner_id"
                         invisible="context.get('mandate_bank_partner_view')"
                         readonly="True"/>
@@ -60,6 +60,7 @@
         <tree string="Banking Mandate" colors="blue:state=='draft';black:state in ('expired', 'cancel')">
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="partner_id" invisible="context.get('mandate_bank_partner_view')"/>
+            <field name="format" string="Format"/>
             <field name="unique_mandate_reference" string="Reference"/>
             <field name="signature_date" string="Signature Date"/>
             <field name="last_debit_date"/>
@@ -80,6 +81,7 @@
             <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
             <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]" />
             <group string="Group By" name="groupby">
+                <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
                 <filter name="signature_date_groupby" string="Signature Date" context="{'group_by': 'signature_date'}"/>
             </group>
         </search>
@@ -100,32 +102,10 @@
 </record>
 
 <menuitem id="mandate_menu"
-    parent="account_payment.menu_main_payment"
+    parent="account_payment_order.payment_root"
     action="mandate_action"
-    sequence="20"
+    sequence="30"
     />
-
-<!-- notifications in the chatter -->
-<record id="mandate_valid" model="mail.message.subtype">
-    <field name="name">Mandate Validated</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate Validated</field>
-</record>
-
-<record id="mandate_expired" model="mail.message.subtype">
-    <field name="name">Mandate Expired</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate has Expired</field>
-</record>
-
-<record id="mandate_cancel" model="mail.message.subtype">
-    <field name="name">Mandate Cancelled</field>
-    <field name="res_model">account.banking.mandate</field>
-    <field name="default" eval="False"/>
-    <field name="description">Banking Mandate Cancelled</field>
-</record>
 
 
 </data>

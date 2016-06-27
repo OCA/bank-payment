@@ -20,15 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import api, models
 
 
-class payment_order_create(orm.TransientModel):
+class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
+    @api.multi
     def extend_payment_order_domain(
-            self, cr, uid, ids, payment_order, domain, context=None):
-        super(payment_order_create, self).extend_payment_order_domain(
-            cr, uid, ids, payment_order, domain, context=context)
+            self, payment_order, domain):
+        super(PaymentOrderCreate, self).extend_payment_order_domain(
+            payment_order, domain)
         domain += [('blocked', '!=', True)]
         return True

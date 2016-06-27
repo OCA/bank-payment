@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_partner
+# 
+# Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-08 00:46+0000\n"
+"PO-Revision-Date: 2016-04-08 05:47+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#. module: account_payment_partner
+#: selection:payment.mode,default_payment_mode:0
+#: selection:payment.order.create,payment_mode:0
+msgid "Any"
+msgstr "Katerakoli"
+
+#. module: account_payment_partner
+#: view:website:account.report_invoice_document
+msgid "Bank Account:"
+msgstr "Bančni račun"
+
+#. module: account_payment_partner
+#: field:res.partner,customer_payment_mode:0
+msgid "Customer Payment Mode"
+msgstr "Metoda plačila kupca"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_invoice
+msgid "Invoice"
+msgstr "Račun"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: account_payment_partner
+#: field:account.invoice,payment_mode_id:0
+#: model:ir.model,name:account_payment_partner.model_payment_mode
+msgid "Payment Mode"
+msgstr "Metoda plačila"
+
+#. module: account_payment_partner
+#: field:payment.mode,default_payment_mode:0
+#: field:payment.order.create,payment_mode:0
+msgid "Payment Mode on Invoice"
+msgstr "Metoda plačila na računu"
+
+#. module: account_payment_partner
+#: view:website:account.report_invoice_document
+msgid "Payment Mode:"
+msgstr "Metoda plačila:"
+
+#. module: account_payment_partner
+#: view:account.invoice:account_payment_partner.invoice_filter
+msgid "Payment mode"
+msgstr "Metoda plačila"
+
+#. module: account_payment_partner
+#: selection:payment.mode,default_payment_mode:0
+#: selection:payment.order.create,payment_mode:0
+msgid "Same"
+msgstr "Enaka"
+
+#. module: account_payment_partner
+#: selection:payment.mode,default_payment_mode:0
+#: selection:payment.order.create,payment_mode:0
+msgid "Same or empty"
+msgstr "Enaka ali prazno"
+
+#. module: account_payment_partner
+#: help:res.partner,customer_payment_mode:0
+msgid "Select the default payment mode for this customer."
+msgstr "Izbira privzete metode plačila za tega kupca."
+
+#. module: account_payment_partner
+#: help:res.partner,supplier_payment_mode:0
+msgid "Select the default payment mode for this supplier."
+msgstr "Izbira privzete metode plačila za tega dobavitelja."
+
+#. module: account_payment_partner
+#: view:account.invoice:account_payment_partner.invoice_filter
+msgid "Status"
+msgstr "Status"
+
+#. module: account_payment_partner
+#: field:res.partner,supplier_payment_mode:0
+msgid "Supplier Payment Mode"
+msgstr "Metoda plačila dobavitelja"
