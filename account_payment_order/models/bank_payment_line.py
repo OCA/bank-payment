@@ -34,6 +34,10 @@ class BankPaymentLine(models.Model):
     amount_currency = fields.Monetary(
         string='Amount', currency_field='currency_id',
         compute='_compute_amount', store=True, readonly=True)
+    amount_company_currency = fields.Monetary(
+        string='Amount in Company Currency',
+        currency_field='company_currency_id',
+        compute='_compute_amount', store=True, readonly=True)
     currency_id = fields.Many2one(
         'res.currency', required=True, readonly=True,
         related='payment_line_ids.currency_id')  # v8 field: currency
@@ -50,6 +54,9 @@ class BankPaymentLine(models.Model):
     company_id = fields.Many2one(
         related='order_id.payment_mode_id.company_id', store=True,
         readonly=True)
+    company_currency_id = fields.Many2one(
+        related='order_id.payment_mode_id.company_id.currency_id',
+        readonly=True, store=True)
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
@@ -67,9 +74,14 @@ class BankPaymentLine(models.Model):
     @api.multi
     @api.depends('payment_line_ids', 'payment_line_ids.amount_currency')
     def _compute_amount(self):
-        for line in self:
-            line.amount_currency = sum(
-                line.mapped('payment_line_ids.amount_currency'))
+        for bline in self:
+            amount_currency = sum(
+                bline.mapped('payment_line_ids.amount_currency'))
+            amount_company_currency = bline.currency_id.with_context(
+                date=bline.date).compute(
+                    amount_currency, bline.company_currency_id)
+            bline.amount_currency = amount_currency
+            bline.amount_company_currency = amount_company_currency
 
     @api.model
     @api.returns('self')
