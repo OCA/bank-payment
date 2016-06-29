@@ -41,16 +41,16 @@ class AccountPaymentMode(models.Model):
         ('move', 'Move'),
         ], default='due', string="Type of Date Filter")
     group_lines = fields.Boolean(
-        string="Group Lines in Payment Orders", default=True,
-        help="If this mark is checked, the payment order lines will be "
-             "grouped when validating the payment order before exporting the "
-             "bank file. The grouping will be done only if the following "
+        string="Group Transactions in Payment Orders", default=True,
+        help="If this mark is checked, the transaction lines of the "
+             "payment order will be grouped upon confirmation of the payment "
+             "order.The grouping will be done only if the following "
              "fields matches:\n"
              "* Partner\n"
              "* Currency\n"
              "* Destination Bank Account\n"
-             "* Communication Type (structured, free)\n"
              "* Payment Date\n"
+             "and if the 'Communication Type' is 'Free'\n"
              "(other modules can set additional fields to restrict the "
              "grouping.)")
     generate_move = fields.Boolean(
