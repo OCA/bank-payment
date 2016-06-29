@@ -33,14 +33,14 @@
                         <field name="date"/>
                         <field name="move_id" required="0"/>
                         <field name="journal_id"/>
-                        <field name="name"/>
                         <field name="partner_id"/>
                         <field name="account_id"/>
                         <field name="date_maturity"/>
-                        <field name="debit" sum="Total Debit"/>
-                        <field name="credit" sum="Total Credit"/>
-                        <field name="amount_currency" invisible="1"/>
-                        <field name="currency_id" invisible="1" />
+                        <field name="debit"/>
+                        <field name="credit"/>
+                        <field name="amount_residual" sum="Total Residual"/>
+                        <field name="amount_currency"/>
+                        <field name="amount_residual_currency"/>
                         <field name="company_currency_id" invisible="1"/>
                     </tree>
                 </field>
