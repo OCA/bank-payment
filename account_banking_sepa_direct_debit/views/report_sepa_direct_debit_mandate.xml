@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
     <template id="sepa_direct_debit_mandate_document">
-        <t t-call="report.external_layout">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
         <div class="page">
             <style type="text/css">
@@ -111,7 +109,6 @@
                 </div>
             </div>
         </div>
-        </t>
     </template>
 
     <template id="sepa_direct_debit_mandate">
@@ -122,5 +119,4 @@
         </t>
     </template>
 
-</data>
-</openerp>
+</odoo>
