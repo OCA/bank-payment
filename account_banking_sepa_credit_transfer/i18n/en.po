@@ -2,21 +2,18 @@
 # This file contains the translation of the following modules:
 # * account_banking_sepa_credit_transfer
 # 
-# Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-01 19:28+0000\n"
 "PO-Revision-Date: 2016-07-01 19:28+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/23907/pt_BR/)\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: \n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:146
@@ -25,26 +22,26 @@ msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
 msgstr ""
-"Conta bancária está faltando na linha de pagamento do parceiro '%s' (ref. "
+"Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
 #, python-format
 msgid "PAIN version '%s' is not supported."
-msgstr ""
+msgstr "PAIN version '%s' is not supported."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Payment Methods"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Payment Order"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
-msgstr ""
+msgstr "SEPA Credit Transfer to suppliers"
