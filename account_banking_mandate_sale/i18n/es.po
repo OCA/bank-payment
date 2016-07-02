@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_payment_sale
+# * account_banking_mandate_sale
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
@@ -18,17 +18,22 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: account_payment_sale
-#: model:ir.model.fields,field_description:account_payment_sale.field_sale_order_payment_mode_id
-msgid "Payment Mode"
-msgstr "Modo de pago"
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_commercial_partner_id
+msgid "Commercial Entity"
+msgstr ""
 
-#. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_mandate_id
+msgid "Direct Debit Mandate"
+msgstr "Mandato de adeudo directo"
+
+#. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
 msgstr ""
 
-#. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_order
+#. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
