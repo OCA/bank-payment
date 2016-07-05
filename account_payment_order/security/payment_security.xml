@@ -14,13 +14,6 @@
 
 <data noupdate="1">
 
-
-<record id="account_payment_mode_company_rule" model="ir.rule">
-    <field name="name">Payment mode multi-company rule</field>
-    <field name="model_id" ref="model_account_payment_mode"/>
-    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
-</record>
-
 <!--
 <record id="account_payment_order_company_rule" model="ir.rule">
     <field name="name">Payment order multi-company rule</field>
