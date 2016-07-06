@@ -6,6 +6,10 @@
         <t t-set="is_not_english" t-value="doc.partner_id.lang[:2] != 'en'" />
         <div class="page">
             <style type="text/css">
+                h4 {
+                     margin-top: 2px;
+                     margin-bottom: 2px;
+                }
                 .under-line{
                     border-bottom:1px solid;
                 }
@@ -15,8 +19,15 @@
                 .panel-default{
                     border:2px solid;
                 }
+                .panel.panel-default{
+                    margin-bottom: 4px;
+                }
+                .panel-body{
+                    padding: 2px 14px;
+                }
                 p{
-                  font-size: 8px;
+                    margin: 0 0 4px;
+                    font-size: 8px;
                 }
                 .native_lang{
                     font-style: italic;
@@ -53,7 +64,7 @@
                                 <span class="native_lang" t-esc="'(To be completed by the creditor)'"/>
                             </t>
                         </div>
-                        <div class="panel-body mb8">
+                        <div class="panel-body">
                             <div class="col-xs-12">
                                 <em>Mandate Reference:</em>
                                 <t t-if="is_not_english">
@@ -210,7 +221,7 @@
                                         <span class="native_lang native_lang_small" t-esc="'(Recurrent)'"/>
                                     </t>
                                 </input>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                -
                                 <input type="checkbox" t-att-checked="doc.type=='oneoff' or None">
                                     One-Off
                                     <t t-if="is_not_english">
