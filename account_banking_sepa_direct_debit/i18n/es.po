@@ -87,13 +87,13 @@ msgstr "<em>Tipo de pago:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">To be completed by the creditor</span>"
-msgstr "<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">A cumplimentar por el acreedor</span>"
+msgid "To be completed by the creditor"
+msgstr "A cumplimentar por el acreedor"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">To be completed by the debtor</span>"
-msgstr "<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">A cumplimentar por el deudor</span>"
+msgid "To be completed by the debtor"
+msgstr "A cumplimentar por el deudor"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -349,4 +349,3 @@ msgstr "account.config.settings"
 msgid "to send instructions to your bank to debit your account and (B) your bank to\n"
 "                       debit your account in accordance with the instructions from"
 msgstr "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) a la entidad para efectuar los adeudos en su cuenta siguiendo las instrucciones del acreedor "
-
