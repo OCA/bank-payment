@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_sepa_direct_debit
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
@@ -90,16 +90,12 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid ""
-"<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">To be "
-"completed by the creditor</span>"
+msgid "To be completed by the creditor"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid ""
-"<span class=\"col-xs-12 text-right\" style=\"font-size:8px;\">To be "
-"completed by the debtor</span>"
+msgid "To be completed by the debtor"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
