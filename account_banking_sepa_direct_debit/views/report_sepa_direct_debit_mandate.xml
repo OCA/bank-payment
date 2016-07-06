@@ -3,7 +3,7 @@
 
     <template id="sepa_direct_debit_mandate_document">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
-        <t t-set="is_not_english" t-value="doc.partner_id.lang[:2] != 'en'" />
+        <t t-set="is_not_english" t-value="doc.partner_id.lang and doc.partner_id.lang[:2] != 'en'" />
         <div class="page">
             <style type="text/css">
                 h4 {
