@@ -43,16 +43,14 @@ Base module for PAIN file generation
 This module contains fields and functions that are used by the module for SEPA
 Credit Transfer (account_banking_sepa_credit_transfer) and SEPA Direct Debit
 (account_banking_sepa_direct_debit). This module doesn't provide any
-functionality by itself.
+functionnality by itself.
 
 This module is part of the banking addons:
     https://www.github.com/OCA/banking-addons
 
 This module was started during the Akretion-Noviat code sprint of
 November 21st 2013 in Epiais les Louvres (France).
-
-Module contains some pieces of code not ISO 20022 but used by Italian Banks.
     ''',
-    'active': True,
+    'active': False,
     'installable': True,
 }
