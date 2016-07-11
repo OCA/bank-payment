@@ -711,8 +711,8 @@ class banking_import_transaction(orm.Model):
 
     def create(self, cr, uid, vals, context=None):
         """
-        Search for duplicates of the newly created transaction and
-        mark them as such unless a context key
+        Search for duplicates of the newly created transaction
+        and mark them as such unless a context key
         'transaction_no_duplicate_search' is defined and true.
         """
         res = super(banking_import_transaction, self).create(
@@ -1025,8 +1025,8 @@ class banking_import_transaction(orm.Model):
                     imported_statement_ids.append(transaction.statement_id.id)
 
             # Final check: no coercion of currencies!
-            if transaction.local_currency and \
-               account_info.currency_id.name != transaction.local_currency:
+            if transaction.local_currency \
+               and account_info.currency_id.name != transaction.local_currency:
                 # TODO: convert currencies?
                 results['log'].append(
                     _('transaction %(statement_id)s.%(transaction_id)s for '
@@ -1192,12 +1192,10 @@ class banking_import_transaction(orm.Model):
                 values['type'] = move_info['type']
             else:
                 values['partner_id'] = values['partner_bank_id'] = False
-            if (not values['partner_id'] and
-                    partner_ids and
+            if (not values['partner_id'] and partner_ids and
                     len(partner_ids) == 1):
                 values['partner_id'] = partner_ids[0]
-            if (not values['partner_bank_id'] and
-                    partner_banks and
+            if (not values['partner_bank_id'] and partner_banks and
                     len(partner_banks) == 1):
                 values['partner_bank_id'] = partner_banks[0].id
 
@@ -1226,8 +1224,8 @@ class banking_import_transaction(orm.Model):
         the result is a partial reconciliation. In the other cases,
         a new statement line can be split off.
 
-        We should give users the option to reconcile with writeoff or
-        partial reconciliation / new statement line
+        We should give users the option to reconcile with writeoff
+        or partial reconciliation / new statement line
         """
         if not ids:
             return {}
@@ -1243,8 +1241,8 @@ class banking_import_transaction(orm.Model):
 
     def _get_match_multi(self, cr, uid, ids, name, args, context=None):
         """
-        Indicate in the wizard that multiple matches have been found and
-        that the user has not yet made a choice between them.
+        Indicate in the wizard that multiple matches have been found
+        and that the user has not yet made a choice between them.
         """
         if not ids:
             return {}
@@ -1563,8 +1561,8 @@ class account_bank_statement_line(orm.Model):
 
     def link_partner(self, cr, uid, ids, context=None):
         """
-        Get the appropriate partner or fire a wizard to create or
-        link one
+        Get the appropriate partner or fire a wizard to create
+        or link one
         """
         if not ids:
             return False
@@ -1894,8 +1892,8 @@ class account_bank_statement(orm.Model):
 
             self.balance_check(cr, uid, st.id, journal_type=j_type,
                                context=context)
-            if (not st.journal_id.default_credit_account_id) or \
-                    (not st.journal_id.default_debit_account_id):
+            if (not st.journal_id.default_credit_account_id) \
+                    or (not st.journal_id.default_debit_account_id):
                 raise orm.except_orm(
                     _('Configuration Error'),
                     _('Please verify that an account is defined in the '
