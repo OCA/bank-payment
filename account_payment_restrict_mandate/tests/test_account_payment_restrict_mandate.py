@@ -18,7 +18,7 @@ class TestAccountPaymentRestrictMandate(TransactionCase):
                     'until': time.strftime('%Y') + '-03-02 00:00:00',
                     'freq': 1,
                     'interval': 1,
-                    'bymonthday': 1,
+                    'bymonthday': [1],
                 },
             ],
             'signature_date': time.strftime('%Y') + '-01-01',
