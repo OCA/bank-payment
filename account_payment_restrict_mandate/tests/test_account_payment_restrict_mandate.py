@@ -11,8 +11,15 @@ class TestAccountPaymentRestrictMandate(TransactionCase):
             'partner_bank_id': self.env.ref('base.res_partner_2').bank_ids
             .filtered(lambda x: x.state == 'iban').id,
             'max_amount_per_date': 600,
-            'date_start': time.strftime('%Y') + '-01-01 00:00:00',
-            'date_end': time.strftime('%Y') + '-03-02 00:00:00',
+            'rrule': [
+                {
+                    'dtstart': time.strftime('%Y') + '-01-01 00:00:00',
+                    'until': time.strftime('%Y') + '-03-02 00:00:00',
+                    'freq': 1,
+                    'interval': 1,
+                    'bymonthday': 1,
+                },
+            ],
             'signature_date': time.strftime('%Y') + '-01-01',
         })
         self.assertEqual(mandate.max_amount, 1800)
