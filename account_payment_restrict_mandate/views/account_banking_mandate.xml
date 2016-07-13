@@ -8,8 +8,6 @@
                 <field name="last_debit_date" position="before">
                     <field name="max_amount_per_date" />
                     <field name="rrule" attrs="{'required': [('max_amount_per_date', '>', 0)]}" widget="rrule" />
-                    <field name="date_start" attrs="{'required': [('max_amount_per_date', '>', 0)]}" />
-                    <field name="date_end" />
                     <field name="max_amount" />
                 </field>
             </field>

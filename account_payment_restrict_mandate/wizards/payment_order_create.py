@@ -18,7 +18,7 @@ class PaymentOrderCreate(models.TransientModel):
             if not mandate.max_amount_per_date:
                 continue
             date_start = fields.Datetime.from_string(
-                mandate.last_debit_date or mandate.date_start)
+                mandate.last_debit_date) or mandate.rrule[:1][0]
             date_end = fields.Datetime.from_string(
                 payment_order.date_scheduled or fields.Datetime.now())
             max_amount = mandate.max_amount_per_date * len(

@@ -13,22 +13,15 @@ class AccountBankingMandate(models.Model):
     _inherit = 'account.banking.mandate'
 
     @api.depends(
-        'rrule', 'max_amount_per_date', 'date_start', 'date_end')
+        'rrule', 'max_amount_per_date')
     @api.multi
     def _compute_max_amount(self):
         for this in self:
-            if not this.date_start or not this.date_end or not this.rrule:
+            if not this.rrule:
                 continue
-            occurrences = len(list(
-                this.rrule.between(
-                    fields.Datetime.from_string(this.date_start),
-                    fields.Datetime.from_string(this.date_end),
-                    inc=True,
-                )))
+            occurrences = len(list(this.rrule[:10000]))
             this.max_amount = this.max_amount_per_date * occurrences
 
-    date_start = fields.Datetime('Start')
-    date_end = fields.Datetime('End')
     max_amount = fields.Float(
         'Maximum amount', compute=_compute_max_amount,
         digits=decimal_precision.get_precision('Account'))
