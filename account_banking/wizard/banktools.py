@@ -118,15 +118,21 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
             criteria[0] = ('country_id', '=', False)
             partner_search_ids = partner_obj.search(
                 cr, uid, criteria, context=context)
+        if not partner_search_ids:
+            return False
         key = name.lower()
-        partners = []
-        for partner in partner_obj.read(
-                cr, uid, partner_search_ids, ['name', 'commercial_partner_id'],
-                context=context):
-            if (len(partner['name']) > 3 and partner['name'].lower() in key):
-                partners.append(partner)
-        partners.sort(key=lambda x: len(x['name']), reverse=True)
-        partner_ids = [x['commercial_partner_id'][0] for x in partners]
+        cr.execute(
+            'select p.id from res_partner p '
+            'where p.id in %s and char_length(name) > 3 and '
+            'position(lower(name) in %s) > 0 '
+            'order by char_length(name) desc',
+            (tuple(partner_search_ids), key)
+        )
+        partner_ids = [
+            p['commercial_partner_id'][0]
+            for p in partner_obj.read(
+                cr, uid, cr.fetchall(), context)
+        ]
     if len(partner_ids) > 1:
         log.append(
             _('More than one possible match found for partner with '
