@@ -10,6 +10,7 @@
     "summary": "Set maximum amount per period on a mandate",
     "depends": [
         'account_banking_mandate',
+        'field_rrule',
     ],
     "data": [
         "views/account_banking_mandate.xml",
