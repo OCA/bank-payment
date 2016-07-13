@@ -13,6 +13,7 @@ class TestAccountPaymentRestrictMandate(TransactionCase):
             'max_amount_per_date': 600,
             'rrule': [
                 {
+                    'type': 'rrule',
                     'dtstart': time.strftime('%Y') + '-01-01 00:00:00',
                     'until': time.strftime('%Y') + '-03-02 00:00:00',
                     'freq': 1,
