@@ -2,8 +2,7 @@
 # © 2016 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
-from openerp import _, api, fields, models, tools
-from openerp.exceptions import ValidationError
+from openerp import api, fields, models
 from openerp.addons import decimal_precision
 from openerp.addons.field_rrule import FieldRRule
 _logger = logging.getLogger(__name__)
