@@ -65,5 +65,3 @@ def to_swift(astr, schemes=('utf-8', 'latin-1', 'ascii')):
          for x in unicodedata.normalize('NFKD', astr).encode('ascii', 'ignore')
          ]
     return ''.join(s)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-        <record id="view_banking_import" model="ir.ui.view">
-            <field name="name">account.banking.bank.import</field>
-            <field name="model">account.banking.bank.import</field>
-            <field name="arch" type="xml">
-		        <form string="Import Bank Transactions File"  version="7.0">
-		            <group colspan="4" states="init,ready,error">
-			            <separator colspan="4" string="Select the processing details:"/>
-			            <field name="company" colspan="1"/>
-			            <field name="file" filename="file_name"/>
-			            <field name="file_name" invisible="1"/>
-			            <newline />
-			            <field name="parser"/>
-			            <field name="state" invisible="1"/>
-		            </group>
-                    <notebook colspan="4">
-                        <page attrs="{'invisible': [('state', '!=', 'review')]}" string="Transactions">
-                            <field name="line_ids" colspan="4" nolabel="1">
-                                <tree string="Transaction" colors="red:duplicate;blue:reconcile_id">
-                                    <field name="date"/>
-                                    <field name="amount"/>
-                                    <field name="ref"/>
-                                    <field name="partner_bank_id"/>
-                                    <field name="partner_id"/>
-                                    <field name="account_id"/>
-                                    <field name="reconcile_id"/>
-                                    <field name="duplicate"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page attrs="{'invisible': [('state', '=', 'init')]}" string="Log">
-                            <field name="log" colspan="4" nolabel="1" width="500"/>
-                        </page>
-                        <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">
-                            <field name="statement_ids" colspan="4" nolabel="1"
-                                   attrs="{'invisible': [('state', '!=', 'ready')]}" />
-                        </page>
-                    </notebook>
-                    <footer>
-                        <div attrs="{'invisible': [('state', '!=', 'init')]}">
-                            <button string="Import" class="oe_highlight"
-                                states="init" name="import_statements_file"
-				                type="object"/>
-				             or
-			                <button class="oe_link" special="cancel"
-                                states="init" string="Cancel"/>
-                        </div>
-                        
-                        <button icon="gtk-close"
-                                special="cancel"
-                                string="Close"
-                                states="ready,error"/>
-                        <button icon="gtk-close"
-                                name="cancel_statement_lines"
-                                type="object" 
-                                string="Cancel"
-                                states="review"/>
-                        <button icon="gtk-ok"
-                                name="create_statement_lines"
-                                type="object" 
-                                string="Confirm"
-                                states="review"/>
-                    </footer>
-		</form>
-	    </field>
-        </record>
+  <data>
+    <record id="view_banking_import" model="ir.ui.view">
+      <field name="name">account.banking.bank.import</field>
+      <field name="model">account.banking.bank.import</field>
+      <field name="arch" type="xml">
+        <form string="Import Bank Transactions File"  version="7.0">
+          <group colspan="4" states="init,ready,error">
+            <separator colspan="4" string="Select the processing details:"/>
+            <field name="company" colspan="1"/>
+            <field name="file" filename="file_name"/>
+            <field name="file_name" invisible="1"/>
+            <newline />
+            <field name="parser"/>
+            <field name="state" invisible="1"/>
+          </group>
+          <notebook colspan="4">
+            <page attrs="{'invisible': [('state', '!=', 'review')]}" string="Transactions">
+              <field name="line_ids" colspan="4" nolabel="1">
+                <tree string="Transaction" colors="red:duplicate;blue:reconcile_id">
+                  <field name="date"/>
+                  <field name="amount"/>
+                  <field name="ref"/>
+                  <field name="partner_bank_id"/>
+                  <field name="partner_id"/>
+                  <field name="account_id"/>
+                  <field name="reconcile_id"/>
+                  <field name="duplicate"/>
+                </tree>
+              </field>
+            </page>
+            <page attrs="{'invisible': [('state', '=', 'init')]}" string="Log">
+              <field name="log" colspan="4" nolabel="1" width="500"/>
+            </page>
+            <page attrs="{'invisible': [('state', '!=', 'ready')]}" string="Statements">
+              <field name="statement_ids" colspan="4" nolabel="1"
+                attrs="{'invisible': [('state', '!=', 'ready')]}" />
+            </page>
+          </notebook>
+          <footer>
+            <div attrs="{'invisible': [('state', '!=', 'init')]}">
+              <button string="Import" class="oe_highlight"
+                states="init" name="import_statements_file"
+                type="object"/>
+              or
+              <button class="oe_link" special="cancel"
+                states="init" string="Cancel"/>
+            </div>
 
-        <record id="wizard_account_banking_import_file" model="ir.actions.act_window">
-            <field name="name">Import Bank Statements File</field>
-	    <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.banking.bank.import</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_banking_import"/>
-            <field name="target">new</field>
-        </record>
-    </data>
+            <button icon="gtk-close"
+              special="cancel"
+              string="Close"
+              states="ready,error"/>
+            <button icon="gtk-close"
+              name="cancel_statement_lines"
+              type="object" 
+              string="Cancel"
+              states="review"/>
+            <button icon="gtk-ok"
+              name="create_statement_lines"
+              type="object" 
+              string="Confirm"
+              states="review"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="wizard_account_banking_import_file" model="ir.actions.act_window">
+      <field name="name">Import Bank Statements File</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.banking.bank.import</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_banking_import"/>
+      <field name="target">new</field>
+    </record>
+  </data>
 </openerp>

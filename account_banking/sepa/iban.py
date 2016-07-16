@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #  Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -292,7 +292,7 @@ class IBAN(str):
 
     @classmethod
     def create(cls, BIC=None, countrycode=None, BBAN=None, bankcode=None,
-               branchcode=None, account=None):
+               branchcode=None, account=None):  # noqa: W8106
         '''
         Create a IBAN number from a BBAN and a country code. Optionaly create
         a BBAN from BBAN components before generation.
