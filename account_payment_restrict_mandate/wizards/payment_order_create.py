@@ -17,13 +17,8 @@ class PaymentOrderCreate(models.TransientModel):
             mandate = payment_line.mandate_id
             if not mandate.max_amount_per_date:
                 continue
-            date_start = fields.Datetime.from_string(
-                mandate.last_debit_date) or mandate.rrule[:1][0]
-            date_end = fields.Datetime.from_string(
-                payment_order.date_scheduled or fields.Datetime.now())
-            max_amount = mandate.max_amount_per_date * len(
-                list(mandate.rrule.between(date_start, date_end, inc=True)))
             mandate2amount.setdefault(mandate, 0)
+            max_amount = self._get_max_amount(payment_order, mandate)
             if tools.float_compare(
                 mandate2amount[mandate] + payment_line.amount,
                 max_amount,
@@ -43,3 +38,14 @@ class PaymentOrderCreate(models.TransientModel):
         # trigger recomputation of total
         payment_order.write({'line_ids': []})
         return result
+
+    @api.model
+    def _get_max_amount(self, payment_order, mandate):
+        """return the maximum amount the mandate allows to put on the payment
+        order"""
+        date_start = fields.Datetime.from_string(
+            mandate.last_debit_date) or mandate.rrule[:1][0]
+        date_end = fields.Datetime.from_string(
+            payment_order.date_scheduled or fields.Datetime.now())
+        return mandate.max_amount_per_date * len(
+            list(mandate.rrule.between(date_start, date_end, inc=True)))

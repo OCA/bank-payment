@@ -22,7 +22,7 @@ class AccountBankingMandate(models.Model):
             this.max_amount = this.max_amount_per_date * occurrences
 
     max_amount = fields.Float(
-        'Maximum amount', compute=_compute_max_amount,
+        'Maximum amount', compute='_compute_max_amount',
         digits=decimal_precision.get_precision('Account'))
     max_amount_per_date = fields.Float(
         'Maximum amount per date',
