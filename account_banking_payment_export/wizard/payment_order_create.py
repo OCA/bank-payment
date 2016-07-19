@@ -31,7 +31,8 @@ class PaymentOrderCreate(models.TransientModel):
 
     journal_ids = fields.Many2many(
         'account.journal', string='Journals Filter')
-    partner_id = fields.Many2one(comodel_name='res.partner', string='Partner')
+    partner_ids = fields.Many2many(comodel_name='res.partner',
+                                   string='Partners')
     invoice = fields.Boolean(
         string='Linked to an Invoice or Refund')
     date_type = fields.Selection([
@@ -126,8 +127,9 @@ class PaymentOrderCreate(models.TransientModel):
                   ('reconcile_id', '=', False),
                   ('company_id', '=', payment.mode.company_id.id),
                   ('journal_id', 'in', journals.ids)]
-        if self.partner_id:
-            domain.append(('partner_id', '=', self.partner_id.id))
+        if self.partner_ids:
+            domain.append(
+                ('partner_id', 'in', [x.id for x in self.partner_ids]))
         if self.date_type == 'due':
             domain += [
                 '|',
