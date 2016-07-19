@@ -140,7 +140,8 @@ class AccountPaymentLineCreate(models.TransientModel):
         return action
 
     @api.onchange(
-        'date_type', 'move_date', 'due_date', 'journal_ids', 'invoice')
+        'date_type', 'move_date', 'due_date', 'journal_ids', 'invoice',
+        'target_move', 'allow_blocked', 'payment_mode')
     def move_line_filters_change(self):
         domain = self._prepare_move_line_domain()
         res = {'domain': {'move_line_ids': domain}}
