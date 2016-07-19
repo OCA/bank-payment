@@ -330,7 +330,7 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.multi
-    def _prepare_move(self):
+    def _prepare_move(self, bank_lines=None):
         if self.payment_type == 'outbound':
             ref = _('Payment order %s') % self.name
         else:
@@ -433,7 +433,7 @@ class AccountPaymentOrder(models.Model):
                 trfmoves[hashcode] = bline
 
         for hashcode, blines in trfmoves.iteritems():
-            mvals = self._prepare_move()
+            mvals = self._prepare_move(blines)
             total_company_currency = total_payment_currency = 0
             for bline in blines:
                 total_company_currency += bline.amount_company_currency
