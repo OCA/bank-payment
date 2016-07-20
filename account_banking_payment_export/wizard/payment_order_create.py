@@ -128,8 +128,7 @@ class PaymentOrderCreate(models.TransientModel):
                   ('company_id', '=', payment.mode.company_id.id),
                   ('journal_id', 'in', journals.ids)]
         if self.partner_ids:
-            domain.append(
-                ('partner_id', 'in', [x.id for x in self.partner_ids]))
+            domain.append(('partner_id', 'in', self.partner_ids.ids))
         if self.date_type == 'due':
             domain += [
                 '|',
