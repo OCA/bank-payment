@@ -162,7 +162,7 @@ class payment_order_create(orm.TransientModel):
             'currency': (line.invoice and line.invoice.currency_id.id or
                          line.journal_id.currency.id or
                          line.journal_id.company_id.currency_id.id),
-            }
+        }
         return res
 
     def create_payment(self, cr, uid, ids, context=None):

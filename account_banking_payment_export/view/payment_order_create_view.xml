@@ -11,7 +11,6 @@
     <field name="name">add.context.to.display.maturity.date</field>
     <field name="model">payment.order.create</field>
     <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
-    <!-- [ antoniov 2015-06-22] Credit Transfer require purchase journal type -->
     <field name="arch" type="xml">
         <field name="entries" position="attributes">
             <attribute name="context">{'journal_type': 'purchase'}</attribute>

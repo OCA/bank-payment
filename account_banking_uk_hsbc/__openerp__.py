@@ -48,5 +48,5 @@ All business logic is in account_banking module.
 
 Initial release of this module was co-sponsored by Canonical.
 ''',
-    'installable': False,
+    'installable': True,
 }
