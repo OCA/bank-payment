@@ -37,5 +37,5 @@ dependencies installed, so that you can run the tests. If you only
 run the tests manually, you don't even have to install this module,
 only its dependencies.
     ''',
-    'installable': True,
+    'installable': False,
 }

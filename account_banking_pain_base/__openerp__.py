@@ -51,6 +51,6 @@ This module is part of the banking addons:
 This module was started during the Akretion-Noviat code sprint of
 November 21st 2013 in Epiais les Louvres (France).
     ''',
-    'active': False,
+    'active': True,
     'installable': True,
 }

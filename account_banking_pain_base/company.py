@@ -41,8 +41,6 @@ class res_company(orm.Model):
         If you need to add support for an additionnal country, you can
         contribute your code here or inherit this function in the
         localization modules for your country'''
-        import pdb
-        pdb.set_trace()
         assert isinstance(company_id, int), 'Only one company ID'
         company = self.browse(cr, uid, company_id, context=context)
         company_vat = company.vat
