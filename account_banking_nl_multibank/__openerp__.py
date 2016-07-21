@@ -32,5 +32,5 @@
 
     This modules contains no logic, just an import filter for account_banking.
     ''',
-    'installable': False,
+    'installable': True,
 }

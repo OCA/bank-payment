@@ -56,7 +56,6 @@ class payment_order_create(orm.TransientModel):
             cr, uid, context['active_id'], context=context)
         # Search for move line to pay:
         domain = [
-            '|', ('move_id.state', '=', 'open'),
             ('move_id.state', '=', 'posted'),
             ('reconcile_id', '=', False),
             ('company_id', '=', payment.mode.company_id.id),
@@ -127,10 +126,6 @@ class payment_order_create(orm.TransientModel):
                         communication = line.invoice.reference
                     elif line.invoice.supplier_invoice_number:
                         communication = line.invoice.supplier_invoice_number
-                # [antoniov: 2015-11-20] text with invoice number
-                if line.invoice.supplier_invoice_number:
-                    communication = "Doc. " + \
-                        line.invoice.supplier_invoice_number
             else:
                 # Make sure that the communication includes the
                 # customer invoice number (in the case of debit order)
@@ -167,8 +162,6 @@ class payment_order_create(orm.TransientModel):
             'currency': (line.invoice and line.invoice.currency_id.id or
                          line.journal_id.currency.id or
                          line.journal_id.company_id.currency_id.id),
-            # [ antoniov: 2015-06-23] set name as reference
-            'name': line.ref.replace('.', '_') + '.' + str(line.id),
             }
         return res
 

@@ -85,7 +85,6 @@ class transaction_message(object):
         retval = super(transaction_message, self).__getattribute__(attr)
         return attr != (
             'strattrs' and attr in self.strattrs and to_swift(retval) or retval
-
         )
 
     def genid(self):
@@ -317,7 +316,6 @@ class statement(models.mem_bank_statement):
     '''
     Implementation of bank_statement communication class of account_banking
     '''
-
     def __init__(self, msg, start_balance=0.0, *args, **kwargs):
         '''
         Set decent start values based on first transaction read
