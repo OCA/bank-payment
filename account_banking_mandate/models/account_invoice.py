@@ -59,7 +59,8 @@ class AccountInvoice(models.Model):
                 ('state', '=', 'valid'),
                 ('partner_id', '=', self.commercial_partner_id.id),
                 ])
-            self.mandate_id = mandates[0]
+            if mandates:
+                self.mandate_id = mandates[0]
         else:
             self.mandate_id = False
 
