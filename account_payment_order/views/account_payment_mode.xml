@@ -8,21 +8,29 @@
     <field name="model">account.payment.mode</field>
     <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
     <field name="arch" type="xml">
+        <field name="payment_type" position="after">
+            <field name="payment_order_ok"/>
+        </field>
         <group name="main" position="after">
-            <group name="payment_order_options" string="Options for Payment Orders">
-                <field name="payment_order_ok"/>
+            <group name="payment_order_options"
+                string="Options for Payment Orders"
+                attrs="{'invisible': [('payment_order_ok', '=', False)]}">
                 <field name="no_debit_before_maturity"
                     attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"/>
                 <field name="group_lines"/>
             </group>
-            <group name="payment_order_create_defaults" string="Select Move Lines to Pay - Default Values">
+            <group name="payment_order_create_defaults"
+                    string="Select Move Lines to Pay - Default Values"
+                    attrs="{'invisible': [('payment_order_ok', '=', False)]}">
                 <field name="default_journal_ids" widget="many2many_tags"/>
                 <field name="default_payment_mode"/>
                 <field name="default_target_move" widget="radio"/>
                 <field name="default_invoice"/>
                 <field name="default_date_type"/>
             </group>
-            <group name="accounting-config" string="Accounting Entries Options">
+            <group name="accounting-config"
+                    string="Accounting Entries Options"
+                    attrs="{'invisible': [('payment_order_ok', '=', False)]}">
                 <field name="generate_move"/>
                 <field name="offsetting_account" widget="radio"
                     attrs="{'required': [('generate_move', '=', True)], 'invisible': [('generate_move', '=', False)]}"/>
