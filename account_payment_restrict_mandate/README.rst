@@ -37,7 +37,6 @@ If this does not work as expected, check the following
 Known issues / Roadmap
 ======================
 
-* we need a widget for FieldRrule
 * there should be an extra column when selecting move lines showing how much
   can be debited according to the rule (this is going to be a performance killer)
 * when payment lines are adjusted or altogether removed, there should be a warning
