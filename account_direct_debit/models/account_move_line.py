@@ -35,4 +35,4 @@ class AccountMoveLine(models.Model):
                                 break
                 return line2bank
         return super(AccountMoveLine, self).line2bank(
-            cr, uid, ids, payment_type=pay_mode.id, context=context)
+            cr, uid, ids, payment_type=payment_type, context=context)
