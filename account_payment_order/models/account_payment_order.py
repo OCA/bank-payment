@@ -360,9 +360,17 @@ class AccountPaymentOrder(models.Model):
             account_id = self.journal_id.default_debit_account_id.id
         elif self.payment_mode_id.offsetting_account == 'transfer_account':
             account_id = self.payment_mode_id.transfer_account_id.id
+        partner_id = False
+        for index, bank_line in enumerate(bank_lines):
+            if index == 0:
+                partner_id = bank_line.payment_line_ids[0].partner_id.id
+            elif bank_line.payment_line_ids[0].partner_id.id != partner_id:
+                # we have different partners in the grouped move
+                partner_id = False
+                break
         vals = {
             'name': name,
-            'partner_id': False,
+            'partner_id': partner_id,
             'account_id': account_id,
             'credit': (self.payment_type == 'outbound' and
                        amount_company_currency or 0.0),
