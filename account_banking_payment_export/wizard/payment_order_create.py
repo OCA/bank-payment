@@ -76,7 +76,11 @@ class PaymentOrderCreate(models.TransientModel):
             # as they are deducted from a customer invoice, and
             # will not be refunded with a payment.
             domain += [
-                ('credit', '>', 0),
+                '|',
+                ('credit', '>', 0),'&',
+                ('debit', '>', 0),'&',
+                ('account_id.type', '=', 'payable'),
+                ('journal_id.type', '=', 'purchase_refund'),
                 '|',
                 ('account_id.type', '=', 'payable'),
                 '&',
