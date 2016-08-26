@@ -19,6 +19,7 @@
                     />
                     <field name="invoice"/>
                     <field name="populate_results"/>
+                    <field name="include_refunds"/>
                 </field>
                 <field name="duedate" position="before">
                     <field name="date_type"/>

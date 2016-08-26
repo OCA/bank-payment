@@ -41,6 +41,7 @@ class PaymentOrderCreate(models.TransientModel):
     move_date = fields.Date(
         string='Move Date', default=fields.Date.context_today)
     populate_results = fields.Boolean(string="Populate Results Directly")
+    include_refunds = fields.Boolean(string="Include Refunds")
 
     @api.model
     def default_get(self, field_list):
@@ -75,18 +76,28 @@ class PaymentOrderCreate(models.TransientModel):
             # Do not propose partially reconciled credit lines,
             # as they are deducted from a customer invoice, and
             # will not be refunded with a payment.
-            domain += [
-                '|',
-                ('credit', '>', 0),'&',
-                ('debit', '>', 0),'&',
-                ('account_id.type', '=', 'payable'),
-                ('journal_id.type', '=', 'purchase_refund'),
-                '|',
-                ('account_id.type', '=', 'payable'),
-                '&',
-                ('account_id.type', '=', 'receivable'),
-                ('reconcile_partial_id', '=', False),
-            ]
+            if not self.include_refunds:
+                domain += [
+                    ('credit', '>', 0),
+                    '|',
+                    ('account_id.type', '=', 'payable'),
+                    '&',
+                    ('account_id.type', '=', 'receivable'),
+                    ('reconcile_partial_id', '=', False),
+                ]
+            else:
+                domain += [
+                    '|',
+                    ('credit', '>', 0),'&',
+                    ('debit', '>', 0),'&',
+                    ('account_id.type', '=', 'payable'),
+                    ('journal_id.type', '=', 'purchase_refund'),
+                    '|',
+                    ('account_id.type', '=', 'payable'),
+                    '&',
+                    ('account_id.type', '=', 'receivable'),
+                    ('reconcile_partial_id', '=', False),
+                ]
 
     @api.multi
     def filter_lines(self, lines):
