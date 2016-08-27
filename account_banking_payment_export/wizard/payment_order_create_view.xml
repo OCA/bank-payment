@@ -19,8 +19,11 @@
                     />
                     <field name="invoice"/>
                     <field name="populate_results"/>
-                    <field name="include_refunds"/>
                 </field>
+                <field name="payment_mode" position="after">
+		            <field name="include_refunds"
+		                attrs="{'invisible': [('invoice', '=', False)]}"/>
+		        </field>
                 <field name="duedate" position="before">
                     <field name="date_type"/>
                     <field name="move_date" attrs="{'required': [('date_type', '=', 'move')], 'invisible': [('date_type', '!=', 'move')]}"/>
