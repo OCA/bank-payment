@@ -416,6 +416,11 @@ msgid "Populate Results Directly"
 msgstr ""
 
 #. module: account_banking_payment_export
+#: field:payment.order.create,include_refunds:0
+msgid "Include Refunds"
+msgstr "Include Refunds"
+
+#. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
 msgid "Related Payment Lines"
 msgstr ""
