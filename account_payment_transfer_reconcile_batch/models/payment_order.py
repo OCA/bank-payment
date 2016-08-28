@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2015 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2015-2016 Pedro M. Baeza <pedro.baeza@tecnativa.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -25,7 +25,9 @@ class PaymentOrder(models.Model):
 
     @api.multi
     def _reconcile_payment_lines(self, bank_payment_lines):
-        if config['test_enable'] or self.env.context.get('no_connector'):
+        test_condition = (config['test_enable'] and
+                          not self.env.context.get('test_connector'))
+        if test_condition or self.env.context.get('no_connector'):
             return super(PaymentOrder, self)._reconcile_payment_lines(
                 bank_payment_lines)
         session = ConnectorSession.from_env(self.env)

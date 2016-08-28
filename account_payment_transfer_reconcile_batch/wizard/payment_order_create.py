@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2016 Pedro M. Baeza <pedro.baeza@tecnativa.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, models
