@@ -255,7 +255,7 @@ class banking_import_transaction(orm.Model):
         if partner_ids:
             candidates = [
                 x for x in move_lines
-                if x.partner_id.id in partner_ids and
+                if x.invoice and x.partner_id.id in partner_ids and
                 (convert.str2date(x.date, '%Y-%m-%d') <=
                  (convert.str2date(trans.execution_date, '%Y-%m-%d') +
                   self.payment_window)) and
@@ -291,11 +291,12 @@ class banking_import_transaction(orm.Model):
         if not candidates and partner_ids:
             candidates = [
                 x for x in move_lines
-                if (is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
+                if (x.invoice and
+                    is_zero(x.move_id, ((x.debit or 0.0) - (x.credit or 0.0)) -
                             trans.statement_line_id.amount) and
                     convert.str2date(x.date, '%Y-%m-%d') <=
                     (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                    self.payment_window) and
+                     self.payment_window) and
                     (not _cached(x) or _remaining(x)) and
                     x.partner_id.id in partner_ids)
             ]
