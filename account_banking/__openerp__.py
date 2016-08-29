@@ -25,7 +25,7 @@
 ##############################################################################
 {
     'name': 'Account Banking',
-    'version': '0.5',
+    'version': '7.0.0.0.5',
     'license': 'AGPL-3',
     'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
