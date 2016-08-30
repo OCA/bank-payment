@@ -88,8 +88,8 @@ class PaymentOrderCreate(models.TransientModel):
             else:
                 domain += [
                     '|',
-                    ('credit', '>', 0),'&',
-                    ('debit', '>', 0),'&',
+                    ('credit', '>', 0) ,'&',
+                    ('debit', '>', 0) ,'&',
                     ('account_id.type', '=', 'payable'),
                     ('journal_id.type', '=', 'purchase_refund'),
                     '|',
