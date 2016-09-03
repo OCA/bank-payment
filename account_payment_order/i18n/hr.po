@@ -3,28 +3,26 @@
 # * account_payment_order
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
-# Rafael Blasco <rafabn@antiun.com>, 2016
+# Bole <bole@dajmi5.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-01 01:24+0000\n"
-"PO-Revision-Date: 2017-06-01 00:37+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
+"POT-Creation-Date: 2017-06-03 00:10+0000\n"
+"PO-Revision-Date: 2017-07-12 06:47+0000\n"
+"Last-Translator: Bole <bole@dajmi5.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:88
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
-msgstr "%d líneas de pago añadidas a la orden de pago en borrador %s."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:83
@@ -32,12 +30,12 @@ msgstr "%d líneas de pago añadidas a la orden de pago en borrador %s."
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
 "automatically created."
-msgstr "%d líneas de pago añadidas a una nueva orden de pago en borrador %s que ha sido creada automáticamente."
+msgstr ""
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
-msgstr "Una línea de pago ya existe con esta referencia en la misma compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:17
@@ -45,129 +43,129 @@ msgstr "Una línea de pago ya existe con esta referencia en la misma compañía"
 msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
 "characters, so it is not valid."
-msgstr "Un BIC válido contiene 8 u 11 caracteres. El BIC '%s' contiene %d caracteres, por lo que no es válido."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
 msgid "Account Entry"
-msgstr "Asiento contable"
+msgstr ""
 
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
-msgstr "Contabilidad / Pagos"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Accounting Entries Options"
-msgstr "Opciones de asientos contables"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
-msgstr "Activa esta opción si este método de pago debe requerirte informar el número de cuenta bancaria de tu cliente o proveedor"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Add All Move Lines"
-msgstr "Añadir todos los apuntes contables"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_form
 msgid "Add to Debit Order"
-msgstr "Añadir a orden de cobro"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_supplier_form
 msgid "Add to Payment Order"
-msgstr "Añadir a orden de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr "Añadir a orden de pago/cobro"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Entries"
-msgstr "Todos los asientos"
+msgstr "Sve stavke"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Posted Entries"
-msgstr "Todos los asientos asentados"
+msgstr "Sve proknjižene stavke"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_allow_blocked
 msgid "Allow Litigation Move Lines"
-msgstr "Permitir apuntes en litigio"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_currency
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_amount_currency
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Amount"
-msgstr "Importe"
+msgstr "Iznos"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_company_currency
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_amount_company_currency
 msgid "Amount in Company Currency"
-msgstr "Importes moneda compañía"
+msgstr "Iznos u lokalnoj valuti"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Any"
-msgstr "Cualquiera"
+msgstr "Bilokoji"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Attachments"
-msgstr "Adjuntos"
+msgstr "Prilozi"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Back to Draft"
-msgstr "Devolver a borrador"
+msgstr "Nazad u nacrt"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_bank
 msgid "Bank"
-msgstr "Banco"
+msgstr "Banka"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_bank_id
 msgid "Bank Account"
-msgstr "Cuenta bancaria"
+msgstr "Bankovni račun"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_account_required
 msgid "Bank Account Required"
-msgstr "Cuenta bancaria requerida"
+msgstr "Bankovni račun je obavezan"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_journal_id
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Bank Journal"
-msgstr "Diario de banco"
+msgstr "Dnevnik banke"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_bank_payment_line_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_line_id
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
 msgid "Bank Payment Line"
-msgstr "Línea de pago bancario"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_name
 msgid "Bank Payment Line Ref"
-msgstr "Ref. de la línea de pago bancario"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.bank_payment_line_action
@@ -177,35 +175,35 @@ msgstr "Ref. de la línea de pago bancario"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
+msgstr "Stavke izvoda"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line_partner_bank_id
 msgid "Bank account on which we should pay the supplier"
-msgstr "Cuenta bancaria en la que debemos pagar al proveedor"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:133
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr "No se puede conciliar: no hay apunte para la línea de pago %s de la empresa '%s'."
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Cancel Payments"
-msgstr "Cancelar pagos"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr "Escoja las opciones de filtro de apuntes"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -213,72 +211,72 @@ msgid ""
 "Click on Add All Move Lines to auto-select the move lines matching the above"
 " criteria or click on Add an item to manually select the move lines filtered"
 " by the above criteria."
-msgstr "Pulse en \"Añadir todos los apuntes\" para auto-seleccionar los apuntes que casen con los criterios de arriba o pulse en \"Añadir un elemento\" para seleccionar manualmente las líneas filtradas por los criterios de arriba."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_communication
 msgid "Communication"
-msgstr "Comunicación"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_communication_type
 msgid "Communication Type"
-msgstr "Tipo de comunicación"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_company_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_company_id
 msgid "Company"
-msgstr "Compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_partner_bank_id
 msgid "Company Bank Account"
-msgstr "Cuenta bancaria de la compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Confirm Payments"
-msgstr "Confirmar pagos"
+msgstr "Potvrdi plaćanja"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Confirmed"
-msgstr "Confirmado"
+msgstr "Potvrđeno"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create"
-msgstr "Crear"
+msgstr "Kreiraj"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create Payment Lines"
-msgstr "Crear líneas de pago"
+msgstr "Kreiraj stavke plaćanja"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Create Payment Lines from Journal Items"
-msgstr "Importar apuntes contables"
+msgstr "Kreiraj stavke plaćanja iz stavaka dnevnika"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Create Transactions"
-msgstr "Crear transacciones"
+msgstr "Kreiraj transakciju"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_create_action
 msgid "Create Transactions from Move Lines"
-msgstr "Crear transacciones de los apuntes"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice_payment_line_multi
 msgid "Create payment lines from invoice tree view"
-msgstr "Crear líneas de pago desde la factura"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_create_uid
@@ -288,7 +286,7 @@ msgstr "Crear líneas de pago desde la factura"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_create_uid
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Created by"
-msgstr "Creado por"
+msgstr "Kreirao"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_create_date
@@ -297,39 +295,39 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_create_date
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Kreirano"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_company_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_company_currency_id
 msgid "Currency"
-msgstr "Moneda"
+msgstr "Valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_currency_id
 msgid "Currency of the Payment Transaction"
-msgstr "Moneda de la transacción de pago"
+msgstr "Valuta transakcije"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
-msgstr "Órdenes de cobro"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:412
 #, python-format
 msgid "Debit bank line %s"
-msgstr "Línea de adeudo de banco %s"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:341
 #: code:addons/account_payment_order/models/account_payment_order.py:362
 #, python-format
 msgid "Debit order %s"
-msgstr "Orden de cobro %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
@@ -339,7 +337,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
 msgid "Disallow Debit Before Maturity Date"
-msgstr "No permitir el adeudo antes de la fecha de vencimiento"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_display_name
@@ -348,18 +346,18 @@ msgstr "No permitir el adeudo antes de la fecha de vencimiento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Naziv"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Draft"
-msgstr "Borrador"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Due"
-msgstr "Vencimiento"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
@@ -367,47 +365,47 @@ msgstr "Vencimiento"
 #: selection:account.payment.order,date_prefered:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_due_date
 msgid "Due Date"
-msgstr "Fecha de vencimiento"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_ml_maturity_date
 msgid "Due date"
-msgstr "Fecha de vencimiento"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Generated"
-msgstr "Fichero generado"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_generated
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Generation Date"
-msgstr "Fecha del fichero generado"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "File Successfully Uploaded"
-msgstr "Fichero subido satisfactoriamente"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_uploaded
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Upload Date"
-msgstr "Fecha de subida del fichero"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Uploaded"
-msgstr "Fichero subido"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
 #: selection:account.payment.order,date_prefered:0
 msgid "Fixed Date"
-msgstr "Fecha fija"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:147
@@ -415,7 +413,7 @@ msgstr "Fecha fija"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr "Para la empresa '%s', la cuenta del apunte a pagar (%s) es diferente de la cuenta del apunte de tránsito (%s)."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_bank_account_link
@@ -427,43 +425,43 @@ msgid ""
 "transfer to suppliers), you should choose 'Variable', which means that you "
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
-msgstr "Para los modos de pago que están siempre asociados a la misma cuenta bancaria de tu compañía (tales como transferencia bancaria para clientes u órdenes de cobro SEPA de proveedores), selecciona 'Fijo'. Para modos de pago que no están siempre asociados a la misma cuenta bancaria (tales como órdenes de cobro SEPA para clientes o transferencias a proveedores), debes elegir 'Variable', que significa que seleccionarás la cuenta bancaria en la orden de pago. Si tu compañía sólo tiene una cuenta bancaria, siempre deberás seleccionar 'Fijo'."
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 msgid "Free"
-msgstr "Libre"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_generate_move
 msgid "Generate Accounting Entries On File Upload"
-msgstr "Generar asientos contables al subir el archivo"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
-msgstr "Generar archivo de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Generated File"
-msgstr "Archivo generado"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_generated_user_id
 msgid "Generated by"
-msgstr "Generado por"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Group By"
-msgstr "Agrupar por"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_group_lines
 msgid "Group Transactions in Payment Orders"
-msgstr "Agrupar transacciones en las órdenes de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_id
@@ -472,12 +470,12 @@ msgstr "Agrupar transacciones en las órdenes de pago"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 msgid "ISO"
-msgstr "ISO"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_group_lines
@@ -489,7 +487,7 @@ msgid ""
 "* Payment Date\n"
 "and if the 'Communication Type' is 'Free'\n"
 "(other modules can set additional fields to restrict the grouping.)"
-msgstr "Si esta casilla está marcada, las líneas de transacciones de la orden de pago serán agrupadas en la confirmación de la misma. La agrupación se realizará sólo si los siguientes campos coinciden:\n* Empresa\n* Moneda\n* Cuenta bancaria destino\n* Fecha de pago\ny si el 'Tipo de comunicación' es 'Libre'\n(otros módulos pueden establecer campos adicionales para restringir la agrupación)."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_no_debit_before_maturity
@@ -497,58 +495,58 @@ msgid ""
 "If you activate this option on an Inbound payment mode, you will have an "
 "error message when you confirm a debit order that has a payment line with a "
 "payment date before the maturity date."
-msgstr "Si activa esta opción en un modo de pago entrante, obtendrá un mensaje de error cuando confirme una orden de adeudo que tiene una línea de pago con una fecha de pago anterior a la fecha de vencimiento."
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
 #: selection:account.payment.order,date_prefered:0
 msgid "Immediately"
-msgstr "Inmediatamente"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.order,payment_type:0
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Inbound"
-msgstr "Entrante"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
 msgid "Journal Entries"
-msgstr "Asientos contables"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move_line
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_move_line_id
 msgid "Journal Item"
-msgstr "Apunte contable"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_journal_id
 msgid ""
 "Journal to write payment entries when confirming payment/debit orders of "
 "this mode"
-msgstr "Diario al que escribir los asientos contables cuando se confirme la orden de cobro/pago de este modo"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_journal_ids
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_journal_ids
 msgid "Journals Filter"
-msgstr "Filtro de diarios"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Keep empty for using all journals"
-msgstr "Dejar vacío para usar todos los diarios"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr "Etiqueta del pago que será vista por el beneficiario"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi___last_update
@@ -557,7 +555,7 @@ msgstr "Etiqueta del pago que será vista por el beneficiario"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order___last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_write_uid
@@ -566,7 +564,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_write_date
@@ -575,30 +573,30 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_bank_account_link
 msgid "Link to Bank Account"
-msgstr "Enlazado a la cuenta bancaria"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_invoice
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_invoice
 msgid "Linked to an Invoice or Refund"
-msgstr "Vinculado a una factura o factura rectificativa"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:209
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
-msgstr "No se ha establecido el diario de banco en la orden %s."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_line.py:137
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
-msgstr "No se ha establecido la cuenta bancaria en la línea de pago %s"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:214
@@ -609,35 +607,35 @@ msgstr ""
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Move"
-msgstr "Asiento"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_move_date
 msgid "Move Date"
-msgstr "Fecha del asiento"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_move_line_ids
 msgid "Move Lines"
-msgstr "Apuntes"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_move_option
 msgid "Move Option"
-msgstr "Opciones de asiento"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:139
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr "El apunte '%s' de la empresa '%s' ya ha sido conciliado"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:55
 #, python-format
 msgid "No Journal Entry on invoice %s"
-msgstr "No se ha encontrado asiento en la factura %s"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:93
@@ -645,13 +643,13 @@ msgstr "No se ha encontrado asiento en la factura %s"
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
 "this invoice is already paid."
-msgstr "No se ha creado línea de pago para la factura %s porque ya existe o porque la factura ya está pagada."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:52
 #, python-format
 msgid "No Payment Mode on invoice %s"
-msgstr "No hay modo de pago en la factura %s"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:290
@@ -659,28 +657,28 @@ msgstr "No hay modo de pago en la factura %s"
 msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
 "Odoo module."
-msgstr "Sin manejador para este método de pago. Tal vez no ha instalado el módulo de Odoo relacionado."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_name
 msgid "Number"
-msgstr "Número"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_bank_line_count
 msgid "Number of Bank Lines"
-msgstr "Número de líneas bancarias"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_offsetting_account
 msgid "Offsetting Account"
-msgstr "Cuenta de compensación"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:115
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
-msgstr "En la orden %s, la fecha de ejecución es anterior a la actual (%s)."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:108
@@ -688,7 +686,7 @@ msgstr "En la orden %s, la fecha de ejecución es anterior a la actual (%s)."
 msgid ""
 "On the payment mode '%s', you must choose an option for the 'Move Option' "
 "parameter."
-msgstr "En el modo de pago '%s', debe escoger una opción para las 'Opciones de asiento'"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:98
@@ -696,7 +694,7 @@ msgstr "En el modo de pago '%s', debe escoger una opción para las 'Opciones de 
 msgid ""
 "On the payment mode '%s', you must select a value for the 'Transfer "
 "Account'."
-msgstr "En el modo de pago '%s', debe seleccionar un valor para la 'Cuenta de transferencia'"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:103
@@ -704,7 +702,7 @@ msgstr "En el modo de pago '%s', debe seleccionar un valor para la 'Cuenta de tr
 msgid ""
 "On the payment mode '%s', you must select a value for the 'Transfer "
 "Journal'."
-msgstr "En el modo de pago '%s', debe seleccionar un valor para el 'Diario de transferencia'"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:92
@@ -712,75 +710,75 @@ msgstr "En el modo de pago '%s', debe seleccionar un valor para el 'Diario de tr
 msgid ""
 "On the payment mode '%s', you must select an option for the 'Offsetting "
 "Account' parameter"
-msgstr "En el modo de pago '%s', debe seleccionar una opción para el parámetro 'Cuenta de compensación'"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,move_option:0
 msgid "One move per payment date"
-msgstr "Un asiento por fecha de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,move_option:0
 msgid "One move per payment line"
-msgstr "Un asiento por línea de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Options for Payment Orders"
-msgstr "Opciones para las órdenes"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_order_id
 msgid "Order"
-msgstr "Orden"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.order,payment_type:0
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Outbound"
-msgstr "Saliente"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_partner_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_id
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Partner"
-msgstr "Empresa"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_partner_bank_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_partner_bank_id
 msgid "Partner Bank Account"
-msgstr "Cuenta bancaria"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_account_id
 msgid ""
 "Pay off lines in 'file uploaded' payment orders with a move on this account."
 " You can only select accounts that are marked for reconciliation"
-msgstr "Las líneas de pago de la orden se conciliarán en la 'subida de archivo' con un apunte a esta cuenta. Sólo puede seleccionar las cuentas que están marcadas para conciliación."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_date
 msgid "Payment Date"
-msgstr "Fecha de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_scheduled
 msgid "Payment Execution Date"
-msgstr "Fecha de ejecución del pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_prefered
 msgid "Payment Execution Date Type"
-msgstr "Tipo de fecha de ejecución del pago"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:310
 #, python-format
 msgid "Payment File"
-msgstr "Archivo de remesa"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
@@ -789,29 +787,29 @@ msgstr "Archivo de remesa"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Payment Lines"
-msgstr "Líneas de pago"
+msgstr "Stavke plaćanja"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_method_id
 msgid "Payment Method"
-msgstr "Método de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_payment_mode
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_mode_id
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Payment Mode"
-msgstr "Modo de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_payment_mode
 msgid "Payment Mode on Invoice"
-msgstr "Modo de pago en la factura"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_mode
 msgid "Payment Modes"
-msgstr "Modos de pago"
+msgstr "Modeli plaćanja"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_order
@@ -820,7 +818,7 @@ msgstr "Modos de pago"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_order_id
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Payment Order"
-msgstr "Orden de pago"
+msgstr "Nalog za plaćanje"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -829,37 +827,37 @@ msgstr "Orden de pago"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Orders"
-msgstr "Órdenes de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_name
 msgid "Payment Reference"
-msgstr "Referencia de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_payment_type
 msgid "Payment Type"
-msgstr "Tipo de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:410
 #, python-format
 msgid "Payment bank line %s"
-msgstr "Línea de pago bancario %s"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:339
 #: code:addons/account_payment_order/models/account_payment_order.py:360
 #, python-format
 msgid "Payment order %s"
-msgstr "Orden %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.menu,name:account_payment_order.payment_root
 msgid "Payments"
-msgstr "Pagos"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_post_move
@@ -869,63 +867,63 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
 msgid "Related Payment Lines"
-msgstr "Líneas de pago relacionadas"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Same"
-msgstr "Igual"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 msgid "Same or Empty"
-msgstr "Igual o vacío"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Same or empty"
-msgstr "Igual o vacío"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Search Bank Payment Lines"
-msgstr "Buscar líneas de pago bancario"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Search Payment Orders"
-msgstr "Buscar órdees"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:132
 #, python-format
 msgid "Select Move Lines to Create Transactions"
-msgstr "Seleccione apuntes para crear transacciones"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Select Move Lines to Pay - Default Values"
-msgstr "Selección de los apuntes - Valores por defecto"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_date_scheduled
 msgid ""
 "Select a requested date of execution if you selected 'Due Date' as the "
 "Payment Execution Date Type."
-msgstr "Seleccione una fecha solicitada de ejecución si ha seleccionado 'Fecha de vencimiento' como el tipo de fecha de ejecución del pago."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_payment_order_ok
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_search
 msgid "Selectable in Payment Orders"
-msgstr "Seleccionable en las órdenes"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Selected Move Lines to Create Transactions"
-msgstr "Apuntes seleccionados para crear transacciones"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_state
@@ -933,30 +931,30 @@ msgstr "Apuntes seleccionados para crear transacciones"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_state
 msgid "Status"
-msgstr "Estado"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:20
 #, python-format
 msgid "Structured Reference"
-msgstr "Referencia esctructurada"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_target_move
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_target_move
 msgid "Target Moves"
-msgstr "Asientos destino"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:273
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
-msgstr "El importe para el empresa '%s' es negativo o nulo (%.2f) !"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_bank_line_ids
@@ -966,7 +964,7 @@ msgid ""
 "payment order: one bank payment line can group several transaction lines if "
 "the option 'Group Transactions in Payment Orders' is active on the payment "
 "mode."
-msgstr "Las líneas de pago bancarias se usan para generar el archivo de pago. Se crean automáticamente de las líneas de transacciones en la confirmación de la orden: una línea de pago bancario puede agrupar varias líneas de transacción si la opción 'Agrupar transacciones en las órdenes' está activada en el modo de pago."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:58
@@ -974,13 +972,13 @@ msgstr "Las líneas de pago bancarias se usan para generar el archivo de pago. S
 msgid ""
 "The invoice %s has a payment mode '%s' which is not selectable in payment "
 "orders."
-msgstr "La factura %s tiene un modo de pago '%s' que no es seleccionable en las órdenes."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:49
 #, python-format
 msgid "The invoice %s is not in Open state"
-msgstr "La factura %s no está en estado abierta"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:243
@@ -989,7 +987,7 @@ msgid ""
 "The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
 "The payment line %s has a maturity date %s which is after the computed "
 "payment date %s."
-msgstr "El modo de pago '%s' tiene la opción 'No permitir adeudo antes de la fecha de vencimiento'. La línea de pago %s tiene una fecha de vencimiento %s que es después de la fecha de pago calculada %s."
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:102
@@ -997,101 +995,101 @@ msgstr "El modo de pago '%s' tiene la opción 'No permitir adeudo antes de la fe
 msgid ""
 "The payment type (%s) is not the same as the payment type of the payment "
 "mode (%s)"
-msgstr "El tipo de pago (%s) no es el mismo que el tipo de pago del modo de pago (%s)"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:218
 #, python-format
 msgid "There are no transactions on payment order %s."
-msgstr "No hay transacciones en la orden %s."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_ml_maturity_date
 msgid ""
 "This field is used for payable and receivable journal entries. You can put "
 "the limit date for the payment of this line."
-msgstr "Este campo se usa para asientos a pagar y a cobrar. Puede poner la fecha límite para el pago de esta línea."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "This wizard will create payment lines for the selected invoices:"
-msgstr "Este asistente creará las líneas de pago para las facturas seleccionadas:"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Total Amount"
-msgstr "Importe total"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Total Company Currency"
-msgstr "Total en la moneda de la compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr "Total pendiente"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
 msgid "Total company currency"
-msgstr "Total en la moneda de la compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Total in Company Currency"
-msgstr "Total en moneda de la compañía"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_line_ids
 msgid "Transaction Lines"
-msgstr "Líneas de transacción"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transactions"
-msgstr "Transacciones"
+msgstr ""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_transfer_account_id
 msgid "Transfer Account"
-msgstr "Cuenta de transferencia"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_transfer_journal_id
 msgid "Transfer Journal"
-msgstr "Diario de transferencia"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transfer Journal Entries"
-msgstr "Asientos de transferencia"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_date_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_type
 msgid "Type of Date Filter"
-msgstr "Filtro de tipo de fecha"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
 msgid "Wizard to create payment lines"
-msgstr "Asistente para crear líneas de pago"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid ""
 "if there are existing draft payment orders for the payment modes of the "
 "invoices, the payment lines will be added to those payment orders"
-msgstr "Si hay órdenes borrador existentes para los modos de pago de las facturas, las líneas de pago se añadirán a ellas."
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "on"
-msgstr "el"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
-msgstr "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+msgstr ""
