@@ -4,14 +4,13 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 23:52+0000\n"
-"PO-Revision-Date: 2016-07-22 23:52+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
+"POT-Creation-Date: 2016-09-03 00:45+0000\n"
+"PO-Revision-Date: 2016-09-03 00:45+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,7 +329,7 @@ msgid "Debit Orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:396
+#: code:addons/account_payment_order/models/account_payment_order.py:404
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
@@ -897,7 +896,7 @@ msgid "Payment Type"
 msgstr "Betaalwijze"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:394
+#: code:addons/account_payment_order/models/account_payment_order.py:402
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Betaalregel %s"
