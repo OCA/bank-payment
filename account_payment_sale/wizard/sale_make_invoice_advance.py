@@ -17,8 +17,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
         if order.payment_mode_id:
             vals['payment_mode_id'] = order.payment_mode_id.id
             if order.payment_mode_id.bank_account_link == 'fixed':
-                vals['partner_bank_id'] =\
-                    order.payment_mode_id.fixed_journal_id.bank_account_id.id
+                journal = order.payment_mode_id.fixed_journal_id
+                vals['partner_bank_id'] = journal.bank_account_id.id
+                if journal.default_debit_account_id:
+                    vals['account_id'] = journal.default_debit_account_id.id
         if vals:
             inv.write(vals)
         return inv
