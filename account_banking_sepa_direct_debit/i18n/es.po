@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-07 16:04+0000\n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:45+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -166,6 +166,11 @@ msgid "Debtor's Name:"
 msgstr "Nombre del deudor:"
 
 #. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
 msgid ""
 "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
@@ -291,6 +296,11 @@ msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del ha
 #, python-format
 msgid "Invalid SEPA Creditor Identifier."
 msgstr "Identificador de acreedor SEPA no válido."
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0

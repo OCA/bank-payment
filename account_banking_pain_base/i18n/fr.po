@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-28 11:43+0000\n"
-"PO-Revision-Date: 2016-04-27 19:48+0000\n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Convertir en ASCII"
 #. module: account_banking_pain_base
 #: field:banking.export.pain,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom à afficher"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:282
@@ -68,7 +68,7 @@ msgstr "Élevé"
 #. module: account_banking_pain_base
 #: field:banking.export.pain,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_pain_base
 #: help:payment.mode,convert_to_ascii:0
@@ -93,7 +93,7 @@ msgstr "Initiating Party Issuer"
 #. module: account_banking_pain_base
 #: field:banking.export.pain,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:256

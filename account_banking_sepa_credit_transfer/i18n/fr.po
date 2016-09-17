@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -58,12 +58,17 @@ msgstr "Créer"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Créé par"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Date"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nom à afficher"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
@@ -110,7 +115,7 @@ msgstr "Générer"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,batch_booking:0
@@ -121,14 +126,19 @@ msgid ""
 msgstr "Si coché, le relevé de compte ne comportera qu'une ligne de débit pour tous les virements du fichier SEPA XML ; si non coché, le relevé de compte comportera une ligne de débit pour chaque virement du fichier SEPA XML."
 
 #. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Dernière mise à jour le"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0

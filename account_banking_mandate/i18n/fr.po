@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-07 16:04+0000\n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -130,12 +130,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Créé par"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Date"
 
 #. module: account_banking_mandate
 #: view:res.partner:account_banking_mandate.mandate_partner_form
@@ -159,7 +159,8 @@ msgid "Date of the last message posted on the record."
 msgstr ""
 
 #. module: account_banking_mandate
-#: field:account.invoice,mandate_id:0 field:payment.line,mandate_id:0
+#: field:account.invoice,mandate_id:0 field:bank.payment.line,mandate_id:0
+#: field:payment.line,mandate_id:0
 msgid "Direct Debit Mandate"
 msgstr ""
 
@@ -168,6 +169,11 @@ msgstr ""
 #: field:res.partner.bank,mandate_ids:0
 msgid "Direct Debit Mandates"
 msgstr ""
+
+#. module: account_banking_mandate
+#: field:account.banking.mandate,display_name:0
+msgid "Display Name"
+msgstr "Nom à afficher"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -193,7 +199,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr ""
+msgstr "Regrouper par"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_summary:0
@@ -205,7 +211,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_unread:0
@@ -228,14 +234,19 @@ msgid "Last Message Date"
 msgstr ""
 
 #. module: account_banking_mandate
+#: field:account.banking.mandate,__last_update:0
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Dernière mise à jour le"
 
 #. module: account_banking_mandate
 #: view:bank.payment.line:account_banking_mandate.bank_payment_line_tree
@@ -301,7 +312,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partenaire"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_payment_line

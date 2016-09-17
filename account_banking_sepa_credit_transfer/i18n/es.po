@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:45+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -66,6 +66,11 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
 msgid "Export SEPA Credit Transfer File"
 msgstr "Exportar archivo de transferencia SEPA"
@@ -119,6 +124,11 @@ msgid ""
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
 msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
