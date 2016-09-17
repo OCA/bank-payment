@@ -3,16 +3,16 @@
 # * account_payment_partner
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 23:52+0000\n"
-"PO-Revision-Date: 2016-07-22 23:52+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
-"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
+"POT-Creation-Date: 2017-05-01 14:55+0000\n"
+"PO-Revision-Date: 2016-10-19 23:47+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -34,9 +34,7 @@ msgstr "<strong>Betaalmode:</strong>"
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
-msgstr ""
-"Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer"
-" van uw klant of leverancier kent."
+msgstr "Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer van uw klant of leverancier kent."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
@@ -45,6 +43,7 @@ msgstr "Bankrekening verplicht"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Betaalwijze klant"
 
@@ -77,15 +76,18 @@ msgstr "Betalingen"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr "Selecteer de standaard betaalwijze voor deze klant."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
 msgstr "Selecteer de standaard betaalwijze voor deze leverancier."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Betaalwijze leverancier"
