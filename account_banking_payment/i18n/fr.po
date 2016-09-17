@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-09-03 04:33+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
@@ -309,7 +309,7 @@ msgstr ""
 #. module: account_banking_payment
 #: field:payment.line,msg:0
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #. module: account_banking_payment
 #: field:payment.line,transit_move_line_id:0

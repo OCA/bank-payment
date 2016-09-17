@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-09-03 04:33+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_ES/)\n"
@@ -708,7 +708,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking_reconciliation
 #: view:account.move.line:0
