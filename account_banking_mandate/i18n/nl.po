@@ -6,12 +6,12 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 23:52+0000\n"
-"PO-Revision-Date: 2016-07-22 23:52+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
-"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
+"POT-Creation-Date: 2017-05-01 14:55+0000\n"
+"PO-Revision-Date: 2016-12-22 11:48+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -23,10 +23,7 @@ msgstr ""
 msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
-msgstr ""
-"Een bankmandaat is een document ondertekend door uw klant die autorisatie "
-"geeft om één of meerdere acties uit te voeren op de bankrekening van de "
-"klant."
+msgstr "Een bankmandaat is een document ondertekend door uw klant die autorisatie geeft om één of meerdere acties uit te voeren op de bankrekening van de klant."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -39,20 +36,13 @@ msgid "A generic banking mandate"
 msgstr "Een generiek bank mandaat"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_needaction
-msgid "Action Needed"
-msgstr "Actie nodig"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_invoice_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
 "Activate this option if this payment method requires your customer to sign a"
 " direct debit mandate with your company."
-msgstr ""
-"Activeer deze optie wanneer bij de betaalwijze uw klant verplicht is om een "
-"incasso mandaat met uw bedrijf te ondertekenen."
+msgstr "Activeer deze optie wanneer bij de betaalwijze uw klant verplicht is om een incasso mandaat met uw bedrijf te ondertekenen."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -91,9 +81,7 @@ msgstr "Bank mandaten"
 msgid ""
 "Banking mandates represent an authorization that the bank account owner "
 "gives to a company for a specific operation."
-msgstr ""
-"Een bank mandaat wordt door de bankrekening eigenaar\n"
-" gegeven aan een bedrijf om een specifieke actie uit te kunnen voeren. "
+msgstr "Een bank mandaat wordt door de bankrekening eigenaar\n gegeven aan een bedrijf om een specifieke actie uit te kunnen voeren. "
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -117,9 +105,7 @@ msgstr "Geannuleerd"
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr ""
-"Kan mandate '%s' niet valideren omdat deze niet aan een bankrekening "
-"gekoppeld is. "
+msgstr "Kan mandate '%s' niet valideren omdat deze niet aan een bankrekening gekoppeld is. "
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
@@ -158,11 +144,6 @@ msgid "Date of the Last Debit"
 msgstr "Datum van laatste debet"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_last_post
-msgid "Date of the last message posted on the record."
-msgstr "Datum van het laatste bericht op het record."
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line_mandate_id
@@ -178,7 +159,7 @@ msgstr "Incasso mandaten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_display_name
-msgid "Display name"
+msgid "Display Name"
 msgstr "Weergave naam"
 
 #. module: account_banking_mandate
@@ -192,21 +173,6 @@ msgstr "Concept"
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
 msgstr "Vervallen"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_follower_ids
-msgid "Followers"
-msgstr "Volgers"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Volgers (Kanalen)"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Volgers (Relaties)"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -225,34 +191,14 @@ msgid "ID"
 msgstr "ID"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread
-msgid "If checked new messages require your attention."
-msgstr "Indien aangevinkt vraagt een bericht om uw aandacht."
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_needaction
-msgid "If checked, new messages require your attention."
-msgstr "Indien aangevinkt vraagt een bericht om uw aandacht."
-
-#. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
 msgstr "Factuur"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_is_follower
-msgid "Is Follower"
-msgstr "Is een volger"
-
-#. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
 msgid "Journal Item"
 msgstr "Boekingsregel"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_last_post
-msgid "Last Message Date"
-msgstr "Laatste berichten datum"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate___last_update
@@ -315,44 +261,23 @@ msgid "Mandates"
 msgstr "Mandaten"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_ids
-msgid "Messages"
-msgstr "Berichten"
-
-#. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:40
 #, python-format
 msgid "Missing Mandate on payment line %s"
 msgstr "Ontbrekende mandaat op betaalregel %s"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_needaction_counter
-msgid "Number of Actions"
-msgstr "Aantal acties"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_mandate_count
 msgid "Number of Mandates"
 msgstr "Aantal mandaten"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Aantal berichten welke vragen om een actie"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread_counter
-msgid "Number of unread messages"
-msgstr "Aantal ongelezen berichten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_state
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr ""
-"Alleen gevalideerde bank mandaten kunnen worden gebruikt in betaalregels. "
-"Een geannuleerd mandaat is een mandaat dat geannuleerd is door de klant."
+msgstr "Alleen gevalideerde bank mandaten kunnen worden gebruikt in betaalregels. Een geannuleerd mandaat is een mandaat dat geannuleerd is door de klant."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -429,9 +354,7 @@ msgstr "De datum van de handtekening van mandaat '%s' is in de toekomts!"
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr ""
-"Mandaat '%s' kan geen datum van laatste debet hebben coor de datum van "
-"ondertekenen."
+msgstr "Mandaat '%s' kan geen datum van laatste debet hebben coor de datum van ondertekenen."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -439,24 +362,12 @@ msgstr ""
 msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
 "to the mandate '%s' (this mandate is attached to the bank account '%s')."
-msgstr ""
-"Betaalregelnummer %s  heeft een bankrekeningnummer '%s' die niet gekoppeld "
-"is aan mandaat '%s'  (dit mandaat is gekoppeld aan bankrekeningnummer '%s')."
+msgstr "Betaalregelnummer %s  heeft een bankrekeningnummer '%s' die niet gekoppeld is aan mandaat '%s'  (dit mandaat is gekoppeld aan bankrekeningnummer '%s')."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
 msgid "Unique Mandate Reference"
 msgstr "Unieke madaat referentie"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_unread
-msgid "Unread Messages"
-msgstr "Ongelezen berichten"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Ongelezen berichten teller"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -474,6 +385,4 @@ msgstr "Bevestig"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr ""
-"Een mandaat moet alleen teruggezet worden naar concept wanneer u deze per "
-"ongeluk heeft geannuleerd. Wilt u verdergaan? "
+msgstr "Een mandaat moet alleen teruggezet worden naar concept wanneer u deze per ongeluk heeft geannuleerd. Wilt u verdergaan? "
