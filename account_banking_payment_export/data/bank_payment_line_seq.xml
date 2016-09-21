@@ -6,7 +6,7 @@
 -->
 
 <openerp>
-<data>
+<data noupdate="1">
 
 <record id="bank_payment_line_seq_type" model="ir.sequence.type">
     <field name="name">Bank Payment Line</field>
@@ -16,7 +16,7 @@
 <record id="bank_payment_line_seq" model="ir.sequence">
     <field name="name">Bank Payment Line</field>
     <field name="code">bank.payment.line</field>
-    <field name="prefix">L</field>
+    <field name="prefix">BPL</field>
     <field name="padding">5</field>
     <field name="number_next">1</field>
     <field name="company_id" eval="False"/>
