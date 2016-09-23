@@ -46,21 +46,6 @@ class AccountBankingMandate(models.Model):
         string='Sequence Type for Next Debit', track_visibility='onchange',
         help="This field is only used for Recurrent mandates, not for "
              "One-Off mandates.", default="first")
-    sepa_migrated = fields.Boolean(
-        string='Migrated to SEPA', track_visibility='onchange',
-        help="If this field is not active, the mandate section of the next "
-             "direct debit file that include this mandate will contain the "
-             "'Original Mandate Identification' and the 'Original Creditor "
-             "Scheme Identification'. This is required in a few countries "
-             "(Belgium for instance), but not in all countries. If this is "
-             "not required in your country, you should keep this field always "
-             "active.", default=True)
-    original_mandate_identification = fields.Char(
-        string='Original Mandate Identification', track_visibility='onchange',
-        size=35,
-        help="When the field 'Migrated to SEPA' is not active, this field "
-             "will be used as the Original Mandate Identification in the "
-             "Direct Debit file.")
     scheme = fields.Selection([('CORE', 'Basic (CORE)'),
                                ('B2B', 'Enterprise (B2B)')],
                               string='Scheme', default="CORE")
@@ -74,30 +59,6 @@ class AccountBankingMandate(models.Model):
                     not mandate.recurrent_sequence_type):
                 raise exceptions.Warning(
                     _("The recurrent mandate '%s' must have a sequence type.")
-                    % mandate.unique_mandate_reference)
-
-    @api.multi
-    @api.constrains('type', 'recurrent_sequence_type', 'sepa_migrated')
-    def _check_migrated_to_sepa(self):
-        for mandate in self:
-            if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
-                    mandate.recurrent_sequence_type != 'first'):
-                raise exceptions.Warning(
-                    _("The recurrent mandate '%s' which is not marked as "
-                      "'Migrated to SEPA' must have its recurrent sequence "
-                      "type set to 'First'.")
-                    % mandate.unique_mandate_reference)
-
-    @api.multi
-    @api.constrains('type', 'original_mandate_identification', 'sepa_migrated')
-    def _check_original_mandate_identification(self):
-        for mandate in self:
-            if (mandate.type == 'recurrent' and not mandate.sepa_migrated and
-                    not mandate.original_mandate_identification):
-                raise exceptions.Warning(
-                    _("You must set the 'Original Mandate Identification' on "
-                      "the recurrent mandate '%s' which is not marked as "
-                      "'Migrated to SEPA'.")
                     % mandate.unique_mandate_reference)
 
     @api.multi

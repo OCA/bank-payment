@@ -13,8 +13,6 @@
             <group>
                 <field name="sepa_creditor_identifier"
                        attrs="{'invisible': [('sepa_type', '!=', 'sepa_direct_debit')]}"/>
-                <field name="original_creditor_identifier"
-                       attrs="{'invisible': [('sepa_type', '!=', 'sepa_direct_debit')]}"/>
             </group>
         </group>
     </field>

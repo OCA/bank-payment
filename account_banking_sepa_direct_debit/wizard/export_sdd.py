@@ -267,72 +267,25 @@ class BankingExportSddWizard(models.TransientModel):
                     'Mandate Signature Date',
                     'line.mandate_id.signature_date',
                     {'line': line}, 10, gen_args=gen_args)
-                if sequence_type == 'FRST' and (
-                        line.mandate_id.last_debit_date or
-                        not line.mandate_id.sepa_migrated):
-                    previous_bank = self._get_previous_bank(line)
-                    if previous_bank or not line.mandate_id.sepa_migrated:
-                        amendment_indicator_2_50 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInd')
-                        amendment_indicator_2_50.text = 'true'
-                        amendment_info_details_2_51 = etree.SubElement(
-                            mandate_related_info_2_47, 'AmdmntInfDtls')
-                    if previous_bank:
-                        if (previous_bank.bank.bic or
-                            previous_bank.bank_bic) == \
-                            (line.bank_id.bank.bic or
-                             line.bank_id.bank_bic):
-                            ori_debtor_account_2_57 = etree.SubElement(
-                                amendment_info_details_2_51, 'OrgnlDbtrAcct')
-                            ori_debtor_account_id = etree.SubElement(
-                                ori_debtor_account_2_57, 'Id')
-                            ori_debtor_account_iban = etree.SubElement(
-                                ori_debtor_account_id, 'IBAN')
-                            ori_debtor_account_iban.text = self._validate_iban(
-                                self._prepare_field(
-                                    'Original Debtor Account',
-                                    'previous_bank.acc_number',
-                                    {'previous_bank': previous_bank},
-                                    gen_args=gen_args))
-                        else:
-                            ori_debtor_agent_2_58 = etree.SubElement(
-                                amendment_info_details_2_51, 'OrgnlDbtrAgt')
-                            ori_debtor_agent_institution = etree.SubElement(
-                                ori_debtor_agent_2_58, 'FinInstnId')
-                            ori_debtor_agent_bic = etree.SubElement(
-                                ori_debtor_agent_institution, bic_xml_tag)
-                            ori_debtor_agent_bic.text = self._prepare_field(
-                                'Original Debtor Agent',
-                                'previous_bank.bank.bic or '
-                                'previous_bank.bank_bic',
-                                {'previous_bank': previous_bank},
-                                gen_args=gen_args)
-                            ori_debtor_agent_other = etree.SubElement(
-                                ori_debtor_agent_institution, 'Othr')
-                            ori_debtor_agent_other_id = etree.SubElement(
-                                ori_debtor_agent_other, 'Id')
-                            ori_debtor_agent_other_id.text = 'SMNDA'
-                            # SMNDA = Same Mandate New Debtor Agent
-                    elif not line.mandate_id.sepa_migrated:
-                        ori_mandate_identification_2_52 = etree.SubElement(
-                            amendment_info_details_2_51, 'OrgnlMndtId')
-                        ori_mandate_identification_2_52.text = \
-                            self._prepare_field(
-                                'Original Mandate Identification',
-                                'line.mandate_id.'
-                                'original_mandate_identification',
-                                {'line': line},
-                                gen_args=gen_args)
-                        ori_creditor_scheme_id_2_53 = etree.SubElement(
-                            amendment_info_details_2_51, 'OrgnlCdtrSchmeId')
-                        self.generate_creditor_scheme_identification(
-                            ori_creditor_scheme_id_2_53,
-                            'self.payment_order_ids[0].mode.'
-                            'original_creditor_identifier or '
-                            'self.payment_order_ids[0].company_id.'
-                            'original_creditor_identifier',
-                            'Original Creditor Identifier',
-                            {'self': self}, 'SEPA', gen_args)
+                if sequence_type == 'FRST' and line.mandate_id.last_debit_date:
+                    amendment_indicator_2_50 = etree.SubElement(
+                        mandate_related_info_2_47, 'AmdmntInd')
+                    amendment_indicator_2_50.text = 'true'
+                    amendment_info_details_2_51 = etree.SubElement(
+                        mandate_related_info_2_47, 'AmdmntInfDtls')
+                    ori_debtor_account_2_57 = etree.SubElement(
+                        amendment_info_details_2_51, 'OrgnlDbtrAcct')
+                    ori_debtor_account_id = etree.SubElement(
+                        ori_debtor_account_2_57, 'Id')
+                    ori_debtor_agent_other = etree.SubElement(
+                        ori_debtor_account_id, 'Othr')
+                    ori_debtor_agent_other_id = etree.SubElement(
+                        ori_debtor_agent_other, 'Id')
+                    ori_debtor_agent_other_id.text = 'SMNDA'
+                    # Until 20/11/2016, SMNDA meant
+                    # "Same Mandate New Debtor Agent"
+                    # After 20/11/2016, SMNDA means
+                    # "Same Mandate New Debtor Account"
 
                 self.generate_party_block(
                     dd_transaction_info_2_28, 'Dbtr', 'C',
@@ -389,6 +342,5 @@ class BankingExportSddWizard(models.TransientModel):
             to_expire_mandates.write({'state': 'expired'})
             first_mandates.write({
                 'recurrent_sequence_type': 'recurring',
-                'sepa_migrated': True,
                 })
         return True
