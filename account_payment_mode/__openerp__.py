@@ -19,5 +19,5 @@
         'views/account_journal.xml',
     ],
     'demo': ['demo/payment_demo.xml'],
-    'installable': True,
+    'installable': False,
 }
