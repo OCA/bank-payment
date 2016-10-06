@@ -21,5 +21,5 @@
         'views/report_invoice.xml',
     ],
     'demo': ['demo/partner_demo.xml'],
-    'installable': True,
+    'installable': False,
 }

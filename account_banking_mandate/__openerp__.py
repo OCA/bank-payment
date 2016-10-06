@@ -32,5 +32,5 @@
         'security/ir.model.access.csv',
     ],
     'test': ['test/banking_mandate.yml'],
-    'installable': True,
+    'installable': False,
 }

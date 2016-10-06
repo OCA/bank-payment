@@ -37,5 +37,5 @@
         'data/payment_seq.xml',
     ],
     'demo': ['demo/payment_demo.xml'],
-    'installable': True,
+    'installable': False,
 }
