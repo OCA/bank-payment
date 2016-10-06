@@ -30,5 +30,5 @@
         'views/account_payment_method.xml',
     ],
     'post_init_hook': 'set_default_initiating_party',
-    'installable': True,
+    'installable': False,
 }
