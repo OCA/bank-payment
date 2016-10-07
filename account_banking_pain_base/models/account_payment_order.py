@@ -4,12 +4,11 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
-from openerp.tools.safe_eval import safe_eval
+from odoo import models, fields, api, _, tools
+from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 from datetime import datetime
 from lxml import etree
-from openerp import tools
 import logging
 
 

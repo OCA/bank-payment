@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Payment Sale',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': "Adds payment mode on sale orders",
@@ -15,12 +15,12 @@
     'website': 'https://github.com/OCA/bank-payment',
     'depends': [
         'sale',
-        'account_payment_partner'
+        'account_payment_partner',
     ],
     'conflicts': ['sale_payment'],
     'data': [
         'views/sale_order_view.xml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }

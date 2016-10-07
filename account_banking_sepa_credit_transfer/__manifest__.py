@@ -7,7 +7,7 @@
 {
     'name': 'Account Banking SEPA Credit Transfer',
     'summary': 'Create SEPA XML files for Credit Transfers',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
@@ -24,5 +24,5 @@
         'demo/sepa_credit_transfer_demo.xml'
     ],
     'post_init_hook': 'update_bank_journals',
-    'installable': False,
+    'installable': True,
 }
