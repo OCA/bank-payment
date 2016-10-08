@@ -10,17 +10,17 @@ msgstr ""
 "POT-Creation-Date: 2016-09-21 10:50+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
+"Language-Team: Croatian (Croatia) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/hr_HR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hr_HR\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Bankkonten"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
@@ -42,7 +42,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
-msgstr "Unternehmen"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: field:payment.mode,convert_to_ascii:0
@@ -52,7 +52,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: field:banking.export.pain,display_name:0
 msgid "Display Name"
-msgstr "Anzeigename"
+msgstr "Naziv"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:282
@@ -93,7 +93,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: field:banking.export.pain,__last_update:0
 msgid "Last Modified on"
-msgstr "Zuletzt geändert am"
+msgstr "Zadnje modificirano"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:256

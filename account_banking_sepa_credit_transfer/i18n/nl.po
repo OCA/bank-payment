@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
+"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"PO-Revision-Date: 2016-09-17 18:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -66,6 +66,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,display_name:0
+msgid "Display Name"
+msgstr "Te tonen naam"
+
+#. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
 msgid "Export SEPA Credit Transfer File"
 msgstr "Exporteer SEPA Credit Transfer bestand"
@@ -119,6 +124,11 @@ msgid ""
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
 msgstr "Indien aangevinkt zal het bankafschrift maar één debet regel weergeven voor alle overschrijvingen van het SEPA XML bestand. Indien uitgevinkt, zal het bankafschrift een debet regel weergeven per SEPA XML bestand."
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
-"PO-Revision-Date: 2016-09-09 11:33+0000\n"
+"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"PO-Revision-Date: 2016-10-04 09:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Bankkonten"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
@@ -101,7 +101,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -125,7 +125,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Unternehmen"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_uid:0
@@ -173,7 +173,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -199,7 +199,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr ""
+msgstr "Gruppieren nach"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_summary:0
@@ -221,7 +221,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Rechnung"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
@@ -236,7 +236,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Zuletzt geändert am"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0
@@ -312,7 +312,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_payment_line

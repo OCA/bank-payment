@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
-"PO-Revision-Date: 2016-09-09 11:32+0000\n"
+"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"PO-Revision-Date: 2016-10-04 09:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,amount_currency:0
@@ -40,7 +40,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Bank"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,bank_id:0
@@ -50,7 +50,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Bankkonten"
 
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
@@ -75,12 +75,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "Kennung"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
@@ -95,7 +95,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Unternehmen"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
@@ -128,7 +128,7 @@ msgstr ""
 #: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
 #: field:payment.mode.type,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -205,7 +205,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Rechnung"
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
@@ -239,7 +239,7 @@ msgstr ""
 #: field:payment.manual,__last_update:0
 #: field:payment.mode.type,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Zuletzt geändert am"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
@@ -282,13 +282,13 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
 #: field:payment.mode,note:0
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #. module: account_banking_payment_export
 #: field:payment.order,bank_line_count:0
@@ -318,7 +318,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -353,7 +353,7 @@ msgstr ""
 #: field:bank.payment.line,payment_line_ids:0
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 msgid "Payment Lines"
-msgstr ""
+msgstr "Zahlungspositionen"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
@@ -368,7 +368,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Zahlungsauftrag"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:68
@@ -386,7 +386,7 @@ msgstr ""
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
 #: help:payment.mode.type,name:0 field:payment.order,mode_type:0
 msgid "Payment Type"
-msgstr ""
+msgstr "Zahlweg"
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_tree

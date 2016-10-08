@@ -10,12 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2016-09-21 10:50+0000\n"
 "PO-Revision-Date: 2016-10-04 09:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/tr/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -101,7 +101,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
 msgid "Cancel"
-msgstr "Vazgeç"
+msgstr ""
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -130,12 +130,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_uid:0
 msgid "Created by"
-msgstr "Oluşturan"
+msgstr "创建者"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_date:0
 msgid "Created on"
-msgstr "Oluşturuldu"
+msgstr "创建时间"
 
 #. module: account_banking_mandate
 #: view:res.partner:account_banking_mandate.mandate_partner_form
@@ -199,7 +199,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr "Grupla"
+msgstr ""
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_summary:0
@@ -241,12 +241,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0
 msgid "Last Updated by"
-msgstr "Son güncelleyen"
+msgstr "最后更新者"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_date:0
 msgid "Last Updated on"
-msgstr "Son güncelleme"
+msgstr "上次更新日期"
 
 #. module: account_banking_mandate
 #: view:bank.payment.line:account_banking_mandate.bank_payment_line_tree

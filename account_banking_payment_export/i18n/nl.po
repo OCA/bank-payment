@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 07:53+0000\n"
-"PO-Revision-Date: 2016-06-20 07:54+0000\n"
+"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"PO-Revision-Date: 2016-09-17 18:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Actief"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,amount_currency:0
@@ -128,7 +128,7 @@ msgstr "Incasso-opdracht"
 #: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
 #: field:payment.mode.type,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Te tonen naam"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -239,7 +239,7 @@ msgstr ""
 #: field:payment.manual,__last_update:0
 #: field:payment.mode.type,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
