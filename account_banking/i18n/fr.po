@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
-"PO-Revision-Date: 2016-09-16 21:46+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"PO-Revision-Date: 2016-10-04 11:17+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1483,7 +1483,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Client"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

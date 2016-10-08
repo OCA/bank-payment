@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
-"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"PO-Revision-Date: 2016-09-20 19:38+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "nach SEPA migriert"
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0
 msgid "Group By"
-msgstr ""
+msgstr "Gruppieren nach"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final

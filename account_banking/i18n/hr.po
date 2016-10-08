@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 13:05+0000\n"
-"PO-Revision-Date: 2016-05-18 15:13+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"PO-Revision-Date: 2016-10-05 06:37+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -465,7 +465,7 @@ msgstr ""
 #: field:banking.transaction.wizard,partner_id:0
 #: model:ir.model,name:account_banking.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
@@ -927,7 +927,7 @@ msgstr "Ukupan broj transakcija"
 #. module: account_banking
 #: field:banking.import.line,duplicate:0 view:banking.transaction.wizard:0
 msgid "Duplicate"
-msgstr ""
+msgstr "Dupliciraj"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1665
@@ -1281,7 +1281,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Odustani"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
@@ -1474,7 +1474,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Bilješke"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
@@ -1484,7 +1484,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Kupac"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1611,7 +1611,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "ili"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -464,7 +464,7 @@ msgstr ""
 #: field:banking.transaction.wizard,partner_id:0
 #: model:ir.model,name:account_banking.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
@@ -592,7 +592,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: account_banking
 #: field:banking.link_partner,email:0
@@ -804,7 +804,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -854,7 +854,7 @@ msgstr ""
 #: field:banking.link_partner,message:0
 #: field:banking.transaction.wizard,message:0
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:132
@@ -1155,7 +1155,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:964
@@ -1512,7 +1512,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:397
