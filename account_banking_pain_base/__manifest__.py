@@ -11,7 +11,7 @@
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Noviat, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Antiun Ingeniería S.L., "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',

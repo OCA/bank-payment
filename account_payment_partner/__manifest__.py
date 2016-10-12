@@ -10,7 +10,7 @@
     'license': 'AGPL-3',
     'summary': 'Adds payment mode on partners and invoices',
     'author': "Akretion, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'depends': ['account_payment_mode'],
