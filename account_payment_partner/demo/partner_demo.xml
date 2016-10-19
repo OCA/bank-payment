@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
 
-<openerp>
-<data noupdate="1">
 
 <record id="default_supplier_payment_mode_id" model="ir.property" forcecreate="True">
     <field name="name">Default Supplier Payment Mode</field>
@@ -21,5 +20,5 @@
     <field name="company_id" ref="base.main_company"/>
 </record>
 
-</data>
-</openerp>
+
+</odoo>
