@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 # © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2014 Tecnativa - Pedro M. Baeza
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Banking Mandate',
     'summary': 'Banking mandates',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': "Compassion CH, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Akretion, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
@@ -31,6 +31,5 @@
         'security/mandate_security.xml',
         'security/ir.model.access.csv',
     ],
-    'test': ['test/banking_mandate.yml'],
     'installable': True,
 }
