@@ -2,7 +2,7 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, api
+from odoo import models, api
 
 
 class BankPaymentLine(models.Model):
