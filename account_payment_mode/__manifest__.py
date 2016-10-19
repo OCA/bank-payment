@@ -4,13 +4,14 @@
 
 {
     'name': 'Account Payment Mode',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
     'depends': ['account'],
     'data': [
+        'security/account_payment_mode.xml',
         'security/ir.model.access.csv',
         'views/account_payment_method.xml',
         'views/account_payment_mode.xml',
