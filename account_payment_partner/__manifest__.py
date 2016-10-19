@@ -5,12 +5,12 @@
 
 {
     'name': 'Account Payment Partner',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': 'Adds payment mode on partners and invoices',
     'author': "Akretion, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'depends': ['account_payment_mode'],
