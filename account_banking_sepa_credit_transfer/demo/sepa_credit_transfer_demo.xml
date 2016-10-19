@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
 
-<openerp>
-<data noupdate="1">
 
 <record id="payment_mode_outbound_sepa_ct1" model="account.payment.mode">
     <field name="name">SEPA Credit Transfer to suppliers</field>
@@ -21,5 +20,5 @@
     <field name="supplier_payment_mode_id" ref="payment_mode_outbound_sepa_ct1"/>
 </record>
 
-</data>
-</openerp>
+
+</odoo>
