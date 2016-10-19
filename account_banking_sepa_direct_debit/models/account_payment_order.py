@@ -2,8 +2,8 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 from lxml import etree
 
 
@@ -210,46 +210,24 @@ class AccountPaymentOrder(models.Model):
                     'line.mandate_id.signature_date',
                     {'line': line}, 10, gen_args=gen_args)
                 if sequence_type == 'FRST' and line.mandate_id.last_debit_date:
-                    previous_bank = self._get_previous_bank(line)
-                    if previous_bank:
-                        amendment_indicator = etree.SubElement(
-                            mandate_related_info, 'AmdmntInd')
-                        amendment_indicator.text = 'true'
-                        amendment_info_details = etree.SubElement(
-                            mandate_related_info, 'AmdmntInfDtls')
-                        if (
-                                previous_bank.bank_bic ==
-                                line.partner_bank_id.bank_bic):
-                            ori_debtor_account = etree.SubElement(
-                                amendment_info_details, 'OrgnlDbtrAcct')
-                            ori_debtor_account_id = etree.SubElement(
-                                ori_debtor_account, 'Id')
-                            ori_debtor_account_iban = etree.SubElement(
-                                ori_debtor_account_id, 'IBAN')
-                            ori_debtor_account_iban.text = self._validate_iban(
-                                self._prepare_field(
-                                    'Original Debtor Account',
-                                    'previous_bank.sanitized_acc_number',
-                                    {'previous_bank': previous_bank},
-                                    gen_args=gen_args))
-                        else:
-                            ori_debtor_agent = etree.SubElement(
-                                amendment_info_details, 'OrgnlDbtrAgt')
-                            ori_debtor_agent_institution = etree.SubElement(
-                                ori_debtor_agent, 'FinInstnId')
-                            ori_debtor_agent_bic = etree.SubElement(
-                                ori_debtor_agent_institution, bic_xml_tag)
-                            ori_debtor_agent_bic.text = self._prepare_field(
-                                'Original Debtor Agent',
-                                'previous_bank.bank_bic',
-                                {'previous_bank': previous_bank},
-                                gen_args=gen_args)
-                            ori_debtor_agent_other = etree.SubElement(
-                                ori_debtor_agent_institution, 'Othr')
-                            ori_debtor_agent_other_id = etree.SubElement(
-                                ori_debtor_agent_other, 'Id')
-                            ori_debtor_agent_other_id.text = 'SMNDA'
-                            # SMNDA = Same Mandate New Debtor Agent
+                    amendment_indicator = etree.SubElement(
+                        mandate_related_info, 'AmdmntInd')
+                    amendment_indicator.text = 'true'
+                    amendment_info_details = etree.SubElement(
+                        mandate_related_info, 'AmdmntInfDtls')
+                    ori_debtor_account = etree.SubElement(
+                        amendment_info_details, 'OrgnlDbtrAcct')
+                    ori_debtor_account_id = etree.SubElement(
+                        ori_debtor_account, 'Id')
+                    ori_debtor_agent_other = etree.SubElement(
+                        ori_debtor_account_id, 'Othr')
+                    ori_debtor_agent_other_id = etree.SubElement(
+                        ori_debtor_agent_other, 'Id')
+                    ori_debtor_agent_other_id.text = 'SMNDA'
+                    # Until 20/11/2016, SMNDA meant
+                    # "Same Mandate New Debtor Agent"
+                    # After 20/11/2016, SMNDA means
+                    # "Same Mandate New Debtor Account"
 
                 self.generate_party_block(
                     dd_transaction_info, 'Dbtr', 'C',
