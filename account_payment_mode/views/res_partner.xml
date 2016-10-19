@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
 
 <!-- Avoid creation of bank accounts linked to contacts.
@@ -19,5 +18,4 @@ which prevents the selection of a contact -->
 </record>
 
 
-</data>
-</openerp>
+</odoo>
