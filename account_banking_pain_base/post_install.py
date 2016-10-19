@@ -10,6 +10,5 @@ def set_default_initiating_party(cr, registry):
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         companies = env['res.company'].search([])
-        for company in companies:
-            env['res.company']._default_initiating_party(company)
+        companies._default_initiating_party()
     return
