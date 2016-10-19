@@ -4,9 +4,9 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 from .common import is_sepa_creditor_identifier_valid
-from openerp.exceptions import ValidationError
+from odoo.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
@@ -19,8 +19,6 @@ class ResCompany(models.Model):
              "of :\n- your country ISO code (2 letters)\n- a 2-digits "
              "checkum\n- a 3-letters business code\n- a country-specific "
              "identifier")
-    original_creditor_identifier = fields.Char(
-        string='Original Creditor Identifier', size=70)
 
     @api.multi
     @api.constrains('sepa_creditor_identifier')
