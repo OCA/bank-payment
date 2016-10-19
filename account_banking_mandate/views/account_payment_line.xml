@@ -4,7 +4,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-<data>
+
 
 <record id="account_payment_line_form" model="ir.ui.view">
     <field name="name">account_banking_mandate.account.payment.line.form</field>
@@ -33,5 +33,5 @@
     </field>
 </record>
 
-</data>
+
 </odoo>
