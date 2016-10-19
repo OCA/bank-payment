@@ -2,16 +2,17 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp.addons.account.tests.account_test_classes\
+from odoo.addons.account.tests.account_test_classes\
     import AccountingTestCase
-from openerp.tools import float_compare
+from odoo.tools import float_compare
 import time
 from lxml import etree
 
 
 class TestSDD(AccountingTestCase):
 
-    def test_sdd(self):
+    def setUp(self):
+        super(TestSDD, self).setUp()
         self.company = self.env['res.company']
         self.account_model = self.env['account.account']
         self.move_model = self.env['account.move']
@@ -53,8 +54,13 @@ class TestSDD(AccountingTestCase):
             'bank_account_link': 'fixed',
             'fixed_journal_id': self.bank_journal.id,
             })
-        eur_currency_id = self.env.ref('base.EUR').id
-        company.currency_id = eur_currency_id
+        self.eur_currency_id = self.env.ref('base.EUR').id
+        company.currency_id = self.eur_currency_id
+        # Trigger the recompute of account type on res.partner.bank
+        for bank_acc in self.partner_bank_model.search([]):
+            bank_acc.acc_number = bank_acc.acc_number
+
+    def test_sdd(self):
         self.env.ref(
             'account_banking_sepa_direct_debit.res_partner_2_mandate').\
             recurrent_sequence_type = 'first'
@@ -81,7 +87,8 @@ class TestSDD(AccountingTestCase):
         self.assertEquals(len(pay_lines), 1)
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
-        self.assertEquals(agrolait_pay_line1.currency_id.id, eur_currency_id)
+        self.assertEquals(
+            agrolait_pay_line1.currency_id.id, self.eur_currency_id)
         self.assertEquals(
             agrolait_pay_line1.mandate_id, invoice1.mandate_id)
         self.assertEquals(
@@ -100,7 +107,8 @@ class TestSDD(AccountingTestCase):
             ('partner_id', '=', self.partner_agrolait.id)])
         self.assertEquals(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
-        self.assertEquals(agrolait_bank_line.currency_id.id, eur_currency_id)
+        self.assertEquals(
+            agrolait_bank_line.currency_id.id, self.eur_currency_id)
         self.assertEquals(float_compare(
             agrolait_bank_line.amount_currency, 42.0, precision_digits=accpre),
             0)
@@ -163,5 +171,5 @@ class TestSDD(AccountingTestCase):
             'name': 'Great service',
             'account_id': self.account_revenue.id,
             })
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
         return invoice
