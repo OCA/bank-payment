@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<data>
 
 <!-- FIX of the 'account' module: on the form view of a bank journal,
 allow to link to an existing bank account -->
@@ -25,5 +24,4 @@ allow to link to an existing bank account -->
     </field>
 </record>
 
-</data>
 </odoo>
