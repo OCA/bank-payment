@@ -2,9 +2,9 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp.addons.account.tests.account_test_classes\
+from odoo.addons.account.tests.account_test_classes\
     import AccountingTestCase
-from openerp.tools import float_compare
+from odoo.tools import float_compare
 import time
 from lxml import etree
 
@@ -56,6 +56,9 @@ class TestSCT(AccountingTestCase):
         self.eur_currency = self.env.ref('base.EUR')
         self.usd_currency = self.env.ref('base.USD')
         self.main_company.currency_id = self.eur_currency.id
+        # Trigger the recompute of account type on res.partner.bank
+        for bank_acc in self.partner_bank_model.search([]):
+            bank_acc.acc_number = bank_acc.acc_number
 
     def test_eur_currency_sct(self):
         invoice1 = self.create_invoice(
@@ -126,7 +129,6 @@ class TestSCT(AccountingTestCase):
         self.assertEquals(attachment.datas_fname[-4:], '.xml')
         xml_file = attachment.datas.decode('base64')
         xml_root = etree.fromstring(xml_file)
-        # print "xml_file=", etree.tostring(xml_root, pretty_print=True)
         namespaces = xml_root.nsmap
         namespaces['p'] = xml_root.nsmap[None]
         namespaces.pop(None)
@@ -204,7 +206,6 @@ class TestSCT(AccountingTestCase):
         self.assertEquals(attachment.datas_fname[-4:], '.xml')
         xml_file = attachment.datas.decode('base64')
         xml_root = etree.fromstring(xml_file)
-        # print "xml_file=", etree.tostring(xml_root, pretty_print=True)
         namespaces = xml_root.nsmap
         namespaces['p'] = xml_root.nsmap[None]
         namespaces.pop(None)
@@ -247,5 +248,5 @@ class TestSCT(AccountingTestCase):
             'name': 'Great service',
             'account_id': self.account_expense.id,
             })
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
         return invoice
