@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>) -->
-<openerp>
-<data>
+<odoo>
+
 
 <record id="view_attachment_simplified_form" model="ir.ui.view">
     <field name="name">ir.attachment.simplified.form</field>
@@ -28,5 +28,5 @@
     </field>
 </record>
 
-</data>
-</openerp>
+
+</odoo>
