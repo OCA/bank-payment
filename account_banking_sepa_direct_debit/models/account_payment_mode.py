@@ -2,9 +2,9 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 from .common import is_sepa_creditor_identifier_valid
-from openerp.exceptions import ValidationError
+from odoo.exceptions import ValidationError
 
 
 class AccountPaymentMode(models.Model):
