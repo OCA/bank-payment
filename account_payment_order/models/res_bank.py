@@ -2,8 +2,8 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, api, _
-from openerp.exceptions import ValidationError
+from odoo import models, api, _
+from odoo.exceptions import ValidationError
 
 
 class ResBank(models.Model):
@@ -19,4 +19,4 @@ class ResBank(models.Model):
                     "contains %d characters, so it is not valid.")
                     % (bank.bic, len(bank.bic)))
 
-# in v9, on res.partner.bank bank_bic is a related of bank_id.bic
+# starting from v9, on res.partner.bank bank_bic is a related of bank_id.bic
