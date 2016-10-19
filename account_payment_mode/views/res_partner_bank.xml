@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
 <!-- Show acc_type on res.partner.bank in order to be able to
 detect wrong IBANs -->
@@ -41,5 +40,4 @@ detect wrong IBANs -->
 </record>
 
 
-</data>
-</openerp>
+</odoo>
