@@ -13,7 +13,8 @@
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
         <field name="partner_bank_id" position="after">
-            <field name="mandate_id" domain="[('partner_id', '=', partner_id), ('state', '=', 'valid')]" attrs="{'invisible': [('type', '=', 'out_refund')]}"/>
+            <field name="commercial_partner_id" invisible="1"/>
+            <field name="mandate_id" domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]" attrs="{'invisible': [('type', '=', 'out_refund')]}"/>
         </field>
     </field>
 </record>

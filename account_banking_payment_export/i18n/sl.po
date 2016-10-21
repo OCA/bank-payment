@@ -1,0 +1,567 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_payment_export
+# 
+# Translators:
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-20 07:53+0000\n"
+"PO-Revision-Date: 2016-06-20 10:17+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/res_partner_bank.py:17
+#: code:addons/account_banking_payment_export/models/res_partner_bank.py:31
+#, python-format
+msgid ""
+"A valid BIC contains 8 or 11 caracters. The BIC '%s' contains %d caracters, "
+"so it is not valid."
+msgstr "Veljavna BIC koda vsebuje 8 do 11 znakov. BIC '%s' vsebuje %d znakov, zato ni veljavna."
+
+#. module: account_banking_payment_export
+#: field:payment.mode,active:0 field:payment.mode.type,active:0
+msgid "Active"
+msgstr "Aktivno"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,amount_currency:0
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Amount"
+msgstr "Znesek"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_res_bank
+msgid "Bank"
+msgstr "Banka"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,bank_id:0
+msgid "Bank Account"
+msgstr "Bančni račun"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Bančni računi"
+
+#. module: account_banking_payment_export
+#: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
+#: field:payment.line,bank_line_id:0
+msgid "Bank Payment Line"
+msgstr "Postavka bančnega plačila"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,name:0
+msgid "Bank Payment Line Ref"
+msgstr "Sklic postavke bančnega plačila"
+
+#. module: account_banking_payment_export
+#: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree
+#: model:ir.actions.act_window,name:account_banking_payment_export.bank_payment_line_action
+#: model:ir.model,name:account_banking_payment_export.model_bank_payment_line
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+#: field:payment.order,bank_line_ids:0
+msgid "Bank Payment Lines"
+msgstr "Postavke bančnih plačil"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Cancel"
+msgstr "Preklic"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,code:0
+msgid "Code"
+msgstr "Koda"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,communication:0
+msgid "Communication"
+msgstr "Komunikacija"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,state:0
+msgid "Communication Type"
+msgstr "Tip komunikacije"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,company_id:0
+msgid "Company"
+msgstr "Družba"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
+#: field:payment.mode.type,create_uid:0
+msgid "Created by"
+msgstr "Ustvaril"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,create_date:0 field:payment.manual,create_date:0
+#: field:payment.mode.type,create_date:0
+msgid "Created on"
+msgstr "Ustvarjeno"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,currency:0
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+msgid "Debit"
+msgstr "Breme"
+
+#. module: account_banking_payment_export
+#: selection:payment.order,payment_order_type:0
+msgid "Direct debit"
+msgstr "Neposredno breme"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
+#: field:payment.mode.type,display_name:0
+msgid "Display Name"
+msgstr "Prikazni naziv"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode,default_date_type:0
+msgid "Due"
+msgstr "Zapadlost"
+
+#. module: account_banking_payment_export
+#: selection:payment.order.create,date_type:0
+msgid "Due Date"
+msgstr "Datum zapadlosti"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Entry Information"
+msgstr "Podatki o vnosu"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:152
+#, python-format
+msgid "Entry Lines"
+msgstr "Postavke vnosa"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:83
+#, python-format
+msgid "Error"
+msgstr "Napaka"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,type:0
+msgid "Export type"
+msgstr "Tip izvoza"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "General Information"
+msgstr "Splošne informacije"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,group_lines:0
+msgid "Group lines in payment orders"
+msgstr "Združevanje postavk v plačilnih nalogih"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,id:0 field:payment.manual,id:0
+#: field:payment.mode.type,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_payment_export
+#: help:bank.payment.line,date:0
+msgid ""
+"If no payment date is specified, the bank will treat this payment line "
+"directly"
+msgstr "Če datum plačila ni določen, bo banka to postavko plačila obravnavala neposredno"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,group_lines:0
+msgid ""
+"If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
+"* Partner\n"
+"* Currency\n"
+"* Destination Bank Account\n"
+"* Communication Type (structured, free)\n"
+"* Payment Date\n"
+"(other modules can set additional fields to restrict the grouping.)"
+msgstr "Če označeno, se postavke plačilnega naloga združujejo ob overjanju plačilnega naloga pred izvozom v bančno datoteko. Združevanje se izvede le ob ujemanju naslednjih polj:\n* Partner\n* Valuta\n* Ciljni bančni račun\n* Tip komunikacije (strukturirana, prosta)\n* Datum plačila\n(drugi moduli lahko nastavijo tudi dodatna polja za omejevanje grupiranja)"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Information"
+msgstr "Informacija"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_account_invoice
+msgid "Invoice"
+msgstr "Račun"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Journal Entry"
+msgstr "Dnevniški vnos"
+
+#. module: account_banking_payment_export
+#: field:account.move.line,journal_entry_ref:0
+msgid "Journal Entry Ref"
+msgstr "Sklic dnevniškega vnosa"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+#: model:ir.model,name:account_banking_payment_export.model_account_move_line
+msgid "Journal Items"
+msgstr "Dnevniške postavke"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,default_journal_ids:0
+#: field:payment.order.create,journal_ids:0
+msgid "Journals Filter"
+msgstr "Dnevniški filter"
+
+#. module: account_banking_payment_export
+#: view:payment.order.create:account_banking_payment_export.view_create_payment_order
+msgid "Keep empty for using all journals"
+msgstr "Pustite prazno za uporabo vseh dnevnikov"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,__last_update:0
+#: field:payment.manual,__last_update:0
+#: field:payment.mode.type,__last_update:0
+msgid "Last Modified on"
+msgstr "Zadnjič spremenjeno"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
+#: field:payment.mode.type,write_uid:0
+msgid "Last Updated by"
+msgstr "Zadnji posodobil"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,write_date:0 field:payment.manual,write_date:0
+#: field:payment.mode.type,write_date:0
+msgid "Last Updated on"
+msgstr "Zadnjič posodobljeno"
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+msgid "Line grouping"
+msgstr "Združevanje postavk"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,default_invoice:0 field:payment.order.create,invoice:0
+msgid "Linked to an Invoice or Refund"
+msgstr "Vezano na račun ali vračilo"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid "Manual payment"
+msgstr "Ročno plačilo"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode,default_date_type:0
+msgid "Move"
+msgstr "Premik"
+
+#. module: account_banking_payment_export
+#: selection:payment.order.create,date_type:0
+#: field:payment.order.create,move_date:0
+msgid "Move Date"
+msgstr "Datum premika"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,name:0
+msgid "Name"
+msgstr "Naziv"
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+#: field:payment.mode,note:0
+msgid "Note"
+msgstr "Opomba"
+
+#. module: account_banking_payment_export
+#: field:payment.order,bank_line_count:0
+msgid "Number of Bank Lines"
+msgstr "Število bančnih postavk"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,order_id:0
+msgid "Order"
+msgstr "Nalog"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,payment_order_type:0
+msgid "Order Type"
+msgstr "Tip naloga"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,payment_order_type:0
+msgid "Order type"
+msgstr "Tip naloga"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Owner Account"
+msgstr "Račun lastnika"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Partner Bank Account"
+msgstr "Bančni račun partnerja"
+
+#. module: account_banking_payment_export
+#: selection:payment.mode.type,payment_order_type:0
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+#: selection:payment.order,payment_order_type:0
+msgid "Payment"
+msgstr "Plačilo"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,date:0
+msgid "Payment Date"
+msgstr "Datum plačila"
+
+#. module: account_banking_payment_export
+#: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
+#: model:ir.ui.menu,name:account_banking_payment_export.menu_payment_mode_type
+msgid "Payment Export Types"
+msgstr "Tipi izvoza plačil"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_line
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Payment Line"
+msgstr "Plačilna postavka"
+
+#. module: account_banking_payment_export
+#: field:bank.payment.line,payment_line_ids:0
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Payment Lines"
+msgstr "Plačilne postavke"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode
+msgid "Payment Mode"
+msgstr "Metoda plačila"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
+msgid "Payment Mode Type"
+msgstr "Tip metode plačila"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_order
+msgid "Payment Order"
+msgstr "Plačilni nalog"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:68
+#, python-format
+msgid "Payment Order Export"
+msgstr "Izvoz plačilnega naloga"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:245
+#, python-format
+msgid "Payment Orders"
+msgstr "Plačilni nalogi"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: help:payment.mode.type,name:0 field:payment.order,mode_type:0
+msgid "Payment Type"
+msgstr "Tip plačila"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_tree
+msgid "Payment Types"
+msgstr "Tipi plačil"
+
+#. module: account_banking_payment_export
+#: field:payment.order,payment_order_type:0
+msgid "Payment order type"
+msgstr "Tip plačilnega naloga"
+
+#. module: account_banking_payment_export
+#: field:payment.mode.type,ir_model_id:0
+msgid "Payment wizard"
+msgstr "Čarovnik za plačila"
+
+#. module: account_banking_payment_export
+#: view:payment.manual:account_banking_payment_export.view_payment_manual_form
+msgid ""
+"Please execute payment order manually, and click OK when succesfully sent."
+msgstr "Ročno izvedite plačilni nalog in kliknite 'V redu' po uspešnem pošiljanju."
+
+#. module: account_banking_payment_export
+#: field:payment.mode,default_populate_results:0
+#: field:payment.order.create,populate_results:0
+msgid "Populate Results Directly"
+msgstr "Neposredno zapolni rezultate"
+
+#. module: account_banking_payment_export
+#: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
+msgid "Related Payment Lines"
+msgstr "Povezane plačilne postavke"
+
+#. module: account_banking_payment_export
+#: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
+msgid "Select Move Lines to Pay - Default Values"
+msgstr "Izbira postavk premikov za plačilo - privzete vrednosti"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,type:0 help:payment.order,mode_type:0
+msgid "Select the Export Payment Type for the Payment Mode."
+msgstr "Izbira tipa izvoza plačila za metodo plačila."
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,ir_model_id:0
+msgid ""
+"Select the Payment Wizard for payments of this type. Leave empty for manual "
+"processing"
+msgstr "Izbira čarovnika za plačila za plačila tega tipa. Pustite prazno za ročno obdelavo."
+
+#. module: account_banking_payment_export
+#: field:payment.mode,purchase_ok:0
+msgid "Selectable on purchase operations"
+msgstr "Izbirno pri nabavnih operacijah"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,sale_ok:0
+msgid "Selectable on sale operations"
+msgstr "Izbirno pri prodajnih operacijah"
+
+#. module: account_banking_payment_export
+#: model:ir.model,name:account_banking_payment_export.model_payment_manual
+msgid "Send payment order(s) manually"
+msgstr "Ročno pošiljanje plačilnega naloga (plačilnih nalogov)"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,code:0
+msgid "Specify the Code for Payment Type"
+msgstr "Določi kodo za tip plačila"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_invoice.py:16
+#, python-format
+msgid "Structured Reference"
+msgstr "Strukturiran sklic"
+
+#. module: account_banking_payment_export
+#: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
+#: field:payment.mode.type,suitable_bank_types:0
+msgid "Suitable bank types"
+msgstr "Ustrezni tipi bank"
+
+#. module: account_banking_payment_export
+#: help:bank.payment.line,partner_id:0
+msgid "The Ordering Customer"
+msgstr "Naročnik"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:161
+#, python-format
+msgid "The amount for Partner '%s' is negative or null (%.2f) !"
+msgstr "Znesek za partnerja '%s' je negativen ali ničen (%.2f) !"
+
+#. module: account_banking_payment_export
+#: help:payment.mode.type,payment_order_type:0
+msgid ""
+"This field determines if this type applies to customers (Debit) or suppliers"
+" (Payment)"
+msgstr "To polje določa, če se ta tip nanaša na kupce (breme) ali dobavitelje (plačilo )"
+
+#. module: account_banking_payment_export
+#: help:payment.mode,payment_order_type:0
+msgid ""
+"This field, that comes from export type, determines if this mode can be "
+"selected for customers or suppliers."
+msgstr "To polje, ki izhaja iz tipa izvoza, določa, če se ta način lahko izbira za kupce ali dobavitelje."
+
+#. module: account_banking_payment_export
+#: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree
+msgid "Total Amount"
+msgstr "Skupni znesek"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Credit"
+msgstr "Skupaj dobroimetje"
+
+#. module: account_banking_payment_export
+#: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
+msgid "Total Debit"
+msgstr "Skupaj breme"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Total in Company Currency"
+msgstr "Skupaj v valuti družbe"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "Transaction Information"
+msgstr "Podatki o transakciji"
+
+#. module: account_banking_payment_export
+#: field:payment.mode,default_date_type:0
+#: field:payment.order.create,date_type:0
+msgid "Type of Date Filter"
+msgstr "Tip datumskega filtra"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:84
+#, python-format
+msgid "You can only combine payment orders of the same type"
+msgstr "Kombinirate lahko le plačilne naloge istega tipa"
+
+#. module: account_banking_payment_export
+#: code:addons/account_banking_payment_export/models/account_payment.py:50
+#, python-format
+msgid "You cannot remove any order that is not in 'draft' or 'cancel' state."
+msgstr "Naloga, ki ni v sranju 'osnutek' ali 'preklicano' ni mogoče odstraniti."
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid "launch_wizard"
+msgstr "launch_wizard"
+
+#. module: account_banking_payment_export
+#: view:payment.order:account_banking_payment_export.view_payment_order_form
+msgid ""
+"{\n"
+"                'invisible': [('state', '!=', 'draft')]}"
+msgstr "{\n                'invisible': [('state', '!=', 'draft')]}"
+
+#. module: account_banking_payment_export
+#: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
+msgid ""
+"{'display_credit': context.get('display_credit', False),'display_debit': "
+"context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' "
+": "
+"'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+msgstr "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+
+#. module: account_banking_payment_export
+#: view:payment.order.create:account_banking_payment_export.view_create_payment_order
+msgid ""
+"{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', "
+"'due')]}"
+msgstr "{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"

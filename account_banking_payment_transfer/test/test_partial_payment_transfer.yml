@@ -25,31 +25,26 @@
 -
   !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier_partial}
 -
-  I create a payment order on which I will select the invoice I created
+  I create a payment order
 -
   !record {model: payment.order, id: partial_payment_order_2}:
     mode: account_banking_payment_transfer.payment_mode0
     date_prefered: 'due'
 -
-  !record {model: payment.order.create, id: payment_order_create_2}:
-    duedate: !eval time.strftime('%Y-%m-%d')
--
-  I search for the invoice entries to make the payment.
+  I run the select move line to pay wizard
 -
   !python {model: payment.order.create}: |
-    self.search_entries(cr, uid, [ref("payment_order_create_2")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_payment_order_2")],
-      "active_id": ref("partial_payment_order_2"), })
--
-  I create payment lines entries.
--
-  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("partial_payment_order_2")],
+        "active_id": ref("partial_payment_order_2"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
     invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier_partial"))
     move_line = invoice.move_id.line_id[0]
-    self.write(cr, uid, [ref("payment_order_create_2")], {'entries': [(6,0,[move_line.id])]})
-    self.create_payment(cr, uid, [ref("payment_order_create_2")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_payment_order_2")],
-      "active_id": ref("partial_payment_order_2")})
+    self.write(cr, uid, [wiz_id], {'entries': [(6, 0, [move_line.id])]})
+    self.create_payment(cr, uid, [wiz_id], context=context)
     pay_obj = self.pool.get('payment.order')
     pay = pay_obj.browse(cr, uid, ref('partial_payment_order_2'))
     assert pay.line_ids
@@ -119,28 +114,23 @@
     mode: account_banking_payment_transfer.payment_mode0
     date_prefered: 'due'
 -
-  !record {model: payment.order.create, id: partial_payment_order_create_2}:
-    duedate: !eval time.strftime('%Y-%m-%d')
--
   I search for the invoice entries to make the payment.
 -
   !python {model: payment.order.create}: |
-    self.search_entries(cr, uid, [ref("partial_payment_order_create_2")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_partial_payment_order_2")],
-      "active_id": ref("partial_partial_payment_order_2"), })
--
-  I create payment lines entries.
--
-  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("partial_partial_payment_order_2")],
+        "active_id": ref("partial_partial_payment_order_2"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
     invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier_partial"))
     for l in invoice.move_id.line_id:
         if not l.debit and l.credit:
             move_line = l
             break
-    self.write(cr, uid, [ref("partial_payment_order_create_2")], {'entries': [(6,0,[move_line.id])]})
-    self.create_payment(cr, uid, [ref("partial_payment_order_create_2")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_partial_payment_order_2")],
-      "active_id": ref("partial_partial_payment_order_2")})
+    self.write(cr, uid, [wiz_id], {'entries': [(6,0,[move_line.id])]})
+    self.create_payment(cr, uid, [wiz_id], context=context)
     pay_obj = self.pool.get('payment.order')
     pay = pay_obj.browse(cr, uid, ref('partial_partial_payment_order_2'))
     assert len(pay.line_ids) == 1
@@ -199,28 +189,23 @@
     mode: account_banking_payment_transfer.payment_mode0
     date_prefered: 'due'
 -
-  !record {model: payment.order.create, id: partial_payment_order_create_3}:
-    duedate: !eval time.strftime('%Y-%m-%d')
--
   I search for the invoice entries to make the payment.
 -
   !python {model: payment.order.create}: |
-    self.search_entries(cr, uid, [ref("partial_payment_order_create_3")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_partial_payment_order_3")],
-      "active_id": ref("partial_partial_payment_order_3"), })
--
-  I create payment lines entries.
--
-  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("partial_partial_payment_order_3")],
+        "active_id": ref("partial_partial_payment_order_3"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
     invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier_partial"))
     for l in invoice.move_id.line_id:
         if not l.debit and l.credit:
             move_line = l
             break
-    self.write(cr, uid, [ref("partial_payment_order_create_3")], {'entries': [(6,0,[move_line.id])]})
-    self.create_payment(cr, uid, [ref("partial_payment_order_create_3")], {
-      "active_model": "payment.order", "active_ids": [ref("partial_partial_payment_order_3")],
-      "active_id": ref("partial_partial_payment_order_3")})
+    self.write(cr, uid, [wiz_id], {'entries': [(6, 0, [move_line.id])]})
+    self.create_payment(cr, uid, [wiz_id], context=context)
     pay_obj = self.pool.get('payment.order')
     pay = pay_obj.browse(cr, uid, ref('partial_partial_payment_order_3'))
     assert len(pay.line_ids) == 1
@@ -265,12 +250,3 @@
     assert sum_credit == 0
     assert inv.residual == 0
     assert inv.state == 'paid'
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,12 @@ class StockPicking(models.Model):
 
     @api.model
     def _create_invoice_from_picking(self, picking, vals):
-        if picking and picking.sale_id:
+        # This will assure that stock_dropshipping_dual_invoice will work
+        inv_type = self.env.context.get('inv_type', 'out_invoice')
+        if picking and picking.sale_id and inv_type == 'out_invoice':
             sale_order = picking.sale_id
             if sale_order.payment_mode_id:
                 vals['partner_bank_id'] = sale_order.payment_mode_id.bank_id.id
                 vals['payment_mode_id'] = sale_order.payment_mode_id.id
-        return super(StockPicking, self)._create_invoice_from_picking(picking,
-                                                                      vals)
+        return super(StockPicking, self)._create_invoice_from_picking(
+            picking, vals)

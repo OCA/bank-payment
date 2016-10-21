@@ -1,0 +1,185 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_payment_transfer
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"PO-Revision-Date: 2016-09-20 19:23+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:128
+#, python-format
+msgid "%s bank line %s"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:162
+#, python-format
+msgid "%s line %s"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: model:ir.model,name:account_banking_payment_transfer.model_account_move_reconcile
+msgid "Account Reconciliation"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: model:ir.model,name:account_banking_payment_transfer.model_bank_payment_line
+msgid "Bank Payment Lines"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:70
+#, python-format
+msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:185
+#, python-format
+msgid ""
+"Cannot generate the transfer move when the currency of the payment (%s) is "
+"not the same as the currency of the company (%s). This is not supported for "
+"the moment."
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: help:bank.payment.line,transfer_move_line_id:0
+msgid "Counterpart move line on the transfer account"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.line,date_done:0
+msgid "Date Confirmed"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:221
+#, python-format
+msgid "Direct debit"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:84
+#, python-format
+msgid ""
+"For partner '%s', the account of the account move line to pay (%s) is "
+"different from the account of of the transit move line (%s)."
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: help:payment.mode,transfer_journal_id:0
+msgid ""
+"Journal to write payment entries when confirming a debit order of this mode"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.line,msg:0
+msgid "Message"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
+#, python-format
+msgid "Move line '%s' of partner '%s' has already been reconciled"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: help:bank.payment.line,transit_move_line_id:0
+msgid "Move line through which the payment/debit order pays the invoice"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: selection:payment.mode,transfer_move_option:0
+msgid "One move per payment date"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: selection:payment.mode,transfer_move_option:0
+msgid "One move per payment line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:264
+#, python-format
+msgid "Partial Reconcile Moves Line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.order,partial_reconcile_count:0
+msgid "Partial Reconciles Counter"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: help:payment.mode,transfer_account_id:0
+msgid ""
+"Pay off lines in sent orders with a move on this account. You can only "
+"select accounts of type regular that are marked for reconciliation"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:220
+#, python-format
+msgid "Payment"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: model:ir.model,name:account_banking_payment_transfer.model_payment_line
+msgid "Payment Line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: model:ir.model,name:account_banking_payment_transfer.model_payment_mode
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: model:ir.model,name:account_banking_payment_transfer.model_payment_order
+msgid "Payment Order"
+msgstr "Zahlungsauftrag"
+
+#. module: account_banking_payment_transfer
+#: field:payment.order,date_sent:0
+msgid "Send date"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.mode,transfer_account_id:0
+msgid "Transfer account"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.mode,transfer_journal_id:0
+msgid "Transfer journal"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:bank.payment.line,transit_move_line_id:0
+msgid "Transfer move line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:bank.payment.line,transfer_move_line_id:0
+msgid "Transfer move line counterpart"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.mode,transfer_move_option:0
+msgid "Transfer move option"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: view:payment.mode:account_banking_payment_transfer.view_payment_mode_form_inherit
+msgid "Transfer move settings"
+msgstr ""

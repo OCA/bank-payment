@@ -1,24 +1,8 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    PAIN Base module for Odoo
-#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
-#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2013-2015 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, api, _
 from openerp.exceptions import Warning
@@ -251,12 +235,13 @@ class BankingExportPain(models.AbstractModel):
         initiating_party_1_8 = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party_1_8, 'Nm')
         initiating_party_name.text = my_company_name
-        initiating_party_identifier =\
-            self.payment_order_ids[0].company_id.\
-            initiating_party_identifier
-        initiating_party_issuer =\
-            self.payment_order_ids[0].company_id.\
-            initiating_party_issuer
+        payment = self.payment_order_ids[0]
+        initiating_party_identifier = (
+            payment.mode.initiating_party_identifier or
+            payment.company_id.initiating_party_identifier)
+        initiating_party_issuer = (
+            payment.mode.initiating_party_issuer or
+            payment.company_id.initiating_party_issuer)
         if initiating_party_identifier and initiating_party_issuer:
             iniparty_id = etree.SubElement(initiating_party_1_8, 'Id')
             iniparty_org_id = etree.SubElement(iniparty_id, 'OrgId')
@@ -271,7 +256,7 @@ class BankingExportPain(models.AbstractModel):
                 _("Missing 'Initiating Party Issuer' and/or "
                     "'Initiating Party Identifier' for the company '%s'. "
                     "Both fields must have a value.")
-                % self.payment_order_ids[0].company_id.name)
+                % payment.company_id.name)
         return True
 
     @api.model

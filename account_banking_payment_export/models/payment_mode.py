@@ -1,27 +1,8 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
-#              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
-#
-#    All other contributions are (C) by their respective contributors
-#
-#    All Rights Reserved
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2009 EduSense BV (<http://www.edusense.nl>)
+# © 2011-2013 Therp BV (<http://therp.nl>)
+# © 2014-2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, SUPERUSER_ID
 
@@ -86,20 +67,11 @@ class PaymentMode(models.Model):
             res = [t.code for t in payment_mode.type.suitable_bank_types]
         return res
 
-    @api.model
-    def _default_type(self):
-        return self.env.ref(
-            'account_banking_payment_export.'
-            'manual_bank_tranfer', raise_if_not_found=False)\
-            or self.env['payment.mode.type']
-
     type = fields.Many2one(
         'payment.mode.type', string='Export type', required=True,
-        help='Select the Export Payment Type for the Payment Mode.',
-        default=_default_type)
+        help='Select the Export Payment Type for the Payment Mode.')
     payment_order_type = fields.Selection(
         related='type.payment_order_type', readonly=True, string="Order Type",
-        selection=[('payment', 'Payment'), ('debit', 'Debit')],
         help="This field, that comes from export type, determines if this "
              "mode can be selected for customers or suppliers.")
     active = fields.Boolean(string='Active', default=True)
@@ -108,3 +80,40 @@ class PaymentMode(models.Model):
     purchase_ok = fields.Boolean(string='Selectable on purchase operations',
                                  default=True)
     note = fields.Text(string="Note", translate=True)
+    # Default options for the "payment.order.create" wizard
+    default_journal_ids = fields.Many2many(
+        'account.journal', string="Journals Filter")
+    default_invoice = fields.Boolean(
+        string='Linked to an Invoice or Refund', default=False)
+    default_date_type = fields.Selection([
+        ('due', 'Due'),
+        ('move', 'Move'),
+        ], default='due', string="Type of Date Filter")
+    default_populate_results = fields.Boolean(
+        string='Populate Results Directly')
+    group_lines = fields.Boolean(
+        string="Group lines in payment orders", default=True,
+        help="If this mark is checked, the payment order lines will be "
+             "grouped when validating the payment order before exporting the "
+             "bank file. The grouping will be done only if the following "
+             "fields matches:\n"
+             "* Partner\n"
+             "* Currency\n"
+             "* Destination Bank Account\n"
+             "* Communication Type (structured, free)\n"
+             "* Payment Date\n"
+             "(other modules can set additional fields to restrict the "
+             "grouping.)")
+
+    @api.onchange('type')
+    def type_on_change(self):
+        if self.type:
+            ajo = self.env['account.journal']
+            aj_ids = []
+            if self.type.payment_order_type == 'payment':
+                aj_ids = ajo.search([
+                    ('type', 'in', ('purchase_refund', 'purchase'))]).ids
+            elif self.type.payment_order_type == 'debit':
+                aj_ids = ajo.search([
+                    ('type', 'in', ('sale_refund', 'sale'))]).ids
+            self.default_journal_ids = [(6, 0, aj_ids)]

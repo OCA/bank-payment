@@ -2,7 +2,7 @@
   I create a supplier invoice
 -
   !record {model: account.invoice, id: account_invoice_supplier0, view: account.invoice_supplier_form}:
-    check_total: 450.0
+    check_total: 1005.55
     partner_id: base.res_partner_4
     reference_type: none
     type: in_invoice
@@ -35,34 +35,29 @@
     - state == 'open'
     - type == 'in_invoice'
 -
-  I create a payment order on which I will select the invoice I created
+  I create a payment order
 -
   !record {model: payment.order, id: payment_order_0}:
     mode: account_banking_payment_transfer.payment_mode0
     date_prefered: 'due'
 -
-  !record {model: payment.order.create, id: payment_order_create_0}:
-    duedate: !eval time.strftime('%Y-%m-%d')
--
-  I search for the invoice entries to make the payment.
+  I run the select move line to pay wizard
 -
   !python {model: payment.order.create}: |
-    self.search_entries(cr, uid, [ref("payment_order_create_0")], {
-      "active_model": "payment.order", "active_ids": [ref("payment_order_0")],
-      "active_id": ref("payment_order_0"), })
--
-  I create payment lines entries.
--
-  !python {model: payment.order.create}: |
+    context = {
+        "active_model": "payment.order",
+        "active_ids": [ref("payment_order_0")],
+        "active_id": ref("payment_order_0"),
+        }
+    wiz_id = self.create(cr, uid, {}, context=context)
+    self.search_entries(cr, uid, [wiz_id], context=context)
     invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_supplier0"))
     entries = []
     for move_line in invoice.move_id.line_id:
         if move_line.credit and not move_line.debit:
             entries.append((6, 0, [move_line.id]))
-    self.write(cr, uid, [ref("payment_order_create_0")], {'entries': entries})
-    self.create_payment(cr, uid, [ref("payment_order_create_0")], {
-      "active_model": "payment.order", "active_ids": [ref("payment_order_0")],
-      "active_id": ref("payment_order_0")})
+    self.write(cr, uid, [wiz_id], {'entries': entries})
+    self.create_payment(cr, uid, [wiz_id], context=context)
     pay_obj = self.pool.get('payment.order')
     pay = pay_obj.browse(cr, uid, ref('payment_order_0'))
     for line in pay.line_ids:

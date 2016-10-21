@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Account Payment Purchase module for OpenERP
@@ -28,11 +28,13 @@ class StockPicking(models.Model):
 
     @api.model
     def _create_invoice_from_picking(self, picking, vals):
-        if picking and picking.move_lines:
+        # This will assure that stock_dropshipping_dual_invoice will work
+        inv_type = self.env.context.get('inv_type', 'in_invoice')
+        if picking and picking.move_lines and inv_type == 'in_invoice':
             # Get purchase order from first move line
             if picking.move_lines[0].purchase_line_id:
                 purchase = picking.move_lines[0].purchase_line_id.order_id
                 vals['partner_bank_id'] = purchase.supplier_partner_bank_id.id
                 vals['payment_mode_id'] = purchase.payment_mode_id.id
-        return super(StockPicking, self)._create_invoice_from_picking(picking,
-                                                                      vals)
+        return super(StockPicking, self)._create_invoice_from_picking(
+            picking, vals)

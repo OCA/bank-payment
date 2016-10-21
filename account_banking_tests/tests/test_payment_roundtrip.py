@@ -253,7 +253,10 @@ class TestPaymentRoundtrip(TransactionCase):
                 'mode': self.payment_mode_id,
                 'date_prefered': 'now',
                 })
-        context = {'active_id': self.payment_order_id}
+        context = {
+            'active_id': self.payment_order_id,
+            'active_model': 'payment.order',
+            }
         entries = reg('account.move.line').search(
             cr, uid, [
                 ('company_id', '=', self.company_id),
@@ -398,7 +401,7 @@ class TestPaymentRoundtrip(TransactionCase):
         payment_order = reg('payment.order').browse(
             cr, uid, self.payment_order_id)
         assert payment_order.line_ids, 'Payment order has no payment lines'
-        for line in payment_order.line_ids:
+        for line in payment_order.bank_line_ids:
             assert line.transit_move_line_id, \
                 'Payment order has no transfer move line'
             assert line.transit_move_line_id.reconcile_id, \
@@ -413,7 +416,7 @@ class TestPaymentRoundtrip(TransactionCase):
         payment_order = reg('payment.order').browse(
             cr, uid, self.payment_order_id)
         assert payment_order.line_ids, 'Payment order has no payment lines'
-        for line in payment_order.line_ids:
+        for line in payment_order.bank_line_ids:
             assert line.transfer_move_line_id, \
                 'Payment order has no transfer move line'
             assert line.transfer_move_line_id.reconcile_id, \

@@ -1,34 +1,41 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_credit_transfer
-#
+# * account_banking_sepa_credit_transfer
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-31 22:52+0000\n"
-"PO-Revision-Date: 2014-10-31 22:52+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"PO-Revision-Date: 2016-09-16 21:45+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,batch_booking:0
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:199
+#, python-format
+msgid ""
+"Bank account is missing on the bank payment line of partner '%s' (reference "
+"'%s')."
+msgstr "Falta la cuenta bancaria en la línea de pago de la empresa '%s' (referencia '%s')."
+
+#. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
 msgstr "Registro en lote"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
 msgstr "A cargo del acreedor"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
 msgstr "A cargo del deudor"
@@ -39,7 +46,6 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,charge_bearer:0
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
 msgstr "A cargo del portador"
@@ -50,7 +56,6 @@ msgid "Create"
 msgstr "Crear"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,create_uid:0
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
@@ -61,16 +66,9 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,state:0
-msgid "Draft"
-msgstr "Borrador"
-
-#. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:124
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:232
-#, python-format
-msgid "Error:"
-msgstr "Error:"
+#: field:banking.export.sepa.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
@@ -93,25 +91,21 @@ msgid "Finish"
 msgstr "Finalizar"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
 msgstr "Según el acuerdo de servicio"
 
 #. module: account_banking_sepa_credit_transfer
-#: help:banking.export.sepa,charge_bearer:0
-msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the creditor side are to be borne by the creditor, transaction charges on the debtor side are to be borne by the debtor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
-msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
-
-#. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,charge_bearer:0
-msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the debtor side are to be borne by the debtor, transaction charges on the creditor side are to be borne by the creditor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must"
+" use this). Shared : transaction charges on the debtor side are to be borne "
+"by the debtor, transaction charges on the creditor side are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by"
+" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the debtor."
 msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
-
-#. module: account_banking_sepa_credit_transfer
-#: view:banking.export.sepa:account_banking_sepa_credit_transfer.view_banking_export_sepa_form
-msgid "General Information"
-msgstr "Información general"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
@@ -119,71 +113,57 @@ msgid "Generate"
 msgstr "Generar"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,create_date:0
-msgid "Generation Date"
-msgstr "Fecha de generación"
-
-#. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,id:0
 #: field:banking.export.sepa.wizard,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: account_banking_sepa_credit_transfer
-#: help:banking.export.sepa,batch_booking:0
 #: help:banking.export.sepa.wizard,batch_booking:0
-msgid "If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."
+msgid ""
+"If true, the bank statement will display only one debit line for all the "
+"wire transfers of the SEPA XML file ; if false, the bank statement will "
+"display one debit line per wire transfer of the SEPA XML file."
 msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,write_uid:0
+#: field:banking.export.sepa.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,write_date:0
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:233
-#, python-format
-msgid "Missing Bank Account on invoice '%s' (payment order line reference '%s')."
-msgstr "Falta la cuenta bancaria en la factura '%s' (línea de pago con referencia '%s')."
-
-#. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,nb_transactions:0
 #: field:banking.export.sepa.wizard,nb_transactions:0
 msgid "Number of Transactions"
 msgstr "Nº de transacciones"
 
 #. module: account_banking_sepa_credit_transfer
-#: view:banking.export.sepa:account_banking_sepa_credit_transfer.view_banking_export_sepa_form
-#: field:banking.export.sepa,payment_order_ids:0
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pago"
+
+#. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,payment_order_ids:0
 msgid "Payment Orders"
 msgstr "Órdenes de pago"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:125
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:98
 #, python-format
-msgid "Payment Type Code '%s' is not supported. The only Payment Type Codes supported for SEPA Credit Transfers are 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'."
-msgstr "El código de tipo de pago '%s' no está soportado. Los únicos código de tipo de pago soportados por las transferencias SEPA son 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04' y 'pain.001.001.05'."
-
-#. module: account_banking_sepa_credit_transfer
-#: view:banking.export.sepa:account_banking_sepa_credit_transfer.view_banking_export_sepa_form
-#: view:banking.export.sepa:account_banking_sepa_credit_transfer.view_banking_export_sepa_tree
-msgid "SEPA Credit Transfer"
-msgstr "Transferencia SEPA"
-
-#. module: account_banking_sepa_credit_transfer
-#: model:ir.actions.act_window,name:account_banking_sepa_credit_transfer.act_banking_export_sepa_payment_order
-#: model:ir.actions.act_window,name:account_banking_sepa_credit_transfer.action_account_banking_sepa
-#: model:ir.ui.menu,name:account_banking_sepa_credit_transfer.menu_account_banking_sepa
-msgid "SEPA Credit Transfer Files"
-msgstr "Archivos de transferencias SEPA"
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Codes "
+"supported for SEPA Credit Transfers are 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' and "
+"'pain.001.003.03'."
+msgstr "El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo de pago soportados para una transferencia de crédito SEPA son 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' y 'pain.001.003.03'."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
@@ -191,35 +171,16 @@ msgid "SEPA File Generation"
 msgstr "Generación de archivo SEPA"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,file:0
-#: field:banking.export.sepa.wizard,file_id:0
-msgid "SEPA XML File"
-msgstr "Archivo SEPA XML"
-
-#. module: account_banking_sepa_credit_transfer
-#: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa
-msgid "SEPA export"
-msgstr "Exportación de SEPA"
-
-#. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,state:0
-msgid "Sent"
-msgstr "Enviado"
-
-#. module: account_banking_sepa_credit_transfer
-#: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
 msgstr "Compartidos"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,state:0
 #: field:banking.export.sepa.wizard,state:0
 msgid "State"
 msgstr "Estado"
 
 #. module: account_banking_sepa_credit_transfer
-#: field:banking.export.sepa,total_amount:0
 #: field:banking.export.sepa.wizard,total_amount:0
 msgid "Total Amount"
 msgstr "Importe total"
@@ -228,4 +189,3 @@ msgstr "Importe total"
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Validate"
 msgstr "Validar"
-

@@ -4,10 +4,9 @@
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
 #              (C) 2011 - 2013 Therp BV (<http://therp.nl>).
 #              (C) 2014 - 2015 ACSONE SA/NV (<http://acsone.eu>).
+#              (C) 2015 Akretion (<http://www.akretion.com>).
 #
 #    All other contributions are (C) by their respective contributors
-#
-#    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -30,8 +29,18 @@ from openerp import models, fields, api, _
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    populate_results = fields.Boolean(string="Populate results directly",
-                                      default=True)
+    journal_ids = fields.Many2many(
+        'account.journal', string='Journals Filter')
+    invoice = fields.Boolean(
+        string='Linked to an Invoice or Refund')
+    date_type = fields.Selection([
+        ('due', 'Due Date'),
+        ('move', 'Move Date'),
+        ], string="Type of Date Filter", required=True)
+    duedate = fields.Date(required=False)
+    move_date = fields.Date(
+        string='Move Date', default=fields.Date.context_today)
+    populate_results = fields.Boolean(string="Populate Results Directly")
 
     @api.model
     def default_get(self, field_list):
@@ -40,6 +49,16 @@ class PaymentOrderCreate(models.TransientModel):
         if ('entries' in field_list and context.get('line_ids') and
                 context.get('populate_results')):
             res.update({'entries': context['line_ids']})
+        assert context.get('active_model') == 'payment.order',\
+            'active_model should be payment.order'
+        assert context.get('active_id'), 'Missing active_id in context !'
+        pay_order = self.env['payment.order'].browse(context['active_id'])
+        res.update({
+            'journal_ids': pay_order.mode.default_journal_ids.ids or False,
+            'invoice': pay_order.mode.default_invoice,
+            'date_type': pay_order.mode.default_date_type,
+            'populate_results': pay_order.mode.default_populate_results,
+            })
         return res
 
     @api.multi
@@ -56,12 +75,14 @@ class PaymentOrderCreate(models.TransientModel):
             # Do not propose partially reconciled credit lines,
             # as they are deducted from a customer invoice, and
             # will not be refunded with a payment.
-            domain += [('credit', '>', 0),
-                       '|',
-                       ('account_id.type', '=', 'payable'),
-                       '&',
-                       ('account_id.type', '=', 'receivable'),
-                       ('reconcile_partial_id', '=', False)]
+            domain += [
+                ('credit', '>', 0),
+                '|',
+                ('account_id.type', '=', 'payable'),
+                '&',
+                ('account_id.type', '=', 'receivable'),
+                ('reconcile_partial_id', '=', False),
+            ]
 
     @api.multi
     def filter_lines(self, lines):
@@ -99,12 +120,20 @@ class PaymentOrderCreate(models.TransientModel):
         payment = self.env['payment.order'].browse(
             self.env.context['active_id'])
         # Search for move line to pay:
+        journals = self.journal_ids or self.env['account.journal'].search([])
         domain = [('move_id.state', '=', 'posted'),
                   ('reconcile_id', '=', False),
                   ('company_id', '=', payment.mode.company_id.id),
-                  '|',
-                  ('date_maturity', '<=', self.duedate),
-                  ('date_maturity', '=', False)]
+                  ('journal_id', 'in', journals.ids)]
+        if self.date_type == 'due':
+            domain += [
+                '|',
+                ('date_maturity', '<=', self.duedate),
+                ('date_maturity', '=', False)]
+        elif self.date_type == 'move':
+            domain.append(('date', '<=', self.move_date))
+        if self.invoice:
+            domain.append(('invoice', '!=', False))
         self.extend_payment_order_domain(payment, domain)
         # -- end account_direct_debit --
         lines = line_obj.search(domain)
@@ -157,21 +186,26 @@ class PaymentOrderCreate(models.TransientModel):
         state = 'normal'
         communication = line.ref or '-'
         if line.invoice:
-            if line.invoice.type in ('in_invoice', 'in_refund'):
-                if line.invoice.reference_type == 'structured':
-                    state = 'structured'
-                    communication = line.invoice.reference
-                else:
-                    if line.invoice.reference:
-                        communication = line.invoice.reference
-                    elif line.invoice.supplier_invoice_number:
-                        communication = line.invoice.supplier_invoice_number
-            else:
-                # Make sure that the communication includes the
-                # customer invoice number (in the case of debit order)
-                communication = line.invoice.number.replace('/', '')
+            if line.invoice.reference_type == 'structured':
                 state = 'structured'
-        amount_currency = line.amount_residual_currency
+                # Fallback to invoice number to keep previous behaviour
+                communication = line.invoice.reference or line.invoice.number
+            else:
+                if line.invoice.type in ('in_invoice', 'in_refund'):
+                    communication = (
+                        line.invoice.reference or
+                        line.invoice.supplier_invoice_number or line.ref)
+                else:
+                    # Make sure that the communication includes the
+                    # customer invoice number (in the case of debit order)
+                    communication = line.invoice.number
+        # support debit orders when enabled
+        if line.debit > 0:
+            amount_currency = line.amount_residual_currency * -1
+        else:
+            amount_currency = line.amount_residual_currency
+        if payment.payment_order_type == 'debit':
+            amount_currency *= -1
         line2bank = line.line2bank(payment.mode.id)
         # -- end account banking
         res = {'move_line_id': line.id,
