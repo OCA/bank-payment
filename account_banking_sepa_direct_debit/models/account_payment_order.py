@@ -10,27 +10,6 @@ from lxml import etree
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    def _get_previous_bank(self, payline):
-        previous_bank = False
-        older_lines = self.env['account.payment.line'].search([
-            ('mandate_id', '=', payline.mandate_id.id),
-            ('partner_bank_id', '!=', payline.partner_bank_id.id)])
-        if older_lines:
-            previous_date = False
-            previous_payline = False
-            for older_line in older_lines:
-                if hasattr(older_line.order_id, 'date_sent'):
-                    older_line_date = older_line.order_id.date_sent
-                else:
-                    older_line_date = older_line.order_id.date_done
-                if (older_line_date and
-                        older_line_date > previous_date):
-                    previous_date = older_line_date
-                    previous_payline = older_line
-            if previous_payline:
-                previous_bank = previous_payline.partner_bank_id
-        return previous_bank
-
     @api.multi
     def generate_payment_file(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
