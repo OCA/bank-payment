@@ -22,7 +22,7 @@ class AccountPaymentOrder(models.Model):
                 if hasattr(older_line.order_id, 'date_sent'):
                     older_line_date = older_line.order_id.date_sent
                 else:
-                    older_line_date = older_line.order_id.date_done
+                    older_line_date = older_line.order_id.date_generated
                 if (older_line_date and
                         older_line_date > previous_date):
                     previous_date = older_line_date
@@ -226,12 +226,11 @@ class AccountPaymentOrder(models.Model):
                                 ori_debtor_account, 'Id')
                             ori_debtor_account_iban = etree.SubElement(
                                 ori_debtor_account_id, 'IBAN')
-                            ori_debtor_account_iban.text = self._validate_iban(
-                                self._prepare_field(
+                            ori_debtor_account_iban.text = self._prepare_field(
                                     'Original Debtor Account',
                                     'previous_bank.sanitized_acc_number',
                                     {'previous_bank': previous_bank},
-                                    gen_args=gen_args))
+                                    gen_args=gen_args)
                         else:
                             ori_debtor_agent = etree.SubElement(
                                 amendment_info_details, 'OrgnlDbtrAgt')
