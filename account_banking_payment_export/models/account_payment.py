@@ -10,7 +10,7 @@ try:
     # the module account_payment, because the store attribute is set later
     # and Odoo doesn't defer this removal
     from openerp.addons.account_payment.account_payment import payment_order
-    payment_order._columns['total'].nodrop = True
+    setattr(payment_order._columns['total'], 'nodrop', True)
 except ImportError:
     pass
 
