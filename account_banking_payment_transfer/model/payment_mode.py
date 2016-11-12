@@ -12,7 +12,7 @@ class PaymentMode(models.Model):
 
     transfer_account_id = fields.Many2one(
         'account.account', string='Transfer account',
-        domain=[('type', '=', 'other'), ('reconcile', '=', True)],
+        domain=[('type', '!=', 'view'),('reconcile', '=', True)],
         help='Pay off lines in sent orders with a move on this '
         'account. You can only select accounts of type regular '
         'that are marked for reconciliation')
