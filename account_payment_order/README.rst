@@ -66,8 +66,8 @@ Contributors
 * Erwin van der Ploeg
 * Raphaël Valyi
 * Sandy Carter
-* Angel Moya <angel.moya@domatix.com
-* Jose Maria Alzaga <jose.alzaga@aselcis.com
+* Angel Moya <angel.moya@domatix.com>
+* Jose Maria Alzaga <jose.alzaga@aselcis.com>
 
 Maintainer
 ----------
