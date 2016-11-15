@@ -41,24 +41,28 @@
     <field name="acc_number">FR76 4242 4242 4242 4242 4242 424</field>
     <field name="bank_id" ref="bank_la_banque_postale"/>
     <field name="partner_id" ref="base.main_partner" />
+    <field name="acc_type">iban</field>
 </record>
 
 <record id="main_company_iban2" model="res.partner.bank">
     <field name="acc_number">FR20 1242 1242 1242 1242 1242 124</field>
     <field name="bank_id" ref="bank_societe_generale"/>
     <field name="partner_id" ref="base.main_partner" />
+    <field name="acc_type">iban</field>
 </record>
 
 <record id="res_partner_12_iban" model="res.partner.bank">
     <field name="acc_number">FR66 1212 1212 1212 1212 1212 121</field>
     <field name="bank_id" ref="bank_fiducial"/>
     <field name="partner_id" ref="base.res_partner_12" />
+    <field name="acc_type">iban</field>
 </record>
 
 <record id="res_partner_2_iban" model="res.partner.bank">
     <field name="acc_number">BE96 9988 7766 5544</field>
     <field name="bank_id" ref="bank_fortis"/>
     <field name="partner_id" ref="base.res_partner_2" />
+    <field name="acc_type">iban</field>
 </record>
 
 <!-- Asustek already has a demo IBAN provided by base_iban -->
