@@ -13,11 +13,10 @@
                 <xpath expr="/form/group[@col='4']" position="inside">
                     <group name="trf-move-config" string="Transfer move settings" colspan="2">
                         <field name="transfer_account_id"
-                               domain="[('type', '=', 'other'),
+                               domain="[('type', '!=', 'view'),
                                        ('reconcile', '=', True),
                                        ('company_id', '=', company_id)]"
                                context="{
-                                   'default_type': 'other',
                                    'default_reconcile': True,
                                    'default_company_id': company_id}"
                                />

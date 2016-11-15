@@ -2,11 +2,12 @@
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<http://therp.nl>)
 # © 2013-2014 ACSONE SA (<http://acsone.eu>).
+# © 2016 Aselcis Consulting (<http://www.aselcis.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Banking - Payments Transfer Account',
-    'version': '8.0.0.3.0',
+    'version': '8.0.0.3.1',
     'license': 'AGPL-3',
     'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/banking',

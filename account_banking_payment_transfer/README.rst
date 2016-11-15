@@ -63,6 +63,7 @@ Contributors
 * Matt Choplin
 * Alexandre Fayolle
 * Danimar Ribeiro
+* Jose Maria Alzaga <jose.alzaga@aselcis.com>
 
 Maintainer
 ----------
