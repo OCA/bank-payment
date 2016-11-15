@@ -4,16 +4,18 @@
 # © 2013-2014 ACSONE SA (<http://acsone.eu>).
 # © 2014-2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (<http://www.akretion.com>).
+# © 2016 Aselcis Consulting (<http://www.aselcis.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Payment Order',
-    'version': '9.0.1.1.0',
+    'version': '9.0.1.1.1',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
               "Akretion, "
+              "Aselcis, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
