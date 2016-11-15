@@ -2,6 +2,7 @@
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<http://therp.nl>)
 # © 2013-2014 ACSONE SA (<http://acsone.eu>).
+# © 2016 Aselcis Consulting (<http://www.aselcis.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
