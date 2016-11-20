@@ -30,7 +30,6 @@
         'data/report_paperformat.xml',
         'reports/sepa_direct_debit_mandate.xml',
         'views/report_sepa_direct_debit_mandate.xml',
-        'security/original_mandate_required_security.xml',
     ],
     'demo': ['demo/sepa_direct_debit_demo.xml'],
     'installable': True,

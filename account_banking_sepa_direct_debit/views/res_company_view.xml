@@ -14,7 +14,6 @@
     <field name="arch" type="xml">
         <group name="pain" position="inside">
             <field name="sepa_creditor_identifier"/>
-            <field name="original_creditor_identifier" groups="account_banking_sepa_direct_debit.group_original_mandate_required"/>
         </group>
     </field>
 </record>

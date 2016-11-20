@@ -19,10 +19,6 @@ class PaymentMode(models.Model):
              "- a 2-digits checkum\n"
              "- a 3-letters business code\n"
              "- a country-specific identifier")
-    original_creditor_identifier = fields.Char(
-        string='Original Creditor Identifier', size=70,
-        help="If not defined, Original Creditor Identifier from company "
-             "will be used.")
 
     def _sepa_type_get(self):
         res = super(PaymentMode, self)._sepa_type_get()

@@ -18,8 +18,6 @@ class ResCompany(models.Model):
              "of :\n- your country ISO code (2 letters)\n- a 2-digits "
              "checkum\n- a 3-letters business code\n- a country-specific "
              "identifier")
-    original_creditor_identifier = fields.Char(
-        string='Original Creditor Identifier', size=70)
 
     @api.multi
     @api.constrains('sepa_creditor_identifier')
