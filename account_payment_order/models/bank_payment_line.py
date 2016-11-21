@@ -15,7 +15,7 @@ class BankPaymentLine(models.Model):
         readonly=True)
     order_id = fields.Many2one(
         'account.payment.order', string='Order', ondelete='cascade',
-        select=True)
+        index=True)
     payment_type = fields.Selection(
         related='order_id.payment_type', string="Payment Type",
         readonly=True, store=True)
