@@ -13,7 +13,7 @@ class AccountPaymentLine(models.Model):
     name = fields.Char(string='Payment Reference', readonly=True, copy=False)
     order_id = fields.Many2one(
         'account.payment.order', string='Payment Order',
-        ondelete='cascade', select=True)
+        ondelete='cascade', index=True)
     company_id = fields.Many2one(
         related='order_id.company_id', store=True, readonly=True)
     company_currency_id = fields.Many2one(
