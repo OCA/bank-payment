@@ -30,7 +30,7 @@ openerp.account_banking = function(instance)
                 // The match wizard can create or unlink a statement line
                 // Force a reload of the view so that the correct lines
                 // are shown.
-                var parent = this.getParent()
+                var parent = this.getParent();
                 if (parent)
                 {
                     var child = this.getParent().getChildren()[0];
@@ -48,4 +48,4 @@ openerp.account_banking = function(instance)
             }
         },
     });
-}
+};

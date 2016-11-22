@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
-"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"PO-Revision-Date: 2016-09-17 18:43+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Betaalwijze soort"
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Actief"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,payment_order_type:0
