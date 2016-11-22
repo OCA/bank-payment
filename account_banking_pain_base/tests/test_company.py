@@ -45,19 +45,10 @@ class Test_company(SingleTransactionCase):
         """
         return self.registry(model)
 
-    def xtbrowse(self, model, xid):
-        """ Browse record for test
-        """
-        id = self.ref(xid)
-        return self.xtr(model).browse(self.cr,
-                                      self.uid,
-                                      id)
-
-    def xtwrite(self, model, xid, values):
+    def write_ref(self, xid, values):
         """ Browse and write existent record for test
         """
-        obj = self.xtbrowse(model,
-                            xid)
+        obj = self.browse_ref(xid)
         return obj.write(values)
 
     def xtcreate(self, model, values):
@@ -88,9 +79,8 @@ class Test_company(SingleTransactionCase):
         else:
             vals = {'initiating_party_issuer': INIT_PARTY_ISSUE,
                     'vat': None}
-        self.company = self.xtwrite('res.company',
-                                    'base.main_company',
-                                    vals)
+        self.company = self.write_ref('base.main_company',
+                                      vals)
         self.currency_id = self.ref('base.EUR')
         if self.country_code == 'nl':
             vals = {
