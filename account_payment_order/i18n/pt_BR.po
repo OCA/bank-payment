@@ -6,12 +6,12 @@
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-01 19:28+0000\n"
-"PO-Revision-Date: 2016-07-01 19:28+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/23907/pt_BR/)\n"
+"POT-Creation-Date: 2016-11-21 10:17+0000\n"
+"PO-Revision-Date: 2016-10-19 23:47+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -58,11 +58,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Accounting Entries Options"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_needaction
-msgid "Action Needed"
 msgstr ""
 
 #. module: account_payment_order
@@ -136,7 +131,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Voltar para provisório"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_bank
@@ -147,7 +142,7 @@ msgstr "Banco"
 #: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Conta bancária"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_account_required
@@ -316,18 +311,13 @@ msgid "Currency of the Payment Transaction"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_last_post
-msgid "Date of the last message posted on the record."
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:396
+#: code:addons/account_payment_order/models/account_payment_order.py:404
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
@@ -357,7 +347,7 @@ msgstr ""
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Draft"
-msgstr ""
+msgstr "Provisório"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
@@ -411,21 +401,6 @@ msgid "Fixed Date"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_follower_ids
-msgid "Followers"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_partner_ids
-msgid "Followers (Partners)"
-msgstr ""
-
-#. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:147
 #, python-format
 msgid ""
@@ -474,7 +449,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Group By"
-msgstr ""
+msgstr "Agrupar por"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_group_lines
@@ -493,16 +468,6 @@ msgstr "ID"
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 msgid "ISO"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_unread
-msgid "If checked new messages require your attention."
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_needaction
-msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: account_payment_order
@@ -542,11 +507,6 @@ msgid "Invoice"
 msgstr "Fatura"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_is_follower
-msgid "Is Follower"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
 msgid "Journal Entries"
 msgstr ""
@@ -578,11 +538,6 @@ msgstr "Manter vazio para usar todos os diários"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_last_post
-msgid "Last Message Date"
 msgstr ""
 
 #. module: account_payment_order
@@ -622,11 +577,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_invoice
 msgid "Linked to an Invoice or Refund"
 msgstr "Vinculado a uma fatura ou reembolso"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_ids
-msgid "Messages"
-msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:211
@@ -701,23 +651,8 @@ msgid "Number"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_needaction_counter
-msgid "Number of Actions"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_bank_line_count
 msgid "Number of Bank Lines"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: account_payment_order
@@ -794,7 +729,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_id
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Partner"
-msgstr ""
+msgstr "Parceiro"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_partner_bank_id
@@ -894,7 +829,7 @@ msgid "Payment Type"
 msgstr "Tipo de pagamento"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:394
+#: code:addons/account_payment_order/models/account_payment_order.py:402
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
@@ -988,7 +923,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_state
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:20
@@ -1123,16 +1058,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_type
 msgid "Type of Date Filter"
 msgstr "Tipo de filtro de data"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
