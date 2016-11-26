@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
-"PO-Revision-Date: 2016-09-09 12:26+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"PO-Revision-Date: 2016-11-25 14:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "İşlem ayrıntılarını seçin:"
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Group By..."
-msgstr ""
+msgstr "Grupla..."
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -805,7 +805,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -1071,7 +1071,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -1291,7 +1291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Adı"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1611,7 +1611,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "ya da"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

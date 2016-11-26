@@ -162,7 +162,7 @@ msgstr "Код"
 #. module: account_banking_payment_export
 #: view:payment.manual:0
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/payment_order_create.py:82

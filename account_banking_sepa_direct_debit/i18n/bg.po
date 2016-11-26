@@ -209,7 +209,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0
 msgid "Group By"
-msgstr ""
+msgstr "Групирай По"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final
@@ -376,7 +376,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0
 msgid "Type"
-msgstr ""
+msgstr "Вид"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring

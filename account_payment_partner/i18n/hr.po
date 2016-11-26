@@ -35,7 +35,7 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Račun"
 
 #. module: account_payment_partner
 #: field:account.invoice,payment_mode_id:0

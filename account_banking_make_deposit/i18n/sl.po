@@ -374,7 +374,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Draft"
-msgstr ""
+msgstr "Osnutek"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -522,7 +522,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "Preklic"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -589,7 +589,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
 msgid "Customer"
-msgstr ""
+msgstr "Kupec"
 
 #. module: account_banking_make_deposit
 #: field:add.deposit.items,name:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

@@ -146,7 +146,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr ""
+msgstr "Dnevnik"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Dobavitelj"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -587,7 +587,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0
 msgid "General"
-msgstr ""
+msgstr "Splošno"
 
 #. module: account_banking
 #: field:banking.import.line,type:0
@@ -881,7 +881,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Račun"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Osnutek"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -1280,7 +1280,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Preklic"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
@@ -1290,7 +1290,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1432,7 +1432,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,mobile:0
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilno"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
@@ -1473,7 +1473,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Opombe"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
@@ -1483,7 +1483,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Kupec"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "ali"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

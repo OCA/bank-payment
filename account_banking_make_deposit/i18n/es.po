@@ -71,7 +71,7 @@ msgstr ""
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -131,7 +131,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: field:deposit.items.line,ref:0 field:deposit.ticket.line,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -374,7 +374,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -450,7 +450,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:ir.model,name:account_banking_make_deposit.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Apuntes contables"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -574,7 +574,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:62
 #: field:deposit.ticket,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -589,7 +589,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: account_banking_make_deposit
 #: field:add.deposit.items,name:0

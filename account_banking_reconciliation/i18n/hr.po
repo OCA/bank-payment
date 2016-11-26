@@ -236,7 +236,7 @@ msgstr ""
 #: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:120
 #: field:bank.acc.rec.statement.line,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Veza"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0
@@ -686,7 +686,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Done"
-msgstr ""
+msgstr "Izvršeno"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement,verified_date:0
@@ -834,7 +834,7 @@ msgstr ""
 #: field:bank.acc.rec.statement,name:0
 #: field:bank.acc.rec.statement.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0

@@ -78,7 +78,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Luonnos"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:238
@@ -438,7 +438,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0

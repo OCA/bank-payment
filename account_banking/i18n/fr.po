@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-10-04 11:17+0000\n"
+"PO-Revision-Date: 2016-11-25 14:56+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -146,7 +146,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -419,7 +419,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.transaction.wizard,analytic_account_id:0
 msgid "Analytic Account"
-msgstr ""
+msgstr "Compte analytique"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1657
@@ -432,7 +432,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Move"
-msgstr ""
+msgstr "Écriture"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:263
@@ -502,7 +502,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmé"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_voucher
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Fournisseur"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -821,12 +821,12 @@ msgstr ""
 #: view:account.bank.statement:0 view:account.banking.bank.import:0
 #: field:account.banking.bank.import,line_ids:0
 msgid "Transactions"
-msgstr ""
+msgstr "Opérations"
 
 #. module: account_banking
 #: view:account.bank.statement:0
 msgid "Journal Entries"
-msgstr ""
+msgstr "Pièces comptables"
 
 #. module: account_banking
 #: field:account.bank.statement.line,currency:0
@@ -1453,7 +1453,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:629
 #, python-format
 msgid "Structured Reference"
-msgstr ""
+msgstr "Référence structurée"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -1478,7 +1478,7 @@ msgstr "Notes"
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banque"
 
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0

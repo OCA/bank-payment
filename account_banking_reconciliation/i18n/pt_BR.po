@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-09-17 04:44+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
@@ -56,7 +56,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0
 msgid "Group By..."
-msgstr ""
+msgstr "Agrupado por"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement.line,statement_id:0
@@ -92,7 +92,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking_reconciliation
 #: help:account.move.line,cleared_bank_account:0
@@ -289,7 +289,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,suppress_ending_date_filter:0
@@ -336,7 +336,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,state:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0
@@ -618,7 +618,7 @@ msgstr ""
 #: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:117
 #: field:bank.acc.rec.statement.line,date:0
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,sum_of_credits:0
@@ -708,7 +708,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking_reconciliation
 #: view:account.move.line:0
@@ -834,7 +834,7 @@ msgstr ""
 #: field:bank.acc.rec.statement,name:0
 #: field:bank.acc.rec.statement.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0

@@ -131,7 +131,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: field:deposit.items.line,ref:0 field:deposit.ticket.line,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Veza"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -509,7 +509,7 @@ msgstr "Razdoblje"
 #: view:deposit.ticket:0
 #, python-format
 msgid "Done"
-msgstr ""
+msgstr "Izvršeno"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
@@ -597,7 +597,7 @@ msgstr "Kupac"
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

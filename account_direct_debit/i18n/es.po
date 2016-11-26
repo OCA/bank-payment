@@ -68,7 +68,7 @@ msgstr ""
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Apuntes contables"
 
 #. module: account_direct_debit
 #: view:account.invoice:0
@@ -146,4 +146,4 @@ msgstr ""
 #. module: account_direct_debit
 #: model:ir.model,name:account_direct_debit.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"

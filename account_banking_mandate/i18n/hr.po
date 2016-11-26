@@ -68,7 +68,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_follower_ids:0
 msgid "Followers"
-msgstr ""
+msgstr "Pratitelji"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_valid
@@ -144,7 +144,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_ids:0
 msgid "Messages and communication history"
-msgstr ""
+msgstr "Poruke i povijest"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
@@ -200,7 +200,7 @@ msgstr "Bankovni račun"
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0
 msgid "Messages"
-msgstr ""
+msgstr "Poruke"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:114
@@ -233,7 +233,7 @@ msgstr "Partner"
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:57
 #, python-format
 msgid "Cancelled"
-msgstr ""
+msgstr "Otkazan"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:132
@@ -244,7 +244,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "Ako je odabrano, nove poruke zahtijevaju Vašu pažnju."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,scan:0
@@ -276,7 +276,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Reference"
-msgstr ""
+msgstr "Veza"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
@@ -318,7 +318,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_unread:0
 msgid "Unread Messages"
-msgstr ""
+msgstr "Nepročitane poruke"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_summary:0
@@ -337,7 +337,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Račun"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0

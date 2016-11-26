@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-10-04 09:42+0000\n"
+"PO-Revision-Date: 2016-11-22 16:23+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Group By..."
-msgstr ""
+msgstr "Agrupado por"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -146,7 +146,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr ""
+msgstr "Histórico"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Fornecedor"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -587,7 +587,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #. module: account_banking
 #: field:banking.import.line,type:0
@@ -804,7 +804,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -1070,7 +1070,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -1280,7 +1280,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
@@ -1290,7 +1290,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

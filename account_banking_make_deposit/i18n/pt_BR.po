@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
@@ -71,7 +71,7 @@ msgstr ""
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -136,7 +136,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
 msgid "Group By..."
-msgstr ""
+msgstr "Agrupado por"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -200,7 +200,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
 #: view:deposit.ticket:0 field:deposit.ticket,state:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -374,7 +374,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -412,7 +412,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:120
 #: field:deposit.items.line,date:0 field:deposit.ticket.line,date:0
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,count_total:0
@@ -522,7 +522,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

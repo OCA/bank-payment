@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
+"POT-Creation-Date: 2016-09-17 04:44+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
@@ -25,7 +25,7 @@ msgstr "État"
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr ""
+msgstr "Entreprise (B2B)"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.action_account_banking_sdd
@@ -55,7 +55,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0 field:account.banking.mandate,scheme:0
 msgid "Scheme"
-msgstr ""
+msgstr "Schéma"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,filename:0
@@ -143,7 +143,7 @@ msgstr "Finir"
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Basic (CORE)"
-msgstr ""
+msgstr "Basique (CORE)"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:200
@@ -232,7 +232,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0
 msgid "Sequence Type"
-msgstr ""
+msgstr "Type de séquence"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,original_mandate_identification:0

@@ -146,7 +146,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -291,7 +291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,account_id:0
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Proveedor"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -587,7 +587,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #. module: account_banking
 #: field:banking.import.line,type:0
@@ -742,7 +742,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #. module: account_banking
 #: field:banking.link_partner,fax:0
@@ -832,7 +832,7 @@ msgstr ""
 #: field:account.bank.statement.line,currency:0
 #: field:banking.import.line,currency:0
 msgid "Currency"
-msgstr ""
+msgstr "Moneda"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1899
@@ -881,7 +881,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -959,7 +959,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #. module: account_banking
 #: field:banking.import.transaction,message:0
@@ -1300,7 +1300,7 @@ msgstr ""
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Apuntes contables"
 
 #. module: account_banking
 #: field:banking.import.line,invoice_ids:0
@@ -1409,7 +1409,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: account_banking
 #: view:account.bank.statement:0
@@ -1473,17 +1473,17 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banco"
 
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

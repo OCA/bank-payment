@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
@@ -136,7 +136,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
 msgid "Group By..."
-msgstr ""
+msgstr "Grupla..."
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -200,7 +200,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
 #: view:deposit.ticket:0 field:deposit.ticket,state:0
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -412,7 +412,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:120
 #: field:deposit.items.line,date:0 field:deposit.ticket.line,date:0
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,count_total:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Adı"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

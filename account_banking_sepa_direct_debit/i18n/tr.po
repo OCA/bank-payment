@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,state:0 field:banking.export.sdd.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0

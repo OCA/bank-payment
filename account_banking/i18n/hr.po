@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-10-05 06:37+0000\n"
+"PO-Revision-Date: 2016-11-25 14:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -380,7 +380,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Veza"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -588,12 +588,12 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0
 msgid "General"
-msgstr ""
+msgstr "Općenito"
 
 #. module: account_banking
 #: field:banking.import.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 #. module: account_banking
 #: field:banking.link_partner,email:0
@@ -882,7 +882,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Račun"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -1291,7 +1291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0

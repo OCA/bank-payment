@@ -509,7 +509,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Done"
-msgstr ""
+msgstr "Готово"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
@@ -589,7 +589,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
 msgid "Customer"
-msgstr ""
+msgstr "Клиент"
 
 #. module: account_banking_make_deposit
 #: field:add.deposit.items,name:0

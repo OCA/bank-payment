@@ -68,7 +68,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_follower_ids:0
 msgid "Followers"
-msgstr ""
+msgstr "Followers"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_valid
@@ -80,7 +80,7 @@ msgstr ""
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:54
 #, python-format
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
@@ -105,7 +105,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,state:0
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_cancel
@@ -200,7 +200,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:114
@@ -211,7 +211,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_summary:0
 msgid "Summary"
-msgstr ""
+msgstr "Periodo Iva"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
@@ -233,7 +233,7 @@ msgstr "Partner"
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:57
 #, python-format
 msgid "Cancelled"
-msgstr ""
+msgstr "Annullato"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:132
@@ -244,7 +244,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "If checked new messages require your attention."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,scan:0
@@ -276,7 +276,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Reference"
-msgstr ""
+msgstr "Riferimento"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
@@ -318,7 +318,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_unread:0
 msgid "Unread Messages"
-msgstr ""
+msgstr "Unread Messages"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_summary:0

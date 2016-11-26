@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-09-17 04:44+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nb/)\n"
@@ -213,7 +213,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,create_date:0

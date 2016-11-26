@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Доставчик"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -587,12 +587,12 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0
 msgid "General"
-msgstr ""
+msgstr "Основни"
 
 #. module: account_banking
 #: field:banking.import.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Вид"
 
 #. module: account_banking
 #: field:banking.link_partner,email:0
@@ -1483,7 +1483,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Клиент"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378

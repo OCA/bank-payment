@@ -47,7 +47,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Luonnos"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
@@ -182,7 +182,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:111

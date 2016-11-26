@@ -167,7 +167,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,notes:0
 msgid "Notes"
-msgstr ""
+msgstr "Opombe"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement.line,move_line_id:0
@@ -289,7 +289,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Osnutek"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,suppress_ending_date_filter:0
@@ -708,7 +708,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Cancel"
-msgstr ""
+msgstr "Preklic"
 
 #. module: account_banking_reconciliation
 #: view:account.move.line:0
@@ -834,7 +834,7 @@ msgstr ""
 #: field:bank.acc.rec.statement,name:0
 #: field:bank.acc.rec.statement.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0

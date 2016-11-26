@@ -131,7 +131,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: field:deposit.items.line,ref:0 field:deposit.ticket.line,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Riferimento"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -173,7 +173,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: field:deposit.items.line,draft_assigned:0
 msgid "Select"
-msgstr ""
+msgstr "Seleziona"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:81
@@ -200,7 +200,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
 #: view:deposit.ticket:0 field:deposit.ticket,state:0
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -374,7 +374,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -412,7 +412,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:120
 #: field:deposit.items.line,date:0 field:deposit.ticket.line,date:0
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,count_total:0
@@ -509,7 +509,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Done"
-msgstr ""
+msgstr "Completato"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
@@ -589,7 +589,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: account_banking_make_deposit
 #: field:add.deposit.items,name:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

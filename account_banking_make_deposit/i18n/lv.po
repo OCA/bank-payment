@@ -1,0 +1,661 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * account_banking_make_deposit
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"PO-Revision-Date: 2016-04-06 00:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Latvian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/lv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: lv\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,move_id:0
+msgid "Link to the automatically generated Journal Items."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter company Name"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:59
+#: view:deposit.ticket:0
+msgid "Deposit From Account"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,name:0
+msgid "Deposit Ticket #"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,period_id:0
+msgid "The period used for the accounting entries."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter deposit tracking no."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.items.line,deposit_items_id:0
+msgid "Deposit Items ID"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket.line,name:0
+msgid "Derived from the related Journal Item."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:436
+#, python-format
+msgid "Select Payments for Deposit"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:64
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:125
+#: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
+#: field:deposit.ticket.line,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Order date"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "To be Reviewed"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,deposit_method_id:0
+msgid ""
+"This is how the deposit was made: Examples: *Teller \n"
+"*ATM \n"
+"*Remote Deposit Capture \n"
+"*Online Deposit Capture \n"
+"*Night Drop"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket.line,amount:0
+msgid "Derived from the 'debit' amount from related Journal Item."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+msgid "_Select All"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.items.line,move_line_id:0
+#: field:deposit.ticket.line,move_line_id:0
+msgid "Journal Item"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:84
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:124
+#: field:deposit.items.line,amount:0 field:deposit.ticket,amount:0
+#: field:deposit.ticket.line,amount:0
+msgid "Amount"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,journal_id:0
+msgid "The Journal to hold accounting entries."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,ticket_line_ids:0
+#: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket_line
+msgid "Deposit Ticket Line"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.items.line,ref:0 field:deposit.ticket.line,ref:0
+msgid "Reference"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Group By..."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Deposit Tickets"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:63
+#: field:deposit.ticket,period_id:0
+msgid "Force Period"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+msgid "_Cancel"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,memo:0
+msgid "Memo for the deposit ticket"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.items.line,partner_id:0
+#: field:deposit.ticket.line,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,move_id:0
+msgid "Journal Entry"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.items.line,draft_assigned:0
+msgid "Select"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:81
+#: field:deposit.ticket,deposit_bag_no:0
+msgid "Deposit Bag No"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter Account Name (from)"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter journal name"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,company_id:0
+msgid "The Company for which the deposit ticket is made to"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
+#: view:deposit.ticket:0 field:deposit.ticket,state:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Tracking Information"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:84
+#, python-format
+msgid ""
+"You cannot add any new deposit ticket line manually as of this revision! "
+"Please use the button \"Add Deposit Items\" to add deposit ticket line!"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter Account Name (to)"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:122
+msgid "Ref"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,prepared_by_user_id:0
+#: help:deposit.ticket,verified_by_user_id:0
+msgid ""
+"Entered automatically by the “last user” who saved it. System generated."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:83
+#: field:deposit.ticket,count_total:0
+msgid "Total Items"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+msgid "_Unselect All"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Open Periods"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,amount:0
+msgid ""
+"Calculates the Total of All Deposit Lines – This is the Total Amount of "
+"Deposit."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:80
+#: field:deposit.ticket,deposit_method_id:0
+#: model:ir.actions.act_window,name:account_banking_make_deposit.action_deposit_method
+#: model:ir.model,name:account_banking_make_deposit.model_deposit_method
+msgid "Deposit Method"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:61
+msgid "Deposit Date"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,bank_tracking_no:0
+msgid ""
+"This field is used to hold a tracking number provided by the bank/financial "
+"institution often used in Remote Deposit Capture on a deposit receipt. "
+"Entered after deposit occurs."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.method,name:0
+msgid "Name of the method used for deposit"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:63
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:120
+#, python-format
+msgid "User Error"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Deposit Tickets that have been processed"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Other Information"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:82
+#: field:deposit.ticket,bank_tracking_no:0
+msgid "Deposit Tracking No"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+#: model:ir.actions.act_window,name:account_banking_make_deposit.action_view_add_deposit_items
+#: model:ir.model,name:account_banking_make_deposit.model_add_deposit_items
+msgid "Add Deposit Items"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,deposit_to_account_id:0
+msgid "The Bank/Gl Account the Deposit is being made to."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,deposit_from_account_id:0
+msgid "The Bank/GL Account the Payments are currently found in."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+msgid "Select Payments to Deposit"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,verified_date:0
+msgid "Date in which Deposit Ticket was verified."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.actions.report.xml,name:account_banking_make_deposit.report_deposit_ticket
+msgid "Internal Deposit Ticket"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter period"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:add.deposit.items:0
+msgid "_OK"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.model,name:account_banking_make_deposit.model_deposit_items_line
+msgid "Deposit Items Line"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter user name who varified"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:67
+#, python-format
+msgid ""
+"Only a member of '%s' group may delete/edit deposit tickets when not in "
+"draft state!"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket.line,move_line_id:0
+msgid "Related Journal Item."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:237
+#: view:deposit.ticket:0
+#, python-format
+msgid "Draft"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Set to Draft"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:102
+#: field:deposit.ticket,verified_by_user_id:0
+msgid "Verified By"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Deposit Tickets that haven't yet been confirmed"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,deposit_bag_no:0
+msgid "Deposit Bag number for courier transit."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,deposit_from_account_id:0
+msgid "Deposit From Acct"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:116
+#: view:deposit.ticket:0
+msgid "Deposit Ticket Lines"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:120
+#: field:deposit.items.line,date:0 field:deposit.ticket.line,date:0
+msgid "Date"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,count_total:0
+msgid "Counts the total # of line items in the deposit ticket."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:account.move.line,deposit_id:0 view:deposit.ticket:0
+#: field:deposit.ticket.line,deposit_id:0
+#: model:ir.actions.act_window,name:account_banking_make_deposit.action_deposit_ticket
+#: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket
+msgid "Deposit Ticket"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Search Deposit Tickets"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter deposite date"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,date:0
+msgid "Date of Deposit"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter date of varification"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.model,name:account_banking_make_deposit.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Prepared by me"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.ui.menu,name:account_banking_make_deposit.menu_deposit_methods
+msgid "Deposit Methods"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:115
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:res.groups,name:account_banking_make_deposit.group_make_deposits_preparer
+msgid "Make Deposits Preparer"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.actions.act_window,help:account_banking_make_deposit.action_deposit_ticket
+msgid ""
+"With Deposit Tickets you can create new deposit tickets, by selecting and "
+"grouping customer payments, supplier refunds, or other payments into a "
+"Deposit Ticket. OpenERP automatically posts accounting entries for “Done” "
+"deposit tickets. The GL entry for the deposit is posted into the Current "
+"Period based on the date range selected."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:116
+#, python-format
+msgid "Please define sequence on deposit journal"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Process"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter memo"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Period"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:239
+#: view:deposit.ticket:0
+#, python-format
+msgid "Done"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
+#: field:deposit.ticket,verified_date:0
+msgid "Verified Date"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:240
+#: view:deposit.ticket:0
+#, python-format
+msgid "Cancel"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter deposit method"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:101
+#: field:deposit.ticket,prepared_by_user_id:0
+msgid "Prepared By"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter deposit bag no."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Enter user name who prepared"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket.line,company_id:0 help:deposit.ticket.line,date:0
+#: help:deposit.ticket.line,partner_id:0 help:deposit.ticket.line,ref:0
+msgid "Derived from related Journal Item."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:238
+#: view:deposit.ticket:0
+#, python-format
+msgid "Ready for Review"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:83
+#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:151
+#, python-format
+msgid "Processing Error"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:deposit.ticket,deposit_to_account_id:0
+msgid "Deposit To Acct"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:62
+#: field:deposit.ticket,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Deposit Tickets that are ready for review"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:ir.ui.menu,name:account_banking_make_deposit.menu_make_deposit_tickets
+msgid "Make Deposits"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
+msgid "Customer"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:add.deposit.items,name:0
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:121
+#: field:deposit.items.line,name:0 field:deposit.method,name:0
+#: field:deposit.ticket.line,name:0
+msgid "Name"
+msgstr "Nosaukums"
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,date:0
+msgid "The Date of the Deposit Ticket."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:add.deposit.items,deposit_items_line_ids:0
+msgid "Lines"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: view:deposit.ticket:0
+msgid "Verified by me"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:60
+#: view:deposit.ticket:0
+msgid "Deposit To Account"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:account.move.line,draft_assigned:0
+msgid ""
+"This field is checked when the move line is assigned to a draft deposit "
+"ticket. The deposit ticket is not still completely processed"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:152
+#, python-format
+msgid "You cannot add any new deposit line item manually as of this revision!"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:121
+#, python-format
+msgid "Cannot create move on centralised journal"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:res.groups,name:account_banking_make_deposit.group_make_deposits_verifier
+msgid "Make Deposits Verifier"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: help:deposit.ticket,name:0
+msgid "Each deposit will have a unique sequence ID. System generated."
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: field:account.move.line,draft_assigned:0
+msgid "Draft Assigned"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:85
+#: field:deposit.ticket,memo:0
+msgid "Memo"
+msgstr ""

@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Riferimento"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -486,7 +486,7 @@ msgstr ""
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Select"
-msgstr ""
+msgstr "Seleziona"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -804,7 +804,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -926,7 +926,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,duplicate:0 view:banking.transaction.wizard:0
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicata"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1665
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -1070,7 +1070,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -1290,7 +1290,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1473,7 +1473,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Note"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
@@ -1483,7 +1483,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

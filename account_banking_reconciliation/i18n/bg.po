@@ -686,7 +686,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Done"
-msgstr ""
+msgstr "Готово"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement,verified_date:0

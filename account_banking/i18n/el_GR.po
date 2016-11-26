@@ -1,0 +1,1630 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * account_banking
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"PO-Revision-Date: 2016-04-06 00:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Greek (Greece) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/el_GR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: el_GR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_banking
+#: field:account.bank.statement.line,reconcile_id:0
+msgid "Reconciliation"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Remove duplicate flag"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:411
+#: code:addons/account_banking/banking_import_transaction.py:422
+#, python-format
+msgid "Please select one of the matches in transaction %s.%s"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,remote_account:0
+msgid "Account number"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:375
+#, python-format
+msgid "Number of bank costs invoices created"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Write-Off"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Unknown"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,zip:0
+msgid "Zip"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
+msgid "Cancel transaction"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:363
+#, python-format
+msgid "Number of errors found"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:261
+#, python-format
+msgid ""
+"Statement %(statement_id)s for account %(bank_account)s uses different "
+"currency than the defined bank journal."
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0
+msgid "Select the processing details:"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+msgid "Group By..."
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Payment line (manual)"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/link_partner.py:97
+#, python-format
+msgid "No transaction data on statement line"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,statement_id:0
+#: field:banking.import.transaction,statement_id:0
+msgid "Statement"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Storno"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:146
+#, python-format
+msgid "No entry found for the selected invoice. Try manual reconciliation."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_eangl:0
+msgid "remote_bank_eangln"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_bic:0
+msgid "remote_bank_bic"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:419
+#, python-format
+msgid "Cannot link transaction %s with accounting entry"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:banking.transaction.wizard:0
+msgid "Match"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
+msgid "Log"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:408
+#, python-format
+msgid "Cannot link transaction %s with invoice"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_banking_account_settings
+msgid "Default Journal for Bank Account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:695
+#, python-format
+msgid "Bank transaction %s: write off not implemented for this match type."
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,parent_id:0
+msgid "Parent"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.bank.import,file:0
+msgid "Statements File"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.bank.import,import_id:0
+msgid "Import File"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:687
+#, python-format
+msgid "Cannot reconcile type %s. No method found to reconcile this type"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,company_id:0
+#: field:account.banking.bank.import,company:0
+#: field:account.banking.imported.file,company_id:0
+#: field:banking.import.transaction,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Payment order"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:303
+#, python-format
+msgid ""
+"No period found covering statement date %(date)s, statement %(id)s skipped"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,residual:0
+#: field:banking.import.transaction,residual:0
+#: field:banking.transaction.wizard,residual:0
+msgid "Residual"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1763
+#, python-format
+msgid "Confirmed Statement Line"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,invoice_id:0
+msgid "Linked Invoice"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:71
+#, python-format
+msgid "Bank account %(account_no)s was not found in the database"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+#: field:banking.transaction.wizard,manual_move_line_ids:0
+msgid "Or match one or more entries"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,transferred_amount:0
+msgid "transferred_amount"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.action_bank_statement_line_tree
+#: model:ir.ui.menu,name:account_banking.menu_bank_statement_line_tree
+msgid "Bank Transactions"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1658
+#, python-format
+msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:367
+#, python-format
+msgid "Number of transactions skipped due to errors"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,statement_line_id:0
+msgid "Resulting statement line"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,invoice_ids:0
+#: field:banking.transaction.wizard,invoice_ids:0
+msgid "Matching invoices"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:628
+#, python-format
+msgid "Free Reference"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,reconcile_id:0
+msgid "Reconciliaton"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.link_partner:0 view:banking.transaction.wizard:0
+msgid "Transaction data"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,account_id:0
+msgid "Account"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Current match"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,invoice_journal_id:0
+msgid "Costs Journal"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_currency:0
+msgid "remote_currency"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1938
+#, python-format
+msgid "Confirmed Statement Lines"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:737
+#, python-format
+msgid "Cannot check for duplicate. I can't find myself."
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.bank.import,file_name:0
+#: field:account.banking.imported.file,file_name:0
+msgid "File name"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Canceled debit order"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.account.settings:0
+msgid "Default Import Settings for Bank Account"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
+#: field:banking.transaction.wizard,amount:0
+msgid "Amount"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,match_type:0
+#: field:banking.import.transaction,match_type:0
+#: field:banking.transaction.wizard,match_type:0
+msgid "Match type"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,partner_id:0
+msgid "or link existing partner"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,duplicate:0
+msgid "Possible duplicate import"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.link_partner:0
+msgid "Create partner"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:663
+#, python-format
+msgid "Cannot cancel type %s"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
+#: field:banking.transaction.wizard,ref:0
+msgid "Reference"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,exchange_rate:0
+msgid "exchange_rate"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,default_debit_account_id:0
+msgid "Default debit account"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.act_account_banking_import_wizard
+#: model:ir.actions.act_window,name:account_banking.wizard_account_banking_import_file
+#: model:ir.ui.menu,name:account_banking.menu_account_banking_import_wizard
+msgid "Import Bank Statements File"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,statement:0
+msgid "statement"
+msgstr ""
+
+#. module: account_banking
+#: constraint:account.bank.statement:0
+msgid "The journal and period chosen have to belong to the same company."
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1726
+#, python-format
+msgid ""
+"The bank statement that this transaction belongs to has already been "
+"confirmed"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,analytic_account_id:0
+msgid "Analytic Account"
+msgstr "Αναλυτικός Λογαριασμός"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1657
+#, python-format
+msgid "Bank transfer flagged as duplicate"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Move"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:263
+#, python-format
+msgid "Unknown Bank"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,duplicate:0
+msgid "Flagged as duplicate"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:736
+#, python-format
+msgid "Cannot check for duplicate"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,statement_line_id:0
+#: field:banking.link_partner,statement_line_id:0
+#: field:banking.transaction.wizard,statement_line_id:0
+msgid "Statement line"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,partner_id:0
+#: field:banking.import.line,partner_id:0
+#: field:banking.transaction.wizard,partner_id:0
+#: model:ir.model,name:account_banking.model_res_partner
+msgid "Partner"
+msgstr "Συνεργάτης"
+
+#. module: account_banking
+#: field:account.banking.imported.file,date:0
+msgid "Import Date"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_tax_id:0
+msgid "remote_bank_tax_id"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:413
+#: code:addons/account_banking/banking_import_transaction.py:424
+#, python-format
+msgid "No match found for transaction %s.%s"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Select"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Payment from a payment order"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_bei:0
+msgid "remote_bank_bei"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+#: selection:account.bank.statement.line,state:0
+msgid "Confirmed"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_voucher
+msgid "Accounting Voucher"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner_city:0
+msgid "remote_owner_city"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner:0
+msgid "remote_owner"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.account.settings:0
+msgid "Default Accounts for Unknown Movements"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0
+msgid "Confirm"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,default_credit_account_id:0
+msgid "Default credit account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1764
+#, python-format
+msgid "You cannot delete a confirmed Statement Line: '%s'"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,period_id:0
+#: field:banking.import.line,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,transaction_type:0
+msgid "Transaction type"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
+msgid "Supplier"
+msgstr "Προμηθευτής"
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1900
+#, python-format
+msgid "Please verify that an account is defined in the journal."
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Payment order (manual)"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,trans:0
+msgid "Bank Transaction ID"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Match again"
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.account.settings,invoice_journal_id:0
+msgid "This is the journal used to create invoices for bank costs."
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,type:0
+msgid "General"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,type:0
+msgid "Type"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,email:0
+msgid "Email"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.link_partner:0
+msgid "Link existing partner"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,move_line_id:0
+msgid "Entry line"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Invoice payment"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
+#: view:banking.link_partner:0
+#: model:ir.model,name:account_banking.model_banking_link_partner
+msgid "Link partner"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1725
+#, python-format
+msgid "Cannot cancel bank transaction"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,is_company:0
+msgid "Is a Company"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1909
+#, python-format
+msgid "The account entries lines are not in valid state."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,provision_costs_currency:0
+msgid "provision_costs_currency"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1664
+#, python-format
+msgid "No Analytic Journal !"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.imported.file:0
+msgid "Import Details"
+msgstr ""
+
+#. module: account_banking
+#. openerp-web
+#: code:addons/account_banking/static/src/js/account_banking.js:28
+#: view:banking.transaction.wizard:0
+#: model:ir.model,name:account_banking.model_banking_transaction_wizard
+#, python-format
+msgid "Match transaction"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.action_account_banking_journals
+#: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_journals
+msgid "Default Import Settings for Bank Accounts"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,bank_partner_id:0
+msgid "Bank Partner"
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.bank.import,file:0
+msgid ""
+"The Transactions File to import. Please note that while it is perfectly safe to reload the same file multiple times or to load in timeframe overlapping statements files, there are formats that may introduce different sequencing, which may create double entries.\n"
+"\n"
+"To stay on the safe side, always load bank statements files using the same format."
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:237
+#, python-format
+msgid ""
+"Statements found for account %(bank_account)s, but no default journal was "
+"defined."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,writeoff_account_id:0
+#: field:banking.transaction.wizard,writeoff_account_id:0
+msgid "Write-off account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1917
+#, python-format
+msgid "Statement %s confirmed, journal items were created."
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.account.settings,default_credit_account_id:0
+msgid ""
+"The account to use when an unexpected payment was signaled. This can happen "
+"when a direct debit payment is cancelled by a customer, or when no matching "
+"payment can be found. Mind that you can correct movements before confirming "
+"them."
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0
+msgid "Transaction"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.bank.import,statement_ids:0
+#: view:account.banking.imported.file:0
+msgid "Imported Bank Statements"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,writeoff_amount:0
+msgid "Difference Amount"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_banking_import_transaction
+msgid "Bank import transaction"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,value_date:0
+msgid "Value date"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Manual"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,fax:0
+msgid "Fax"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:148
+#: code:addons/account_banking/wizard/bank_import.py:165
+#, python-format
+msgid "ERROR!"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:156
+#, python-format
+msgid "Account %(account_no)s is not owned by %(partner)s"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_bank_statement_monkeypatch
+msgid "Bank statement monkeypatch"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.transaction,payment_option:0
+#: selection:banking.transaction.wizard,payment_option:0
+msgid "Reconcile Payment Balance"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,storno_retry:0
+msgid "storno_retry"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,payment_option:0
+#: field:banking.transaction.wizard,payment_option:0
+msgid "Payment Difference"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+msgid "Search Bank Transactions "
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid ""
+"You can let the system try to match this bank statement line again after you"
+" have made any changes in the database (for instance, add an invoice or a "
+"bank account)."
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+#: field:account.bank.statement.line,state:0
+#: field:account.banking.bank.import,state:0
+#: field:account.banking.imported.file,state:0
+#: field:banking.link_partner,state_id:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0
+msgid "Import Bank Transactions File"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+#: field:banking.transaction.wizard,manual_invoice_ids:0
+msgid "Match one or more invoices"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0 view:account.banking.bank.import:0
+#: field:account.banking.bank.import,line_ids:0
+msgid "Transactions"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0
+msgid "Journal Entries"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,currency:0
+#: field:banking.import.line,currency:0
+msgid "Currency"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1899
+#, python-format
+msgid "Configuration Error"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,bank_country_code:0
+msgid "Bank country code"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,move_line_id:0
+msgid "Entry to reconcile"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,message:0
+#: field:banking.transaction.wizard,message:0
+msgid "Message"
+msgstr "Μήνυμα"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:132
+#, python-format
+msgid "More than one possible match found for partner with name %(name)s"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banktools.py:150
+#, python-format
+msgid ""
+"More than one bank account was found with the same number %(account_no)s"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+#: field:banking.transaction.wizard,match_multi:0
+msgid "Multiple matches"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+#: model:ir.model,name:account_banking.model_account_invoice
+msgid "Invoice"
+msgstr "Τιμολόγιο"
+
+#. module: account_banking
+#: field:account.banking.imported.file,user_id:0
+msgid "Responsible User"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/parsers/models.py:283
+#, python-format
+msgid "Invalid value for transfer_type"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,parent_id:0
+msgid "Split off from this transaction"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.imported.file,state:0
+msgid "Review"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.imported.file,file:0
+msgid "Raw Data"
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.account.settings,default_debit_account_id:0
+msgid ""
+"The account to use when an unexpected payment is received. This can be "
+"needed when a customer pays in advance or when no matching invoice can be "
+"found. Mind that you can correct movements before confirming them."
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:361
+#, python-format
+msgid "Total number of transactions"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,duplicate:0 view:banking.transaction.wizard:0
+msgid "Duplicate"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1665
+#, python-format
+msgid "You have to define an analytic journal on the '%s' journal!"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+#: selection:account.bank.statement.line,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Disable reconciliation"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.act_account_payment_account_bank_statement
+msgid "Bank Statements File"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/parsers/models.py:440
+#, python-format
+msgid "This is a stub. Please implement your own."
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0
+msgid "Import"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,message:0
+msgid "message"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0 view:account.bank.statement.line:0
+msgid "Confirm transaction"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/link_partner.py:92
+#, python-format
+msgid "Statement line is already linked to a bank account "
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid ""
+"Choose what you want to do with the eventual difference between the paid "
+"amount and the sum of allocated amounts. You can either choose to keep open "
+"this difference on the partner's account, or reconcile it with the payment."
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid ""
+"This bank transfer was marked as a duplicate. You can either confirm that "
+"this is not the case, or remove the bank transfer from the system."
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.imported.file:0
+#: model:ir.actions.act_window,name:account_banking.action_account_banking_imported_files
+#: model:ir.ui.menu,name:account_banking.menu_action_account_banking_imported_files
+msgid "Imported Bank Statements Files"
+msgstr ""
+
+#. module: account_banking
+#: help:banking.import.transaction,payment_option:0
+msgid ""
+"This field helps you to choose what you want to do with the eventual "
+"difference between the paid amount and the sum of allocated amounts. You can"
+" either choose to keep open this difference on the partner's account, or "
+"reconcile it with the payment(s)"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:953
+#, python-format
+msgid "Transaction found for unknown account %(bank_account)s"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,street2:0
+msgid "Street2"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:226
+#, python-format
+msgid "Statements found for unknown account %(bank_account)s"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.bank.import,state:0
+msgid "init"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:285
+#, python-format
+msgid "Statement %(id)s known - skipped"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,phone:0
+msgid "Phone"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,duplicate:0
+msgid "duplicate"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,name:0
+msgid "Create partner with name"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Aggregate payment order"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner_custno:0
+msgid "remote_owner_custno"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.imported.file:0
+#: field:account.banking.imported.file,log:0
+msgid "Import Log"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#. module: account_banking
+#: view:account.banking.account.settings:0
+msgid "Generation of Bank Costs Invoices"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,link_partner_ok:0
+msgid "Can link partner"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_account:0
+msgid "remote_account"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,provision_costs:0
+msgid "provision_costs"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "You can disable the reconciliation of this bank transfer"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,import_transaction_id:0
+#: field:banking.transaction.wizard,import_transaction_id:0
+msgid "Import transaction"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,error_message:0
+msgid "error_message"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:166
+#, python-format
+msgid "The imported statements appear to be invalid! Check your file."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_duns:0
+msgid "remote_bank_duns"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,writeoff_analytic_id:0
+msgid "Write off analytic account"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.ui.menu,name:account_banking.menu_finance_banking_actions
+#: model:ir.ui.menu,name:account_banking.menu_finance_banking_settings
+msgid "Banking"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:149
+#, python-format
+msgid "Unable to import parser %(parser)s. Parser class not found."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,transaction:0
+msgid "transaction"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,execution_date:0
+msgid "Posted date"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.imported.file,state:0
+#: code:addons/account_banking/banking_import_transaction.py:1591
+#: code:addons/account_banking/banking_import_transaction.py:1908
+#: code:addons/account_banking/wizard/bank_import.py:398
+#: code:addons/account_banking/wizard/link_partner.py:91
+#: code:addons/account_banking/wizard/link_partner.py:96
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:964
+#, python-format
+msgid ""
+"Transaction found for account %(bank_account)s, but no default journal was "
+"defined."
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement.line:0
+msgid "Statement lines"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,move_line_ids:0
+msgid "Entry lines"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Set write-off account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1001
+#, python-format
+msgid "Cannot perform match on a confirmed transction"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,invoice_id:0
+#: field:banking.transaction.wizard,invoice_id:0
+msgid "Invoice to reconcile"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,provision_costs_description:0
+msgid "provision_costs_description"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1033
+#, python-format
+msgid ""
+"transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s"
+" uses different currency than the defined bank journal."
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid "Manual match"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.transaction.wizard:0
+msgid ""
+"Multiple matches were found for this bank transfer. You must pick one of the"
+" matches or select a match manually below."
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,writeoff_analytic_id:0
+msgid "Write-off analytic account"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,type:0
+msgid "type"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.actions.act_window,name:account_banking.action_account_banking_res_partner_banks
+#: model:ir.model,name:account_banking.model_res_partner_bank
+#: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,local_account:0
+msgid "local_account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:145
+#, python-format
+msgid "No entry found for the selected invoice"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_bank_statement
+msgid "Bank Statement"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner_postalcode:0
+msgid "remote_owner_postalcode"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.bank.statement.line,match_type:0
+#: selection:banking.import.transaction,match_type:0
+#: selection:banking.transaction.wizard,match_type:0
+msgid "Payment line"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,writeoff_move_line_id:0
+msgid "Write off move line"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,banking_import_id:0
+msgid "Bank import"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.bank.import,state:0
+msgid "error"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0 view:banking.link_partner:0
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#. module: account_banking
+#: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
+msgid "Close"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
+msgid "Name"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner_address:0
+msgid "remote_owner_address"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,invoice_ids:0
+#: field:banking.transaction.wizard,statement_line_parent_id:0
+msgid "unknown"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,city:0
+msgid "City"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.imported.file,state:0
+msgid "Unfinished"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:185
+#, python-format
+msgid "Cannot select for reconcilion"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1000
+#, python-format
+msgid "Cannot perform match"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:369
+#, python-format
+msgid "Number of statements loaded"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:359
+#, python-format
+msgid "Total number of statements"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,transaction_type:0
+msgid "Bank costs"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,match_multi:0
+#: field:banking.import.transaction,match_multi:0
+msgid "Multi match"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.link_partner:0
+msgid "Create or link partner"
+msgstr ""
+
+#. module: account_banking
+#: help:banking.import.transaction,bank_country_code:0
+msgid ""
+"Fallback default country for new partner records, as defined by the import "
+"parser"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.bank.import,state:0
+msgid "ready"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,move_line_ids:0
+msgid "Matching entries"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/banking_transaction_wizard.py:186
+#, python-format
+msgid "No entry found for the selected invoice. "
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:340
+#, python-format
+msgid ""
+"Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: invoice "
+"%(invoice)s was already paid"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.bank.import,parser:0
+#: field:account.banking.imported.file,format:0
+msgid "File Format"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1592
+#, python-format
+msgid "No bank account available to link partner to"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,move_currency_amount:0
+msgid "Match Amount"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0
+msgid ""
+"black:state == 'confirmed';darkmagenta:match_multi == True;crimson:duplicate"
+" == True;grey:state == 'draft';"
+msgstr ""
+
+#. module: account_banking
+#: field:account.banking.account.settings,costs_account_id:0
+msgid "Bank Costs Account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:664
+#, python-format
+msgid "No method found to cancel this type"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,mobile:0
+msgid "Mobile"
+msgstr ""
+
+#. module: account_banking
+#: selection:account.banking.imported.file,state:0
+msgid "Finished"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,street:0
+msgid "Street"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_ibei:0
+msgid "remote_bank_ibei"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/account_banking.py:629
+#, python-format
+msgid "Structured Reference"
+msgstr ""
+
+#. module: account_banking
+#: view:banking.link_partner:0
+msgid "Address"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.account.settings:0
+msgid "Bank Account Details"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_owner_country_code:0
+msgid "remote_owner_country_code"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.line,note:0
+msgid "Notes"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_res_bank
+msgid "Bank"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
+msgid "Customer"
+msgstr "Πελάτης"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:378
+#, python-format
+msgid "Error report"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:686
+#: code:addons/account_banking/banking_import_transaction.py:694
+#, python-format
+msgid "Cannot reconcile"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.transaction.wizard,move_currency_amount:0
+msgid "Match Currency Amount"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:365
+#, python-format
+msgid "Number of statements skipped due to errors"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.link_partner,country_id:0
+msgid "Country"
+msgstr "Χώρα"
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:397
+#, python-format
+msgid "Review Bank Statements"
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement.line,partner_bank_id:0
+#: field:account.banking.account.settings,partner_bank_id:0
+#: field:banking.import.line,partner_bank_id:0
+msgid "Bank Account"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:371
+#, python-format
+msgid "Number of transactions loaded"
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.account.settings,costs_account_id:0
+msgid ""
+"The account to use when the bank invoices its own costs. Leave it blank to "
+"disable automatic invoice generation on bank costs."
+msgstr ""
+
+#. module: account_banking
+#: field:account.bank.statement,banking_id:0
+msgid "Imported File"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,local_currency:0
+msgid "local_currency"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,reference:0
+msgid "reference"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0
+msgid ""
+"{'readonly': ['|', ('state', '!=', 'draft'), ('match_type', '!=', False)]}"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1939
+#, python-format
+msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/wizard/bank_import.py:373
+#, python-format
+msgid "Number of transactions matched"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0 view:account.banking.imported.file:0
+#: field:account.banking.imported.file,statement_ids:0
+msgid "Statements"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_banking_import_line
+msgid "Bank import lines"
+msgstr ""
+
+#. module: account_banking
+#: help:account.banking.account.settings,bank_partner_id:0
+msgid ""
+"The partner to use for bank costs. Banks are not partners by default. You "
+"will most likely have to create one."
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_banking_bank_import
+msgid "account.banking.bank.import"
+msgstr ""
+
+#. module: account_banking
+#: selection:banking.import.transaction,payment_option:0
+#: selection:banking.transaction.wizard,payment_option:0
+msgid "Keep Open"
+msgstr ""
+
+#. module: account_banking
+#: view:account.bank.statement:0
+msgid "{'readonly': [('state','!=','draft'),]}"
+msgstr ""
+
+#. module: account_banking
+#: view:account.banking.bank.import:0 view:banking.link_partner:0
+msgid "or"
+msgstr ""
+
+#. module: account_banking
+#: model:ir.model,name:account_banking.model_account_banking_imported_file
+msgid "Imported Bank Statements File"
+msgstr ""
+
+#. module: account_banking
+#: code:addons/account_banking/banking_import_transaction.py:1830
+#: code:addons/account_banking/banking_import_transaction.py:1842
+#, python-format
+msgid " (split)"
+msgstr ""
+
+#. module: account_banking
+#: field:banking.import.transaction,remote_bank_chips_uid:0
+msgid "remote_bank_chips_uid"
+msgstr ""

@@ -141,7 +141,7 @@ msgstr ""
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. module: bank_statement_instant_voucher
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:225
@@ -175,4 +175,4 @@ msgstr "Empresa"
 #. module: bank_statement_instant_voucher
 #: view:account.voucher.instant:0
 msgid "or"
-msgstr ""
+msgstr "o"

@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,state:0 field:banking.export.sdd.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
@@ -36,7 +36,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,nb_transactions:0
@@ -78,7 +78,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:238
@@ -438,7 +438,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0
