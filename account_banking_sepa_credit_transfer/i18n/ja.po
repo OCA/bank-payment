@@ -1,0 +1,191 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_sepa_credit_transfer
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"PO-Revision-Date: 2016-04-06 00:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Japanese (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:199
+#, python-format
+msgid ""
+"Bank account is missing on the bank payment line of partner '%s' (reference "
+"'%s')."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,batch_booking:0
+msgid "Batch Booking"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,charge_bearer:0
+msgid "Borne by Creditor"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,charge_bearer:0
+msgid "Borne by Debtor"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
+msgid "Cancel"
+msgstr "キャンセル"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,charge_bearer:0
+msgid "Charge Bearer"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,state:0
+msgid "Create"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,create_uid:0
+msgid "Created by"
+msgstr "作成者"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,create_date:0
+msgid "Created on"
+msgstr "作成日"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,display_name:0
+msgid "Display Name"
+msgstr "表示名"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
+msgid "Export SEPA Credit Transfer File"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,file:0
+msgid "File"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,filename:0
+msgid "Filename"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,state:0
+msgid "Finish"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,charge_bearer:0
+msgid "Following Service Level"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: help:banking.export.sepa.wizard,charge_bearer:0
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must"
+" use this). Shared : transaction charges on the debtor side are to be borne "
+"by the debtor, transaction charges on the creditor side are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by"
+" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the debtor."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
+msgid "Generate"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_sepa_credit_transfer
+#: help:banking.export.sepa.wizard,batch_booking:0
+msgid ""
+"If true, the bank statement will display only one debit line for all the "
+"wire transfers of the SEPA XML file ; if false, the bank statement will "
+"display one debit line per wire transfer of the SEPA XML file."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "最終更新日"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "最終更新者"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "最終更新日"
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,nb_transactions:0
+msgid "Number of Transactions"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_payment_mode
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,payment_order_ids:0
+msgid "Payment Orders"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:98
+#, python-format
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Codes "
+"supported for SEPA Credit Transfers are 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' and "
+"'pain.001.003.03'."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
+msgid "SEPA File Generation"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:banking.export.sepa.wizard,charge_bearer:0
+msgid "Shared"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,state:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: field:banking.export.sepa.wizard,total_amount:0
+msgid "Total Amount"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
+msgid "Validate"
+msgstr ""

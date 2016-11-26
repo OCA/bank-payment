@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"POT-Creation-Date: 2016-11-20 00:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: selection:payment.mode,default_payment_mode:0
 #: selection:payment.order.create,payment_mode:0
 msgid "Any"
-msgstr ""
+msgstr "Tout"
 
 #. module: account_payment_partner
 #: view:website:account.report_invoice_document
@@ -31,7 +31,7 @@ msgstr ""
 #. module: account_payment_partner
 #: field:res.partner,customer_payment_mode:0
 msgid "Customer Payment Mode"
-msgstr ""
+msgstr "Mode de paiement du client"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
@@ -53,7 +53,7 @@ msgstr "Mode de paiement"
 #: field:payment.mode,default_payment_mode:0
 #: field:payment.order.create,payment_mode:0
 msgid "Payment Mode on Invoice"
-msgstr ""
+msgstr "Mode de paiement sur la facture"
 
 #. module: account_payment_partner
 #: view:website:account.report_invoice_document
@@ -69,30 +69,30 @@ msgstr ""
 #: selection:payment.mode,default_payment_mode:0
 #: selection:payment.order.create,payment_mode:0
 msgid "Same"
-msgstr ""
+msgstr "Identique"
 
 #. module: account_payment_partner
 #: selection:payment.mode,default_payment_mode:0
 #: selection:payment.order.create,payment_mode:0
 msgid "Same or empty"
-msgstr ""
+msgstr "Identique ou vide"
 
 #. module: account_payment_partner
 #: help:res.partner,customer_payment_mode:0
 msgid "Select the default payment mode for this customer."
-msgstr ""
+msgstr "Sélectionnez le mode de paiement par défaut pour ce client."
 
 #. module: account_payment_partner
 #: help:res.partner,supplier_payment_mode:0
 msgid "Select the default payment mode for this supplier."
-msgstr ""
+msgstr "Sélectionnez le mode de paiement par défaut pour ce fournisseur."
 
 #. module: account_payment_partner
 #: view:account.invoice:account_payment_partner.invoice_filter
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #. module: account_payment_partner
 #: field:res.partner,supplier_payment_mode:0
 msgid "Supplier Payment Mode"
-msgstr ""
+msgstr "Mode de paiement fournisseur"

@@ -1,0 +1,68 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_import_line_multicurrency_extension
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"PO-Revision-Date: 2016-11-22 16:35+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_import_line_multicurrency_extension
+#: code:addons/account_import_line_multicurrency_extension/models/bank_statement.py:42
+#, python-format
+msgid "Amount on line %s is not set. \n"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: model:ir.model,name:account_import_line_multicurrency_extension.model_account_bank_statement
+msgid "Bank Statement"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: model:ir.model,name:account_import_line_multicurrency_extension.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: help:account.bank.statement.line,currency_symbol:0
+msgid "Currency sign, to be used when printing amounts."
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: model:ir.model,name:account_import_line_multicurrency_extension.model_account_statement_from_invoice_lines
+msgid "Entries by Statement from Invoices"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: code:addons/account_import_line_multicurrency_extension/models/bank_statement.py:45
+#, python-format
+msgid ""
+"Error on bank statement: \n"
+" %s"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: field:account.bank.statement.line,currency_symbol:0
+msgid "Journal Currency"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: view:account.move.line:account_import_line_multicurrency_extension.view_move_line_tree_bank_statement
+#: view:account.statement.from.invoice.lines:account_import_line_multicurrency_extension.view_account_statement_from_invoice_lines_over
+msgid "Move lines"
+msgstr ""
+
+#. module: account_import_line_multicurrency_extension
+#: view:account.bank.statement:account_import_line_multicurrency_extension.view_bank_statement_form
+msgid "Reconcile"
+msgstr "Conciliación"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
-"PO-Revision-Date: 2016-09-16 21:46+0000\n"
+"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"PO-Revision-Date: 2016-11-18 14:14+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -37,13 +37,13 @@ msgstr ""
 #. module: account_banking_payment_transfer
 #: model:ir.model,name:account_banking_payment_transfer.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Lignes de paiement bancaires"
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:70
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr ""
+msgstr "Impossible de rapprocher : aucune ligne d'écriture pour la ligne de paiement %s du partenaire '%s'."
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:185
@@ -76,7 +76,7 @@ msgstr ""
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr ""
+msgstr "Pour le partenaire '%s', le compte de la ligne d'écriture à payer (%s) est différent du compte de la ligne d'écriture du transfert (%s)."
 
 #. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_journal_id:0
@@ -93,7 +93,7 @@ msgstr "Message"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr ""
+msgstr "La ligne d'écriture '%s' du partenaire '%s' a déjà été réconciliée"
 
 #. module: account_banking_payment_transfer
 #: help:bank.payment.line,transit_move_line_id:0
@@ -103,12 +103,12 @@ msgstr ""
 #. module: account_banking_payment_transfer
 #: selection:payment.mode,transfer_move_option:0
 msgid "One move per payment date"
-msgstr ""
+msgstr "Un mouvement par date de paiement"
 
 #. module: account_banking_payment_transfer
 #: selection:payment.mode,transfer_move_option:0
 msgid "One move per payment line"
-msgstr ""
+msgstr "Un mouvement par ligne de paiement"
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:264
@@ -147,7 +147,7 @@ msgstr "Mode de paiement"
 #. module: account_banking_payment_transfer
 #: model:ir.model,name:account_banking_payment_transfer.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de paiement"
 
 #. module: account_banking_payment_transfer
 #: field:payment.order,date_sent:0
