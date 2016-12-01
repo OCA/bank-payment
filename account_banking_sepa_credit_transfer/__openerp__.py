@@ -19,6 +19,7 @@
     'data': [
         'wizard/export_sepa_view.xml',
         'data/payment_type_sepa_sct.xml',
+        'views/payment_mode.xml'
     ],
     'demo': [
         'demo/sepa_credit_transfer_demo.xml'
