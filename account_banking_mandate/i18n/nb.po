@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2016-11-29 10:19+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nb/)\n"
@@ -332,7 +332,7 @@ msgstr ""
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:55
 #, python-format
 msgid "Valid"
-msgstr ""
+msgstr "Gyldig"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
