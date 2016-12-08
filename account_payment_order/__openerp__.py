@@ -13,7 +13,7 @@
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Akretion, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
