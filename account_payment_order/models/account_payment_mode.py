@@ -61,9 +61,9 @@ class AccountPaymentMode(models.Model):
         ], string='Offsetting Account', default='bank_account')
     transfer_account_id = fields.Many2one(
         'account.account', string='Transfer Account',
-        domain=[('internal_type', '=', 'other'), ('reconcile', '=', True)],
+        domain=[('reconcile', '=', True)],
         help="Pay off lines in 'file uploaded' payment orders with a move on "
-        "this account. You can only select accounts of type regular "
+        "this account. You can only select accounts "
         "that are marked for reconciliation")
     transfer_journal_id = fields.Many2one(
         'account.journal', string='Transfer Journal',

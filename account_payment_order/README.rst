@@ -67,6 +67,7 @@ Contributors
 * Raphaël Valyi
 * Sandy Carter
 * Angel Moya <angel.moya@domatix.com>
+* Jose María Alzaga <jose.alzaga@aselcis.com>
 
 Maintainer
 ----------
