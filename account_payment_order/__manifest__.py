@@ -15,7 +15,6 @@
               "Therp BV, "
               "Tecnativa, "
               "Akretion, "
-              "Aselcis, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
