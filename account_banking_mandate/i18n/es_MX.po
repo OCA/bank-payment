@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2016-12-03 00:23+0000\n"
+"PO-Revision-Date: 2016-12-05 09:23+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -221,7 +221,7 @@ msgstr "Si se marca, los nuevos mensajes requieren su atención"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
@@ -312,7 +312,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Compañero"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_payment_line
