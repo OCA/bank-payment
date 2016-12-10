@@ -20,19 +20,19 @@ except ImportError:
     job = empty_decorator_factory
 
 
-class PaymentOrder(models.Model):
-    _inherit = 'payment.order'
+class BankPaymentLine(models.Model):
+    _inherit = 'bank.payment.line'
 
     @api.multi
-    def _reconcile_payment_lines(self, bank_payment_lines):
+    def reconcile_payment_lines(self):
         test_condition = (config['test_enable'] and
                           not self.env.context.get('test_connector'))
         if test_condition or self.env.context.get('no_connector'):
-            return super(PaymentOrder, self)._reconcile_payment_lines(
-                bank_payment_lines)
+            return super(BankPaymentLine, self).reconcile_payment_lines()
         session = ConnectorSession.from_env(self.env)
-        for bline in bank_payment_lines:
-            reconcile_one_move.delay(session, bline._name, bline.id)
+        for bline in self:
+            if all([pline.move_line_id for pline in bline.payment_line_ids]):
+                reconcile_one_move.delay(session, bline._name, bline.id)
 
 
 @job(default_channel='root.account_payment_transfer_reconcile_batch')
@@ -40,7 +40,6 @@ def reconcile_one_move(session, model_name, bank_payment_line_id):
     bline_model = session.env[model_name]
     bline = bline_model.browse(bank_payment_line_id)
     if bline.exists():
-        obj = session.env['payment.order'].with_context(no_connector=True)
-        obj._reconcile_payment_lines(bline)
+        bline.with_context(no_connector=True).reconcile()
     else:
         return _(u'Nothing to do because the record has been deleted')

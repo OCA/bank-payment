@@ -4,13 +4,13 @@
 
 {
     'name': "Batch Reconciliation for transfer moves",
-    'version': '8.0.1.0.0',
+    'version': '9.0.1.0.0',
     'author': "Tecnativa, "
               "Odoo Community Association (OCA)",
     'license': 'AGPL-3',
     'category': 'Accounting & Finance',
     'depends': [
-        'account_banking_payment_transfer',
+        'account_payment_order',
         'connector',
     ],
     'website': 'https://www.tecnativa.com',

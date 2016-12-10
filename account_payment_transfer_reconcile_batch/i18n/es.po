@@ -22,7 +22,7 @@ msgstr ""
 #: code:addons/account_payment_transfer_reconcile_batch/models/payment_order.py:46
 #, python-format
 msgid "Nothing to do because the record has been deleted"
-msgstr ""
+msgstr "El registro ha sido eliminado, no hay nada que hacer"
 
 #. module: account_payment_transfer_reconcile_batch
 #: model:ir.model,name:account_payment_transfer_reconcile_batch.model_payment_order
