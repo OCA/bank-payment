@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2016-12-10 00:51+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -60,7 +60,7 @@ msgstr ""
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
-msgstr ""
+msgstr "Compartidos"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,batch_booking:0

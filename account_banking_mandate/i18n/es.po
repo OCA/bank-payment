@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2016-12-10 00:50+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -170,7 +170,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Back to Draft"
-msgstr ""
+msgstr "Devolver a borrador"
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -195,7 +195,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Cuenta bancaria"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0
@@ -288,7 +288,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Cuentas bancarias"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/partner_bank.py:35
