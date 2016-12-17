@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-11-25 14:55+0000\n"
+"POT-Creation-Date: 2016-12-10 17:00+0000\n"
+"PO-Revision-Date: 2016-12-16 12:31+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -41,12 +41,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Zurück auf Entwurf"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Bankkonto"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
@@ -56,7 +56,7 @@ msgstr "Bankkonten"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Bank Zahlungszeilen"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
@@ -295,7 +295,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0
 msgid "Messages"
-msgstr ""
+msgstr "Nachrichten"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_ids:0
@@ -402,7 +402,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_unread:0
 msgid "Unread Messages"
-msgstr ""
+msgstr "Ungelesene Nachrichten"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search

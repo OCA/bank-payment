@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"POT-Creation-Date: 2016-12-10 17:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_payment_purchase
 #: field:purchase.order,payment_mode_id:0
 msgid "Payment Mode"
-msgstr ""
+msgstr "Zahlweise"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_stock_picking

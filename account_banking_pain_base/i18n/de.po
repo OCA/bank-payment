@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 10:50+0000\n"
+"POT-Creation-Date: 2016-12-10 17:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
@@ -25,7 +25,7 @@ msgstr "Bankkonten"
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Bank Zahlungszeilen"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:62
@@ -128,7 +128,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Zahlweise"
 
 #. module: account_banking_pain_base
 #: field:bank.payment.line,priority:0 field:payment.line,priority:0

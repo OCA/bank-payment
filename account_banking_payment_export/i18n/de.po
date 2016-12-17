@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 18:13+0000\n"
-"PO-Revision-Date: 2016-12-01 18:14+0000\n"
+"POT-Creation-Date: 2016-12-10 17:00+0000\n"
+"PO-Revision-Date: 2016-12-16 12:44+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Aktiv"
 #: field:bank.payment.line,amount_currency:0
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 msgid "Amount"
-msgstr ""
+msgstr "Betrag"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_bank
@@ -45,7 +45,7 @@ msgstr "Bank"
 #. module: account_banking_payment_export
 #: field:bank.payment.line,bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Bankkonto"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_partner_bank
@@ -56,7 +56,7 @@ msgstr "Bankkonten"
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
 #: field:payment.line,bank_line_id:0
 msgid "Bank Payment Line"
-msgstr ""
+msgstr "Bank Zahlungszeile"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,name:0
@@ -70,7 +70,7 @@ msgstr ""
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 #: field:payment.order,bank_line_ids:0
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Bank Zahlungszeilen"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
@@ -85,12 +85,12 @@ msgstr "Kennung"
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
 msgid "Communication"
-msgstr ""
+msgstr "Kommunikation"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,state:0
 msgid "Communication Type"
-msgstr ""
+msgstr "Kommunikationstyp"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,company_id:0
@@ -112,7 +112,7 @@ msgstr "Erstellt am:"
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
 msgid "Currency"
-msgstr ""
+msgstr "Währung"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode.type,payment_order_type:0
@@ -133,12 +133,12 @@ msgstr "Anzeigename"
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
 msgid "Due"
-msgstr ""
+msgstr "Fälligkeit"
 
 #. module: account_banking_payment_export
 #: selection:payment.order.create,date_type:0
 msgid "Due Date"
-msgstr ""
+msgstr "Fälligkeitsdatum"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -340,7 +340,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,date:0
 msgid "Payment Date"
-msgstr ""
+msgstr "Zahlungsdatum"
 
 #. module: account_banking_payment_export
 #: model:ir.actions.act_window,name:account_banking_payment_export.action_payment_mode_type
@@ -363,7 +363,7 @@ msgstr "Zahlungspositionen"
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Zahlweise"
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
@@ -385,7 +385,7 @@ msgstr ""
 #: code:addons/account_banking_payment_export/wizard/payment_order_create.py:249
 #, python-format
 msgid "Payment Orders"
-msgstr ""
+msgstr "Zahlungsaufträge"
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
@@ -502,7 +502,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree
 msgid "Total Amount"
-msgstr ""
+msgstr "Gesamtbetrag"
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
@@ -517,7 +517,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 msgid "Total in Company Currency"
-msgstr ""
+msgstr "Gesamtbetrag in Unternehmenswährung"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form

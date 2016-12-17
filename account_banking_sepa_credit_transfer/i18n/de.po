@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"POT-Creation-Date: 2016-12-10 17:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
@@ -148,12 +148,12 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Zahlweise"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Zahlungsaufträge"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:98
@@ -183,7 +183,7 @@ msgstr "Status"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,total_amount:0
 msgid "Total Amount"
-msgstr ""
+msgstr "Gesamtbetrag"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
