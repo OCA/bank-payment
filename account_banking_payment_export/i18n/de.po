@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-10 17:00+0000\n"
-"PO-Revision-Date: 2016-12-16 12:44+0000\n"
+"PO-Revision-Date: 2016-12-23 14:09+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Bank Zahlungszeile"
 #. module: account_banking_payment_export
 #: field:bank.payment.line,name:0
 msgid "Bank Payment Line Ref"
-msgstr ""
+msgstr "Bank Zahlungszeile Ref"
 
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree
@@ -227,7 +227,7 @@ msgstr ""
 #: field:payment.mode,default_journal_ids:0
 #: field:payment.order.create,journal_ids:0
 msgid "Journals Filter"
-msgstr ""
+msgstr "Journal Filter"
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order
@@ -261,7 +261,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,default_invoice:0 field:payment.order.create,invoice:0
 msgid "Linked to an Invoice or Refund"
-msgstr ""
+msgstr "Verknüpft mit einer Rechnung / Gutschrift"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
@@ -271,13 +271,13 @@ msgstr ""
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
 msgid "Move"
-msgstr ""
+msgstr "Umlagern"
 
 #. module: account_banking_payment_export
 #: selection:payment.order.create,date_type:0
 #: field:payment.order.create,move_date:0
 msgid "Move Date"
-msgstr ""
+msgstr "Umbuchungsdatum"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
@@ -293,7 +293,7 @@ msgstr "Notiz"
 #. module: account_banking_payment_export
 #: field:payment.order,bank_line_count:0
 msgid "Number of Bank Lines"
-msgstr ""
+msgstr "Anzahl Bankzeilen"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,order_id:0
@@ -423,7 +423,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
 msgid "Related Payment Lines"
-msgstr ""
+msgstr "Zugehörige Zahlungszeilen"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -466,7 +466,7 @@ msgstr ""
 #: code:addons/account_banking_payment_export/models/account_invoice.py:16
 #, python-format
 msgid "Structured Reference"
-msgstr ""
+msgstr "Referenz-Hierarchie"
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
@@ -528,7 +528,7 @@ msgstr ""
 #: field:payment.mode,default_date_type:0
 #: field:payment.order.create,date_type:0
 msgid "Type of Date Filter"
-msgstr ""
+msgstr "Art des Datumsfilter"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:84
