@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-11-25 14:56+0000\n"
+"POT-Creation-Date: 2016-12-17 00:19+0000\n"
+"PO-Revision-Date: 2016-12-23 08:32+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1285,7 +1285,7 @@ msgstr "Annuler"
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
@@ -1437,7 +1437,7 @@ msgstr ""
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
 msgid "Finished"
-msgstr ""
+msgstr "Fini"
 
 #. module: account_banking
 #: field:banking.link_partner,street:0

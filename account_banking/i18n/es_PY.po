@@ -10,11 +10,11 @@ msgstr ""
 "POT-Creation-Date: 2016-12-17 00:19+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
+"Language-Team: Spanish (Paraguay) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_PY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
+"Language: es_PY\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking
@@ -87,7 +87,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Group By..."
-msgstr "Agrupar por..."
+msgstr ""
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -146,7 +146,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr "Registro"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr "Compañía"
+msgstr ""
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -291,7 +291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,account_id:0
 msgid "Account"
-msgstr "Cuenta"
+msgstr ""
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr "Referencia"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -419,7 +419,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.transaction.wizard,analytic_account_id:0
 msgid "Analytic Account"
-msgstr "Cuenta analítica"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1657
@@ -432,7 +432,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Move"
-msgstr "Mover"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:263
@@ -464,7 +464,7 @@ msgstr ""
 #: field:banking.transaction.wizard,partner_id:0
 #: model:ir.model,name:account_banking.model_res_partner
 msgid "Partner"
-msgstr "Empresa"
+msgstr ""
 
 #. module: account_banking
 #: field:account.banking.imported.file,date:0
@@ -486,7 +486,7 @@ msgstr ""
 #. module: account_banking
 #: view:banking.transaction.wizard:0
 msgid "Select"
-msgstr "Seleccionar"
+msgstr ""
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
@@ -527,7 +527,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr ""
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr "Proveedor"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -597,7 +597,7 @@ msgstr "Tipo"
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr ""
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -742,7 +742,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Manual"
-msgstr "Manual"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.link_partner,fax:0
@@ -804,7 +804,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -832,7 +832,7 @@ msgstr ""
 #: field:account.bank.statement.line,currency:0
 #: field:banking.import.line,currency:0
 msgid "Currency"
-msgstr "Moneda"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1899
@@ -854,7 +854,7 @@ msgstr ""
 #: field:banking.link_partner,message:0
 #: field:banking.transaction.wizard,message:0
 msgid "Message"
-msgstr "Mensaje"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:132
@@ -881,7 +881,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr "Borrador"
+msgstr ""
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -959,7 +959,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Import"
-msgstr "Importar"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,message:0
@@ -1070,7 +1070,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr "Fecha"
+msgstr ""
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -1155,7 +1155,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:964
@@ -1232,7 +1232,7 @@ msgstr ""
 #: model:ir.model,name:account_banking.model_res_partner_bank
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr "Cuentas bancarias"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.transaction,local_account:0
@@ -1280,12 +1280,12 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr "Cerrar"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
@@ -1300,7 +1300,7 @@ msgstr ""
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_move_line
 msgid "Journal Items"
-msgstr "Apuntes contables"
+msgstr ""
 
 #. module: account_banking
 #: field:banking.import.line,invoice_ids:0
@@ -1409,7 +1409,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr "Diario"
+msgstr ""
 
 #. module: account_banking
 #: view:account.bank.statement:0
@@ -1432,7 +1432,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,mobile:0
 msgid "Mobile"
-msgstr "Móvil"
+msgstr ""
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
@@ -1473,17 +1473,17 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr "Notas"
+msgstr ""
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
 msgid "Bank"
-msgstr "Banco"
+msgstr ""
 
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
 msgid "Customer"
-msgstr "Cliente"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:378
@@ -1512,7 +1512,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,country_id:0
 msgid "Country"
-msgstr "País"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:397
@@ -1525,7 +1525,7 @@ msgstr ""
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr "Cuenta bancaria"
+msgstr ""
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:371
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr "o"
+msgstr ""
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

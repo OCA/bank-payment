@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2016-12-17 00:19+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovak (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sk/)\n"
@@ -163,7 +163,7 @@ msgstr ""
 #: field:deposit.items.line,partner_id:0
 #: field:deposit.ticket.line,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: account_banking_make_deposit
 #: field:deposit.ticket,move_id:0
@@ -509,7 +509,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Done"
-msgstr ""
+msgstr "Hotovo"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:103
@@ -589,7 +589,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:123
 msgid "Customer"
-msgstr ""
+msgstr "Zákazník"
 
 #. module: account_banking_make_deposit
 #: field:add.deposit.items,name:0

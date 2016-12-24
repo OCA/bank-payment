@@ -61,7 +61,7 @@ msgstr ""
 #: field:banking.export.sdd,filename:0
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nombre de archivo"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0

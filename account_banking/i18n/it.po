@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2016-12-17 00:19+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/it/)\n"
@@ -527,7 +527,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
@@ -597,7 +597,7 @@ msgstr "Tipo"
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #. module: account_banking
 #: view:banking.link_partner:0
