@@ -19,5 +19,6 @@
         'views/account_journal.xml',
     ],
     'demo': ['demo/payment_demo.xml'],
+    'pre_init_hook': 'pre_init_hook',
     'installable': True,
 }
