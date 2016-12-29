@@ -14,8 +14,9 @@ def migrate_from_8(cr):
     if not cr.fetchone():
         return
     try:
-        from openupgradelib.openupgrade import rename_models
+        from openupgradelib.openupgrade import rename_models, rename_tables
         rename_models(cr, [('payment.mode', 'account.payment.mode')])
+        rename_tables(cr, [('payment_mode', 'account_payment_mode')])
     except ImportError:
         cr.execute('ALTER TABLE payment_mode RENAME TO account_payment_mode')
         cr.execute('ALTER SEQUENCE payment_mode_id_seq '
