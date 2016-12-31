@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-10-11 09:51+0000\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 08:25+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid "Cancel"
-msgstr ""
+msgstr "בטל"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
@@ -146,7 +146,7 @@ msgid "Entry Information"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:152
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:156
 #, python-format
 msgid "Entry Lines"
 msgstr ""
@@ -326,6 +326,11 @@ msgid "Partner Bank Account"
 msgstr ""
 
 #. module: account_banking_payment_export
+#: field:payment.order.create,partner_ids:0
+msgid "Partners"
+msgstr ""
+
+#. module: account_banking_payment_export
 #: selection:payment.mode.type,payment_order_type:0
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 #: selection:payment.order,payment_order_type:0
@@ -377,7 +382,7 @@ msgid "Payment Order Export"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:245
+#: code:addons/account_banking_payment_export/wizard/payment_order_create.py:249
 #, python-format
 msgid "Payment Orders"
 msgstr ""

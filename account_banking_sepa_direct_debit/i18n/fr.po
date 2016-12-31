@@ -3,13 +3,14 @@
 # * account_banking_sepa_direct_debit
 # 
 # Translators:
+# Christophe CHAUVET <christophe.chauvet@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-11-25 14:55+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-30 17:03+0000\n"
+"Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,17 +52,17 @@ msgstr "TOUS LES ESPACES SONT OBLIGATOIRES. UNE FOIS QUE CE MANDAT A ÉTÉ SIGN�
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Account Number - IBAN:"
-msgstr ""
+msgstr "Numéro de compte - IBAN:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Address of the Debtor:"
-msgstr ""
+msgstr "Adresse du débiteur:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Address:"
-msgstr ""
+msgstr "Adresse:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -128,12 +129,12 @@ msgstr "Sociétés"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Country of the debtor:"
-msgstr ""
+msgstr "Pays du débiteur:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Country:"
-msgstr ""
+msgstr "Pays:"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
@@ -153,17 +154,17 @@ msgstr "Date"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Creditor's Name:"
-msgstr ""
+msgstr "Nom du créancier:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Date - Location:"
-msgstr ""
+msgstr "Date - Emplacement:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Debtor's Name:"
-msgstr ""
+msgstr "Nom du débiteur:"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,display_name:0
@@ -263,7 +264,7 @@ msgstr "ID"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Identifier:"
-msgstr ""
+msgstr "Identificateur:"
 
 #. module: account_banking_sepa_direct_debit
 #: help:banking.export.sdd.wizard,batch_booking:0
@@ -298,7 +299,7 @@ msgstr "Dernière mise à jour le"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Mandate Reference:"
-msgstr ""
+msgstr "Référence du mandat:"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
@@ -348,7 +349,7 @@ msgstr "Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Postal Code - City - Town:"
-msgstr ""
+msgstr "Code postal - Ville - Commune:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
@@ -393,12 +394,12 @@ msgstr "Schéma"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Sepa Business-To-Business Direct debit Mandate"
-msgstr ""
+msgstr "Mandat de prélèvement SEPA B2B"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Sepa Direct Debit Mandate"
-msgstr ""
+msgstr "Mandat de prélèvement direct"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:35
@@ -444,7 +445,7 @@ msgstr "Partagée"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Signature of the debtor:"
-msgstr ""
+msgstr "Signature du débiteur:"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,state:0
@@ -454,7 +455,7 @@ msgstr "État"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Swift BIC (up to 8 or 11 characteres):"
-msgstr ""
+msgstr "BIC Swift (de 8 ou 11 caractères):"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:166
@@ -522,7 +523,7 @@ msgstr "Type de mandat"
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Type of payment:"
-msgstr ""
+msgstr "Type de paiement:"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view

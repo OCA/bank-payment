@@ -1,0 +1,537 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_sepa_direct_debit
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 08:24+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/vi_VN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"        Click to create a new SEPA Direct Debit Mandate.\n"
+"        </p><p>\n"
+"        A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.\n"
+"        </p>\n"
+"    "
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
+msgid "A generic banking mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
+"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
+"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Account Number - IBAN:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Address of the Debtor:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Address:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"As part of your rights, you are entitled to a refund from\n"
+"                        your bank under the terms and conditions of your agreement\n"
+"                        with your bank.\n"
+"                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:77
+#, python-format
+msgid ""
+"As you changed the bank account attached to this mandate, the 'Sequence "
+"Type' has been set back to 'First'."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
+msgid "Bank Payment Lines"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:account.banking.mandate,scheme:0
+msgid "Basic (CORE)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,batch_booking:0
+msgid "Batch Booking"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Borne by Creditor"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Borne by Debtor"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "By signing this mandate form, you authorise (A)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,charge_bearer:0
+msgid "Charge Bearer"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Country of the debtor:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Country:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,state:0
+msgid "Create"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,create_uid:0
+msgid "Created by"
+msgstr "Tạo bởi"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,create_date:0
+msgid "Created on"
+msgstr "Tạo vào"
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Creditor's Name:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Date - Location:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Debtor's Name:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: help:payment.mode,sepa_creditor_identifier:0
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
+"This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: help:res.company,sepa_creditor_identifier:0
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:account.banking.mandate,scheme:0
+msgid "Enterprise (B2B)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:38
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:30
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_banking_export_sdd_wizard
+msgid "Export SEPA Direct Debit File"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,file:0
+msgid "File"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,filename:0
+msgid "Filename"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:account.banking.mandate,recurrent_sequence_type:0
+msgid "Final"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,state:0
+msgid "Finish"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:account.banking.mandate,recurrent_sequence_type:0
+msgid "First"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Following Service Level"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: help:banking.export.sdd.wizard,charge_bearer:0
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must"
+" use this). Shared : transaction charges on the creditor side are to be "
+"borne by the creditor, transaction charges on the debtor side are to be "
+"borne by the debtor. Borne by creditor : all transaction charges are to be "
+"borne by the creditor. Borne by debtor : all transaction charges are to be "
+"borne by the debtor."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
+msgid "Generate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Identifier:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: help:banking.export.sdd.wizard,batch_booking:0
+msgid ""
+"If true, the bank statement will display only one credit line for all the "
+"direct debits of the SEPA file ; if false, the bank statement will display "
+"one credit line per direct debit of the SEPA file."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:39
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:31
+#, python-format
+msgid "Invalid SEPA Creditor Identifier."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối vào"
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Mandate Reference:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
+#, python-format
+msgid "Mandate update"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:159
+#, python-format
+msgid ""
+"Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
+" (reference '%s')."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,nb_transactions:0
+msgid "Number of Transactions"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
+#: selection:account.banking.mandate,type:0
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "One-Off"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_payment_mode
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,payment_order_ids:0
+msgid "Payment Orders"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:117
+#, python-format
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Code "
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
+" 'pain.008.001.04'."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Postal Code - City - Town:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
+#: selection:account.banking.mandate,type:0
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Recurrent"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:account.banking.mandate,recurrent_sequence_type:0
+msgid "Recurring"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:res.partner:account_banking_sepa_direct_debit.sdd_mandate_partner_form
+#: view:res.partner.bank:account_banking_sepa_direct_debit.sdd_mandate_partner_bank_tree
+msgid "SDD Mandates"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:payment.mode,sepa_creditor_identifier:0
+#: field:res.company,sepa_creditor_identifier:0
+msgid "SEPA Creditor Identifier"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.mandate_action
+msgid "SEPA Direct Debit Mandates"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
+msgid "SEPA Direct Debit XML file generation"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
+#: field:account.banking.mandate,scheme:0
+msgid "Scheme"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Sepa Business-To-Business Direct debit Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Sepa Direct Debit Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:35
+#: model:ir.actions.report.xml,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+#, python-format
+msgid "Sepa Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
+msgid "Sequence Type"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:account.banking.mandate,recurrent_sequence_type:0
+msgid "Sequence Type for Next Debit"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_final
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_final
+msgid "Sequence Type set to Final"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_first
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_first
+msgid "Sequence Type set to First"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
+#: model:mail.message.subtype,name:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
+msgid "Sequence Type set to Recurring"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd.wizard,charge_bearer:0
+msgid "Shared"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Signature of the debtor:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,state:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Swift BIC (up to 8 or 11 characteres):"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:166
+#, python-format
+msgid ""
+"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
+"expired."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:174
+#, python-format
+msgid ""
+"The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
+"and it has a last debit date set to '%s', so we can't use it."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:61
+#, python-format
+msgid "The recurrent mandate '%s' must have a sequence type."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: help:account.banking.mandate,recurrent_sequence_type:0
+msgid ""
+"This field is only used for Recurrent mandates, not for One-Off mandates."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"This mandate is only intended for business-to-business transactions.\n"
+"                        You are not entitled to a refund from your bank after your account has\n"
+"                        been debited, but you are entitled to request your bank\n"
+"                        not to debit your account up until the day on which the payment is due."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the creditor"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the debtor"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:banking.export.sdd.wizard,total_amount:0
+msgid "Total Amount"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
+#: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
+msgid "Type"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: field:account.banking.mandate,type:0
+msgid "Type of Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "Type of payment:"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
+msgid "Validate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"to send instructions to your bank to debit your account and (B) your bank to\n"
+"                       debit your account in accordance with the instructions from"
+msgstr ""

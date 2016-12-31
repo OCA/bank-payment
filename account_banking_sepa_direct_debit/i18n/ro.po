@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
-"PO-Revision-Date: 2016-09-09 12:24+0000\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 08:24+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:116
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:77
 #, python-format
 msgid ""
 "As you changed the bank account attached to this mandate, the 'Sequence "
@@ -123,7 +123,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Companii"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -143,12 +143,12 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -168,7 +168,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nume Afişat"
 
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
@@ -197,8 +197,8 @@ msgid "Enterprise (B2B)"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:42
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:32
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:38
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:30
 #, python-format
 msgid "Error"
 msgstr ""
@@ -258,28 +258,11 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "Identifier:"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: help:payment.mode,original_creditor_identifier:0
-msgid ""
-"If not defined, Original Creditor Identifier from company will be used."
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: help:account.banking.mandate,sepa_migrated:0
-msgid ""
-"If this field is not active, the mandate section of the next direct debit "
-"file that include this mandate will contain the 'Original Mandate "
-"Identification' and the 'Original Creditor Scheme Identification'. This is "
-"required in a few countries (Belgium for instance), but not in all "
-"countries. If this is not required in your country, you should keep this "
-"field always active."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -291,8 +274,8 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:43
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:33
+#: code:addons/account_banking_sepa_direct_debit/models/payment_mode.py:39
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:31
 #, python-format
 msgid "Invalid SEPA Creditor Identifier."
 msgstr ""
@@ -300,17 +283,17 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima actualizare în"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare făcută de"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -318,14 +301,9 @@ msgid "Mandate Reference:"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:115
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
 #, python-format
 msgid "Mandate update"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: field:account.banking.mandate,sepa_migrated:0
-msgid "Migrated to SEPA"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -346,22 +324,6 @@ msgstr ""
 #: selection:account.banking.mandate,type:0
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "One-Off"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: field:payment.mode,original_creditor_identifier:0
-#: field:res.company,original_creditor_identifier:0
-msgid "Original Creditor Identifier"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: field:account.banking.mandate,original_mandate_identification:0
-msgid "Original Mandate Identification"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:res.groups,name:account_banking_sepa_direct_debit.group_original_mandate_required
-msgid "Original Mandate Required (SEPA)"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -511,17 +473,9 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:61
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:86
-#, python-format
-msgid ""
-"The recurrent mandate '%s' which is not marked as 'Migrated to SEPA' must "
-"have its recurrent sequence type set to 'First'."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -573,21 +527,6 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Validate"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: help:account.banking.mandate,original_mandate_identification:0
-msgid ""
-"When the field 'Migrated to SEPA' is not active, this field will be used as "
-"the Original Mandate Identification in the Direct Debit file."
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:98
-#, python-format
-msgid ""
-"You must set the 'Original Mandate Identification' on the recurrent mandate "
-"'%s' which is not marked as 'Migrated to SEPA'."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit

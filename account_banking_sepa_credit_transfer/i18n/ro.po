@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Romanian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ro/)\n"
@@ -58,17 +58,17 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nume Afişat"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
@@ -115,7 +115,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,batch_booking:0
@@ -128,17 +128,17 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima actualizare în"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare făcută de"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0

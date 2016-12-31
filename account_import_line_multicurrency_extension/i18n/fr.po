@@ -3,13 +3,14 @@
 # * account_import_line_multicurrency_extension
 # 
 # Translators:
+# Christophe CHAUVET <christophe.chauvet@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-11-22 16:23+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 17:01+0000\n"
+"Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +22,27 @@ msgstr ""
 #: code:addons/account_import_line_multicurrency_extension/models/bank_statement.py:42
 #, python-format
 msgid "Amount on line %s is not set. \n"
-msgstr ""
+msgstr "Le montant sur la ligne %s n'est pas défini.\n"
 
 #. module: account_import_line_multicurrency_extension
 #: model:ir.model,name:account_import_line_multicurrency_extension.model_account_bank_statement
 msgid "Bank Statement"
-msgstr ""
+msgstr "Relevé bancaire"
 
 #. module: account_import_line_multicurrency_extension
 #: model:ir.model,name:account_import_line_multicurrency_extension.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr ""
+msgstr "Ligne de Relevé Bancaire"
 
 #. module: account_import_line_multicurrency_extension
 #: help:account.bank.statement.line,currency_symbol:0
 msgid "Currency sign, to be used when printing amounts."
-msgstr ""
+msgstr "Le signe de la devise, qui sera utilisé lors de l'impression des montants."
 
 #. module: account_import_line_multicurrency_extension
 #: model:ir.model,name:account_import_line_multicurrency_extension.model_account_statement_from_invoice_lines
 msgid "Entries by Statement from Invoices"
-msgstr ""
+msgstr "Écritures par état des factures"
 
 #. module: account_import_line_multicurrency_extension
 #: code:addons/account_import_line_multicurrency_extension/models/bank_statement.py:45
@@ -49,18 +50,18 @@ msgstr ""
 msgid ""
 "Error on bank statement: \n"
 " %s"
-msgstr ""
+msgstr "Erreur sur le relevé bancaire:\n%s"
 
 #. module: account_import_line_multicurrency_extension
 #: field:account.bank.statement.line,currency_symbol:0
 msgid "Journal Currency"
-msgstr ""
+msgstr "Journal de devise"
 
 #. module: account_import_line_multicurrency_extension
 #: view:account.move.line:account_import_line_multicurrency_extension.view_move_line_tree_bank_statement
 #: view:account.statement.from.invoice.lines:account_import_line_multicurrency_extension.view_account_statement_from_invoice_lines_over
 msgid "Move lines"
-msgstr ""
+msgstr "Écritures comptables"
 
 #. module: account_import_line_multicurrency_extension
 #: view:account.bank.statement:account_import_line_multicurrency_extension.view_bank_statement_form

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 05:04+0000\n"
-"PO-Revision-Date: 2016-09-09 12:24+0000\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 08:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Russian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -130,12 +130,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Создано"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Создан"
 
 #. module: account_banking_mandate
 #: view:res.partner:account_banking_mandate.mandate_partner_form
@@ -211,7 +211,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_unread:0
@@ -221,7 +221,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Счет"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
@@ -241,12 +241,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Последний раз обновлено"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Последний раз обновлено"
 
 #. module: account_banking_mandate
 #: view:bank.payment.line:account_banking_mandate.bank_payment_line_tree
@@ -312,7 +312,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Контрагент"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_payment_line

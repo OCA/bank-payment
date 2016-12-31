@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 10:50+0000\n"
-"PO-Revision-Date: 2016-09-29 15:06+0000\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 13:10+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Líneas de pago bancario"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:70
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr ""
+msgstr "No se puede conciliar: no hay apunte para la línea de pago %s de la empresa '%s'."
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:185
@@ -76,7 +76,7 @@ msgstr "Adeudo directo (cobro)"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr ""
+msgstr "Para la empresa '%s', la cuenta del apunte a pagar (%s) es diferente de la cuenta del apunte de tránsito (%s)."
 
 #. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_journal_id:0
@@ -93,7 +93,7 @@ msgstr "Mensaje"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr ""
+msgstr "El apunte '%s' de la empresa '%s' ya ha sido conciliado"
 
 #. module: account_banking_payment_transfer
 #: help:bank.payment.line,transit_move_line_id:0
@@ -103,12 +103,12 @@ msgstr ""
 #. module: account_banking_payment_transfer
 #: selection:payment.mode,transfer_move_option:0
 msgid "One move per payment date"
-msgstr ""
+msgstr "Un asiento por fecha de pago"
 
 #. module: account_banking_payment_transfer
 #: selection:payment.mode,transfer_move_option:0
 msgid "One move per payment line"
-msgstr ""
+msgstr "Un asiento por línea de pago"
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:264

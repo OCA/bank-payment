@@ -3,13 +3,14 @@
 # * account_payment_blocking
 # 
 # Translators:
+# Christophe CHAUVET <christophe.chauvet@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 10:50+0000\n"
-"PO-Revision-Date: 2016-04-06 00:15+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-12-24 00:27+0000\n"
+"PO-Revision-Date: 2016-12-27 16:52+0000\n"
+"Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,4 +26,4 @@ msgstr "Facture"
 #. module: account_payment_blocking
 #: field:account.invoice,blocked:0 field:account.invoice,draft_blocked:0
 msgid "No Follow Up"
-msgstr ""
+msgstr "Non suivi"
