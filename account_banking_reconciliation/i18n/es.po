@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -172,7 +172,7 @@ msgstr "Notas"
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement.line,move_line_id:0
 msgid "Journal Item"
-msgstr ""
+msgstr "Apunte contable"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0

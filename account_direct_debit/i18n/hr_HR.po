@@ -1,0 +1,149 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * account_direct_debit
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Croatian (Croatia) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr_HR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: hr_HR\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#. module: account_direct_debit
+#: model:account.payment.term,note:account_direct_debit.payment_term_direct_debit
+msgid "Direct debit in 14 days"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:payment.order:0
+msgid "Select Invoices to Collect"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_payment_line
+msgid "Payment Line"
+msgstr ""
+
+#. module: account_direct_debit
+#: code:addons/account_direct_debit/model/payment_line.py:152
+#, python-format
+msgid "Can not reconcile"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:payment.order:0
+msgid "[('payment_order_type', '=', payment_order_type)]"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:account.invoice:0
+msgid "Debit Denied"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:account.invoice:0
+msgid "Show only invoices with state Debit denied"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:payment.order:0
+msgid ""
+"{'invisible':['|',('state','!=','draft'),('payment_order_type', '!=', "
+"'payment')]}"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: account_direct_debit
+#: view:account.invoice:0
+msgid "Debit denied"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
+#: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
+msgid "Direct Debit Orders"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
+msgid "Direct debit"
+msgstr ""
+
+#. module: account_direct_debit
+#: code:addons/account_direct_debit/model/account_invoice.py:149
+#, python-format
+msgid ""
+"You cannot set invoice '%s' to state 'debit denied', as it is still "
+"reconciled."
+msgstr ""
+
+#. module: account_direct_debit
+#: code:addons/account_direct_debit/model/account_invoice.py:153
+#, python-format
+msgid "Invoice '%s': direct debit is denied."
+msgstr ""
+
+#. module: account_direct_debit
+#: code:addons/account_direct_debit/model/payment_line.py:153
+#, python-format
+msgid "Cancelation of payment line '%s' has already been processed"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_payment_order_create
+msgid "payment.order.create"
+msgstr ""
+
+#. module: account_direct_debit
+#: code:addons/account_direct_debit/model/account_invoice.py:148
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: account_direct_debit
+#: field:payment.line,storno:0
+msgid "Storno"
+msgstr ""
+
+#. module: account_direct_debit
+#: help:payment.line,storno:0
+msgid ""
+"If this is true, the debit order has been canceled by the bank or by the "
+"customer"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
+msgid ""
+"A debit order is a debit request from your company to collect customer "
+"invoices. Here you can register all debit orders that should be done, keep "
+"track of all debit orders and mention the invoice reference and the partner "
+"the withdrawal should be done for."
+msgstr ""
+
+#. module: account_direct_debit
+#: field:account.move.line,amount_to_receive:0
+msgid "Amount to receive"
+msgstr ""
+
+#. module: account_direct_debit
+#: model:ir.model,name:account_direct_debit.model_account_invoice
+msgid "Invoice"
+msgstr "Račun"

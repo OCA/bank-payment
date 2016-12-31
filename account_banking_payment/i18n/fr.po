@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 04:33+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
@@ -34,7 +34,7 @@ msgstr ""
 #. module: account_banking_payment
 #: field:payment.mode,transfer_journal_id:0
 msgid "Transfer journal"
-msgstr ""
+msgstr "Journal de transfert"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_order
@@ -44,7 +44,7 @@ msgstr "Ordre de paiement"
 #. module: account_banking_payment
 #: help:payment.mode,payment_term_ids:0
 msgid "Limit selected invoices to invoices with these payment terms"
-msgstr ""
+msgstr "Limiter la sélection des factures à facturer avec ces conditions de règlements"
 
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_line
@@ -65,7 +65,7 @@ msgstr "Vous ne pouvez pas réconcilier"
 #. module: account_banking_payment
 #: field:payment.line,date_done:0
 msgid "Date Confirmed"
-msgstr ""
+msgstr "Date confirmée"
 
 #. module: account_banking_payment
 #: view:banking.transaction.wizard:0
@@ -108,7 +108,7 @@ msgstr ""
 #. module: account_banking_payment
 #: field:payment.order,date_sent:0
 msgid "Send date"
-msgstr ""
+msgstr "Date d'envoi"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/banking_import_transaction.py:171
@@ -131,12 +131,12 @@ msgstr ""
 #. module: account_banking_payment
 #: field:payment.mode,payment_term_ids:0
 msgid "Payment terms"
-msgstr ""
+msgstr "Conditions de règlement"
 
 #. module: account_banking_payment
 #: view:payment.mode:0
 msgid "Transfer move settings"
-msgstr ""
+msgstr "Paramètres du mouvement de transfert"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/banking_import_transaction.py:196
@@ -152,7 +152,7 @@ msgstr ""
 #. module: account_banking_payment
 #: view:payment.mode:0
 msgid "Optional filter by payment term"
-msgstr ""
+msgstr "Filtre optionnel par condition de règlement"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/payment_line.py:124
@@ -196,7 +196,7 @@ msgstr ""
 msgid ""
 "Pay off lines in sent orders with a move on this account. You can only "
 "select accounts of type regular that are marked for reconciliation"
-msgstr ""
+msgstr "Payer les lignes dans les ordres de paiement avec le mouvement de ce compte. Vous pouvez seulement sélectionner les type de régulier qui sont marqués pour lettrage"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/banking_transaction_wizard.py:64
@@ -216,7 +216,7 @@ msgstr "Erreur"
 #. module: account_banking_payment
 #: field:payment.mode,transfer_account_id:0
 msgid "Transfer account"
-msgstr ""
+msgstr "Compte de transfert"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/banking_import_transaction.py:245
@@ -281,7 +281,7 @@ msgstr ""
 #: help:payment.mode,transfer_journal_id:0
 msgid ""
 "Journal to write payment entries when confirming a debit order of this mode"
-msgstr ""
+msgstr "Journal pour écrire les entrées de paiement lors de la confirmation des ordres de débit de ce mode"
 
 #. module: account_banking_payment
 #: view:payment.order:0

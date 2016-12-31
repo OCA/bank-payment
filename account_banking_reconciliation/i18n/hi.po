@@ -1,0 +1,905 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * account_banking_reconciliation
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Hindi (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: hi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:161
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:280
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:94
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:155
+msgid "Deposits and Credits"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,exchange_date:0
+msgid "The starting date of your bank statement."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:102
+msgid "Detailed %s account:"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter Name"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:account.move.line,bank_acc_rec_statement_id:0
+msgid "Bank Acc Rec Statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:344
+#, python-format
+msgid ""
+"The General Ledger Balance and Registered Balance are equal, no adjustment "
+"necessary."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Group By..."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,statement_id:0
+msgid "Statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:account.move.line,cleared_bank_account:0
+#: field:bank.acc.rec.statement.line,cleared_bank_account:0
+msgid "Cleared "
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:account.move.line,draft_assigned_to_statement:0
+msgid "Assigned to Statement "
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,name:0
+msgid "Derived from the related Journal Item."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter Company Name"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,ending_balance_in_currency:0
+msgid "Ending Balance in Currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:account.move.line,cleared_bank_account:0
+#: help:bank.acc.rec.statement.line,cleared_bank_account:0
+msgid "Check if the transaction has cleared from the bank"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:66
+msgid "Summary account:"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:370
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:194
+msgid "Register Balance as of"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:239
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:120
+msgid "Total Cleared Transactions"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "To be Reviewed"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter Starting Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,sum_of_credits_unclear_in_currency:0
+#: help:bank.acc.rec.statement,sum_of_debits_unclear_in_currency:0
+msgid "Total SUM of Amts of lines with Cleared = False"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,amount:0
+msgid "Derived from the 'debit' amount from related Journal Item."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Statements that have been processed"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,starting_balance_in_currency:0
+msgid "Starting Balance in Currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:132
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:72
+msgid "Beginning Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,account_id:0
+msgid "Account"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,debit_move_line_ids:0
+msgid "Debits"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,notes:0
+msgid "Notes"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,move_line_id:0
+msgid "Journal Item"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Adjust Ending balance in GL"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:349
+#, python-format
+msgid "No Default Cut-off Journal"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:126
+#: field:bank.acc.rec.statement.line,amount:0
+msgid "Amount"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,currency_rate_label:0
+msgid "Currency Rate Message"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:313
+#, python-format
+msgid "Adjustment for reconciliation %s"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,research_required:0
+msgid "Research Required "
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Checks, Withdrawals, Debits, and Service Charges"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:res.groups,name:account_banking_reconciliation.group_bank_stmt_verifier
+msgid "Bank Statement Verifier"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,multi_currency:0
+msgid "Multi-currency mode enabled"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,account_id:0
+msgid "The Bank/Gl Account that is being reconciled."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,ending_date:0
+msgid "Ending Date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:120
+#: field:bank.acc.rec.statement.line,ref:0
+msgid "Reference"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Statements that haven't yet been confirmed"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: sql_constraint:bank.acc.rec.statement:0
+msgid "The name of the statement must be unique per company and G/L account!"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:res.groups,name:account_banking_reconciliation.group_bank_stmt_preparer
+msgid "Bank Statement Preparer"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:146
+#, python-format
+msgid ""
+"Prior to reconciling a statement, all differences must be accounted for and "
+"the Difference balance must be zero. Please review and make necessary "
+"changes."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:156
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:165
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.model,name:account_banking_reconciliation.model_bank_acc_rec_statement
+msgid "bank.acc.rec.statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:145
+#, python-format
+msgid "Warning!"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,uncleared_balance:0
+#: field:bank.acc.rec.statement,uncleared_balance_in_currency:0
+msgid "Uncleared Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,suppress_ending_date_filter:0
+msgid ""
+"If this is checked then the Statement End Date filter on the transactions "
+"below will not occur. All transactions would come over."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.actions.act_window,name:account_banking_reconciliation.action_bank_acc_rec_statement
+#: model:ir.ui.menu,name:account_banking_reconciliation.account_banking_rec_statement_menu
+msgid "Reconcile Bank Account and Statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,exchange_date:0
+msgid "Currency Exchange Date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:350
+#, python-format
+msgid ""
+"You need to set the Default Cut-off Journal for your company to create an "
+"adjustment move"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,company_id:0
+msgid "The Company for which the deposit ticket is made to"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Statements that are ready for review"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:358
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:181
+msgid "Total Uncleared Transactions"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 field:bank.acc.rec.statement,state:0
+msgid "State"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Bank Account Reconciliation Statements"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: selection:bank.acc.rec.statement.line,type:0
+msgid "Debit"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.actions.report.xml,name:account_banking_reconciliation.report_reconciliation_summary
+msgid "Reconciliation detailed"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:267
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:146
+msgid "Uncleared Transactions"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,verified_by_user_id:0
+msgid ""
+"Entered automatically by the “last user” who saved it. System generated."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Totals Area - cleared entries"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,registered_balance:0
+msgid "Initial balance + Cleared Balance + Uncleared Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,sum_of_credits:0
+#: field:bank.acc.rec.statement,sum_of_credits_unclear:0
+#: field:bank.acc.rec.statement,sum_of_credits_unclear_in_currency:0
+msgid "Checks, Withdrawals, Debits, and Service Charges Amount"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter notes about reconciliation"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,research_required:0
+msgid "Check if the transaction should be researched by Accounting personal"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:166
+#, python-format
+msgid ""
+"Prior to reconciling a statement in a foreign currency, you should make sure"
+" the general ledger balance and registered balance match. If necessary, an "
+"adjustment move can be created to account for the difference."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:69
+#, python-format
+msgid "User Error"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:722
+#, python-format
+msgid ""
+"At the starting date, the exchange rate was\n"
+"%s = %s"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,sum_of_credits_lines:0
+#: field:bank.acc.rec.statement,sum_of_credits_lines_unclear:0
+msgid "Checks, Withdrawals, Debits, and Service Charges # of Items"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,difference:0
+#: help:bank.acc.rec.statement,difference_in_currency:0
+msgid "(Ending Balance – Beginning Balance) - Cleared Balance."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,verified_date:0
+msgid "Date in which Deposit Ticket was verified."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,sum_of_debits:0
+#: field:bank.acc.rec.statement,sum_of_debits_in_currency:0
+#: field:bank.acc.rec.statement,sum_of_debits_unclear:0
+#: field:bank.acc.rec.statement,sum_of_debits_unclear_in_currency:0
+msgid "Deposits, Credits, and Interest Amount"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,starting_balance:0
+msgid ""
+"The Starting Balance on your bank statement, in your company's currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:148
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:85
+msgid "Cleared Transactions"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,ending_date:0
+msgid "The ending date of your bank statement."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:123
+#: field:bank.acc.rec.statement.line,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,name:0
+msgid ""
+"This is a unique name identifying the statement (e.g. Bank X January 2012)."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:323
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:334
+#, python-format
+msgid "No Gain Exchange Rate Account"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Currency Exchange date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:73
+#, python-format
+msgid ""
+"Only a member of '%s' group may delete/edit bank statements when not in "
+"draft state!"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter Account Name"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Deposits, Credits, and Interest"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,cleared_balance:0
+#: help:bank.acc.rec.statement,cleared_balance_in_currency:0
+#: help:bank.acc.rec.statement,uncleared_balance:0
+#: help:bank.acc.rec.statement,uncleared_balance_in_currency:0
+msgid ""
+"Total Sum of the Deposit Amount Cleared – Total Sum of Checks, Withdrawals, "
+"Debits, and Service Charges Amount Cleared"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:324
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:335
+#, python-format
+msgid ""
+"You need to configure the Gain Exchange Rate Account for the company in "
+"order to create an adjustment move"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,currency_id:0
+msgid "The optional other currency if it is a multi-currency entry."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:157
+#, python-format
+msgid ""
+"Prior to reconciling a statement in a foreign currency, all differences must"
+" be accounted for and the Difference in currency balance must be zero. "
+"Please review and make necessary changes."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,move_line_id:0
+msgid "Related Journal Item."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,amount_in_currency:0
+msgid "Amount in currency from the related Journal Item."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,currency_rate:0
+msgid "Currency Exchange Rate"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Set to Draft"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,verified_by_user_id:0
+msgid "Verified By"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:account.move.line,draft_assigned_to_statement:0
+msgid "Check if the move line is assigned to statement lines"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "General Ledger"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:343
+#, python-format
+msgid "Adjustment Unnecessary"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Totals Area - uncleared entries"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:account.move.line,bank_acc_rec_statement_id:0
+msgid "The Bank Acc Rec Statement linked with the journal item"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,sum_of_credits_lines:0
+#: help:bank.acc.rec.statement,sum_of_credits_lines_unclear:0
+#: help:bank.acc.rec.statement,sum_of_debits_lines:0
+#: help:bank.acc.rec.statement,sum_of_debits_lines_unclear:0
+msgid "Total of number of lines with Cleared = True"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,type:0
+msgid "Cr/Dr"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:201
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:320
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:107
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:168
+msgid "Cheques and Debits"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Balance Area"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter ending date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:117
+#: field:bank.acc.rec.statement.line,date:0
+msgid "Date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,sum_of_credits:0
+#: help:bank.acc.rec.statement,sum_of_credits_in_currency:0
+#: help:bank.acc.rec.statement,sum_of_credits_unclear:0
+#: help:bank.acc.rec.statement,sum_of_debits:0
+#: help:bank.acc.rec.statement,sum_of_debits_in_currency:0
+#: help:bank.acc.rec.statement,sum_of_debits_unclear:0
+msgid "Total SUM of Amts of lines with Cleared = True"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter date of varification"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: selection:bank.acc.rec.statement.line,type:0
+msgid "Credit"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Tracking Information"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,sum_of_credits_in_currency:0
+msgid "Checks, Withdrawals, Debits, and Service Charges Amountin currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.actions.act_window,name:account_banking_reconciliation.act_supplier_payment_to_add
+msgid "Supplier Payment"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.model,name:account_banking_reconciliation.model_bank_acc_rec_statement_line
+msgid "Statement Line"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,general_ledger_balance:0
+#: help:bank.acc.rec.statement,general_ledger_balance:0
+msgid "General Ledger Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Process"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,adjustment_move_id:0
+msgid ""
+"Adjustment move used to balance the General Ledger for accounts in a "
+"secondary currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,ending_balance:0
+msgid "The Ending Balance on your bank statement, in your company's currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
+msgid "Done"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,verified_date:0
+msgid "Verified Date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:161
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:201
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:280
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:320
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:94
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:107
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:155
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:168
+msgid "items"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
+msgid "Cancel"
+msgstr "रद्द"
+
+#. module: account_banking_reconciliation
+#: view:account.move.line:0
+msgid "Journal Entries not cleared"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+#: model:ir.actions.act_window,name:account_banking_reconciliation.act_account_move_line_to_add
+#: model:ir.model,name:account_banking_reconciliation.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Foreign Currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.actions.act_window,name:account_banking_reconciliation.act_customer_payment_to_add
+msgid "Customer Payment"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,currency_conversion_date:0
+msgid "Currency Conversion Date"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,keep_previous_uncleared_entries:0
+msgid ""
+"If this is checked then the previous uncleared entries will be include."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:account.move.line:0
+msgid "Uncleared Bank Account"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Select All"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,sum_of_debits_lines:0
+#: field:bank.acc.rec.statement,sum_of_debits_lines_unclear:0
+msgid "Deposits, Credits, and Interest # of Items"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement.line,date:0
+#: help:bank.acc.rec.statement.line,partner_id:0
+#: help:bank.acc.rec.statement.line,ref:0
+msgid "Derived from related Journal Item."
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
+msgid "Ready for Review"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_satetement_line.py:106
+#, python-format
+msgid "Processing Error"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Bank Account Reconciliation Statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,starting_balance:0
+msgid "Starting Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Unselect All"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: model:ir.actions.report.xml,name:account_banking_reconciliation.report_reconciliation_detailed
+msgid "Reconciliation summary"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: code:addons/account_banking_reconciliation/models/bank_acc_rec_satetement_line.py:107
+#, python-format
+msgid ""
+"You cannot add any new bank statement line manually as of this revision!"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,credit_move_line_ids:0
+msgid "Credits"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Other Information"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,difference:0
+#: field:bank.acc.rec.statement,difference_in_currency:0
+msgid "Difference"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,ending_balance:0
+msgid "Ending Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,name:0
+#: field:bank.acc.rec.statement.line,name:0
+msgid "Name"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Verified by me"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Refresh"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter Ending Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Search Bank Account Reconciliation Statements"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,suppress_ending_date_filter:0
+msgid "Remove Ending Date Filter"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:251
+#: report:addons/account_banking_reconciliation/report/summary_reconciliation.mako:133
+#: field:bank.acc.rec.statement,cleared_balance:0
+#: field:bank.acc.rec.statement,cleared_balance_in_currency:0
+msgid "Cleared Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: view:bank.acc.rec.statement:0
+msgid "Enter user whoever varified"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,registered_balance:0
+msgid "Registered Balance"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement.line,amount_in_currency:0
+msgid "Amount in Currency"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,adjustment_move_id:0
+msgid "Adjustement Move"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: field:bank.acc.rec.statement,keep_previous_uncleared_entries:0
+msgid "Keep Previous Uncleared Entries"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,starting_balance_in_currency:0
+msgid "The Account Starting Balance on your bank statement"
+msgstr ""
+
+#. module: account_banking_reconciliation
+#: help:bank.acc.rec.statement,ending_balance_in_currency:0
+msgid "The Ending Balance on your bank statement."
+msgstr ""

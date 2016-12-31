@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Serbian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sr/)\n"
@@ -438,7 +438,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Cancel"
-msgstr ""
+msgstr "Otkaži"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-10 00:51+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -115,7 +115,7 @@ msgstr ""
 #: field:banking.export.sdd,batch_booking:0
 #: field:banking.export.sdd.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Reserva por lotes"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:138
@@ -193,13 +193,13 @@ msgstr ""
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Según el acuerdo de servicio"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Sufragado por el acreedor"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,sepa_migrated:0
@@ -270,7 +270,7 @@ msgstr ""
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Sufragado por el deudor"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
@@ -326,7 +326,7 @@ msgstr ""
 #: field:banking.export.sdd,charge_bearer:0
 #: field:banking.export.sdd.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "A cargo del portador"
 
 #. module: account_banking_sepa_direct_debit
 #: field:res.company,sepa_creditor_identifier:0

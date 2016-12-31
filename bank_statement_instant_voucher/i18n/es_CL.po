@@ -1,0 +1,178 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * bank_statement_instant_voucher
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"PO-Revision-Date: 2016-04-06 00:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Spanish (Chile) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_CL/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es_CL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Confirm"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:95
+#, python-format
+msgid "Voucher for statement line %s.%s"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,state:0
+msgid "State"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:235
+#, python-format
+msgid "The voucher could not be posted."
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "ready"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: model:ir.model,name:bank_statement_instant_voucher.model_account_voucher_instant
+msgid "Instant Voucher"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "confirm"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: view:account.bank.statement:0 view:account.voucher.instant:0
+#: model:ir.actions.act_window,name:bank_statement_instant_voucher.act_instant_voucher
+msgid "Create matching voucher"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,type:0
+msgid "Voucher type"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:167
+#, python-format
+msgid "Cannot determine statement line"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,state:0
+msgid "init"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,type:0
+msgid "Purchase"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:243
+#, python-format
+msgid "The voucher's move line could not be posted."
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,statement_line_id:0
+msgid "Bank statement line"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: selection:account.voucher.instant,type:0
+msgid "Sale"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Create voucher"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:248
+#, python-format
+msgid ""
+"The amount on the bank statement line needs to be the same as on the "
+"voucher. Write-off is not yet supported."
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:79
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:166
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:224
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:234
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:242
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:247
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:257
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:80
+#, python-format
+msgid "No %s journal defined"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,balance:0
+msgid "Balance"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: model:ir.model,name:bank_statement_instant_voucher.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,ref:0
+msgid "Reference"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:225
+#, python-format
+msgid ""
+"Currency on the bank statement line needs to be the same as on the voucher. "
+"Currency conversion is not yet supported."
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:258
+#, python-format
+msgid "Cannot match a confirmed statement line"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,voucher_id:0
+msgid "Voucher"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: bank_statement_instant_voucher
+#: field:account.voucher.instant,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: bank_statement_instant_voucher
+#: view:account.voucher.instant:0
+msgid "or"
+msgstr "o"

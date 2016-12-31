@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/id/)\n"
@@ -881,7 +881,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Faktur"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -1280,7 +1280,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Batalkan"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0

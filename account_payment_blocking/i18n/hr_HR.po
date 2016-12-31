@@ -1,0 +1,33 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# * account_payment_blocking
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-payment (7.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"PO-Revision-Date: 2016-04-06 00:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Croatian (Croatia) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr_HR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: hr_HR\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#. module: account_payment_blocking
+#: field:account.invoice,blocked:0
+msgid "No Follow Up"
+msgstr ""
+
+#. module: account_payment_blocking
+#: model:ir.model,name:account_payment_blocking.model_payment_order_create
+msgid "payment.order.create"
+msgstr ""
+
+#. module: account_payment_blocking
+#: model:ir.model,name:account_payment_blocking.model_account_invoice
+msgid "Invoice"
+msgstr "Račun"

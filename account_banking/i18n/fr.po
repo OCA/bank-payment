@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-17 00:19+0000\n"
-"PO-Revision-Date: 2016-12-23 08:32+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"PO-Revision-Date: 2016-12-30 09:20+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr ""
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr ""
+msgstr "Ligne de Relevé Bancaire"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:663
@@ -507,7 +507,7 @@ msgstr "Confirmé"
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_voucher
 msgid "Accounting Voucher"
-msgstr ""
+msgstr "Justificatif comptable"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_city:0
@@ -1248,7 +1248,7 @@ msgstr ""
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_bank_statement
 msgid "Bank Statement"
-msgstr ""
+msgstr "Relevé bancaire"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_postalcode:0

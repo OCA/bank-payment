@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-17 00:20+0000\n"
+"POT-Creation-Date: 2016-12-24 00:23+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
@@ -54,7 +54,7 @@ msgid ""
 "the creditor. Borne by creditor : all transaction charges are to be borne by"
 " the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
-msgstr ""
+msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
@@ -66,7 +66,7 @@ msgstr "Compartidos"
 #: field:banking.export.sepa,batch_booking:0
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Reserva por lotes"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,state:0
@@ -98,13 +98,13 @@ msgstr ""
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Según el acuerdo de servicio"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Sufragado por el acreedor"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
@@ -120,7 +120,7 @@ msgstr ""
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Sufragado por el deudor"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:132
@@ -133,7 +133,7 @@ msgstr ""
 #: field:banking.export.sepa,charge_bearer:0
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "A cargo del portador"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
@@ -203,7 +203,7 @@ msgid ""
 "If true, the bank statement will display only one debit line for all the "
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
-msgstr ""
+msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
