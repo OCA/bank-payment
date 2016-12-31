@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 01:37+0000\n"
-"PO-Revision-Date: 2016-11-16 01:37+0000\n"
+"POT-Creation-Date: 2016-12-29 09:34+0000\n"
+"PO-Revision-Date: 2016-12-29 09:34+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Arabic (https://www.transifex.com/oca/teams/23907/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "الشركات"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier

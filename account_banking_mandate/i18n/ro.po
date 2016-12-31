@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2016-09-10 16:15+0000\n"
+"POT-Creation-Date: 2016-12-29 09:34+0000\n"
+"PO-Revision-Date: 2016-12-29 09:34+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Romanian (https://www.transifex.com/oca/teams/23907/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -131,12 +131,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
@@ -213,7 +213,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread
@@ -228,7 +228,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_is_follower
@@ -248,17 +248,17 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima actualizare în"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare făcută de"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
@@ -347,7 +347,7 @@ msgstr ""
 #: model:ir.model,name:account_banking_mandate.model_res_partner
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Partener"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_line

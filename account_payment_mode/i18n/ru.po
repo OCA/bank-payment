@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 01:37+0000\n"
-"PO-Revision-Date: 2016-11-16 01:37+0000\n"
+"POT-Creation-Date: 2016-12-29 09:34+0000\n"
+"PO-Revision-Date: 2016-12-29 09:34+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Russian (https://www.transifex.com/oca/teams/23907/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -66,12 +66,12 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Создано"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Создан"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
@@ -130,7 +130,7 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -161,12 +161,12 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Последний раз обновлено"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Последний раз обновлено"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_bank_account_link
@@ -223,7 +223,7 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal_company_partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Контрагент"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_method_id

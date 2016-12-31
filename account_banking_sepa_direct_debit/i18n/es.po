@@ -1,19 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_direct_debit
-#
+# * account_banking_sepa_direct_debit
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2016
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-01 19:00+0000\n"
-"PO-Revision-Date: 2016-07-01 19:00+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-12-29 09:34+0000\n"
+"PO-Revision-Date: 2016-12-29 09:34+0000\n"
+"Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>, 2016\n"
+"Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -87,16 +91,6 @@ msgstr "<em>Tipo de pago:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "To be completed by the creditor"
-msgstr "A cumplimentar por el acreedor"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "To be completed by the debtor"
-msgstr "A cumplimentar por el deudor"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Business-To-Business Direct debit Mandate</strong>"
 msgstr "<strong>Orden de domiciliación de adeudo directo SEPA B2B</strong>"
 
@@ -112,29 +106,49 @@ msgstr "Un mandato bancario genérico"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE."
-msgstr "TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA."
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE."
+msgstr ""
+"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA"
+" ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
 "                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
 "                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
-msgstr "TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA.LA ENTIDAD DE DEUDOR REQUIERE AUTORIZACIÓN DE ÉSTE PREVIA AL CARGO EN CUENTA DE LOS ADEUDOS DIRECTOS B2B.EL DEUDOR PODRÁ GESTIONAR DICHA AUTORIZACIÓN CON LOS MEDIOS QUE SU ENTIDAD PONGA A SU DISPOSICIÓN."
+msgstr ""
+"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA"
+" ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU "
+"CUSTODIA.LA ENTIDAD DE DEUDOR REQUIERE AUTORIZACIÓN DE ÉSTE PREVIA AL CARGO "
+"EN CUENTA DE LOS ADEUDOS DIRECTOS B2B.EL DEUDOR PODRÁ GESTIONAR DICHA "
+"AUTORIZACIÓN CON LOS MEDIOS QUE SU ENTIDAD PONGA A SU DISPOSICIÓN."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "As part of your rights, you are entitled to a refund from\n"
+msgid ""
+"As part of your rights, you are entitled to a refund from\n"
 "                        your bank under the terms and conditions of your agreement\n"
 "                        with your bank.\n"
 "                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
-msgstr "Como parte de sus derechos, el deudor está legitimado al reembolso por su entidad en los términos y condiciones del contrato suscrito con la misma. La solicitud de reembolso deberá efectuarse dentro de las ocho semanas que siguen a la fecha de adeudo en cuenta. Puede obtener información adicional sobre sus derechos en su entidad financiera."
+msgstr ""
+"Como parte de sus derechos, el deudor está legitimado al reembolso por su "
+"entidad en los términos y condiciones del contrato suscrito con la misma. La"
+" solicitud de reembolso deberá efectuarse dentro de las ocho semanas que "
+"siguen a la fecha de adeudo en cuenta. Puede obtener información adicional "
+"sobre sus derechos en su entidad financiera."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
 #, python-format
-msgid "As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."
-msgstr "Puesto que ha cambiado la cuenta bancaria relacionada con este mandato, el 'Tipo de secuencia' se ha vuelto a 'Inicial'."
+msgid ""
+"As you changed the bank account attached to this mandate, the 'Sequence "
+"Type' has been set back to 'First'."
+msgstr ""
+"Puesto que ha cambiado la cuenta bancaria relacionada con este mandato, el "
+"'Tipo de secuencia' se ha vuelto a 'Inicial'."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -149,7 +163,8 @@ msgstr "Básico (CORE)"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "By signing this mandate form, you authorise (A)"
-msgstr "Mediante la firma de esta orden de domiciliación, el deudor autoriza (A) "
+msgstr ""
+"Mediante la firma de esta orden de domiciliación, el deudor autoriza (A) "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
@@ -158,13 +173,15 @@ msgstr "Compañías"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
 "This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n"
+msgstr ""
+"Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n"
 "- el código ISO de 2 letras de su país\n"
 "- dos dígitos de comprobación\n"
 "- tres letras de código de negocio\n"
@@ -173,12 +190,14 @@ msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su comp
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_config_settings_sepa_creditor_identifier
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
-msgstr "Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n"
+msgstr ""
+"Introduzca el identificador de acreedor que se le ha atribuido a su compañía para realizar adeudos directos SEPA. Su banco suele poseer esta información. Este identificador se compone de:\n"
 "- el código ISO de 2 letras de su país\n"
 "- dos dígitos de comprobación\n"
 "- tres letras de código de negocio\n"
@@ -208,8 +227,12 @@ msgstr "Actualizacion de mandato"
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:98
 #, python-format
-msgid "Missing SEPA Direct Debit mandate on the bank payment line with partner '%s' (reference '%s')."
-msgstr "Falta el mandato de adeudo directo SEPA en la linea de pago bancario de la empresa '%s' (referencia '%s')."
+msgid ""
+"Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
+" (reference '%s')."
+msgstr ""
+"Falta el mandato de adeudo directo SEPA en la linea de pago bancario de la "
+"empresa '%s' (referencia '%s')."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
@@ -241,8 +264,14 @@ msgstr "Orden de pago"
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:62
 #, python-format
-msgid "Payment Type Code '%s' is not supported. The only Payment Type Code supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and 'pain.008.001.04'."
-msgstr "El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo de pago soportados para los adedudos directos SEPA son 'pain.008.001.02', 'pain.008.001.03' y 'pain.008.001.04'."
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Code "
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
+" 'pain.008.001.04'."
+msgstr ""
+"El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo"
+" de pago soportados para los adedudos directos SEPA son 'pain.008.001.02', "
+"'pain.008.001.03' y 'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
@@ -262,6 +291,11 @@ msgstr "Periódico"
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
 msgid "SEPA Creditor Identifier"
 msgstr "Identificador de acreedor SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
+msgid "SEPA Direct Debit of customers"
+msgstr "Adeudo directo SEPA de clientes"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_scheme
@@ -290,19 +324,27 @@ msgstr "Tipo de secuencia para el próximo cobro"
 #: code:addons/account_banking_sepa_direct_debit/models/res_company.py:33
 #, python-format
 msgid "The SEPA Creditor Identifier '%s' is invalid."
-msgstr "Identificador de acreedor SEPA no válido."
+msgstr "Identificador de acreedor SEPA '%s' no válido."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:105
 #, python-format
-msgid "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has expired."
-msgstr "El mandato de adeudo directo SEPA con referencia '%s' para la empresa '%s' ha expirado."
+msgid ""
+"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
+"expired."
+msgstr ""
+"El mandato de adeudo directo SEPA con referencia '%s' para la empresa '%s' "
+"ha expirado."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:113
 #, python-format
-msgid "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' and it has a last debit date set to '%s', so we can't use it."
-msgstr "El mandato con referencia '%s' para la empresa '%s' tipo como 'Único', ya tiene como fecha de último cobro '%s', por lo que no se puede usar."
+msgid ""
+"The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
+"and it has a last debit date set to '%s', so we can't use it."
+msgstr ""
+"El mandato con referencia '%s' para la empresa '%s' tipo como 'Único', ya "
+"tiene como fecha de último cobro '%s', por lo que no se puede usar."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:48
@@ -312,16 +354,34 @@ msgstr "El mandato periódico '%s' debe tener un tipo de secuencia."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_banking_mandate_recurrent_sequence_type
-msgid "This field is only used for Recurrent mandates, not for One-Off mandates."
+msgid ""
+"This field is only used for Recurrent mandates, not for One-Off mandates."
 msgstr "Este campo se utiliza sólo para mandatos periódicos, no para únicos."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "This mandate is only intended for business-to-business transactions.\n"
+msgid ""
+"This mandate is only intended for business-to-business transactions.\n"
 "                        You are not entitled to a refund from your bank after your account has\n"
 "                        been debited, but you are entitled to request your bank\n"
 "                        not to debit your account up until the day on which the payment is due."
-msgstr "Esta orden de domiciliación está prevista para operaciones exclusivamente entre empresas y/o autónomos. El deudor no tiene derecho a que su entidad le reembolse una vez que se haya realizado el cargo en cuenta, pero puede solicitar a su entidad que no efectúe el adeudo en la cuenta hasta la fecha debida. Podrá obtener información detallada del procedimiento en su entidad financiera."
+msgstr ""
+"Esta orden de domiciliación está prevista para operaciones exclusivamente "
+"entre empresas y/o autónomos. El deudor no tiene derecho a que su entidad le"
+" reembolse una vez que se haya realizado el cargo en cuenta, pero puede "
+"solicitar a su entidad que no efectúe el adeudo en la cuenta hasta la fecha "
+"debida. Podrá obtener información detallada del procedimiento en su entidad "
+"financiera."
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the creditor"
+msgstr "A cumplimentar por el acreedor"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the debtor"
+msgstr "A cumplimentar por el deudor"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
@@ -346,6 +406,10 @@ msgstr "account.config.settings"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "to send instructions to your bank to debit your account and (B) your bank to\n"
+msgid ""
+"to send instructions to your bank to debit your account and (B) your bank to\n"
 "                       debit your account in accordance with the instructions from"
-msgstr "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) a la entidad para efectuar los adeudos en su cuenta siguiendo las instrucciones del acreedor "
+msgstr ""
+"a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
+"a la entidad para efectuar los adeudos en su cuenta siguiendo las "
+"instrucciones del acreedor "
