@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr_TR/)\n"
@@ -105,7 +105,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,state:0
 msgid "Status"
-msgstr ""
+msgstr "Durum"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_cancel
@@ -190,7 +190,7 @@ msgstr ""
 #: code:addons/account_banking_mandate/model/payment_line.py:75
 #, python-format
 msgid "Error:"
-msgstr ""
+msgstr "Hata:"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_bank_id:0
@@ -226,7 +226,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Ortak"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
@@ -337,12 +337,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Fatura"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Cancel"
-msgstr ""
+msgstr "İptal et"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,description:account_banking_mandate.mandate_valid

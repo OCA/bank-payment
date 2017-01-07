@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 00:22+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr_TR/)\n"
@@ -163,7 +163,7 @@ msgstr ""
 #: field:deposit.items.line,partner_id:0
 #: field:deposit.ticket.line,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Ortak"
 
 #. module: account_banking_make_deposit
 #: field:deposit.ticket,move_id:0
@@ -200,7 +200,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:104
 #: view:deposit.ticket:0 field:deposit.ticket,state:0
 msgid "State"
-msgstr ""
+msgstr "Hal"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -296,7 +296,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
 msgid "Other Information"
-msgstr ""
+msgstr "Diğer bilgiler"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:82
@@ -522,7 +522,7 @@ msgstr ""
 #: view:deposit.ticket:0
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "İptal et"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0

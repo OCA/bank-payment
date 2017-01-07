@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
-"PO-Revision-Date: 2016-12-30 21:59+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"PO-Revision-Date: 2017-01-05 20:42+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -1474,7 +1474,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Notlar"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
