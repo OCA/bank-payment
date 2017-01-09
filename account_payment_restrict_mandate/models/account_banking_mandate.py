@@ -4,7 +4,10 @@
 import logging
 from openerp import api, fields, models
 from openerp.addons import decimal_precision
-from openerp.addons.field_rrule import FieldRRule
+try:
+    from openerp.addons.field_rrule import FieldRRule
+except ImportError:
+    FieldRRule = fields.Serialized
 _logger = logging.getLogger(__name__)
 
 
