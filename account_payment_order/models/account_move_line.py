@@ -47,6 +47,12 @@ class AccountMoveLine(models.Model):
             # in this case
         if payment_order.payment_type == 'outbound':
             amount_currency *= -1
+        #Add the bank account of the partner automatically to a pay order created from journal entries. Set to False
+        if self.partner_id.bank_ids:
+            partner_bank = self.partner_id.bank_ids[0]
+        else:
+            partner_bank = False
+        self.partner_bank_id = partner_bank
         vals = {
             'order_id': payment_order.id,
             'partner_bank_id': self.partner_bank_id.id,
