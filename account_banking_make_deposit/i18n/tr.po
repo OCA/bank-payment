@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
@@ -115,7 +115,7 @@ msgstr ""
 #: field:deposit.items.line,amount:0 field:deposit.ticket,amount:0
 #: field:deposit.ticket.line,amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Tutar"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,journal_id:0
@@ -379,7 +379,7 @@ msgstr "Taslak"
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
 msgid "Set to Draft"
-msgstr ""
+msgstr "Taslak Olarak Ayarlayın"
 
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:102
@@ -574,7 +574,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:62
 #: field:deposit.ticket,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Yevmiye Defteri"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0

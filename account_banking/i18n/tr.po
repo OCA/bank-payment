@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-31 01:18+0000\n"
-"PO-Revision-Date: 2017-01-05 20:42+0000\n"
+"PO-Revision-Date: 2017-01-12 19:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -341,7 +341,7 @@ msgstr ""
 #: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
 #: field:banking.transaction.wizard,amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Tutar"
 
 #. module: account_banking
 #: field:account.bank.statement.line,match_type:0
@@ -1410,7 +1410,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Yevmiye Defteri"
 
 #. module: account_banking
 #: view:account.bank.statement:0

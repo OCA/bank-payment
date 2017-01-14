@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
-"PO-Revision-Date: 2016-12-27 08:24+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"PO-Revision-Date: 2017-01-11 15:39+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0

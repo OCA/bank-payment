@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2016-12-31 01:19+0000\n"
 "PO-Revision-Date: 2016-04-06 00:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,state:0
 msgid "State"
-msgstr ""
+msgstr "Estat"
 
 #. module: bank_statement_instant_voucher
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:235
@@ -120,7 +120,7 @@ msgstr ""
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:257
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: bank_statement_instant_voucher
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:80
@@ -131,7 +131,7 @@ msgstr ""
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,balance:0
 msgid "Balance"
-msgstr ""
+msgstr "Balanç"
 
 #. module: bank_statement_instant_voucher
 #: model:ir.model,name:bank_statement_instant_voucher.model_account_bank_statement_line

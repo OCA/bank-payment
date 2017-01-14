@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/zh_TW/)\n"
@@ -618,7 +618,7 @@ msgstr ""
 #: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:117
 #: field:bank.acc.rec.statement.line,date:0
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,sum_of_credits:0

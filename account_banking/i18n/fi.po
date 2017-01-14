@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fi/)\n"
@@ -959,7 +959,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Import"
-msgstr ""
+msgstr "Tuo"
 
 #. module: account_banking
 #: field:banking.import.transaction,message:0
@@ -1070,7 +1070,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Päivämäärä"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
@@ -1409,7 +1409,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Piväkirja"
 
 #. module: account_banking
 #: view:account.bank.statement:0
@@ -1610,7 +1610,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "or"
-msgstr ""
+msgstr "tai"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_account_banking_imported_file

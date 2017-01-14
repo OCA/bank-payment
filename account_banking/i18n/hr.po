@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"PO-Revision-Date: 2017-01-11 15:38+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -1071,7 +1071,7 @@ msgstr "Dnevnik učitavanja"
 #. module: account_banking
 #: field:banking.import.line,date:0 field:banking.transaction.wizard,date:0
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. module: account_banking
 #: view:account.banking.account.settings:0
