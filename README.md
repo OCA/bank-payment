@@ -35,6 +35,7 @@ addon | version | summary
 [account_payment_order](account_payment_order/) | 9.0.1.1.1 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 9.0.1.0.0 | Adds payment mode on partners and invoices
 [account_payment_sale](account_payment_sale/) | 9.0.1.0.0 | Adds payment mode on sale orders
+[account_payment_transfer_reconcile_batch](account_payment_transfer_reconcile_batch/) | 9.0.1.0.0 | Batch Reconciliation for transfer moves
 
 Unported addons
 ---------------
