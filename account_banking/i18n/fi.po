@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fi/)\n"
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Yritys"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -340,7 +340,7 @@ msgstr ""
 #: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
 #: field:banking.transaction.wizard,amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Määrä"
 
 #. module: account_banking
 #: field:account.bank.statement.line,match_type:0
@@ -832,7 +832,7 @@ msgstr ""
 #: field:account.bank.statement.line,currency:0
 #: field:banking.import.line,currency:0
 msgid "Currency"
-msgstr ""
+msgstr "Valuutta"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1899
@@ -1155,7 +1155,7 @@ msgstr ""
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:964
@@ -1232,7 +1232,7 @@ msgstr ""
 #: model:ir.model,name:account_banking.model_res_partner_bank
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Pankkitilit"
 
 #. module: account_banking
 #: field:banking.import.transaction,local_account:0
@@ -1453,7 +1453,7 @@ msgstr ""
 #: code:addons/account_banking/account_banking.py:629
 #, python-format
 msgid "Structured Reference"
-msgstr ""
+msgstr "Maksuviite"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -1478,7 +1478,7 @@ msgstr "Huomautukset"
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Pankk"
 
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,customer:0
@@ -1525,7 +1525,7 @@ msgstr ""
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Pankkitili"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:371

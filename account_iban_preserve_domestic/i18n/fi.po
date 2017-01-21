@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# * account_payment_sale
+# * account_iban_preserve_domestic
 # 
 # Translators:
 msgid ""
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-14 01:07+0000\n"
-"PO-Revision-Date: 2016-04-06 00:26+0000\n"
+"PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_order
-msgid "Sales Order"
-msgstr "Myyntitilaus"
+#. module: account_iban_preserve_domestic
+#: field:res.partner.bank,acc_number_domestic:0
+msgid "Domestic Account Number"
+msgstr ""
 
-#. module: account_payment_sale
-#: field:sale.order,payment_mode_id:0
-msgid "Payment Mode"
-msgstr "Maksutapa"
+#. module: account_iban_preserve_domestic
+#: model:ir.model,name:account_iban_preserve_domestic.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Pankkitilit"

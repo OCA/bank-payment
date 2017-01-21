@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# * account_payment_sale
+# * account_payment_multicurrency_extension
 # 
 # Translators:
 msgid ""
@@ -17,12 +17,17 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_order
-msgid "Sales Order"
-msgstr "Myyntitilaus"
+#. module: account_payment_multicurrency_extension
+#: model:ir.model,name:account_payment_multicurrency_extension.model_payment_line
+msgid "Payment Line"
+msgstr "Maksurivi"
 
-#. module: account_payment_sale
-#: field:sale.order,payment_mode_id:0
-msgid "Payment Mode"
-msgstr "Maksutapa"
+#. module: account_payment_multicurrency_extension
+#: view:account.move.line:0 view:payment.order.create:0
+msgid "Move lines"
+msgstr ""
+
+#. module: account_payment_multicurrency_extension
+#: model:ir.model,name:account_payment_multicurrency_extension.model_payment_order_create
+msgid "payment.order.create"
+msgstr ""

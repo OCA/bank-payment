@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Swedish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sv/)\n"
@@ -87,7 +87,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement.line:0
 msgid "Group By..."
-msgstr ""
+msgstr "Gruppera efter..."
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Företag"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referens"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -597,7 +597,7 @@ msgstr "Typ"
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr ""
+msgstr "E-post"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -886,7 +886,7 @@ msgstr "Faktura"
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
 msgid "Responsible User"
-msgstr ""
+msgstr "Ansvarig användare"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:283
@@ -1039,7 +1039,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,phone:0
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #. module: account_banking
 #: field:banking.import.transaction,duplicate:0

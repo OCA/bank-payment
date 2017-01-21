@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
@@ -886,7 +886,7 @@ msgstr "Račun"
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
 msgid "Responsible User"
-msgstr ""
+msgstr "Odgovorni uporabnik"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:283
@@ -1039,7 +1039,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,phone:0
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #. module: account_banking
 #: field:banking.import.transaction,duplicate:0

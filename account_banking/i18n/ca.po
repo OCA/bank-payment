@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -192,7 +192,7 @@ msgstr ""
 #: field:account.banking.imported.file,company_id:0
 #: field:banking.import.transaction,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking
 #: selection:account.bank.statement.line,match_type:0
@@ -340,7 +340,7 @@ msgstr ""
 #: field:banking.import.line,amount:0 field:banking.link_partner,amount:0
 #: field:banking.transaction.wizard,amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Import"
 
 #. module: account_banking
 #: field:account.bank.statement.line,match_type:0
@@ -419,7 +419,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.transaction.wizard,analytic_account_id:0
 msgid "Analytic Account"
-msgstr ""
+msgstr "Compte analític"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1657
@@ -1290,7 +1290,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1409,7 +1409,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Diari"
 
 #. module: account_banking
 #: view:account.bank.statement:0

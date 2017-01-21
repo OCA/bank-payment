@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-01-14 01:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Swedish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sv/)\n"
@@ -126,7 +126,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Företag"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/partner_bank.py:34
@@ -276,7 +276,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Reference"
-msgstr ""
+msgstr "Referens"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0

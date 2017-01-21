@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-01-14 01:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
@@ -65,7 +65,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:payment.line,priority:0
 msgid "Normal"
-msgstr ""
+msgstr "Običajno"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/banking_export_pain.py:86
@@ -153,7 +153,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:payment.line,priority:0
 msgid "High"
-msgstr ""
+msgstr "Visoka"
 
 #. module: account_banking_pain_base
 #: field:payment.mode,convert_to_ascii:0

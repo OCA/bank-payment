@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
-"PO-Revision-Date: 2017-01-11 15:35+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
+"PO-Revision-Date: 2017-01-19 20:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -380,7 +380,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referanse"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -598,7 +598,7 @@ msgstr "Type"
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr ""
+msgstr "E-post"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -1040,7 +1040,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,phone:0
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #. module: account_banking
 #: field:banking.import.transaction,duplicate:0

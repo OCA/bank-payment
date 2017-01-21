@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-01-14 01:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fi/)\n"
@@ -98,7 +98,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,file:0
 msgid "SEPA File"
-msgstr ""
+msgstr "SEPA-tiedosto"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.mandate_action
@@ -109,7 +109,7 @@ msgstr ""
 #: view:banking.export.sdd:0 field:banking.export.sdd,payment_order_ids:0
 #: field:banking.export.sdd.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Maksumääräykset"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,batch_booking:0
@@ -287,7 +287,7 @@ msgstr ""
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:211
 #, python-format
 msgid "Error:"
-msgstr ""
+msgstr "Virhe:"
 
 #. module: account_banking_sepa_direct_debit
 #: help:account.banking.mandate,recurrent_sequence_type:0

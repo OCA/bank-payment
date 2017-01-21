@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
-"PO-Revision-Date: 2017-01-11 15:39+0000\n"
+"POT-Creation-Date: 2017-01-14 01:06+0000\n"
+"PO-Revision-Date: 2017-01-19 20:17+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -597,7 +597,7 @@ msgstr "Tipo"
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -886,7 +886,7 @@ msgstr "Fatura"
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
 msgid "Responsible User"
-msgstr ""
+msgstr "Usuário responsável"
 
 #. module: account_banking
 #: code:addons/account_banking/parsers/models.py:283
@@ -1039,7 +1039,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,phone:0
 msgid "Phone"
-msgstr ""
+msgstr "Telefone"
 
 #. module: account_banking
 #: field:banking.import.transaction,duplicate:0

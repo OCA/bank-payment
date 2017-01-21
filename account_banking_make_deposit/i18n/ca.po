@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-01-14 01:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -71,7 +71,7 @@ msgstr ""
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -115,7 +115,7 @@ msgstr ""
 #: field:deposit.items.line,amount:0 field:deposit.ticket,amount:0
 #: field:deposit.ticket.line,amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Import"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,journal_id:0
@@ -152,7 +152,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: view:add.deposit.items:0
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancel·lar"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,memo:0
@@ -574,7 +574,7 @@ msgstr ""
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:62
 #: field:deposit.ticket,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Diari"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -597,7 +597,7 @@ msgstr ""
 #: field:deposit.items.line,name:0 field:deposit.method,name:0
 #: field:deposit.ticket.line,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,date:0
