@@ -32,7 +32,9 @@ This module is part of the OCA/bank-payment suite.
 Configuration
 =============
 
-No specific configuration.
+* You need to configure a valid BIC code on the banks belonging to the 
+source and destination bank accounts, or the export will throw a 
+not-so-informative 'Compute error'.
 
 Usage
 =====
