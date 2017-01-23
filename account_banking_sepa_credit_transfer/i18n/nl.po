@@ -28,7 +28,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr "Bach verwerking"
+msgstr "Batch verwerking"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
