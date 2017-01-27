@@ -11,6 +11,7 @@
     'category': 'Banking addons',
     'depends': ['account'],
     'data': [
+        'security/account_payment_mode.xml',
         'security/ir.model.access.csv',
         'views/account_payment_method.xml',
         'views/account_payment_mode.xml',
