@@ -351,11 +351,16 @@ class AccountPaymentOrder(models.Model):
     def _prepare_move_line_offsetting_account(
             self, amount_company_currency, amount_payment_currency,
             bank_lines):
+        vals = {}
         if self.payment_type == 'outbound':
             name = _('Payment order %s') % self.name
         else:
             name = _('Debit order %s') % self.name
-        date_maturity = bank_lines[0].date
+        if self.payment_mode_id.offsetting_account == 'bank_account':
+            vals.update({'date': bank_lines[0].date})
+        else:
+            vals.update({'date_maturity': bank_lines[0].date})
+
         if self.payment_mode_id.offsetting_account == 'bank_account':
             account_id = self.journal_id.default_debit_account_id.id
         elif self.payment_mode_id.offsetting_account == 'transfer_account':
@@ -368,7 +373,7 @@ class AccountPaymentOrder(models.Model):
                 # we have different partners in the grouped move
                 partner_id = False
                 break
-        vals = {
+        vals.update({
             'name': name,
             'partner_id': partner_id,
             'account_id': account_id,
@@ -376,8 +381,7 @@ class AccountPaymentOrder(models.Model):
                        amount_company_currency or 0.0),
             'debit': (self.payment_type == 'inbound' and
                       amount_company_currency or 0.0),
-            'date_maturity': date_maturity,
-        }
+        })
         if bank_lines[0].currency_id != bank_lines[0].company_currency_id:
             sign = self.payment_type == 'outbound' and -1 or 1
             vals.update({
@@ -412,6 +416,7 @@ class AccountPaymentOrder(models.Model):
             'debit': (self.payment_type == 'outbound' and
                       bank_line.amount_company_currency or 0.0),
             }
+
         if bank_line.currency_id != bank_line.company_currency_id:
             sign = self.payment_type == 'inbound' and -1 or 1
             vals.update({
