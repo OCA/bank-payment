@@ -169,7 +169,7 @@ class sdd_mandate(orm.Model):
         'scheme': fields.selection([
             ('CORE', 'Basic (CORE)'),
             ('B2B', 'Enterprise (B2B)')
-            ], 'Scheme', required=True)
+        ], 'Scheme', required=True)
     }
 
     _defaults = {

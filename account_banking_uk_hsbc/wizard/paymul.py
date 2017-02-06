@@ -540,6 +540,7 @@ class Batch(LogicalSection):
 
         return segments
 
+
 # From the spec for FCA segments:
 # 13 = All charges borne by payee (or beneficiary)
 # 14 = Each pay own cost
@@ -549,6 +550,7 @@ class Batch(LogicalSection):
 CHARGES_PAYEE = 13
 CHARGES_EACH_OWN = 14
 CHARGES_PAYER = 15
+
 
 # values per section 2.8.5 "PAI, Payment Instructions" of
 # "HSBC - CRG Paymul Message Implementation Guide"

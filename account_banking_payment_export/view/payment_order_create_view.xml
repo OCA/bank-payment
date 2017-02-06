@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
     <field name="arch" type="xml">
         <field name="entries" position="attributes">
-            <attribute name="context">{'journal_type': 'sale'}</attribute>
+            <attribute name="context">{'journal_type': 'purchase'}</attribute>
             <attribute name="nolabel">1</attribute>
         </field>
     </field>

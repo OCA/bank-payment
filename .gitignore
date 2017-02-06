@@ -54,3 +54,6 @@ docs/_build/
 # Backup files
 *~
 *.swp
+stdout.log
+oca__*
+z0i__*

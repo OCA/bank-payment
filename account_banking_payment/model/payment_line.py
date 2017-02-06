@@ -85,8 +85,8 @@ class payment_line(orm.Model):
         :param payment_line_id: the single payment line id
         :param amount: the (negative) amount debited from the bank account
         :param currency: the bank account's currency *browse object*
-        :param boolean storno_retry: whether the storno is considered fatal \
-        or not.
+        :param boolean storno_retry: whether the storno is considered fatal or
+        not.
         :return: an incomplete reconcile for the caller to fill
         :rtype: database id of an account.move.reconcile resource.
         """

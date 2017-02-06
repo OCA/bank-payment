@@ -43,6 +43,7 @@ def date2date(datestr, fromfmt='%d/%m/%y', tofmt='%Y-%m-%d'):
     '''
     return date2str(str2date(datestr, fromfmt), tofmt)
 
+
 _SWIFT = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
           "/-?:().,'+ ")
 

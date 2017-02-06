@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openerp.osv import orm, fields
 import netsvc
-from tools.translate import _
+from openerp.tools.translate import _
 
 
 class payment_line(orm.Model):

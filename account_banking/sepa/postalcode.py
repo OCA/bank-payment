@@ -183,5 +183,6 @@ class PostalCode(object):
             return cls._formats[iso].get(str_)
         return ''
 
+
 get = PostalCode.get
 split = PostalCode.split

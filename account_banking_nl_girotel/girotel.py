@@ -45,7 +45,7 @@ usage.
 '''
 from account_banking.parsers import models
 from account_banking.parsers.convert import str2date, to_swift
-from tools.translate import _
+from openerp.tools.translate import _
 import re
 import csv
 
@@ -120,10 +120,10 @@ class transaction_message(object):
                 self.message = self.remote_owner
                 self.remove_owner = False
             # payment batch done via sepa
-            if self.transfer_type == 'VZ'\
-                    and not self.remote_account\
-                    and not self.remote_owner\
-                    and re.match(
+            if self.transfer_type == 'VZ' and \
+                    not self.remote_account and \
+                    not self.remote_owner and \
+                    re.match(
                         r'^Verzamel Eurobetaling .* TOTAAL \d+ POSTEN\s*$',
                         self.message):
                 self.transfer_type = 'PB'
