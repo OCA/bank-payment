@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-10 17:00+0000\n"
-"PO-Revision-Date: 2016-12-23 14:09+0000\n"
+"POT-Creation-Date: 2017-01-21 01:09+0000\n"
+"PO-Revision-Date: 2017-02-09 11:36+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -221,7 +221,7 @@ msgstr ""
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Journalposten"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_journal_ids:0
