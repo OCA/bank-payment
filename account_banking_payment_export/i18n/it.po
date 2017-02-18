@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-14 01:15+0000\n"
-"PO-Revision-Date: 2017-01-14 17:37+0000\n"
+"POT-Creation-Date: 2017-02-11 00:27+0000\n"
+"PO-Revision-Date: 2017-02-17 15:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr ""
 #: code:addons/account_banking_payment_export/models/account_payment.py:83
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,type:0
