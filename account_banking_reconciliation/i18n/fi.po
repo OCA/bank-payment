@@ -550,7 +550,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0
 msgid "Set to Draft"
-msgstr ""
+msgstr "Aseta luonnokseksi"
 
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement,verified_by_user_id:0

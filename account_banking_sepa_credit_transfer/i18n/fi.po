@@ -109,7 +109,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "Validate"
-msgstr ""
+msgstr "Hyväksy"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0

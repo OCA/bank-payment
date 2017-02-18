@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2017-01-14 01:07+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/it/)\n"
@@ -267,7 +267,7 @@ msgstr ""
 #: code:addons/account_banking_reconciliation/models/bank_acc_rec_statement.py:165
 #, python-format
 msgid "Warning"
-msgstr ""
+msgstr "Warning"
 
 #. module: account_banking_reconciliation
 #: model:ir.model,name:account_banking_reconciliation.model_bank_acc_rec_statement

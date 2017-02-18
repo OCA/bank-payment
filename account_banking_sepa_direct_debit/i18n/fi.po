@@ -357,7 +357,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Validate"
-msgstr ""
+msgstr "Hyväksy"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:136
