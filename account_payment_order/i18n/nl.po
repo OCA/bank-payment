@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 00:45+0000\n"
-"PO-Revision-Date: 2016-09-03 00:45+0000\n"
+"POT-Creation-Date: 2017-02-23 12:58+0000\n"
+"PO-Revision-Date: 2017-02-23 12:58+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -329,14 +329,14 @@ msgid "Debit Orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:404
+#: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:337
-#: code:addons/account_payment_order/models/account_payment_order.py:357
+#: code:addons/account_payment_order/models/account_payment_order.py:358
 #, python-format
 msgid "Debit order %s"
 msgstr "Betaalopdrachten %s"
@@ -808,8 +808,7 @@ msgstr "Bankrekening relatie"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_account_id
 msgid ""
 "Pay off lines in 'file uploaded' payment orders with a move on this account."
-" You can only select accounts of type regular that are marked for "
-"reconciliation"
+" You can only select accounts that are marked for reconciliation"
 msgstr ""
 
 #. module: account_payment_order
@@ -896,14 +895,14 @@ msgid "Payment Type"
 msgstr "Betaalwijze"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:402
+#: code:addons/account_payment_order/models/account_payment_order.py:406
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Betaalregel %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:335
-#: code:addons/account_payment_order/models/account_payment_order.py:355
+#: code:addons/account_payment_order/models/account_payment_order.py:356
 #, python-format
 msgid "Payment order %s"
 msgstr "Betaalopdracht %s"
