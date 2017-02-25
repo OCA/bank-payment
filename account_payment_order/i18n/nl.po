@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-09 01:37+0000\n"
+"POT-Creation-Date: 2017-02-23 12:57+0000\n"
 "PO-Revision-Date: 2016-12-22 11:48+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
@@ -318,14 +318,14 @@ msgid "Debit Orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:404
+#: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:337
-#: code:addons/account_payment_order/models/account_payment_order.py:357
+#: code:addons/account_payment_order/models/account_payment_order.py:358
 #, python-format
 msgid "Debit order %s"
 msgstr "Betaalopdrachten %s"
@@ -829,14 +829,14 @@ msgid "Payment Type"
 msgstr "Betaalwijze"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:402
+#: code:addons/account_payment_order/models/account_payment_order.py:406
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Betaalregel %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:335
-#: code:addons/account_payment_order/models/account_payment_order.py:355
+#: code:addons/account_payment_order/models/account_payment_order.py:356
 #, python-format
 msgid "Payment order %s"
 msgstr "Betaalopdracht %s"

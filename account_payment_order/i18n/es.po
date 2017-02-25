@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:21+0000\n"
+"POT-Creation-Date: 2017-02-23 12:57+0000\n"
 "PO-Revision-Date: 2016-12-27 13:24+0000\n"
 "Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
@@ -319,14 +319,14 @@ msgid "Debit Orders"
 msgstr "Órdenes de cobro"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:404
+#: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit bank line %s"
 msgstr "Línea de adeudo de banco %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:337
-#: code:addons/account_payment_order/models/account_payment_order.py:357
+#: code:addons/account_payment_order/models/account_payment_order.py:358
 #, python-format
 msgid "Debit order %s"
 msgstr "Orden de cobro %s"
@@ -830,14 +830,14 @@ msgid "Payment Type"
 msgstr "Tipo de pago"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:402
+#: code:addons/account_payment_order/models/account_payment_order.py:406
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Línea de pago bancario %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:335
-#: code:addons/account_payment_order/models/account_payment_order.py:355
+#: code:addons/account_payment_order/models/account_payment_order.py:356
 #, python-format
 msgid "Payment order %s"
 msgstr "Orden %s"

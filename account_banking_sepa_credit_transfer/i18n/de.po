@@ -4,11 +4,12 @@
 # 
 # Translators:
 # Niki Waibel, 2016
+# Niki Waibel, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
+"POT-Creation-Date: 2017-02-23 12:57+0000\n"
 "PO-Revision-Date: 2016-11-01 20:33+0000\n"
 "Last-Translator: Niki Waibel\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
@@ -43,6 +44,7 @@ msgid "Payment Order"
 msgstr "Zahlungsauftrag"
 
 #. module: account_banking_sepa_credit_transfer
+#: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
 msgstr "SEPA-Überweisung an Zulieferer"
