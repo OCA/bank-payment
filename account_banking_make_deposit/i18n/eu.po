@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-01-28 00:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Basque (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/eu/)\n"
@@ -71,7 +71,7 @@ msgstr ""
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Enpresa"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0
@@ -163,7 +163,7 @@ msgstr ""
 #: field:deposit.items.line,partner_id:0
 #: field:deposit.ticket.line,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Kidea"
 
 #. module: account_banking_make_deposit
 #: field:deposit.ticket,move_id:0
@@ -466,7 +466,7 @@ msgstr ""
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:115
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Errorea"
 
 #. module: account_banking_make_deposit
 #: model:res.groups,name:account_banking_make_deposit.group_make_deposits_preparer
