@@ -18,6 +18,7 @@
         'views/res_partner_view.xml',
         'views/account_invoice_view.xml',
         'views/account_move_line.xml',
+        'views/account_payment_mode.xml',
         'views/report_invoice.xml',
     ],
     'demo': ['demo/partner_demo.xml'],

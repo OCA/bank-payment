@@ -7,7 +7,7 @@
                     <strong>Payment Mode:</strong>
                     <span t-field="o.payment_mode_id.note" />
                 </p>
-                <p t-if="o.partner_bank_id">
+                <p t-if="o.partner_bank_id and o.payment_mode_id.bank_invoice_report">
                     <strong>Bank Account:</strong>
                     <span t-field="o.partner_bank_id.acc_number" />
                 </p>
