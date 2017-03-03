@@ -137,6 +137,9 @@ class PaymentOrder(models.Model):
                     requested_date = order.date_scheduled or today
                 else:
                     requested_date = today
+                # No payment date in the past
+                if requested_date < today:
+                    requested_date = today
                 # Write requested_date on 'date' field of payment line
                 payline.date = requested_date
                 # Group options
