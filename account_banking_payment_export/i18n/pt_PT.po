@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:24+0000\n"
-"PO-Revision-Date: 2017-01-13 09:26+0000\n"
+"POT-Creation-Date: 2017-03-03 11:42+0000\n"
+"PO-Revision-Date: 2017-03-02 09:14+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr ""
 #: code:addons/account_banking_payment_export/models/account_payment.py:83
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,type:0
@@ -221,7 +221,7 @@ msgstr ""
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Itens do Diário"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_journal_ids:0
@@ -480,7 +480,7 @@ msgid "The Ordering Customer"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:161
+#: code:addons/account_banking_payment_export/models/account_payment.py:164
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""

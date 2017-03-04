@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:27+0000\n"
-"PO-Revision-Date: 2016-12-27 08:25+0000\n"
+"POT-Creation-Date: 2017-03-03 11:42+0000\n"
+"PO-Revision-Date: 2017-03-03 07:08+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "有效"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,amount_currency:0
@@ -80,7 +80,7 @@ msgstr "取消"
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "代码"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
@@ -95,7 +95,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "公司"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
@@ -480,7 +480,7 @@ msgid "The Ordering Customer"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:161
+#: code:addons/account_banking_payment_export/models/account_payment.py:164
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""
