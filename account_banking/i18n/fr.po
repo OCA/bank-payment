@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-28 00:24+0000\n"
-"PO-Revision-Date: 2017-02-17 15:35+0000\n"
+"POT-Creation-Date: 2017-03-03 11:33+0000\n"
+"PO-Revision-Date: 2017-02-25 18:58+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -527,7 +527,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmer"
 
 #. module: account_banking
 #: field:account.banking.account.settings,default_credit_account_id:0
