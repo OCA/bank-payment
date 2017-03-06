@@ -9,6 +9,13 @@ Restrict debits on mandates
 This module was written to allow a debit workflow where a customer announces
 a maximum amount that can be debited within a given period.
 
+Installation
+============
+
+This module depends on :
+
+* field_rrule from the `server-tools <https://github.com/OCA/server-tools>`_ repository
+
 Usage
 =====
 
