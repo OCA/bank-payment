@@ -40,3 +40,14 @@ msgstr "Termijnbedrag"
 msgid "This is the maximum amount allowed to withdraw per occassion"
 msgstr "Dit is het maximale bedrag dat per termijn geincasseerd kan worden"
 
+#. module: account_payment_restrict_mandate
+#: code:addons/account_payment_restrict_mandate/wizards/payment_order_create.py:39
+#, python-format
+msgid "Capping %s to %s: Mandate has %s occurrences between %s and %s, totalling to %d for this run"
+msgstr "%s tot %s beperkt: Mandaat heeft %s termijnen tussen %s en %s, met %d in totaal voor deze opdracht"
+
+#. module: account_payment_restrict_mandate
+#: field:payment.order,restrict_mandate_messages:0
+#: view:payment.order:account_payment_restrict_mandate.view_payment_order_form
+msgid "Mandate restrictions"
+msgstr "Mandaat beperkingen"

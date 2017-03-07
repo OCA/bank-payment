@@ -31,6 +31,8 @@ To use this module, you need to:
 
 If this does not work as expected, check the following
 
+* check the tab `Mandate restrictions` on the payment order, it will contain
+  a log why some lines were capped or removed
 * is the invoice the move is originating from linked to the mandate?
 * is the mandate in state 'valid'?
 * is there an occurrence in the repetition rule falling between today (or the
@@ -46,7 +48,6 @@ Known issues / Roadmap
 
 * there should be an extra column when selecting move lines showing how much
   can be debited according to the rule (this is going to be a performance killer)
-* when payment lines are adjusted or altogether removed, there should be a warning
 
 Bug Tracker
 ===========

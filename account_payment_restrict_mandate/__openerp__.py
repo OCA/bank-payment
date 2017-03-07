@@ -13,6 +13,7 @@
         'field_rrule',
     ],
     "data": [
+        "views/payment_order.xml",
         "views/account_banking_mandate.xml",
     ],
 }
