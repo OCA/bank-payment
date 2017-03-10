@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module to import mt940 formatted bank statements for Dutch ING bank."""
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
