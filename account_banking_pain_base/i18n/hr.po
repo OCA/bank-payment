@@ -10,12 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2017-03-03 11:33+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
+"Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: account_banking_pain_base
 #: field:res.company,initiating_party_issuer:0
@@ -35,7 +35,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: field:payment.line,priority:0
 msgid "Priority"
-msgstr "Prioridad"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_line
@@ -82,7 +82,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
-msgstr "Compañías"
+msgstr "Poduzeća"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/banking_export_pain.py:52
@@ -153,7 +153,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:payment.line,priority:0
 msgid "High"
-msgstr "Alto"
+msgstr "Visoko"
 
 #. module: account_banking_pain_base
 #: field:payment.mode,convert_to_ascii:0
