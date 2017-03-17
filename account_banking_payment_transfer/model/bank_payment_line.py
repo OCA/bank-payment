@@ -18,7 +18,8 @@ class BankPaymentLine(models.Model):
     transfer_move_line_id = fields.Many2one(
         'account.move.line', compute='_get_transfer_move_line',
         string='Transfer move line counterpart',
-        help="Counterpart move line on the transfer account")
+        help="Counterpart move line on the transfer account",
+        store=True)
 
     @api.multi
     def move_line_transfer_account_hashcode(self):
@@ -34,6 +35,11 @@ class BankPaymentLine(models.Model):
         return hashcode
 
     @api.multi
+    @api.depends(
+        'transit_move_line_id.move_id.line_id.debit',
+        'transit_move_line_id.move_id.line_id.credit',
+        'order_id.payment_order_type',
+    )
     def _get_transfer_move_line(self):
         for bank_line in self:
             if bank_line.transit_move_line_id:

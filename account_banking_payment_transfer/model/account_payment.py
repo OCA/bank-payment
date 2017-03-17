@@ -83,18 +83,23 @@ class PaymentOrder(models.Model):
         """
         Get the transfer move lines (on the transfer account).
         """
-        res = []
-        for order in self:
-            for bank_line in order.bank_line_ids:
-                move_line = bank_line.transfer_move_line_id
-                if move_line:
-                    res.append(move_line)
-        return res
+        if not self:
+            return self.env['account.move.line']
+        self.env.cr.execute(
+            '''select ml.id from
+            account_move_line ml join bank_payment_line pl
+            on pl.transfer_move_line_id=ml.id
+            where pl.order_id in %s''',
+            (tuple(self.ids),),
+        )
+        return self.env['account.move.line'].browse(
+            i for i, in self.env.cr.fetchall()
+        )
 
     @api.multi
     def get_transfer_move_line_ids(self, *args):
         '''Used in the workflow for trigger_expr_id'''
-        return [move_line.id for move_line in self._get_transfer_move_lines()]
+        return self._get_transfer_move_lines().ids
 
     @api.multi
     def test_done(self):
@@ -104,8 +109,12 @@ class PaymentOrder(models.Model):
         Called from the workflow to move to the done state when
         all transfer move have been reconciled through bank statements.
         """
-        return all([move_line.reconcile_id for move_line in
-                    self._get_transfer_move_lines()])
+        self.env.cr.execute(
+            '''select id from account_move_line
+            where id in %s and reconcile_id is null''',
+            (tuple(self.get_transfer_move_line_ids()),)
+        )
+        return self.env.cr.rowcount == 0
 
     @api.multi
     def test_undo_done(self):
