@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-03-03 11:33+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_CO/)\n"
@@ -854,7 +854,7 @@ msgstr ""
 #: field:banking.link_partner,message:0
 #: field:banking.transaction.wizard,message:0
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:132
