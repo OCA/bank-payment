@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-06 00:14+0000\n"
+"POT-Creation-Date: 2017-03-17 01:56+0000\n"
+"PO-Revision-Date: 2016-04-27 19:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:128
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:137
 #, python-format
 msgid "%s bank line %s"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:162
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:171
 #, python-format
 msgid "%s line %s"
 msgstr ""
@@ -40,18 +40,23 @@ msgid "Bank Payment Lines"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:70
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:185
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:194
 #, python-format
 msgid ""
 "Cannot generate the transfer move when the currency of the payment (%s) is "
-"not the same as the currency of the company. This is not supported for the "
-"moment."
+"not the same as the currency of the company (%s). This is not supported for "
+"the moment."
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: help:bank.payment.line,transfer_move_line_id:0
+msgid "Counterpart move line on the transfer account"
 msgstr ""
 
 #. module: account_banking_payment_transfer
@@ -60,13 +65,13 @@ msgid "Date Confirmed"
 msgstr "Datum bevestigd"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:221
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:230
 #, python-format
 msgid "Direct debit"
 msgstr "Incasso-opdracht"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:84
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:90
 #, python-format
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
@@ -85,7 +90,7 @@ msgid "Message"
 msgstr "Bericht"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:82
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr ""
@@ -106,9 +111,14 @@ msgid "One move per payment line"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:264
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:273
 #, python-format
 msgid "Partial Reconcile Moves Line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:payment.order,partial_reconcile_count:0
+msgid "Partial Reconciles Counter"
 msgstr ""
 
 #. module: account_banking_payment_transfer
@@ -119,7 +129,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:220
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:229
 #, python-format
 msgid "Payment"
 msgstr "Betaling"
@@ -157,6 +167,11 @@ msgstr "Overschrijf dagboek"
 #. module: account_banking_payment_transfer
 #: field:bank.payment.line,transit_move_line_id:0
 msgid "Transfer move line"
+msgstr ""
+
+#. module: account_banking_payment_transfer
+#: field:bank.payment.line,transfer_move_line_id:0
+msgid "Transfer move line counterpart"
 msgstr ""
 
 #. module: account_banking_payment_transfer
