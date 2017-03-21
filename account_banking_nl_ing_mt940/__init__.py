@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Module to import mt940 formatted bank statements for Dutch ING bank."""
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2014 Therp BV (<http://therp.nl>).
+#    Copyright (C) 2014-2015 Therp BV <http://therp.nl>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as

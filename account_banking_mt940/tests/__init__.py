@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Test MT940 parser."""
 ##############################################################################
 #
-#    Copyright (C) 2014-2015 Therp BV <http://therp.nl>.
+#    Copyright (C) 2015 Therp BV <http://therp.nl>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,4 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mt940
+from . import test_mt940
+
+fast_suite = [
+    test_mt940,
+]

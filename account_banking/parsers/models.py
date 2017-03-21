@@ -18,8 +18,8 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 import re
+import logging
 from difflib import SequenceMatcher
 from openerp.tools.translate import _
 
@@ -62,10 +62,20 @@ class mem_bank_statement(object):
         '''
         if any([x for x in self.transactions if not x.is_valid()]):
             return False
-        check = float(self.start_balance)
+        # Transactions are OK, check balance
+        start_balance = float(self.start_balance)
+        end_balance = float(self.end_balance)
+        transferred_amount = 0.0
         for transaction in self.transactions:
-            check += float(transaction.transferred_amount)
-        return abs(check - float(self.end_balance)) < 0.0001
+            transferred_amount += float(transaction.transferred_amount)
+        if abs(start_balance + transferred_amount - end_balance) < 0.0001:
+            return True
+        logging.debug(_(
+            'Start balance %f + transferred amount %f is not equal to'
+            ' end balance %f' %
+            (start_balance, transferred_amount, end_balance)
+        ))
+        return False
 
 
 class mem_bank_transaction(object):

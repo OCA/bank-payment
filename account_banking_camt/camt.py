@@ -201,7 +201,9 @@ CAMT Format parser
             vals = entry_details
         # Append additional entry info, which can contain remittance
         # information in legacy format
-        Addtl = self.find(node, './ns:AddtlNtryInf')
+        Addtl = self.find(node, './ns:AddtlTxInf')
+        if Addtl is None:
+            Addtl = self.find(node, './ns:AddtlNtryInf')
         if Addtl is not None and Addtl.text:
             if vals.get('message'):
                 vals['message'] = '%s %s' % (vals['message'], Addtl.text)
