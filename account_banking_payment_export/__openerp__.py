@@ -7,7 +7,7 @@
 
 {
     'name': 'Account Banking - Payments Export Infrastructure',
-    'version': '8.0.0.3.0',
+    'version': '8.0.0.4.0',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "

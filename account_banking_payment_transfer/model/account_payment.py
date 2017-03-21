@@ -6,7 +6,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
 
 
 class PaymentOrder(models.Model):
@@ -131,27 +130,34 @@ class PaymentOrder(models.Model):
 
     @api.multi
     def _prepare_move_line_transfer_account(
-            self, amount, move, bank_payment_lines, labels):
-        if len(bank_payment_lines) == 1:
-            partner_id = bank_payment_lines[0].partner_id.id
+            self, amount_company_currency, amount_payment_currency,
+            move, bank_lines, labels):
+        if len(bank_lines) == 1:
+            partner_id = bank_lines[0].partner_id.id
             name = _('%s bank line %s') % (labels[self.payment_order_type],
-                                           bank_payment_lines[0].name)
+                                           bank_lines[0].name)
         else:
             partner_id = False
             name = '%s %s' % (
                 labels[self.payment_order_type], self.reference)
-        date_maturity = bank_payment_lines[0].date
+        date_maturity = bank_lines[0].date
         vals = {
             'name': name,
             'move_id': move.id,
             'partner_id': partner_id,
             'account_id': self.mode.transfer_account_id.id,
             'credit': (self.payment_order_type == 'payment' and
-                       amount or 0.0),
+                       amount_company_currency or 0.0),
             'debit': (self.payment_order_type == 'debit' and
-                      amount or 0.0),
+                      amount_company_currency or 0.0),
             'date_maturity': date_maturity,
         }
+        if bank_lines[0].currency != bank_lines[0].company_currency_id:
+            sign = self.payment_order_type == 'payment' and -1 or 1
+            vals.update({
+                'currency_id': bank_lines[0].currency.id,
+                'amount_currency': amount_payment_currency * sign,
+                })
         return vals
 
     @api.multi
@@ -174,10 +180,18 @@ class PaymentOrder(models.Model):
             'partner_id': bank_line.partner_id.id,
             'account_id': account_id,
             'credit': (self.payment_order_type == 'debit' and
-                       bank_line.amount_currency or 0.0),
+                       bank_line.amount_company_currency or 0.0),
             'debit': (self.payment_order_type == 'payment' and
-                      bank_line.amount_currency or 0.0),
+                      bank_line.amount_company_currency or 0.0),
             }
+
+        if bank_line.currency != bank_line.company_currency_id:
+            sign = self.payment_order_type == 'debit' and -1 or 1
+            vals.update({
+                'currency_id': bank_line.currency.id,
+                'amount_currency': bank_line.amount_currency * sign,
+                })
+
         return vals
 
     @api.multi
@@ -188,15 +202,6 @@ class PaymentOrder(models.Model):
     @api.multi
     def _create_move_line_partner_account(self, bank_line, move, labels):
         """This method is designed to be inherited in a custom module"""
-        # TODO: take multicurrency into account
-        company_currency = self.env.user.company_id.currency_id
-        if bank_line.currency != company_currency:
-            raise UserError(_(
-                "Cannot generate the transfer move when "
-                "the currency of the payment (%s) is not the "
-                "same as the currency of the company (%s). This "
-                "is not supported for the moment.")
-                % (bank_line.currency.name, company_currency.name))
         aml_obj = self.env['account.move.line']
         # create the payment/debit counterpart move line
         # on the partner account
@@ -245,13 +250,16 @@ class PaymentOrder(models.Model):
             for hashcode, blines in trfmoves.iteritems():
                 mvals = self._prepare_transfer_move()
                 move = am_obj.create(mvals)
-                total_amount = 0
+                total_company_currency = total_payment_currency = 0
                 for bline in blines:
-                    total_amount += bline.amount_currency
+
+                    total_company_currency += bline.amount_company_currency
+                    total_payment_currency += bline.amount_currency
                     self._create_move_line_partner_account(bline, move, labels)
                 # create the payment/debit move line on the transfer account
                 trf_ml_vals = self._prepare_move_line_transfer_account(
-                    total_amount, move, blines, labels)
+                    total_company_currency, total_payment_currency,
+                    move, blines, labels)
                 aml_obj.create(trf_ml_vals)
                 self._reconcile_payment_lines(blines)
                 # consider entry_posted on account_journal
