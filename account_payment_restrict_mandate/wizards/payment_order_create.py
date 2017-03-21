@@ -19,6 +19,12 @@ class PaymentOrderCreate(models.TransientModel):
         ):
             mandate = payment_line.mandate_id
             if not mandate.max_amount_per_date:
+                messages += '<div>' + _(
+                    "Ignoring mandate %s because it doesn't set a maximum to "
+                    "invoice "
+                ) % (
+                    mandate.display_name
+                ) + '</div>'
                 continue
             mandate2amount.setdefault(mandate, 0)
             date_start, date_end, max_amount = self._get_mandate_parameters(
@@ -47,6 +53,15 @@ class PaymentOrderCreate(models.TransientModel):
                 if not payment_line.amount:
                     payment_line.unlink()
                     continue
+            else:
+                messages += '<div>' + _(
+                    'Not capping %s (%d): Mandate has %s occurrences between '
+                    '%s and %s, totalling to %d for this run'
+                ) % (
+                    payment_line.ml_inv_ref.display_name, payment_line.amount,
+                    len(mandate.rrule.between(date_start, date_end, inc=True)),
+                    date_start, date_end, max_amount,
+                ) + '</div>'
             mandate2amount[mandate] += payment_line.amount
         # trigger recomputation of total
         payment_order.write({

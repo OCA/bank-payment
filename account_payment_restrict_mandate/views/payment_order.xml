@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Mandate restrictions" attrs="{'invisible': [('restrict_mandate_messages', '=', False)]}">
-                        <field name="restrict_mandate_messages" />
+                        <field name="restrict_mandate_messages" readonly="True" />
                     </page>
                 </notebook>
             </field>
