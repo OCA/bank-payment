@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Credit Transfer module for OpenERP
@@ -22,7 +22,7 @@
 {
     'name': 'Account Banking SEPA Credit Transfer',
     'summary': 'Create SEPA XML files for Credit Transfers',
-    'version': '0.2',
+    'version': '7.0.0.2.1',
     'license': 'AGPL-3',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',

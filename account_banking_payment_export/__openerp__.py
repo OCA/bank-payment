@@ -26,7 +26,7 @@
 
 {
     'name': 'Account Banking - Payments Export Infrastructure',
-    'version': '0.1.165',
+    'version': '7.0.0.1.166',
     'license': 'AGPL-3',
     'author': "Banking addons community,Odoo Community Association (OCA)",
     'website': 'https://launchpad.net/banking-addons',
