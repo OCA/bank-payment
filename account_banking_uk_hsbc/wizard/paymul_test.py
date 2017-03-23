@@ -296,5 +296,6 @@ UNZ+1+UKLVPLIL'"""
 
         self.assertMultiLineEqual(expected, str(interchange))
 
+
 if __name__ == "__main__":
     unittest.main()

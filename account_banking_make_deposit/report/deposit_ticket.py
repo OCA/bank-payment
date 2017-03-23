@@ -34,6 +34,7 @@ class deposit_ticket_webkit(report_sxw.rml_parse):
             'uid': uid,
         })
 
+
 report_sxw.report_sxw(
     'report.deposit.ticket.webkit',
     'deposit.ticket',
