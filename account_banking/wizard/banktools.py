@@ -20,8 +20,8 @@
 ##############################################################################
 
 from openerp.tools.translate import _
-from openerp.addons.account_banking import sepa
-from openerp.addons.account_banking.struct import struct
+from .. import sepa
+from ..struct import struct
 
 __all__ = [
     'get_period',

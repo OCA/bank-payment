@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Mandate module for openERP
@@ -160,8 +160,10 @@ class mandate(orm.Model):
         to_validate_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
             if mandate.state != 'draft':
-                raise orm.except_orm('StateError',
-                                     _('Mandate should be in draft state'))
+                raise orm.except_orm(
+                    _('StateError'),
+                    _('Mandate should be in draft state')
+                )
             to_validate_ids.append(mandate.id)
         self.write(
             cr, uid, to_validate_ids, {'state': 'valid'}, context=context)
@@ -171,9 +173,10 @@ class mandate(orm.Model):
         to_cancel_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
             if mandate.state not in ('draft', 'valid'):
-                raise orm.except_orm('StateError',
-                                     _('Mandate should be in draft or valid '
-                                       'state'))
+                raise orm.except_orm(
+                    _('StateError'),
+                    _('Mandate should be in draft or valid state')
+                )
             to_cancel_ids.append(mandate.id)
         self.write(
             cr, uid, to_cancel_ids, {'state': 'cancel'}, context=context)
@@ -186,8 +189,10 @@ class mandate(orm.Model):
         to_draft_ids = []
         for mandate in self.browse(cr, uid, ids, context=context):
             if mandate.state != 'cancel':
-                raise orm.except_orm('StateError',
-                                     _('Mandate should be in cancel state'))
+                raise orm.except_orm(
+                    _('StateError'),
+                    _('Mandate should be in cancel state')
+                )
             to_draft_ids.append(mandate.id)
         self.write(
             cr, uid, to_draft_ids, {'state': 'draft'}, context=context)

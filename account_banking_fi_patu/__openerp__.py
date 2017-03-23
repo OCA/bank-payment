@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2010 Sami Haahtinen (<http://ressukka.net>).
@@ -24,10 +25,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'Account Banking PATU module',
-    'version': '0.62',
+    'version': '7.0.0.62.1',
     'license': 'AGPL-3',
     'author': "Sami Haahtinen,Odoo Community Association (OCA)",
     'website': 'http://ressukka.net',

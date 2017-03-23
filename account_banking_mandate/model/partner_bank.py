@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Mandate module for openERP
@@ -20,7 +20,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
@@ -31,8 +30,9 @@ class res_partner_bank(orm.Model):
     _columns = {
         'mandate_ids': fields.one2many(
             'account.banking.mandate', 'partner_bank_id',
-            _('Banking Mandates'),
-            help=_('Banking mandates represents an authorization that the '
-                   'bank account owner gives to a company for a specific '
-                   'operation')),
+            'Banking Mandates',
+            help='Banking mandates represents an authorization that the '
+                 'bank account owner gives to a company for a specific '
+                 'operation'
+        ),
     }

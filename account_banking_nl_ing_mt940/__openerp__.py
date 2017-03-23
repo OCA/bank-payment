@@ -5,6 +5,7 @@
     "name": "MT940 import for Dutch ING",
     "version": "7.0.1.1.1",
     "author": "Therp BV,Odoo Community Association (OCA)",
+    'license': 'AGPL-3',
     "complexity": "normal",
     "description": """
 This addon imports the structured MT940 format as offered by the Dutch ING

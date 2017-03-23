@@ -16,7 +16,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ############################################################################*/
-
 openerp.account_banking = function(instance) {
     var _t = instance.web._t;
     instance.web.Dialog.include(
@@ -28,8 +27,7 @@ openerp.account_banking = function(instance) {
                 // Force a reload of the view so that the correct lines
                 // are shown.
                 var parent = this.getParent();
-                if (parent)
-                {
+                if (parent) {
                     var child = this.getParent().getChildren()[0];
                     if (child.views) {
                         _.each(child.views, function(view) {

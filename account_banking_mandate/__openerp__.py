@@ -38,7 +38,6 @@
         'data/mandate_reference_sequence.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': [],
     'test': ['test/banking_mandate.yml'],
     'description': '''
     This module adds a generic model for banking mandates.
