@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 credativ Ltd (<http://www.credativ.co.uk>).
@@ -18,9 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from . import account_banking_uk_hsbc
 from . import wizard
 from . import hsbc_mt940
 from . import hsbc_clientid
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

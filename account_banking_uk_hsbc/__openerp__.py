@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 credativ Ltd (<http://www.credativ.co.uk>).
@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'HSBC Account Banking',
-    'version': '0.5',
+    'version': '7.0.0.5.1',
     'license': 'AGPL-3',
     'author': "credativ Ltd,Odoo Community Association (OCA)",
     'website': 'http://www.credativ.co.uk',

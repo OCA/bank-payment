@@ -1,7 +1,7 @@
 /*############################################################################
 #
 #    Copyright (C) 2013 Therp BV (<http://therp.nl>).
-#            
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -17,16 +17,13 @@
 #
 ############################################################################*/
 
-openerp.account_banking = function(instance)
-{
+openerp.account_banking = function(instance) {
     var _t = instance.web._t;
     instance.web.Dialog.include(
     {
-        close: function()
-        {
+        close: function() {
             this._super.apply(this, arguments);
-            if (this.dialog_title == _t("Match transaction"))
-            {   
+            if (this.dialog_title == _t("Match transaction")) {
                 // The match wizard can create or unlink a statement line
                 // Force a reload of the view so that the correct lines
                 // are shown.
@@ -35,14 +32,12 @@ openerp.account_banking = function(instance)
                 {
                     var child = this.getParent().getChildren()[0];
                     if (child.views) {
-                        _.each(child.views, function(view)
-                               {
-                                   if (view && view.controller)
-                                   {
-                                       view.controller.reload();
-                                   }
-                               }
-                              );
+                        _.each(child.views, function(view) {
+                                if (view && view.controller) {
+                                    view.controller.reload();
+                                }
+                            }
+                            );
                     }
                 }
             }

@@ -29,9 +29,9 @@ from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
-from openerp.addons.account_banking.parsers import models
-from openerp.addons.account_banking.parsers import convert
-from openerp.addons.account_banking.wizard import banktools
+from .parsers import models
+from .parsers import convert
+from .wizard import banktools
 
 bt = models.mem_bank_transaction
 

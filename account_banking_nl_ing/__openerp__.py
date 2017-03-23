@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 Therp BV (<http://therp.nl>)
@@ -22,7 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'ING (NL) Bank Statements Import',
     'version': '0.1.140',

@@ -61,8 +61,9 @@ This module is seen as a prerequisite to support efficient Bank Account
 Statement Reconciliation found in the US and other countries.
 ''',
     'category': 'Generic Modules/Accounting',
-    'version': '1.4',
-    'author': 'Novapoint Group LLC',
+    'version': '7.0.1.4.1',
+    'author': 'Novapoint Group LLC,Odoo Community Association (OCA)',
+    'license': 'AGPL-3',
     'website': 'www.novapointgroup.com',
     'depends': [
         'account_cancel',
@@ -71,11 +72,8 @@ Statement Reconciliation found in the US and other countries.
     'data': [
         'security/account_banking_make_deposit_security.xml',
         'security/ir.model.access.csv',
-
         'wizard/add_deposit_items_view.xml',
-
         'report/deposit_ticket.xml',
-
         'views/account_move_line.xml',
         'views/deposit_method.xml',
         'views/deposit_ticket.xml',
@@ -83,7 +81,6 @@ Statement Reconciliation found in the US and other countries.
     'demo': [
         'demo/deposit_method.xml'
     ],
-    'test': [],
     'active': False,
     'installable': True,
 }

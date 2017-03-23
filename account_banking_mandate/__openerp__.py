@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Mandate module for openERP
@@ -23,7 +23,7 @@
 {
     'name': 'Account Banking Mandate',
     'summary': 'Banking mandates',
-    'version': '0.1',
+    'version': '7.0.0.1.1',
     'license': 'AGPL-3',
     'author': "Compassion CH,Odoo Community Association (OCA)",
     'website': 'http://www.compassion.ch',
