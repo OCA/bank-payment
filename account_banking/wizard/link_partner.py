@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import ast
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp.addons.account_banking.wizard import banktools
-import ast
+from . import banktools
 
 
 class link_partner(orm.TransientModel):

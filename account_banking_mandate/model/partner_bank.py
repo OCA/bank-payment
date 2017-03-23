@@ -21,7 +21,6 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 
 
 class res_partner_bank(orm.Model):

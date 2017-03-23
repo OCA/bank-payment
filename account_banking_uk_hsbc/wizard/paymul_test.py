@@ -29,6 +29,7 @@ from decimal import Decimal
 class PaymulTestCase(unittest.TestCase):
 
     def setUp(self):
+        super(PaymulTestCase, self).setUp()
         self.maxDiff = None
 
     def test_uk_high_value_priority_payment(self):
