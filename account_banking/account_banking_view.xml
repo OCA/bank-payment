@@ -393,7 +393,7 @@
             </field>
         </record>
 
-	<!-- search view for bank statement lines -->
+    <!-- search view for bank statement lines -->
         <record id="view_account_bank_statement_line_search" model="ir.ui.view">
             <field name="name">account.bank.statement.line.search</field>
             <field name="model">account.bank.statement.line</field>
@@ -433,8 +433,8 @@
             <field name="search_view_id" ref="view_account_bank_statement_line_search"/>
         </record>
         <menuitem string="Bank Transactions"
-		  action="action_bank_statement_line_tree"
-		  id="menu_bank_statement_line_tree"
-		  parent="account.menu_finance_bank_and_cash" sequence="8"/>
+          action="action_bank_statement_line_tree"
+          id="menu_bank_statement_line_tree"
+          parent="account.menu_finance_bank_and_cash" sequence="8"/>
      </data>
 </openerp>

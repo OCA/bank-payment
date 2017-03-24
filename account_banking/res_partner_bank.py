@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import orm
-from openerp.addons.account_banking import sepa
+from . import sepa
 
 
 class ResPartnerBank(orm.Model):

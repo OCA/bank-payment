@@ -1,25 +1,6 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2014 Therp BV (<http://therp.nl>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# © 2014-2017 Therp BV <http://therp.nl>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 """
 Parser for MT940 format files
 """
@@ -47,7 +28,7 @@ except ImportError:
 
 
 class MT940(object):
-    '''Inherit this class in your account_banking.parsers.models.parser,
+    """Inherit this class in your account_banking.parsers.models.parser,
     define functions to handle the tags you need to handle and adjust static
     variables as needed.
 
@@ -57,11 +38,11 @@ class MT940(object):
     At least, you should override handle_tag_61 and handle_tag_86. Don't forget
     to call super.
     handle_tag_* functions receive the remainder of the the line (that is,
-    without ':XX:') and are supposed to write into self.current_transaction'''
+    without ':XX:') and are supposed to write into self.current_transaction"""
 
     header_lines = 3
-    '''One file can contain multiple statements, each with its own poorly
-    documented header. For now, the best thing to do seems to skip that'''
+    """One file can contain multiple statements, each with its own poorly
+    documented header. For now, the best thing to do seems to skip that"""
 
     footer_regex = '^-}$'
     footer_regex = '^-XXX$'
@@ -111,41 +92,41 @@ class MT940(object):
         return self.statements
 
     def append_continuation_line(self, cr, line, continuation_line):
-        '''append a continuation line for a multiline record.
-        Override and do data cleanups as necessary.'''
+        """append a continuation line for a multiline record.
+        Override and do data cleanups as necessary."""
         return line + continuation_line
 
     def create_statement(self, cr):
-        '''create a mem_bank_statement - override if you need a custom
-        implementation'''
+        """create a mem_bank_statement - override if you need a custom
+        implementation"""
         return mem_bank_statement()
 
     def create_transaction(self, cr):
-        '''create a mem_bank_transaction - override if you need a custom
-        implementation'''
+        """create a mem_bank_transaction - override if you need a custom
+        implementation"""
         return mem_bank_transaction()
 
     def is_footer(self, cr, line):
-        '''determine if a line is the footer of a statement'''
+        """determine if a line is the footer of a statement"""
         return line and bool(re.match(self.footer_regex, line))
 
     def is_tag(self, cr, line):
-        '''determine if a line has a tag'''
+        """determine if a line has a tag"""
         return line and bool(re.match(self.tag_regex, line))
 
     def handle_header(self, cr, line, iterator):
-        '''skip header lines, create current statement'''
+        """skip header lines, create current statement"""
         for i in range(self.header_lines):
             iterator.next()
         self.current_statement = self.create_statement(cr)
 
     def handle_footer(self, cr, line, iterator):
-        '''add current statement to list, reset state'''
+        """add current statement to list, reset state"""
         self.statements.append(self.current_statement)
         self.current_statement = None
 
     def handle_record(self, cr, line):
-        '''find a function to handle the record represented by line'''
+        """find a function to handle the record represented by line"""
         tag_match = re.match(self.tag_regex, line)
         tag = tag_match.group(0).strip(':')
         if not hasattr(self, 'handle_tag_%s' % tag):
@@ -156,20 +137,20 @@ class MT940(object):
         handler(cr, line[tag_match.end():])
 
     def handle_tag_20(self, cr, data):
-        '''ignore reference number'''
+        """ignore reference number"""
         pass
 
     def handle_tag_25(self, cr, data):
-        '''get account owner information'''
+        """get account owner information"""
         self.current_statement.local_account = data
 
     def handle_tag_28C(self, cr, data):
-        '''get sequence number _within_this_batch_ - this alone
-        doesn't provide a unique id!'''
+        """get sequence number _within_this_batch_ - this alone
+        doesn't provide a unique id!"""
         self.current_statement.id = data
 
     def handle_tag_60F(self, cr, data):
-        '''get start balance and currency'''
+        """get start balance and currency"""
         self.current_statement.local_currency = data[7:10]
         self.current_statement.date = str2date(data[1:7])
         self.current_statement.start_balance = \
@@ -179,20 +160,20 @@ class MT940(object):
             self.current_statement.id)
 
     def handle_tag_62F(self, cr, data):
-        '''get ending balance'''
+        """get ending balance"""
         self.current_statement.end_balance = \
             (1 if data[0] == 'C' else -1) * str2float(data[10:])
 
     def handle_tag_64(self, cr, data):
-        '''get current balance in currency'''
+        """get current balance in currency"""
         pass
 
     def handle_tag_65(self, cr, data):
-        '''get future balance in currency'''
+        """get future balance in currency"""
         pass
 
     def handle_tag_61(self, cr, data):
-        '''get transaction values'''
+        """get transaction values"""
         transaction = self.create_transaction(cr)
         self.current_statement.transactions.append(transaction)
         self.current_transaction = transaction
@@ -202,8 +183,8 @@ class MT940(object):
         #  ...and the rest already is highly bank dependent
 
     def handle_tag_86(self, cr, data):
-        '''details for previous transaction, here most differences between
-        banks occur'''
+        """details for previous transaction, here most differences between
+        banks occur"""
         pass
 
 
@@ -220,12 +201,16 @@ def main(filename):
     parser = MT940()
     parser.parse(None, open(filename, 'r').read())
     for statement in parser.statements:
-        print('''statement found for %(local_account)s at %(date)s
-        with %(local_currency)s%(start_balance)s to %(end_balance)s
-        ''' % statement.__dict__)
+        print(
+            "statement found for %(local_account)s at %(date)s"
+            " with %(local_currency)s%(start_balance)s to %(end_balance)s" %
+            statement.__dict__
+        )
         for transaction in statement.transactions:
-            print('''
-            transaction on %(execution_date)s''' % transaction.__dict__)
+            print(
+                "transaction on %(execution_date)s" % transaction.__dict__
+            )
+
 
 if __name__ == '__main__':
     import sys

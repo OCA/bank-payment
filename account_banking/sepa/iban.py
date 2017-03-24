@@ -292,7 +292,7 @@ class IBAN(str):
 
     @classmethod
     def create(cls, BIC=None, countrycode=None, BBAN=None, bankcode=None,
-               branchcode=None, account=None):  # noqa: W8106
+               branchcode=None, account=None):  # pylint: disable=W8106
         '''
         Create a IBAN number from a BBAN and a country code. Optionaly create
         a BBAN from BBAN components before generation.

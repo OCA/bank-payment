@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 credativ Ltd (<http://www.credativ.co.uk>).
@@ -165,6 +164,7 @@ def main():
     :returns: description
     """
     parse_file("testfile")
+
 
 if __name__ == '__main__':
     main()

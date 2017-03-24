@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 """Parser for PATU format files"""
 import re
 import datetime
@@ -248,6 +247,7 @@ def main():
     :returns: description
     """
     parse_file("myinput.nda")
+
 
 if __name__ == '__main__':
     main()

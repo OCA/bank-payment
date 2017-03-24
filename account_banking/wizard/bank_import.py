@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -29,18 +29,19 @@ This module contains the business logic of the wizard account_banking_import.
 The parsing is done in the parser modules. Every parser module is required to
 use parser.models as a mean of communication with the business logic.
 '''
-
 import base64
 import datetime
 from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
+
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp.addons.account_banking.parsers import models
-from openerp.addons.account_banking.parsers import convert
-from openerp.addons.account_banking.struct import struct
-from openerp.addons.account_banking.wizard import banktools
 from openerp.addons.decimal_precision import decimal_precision as dp
+
+from ..parsers import models
+from ..parsers import convert
+from ..struct import struct
+from . import banktools
 
 bt = models.mem_bank_transaction
 

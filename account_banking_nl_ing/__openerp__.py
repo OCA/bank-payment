@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 Therp BV (<http://therp.nl>)
@@ -22,12 +23,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'ING (NL) Bank Statements Import',
-    'version': '0.1.140',
+    'version': '7.0.0.1.141',
     'license': 'AGPL-3',
-    'author': ['Smile', 'Therp BV', 'EduSense BV'],
+    'author': 'Smile,Therp BV,EduSense BV,Odoo Community Association (OCA)',
     'website': 'https://launchpad.net/banking-addons',
     'category': 'Banking addons',
     'depends': ['account_banking'],

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 credativ Ltd (<http://www.credativ.co.uk>).
@@ -537,8 +537,8 @@ class Batch(LogicalSection):
                 use_index = index + 1
 
             segments += transaction.segments(use_index)
-
         return segments
+
 
 # From the spec for FCA segments:
 # 13 = All charges borne by payee (or beneficiary)

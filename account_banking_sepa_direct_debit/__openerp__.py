@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    SEPA Direct Debit module for OpenERP
@@ -22,7 +22,7 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '0.2',
+    'version': '7.0.0.2.1',
     'license': 'AGPL-3',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2010 Sami Haahtinen (<http://ressukka.net>).
@@ -19,14 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 """
 This parser implements the PATU format support. PATU format is a generic format
 used by finnish banks.
 """
 from openerp.addons.account_banking.parsers import models
 from openerp.tools.translate import _
-from openerp.addons.account_banking_fi_patu.parser import PatuParser
+from .parser import PatuParser
 
 __all__ = ['Parser']
 

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2011 credativ Ltd (<http://www.credativ.co.uk>).
@@ -29,6 +29,7 @@ from decimal import Decimal
 class PaymulTestCase(unittest.TestCase):
 
     def setUp(self):
+        super(PaymulTestCase, self).setUp()
         self.maxDiff = None
 
     def test_uk_high_value_priority_payment(self):
@@ -295,6 +296,7 @@ UNT+27+1'
 UNZ+1+UKLVPLIL'"""
 
         self.assertMultiLineEqual(expected, str(interchange))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Mandate module for openERP
@@ -23,7 +23,7 @@
 {
     'name': 'Account Banking Mandate',
     'summary': 'Banking mandates',
-    'version': '0.1',
+    'version': '7.0.0.1.1',
     'license': 'AGPL-3',
     'author': "Compassion CH,Odoo Community Association (OCA)",
     'website': 'http://www.compassion.ch',
@@ -38,7 +38,6 @@
         'data/mandate_reference_sequence.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': [],
     'test': ['test/banking_mandate.yml'],
     'description': '''
     This module adds a generic model for banking mandates.

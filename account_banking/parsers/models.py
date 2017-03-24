@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #  Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -262,7 +262,7 @@ class mem_bank_transaction(object):
             setattr(self, attr, '')
         self.remote_owner_address = []
 
-    def copy(self):  # noqa: W8106
+    def copy(self):  # pylint: disable=W8106
         '''
         Return a copy of self
         '''

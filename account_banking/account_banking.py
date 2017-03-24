@@ -219,7 +219,6 @@ class account_banking_account_settings(orm.Model):
         'default_credit_account_id': _default_credit_account_id,
         'partner_bank_id': _default_partner_bank_id,
     }
-account_banking_account_settings()
 
 
 class account_banking_imported_file(orm.Model):
@@ -286,7 +285,6 @@ class account_banking_imported_file(orm.Model):
         'date': fields.date.context_today,
         'user_id': lambda self, cr, uid, context: uid,
     }
-account_banking_imported_file()
 
 
 class account_bank_statement(orm.Model):
