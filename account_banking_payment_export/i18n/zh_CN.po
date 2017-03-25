@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 11:42+0000\n"
-"PO-Revision-Date: 2017-03-03 07:08+0000\n"
+"POT-Creation-Date: 2017-03-18 01:08+0000\n"
+"PO-Revision-Date: 2017-03-23 20:10+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: selection:payment.order.create,date_type:0
 msgid "Due Date"
-msgstr ""
+msgstr "截止日期"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form

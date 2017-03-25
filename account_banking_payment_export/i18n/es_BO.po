@@ -10,12 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2017-03-18 01:08+0000\n"
 "PO-Revision-Date: 2017-03-23 20:10+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/zh_TW/)\n"
+"Language-Team: Spanish (Bolivia) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es_BO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_TW\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: es_BO\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/res_partner_bank.py:17
@@ -75,7 +75,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid "Cancel"
-msgstr "刪除"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
@@ -101,13 +101,13 @@ msgstr ""
 #: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
 #: field:payment.mode.type,create_uid:0
 msgid "Created by"
-msgstr "建立者"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,create_date:0 field:payment.manual,create_date:0
 #: field:payment.mode.type,create_date:0
 msgid "Created on"
-msgstr "建立於"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
@@ -128,7 +128,7 @@ msgstr ""
 #: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
 #: field:payment.mode.type,display_name:0
 msgid "Display Name"
-msgstr "顯示名稱"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -138,7 +138,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: selection:payment.order.create,date_type:0
 msgid "Due Date"
-msgstr "到期日"
+msgstr "Fecha vencimiento"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -176,7 +176,7 @@ msgstr ""
 #: field:bank.payment.line,id:0 field:payment.manual,id:0
 #: field:payment.mode.type,id:0
 msgid "ID"
-msgstr "編號"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: help:bank.payment.line,date:0
@@ -205,7 +205,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_account_invoice
 msgid "Invoice"
-msgstr "發票"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
@@ -239,19 +239,19 @@ msgstr ""
 #: field:payment.manual,__last_update:0
 #: field:payment.mode.type,__last_update:0
 msgid "Last Modified on"
-msgstr "最後修改:"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
 #: field:payment.mode.type,write_uid:0
 msgid "Last Updated by"
-msgstr "最後更新："
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_date:0 field:payment.manual,write_date:0
 #: field:payment.mode.type,write_date:0
 msgid "Last Updated on"
-msgstr "最後更新於"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -282,7 +282,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr "名稱"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -318,7 +318,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,partner_id:0
 msgid "Partner"
-msgstr "夥伴"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
