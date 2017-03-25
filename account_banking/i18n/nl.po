@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2017-03-24 00:51+0000\n"
+"PO-Revision-Date: 2017-03-13 12:50+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgid "Account number"
 msgstr "Rekening nummer"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:375
+#: code:addons/account_banking/wizard/bank_import.py:376
 #, python-format
 msgid "Number of bank costs invoices created"
 msgstr "Aantal bankkosten-facturen aangemaakt"
@@ -66,13 +66,13 @@ msgid "Cancel transaction"
 msgstr "Transactie annuleren"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:363
+#: code:addons/account_banking/wizard/bank_import.py:364
 #, python-format
 msgid "Number of errors found"
 msgstr "Aantal gevonden fouten"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:261
+#: code:addons/account_banking/wizard/bank_import.py:262
 #, python-format
 msgid ""
 "Statement %(statement_id)s for account %(bank_account)s uses different "
@@ -202,7 +202,7 @@ msgid "Payment order"
 msgstr "Betaalopdracht"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:303
+#: code:addons/account_banking/wizard/bank_import.py:304
 #, python-format
 msgid ""
 "No period found covering statement date %(date)s, statement %(id)s skipped"
@@ -256,7 +256,7 @@ msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
 msgstr "Het is niet mogelijk een bankafschrift te bevestigen welke is gemarkeerd als duplicaat (%s.%s)."
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:367
+#: code:addons/account_banking/wizard/bank_import.py:368
 #, python-format
 msgid "Number of transactions skipped due to errors"
 msgstr "Aantal overgeslagen transacties als gevolg van fouten"
@@ -273,7 +273,7 @@ msgid "Matching invoices"
 msgstr "Gematchte facturen"
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:628
+#: code:addons/account_banking/account_banking.py:626
 #, python-format
 msgid "Free Reference"
 msgstr "Vrije referentie"
@@ -656,7 +656,7 @@ msgstr "Importdetails"
 
 #. module: account_banking
 #. openerp-web
-#: code:addons/account_banking/static/src/js/account_banking.js:28
+#: code:addons/account_banking/static/src/js/account_banking.js:25
 #: view:banking.transaction.wizard:0
 #: model:ir.model,name:account_banking.model_banking_transaction_wizard
 #, python-format
@@ -683,7 +683,7 @@ msgid ""
 msgstr "Het bankafschriftbestand dat geïmporteerd dient te worden. De verschillende bankformaten gaan verschillend om met de situatie waarin hetzelfde bestand meerdere keren wordt geïmporteerd.\n\nHet is daarom in ieder geval aan te raden om de bankafschriften altijd in hetzelfde formaat te importeren."
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:237
+#: code:addons/account_banking/wizard/bank_import.py:238
 #, python-format
 msgid ""
 "Statements found for account %(bank_account)s, but no default journal was "
@@ -750,8 +750,8 @@ msgid "Fax"
 msgstr "Fax"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:148
-#: code:addons/account_banking/wizard/bank_import.py:165
+#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:166
 #, python-format
 msgid "ERROR!"
 msgstr "FOUT!"
@@ -918,7 +918,7 @@ msgid ""
 msgstr "De grootboekrekening waarop een onverwachte betaling kan worden geboekt, bijvoorbeeld in het geval van een klant die vooruitbetaalt of als er geen overeenkomende factuur kan worden gevonden in het systeem. Merk op dat er voor het bevestigen van de boekingen nog wijzigingen kunnen worden aangebracht."
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:361
+#: code:addons/account_banking/wizard/bank_import.py:362
 #, python-format
 msgid "Total number of transactions"
 msgstr "Totaal aantal transacties"
@@ -1020,7 +1020,7 @@ msgid "Street2"
 msgstr "Straat2"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:226
+#: code:addons/account_banking/wizard/bank_import.py:227
 #, python-format
 msgid "Statements found for unknown account %(bank_account)s"
 msgstr "Afschriften gevonden voor onbekende bankrekening %(bank_account)s"
@@ -1031,7 +1031,7 @@ msgid "init"
 msgstr "init"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:285
+#: code:addons/account_banking/wizard/bank_import.py:286
 #, python-format
 msgid "Statement %(id)s known - skipped"
 msgstr "Afschrift %(id)s al bekend - overgeslagen"
@@ -1109,7 +1109,7 @@ msgid "error_message"
 msgstr "error_message"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:166
+#: code:addons/account_banking/wizard/bank_import.py:167
 #, python-format
 msgid "The imported statements appear to be invalid! Check your file."
 msgstr "De geïmporteerde afschriften lijken onjuist! Controleer uw bestand."
@@ -1131,7 +1131,7 @@ msgid "Banking"
 msgstr "Bankieren"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:150
 #, python-format
 msgid "Unable to import parser %(parser)s. Parser class not found."
 msgstr "Niet in staat parser %(parser)s te importeren. Parser class niet gevonden."
@@ -1150,7 +1150,7 @@ msgstr "Boekdatum"
 #: selection:account.banking.imported.file,state:0
 #: code:addons/account_banking/banking_import_transaction.py:1591
 #: code:addons/account_banking/banking_import_transaction.py:1908
-#: code:addons/account_banking/wizard/bank_import.py:398
+#: code:addons/account_banking/wizard/bank_import.py:399
 #: code:addons/account_banking/wizard/link_partner.py:91
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
@@ -1331,13 +1331,13 @@ msgid "Cannot perform match"
 msgstr "Kan geen match uitvoeren"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:369
+#: code:addons/account_banking/wizard/bank_import.py:370
 #, python-format
 msgid "Number of statements loaded"
 msgstr "Aantal geladen afschriften"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:359
+#: code:addons/account_banking/wizard/bank_import.py:360
 #, python-format
 msgid "Total number of statements"
 msgstr "Totaal aantal afschriften"
@@ -1450,7 +1450,7 @@ msgid "remote_bank_ibei"
 msgstr "remote_bank_ibei"
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:629
+#: code:addons/account_banking/account_banking.py:627
 #, python-format
 msgid "Structured Reference"
 msgstr "Acceptgiro"
@@ -1486,7 +1486,7 @@ msgid "Customer"
 msgstr "Klant"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:378
+#: code:addons/account_banking/wizard/bank_import.py:379
 #, python-format
 msgid "Error report"
 msgstr ""
@@ -1504,7 +1504,7 @@ msgid "Match Currency Amount"
 msgstr "Match bedrag in valuta"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:365
+#: code:addons/account_banking/wizard/bank_import.py:366
 #, python-format
 msgid "Number of statements skipped due to errors"
 msgstr "Aantal afschriften overgeslagen door fouten"
@@ -1515,7 +1515,7 @@ msgid "Country"
 msgstr "Land"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:397
+#: code:addons/account_banking/wizard/bank_import.py:398
 #, python-format
 msgid "Review Bank Statements"
 msgstr "Bankafschriften controleren"
@@ -1528,7 +1528,7 @@ msgid "Bank Account"
 msgstr "Bankrekening"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:371
+#: code:addons/account_banking/wizard/bank_import.py:372
 #, python-format
 msgid "Number of transactions loaded"
 msgstr "Aantal geladen transacties"
@@ -1568,7 +1568,7 @@ msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
 msgstr "Het is niet mogelijk een bankafschrift te verwijderen met bevestigde regels: '%s'"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:373
+#: code:addons/account_banking/wizard/bank_import.py:374
 #, python-format
 msgid "Number of transactions matched"
 msgstr "Aantal transacties herkend"

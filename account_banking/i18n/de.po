@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 13:05+0000\n"
-"PO-Revision-Date: 2016-05-18 15:13+0000\n"
+"POT-Creation-Date: 2017-03-24 00:51+0000\n"
+"PO-Revision-Date: 2017-03-19 11:31+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgid "Account number"
 msgstr "Kontonummer"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:375
+#: code:addons/account_banking/wizard/bank_import.py:376
 #, python-format
 msgid "Number of bank costs invoices created"
 msgstr "Anzahl der generierten Bankgebührenbelege"
@@ -66,13 +66,13 @@ msgid "Cancel transaction"
 msgstr "Transaktion abbrechen"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:363
+#: code:addons/account_banking/wizard/bank_import.py:364
 #, python-format
 msgid "Number of errors found"
 msgstr "Anzahl gefundener Fehler"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:261
+#: code:addons/account_banking/wizard/bank_import.py:262
 #, python-format
 msgid ""
 "Statement %(statement_id)s for account %(bank_account)s uses different "
@@ -202,7 +202,7 @@ msgid "Payment order"
 msgstr "Zahlungsanweisung"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:303
+#: code:addons/account_banking/wizard/bank_import.py:304
 #, python-format
 msgid ""
 "No period found covering statement date %(date)s, statement %(id)s skipped"
@@ -256,7 +256,7 @@ msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
 msgstr "Sie dürfen einen Geschäftsvorgang nicht bestätigen, der als Dublette gekennzeichnet ist (%s.%s)"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:367
+#: code:addons/account_banking/wizard/bank_import.py:368
 #, python-format
 msgid "Number of transactions skipped due to errors"
 msgstr "Anzahl wegen Fehlern übersprungene Geschäftsvorgänge"
@@ -273,7 +273,7 @@ msgid "Matching invoices"
 msgstr "Übereinstimmende Rechnungen"
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:628
+#: code:addons/account_banking/account_banking.py:626
 #, python-format
 msgid "Free Reference"
 msgstr "Freie Referenz"
@@ -656,7 +656,7 @@ msgstr "Importdetails"
 
 #. module: account_banking
 #. openerp-web
-#: code:addons/account_banking/static/src/js/account_banking.js:28
+#: code:addons/account_banking/static/src/js/account_banking.js:25
 #: view:banking.transaction.wizard:0
 #: model:ir.model,name:account_banking.model_banking_transaction_wizard
 #, python-format
@@ -683,7 +683,7 @@ msgid ""
 msgstr "Die zu importierende Geschäftsvorgängedatei. Bitte beachten Sie, dass es problemlos möglich ist, eine identische Datei oder auch zeitversetzte, überlappende Dateien mehrere Male zu importieren, es gibt Formate, die durch Eintragsfolgen Dubletten erzeugen können.\n\nUm sicher zu sein, sollten Sie Auszüge immer im gleichen Format importieren."
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:237
+#: code:addons/account_banking/wizard/bank_import.py:238
 #, python-format
 msgid ""
 "Statements found for account %(bank_account)s, but no default journal was "
@@ -750,8 +750,8 @@ msgid "Fax"
 msgstr "Fax"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:148
-#: code:addons/account_banking/wizard/bank_import.py:165
+#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:166
 #, python-format
 msgid "ERROR!"
 msgstr "Fehler!"
@@ -918,7 +918,7 @@ msgid ""
 msgstr "Das bei unerwarteten Einzahlungen zu verwendende Konto. Dieses kann bei Vorauszahlungen eines Kunden benötigt werden oder wenn eine passende Rechnung nicht gefunden werden kann. Berücksichtigen Sie bitte, dass Sie Buchungen bearbeiten können bevor Sie diese bestätigen."
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:361
+#: code:addons/account_banking/wizard/bank_import.py:362
 #, python-format
 msgid "Total number of transactions"
 msgstr "Gesamtzahl Geschäftsvorgänge"
@@ -1020,7 +1020,7 @@ msgid "Street2"
 msgstr "Strasse2"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:226
+#: code:addons/account_banking/wizard/bank_import.py:227
 #, python-format
 msgid "Statements found for unknown account %(bank_account)s"
 msgstr "Kontoauszug für unbekanntes Bankkonto %(bank_account)s gefunden"
@@ -1031,7 +1031,7 @@ msgid "init"
 msgstr "init"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:285
+#: code:addons/account_banking/wizard/bank_import.py:286
 #, python-format
 msgid "Statement %(id)s known - skipped"
 msgstr "Auszug %(id)s bekannt - übergangen"
@@ -1109,7 +1109,7 @@ msgid "error_message"
 msgstr "error_message"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:166
+#: code:addons/account_banking/wizard/bank_import.py:167
 #, python-format
 msgid "The imported statements appear to be invalid! Check your file."
 msgstr "Der Kontoauszug erscheint ungültig zu sein! Prüfen Sie die Datei."
@@ -1131,7 +1131,7 @@ msgid "Banking"
 msgstr "Bankgeschäfte"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:150
 #, python-format
 msgid "Unable to import parser %(parser)s. Parser class not found."
 msgstr "Kann Parser %(parser)s nicht importieren. Parser-Klasse nicht gefunden."
@@ -1150,7 +1150,7 @@ msgstr "Buchungsdatum"
 #: selection:account.banking.imported.file,state:0
 #: code:addons/account_banking/banking_import_transaction.py:1591
 #: code:addons/account_banking/banking_import_transaction.py:1908
-#: code:addons/account_banking/wizard/bank_import.py:398
+#: code:addons/account_banking/wizard/bank_import.py:399
 #: code:addons/account_banking/wizard/link_partner.py:91
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
@@ -1331,13 +1331,13 @@ msgid "Cannot perform match"
 msgstr "Kann Zuordnung nicht ausführen"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:369
+#: code:addons/account_banking/wizard/bank_import.py:370
 #, python-format
 msgid "Number of statements loaded"
 msgstr "Anzahl geladener Auszüge"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:359
+#: code:addons/account_banking/wizard/bank_import.py:360
 #, python-format
 msgid "Total number of statements"
 msgstr "Gesamtzahl Auszüge"
@@ -1450,7 +1450,7 @@ msgid "remote_bank_ibei"
 msgstr "remote_bank_ibei"
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:629
+#: code:addons/account_banking/account_banking.py:627
 #, python-format
 msgid "Structured Reference"
 msgstr "Referenz-Hierarchie"
@@ -1486,7 +1486,7 @@ msgid "Customer"
 msgstr "Kunde"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:378
+#: code:addons/account_banking/wizard/bank_import.py:379
 #, python-format
 msgid "Error report"
 msgstr ""
@@ -1504,7 +1504,7 @@ msgid "Match Currency Amount"
 msgstr "Währungsbetrag zuordnen"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:365
+#: code:addons/account_banking/wizard/bank_import.py:366
 #, python-format
 msgid "Number of statements skipped due to errors"
 msgstr "Anzahl wegen Fehlern übergangener Auszüge"
@@ -1515,7 +1515,7 @@ msgid "Country"
 msgstr "Land"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:397
+#: code:addons/account_banking/wizard/bank_import.py:398
 #, python-format
 msgid "Review Bank Statements"
 msgstr "Kontoauszug sichten"
@@ -1528,7 +1528,7 @@ msgid "Bank Account"
 msgstr "Bankkonto"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:371
+#: code:addons/account_banking/wizard/bank_import.py:372
 #, python-format
 msgid "Number of transactions loaded"
 msgstr "Anzahl geladener Vorgänge"
@@ -1568,7 +1568,7 @@ msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
 msgstr "Sie dürfen einen Auszug mit bestätigten Auszugspositionen nicht löschen: '%s'"
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:373
+#: code:addons/account_banking/wizard/bank_import.py:374
 #, python-format
 msgid "Number of transactions matched"
 msgstr "Anzahl zugeordneter Vorgänge"
