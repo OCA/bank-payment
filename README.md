@@ -22,6 +22,7 @@ Other features can now be found in these repositories:
  * https://github.com/OCA/bank-statement-reconcile
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
