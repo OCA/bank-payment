@@ -70,7 +70,7 @@ class TestAccountPaymentPurchase(SavepointCase):
              'acc_number': '1234567890'})
         cls.bank_partner.create({'acc_type': 'iban',
                                  'partner_id': cls.partner.id,
-                                 'acc_number': 'BE39103123456719'
+                                 'acc_number': 'FR39103123456719'
                                  })
 
         # journal
