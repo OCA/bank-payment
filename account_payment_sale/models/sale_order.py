@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
         'account.payment.mode', string='Payment Mode',
         domain=[('payment_type', '=', 'inbound')])
 
+    @api.multi
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         res = super(SaleOrder, self).onchange_partner_id()
