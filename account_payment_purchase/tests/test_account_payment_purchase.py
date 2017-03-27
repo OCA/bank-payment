@@ -63,12 +63,10 @@ class TestAccountPaymentPurchase(SavepointCase):
             ('supplier', '=', True)], limit=1)
         cls.partner.write({
             'supplier_payment_mode_id': cls.payment_mode.id,
-            'supplier_partner_bank_id': cls.payment_mode.id,
         })
 
         cls.bank_partner = cls.partner_bank.create(
-            {'state': 'partner_bank',
-             'bank_name': 'Test bank',
+            {'bank_name': 'Test bank',
              'acc_number': '1234567890'})
         cls.bank_partner.create({'acc_type': 'iban',
                                  'partner_id': cls.partner.id,
@@ -83,7 +81,6 @@ class TestAccountPaymentPurchase(SavepointCase):
              'type': 'general'})
         cls.payment_mode_type = cls.payment_mode_type.create({
             'journal_id': cls.bank_journal.id,
-            'partner_bank_account_id': cls.partner.bank_ids[0].id,
             'payment_method_id': cls.sepa_ct.id,
             'payment_type': 'outbound',
             'payment_date': '2015-04-28',
@@ -93,10 +90,7 @@ class TestAccountPaymentPurchase(SavepointCase):
             'partner_type': 'supplier',
         })
         cls.purchase = cls.purchase.create(
-            {'partner_id': cls.partner_2.id,
-             # 'payment_mode_id': cls.payment_mode.id,
-             'location_id': cls.stock_location.search([], limit=1).id,
-             'invoice_method': 'order'})
+            {'partner_id': cls.partner_2.id})
 
     def test_onchange_partner_id_purchase_order(self):
         # assert that bank and payment mode are not setted
