@@ -47,6 +47,7 @@ addon | version | summary
 [account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 | Accounting voucher killer
 [portal_payment_mode](portal_payment_mode/) | 8.0.1.0.0 | Adds payment mode ACL's for portal users
 
+
 Unported addons
 ---------------
 addon | version | summary
