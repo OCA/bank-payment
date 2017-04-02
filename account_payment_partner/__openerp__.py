@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2014 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2014 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
@@ -10,7 +10,7 @@
     'license': 'AGPL-3',
     'summary': 'Adds payment mode on partners and invoices',
     'author': "Akretion, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Tecnativa, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'depends': ['account_payment_mode'],

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2013-2016 Akretion (www.akretion.com)
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# © 2014 Tecnativa - Pedro M. Baeza
+# © 2016 Tecnativa - Antonio Espinosa
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
@@ -10,8 +10,7 @@
     'version': '9.0.1.0.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
-              "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
-              "Antiun Ingeniería S.L., "
+              "Tecnativa, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',
