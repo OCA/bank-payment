@@ -29,6 +29,24 @@ class AccountInvoice(models.Model):
                 res['mandate_id'] = invoice.mandate_id.id or False
         return res
 
+    @api.model
+    def create(self, vals):
+        """Fill the mandate_id from the partner if none is provided on
+        creation, using same method as upstream."""
+        onchanges = {
+            '_onchange_partner_id': ['mandate_id'],
+        }
+        for onchange_method, changed_fields in onchanges.items():
+            if any(f not in vals for f in changed_fields):
+                invoice = self.new(vals)
+                getattr(invoice, onchange_method)()
+                for field in changed_fields:
+                    if field not in vals and invoice[field]:
+                        vals[field] = invoice._fields[field].convert_to_write(
+                            invoice[field],
+                        )
+        return super(AccountInvoice, self).create(vals)
+
     # If a customer pays via direct debit, it's refunds should
     # be deducted form the next debit by default. The module
     # account_payment_partner copies payment_mode_id from invoice
