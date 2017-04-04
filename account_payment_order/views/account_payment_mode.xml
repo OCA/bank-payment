@@ -16,6 +16,7 @@
                 attrs="{'invisible': [('payment_order_ok', '=', False)]}">
                 <field name="no_debit_before_maturity"
                     attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"/>
+                <field name="default_date_prefered"/>
                 <field name="group_lines"/>
             </group>
             <group name="payment_order_create_defaults"
@@ -40,6 +41,7 @@
                     attrs="{'invisible': [('offsetting_account', '!=', 'transfer_account')], 'required': [('offsetting_account', '=', 'transfer_account')]}"/>
                 <field name="move_option"
                     attrs="{'invisible': [('generate_move', '=', False)], 'required': [('generate_move', '=', True)]}"/>
+                <field name="post_move"/>
             </group>
         </group>
     </field>
