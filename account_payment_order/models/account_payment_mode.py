@@ -40,6 +40,12 @@ class AccountPaymentMode(models.Model):
         ('due', 'Due'),
         ('move', 'Move'),
         ], default='due', string="Type of Date Filter")
+    # default option for account.payment.order
+    default_date_prefered = fields.Selection([
+        ('now', 'Immediately'),
+        ('due', 'Due Date'),
+        ('fixed', 'Fixed Date'),
+        ], string='Default Payment Execution Date')
     group_lines = fields.Boolean(
         string="Group Transactions in Payment Orders", default=True,
         help="If this mark is checked, the transaction lines of the "
@@ -73,6 +79,7 @@ class AccountPaymentMode(models.Model):
         ('date', 'One move per payment date'),
         ('line', 'One move per payment line'),
         ], string='Move Option', default='date')
+    post_move = fields.Boolean(string='Post Move', default=True)
 
     @api.multi
     @api.constrains(
