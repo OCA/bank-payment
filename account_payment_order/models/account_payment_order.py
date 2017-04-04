@@ -39,9 +39,6 @@ class AccountPaymentOrder(models.Model):
         'account.journal', string='Bank Journal', ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]},
         track_visibility='onchange')
-    allowed_journal_ids = fields.Many2many(
-        'account.journal', compute='_compute_allowed_journals', readonly=True,
-        string='Selectable Bank Journals')
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
     company_partner_bank_id = fields.Many2one(
@@ -142,19 +139,6 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.bank_line_count = len(order.bank_line_ids)
 
-    @api.multi
-    @api.depends('payment_mode_id')
-    def _compute_allowed_journals(self):
-        for order in self:
-            allowed_journal_ids = False
-            if order.payment_mode_id:
-                mode = order.payment_mode_id
-                if mode.bank_account_link == 'fixed':
-                    allowed_journal_ids = mode.fixed_journal_id
-                else:
-                    allowed_journal_ids = mode.variable_journal_ids
-            order.allowed_journal_ids = allowed_journal_ids
-
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -171,10 +155,18 @@ class AccountPaymentOrder(models.Model):
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
         journal_id = False
+        res = {'domain': {
+            'journal_id': "[('id', '=', False)]",
+            }}
         if self.payment_mode_id:
             if self.payment_mode_id.bank_account_link == 'fixed':
-                journal_id = self.payment_mode_id.fixed_journal_id
+                journal_id = self.payment_mode_id.fixed_journal_id.id
+                res['domain']['journal_id'] = "[('id', '=', %d)]" % journal_id
+            elif self.payment_mode_id.bank_account_link == 'variable':
+                jrl_ids = self.payment_mode_id.variable_journal_ids.ids
+                res['domain']['journal_id'] = "[('id', 'in', %s)]" % jrl_ids
         self.journal_id = journal_id
+        return res
 
     @api.multi
     def action_done(self):
