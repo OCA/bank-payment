@@ -33,9 +33,7 @@
                         <field name="payment_mode_id"
                             domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
                             widget="selection"/>
-                        <field name="journal_id" widget="selection"
-                            domain="[('id', 'in', allowed_journal_ids and allowed_journal_ids[0] and allowed_journal_ids[0][2] or [])]"/>
-                        <field name="allowed_journal_ids" invisible="1"/>
+                        <field name="journal_id" widget="selection"/>
                         <field name="bank_account_link" invisible="1"/>
                         <field name="company_partner_bank_id"/>
                         <field name="company_id" groups="base.group_multi_company"/>
