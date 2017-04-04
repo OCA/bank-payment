@@ -34,6 +34,8 @@ class AccountInvoice(models.Model):
     def _prepare_new_payment_order(self):
         self.ensure_one()
         vals = {'payment_mode_id': self.payment_mode_id.id}
+        # other important fields are set by the inherit of create
+        # in account_payment_order.py
         return vals
 
     @api.multi

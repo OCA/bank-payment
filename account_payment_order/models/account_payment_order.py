@@ -39,9 +39,6 @@ class AccountPaymentOrder(models.Model):
         'account.journal', string='Bank Journal', ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]},
         track_visibility='onchange')
-    allowed_journal_ids = fields.Many2many(
-        'account.journal', compute='_compute_allowed_journals', readonly=True,
-        string='Selectable Bank Journals')
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
     company_partner_bank_id = fields.Many2one(
@@ -133,19 +130,6 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.bank_line_count = len(order.bank_line_ids)
 
-    @api.multi
-    @api.depends('payment_mode_id')
-    def _compute_allowed_journals(self):
-        for order in self:
-            allowed_journal_ids = False
-            if order.payment_mode_id:
-                mode = order.payment_mode_id
-                if mode.bank_account_link == 'fixed':
-                    allowed_journal_ids = mode.fixed_journal_id
-                else:
-                    allowed_journal_ids = mode.variable_journal_ids
-            order.allowed_journal_ids = allowed_journal_ids
-
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -157,15 +141,29 @@ class AccountPaymentOrder(models.Model):
             vals['payment_type'] = payment_mode.payment_type
             if payment_mode.bank_account_link == 'fixed':
                 vals['journal_id'] = payment_mode.fixed_journal_id.id
+            if (
+                    not vals.get('date_prefered') and
+                    payment_mode.default_date_prefered):
+                vals['date_prefered'] = payment_mode.default_date_prefered
         return super(AccountPaymentOrder, self).create(vals)
 
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
         journal_id = False
+        res = {'domain': {
+            'journal_id': "[('id', '=', False)]",
+            }}
         if self.payment_mode_id:
             if self.payment_mode_id.bank_account_link == 'fixed':
-                journal_id = self.payment_mode_id.fixed_journal_id
+                journal_id = self.payment_mode_id.fixed_journal_id.id
+                res['domain']['journal_id'] = "[('id', '=', %d)]" % journal_id
+            elif self.payment_mode_id.bank_account_link == 'variable':
+                jrl_ids = self.payment_mode_id.variable_journal_ids.ids
+                res['domain']['journal_id'] = "[('id', 'in', %s)]" % jrl_ids
         self.journal_id = journal_id
+        if self.payment_mode_id.default_date_prefered:
+            self.date_prefered = self.payment_mode_id.default_date_prefered
+        return res
 
     @api.multi
     def action_done(self):
@@ -210,6 +208,12 @@ class AccountPaymentOrder(models.Model):
             if not order.journal_id:
                 raise UserError(_(
                     'Missing Bank Journal on payment order %s.') % order.name)
+            if (
+                    order.payment_method_id.bank_account_required and
+                    not order.journal_id.bank_account_id):
+                raise UserError(_(
+                    "Missing bank account on bank journal '%s'.")
+                    % order.journal_id.display_name)
             if not order.payment_line_ids:
                 raise UserError(_(
                     'There are no transactions on payment order %s.')
@@ -433,6 +437,7 @@ class AccountPaymentOrder(models.Model):
         """
         self.ensure_one()
         am_obj = self.env['account.move']
+        post_move = self.payment_mode_id.post_move
         # prepare a dict "trfmoves" that can be used when
         # self.payment_mode_id.move_option = date or line
         # key = unique identifier (date or True or line.id)
@@ -459,4 +464,5 @@ class AccountPaymentOrder(models.Model):
             mvals['line_ids'].append((0, 0, trf_ml_vals))
             move = am_obj.create(mvals)
             blines.reconcile_payment_lines()
-            move.post()
+            if post_move:
+                move.post()
