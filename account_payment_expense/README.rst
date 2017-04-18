@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-====================
+=======================
 Account Payment Expense
-====================
+=======================
 
 This module adds the partner bank from the employee to the account move lines of the expense.
 
