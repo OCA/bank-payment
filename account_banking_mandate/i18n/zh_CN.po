@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 11:42+0000\n"
-"PO-Revision-Date: 2017-03-03 07:09+0000\n"
+"POT-Creation-Date: 2017-03-28 01:26+0000\n"
+"PO-Revision-Date: 2017-04-19 01:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "发布到记录上的最后消息的日期"
 #: field:account.invoice,mandate_id:0 field:bank.payment.line,mandate_id:0
 #: field:payment.line,mandate_id:0
 msgid "Direct Debit Mandate"
-msgstr ""
+msgstr "直接付款授权"
 
 #. module: account_banking_mandate
 #: view:res.partner.bank:account_banking_mandate.mandate_partner_bank_form
@@ -178,7 +178,7 @@ msgstr "显示名称"
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Draft"
-msgstr ""
+msgstr "草稿"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -206,7 +206,7 @@ msgstr "分组"
 msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
-msgstr ""
+msgstr "HTML格式的简介，包括了各种项目的总结信息（比如消息数，作业数……）"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,id:0
@@ -226,7 +226,7 @@ msgstr "发票"
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
 msgid "Is a Follower"
-msgstr ""
+msgstr "关注者"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_last_post:0
@@ -322,7 +322,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_tree
 msgid "Reference"
-msgstr ""
+msgstr "引用"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search

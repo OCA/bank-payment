@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-18 01:08+0000\n"
-"PO-Revision-Date: 2017-03-24 09:00+0000\n"
+"POT-Creation-Date: 2017-03-28 01:26+0000\n"
+"PO-Revision-Date: 2017-04-25 10:39+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -45,12 +45,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Compte bancari "
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Comptes Bancaris "
 
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_form
@@ -70,7 +70,7 @@ msgstr ""
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
 #: field:payment.order,bank_line_ids:0
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Línies de pagaments bancaris "
 
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
@@ -288,7 +288,7 @@ msgstr "Nom"
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
 #: field:payment.mode,note:0
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #. module: account_banking_payment_export
 #: field:payment.order,bank_line_count:0
@@ -363,7 +363,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Forma de pagament "
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode_type
@@ -373,7 +373,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de pagament "
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/account_payment.py:68
@@ -391,7 +391,7 @@ msgstr ""
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
 #: help:payment.mode.type,name:0 field:payment.order,mode_type:0
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipus de pagament "
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_tree
