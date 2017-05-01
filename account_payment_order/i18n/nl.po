@@ -3,15 +3,16 @@
 # * account_payment_order
 # 
 # Translators:
+# Cas Vissers <casvissers@brahoo.nl>, 2017
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 12:57+0000\n"
-"PO-Revision-Date: 2016-12-22 11:48+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
+"POT-Creation-Date: 2017-04-25 00:41+0000\n"
+"PO-Revision-Date: 2017-04-12 08:28+0000\n"
+"Last-Translator: Cas Vissers <casvissers@brahoo.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_invoice.py:86
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
-msgstr ""
+msgstr "%d bank betaalregels zijn toegevoegd aan de bestaande concept betaalopdracht %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:81
@@ -44,7 +45,7 @@ msgstr ""
 msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
 "characters, so it is not valid."
-msgstr ""
+msgstr "Een valide BIC bevat 8 of 11 karakters. De BIC '%s;  bevat %d karakters en is niet valide."
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
@@ -321,7 +322,7 @@ msgstr "Betaalopdrachten"
 #: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit bank line %s"
-msgstr ""
+msgstr "Debit betaalregel %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:337
@@ -333,7 +334,7 @@ msgstr "Betaalopdrachten %s"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
 msgid "Disallow Debit Before Maturity Date"
-msgstr ""
+msgstr "Sta geen debit toe voor vervaldatum"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_display_name
@@ -1010,22 +1011,22 @@ msgstr "Totaalbedrag"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Total Company Currency"
-msgstr ""
+msgstr "Totaal in bedrijfsvaluta"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr ""
+msgstr "Totaal resterend"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
 msgid "Total company currency"
-msgstr ""
+msgstr "Totaal bedrijfsvaluta"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Total in Company Currency"
-msgstr ""
+msgstr "Totaal in bedrijfsvaluta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_line_ids
@@ -1057,7 +1058,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_date_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_type
 msgid "Type of Date Filter"
-msgstr ""
+msgstr "Soort datumfilter"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
