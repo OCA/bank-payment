@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 02:12+0000\n"
-"PO-Revision-Date: 2017-03-11 02:12+0000\n"
+"POT-Creation-Date: 2017-04-25 00:38+0000\n"
+"PO-Revision-Date: 2017-04-25 00:38+0000\n"
 "Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -22,72 +22,72 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
-msgstr ""
+msgstr "<em>Numero de Compte - IBAN:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address of the Debtor:</em>"
-msgstr ""
+msgstr "<em>Adreça del deutor:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address:</em>"
-msgstr ""
+msgstr "<em>Adreça:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country of the debtor:</em>"
-msgstr ""
+msgstr "<em>País del deutor::</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country:</em>"
-msgstr ""
+msgstr "<em>País:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Creditor's Name:</em>"
-msgstr ""
+msgstr "<em>Nom del creditor:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Date - Location:</em>"
-msgstr ""
+msgstr "<em>Data - Població:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Debtor's Name:</em>"
-msgstr ""
+msgstr "<em>Nom del deutor:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Identifier:</em>"
-msgstr ""
+msgstr "<em>Identificador:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Mandate Reference:</em>"
-msgstr ""
+msgstr "<em>Referència del mandat:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Postal Code - City - Town:</em>"
-msgstr ""
+msgstr "<em>Codi Postal - Població - Província:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Signature of the debtor:</em>"
-msgstr ""
+msgstr "<em>Signatura del deutor:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Swift BIC (up to 8 or 11 characteres):</em>"
-msgstr ""
+msgstr "<em>Swift BIC (fins a 8 o 11 caràcters):</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Type of payment:</em>"
-msgstr ""
+msgstr "<em>Tipus de pagament:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -139,7 +139,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Línies de pagaments bancaris "
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
@@ -181,23 +181,23 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr ""
+msgstr "Empresarial (B2B) "
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Final"
-msgstr ""
+msgstr "Final"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "First"
-msgstr ""
+msgstr "Primer "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
 #, python-format
 msgid "Mandate update"
-msgstr ""
+msgstr "Actualització del mandat "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:98
@@ -222,17 +222,17 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Mètodes de pagament"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_mode
 msgid "Payment Modes"
-msgstr ""
+msgstr "Formes de pagament "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de pagament "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:62
@@ -260,7 +260,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
 msgid "SEPA Creditor Identifier"
-msgstr ""
+msgstr "Identificador del creditor SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
@@ -276,7 +276,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report.xml,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid "Sepa Mandate"
-msgstr ""
+msgstr "Mandat SEPA "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
@@ -352,7 +352,7 @@ msgstr "Tipus"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_type
 msgid "Type of Mandate"
-msgstr ""
+msgstr "Tipus de mandat "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
@@ -362,7 +362,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_config_settings
 msgid "account.config.settings"
-msgstr ""
+msgstr "account.config.settings"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document

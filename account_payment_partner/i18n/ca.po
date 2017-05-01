@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
+# Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 09:35+0000\n"
-"PO-Revision-Date: 2016-12-29 09:35+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2017-04-25 00:38+0000\n"
+"PO-Revision-Date: 2017-04-25 00:38+0000\n"
+"Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,11 +35,13 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
+"Activeu aquesta opció si aquest mètode de pagament requereix conèixer el "
+"número de compte bancari del vostre client o proveïdor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
 msgid "Bank Account Required"
-msgstr ""
+msgstr "Compte bancari requerit "
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -65,7 +68,7 @@ msgstr "Empresa"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line_payment_mode_id
 #: model:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
-msgstr ""
+msgstr "Forma de pagament "
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form

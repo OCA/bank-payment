@@ -3,13 +3,14 @@
 # * account_banking_pain_base
 # 
 # Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
 # Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 02:12+0000\n"
-"PO-Revision-Date: 2017-03-11 02:12+0000\n"
+"POT-Creation-Date: 2017-04-25 00:38+0000\n"
+"PO-Revision-Date: 2017-04-25 00:38+0000\n"
 "Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Línies de pagaments bancaris "
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
@@ -158,17 +159,17 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Mètodes de pagament"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_mode
 msgid "Payment Modes"
-msgstr ""
+msgstr "Formes de pagament "
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de pagament "
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority

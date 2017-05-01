@@ -4,14 +4,13 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
-# Kostas Goutoudis <goutoudis@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 01:37+0000\n"
-"PO-Revision-Date: 2016-11-16 01:37+0000\n"
-"Last-Translator: Kostas Goutoudis <goutoudis@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-04-25 00:38+0000\n"
+"PO-Revision-Date: 2017-04-25 00:38+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Greek (Greece) (https://www.transifex.com/oca/teams/23907/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +235,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_company_id
 msgid "Company"
-msgstr ""
+msgstr "Εταιρεία"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_partner_bank_id
@@ -328,14 +327,14 @@ msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:404
+#: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:337
-#: code:addons/account_payment_order/models/account_payment_order.py:357
+#: code:addons/account_payment_order/models/account_payment_order.py:358
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -894,14 +893,14 @@ msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:402
+#: code:addons/account_payment_order/models/account_payment_order.py:406
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:335
-#: code:addons/account_payment_order/models/account_payment_order.py:355
+#: code:addons/account_payment_order/models/account_payment_order.py:356
 #, python-format
 msgid "Payment order %s"
 msgstr ""

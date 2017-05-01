@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 09:34+0000\n"
-"PO-Revision-Date: 2016-12-29 09:34+0000\n"
+"POT-Creation-Date: 2017-04-25 00:37+0000\n"
+"PO-Revision-Date: 2017-04-25 00:37+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Latvian (https://www.transifex.com/oca/teams/23907/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_company_id
 msgid "Company"
-msgstr ""
+msgstr "Uzņēmums"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
@@ -362,7 +362,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Reference"
-msgstr ""
+msgstr "Atsauce"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -404,7 +404,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_state
 msgid "Status"
-msgstr ""
+msgstr "Statuss"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:67
