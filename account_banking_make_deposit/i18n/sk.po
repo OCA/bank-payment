@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovak (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sk/)\n"
@@ -71,7 +71,7 @@ msgstr ""
 #: field:deposit.items.line,company_id:0 field:deposit.ticket,company_id:0
 #: field:deposit.ticket.line,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Spoločnosť"
 
 #. module: account_banking_make_deposit
 #: view:deposit.ticket:0

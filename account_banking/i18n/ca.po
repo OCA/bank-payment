@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:51+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -146,7 +146,7 @@ msgstr "Associar "
 #. module: account_banking
 #: view:account.banking.bank.import:0 field:account.banking.bank.import,log:0
 msgid "Log"
-msgstr ""
+msgstr "Registre "
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:408
@@ -291,7 +291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,account_id:0
 msgid "Account"
-msgstr ""
+msgstr "Compte"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Esborrany"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
@@ -1232,7 +1232,7 @@ msgstr ""
 #: model:ir.model,name:account_banking.model_res_partner_bank
 #: model:ir.ui.menu,name:account_banking.menu_action_account_banking_bank_accounts
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Comptes Bancaris "
 
 #. module: account_banking
 #: field:banking.import.transaction,local_account:0
@@ -1525,7 +1525,7 @@ msgstr ""
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Compte bancari "
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:372

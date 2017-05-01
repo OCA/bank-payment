@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:52+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -23,12 +23,12 @@ msgstr ""
 #: view:payment.mode.type:0 help:payment.mode.type,name:0
 #: field:payment.order,mode_type:0
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipus de pagament "
 
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de pagament "
 
 #. module: account_banking_payment_export
 #: field:payment.mode,payment_order_type:0
@@ -44,7 +44,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Forma de pagament "
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:0

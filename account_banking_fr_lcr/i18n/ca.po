@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -32,7 +32,7 @@ msgstr ""
 #: field:banking.export.lcr,filename:0
 #: field:banking.export.lcr.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nom d'arxiu "
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,state:0 field:banking.export.lcr.wizard,state:0
@@ -47,7 +47,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Esborrany"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
@@ -107,7 +107,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0
 msgid "Validate"
-msgstr ""
+msgstr "Validar"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0

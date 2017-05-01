@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:52+0000\n"
-"PO-Revision-Date: 2017-03-24 00:58+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"PO-Revision-Date: 2017-04-21 09:36+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Estat"
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr ""
+msgstr "Empresarial (B2B) "
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_banking_sepa_direct_debit.action_account_banking_sdd
@@ -61,7 +61,7 @@ msgstr ""
 #: field:banking.export.sdd,filename:0
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nom d'arxiu "
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
@@ -90,7 +90,7 @@ msgstr ""
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:238
 #, python-format
 msgid "Mandate update"
-msgstr ""
+msgstr "Actualització del mandat "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:141
@@ -127,7 +127,7 @@ msgstr ""
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:138
 #, python-format
 msgid "Final"
-msgstr ""
+msgstr "Final"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,state:0
@@ -281,7 +281,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
 msgid "Type of Mandate"
-msgstr ""
+msgstr "Tipus de mandat "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:185
@@ -337,7 +337,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:res.company,sepa_creditor_identifier:0
 msgid "SEPA Creditor Identifier"
-msgstr ""
+msgstr "Identificador del creditor SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: field:res.company,original_creditor_identifier:0
@@ -363,13 +363,13 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Validate"
-msgstr ""
+msgstr "Validar"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:136
 #, python-format
 msgid "First"
-msgstr ""
+msgstr "Primer "
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:192
@@ -449,7 +449,7 @@ msgstr "Cancel·la"
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Esborrany"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0

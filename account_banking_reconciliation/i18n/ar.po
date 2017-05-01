@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Arabic (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ar/)\n"
@@ -92,7 +92,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: field:bank.acc.rec.statement,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "الشركة"
 
 #. module: account_banking_reconciliation
 #: help:account.move.line,cleared_bank_account:0
@@ -236,7 +236,7 @@ msgstr ""
 #: report:addons/account_banking_reconciliation/report/detailed_reconciliation.mako:120
 #: field:bank.acc.rec.statement.line,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "مرجع"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0
@@ -289,7 +289,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0 selection:bank.acc.rec.statement,state:0
 msgid "Draft"
-msgstr ""
+msgstr "مسوّدة"
 
 #. module: account_banking_reconciliation
 #: help:bank.acc.rec.statement,suppress_ending_date_filter:0

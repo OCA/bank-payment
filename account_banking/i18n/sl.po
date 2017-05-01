@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:51+0000\n"
+"POT-Creation-Date: 2017-04-11 07:24+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
@@ -419,7 +419,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.transaction.wizard,analytic_account_id:0
 msgid "Analytic Account"
-msgstr ""
+msgstr "Analitični konto"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1657
@@ -826,7 +826,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.bank.statement:0
 msgid "Journal Entries"
-msgstr ""
+msgstr "Dnevniški vnosi"
 
 #. module: account_banking
 #: field:account.bank.statement.line,currency:0
@@ -1409,7 +1409,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.banking.account.settings,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Dnevnik"
 
 #. module: account_banking
 #: view:account.bank.statement:0
