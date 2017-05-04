@@ -45,8 +45,7 @@
             <field name="communication"/>
             <field name="bank_id"/>
             <field name="date"/>
-            <field name="amount_currency" widget="monetary"
-                options="{'currency_field': 'currency'}"
+            <field name="amount_currency"
                 sum="Total Amount"/>
             <field name="currency"/>
             <field name="name"/>
