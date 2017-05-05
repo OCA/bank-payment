@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:21+0000\n"
+"POT-Creation-Date: 2017-05-01 14:55+0000\n"
 "PO-Revision-Date: 2016-12-27 13:24+0000\n"
 "Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
@@ -269,6 +269,7 @@ msgstr "Falta el mandato en la línea de pago %s"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_mandate_count
 msgid "Number of Mandates"
 msgstr "Número de mandatos"
 

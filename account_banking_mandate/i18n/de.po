@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Niki Waibel, 2016
+# Niki Waibel, 2016
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-11-01 20:24+0000\n"
+"POT-Creation-Date: 2017-05-01 14:55+0000\n"
+"PO-Revision-Date: 2016-12-27 12:33+0000\n"
 "Last-Translator: Niki Waibel\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -269,6 +270,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_mandate_count
 msgid "Number of Mandates"
 msgstr "Anzahl der Mandate"
 
