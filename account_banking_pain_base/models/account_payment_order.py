@@ -358,6 +358,14 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_coutry_block(self, parent_node, partner, gen_args):
+        country = etree.SubElement(parent_node, 'Ctry')
+        country.text = self._prepare_field(
+            'Country', 'partner.country_id.code',
+            {'partner': partner}, 2, gen_args=gen_args)
+        return country
+
+    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -387,10 +395,8 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
-            country = etree.SubElement(postal_address, 'Ctry')
-            country.text = self._prepare_field(
-                'Country', 'partner.country_id.code',
-                {'partner': partner}, 2, gen_args=gen_args)
+            if not gen_args['pain_flavor'].startswith('pain.001.001.02'):
+                self.generate_coutry_block(postal_address,partner,gen_args)
             if partner.street:
                 adrline1 = etree.SubElement(postal_address, 'AdrLine')
                 adrline1.text = self._prepare_field(
@@ -401,6 +407,8 @@ class AccountPaymentOrder(models.Model):
                 adrline2.text = self._prepare_field(
                     'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
+            if gen_args['pain_flavor'].startswith('pain.001.001.02'):
+                self.generate_coutry_block(postal_address, partner, gen_args)
 
         self.generate_party_acc_number(
             parent_node, party_type, order, partner_bank, gen_args,
