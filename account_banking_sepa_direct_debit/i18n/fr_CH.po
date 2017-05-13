@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 18:13+0000\n"
-"PO-Revision-Date: 2016-12-01 10:10+0000\n"
+"POT-Creation-Date: 2017-05-01 15:07+0000\n"
+"PO-Revision-Date: 2017-05-11 14:15+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (Switzerland) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nom de fichier"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
@@ -253,7 +253,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,id:0
@@ -527,7 +527,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Validate"
-msgstr ""
+msgstr "Valider"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document

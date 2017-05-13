@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 00:27+0000\n"
-"PO-Revision-Date: 2017-02-14 09:18+0000\n"
+"POT-Creation-Date: 2017-05-01 15:07+0000\n"
+"PO-Revision-Date: 2017-05-11 14:14+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -512,7 +512,7 @@ msgstr ""
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
