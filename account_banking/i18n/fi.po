@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"POT-Creation-Date: 2017-05-01 15:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fi/)\n"
@@ -592,12 +592,12 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #. module: account_banking
 #: field:banking.link_partner,email:0
 msgid "Email"
-msgstr ""
+msgstr "Sähköposti"
 
 #. module: account_banking
 #: view:banking.link_partner:0
@@ -854,7 +854,7 @@ msgstr ""
 #: field:banking.link_partner,message:0
 #: field:banking.transaction.wizard,message:0
 msgid "Message"
-msgstr ""
+msgstr "Viesti"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:132
@@ -1512,7 +1512,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Maa"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:398

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
-"PO-Revision-Date: 2017-04-25 10:42+0000\n"
+"POT-Creation-Date: 2017-05-01 15:01+0000\n"
+"PO-Revision-Date: 2017-05-10 09:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (Switzerland) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: field:banking.export.sdd,filename:0
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nom de fichier"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
@@ -253,7 +253,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
 #. module: account_banking_sepa_direct_debit
 #: help:res.company,sepa_creditor_identifier:0
@@ -363,7 +363,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Validate"
-msgstr ""
+msgstr "Valider"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:136
