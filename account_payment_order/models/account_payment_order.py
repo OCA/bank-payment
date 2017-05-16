@@ -433,6 +433,7 @@ class AccountPaymentOrder(models.Model):
         """
         self.ensure_one()
         am_obj = self.env['account.move']
+        post_move = self.payment_mode_id.post_move
         # prepare a dict "trfmoves" that can be used when
         # self.payment_mode_id.move_option = date or line
         # key = unique identifier (date or True or line.id)
@@ -459,4 +460,5 @@ class AccountPaymentOrder(models.Model):
             mvals['line_ids'].append((0, 0, trf_ml_vals))
             move = am_obj.create(mvals)
             blines.reconcile_payment_lines()
-            move.post()
+            if post_move:
+                move.post()
