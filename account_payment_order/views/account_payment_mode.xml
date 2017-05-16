@@ -40,6 +40,7 @@
                     attrs="{'invisible': [('offsetting_account', '!=', 'transfer_account')], 'required': [('offsetting_account', '=', 'transfer_account')]}"/>
                 <field name="move_option"
                     attrs="{'invisible': [('generate_move', '=', False)], 'required': [('generate_move', '=', True)]}"/>
+                <field name="post_move"/>
             </group>
         </group>
     </field>
