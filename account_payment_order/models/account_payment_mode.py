@@ -73,7 +73,7 @@ class AccountPaymentMode(models.Model):
         ('date', 'One move per payment date'),
         ('line', 'One move per payment line'),
         ], string='Move Option', default='date')
-    post_move = fields.Boolean(string='Post Move')
+    post_move = fields.Boolean(string='Post Move', default=True)
 
     @api.multi
     @api.constrains(
