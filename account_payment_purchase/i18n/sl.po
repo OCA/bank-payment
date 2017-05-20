@@ -3,15 +3,16 @@
 # * account_payment_purchase
 # 
 # Translators:
-# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2017
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: bank-payment (8.0)\n"
+"Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 00:46+0000\n"
-"PO-Revision-Date: 2016-04-08 05:50+0000\n"
-"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
-"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"POT-Creation-Date: 2017-05-17 02:46+0000\n"
+"PO-Revision-Date: 2017-05-17 02:46+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>, 2017\n"
+"Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,14 +20,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: account_payment_purchase
-#: field:purchase.order,payment_mode_id:0
-msgid "Payment Mode"
-msgstr "Metoda plačila"
+#: model:ir.model,name:account_payment_purchase.model_account_invoice
+msgid "Invoice"
+msgstr "Račun"
 
 #. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_stock_picking
-msgid "Picking List"
-msgstr "Zbirni seznam"
+#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_payment_mode_id
+msgid "Payment Mode"
+msgstr "Metoda plačila"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_procurement_order
@@ -39,14 +40,35 @@ msgid "Purchase Order"
 msgstr "Nabavni nalog"
 
 #. module: account_payment_purchase
-#: help:purchase.order,supplier_partner_bank_id:0
+#: model:ir.model.fields,help:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
 msgid ""
 "Select the bank account of your supplier on which your company should send "
 "the payment. This field is copied from the partner and will be copied to the"
 " supplier invoice."
-msgstr "Izberite bančni račun dobavitelja, na katerega bo vaša družba izvedla nakazilo. To polje se kopira iz partnerja in bo kopirano na prejeti račun."
+msgstr ""
+"Izberite bančni račun dobavitelja, na katerega bo vaša družba izvedla "
+"nakazilo. To polje se kopira iz partnerja in bo kopirano na prejeti račun."
 
 #. module: account_payment_purchase
-#: field:purchase.order,supplier_partner_bank_id:0
+#: code:addons/account_payment_purchase/models/account_invoice.py:20
+#, python-format
+msgid "Selected purchase order have different payment mode."
+msgstr ""
+
+#. module: account_payment_purchase
+#: code:addons/account_payment_purchase/models/account_invoice.py:27
+#, python-format
+msgid "Selected purchase order have different supplier bank."
+msgstr ""
+
+#. module: account_payment_purchase
+#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
 msgid "Supplier Bank Account"
 msgstr "Bančni račun dobavitelja"
+
+#. module: account_payment_purchase
+#: code:addons/account_payment_purchase/models/account_invoice.py:19
+#: code:addons/account_payment_purchase/models/account_invoice.py:26
+#, python-format
+msgid "Warning"
+msgstr "Opozorilo"

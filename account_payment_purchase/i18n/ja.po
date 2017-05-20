@@ -4,40 +4,39 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Christophe CHAUVET <christophe.chauvet@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-17 02:46+0000\n"
 "PO-Revision-Date: 2017-05-17 02:46+0000\n"
-"Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>, 2017\n"
-"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: Japanese (https://www.transifex.com/oca/teams/23907/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_invoice
 msgid "Invoice"
-msgstr "Facture"
+msgstr "請求書"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_payment_mode_id
 msgid "Payment Mode"
-msgstr "Mode de paiement"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_procurement_order
 msgid "Procurement"
-msgstr "Procurement"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_purchase_order
 msgid "Purchase Order"
-msgstr "Bon de commande"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,help:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
@@ -46,9 +45,6 @@ msgid ""
 "the payment. This field is copied from the partner and will be copied to the"
 " supplier invoice."
 msgstr ""
-"Selectionnez le compte bancaire du fournisseur sur lequel votre société "
-"devra effectuer le règlement. Ce champ est copié depuis le partenaire et "
-"sera recopié sur la facture fournisseur."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:20
@@ -65,11 +61,11 @@ msgstr ""
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
 msgid "Supplier Bank Account"
-msgstr "Compte bancaire du fournisseur"
+msgstr ""
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:19
 #: code:addons/account_payment_purchase/models/account_invoice.py:26
 #, python-format
 msgid "Warning"
-msgstr "Avertissement"
+msgstr ""
