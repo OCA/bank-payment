@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-28 00:24+0000\n"
+"POT-Creation-Date: 2017-05-13 00:14+0000\n"
 "PO-Revision-Date: 2016-04-06 00:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/it/)\n"
@@ -54,7 +54,7 @@ msgstr ""
 #. module: account_banking_payment
 #: model:ir.model,name:account_banking_payment.model_payment_mode
 msgid "Payment Mode"
-msgstr ""
+msgstr "Modo di pagamento"
 
 #. module: account_banking_payment
 #: code:addons/account_banking_payment/model/payment_line.py:118
