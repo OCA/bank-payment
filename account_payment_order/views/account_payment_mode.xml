@@ -16,6 +16,7 @@
                 attrs="{'invisible': [('payment_order_ok', '=', False)]}">
                 <field name="no_debit_before_maturity"
                     attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"/>
+                <field name="default_date_prefered"/>
                 <field name="group_lines"/>
             </group>
             <group name="payment_order_create_defaults"
