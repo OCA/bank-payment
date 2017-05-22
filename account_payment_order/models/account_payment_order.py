@@ -141,6 +141,10 @@ class AccountPaymentOrder(models.Model):
             vals['payment_type'] = payment_mode.payment_type
             if payment_mode.bank_account_link == 'fixed':
                 vals['journal_id'] = payment_mode.fixed_journal_id.id
+            if (
+                    'date_prefered' not in vals and
+                    payment_mode.default_date_prefered):
+                vals['date_prefered'] = payment_mode.default_date_prefered
         return super(AccountPaymentOrder, self).create(vals)
 
     @api.onchange('payment_mode_id')
@@ -157,6 +161,8 @@ class AccountPaymentOrder(models.Model):
                 jrl_ids = self.payment_mode_id.variable_journal_ids.ids
                 res['domain']['journal_id'] = "[('id', 'in', %s)]" % jrl_ids
         self.journal_id = journal_id
+        if self.payment_mode_id.default_date_prefered:
+            self.date_prefered = self.payment_mode_id.default_date_prefered
         return res
 
     @api.multi
