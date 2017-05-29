@@ -6,12 +6,12 @@
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-01 19:28+0000\n"
-"PO-Revision-Date: 2016-07-01 19:28+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/23907/pt_BR/)\n"
+"POT-Creation-Date: 2016-11-21 10:17+0000\n"
+"PO-Revision-Date: 2016-10-19 23:47+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -39,14 +39,13 @@ msgid "Borne by Debtor"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:106
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:105
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-"Não foi possível calcular a '%s' da linha de pagamento com referência '%s'"
+msgstr "Não foi possível calcular a '%s' da linha de pagamento com referência '%s'"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:111
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:110
 #, python-format
 msgid "Cannot compute the '%s'."
 msgstr "Não foi possível computar o '%s'"
@@ -105,12 +104,14 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_identifier
 msgid "Initiating Party Identifier"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_issuer
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_issuer
 msgid "Initiating Party Issuer"
@@ -123,7 +124,7 @@ msgid "Local Instrument"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:298
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:297
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -147,14 +148,9 @@ msgid "PAIN Version"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.ui.view,arch_db:account_banking_pain_base.view_company_form
-msgid "Payment Initiation"
-msgstr ""
-
-#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Linhas do pagamento"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_method
@@ -169,7 +165,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordem de Pagamento"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority
@@ -188,13 +184,13 @@ msgid "Shared"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:119
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:118
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:140
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:139
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -204,7 +200,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:114
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:113
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
@@ -218,6 +214,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
 #: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_identifier
 msgid ""
 "This will be used as the 'Initiating Party Identifier' in the PAIN files "
@@ -235,6 +232,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_issuer
 #: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_issuer
 msgid ""
 "This will be used as the 'Initiating Party Issuer' in the PAIN files "
@@ -249,6 +247,11 @@ msgid ""
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_account_config_settings
+msgid "account.config.settings"
 msgstr ""
 
 #. module: account_banking_pain_base
