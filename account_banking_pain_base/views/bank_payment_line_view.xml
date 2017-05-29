@@ -13,7 +13,8 @@
     <field name="arch" type="xml">
         <field name="partner_bank_id" position="after">
             <field name="priority"/>
-            <field name="local_instrument" invisible="1"/>
+            <field name="local_instrument"/>
+            <field name="category_purpose"/>
         </field>
     </field>
 </record>
