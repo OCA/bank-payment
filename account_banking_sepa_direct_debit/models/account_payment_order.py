@@ -68,6 +68,7 @@ class AccountPaymentOrder(models.Model):
         for line in self.bank_line_ids:
             transactions_count_a += 1
             priority = line.priority
+            categ_purpose = line.category_purpose
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting
             # cf account_banking_payment_export/models/account_payment.py
@@ -106,25 +107,27 @@ class AccountPaymentOrder(models.Model):
                     line.mandate_id.recurrent_sequence_type
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
-            key = (line.date, priority, seq_type, scheme)
+            key = (line.date, priority, categ_purpose, seq_type, scheme)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
 
-        for (requested_date, priority, sequence_type, scheme), lines in \
-                lines_per_group.items():
+        for (requested_date, priority, categ_purpose, sequence_type, scheme),\
+                lines in lines_per_group.items():
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
                     "self.name + '-' + "
                     "sequence_type + '-' + requested_date.replace('-', '')  "
-                    "+ '-' + priority",
-                    priority, scheme, sequence_type, requested_date, {
+                    "+ '-' + priority + '-' + category_purpose",
+                    priority, scheme, categ_purpose,
+                    sequence_type, requested_date, {
                         'self': self,
                         'sequence_type': sequence_type,
                         'priority': priority,
+                        'category_purpose': categ_purpose or 'NOcateg',
                         'requested_date': requested_date,
                     }, gen_args)
 
