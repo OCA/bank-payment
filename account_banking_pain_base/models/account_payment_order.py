@@ -203,8 +203,8 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
-            priority, local_instrument, sequence_type, requested_date,
-            eval_ctx, gen_args):
+            priority, local_instrument, category_purpose, sequence_type,
+            requested_date, eval_ctx, gen_args):
         payment_info = etree.SubElement(parent_node, 'PmtInf')
         payment_info_identification = etree.SubElement(
             payment_info, 'PmtInfId')
@@ -249,7 +249,12 @@ class AccountPaymentOrder(models.Model):
             sequence_type_node = etree.SubElement(
                 payment_type_info, 'SeqTp')
             sequence_type_node.text = sequence_type
-
+        if category_purpose:
+            category_purpose_node = etree.SubElement(
+                payment_type_info, 'CtgyPurp')
+            category_purpose_code = etree.SubElement(
+                category_purpose_node, 'Cd')
+            category_purpose_code.text = category_purpose
         if gen_args['payment_method'] == 'DD':
             request_date_tag = 'ReqdColltnDt'
         else:
