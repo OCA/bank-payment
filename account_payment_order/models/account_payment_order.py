@@ -202,6 +202,12 @@ class AccountPaymentOrder(models.Model):
             if not order.journal_id:
                 raise UserError(_(
                     'Missing Bank Journal on payment order %s.') % order.name)
+            if (
+                    order.payment_method_id.bank_account_required and
+                    not order.journal_id.bank_account_id):
+                raise UserError(_(
+                    "Missing bank account on bank journal '%s'.")
+                    % order.journal_id.display_name)
             if not order.payment_line_ids:
                 raise UserError(_(
                     'There are no transactions on payment order %s.')
