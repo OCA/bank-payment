@@ -21,7 +21,7 @@
     <field name="format">sepa</field>
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
-    <field name="signature_date">2014-02-01</field>
+    <field name="signature_date" eval="time.strftime('%Y-01-01')"/>
     <field name="state">valid</field>
 </record>
 

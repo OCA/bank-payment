@@ -40,6 +40,12 @@ class AccountPaymentMode(models.Model):
         ('due', 'Due'),
         ('move', 'Move'),
         ], default='due', string="Type of Date Filter")
+    # default option for account.payment.order
+    default_date_prefered = fields.Selection([
+        ('now', 'Immediately'),
+        ('due', 'Due Date'),
+        ('fixed', 'Fixed Date'),
+        ], string='Default Payment Execution Date')
     group_lines = fields.Boolean(
         string="Group Transactions in Payment Orders", default=True,
         help="If this mark is checked, the transaction lines of the "
