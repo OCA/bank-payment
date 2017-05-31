@@ -142,7 +142,7 @@ class AccountPaymentOrder(models.Model):
             if payment_mode.bank_account_link == 'fixed':
                 vals['journal_id'] = payment_mode.fixed_journal_id.id
             if (
-                    'date_prefered' not in vals and
+                    not vals.get('date_prefered') and
                     payment_mode.default_date_prefered):
                 vals['date_prefered'] = payment_mode.default_date_prefered
         return super(AccountPaymentOrder, self).create(vals)
