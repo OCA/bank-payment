@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-10-19 23:47+0000\n"
+"POT-Creation-Date: 2017-06-01 01:24+0000\n"
+"PO-Revision-Date: 2017-05-29 20:02+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,11 @@ msgstr "Postavke bančnih plačil"
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
 msgid "Batch Booking"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Bonus Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -51,6 +56,22 @@ msgid "Cannot compute the '%s'."
 msgstr "Ne morem izračunati '%s'."
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Card Bulk Clearing"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Cash Management Transfer"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_category_purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_category_purpose
+msgid "Category Purpose"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
 msgid "Charge Bearer"
 msgstr ""
@@ -64,6 +85,31 @@ msgstr "Družbe"
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
 msgid "Convert to ASCII"
 msgstr "Pretvori v ASCII"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Credit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Debit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Deliver Against Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Dividend"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Fee Collection"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -83,6 +129,16 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Government Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Hedging"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
 msgid "High"
 msgstr "Visoka"
@@ -93,6 +149,14 @@ msgid ""
 "If active, Odoo will convert each accented character to the corresponding "
 "unaccented character, so that only ASCII characters are used in the "
 "generated PAIN file."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_category_purpose
+msgid ""
+"If neither your bank nor your local regulations oblige you to set the "
+"category purpose, leave the field empty."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -118,13 +182,43 @@ msgid "Initiating Party Issuer"
 msgstr "Izdajatelj začetne stranke"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,local_instrument:0
+msgid "Instant Transfer"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Interest"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Intra-Company Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Irrevocable Credit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Irrevocable Debit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Loan"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_local_instrument
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_local_instrument
 msgid "Local Instrument"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:297
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:302
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -141,6 +235,11 @@ msgstr ""
 #: selection:account.payment.line,priority:0
 msgid "Normal"
 msgstr "Običajna"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Other Payment"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version
@@ -168,10 +267,20 @@ msgid "Payment Order"
 msgstr "Plačilni nalog"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Pension Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_priority
 msgid "Priority"
 msgstr "Prioriteta"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Receive Against Payment"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
@@ -179,8 +288,33 @@ msgid "SEPA Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Salary Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Securities"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Shared"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Social Security Benefit"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Supplier Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Tax Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -250,8 +384,38 @@ msgid ""
 msgstr "To bo uporabljeno kot 'Izdajatelj začetne stranke' v PAIN datotekah, ki jih ustvari Odoo. Če ni določeno, se uporabi 'Identifikator začetne stranke' iz obrazca družbe.\nObičajni format (13): \n- Koda države (2, optional)\n- Identifikator družbe (ID za DDV)\n- Pripona storitve (številka, ki jo poda banka)"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Trade"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Trade Settlement Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "Treasury Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "VAT Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "WithHolding"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_config_settings
 msgid "account.config.settings"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+msgid "ePayment"
 msgstr ""
 
 #. module: account_banking_pain_base

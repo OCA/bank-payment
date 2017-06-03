@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-10-19 23:46+0000\n"
+"POT-Creation-Date: 2017-06-01 01:24+0000\n"
+"PO-Revision-Date: 2017-02-23 12:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgid "Mandate update"
 msgstr "Mise-à-jour du mandat"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:77
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
@@ -257,6 +257,11 @@ msgid "SEPA Creditor Identifier"
 msgstr "Identifiant créancier SEPA"
 
 #. module: account_banking_sepa_direct_debit
+#: model:account.payment.method,name:account_banking_sepa_direct_debit.sepa_direct_debit
+msgid "SEPA Direct Debit for customers"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
 msgid "SEPA Direct Debit of customers"
 msgstr ""
@@ -291,7 +296,7 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:84
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
@@ -299,7 +304,7 @@ msgid ""
 msgstr "Le mandat de prélèvement SEPA portant la référence '%s' pour le partenaire '%s' a expiré."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:92
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "

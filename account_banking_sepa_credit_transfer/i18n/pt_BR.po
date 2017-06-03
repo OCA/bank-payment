@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-10-19 23:47+0000\n"
+"POT-Creation-Date: 2017-06-01 01:24+0000\n"
+"PO-Revision-Date: 2017-05-29 20:02+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:146
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:149
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -33,6 +33,11 @@ msgid "PAIN version '%s' is not supported."
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Linhas do pagamento"
+
+#. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
 msgid "Payment Methods"
 msgstr ""
@@ -43,6 +48,7 @@ msgid "Payment Order"
 msgstr "Ordem de Pagamento"
 
 #. module: account_banking_sepa_credit_transfer
+#: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
 msgstr ""

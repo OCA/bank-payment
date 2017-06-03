@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-25 00:41+0000\n"
+"POT-Creation-Date: 2017-06-01 01:24+0000\n"
 "PO-Revision-Date: 2017-04-12 08:26+0000\n"
 "Last-Translator: Cas Vissers <casvissers@brahoo.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
@@ -200,7 +200,7 @@ msgid "Mandate update"
 msgstr "Machtiging bijwerken"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:77
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
@@ -297,7 +297,7 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr "De SEPA Incassant-ID '%s' is ongeldig."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:84
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
@@ -305,7 +305,7 @@ msgid ""
 msgstr "De SEPA incasso machtiging met referentie '%s' voor relatie '%s' is verlopen."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:92
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "

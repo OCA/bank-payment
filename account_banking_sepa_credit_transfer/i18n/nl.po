@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 12:57+0000\n"
-"PO-Revision-Date: 2016-10-19 23:46+0000\n"
+"POT-Creation-Date: 2017-06-01 01:24+0000\n"
+"PO-Revision-Date: 2017-05-29 20:02+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:146
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:149
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -31,6 +31,11 @@ msgstr "Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference '%s
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "PAIN versie '%s' is niet ondersteund."
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Betaalregels"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
