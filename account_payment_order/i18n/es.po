@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 12:58+0000\n"
-"PO-Revision-Date: 2017-02-23 12:58+0000\n"
+"POT-Creation-Date: 2017-05-29 10:48+0000\n"
+"PO-Revision-Date: 2017-05-29 10:48+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
@@ -187,6 +187,11 @@ msgstr "Ref. de la línea de pago bancario"
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Bank Payment Lines"
 msgstr "Líneas de pago bancario"
+
+#. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Línea de extracto bancario"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line_partner_bank_id
