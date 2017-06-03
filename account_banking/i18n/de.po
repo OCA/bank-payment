@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:51+0000\n"
-"PO-Revision-Date: 2017-03-19 11:31+0000\n"
+"POT-Creation-Date: 2017-05-20 00:14+0000\n"
+"PO-Revision-Date: 2017-05-28 08:41+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "Kann nicht auf Dublette prüfen, kann mich selbst nicht finden."
 #: field:account.banking.bank.import,file_name:0
 #: field:account.banking.imported.file,file_name:0
 msgid "File name"
-msgstr ""
+msgstr "Dateiname"
 
 #. module: account_banking
 #: selection:banking.import.line,transaction_type:0
