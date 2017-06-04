@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report_invoice_document_eficent"
+          inherit_id="account.report_invoice_document">
+    <xpath expr="//p[@t-if='o.fiscal_position.note']"
+           position="after">
+            <p t-if="o.payment_mode_id">
+                <strong>Payment mode:</strong>
+                <span t-field="o.payment_mode_id.name"/>
+            </p>
+            <p t-if="o.payment_mode_id.bank_id.state == 'bank'">
+                <strong>Account number:</strong>
+                <span t-field="o.partner_bank_id.acc_number"/>
+            </p>
+            <p t-if="o.payment_mode_id.bank_id.state == 'iban'">
+                <strong>IBAN number:</strong>
+                <span t-field="o.partner_bank_id.acc_number"/>
+            </p>
+    </xpath>
+</template>
+
+</data>
+</openerp>
