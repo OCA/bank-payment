@@ -18,7 +18,7 @@ for electronic banking. It provides the following technical features:
   payment.mode.type
 * a manual payment mode type is provided as an example, with a default "do
   nothing" wizard
-  
+
 To enable the use of payment order to collect money for customers,
 it adds a payment_order_type (payment|debit) as a basis of direct debit support
 (this field becomes visible when account_direct_debit is installed).
@@ -41,7 +41,7 @@ No configuration required.
 Usage
 =====
 
-This module provides a menu to configure payment order types : Accounting > Configuration > Miscellaneous > Payment Export Types 
+This module provides a menu to configure payment order types : Accounting > Configuration > Miscellaneous > Payment Export Types
 
 For further information, please visit:
 
@@ -51,7 +51,7 @@ Known issues / Roadmap
 ======================
 
  * no known issues
- 
+
 Bug Tracker
 ===========
 
@@ -68,8 +68,8 @@ Contributors
 ------------
 
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
-* Alexis de Lattre		
-* Pedro M. Baeza     
+* Alexis de Lattre
+* Pedro M. Baeza
 * Adrien Peiffer <adrien.peiffer@acsone.eu>
 * Stefan Rijnhart
 * Laurent Mignon <laurent.mignon@acsone.eu>
@@ -79,6 +79,7 @@ Contributors
 * Raphaël Valyi
 * Sandy Carter
 * Angel Moya <angel.moya@domatix.com>
+* Gonzalo Borrás <gborras@bisnesmart.com>
 
 Maintainer
 ----------
