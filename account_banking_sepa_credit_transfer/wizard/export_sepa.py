@@ -60,6 +60,8 @@ class BankingExportSepaWizard(models.TransientModel):
     def create_sepa(self):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
         pain_flavor = self.payment_order_ids[0].mode.type.code
+        category_purpose_code = \
+            self.payment_order_ids[0].mode.sepa_category_purpose
         convert_to_ascii = \
             self.payment_order_ids[0].mode.convert_to_ascii
         if pain_flavor == 'pain.001.001.02':
@@ -111,6 +113,7 @@ class BankingExportSepaWizard(models.TransientModel):
             'pain_xsd_file':
             'account_banking_sepa_credit_transfer/data/%s.xsd'
             % pain_flavor,
+            'category_purpose_code': category_purpose_code,
         }
         pain_ns = {
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',

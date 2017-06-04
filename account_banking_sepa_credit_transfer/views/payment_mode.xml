@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_payment_mode_form_add_category">
+            <field name="name">add.category.in.payment.mode.form</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">    
+                    <field name="sepa_category_purpose" attrs="{'invisible': [('sepa_type', '!=', 'sepa_credit_transfer')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

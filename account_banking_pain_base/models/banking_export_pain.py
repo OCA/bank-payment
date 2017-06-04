@@ -210,7 +210,17 @@ class BankingExportPain(models.AbstractModel):
             sequence_type_2_14 = etree.SubElement(
                 payment_type_info_2_6, 'SeqTp')
             sequence_type_2_14.text = sequence_type
-
+        # Set CtgyPurp for pain.001.001.002 and pain.001.001.003
+        if gen_args.get('pain_flavor') == 'pain.001.001.02' or gen_args.get(
+                'pain_flavor') == 'pain.001.001.03' or gen_args.get(
+                'pain_flavor') == 'pain.001.001.04' or gen_args.get(
+                'pain_flavor') == 'pain.001.001.05':
+            category_purpose_2_14 = etree.SubElement(
+                payment_type_info_2_6, 'CtgyPurp')
+            category_purpose_code_2_14 = etree.SubElement(
+                category_purpose_2_14, 'Cd')
+            category_purpose_code_2_14.text = gen_args.get(
+                'category_purpose_code')
         if gen_args['payment_method'] == 'DD':
             request_date_tag = 'ReqdColltnDt'
         else:

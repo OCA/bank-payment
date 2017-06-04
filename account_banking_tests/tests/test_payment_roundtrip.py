@@ -237,6 +237,7 @@ class TestPaymentRoundtrip(TransactionCase):
                 'transfer_journal_id': transfer_journal_id,
                 'transfer_move_option': transfer_move_option,
                 'type': payment_mode_type_id,
+                'sepa_category_purpose': 'SALA',
                 })
 
     def setup_payment(self, reg, cr, uid):
