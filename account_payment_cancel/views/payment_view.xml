@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- [FORM] account.payment -->
+         <record id="view_payment_order_cancel_form" model="ir.ui.view">
+            <field name="name">account_payment_cancel_form</field>
+            <field name="model">payment.order</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <button name="cancel" states="done" string="Cancel Payments"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
