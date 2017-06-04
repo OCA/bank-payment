@@ -92,12 +92,9 @@ class PaymentOrderCreate(models.TransientModel):
             in the payment order.
 
         This implementation filters out move lines that are already
-        included in draft or open payment orders. This prevents the
+        included in non-cancelled payment orders. This prevents the
         user to include the same line in two different open payment
-        orders. When the payment order is sent, it is assumed that
-        the move will be reconciled soon (or immediately with
-        account_banking_payment_transfer), so it will not be
-        proposed anymore for payment.
+        orders.
 
         See also https://github.com/OCA/bank-payment/issues/93.
 
@@ -106,7 +103,7 @@ class PaymentOrderCreate(models.TransientModel):
         """
         self.ensure_one()
         payment_lines = self.env['payment.line'].\
-            search([('order_id.state', 'in', ('draft', 'open')),
+            search([('order_id.state', '!=', 'cancel'),
                     ('move_line_id', 'in', lines.ids)])
         to_exclude = set([l.move_line_id.id for l in payment_lines])
         return [l.id for l in lines if l.id not in to_exclude]
