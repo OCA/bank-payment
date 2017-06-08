@@ -197,7 +197,7 @@ class link_partner(orm.TransientModel):
         if isinstance(ids, (int, long)):
             ids = [ids]
         return {
-            'name': self._description,
+            'name': _(self._description),
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': self._name,
