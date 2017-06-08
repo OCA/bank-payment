@@ -1,7 +1,8 @@
 <openerp>
   <data>
     <record id="invoice_voucher_user" model="res.groups">
-      <field name="name">Use voucher in Invoices</field>
+      <field name="name">Use vouchers</field>
+      <field name="category_id" ref="base.module_category_accounting_and_finance"/>
     </record>
   </data>
 </openerp>
