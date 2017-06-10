@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"POT-Creation-Date: 2017-06-03 00:14+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca/)\n"
@@ -1432,7 +1432,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,mobile:0
 msgid "Mobile"
-msgstr ""
+msgstr "Mòbil "
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
