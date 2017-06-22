@@ -109,10 +109,13 @@ class PaymentOrder(models.Model):
         Called from the workflow to move to the done state when
         all transfer move have been reconciled through bank statements.
         """
+        move_line_ids = self.get_transfer_move_line_ids()
+        if not move_line_ids:
+            return True
         self.env.cr.execute(
             '''select id from account_move_line
             where id in %s and reconcile_id is null''',
-            (tuple(self.get_transfer_move_line_ids()),)
+            (tuple(move_line_ids),)
         )
         return self.env.cr.rowcount == 0
 
