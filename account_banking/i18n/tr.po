@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
-"PO-Revision-Date: 2017-04-25 10:39+0000\n"
+"POT-Creation-Date: 2017-06-17 00:18+0000\n"
+"PO-Revision-Date: 2017-06-21 12:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -292,7 +292,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,account_id:0
 msgid "Account"
-msgstr ""
+msgstr "Hesap"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0
