@@ -91,6 +91,7 @@ class AccountPaymentOrder(models.Model):
     move_ids = fields.One2many(
         'account.move', 'payment_order_id', string='Journal Entries',
         readonly=True)
+    description = fields.Char()
 
     @api.multi
     def unlink(self):
