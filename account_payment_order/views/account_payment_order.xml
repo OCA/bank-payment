@@ -49,6 +49,7 @@
                         <field name="date_generated"/>
                         <field name="generated_user_id"/>
                         <field name="date_uploaded"/>
+                        <field name="description"/>
                     </group>
                 </group>
                 <notebook>
@@ -83,6 +84,7 @@
             <field name="journal_id"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="date_uploaded"/>
+            <field name="description"/>
             <field name="total_company_currency" sum="Total Company Currency"/>
             <field name="company_currency_id" invisible="1"/>
             <field name="state"/>
@@ -95,6 +97,7 @@
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
         <search string="Search Payment Orders">
+            <field name="description"/>
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
             <filter name="open" string="Confirmed" domain="[('state', '=', 'open')]"/>
             <filter name="generated" string="File Generated" domain="[('state', '=', 'generated')]"/>
