@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:52+0000\n"
-"PO-Revision-Date: 2017-03-24 18:23+0000\n"
+"POT-Creation-Date: 2017-06-24 00:21+0000\n"
+"PO-Revision-Date: 2017-06-27 01:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del ha
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
 msgid "File"
-msgstr ""
+msgstr "Fichero"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
