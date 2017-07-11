@@ -109,12 +109,15 @@ class PaymentOrder(models.Model):
         Called from the workflow to move to the done state when
         all transfer move have been reconciled through bank statements.
         """
-        self.env.cr.execute(
-            '''select id from account_move_line
-            where id in %s and reconcile_id is null''',
-            (tuple(self.get_transfer_move_line_ids()),)
-        )
-        return self.env.cr.rowcount == 0
+        transfer_move_ids = self.get_transfer_move_line_ids()
+        if transfer_move_ids:
+            self.env.cr.execute(
+                '''select id from account_move_line
+                where id in %s and reconcile_id is null''',
+                (tuple(transfer_move_ids),)
+            )
+            return self.env.cr.rowcount == 0
+        return True
 
     @api.multi
     def test_undo_done(self):
