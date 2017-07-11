@@ -114,7 +114,7 @@ class PaymentOrder(models.Model):
             self.env.cr.execute(
                 '''select id from account_move_line
                 where id in %s and reconcile_id is null''',
-                (tuple(self.get_transfer_move_line_ids()),)
+                (tuple(transfer_move_ids),)
             )
             return self.env.cr.rowcount == 0
         return True
