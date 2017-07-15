@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-17 01:56+0000\n"
-"PO-Revision-Date: 2017-03-17 12:40+0000\n"
+"POT-Creation-Date: 2017-07-11 20:46+0000\n"
+"PO-Revision-Date: 2017-05-16 19:34+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:137
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:140
 #, python-format
 msgid "%s bank line %s"
 msgstr "%s bančna postavka %s"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:171
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:174
 #, python-format
 msgid "%s line %s"
 msgstr "%s postavka %s"
@@ -47,7 +47,7 @@ msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr "Ni mogoče uskladiti: ni postavke premika za plačilno postavko %s partnerja '%s'."
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:194
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:197
 #, python-format
 msgid ""
 "Cannot generate the transfer move when the currency of the payment (%s) is "
@@ -66,7 +66,7 @@ msgid "Date Confirmed"
 msgstr "Datum potrditve"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:230
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:233
 #, python-format
 msgid "Direct debit"
 msgstr "Direktna obremenitev"
@@ -112,7 +112,7 @@ msgid "One move per payment line"
 msgstr "En premik za vsako plačilno postavko"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:273
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:276
 #, python-format
 msgid "Partial Reconcile Moves Line"
 msgstr "Delno usklajevanje postavk premikov"
@@ -130,7 +130,7 @@ msgid ""
 msgstr "Postavke izplačil v poslanih nalogih s premikom na ta konto. Izberete lahko le konte običajnega tipa, ki so označeni za uskladitev"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:229
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:232
 #, python-format
 msgid "Payment"
 msgstr "Plačilo"

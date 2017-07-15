@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-01 15:07+0000\n"
-"PO-Revision-Date: 2017-05-11 04:35+0000\n"
+"POT-Creation-Date: 2017-07-11 20:46+0000\n"
+"PO-Revision-Date: 2017-05-16 19:34+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:137
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:140
 #, python-format
 msgid "%s bank line %s"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:171
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:174
 #, python-format
 msgid "%s line %s"
 msgstr ""
@@ -46,7 +46,7 @@ msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:194
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:197
 #, python-format
 msgid ""
 "Cannot generate the transfer move when the currency of the payment (%s) is "
@@ -65,7 +65,7 @@ msgid "Date Confirmed"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:230
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:233
 #, python-format
 msgid "Direct debit"
 msgstr ""
@@ -111,7 +111,7 @@ msgid "One move per payment line"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:273
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:276
 #, python-format
 msgid "Partial Reconcile Moves Line"
 msgstr ""
@@ -129,7 +129,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:229
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:232
 #, python-format
 msgid "Payment"
 msgstr "Maksu"
