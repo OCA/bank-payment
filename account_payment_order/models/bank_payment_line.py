@@ -155,3 +155,14 @@ class BankPaymentLine(models.Model):
             lines_to_rec += payment_line.move_line_id
 
         lines_to_rec.reconcile()
+
+    @api.multi
+    def unlink(self):
+        for line in self:
+            order_state = line.order_id.state
+            if order_state == 'uploaded':
+                raise UserError(_(
+                    'Cannot delete a payment order line whose payment order is'
+                    ' in state \'%s\'. You need to cancel it first.')
+                    % order_state)
+        return super(BankPaymentLine, self).unlink()
