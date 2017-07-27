@@ -102,6 +102,7 @@ class AccountPaymentOrder(models.Model):
                 raise ValidationError(_(
                     "You cannot delete an uploaded payment order. You can "
                     "cancel it in order to do so."))
+        super(AccountPaymentOrder, self).unlink()
 
     @api.multi
     @api.constrains('payment_type', 'payment_mode_id')
