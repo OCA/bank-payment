@@ -164,5 +164,5 @@ class BankPaymentLine(models.Model):
                 raise UserError(_(
                     'Cannot delete a payment order line whose payment order is'
                     ' in state \'%s\'. You need to cancel it first.')
-                                % order_state)
+                    % order_state)
         return super(BankPaymentLine, self).unlink()
