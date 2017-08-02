@@ -43,7 +43,7 @@ class TestPaymentOrder(TransactionCase):
 
     def test_cancel_payment_order(self):
         # Open invoice
-        self.invoice.signal_workflow('invoice_open')
+        self.invoice.action_invoice_open()
         # Add to payment order
         self.invoice.create_account_payment_line()
 
