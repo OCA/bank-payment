@@ -96,6 +96,15 @@ class AccountPaymentOrder(models.Model):
         readonly=True)
 
     @api.multi
+    def unlink(self):
+        for order in self:
+            if order.state == 'uploaded':
+                raise UserError(_(
+                    "You cannot delete an uploaded payment order. You can "
+                    "cancel it in order to do so."))
+        return super(AccountPaymentOrder, self).unlink()
+
+    @api.multi
     @api.constrains('payment_type', 'payment_mode_id')
     def payment_order_constraints(self):
         for order in self:
@@ -173,6 +182,16 @@ class AccountPaymentOrder(models.Model):
             'date_done': fields.Date.context_today(self),
             'state': 'done',
             })
+        return True
+
+    @api.multi
+    def action_done_cancel(self):
+        for move in self.move_ids:
+            move.button_cancel()
+            for move_line in move.line_ids:
+                move_line.remove_move_reconcile()
+            move.unlink()
+        self.action_cancel()
         return True
 
     @api.multi
