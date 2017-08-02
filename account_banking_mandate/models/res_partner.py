@@ -15,7 +15,7 @@ class ResPartner(models.Model):
     valid_mandate_id = fields.Many2one(
         comodel_name='account.banking.mandate',
         compute='compute_valid_mandate_id',
-        string='Valid Mandate')
+        string='First Valid Mandate')
 
     @api.multi
     def _compute_mandate_count(self):
@@ -29,14 +29,15 @@ class ResPartner(models.Model):
 
     @api.multi
     def compute_valid_mandate_id(self):
-        # Dict to reduce impact with "bug" that process all partners related
+        # Dict for reducing the duplicated searches on parent/child partners
         mandates_dic = {}
         for partner in self:
-            commercial_partner_id = partner.commercial_partner_id
+            commercial_partner_id = partner.commercial_partner_id.id
             if commercial_partner_id in mandates_dic:
                 partner.valid_mandate_id = mandates_dic[commercial_partner_id]
             else:
-                mandate_id = partner.commercial_partner_id.bank_ids.mapped(
-                    'mandate_ids').filtered(lambda x: x.state == 'valid').id
-                partner.valid_mandate_id = mandate_id
-                mandates_dic[commercial_partner_id] = mandate_id
+                mandates = partner.commercial_partner_id.bank_ids.mapped(
+                    'mandate_ids').filtered(lambda x: x.state == 'valid')
+                first_valid_mandate_id = mandates[:1].id
+                partner.valid_mandate_id = first_valid_mandate_id
+                mandates_dic[commercial_partner_id] = first_valid_mandate_id
