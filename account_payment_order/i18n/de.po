@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-01 01:24+0000\n"
-"PO-Revision-Date: 2017-06-01 00:37+0000\n"
+"POT-Creation-Date: 2017-08-03 00:38+0000\n"
+"PO-Revision-Date: 2017-08-03 11:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -203,6 +203,14 @@ msgid "Cancel Payments"
 msgstr "Zahlungen abbrechen"
 
 #. module: account_payment_order
+#: code:addons/account_payment_order/models/bank_payment_line.py:164
+#, python-format
+msgid ""
+"Cannot delete a payment order line whose payment order is in state '%s'. You"
+" need to cancel it first."
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
 msgstr ""
@@ -319,14 +327,14 @@ msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:412
+#: code:addons/account_payment_order/models/account_payment_order.py:431
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:341
-#: code:addons/account_payment_order/models/account_payment_order.py:362
+#: code:addons/account_payment_order/models/account_payment_order.py:360
+#: code:addons/account_payment_order/models/account_payment_order.py:381
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -589,7 +597,7 @@ msgid "Linked to an Invoice or Refund"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:209
+#: code:addons/account_payment_order/models/account_payment_order.py:228
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr ""
@@ -601,7 +609,7 @@ msgid "Missing Partner Bank Account on payment line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:214
+#: code:addons/account_payment_order/models/account_payment_order.py:233
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
 msgstr ""
@@ -654,7 +662,7 @@ msgid "No Payment Mode on invoice %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:290
+#: code:addons/account_payment_order/models/account_payment_order.py:309
 #, python-format
 msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
@@ -677,7 +685,7 @@ msgid "Offsetting Account"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:115
+#: code:addons/account_payment_order/models/account_payment_order.py:124
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
@@ -777,7 +785,7 @@ msgid "Payment Execution Date Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:310
+#: code:addons/account_payment_order/models/account_payment_order.py:329
 #, python-format
 msgid "Payment File"
 msgstr "Zahlungsdatei"
@@ -844,14 +852,14 @@ msgid "Payment Type"
 msgstr "Zahlungsart"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:410
+#: code:addons/account_payment_order/models/account_payment_order.py:429
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:339
-#: code:addons/account_payment_order/models/account_payment_order.py:360
+#: code:addons/account_payment_order/models/account_payment_order.py:358
+#: code:addons/account_payment_order/models/account_payment_order.py:379
 #, python-format
 msgid "Payment order %s"
 msgstr ""
@@ -953,7 +961,7 @@ msgid "Target Moves"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:273
+#: code:addons/account_payment_order/models/account_payment_order.py:292
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""
@@ -983,7 +991,7 @@ msgid "The invoice %s is not in Open state"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:243
+#: code:addons/account_payment_order/models/account_payment_order.py:262
 #, python-format
 msgid ""
 "The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
@@ -992,7 +1000,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:102
+#: code:addons/account_payment_order/models/account_payment_order.py:111
 #, python-format
 msgid ""
 "The payment type (%s) is not the same as the payment type of the payment "
@@ -1000,7 +1008,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:218
+#: code:addons/account_payment_order/models/account_payment_order.py:237
 #, python-format
 msgid "There are no transactions on payment order %s."
 msgstr ""
@@ -1077,6 +1085,14 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
 msgid "Wizard to create payment lines"
+msgstr ""
+
+#. module: account_payment_order
+#: code:addons/account_payment_order/models/account_payment_order.py:99
+#, python-format
+msgid ""
+"You cannot delete an uploaded payment order. You can cancel it in order to "
+"do so."
 msgstr ""
 
 #. module: account_payment_order
