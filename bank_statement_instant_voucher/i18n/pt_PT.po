@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 11:33+0000\n"
+"POT-Creation-Date: 2017-08-05 00:17+0000\n"
 "PO-Revision-Date: 2016-04-06 00:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_PT/)\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,state:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: bank_statement_instant_voucher
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:235

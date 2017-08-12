@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
-"PO-Revision-Date: 2017-04-25 10:42+0000\n"
+"POT-Creation-Date: 2017-08-05 00:16+0000\n"
+"PO-Revision-Date: 2017-08-11 11:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -805,7 +805,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Județ"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -1291,7 +1291,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0

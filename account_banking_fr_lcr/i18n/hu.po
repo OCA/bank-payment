@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:43+0000\n"
+"POT-Creation-Date: 2017-08-05 00:16+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Hungarian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hu/)\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,state:0 field:banking.export.lcr.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Állapot"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr:0

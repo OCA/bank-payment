@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:51+0000\n"
-"PO-Revision-Date: 2017-03-13 12:52+0000\n"
+"POT-Creation-Date: 2017-08-05 00:16+0000\n"
+"PO-Revision-Date: 2017-08-03 11:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Danish (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -805,7 +805,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Delstat"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0

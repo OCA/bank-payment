@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
-"PO-Revision-Date: 2017-04-25 10:41+0000\n"
+"POT-Creation-Date: 2017-08-05 00:17+0000\n"
+"PO-Revision-Date: 2017-08-03 11:25+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (Venezuela) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_VE/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,state:0 field:banking.export.sepa.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Provincia"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,state:0
