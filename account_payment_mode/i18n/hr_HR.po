@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-25 00:38+0000\n"
-"PO-Revision-Date: 2017-04-25 00:38+0000\n"
+"POT-Creation-Date: 2017-08-05 00:24+0000\n"
+"PO-Revision-Date: 2017-08-05 00:24+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Croatian (Croatia) (https://www.transifex.com/oca/teams/23907/hr_HR/)\n"
 "MIME-Version: 1.0\n"
@@ -176,7 +176,7 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_name
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
