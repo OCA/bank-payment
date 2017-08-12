@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:27+0000\n"
-"PO-Revision-Date: 2016-12-27 08:24+0000\n"
+"POT-Creation-Date: 2017-08-05 00:21+0000\n"
+"PO-Revision-Date: 2017-08-11 11:56+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -480,7 +480,7 @@ msgid "The Ordering Customer"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: code:addons/account_banking_payment_export/models/account_payment.py:161
+#: code:addons/account_banking_payment_export/models/account_payment.py:164
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""
