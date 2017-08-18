@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- © 2015 Antiun Ingenieria S.L. - Antonio Espinosa
-     © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+<!-- Copyright 2015-2017 Tecnativa
+     Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <odoo>
 
@@ -11,10 +11,7 @@
     <field name="inherit_id" ref="account_banking_pain_base.account_payment_mode_form"/>
     <field name="arch" type="xml">
         <group name="main" position="inside">
-            <field name="sepa_creditor_identifier" invisible="1"/>
-            <!-- This field should be set visible by localization modules
-            for countries that may have several sepa_creditor_identifier for
-            the same company (I guess only Spain) -->
+            <field name="sepa_creditor_identifier" groups="account_banking_pain_base.group_pain_multiple_identifier"/>
         </group>
     </field>
 </record>
