@@ -21,13 +21,6 @@ class AccountPaymentMode(models.Model):
              "- a 3-letters business code\n"
              "- a country-specific identifier")
 
-    def _sepa_type_get(self):
-        res = super(AccountPaymentMode, self)._sepa_type_get()
-        if not res:
-            if self.type.code and self.type.code.startswith('pain.008'):
-                res = 'sepa_direct_debit'
-        return res
-
     @api.multi
     @api.constrains('sepa_creditor_identifier')
     def _check_sepa_creditor_identifier(self):
