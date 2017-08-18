@@ -25,7 +25,18 @@ This module is part of the OCA/bank-payment suite.
 Configuration
 =============
 
-No configuration required.
+#. Go to Accounting > Configuration > Settings.
+#. On the fields "Initiating Party Issuer" and "Initiating Party Identifier",
+   in the section *SEPA/PAIN*, you can fill the corresponding identifiers.
+
+If your country requires several identifiers (like Spain), you must:
+
+#. Go to *Accounting > Configuration > Settings*.
+#. On the section *SEPA/PAIN*, check the mark "Multiple identifiers".
+#. Now go to *Accounting > Configuration > Management > Payment Modes*.
+#. Create a payment mode for your specific bank.
+#. Fill the specific identifiers on the fields "Initiating Party Identifier"
+   and "Initiating Party Issuer".
 
 Usage
 =====
@@ -34,7 +45,7 @@ See 'readme' files of the OCA/bank-payment suite.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/173/9.0
+   :target: https://runbot.odoo-community.org/runbot/173/10.0
 
 Known issues / Roadmap
 ======================
@@ -70,10 +81,12 @@ Maintainer
 
 .. image:: http://odoo-community.org/logo.png
    :alt: Odoo Community Association
-   :target: http://odoo-community.org
+   :target: https://odoo-community.org
 
 This module is maintained by the OCA.
 
-OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
+OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.
 
-To contribute to this module, please visit http://odoo-community.org.
+To contribute to this module, please visit https://odoo-community.org.
