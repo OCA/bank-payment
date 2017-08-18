@@ -12,9 +12,10 @@
     <field name="inherit_id" ref="account.view_account_config_settings"/>
     <field name="arch" type="xml">
         <xpath expr="//separator[@name='analytic_account']" position="before">
-            <group name="pain">
+            <group name="pain" string="SEPA/PAIN">
                 <field name="initiating_party_identifier"/>
                 <field name="initiating_party_issuer"/>
+                <field name="group_pain_multiple_identifier"/>
             </group>
         </xpath>
     </field>
