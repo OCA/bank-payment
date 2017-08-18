@@ -33,10 +33,32 @@ This module is part of the OCA/bank-payment suite.
 Configuration
 =============
 
-Create a Payment Mode dedicated to SEPA Direct Debit and select the
-Payment Method *SEPA Direct Debit for customers* (which is automatically
-created upon module installation) and check that this payment method
-uses the proper version of PAIN.
+For setting the SEPA creditor identifier:
+
+#. Go to Accounting > Configuration > Settings.
+#. On the field "SEPA Creditor Identifier" in the section *SEPA/PAIN*, you can
+   fill the corresponding identifier.
+
+If your country requires several identifiers (like Spain), you must:
+
+#. Go to *Accounting > Configuration > Settings*.
+#. On the section *SEPA/PAIN*, check the mark "Multiple identifiers".
+#. Now go to *Accounting > Configuration > Management > Payment Modes*.
+#. Create a payment mode for your specific bank.
+#. Fill the specific identifier on the field "SEPA Creditor Identifier".
+
+For defining a payment mode that uses SEPA direct debit:
+
+#. Go to *Accounting > Configuration > Management > Payment Modes*.
+#. Create a record.
+#. Select the Payment Method *SEPA Direct Debit for customers* (which is
+   automatically created upon module installation).
+#. Check that this payment method uses the proper version of PAIN.
+#. If not, go *Accounting > Configuration > Management > Payment Methods*.
+#. Locate the "SEPA Direct Debit for customers" record and open it.
+#. Change the "PAIN version" according your needs.
+#. If you need to handle several PAIN versions, just duplicate the payment
+   method adjusting this field on each for having them.
 
 Usage
 =====
@@ -83,10 +105,12 @@ Maintainer
 
 .. image:: http://odoo-community.org/logo.png
    :alt: Odoo Community Association
-   :target: http://odoo-community.org
+   :target: https://odoo-community.org
 
 This module is maintained by the OCA.
 
-OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
+OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.
 
-To contribute to this module, please visit http://odoo-community.org.
+To contribute to this module, please visit https://odoo-community.org.
