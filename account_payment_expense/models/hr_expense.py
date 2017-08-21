@@ -12,7 +12,8 @@ class HrExpense(models.Model):
     def action_move_create(self):
         result = super(HrExpense, self).action_move_create()
 
-        for line in self.account_move_id.line_ids:
-            line.partner_bank_id = self.employee_id.bank_account_id
+        for record in self:
+            for line in record.account_move_id.line_ids:
+                line.partner_bank_id = record.employee_id.bank_account_id
 
         return result
