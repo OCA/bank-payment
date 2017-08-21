@@ -66,6 +66,7 @@
                     <field name="invoice_journal_id"
                            attrs="{'required': [('bank_partner_id', '!=', False)]}"
                            domain="[('company_id', '=', company_id)]" />
+                    <field name="match_invoice_first" />
                 </form>
             </field>
         </record>

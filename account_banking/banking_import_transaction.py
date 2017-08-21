@@ -248,21 +248,13 @@ class banking_import_transaction(orm.Model):
             return self.pool.get('res.currency').is_zero(
                 cr, uid, trans.statement_id.currency, total)
 
+        context = context or {}
+        account_info = context.get('account_info', False)
+        match_invoice_first = \
+            account_info and account_info.match_invoice_first or False
         digits = dp.get_precision('Account')(cr)[1]
         partial = False
-
-        # Search invoice on partner
-        if partner_ids:
-            candidates = [
-                x for x in move_lines
-                if x.partner_id.id in partner_ids and
-                (convert.str2date(x.date, '%Y-%m-%d') <=
-                 (convert.str2date(trans.execution_date, '%Y-%m-%d') +
-                  self.payment_window)) and
-                (not _cached(x) or _remaining(x))
-            ]
-        else:
-            candidates = []
+        candidates = []
 
         # Next on reference/invoice number. Mind that this uses the invoice
         # itself, as the move_line references have been fiddled with on invoice
@@ -271,6 +263,33 @@ class banking_import_transaction(orm.Model):
         # interventions *add* text.
         ref = trans.reference.upper()
         msg = trans.message.upper()
+
+        # If priority is given to match on invoice, search for match
+        # match regardless of parnter. This is usefull if the invoice ref
+        # is very unlikely to occur in message or reference by accidental
+        # likeness, while it regularly occurs that known partners pay for
+        # invoices that were not sent to other partners:
+        if match_invoice_first:
+            candidates = [
+                x for x in move_lines
+                if (x.invoice and has_id_match(x.invoice, ref, msg) and
+                    convert.str2date(x.invoice.date_invoice, '%Y-%m-%d') <=
+                    (convert.str2date(trans.execution_date, '%Y-%m-%d') +
+                     self.payment_window) and
+                    (not _cached(x) or _remaining(x)))
+            ]
+
+        # Search invoice on partner
+        if partner_ids and not candidates:
+            candidates = [
+                x for x in move_lines
+                if x.partner_id.id in partner_ids and
+                (convert.str2date(x.date, '%Y-%m-%d') <=
+                 (convert.str2date(trans.execution_date, '%Y-%m-%d') +
+                  self.payment_window)) and
+                (not _cached(x) or _remaining(x))
+            ]
+
         if len(candidates) > 1 or not candidates:
             # The manual usage of the sales journal creates moves that
             # are not tied to invoices. Thanks to Stefan Rijnhart for
@@ -837,6 +856,7 @@ class banking_import_transaction(orm.Model):
         if not ids:
             return True
 
+        context = context or {}
         company_obj = self.pool.get('res.company')
         partner_bank_obj = self.pool.get('res.partner.bank')
         journal_obj = self.pool.get('account.journal')
@@ -1153,10 +1173,13 @@ class banking_import_transaction(orm.Model):
                 # invoice, automatic invoicing on bank costs will create
                 # these, and invoice matching still has to be done.
 
+                # Pass info in context to not change function signature:
+                match_invoice_context = context.copy()
+                match_invoice_context['account_info'] = account_info
                 transaction, move_info, remainder = self._match_invoice(
                     cr, uid, transaction, move_lines, partner_ids,
                     partner_banks, results['log'], linked_invoices,
-                    context=context)
+                    context=match_invoice_context)
                 if remainder:
                     injected.append(self.browse(cr, uid, remainder, context))
 

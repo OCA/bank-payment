@@ -194,6 +194,7 @@ def get_company_bank_account(pool, cr, uid, account_number, currency,
         results.costs_account_id = settings.costs_account_id
         results.invoice_journal_id = settings.invoice_journal_id
         results.bank_partner_id = settings.bank_partner_id
+        results.match_invoice_first = settings.match_invoice_first
 
     return results
 

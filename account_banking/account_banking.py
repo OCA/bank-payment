@@ -119,6 +119,10 @@ class account_banking_account_settings(orm.Model):
                   'by default. You will most likely have to create one.'
                   ),
         ),
+        'match_invoice_first': fields.boolean(
+            'Prioritize reconcile on invoice number',
+            default=False,
+        ),
 
     }
 
