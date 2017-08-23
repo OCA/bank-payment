@@ -141,23 +141,44 @@ def get_company_bank_account(pool, cr, uid, account_number, currency,
     for the requested currency.
     '''
     results = struct()
-    bank_accounts = get_bank_accounts(pool, cr, uid, account_number, log,
-                                      fail=True)
+    all_bank_accounts = get_bank_accounts(pool, cr, uid, account_number, log,
+                                          fail=True)
+    if not all_bank_accounts:
+        return False
+    # all_bank_accounts contains all bank-accounts with the specified number,
+    # there might be duplicates, especially in multi-company environments.
+    # We need only the bank account that is linked to the company.
+    # There should be only one of those:
+    def log_and_return(log, error, account_number, company):
+        """Append error to log, and return False to caller."""
+        log.append(
+            error % dict(
+                account_no=account_number,
+                company=company.name,
+                partner=company.partner_id.name,
+            ))
+        return False
+
+    bank_accounts = [
+        x for x in all_bank_accounts if x.company_id.id == company.id]
     if not bank_accounts:
-        return False
-    elif len(bank_accounts) != 1:
-        log.append(
-            _('More than one bank account was found with the same number '
-              '%(account_no)s') % dict(account_no=account_number)
-        )
-        return False
+        return log_and_return(
+            log, _(
+                'No bank account was found with number %(account_no)s'
+                ' for company %(company)s'),
+            account_number, company)
+    if len(bank_accounts) != 1:
+        return log_and_return(
+            log, _(
+                'More than one bank account was found with the same'
+                ' number %(account_no)s for company %(company)s'),
+            account_number, company)
     if bank_accounts[0].partner_id.id != company.partner_id.id:
-        log.append(
-            _('Account %(account_no)s is not owned by %(partner)s')
-            % dict(account_no=account_number,
-                   partner=company.partner_id.name,
-                   ))
-        return False
+        # This should now be an extremely unlikely error:
+        return log_and_return(
+            log, _(
+                'Account %(account_no)s is not owned by %(partner)s'),
+            account_number, company)
     results.account = bank_accounts[0]
     bank_settings_obj = pool.get('account.banking.account.settings')
     criteria = [('partner_bank_id', '=', bank_accounts[0].id)]
