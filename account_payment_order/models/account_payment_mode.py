@@ -117,10 +117,14 @@ class AccountPaymentMode(models.Model):
             aj_ids = []
             if self.payment_method_id.payment_type == 'outbound':
                 aj_ids = ajo.search([
-                    ('type', 'in', ('purchase_refund', 'purchase'))]).ids
+                    ('type', 'in', ('purchase_refund', 'purchase')),
+                    ('company_id', '=', self.company_id.id)
+                ]).ids
             elif self.payment_method_id.payment_type == 'inbound':
                 aj_ids = ajo.search([
-                    ('type', 'in', ('sale_refund', 'sale'))]).ids
+                    ('type', 'in', ('sale_refund', 'sale')),
+                    ('company_id', '=', self.company_id.id)
+                ]).ids
             self.default_journal_ids = [(6, 0, aj_ids)]
 
     @api.onchange('generate_move')
