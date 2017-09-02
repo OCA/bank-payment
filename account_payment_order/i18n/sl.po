@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-03 00:39+0000\n"
-"PO-Revision-Date: 2017-08-03 00:39+0000\n"
+"POT-Creation-Date: 2017-08-12 00:33+0000\n"
+"PO-Revision-Date: 2017-08-12 00:33+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "Priponke"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Nazaj v osnutek"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_bank
@@ -147,7 +147,7 @@ msgstr "Banka"
 #: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Bančni račun"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_account_required
@@ -320,7 +320,7 @@ msgstr "Ustvarjeno"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_company_currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_currency_id
@@ -387,7 +387,7 @@ msgstr "Datum zapadlosti"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_ml_maturity_date
 msgid "Due date"
-msgstr ""
+msgstr "Datum zapadlosti"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
