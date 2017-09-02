@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-05 00:16+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/de/)\n"
@@ -168,7 +168,7 @@ msgstr "Partner"
 #. module: account_banking_make_deposit
 #: field:deposit.ticket,move_id:0
 msgid "Journal Entry"
-msgstr ""
+msgstr "Journalbuchung"
 
 #. module: account_banking_make_deposit
 #: field:deposit.items.line,draft_assigned:0
@@ -266,7 +266,7 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:61
 msgid "Deposit Date"
-msgstr ""
+msgstr "Einreicherdatum"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,bank_tracking_no:0

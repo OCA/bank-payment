@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 00:21+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl_NL/)\n"
@@ -379,7 +379,7 @@ msgstr ""
 #: field:banking.import.line,ref:0 field:banking.link_partner,ref:0
 #: field:banking.transaction.wizard,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referentie"
 
 #. module: account_banking
 #: field:banking.import.transaction,exchange_rate:0
@@ -554,7 +554,7 @@ msgstr ""
 #. module: account_banking
 #: selection:banking.import.line,type:0 field:banking.link_partner,supplier:0
 msgid "Supplier"
-msgstr ""
+msgstr "Leverancier"
 
 #. module: account_banking
 #: code:addons/account_banking/banking_import_transaction.py:1900
@@ -881,7 +881,7 @@ msgstr ""
 #: selection:banking.transaction.wizard,match_type:0
 #: model:ir.model,name:account_banking.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #. module: account_banking
 #: field:account.banking.imported.file,user_id:0
@@ -1280,7 +1280,7 @@ msgstr ""
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.link_partner:0
 msgid "Cancel"
-msgstr ""
+msgstr "Verwijderen"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0

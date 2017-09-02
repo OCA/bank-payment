@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 00:51+0000\n"
-"PO-Revision-Date: 2017-03-13 12:51+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"PO-Revision-Date: 2017-08-21 07:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -1286,7 +1286,7 @@ msgstr "Odustani"
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr ""
+msgstr "Zatvori"
 
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0

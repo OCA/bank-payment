@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-05 00:16+0000\n"
-"PO-Revision-Date: 2017-08-11 11:57+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"PO-Revision-Date: 2017-08-21 07:19+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1286,7 +1286,7 @@ msgstr "Mégsem"
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr ""
+msgstr "Lezár"
 
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
@@ -1474,7 +1474,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Megjegyzések"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank

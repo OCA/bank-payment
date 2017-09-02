@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-01 00:22+0000\n"
-"PO-Revision-Date: 2017-07-13 15:22+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"PO-Revision-Date: 2017-08-30 05:42+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -179,12 +179,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Validate"
-msgstr ""
+msgstr "Overi"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Back to Draft"
-msgstr ""
+msgstr "Nazaj v osnutek"
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -209,7 +209,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Bančni račun"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0

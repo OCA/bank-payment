@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_CR/)\n"
@@ -70,7 +70,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,payment_order_type:0

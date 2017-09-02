@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/es_AR/)\n"
@@ -40,7 +40,7 @@ msgid "Account number"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:375
+#: code:addons/account_banking/wizard/bank_import.py:376
 #, python-format
 msgid "Number of bank costs invoices created"
 msgstr ""
@@ -66,13 +66,13 @@ msgid "Cancel transaction"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:363
+#: code:addons/account_banking/wizard/bank_import.py:364
 #, python-format
 msgid "Number of errors found"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:261
+#: code:addons/account_banking/wizard/bank_import.py:262
 #, python-format
 msgid ""
 "Statement %(statement_id)s for account %(bank_account)s uses different "
@@ -202,7 +202,7 @@ msgid "Payment order"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:303
+#: code:addons/account_banking/wizard/bank_import.py:304
 #, python-format
 msgid ""
 "No period found covering statement date %(date)s, statement %(id)s skipped"
@@ -256,7 +256,7 @@ msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:367
+#: code:addons/account_banking/wizard/bank_import.py:368
 #, python-format
 msgid "Number of transactions skipped due to errors"
 msgstr ""
@@ -273,7 +273,7 @@ msgid "Matching invoices"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:628
+#: code:addons/account_banking/account_banking.py:626
 #, python-format
 msgid "Free Reference"
 msgstr ""
@@ -656,7 +656,7 @@ msgstr ""
 
 #. module: account_banking
 #. openerp-web
-#: code:addons/account_banking/static/src/js/account_banking.js:28
+#: code:addons/account_banking/static/src/js/account_banking.js:25
 #: view:banking.transaction.wizard:0
 #: model:ir.model,name:account_banking.model_banking_transaction_wizard
 #, python-format
@@ -683,7 +683,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:237
+#: code:addons/account_banking/wizard/bank_import.py:238
 #, python-format
 msgid ""
 "Statements found for account %(bank_account)s, but no default journal was "
@@ -750,8 +750,8 @@ msgid "Fax"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:148
-#: code:addons/account_banking/wizard/bank_import.py:165
+#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:166
 #, python-format
 msgid "ERROR!"
 msgstr ""
@@ -918,7 +918,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:361
+#: code:addons/account_banking/wizard/bank_import.py:362
 #, python-format
 msgid "Total number of transactions"
 msgstr ""
@@ -1020,7 +1020,7 @@ msgid "Street2"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:226
+#: code:addons/account_banking/wizard/bank_import.py:227
 #, python-format
 msgid "Statements found for unknown account %(bank_account)s"
 msgstr ""
@@ -1031,7 +1031,7 @@ msgid "init"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:285
+#: code:addons/account_banking/wizard/bank_import.py:286
 #, python-format
 msgid "Statement %(id)s known - skipped"
 msgstr ""
@@ -1109,7 +1109,7 @@ msgid "error_message"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:166
+#: code:addons/account_banking/wizard/bank_import.py:167
 #, python-format
 msgid "The imported statements appear to be invalid! Check your file."
 msgstr ""
@@ -1131,7 +1131,7 @@ msgid "Banking"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:149
+#: code:addons/account_banking/wizard/bank_import.py:150
 #, python-format
 msgid "Unable to import parser %(parser)s. Parser class not found."
 msgstr ""
@@ -1150,7 +1150,7 @@ msgstr ""
 #: selection:account.banking.imported.file,state:0
 #: code:addons/account_banking/banking_import_transaction.py:1591
 #: code:addons/account_banking/banking_import_transaction.py:1908
-#: code:addons/account_banking/wizard/bank_import.py:398
+#: code:addons/account_banking/wizard/bank_import.py:399
 #: code:addons/account_banking/wizard/link_partner.py:91
 #: code:addons/account_banking/wizard/link_partner.py:96
 #, python-format
@@ -1331,13 +1331,13 @@ msgid "Cannot perform match"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:369
+#: code:addons/account_banking/wizard/bank_import.py:370
 #, python-format
 msgid "Number of statements loaded"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:359
+#: code:addons/account_banking/wizard/bank_import.py:360
 #, python-format
 msgid "Total number of statements"
 msgstr ""
@@ -1450,7 +1450,7 @@ msgid "remote_bank_ibei"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/account_banking.py:629
+#: code:addons/account_banking/account_banking.py:627
 #, python-format
 msgid "Structured Reference"
 msgstr ""
@@ -1473,7 +1473,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
@@ -1486,7 +1486,7 @@ msgid "Customer"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:378
+#: code:addons/account_banking/wizard/bank_import.py:379
 #, python-format
 msgid "Error report"
 msgstr ""
@@ -1504,7 +1504,7 @@ msgid "Match Currency Amount"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:365
+#: code:addons/account_banking/wizard/bank_import.py:366
 #, python-format
 msgid "Number of statements skipped due to errors"
 msgstr ""
@@ -1515,7 +1515,7 @@ msgid "Country"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:397
+#: code:addons/account_banking/wizard/bank_import.py:398
 #, python-format
 msgid "Review Bank Statements"
 msgstr ""
@@ -1528,7 +1528,7 @@ msgid "Bank Account"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:371
+#: code:addons/account_banking/wizard/bank_import.py:372
 #, python-format
 msgid "Number of transactions loaded"
 msgstr ""
@@ -1568,7 +1568,7 @@ msgid "You cannot delete a Statement with confirmed Statement Lines: '%s'"
 msgstr ""
 
 #. module: account_banking
-#: code:addons/account_banking/wizard/bank_import.py:373
+#: code:addons/account_banking/wizard/bank_import.py:374
 #, python-format
 msgid "Number of transactions matched"
 msgstr ""

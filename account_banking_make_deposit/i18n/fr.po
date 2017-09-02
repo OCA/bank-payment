@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 01:18+0000\n"
-"PO-Revision-Date: 2017-01-06 06:05+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"PO-Revision-Date: 2017-08-28 09:08+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -266,7 +266,7 @@ msgstr "Méthode de dépôt"
 #. module: account_banking_make_deposit
 #: report:addons/account_banking_make_deposit/report/deposit_ticket.mako:61
 msgid "Deposit Date"
-msgstr ""
+msgstr "Date du Versement"
 
 #. module: account_banking_make_deposit
 #: help:deposit.ticket,bank_tracking_no:0

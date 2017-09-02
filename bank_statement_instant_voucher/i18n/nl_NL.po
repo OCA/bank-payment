@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 00:22+0000\n"
+"POT-Creation-Date: 2017-08-12 00:26+0000\n"
 "PO-Revision-Date: 2016-04-06 00:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/nl_NL/)\n"
@@ -141,7 +141,7 @@ msgstr "Bankafschriftregel"
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,ref:0
 msgid "Reference"
-msgstr ""
+msgstr "Referentie"
 
 #. module: bank_statement_instant_voucher
 #: code:addons/bank_statement_instant_voucher/model/account_voucher_instant.py:225
@@ -165,7 +165,7 @@ msgstr ""
 #. module: bank_statement_instant_voucher
 #: view:account.voucher.instant:0
 msgid "Cancel"
-msgstr ""
+msgstr "Verwijderen"
 
 #. module: bank_statement_instant_voucher
 #: field:account.voucher.instant,partner_id:0

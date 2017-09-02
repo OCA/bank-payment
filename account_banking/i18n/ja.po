@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"POT-Creation-Date: 2017-08-12 00:25+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Japanese (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ja/)\n"
@@ -1285,7 +1285,7 @@ msgstr "キャンセル"
 #. module: account_banking
 #: view:account.banking.bank.import:0 view:banking.transaction.wizard:0
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
@@ -1473,7 +1473,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "注記"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
