@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-05 00:21+0000\n"
-"PO-Revision-Date: 2017-08-11 11:55+0000\n"
+"POT-Creation-Date: 2017-08-12 00:31+0000\n"
+"PO-Revision-Date: 2017-08-21 07:17+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +112,7 @@ msgstr "Δημιουργήθηκε στις"
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
 msgid "Currency"
-msgstr ""
+msgstr "Νόμισμα"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode.type,payment_order_type:0

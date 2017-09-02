@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-17 00:25+0000\n"
-"PO-Revision-Date: 2017-06-30 08:53+0000\n"
+"POT-Creation-Date: 2017-08-12 00:31+0000\n"
+"PO-Revision-Date: 2017-08-29 08:01+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:account_banking_sepa_direct_debit.banking_export_sdd_wizard_view
 msgid "Cancel"
-msgstr ""
+msgstr "Verwijderen"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,charge_bearer:0
@@ -143,12 +143,12 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -288,12 +288,12 @@ msgstr "Laatst gewijzigd op"
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document

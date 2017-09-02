@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-17 00:25+0000\n"
-"PO-Revision-Date: 2017-06-30 08:53+0000\n"
+"POT-Creation-Date: 2017-08-12 00:31+0000\n"
+"PO-Revision-Date: 2017-08-29 08:01+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid "Cancel"
-msgstr ""
+msgstr "Verwijderen"
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
@@ -101,13 +101,13 @@ msgstr ""
 #: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
 #: field:payment.mode.type,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,create_date:0 field:payment.manual,create_date:0
 #: field:payment.mode.type,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
@@ -205,7 +205,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: model:ir.model,name:account_banking_payment_export.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
@@ -245,13 +245,13 @@ msgstr "Laatst gewijzigd op"
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
 #: field:payment.mode.type,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_date:0 field:payment.manual,write_date:0
 #: field:payment.mode.type,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit

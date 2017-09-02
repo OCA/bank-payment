@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-17 00:25+0000\n"
+"POT-Creation-Date: 2017-08-12 00:31+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nl_NL/)\n"
@@ -43,7 +43,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Cancel"
-msgstr ""
+msgstr "Verwijderen"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,charge_bearer:0
@@ -58,12 +58,12 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,display_name:0
@@ -133,12 +133,12 @@ msgstr "Laatst gewijzigd op"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0

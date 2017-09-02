@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-28 01:26+0000\n"
-"PO-Revision-Date: 2017-04-25 10:42+0000\n"
+"POT-Creation-Date: 2017-08-12 00:31+0000\n"
+"PO-Revision-Date: 2017-08-21 07:19+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
 msgid "Active"
-msgstr ""
+msgstr "Aktív"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,amount_currency:0
