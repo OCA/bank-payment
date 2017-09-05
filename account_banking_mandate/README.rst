@@ -60,6 +60,7 @@ Contributors
 * Alexandre Fayolle
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Sergio Teruel (Incaser) <sergio@incaser.es>
+* Cédric Pigeon <cedric.pigeon@acsone.eu>
 
 Maintainer
 ----------
