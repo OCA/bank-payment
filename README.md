@@ -38,6 +38,7 @@ addon | version | summary
 [account_payment_purchase](account_payment_purchase/) | 9.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 9.0.1.0.0 | Adds payment mode on sale orders
 [account_payment_transfer_reconcile_batch](account_payment_transfer_reconcile_batch/) | 9.0.1.0.0 | Batch Reconciliation for transfer moves
+[portal_payment_mode](portal_payment_mode/) | 9.0.1.0.0 | Adds payment mode ACL's for portal users
 
 
 Unported addons
@@ -50,7 +51,6 @@ addon | version | summary
 [account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.2 (unported) | Account Banking - Payments Term Filter
 [account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 (unported) | Accounting voucher killer
 [bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
-[portal_payment_mode](portal_payment_mode/) | 8.0.1.0.0 (unported) | Adds payment mode ACL's for portal users
 
 [//]: # (end addons)
 
