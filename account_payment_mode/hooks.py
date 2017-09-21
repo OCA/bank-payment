@@ -21,6 +21,8 @@ def migrate_from_8(cr):
         cr.execute('ALTER TABLE payment_mode RENAME TO account_payment_mode')
         cr.execute('ALTER SEQUENCE payment_mode_id_seq '
                    'RENAME TO account_payment_mode_id_seq')
+    # Set fixed bank account in all, which is the equivalent behavior in v8
+    cr.execute("UPDATE account_payment_mode SET bank_account_link='fixed'")
     cr.execute(
         'ALTER TABLE account_payment_mode '
         'RENAME COLUMN journal TO fixed_journal_id'
