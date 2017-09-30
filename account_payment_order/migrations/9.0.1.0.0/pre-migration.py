@@ -118,7 +118,7 @@ def migrate_payment_mode_types(env):
                 'name': row[1],
                 'code': row[2],
                 'payment_type': (
-                    'outbound' if row[3] == 'payment' else 'outbound'
+                    'outbound' if row[3] == 'payment' else 'inbound'
                 ),
                 'active': row[4],
             })
