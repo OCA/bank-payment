@@ -5,7 +5,7 @@
 {
     'name': 'Account Payment Order Return',
     'version': '9.0.1.0.0',
-    'category': 'Project Management',
+    'category': 'Banking addons',
     'author': 'Tecnativa, '
               'Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/bank-payment',
