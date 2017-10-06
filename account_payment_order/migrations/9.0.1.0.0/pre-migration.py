@@ -61,21 +61,17 @@ column_renames_payment_transfer = {
 
 # They are being handled after module rename, so source module name is correct
 EXISTING_PAYMENT_MODE_TYPE_XML_IDS = {
-    'account_payment_order.manual_bank_tranfer': (
-        'account.account_payment_method_manual_out',
-    ),
-    'account_payment_order.manual_direct_debit': (
-        'account.account_payment_method_manual_in',
-    ),
+    'account_payment_order.manual_bank_tranfer':
+    'account.account_payment_method_manual_out',
+    'account_payment_order.manual_direct_debit':
+    'account.account_payment_method_manual_in'
 }
 
 TO_CREATE_PAYMENT_MODE_TYPE_XML_IDS = {
-    'account_banking_sepa_direct_debit.export_sdd_008_001_02': (
-        'account_banking_sepa_direct_debit.sepa_direct_debit',
-    ),
-    'account_banking_sepa_credit_transfer.export_sepa_sct_001_001_03': (
-        'account_banking_sepa_credit_transfer.sepa_credit_transfer',
-    ),
+    'account_banking_sepa_direct_debit.export_sdd_008_001_02':
+    'account_banking_sepa_direct_debit.sepa_direct_debit',
+    'account_banking_sepa_credit_transfer.export_sepa_sct_001_001_03':
+    'account_banking_sepa_credit_transfer.sepa_credit_transfer',
 }
 
 
@@ -108,7 +104,7 @@ def migrate_payment_mode_types(env):
         # the same goal
         imr = imr_obj.search([
             ('res_id', '=', row[0]),
-            ('model', '=', 'payment_mode_type'),
+            ('model', '=', 'payment.mode.type'),
         ])
         xml_id = "%s.%s" % (imr.module, imr.name)
         if xml_id in EXISTING_PAYMENT_MODE_TYPE_XML_IDS:
