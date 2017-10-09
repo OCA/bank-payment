@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_payment_order_invoice_cancel_form_view">
+        <field name="name">account.payment.order.invoice_cancel.form (in account_payment_order_invoice_cancel)</field>
+        <field name="model">account.payment.order.invoice_cancel</field>
+        <field name="arch" type="xml">
+            <form string="Account Payment Order Invoice_cancel">
+                <group>
+                    <p class="oe_help">
+                        Invoices you are trying to cancel are linked to a payment order.
+                        Are you sure you want to cancel theses invoices? If you do that,
+                        link between invoices and payment order line will be destroyed.
+                        This process can be dangerous. You assume the possible consequences
+                        of this action.
+                    </p>
+                </group>
+                <field name="invoice_ids">
+                    <tree create="0" delete="1">
+                        <field name="partner_id"/>
+                        <field name="date_invoice"/>
+                        <field name="number"/>
+                        <field name="amount_total" sum="Total"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="doit"
+                            string="OK"
+                            class="btn-primary"
+                            type="object"/>
+                    <button string="Cancel"
+                            class="btn-default"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
