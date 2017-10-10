@@ -86,7 +86,7 @@ class AccountPaymentOrder(models.Model):
         compute='_compute_total', store=True, readonly=True,
         currency_field='company_currency_id')
     bank_line_count = fields.Integer(
-        compute='_bank_line_count', string='Number of Bank Lines',
+        compute='_compute_bank_line_count', string='Number of Bank Lines',
         readonly=True)
     move_ids = fields.One2many(
         'account.move', 'payment_order_id', string='Journal Entries',
@@ -127,16 +127,18 @@ class AccountPaymentOrder(models.Model):
                         "is in the past (%s).")
                         % (order.name, order.date_scheduled))
 
-    @api.one
+    @api.multi
     @api.depends(
         'payment_line_ids', 'payment_line_ids.amount_company_currency')
     def _compute_total(self):
-        self.total_company_currency = sum(
-            self.mapped('payment_line_ids.amount_company_currency') or [0.0])
+        for rec in self:
+            rec.total_company_currency = sum(
+                rec.mapped('payment_line_ids.amount_company_currency') or
+                [0.0])
 
     @api.multi
     @api.depends('bank_line_ids')
-    def _bank_line_count(self):
+    def _compute_bank_line_count(self):
         for order in self:
             order.bank_line_count = len(order.bank_line_ids)
 
