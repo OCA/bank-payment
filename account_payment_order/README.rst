@@ -32,6 +32,8 @@ You can create a Debit Order via the menu Accounting > Payments > Debit Orders a
 
 This module also adds a button *Add to Payment Order* on supplier invoices and a button *Add to Debit Order* on customer invoices.
 
+You can print a Payment Order via the menu Accounting > Payments > Payment Orders and then select the payment oder to print.
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/173/10.0
@@ -68,6 +70,7 @@ Contributors
 * Sandy Carter
 * Angel Moya <angel.moya@domatix.com>
 * Jose María Alzaga <jose.alzaga@aselcis.com>
+* Meyomesse Gilles <meyomesse.gilles@gmail.com>
 
 Maintainer
 ----------

@@ -5,8 +5,6 @@
 -->
 
 <odoo>
-<data>
-
 
 <record id="account_invoice_payment_line_multi_form" model="ir.ui.view">
     <field name="name">account_invoice_payment_line_multi.form</field>
@@ -26,6 +24,4 @@
     </field>
 </record>
 
-
-</data>
 </odoo>
