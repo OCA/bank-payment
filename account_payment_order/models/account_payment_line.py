@@ -39,7 +39,7 @@ class AccountPaymentLine(models.Model):
     amount_currency = fields.Monetary(
         string="Amount", currency_field='currency_id')
     amount_company_currency = fields.Monetary(
-        compute='compute_amount_company_currency',
+        compute='_compute_amount_company_currency',
         string='Amount in Company Currency', readonly=True,
         currency_field='company_currency_id')  # v8 field : amount
     partner_id = fields.Many2one(
@@ -76,7 +76,7 @@ class AccountPaymentLine(models.Model):
     @api.multi
     @api.depends(
         'amount_currency', 'currency_id', 'company_currency_id', 'date')
-    def compute_amount_company_currency(self):
+    def _compute_amount_company_currency(self):
         for line in self:
             if line.currency_id and line.company_currency_id:
                 line.amount_company_currency = line.currency_id.with_context(
