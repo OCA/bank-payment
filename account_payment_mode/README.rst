@@ -14,7 +14,7 @@ Configuration
 =============
 
 To configure this module, you need to go to the menu
-*Invoicing > Configuration > Management > Payment Modes*.
+*Invoicing/Accounting > Configuration > Management > Payment Modes*.
 
 Usage
 =====
