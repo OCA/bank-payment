@@ -7,14 +7,13 @@ from odoo.exceptions import ValidationError
 
 
 class TestAccountPaymentMode(TransactionCase):
-
     def setUp(self):
         super(TestAccountPaymentMode, self).setUp()
         self.res_users_model = self.env['res.users']
         self.journal_model = self.env['account.journal']
         self.payment_mode_model = self.env['account.payment.mode']
 
-        #refs
+        # refs
         self.manual_out = self.env.ref(
             'account.account_payment_method_manual_out')
         # Company
@@ -54,13 +53,18 @@ class TestAccountPaymentMode(TransactionCase):
         # Assertion on the constraints to ensure the consistency
         # for company dependent fields
         with self.assertRaises(ValidationError):
-            self.payment_mode_c1.\
+            self.payment_mode_c1. \
                 write({'fixed_journal_id': self.journal_c2.id})
         with self.assertRaises(ValidationError):
-            self.payment_mode_c1.\
-                write({'variable_journal_ids': [
-                (6, 0, [self.journal_c1.id, self.journal_c2.id,
-                        self.journal_c3.id])]})
+            self.payment_mode_c1.write({
+                'variable_journal_ids': [
+                    (6, 0, [
+                        self.journal_c1.id,
+                        self.journal_c2.id,
+                        self.journal_c3.id
+                    ])
+                ]
+            })
         with self.assertRaises(ValidationError):
             self.journal_c1.write({'company_id': self.company_2.id})
 
@@ -83,4 +87,31 @@ class TestAccountPaymentMode(TransactionCase):
                 'payment_method_id': self.manual_out.id,
                 'company_id': self.company.id,
                 'variable_journal_ids': [(6, 0, [self.journal_c2.id])]
+            })
+
+        with self.assertRaises(ValidationError):
+            self.payment_mode_model.create({
+                'name': 'Direct Debit of suppliers from Bank 4',
+                'bank_account_link': 'fixed',
+                'payment_method_id': self.manual_out.id,
+                'company_id': self.company.id,
+            })
+        self.journal_c1.outbound_payment_method_ids = False
+        with self.assertRaises(ValidationError):
+            self.payment_mode_model.create({
+                'name': 'Direct Debit of suppliers from Bank 5',
+                'bank_account_link': 'fixed',
+                'payment_method_id': self.manual_out.id,
+                'company_id': self.company.id,
+                'fixed_journal_id': self.journal_c1.id
+            })
+        self.journal_c1.inbound_payment_method_ids = False
+        with self.assertRaises(ValidationError):
+            self.payment_mode_model.create({
+                'name': 'Direct Debit of suppliers from Bank 5',
+                'bank_account_link': 'fixed',
+                'payment_method_id': self.env.ref(
+                    'account.account_payment_method_manual_in').id,
+                'company_id': self.company.id,
+                'fixed_journal_id': self.journal_c1.id
             })

@@ -35,7 +35,7 @@ class AccountJournal(models.Model):
                 ('company_id', '!=', journal.company_id.id)], limit=1)
             if mode:
                 raise ValidationError(_(
-                    "The company of the journal '%s', does not match "
+                    "The company of the journal '%s' does not match "
                     "with the company of the payment mode '%s' where it is "
                     "being used as Fixed Bank Journal.") % (
                     journal.name, mode.name))
@@ -44,7 +44,7 @@ class AccountJournal(models.Model):
                 ('company_id', '!=', journal.company_id.id)], limit=1)
             if mode:
                 raise ValidationError(_(
-                    "The company of the journal '%s', does not match "
+                    "The company of the journal '%s' does not match "
                     "with the company of the payment mode '%s' where it is "
                     "being used in the Allowed Bank Journals.") % (
                     journal.name, mode.name))

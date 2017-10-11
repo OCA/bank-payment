@@ -28,7 +28,7 @@ class AccountPaymentMode(models.Model):
         "SEPA direct debit from suppliers), select "
         "'Fixed'. For payment modes that are not always attached to the same "
         "bank account (such as SEPA Direct debit for customers, wire transfer "
-        "to suppliers), you should choose 'Variable', which means that you "
+        "to suppliers), you should select 'Variable', which means that you "
         "will select the bank account on the payment order. If your company "
         "only has one bank account, you should always select 'Fixed'.")
     fixed_journal_id = fields.Many2one(
@@ -120,4 +120,4 @@ class AccountPaymentMode(models.Model):
                    mode.variable_journal_ids):
                 raise ValidationError(_(
                     "The company of the payment mode '%s', does not match "
-                    "with one of the Allowed Bank Journals.") % mode.name)
+                    "with the one of the Allowed Bank Journals.") % mode.name)
