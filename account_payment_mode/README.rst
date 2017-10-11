@@ -6,12 +6,15 @@
 Account Payment Mode
 ====================
 
-This module adds a new object *account.payment.mode*. In Odoo v8, this object was part of the *account_payment* module from the official addons, but this module was dropped by the editor in Odoo v9. This object is also designed to replace the *payment.method* object of the *sale\_payment\_method* module of the `e-commerce <https://github.com/OCA/e-commerce>`_ OCA project in v9.
+This module adds a new object *account.payment.mode*, that is used to better
+classify and route incoming/outgoing payment orders with the banks.
+
 
 Configuration
 =============
 
-To configure this module, you need to go to the menu *Account > Configuration > Management > Payment Mode*.
+To configure this module, you need to go to the menu
+*Invoicing > Configuration > Management > Payment Modes*.
 
 Usage
 =====

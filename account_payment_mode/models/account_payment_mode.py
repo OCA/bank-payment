@@ -37,11 +37,10 @@ class AccountPaymentMode(models.Model):
     # I need to use the old definition, because I have 2 M2M fields
     # pointing to account.journal
     variable_journal_ids = fields.Many2many(
-        'account.journal',
-        'account_payment_mode_variable_journal_rel',
-        'payment_mode_id', 'journal_id',
-        string='Allowed Bank Journals',
-        domain=[('type', '=', 'bank')])
+        comodel_name='account.journal',
+        relation='account_payment_mode_variable_journal_rel',
+        column1='payment_mode_id', column2='journal_id',
+        string='Allowed Bank Journals')
     payment_method_id = fields.Many2one(
         'account.payment.method', string='Payment Method', required=True,
         ondelete='restrict')  # equivalent v8 field : type
@@ -59,7 +58,12 @@ class AccountPaymentMode(models.Model):
     # and one for wire transfer to your suppliers (outbound)
     note = fields.Text(string="Note", translate=True)
 
-    @api.multi
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        for mode in self:
+            mode.variable_journal_ids = False
+            mode.fixed_journal_id = False
+
     @api.constrains(
         'bank_account_link', 'fixed_journal_id', 'payment_method_id')
     def bank_account_link_constrains(self):
@@ -98,3 +102,22 @@ class AccountPaymentMode(models.Model):
                                     mode.name,
                                     mode.payment_method_id.name,
                                     mode.fixed_journal_id.name))
+
+    @api.constrains('company_id', 'fixed_journal_id')
+    def company_id_fixed_journal_id_constrains(self):
+        for mode in self:
+            if mode.fixed_journal_id and mode.company_id != \
+                    mode.fixed_journal_id.company_id:
+                raise ValidationError(_(
+                    "The company of the payment mode '%s', does not match "
+                    "with the company of journal '%s'.") % (
+                    mode.name, mode.fixed_journal_id.name))
+
+    @api.constrains('company_id', 'variable_journal_ids')
+    def company_id_variable_journal_ids_constrains(self):
+        for mode in self:
+            if any(mode.company_id != j.company_id for j in
+                   mode.variable_journal_ids):
+                raise ValidationError(_(
+                    "The company of the payment mode '%s', does not match "
+                    "with one of the Allowed Bank Journals.") % mode.name)
