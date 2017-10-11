@@ -8,12 +8,12 @@ allow to link to an existing bank account -->
     <field name="model">account.journal</field>
     <field name="inherit_id" ref="account.view_account_journal_form"/>
     <field name="arch" type="xml">
-        <field name="bank_acc_number" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </field>
-        <field name="bank_acc_number" position="before">
+        <field name="bank_account_id" position="before">
             <field name="company_partner_id" invisible="1"/>
-            <field name="bank_account_id" domain="[('partner_id', '=', company_partner_id)]"/>
+        </field>
+
+        <field name="bank_account_id" position="attributes">
+            <attribute name="domain">[('partner_id', '=', company_partner_id)]</attribute>
         </field>
         <!-- better when related fields are readonly, otherwise the user
         doesn't understand that he is changing the bank_id on the underlying
