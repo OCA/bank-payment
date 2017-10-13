@@ -24,7 +24,6 @@ Usage
 #. Create a new record.
 #. Click on button "Create Payment Lines fron Journal Items" to open the
    wizard.
-#. Click on the "Linked to an Invoice or Refund " check.
 #. Click on the "Include move lines from returns " check.
 #. Fill other options.
 #. Click on button "Add All Move Lines".
