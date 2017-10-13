@@ -8,7 +8,8 @@ Account Payment Order Return
 
 This module adds a check in the wizard where move lines are imported into
 payment order.
-This check lets avoid selecting lines from invoices linked to a payment return.
+This check lets include in selection lines from invoices linked to a
+payment return.
 
 Installation
 ============
@@ -24,7 +25,7 @@ Usage
 #. Click on button "Create Payment Lines fron Journal Items" to open the
    wizard.
 #. Click on the "Linked to an Invoice or Refund " check.
-#. Click on the "Avoid move lines from returns " check.
+#. Click on the "Include move lines from returns " check.
 #. Fill other options.
 #. Click on button "Add All Move Lines".
 

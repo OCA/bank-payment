@@ -66,7 +66,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
             'move_date': fields.Date.today(),
             'payment_mode': 'any',
             'invoice': True,
-            'avoid_return': True,
+            'include_returned': True,
 
         })
         wizard.populate()
@@ -92,6 +92,6 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
                          'move_line_ids': [(6, 0, self.payment_line.ids)],
                          'amount': self.payment_line.credit})]})
         self.payment_return.action_confirm()
-        wizard.avoid_returned = True
+        wizard.include_returned = False
         wizard.populate()
         self.assertFalse(wizard.move_line_ids)

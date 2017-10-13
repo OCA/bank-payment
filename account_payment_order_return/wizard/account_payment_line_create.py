@@ -8,13 +8,13 @@ from openerp import api, fields, models
 class AccountPaymentLineCreate(models.TransientModel):
     _inherit = 'account.payment.line.create'
 
-    avoid_returned = fields.Boolean(
-        string='Avoid move lines from returns')
+    include_returned = fields.Boolean(
+        string='Include move lines from returns')
 
     @api.multi
     def _prepare_move_line_domain(self):
         domain = super(AccountPaymentLineCreate,
                        self)._prepare_move_line_domain()
-        if self.invoice and self.avoid_returned:
-            domain.append(('invoice_id.returned_payment', '=', False))
+        if self.invoice and not self.include_returned:
+            domain.append(('invoice_id.returned_payment', '!=', True))
         return domain

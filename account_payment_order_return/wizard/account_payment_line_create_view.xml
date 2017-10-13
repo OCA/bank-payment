@@ -6,7 +6,7 @@
         <field name="model">account.payment.line.create</field>
         <field name="arch" type="xml">
             <field name="invoice" position="after">
-                <field name="avoid_returned"
+                <field name="include_returned"
                        attrs="{'invisible': [('invoice', '=', False)]}"/>
             </field>
         </field>
