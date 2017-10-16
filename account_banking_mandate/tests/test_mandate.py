@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests.common import TransactionCase
 
@@ -16,6 +16,7 @@ class TestMandate(TransactionCase):
         self.assertEqual(mandate.state, 'draft')
         mandate.validate()
         self.assertEqual(mandate.state, 'valid')
+        self.assertEqual(bank_account.partner_id.mandate_count, 1)
         mandate.cancel()
         self.assertEqual(mandate.state, 'cancel')
         mandate.back2draft()
