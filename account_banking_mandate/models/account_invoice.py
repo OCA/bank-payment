@@ -2,7 +2,7 @@
 # © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
 from odoo import models, fields, api
@@ -36,7 +36,7 @@ class AccountInvoice(models.Model):
         onchanges = {
             '_onchange_partner_id': ['mandate_id'],
         }
-        for onchange_method, changed_fields in onchanges.items():
+        for onchange_method, changed_fields in list(onchanges.items()):
             if any(f not in vals for f in changed_fields):
                 invoice = self.new(vals)
                 getattr(invoice, onchange_method)()
@@ -84,8 +84,8 @@ class AccountInvoice(models.Model):
         return res
 
     @api.onchange('payment_mode_id')
-    def payment_mode_id_change(self):
-        super(AccountInvoice, self).payment_mode_id_change()
+    def _onchange_payment_mode_id(self):
+        super(AccountInvoice, self)._onchange_payment_mode_id()
         if (
                 self.payment_mode_id and
                 self.payment_mode_id.payment_type == 'inbound' and
