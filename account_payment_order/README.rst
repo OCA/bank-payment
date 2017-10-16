@@ -34,6 +34,9 @@ This module also adds a button *Add to Payment Order* on supplier invoices and a
 
 You can print a Payment Order via the menu Accounting > Payments > Payment Orders and then select the payment oder to print.
 
+You can block the usage of a journal through the Register Payment wizard on an invoice by un-checking the flag "Allow Direct Payment"
+in the advanced settings of the journal.
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/173/10.0
@@ -72,6 +75,7 @@ Contributors
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
 * Carlos Dauden
+* Cédric Pigeon <cedric.pigeon@acsone.eu>
 
 Maintainer
 ----------
