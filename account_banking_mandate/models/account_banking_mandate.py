@@ -2,7 +2,7 @@
 # © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
@@ -22,6 +22,11 @@ class AccountBankingMandate(models.Model):
     format = fields.Selection(
         [('basic', 'Basic Mandate')], default='basic', required=True,
         string='Mandate Format', track_visibility='onchange')
+    type = fields.Selection(
+        [('generic', 'Generic Mandate')],
+        string='Type of Mandate',
+        track_visibility='onchange'
+    )
     partner_bank_id = fields.Many2one(
         comodel_name='res.partner.bank', string='Bank Account',
         track_visibility='onchange')
