@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _, tools
 from odoo.exceptions import UserError
@@ -108,7 +107,7 @@ class AccountPaymentOrder(models.Model):
             else:
                 raise UserError(
                     _("Cannot compute the '%s'.") % field_name)
-        if not isinstance(value, (str, unicode)):
+        if not isinstance(value, str):
             raise UserError(
                 _("The type of the field '%s' is %s. It should be a string "
                     "or unicode.")
@@ -130,7 +129,7 @@ class AccountPaymentOrder(models.Model):
         try:
             root_to_validate = etree.fromstring(xml_string)
             official_pain_schema.assertValid(root_to_validate)
-        except Exception, e:
+        except Exception as e:
             logger.warning(
                 "The XML file is invalid against the XML Schema Definition")
             logger.warning(xml_string)
@@ -141,7 +140,7 @@ class AccountPaymentOrder(models.Model):
                     "full error have been written in the server logs. Here "
                     "is the error, which may give you an idea on the cause "
                     "of the problem : %s")
-                % unicode(e))
+                % str(e))
         return True
 
     @api.multi
@@ -189,7 +188,7 @@ class AccountPaymentOrder(models.Model):
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
             batch_booking = etree.SubElement(group_header, 'BtchBookg')
-            batch_booking.text = unicode(self.batch_booking).lower()
+            batch_booking.text = str(self.batch_booking).lower()
         nb_of_transactions = etree.SubElement(
             group_header, 'NbOfTxs')
         control_sum = etree.SubElement(group_header, 'CtrlSum')
@@ -217,7 +216,7 @@ class AccountPaymentOrder(models.Model):
         control_sum = False
         if gen_args.get('pain_flavor') != 'pain.001.001.02':
             batch_booking = etree.SubElement(payment_info, 'BtchBookg')
-            batch_booking.text = unicode(self.batch_booking).lower()
+            batch_booking.text = str(self.batch_booking).lower()
         # The "SEPA Customer-to-bank
         # Implementation guidelines" for SCT and SDD says that control sum
         # and nb_of_transactions should be present
