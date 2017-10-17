@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from .common import is_sepa_creditor_identifier_valid

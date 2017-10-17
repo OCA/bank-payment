@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, exceptions, _
 from datetime import datetime
@@ -20,10 +20,11 @@ class AccountBankingMandate(models.Model):
 
     format = fields.Selection(
         selection_add=[('sepa', 'Sepa Mandate')], default='sepa')
-    type = fields.Selection([('recurrent', 'Recurrent'),
-                             ('oneoff', 'One-Off')],
-                            string='Type of Mandate',
-                            track_visibility='onchange')
+    type = fields.Selection(
+        selection_add=[
+            ('recurrent', 'Recurrent'),
+            ('oneoff', 'One-Off')
+        ])
     recurrent_sequence_type = fields.Selection(
         [('first', 'First'),
          ('recurring', 'Recurring'),
@@ -66,10 +67,12 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             super(AccountBankingMandate, self).mandate_partner_bank_change()
             res = {}
-            if (mandate.state == 'valid' and
-                    mandate.partner_bank_id and
-                    mandate.type == 'recurrent' and
-                    mandate.recurrent_sequence_type != 'first'):
+            if (
+                mandate.state == 'valid' and
+                mandate.partner_bank_id and
+                mandate.type == 'recurrent' and
+                mandate.recurrent_sequence_type != 'first'
+            ):
                 mandate.recurrent_sequence_type = 'first'
                 res['warning'] = {
                     'title': _('Mandate update'),
@@ -82,8 +85,8 @@ class AccountBankingMandate(models.Model):
     @api.model
     def _sdd_mandate_set_state_to_expired(self):
         logger.info('Searching for SDD Mandates that must be set to Expired')
-        expire_limit_date = datetime.today() + \
-            relativedelta(months=-NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY)
+        expire_limit_date = datetime.today() + relativedelta(
+            months=-NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY)
         expire_limit_date_str = expire_limit_date.strftime('%Y-%m-%d')
         expired_mandates = self.search(
             ['|',
