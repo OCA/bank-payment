@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2010-2016 Akretion (www.akretion.com)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, api, _
 from odoo.exceptions import UserError
@@ -19,11 +19,12 @@ class AccountPaymentOrder(models.Model):
             return super(AccountPaymentOrder, self).generate_payment_file()
 
         pain_flavor = self.payment_method_id.pain_version
-        if not pain_flavor:
-            pain_flavor = 'pain.001.001.03'
         # We use pain_flavor.startswith('pain.001.001.xx')
         # to support country-specific extensions such as
         # pain.001.001.03.ch.02 (cf l10n_ch_sepa)
+        if not pain_flavor:
+            raise UserError(
+                _("PAIN version '%s' is not supported.") % pain_flavor)
         if pain_flavor.startswith('pain.001.001.02'):
             bic_xml_tag = 'BIC'
             name_maxsize = 70
@@ -94,7 +95,7 @@ class AccountPaymentOrder(models.Model):
             else:
                 lines_per_group[key] = [line]
         for (requested_date, priority, local_instrument, categ_purpose),\
-                lines in lines_per_group.items():
+                lines in list(lines_per_group.items()):
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
@@ -155,12 +156,12 @@ class AccountPaymentOrder(models.Model):
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info, line, gen_args)
             if not pain_flavor.startswith('pain.001.001.02'):
-                nb_of_transactions_b.text = unicode(transactions_count_b)
+                nb_of_transactions_b.text = str(transactions_count_b)
                 control_sum_b.text = '%.2f' % amount_control_sum_b
         if not pain_flavor.startswith('pain.001.001.02'):
-            nb_of_transactions_a.text = unicode(transactions_count_a)
+            nb_of_transactions_a.text = str(transactions_count_a)
             control_sum_a.text = '%.2f' % amount_control_sum_a
         else:
-            nb_of_transactions_a.text = unicode(transactions_count_a)
+            nb_of_transactions_a.text = str(transactions_count_a)
             control_sum_a.text = '%.2f' % amount_control_sum_a
         return self.finalize_sepa_file_creation(xml_root, gen_args)
