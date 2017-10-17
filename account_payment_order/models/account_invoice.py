@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2013-2014 ACSONE SA (<http://acsone.eu>).
+# © 2013-2014 ACSONE SA (<https://acsone.eu>).
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
