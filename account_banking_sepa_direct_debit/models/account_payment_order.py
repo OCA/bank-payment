@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -114,7 +114,7 @@ class AccountPaymentOrder(models.Model):
                 lines_per_group[key] = [line]
 
         for (requested_date, priority, categ_purpose, sequence_type, scheme),\
-                lines in lines_per_group.items():
+                lines in list(lines_per_group.items()):
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
@@ -218,9 +218,9 @@ class AccountPaymentOrder(models.Model):
                 self.generate_remittance_info_block(
                     dd_transaction_info, line, gen_args)
 
-            nb_of_transactions_b.text = unicode(transactions_count_b)
+            nb_of_transactions_b.text = str(transactions_count_b)
             control_sum_b.text = '%.2f' % amount_control_sum_b
-        nb_of_transactions_a.text = unicode(transactions_count_a)
+        nb_of_transactions_a.text = str(transactions_count_a)
         control_sum_a.text = '%.2f' % amount_control_sum_a
 
         return self.finalize_sepa_file_creation(
