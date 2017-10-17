@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # © 2009 EduSense BV (<http://www.edusense.nl>)
-# © 2011-2013 Therp BV (<http://therp.nl>)
+# © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre - alexis.delattre@akretion.com)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+import base64
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -14,6 +15,15 @@ class AccountPaymentOrder(models.Model):
     _description = 'Payment Order'
     _inherit = ['mail.thread']
     _order = 'id desc'
+
+    def domain_journal_id(self):
+        if not self.payment_mode_id:
+            return [('id', '=', False)]
+        if self.payment_mode_id.bank_account_link == 'fixed':
+            return [('id', '=', self.payment_mode_id.fixed_journal_id.id)]
+        elif self.payment_mode_id.bank_account_link == 'variable':
+            jrl_ids = self.payment_mode_id.variable_journal_ids.ids
+            return [('id', 'in', jrl_ids)]
 
     name = fields.Char(
         string='Number', readonly=True, copy=False)  # v8 field : name
@@ -38,6 +48,7 @@ class AccountPaymentOrder(models.Model):
     journal_id = fields.Many2one(
         'account.journal', string='Bank Journal', ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]},
+        domain=domain_journal_id,
         track_visibility='onchange')
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
@@ -161,18 +172,13 @@ class AccountPaymentOrder(models.Model):
 
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
-        journal_id = False
+        domain = self.domain_journal_id()
         res = {'domain': {
-            'journal_id': "[('id', '=', False)]",
-            }}
-        if self.payment_mode_id:
-            if self.payment_mode_id.bank_account_link == 'fixed':
-                journal_id = self.payment_mode_id.fixed_journal_id.id
-                res['domain']['journal_id'] = "[('id', '=', %d)]" % journal_id
-            elif self.payment_mode_id.bank_account_link == 'variable':
-                jrl_ids = self.payment_mode_id.variable_journal_ids.ids
-                res['domain']['journal_id'] = "[('id', 'in', %s)]" % jrl_ids
-        self.journal_id = journal_id
+            'journal_id': domain
+        }}
+        journals = self.env['account.journal'].search(domain)
+        if len(journals) == 1:
+            self.journal_id = journals
         if self.payment_mode_id.default_date_prefered:
             self.date_prefered = self.payment_mode_id.default_date_prefered
         return res
@@ -289,7 +295,7 @@ class AccountPaymentOrder(models.Model):
                         'total': payline.amount_currency,
                     }
             # Create bank payment lines
-            for paydict in group_paylines.values():
+            for paydict in list(group_paylines.values()):
                 # Block if a bank payment line is <= 0
                 if paydict['total'] <= 0:
                     raise UserError(_(
@@ -323,7 +329,7 @@ class AccountPaymentOrder(models.Model):
                 'res_model': 'account.payment.order',
                 'res_id': self.id,
                 'name': filename,
-                'datas': payment_file_str.encode('base64'),
+                'datas': base64.b64encode(payment_file_str),
                 'datas_fname': filename,
                 })
             simplified_form_view = self.env.ref(
@@ -472,7 +478,7 @@ class AccountPaymentOrder(models.Model):
             else:
                 trfmoves[hashcode] = bline
 
-        for hashcode, blines in trfmoves.iteritems():
+        for hashcode, blines in trfmoves.items():
             mvals = self._prepare_move(blines)
             total_company_currency = total_payment_currency = 0
             for bline in blines:
