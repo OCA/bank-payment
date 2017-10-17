@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (<http://www.akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# © 2016 Akretion (<https://www.akretion.com>)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, api
 
