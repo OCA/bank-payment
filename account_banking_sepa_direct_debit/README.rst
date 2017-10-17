@@ -35,26 +35,26 @@ Configuration
 
 For setting the SEPA creditor identifier:
 
-#. Go to Accounting > Configuration > Settings.
+#. Go to Invoicing/Accounting > Configuration > Settings.
 #. On the field "SEPA Creditor Identifier" in the section *SEPA/PAIN*, you can
    fill the corresponding identifier.
 
 If your country requires several identifiers (like Spain), you must:
 
-#. Go to *Accounting > Configuration > Settings*.
+#. Go to *Invoicing/Accounting > Configuration > Settings*.
 #. On the section *SEPA/PAIN*, check the mark "Multiple identifiers".
-#. Now go to *Accounting > Configuration > Management > Payment Modes*.
+#. Now go to *Invoicing/Accounting > Configuration > Management > Payment Modes*.
 #. Create a payment mode for your specific bank.
 #. Fill the specific identifier on the field "SEPA Creditor Identifier".
 
 For defining a payment mode that uses SEPA direct debit:
 
-#. Go to *Accounting > Configuration > Management > Payment Modes*.
+#. Go to *Invoicing/Accounting > Configuration > Management > Payment Modes*.
 #. Create a record.
 #. Select the Payment Method *SEPA Direct Debit for customers* (which is
    automatically created upon module installation).
 #. Check that this payment method uses the proper version of PAIN.
-#. If not, go *Accounting > Configuration > Management > Payment Methods*.
+#. If not, go *Invoicing/Accounting > Configuration > Management > Payment Methods*.
 #. Locate the "SEPA Direct Debit for customers" record and open it.
 #. Change the "PAIN version" according your needs.
 #. If you need to handle several PAIN versions, just duplicate the payment
@@ -63,13 +63,13 @@ For defining a payment mode that uses SEPA direct debit:
 Usage
 =====
 
-In the menu *Accounting > Payments > Debit Order*, create a new debit
+In the menu *Invoicing/Accounting > Payments > Debit Order*, create a new debit
 order and select the Payment Mode dedicated to SEPA Direct Debit that
 you created during the configuration step.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/173/10.0
+   :target: https://runbot.odoo-community.org/runbot/173/11.0
 
 Known issues / Roadmap
 ======================
@@ -103,7 +103,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: http://odoo-community.org/logo.png
+.. image:: https://odoo-community.org/logo.png
    :alt: Odoo Community Association
    :target: https://odoo-community.org
 

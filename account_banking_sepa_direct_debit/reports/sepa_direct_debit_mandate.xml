@@ -11,7 +11,7 @@
         file="account_banking_sepa_direct_debit.sepa_direct_debit_mandate"
         />
 
-    <record id="report_sepa_direct_debit_mandate" model="ir.actions.report.xml">
+    <record id="report_sepa_direct_debit_mandate" model="ir.actions.report">
         <field name="paperformat_id"
                 ref="account_banking_sepa_direct_debit.paperformat_euro_sepa_lowmargin"/>
     </record>
