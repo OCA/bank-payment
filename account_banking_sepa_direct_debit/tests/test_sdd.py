@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.addons.account.tests.account_test_classes\
-    import AccountingTestCase
+import base64
+from odoo.addons.account.tests.account_test_classes import AccountingTestCase
 from odoo.tools import float_compare
 import time
 from lxml import etree
@@ -60,72 +60,91 @@ class TestSDD(AccountingTestCase):
         for bank_acc in self.partner_bank_model.search([]):
             bank_acc.acc_number = bank_acc.acc_number
 
-    def test_sdd(self):
+    def test_pain_001_02(self):
+        self.payment_mode.payment_method_id.pain_version = 'pain.008.001.02'
+        self.check_sdd()
+
+    def test_pain_003_02(self):
+        self.payment_mode.payment_method_id.pain_version = 'pain.008.003.02'
+        self.check_sdd()
+
+    def test_pain_001_03(self):
+        self.payment_mode.payment_method_id.pain_version = 'pain.008.001.03'
+        self.check_sdd()
+
+    def test_pain_001_04(self):
+        self.payment_mode.payment_method_id.pain_version = 'pain.008.001.04'
+        self.check_sdd()
+
+    def check_sdd(self):
         self.env.ref(
-            'account_banking_sepa_direct_debit.res_partner_2_mandate').\
-            recurrent_sequence_type = 'first'
+            'account_banking_sepa_direct_debit.res_partner_2_mandate'
+        ).recurrent_sequence_type = 'first'
         invoice1 = self.create_invoice(
             self.partner_agrolait.id,
             'account_banking_sepa_direct_debit.res_partner_2_mandate', 42.0)
+        self.env.ref(
+            'account_banking_sepa_direct_debit.res_partner_12_mandate'
+        ).type = 'oneoff'
         invoice2 = self.create_invoice(
             self.partner_c2c.id,
             'account_banking_sepa_direct_debit.res_partner_12_mandate', 11.0)
         for inv in [invoice1, invoice2]:
             action = inv.create_account_payment_line()
-        self.assertEquals(action['res_model'], 'account.payment.order')
-        self.payment_order = self.payment_order_model.browse(action['res_id'])
-        self.assertEquals(
-            self.payment_order.payment_type, 'inbound')
-        self.assertEquals(
-            self.payment_order.payment_mode_id, self.payment_mode)
-        self.assertEquals(
-            self.payment_order.journal_id, self.bank_journal)
+        self.assertEqual(action['res_model'], 'account.payment.order')
+        payment_order = self.payment_order_model.browse(action['res_id'])
+        self.assertEqual(
+            payment_order.payment_type, 'inbound')
+        self.assertEqual(
+            payment_order.payment_mode_id, self.payment_mode)
+        self.assertEqual(
+            payment_order.journal_id, self.bank_journal)
         # Check payment line
         pay_lines = self.payment_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id),
-            ('order_id', '=', self.payment_order.id)])
-        self.assertEquals(len(pay_lines), 1)
+            ('order_id', '=', payment_order.id)])
+        self.assertEqual(len(pay_lines), 1)
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
-        self.assertEquals(
+        self.assertEqual(
             agrolait_pay_line1.currency_id.id, self.eur_currency_id)
-        self.assertEquals(
+        self.assertEqual(
             agrolait_pay_line1.mandate_id, invoice1.mandate_id)
-        self.assertEquals(
+        self.assertEqual(
             agrolait_pay_line1.partner_bank_id,
             invoice1.mandate_id.partner_bank_id)
-        self.assertEquals(float_compare(
+        self.assertEqual(float_compare(
             agrolait_pay_line1.amount_currency, 42, precision_digits=accpre),
             0)
-        self.assertEquals(agrolait_pay_line1.communication_type, 'normal')
-        self.assertEquals(agrolait_pay_line1.communication, invoice1.number)
-        self.payment_order.draft2open()
-        self.assertEquals(self.payment_order.state, 'open')
-        self.assertEquals(self.payment_order.sepa, True)
+        self.assertEqual(agrolait_pay_line1.communication_type, 'normal')
+        self.assertEqual(agrolait_pay_line1.communication, invoice1.number)
+        payment_order.draft2open()
+        self.assertEqual(payment_order.state, 'open')
+        self.assertEqual(payment_order.sepa, True)
         # Check bank payment line
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id)])
-        self.assertEquals(len(bank_lines), 1)
+        self.assertEqual(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
-        self.assertEquals(
+        self.assertEqual(
             agrolait_bank_line.currency_id.id, self.eur_currency_id)
-        self.assertEquals(float_compare(
+        self.assertEqual(float_compare(
             agrolait_bank_line.amount_currency, 42.0, precision_digits=accpre),
             0)
-        self.assertEquals(agrolait_bank_line.communication_type, 'normal')
-        self.assertEquals(
+        self.assertEqual(agrolait_bank_line.communication_type, 'normal')
+        self.assertEqual(
             agrolait_bank_line.communication, invoice1.number)
-        self.assertEquals(
+        self.assertEqual(
             agrolait_bank_line.mandate_id, invoice1.mandate_id)
-        self.assertEquals(
+        self.assertEqual(
             agrolait_bank_line.partner_bank_id,
             invoice1.mandate_id.partner_bank_id)
-        action = self.payment_order.open2generated()
-        self.assertEquals(self.payment_order.state, 'generated')
-        self.assertEquals(action['res_model'], 'ir.attachment')
+        action = payment_order.open2generated()
+        self.assertEqual(payment_order.state, 'generated')
+        self.assertEqual(action['res_model'], 'ir.attachment')
         attachment = self.attachment_model.browse(action['res_id'])
-        self.assertEquals(attachment.datas_fname[-4:], '.xml')
-        xml_file = attachment.datas.decode('base64')
+        self.assertEqual(attachment.datas_fname[-4:], '.xml')
+        xml_file = base64.b64decode(attachment.datas)
         xml_root = etree.fromstring(xml_file)
         # print "xml_file=", etree.tostring(xml_root, pretty_print=True)
         namespaces = xml_root.nsmap
@@ -133,20 +152,20 @@ class TestSDD(AccountingTestCase):
         namespaces.pop(None)
         pay_method_xpath = xml_root.xpath(
             '//p:PmtInf/p:PmtMtd', namespaces=namespaces)
-        self.assertEquals(pay_method_xpath[0].text, 'DD')
+        self.assertEqual(pay_method_xpath[0].text, 'DD')
         sepa_xpath = xml_root.xpath(
             '//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd', namespaces=namespaces)
-        self.assertEquals(sepa_xpath[0].text, 'SEPA')
+        self.assertEqual(sepa_xpath[0].text, 'SEPA')
         debtor_acc_xpath = xml_root.xpath(
             '//p:PmtInf/p:CdtrAcct/p:Id/p:IBAN', namespaces=namespaces)
-        self.assertEquals(
+        self.assertEqual(
             debtor_acc_xpath[0].text,
-            self.payment_order.company_partner_bank_id.sanitized_acc_number)
-        self.payment_order.generated2uploaded()
-        self.assertEquals(self.payment_order.state, 'uploaded')
+            payment_order.company_partner_bank_id.sanitized_acc_number)
+        payment_order.generated2uploaded()
+        self.assertEqual(payment_order.state, 'uploaded')
         for inv in [invoice1, invoice2]:
-            self.assertEquals(inv.state, 'paid')
-        self.assertEquals(self.env.ref(
+            self.assertEqual(inv.state, 'paid')
+        self.assertEqual(self.env.ref(
             'account_banking_sepa_direct_debit.res_partner_2_mandate').
             recurrent_sequence_type, 'recurring')
         return
