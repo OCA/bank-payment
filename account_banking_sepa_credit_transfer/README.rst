@@ -11,10 +11,10 @@ SEPA PAIN (PAyment INitiation) is the new european standard for
 Customer-to-Bank payment instructions. This module implements SEPA Credit
 Transfer (SCT), more specifically PAIN versions 001.001.02, 001.001.03,
 001.001.04 and 001.001.05. It is part of the ISO 20022 standard, available on
-http://www.iso20022.org.
+https://www.iso20022.org.
 
 The Implementation Guidelines for SEPA Credit Transfer published by the
-European Payments Council (http://http://www.europeanpaymentscouncil.eu) use
+European Payments Council (https://www.europeanpaymentscouncil.eu) use
 PAIN version 001.001.03, so it's probably the version of PAIN that you should
 try first.
 
@@ -43,13 +43,13 @@ Configuration
 Usage
 =====
 
-In the menu *Accounting > Payments > Payment Order*, create a new
+In the menu *Invoicing/Accounting > Payments > Payment Order*, create a new
 payment order and select the Payment Mode dedicated to SEPA Credit
 Transfer that you created during the configuration step.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/173/10.0
+   :target: https://runbot.odoo-community.org/runbot/173/11.0
 
 Known issues / Roadmap
 ======================
@@ -84,12 +84,12 @@ Contributors
 Maintainer
 ----------
 
-.. image:: http://odoo-community.org/logo.png
+.. image:: https://odoo-community.org/logo.png
    :alt: Odoo Community Association
-   :target: http://odoo-community.org
+   :target: https://odoo-community.org
 
 This module is maintained by the OCA.
 
 OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
 
-To contribute to this module, please visit http://odoo-community.org.
+To contribute to this module, please visit https://odoo-community.org.
