@@ -2,7 +2,7 @@
 # © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
 
@@ -15,7 +15,7 @@ def is_sepa_creditor_identifier_valid(sepa_creditor_identifier):
         or unicode
     @return: True if valid, False otherwise
     """
-    if not isinstance(sepa_creditor_identifier, (str, unicode)):
+    if not isinstance(sepa_creditor_identifier, str):
         return False
     try:
         sci = str(sepa_creditor_identifier).lower()
