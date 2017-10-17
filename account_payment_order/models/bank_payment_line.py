@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -52,9 +52,11 @@ class BankPaymentLine(models.Model):
         string='Communication', required=True,
         readonly=True)
     company_id = fields.Many2one(
+        'res.company',
         related='order_id.payment_mode_id.company_id', store=True,
         readonly=True)
     company_currency_id = fields.Many2one(
+        'res.currency',
         related='order_id.payment_mode_id.company_id.currency_id',
         readonly=True, store=True)
 
@@ -77,6 +79,9 @@ class BankPaymentLine(models.Model):
         for bline in self:
             amount_currency = sum(
                 bline.mapped('payment_line_ids.amount_currency'))
+            import logging
+            logging.info(bline.company_id)
+            logging.info(bline.company_currency_id)
             amount_company_currency = bline.currency_id.with_context(
                 date=bline.date).compute(
                     amount_currency, bline.company_currency_id)
@@ -101,7 +106,7 @@ class BankPaymentLine(models.Model):
         if self.order_id.payment_mode_id.move_option == 'date':
             hashcode = self.date
         else:
-            hashcode = unicode(self.id)
+            hashcode = str(self.id)
         return hashcode
 
     @api.multi
