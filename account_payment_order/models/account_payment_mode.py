@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # © 2009 EduSense BV (<http://www.edusense.nl>)
-# © 2011-2013 Therp BV (<http://therp.nl>)
+# © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2014-2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
@@ -29,7 +29,10 @@ class AccountPaymentMode(models.Model):
         ('any', 'Any'),
         ], string='Payment Mode on Invoice', default='same')
     default_journal_ids = fields.Many2many(
-        'account.journal', string="Journals Filter")
+        'account.journal',
+        string="Journals Filter",
+        domain="[('company_id', '=', company_id)]"
+    )
     default_invoice = fields.Boolean(
         string='Linked to an Invoice or Refund', default=False)
     default_target_move = fields.Selection([
