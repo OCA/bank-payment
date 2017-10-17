@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2014 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
 
@@ -13,12 +13,14 @@ class ResPartner(models.Model):
     supplier_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Supplier Payment Mode',
         company_dependent=True,
-        domain=[('payment_type', '=', 'outbound')],
+        domain="[('payment_type', '=', 'outbound'), "
+               "('company_id', '=', company_id)]",
         help="Select the default payment mode for this supplier.")
     customer_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Customer Payment Mode',
         company_dependent=True,
-        domain=[('payment_type', '=', 'inbound')],
+        domain="[('payment_type', '=', 'inbound'), "
+               "('company_id', '=', company_id)]",
         help="Select the default payment mode for this customer.")
 
     @api.model
