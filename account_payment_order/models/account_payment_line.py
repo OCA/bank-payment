@@ -138,5 +138,6 @@ class AccountPaymentLine(models.Model):
                 'Missing Partner Bank Account on payment line %s') % self.name)
         if self.bank_account_required and not self.partner_bank_id.partner_id:
             raise UserError(_(
-                'Missing Partner in bank account : %s') % self.partner_bank_id.acc_number
-        ))
+                'Missing Partner in bank account : %s') % 
+                            self.partner_bank_id.acc_number
+        )
