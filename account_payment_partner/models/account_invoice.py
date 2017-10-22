@@ -3,7 +3,8 @@
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class AccountInvoice(models.Model):
@@ -23,7 +24,7 @@ class AccountInvoice(models.Model):
         if self.partner_id:
             if self.type == 'in_invoice':
                 pay_mode = self.with_context(
-                    company_id=self.company_id.id
+                    force_company=self.company_id.id
                 ).partner_id.supplier_payment_mode_id
                 self.payment_mode_id = pay_mode
                 if (
@@ -33,10 +34,15 @@ class AccountInvoice(models.Model):
                     self.commercial_partner_id.bank_ids
                 ):
                     self.partner_bank_id = \
-                        self.commercial_partner_id.bank_ids[0]
+                        self.commercial_partner_id.bank_ids.filtered(
+                            lambda b: b.company_id == self.company_id or not
+                            b.company_id)
+                else:
+                    self.partner_bank_id = False
+
             elif self.type == 'out_invoice':
                 pay_mode = self.with_context(
-                    company_id=self.company_id.id
+                    force_company=self.company_id.id
                 ).partner_id.customer_payment_mode_id
                 self.payment_mode_id = pay_mode
                 if pay_mode and pay_mode.bank_account_link == 'fixed':
@@ -102,3 +108,12 @@ class AccountInvoice(models.Model):
         if invoice.type == 'in_invoice':
             vals['partner_bank_id'] = invoice.partner_bank_id.id
         return vals
+
+    @api.constrains('company_id', 'payment_mode_id')
+    def _check_payment_mode_company_constrains(self):
+        for rec in self.sudo():
+            if (rec.payment_mode_id and rec.company_id !=
+                    rec.payment_mode_id.company_id):
+                raise ValidationError(
+                    _("The company of the invoice %s does not match "
+                      "with that of the payment mode") % rec.name)
