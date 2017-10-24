@@ -30,7 +30,7 @@ TODO
 Usage
 =====
 
-To use this module, see menu "Accounting > payment > SEPA direct debit mandates" 
+To use this module, see menu "Accounting > payment > SEPA direct debit mandates"
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -61,6 +61,7 @@ Contributors
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Sergio Teruel (Incaser) <sergio@incaser.es>
 * Cédric Pigeon <cedric.pigeon@acsone.eu>
+* Carlos Dauden <carlos.dauden@tecnativa.com>
 
 Maintainer
 ----------
