@@ -45,10 +45,7 @@ class account_statement_from_invoice_lines(models.TransientModel):
 
         # for each selected move lines
         for line in self.line_ids:
-            if line.invoice and line.invoice.currency_id == from_currency_id:
-                amount = line.amount_residual_currency
-                amount_currency = 0.0
-            else:
+            if line.invoice and line.invoice.currency_id != from_currency_id:
                 if statement.journal_id.currency:
                     from_currency_id = statement.journal_id.currency
                 else:
@@ -57,6 +54,9 @@ class account_statement_from_invoice_lines(models.TransientModel):
                     line.amount_residual_currency,
                     line.invoice.currency_id)
                 amount_currency = line.amount_residual_currency
+            else:
+                amount = line.amount_residual_currency
+                amount_currency = 0.0
             # we test how to apply sign
             if line.journal_id.type in ['sale_refund', 'purchase']:
                 amount_currency = -amount_currency
