@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2013-2014 ACSONE SA (<https://acsone.eu>).
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
@@ -57,7 +56,9 @@ class AccountInvoice(models.Model):
             if not inv.payment_order_ok:
                 raise UserError(_(
                     "The invoice %s has a payment mode '%s' "
-                    "which is not selectable in payment orders."))
+                    "which is not selectable in payment orders." % (
+                        inv.number, inv.payment_mode_id.display_name))
+                )
             payorders = apoo.search([
                 ('payment_mode_id', '=', inv.payment_mode_id.id),
                 ('state', '=', 'draft')])
