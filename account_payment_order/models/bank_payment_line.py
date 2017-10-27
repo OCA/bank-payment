@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -15,7 +14,7 @@ class BankPaymentLine(models.Model):
         readonly=True)
     order_id = fields.Many2one(
         'account.payment.order', string='Order', ondelete='cascade',
-        index=True)
+        index=True, readonly=True)
     payment_type = fields.Selection(
         related='order_id.payment_type', string="Payment Type",
         readonly=True, store=True)
@@ -79,9 +78,6 @@ class BankPaymentLine(models.Model):
         for bline in self:
             amount_currency = sum(
                 bline.mapped('payment_line_ids.amount_currency'))
-            import logging
-            logging.info(bline.company_id)
-            logging.info(bline.company_currency_id)
             amount_company_currency = bline.currency_id.with_context(
                 date=bline.date).compute(
                     amount_currency, bline.company_currency_id)
