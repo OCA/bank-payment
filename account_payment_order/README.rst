@@ -26,13 +26,13 @@ This module adds several options on Payment Modes, cf Invoicing/Accounting > Con
 Usage
 =====
 
-You can create a Payment Order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the move lines to pay.
+You can create a Payment order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the move lines to pay.
 
-You can create a Debit Order via the menu Invoicing/Accounting > Payments > Debit Orders and then select the move lines to debit.
+You can create a Debit order via the menu Invoicing/Accounting > Payments > Debit Orders and then select the move lines to debit.
 
 This module also adds a button *Add to Payment Order* on supplier invoices and a button *Add to Debit Order* on customer invoices.
 
-You can print a Payment Order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the payment oder to print.
+You can print a Payment order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the payment oder to print.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
