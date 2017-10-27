@@ -14,6 +14,7 @@
                     <field name="move_line_id"
                         domain="[('reconciled','=', False), ('account_id.reconcile', '=', True)] "/> <!-- we removed the filter on amount_to_pay, because we want to be able to select refunds -->
                     <field name="date"/>
+                    <field name="ml_maturity_date" readonly="1"/>
                     <field name="amount_currency"/>
                     <field name="currency_id"/>
                     <field name="partner_id"/>
@@ -46,6 +47,7 @@
             <field name="partner_id"/>
             <field name="communication"/>
             <field name="partner_bank_id"/>
+            <field name="move_line_id" invisible="1"/>
             <field name="ml_maturity_date"/>
             <field name="date"/>
             <field name="amount_currency" string="Amount"/>

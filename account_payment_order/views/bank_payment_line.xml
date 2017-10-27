@@ -10,7 +10,7 @@
     <field name="name">bank.payment.line.form</field>
     <field name="model">bank.payment.line</field>
     <field name="arch" type="xml">
-        <form string="Bank Payment Line">
+        <form string="Bank Payment Line" create="false">
             <group name="main">
                 <field name="order_id"
                     invisible="not context.get('bank_payment_line_main_view')"/>
@@ -36,7 +36,7 @@
     <field name="name">bank.payment.line.tree</field>
     <field name="model">bank.payment.line</field>
     <field name="arch" type="xml">
-        <tree string="Bank Payment Lines">
+        <tree string="Bank Payment Lines" create="false">
             <field name="order_id"
                 invisible="not context.get('bank_payment_line_main_view')"/>
             <field name="partner_id"/>
