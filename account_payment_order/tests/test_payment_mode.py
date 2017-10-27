@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017 Creu Blanca
+# © 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
@@ -28,6 +27,15 @@ class TestPaymentMode(TransactionCase):
 
         self.manual_out = self.env.ref(
             'account.account_payment_method_manual_out')
+
+        self.manual_in = self.env.ref(
+            'account.account_payment_method_manual_in')
+
+        self.electronic_out = self.env['account.payment.method'].create({
+            'name': 'Electronic Out',
+            'code': 'electronic_out',
+            'payment_type': 'outbound',
+        })
 
         self.payment_mode_c1 = self.env['account.payment.mode'].create({
             'name': 'Direct Debit of suppliers from Bank 1',
@@ -63,3 +71,32 @@ class TestPaymentMode(TransactionCase):
                 'transfer_account_id': self.account.id,
                 'transfer_journal_id': False
             })
+
+    def test_onchange_generate_move(self):
+        self.payment_mode_c1.generate_move = True
+        self.payment_mode_c1.generate_move_change()
+        self.assertEqual(self.payment_mode_c1.move_option, 'date')
+        self.payment_mode_c1.generate_move = False
+        self.payment_mode_c1.generate_move_change()
+        self.assertFalse(self.payment_mode_c1.move_option)
+
+    def test_onchange_offsetting_account(self):
+        self.payment_mode_c1.offsetting = 'bank_account'
+        self.payment_mode_c1.offsetting_account_change()
+        self.assertFalse(self.payment_mode_c1.transfer_account_id)
+
+    def test_onchange_payment_type(self):
+        self.payment_mode_c1.payment_method_id = self.manual_in
+        self.payment_mode_c1.payment_method_id_change()
+        self.assertTrue(all([
+            journal.type in [
+                'sale_refund', 'sale'
+            ] for journal in self.payment_mode_c1.default_journal_ids
+        ]))
+        self.payment_mode_c1.payment_method_id = self.manual_out
+        self.payment_mode_c1.payment_method_id_change()
+        self.assertTrue(all([
+            journal.type in [
+                'purchase_refund', 'purchase'
+            ] for journal in self.payment_mode_c1.default_journal_ids
+        ]))
