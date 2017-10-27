@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
 # © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
 from odoo import models, fields, api
+from odoo.osv import orm
 
 
 class AccountMoveLine(models.Model):
@@ -73,3 +74,57 @@ class AccountMoveLine(models.Model):
         for mline in self:
             aplo.create(mline._prepare_payment_line_vals(payment_order))
         return
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        # When the user looks for open payables or receivables, in the
+        # context of payment orders, she should focus primarily on amount that
+        # is due to be paid, and secondarily on the total amount. In this
+        # method we are forcing to display both the amount due in company and
+        # in the invoice currency.
+        # We then hide the fields debit and credit, because they add no value.
+        result = super(AccountMoveLine, self).fields_view_get(view_id,
+                                                              view_type,
+                                                              toolbar=toolbar,
+                                                              submenu=submenu)
+
+        doc = etree.XML(result['arch'])
+        if view_type == 'tree' and self._module == 'account_payment_order':
+            if not doc.xpath("//field[@name='balance']"):
+                for placeholder in doc.xpath(
+                        "//field[@name='amount_currency']"):
+                    elem = etree.Element(
+                        'field', {
+                            'name': 'balance',
+                            'readonly': 'True'
+                        })
+                    orm.setup_modifiers(elem)
+                    placeholder.addprevious(elem)
+            if not doc.xpath("//field[@name='amount_residual_currency']"):
+                for placeholder in doc.xpath(
+                        "//field[@name='amount_currency']"):
+                    elem = etree.Element(
+                        'field', {
+                            'name': 'amount_residual_currency',
+                            'readonly': 'True'
+                        })
+                    orm.setup_modifiers(elem)
+                    placeholder.addnext(elem)
+            if not doc.xpath("//field[@name='amount_residual']"):
+                for placeholder in doc.xpath(
+                        "//field[@name='amount_currency']"):
+                    elem = etree.Element(
+                        'field', {
+                            'name': 'amount_residual',
+                            'readonly': 'True'
+                        })
+                    orm.setup_modifiers(elem)
+                    placeholder.addnext(elem)
+            # Remove credit and debit data - which is irrelevant in this case
+            for elem in doc.xpath("//field[@name='debit']"):
+                doc.remove(elem)
+            for elem in doc.xpath("//field[@name='credit']"):
+                doc.remove(elem)
+            result['arch'] = etree.tostring(doc)
+        return result
