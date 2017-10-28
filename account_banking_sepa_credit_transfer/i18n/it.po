@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"POT-Creation-Date: 2017-09-02 01:12+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/it/)\n"
@@ -28,17 +28,17 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Batch Booking"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Borne by Creditor"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Borne by Debtor"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
@@ -48,7 +48,7 @@ msgstr "Annulla"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "Charge Bearer"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
@@ -78,22 +78,22 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nome file"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
 msgid "Finish"
-msgstr ""
+msgstr "Finish"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Following Service Level"
 
 #. module: account_banking_sepa_credit_transfer
 #: help:banking.export.sepa.wizard,charge_bearer:0
@@ -110,7 +110,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Generate"
-msgstr ""
+msgstr "Genera"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,id:0
@@ -143,7 +143,7 @@ msgstr "Ultimo aggiornamento il"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr ""
+msgstr "Numero di transazioni"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_payment_mode
@@ -153,7 +153,7 @@ msgstr "Modo di pagamento"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Ordini di pagamento"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:98
@@ -168,12 +168,12 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "SEPA File Generation"
-msgstr ""
+msgstr "Generazione file SEPA "
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
-msgstr ""
+msgstr "Shared"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,state:0
@@ -183,9 +183,9 @@ msgstr "Stato"
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,total_amount:0
 msgid "Total Amount"
-msgstr ""
+msgstr "Importo Totale"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
 msgid "Validate"
-msgstr ""
+msgstr "Conferma"
