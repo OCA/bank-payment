@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:25+0000\n"
-"PO-Revision-Date: 2017-08-21 07:26+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Ustvari"
 #: field:banking.export.sdd,nb_transactions:0
 #: field:banking.export.sdd.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr ""
+msgstr "Število transakcij"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/wizard/export_sdd.py:202
@@ -61,13 +61,13 @@ msgstr ""
 #: field:banking.export.sdd,filename:0
 #: field:banking.export.sdd.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Naziv datoteke"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Shared"
-msgstr ""
+msgstr "V souporabi"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:186
@@ -115,13 +115,13 @@ msgstr ""
 #: view:banking.export.sdd:0 field:banking.export.sdd,payment_order_ids:0
 #: field:banking.export.sdd.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd,batch_booking:0
 #: field:banking.export.sdd.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Skupinska rezervacija"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/account_banking_sdd.py:138
@@ -144,7 +144,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,state:0
 msgid "Finish"
-msgstr ""
+msgstr "Dokončaj"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
@@ -193,19 +193,19 @@ msgid ""
 "If true, the bank statement will display only one credit line for all the "
 "direct debits of the SEPA file ; if false, the bank statement will display "
 "one credit line per direct debit of the SEPA file."
-msgstr ""
+msgstr "Če pravilno, bančni izpisek prikaže le eno postavko v dobro za vse direktne obremenitve v SEPA XML datoteki ; če napačno, bančni izpisek prikaže le eno postavko v dobro za vsako direktno obremenitev v SEPA datoteki."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Raven storitev"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Nosi upnik"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,sepa_migrated:0
@@ -253,7 +253,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0
 msgid "Generate"
-msgstr ""
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_direct_debit
 #: help:res.company,sepa_creditor_identifier:0
@@ -276,7 +276,7 @@ msgstr ""
 #: selection:banking.export.sdd,charge_bearer:0
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Nosi dolžnik"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
@@ -332,7 +332,7 @@ msgstr ""
 #: field:banking.export.sdd,charge_bearer:0
 #: field:banking.export.sdd.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "Nosilec stroškov"
 
 #. module: account_banking_sepa_direct_debit
 #: field:res.company,sepa_creditor_identifier:0
@@ -406,7 +406,7 @@ msgid ""
 "borne by the debtor. Borne by creditor : all transaction charges are to be "
 "borne by the creditor. Borne by debtor : all transaction charges are to be "
 "borne by the debtor."
-msgstr ""
+msgstr "Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to uporabljati). Deljeno: stroške transakcije na strani upnika nosi upnik sam, stroške na strani dolžnika pa dolžnik. Nosi upnik: vse stroške transakcije nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
 
 #. module: account_banking_sepa_direct_debit
 #: model:res.groups,name:account_banking_sepa_direct_debit.group_original_mandate_required
@@ -439,7 +439,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,file:0
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd.wizard:0

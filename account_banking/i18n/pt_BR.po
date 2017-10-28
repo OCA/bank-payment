@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:25+0000\n"
-"PO-Revision-Date: 2017-08-21 07:21+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
+"PO-Revision-Date: 2017-10-27 11:29+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1311,7 +1311,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,city:0
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
@@ -1525,7 +1525,7 @@ msgstr ""
 #: field:account.banking.account.settings,partner_bank_id:0
 #: field:banking.import.line,partner_bank_id:0
 msgid "Bank Account"
-msgstr ""
+msgstr "Conta Bancária"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/bank_import.py:372

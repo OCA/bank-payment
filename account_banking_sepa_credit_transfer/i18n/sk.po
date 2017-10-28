@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
-"PO-Revision-Date: 2016-04-06 00:25+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
+"PO-Revision-Date: 2017-10-16 18:32+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
 msgid "Create"
-msgstr ""
+msgstr "Vytvoriť"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,nb_transactions:0
@@ -37,7 +37,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,state:0 field:banking.export.sepa.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,state:0
@@ -107,6 +107,16 @@ msgid "Borne by Creditor"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:138
+#, python-format
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Codes "
+"supported for SEPA Credit Transfers are 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' and "
+"'pain.001.003.03'."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "Validate"
 msgstr ""
@@ -123,8 +133,8 @@ msgid "Borne by Debtor"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:132
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:250
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:137
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:260
 #, python-format
 msgid "Error:"
 msgstr ""
@@ -146,7 +156,7 @@ msgid "SEPA export"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:251
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:261
 #, python-format
 msgid ""
 "Missing Bank Account on invoice '%s' (payment order line reference '%s')."
@@ -167,15 +177,6 @@ msgid ""
 "borne by the debtor. Borne by creditor : all transaction charges are to be "
 "borne by the creditor. Borne by debtor : all transaction charges are to be "
 "borne by the debtor."
-msgstr ""
-
-#. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:133
-#, python-format
-msgid ""
-"Payment Type Code '%s' is not supported. The only Payment Type Codes "
-"supported for SEPA Credit Transfers are 'pain.001.001.02', "
-"'pain.001.001.03', 'pain.001.001.04' and 'pain.001.001.05'."
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer

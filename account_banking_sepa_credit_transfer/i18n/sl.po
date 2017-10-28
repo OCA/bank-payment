@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:25+0000\n"
-"PO-Revision-Date: 2017-08-21 07:26+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,13 +26,13 @@ msgstr "Ustvari"
 #: field:banking.export.sepa,nb_transactions:0
 #: field:banking.export.sepa.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr ""
+msgstr "Število transakcij"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,filename:0
 #: field:banking.export.sepa.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Naziv datoteke"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,state:0 field:banking.export.sepa.wizard,state:0
@@ -60,13 +60,13 @@ msgstr ""
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Shared"
-msgstr ""
+msgstr "V souporabi"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,batch_booking:0
 #: field:banking.export.sepa.wizard,batch_booking:0
 msgid "Batch Booking"
-msgstr ""
+msgstr "Skupinska rezervacija"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,state:0
@@ -86,7 +86,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa.wizard,state:0
 msgid "Finish"
-msgstr ""
+msgstr "Dokončaj"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa,total_amount:0
@@ -98,13 +98,13 @@ msgstr "Skupni znesek"
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Following Service Level"
-msgstr ""
+msgstr "Raven storitev"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr ""
+msgstr "Nosi upnik"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:138
@@ -124,13 +124,13 @@ msgstr "Overi"
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "Generate"
-msgstr ""
+msgstr "Ustvari"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:banking.export.sepa,charge_bearer:0
 #: selection:banking.export.sepa.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr ""
+msgstr "Nosi dolžnik"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:137
@@ -143,12 +143,12 @@ msgstr ""
 #: field:banking.export.sepa,charge_bearer:0
 #: field:banking.export.sepa.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr ""
+msgstr "Nosilec stroškov"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0
 msgid "SEPA File Generation"
-msgstr ""
+msgstr "Generiranje SEPA datoteke"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa
@@ -177,13 +177,13 @@ msgid ""
 "borne by the debtor. Borne by creditor : all transaction charges are to be "
 "borne by the creditor. Borne by debtor : all transaction charges are to be "
 "borne by the debtor."
-msgstr ""
+msgstr "Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to uporabljati). Deljeno: stroške transakcije na strani upnika nosi upnik sam, stroške na strani dolžnika pa dolžnik. Nosi upnik: vse stroške transakcije nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa:0 field:banking.export.sepa,payment_order_ids:0
 #: field:banking.export.sepa.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa:0
@@ -209,7 +209,7 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,file:0
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:0

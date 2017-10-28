@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovak (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sk/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Create"
-msgstr ""
+msgstr "Vytvoriť"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,nb_transactions:0
@@ -37,7 +37,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,state:0 field:banking.export.lcr.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr:0

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/it/)\n"
@@ -346,7 +346,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: selection:bank.acc.rec.statement.line,type:0
 msgid "Debit"
-msgstr ""
+msgstr "Dare"
 
 #. module: account_banking_reconciliation
 #: model:ir.actions.report.xml,name:account_banking_reconciliation.report_reconciliation_summary
@@ -638,7 +638,7 @@ msgstr ""
 #. module: account_banking_reconciliation
 #: selection:bank.acc.rec.statement.line,type:0
 msgid "Credit"
-msgstr ""
+msgstr "Avere"
 
 #. module: account_banking_reconciliation
 #: view:bank.acc.rec.statement:0

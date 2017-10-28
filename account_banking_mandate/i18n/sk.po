@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
-"PO-Revision-Date: 2017-04-25 10:42+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
+"PO-Revision-Date: 2017-10-16 18:32+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr "Partner"
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:57
 #, python-format
 msgid "Cancelled"
-msgstr ""
+msgstr "Zrušené"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:132

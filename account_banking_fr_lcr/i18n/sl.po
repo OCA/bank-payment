@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:25+0000\n"
+"POT-Creation-Date: 2017-09-02 01:00+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/sl/)\n"
@@ -26,13 +26,13 @@ msgstr "Ustvari"
 #: field:banking.export.lcr,nb_transactions:0
 #: field:banking.export.lcr.wizard,nb_transactions:0
 msgid "Number of Transactions"
-msgstr ""
+msgstr "Število transakcij"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,filename:0
 #: field:banking.export.lcr.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Naziv datoteke"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,state:0 field:banking.export.lcr.wizard,state:0
@@ -63,7 +63,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Finish"
-msgstr ""
+msgstr "Dokončaj"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:130
@@ -112,7 +112,7 @@ msgstr "Overi"
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0
 msgid "Generate"
-msgstr ""
+msgstr "Ustvari"
 
 #. module: account_banking_fr_lcr
 #: model:ir.actions.act_window,name:account_banking_fr_lcr.act_banking_export_lcr_payment_order
@@ -159,7 +159,7 @@ msgstr ""
 #: view:banking.export.lcr:0 field:banking.export.lcr,payment_order_ids:0
 #: field:banking.export.lcr.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr:0
@@ -177,7 +177,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,file:0
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:0
