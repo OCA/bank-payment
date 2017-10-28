@@ -4,13 +4,15 @@
 # 
 # Translators:
 # Niki Waibel, 2016
+# Niki Waibel, 2016
+# Udo Bremer <info@bremerd.de>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-11-01 20:31+0000\n"
-"Last-Translator: Niki Waibel\n"
+"POT-Creation-Date: 2017-08-18 00:42+0000\n"
+"PO-Revision-Date: 2017-09-23 06:04+0000\n"
+"Last-Translator: Udo Bremer <info@bremerd.de>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +28,7 @@ msgstr "<em>Kontonummer - IBAN:</em>"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address of the Debtor:</em>"
-msgstr "<em>Adresse des Debitor:</em>"
+msgstr "<em>Adresse des Debitors:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -66,7 +68,7 @@ msgstr "<em>Identifizierer:</em>"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Mandate Reference:</em>"
-msgstr "<em>Referenz des Mandanten:</em>"
+msgstr "<em>Referenz des Mandats:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -91,12 +93,12 @@ msgstr "<em>Art der Zahlung:</em>"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Business-To-Business Direct debit Mandate</strong>"
-msgstr "<strong>SEPA Geschäft-zu-Geschäft Lastschriftenmandat</strong>"
+msgstr "<strong>SEPA Geschäft-zu-Geschäft Lastschriftmandat</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Direct Debit Mandate</strong>"
-msgstr "<strong>SEPA Lastschrift Mandat</strong>"
+msgstr "<strong>SEPA-Lastschriftmandat</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
@@ -196,10 +198,10 @@ msgstr "Erstes"
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
 #, python-format
 msgid "Mandate update"
-msgstr ""
+msgstr "Mandatsaktualisierung"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:77
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
@@ -211,7 +213,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "One-Off"
-msgstr ""
+msgstr "Einmalig"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
@@ -242,81 +244,86 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Recurrent"
-msgstr ""
+msgstr "Wiederkehrend"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Recurring"
-msgstr ""
+msgstr "Wiederkehrend"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_config_settings_sepa_creditor_identifier
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
 msgid "SEPA Creditor Identifier"
-msgstr ""
+msgstr "SEPA Kreditor Identifikation"
+
+#. module: account_banking_sepa_direct_debit
+#: model:account.payment.method,name:account_banking_sepa_direct_debit.sepa_direct_debit
+msgid "SEPA Direct Debit for customers"
+msgstr "SEPA-Lastschrift für Kunden"
 
 #. module: account_banking_sepa_direct_debit
 #: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
 msgid "SEPA Direct Debit of customers"
-msgstr "SEPA Lastschriften der Kunden"
+msgstr "SEPA-Lastschrift der Kunden"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_scheme
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Scheme"
-msgstr ""
+msgstr "Schema"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report.xml,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid "Sepa Mandate"
-msgstr "Sepa Mandat"
+msgstr "SEPA Mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_tree
 msgid "Sequence Type"
-msgstr ""
+msgstr "Art der Sequenz"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_recurrent_sequence_type
 msgid "Sequence Type for Next Debit"
-msgstr ""
+msgstr "Art der Sequenz für die nächste Belastung"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:39
 #: code:addons/account_banking_sepa_direct_debit/models/res_company.py:31
 #, python-format
 msgid "The SEPA Creditor Identifier '%s' is invalid."
-msgstr ""
+msgstr "Die SEPA Kreditor Identifikation '%s' ist ungültig."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:84
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
 "expired."
-msgstr ""
+msgstr "Das SEPA-Lastschriftmandat mit Referenz '%s' des Partners '%s' ist abgelaufen."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:92
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
-msgstr ""
+msgstr "Das Mandat mit Referenz '%s' des Partners '%s' ist von der Art 'einmalig' und weist ein Belastungsdatum '%s' auf; also kann es nicht benutzt werden."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:48
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
-msgstr ""
+msgstr "Das wiederkehrende Mandat '%s' muss eine Sequenzart aufweisen."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_banking_mandate_recurrent_sequence_type
 msgid ""
 "This field is only used for Recurrent mandates, not for One-Off mandates."
-msgstr ""
+msgstr "Dieses Feld ist nur für wiederkehrende Mandate, aber nicht für einmalige Mandate."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -330,12 +337,12 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "To be completed by the creditor"
-msgstr ""
+msgstr "Vom Kreditor zu vervollständigen"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "To be completed by the debtor"
-msgstr ""
+msgstr "Vom Debitor zu vervollständigen"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search

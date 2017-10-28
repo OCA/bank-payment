@@ -5,14 +5,15 @@
 # Translators:
 # Cas Vissers <casvissers@brahoo.nl>, 2017
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
+# Michel V. <m.vorenhout@mvhconsult.nl>, 2017
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-03 00:38+0000\n"
-"PO-Revision-Date: 2017-08-03 11:22+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2017-08-18 00:42+0000\n"
+"PO-Revision-Date: 2017-09-23 23:05+0000\n"
+"Last-Translator: Michel V. <m.vorenhout@mvhconsult.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr ""
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
-msgstr ""
+msgstr "Er bestaat al een betalingsregel met deze referentie in hetzelfde bedrijf!"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:17
@@ -342,7 +343,7 @@ msgstr "Betaalopdrachten %s"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
 msgid "Default Payment Execution Date"
-msgstr ""
+msgstr "Standaard uitvoeringsdatum voor betalingen"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
@@ -639,7 +640,7 @@ msgstr "Mutatie optie"
 #: code:addons/account_payment_order/models/bank_payment_line.py:139
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr "Muttaieregel '%s' van relatie '%s' is al afgeletterd"
+msgstr "Mutatieregel '%s' van relatie '%s' is al afgeletterd"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:55

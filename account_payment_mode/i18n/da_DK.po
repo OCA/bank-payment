@@ -3,13 +3,14 @@
 # * account_payment_mode
 # 
 # Translators:
+# Hans Henrik Gabelgaard <hhg@gabelgaard.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-18 00:42+0000\n"
-"PO-Revision-Date: 2016-10-19 23:46+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2017-10-02 15:33+0000\n"
+"Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,24 +34,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_active
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_active
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_variable_journal_ids
 msgid "Allowed Bank Journals"
-msgstr ""
+msgstr "Tilladte bank journaler"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_bank_account_required
 msgid "Bank Account Required"
-msgstr ""
+msgstr "Bank konti påkrævet"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_search
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
-msgstr ""
+msgstr "Bank konto type"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner_bank
@@ -65,12 +66,12 @@ msgstr "Firma"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Oprettet af"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Oprettet den"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
@@ -175,18 +176,18 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_name
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Navn eller kode"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_note
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
 msgid "Note"
-msgstr ""
+msgstr "Note"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:69
@@ -217,7 +218,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
-msgstr ""
+msgstr "Udgående"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal_company_partner_id
@@ -229,12 +230,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Payment Method"
-msgstr ""
+msgstr "Betalingsmetode"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_method_code
 msgid "Payment Method Code"
-msgstr ""
+msgstr "Betalingsmetode kode"
 
 #. module: account_payment_mode
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_method_action
@@ -242,12 +243,12 @@ msgstr ""
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_tree
 msgid "Payment Methods"
-msgstr ""
+msgstr "Betalingsmetoder"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
 msgid "Payment Mode"
-msgstr ""
+msgstr "Betalingsform"
 
 #. module: account_payment_mode
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
@@ -255,23 +256,23 @@ msgstr ""
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_tree
 msgid "Payment Modes"
-msgstr ""
+msgstr "Betalingsformer"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_type
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Payment Type"
-msgstr ""
+msgstr "Betalingstype"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Search Payment Methods"
-msgstr ""
+msgstr "Søg betalingsmetoder"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Search Payment Modes"
-msgstr ""
+msgstr "Søg betalingsformer"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_payment_method_code

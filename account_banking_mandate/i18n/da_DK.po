@@ -51,7 +51,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Bank konto"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
@@ -125,12 +125,12 @@ msgstr "Firma"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Oprettet af"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Oprettet den"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
@@ -292,7 +292,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Betalingsmetoder"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree

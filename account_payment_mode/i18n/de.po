@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Niki Waibel, 2016
+# Niki Waibel, 2016
 # OCA Transbot <transbot@odoo-community.org>, 2016
+# Udo Bremer <info@bremerd.de>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-11-01 19:46+0000\n"
-"Last-Translator: Niki Waibel\n"
+"POT-Creation-Date: 2017-08-18 00:42+0000\n"
+"PO-Revision-Date: 2017-09-23 04:05+0000\n"
+"Last-Translator: Udo Bremer <info@bremerd.de>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +42,7 @@ msgstr "Aktiv"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_variable_journal_ids
 msgid "Allowed Bank Journals"
-msgstr "Erlaubte Banken Logbuch"
+msgstr "Erlaubte Bank-Journale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_bank_account_required
@@ -72,7 +74,7 @@ msgstr "Erstellt von"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_date
 msgid "Created on"
-msgstr "Erstellt am:"
+msgstr "Erstellt am"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
@@ -102,12 +104,12 @@ msgstr "Anzeigename"
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Fixed"
-msgstr ""
+msgstr "Fix"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_fixed_journal_id
 msgid "Fixed Bank Journal"
-msgstr ""
+msgstr "Fixes Bank-Journal"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_bank_account_link
@@ -119,7 +121,7 @@ msgid ""
 "transfer to suppliers), you should choose 'Variable', which means that you "
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
-msgstr ""
+msgstr "Für Zahlungsmodi, die stets einem bestimmten Bankkonto des Unternehmens zugeordnet sind (etwa Überweisungen von Kunden oder Lastschriften von Lieferanten), wird \"Fix\" gewählt. Für Zahlungsmodi, die nicht stets dem selben Bankkonto zugeordnet sind (so wie SEPA-Lastschriften für Kunden oder Überweisungen an Lieferanten), wird \"Variabel\" gewählt, so dass das Bankkonto in der Zahlungsanweisung zu wählen ist. Falls nur ein Bankkonto für das Unternehmen angelegt ist, sollte stets \"Fix\" gewählt werden.."
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -196,7 +198,7 @@ msgstr "Notiz"
 msgid ""
 "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
-msgstr ""
+msgstr "Im Zahlungsmodus '%s' ist eine fixe Verbindung zu einem Bankkonto gewählt, aber das fixe Bank-Journal ist nicht gesetzt!"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:92
@@ -281,9 +283,9 @@ msgid ""
 "This code is used in the code of the Odoo module that handle this payment "
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
-msgstr ""
+msgstr "Dieser Code wird in der Implementierung des Odoo Moduls, das diese Zahlungsmethode handhabt, benutzt. Bei einer Änderung des Wertes, wird die Erstellung des Zahlungsdatei wahrscheinlich nicht mehr funktionieren."
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Variable"
-msgstr "Variable"
+msgstr "Variabel"
