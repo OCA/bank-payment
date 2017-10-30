@@ -45,6 +45,7 @@
             <field name="partner_id"/>
             <field name="communication"/>
             <field name="partner_bank_id"/>
+            <field name="partner_bank_type" />
             <field name="ml_maturity_date"/>
             <field name="date"/>
             <field name="amount_currency" string="Amount"/>

@@ -58,6 +58,10 @@ class AccountPaymentLine(models.Model):
     # v8 field : state
     bank_line_id = fields.Many2one(
         'bank.payment.line', string='Bank Payment Line', readonly=True)
+    partner_bank_type = fields.Char(
+        related='partner_bank_id.acc_type',
+        readonly=True,
+    )
 
     _sql_constraints = [(
         'name_company_unique',
