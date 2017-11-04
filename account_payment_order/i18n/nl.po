@@ -7,13 +7,14 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Michel V. <m.vorenhout@mvhconsult.nl>, 2017
 # OCA Transbot <transbot@odoo-community.org>, 2016
+# Stefan Rijnhart <stefan@therp.nl>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-18 00:42+0000\n"
-"PO-Revision-Date: 2017-09-23 23:05+0000\n"
-"Last-Translator: Michel V. <m.vorenhout@mvhconsult.nl>\n"
+"PO-Revision-Date: 2017-11-03 11:57+0000\n"
+"Last-Translator: Stefan Rijnhart <stefan@therp.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +79,7 @@ msgstr "Toevoegen alle mutaties"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_form
 msgid "Add to Debit Order"
-msgstr "Toevoegen aan betaalopdracht"
+msgstr "Toevoegen aan incasso-opdracht"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_supplier_form
@@ -88,7 +89,7 @@ msgstr "Toevoegen aan betaalopdracht"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr "Toevoegen aan betaalopdracht"
+msgstr "Toevoegen aan betaal-/incasso-opdracht"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
@@ -325,20 +326,20 @@ msgstr "Valuta van de betaaltransactie"
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
-msgstr "Betaalopdrachten"
+msgstr "Incasso-opdrachten"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:431
 #, python-format
 msgid "Debit bank line %s"
-msgstr "Debit betaalregel %s"
+msgstr "Incassoregel %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:360
 #: code:addons/account_payment_order/models/account_payment_order.py:381
 #, python-format
 msgid "Debit order %s"
-msgstr "Betaalopdrachten %s"
+msgstr "Incasso-opdracht%s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
