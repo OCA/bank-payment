@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:31+0000\n"
-"PO-Revision-Date: 2017-08-21 08:01+0000\n"
+"POT-Creation-Date: 2017-10-28 00:48+0000\n"
+"PO-Revision-Date: 2017-11-03 12:15+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Batalkan"
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "Kode"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
@@ -271,7 +271,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
 msgid "Move"
-msgstr ""
+msgstr "Pindah"
 
 #. module: account_banking_payment_export
 #: selection:payment.order.create,date_type:0
