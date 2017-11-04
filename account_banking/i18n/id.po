@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"POT-Creation-Date: 2017-10-28 00:35+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/id/)\n"
@@ -168,7 +168,7 @@ msgstr ""
 #. module: account_banking
 #: field:account.bank.statement.line,parent_id:0
 msgid "Parent"
-msgstr ""
+msgstr "Induk"
 
 #. module: account_banking
 #: field:account.banking.bank.import,file:0
@@ -432,7 +432,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Move"
-msgstr ""
+msgstr "Pindah"
 
 #. module: account_banking
 #: code:addons/account_banking/wizard/banktools.py:263
@@ -742,7 +742,7 @@ msgstr ""
 #: selection:banking.import.transaction,match_type:0
 #: selection:banking.transaction.wizard,match_type:0
 msgid "Manual"
-msgstr ""
+msgstr "Petunjuk"
 
 #. module: account_banking
 #: field:banking.link_partner,fax:0
@@ -804,7 +804,7 @@ msgstr ""
 #: field:account.banking.imported.file,state:0
 #: field:banking.link_partner,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Bagian"
 
 #. module: account_banking
 #: view:account.banking.bank.import:0
@@ -938,7 +938,7 @@ msgstr ""
 #: view:account.bank.statement.line:0
 #: selection:account.bank.statement.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Draf"
 
 #. module: account_banking
 #: view:banking.transaction.wizard:0

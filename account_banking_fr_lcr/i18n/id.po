@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-10-28 00:35+0000\n"
 "PO-Revision-Date: 2016-04-06 00:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/id/)\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr,state:0 field:banking.export.lcr.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Bagian"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr:0
@@ -47,12 +47,12 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Draf"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr,state:0
 msgid "Sent"
-msgstr ""
+msgstr "Kirim"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:97

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:23+0000\n"
+"POT-Creation-Date: 2017-10-28 00:35+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (Switzerland) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/fr_CH/)\n"
@@ -79,7 +79,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
 #: model:ir.ui.menu,name:account_direct_debit.menu_action_debit_order_form
 msgid "Direct Debit Orders"
-msgstr ""
+msgstr "Ordres de Débit Direct"
 
 #. module: account_direct_debit
 #: model:account.payment.term,name:account_direct_debit.payment_term_direct_debit
