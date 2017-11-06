@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (http://www.akretion.com/)
+# Copyright Akretion (http://www.akretion.com/)
+# Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
@@ -16,14 +17,21 @@ class AccountMoveLine(models.Model):
     def _prepare_payment_line_vals(self, payment_order):
         vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
             payment_order)
-        if payment_order.payment_type == 'inbound' and self.mandate_id:
-            vals['mandate_id'] = self.mandate_id.id
-            vals['partner_bank_id'] = self.mandate_id.partner_bank_id.id
-        partner_bank_id = vals.get('partner_bank_id', False)
-        if partner_bank_id and 'mandate_id' not in vals:
-            mandate = self.env['account.banking.mandate'].search(
-                [('partner_bank_id', '=', partner_bank_id),
-                 ('state', '=', 'valid')], limit=1)
-            if mandate:
-                vals['mandate_id'] = mandate.id
+        if payment_order.payment_type != 'inbound':
+            return vals
+        mandate = self.mandate_id
+        if not mandate and vals.get('mandate_id', False):
+            mandate = mandate.browse(vals['mandate_id'])
+        if not mandate:
+            partner_bank_id = vals.get('partner_bank_id', False)
+            if partner_bank_id:
+                domain = [('partner_bank_id', '=', partner_bank_id)]
+            else:
+                domain = [('partner_id', '=', self.partner_id.id)]
+            domain.append(('state', '=', 'valid'))
+            mandate = mandate.search(domain, limit=1)
+        vals.update({
+            'mandate_id': mandate.id,
+            'partner_bank_id': mandate.partner_bank_id.id or partner_bank_id,
+        })
         return vals

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
@@ -35,6 +36,7 @@ class AccountInvoice(models.Model):
         creation, using same method as upstream."""
         onchanges = {
             '_onchange_partner_id': ['mandate_id'],
+            'payment_mode_id_change': ['mandate_id'],
         }
         for onchange_method, changed_fields in onchanges.items():
             if any(f not in vals for f in changed_fields):
@@ -43,7 +45,7 @@ class AccountInvoice(models.Model):
                 for field in changed_fields:
                     if field not in vals and invoice[field]:
                         vals[field] = invoice._fields[field].convert_to_write(
-                            invoice[field], invoice,
+                            invoice[field],
                         )
         return super(AccountInvoice, self).create(vals)
 
@@ -62,34 +64,19 @@ class AccountInvoice(models.Model):
             vals['mandate_id'] = invoice.mandate_id.id
         return vals
 
+    def set_mandate(self):
+        if self.payment_mode_id.payment_method_id.mandate_required:
+            self.mandate_id = self.partner_id.valid_mandate_id
+        else:
+            self.mandate_id = False
+
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         """Select by default the first valid mandate of the partner"""
-        res = super(AccountInvoice, self)._onchange_partner_id()
-        if (
-                self.type == 'out_invoice' and
-                self.partner_id.customer_payment_mode_id.
-                payment_type == 'inbound' and
-                self.partner_id.customer_payment_mode_id.payment_method_id.
-                mandate_required and
-                self.commercial_partner_id):
-            mandates = self.env['account.banking.mandate'].search([
-                ('state', '=', 'valid'),
-                ('partner_id', '=', self.commercial_partner_id.id),
-                ])
-            if mandates:
-                self.mandate_id = mandates[0]
-        else:
-            self.mandate_id = False
-        return res
+        super(AccountInvoice, self)._onchange_partner_id()
+        self.set_mandate()
 
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
         super(AccountInvoice, self).payment_mode_id_change()
-        if (
-                self.payment_mode_id and
-                self.payment_mode_id.payment_type == 'inbound' and
-                not self.payment_mode_id.payment_method_id.mandate_required):
-            self.mandate_id = False
-        elif not self.payment_mode_id:
-            self.mandate_id = False
+        self.set_mandate()
