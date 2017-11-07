@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright Akretion (http://www.akretion.com/)
 # Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import models, fields, api
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class AccountMoveLine(models.Model):
@@ -36,3 +36,14 @@ class AccountMoveLine(models.Model):
             'partner_bank_id': mandate.partner_bank_id.id or partner_bank_id,
         })
         return vals
+
+    @api.multi
+    @api.constrains('mandate_id', 'company_id')
+    def _check_company_constrains(self):
+        for ml in self:
+            mandate = ml.mandate_id
+            if mandate.company_id and mandate.company_id != ml.company_id:
+                raise ValidationError(_(
+                    "The item %s of journal %s has a different company than "
+                    "that of the linked mandate %s).") %
+                    (ml.name, ml.move_id.name, ml.mandate_id.display_name))
