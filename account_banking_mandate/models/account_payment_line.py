@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-# © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014 Tecnativa - Pedro M. Baeza
+# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
@@ -32,6 +31,18 @@ class AccountPaymentLine(models.Model):
                      pline.partner_bank_id.acc_number,
                      pline.mandate_id.unique_mandate_reference,
                      pline.mandate_id.partner_bank_id.acc_number))
+
+    @api.multi
+    @api.constrains('mandate_id', 'company_id')
+    def _check_company_constrains(self):
+        for pline in self:
+            if pline.mandate_id.company_id and pline.mandate_id.company_id != \
+                    pline.company_id:
+                raise ValidationError(_(
+                    "The payment line number %s a different company than "
+                    "that of the linked mandate %s).") %
+                    (pline.name,
+                     pline.mandate_id.display_name))
 
     @api.multi
     def draft2open_payment_line_check(self):
