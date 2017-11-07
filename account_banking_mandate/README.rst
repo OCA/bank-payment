@@ -30,16 +30,12 @@ TODO
 Usage
 =====
 
-To use this module, see menu "Accounting > payment > SEPA direct debit mandates"
+To use this module, see menu "Invoicing/Accounting > Payments > Debit Orders"
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/173/11.0
 
-Known issues / Roadmap
-======================
-
- * no known issues
 
 Bug Tracker
 ===========
