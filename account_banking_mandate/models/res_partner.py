@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
 
@@ -14,7 +13,7 @@ class ResPartner(models.Model):
         readonly=True)
     valid_mandate_id = fields.Many2one(
         comodel_name='account.banking.mandate',
-        compute='compute_valid_mandate_id',
+        compute='_compute_valid_mandate_id',
         string='First Valid Mandate')
 
     @api.multi
@@ -28,8 +27,15 @@ class ResPartner(models.Model):
             partner.mandate_count = mapped_data.get(partner.id, 0)
 
     @api.multi
-    def compute_valid_mandate_id(self):
+    def _compute_valid_mandate_id(self):
         # Dict for reducing the duplicated searches on parent/child partners
+        company_id = self.env.context.get('force_company', False)
+        if company_id:
+            company = self.env['res.company'].browse(company_id)
+        else:
+            company = self.env['res.company']._company_default_get(
+                'account.banking.mandate')
+
         mandates_dic = {}
         for partner in self:
             commercial_partner_id = partner.commercial_partner_id.id
@@ -37,7 +43,8 @@ class ResPartner(models.Model):
                 partner.valid_mandate_id = mandates_dic[commercial_partner_id]
             else:
                 mandates = partner.commercial_partner_id.bank_ids.mapped(
-                    'mandate_ids').filtered(lambda x: x.state == 'valid')
+                    'mandate_ids').filtered(
+                    lambda x: x.state == 'valid' and x.company_id == company)
                 first_valid_mandate_id = mandates[:1].id
                 partner.valid_mandate_id = first_valid_mandate_id
                 mandates_dic[commercial_partner_id] = first_valid_mandate_id
