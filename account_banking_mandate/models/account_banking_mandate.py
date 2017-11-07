@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-# © 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014 Tecnativa - Pedro M. Baeza
+# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
@@ -78,6 +77,52 @@ class AccountBankingMandate(models.Model):
                     _("The mandate '%s' can't have a date of last debit "
                       "before the date of signature."
                       ) % mandate.unique_mandate_reference)
+
+    @api.constrains('company_id', 'payment_line_ids', 'partner_bank_id')
+    def _company_constrains(self):
+        for mandate in self:
+            if mandate.partner_bank_id.company_id and \
+                    mandate.partner_bank_id.company_id != mandate.company_id:
+                raise ValidationError(
+                    _("The company of the mandate %s differs from the "
+                      "company of partner %s.") %
+                    (mandate.display_name, mandate.partner_id.name))
+
+            if self.env['account.payment.line'].search(
+                    [('mandate_id', '=', mandate.id),
+                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                raise ValidationError(
+                    _("You cannot change the company of mandate %s, "
+                      "as there exists payment lines referencing it that "
+                      "belong to another company.") %
+                    (mandate.display_name, ))
+
+            if self.env['account.invoice'].search(
+                    [('mandate_id', '=', mandate.id),
+                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                raise ValidationError(
+                    _("You cannot change the company of mandate %s, "
+                      "as there exists invoices referencing it that belong to "
+                      "another company.") %
+                    (mandate.display_name, ))
+
+            if self.env['account.move.line'].search(
+                    [('mandate_id', '=', mandate.id),
+                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                raise ValidationError(
+                    _("You cannot change the company of mandate %s, "
+                      "as there exists journal items referencing it that "
+                      "belong to another company.") %
+                    (mandate.display_name, ))
+
+            if self.env['bank.payment.line'].search(
+                    [('mandate_id', '=', mandate.id),
+                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                raise ValidationError(
+                    _("You cannot change the company of mandate %s, "
+                      "as there exists bank payment lines referencing it that "
+                      "belong to another company.") %
+                    (mandate.display_name, ))
 
     @api.multi
     @api.constrains('state', 'partner_bank_id')
