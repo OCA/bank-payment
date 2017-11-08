@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+# © 2014 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
+from odoo import models, fields, api
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    # v8 fields : same without the _id suffix
+    supplier_payment_mode_id = fields.Many2one(
+        'account.payment.mode', string='Supplier Payment Mode',
+        company_dependent=True,
+        domain="[('payment_type', '=', 'outbound'), "
+               "('company_id', '=', company_id)]",
+        help="Select the default payment mode for this supplier.")
+    customer_payment_mode_id = fields.Many2one(
+        'account.payment.mode', string='Customer Payment Mode',
+        company_dependent=True,
+        domain="[('payment_type', '=', 'inbound'), "
+               "('company_id', '=', company_id)]",
+        help="Select the default payment mode for this customer.")
+
+    @api.model
+    def _commercial_fields(self):
+        res = super(ResPartner, self)._commercial_fields()
+        res += ['supplier_payment_mode_id', 'customer_payment_mode_id']
+        return res

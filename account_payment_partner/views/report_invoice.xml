@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_payment_mode" inherit_id="account.report_invoice_document">
+        <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
+            <p t-if="o.payment_mode_id.note">
+                <strong>Payment Mode:</strong>
+                <span t-field="o.payment_mode_id.note" />
+            </p>
+            <p t-if="o.partner_bank_id">
+                <strong>Bank Account:</strong>
+                <span t-field="o.partner_bank_id.acc_number" />
+            </p>
+        </xpath>
+    </template>
+
+</odoo>
