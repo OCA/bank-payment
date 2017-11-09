@@ -45,7 +45,7 @@ class AccountInvoice(models.Model):
                 for field in changed_fields:
                     if field not in vals and invoice[field]:
                         vals[field] = invoice._fields[field].convert_to_write(
-                            invoice[field],
+                            invoice[field], invoice
                         )
         return super(AccountInvoice, self).create(vals)
 
