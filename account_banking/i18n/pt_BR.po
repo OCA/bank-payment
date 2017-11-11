@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-02 01:00+0000\n"
-"PO-Revision-Date: 2017-10-27 11:29+0000\n"
+"POT-Creation-Date: 2017-11-04 01:33+0000\n"
+"PO-Revision-Date: 2017-11-07 22:30+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1432,7 +1432,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.link_partner,mobile:0
 msgid "Mobile"
-msgstr ""
+msgstr "Móvel"
 
 #. module: account_banking
 #: selection:account.banking.imported.file,state:0
