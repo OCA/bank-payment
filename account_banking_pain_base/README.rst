@@ -56,7 +56,7 @@ Contributors
 
 * Alexis de Lattre
 * Pedro M. Baeza
-* Stéphane Bidoul              <stephane.bidoul@acsone.eu>
+* Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Ignacio Ibeas - Acysos S.L.
 * Alexandre Fayolle
 * Raphaël Valyi
