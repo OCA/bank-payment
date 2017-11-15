@@ -72,6 +72,7 @@ Contributors
 * Erwin van der Ploeg
 * Sandy Carter
 * Antonio Espinosa <antonioea@antiun.com>
+* Omar Castiñeira <omar@comunitea.com>
 
 Maintainer
 ----------
