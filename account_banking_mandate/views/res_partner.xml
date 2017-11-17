@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="partner_view_buttons" model="ir.ui.view">
+    <field name="name">mandate.res.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.partner_view_buttons"/>
+    <field name="arch" type="xml">
+        <xpath expr="//button[@name='%(base.action_res_partner_bank_account_form)d']" position="after">
+            <button type="action" class="btn-link"
+                    name="%(account_banking_mandate.mandate_action)d"
+                    context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}">
+                <field string="Mandate(s)" name="mandate_count" widget="statinfo"/>
+            </button>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>
