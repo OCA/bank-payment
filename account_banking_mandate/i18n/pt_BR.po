@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-02 01:00+0000\n"
-"PO-Revision-Date: 2017-10-27 11:26+0000\n"
+"POT-Creation-Date: 2017-11-11 01:23+0000\n"
+"PO-Revision-Date: 2017-11-14 00:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr ""
+msgstr "A ordem '%s' não pode ter a data de último débito anterior a data de assinatura."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/model/account_banking_mandate.py:138
@@ -142,7 +142,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Search Banking Mandates"
-msgstr ""
+msgstr "Pesquise Ordens Bancárias"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_ids:0
@@ -230,7 +230,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: view:account.banking.mandate:0
 msgid "Signature Date"
-msgstr ""
+msgstr "Data de Assinatura"
 
 #. module: account_banking_mandate
 #: help:res.partner.bank,mandate_ids:0
@@ -265,7 +265,7 @@ msgstr "Se marcado novas mensagens requerem sua atenção."
 #. module: account_banking_mandate
 #: field:account.banking.mandate,scan:0
 msgid "Scan of the Mandate"
-msgstr ""
+msgstr "Digitalização da Ordem"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,signature_date:0
