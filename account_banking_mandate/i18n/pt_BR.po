@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-14 01:15+0000\n"
-"PO-Revision-Date: 2017-01-19 20:17+0000\n"
+"POT-Creation-Date: 2017-10-28 00:48+0000\n"
+"PO-Revision-Date: 2017-11-14 00:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Ordem bancária representa uma autorização que o dono da conta lhe dá
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:39
 #, python-format
 msgid "Basic Mandate"
-msgstr ""
+msgstr "Ordem Básica"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
@@ -196,7 +196,7 @@ msgstr "Seguidores"
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_tree
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
@@ -254,7 +254,7 @@ msgstr "Última Atualização em"
 #: view:bank.payment.line:account_banking_mandate.bank_payment_line_tree
 #: view:payment.order:account_banking_mandate.view_mandate_payment_order_form
 msgid "Mandate"
-msgstr ""
+msgstr "Ordem"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_cancel
@@ -269,7 +269,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,format:0
 msgid "Mandate Format"
-msgstr ""
+msgstr "Formato da Ordem"
 
 #. module: account_banking_mandate
 #: model:mail.message.subtype,name:account_banking_mandate.mandate_valid
@@ -329,7 +329,7 @@ msgstr "Referencia"
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Reference or Partner"
-msgstr ""
+msgstr "Referencia ou Parceria"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_form
@@ -345,12 +345,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,scan:0
 msgid "Scan of the Mandate"
-msgstr ""
+msgstr "Digitalização da Ordem"
 
 #. module: account_banking_mandate
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 msgid "Search Banking Mandates"
-msgstr ""
+msgstr "Pesquise Ordens Bancárias"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -361,7 +361,7 @@ msgstr ""
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_search
 #: view:account.banking.mandate:account_banking_mandate.view_mandate_tree
 msgid "Signature Date"
-msgstr ""
+msgstr "Data de Assinatura"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,state:0
@@ -385,7 +385,7 @@ msgstr ""
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr ""
+msgstr "A ordem '%s' não pode ter a data de último débito anterior a data de assinatura."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/payment_line.py:51
