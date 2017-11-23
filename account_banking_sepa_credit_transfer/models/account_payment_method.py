@@ -15,6 +15,7 @@ class AccountPaymentMethod(models.Model):
         ('pain.001.001.04', 'pain.001.001.04'),
         ('pain.001.001.05', 'pain.001.001.05'),
         ('pain.001.003.03', 'pain.001.003.03 (credit transfer in Germany)'),
+        ('pain.001.001.03.ch.02', 'pain.001.001.03.ch.02')
         ])
 
     @api.multi
@@ -22,7 +23,7 @@ class AccountPaymentMethod(models.Model):
         self.ensure_one()
         if self.pain_version in [
                 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04',
-                'pain.001.001.05', 'pain.001.003.03']:
+                'pain.001.001.05', 'pain.001.003.03', 'pain.001.001.03.ch.02']:
             path = 'account_banking_sepa_credit_transfer/data/%s.xsd'\
                 % self.pain_version
             return path
