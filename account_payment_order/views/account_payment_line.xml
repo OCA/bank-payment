@@ -19,7 +19,8 @@
                     <field name="partner_id"/>
                     <field name="partner_bank_id"
                         domain="[('partner_id', '=', partner_id)]"
-                        attrs="{'required': [('bank_account_required', '=', True)]}"/>
+                        attrs="{'required': [('bank_account_required', '=', True)]}"
+                        context="{'default_partner_id': partner_id}"/>
                     <field name="bank_account_required" invisible="1"/>
                     <field name="communication_type"/>
                     <field name="communication"/>
