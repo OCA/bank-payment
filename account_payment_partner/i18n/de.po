@@ -3,16 +3,15 @@
 # * account_payment_partner
 # 
 # Translators:
-# Niki Waibel, 2016
-# Niki Waibel, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: bank-payment (10.0)\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-01 14:55+0000\n"
-"PO-Revision-Date: 2016-11-01 20:49+0000\n"
-"Last-Translator: Niki Waibel\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
+"POT-Creation-Date: 2017-11-23 03:38+0000\n"
+"PO-Revision-Date: 2017-11-23 03:38+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -34,12 +33,19 @@ msgstr "<strong>Zahlungsmethode:</strong>"
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
-msgstr "Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer des Kunden oder Lieferanten bekannt sein muss."
+msgstr ""
+"Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer "
+"des Kunden oder Lieferanten bekannt sein muss."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
 msgid "Bank Account Required"
 msgstr "Bankkonto erforderlich"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Contact"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -58,9 +64,10 @@ msgid "Journal Item"
 msgstr "Logbuch Eintrag"
 
 #. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_res_partner
-msgid "Partner"
-msgstr "Partner"
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#, python-format
+msgid "No Chart of Account Template has been defined !"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
@@ -68,6 +75,11 @@ msgstr "Partner"
 #: model:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
 msgstr "Zahlungsmodus"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Zahlungsmodi"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
@@ -91,3 +103,26 @@ msgstr "Wähle die standard Zahlungsmethode für diesen Lieferanten."
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Zahlungsmethode des Lieferanten"
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_invoice.py:118
+#, python-format
+msgid ""
+"The company of the invoice %s does not match with that of the payment mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:17
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Invoice with this "
+"Payment Mode, already assigned to another Company."
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:28
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
