@@ -348,7 +348,7 @@ msgstr ""
 #: model:ir.model,name:account_banking_mandate.model_res_partner
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Mitra"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_line
