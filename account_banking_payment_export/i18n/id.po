@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-28 00:48+0000\n"
-"PO-Revision-Date: 2017-11-03 12:15+0000\n"
+"PO-Revision-Date: 2017-11-23 23:25+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -221,7 +221,7 @@ msgstr ""
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 #: model:ir.model,name:account_banking_payment_export.model_account_move_line
 msgid "Journal Items"
-msgstr ""
+msgstr "Journal Items"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_journal_ids:0
@@ -318,7 +318,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Mitra"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -507,12 +507,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 msgid "Total Credit"
-msgstr ""
+msgstr "Kredit total"
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 msgid "Total Debit"
-msgstr ""
+msgstr "Debit Total"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
