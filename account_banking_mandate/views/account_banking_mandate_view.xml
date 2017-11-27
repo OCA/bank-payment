@@ -32,6 +32,7 @@
                     <field name="format" string="Format"/>
                     <field name="type" string="Type"/>
                     <field name="partner_bank_id"
+                        options="{'create_name_field': 'acc_number'}"
                         invisible="context.get('mandate_bank_partner_view')" />
                     <field name="partner_id"
                         invisible="context.get('mandate_bank_partner_view')"
