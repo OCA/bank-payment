@@ -15,6 +15,8 @@
     'website': 'https://github.com/OCA/bank-payment',
     'depends': ['account_payment_mode'],
     'data': [
+        'security/ir.model.access.csv',
+        'security/account_payment_partner_security.xml',
         'views/res_partner_view.xml',
         'views/account_invoice_view.xml',
         'views/account_move_line.xml',
