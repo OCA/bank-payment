@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Payment Sale',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': "Adds payment mode on sale orders",
@@ -20,6 +20,7 @@
     'conflicts': ['sale_payment'],
     'data': [
         'views/sale_order_view.xml',
+        'views/sale_report_templates.xml',
     ],
     'installable': True,
     'auto_install': True,
