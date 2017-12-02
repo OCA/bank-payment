@@ -176,7 +176,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_display_name
 msgid "Display name"
-msgstr ""
+msgstr "Mostrar nome"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
