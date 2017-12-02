@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-18 00:42+0000\n"
+"POT-Creation-Date: 2017-12-01 13:13+0000\n"
 "PO-Revision-Date: 2017-09-23 23:05+0000\n"
 "Last-Translator: Michel V. <m.vorenhout@mvhconsult.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
@@ -291,7 +291,7 @@ msgid "Sequence Type for Next Debit"
 msgstr "Reeks soort voor volgende incasso"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:39
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:32
 #: code:addons/account_banking_sepa_direct_debit/models/res_company.py:31
 #, python-format
 msgid "The SEPA Creditor Identifier '%s' is invalid."
