@@ -17,6 +17,7 @@ class AccountInvoice(models.Model):
     bank_account_required = fields.Boolean(
         related='payment_mode_id.payment_method_id.bank_account_required',
         readonly=True)
+    partner_bank_id = fields.Many2one(ondelete='restrict')
 
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
