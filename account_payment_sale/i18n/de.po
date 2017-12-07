@@ -18,6 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_sale
+#: model:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr ""
+
+#. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order_payment_mode_id
 msgid "Payment Mode"
 msgstr "Zahlungsmodus"
