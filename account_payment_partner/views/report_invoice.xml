@@ -9,6 +9,7 @@
             </p>
             <p t-if="o.partner_bank_id">
                 <strong>Bank Account:</strong>
+                <t t-esc="o.partner_bank_id.bank_id.name + ('' if not o.partner_bank_id.bank_id.bic else ' (' + o.partner_bank_id.bank_id.bic + ')')" />
                 <span t-field="o.partner_bank_id.acc_number" />
             </p>
         </xpath>
