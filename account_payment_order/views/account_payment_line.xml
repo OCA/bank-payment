@@ -19,9 +19,9 @@
                     <field name="currency_id"/>
                     <field name="partner_id"/>
                     <field name="partner_bank_id"
-                        domain="[('partner_id', '=', partner_id),
-                    '|',('company_id', '=', company_id),('company_id', '=', False)]]"
-                        attrs="{'required': [('bank_account_required', '=', True)]}"/>
+                           domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                           attrs="{'required': [('bank_account_required', '=', True)]}"
+                    />
                     <field name="bank_account_required" invisible="1"/>
                     <field name="communication_type"/>
                     <field name="communication"/>
