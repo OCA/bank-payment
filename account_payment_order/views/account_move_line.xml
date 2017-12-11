@@ -15,8 +15,7 @@
     <field name="arch" type="xml">
         <group name="payments" position="inside">
             <field name="partner_bank_id"
-                domain="[('partner_id', '=', partner_id),
-                    '|',('company_id', '=', company_id),('company_id', '=', False)]]"/>
+                   domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"/>
             <field name="bank_payment_line_id"/>
         </group>
     </field>
