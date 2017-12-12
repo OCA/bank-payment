@@ -34,7 +34,7 @@ addon | version | summary
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 10.0.1.1.1 | Create SEPA files for Direct Debit
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.1 | Account Payment Mode
 [account_payment_order](account_payment_order/) | 10.0.1.3.2 | Account Payment Order
-[account_payment_partner](account_payment_partner/) | 10.0.1.1.0 | Adds payment mode on partners and invoices
+[account_payment_partner](account_payment_partner/) | 10.0.1.1.1 | Adds payment mode on partners and invoices
 [account_payment_sale](account_payment_sale/) | 10.0.1.1.0 | Adds payment mode on sale orders
 
 
