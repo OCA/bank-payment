@@ -1,0 +1,48 @@
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Create partner
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-
+  !record {model: res.partner, id: customer, view: False}:
+    name: "pain000 test"
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Create bank
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-
+  !record {model: res.bank, id: bank_post, view: False}:
+    name: 'Postfinance AG'
+    bic: 'POFICHBEXXX'
+    street: 'Postfinance'
+    zip: '3030'
+    city: 'Bern'
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Create partner bank
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-
+  !record {model: res.partner.bank, id: company_bank_post, view: False}:
+    acc_type: 'postal'
+    acc_number: '25-9778-2'
+    partner_id: base.main_partner #YourCompany
+    bank_id: bank_post
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Create journal
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-
+  !record {model: account.journal, id: lsv_account_journal, view: False}:
+    name: '2017/1013'
+    type: bank
+    bank_account_id: company_bank_post
+    update_posted: True
+
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Create payment mode
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-
+  !record {model: account.payment.mode, id: dd_pay_mode, view: False}:
+    bank_account_link: variable
+    name: 'DD'
+    active: True
+    payment_method_id: !ref {model: account.payment.method,search: "[('id','=','2')]"}
+    payment_order_ok: True
+    transfer_journal_id: !ref {model: account.journal, search: "[('type','=','bank')]"}
+    transfer_account_id: !ref {model: account.account, search: "[('code','=','1090')]"}
+    offsetting_account: 'transfer_account'
