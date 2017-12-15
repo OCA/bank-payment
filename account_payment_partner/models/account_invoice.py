@@ -26,7 +26,7 @@ class AccountInvoice(models.Model):
             if type == 'in_invoice':
                 res['value']['payment_mode_id'] = \
                     partner.supplier_payment_mode.id
-            elif type == 'out_invoice':
+            elif type in ('out_invoice','out_refund'):
                 res['value']['payment_mode_id'] = \
                     partner.customer_payment_mode.id
                 # Do not change the default value of partner_bank_id if
@@ -36,4 +36,14 @@ class AccountInvoice(models.Model):
                         partner.customer_payment_mode.bank_id.id
         else:
             res['value']['payment_mode_id'] = False
+        return res
+
+    @api.model
+    def _prepare_refund(self, invoice, date=None, period_id=None,
+                        description=None, journal_id=None):
+        res = super(AccountInvoice, self)._prepare_refund(
+            invoice, date=date, period_id=period_id,
+            description=description, journal_id=journal_id,
+        )
+        res['payment_mode_id'] = invoice.payment_mode_id.id if invoice.payment_mode_id else False
         return res
