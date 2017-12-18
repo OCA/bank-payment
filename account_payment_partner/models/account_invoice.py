@@ -37,3 +37,14 @@ class AccountInvoice(models.Model):
         else:
             res['value']['payment_mode_id'] = False
         return res
+
+    @api.model
+    def _prepare_refund(self, invoice, date=None, period_id=None,
+                        description=None, journal_id=None):
+        res = super(AccountInvoice, self)._prepare_refund(
+            invoice, date=date, period_id=period_id,
+            description=description, journal_id=journal_id,
+        )
+        if invoice.payment_mode_id:
+            res['payment_mode_id'] = invoice.payment_mode_id.id
+        return res
