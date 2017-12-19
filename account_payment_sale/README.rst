@@ -33,17 +33,12 @@ Usage
 =====
 
 You are able to add a payment mode directly on a partner.
-This payment mode is automatically associated to the sale order, then on related invoice. 
-This default value could be change in a draft sale order or draft invoice.
+This payment mode is automatically associated to the sale order, then on related invoice.
+This default value can be changed in a draft sale order or draft invoice.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/173/9.0
-
-Known issues / Roadmap
-======================
-
- * No known issues.
+   :target: https://runbot.odoo-community.org/runbot/173/11.0
 
 Bug Tracker
 ===========
