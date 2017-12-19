@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
-#    Releasing children from poverty in Jesus' name
-#    @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
-#
-#    The licence is in the file __manifest__.py
-#
-##############################################################################
+# Copyright 2017 Compassion CH (http://www.compassion.ch)
+# @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import models, api
 
 
@@ -17,6 +11,7 @@ class AccountInvoiceFree(models.TransientModel):
         payment order.
     '''
     _name = 'account.invoice.free'
+    _description = 'Free invoice wizard'
 
     @api.multi
     def invoice_free(self):
