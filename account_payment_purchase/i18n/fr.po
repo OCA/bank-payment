@@ -4,14 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Christophe CHAUVET <christophe.chauvet@gmail.com>, 2017
+# Quentin THEURET <odoo@kerpeo.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2017-05-17 02:46+0000\n"
-"Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>, 2017\n"
+"POT-Creation-Date: 2017-12-02 02:22+0000\n"
+"PO-Revision-Date: 2017-12-02 02:22+0000\n"
+"Last-Translator: Quentin THEURET <odoo@kerpeo.com>, 2017\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,13 +54,13 @@ msgstr ""
 #: code:addons/account_payment_purchase/models/account_invoice.py:20
 #, python-format
 msgid "Selected purchase order have different payment mode."
-msgstr ""
+msgstr "Le bon de commande sélectionné a un mode de paiement différente."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:27
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "Le bon de commande sélectionné a une banque fournisseur différente."
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
