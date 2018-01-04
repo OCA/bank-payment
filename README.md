@@ -8,13 +8,13 @@ OCA banking payment addons for Odoo
 On version 11.0, this project focus on payment interface. The indentation below 
 indicates the dependency graph of the main modules.
 
-- account_banking_payment_export - Basic export functionality of payment orders
+-  `account_payment_order` - Basic export functionality of payment orders
 
-    - account_banking_sepa_credit_transfer - Export of payment orders in SEPA format
+    - `account_banking_sepa_credit_transfer` - Export of payment orders in SEPA format
 
-    - account_direct_debit - Debit order infrastructure analogous to Odoo native payment orders
+    - `account_direct_debit` - Debit order infrastructure analogous to Odoo native payment orders
 
-        - account_banking_sepa_direct_debit - Export of debit orders in SEPA format
+        - `account_banking_sepa_direct_debit` - Export of debit orders in SEPA format
         
 Other features can now be found in these repositories:
 
@@ -22,6 +22,9 @@ Other features can now be found in these repositories:
  * https://github.com/OCA/bank-statement-reconcile
 
 
+Contributing
+------------
+Do you want to contribute? Please read our [contributing guidelines](https://github.com/OCA/maintainer-tools/blob/master/CONTRIBUTING.md).
 
 ----
 
