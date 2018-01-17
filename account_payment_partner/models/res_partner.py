@@ -13,14 +13,12 @@ class ResPartner(models.Model):
     supplier_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Supplier Payment Mode',
         company_dependent=True,
-        domain="[('payment_type', '=', 'outbound'), "
-               "('company_id', '=', company_id)]",
+        domain="[('payment_type', '=', 'outbound')]",
         help="Select the default payment mode for this supplier.")
     customer_payment_mode_id = fields.Many2one(
         'account.payment.mode', string='Customer Payment Mode',
         company_dependent=True,
-        domain="[('payment_type', '=', 'inbound'), "
-               "('company_id', '=', company_id)]",
+        domain="[('payment_type', '=', 'inbound')]",
         help="Select the default payment mode for this customer.")
 
     @api.model
