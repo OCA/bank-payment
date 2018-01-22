@@ -9,11 +9,11 @@ class AccountPaymentOrderReport(models.AbstractModel):
     _name = 'report.account_payment_order.print_account_payment_order_main'
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         AccountPaymentOrderObj = self.env['account.payment.order']
         docs = AccountPaymentOrderObj.browse(docids)
 
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': 'account.payment.order',
             'docs': docs,
@@ -22,8 +22,6 @@ class AccountPaymentOrderReport(models.AbstractModel):
             'get_bank_account_name': self.get_bank_account_name,
             'formatLang': formatLang,
         }
-        return self.env['report'].render(
-            'account_payment_order.print_account_payment_order_main', docargs)
 
     @api.model
     def get_bank_account_name(self, partner_bank):
