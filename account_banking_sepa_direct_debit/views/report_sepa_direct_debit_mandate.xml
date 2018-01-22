@@ -4,38 +4,7 @@
     <template id="sepa_direct_debit_mandate_document">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
         <t t-set="is_not_english" t-value="doc.partner_id.lang and doc.partner_id.lang[:2] != 'en'" />
-        <div class="page">
-            <style type="text/css">
-                h4 {
-                     margin-top: 2px;
-                     margin-bottom: 2px;
-                }
-                .under-line{
-                    border-bottom:1px solid;
-                }
-                input{
-                    vertical-align: baseline;
-                }
-                .panel-default{
-                    border:2px solid;
-                }
-                .panel.panel-default{
-                    margin-bottom: 4px;
-                }
-                .panel-body{
-                    padding: 2px 14px;
-                }
-                p{
-                    margin: 0 0 4px;
-                    font-size: 8px;
-                }
-                .native_lang{
-                    font-style: italic;
-                }
-                .native_lang_small{
-                    font-size: 0.8em;
-                }
-            </style>
+        <div class="page sepa_direct_debit">
             <div class="row mt0">
                 <div class="col-xs-3">
                     <img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % doc.company_id.logo" style="max-height: 45px;"/>
@@ -269,9 +238,11 @@
     </template>
 
     <template id="sepa_direct_debit_mandate">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document" t-lang="doc.partner_id.lang"/>
+                <t t-call="web.basic_layout">
+                    <t t-call="account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document" t-lang="doc.partner_id.lang"/>
+                </t>
             </t>
         </t>
     </template>
