@@ -5,7 +5,7 @@
 
     <template id="print_account_payment_order_document">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.generated_user_id.lang})" />
-        <t t-call="report.external_layout">
+        <t t-call="web.external_layout">
             <div class="page">
                 <div class="oe_structure"/>
 
@@ -116,7 +116,7 @@
     </template>
 
     <template id="print_account_payment_order_main">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="account_payment_order.print_account_payment_order_document" t-lang="doc.generated_user_id.lang"/>
             </t>
