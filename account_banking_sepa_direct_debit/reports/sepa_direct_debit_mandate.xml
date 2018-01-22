@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <template id="assets_common" name="account_banking_sepa_direct_debit pdf assets" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link href="/account_banking_sepa_direct_debit/static/src/css/report.css" rel="stylesheet"/>
+        </xpath>
+    </template>
+
     <!-- QWeb Report -->
     <report
         id="report_sepa_direct_debit_mandate"
