@@ -5,6 +5,7 @@
 from openupgradelib import openupgrade
 
 
+@openupgrade.migrate()
 def migrate(cr, version):
     """Copy convert_to_ascii to account_payment_method."""
     sql = """
