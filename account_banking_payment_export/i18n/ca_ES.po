@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-28 01:26+0000\n"
-"PO-Revision-Date: 2017-04-25 10:41+0000\n"
+"POT-Creation-Date: 2017-12-02 02:20+0000\n"
+"PO-Revision-Date: 2018-02-02 14:11+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Cancel·la"
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "Codi"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
@@ -101,13 +101,13 @@ msgstr "Companyia"
 #: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
 #: field:payment.mode.type,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat per"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,create_date:0 field:payment.manual,create_date:0
 #: field:payment.mode.type,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat a"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
@@ -128,7 +128,7 @@ msgstr ""
 #: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
 #: field:payment.mode.type,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom visible"
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -239,19 +239,19 @@ msgstr ""
 #: field:payment.manual,__last_update:0
 #: field:payment.mode.type,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació en"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
 #: field:payment.mode.type,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Darrera actualització per"
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,write_date:0 field:payment.manual,write_date:0
 #: field:payment.mode.type,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Darrera actualització el"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -282,7 +282,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit

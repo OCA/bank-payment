@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"POT-Creation-Date: 2017-12-02 02:20+0000\n"
 "PO-Revision-Date: 2016-04-06 00:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ca_ES/)\n"
@@ -58,17 +58,17 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat per"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat a"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom visible"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_banking_export_sepa_wizard
@@ -128,17 +128,17 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació en"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Darrera actualització per"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Darrera actualització el"
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,nb_transactions:0

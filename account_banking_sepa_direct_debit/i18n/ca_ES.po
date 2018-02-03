@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
-"PO-Revision-Date: 2016-11-22 16:25+0000\n"
+"POT-Creation-Date: 2017-12-02 02:20+0000\n"
+"PO-Revision-Date: 2018-02-02 14:11+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -143,12 +143,12 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat per"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat a"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -168,7 +168,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom visible"
 
 #. module: account_banking_sepa_direct_debit
 #: help:payment.mode,sepa_creditor_identifier:0
@@ -283,17 +283,17 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació en"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Darrera actualització per"
 
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Darrera actualització el"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -512,7 +512,7 @@ msgstr ""
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_tree
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #. module: account_banking_sepa_direct_debit
 #: field:account.banking.mandate,type:0
