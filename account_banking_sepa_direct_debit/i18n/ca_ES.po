@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
-"PO-Revision-Date: 2016-04-06 00:25+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2017-12-02 02:15+0000\n"
+"PO-Revision-Date: 2018-02-02 14:11+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,8 +76,14 @@ msgid "The recurrent mandate '%s' must have a sequence type."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: selection:banking.export.sdd,state:0
-msgid "Draft"
+#: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"            Click to create a new SEPA Direct Debit Mandate.\n"
+"            </p><p>\n"
+"            A SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.\n"
+"            </p>\n"
+"        "
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -376,7 +382,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:0
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.message.subtype,description:account_banking_sepa_direct_debit.recurrent_sequence_type_recurring
@@ -441,6 +447,11 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #. module: account_banking_sepa_direct_debit
+#: selection:banking.export.sdd,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: view:banking.export.sdd:0
 msgid "SEPA Direct Debit"
 msgstr ""
@@ -455,17 +466,6 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"\t\t\tClick to create a new SEPA Direct Debit Mandate.\n"
-"\t\t\t</p><p>\n"
-"\t\t\tA SEPA Direct Debit Mandate is a document signed by your customer that gives you the autorization to do one or several direct debits on his bank account.\n"
-"\t\t\t</p>\n"
-"\t\t"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit

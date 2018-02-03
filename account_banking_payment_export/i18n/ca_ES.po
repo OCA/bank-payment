@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 04:44+0000\n"
+"POT-Creation-Date: 2017-12-02 02:15+0000\n"
 "PO-Revision-Date: 2016-04-06 00:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca_ES/)\n"
@@ -54,7 +54,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/model/account_payment.py:84
@@ -157,7 +157,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr ""
+msgstr "Codi"
 
 #. module: account_banking_payment_export
 #: view:payment.manual:0

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (7.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 07:24+0000\n"
+"POT-Creation-Date: 2017-12-02 02:14+0000\n"
 "PO-Revision-Date: 2016-04-06 00:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-payment-7-0/language/ca_ES/)\n"
@@ -592,7 +592,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #. module: account_banking
 #: field:banking.link_partner,email:0
@@ -1290,7 +1290,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,name:0 field:banking.transaction.wizard,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking
 #: field:banking.import.transaction,remote_owner_address:0
@@ -1473,7 +1473,7 @@ msgstr ""
 #. module: account_banking
 #: field:banking.import.line,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #. module: account_banking
 #: model:ir.model,name:account_banking.model_res_bank
