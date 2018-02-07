@@ -12,11 +12,14 @@
     <field name="arch" type="xml">
         <form string="Banking Mandate">
             <header>
-                <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"/>
-                <button name="cancel" type="object" string="Cancel" states="draft,valid"/>
+                <button name="validate" type="object" string="Validate" states="draft" class="oe_highlight"
+                        invisible="context.get('mandate_bank_partner_view')"/>
+                <button name="cancel" type="object" string="Cancel" states="draft,valid"
+                        invisible="context.get('mandate_bank_partner_view')"/>
                 <button name="back2draft" type="object" string="Back to Draft"
                     states="cancel" groups="account.group_account_manager"
-                    confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"/>
+                    confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
+                    invisible="context.get('mandate_bank_partner_view')"/>
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>
@@ -58,12 +61,20 @@
     <field name="model">account.banking.mandate</field>
     <field name="arch" type="xml">
         <tree string="Banking Mandate" colors="blue:state=='draft';black:state in ('expired', 'cancel')">
+            <field name="id" invisible="1"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="partner_id" invisible="context.get('mandate_bank_partner_view')"/>
             <field name="format" string="Format"/>
             <field name="unique_mandate_reference" string="Reference"/>
             <field name="signature_date" string="Signature Date"/>
             <field name="last_debit_date"/>
+            <button name="validate" type="object" icon="fa-check"
+                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'draft')]}"/>
+            <button name="cancel" type="object" icon="fa-times"
+                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '=', 'cancel')]}"/>
+            <button name="back2draft" type="object" icon="fa-undo"
+                    groups="account.group_account_manager"
+                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"/>
             <field name="state"/>
         </tree>
     </field>
