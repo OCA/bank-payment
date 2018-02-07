@@ -13,7 +13,7 @@
     <field name="arch" type="xml">
         <group col="4" position="after">
             <group name="mandates" string="Direct Debit Mandates">
-                <field name="mandate_ids" context="{'default_partner_bank_id': active_id, 'mandate_bank_partner_view': True}" nolabel="1"/>
+                <field name="mandate_ids" context="{'mandate_bank_partner_view': True}" nolabel="1"/>
             </group>
         </group>
     </field>
