@@ -15,14 +15,13 @@ class ResPartnerBank(models.Model):
         help='Banking mandates represent an authorization that the bank '
              'account owner gives to a company for a specific operation.')
 
-    @api.constrains('company_id', 'mandate_ids')
+    @api.constrains('company_id')
     def _company_constrains(self):
         for rpb in self:
-            if self.env['account.banking.mandate'].search(
+            if self.env['account.banking.mandate'].sudo().search(
                     [('partner_bank_id', '=', rpb.id),
-                     ('company_id', '=', rpb.company_id.id)], limit=1):
+                     ('company_id', '!=', rpb.company_id.id)], limit=1):
                 raise ValidationError(
                     _("You cannot change the company of Partner Bank %s, "
                       "as there exists mandates referencing it that "
-                      "belong to another company.") %
-                    (rpb.name,))
+                      "belong to another company.") % (rpb.display_name,))
