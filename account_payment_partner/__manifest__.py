@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Payment Partner',
-    'version': '10.0.1.1.1',
+    'version': '10.0.1.1.2',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': 'Adds payment mode on partners and invoices',
