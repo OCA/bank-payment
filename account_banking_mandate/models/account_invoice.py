@@ -73,8 +73,9 @@ class AccountInvoice(models.Model):
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         """Select by default the first valid mandate of the partner"""
-        super(AccountInvoice, self)._onchange_partner_id()
+        res = super(AccountInvoice, self)._onchange_partner_id()
         self.set_mandate()
+        return res
 
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
