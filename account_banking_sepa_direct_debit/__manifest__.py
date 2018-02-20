@@ -8,7 +8,7 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '10.0.1.1.1',
+    'version': '10.0.1.2.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Tecnativa, "
@@ -28,6 +28,7 @@
         'data/report_paperformat.xml',
         'reports/sepa_direct_debit_mandate.xml',
         'views/report_sepa_direct_debit_mandate.xml',
+        'views/account_move_line_view.xml'
     ],
     'demo': ['demo/sepa_direct_debit_demo.xml'],
     'post_init_hook': 'update_bank_journals',

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_line_form_add_mandate_scheme" model="ir.ui.view">
+        <field name="name">account_banking_mandate_scheme.move_line_form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_banking_mandate.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="mandate_id" position="after">
+                <field name="mandate_scheme"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_filter_add_mandate_scheme" model="ir.ui.view">
+        <field name="name">Journal Items add mandate scheme</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="mandate_scheme"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
