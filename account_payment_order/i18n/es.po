@@ -3,6 +3,7 @@
 # * account_payment_order
 # 
 # Translators:
+# Javi Melendez <javimelex@gmail.com>, 2018
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
 # Rafael Blasco <rafabn@antiun.com>, 2016
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2017-11-29 01:40+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2018-02-20 01:40+0000\n"
+"PO-Revision-Date: 2018-02-19 09:10+0000\n"
+"Last-Translator: Javi Melendez <javimelex@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,32 +38,32 @@ msgstr "%d líneas de pago añadidas a una nueva orden de pago en borrador %s qu
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Company Currency:</strong>"
-msgstr ""
+msgstr "<strong>Moneda de la compañía</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Ejecución</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Payment Type:</strong>"
-msgstr ""
+msgstr "<strong>Tipo de pago</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr ""
+msgstr "<strong>Referencia</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Total</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Used Account:</strong>"
-msgstr ""
+msgstr "<strong>Cuenta utilizada</strong>"
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
@@ -240,7 +241,7 @@ msgstr "Cancelar pagos"
 msgid ""
 "Cannot delete a payment order line whose payment order is in state '%s'. You"
 " need to cancel it first."
-msgstr ""
+msgstr "No puedes eliminar una línea de orden de pago si el estado de la orden de pago es '%s'. Primero tienes que cancelarlo"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -375,12 +376,12 @@ msgstr "Orden de cobro %s"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
 msgid "Default Payment Execution Date"
-msgstr ""
+msgstr "Fecha de ejecución del pago"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_description
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
@@ -567,7 +568,7 @@ msgstr "Factura"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Invoice Ref"
-msgstr ""
+msgstr "Factura"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
@@ -658,7 +659,7 @@ msgstr "No se ha establecido la cuenta bancaria en la línea de pago %s"
 #: code:addons/account_payment_order/models/account_payment_order.py:236
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
-msgstr ""
+msgstr "No se ha establecido la cuenta bancaria en el diario bancario '%s'"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
@@ -881,7 +882,7 @@ msgstr "Orden de pago"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order / Payment"
-msgstr ""
+msgstr "Orden de pago"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -925,7 +926,7 @@ msgstr "Pagos"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_post_move
 msgid "Post Move"
-msgstr ""
+msgstr "Asiento"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
@@ -1081,7 +1082,7 @@ msgstr "Este asistente creará las líneas de pago para las facturas seleccionad
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Total (Currency)"
-msgstr ""
+msgstr "Total (moneda)"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
@@ -1143,7 +1144,7 @@ msgstr "Filtro de tipo de fecha"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
-msgstr ""
+msgstr "Fecha"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
@@ -1156,7 +1157,7 @@ msgstr "Asistente para crear líneas de pago"
 msgid ""
 "You cannot delete an uploaded payment order. You can cancel it in order to "
 "do so."
-msgstr ""
+msgstr "No puedes eliminar una orden de pago cargada. Para poder hacerlo tiene que cancelarla."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
@@ -1178,4 +1179,4 @@ msgstr "En caso contrario, se crearán nuevas órdenes (una por cada modo de pag
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "report.account_payment_order.print_account_payment_order_main"
-msgstr ""
+msgstr "report.account_payment_order.print_account_payment_order_main"

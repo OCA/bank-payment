@@ -3,13 +3,13 @@
 # * account_banking_pain_base
 # 
 # Translators:
-# Bole <bole@dajmi5.com>, 2017
+# Bole <bole@dajmi5.com>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 00:10+0000\n"
-"PO-Revision-Date: 2017-07-12 06:44+0000\n"
+"POT-Creation-Date: 2018-02-20 01:40+0000\n"
+"PO-Revision-Date: 2018-02-18 14:34+0000\n"
 "Last-Translator: Bole <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_category_purpose
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_category_purpose
 msgid "Category Purpose"
-msgstr ""
+msgstr "Kategorija namjene"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
@@ -84,17 +84,17 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
 msgid "Convert to ASCII"
-msgstr ""
+msgstr "Pretvori u ASCII"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Credit Card Payment"
-msgstr ""
+msgstr "Plaćanje kreditom karticom"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Debit Card Payment"
-msgstr ""
+msgstr "PLaćanje debitnom karticom"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -104,6 +104,13 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Dividend"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid ""
+"Enable this option if your country requires several SEPA/PAIN identifiers "
+"like in Spain."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -226,6 +233,11 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid "Multiple identifiers"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:23
 #, python-format
 msgid "No XSD file path found for payment method '%s'"
@@ -286,6 +298,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
 msgid "SEPA Payment"
 msgstr "SEPA plaćanje"
+
+#. module: account_banking_pain_base
+#: model:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+msgid "SEPA/PAIN"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:res.groups,name:account_banking_pain_base.group_pain_multiple_identifier
+msgid "SEPA/PAIN Identifiers on Payment Modes"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
