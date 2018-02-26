@@ -13,3 +13,12 @@ def migrate(env, version):
     # module and base_iban with this module
     if openupgrade.is_module_installed(env.cr, 'base_iban'):
         env['res.partner.bank'].search([])._compute_acc_type()
+
+    # Store payment_type in store related field
+    openupgrade.logged_query(
+        env.cr, """
+        UPDATE account_payment_mode apm
+        SET payment_type = pm.payment_type
+        FROM account_payment_method pm WHERE apm.payment_method_id = pm.id
+        WHERE payment_type IS NULL;
+        """)
