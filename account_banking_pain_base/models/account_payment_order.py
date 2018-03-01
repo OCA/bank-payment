@@ -79,7 +79,7 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
-                       max_size=0, gen_args=None):
+                       max_size=0, gen_args=None, bank_line=None):
         """This function is designed to be inherited !"""
         if gen_args is None:
             gen_args = {}
@@ -99,12 +99,16 @@ class AccountPaymentOrder(models.Model):
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, '-')
         except:
-            line = eval_ctx.get('line')
-            if line:
+            if bank_line:
+                raise UserError(
+                    _("Cannot compute the '%s' of the Bank Payment Line with "
+                        "reference '%s' (field '%s').")
+                    % (field_name, bank_line.name, field_value))
+            elif eval_ctx.get('line'):
                 raise UserError(
                     _("Cannot compute the '%s' of the Payment Line with "
                         "reference '%s'.")
-                    % (field_name, line.name))
+                    % (field_name, eval_ctx['line'].name))
             else:
                 raise UserError(
                     _("Cannot compute the '%s'.") % field_name)
@@ -378,7 +382,8 @@ class AccountPaymentOrder(models.Model):
         eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,
-            gen_args.get('name_maxsize'), gen_args=gen_args)
+            gen_args.get('name_maxsize'), gen_args=gen_args,
+            bank_line=bank_line)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'C':
@@ -394,7 +399,8 @@ class AccountPaymentOrder(models.Model):
             country = etree.SubElement(postal_address, 'Ctry')
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
-                {'partner': partner}, 2, gen_args=gen_args)
+                {'partner': partner}, 2, gen_args=gen_args,
+                bank_line=bank_line)
             if partner.street:
                 adrline1 = etree.SubElement(postal_address, 'AdrLine')
                 adrline1.text = self._prepare_field(
