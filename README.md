@@ -29,7 +29,7 @@ addon | version | summary
 --- | --- | ---
 [account_banking_mandate](account_banking_mandate/) | 10.0.1.1.5 | Banking mandates
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 10.0.1.0.0 | Adds mandates on sale orders
-[account_banking_pain_base](account_banking_pain_base/) | 10.0.1.1.0 | Base module for PAIN file generation
+[account_banking_pain_base](account_banking_pain_base/) | 10.0.1.1.1 | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 10.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 10.0.1.1.1 | Create SEPA files for Direct Debit
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.1 | Account Payment Mode
