@@ -3,6 +3,8 @@
 # * account_payment_mode
 # 
 # Translators:
+# enjolras <yo@miguelrevilla.com>, 2018
+# Javi Melendez <javimelex@gmail.com>, 2018
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
 # Rafael Blasco <rafabn@antiun.com>, 2016
@@ -11,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-20 01:40+0000\n"
-"PO-Revision-Date: 2018-02-20 10:46+0000\n"
-"Last-Translator: enjolras <yo@miguelrevilla.com>\n"
+"POT-Creation-Date: 2018-03-03 01:44+0000\n"
+"PO-Revision-Date: 2018-02-26 07:39+0000\n"
+"Last-Translator: Javi Melendez <javimelex@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -270,7 +272,7 @@ msgstr "Tipo de pago"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_payment_mode_ids
 msgid "Payment modes"
-msgstr "Métodos de pag"
+msgstr "Métodos de pago"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
