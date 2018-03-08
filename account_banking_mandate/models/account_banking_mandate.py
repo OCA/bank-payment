@@ -45,7 +45,9 @@ class AccountBankingMandate(models.Model):
         default=lambda self: self.env['res.company']._company_default_get(
             'account.banking.mandate'))
     unique_mandate_reference = fields.Char(
-        string='Unique Mandate Reference', track_visibility='onchange')
+        string='Unique Mandate Reference', track_visibility='onchange',
+        copy=False,
+    )
     signature_date = fields.Date(string='Date of Signature of the Mandate',
                                  track_visibility='onchange')
     scan = fields.Binary(string='Scan of the Mandate')
