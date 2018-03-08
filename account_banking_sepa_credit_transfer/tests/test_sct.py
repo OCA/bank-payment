@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018 Tecnativa - Pedro M. Baeza
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.addons.account.tests.account_test_classes\
-    import AccountingTestCase
 from odoo.tools import float_compare
+from odoo.tests import common
 import time
 from lxml import etree
 
 
-class TestSCT(AccountingTestCase):
+class TestSCT(common.HttpCase):
+    post_install = True
+    at_install = False
 
     def setUp(self):
         super(TestSCT, self).setUp()
@@ -23,39 +25,60 @@ class TestSCT(AccountingTestCase):
         self.attachment_model = self.env['ir.attachment']
         self.invoice_model = self.env['account.invoice']
         self.invoice_line_model = self.env['account.invoice.line']
-        self.main_company = self.env.ref('base.main_company')
         self.partner_agrolait = self.env.ref('base.res_partner_2')
         self.partner_asus = self.env.ref('base.res_partner_1')
         self.partner_c2c = self.env.ref('base.res_partner_12')
-        self.account_expense = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_expenses').id)], limit=1)
-        self.account_payable = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_payable').id)], limit=1)
+        self.eur_currency = self.env.ref('base.EUR')
+        self.usd_currency = self.env.ref('base.USD')
+        self.main_company = self.env['res.company'].create({
+            'name': 'Test EUR company',
+            'currency_id': self.eur_currency.id,
+        })
+        self.env.user.write({
+            'company_ids': [(6, 0, self.main_company.ids)],
+            'company_id': self.main_company.id,
+        })
+        self.env.ref(
+            'l10n_generic_coa.configurable_chart_template'
+        ).try_loading_for_current_company()
+        self.account_expense = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref('account.data_account_type_expenses').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.account_payable = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref('account.data_account_type_payable').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.partner_bank = self.env.ref(
+            'account_payment_mode.main_company_iban'
+        ).copy({
+            'company_id': self.main_company.id,
+            'partner_id': self.main_company.partner_id.id,
+            'bank_id': (
+                self.env.ref('account_payment_mode.bank_la_banque_postale').id
+            ),
+        })
         # create journal
         self.bank_journal = self.journal_model.create({
             'name': 'Company Bank journal',
             'type': 'bank',
             'code': 'BNKFB',
-            'bank_account_id':
-            self.env.ref('account_payment_mode.main_company_iban').id,
-            'bank_id':
-            self.env.ref('account_payment_mode.bank_la_banque_postale').id,
-            })
+            'bank_account_id': self.partner_bank.id,
+            'bank_id': self.partner_bank.bank_id.id,
+        })
         # update payment mode
         self.payment_mode = self.env.ref(
             'account_banking_sepa_credit_transfer.'
-            'payment_mode_outbound_sepa_ct1')
+            'payment_mode_outbound_sepa_ct1'
+        ).copy({
+            'company_id': self.main_company.id,
+        })
         self.payment_mode.write({
             'bank_account_link': 'fixed',
             'fixed_journal_id': self.bank_journal.id,
-            })
-        self.eur_currency = self.env.ref('base.EUR')
-        self.usd_currency = self.env.ref('base.USD')
-        self.main_company.currency_id = self.eur_currency.id
+        })
         # Trigger the recompute of account type on res.partner.bank
         for bank_acc in self.partner_bank_model.search([]):
             bank_acc.acc_number = bank_acc.acc_number
