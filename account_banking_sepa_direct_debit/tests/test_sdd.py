@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
-from odoo.addons.account.tests.account_test_classes import AccountingTestCase
+from odoo.tests import common
 from odoo.tools import float_compare
 import time
 from lxml import etree
 
 
-class TestSDD(AccountingTestCase):
+class TestSDD(common.HttpCase):
+    post_install = True
+    at_install = False
 
     def setUp(self):
         super(TestSDD, self).setUp()
@@ -25,37 +28,84 @@ class TestSDD(AccountingTestCase):
         self.attachment_model = self.env['ir.attachment']
         self.invoice_model = self.env['account.invoice']
         self.invoice_line_model = self.env['account.invoice.line']
-        company = self.env.ref('base.main_company')
         self.partner_agrolait = self.env.ref('base.res_partner_2')
         self.partner_c2c = self.env.ref('base.res_partner_12')
-        self.account_revenue = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_revenue').id)], limit=1)
-        self.account_receivable = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_receivable').id)], limit=1)
+        self.eur_currency = self.env.ref('base.EUR')
+        self.main_company = self.env['res.company'].create({
+            'name': 'Test EUR company',
+            'currency_id': self.eur_currency.id,
+            'sepa_creditor_identifier': 'FR78ZZZ424242',
+        })
+        self.env.user.write({
+            'company_ids': [(6, 0, self.main_company.ids)],
+            'company_id': self.main_company.id,
+        })
+        self.partner_agrolait.company_id = self.main_company.id
+        self.partner_c2c.company_id = self.main_company.id
+        self.env.ref(
+            'l10n_generic_coa.configurable_chart_template'
+        ).try_loading_for_current_company()
+        self.account_revenue = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref(
+                 'account.data_account_type_revenue').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.account_receivable = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref('account.data_account_type_receivable').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.company_bank = self.env.ref(
+            'account_payment_mode.main_company_iban'
+        ).copy({
+            'company_id': self.main_company.id,
+            'partner_id': self.main_company.partner_id.id,
+            'bank_id': (
+                self.env.ref('account_payment_mode.bank_la_banque_postale').id
+            ),
+        })
         # create journal
         self.bank_journal = self.journal_model.create({
             'name': 'Company Bank journal',
             'type': 'bank',
             'code': 'BNKFC',
-            'bank_account_id':
-            self.env.ref('account_payment_mode.main_company_iban').id,
-            'bank_id':
-            self.env.ref('account_payment_mode.bank_la_banque_postale').id,
-            })
+            'bank_account_id': self.company_bank.id,
+            'bank_id': self.company_bank.bank_id.id,
+        })
         # update payment mode
         self.payment_mode = self.env.ref(
-            'account_banking_sepa_direct_debit.'
-            'payment_mode_inbound_sepa_dd1')
+            'account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1'
+        ).copy({
+            'company_id': self.main_company.id,
+        })
         self.payment_mode.write({
             'bank_account_link': 'fixed',
             'fixed_journal_id': self.bank_journal.id,
-            })
-        self.eur_currency_id = self.env.ref('base.EUR').id
-        company.currency_id = self.eur_currency_id
+        })
+        # Copy partner bank accounts
+        bank1 = self.env.ref('account_payment_mode.res_partner_12_iban').copy({
+            'company_id': self.main_company.id,
+        })
+        self.mandate12 = self.env.ref(
+            'account_banking_sepa_direct_debit.res_partner_12_mandate'
+        ).copy({
+            'partner_bank_id': bank1.id,
+            'company_id': self.main_company.id,
+            'state': 'valid',
+            'unique_mandate_reference': 'BMTEST12',
+        })
+        bank2 = self.env.ref('account_payment_mode.res_partner_2_iban').copy({
+            'company_id': self.main_company.id,
+        })
+        self.mandate2 = self.env.ref(
+            'account_banking_sepa_direct_debit.res_partner_2_mandate'
+        ).copy({
+            'partner_bank_id': bank2.id,
+            'company_id': self.main_company.id,
+            'state': 'valid',
+            'unique_mandate_reference': 'BMTEST2',
+        })
         # Trigger the recompute of account type on res.partner.bank
         for bank_acc in self.partner_bank_model.search([]):
             bank_acc.acc_number = bank_acc.acc_number
@@ -77,18 +127,14 @@ class TestSDD(AccountingTestCase):
         self.check_sdd()
 
     def check_sdd(self):
-        self.env.ref(
-            'account_banking_sepa_direct_debit.res_partner_2_mandate'
-        ).recurrent_sequence_type = 'first'
+        self.mandate2.recurrent_sequence_type = 'first'
         invoice1 = self.create_invoice(
-            self.partner_agrolait.id,
-            'account_banking_sepa_direct_debit.res_partner_2_mandate', 42.0)
-        self.env.ref(
-            'account_banking_sepa_direct_debit.res_partner_12_mandate'
-        ).type = 'oneoff'
+            self.partner_agrolait.id, self.mandate2, 42.0,
+        )
+        self.mandate12.type = 'oneoff'
         invoice2 = self.create_invoice(
-            self.partner_c2c.id,
-            'account_banking_sepa_direct_debit.res_partner_12_mandate', 11.0)
+            self.partner_c2c.id, self.mandate12, 11.0,
+        )
         for inv in [invoice1, invoice2]:
             action = inv.create_account_payment_line()
         self.assertEqual(action['res_model'], 'account.payment.order')
@@ -107,7 +153,7 @@ class TestSDD(AccountingTestCase):
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
         self.assertEqual(
-            agrolait_pay_line1.currency_id.id, self.eur_currency_id)
+            agrolait_pay_line1.currency_id, self.eur_currency)
         self.assertEqual(
             agrolait_pay_line1.mandate_id, invoice1.mandate_id)
         self.assertEqual(
@@ -127,7 +173,7 @@ class TestSDD(AccountingTestCase):
         self.assertEqual(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
         self.assertEqual(
-            agrolait_bank_line.currency_id.id, self.eur_currency_id)
+            agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEqual(float_compare(
             agrolait_bank_line.amount_currency, 42.0, precision_digits=accpre),
             0)
@@ -146,7 +192,6 @@ class TestSDD(AccountingTestCase):
         self.assertEqual(attachment.datas_fname[-4:], '.xml')
         xml_file = base64.b64decode(attachment.datas)
         xml_root = etree.fromstring(xml_file)
-        # print "xml_file=", etree.tostring(xml_root, pretty_print=True)
         namespaces = xml_root.nsmap
         namespaces['p'] = xml_root.nsmap[None]
         namespaces.pop(None)
@@ -165,13 +210,11 @@ class TestSDD(AccountingTestCase):
         self.assertEqual(payment_order.state, 'uploaded')
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, 'paid')
-        self.assertEqual(self.env.ref(
-            'account_banking_sepa_direct_debit.res_partner_2_mandate').
-            recurrent_sequence_type, 'recurring')
+        self.assertEqual(self.mandate2.recurrent_sequence_type, 'recurring')
         return
 
     def create_invoice(
-            self, partner_id, mandate_xmlid, price_unit, type='out_invoice'):
+            self, partner_id, mandate, price_unit, type='out_invoice'):
         invoice = self.invoice_model.create({
             'partner_id': partner_id,
             'reference_type': 'none',
@@ -181,7 +224,7 @@ class TestSDD(AccountingTestCase):
             'type': type,
             'date_invoice': time.strftime('%Y-%m-%d'),
             'payment_mode_id': self.payment_mode.id,
-            'mandate_id': self.env.ref(mandate_xmlid).id,
+            'mandate_id': mandate.id,
             })
         self.invoice_line_model.create({
             'invoice_id': invoice.id,
