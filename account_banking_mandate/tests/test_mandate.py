@@ -11,13 +11,11 @@ class TestMandate(TransactionCase):
 
     def test_mandate_01(self):
         bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
-        self.assertEqual(bank_account.partner_id.mandate_count, 1)
         mandate = self.env['account.banking.mandate'].create({
             'partner_bank_id': bank_account.id,
             'signature_date': '2015-01-01',
             'company_id': self.company.id,
             })
-        self.assertEqual(bank_account.partner_id.mandate_count, 2)
         self.assertEqual(mandate.state, 'draft')
         mandate.validate()
         self.assertEqual(mandate.state, 'valid')
@@ -106,10 +104,10 @@ class TestMandate(TransactionCase):
             'signature_date': '2015-01-01',
             'company_id': self.company.id,
         })
-        bank_account_2 = self.env.ref(
-            'account_payment_mode.res_partner_2_iban')
-        bank_account_2.mandate_ids.unlink()
-        bank_account_2.company_id = self.company_2
+        bank_account_2 = self.env['res.partner.bank'].create({
+            'acc_number': '1234',
+            'company_id': self.company_2.id,
+        })
         with self.assertRaises(ValidationError):
             mandate.partner_bank_id = bank_account_2
 
@@ -118,12 +116,12 @@ class TestMandate(TransactionCase):
             'signature_date': '2015-01-01',
             'company_id': self.company.id,
         })
-        bank_account_2 = self.env.ref(
-            'account_payment_mode.res_partner_2_iban')
-        bank_account_2.mandate_ids.unlink()
-        bank_account_2.company_id = self.company_2
+        bank_account = self.env['res.partner.bank'].create({
+            'acc_number': '1234',
+            'company_id': self.company_2.id,
+        })
         with self.assertRaises(ValidationError):
-            bank_account_2.mandate_ids += mandate
+            bank_account.mandate_ids += mandate
 
     def setUp(self):
         res = super(TestMandate, self).setUp()
