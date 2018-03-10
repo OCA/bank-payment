@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp.addons.account.tests.account_test_classes\
-    import AccountingTestCase
 from openerp.tools import float_compare
+from openerp.tests import common
 import time
 from lxml import etree
 
 
-class TestSDD(AccountingTestCase):
+class TestSDD(common.HttpCase):
+    at_install = False
+    post_install = True
 
-    def test_sdd(self):
+    def setUp(self):
+        super(TestSDD, self).setUp()
         self.company = self.env['res.company']
         self.account_model = self.env['account.account']
         self.move_model = self.env['account.move']
@@ -24,37 +27,66 @@ class TestSDD(AccountingTestCase):
         self.attachment_model = self.env['ir.attachment']
         self.invoice_model = self.env['account.invoice']
         self.invoice_line_model = self.env['account.invoice.line']
-        company = self.env.ref('base.main_company')
+        self.eur_currency = self.env.ref('base.EUR')
+        self.main_company = self.env['res.company'].create({
+            'name': 'Test EUR company',
+            'currency_id': self.eur_currency.id,
+            'sepa_creditor_identifier': 'FR78ZZZ424242',
+        })
+        self.env.user.write({
+            'company_ids': [(6, 0, self.main_company.ids)],
+            'company_id': self.main_company.id,
+        })
+        self.env.ref(
+            'l10n_generic_coa.configurable_chart_template'
+        ).try_loading_for_current_company()
         self.partner_agrolait = self.env.ref('base.res_partner_2')
         self.partner_c2c = self.env.ref('base.res_partner_12')
-        self.account_revenue = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_revenue').id)], limit=1)
-        self.account_receivable = self.account_model.search([(
-            'user_type_id',
-            '=',
-            self.env.ref('account.data_account_type_receivable').id)], limit=1)
+        self.partner_agrolait.company_id = self.main_company.id
+        self.partner_c2c.company_id = self.main_company.id
+        self.account_revenue = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref(
+                 'account.data_account_type_revenue').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.account_receivable = self.account_model.search([
+            ('user_type_id', '=',
+             self.env.ref('account.data_account_type_receivable').id),
+            ('company_id', '=', self.main_company.id),
+        ], limit=1)
+        self.company_bank = self.env.ref(
+            'account_payment_mode.main_company_iban'
+        ).copy({
+            'company_id': self.main_company.id,
+            'partner_id': self.main_company.partner_id.id,
+            'bank_id': (
+                self.env.ref('account_payment_mode.bank_la_banque_postale').id
+            ),
+        })
         # create journal
         self.bank_journal = self.journal_model.create({
             'name': 'Company Bank journal',
             'type': 'bank',
             'code': 'BNKFC',
-            'bank_account_id':
-            self.env.ref('account_payment_mode.main_company_iban').id,
-            'bank_id':
-            self.env.ref('account_payment_mode.bank_la_banque_postale').id,
-            })
+            'bank_account_id': self.company_bank.id,
+            'bank_id': self.company_bank.bank_id.id,
+        })
         # update payment mode
         self.payment_mode = self.env.ref(
-            'account_banking_sepa_direct_debit.'
-            'payment_mode_inbound_sepa_dd1')
+            'account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1'
+        ).copy({
+            'company_id': self.main_company.id,
+        })
         self.payment_mode.write({
             'bank_account_link': 'fixed',
             'fixed_journal_id': self.bank_journal.id,
-            })
-        eur_currency_id = self.env.ref('base.EUR').id
-        company.currency_id = eur_currency_id
+        })
+        # Trigger the recompute of account type on res.partner.bank
+        for bank_acc in self.partner_bank_model.search([]):
+            bank_acc.acc_number = bank_acc.acc_number
+
+    def test_sdd(self):
         self.env.ref(
             'account_banking_sepa_direct_debit.res_partner_2_mandate').\
             recurrent_sequence_type = 'first'
@@ -81,7 +113,8 @@ class TestSDD(AccountingTestCase):
         self.assertEquals(len(pay_lines), 1)
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
-        self.assertEquals(agrolait_pay_line1.currency_id.id, eur_currency_id)
+        self.assertEquals(
+            agrolait_pay_line1.currency_id, self.eur_currency)
         self.assertEquals(
             agrolait_pay_line1.mandate_id, invoice1.mandate_id)
         self.assertEquals(
@@ -100,7 +133,8 @@ class TestSDD(AccountingTestCase):
             ('partner_id', '=', self.partner_agrolait.id)])
         self.assertEquals(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
-        self.assertEquals(agrolait_bank_line.currency_id.id, eur_currency_id)
+        self.assertEquals(
+            agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEquals(float_compare(
             agrolait_bank_line.amount_currency, 42.0, precision_digits=accpre),
             0)
