@@ -19,6 +19,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "# of chars"
+msgstr "Nº de caracteres"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -32,12 +38,8 @@ msgstr "<strong>Modo de pago:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice_bank_account_required
-msgid ""
-"Activate this option if this payment method requires you to know the bank "
-"account number of your customer or supplier."
-msgstr ""
-"Activa esta opción si este método de pago debe requerirte informar el número "
-"de cuenta bancaria de tu cliente o proveedor"
+msgid "Activate this option if this payment method requires you to know the bank account number of your customer or supplier."
+msgstr "Activa esta opción si este método de pago debe requerirte informar el número de cuenta bancaria de tu cliente o proveedor"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
@@ -45,10 +47,25 @@ msgid "Bank Account Required"
 msgstr "Cuenta bancaria requerida"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr "Cuenta bancaria de los diarios"
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Modo de pago de cliente"
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "First n chars"
+msgstr "Primeros n caracteres"
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Full"
+msgstr "Completo"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
@@ -61,9 +78,29 @@ msgid "Journal Item"
 msgstr "Apunte contable"
 
 #. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Last n chars"
+msgstr "Últimos n caracteres"
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "No"
+msgstr "No"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr "Nº de dígitos de cuenta bancaria del cliente"
+
+#. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_method
+msgid "Payment Methods"
+msgstr "Métodos de pago"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
@@ -73,25 +110,40 @@ msgid "Payment Mode"
 msgstr "Modo de pago"
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de pago"
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Pagos"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
-#: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
-msgstr ""
-"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
-"cliente."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como cliente."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
-msgstr ""
-"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
-"proveedor."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show bank account"
+msgstr "Mostrar cuenta bancaria"
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr "Mostrar cuenta bancaria en informe factura"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr "Mostrar en facturas nº de cuenta bancaria parcial o completo"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
