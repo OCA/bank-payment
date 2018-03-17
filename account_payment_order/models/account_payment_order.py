@@ -98,8 +98,14 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends('move_ids')
     def _compute_move_count(self):
+        move_data = self.env['account.move'].read_group(
+            [('payment_order_id', 'in', self.ids)],
+            ['payment_order_id'], ['payment_order_id'])
+        mapped_data = dict([
+            (move['payment_order_id'][0], move['payment_order_id_count'])
+            for move in move_data])
         for order in self:
-            order.move_count = len(order.move_ids)
+            order.move_count = mapped_data.get(order.id, 0)
 
     @api.multi
     def unlink(self):
