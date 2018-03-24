@@ -35,4 +35,4 @@ class SaleOrder(models.Model):
                 ('state', '=', 'valid'),
                 ('partner_id', '=', self.commercial_partner_id.id),
                 ])
-            self.mandate_id = mandates[0]
+            self.mandate_id = mandates[:1]
