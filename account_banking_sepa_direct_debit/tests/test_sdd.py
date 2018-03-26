@@ -37,9 +37,19 @@ class TestSDD(common.HttpCase):
             'company_ids': [(6, 0, self.main_company.ids)],
             'company_id': self.main_company.id,
         })
-        self.env.ref(
-            'l10n_generic_coa.configurable_chart_template'
-        ).try_loading_for_current_company()
+        chart = self.env.ref('l10n_generic_coa.configurable_chart_template')
+        wizard = self.env['wizard.multi.charts.accounts'].create({
+            'company_id': self.main_company.id,
+            'chart_template_id': chart.id,
+            'code_digits': 6,
+            'currency_id': self.env.ref('base.EUR').id,
+            'transfer_account_id': chart.transfer_account_id.id,
+            # Set these values for not letting the dangerous default ones
+            'sale_tax_id': False,
+            'purchase_tax_id': False,
+        })
+        wizard.onchange_chart_template_id()
+        wizard.execute()
         self.partner_agrolait = self.env.ref('base.res_partner_2')
         self.partner_c2c = self.env.ref('base.res_partner_12')
         self.partner_agrolait.company_id = self.main_company.id
