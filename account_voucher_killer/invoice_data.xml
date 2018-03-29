@@ -1,7 +1,5 @@
-<openerp>
-  <data>
-    <record id="invoice_voucher_user" model="res.groups">
-      <field name="name">Use voucher in Invoices</field>
+<odoo>
+    <record id="invoice_payment_user" model="res.groups">
+      <field name="name">Payments for Invoices</field>
     </record>
-  </data>
-</openerp>
+</odoo>

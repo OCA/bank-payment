@@ -19,16 +19,17 @@
 #
 ##############################################################################
 
-{'name': 'Accounting voucher killer',
+{'name': 'Accounting Payment killer',
  'version': '8.0.1.0.0',
  'category': 'other',
  'author': "Camptocamp,Odoo Community Association (OCA)",
  'website': 'http://www.camptocamp.com',
  'license': 'AGPL-3',
- 'depends': ['account_voucher'],
- 'data': ['invoice_data.xml',
-          'invoice_view.xml'],
- 'test': [],
- 'installable': False,
+ 'depends': ['account'],
+ 'data': [
+     'invoice_data.xml',
+     'invoice_view.xml'
+ ],
+ 'installable': True,
  'active': False,
  }
