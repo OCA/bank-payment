@@ -56,5 +56,4 @@ class AccountPaymentOrder(models.Model):
         move = super(AccountPaymentOrder, self)._prepare_move(bank_lines)
         if self.payment_mode_id.allow_force_date:
             move.update({'date': self.get_account_date()})
-            print move
         return move
