@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2018 @author Cristian Salamea
+# © <2018> <Cristian Salamea>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'Accounting Payments Dates',
@@ -15,4 +16,4 @@
         'views/payment_views.xml',
     ],
     'installable': True,
- }
+}
