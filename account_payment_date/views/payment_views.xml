@@ -1,0 +1,13 @@
+<odoo>
+  <record id="view_account_payment_mode_date_form" model="ir.ui.view">
+    <field name="name">view.account.payment.mode.date.form</field>
+    <field name="model">account.payment.mode</field>
+    <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
+    <field name="arch" type="xml">
+      <field name="generate_move" position="before">
+	<field name="allow_force_date"/>
+      </field>
+    </field>
+  </record>
+
+</odoo>
