@@ -41,14 +41,16 @@ class AccountPaymentOrder(models.Model):
                      self)._prepare_move_line_offsetting_account(
                          amount_company_currency,
                          amount_payment_currency, bank_lines)
-        vals.update({'date': self.get_account_date()})
+        if self.payment_mode_id.allow_force_date:
+            vals.update({'date': self.date_scheduled or bank_lines[0].date})
         return vals
 
     @api.multi
     def _prepare_move_line_partner_account(self, bank_line):
         vals = super(AccountPaymentOrder,
                      self)._prepare_move_line_partner_account(bank_line)
-        vals.update({'date': self.get_account_date()})
+        if self.payment_mode_id.allow_force_date:
+            vals.update({'date': self.get_account_date()})
         return vals
 
     @api.multi
