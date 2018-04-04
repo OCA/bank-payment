@@ -11,6 +11,19 @@ from lxml import etree
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
+    @api.model
+    def _get_line_key(self, line):
+        # The field line.date is the requested payment date
+        # taking into account the 'date_prefered' setting
+        # cf account_banking_payment_export/models/account_payment.py
+        # in the inherit of action_open()
+        return (
+            line.date,
+            line.priority,
+            line.local_instrument,
+            line.category_purpose
+        )
+
     @api.multi
     def generate_payment_file(self):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
@@ -81,20 +94,14 @@ class AccountPaymentOrder(models.Model):
         # key = (requested_date, priority, local_instrument, categ_purpose)
         # values = list of lines as object
         for line in self.bank_line_ids:
-            priority = line.priority
-            local_instrument = line.local_instrument
-            categ_purpose = line.category_purpose
-            # The field line.date is the requested payment date
-            # taking into account the 'date_prefered' setting
-            # cf account_banking_payment_export/models/account_payment.py
-            # in the inherit of action_open()
-            key = (line.date, priority, local_instrument, categ_purpose)
+            key = self._get_line_key(line)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
-        for (requested_date, priority, local_instrument, categ_purpose),\
-                lines in lines_per_group.items():
+        for block_info, lines in lines_per_group.items():
+            requested_date, priority,\
+                local_instrument, categ_purpose = block_info[:4]
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
@@ -109,6 +116,7 @@ class AccountPaymentOrder(models.Model):
                         'requested_date': requested_date,
                         'local_instrument': local_instrument or 'NOinstr',
                         'category_purpose': categ_purpose or 'NOcateg',
+                        'optional_args': block_info[4:]
                     }, gen_args)
             self.generate_party_block(
                 payment_info, 'Dbtr', 'B',
