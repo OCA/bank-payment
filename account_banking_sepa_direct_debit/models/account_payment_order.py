@@ -260,10 +260,11 @@ class AccountPaymentOrder(models.Model):
             first_mandates.write({
                 'recurrent_sequence_type': 'recurring',
                 })
-            first_mandates.message_post(_(
-                "Automatically switched from <b>First</b> to <b>Recurring</b> "
-                "when the debit order "
-                "<a href=# data-oe-model=account.payment.order "
-                "data-oe-id=%d>%s</a> has been marked as uploaded.")
-                % (order.id, order.name))
+            for first_mandate in first_mandates:
+                first_mandate.message_post(_(
+                    "Automatically switched from <b>First</b> to "
+                    "<b>Recurring</b> when the debit order "
+                    "<a href=# data-oe-model=account.payment.order "
+                    "data-oe-id=%d>%s</a> has been marked as uploaded.")
+                    % (order.id, order.name))
         return res
