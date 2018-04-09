@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_sepa_direct_debit
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
 # Melroy van den Berg <webmaster1989@gmail.com>, 2018
@@ -13,10 +13,10 @@ msgstr ""
 "PO-Revision-Date: 2018-01-04 15:36+0000\n"
 "Last-Translator: Melroy van den Berg <webmaster1989@gmail.com>, 2018\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_direct_debit
@@ -110,30 +110,40 @@ msgid ""
 "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
 "CREDITOR FOR STORAGE."
 msgstr ""
-"ALL LEGE VELDEN ZIJN VERPLICHT. WANNEER ONDERTEKEND MOET DIT MANDAAT NAAR DE"
-" CREDITEUR GESTUURD WORDEN VOOR ADMINISTRATIE/"
+"ALL LEGE VELDEN ZIJN VERPLICHT. WANNEER ONDERTEKEND MOET DIT MANDAAT NAAR DE "
+"CREDITEUR GESTUURD WORDEN VOOR ADMINISTRATIE/"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
-"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
-"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
-"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE.\n"
+"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S "
+"AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
+"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED "
+"AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
 msgstr ""
-"ALL LEGE VELDEN ZIJN VERPLICHT. WANNEER ONDERTEKEND MOET DIT MANDAAT NAAR DE CREDITEUR GESTUURD WORDEN VOOR ADMINISTRATIE.\n"
-"                     NIETTEMIN, DE BANK VAN DE DEBITEUR VERGT AUTHORISATIE VAN DE DEBITEUR VOOR HET DEBITEREN VAN B2B INCASSO'S VAN DE REKENING\n"
-"                     DE DEBITEUR KAN DE AUTHORISATIE BEHEREN VIA DE MIDDELEN VERSCHAFT DOOR DE BANK."
+"ALL LEGE VELDEN ZIJN VERPLICHT. WANNEER ONDERTEKEND MOET DIT MANDAAT NAAR DE "
+"CREDITEUR GESTUURD WORDEN VOOR ADMINISTRATIE.\n"
+"                     NIETTEMIN, DE BANK VAN DE DEBITEUR VERGT AUTHORISATIE "
+"VAN DE DEBITEUR VOOR HET DEBITEREN VAN B2B INCASSO'S VAN DE REKENING\n"
+"                     DE DEBITEUR KAN DE AUTHORISATIE BEHEREN VIA DE MIDDELEN "
+"VERSCHAFT DOOR DE BANK."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "As part of your rights, you are entitled to a refund from\n"
-"                        your bank under the terms and conditions of your agreement\n"
+"                        your bank under the terms and conditions of your "
+"agreement\n"
 "                        with your bank.\n"
-"                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
+"                        A refund must be claimed within 8 weeks starting "
+"from the date on which your account was debited."
 msgstr ""
-"Als onderdeel van uw rechten heeft u recht op een credit van uw bank onder de condities en voorwaarden van uw bank.\n"
-"Een credit moet worden geclaimed binnen 8 dagen vanaf de datum waarop het bedrag is afgeschreven."
+"Als onderdeel van uw rechten heeft u recht op een credit van uw bank onder "
+"de condities en voorwaarden van uw bank.\n"
+"Een credit moet worden geclaimed binnen 8 dagen vanaf de datum waarop het "
+"bedrag is afgeschreven."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:79
@@ -144,6 +154,15 @@ msgid ""
 msgstr ""
 "Omdat u de gekoppelde bankrekening heeft gewijzigd is de reeks terug gezet "
 "naar 'Eerste'."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:264
+#, python-format
+msgid ""
+"Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
+"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
+"been marked as uploaded."
+msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -168,14 +187,17 @@ msgstr "Bedrijven"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier
 msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from "
+"company will be used.\n"
 "This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
 msgstr ""
-"Geef de Incassant-ID in, welke is toegewezen aan uw bedrijf om incasso's uit te voeren. De Incassant-ID is samengesteld uit:\n"
+"Geef de Incassant-ID in, welke is toegewezen aan uw bedrijf om incasso's uit "
+"te voeren. De Incassant-ID is samengesteld uit:\n"
 "- uw ISO landcode (2 letters)\n"
 "- een 2 cijferig controlegetal\n"
 "- een 3 cijferig business code\n"
@@ -185,13 +207,15 @@ msgstr ""
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_config_settings_sepa_creditor_identifier
 msgid ""
-"Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
 "- a country-specific identifier"
 msgstr ""
-"Geef de Incassant-ID in, welke is toegewezen aan uw bedrijf om incasso's uit te voeren. De Incassant-ID is samengesteld uit:\n"
+"Geef de Incassant-ID in, welke is toegewezen aan uw bedrijf om incasso's uit "
+"te voeren. De Incassant-ID is samengesteld uit:\n"
 "- uw ISO landcode (2 letters)\n"
 "- een 2 cijferig controlegetal\n"
 "- een 3 cijferig business code\n"
@@ -222,8 +246,8 @@ msgstr "Machtiging bijwerken"
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
 #, python-format
 msgid ""
-"Missing SEPA Direct Debit mandate on the bank payment line with partner '%s'"
-" (reference '%s')."
+"Missing SEPA Direct Debit mandate on the bank payment line with partner "
+"'%s' (reference '%s')."
 msgstr ""
 "Missende SEPA Incasso mandaten op betaalregel met klant '%s' (referentie "
 "'%s')."
@@ -254,12 +278,12 @@ msgstr "Betalingsopdracht"
 #, python-format
 msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
-"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
-" 'pain.008.001.04'."
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and "
+"'pain.008.001.04'."
 msgstr ""
 "Betaal soort code '%s' wordt niet ondersteund. De enige betaalsoort code "
-"ondersteund voor SEPA incasso's zijn 'pain.008.001.02', 'pain.008.001.03' en"
-" 'pain.008.001.04'."
+"ondersteund voor SEPA incasso's zijn 'pain.008.001.02', 'pain.008.001.03' en "
+"'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -332,8 +356,7 @@ msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
 "expired."
 msgstr ""
-"De SEPA incasso machtiging met referentie '%s' voor relatie '%s' is "
-"verlopen."
+"De SEPA incasso machtiging met referentie '%s' voor relatie '%s' is verlopen."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
@@ -342,9 +365,9 @@ msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
 msgstr ""
-"De machtiging referentie '%s' voor relatie %s' is ingesteld op 'eenmalig' en"
-" de laatste incasso datum is ingesteld op '%s'. Zodoende kunnen we deze niet"
-" gebruiken."
+"De machtiging referentie '%s' voor relatie %s' is ingesteld op 'eenmalig' en "
+"de laatste incasso datum is ingesteld op '%s'. Zodoende kunnen we deze niet "
+"gebruiken."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:49
@@ -364,12 +387,17 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "This mandate is only intended for business-to-business transactions.\n"
-"                        You are not entitled to a refund from your bank after your account has\n"
-"                        been debited, but you are entitled to request your bank\n"
-"                        not to debit your account up until the day on which the payment is due."
+"                        You are not entitled to a refund from your bank "
+"after your account has\n"
+"                        been debited, but you are entitled to request your "
+"bank\n"
+"                        not to debit your account up until the day on which "
+"the payment is due."
 msgstr ""
 "Deze mandaat is alleen bedoelt voor B2B transacties.\n"
-"Het is niet toegestaan een credit te doen nadat het bedrag is afgeschreven, maar je kan een verzoek doen aan de bank om het bedrag niet af te schrijven totaan de vervaldatum."
+"Het is niet toegestaan een credit te doen nadat het bedrag is afgeschreven, "
+"maar je kan een verzoek doen aan de bank om het bedrag niet af te schrijven "
+"totaan de vervaldatum."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -400,6 +428,8 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
-"to send instructions to your bank to debit your account and (B) your bank to\n"
-"                       debit your account in accordance with the instructions from"
+"to send instructions to your bank to debit your account and (B) your bank "
+"to\n"
+"                       debit your account in accordance with the "
+"instructions from"
 msgstr "om "
