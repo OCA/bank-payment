@@ -11,8 +11,29 @@ from odoo.exceptions import UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    payment_mode_computed_id = fields.Many2one(
+        comodel_name='account.payment.mode',
+        compute="_compute_payment_mode_computed_id",
+        string="Computed payment mode",
+        help="Technical field for storing the final payment mode to use, "
+             "taking into account data in journal items.",
+    )
     payment_order_ok = fields.Boolean(
-        related='payment_mode_id.payment_order_ok', readonly=True)
+        related="payment_mode_computed_id.payment_order_ok",
+    )
+
+    @api.depends('payment_mode_id', 'move_id', 'move_id.line_ids',
+                 'move_id.line_ids.payment_mode_id')
+    def _compute_payment_mode_computed_id(self):
+        for invoice in self:
+            payment_mode = (
+                invoice.move_id.line_ids.filtered(
+                    lambda x: not x.reconciled
+                ).mapped('payment_mode_id')[:1]
+            )
+            if not payment_mode:
+                payment_mode = invoice.payment_mode_id
+            invoice.payment_mode_computed_id = payment_mode
 
     @api.model
     def _get_reference_type(self):
@@ -33,7 +54,9 @@ class AccountInvoice(models.Model):
     @api.multi
     def _prepare_new_payment_order(self):
         self.ensure_one()
-        vals = {'payment_mode_id': self.payment_mode_id.id}
+        vals = {
+            'payment_mode_id': self.payment_mode_computed_id.id,
+        }
         # other important fields are set by the inherit of create
         # in account_payment_order.py
         return vals
@@ -48,18 +71,24 @@ class AccountInvoice(models.Model):
             if inv.state != 'open':
                 raise UserError(_(
                     "The invoice %s is not in Open state") % inv.number)
-            if not inv.payment_mode_id:
+            if not inv.payment_mode_computed_id:
                 raise UserError(_(
                     "No Payment Mode on invoice %s") % inv.number)
             if not inv.move_id:
                 raise UserError(_(
                     "No Journal Entry on invoice %s") % inv.number)
-            if not inv.payment_order_ok:
+            payment_mode = inv.move_id.mapped('line_ids.payment_mode_id')
+            if len(payment_mode) > 1:
+                raise UserError(
+                    _("You can't add invoices which journal items have more "
+                      "than one payment mode.")
+                )
+            if not payment_mode.payment_order_ok:
                 raise UserError(_(
                     "The invoice %s has a payment mode '%s' "
                     "which is not selectable in payment orders."))
             payorders = apoo.search([
-                ('payment_mode_id', '=', inv.payment_mode_id.id),
+                ('payment_mode_id', '=', inv.payment_mode_computed_id.id),
                 ('state', '=', 'draft')])
             if payorders:
                 payorder = payorders[0]
