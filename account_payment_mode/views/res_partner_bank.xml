@@ -26,20 +26,6 @@ detect wrong IBANs -->
     </field>
 </record>
 
-<record id="view_partner_bank_search" model="ir.ui.view">
-    <field name="name">account_payment_mode.res_partner_bank_search</field>
-    <field name="model">res.partner.bank</field>
-    <field name="inherit_id" ref="base.view_partner_bank_search"/>
-    <field name="arch" type="xml">
-        <field name="partner_id" position="after">
-            <group string="Group By" name="groupby">
-                <filter name="acc_type_groupby" string="Bank Account Type"
-                    context="{'group_by': 'acc_type'}"/>
-            </group>
-        </field>
-    </field>
-</record>
-
 
 </data>
 </openerp>
