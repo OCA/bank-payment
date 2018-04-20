@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-# © 2009 EduSense BV (<http://www.edusense.nl>)
-# © 2011-2013 Therp BV (<http://therp.nl>)
-# © 2013-2014 ACSONE SA (<http://acsone.eu>).
-# © 2014-2016 Tecnativa - Pedro M. Baeza
-# © 2016 Akretion (<http://www.akretion.com>).
-# © 2016 Aselcis (<http://www.aselcis.com>).
+# Copyright 2009 EduSense BV (<http://www.edusense.nl>)
+# Copyright 2011-2013 Therp BV (<http://therp.nl>)
+# Copyright 2013-2014 ACSONE SA (<http://acsone.eu>).
+# Copyright 2014-2016 Tecnativa - Pedro M. Baeza
+# Copyright 2016 Akretion (<http://www.akretion.com>).
+# Copyright 2016 Aselcis (<http://www.aselcis.com>).
+# Copyright 2018 Tecnativa - Carlos Dauden
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Payment Order',
-    'version': '10.0.1.5.0',
+    'version': '10.0.1.6.0',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "
