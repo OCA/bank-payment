@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-03 01:44+0000\n"
+"POT-Creation-Date: 2018-04-15 15:20+0000\n"
 "PO-Revision-Date: 2018-02-26 07:39+0000\n"
 "Last-Translator: Javi Melendez <javimelex@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
@@ -53,7 +53,6 @@ msgstr "Cuenta bancaria requerida"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_search
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
 msgstr "Tipo de cuenta bancaria"
@@ -128,7 +127,6 @@ msgstr "Para los modos de pago que están siempre asociados a la misma cuenta ba
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_search
 msgid "Group By"
 msgstr "Agrupar por"
 
