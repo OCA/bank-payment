@@ -401,6 +401,11 @@ class AccountPaymentOrder(models.Model):
         else:
             vals.update({'date_maturity': bank_lines[0].date})
 
+        if (len(bank_lines[0].payment_line_ids) == 1 and
+                self.date_prefered == 'now'):
+            m_date = bank_lines[0].payment_line_ids[0].ml_maturity_date
+            vals.update({'date_maturity': m_date})
+
         if self.payment_mode_id.offsetting_account == 'bank_account':
             account_id = self.journal_id.default_debit_account_id.id
         elif self.payment_mode_id.offsetting_account == 'transfer_account':
@@ -413,6 +418,7 @@ class AccountPaymentOrder(models.Model):
                 # we have different partners in the grouped move
                 partner_id = False
                 break
+
         vals.update({
             'name': name,
             'partner_id': partner_id,
