@@ -24,7 +24,9 @@ def map_payment_type(cr):
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
     cr = env.cr
-    map_payment_type(cr)
+    if openupgrade.is_module_installed(
+            env.cr, 'account_banking_payment_export'):
+        map_payment_type(cr)
 
     cr.execute("""
        UPDATE account_payment_order apo
