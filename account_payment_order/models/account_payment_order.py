@@ -370,11 +370,12 @@ class AccountPaymentOrder(models.Model):
         else:
             ref = _('Debit order %s') % self.name
         if self.payment_mode_id.offsetting_account == 'bank_account':
-            journal_id = self.journal_id.id
+            journal = self.journal_id
         elif self.payment_mode_id.offsetting_account == 'transfer_account':
-            journal_id = self.payment_mode_id.transfer_journal_id.id
+            journal = self.payment_mode_id.transfer_journal_id
         vals = {
-            'journal_id': journal_id,
+            'journal_id': journal.id,
+            'company_id': journal.company_id.id,
             'ref': ref,
             'payment_order_id': self.id,
             'line_ids': [],
