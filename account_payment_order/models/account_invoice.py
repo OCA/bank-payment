@@ -11,20 +11,13 @@ from odoo.exceptions import UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    payment_mode_computed_id = fields.Many2one(
-        comodel_name='account.payment.mode',
-        compute="_compute_payment_mode_computed_id",
-        string="Computed payment mode",
-        help="Technical field for storing the final payment mode to use, "
-             "taking into account data in journal items.",
-    )
     payment_order_ok = fields.Boolean(
-        related="payment_mode_computed_id.payment_order_ok",
+        compute="_compute_payment_order_ok",
     )
 
     @api.depends('payment_mode_id', 'move_id', 'move_id.line_ids',
                  'move_id.line_ids.payment_mode_id')
-    def _compute_payment_mode_computed_id(self):
+    def _compute_payment_order_ok(self):
         for invoice in self:
             payment_mode = (
                 invoice.move_id.line_ids.filtered(
@@ -33,7 +26,7 @@ class AccountInvoice(models.Model):
             )
             if not payment_mode:
                 payment_mode = invoice.payment_mode_id
-            invoice.payment_mode_computed_id = payment_mode
+            invoice.payment_order_ok = payment_mode.payment_order_ok
 
     @api.model
     def _get_reference_type(self):
@@ -52,10 +45,10 @@ class AccountInvoice(models.Model):
         return res
 
     @api.multi
-    def _prepare_new_payment_order(self):
+    def _prepare_new_payment_order(self, payment_mode=None):
         self.ensure_one()
         vals = {
-            'payment_mode_id': self.payment_mode_computed_id.id,
+            'payment_mode_id': payment_mode.id or self.payment_mode_id.id,
         }
         # other important fields are set by the inherit of create
         # in account_payment_order.py
@@ -71,43 +64,44 @@ class AccountInvoice(models.Model):
             if inv.state != 'open':
                 raise UserError(_(
                     "The invoice %s is not in Open state") % inv.number)
-            if not inv.payment_mode_computed_id:
-                raise UserError(_(
-                    "No Payment Mode on invoice %s") % inv.number)
             if not inv.move_id:
                 raise UserError(_(
                     "No Journal Entry on invoice %s") % inv.number)
-            payment_mode = inv.move_id.mapped('line_ids.payment_mode_id')
-            if len(payment_mode) > 1:
-                raise UserError(
-                    _("You can't add invoices which journal items have more "
-                      "than one payment mode.")
+            applicable_lines = inv.move_id.line_ids.filtered(
+                lambda x: (
+                    not x.reconciled and x.payment_mode_id.payment_order_ok and
+                    x.account_id.internal_type in ('receivable', 'payable') and
+                    not x.payment_line_ids
                 )
-            if not payment_mode.payment_order_ok:
+            )
+            if not applicable_lines:
                 raise UserError(_(
-                    "The invoice %s has a payment mode '%s' "
-                    "which is not selectable in payment orders."))
-            payorders = apoo.search([
-                ('payment_mode_id', '=', inv.payment_mode_computed_id.id),
-                ('state', '=', 'draft')])
-            if payorders:
-                payorder = payorders[0]
+                    'No Payment Line created for invoice %s because '
+                    'it already exists or because this invoice is '
+                    'already paid.') % inv.number)
+            payment_modes = applicable_lines.mapped('payment_mode_id')
+            if not payment_modes:
+                raise UserError(_(
+                    "No Payment Mode on invoice %s") % inv.number)
+            for payment_mode in payment_modes:
+                payorder = apoo.search([
+                    ('payment_mode_id', '=', payment_mode.id),
+                    ('state', '=', 'draft')
+                ], limit=1)
                 new_payorder = False
-            else:
-                payorder = apoo.create(inv._prepare_new_payment_order())
-                new_payorder = True
-            result_payorder_ids.append(payorder.id)
-            action_payment_type = payorder.payment_type
-            count = 0
-            for line in inv.move_id.line_ids:
-                if line.account_id == inv.account_id and not line.reconciled:
-                    paylines = aplo.search([
-                        ('move_line_id', '=', line.id),
-                        ('state', '!=', 'cancel')])
-                    if not paylines:
-                        line.create_payment_line_from_move_line(payorder)
-                        count += 1
-            if count:
+                if not payorder:
+                    payorder = apoo.create(inv._prepare_new_payment_order(
+                        payment_mode
+                    ))
+                    new_payorder = True
+                result_payorder_ids.append(payorder.id)
+                action_payment_type = payorder.payment_type
+                count = 0
+                for line in applicable_lines.filtered(
+                    lambda x: x.payment_mode_id == payment_mode
+                ):
+                    line.create_payment_line_from_move_line(payorder)
+                    count += 1
                 if new_payorder:
                     inv.message_post(_(
                         '%d payment lines added to the new draft payment '
@@ -118,11 +112,6 @@ class AccountInvoice(models.Model):
                         '%d payment lines added to the existing draft '
                         'payment order %s.')
                         % (count, payorder.name))
-            else:
-                raise UserError(_(
-                    'No Payment Line created for invoice %s because '
-                    'it already exists or because this invoice is '
-                    'already paid.') % inv.number)
         action = self.env['ir.actions.act_window'].for_xml_id(
             'account_payment_order',
             'account_payment_order_%s_action' % action_payment_type)
