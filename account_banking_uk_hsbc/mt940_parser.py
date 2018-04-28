@@ -35,7 +35,10 @@ class HSBCParser(object):
 
     def __init__(self):
         recparse = dict()
-        patterns = {'ebcdic': r"\w/\?:\(\).,'+{} -"}
+        # Allowed characters. The list was originally taken from HSBC's
+        # spec, but the ampersand character was found out in the wild in
+        # the customer account name
+        patterns = {'ebcdic': r"\w/\?:\(\).,'+{} &-"}
 
         # MT940 header
         recparse["20"] = r":(?P<recordid>20):(?P<transref>.{1,16})"

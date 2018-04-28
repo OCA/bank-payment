@@ -45,13 +45,13 @@ class transaction(models.mem_bank_transaction):
         'value_date': 'valuedate',
         'local_currency': 'currency',
         'transfer_type': 'bookingcode',
-        'reference': 'custrefno',
         'message': 'furtherinfo'
     }
 
     type_map = {
         'NTRF': bt.ORDER,
         'NMSC': bt.ORDER,
+        'NACH': bt.ORDER,
         'NPAY': bt.PAYMENT_BATCH,
         'NCHK': bt.CHECK,
     }
@@ -66,6 +66,10 @@ class transaction(models.mem_bank_transaction):
                 setattr(self, key, record[value])
 
         self.transferred_amount = record2float(record, 'amount')
+
+        ref = record.get('custrefno')
+        if ref and ref != 'NONREF':
+            self.reference = ref
 
         # Set the transfer type based on the bookingcode
         if record.get('bookingcode', 'ignore') in self.type_map:
@@ -151,7 +155,7 @@ class statement(models.mem_bank_statement):
                 record[k]
                 for k in (
                     'infoline{0}'.format(i)
-                    for i in range(2, 5)
+                    for i in range(1, 5)
                 )
                 if k in record
             ))
