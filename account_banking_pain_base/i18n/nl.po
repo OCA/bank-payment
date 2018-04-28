@@ -5,13 +5,14 @@
 # Translators:
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Michel V. <m.vorenhout@mvhconsult.nl>, 2017
+# Thomas Pot <thomas@open2bizz.nl>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-03 01:43+0000\n"
-"PO-Revision-Date: 2017-11-29 01:39+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2018-04-21 00:48+0000\n"
+"PO-Revision-Date: 2018-04-24 08:45+0000\n"
+"Last-Translator: Thomas Pot <thomas@open2bizz.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr "Batch verwerking"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Bonus Payment"
-msgstr ""
+msgstr "Bonus betaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -70,7 +71,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_category_purpose
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_category_purpose
 msgid "Category Purpose"
-msgstr ""
+msgstr "Doel categorie"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
@@ -100,12 +101,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Deliver Against Payment"
-msgstr ""
+msgstr "Bezorgen tegen betaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Dividend"
-msgstr ""
+msgstr "Divident"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
@@ -117,7 +118,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Fee Collection"
-msgstr ""
+msgstr "Transactiekosten"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -144,7 +145,7 @@ msgstr "Overheidsbetaling"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Hedging"
-msgstr ""
+msgstr "Afdekkingsreserve"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
@@ -192,7 +193,7 @@ msgstr "Initiating Party Issuer"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,local_instrument:0
 msgid "Instant Transfer"
-msgstr ""
+msgstr "Onmiddellijke overdracht"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -202,17 +203,17 @@ msgstr "Rente"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Intra-Company Payment"
-msgstr ""
+msgstr "Betaling binnen de onderneming"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Irrevocable Credit Card Payment"
-msgstr ""
+msgstr "Onherroepelijke creditcardbetaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Irrevocable Debit Card Payment"
-msgstr ""
+msgstr "Onherroepelijke debetkaartbetaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -236,7 +237,7 @@ msgstr "Missende 'Initiating Party Issuer' en/of 'Initiating Party Identifier' v
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
 msgid "Multiple identifiers"
-msgstr ""
+msgstr "Meerdere Identificatienummers"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:23
@@ -293,7 +294,7 @@ msgstr "Prioriteit"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Receive Against Payment"
-msgstr ""
+msgstr "Ontvang tegen betaling"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
@@ -303,12 +304,12 @@ msgstr "SEPA betaling"
 #. module: account_banking_pain_base
 #: model:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
 msgid "SEPA/PAIN"
-msgstr ""
+msgstr "SEPA/PAIN"
 
 #. module: account_banking_pain_base
 #: model:res.groups,name:account_banking_pain_base.group_pain_multiple_identifier
 msgid "SEPA/PAIN Identifiers on Payment Modes"
-msgstr ""
+msgstr "SEPA/PAIN Id's op betalingswijzen"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -318,7 +319,7 @@ msgstr "Salaris betaling"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Securities"
-msgstr ""
+msgstr "Effecten"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -328,12 +329,12 @@ msgstr "Gedeeld"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Social Security Benefit"
-msgstr ""
+msgstr "Sociale zekerheid voordeel"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Supplier Payment"
-msgstr ""
+msgstr "Leverancier betaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -409,12 +410,12 @@ msgstr "Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN bes
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Trade"
-msgstr ""
+msgstr "Handel"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Trade Settlement Payment"
-msgstr ""
+msgstr "Verrekening handelsafrekening"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
