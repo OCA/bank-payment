@@ -16,6 +16,11 @@ class AccountMoveLine(models.Model):
     bank_payment_line_id = fields.Many2one(
         'bank.payment.line', string='Bank Payment Line',
         readonly=True)
+    payment_line_ids = fields.One2many(
+        comodel_name='account.payment.line',
+        inverse_name='move_line_id',
+        string="Payment lines",
+    )
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
