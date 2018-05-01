@@ -47,6 +47,8 @@ class AccountInvoice(models.Model):
     @api.multi
     def _prepare_new_payment_order(self, payment_mode=None):
         self.ensure_one()
+        if payment_mode is None:
+            payment_mode = self.env['account.payment.mode']
         vals = {
             'payment_mode_id': payment_mode.id or self.payment_mode_id.id,
         }
@@ -57,7 +59,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def create_account_payment_line(self):
         apoo = self.env['account.payment.order']
-        aplo = self.env['account.payment.line']
         result_payorder_ids = []
         action_payment_type = 'debit'
         for inv in self:
