@@ -71,6 +71,7 @@ Contributors
 * Angel Moya <angel.moya@domatix.com>
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
+* Carlos Dauden
 
 Maintainer
 ----------
