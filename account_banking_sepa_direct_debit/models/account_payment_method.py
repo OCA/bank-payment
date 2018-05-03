@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
-
+import os
 
 class AccountPaymentMethod(models.Model):
     _inherit = 'account.payment.method'
@@ -21,7 +21,8 @@ class AccountPaymentMethod(models.Model):
         if self.pain_version in [
                 'pain.008.001.02', 'pain.008.001.03', 'pain.008.001.04',
                 'pain.008.003.02']:
-            path = 'account_banking_sepa_direct_debit/data/%s.xsd'\
-                % self.pain_version
+            abs_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) 
+            path = '%s/data/%s.xsd'\
+                % (abs_path, self.pain_version)
             return path
         return super(AccountPaymentMethod, self).get_xsd_file_path()
