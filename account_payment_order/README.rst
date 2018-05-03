@@ -68,6 +68,7 @@ Contributors
 * Sandy Carter
 * Angel Moya <angel.moya@domatix.com>
 * Jose Maria Alzaga <jose.alzaga@aselcis.com>
+* Carlos Dauden
 
 Maintainer
 ----------
