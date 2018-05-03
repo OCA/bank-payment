@@ -7,4 +7,4 @@ def migrate(cr, version):
     if not version:
         return
 
-    cr.execute('ALTER TABLE res_partner_bank DROP COLUMN acc_type')
+    cr.execute('ALTER TABLE res_partner_bank DROP COLUMN IF EXISTS acc_type')
