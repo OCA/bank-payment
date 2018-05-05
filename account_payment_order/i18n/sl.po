@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-24 01:40+0000\n"
-"PO-Revision-Date: 2018-03-23 09:20+0000\n"
+"POT-Creation-Date: 2018-05-03 07:30+0000\n"
+"PO-Revision-Date: 2018-05-01 15:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,13 +24,13 @@ msgid "# of Journal Entries"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:88
+#: code:addons/account_payment_order/models/account_invoice.py:112
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:83
+#: code:addons/account_payment_order/models/account_invoice.py:107
 #, python-format
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
@@ -692,13 +692,13 @@ msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:55
+#: code:addons/account_payment_order/models/account_invoice.py:69
 #, python-format
 msgid "No Journal Entry on invoice %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:93
+#: code:addons/account_payment_order/models/account_invoice.py:79
 #, python-format
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
@@ -706,7 +706,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:52
+#: code:addons/account_payment_order/models/account_invoice.py:85
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr ""
@@ -915,10 +915,20 @@ msgid "Payment bank line %s"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
+msgid "Payment lines"
+msgstr ""
+
+#. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:375
 #: code:addons/account_payment_order/models/account_payment_order.py:396
 #, python-format
 msgid "Payment order %s"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
+msgid "Payment order ok"
 msgstr ""
 
 #. module: account_payment_order
@@ -981,7 +991,6 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_payment_order_ok
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_search
 msgid "Selectable in Payment Orders"
@@ -1006,7 +1015,7 @@ msgid "Status"
 msgstr "Status"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:20
+#: code:addons/account_payment_order/models/account_invoice.py:34
 #, python-format
 msgid "Structured Reference"
 msgstr "Strukturiran sklic"
@@ -1034,15 +1043,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:58
-#, python-format
-msgid ""
-"The invoice %s has a payment mode '%s' which is not selectable in payment "
-"orders."
-msgstr ""
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:49
+#: code:addons/account_payment_order/models/account_invoice.py:66
 #, python-format
 msgid "The invoice %s is not in Open state"
 msgstr ""

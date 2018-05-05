@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-15 15:20+0000\n"
-"PO-Revision-Date: 2018-04-18 14:03+0000\n"
-"Last-Translator: Thomas Pot <thomas@open2bizz.nl>\n"
+"POT-Creation-Date: 2018-05-03 07:30+0000\n"
+"PO-Revision-Date: 2018-05-01 15:16+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,13 +29,13 @@ msgid "# of Journal Entries"
 msgstr "# boekingen"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:88
+#: code:addons/account_payment_order/models/account_invoice.py:112
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr "%d bank betaalregels zijn toegevoegd aan de bestaande concept betaalopdracht %s."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:83
+#: code:addons/account_payment_order/models/account_invoice.py:107
 #, python-format
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
@@ -697,13 +697,13 @@ msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr "Mutatieregel '%s' van relatie '%s' is al afgeletterd"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:55
+#: code:addons/account_payment_order/models/account_invoice.py:69
 #, python-format
 msgid "No Journal Entry on invoice %s"
 msgstr "Geen boekingen van factuur %s"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:93
+#: code:addons/account_payment_order/models/account_invoice.py:79
 #, python-format
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
@@ -711,7 +711,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:52
+#: code:addons/account_payment_order/models/account_invoice.py:85
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr "Geen betaalmode van factuur %s"
@@ -920,11 +920,21 @@ msgid "Payment bank line %s"
 msgstr "Betaalregel %s"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
+msgid "Payment lines"
+msgstr ""
+
+#. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:375
 #: code:addons/account_payment_order/models/account_payment_order.py:396
 #, python-format
 msgid "Payment order %s"
 msgstr "Betaalopdracht %s"
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
+msgid "Payment order ok"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.menu,name:account_payment_order.payment_root
@@ -986,7 +996,6 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_payment_order_ok
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_search
 msgid "Selectable in Payment Orders"
@@ -1011,7 +1020,7 @@ msgid "Status"
 msgstr "Status"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:20
+#: code:addons/account_payment_order/models/account_invoice.py:34
 #, python-format
 msgid "Structured Reference"
 msgstr "Gestructureerde referentie"
@@ -1039,15 +1048,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:58
-#, python-format
-msgid ""
-"The invoice %s has a payment mode '%s' which is not selectable in payment "
-"orders."
-msgstr ""
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:49
+#: code:addons/account_payment_order/models/account_invoice.py:66
 #, python-format
 msgid "The invoice %s is not in Open state"
 msgstr ""
