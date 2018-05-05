@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
+"POT-Creation-Date: 2018-05-01 15:18+0000\n"
+"PO-Revision-Date: 2018-05-01 15:18+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:89
+#: code:addons/account_payment_order/models/account_invoice.py:111
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr "%d líneas de pago añadidas a la orden de pago en borrador %s."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:84
+#: code:addons/account_payment_order/models/account_invoice.py:106
 #, python-format
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
@@ -721,13 +721,13 @@ msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr "El apunte '%s' de la empresa '%s' ya ha sido conciliado"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:54
+#: code:addons/account_payment_order/models/account_invoice.py:68
 #, python-format
 msgid "No Journal Entry on invoice %s"
 msgstr "No se ha encontrado asiento en la factura %s"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:94
+#: code:addons/account_payment_order/models/account_invoice.py:78
 #, python-format
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
@@ -737,7 +737,7 @@ msgstr ""
 "la factura ya está pagada."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:51
+#: code:addons/account_payment_order/models/account_invoice.py:84
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr "No hay modo de pago en la factura %s"
@@ -932,6 +932,11 @@ msgid "Payment Order / Payment"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
+msgid "Payment Order Ok"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_outbound_menu
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
@@ -957,6 +962,11 @@ msgstr "Tipo de pago"
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Línea de pago bancario %s"
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
+msgid "Payment lines"
+msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:369
@@ -1027,7 +1037,6 @@ msgstr ""
 "vencimiento' como el tipo de fecha de ejecución del pago."
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_payment_order_ok
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_search
 msgid "Selectable in Payment Orders"
@@ -1052,7 +1061,7 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:19
+#: code:addons/account_payment_order/models/account_invoice.py:33
 #, python-format
 msgid "Structured Reference"
 msgstr "Referencia esctructurada"
@@ -1085,17 +1094,7 @@ msgstr ""
 "activada en el modo de pago."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:59
-#, python-format
-msgid ""
-"The invoice %s has a payment mode '%s' which is not selectable in payment "
-"orders."
-msgstr ""
-"La factura %s tiene un modo de pago '%s' que no es seleccionable en las "
-"órdenes."
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:48
+#: code:addons/account_payment_order/models/account_invoice.py:65
 #, python-format
 msgid "The invoice %s is not in Open state"
 msgstr "La factura %s no está en estado abierta"
