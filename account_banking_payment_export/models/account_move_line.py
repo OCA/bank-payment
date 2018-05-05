@@ -10,19 +10,6 @@ from openerp import models, fields, api
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    @api.one
-    def _get_journal_entry_ref(self):
-        if self.move_id.state == 'draft':
-            if self.invoice.id:
-                self.journal_entry_ref = self.invoice.number
-            else:
-                self.journal_entry_ref = '*' + str(self.move_id.id)
-        else:
-            self.journal_entry_ref = self.move_id.name
-
-    journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
-                                    string='Journal Entry Ref')
-
     @api.multi
     def get_balance(self):
         """

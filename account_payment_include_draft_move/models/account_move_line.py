@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-#
 ##############################################################################
 #
-#     Authors: Adrien Peiffer
-#    Copyright (c) 2014 Acsone SA/NV (http://www.acsone.eu)
+#    OpenERP, Open Source Management Solution
+#    This module copyright (C) 2015 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,6 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api
 
-from . import wizard
-from . import models
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+
+    @api.one
+    @api.depends('move_id.state', 'move_id.name', 'invoice.number')
+    def _get_journal_entry_ref(self):
+        if self.move_id.state == 'draft':
+            if self.invoice.id:
+                self.journal_entry_ref = self.invoice.number
+            else:
+                self.journal_entry_ref = '*' + str(self.move_id.id)
+        else:
+            self.journal_entry_ref = self.move_id.name
+
+    journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
+                                    string='Journal Entry Ref', store=True)

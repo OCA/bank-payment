@@ -28,7 +28,9 @@
     "images": [],
     "category": "Accounting",
     "depends": ["account_banking_payment_export"],
-    "data": [],
+    "data": [
+        "wizard/payment_order_create.xml",
+    ],
     "demo": [],
     "test": [],
     "licence": "AGPL-3",
