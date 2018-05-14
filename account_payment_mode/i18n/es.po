@@ -3,16 +3,19 @@
 # * account_payment_mode
 # 
 # Translators:
+# enjolras <yo@miguelrevilla.com>, 2018
+# Javi Melendez <javimelex@gmail.com>, 2018
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
 # Rafael Blasco <rafabn@antiun.com>, 2016
+# enjolras <yo@miguelrevilla.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-24 00:21+0000\n"
-"PO-Revision-Date: 2016-12-27 12:48+0000\n"
-"Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
+"POT-Creation-Date: 2018-04-15 15:20+0000\n"
+"PO-Revision-Date: 2018-02-26 07:39+0000\n"
+"Last-Translator: Javi Melendez <javimelex@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +53,6 @@ msgstr "Cuenta bancaria requerida"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_search
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
 msgstr "Tipo de cuenta bancaria"
@@ -125,7 +127,6 @@ msgstr "Para los modos de pago que están siempre asociados a la misma cuenta ba
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_search
 msgid "Group By"
 msgstr "Agrupar por"
 
@@ -265,6 +266,11 @@ msgstr "Modos de pago"
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Payment Type"
 msgstr "Tipo de pago"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_payment_mode_ids
+msgid "Payment modes"
+msgstr "Métodos de pago"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search

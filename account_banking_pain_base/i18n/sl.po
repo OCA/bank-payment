@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-01 01:24+0000\n"
-"PO-Revision-Date: 2017-05-29 20:02+0000\n"
+"POT-Creation-Date: 2018-03-03 01:43+0000\n"
+"PO-Revision-Date: 2017-11-29 01:39+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,13 +44,13 @@ msgid "Borne by Debtor"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:105
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:106
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:110
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:111
 #, python-format
 msgid "Cannot compute the '%s'."
 msgstr "Ne morem izračunati '%s'."
@@ -104,6 +104,13 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Dividend"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid ""
+"Enable this option if your country requires several SEPA/PAIN identifiers "
+"like in Spain."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -218,12 +225,17 @@ msgid "Local Instrument"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:302
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:303
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
 msgstr "Manjkajoči 'Izdajatelj začetne stranke' in/ali 'Identifikator začetne stranke' pri družbi '%s'. Obe polji morata vsebovati vrednost."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid "Multiple identifiers"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:23
@@ -288,6 +300,16 @@ msgid "SEPA Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+msgid "SEPA/PAIN"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:res.groups,name:account_banking_pain_base.group_pain_multiple_identifier
+msgid "SEPA/PAIN Identifiers on Payment Modes"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Salary Payment"
 msgstr ""
@@ -318,13 +340,13 @@ msgid "Tax Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:118
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:119
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' je prazno ali 0. Vsebovati bi moralo ne ničelno vrednost."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:139
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:140
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -334,7 +356,7 @@ msgid ""
 msgstr "Ustvarjena XML datoteka ni v skladu z uradno definicijo XML sheme. Ustvarjena XML datoteka in celotna napaka sta zapisani v strežniške dnevnike. Tu je napaka, ki bi lahko razjasnila, v čem je vzrok težave : %s"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:113
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:114
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr "Tip polja '%s' je %s. Moral bi biti niz ali unicode."

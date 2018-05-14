@@ -49,7 +49,7 @@ class TestPaymentOrder(TransactionCase):
 
         payment_order = self.env['account.payment.order'].search([])
         bank_journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')])
+            [('type', '=', 'bank')], limit=1)
         # Set journal to allow cancelling entries
         bank_journal.update_posted = True
 
