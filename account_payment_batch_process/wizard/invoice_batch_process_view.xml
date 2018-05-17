@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Payment Tree View -->
+    <record id="view_account_supplier_payment_tree_nocreate" model="ir.ui.view">
+        <field name="name">account.supplier.payment.tree.nocreate</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state=='draft'" decoration-muted="state=='reconciled'" edit="false" create="false">
+                <field name="payment_date"/>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <field name="payment_method_id"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="partner_type" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Inherited view for Register Payment as Batch -->
+    <record id="view_account_payment_from_invoices_batch_inherited" model="ir.ui.view">
+        <field name="name">account.register.payments.wizard.batch.inherited</field>
+        <field name="model">account.register.payments</field>
+        <field name="inherit_id" ref="account.view_account_payment_from_invoices" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group invisible="not context.get('batch', False)">
+                    <field name="is_customer" invisible="1"/>
+                    <group string="List of Supplier Invoices to Pay"
+                           attrs="{'invisible': [('is_customer','=',True)]}">
+                    </group>
+                    <group string="List of Customer Invoices to Receive"
+                           attrs="{'invisible': [('is_customer','=',False)]}">
+                    </group>
+                </group>
+                <group invisible="not context.get('batch', False)">
+                    <button name="auto_fill_payments" string="Auto-Fill Pay Amount" type="object" class="oe_highlight"/>
+                    <field name="invoice_payments" colspan="4" nolabel="1" attrs="{'invisible': [('is_customer','=',True)]}">
+                        <tree editable="bottom" create="false">
+                            <field name="partner_id" readonly="1"/>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="balance_amt" readonly="1" sum="TOTAL BALANCE"/>
+                            <field name="paying_amt" sum="TOTAL PAYMENT"/>
+                            <field name="check_amount_in_words" invisible="1"/>
+                        </tree>
+                    </field>
+                    <field name="invoice_customer_payments" colspan="4" nolabel="1" attrs="{'invisible': [('is_customer','=',False)]}">
+                        <tree editable="bottom" create="false">
+                            <field name="partner_id" readonly="1"/>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="balance_amt" readonly="1" sum="TOTAL BALANCE"/>
+                            <field name="receiving_amt" sum="TOTAL PAYMENT"/>
+                            <field name="check_amount_in_words" invisible="1"/>
+                            <field name="payment_method_id" domain="[('payment_type','=','inbound')]" widget="selection"/>
+                            <field name="payment_difference"/>
+                            <field name="handling"/>
+                            <field name="writeoff_account_id"
+                                   string="Post Difference In"
+                                   attrs="{'required': [('handling', '=', 'reconcile')]}"/>
+                        </tree>
+                    </field>
+                </group>
+                <group invisible="not context.get('batch', False)" col="6">
+                    <group colspan="4">
+                    </group>
+                    <group>
+                        <field name="total_pay_amount" attrs="{'invisible': [('is_customer','=',True)]}"/>
+                        <field name="total_customer_pay_amount" attrs="{'invisible': [('is_customer','=',False)]}"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//button[@name='create_payment']" position="attributes">
+                <attribute name="invisible">context.get('batch', False)</attribute>
+            </xpath>
+            <xpath expr="//button[@name='create_payment']" position="after">
+                <button name="make_payments" string="Make Payments" type="object" class="btn-primary" invisible="not context.get('batch', False)"/>
+            </xpath>
+            <xpath expr="//field[@name='amount']" position="attributes">
+                <attribute name="invisible">context.get('batch', False)</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_method_id']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('hide_payment_method', '=', True),('is_customer','=',True)]}</attribute>
+                <attribute name="domain">[('payment_type','=','outbound')]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="cheque_amount" invisible="not context.get('batch', False)"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_from_invoices_inherited_batch" model="ir.ui.view">
+        <field name="name">account.register.payments.form.inherited.batch</field>
+        <field name="model">account.register.payments</field>
+        <field name="inherit_id" ref="account_check_printing.view_account_payment_from_invoices_inherited" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_amount_in_words']" position="attributes">
+                <attribute name="invisible">(context.get('batch', False))</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for Batch Payment -->
+    <record id="action_invoice_batch_process" model="ir.actions.act_window">
+        <field name="name">Batch Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.register.payments</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_account_payment_from_invoices_batch_inherited"/>
+        <field name="context">{'batch':True}</field>
+        <field name="target">new</field>
+        <field name="multi">True</field>
+    </record>
+
+    <!-- Multi Action menu -->
+    <act_window id="action_invoice_invoice_batch_process"
+                name="Batch Payments"
+                res_model="account.register.payments"
+                src_model="account.invoice"
+                view_mode="form"
+                multi="True"
+                target="new"
+                key2="client_action_multi"
+                context="{'batch':True}"/>
+
+</odoo>

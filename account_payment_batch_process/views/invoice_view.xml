@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--  Supplier invoice tree -->
+    <record id="batch_invoice_supplier_tree" model="ir.ui.view">
+        <field name="name">account.invoice.batch.supplier.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="replace"/>
+            <field name="partner_id" position="after">
+                <field name="state"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
