@@ -264,26 +264,30 @@ class BankingExportPain(models.AbstractModel):
             self, parent_node, party_type, party_type_label,
             order, party_name, iban, bic, eval_ctx, gen_args):
         """Generate the piece of the XML file corresponding to BIC
-        This code is mutualized between TRF and DD"""
+        This code is mutualized between TRF and DD
+        Starting from Feb 1st 2016, we should be able to do
+        cross-border SEPA transfers without BIC, cf
+        http://www.europeanpaymentscouncil.eu/index.cfm/
+        sepa-credit-transfer/iban-and-bic/
+        In some localization (l10n_ch_sepa for example), they need the
+        bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
         try:
             bic = self._prepare_field(
                 '%s BIC' % party_type_label, bic, eval_ctx, gen_args=gen_args)
+        except Warning, e:
+            if 'BIC' in str(e):
+                bic = ''
+            else:
+                raise
+        if bic:
             party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
             party_agent_institution = etree.SubElement(
                 party_agent, 'FinInstnId')
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = bic
-        except Warning:
-            if order == 'C':
-                if iban[0:2] != gen_args['initiating_party_country_code']:
-                    raise Warning(
-                        _('Error:'),
-                        _("The bank account with IBAN '%s' of partner '%s' "
-                            "must have an associated BIC because it is a "
-                            "cross-border SEPA operation.")
-                        % (iban, party_name))
+        else:
             if order == 'B' or (
                     order == 'C' and gen_args['payment_method'] == 'DD'):
                 party_agent = etree.SubElement(
