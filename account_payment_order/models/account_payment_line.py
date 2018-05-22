@@ -118,7 +118,7 @@ class AccountPaymentLine(models.Model):
             self.partner_id = False
             self.partner_bank_id = False
             self.amount_currency = 0.0
-            self.currency_id = False
+            self.currency_id = self.env.user.company_id.currency_id
             self.communication = False
 
     def invoice_reference_type2communication_type(self):

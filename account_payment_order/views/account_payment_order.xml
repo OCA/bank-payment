@@ -97,7 +97,8 @@
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
         <search string="Search Payment Orders">
-            <field name="description"/>
+            <field name="description" filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]" string="Name or Description"/>
+            <field name="journal_id"/>
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
             <filter name="open" string="Confirmed" domain="[('state', '=', 'open')]"/>
             <filter name="generated" string="File Generated" domain="[('state', '=', 'generated')]"/>
