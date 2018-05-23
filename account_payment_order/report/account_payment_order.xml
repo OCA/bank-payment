@@ -76,7 +76,7 @@
                                 <span t-esc="get_bank_account_name(line.partner_bank_id)"/>
                             </td>
                             <td class="text-center">
-                                <span t-raw="'%s &lt;br&gt;' % line.move_line_id.move_id.name if line.move_line_id.move_id else ''"/>
+                                <span t-raw="'%s &lt;br&gt;' % line.move_line_id.invoice_id.number or line.move_line_id.move_id.name or ''"/>
                             </td>
                             <td class="text-center">
                                 <span t-field="line.date"/>
