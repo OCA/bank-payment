@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-09 14:56+0000\n"
-"PO-Revision-Date: 2018-03-09 14:56+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-07-13 09:03+0000\n"
+"Last-Translator: Enric Tobella <etobella@creublanca.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -30,7 +31,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr "Ya existe un mandato con la misma referencia para esta compañía."
+msgstr "Ya existe un mandato con la misma referencia para esta compañía!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -134,7 +135,7 @@ msgstr "Compañía"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
@@ -191,7 +192,7 @@ msgstr "Expirado"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_valid_mandate_id
 msgid "First Valid Mandate"
-msgstr ""
+msgstr "Primer mandato válido"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -202,7 +203,7 @@ msgstr "Formato"
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
 msgid "Generic Mandate"
-msgstr ""
+msgstr "Mandato Genérico"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -384,25 +385,27 @@ msgid ""
 "The bank payment line %s has a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"La línea del pago bancario %s tiene una empresa diferente que la del mandato "
+"(%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
-msgstr ""
+msgstr "La compañía del mandato %s difiere de la compañia de la empresa %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:81
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
-msgstr "La fecha de la firma del mandato '%s' no puede ser posterior a hoy."
+msgstr "La fecha de la firma del mandato '%s' no puede ser posterior a hoy!"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_invoice.py:90
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
-msgstr ""
+msgstr "La factura %s tiene una empresa diferente que el mandato asociado (%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_move_line.py:46
@@ -411,6 +414,8 @@ msgid ""
 "The item %s of journal %s has a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"El elemento %s del diario %s tiene una empresa diferente que el mandato "
+"asociado (%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
@@ -429,6 +434,8 @@ msgid ""
 "The payment line number %s a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"El número de la línea de pago %s tiene una compañía diferente que el mandato "
+"asociado (%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:26
@@ -449,7 +456,7 @@ msgstr "Tipo"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_type
 msgid "Type of Mandate"
-msgstr ""
+msgstr "Tipo de Mandato"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
@@ -474,6 +481,8 @@ msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
 "referencing it that belong to another company."
 msgstr ""
+"No puede cambiar la compañía del número de cuenta %s, ya que existen "
+"mandatos asociados que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
@@ -482,6 +491,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
 "lines referencing it that belong to another company."
 msgstr ""
+"No puede cambiar la compañía del mandato %s, ya que existen líneas de pago "
+"bancario asociados que pertenecen a otras compañías."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
@@ -490,6 +501,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
 "referencing it that belong to another company."
 msgstr ""
+"No puede cambiar la compañía del mandato %s, ya que existen facturas "
+"asociadas que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
@@ -498,6 +511,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
 "referencing it that belong to another company."
 msgstr ""
+"No puede cambiar las compañía del mandato %s, ya que existen elementos del "
+"diario asociados que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:105
@@ -506,6 +521,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
 "referencing it that belong to another company."
 msgstr ""
+"No puede cambiar la compañía del mandato %s, ya que existen líneas de pago "
+"asociadas que pertenecen a otras compañías."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
