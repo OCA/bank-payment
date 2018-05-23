@@ -75,7 +75,7 @@ class AccountBankingMandate(models.Model):
                       ) % mandate.unique_mandate_reference)
 
     @api.multi
-    @api.constrains('state', 'partner_bank_id')
+    @api.constrains('state', 'partner_bank_id', 'signature_date')
     def _check_valid_state(self):
         for mandate in self:
             if mandate.state == 'valid':
