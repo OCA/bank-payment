@@ -7,7 +7,7 @@
 {
     'name': 'Account Banking Mandate',
     'summary': 'Banking mandates',
-    'version': '8.0.0.2.0',
+    'version': '8.0.0.2.1',
     'license': 'AGPL-3',
     'author': "Compassion CH, "
               "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
