@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_create_payment_order_inherit" model="ir.ui.view">
+            <field name="name">payment.order.create.form (account_cash_discount_payment)</field>
+            <field name="model">payment.order.create</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_create_payment_order"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='duedate']" position="before">
+                    <field name="cash_discount_date"/>
+                    <field name="cash_discount_date_start" attrs="{'invisible': [('cash_discount_date', '=', False)], 'required': [('cash_discount_date', '=', True)]}"/>
+                    <field name="cash_discount_date_end" attrs="{'invisible': [('cash_discount_date', '=', False)], 'required': [('cash_discount_date', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='duedate']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('cash_discount_date', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="payment_order_populate_view_move_line_tree" model="ir.ui.view">
+            <field name="name">payment.order.populate.account.move.line.tree (account_cash_discount_payment)</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account_banking_payment_export.payment_order_populate_view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="discount_due_date"/>
+                    <field name="discount"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
