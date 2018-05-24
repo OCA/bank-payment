@@ -27,7 +27,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 8.0.0.2.0 | Banking mandates
+[account_banking_mandate](account_banking_mandate/) | 8.0.0.2.1 | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 8.0.0.4.0 | Base module for PAIN file generation
 [account_banking_payment_export](account_banking_payment_export/) | 8.0.0.3.0 | Account Banking - Payments Export Infrastructure
 [account_banking_payment_transfer](account_banking_payment_transfer/) | 8.0.0.3.1 | Account Banking - Payments Transfer Account
