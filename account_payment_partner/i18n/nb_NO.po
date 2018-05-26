@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_partner
-# 
+#
 # Translators:
 # Imre Kristoffer Eilertsen <imreeil42@gmail.com>, 2016
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2016-07-30 07:37+0000\n"
 "PO-Revision-Date: 2016-07-30 07:37+0000\n"
 "Last-Translator: Imre Kristoffer Eilertsen <imreeil42@gmail.com>, 2016\n"
-"Language-Team: Norwegian Bokmål (Norway) (https://www.transifex.com/oca/teams/23907/nb_NO/)\n"
+"Language-Team: Norwegian Bokmål (Norway) (https://www.transifex.com/oca/"
+"teams/23907/nb_NO/)\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_partner
@@ -41,7 +42,13 @@ msgid "Bank Account Required"
 msgstr "Bankkonto påkrevd"
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr ""
 
@@ -56,8 +63,9 @@ msgid "Journal Item"
 msgstr "Journalgjenstand"
 
 #. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_res_partner
-msgid "Partner"
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#, python-format
+msgid "No Chart of Account Template has been defined !"
 msgstr ""
 
 #. module: account_payment_partner
@@ -68,21 +76,53 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+#, fuzzy
+msgid "Payment Modes"
+msgstr "Betalinger"
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Betalinger"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
 msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_invoice.py:119
+#, python-format
+msgid ""
+"The company of the invoice %s does not match with that of the payment mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:17
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Invoice with this "
+"Payment Mode, already assigned to another Company."
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:28
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
 msgstr ""
