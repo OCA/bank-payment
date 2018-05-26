@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-10 02:10+0000\n"
-"PO-Revision-Date: 2018-02-10 02:10+0000\n"
+"POT-Creation-Date: 2018-05-23 11:14+0000\n"
+"PO-Revision-Date: 2018-05-23 11:14+0000\n"
 "Last-Translator: Nicolas JEUDY <njeudy@panda-chi.io>, 2018\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -107,7 +107,7 @@ msgid "Supplier Payment Mode"
 msgstr "Mode de règlement fournisseur"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_invoice.py:118
+#: code:addons/account_payment_partner/models/account_invoice.py:119
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
