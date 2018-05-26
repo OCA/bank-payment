@@ -3,14 +3,15 @@
 # * account_banking_mandate
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2016-09-10 16:15+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>, 2018\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "Generični bančni mandat"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Potreben ukrep"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_invoice_mandate_required
@@ -52,7 +53,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Back to Draft"
-msgstr "Vrni v osnutek"
+msgstr "Nazaj v osnutek"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_bank_id
@@ -151,7 +152,7 @@ msgstr "Datum zadnje obremenitve"
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_last_post
 msgid "Date of the last message posted on the record."
-msgstr "Datum objave zadnjega sporočila na zapisu."
+msgstr "Datum zadnjega sporočila vpisanega na to vknjižbo."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice_mandate_id
@@ -182,7 +183,7 @@ msgstr "Osnutek"
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
-msgstr "Pretečeni"
+msgstr "Poteklo"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_follower_ids
@@ -192,12 +193,12 @@ msgstr "Sledilci"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Sledilci (kanali)"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Sledilci (partnerji)"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -208,7 +209,7 @@ msgstr "Format"
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr "Zfruži po"
+msgstr "Združi po"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_id
@@ -218,12 +219,12 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread
 msgid "If checked new messages require your attention."
-msgstr "Ko je označeno, zahtevajo vašo pozornost nova sporočila."
+msgstr "Če označeno, zahtevajo nova sporočila vašo pozornost."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Če označeno, zahtevajo nova sporočila vašo pozornost."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
@@ -233,12 +234,12 @@ msgstr "Račun"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Je sledilec"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Dnevniška postavka"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_last_post
@@ -253,7 +254,7 @@ msgstr "Zadnjič spremenjeno"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_uid
 msgid "Last Updated by"
-msgstr "Zadnji posodobil"
+msgstr "Zadnjič posodobil"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_date
@@ -319,7 +320,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Število ukrepov"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
@@ -329,12 +330,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Število sporočil, ki zahtevajo ukrep"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Število neprebranih sporočil"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_state
@@ -349,17 +350,17 @@ msgstr ""
 #: model:ir.model,name:account_banking_mandate.model_res_partner
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_id
 msgid "Partner"
-msgstr "Partner"
+msgstr "Poslovni partner"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Plačilne postavke"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Načini plačila"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
@@ -444,7 +445,7 @@ msgstr "Neprebrana sporočila"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Števec neprebranih sporočil"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -455,7 +456,7 @@ msgstr "Veljaven"
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Validate"
-msgstr "Potrdi"
+msgstr "Overi"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form

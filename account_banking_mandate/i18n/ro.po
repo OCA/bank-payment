@@ -3,14 +3,15 @@
 # * account_banking_mandate
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Dorin Hongu <dhongu@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-05 00:24+0000\n"
-"PO-Revision-Date: 2017-08-05 00:24+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2018\n"
 "Language-Team: Romanian (https://www.transifex.com/oca/teams/23907/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Conturi bancare"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
@@ -96,7 +97,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Cancel"
-msgstr "Anuleaza"
+msgstr "Anulare"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -136,7 +137,7 @@ msgstr "Creat de"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_date
 msgid "Created on"
-msgstr "Creat la"
+msgstr "Creat în"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
@@ -176,7 +177,7 @@ msgstr ""
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Draft"
-msgstr "Schiță"
+msgstr "Ciornă"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -208,7 +209,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr ""
+msgstr "Grupează după"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_id
@@ -253,12 +254,12 @@ msgstr "Ultima actualizare în"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_uid
 msgid "Last Updated by"
-msgstr "Ultima actualizare făcută de"
+msgstr "Ultima actualizare de"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_date
 msgid "Last Updated on"
-msgstr "Ultima actualizare la"
+msgstr "Ultima actualizare în"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
@@ -399,7 +400,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "State"
-msgstr "Județ"
+msgstr "Status"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_state

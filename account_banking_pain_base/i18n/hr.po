@@ -3,14 +3,15 @@
 # * account_banking_pain_base
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Ana-Maria Olujić <ana-maria.olujic@slobodni-programi.hr>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2017-05-17 02:46+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Ana-Maria Olujić <ana-maria.olujic@slobodni-programi.hr>, 2018\n"
 "Language-Team: Croatian (https://www.transifex.com/oca/teams/23907/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,7 +139,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
 msgid "Normal"
-msgstr ""
+msgstr "Normalni"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version

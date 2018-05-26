@@ -3,15 +3,17 @@
 # * account_banking_sepa_direct_debit
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
-# Akim Juillerat <akim@grindingrebellion.com>, 2016
+# Philipp Hug <philipp@hug.cx>, 2018
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Rudolf Schnapka <rs@techno-flex.de>, 2018
+# Akim Juillerat <akim.juillerat@camptocamp.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-22 16:41+0000\n"
-"PO-Revision-Date: 2016-12-22 16:41+0000\n"
-"Last-Translator: Akim Juillerat <akim@grindingrebellion.com>, 2016\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Akim Juillerat <akim.juillerat@camptocamp.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,7 +104,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Ein generisches Bank-Mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -135,6 +137,8 @@ msgid ""
 "As you changed the bank account attached to this mandate, the 'Sequence "
 "Type' has been set back to 'First'."
 msgstr ""
+"Da Sie das an dieses Mandat verknüpfte Bankkonto geändert haben, wurde die "
+"Abfolge auf 'Erste' zurückgesetzt."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -177,6 +181,11 @@ msgid ""
 "- a 3-letters business code\n"
 "- a country-specific identifier"
 msgstr ""
+"Geben Sie die Kreditor-Identifikation an, die Ihrem Unternehmen zugewiesen wurde, um Lastschriften ausführen zu können. Dieser Identifizierer setzt sich zusammen aus:\n"
+"- Ihrem ISO-Landesschlüssel (2 Buchstaben)\n"
+"- einer 2-stelligen Prüfsumme\n"
+"- einem 3-stelligen Branchenschlüssel\n"
+"- einem Landesüblichen Identifizierer"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
@@ -186,18 +195,18 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Final"
-msgstr ""
+msgstr "Abschließend"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "First"
-msgstr ""
+msgstr "Erste"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
 #, python-format
 msgid "Mandate update"
-msgstr ""
+msgstr "Mandatsaktualisierung"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:98
@@ -212,12 +221,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "One-Off"
-msgstr ""
+msgstr "Einmal"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company_original_creditor_identifier
 msgid "Original Creditor Identifier"
-msgstr ""
+msgstr "Original Kreditor-Identifizierung"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
@@ -227,7 +236,7 @@ msgstr "Zahlweisen"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_mode
 msgid "Payment Modes"
-msgstr "Zahlweise"
+msgstr "Zahlungsarten"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_order
@@ -242,25 +251,28 @@ msgid ""
 "supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
 " 'pain.008.001.04'."
 msgstr ""
+"Zahlweg-Schlüssel '%s' ist nicht verwendbar. Für SEPA-Lastschriften "
+"verwendbare Schlüssel sind 'pain.008.001.02', 'pain.008.001.03' und "
+"'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Recurrent"
-msgstr ""
+msgstr "Wiederkehrend"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Recurring"
-msgstr ""
+msgstr "Wiederkehrend"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_config_settings_sepa_creditor_identifier
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode_sepa_creditor_identifier
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company_sepa_creditor_identifier
 msgid "SEPA Creditor Identifier"
-msgstr ""
+msgstr "SEPA Krditor-Identifizierung"
 
 #. module: account_banking_sepa_direct_debit
 #: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
@@ -287,7 +299,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_recurrent_sequence_type
 msgid "Sequence Type for Next Debit"
-msgstr ""
+msgstr "Ablauf-Folgenart der nächsten Lastschrift"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:39
@@ -303,6 +315,8 @@ msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
 "expired."
 msgstr ""
+"Das SEPA-Lastschrift-Mandat mit Referenz '%s' des Partners '%s' ist "
+"abgelaufen."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:113
@@ -311,18 +325,24 @@ msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
 msgstr ""
+"Das Mandat mit Referenz '%s' des Partners '%s' hat Abfolge-Art 'Einmal' und "
+"das Datum für letzte Lastschrift auf '%s' gesetzt, also können wir es nicht "
+"nutzen."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:48
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
 msgstr ""
+"Das wiederkehrende Mandat '%s' muss auf eine Ablauf-Stufe festgelegt sein."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_banking_mandate_recurrent_sequence_type
 msgid ""
 "This field is only used for Recurrent mandates, not for One-Off mandates."
 msgstr ""
+"Dieses Feld wird nur bei wiederkehrenden Mandaten genutzt. Nicht bei Einmal-"
+"Mandaten."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -352,7 +372,7 @@ msgstr "Art"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_type
 msgid "Type of Mandate"
-msgstr ""
+msgstr "Art des Mandats"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
@@ -362,7 +382,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_config_settings
 msgid "account.config.settings"
-msgstr ""
+msgstr "account.config.settings"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document

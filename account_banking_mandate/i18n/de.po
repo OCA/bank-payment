@@ -3,14 +3,18 @@
 # * account_banking_mandate
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
+# Philipp Hug <philipp@hug.cx>, 2018
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Ermin Trevisan <trevi@twanda.com>, 2018
+# Rudolf Schnapka <rs@techno-flex.de>, 2018
+# Akim Juillerat <akim.juillerat@camptocamp.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:33+0000\n"
-"PO-Revision-Date: 2017-08-12 00:33+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Akim Juillerat <akim.juillerat@camptocamp.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +37,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Ein generisches Bank-Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_needaction
@@ -73,13 +77,13 @@ msgstr "Bank Zahlungszeilen"
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
-msgstr ""
+msgstr "Bank-Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,name:account_banking_mandate.mandate_action
 #: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
 msgid "Banking Mandates"
-msgstr ""
+msgstr "Bank-Mandate"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_res_partner_bank_mandate_ids
@@ -96,7 +100,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Stornieren"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -111,12 +115,14 @@ msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
 msgstr ""
+"Kann das Mandat '%s' nicht prüfen, da es nicht an ein Bankkonto gebunden "
+"ist."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
-msgstr ""
+msgstr "Kann Mandat '%s' nicht ohne Signaturdatum freigeben."
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -131,22 +137,22 @@ msgstr "Unternehmen"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
 msgid "Created by"
-msgstr "Erstellt von"
+msgstr "Angelegt durch"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_date
 msgid "Created on"
-msgstr "Erstellt am:"
+msgstr "Angelegt am"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
 msgid "Date of Signature of the Mandate"
-msgstr ""
+msgstr "Signaturdatum des Mandats"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_last_debit_date
 msgid "Date of the Last Debit"
-msgstr ""
+msgstr "Datum der letzten Lastschrift"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_last_post
@@ -159,13 +165,13 @@ msgstr "Datum der letzten Meldung zu diesem Datensatz."
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line_mandate_id
 msgid "Direct Debit Mandate"
-msgstr ""
+msgstr "Lastschrift-Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank_mandate_ids
 #: model:ir.ui.view,arch_db:account_banking_mandate.mandate_partner_bank_form
 msgid "Direct Debit Mandates"
-msgstr ""
+msgstr "Lastschrift-Mandate"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_display_name
@@ -192,12 +198,12 @@ msgstr "Follower"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Follower (Kanäle)"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Follower (Partner)"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -208,7 +214,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Group By"
-msgstr "Gruppieren nach"
+msgstr "Gruppiert nach"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_id
@@ -218,12 +224,12 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_unread
 msgid "If checked new messages require your attention."
-msgstr "Wenn angehakt, erfordern neue Mitteilungen Ihre Aufmerksamkeit."
+msgstr "Wenn angewählt, erfordern neue Meldungen Ihre Aufmerksamkeit."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Wenn angewählt, erfordern neue Meldungen Ihre Aufmerksamkeit"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
@@ -233,7 +239,7 @@ msgstr "Rechnung"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Ist Follower"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
@@ -243,7 +249,7 @@ msgstr "Journalbuchung"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_last_post
 msgid "Last Message Date"
-msgstr "Datum letzte Nachricht"
+msgstr "Letztes Meldungsdatum"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate___last_update
@@ -253,7 +259,7 @@ msgstr "Zuletzt geändert am"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_uid
 msgid "Last Updated by"
-msgstr "Zuletzt aktualisiert von"
+msgstr "Zuletzt aktualisiert durch"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_date
@@ -308,7 +314,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_ids
 msgid "Messages"
-msgstr "Nachrichten"
+msgstr "Meldungen"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:40
@@ -342,6 +348,8 @@ msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
 msgstr ""
+"Nur gültige Mandate dürfen in einer Zahlung verwendet werden. Ein "
+"storniertes Mandat wurde vom Kunden storniert."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -378,12 +386,12 @@ msgstr "Zugehörige Zahlungszeilen"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_scan
 msgid "Scan of the Mandate"
-msgstr ""
+msgstr "Scan des Mandats"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Search Banking Mandates"
-msgstr ""
+msgstr "Mandat suchen"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -394,7 +402,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Signature Date"
-msgstr ""
+msgstr "Signaturdatum"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -419,6 +427,8 @@ msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
 msgstr ""
+"Das Datum der letzten Lastschrift von Mandat '%s' darf nicht vor dem "
+"Signaturdatum liegen."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -431,12 +441,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
 msgid "Unique Mandate Reference"
-msgstr ""
+msgstr "Eindeutiger Mandatsbezug"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_unread
 msgid "Unread Messages"
-msgstr "Ungelesene Nachrichten"
+msgstr "Ungelesene Meldungen"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_message_unread_counter
@@ -447,7 +457,7 @@ msgstr "Zähler für ungelesene Meldungen"
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Valid"
-msgstr ""
+msgstr "Gültig"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form

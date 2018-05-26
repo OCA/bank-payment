@@ -3,15 +3,14 @@
 # * account_payment_sale
 # 
 # Translators:
-# Andrea Cometa <a.cometa@apuliasoftware.it>, 2016
-# OCA Transbot <transbot@odoo-community.org>, 2017
+# OCA Transbot <transbot@odoo-community.org>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2017-05-17 02:46+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,4 +31,4 @@ msgstr ""
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
-msgstr "Ordini di Vendita"
+msgstr "Ordine di vendita"

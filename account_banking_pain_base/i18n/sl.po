@@ -3,15 +3,15 @@
 # * account_banking_pain_base
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
-# Matjaž Mozetič <m.mozetic@matmoz.si>, 2017
+# OCA Transbot <transbot@odoo-community.org>, 2018
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-15 00:40+0000\n"
-"PO-Revision-Date: 2017-10-15 00:40+0000\n"
-"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>, 2017\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>, 2018\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,6 +82,11 @@ msgid ""
 " the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
 msgstr ""
+"Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v "
+"sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to "
+"uporabljati). Deljeno: stroške transakcije na strani dolžnika nosi dolžnik "
+"sam, stroške na strani upnika pa upnik. Nosi upnik: vse stroške transakcije "
+"nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
@@ -103,6 +108,9 @@ msgid ""
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
 msgstr ""
+"Če pravilno, bančni izpisek prikaže le eno postavko obremenitve za vse "
+"transakcije v SEPA XML datoteki ; če napačno, bančni izpisek prikaže le eno "
+"obremenitve za vsako transakcijo v SEPA XML datoteki."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
@@ -141,7 +149,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,priority:0
 msgid "Normal"
-msgstr "Običajna"
+msgstr "Običajno"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version
@@ -156,12 +164,12 @@ msgstr "Začetek plačil"
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Plačilne postavke"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Načini plačila"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_mode
@@ -171,7 +179,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Plačilni nalog"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority

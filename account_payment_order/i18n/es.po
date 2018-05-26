@@ -5,13 +5,15 @@
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # enjolras <yo@miguelrevilla.com>, 2018
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2018
+# Rafael Blasco <rafabn@antiun.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-03 02:27+0000\n"
-"PO-Revision-Date: 2018-02-03 02:27+0000\n"
-"Last-Translator: enjolras <yo@miguelrevilla.com>, 2018\n"
+"POT-Creation-Date: 2018-05-23 08:41+0000\n"
+"PO-Revision-Date: 2018-05-23 08:41+0000\n"
+"Last-Translator: Rafael Blasco <rafabn@antiun.com>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +70,7 @@ msgstr "Opciones de asientos contables"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_needaction
 msgid "Action Needed"
-msgstr "Acción requerida"
+msgstr "Se necesita una acción"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_bank_account_required
@@ -82,7 +84,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Add All Move Lines"
-msgstr "Añadir todos los apuntes contables"
+msgstr "Añadir todas las líneas"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_form
@@ -109,12 +111,12 @@ msgstr "Todos los asientos"
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Posted Entries"
-msgstr "Todos los asientos asentados"
+msgstr "Todos los asientos confirmados"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_allow_blocked
 msgid "Allow Litigation Move Lines"
-msgstr "Permitir apuntes en litigio"
+msgstr "Permitir apuntes en litígio"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_currency
@@ -232,7 +234,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr "Escoja las opciones de filtro de apuntes"
+msgstr "Elegir opciones de filtro de apuntes"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -241,9 +243,10 @@ msgid ""
 " criteria or click on Add an item to manually select the move lines filtered"
 " by the above criteria."
 msgstr ""
-"Pulse en \"Añadir todos los apuntes\" para auto-seleccionar los apuntes que "
-"casen con los criterios de arriba o pulse en \"Añadir un elemento\" para "
-"seleccionar manualmente las líneas filtradas por los criterios de arriba."
+"Clic en Añadir todas las líneas para seleccionar automáticamente las líneas "
+"de movimiento que coinciden con los criterios anteriores o clic en Agregar "
+"un elemento para seleccionar manualmente las líneas de movimiento filtradas "
+"por los criterios anteriores."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication
@@ -327,7 +330,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_create_date
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Creado el"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_company_currency_id
@@ -345,7 +348,7 @@ msgstr "Moneda de la transacción de pago"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_last_post
 msgid "Date of the last message posted on the record."
-msgstr "Fecha del último mensaje publicado en el registro."
+msgstr "Fecha del último mensaje publicado en el registro"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
@@ -378,7 +381,7 @@ msgstr "No permitir el adeudo antes de la fecha de vencimiento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
@@ -396,7 +399,7 @@ msgstr "Vencimiento"
 #: selection:account.payment.order,date_prefered:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_due_date
 msgid "Due Date"
-msgstr "Fecha de vencimiento"
+msgstr "Fecha vencimiento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_ml_maturity_date
@@ -450,7 +453,7 @@ msgstr "Seguidores (canales)"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Seguidores (empresas)"
+msgstr "Seguidores (clientes)"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:147
@@ -535,12 +538,12 @@ msgstr "ISO"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_unread
 msgid "If checked new messages require your attention."
-msgstr "Si se marca los nuevos mensajes requerirán su atención."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+msgstr "Si se marca, los nuevos mensajes requieren su atención"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_group_lines
@@ -591,7 +594,7 @@ msgstr "Factura"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_is_follower
 msgid "Is Follower"
-msgstr "Es un seguidor"
+msgstr "Es seguidor"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
@@ -622,7 +625,7 @@ msgstr "Filtro de diarios"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Keep empty for using all journals"
-msgstr "Dejar vacío para usar todos los diarios"
+msgstr "Dejar vacío para seleccionar todos los diarios"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_communication
@@ -650,7 +653,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Última modificación por"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_write_date
@@ -670,7 +673,7 @@ msgstr "Enlazado a la cuenta bancaria"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_invoice
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_invoice
 msgid "Linked to an Invoice or Refund"
-msgstr "Vinculado a una factura o factura rectificativa"
+msgstr "Vinculado a factura o devolución"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_ids
@@ -692,18 +695,18 @@ msgstr "No se ha establecido la cuenta bancaria en la línea de pago %s"
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Move"
-msgstr "Asiento"
+msgstr "Mover"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_move_date
 msgid "Move Date"
-msgstr "Fecha del asiento"
+msgstr "Fecha del apunte"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_move_line_ids
 msgid "Move Lines"
-msgstr "Apuntes"
+msgstr "Apuntes contables"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_move_option
@@ -771,7 +774,7 @@ msgstr "Número de mensajes que requieren una acción"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_message_unread_counter
 msgid "Number of unread messages"
-msgstr "Número de mensajes sin leer"
+msgstr "Número de mensajes no leídos"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_offsetting_account
@@ -842,7 +845,7 @@ msgstr "Opciones para las órdenes"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_order_id
 msgid "Order"
-msgstr "Orden"
+msgstr "Pedido"
 
 #. module: account_payment_order
 #: selection:account.payment.order,payment_type:0
@@ -855,7 +858,7 @@ msgstr "Saliente"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_partner_id
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Partner"
-msgstr "Empresa"
+msgstr "Contacto"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_partner_bank_id
@@ -1065,7 +1068,7 @@ msgstr "Referencia esctructurada"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_target_move
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_target_move
 msgid "Target Moves"
-msgstr "Asientos destino"
+msgstr "Movimientos destino"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:288
@@ -1160,7 +1163,7 @@ msgstr "Total en la moneda de la compañía"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr "Total pendiente"
+msgstr "Total Residual"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
@@ -1202,7 +1205,7 @@ msgstr "Asientos de transferencia"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_date_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_type
 msgid "Type of Date Filter"
-msgstr "Filtro de tipo de fecha"
+msgstr "Tipo de filtro por fecha"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_unread
