@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-03 07:30+0000\n"
-"PO-Revision-Date: 2018-05-01 15:16+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"POT-Creation-Date: 2018-05-23 11:16+0000\n"
+"PO-Revision-Date: 2018-05-23 18:37+0000\n"
+"Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,7 @@ msgstr "%d betalingslinier tilføjet ny automatisk oprettet kladde betaling %s."
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Company Currency:</strong>"
-msgstr ""
+msgstr "Firma valuta"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -50,7 +50,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Payment Type:</strong>"
-msgstr ""
+msgstr "Betalingstype"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -65,7 +65,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Used Account:</strong>"
-msgstr ""
+msgstr "<strong>Anvendt konto:</strong>"
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
@@ -360,7 +360,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
-msgstr "Oprkævningsordrer"
+msgstr "Opkrævningsordrer"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:448
@@ -689,6 +689,11 @@ msgstr ""
 #: code:addons/account_payment_order/models/bank_payment_line.py:139
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
+msgid "Name or Description"
 msgstr ""
 
 #. module: account_payment_order
