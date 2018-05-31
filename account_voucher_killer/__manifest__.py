@@ -31,5 +31,4 @@
      'view/invoice_view.xml'
  ],
  'installable': True,
- 'active': False,
  }
