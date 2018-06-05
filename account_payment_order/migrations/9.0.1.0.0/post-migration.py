@@ -24,7 +24,10 @@ def map_payment_type(cr):
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
     cr = env.cr
-    map_payment_type(cr)
+    table = 'account_payment_order'
+    if (openupgrade.table_exists(cr, table) and
+            openupgrade.column_exists(cr, table, 'payment_order_type')):
+        map_payment_type(cr)
 
     cr.execute("""
        UPDATE account_payment_order apo
