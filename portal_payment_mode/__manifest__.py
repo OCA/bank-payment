@@ -7,7 +7,8 @@
     'name': "Portal Payment Mode",
     'summary': "Adds payment mode ACL's for portal users ",
     'category': 'Portal',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
+    'development_status': 'Production/Stable',
     'depends': [
         'portal_sale',
         'account_payment_partner',
