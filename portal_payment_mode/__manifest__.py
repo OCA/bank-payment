@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Tecnativa - Sergio Teruel
 # Copyright 2017 Tecnativa - Carlos Dauden
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
@@ -7,10 +6,10 @@
     'name': "Portal Payment Mode",
     'summary': "Adds payment mode ACL's for portal users ",
     'category': 'Portal',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'development_status': 'Production/Stable',
     'depends': [
-        'portal_sale',
+        'portal',
         'account_payment_partner',
     ],
     'data': [

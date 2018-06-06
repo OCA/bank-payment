@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2015 Tecnativa - Sergio Teruel
 # Copyright 2015 Tecnativa - Carlos Dauden
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
@@ -58,4 +57,4 @@ class TestPortalPaymentMode(TransactionCase):
     def test_access_invoice(self):
         user_portal = self.env['res.users'].search(
             [('partner_id', '=', self.partner.id)])
-        self.assert_(self.invoice.sudo(user_portal).payment_mode_id)
+        self.assertTrue(self.invoice.sudo(user_portal).payment_mode_id)
