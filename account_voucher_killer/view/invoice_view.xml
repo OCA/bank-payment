@@ -1,5 +1,4 @@
-<openerp>
-  <data>
+<odoo>
     <record id="invoice_payment_group_customer_invoice" model="ir.ui.view">
       <field name="name">Hide voucher in invoice</field>
       <field name="model">account.invoice</field>
@@ -40,5 +39,4 @@
      <field name="groups_id" eval="[(6,0,[ref('account_voucher_killer.invoice_payment_user')])]"/>
    </record>
 
-  </data>
-</openerp>
+</odoo>
