@@ -67,6 +67,7 @@ Contributors
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Danimar Ribeiro
 * Angel Moya <angel.moya@domatix.com>
+* Sergio Teruel <sergio.teruel@tecnativa.com>
 
 Maintainer
 ----------

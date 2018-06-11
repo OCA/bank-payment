@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Payment Partner',
-    'version': '10.0.1.1.2',
+    'version': '10.0.1.1.3',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': 'Adds payment mode on partners and invoices',
@@ -15,6 +15,7 @@
     'website': 'https://github.com/OCA/bank-payment',
     'depends': ['account_payment_mode'],
     'data': [
+        'security/ir.model.access.csv',
         'views/res_partner_view.xml',
         'views/account_invoice_view.xml',
         'views/account_move_line.xml',
