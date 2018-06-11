@@ -23,7 +23,7 @@
  'version': '10.0.1.0.0',
  'category': 'other',
  'author': "Camptocamp,Odoo Community Association (OCA)",
- 'website': 'http://www.camptocamp.com',
+ 'website': 'https://github.com/OCA/bank-payment',
  'license': 'AGPL-3',
  'depends': ['account'],
  'data': [

@@ -1,6 +1,6 @@
 <odoo>
     <record id="invoice_payment_group_customer_invoice" model="ir.ui.view">
-      <field name="name">Hide voucher in invoice</field>
+      <field name="name">Hide payment in invoice</field>
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.invoice_form" />
       <field name="arch" type="xml">
