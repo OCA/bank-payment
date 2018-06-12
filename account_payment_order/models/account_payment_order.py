@@ -91,7 +91,21 @@ class AccountPaymentOrder(models.Model):
     move_ids = fields.One2many(
         'account.move', 'payment_order_id', string='Journal Entries',
         readonly=True)
+    move_count = fields.Integer(
+        compute='_compute_move_count', readonly=True, store=True,
+        string="# of Journal Entries")
     description = fields.Char()
+
+    @api.depends('move_ids')
+    def _compute_move_count(self):
+        move_data = self.env['account.move'].read_group(
+            [('payment_order_id', 'in', self.ids)],
+            ['payment_order_id'], ['payment_order_id'])
+        mapped_data = dict([
+            (move['payment_order_id'][0], move['payment_order_id_count'])
+            for move in move_data])
+        for order in self:
+            order.move_count = mapped_data.get(order.id, 0)
 
     @api.multi
     def unlink(self):
@@ -488,3 +502,22 @@ class AccountPaymentOrder(models.Model):
             blines.reconcile_payment_lines()
             if post_move:
                 move.post()
+
+    def open_moves(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'account', 'action_move_journal_line')
+        action.update({
+            'context': self._context,
+            'views': False,
+            'view_id': False,
+            })
+        if self.move_ids:
+            if len(self.move_ids) == 1:
+                action.update({
+                    'view_mode': 'form,tree',
+                    'res_id': self.move_ids[0].id,
+                    })
+            else:
+                action['domain'] = "[('id', 'in', %s)]" % self.move_ids.ids
+        return action

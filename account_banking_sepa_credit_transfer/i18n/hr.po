@@ -3,13 +3,14 @@
 # * account_banking_sepa_credit_transfer
 # 
 # Translators:
+# Bole <bole@dajmi5.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 00:10+0000\n"
-"PO-Revision-Date: 2016-10-19 23:45+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2018-02-20 01:40+0000\n"
+"PO-Revision-Date: 2018-02-18 14:34+0000\n"
+"Last-Translator: Bole <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,13 +24,13 @@ msgstr ""
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
-msgstr ""
+msgstr "Nedostaje bankovni račun na stavci plaćanja od partnera '%s' (referenca '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
 #, python-format
 msgid "PAIN version '%s' is not supported."
-msgstr ""
+msgstr "PAIN verzija '%s' nije podržana."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
@@ -50,4 +51,4 @@ msgstr "Nalog za plaćanje"
 #: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
-msgstr ""
+msgstr "SEPA kreditni transfer prema dobavljačima"

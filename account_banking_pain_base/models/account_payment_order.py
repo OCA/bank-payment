@@ -92,7 +92,8 @@ class AccountPaymentOrder(models.Model):
             # cf section 1.4 "Character set" of the SEPA Credit Transfer
             # Scheme Customer-to-bank guidelines
             if gen_args.get('convert_to_ascii'):
-                value = unidecode(value)
+                if isinstance(value, unicode):
+                    value = unidecode(value)
                 unallowed_ascii_chars = [
                     '"', '#', '$', '%', '&', '*', ';', '<', '>', '=', '@',
                     '[', ']', '^', '_', '`', '{', '}', '|', '~', '\\', '!']

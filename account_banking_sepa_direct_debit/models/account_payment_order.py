@@ -2,7 +2,7 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, models, _
 from odoo.exceptions import UserError
 from lxml import etree
 
@@ -227,32 +227,44 @@ class AccountPaymentOrder(models.Model):
             xml_root, gen_args)
 
     @api.multi
-    def finalize_sepa_file_creation(self, xml_root, gen_args):
-        """Save the SEPA Direct Debit file: mark all payments in the file
-        as 'sent'. Write 'last debit date' on mandate and set oneoff
-        mandate to expired.
+    def generated2uploaded(self):
+        """Write 'last debit date' on mandates
+        Set mandates from first to recurring
+        Set oneoff mandates to expired
         """
+        # I call super() BEFORE updating the sequence_type
+        # from first to recurring, so that the account move
+        # is generated BEFORE, which will allow the split
+        # of the account move per sequence_type
+        res = super(AccountPaymentOrder, self).generated2uploaded()
         abmo = self.env['account.banking.mandate']
-        to_expire_mandates = abmo.browse([])
-        first_mandates = abmo.browse([])
-        all_mandates = abmo.browse([])
-        for bline in self.bank_line_ids:
-            if bline.mandate_id in all_mandates:
-                continue
-            all_mandates += bline.mandate_id
-            if bline.mandate_id.type == 'oneoff':
-                to_expire_mandates += bline.mandate_id
-            elif bline.mandate_id.type == 'recurrent':
-                seq_type = bline.mandate_id.recurrent_sequence_type
-                if seq_type == 'final':
+        for order in self:
+            to_expire_mandates = abmo.browse([])
+            first_mandates = abmo.browse([])
+            all_mandates = abmo.browse([])
+            for bline in order.bank_line_ids:
+                if bline.mandate_id in all_mandates:
+                    continue
+                all_mandates += bline.mandate_id
+                if bline.mandate_id.type == 'oneoff':
                     to_expire_mandates += bline.mandate_id
-                elif seq_type == 'first':
-                    first_mandates += bline.mandate_id
-        all_mandates.write(
-            {'last_debit_date': fields.Date.context_today(self)})
-        to_expire_mandates.write({'state': 'expired'})
-        first_mandates.write({
-            'recurrent_sequence_type': 'recurring',
-            })
-        return super(AccountPaymentOrder, self).finalize_sepa_file_creation(
-            xml_root, gen_args)
+                elif bline.mandate_id.type == 'recurrent':
+                    seq_type = bline.mandate_id.recurrent_sequence_type
+                    if seq_type == 'final':
+                        to_expire_mandates += bline.mandate_id
+                    elif seq_type == 'first':
+                        first_mandates += bline.mandate_id
+            all_mandates.write(
+                {'last_debit_date': order.date_generated})
+            to_expire_mandates.write({'state': 'expired'})
+            first_mandates.write({
+                'recurrent_sequence_type': 'recurring',
+                })
+            for first_mandate in first_mandates:
+                first_mandate.message_post(_(
+                    "Automatically switched from <b>First</b> to "
+                    "<b>Recurring</b> when the debit order "
+                    "<a href=# data-oe-model=account.payment.order "
+                    "data-oe-id=%d>%s</a> has been marked as uploaded.")
+                    % (order.id, order.name))
+        return res
