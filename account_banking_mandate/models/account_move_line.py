@@ -11,7 +11,7 @@ class AccountMoveLine(models.Model):
 
     mandate_id = fields.Many2one(
         'account.banking.mandate', string='Direct Debit Mandate',
-        ondelete='restrict')
+        ondelete='restrict', index=True)
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
