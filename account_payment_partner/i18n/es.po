@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_partner
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # Rafael Blasco <rafabn@antiun.com>, 2016
@@ -10,15 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 09:35+0000\n"
-"PO-Revision-Date: 2016-12-29 09:35+0000\n"
-"Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-03-02 09:18+0100\n"
+"PO-Revision-Date: 2017-03-02 09:19+0100\n"
+"Last-Translator: Sergio Teruel <sergio.teruel@tecnativa.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Language: es\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -36,8 +37,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Activa esta opción si este método de pago debe requerirte informar el número"
-" de cuenta bancaria de tu cliente o proveedor"
+"Activa esta opción si este método de pago debe requerirte informar el número "
+"de cuenta bancaria de tu cliente o proveedor"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
@@ -72,9 +73,19 @@ msgid "Payment Mode"
 msgstr "Modo de pago"
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modo de pago"
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Pagos"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_bank_invoice_report
+msgid "Print Bank Account"
+msgstr "Imprimir cuenta bancaria"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -94,3 +105,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Modo de pago de proveedor"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_bank_invoice_report
+msgid "Uncheck this option to hide bank account in invoice report"
+msgstr ""
+"Desmarca esta opción para ocultar la cuenta bancaria en el informe de factura"
