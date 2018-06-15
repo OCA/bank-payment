@@ -16,6 +16,8 @@ class AccountPaymentLineCreate(models.TransientModel):
         'account.payment.order', string='Payment Order')
     journal_ids = fields.Many2many(
         'account.journal', string='Journals Filter')
+    partner_ids = fields.Many2many(
+        'res.partner', string='Partners', domain=[('parent_id', '=', False)])
     target_move = fields.Selection([
         ('posted', 'All Posted Entries'),
         ('all', 'All Entries'),
@@ -61,10 +63,12 @@ class AccountPaymentLineCreate(models.TransientModel):
     @api.multi
     def _prepare_move_line_domain(self):
         self.ensure_one()
-        journals = self.journal_ids or self.env['account.journal'].search([])
         domain = [('reconciled', '=', False),
-                  ('company_id', '=', self.order_id.company_id.id),
-                  ('journal_id', 'in', journals.ids)]
+                  ('company_id', '=', self.order_id.company_id.id)]
+        if self.journal_ids:
+            domain += [('journal_id', 'in', self.journal_ids.ids)]
+        if self.partner_ids:
+            domain += [('partner_id', 'in', self.partner_ids.ids)]
         if self.target_move == 'posted':
             domain += [('move_id.state', '=', 'posted')]
         if not self.allow_blocked:
@@ -141,7 +145,7 @@ class AccountPaymentLineCreate(models.TransientModel):
 
     @api.onchange(
         'date_type', 'move_date', 'due_date', 'journal_ids', 'invoice',
-        'target_move', 'allow_blocked', 'payment_mode')
+        'target_move', 'allow_blocked', 'payment_mode', 'partner_ids')
     def move_line_filters_change(self):
         domain = self._prepare_move_line_domain()
         res = {'domain': {'move_line_ids': domain}}
