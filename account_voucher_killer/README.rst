@@ -14,34 +14,6 @@ It also disables the voucher-related menus entries such as
 More precisely, this module adds a group "Use voucher in Invoices"
 and only users in that group see these buttons and menus.
 
-Installation
-============
-
-This module depends on :
-* account_voucher
-
-This modules are parts of the OCA/bank-payment suite.
-
-Configuration
-=============
-
-There is nothing to configure.
-
-Usage
-=====
-
-See above the description of the module.
-
-
-For further information, please visit:
-
- * https://www.odoo.com/forum/help-1
-
-Known issues / Roadmap
-======================
-
- * ...
- 
 Bug Tracker
 ===========
 
