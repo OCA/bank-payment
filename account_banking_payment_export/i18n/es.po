@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_export
-# 
+#
 # Translators:
 # Eduardo Rodríguez Crespo <erocre@gmail.com>, 2016
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-03-03 11:42+0000\n"
 "PO-Revision-Date: 2017-02-20 12:40+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_export
@@ -25,7 +26,9 @@ msgstr ""
 msgid ""
 "A valid BIC contains 8 or 11 caracters. The BIC '%s' contains %d caracters, "
 "so it is not valid."
-msgstr "Un BIC válido contiene 8 u 11 caracteres. El BIC '%s' contiene %d caracteres, por lo que no es válido."
+msgstr ""
+"Un BIC válido contiene 8 u 11 caracteres. El BIC '%s' contiene %d "
+"caracteres, por lo que no es válido."
 
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
@@ -189,14 +192,27 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.mode,group_lines:0
 msgid ""
-"If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
+"If this mark is checked, the payment order lines will be grouped when "
+"validating the payment order before exporting the bank file. The grouping "
+"will be done only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
 "* Communication Type (structured, free)\n"
 "* Payment Date\n"
 "(other modules can set additional fields to restrict the grouping.)"
-msgstr "Si esta casilla está marcada, las líneas de las órdenes de pago serán agrupadas cuando se valide la orden de pago antes de la exportación al archivo bancario. La agrupación se realizará sólo si los siguientes campos casan:\n* Empresa\n* Moneda\n* Cuenta bancaria destino\n* Tipo de comunicacion (estructurada, libre)\n* Fecha de pago\n(otros módulo pueden establecer campos adicionales para restringir la agrupación.)"
+msgstr ""
+"Si esta casilla está marcada, las líneas de las órdenes de pago serán "
+"agrupadas cuando se valide la orden de pago antes de la exportación al "
+"archivo bancario. La agrupación se realizará sólo si los siguientes campos "
+"casan:\n"
+"* Empresa\n"
+"* Moneda\n"
+"* Cuenta bancaria destino\n"
+"* Tipo de comunicacion (estructurada, libre)\n"
+"* Fecha de pago\n"
+"(otros módulo pueden establecer campos adicionales para restringir la "
+"agrupación.)"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -413,7 +429,9 @@ msgstr "Asistente de pago"
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid ""
 "Please execute payment order manually, and click OK when succesfully sent."
-msgstr "Ejecute la orden de pago manualmente (fuera del sistema), y pulse en Aceptar cuando la haya tramitado correctamente."
+msgstr ""
+"Ejecute la orden de pago manualmente (fuera del sistema), y pulse en Aceptar "
+"cuando la haya tramitado correctamente."
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_populate_results:0
@@ -441,7 +459,9 @@ msgstr "Seleccione el tipo de exportación de pago para el modo de pago."
 msgid ""
 "Select the Payment Wizard for payments of this type. Leave empty for manual "
 "processing"
-msgstr "Seleccione el asistente de pago para los pagos de este tipo. Déjelo vacío para un procesado manual."
+msgstr ""
+"Seleccione el asistente de pago para los pagos de este tipo. Déjelo vacío "
+"para un procesado manual."
 
 #. module: account_banking_payment_export
 #: field:payment.mode,purchase_ok:0
@@ -489,9 +509,11 @@ msgstr "El importe para el empresa '%s' es negativo o nulo (%.2f) !"
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
 msgid ""
-"This field determines if this type applies to customers (Debit) or suppliers"
-" (Payment)"
-msgstr "Este campo determina si este tipo aplica a clientes (Cobro) o a proveedores (Pago)"
+"This field determines if this type applies to customers (Debit) or suppliers "
+"(Payment)"
+msgstr ""
+"Este campo determina si este tipo aplica a clientes (Cobro) o a proveedores "
+"(Pago)"
 
 #. module: account_banking_payment_export
 #: help:payment.mode,payment_order_type:0
@@ -553,20 +575,28 @@ msgstr "Asistente"
 msgid ""
 "{\n"
 "                'invisible': [('state', '!=', 'draft')]}"
-msgstr "{\n                'invisible': [('state', '!=', 'draft')]}"
+msgstr ""
+"{\n"
+"                'invisible': [('state', '!=', 'draft')]}"
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
 msgid ""
 "{'display_credit': context.get('display_credit', False),'display_debit': "
-"context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' "
-": "
-"'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
-msgstr "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+"context.get('display_debit', False),'journal_type': 'sale', "
+"'tree_view_ref' : 'account_banking_payment_export."
+"payment_order_populate_view_move_line_tree'}"
+msgstr ""
+"{'display_credit': context.get('display_credit', False),'display_debit': "
+"context.get('display_debit', False),'journal_type': 'sale', "
+"'tree_view_ref' : 'account_banking_payment_export."
+"payment_order_populate_view_move_line_tree'}"
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order
 msgid ""
 "{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', "
 "'due')]}"
-msgstr "{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"
+msgstr ""
+"{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', "
+"'due')]}"

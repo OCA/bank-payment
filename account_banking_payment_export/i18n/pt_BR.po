@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_export
-# 
+#
 # Translators:
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2017-03-03 11:42+0000\n"
 "PO-Revision-Date: 2017-02-17 15:35+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-"
+"payment-8-0/language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_payment_export
@@ -26,7 +27,9 @@ msgstr ""
 msgid ""
 "A valid BIC contains 8 or 11 caracters. The BIC '%s' contains %d caracters, "
 "so it is not valid."
-msgstr "Um código de banco válido contém de 8 a 11 caracteres. O BIC '%s' contém %d caracteres, ou seja não é válido"
+msgstr ""
+"Um código de banco válido contém de 8 a 11 caracteres. O BIC '%s' contém %d "
+"caracteres, ou seja não é válido"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,active:0 field:payment.mode.type,active:0
@@ -190,14 +193,25 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.mode,group_lines:0
 msgid ""
-"If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
+"If this mark is checked, the payment order lines will be grouped when "
+"validating the payment order before exporting the bank file. The grouping "
+"will be done only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
 "* Communication Type (structured, free)\n"
 "* Payment Date\n"
 "(other modules can set additional fields to restrict the grouping.)"
-msgstr "Se marcado, as linhas das ordens serão agrupadas quando validadas antes de exportar o arquivo do banco. O agrupamento será feito apenas se os campos forem iguais:\n* Parceiro\n* Moeda\n* Conta bancária destino\n* TIpo de comunicação\n* Data do pagamento\n(outros módulos podem adicionar campos adicionais)"
+msgstr ""
+"Se marcado, as linhas das ordens serão agrupadas quando validadas antes de "
+"exportar o arquivo do banco. O agrupamento será feito apenas se os campos "
+"forem iguais:\n"
+"* Parceiro\n"
+"* Moeda\n"
+"* Conta bancária destino\n"
+"* TIpo de comunicação\n"
+"* Data do pagamento\n"
+"(outros módulos podem adicionar campos adicionais)"
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
@@ -414,7 +428,9 @@ msgstr "Assistente para Pagamentos"
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid ""
 "Please execute payment order manually, and click OK when succesfully sent."
-msgstr "Por favor execute a ordem de pagamento manualmente, e clique OK quando terminar de enviar."
+msgstr ""
+"Por favor execute a ordem de pagamento manualmente, e clique OK quando "
+"terminar de enviar."
 
 #. module: account_banking_payment_export
 #: field:payment.mode,default_populate_results:0
@@ -435,14 +451,18 @@ msgstr "Selecionar os movimentos para pagar - Valores padrão"
 #. module: account_banking_payment_export
 #: help:payment.mode,type:0 help:payment.order,mode_type:0
 msgid "Select the Export Payment Type for the Payment Mode."
-msgstr "Selecione os tipos de pagamento que permitem exportação para o Modo de Pagamento."
+msgstr ""
+"Selecione os tipos de pagamento que permitem exportação para o Modo de "
+"Pagamento."
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,ir_model_id:0
 msgid ""
 "Select the Payment Wizard for payments of this type. Leave empty for manual "
 "processing"
-msgstr "Selecione o Assistente de Pagamento para pagamentos deste tipo. Deixe vazio para processamento manual"
+msgstr ""
+"Selecione o Assistente de Pagamento para pagamentos deste tipo. Deixe vazio "
+"para processamento manual"
 
 #. module: account_banking_payment_export
 #: field:payment.mode,purchase_ok:0
@@ -490,9 +510,11 @@ msgstr "O total para o parceiro '%s' é negativo ou nulo (%.2f) !"
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
 msgid ""
-"This field determines if this type applies to customers (Debit) or suppliers"
-" (Payment)"
-msgstr "Este campo determina se este tipo se aplica a clientes (Cobrança) ou a fornecedores (Pagamentos)"
+"This field determines if this type applies to customers (Debit) or suppliers "
+"(Payment)"
+msgstr ""
+"Este campo determina se este tipo se aplica a clientes (Cobrança) ou a "
+"fornecedores (Pagamentos)"
 
 #. module: account_banking_payment_export
 #: help:payment.mode,payment_order_type:0
@@ -560,9 +582,9 @@ msgstr ""
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
 msgid ""
 "{'display_credit': context.get('display_credit', False),'display_debit': "
-"context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' "
-": "
-"'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+"context.get('display_debit', False),'journal_type': 'sale', "
+"'tree_view_ref' : 'account_banking_payment_export."
+"payment_order_populate_view_move_line_tree'}"
 msgstr ""
 
 #. module: account_banking_payment_export

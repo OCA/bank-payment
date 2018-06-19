@@ -1,34 +1,28 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_banking_payment_export
+#	* account_banking_payment_export
 #
-# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: bank-payment (8.0)\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-02 02:20+0000\n"
-"PO-Revision-Date: 2018-02-02 14:11+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-bank-"
-"payment-8-0/language/ca_ES/)\n"
-"Language: ca_ES\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/res_partner_bank.py:17
 #: code:addons/account_banking_payment_export/models/res_partner_bank.py:31
 #, python-format
-msgid ""
-"A valid BIC contains 8 or 11 caracters. The BIC '%s' contains %d caracters, "
-"so it is not valid."
+msgid "A valid BIC contains 8 or 11 caracters. The BIC '%s' contains %d caracters, so it is not valid."
 msgstr ""
 
 #. module: account_banking_payment_export
-#: field:payment.mode,active:0 field:payment.mode.type,active:0
+#: field:payment.mode,active:0
+#: field:payment.mode.type,active:0
 msgid "Active"
 msgstr ""
 
@@ -76,12 +70,12 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:payment.mode.type,code:0
 msgid "Code"
-msgstr "Codi"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,communication:0
@@ -96,19 +90,21 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:bank.payment.line,company_id:0
 msgid "Company"
-msgstr "Companyia"
+msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,create_uid:0 field:payment.manual,create_uid:0
+#: field:bank.payment.line,create_uid:0
+#: field:payment.manual,create_uid:0
 #: field:payment.mode.type,create_uid:0
 msgid "Created by"
-msgstr "Creat per"
+msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,create_date:0 field:payment.manual,create_date:0
+#: field:bank.payment.line,create_date:0
+#: field:payment.manual,create_date:0
 #: field:payment.mode.type,create_date:0
 msgid "Created on"
-msgstr "Creat a"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: field:bank.payment.line,currency:0
@@ -126,10 +122,11 @@ msgid "Direct debit"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,display_name:0 field:payment.manual,display_name:0
+#: field:bank.payment.line,display_name:0
+#: field:payment.manual,display_name:0
 #: field:payment.mode.type,display_name:0
 msgid "Display Name"
-msgstr "Nom visible"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: selection:payment.mode,default_date_type:0
@@ -174,24 +171,20 @@ msgid "Group lines in payment orders"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,id:0 field:payment.manual,id:0
+#: field:bank.payment.line,id:0
+#: field:payment.manual,id:0
 #: field:payment.mode.type,id:0
 msgid "ID"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: help:bank.payment.line,date:0
-msgid ""
-"If no payment date is specified, the bank will treat this payment line "
-"directly"
+msgid "If no payment date is specified, the bank will treat this payment line directly"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: help:payment.mode,group_lines:0
-msgid ""
-"If this mark is checked, the payment order lines will be grouped when "
-"validating the payment order before exporting the bank file. The grouping "
-"will be done only if the following fields matches:\n"
+msgid "If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -242,19 +235,21 @@ msgstr ""
 #: field:payment.manual,__last_update:0
 #: field:payment.mode.type,__last_update:0
 msgid "Last Modified on"
-msgstr "Darrera modificació en"
+msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,write_uid:0 field:payment.manual,write_uid:0
+#: field:bank.payment.line,write_uid:0
+#: field:payment.manual,write_uid:0
 #: field:payment.mode.type,write_uid:0
 msgid "Last Updated by"
-msgstr "Darrera actualització per"
+msgstr ""
 
 #. module: account_banking_payment_export
-#: field:bank.payment.line,write_date:0 field:payment.manual,write_date:0
+#: field:bank.payment.line,write_date:0
+#: field:payment.manual,write_date:0
 #: field:payment.mode.type,write_date:0
 msgid "Last Updated on"
-msgstr "Darrera actualització el"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -262,7 +257,8 @@ msgid "Line grouping"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: field:payment.mode,default_invoice:0 field:payment.order.create,invoice:0
+#: field:payment.mode,default_invoice:0
+#: field:payment.order.create,invoice:0
 msgid "Linked to an Invoice or Refund"
 msgstr ""
 
@@ -285,7 +281,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: field:payment.mode.type,name:0
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.mode:account_banking_payment_export.view_payment_mode_form_inherit
@@ -392,7 +388,8 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.mode.type:account_banking_payment_export.view_payment_mode_type_form
-#: help:payment.mode.type,name:0 field:payment.order,mode_type:0
+#: help:payment.mode.type,name:0
+#: field:payment.order,mode_type:0
 msgid "Payment Type"
 msgstr ""
 
@@ -413,8 +410,7 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.manual:account_banking_payment_export.view_payment_manual_form
-msgid ""
-"Please execute payment order manually, and click OK when succesfully sent."
+msgid "Please execute payment order manually, and click OK when succesfully sent."
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -434,15 +430,14 @@ msgid "Select Move Lines to Pay - Default Values"
 msgstr ""
 
 #. module: account_banking_payment_export
-#: help:payment.mode,type:0 help:payment.order,mode_type:0
+#: help:payment.mode,type:0
+#: help:payment.order,mode_type:0
 msgid "Select the Export Payment Type for the Payment Mode."
 msgstr ""
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,ir_model_id:0
-msgid ""
-"Select the Payment Wizard for payments of this type. Leave empty for manual "
-"processing"
+msgid "Select the Payment Wizard for payments of this type. Leave empty for manual processing"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -490,16 +485,12 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
-msgid ""
-"This field determines if this type applies to customers (Debit) or suppliers "
-"(Payment)"
+msgid "This field determines if this type applies to customers (Debit) or suppliers (Payment)"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: help:payment.mode,payment_order_type:0
-msgid ""
-"This field, that comes from export type, determines if this mode can be "
-"selected for customers or suppliers."
+msgid "This field, that comes from export type, determines if this mode can be selected for customers or suppliers."
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -552,23 +543,17 @@ msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order:account_banking_payment_export.view_payment_order_form
-msgid ""
-"{\n"
+msgid "{\n"
 "                'invisible': [('state', '!=', 'draft')]}"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
-msgid ""
-"{'display_credit': context.get('display_credit', False),'display_debit': "
-"context.get('display_debit', False),'journal_type': 'sale', "
-"'tree_view_ref' : 'account_banking_payment_export."
-"payment_order_populate_view_move_line_tree'}"
+msgid "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
 msgstr ""
 
 #. module: account_banking_payment_export
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order
-msgid ""
-"{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', "
-"'due')]}"
+msgid "{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"
 msgstr ""
+

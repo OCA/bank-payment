@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_export
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,11 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2017-08-12 00:31+0000\n"
 "PO-Revision-Date: 2017-08-21 07:26+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_export
@@ -188,7 +189,9 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.mode,group_lines:0
 msgid ""
-"If this mark is checked, the payment order lines will be grouped when validating the payment order before exporting the bank file. The grouping will be done only if the following fields matches:\n"
+"If this mark is checked, the payment order lines will be grouped when "
+"validating the payment order before exporting the bank file. The grouping "
+"will be done only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -488,8 +491,8 @@ msgstr ""
 #. module: account_banking_payment_export
 #: help:payment.mode.type,payment_order_type:0
 msgid ""
-"This field determines if this type applies to customers (Debit) or suppliers"
-" (Payment)"
+"This field determines if this type applies to customers (Debit) or suppliers "
+"(Payment)"
 msgstr ""
 
 #. module: account_banking_payment_export
@@ -558,9 +561,9 @@ msgstr ""
 #: view:payment.order.create:account_banking_payment_export.view_create_payment_order_lines
 msgid ""
 "{'display_credit': context.get('display_credit', False),'display_debit': "
-"context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' "
-": "
-"'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+"context.get('display_debit', False),'journal_type': 'sale', "
+"'tree_view_ref' : 'account_banking_payment_export."
+"payment_order_populate_view_move_line_tree'}"
 msgstr ""
 
 #. module: account_banking_payment_export
