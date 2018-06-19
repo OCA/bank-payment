@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_direct_debit
+# 	* account_direct_debit
 #
 msgid ""
 msgstr ""
@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2016-02-16 07:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -17,8 +18,16 @@ msgstr ""
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,help:account_direct_debit.action_debit_order_tree
-msgid "A debit order is a debit request from your company to collect customer invoices. Here you can register all debit orders that should be done, keep track of all debit orders and mention the invoice reference and the partner the withdrawal should be done for."
-msgstr "Una orden de cobro es una petición de dinero de su compañía para saldar las facturas de cliente. Aquí puede registrar todas las órdenes de cobro que se deban realizar, seguirles el rastro, y apuntar la referencia de factura y de la empresa para la que se debe hacer el cargo."
+msgid ""
+"A debit order is a debit request from your company to collect customer "
+"invoices. Here you can register all debit orders that should be done, keep "
+"track of all debit orders and mention the invoice reference and the partner "
+"the withdrawal should be done for."
+msgstr ""
+"Una orden de cobro es una petición de dinero de su compañía para saldar las "
+"facturas de cliente. Aquí puede registrar todas las órdenes de cobro que se "
+"deban realizar, seguirles el rastro, y apuntar la referencia de factura y de "
+"la empresa para la que se debe hacer el cargo."
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
@@ -63,6 +72,9 @@ msgstr "[('payment_order_type', '=', payment_order_type)]"
 
 #. module: account_direct_debit
 #: view:payment.order:account_direct_debit.view_payment_order_form
-msgid "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"
-msgstr "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"
-
+msgid ""
+"{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', "
+"'payment')]}"
+msgstr ""
+"{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', "
+"'payment')]}"

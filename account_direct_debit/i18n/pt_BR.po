@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_direct_debit
-# 
+#
 # Translators:
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2016-04-08 00:46+0000\n"
 "PO-Revision-Date: 2016-04-06 01:04+0000\n"
 "Last-Translator: danimaribeiro <danimaribeiro@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-"
+"payment-8-0/language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_direct_debit
@@ -25,7 +26,11 @@ msgid ""
 "invoices. Here you can register all debit orders that should be done, keep "
 "track of all debit orders and mention the invoice reference and the partner "
 "the withdrawal should be done for."
-msgstr "A ordem de débito é um pedido de débito de sua empresa para coletar faturas de clientes. Aqui você pode registrar todas as ordens de débito que devem ser feitas, manter o controle de todas as ordens de débito e mencionar a referência da fatura e o parceiro que a retirada deve ser feita."
+msgstr ""
+"A ordem de débito é um pedido de débito de sua empresa para coletar faturas "
+"de clientes. Aqui você pode registrar todas as ordens de débito que devem "
+"ser feitas, manter o controle de todas as ordens de débito e mencionar a "
+"referência da fatura e o parceiro que a retirada deve ser feita."
 
 #. module: account_direct_debit
 #: model:ir.actions.act_window,name:account_direct_debit.action_debit_order_tree
@@ -73,4 +78,6 @@ msgstr "[('payment_order_type', '=', payment_order_type)]"
 msgid ""
 "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', "
 "'payment')]}"
-msgstr "{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'payment')]}"
+msgstr ""
+"{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', "
+"'payment')]}"
