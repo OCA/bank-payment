@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_partner
-# 
+#
 # Translators:
 # Eduardo Rodríguez Crespo <erocre@gmail.com>, 2016
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2016-04-28 11:43+0000\n"
 "PO-Revision-Date: 2016-04-27 11:39+0000\n"
 "Last-Translator: Eduardo Rodríguez Crespo <erocre@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_partner
@@ -81,12 +82,16 @@ msgstr "Igual o vacío"
 #. module: account_payment_partner
 #: help:res.partner,customer_payment_mode:0
 msgid "Select the default payment mode for this customer."
-msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como cliente."
+msgstr ""
+"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
+"cliente."
 
 #. module: account_payment_partner
 #: help:res.partner,supplier_payment_mode:0
 msgid "Select the default payment mode for this supplier."
-msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
+msgstr ""
+"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
+"proveedor."
 
 #. module: account_payment_partner
 #: view:account.invoice:account_payment_partner.invoice_filter
