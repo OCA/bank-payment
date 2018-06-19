@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_sepa_credit_transfer
-# 
+#
 # Translators:
 # Christophe CHAUVET <christophe.chauvet@gmail.com>, 2016
 msgid ""
@@ -11,20 +11,23 @@ msgstr ""
 "POT-Creation-Date: 2016-12-24 00:27+0000\n"
 "PO-Revision-Date: 2016-12-30 17:03+0000\n"
 "Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
+"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:199
+#: code:addons/account_banking_sepa_credit_transfer/wizard/export_sepa.py:193
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
-msgstr "Le compte bancaire est manquant sur la ligne de paiement bancaire du partenaire '%s' (référence '%s')."
+msgstr ""
+"Le compte bancaire est manquant sur la ligne de paiement bancaire du "
+"partenaire '%s' (référence '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,batch_booking:0
@@ -100,13 +103,20 @@ msgstr "Suivant le niveau de service"
 #: help:banking.export.sepa.wizard,charge_bearer:0
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must"
-" use this). Shared : transaction charges on the debtor side are to be borne "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
 "by the debtor, transaction charges on the creditor side are to be borne by "
-"the creditor. Borne by creditor : all transaction charges are to be borne by"
-" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
-msgstr "Suivant le niveau de service : la répartition des frais bancaires suit les règles pré-établies dans le schema ou dans le contrat avec la banque (les messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais bancaires côté débiteur sont à la charge du débiteur, les frais bancaires côté créancier sont à la charge du créancier. Supportés par le créancier : tous les frais bancaires sont à la charge du créancier. Supportés par le débiteur : tous les frais bancaires sont à la charge du débiteur."
+msgstr ""
+"Suivant le niveau de service : la répartition des frais bancaires suit les "
+"règles pré-établies dans le schema ou dans le contrat avec la banque (les "
+"messages SEPA Core doivent utiliser ce paramètre). Partagés : les frais "
+"bancaires côté débiteur sont à la charge du débiteur, les frais bancaires "
+"côté créancier sont à la charge du créancier. Supportés par le créancier : "
+"tous les frais bancaires sont à la charge du créancier. Supportés par le "
+"débiteur : tous les frais bancaires sont à la charge du débiteur."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
@@ -124,7 +134,10 @@ msgid ""
 "If true, the bank statement will display only one debit line for all the "
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
-msgstr "Si coché, le relevé de compte ne comportera qu'une ligne de débit pour tous les virements du fichier SEPA XML ; si non coché, le relevé de compte comportera une ligne de débit pour chaque virement du fichier SEPA XML."
+msgstr ""
+"Si coché, le relevé de compte ne comportera qu'une ligne de débit pour tous "
+"les virements du fichier SEPA XML ; si non coché, le relevé de compte "
+"comportera une ligne de débit pour chaque virement du fichier SEPA XML."
 
 #. module: account_banking_sepa_credit_transfer
 #: field:banking.export.sepa.wizard,__last_update:0
@@ -164,7 +177,10 @@ msgid ""
 "supported for SEPA Credit Transfers are 'pain.001.001.02', "
 "'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' and "
 "'pain.001.003.03'."
-msgstr "Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de Type de paiement supportés pour les virements SEPA sont 'pain.001.001.02', 'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' et 'pain.001.003.03'."
+msgstr ""
+"Le code du Type de paiement '%s' n'est pas supporté. Les seuls codes de Type "
+"de paiement supportés pour les virements SEPA sont 'pain.001.001.02', "
+"'pain.001.001.03', 'pain.001.001.04', 'pain.001.001.05' et 'pain.001.003.03'."
 
 #. module: account_banking_sepa_credit_transfer
 #: view:banking.export.sepa.wizard:account_banking_sepa_credit_transfer.banking_export_sepa_wizard_view
