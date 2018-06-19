@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_transfer
-# 
+#
 # Translators:
 # TonySpain <acl.disval@gmail.com>, 2017
 # TonySpain <acl.disval@gmail.com>, 2017
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2017-07-11 20:46+0000\n"
 "PO-Revision-Date: 2017-05-16 19:34+0000\n"
 "Last-Translator: TonySpain <acl.disval@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_transfer
@@ -45,7 +46,9 @@ msgstr "Líneas de pago bancario"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr "No se puede conciliar: no hay apunte para la línea de pago %s de la empresa '%s'."
+msgstr ""
+"No se puede conciliar: no hay apunte para la línea de pago %s de la empresa "
+"'%s'."
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:197
@@ -78,7 +81,9 @@ msgstr "Adeudo directo (cobro)"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr "Para la empresa '%s', la cuenta del apunte a pagar (%s) es diferente de la cuenta del apunte de tránsito (%s)."
+msgstr ""
+"Para la empresa '%s', la cuenta del apunte a pagar (%s) es diferente de la "
+"cuenta del apunte de tránsito (%s)."
 
 #. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_journal_id:0

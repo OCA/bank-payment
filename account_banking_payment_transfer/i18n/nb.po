@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_transfer
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,21 +10,22 @@ msgstr ""
 "POT-Creation-Date: 2016-12-01 18:13+0000\n"
 "PO-Revision-Date: 2016-12-02 13:53+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/nb/)\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/oca/OCA-bank-"
+"payment-8-0/language/nb/)\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:128
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:140
 #, python-format
 msgid "%s bank line %s"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:162
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:174
 #, python-format
 msgid "%s line %s"
 msgstr ""
@@ -40,13 +41,13 @@ msgid "Bank Payment Lines"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:70
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:185
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:197
 #, python-format
 msgid ""
 "Cannot generate the transfer move when the currency of the payment (%s) is "
@@ -65,13 +66,13 @@ msgid "Date Confirmed"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:221
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:233
 #, python-format
 msgid "Direct debit"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:84
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:90
 #, python-format
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
@@ -90,7 +91,7 @@ msgid "Message"
 msgstr "Melding"
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
+#: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:82
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr ""
@@ -111,7 +112,7 @@ msgid "One move per payment line"
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:264
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:276
 #, python-format
 msgid "Partial Reconcile Moves Line"
 msgstr ""
@@ -129,7 +130,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_payment_transfer
-#: code:addons/account_banking_payment_transfer/model/account_payment.py:220
+#: code:addons/account_banking_payment_transfer/model/account_payment.py:232
 #, python-format
 msgid "Payment"
 msgstr ""

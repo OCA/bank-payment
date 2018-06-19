@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_transfer
-# 
+#
 # Translators:
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2017-07-11 20:46+0000\n"
 "PO-Revision-Date: 2017-05-16 19:34+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-"
+"payment-8-0/language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_payment_transfer
@@ -45,7 +46,9 @@ msgstr "Linhas de pagamento bancária"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr "Não pode reconciliar: nenhum movimentação para a linha de pagamento %s do parceiro '%s'."
+msgstr ""
+"Não pode reconciliar: nenhum movimentação para a linha de pagamento %s do "
+"parceiro '%s'."
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:197
@@ -78,13 +81,17 @@ msgstr "Débito Direto"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr "Para o parceiro '%s', a conta da movimentação para pagar (%s) é diferente da conta da movimentação de trânsito (%s)."
+msgstr ""
+"Para o parceiro '%s', a conta da movimentação para pagar (%s) é diferente da "
+"conta da movimentação de trânsito (%s)."
 
 #. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_journal_id:0
 msgid ""
 "Journal to write payment entries when confirming a debit order of this mode"
-msgstr "Entrada de diário para salvar os pagamentos quando confirmar a ordem de pagamento deste mododeze mode"
+msgstr ""
+"Entrada de diário para salvar os pagamentos quando confirmar a ordem de "
+"pagamento deste mododeze mode"
 
 #. module: account_banking_payment_transfer
 #: field:payment.line,msg:0

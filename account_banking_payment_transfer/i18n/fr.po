@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_payment_transfer
-# 
+#
 # Translators:
 # Christophe CHAUVET <christophe.chauvet@gmail.com>, 2016
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-07-11 20:46+0000\n"
 "PO-Revision-Date: 2017-05-16 19:34+0000\n"
 "Last-Translator: Christophe CHAUVET <christophe.chauvet@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/fr/)\n"
+"Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_payment_transfer
@@ -44,7 +45,9 @@ msgstr "Lignes de paiement bancaires"
 #: code:addons/account_banking_payment_transfer/model/bank_payment_line.py:76
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr "Impossible de rapprocher : aucune ligne d'écriture pour la ligne de paiement %s du partenaire '%s'."
+msgstr ""
+"Impossible de rapprocher : aucune ligne d'écriture pour la ligne de paiement "
+"%s du partenaire '%s'."
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:197
@@ -53,7 +56,10 @@ msgid ""
 "Cannot generate the transfer move when the currency of the payment (%s) is "
 "not the same as the currency of the company (%s). This is not supported for "
 "the moment."
-msgstr "Impossible de générer le mouvement de transfert lorsque la devise du paiement (%s) n'est pas la même que la devise de la société (%s). Ceci n'est pas supporté pour le moment."
+msgstr ""
+"Impossible de générer le mouvement de transfert lorsque la devise du "
+"paiement (%s) n'est pas la même que la devise de la société (%s). Ceci n'est "
+"pas supporté pour le moment."
 
 #. module: account_banking_payment_transfer
 #: help:bank.payment.line,transfer_move_line_id:0
@@ -77,13 +83,17 @@ msgstr "Prélèvement"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr "Pour le partenaire '%s', le compte de la ligne d'écriture à payer (%s) est différent du compte de la ligne d'écriture du transfert (%s)."
+msgstr ""
+"Pour le partenaire '%s', le compte de la ligne d'écriture à payer (%s) est "
+"différent du compte de la ligne d'écriture du transfert (%s)."
 
 #. module: account_banking_payment_transfer
 #: help:payment.mode,transfer_journal_id:0
 msgid ""
 "Journal to write payment entries when confirming a debit order of this mode"
-msgstr "Journal pour écrire les entrées de paiement lors de la confirmation des ordres de débit de ce mode"
+msgstr ""
+"Journal pour écrire les entrées de paiement lors de la confirmation des "
+"ordres de débit de ce mode"
 
 #. module: account_banking_payment_transfer
 #: field:payment.line,msg:0
@@ -99,7 +109,8 @@ msgstr "La ligne d'écriture '%s' du partenaire '%s' a déjà été réconcilié
 #. module: account_banking_payment_transfer
 #: help:bank.payment.line,transit_move_line_id:0
 msgid "Move line through which the payment/debit order pays the invoice"
-msgstr "Déplacer la ligne par laquelle l'ordre de paiement/débit paie la facture"
+msgstr ""
+"Déplacer la ligne par laquelle l'ordre de paiement/débit paie la facture"
 
 #. module: account_banking_payment_transfer
 #: selection:payment.mode,transfer_move_option:0
@@ -127,7 +138,10 @@ msgstr "Compteur de lettrage partiel"
 msgid ""
 "Pay off lines in sent orders with a move on this account. You can only "
 "select accounts of type regular that are marked for reconciliation"
-msgstr "Payer les lignes dans les ordres de paiement avec le mouvement de ce compte. Vous pouvez seulement sélectionner les type de régulier qui sont marqués pour lettrage"
+msgstr ""
+"Payer les lignes dans les ordres de paiement avec le mouvement de ce compte. "
+"Vous pouvez seulement sélectionner les type de régulier qui sont marqués "
+"pour lettrage"
 
 #. module: account_banking_payment_transfer
 #: code:addons/account_banking_payment_transfer/model/account_payment.py:232
