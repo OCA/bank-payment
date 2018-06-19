@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,11 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2017-03-28 01:26+0000\n"
 "PO-Revision-Date: 2017-04-25 10:45+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Japanese (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/ja/)\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_banking_mandate
@@ -23,7 +24,8 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "        Click to create a new Banking Mandate.\n"
 "        </p><p>\n"
-"        A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.\n"
+"        A Banking Mandate is a document signed by your customer that gives "
+"you the autorization to do one or several operations on his bank account.\n"
 "        </p>\n"
 "    "
 msgstr ""

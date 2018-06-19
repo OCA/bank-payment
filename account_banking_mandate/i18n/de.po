@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,11 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2017-08-12 00:31+0000\n"
 "PO-Revision-Date: 2017-08-21 07:26+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
@@ -23,7 +24,8 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "        Click to create a new Banking Mandate.\n"
 "        </p><p>\n"
-"        A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.\n"
+"        A Banking Mandate is a document signed by your customer that gives "
+"you the autorization to do one or several operations on his bank account.\n"
 "        </p>\n"
 "    "
 msgstr ""
@@ -206,7 +208,10 @@ msgstr "Gruppieren nach"
 msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
-msgstr "Beinhaltet die Dialogzusammenfassung (Anzahl Mitteilungen, ...). Diese Zusammenfassung liegt in HTML vor, um direkt in Kanban-Ansichten verwendet werden zu können."
+msgstr ""
+"Beinhaltet die Dialogzusammenfassung (Anzahl Mitteilungen, ...). Diese "
+"Zusammenfassung liegt in HTML vor, um direkt in Kanban-Ansichten verwendet "
+"werden zu können."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,id:0

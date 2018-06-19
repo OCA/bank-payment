@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
 msgid ""
@@ -11,12 +11,14 @@ msgstr ""
 "POT-Creation-Date: 2016-04-28 11:43+0000\n"
 "PO-Revision-Date: 2016-04-30 05:18+0000\n"
 "Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
-"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/sl/)\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
+"language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -24,10 +26,18 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "        Click to create a new Banking Mandate.\n"
 "        </p><p>\n"
-"        A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.\n"
+"        A Banking Mandate is a document signed by your customer that gives "
+"you the autorization to do one or several operations on his bank account.\n"
 "        </p>\n"
 "    "
-msgstr "<p class=\"oe_view_nocontent_create\">\n        Ustvari nov bančni mandat.\n        </p><p>\n        Bančni mandat je s strani kupca podpisan dokument, ki vas pooblašča za izvajanje ene ali več operacij na njegovem bančnem računu.\n        </p>\n    "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"        Ustvari nov bančni mandat.\n"
+"        </p><p>\n"
+"        Bančni mandat je s strani kupca podpisan dokument, ki vas pooblašča "
+"za izvajanje ene ali več operacij na njegovem bančnem računu.\n"
+"        </p>\n"
+"    "
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -90,7 +100,9 @@ msgstr "Bančni mandati"
 msgid ""
 "Banking mandates represents an authorization that the bank account owner "
 "gives to a company for a specific operation"
-msgstr "Bančni mandat predstavlja pooblastilo, ki ga imetnik bančnega računa daje družbi za specifične operacije"
+msgstr ""
+"Bančni mandat predstavlja pooblastilo, ki ga imetnik bančnega računa daje "
+"družbi za specifične operacije"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -207,7 +219,9 @@ msgstr "Zfruži po"
 msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
-msgstr "Vsebuje povzetek sporočanja (število sporočil, ...) neposredno v html formatu, da se lahko vstavlja v 'kanban' prikaze."
+msgstr ""
+"Vsebuje povzetek sporočanja (število sporočil, ...) neposredno v html "
+"formatu, da se lahko vstavlja v 'kanban' prikaze."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,id:0
@@ -308,7 +322,9 @@ msgstr "Sporočila in kronologija komunikacij"
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr "V postavki plačila se lahko uporabijo le veljavni mandati. Preklican mandat je mandat, ki ga je kupec preklical."
+msgstr ""
+"V postavki plačila se lahko uporabijo le veljavni mandati. Preklican mandat "
+"je mandat, ki ga je kupec preklical."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,partner_id:0
@@ -384,7 +400,8 @@ msgstr "Datum podpisa mandata '%s' je v prihodnosti!"
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "Mandat '%s' ne sme imeti datuma zadnje obremenitve pred datumom podpisa."
+msgstr ""
+"Mandat '%s' ne sme imeti datuma zadnje obremenitve pred datumom podpisa."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/payment_line.py:51
@@ -393,7 +410,9 @@ msgid ""
 "The payment line with reference '%s' has the bank account '%s' which is not "
 "attached to the mandate '%s' (this mandate is attached to the bank account "
 "'%s')."
-msgstr "Plačilna postavka s sklicem '%s' vsebuje bančni račun '%s', ki ni pripet mandatu '%s' (ta mandat je pripet bančnemu računu '%s')."
+msgstr ""
+"Plačilna postavka s sklicem '%s' vsebuje bančni račun '%s', ki ni pripet "
+"mandatu '%s' (ta mandat je pripet bančnemu računu '%s')."
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,unique_mandate_reference:0
@@ -420,4 +439,6 @@ msgstr "Potrdi"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr "Mandat ponastavite v osnutek le, če ste ga pomotoma preklicali. Želite nadaljevati?"
+msgstr ""
+"Mandat ponastavite v osnutek le, če ste ga pomotoma preklicali. Želite "
+"nadaljevati?"

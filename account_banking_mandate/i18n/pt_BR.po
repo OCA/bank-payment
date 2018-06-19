@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2017-10-28 00:48+0000\n"
 "PO-Revision-Date: 2017-11-14 00:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-payment-8-0/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-"
+"payment-8-0/language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_mandate
@@ -25,10 +26,19 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "        Click to create a new Banking Mandate.\n"
 "        </p><p>\n"
-"        A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.\n"
+"        A Banking Mandate is a document signed by your customer that gives "
+"you the autorization to do one or several operations on his bank account.\n"
 "        </p>\n"
 "    "
-msgstr "<p class=\"oe_view_nocontent_create\">\n        Clique aqui para criar uma nova Ordem Bancária\n        </p><p>\n     Uma ordem bancária é um documento assinado por seu cliente que lhe dá autorização\npara fazer uma ou mais operações em sua conta bancária.\n        </p>\n    "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"        Clique aqui para criar uma nova Ordem Bancária\n"
+"        </p><p>\n"
+"     Uma ordem bancária é um documento assinado por seu cliente que lhe dá "
+"autorização\n"
+"para fazer uma ou mais operações em sua conta bancária.\n"
+"        </p>\n"
+"    "
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -91,7 +101,9 @@ msgstr "Ordens bancárias"
 msgid ""
 "Banking mandates represents an authorization that the bank account owner "
 "gives to a company for a specific operation"
-msgstr "Ordem bancária representa uma autorização que o dono da conta lhe dá para uma operação específica"
+msgstr ""
+"Ordem bancária representa uma autorização que o dono da conta lhe dá para "
+"uma operação específica"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -116,7 +128,8 @@ msgstr "Cancelado"
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr "Não pode validar a ordem '%s' porque não está anexada a conta bancária."
+msgstr ""
+"Não pode validar a ordem '%s' porque não está anexada a conta bancária."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:100
@@ -385,7 +398,9 @@ msgstr ""
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "A ordem '%s' não pode ter a data de último débito anterior a data de assinatura."
+msgstr ""
+"A ordem '%s' não pode ter a data de último débito anterior a data de "
+"assinatura."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/payment_line.py:51
