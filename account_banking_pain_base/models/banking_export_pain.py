@@ -301,16 +301,20 @@ class BankingExportPain(models.AbstractModel):
         return True
 
     @api.model
-    def generate_party_block(
-            self, parent_node, party_type, order, name, iban, bic,
-            eval_ctx, gen_args):
+    def generate_party_block(self, parent_node, party_type, order,
+                             partner_bank, gen_args):
         """Generate the piece of the XML file corresponding to Name+IBAN+BIC
         This code is mutualized between TRF and DD"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
+        partner = partner_bank.partner_id
         if party_type == 'Cdtr':
             party_type_label = 'Creditor'
         elif party_type == 'Dbtr':
             party_type_label = 'Debtor'
+        name = 'partner_bank.partner_id.name'
+        iban = 'partner_bank.acc_number'
+        bic = 'partner_bank.bank.bic or partner_bank.bank_bic'
+        eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,
             gen_args.get('name_maxsize'), gen_args=gen_args)
@@ -328,6 +332,23 @@ class BankingExportPain(models.AbstractModel):
         party = etree.SubElement(parent_node, party_type)
         party_nm = etree.SubElement(party, 'Nm')
         party_nm.text = party_name
+        if partner.country_id:
+            postal_address = etree.SubElement(party, 'PstlAdr')
+            country = etree.SubElement(postal_address, 'Ctry')
+            country.text = self._prepare_field(
+                'Country', 'partner.country_id.code',
+                {'partner': partner}, 2, gen_args=gen_args)
+            if partner.street:
+                adrline1 = etree.SubElement(postal_address, 'AdrLine')
+                adrline1.text = self._prepare_field(
+                    'Adress Line1', 'partner.street',
+                    {'partner': partner}, 70, gen_args=gen_args)
+            if partner.city and partner.zip:
+                adrline2 = etree.SubElement(postal_address, 'AdrLine')
+                adrline2.text = self._prepare_field(
+                    'Address Line2', "partner.zip + ' ' + partner.city",
+                    {'partner': partner}, 70, gen_args=gen_args)
+
         party_account = etree.SubElement(
             parent_node, '%sAcct' % party_type)
         party_account_id = etree.SubElement(party_account, 'Id')

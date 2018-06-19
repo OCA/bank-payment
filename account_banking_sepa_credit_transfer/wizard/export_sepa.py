@@ -160,13 +160,7 @@ class BankingExportSepaWizard(models.TransientModel):
                     }, gen_args)
             self.generate_party_block(
                 payment_info_2_0, 'Dbtr', 'B',
-                'self.payment_order_ids[0].mode.bank_id.partner_id.'
-                'name',
-                'self.payment_order_ids[0].mode.bank_id.acc_number',
-                'self.payment_order_ids[0].mode.bank_id.bank.bic or '
-                'self.payment_order_ids[0].mode.bank_id.bank_bic',
-                {'self': self},
-                gen_args)
+                self.payment_order_ids[0].mode.bank_id, gen_args)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             charge_bearer_2_24.text = self.charge_bearer
             transactions_count_2_4 = 0
@@ -201,9 +195,7 @@ class BankingExportSepaWizard(models.TransientModel):
                         % (line.partner_id.name, line.name))
                 self.generate_party_block(
                     credit_transfer_transaction_info_2_27, 'Cdtr',
-                    'C', 'line.partner_id.name', 'line.bank_id.acc_number',
-                    'line.bank_id.bank.bic or '
-                    'line.bank_id.bank_bic', {'line': line}, gen_args)
+                    'C', line.bank_id, gen_args)
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info_2_27, line, gen_args)
             if pain_flavor in pain_03_to_05:

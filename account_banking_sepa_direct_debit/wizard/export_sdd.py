@@ -212,12 +212,7 @@ class BankingExportSddWizard(models.TransientModel):
 
             self.generate_party_block(
                 payment_info_2_0, 'Cdtr', 'B',
-                'self.payment_order_ids[0].mode.bank_id.partner_id.'
-                'name',
-                'self.payment_order_ids[0].mode.bank_id.acc_number',
-                'self.payment_order_ids[0].mode.bank_id.bank.bic or '
-                'self.payment_order_ids[0].mode.bank_id.bank_bic',
-                {'self': self}, gen_args)
+                self.payment_order_ids[0].mode.bank_id, gen_args)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
             charge_bearer_2_24.text = self.charge_bearer
             creditor_scheme_identification_2_27 = etree.SubElement(
@@ -289,11 +284,7 @@ class BankingExportSddWizard(models.TransientModel):
 
                 self.generate_party_block(
                     dd_transaction_info_2_28, 'Dbtr', 'C',
-                    'line.partner_id.name',
-                    'line.bank_id.acc_number',
-                    'line.bank_id.bank.bic or '
-                    'line.bank_id.bank_bic',
-                    {'line': line}, gen_args)
+                    line.bank_id, gen_args)
 
                 self.generate_remittance_info_block(
                     dd_transaction_info_2_28, line, gen_args)

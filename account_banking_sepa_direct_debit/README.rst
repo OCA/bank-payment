@@ -72,6 +72,7 @@ Contributors
 * Sandy Carter
 * Antonio Espinosa <antonioea@antiun.com>
 * Sergio Teruel <sergio.teruel@tecnativa.com>
+* Omar Castiñeira <omar@comunitea.com>
 
 
 Maintainer
