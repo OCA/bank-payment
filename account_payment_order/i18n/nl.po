@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_order
-# 
+#
 # Translators:
 # Cas Vissers <casvissers@brahoo.nl>, 2017
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
@@ -16,11 +16,12 @@ msgstr ""
 "POT-Creation-Date: 2018-05-03 07:30+0000\n"
 "PO-Revision-Date: 2018-05-01 15:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_order
@@ -32,7 +33,9 @@ msgstr "# boekingen"
 #: code:addons/account_payment_order/models/account_invoice.py:112
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
-msgstr "%d bank betaalregels zijn toegevoegd aan de bestaande concept betaalopdracht %s."
+msgstr ""
+"%d bank betaalregels zijn toegevoegd aan de bestaande concept betaalopdracht "
+"%s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:107
@@ -40,7 +43,9 @@ msgstr "%d bank betaalregels zijn toegevoegd aan de bestaande concept betaalopdr
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
 "automatically created."
-msgstr "%d betaalregels toegevoegd aan de concept betaalopdracht %s die automatisch gegenereerd werd."
+msgstr ""
+"%d betaalregels toegevoegd aan de concept betaalopdracht %s die automatisch "
+"gegenereerd werd."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -75,7 +80,8 @@ msgstr "<strong>Gebruikt Account:</strong>"
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
-msgstr "Er bestaat al een betalingsregel met deze referentie in hetzelfde bedrijf!"
+msgstr ""
+"Er bestaat al een betalingsregel met deze referentie in hetzelfde bedrijf!"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:17
@@ -83,7 +89,9 @@ msgstr "Er bestaat al een betalingsregel met deze referentie in hetzelfde bedrij
 msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
 "characters, so it is not valid."
-msgstr "Een valide BIC bevat 8 of 11 karakters. De BIC '%s;  bevat %d karakters en is niet valide."
+msgstr ""
+"Een valide BIC bevat 8 of 11 karakters. De BIC '%s;  bevat %d karakters en "
+"is niet valide."
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
@@ -105,7 +113,9 @@ msgstr "Boekhoud opties"
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
-msgstr "Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer van uw klant of leverancier kent."
+msgstr ""
+"Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer "
+"van uw klant of leverancier kent."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -228,7 +238,9 @@ msgstr "Bankrekening waarop de leverancier etaald dient te worden"
 #: code:addons/account_payment_order/models/bank_payment_line.py:133
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
-msgstr "Kan niet afletteren: Geen boekingsregel gevonden voor de betaalregel %s of relatie '%s'."
+msgstr ""
+"Kan niet afletteren: Geen boekingsregel gevonden voor de betaalregel %s of "
+"relatie '%s'."
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
@@ -246,9 +258,11 @@ msgstr "Annuleer betalingen"
 #: code:addons/account_payment_order/models/bank_payment_line.py:164
 #, python-format
 msgid ""
-"Cannot delete a payment order line whose payment order is in state '%s'. You"
-" need to cancel it first."
-msgstr "Kan een betalingsorderregel waarvan de betalingsopdracht in de status  '%s' bevindt niet verwijderen. U dient deze eerst te annuleren."
+"Cannot delete a payment order line whose payment order is in state '%s'. You "
+"need to cancel it first."
+msgstr ""
+"Kan een betalingsorderregel waarvan de betalingsopdracht in de status  '%s' "
+"bevindt niet verwijderen. U dient deze eerst te annuleren."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -258,10 +272,14 @@ msgstr "Selecteer de filters voor de boekingsregels"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid ""
-"Click on Add All Move Lines to auto-select the move lines matching the above"
-" criteria or click on Add an item to manually select the move lines filtered"
-" by the above criteria."
-msgstr "Klik op Alle boekingsregels toevoegen om automatisch de regels te selecteren die voldoen aan de bovenstaande criteria of klik op Een item toevoegen om handmatig de verplaatsingslijnen te selecteren die zijn gefilterd op de bovenstaande criteria."
+"Click on Add All Move Lines to auto-select the move lines matching the above "
+"criteria or click on Add an item to manually select the move lines filtered "
+"by the above criteria."
+msgstr ""
+"Klik op Alle boekingsregels toevoegen om automatisch de regels te selecteren "
+"die voldoen aan de bovenstaande criteria of klik op Een item toevoegen om "
+"handmatig de verplaatsingslijnen te selecteren die zijn gefilterd op de "
+"bovenstaande criteria."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication
@@ -470,7 +488,9 @@ msgstr "Vaste datum"
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
 "different from the account of of the transit move line (%s)."
-msgstr "Voor relatie '%s', is de GB rekening van de boekingsregel voor betaling (%s) anders dan de GB Rekening voor de boekingsregel voor de tussenboeking (%s)."
+msgstr ""
+"Voor relatie '%s', is de GB rekening van de boekingsregel voor betaling (%s) "
+"anders dan de GB Rekening voor de boekingsregel voor de tussenboeking (%s)."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order_bank_account_link
@@ -538,7 +558,9 @@ msgstr "ISO"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_group_lines
 msgid ""
-"If this mark is checked, the transaction lines of the payment order will be grouped upon confirmation of the payment order.The grouping will be done only if the following fields matches:\n"
+"If this mark is checked, the transaction lines of the payment order will be "
+"grouped upon confirmation of the payment order.The grouping will be done "
+"only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -594,7 +616,9 @@ msgstr "Boekingsregel"
 msgid ""
 "Journal to write payment entries when confirming payment/debit orders of "
 "this mode"
-msgstr "Journaal om betalingsregels weg te schrijven bij het bevestigen van betalings- / debetorders van deze modus"
+msgstr ""
+"Journaal om betalingsregels weg te schrijven bij het bevestigen van "
+"betalings- / debetorders van deze modus"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_journal_ids
@@ -697,6 +721,12 @@ msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr "Mutatieregel '%s' van relatie '%s' is al afgeletterd"
 
 #. module: account_payment_order
+#: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
+#, fuzzy
+msgid "Name or Description"
+msgstr "Omschrijving"
+
+#. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:69
 #, python-format
 msgid "No Journal Entry on invoice %s"
@@ -757,16 +787,14 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_mode.py:98
 #, python-format
 msgid ""
-"On the payment mode '%s', you must select a value for the 'Transfer "
-"Account'."
+"On the payment mode '%s', you must select a value for the 'Transfer Account'."
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:103
 #, python-format
 msgid ""
-"On the payment mode '%s', you must select a value for the 'Transfer "
-"Journal'."
+"On the payment mode '%s', you must select a value for the 'Transfer Journal'."
 msgstr ""
 
 #. module: account_payment_order
@@ -820,8 +848,8 @@ msgstr "Bankrekening relatie"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_account_id
 msgid ""
-"Pay off lines in 'file uploaded' payment orders with a move on this account."
-" You can only select accounts that are marked for reconciliation"
+"Pay off lines in 'file uploaded' payment orders with a move on this account. "
+"You can only select accounts that are marked for reconciliation"
 msgstr ""
 
 #. module: account_payment_order
