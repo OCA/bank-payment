@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2018
 # Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2018
@@ -13,10 +13,10 @@ msgstr ""
 "PO-Revision-Date: 2018-05-23 08:41+0000\n"
 "Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2018\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
@@ -46,8 +46,8 @@ msgstr "Acció necessària "
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 
 #. module: account_banking_mandate
