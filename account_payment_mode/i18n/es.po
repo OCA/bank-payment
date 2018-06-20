@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_mode
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2018-04-15 00:44+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_mode
@@ -29,8 +29,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Activa esta opción si este método de pago debe requerirte informar el número"
-" de cuenta bancaria de tu cliente o proveedor"
+"Activa esta opción si este método de pago debe requerirte informar el número "
+"de cuenta bancaria de tu cliente o proveedor"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_active
@@ -122,8 +122,8 @@ msgid ""
 msgstr ""
 "Para los modos de pago que están siempre asociados a la misma cuenta "
 "bancaria de tu compañía (tales como transferencia bancaria para clientes u "
-"órdenes de cobro SEPA de proveedores), selecciona 'Fijo'. Para modos de pago"
-" que no están siempre asociados a la misma cuenta bancaria (tales como "
+"órdenes de cobro SEPA de proveedores), selecciona 'Fijo'. Para modos de pago "
+"que no están siempre asociados a la misma cuenta bancaria (tales como "
 "órdenes de cobro SEPA para clientes o transferencias a proveedores), debes "
 "elegir 'Variable', que significa que seleccionarás la cuenta bancaria en la "
 "orden de pago. Si tu compañía sólo tiene una cuenta bancaria, siempre "
@@ -212,12 +212,12 @@ msgstr ""
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed"
-" bank journal '%s'"
+"method), but this debit method is not part of the debit methods of the fixed "
+"bank journal '%s'"
 msgstr ""
-"En el modo de pago '%s', el método de pago es '%s' (es en realidad un método"
-" de adeudo), pero este método de adeudo no es parte de los métodos de adeudo"
-" del diario bancario fijo '%s'"
+"En el modo de pago '%s', el método de pago es '%s' (es en realidad un método "
+"de adeudo), pero este método de adeudo no es parte de los métodos de adeudo "
+"del diario bancario fijo '%s'"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:79
@@ -226,8 +226,8 @@ msgid ""
 "On the payment mode '%s', the payment method is '%s', but this payment "
 "method is not part of the payment methods of the fixed bank journal '%s'"
 msgstr ""
-"En el modo de pago '%s', el método de pago es '%s', pero este método de pago"
-" no es parte de los métodos de pago del diario bancario fijo '%s'"
+"En el modo de pago '%s', el método de pago es '%s', pero este método de pago "
+"no es parte de los métodos de pago del diario bancario fijo '%s'"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -296,8 +296,8 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
-"Este código es usado en el código del módulo de Odoo que utiliza este método"
-" de pago. Por lo tanto, si lo cambias, la generación del fichero de pagos "
+"Este código es usado en el código del módulo de Odoo que utiliza este método "
+"de pago. Por lo tanto, si lo cambias, la generación del fichero de pagos "
 "puede fallar."
 
 #. module: account_payment_mode
