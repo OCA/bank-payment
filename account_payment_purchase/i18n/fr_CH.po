@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_purchase
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-05-17 02:46+0000\n"
 "PO-Revision-Date: 2017-05-17 02:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: French (Switzerland) (https://www.transifex.com/oca/teams/23907/fr_CH/)\n"
+"Language-Team: French (Switzerland) (https://www.transifex.com/oca/"
+"teams/23907/fr_CH/)\n"
+"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr_CH\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_payment_purchase
@@ -42,8 +43,8 @@ msgstr ""
 #: model:ir.model.fields,help:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
 msgid ""
 "Select the bank account of your supplier on which your company should send "
-"the payment. This field is copied from the partner and will be copied to the"
-" supplier invoice."
+"the payment. This field is copied from the partner and will be copied to the "
+"supplier invoice."
 msgstr ""
 
 #. module: account_payment_purchase
