@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_partner
-# 
+#
 # Translators:
 # Peter Hageman <hageman.p@gmail.com>, 2017
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-08-12 00:34+0000\n"
 "PO-Revision-Date: 2017-08-12 00:34+0000\n"
 "Last-Translator: Peter Hageman <hageman.p@gmail.com>, 2017\n"
-"Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/teams/23907/nl_NL/)\n"
+"Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/"
+"teams/23907/nl_NL/)\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_partner
@@ -68,9 +69,20 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+#, fuzzy
+msgid "Payment Modes"
+msgstr "Betalingen"
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Betalingen"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_bank_invoice_report
+msgid "Print Bank Account"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -85,4 +97,9 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_bank_invoice_report
+msgid "Uncheck this option to hide bank account in invoice report"
 msgstr ""
