@@ -1,28 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_banking_mandate
+#	* account_banking_mandate
 #
-# Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2016-09-10 16:15+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Vietnamese (https://www.transifex.com/oca/teams/23907/vi/)\n"
-"Language: vi\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: \n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
-msgid ""
-"A Banking Mandate is a document signed by your customer that gives you the "
-"autorization to do one or several operations on his bank account."
+msgid "A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -39,9 +32,7 @@ msgstr ""
 #: model:ir.model.fields,help:account_banking_mandate.field_account_invoice_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
-msgid ""
-"Activate this option if this payment method requires your customer to sign a "
-"direct debit mandate with your company."
+msgid "Activate this option if this payment method requires your customer to sign a direct debit mandate with your company."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -78,9 +69,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_res_partner_bank_mandate_ids
-msgid ""
-"Banking mandates represent an authorization that the bank account owner "
-"gives to a company for a specific operation."
+msgid "Banking mandates represent an authorization that the bank account owner gives to a company for a specific operation."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -91,7 +80,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Cancel"
-msgstr "Hủy bỏ"
+msgstr ""
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -102,9 +91,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:88
 #, python-format
-msgid ""
-"Cannot validate the mandate '%s' because it is not attached to a bank "
-"account."
+msgid "Cannot validate the mandate '%s' because it is not attached to a bank account."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -280,9 +267,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_state
-msgid ""
-"Only valid mandates can be used in a payment line. A cancelled mandate is a "
-"mandate that has been cancelled by the customer."
+msgid "Only valid mandates can be used in a payment line. A cancelled mandate is a mandate that has been cancelled by the customer."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -357,17 +342,13 @@ msgstr ""
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:73
 #, python-format
-msgid ""
-"The mandate '%s' can't have a date of last debit before the date of "
-"signature."
+msgid "The mandate '%s' can't have a date of last debit before the date of signature."
 msgstr ""
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
 #, python-format
-msgid ""
-"The payment line number %s has the bank account '%s' which is not attached "
-"to the mandate '%s' (this mandate is attached to the bank account '%s')."
+msgid "The payment line number %s has the bank account '%s' which is not attached to the mandate '%s' (this mandate is attached to the bank account '%s')."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -388,7 +369,6 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-msgid ""
-"You should set a mandate back to draft only if you cancelled it by mistake. "
-"Do you want to continue?"
+msgid "You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
 msgstr ""
+

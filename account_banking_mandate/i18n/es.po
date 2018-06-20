@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2017-05-01 14:55+0000\n"
 "PO-Revision-Date: 2016-12-27 13:24+0000\n"
 "Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
@@ -24,7 +25,9 @@ msgstr ""
 msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
-msgstr "Un mandato bancario es un documento firmado por su cliente que le da la autorización para hacer una o varias operaciones en su cuenta bancaria."
+msgstr ""
+"Un mandato bancario es un documento firmado por su cliente que le da la "
+"autorización para hacer una o varias operaciones en su cuenta bancaria."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -41,9 +44,11 @@ msgstr "Un mandato bancario genérico"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
-msgstr "Active esta opción si el método de pago requiere que su cliente firme un mandato con su compañía."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
+msgstr ""
+"Active esta opción si el método de pago requiere que su cliente firme un "
+"mandato con su compañía."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -82,7 +87,9 @@ msgstr "Mandatos bancarios"
 msgid ""
 "Banking mandates represent an authorization that the bank account owner "
 "gives to a company for a specific operation."
-msgstr "Los mandatos bancarios representan una autorización que el propietario de la cuenta bancaria da a una compañía para una operación específica."
+msgstr ""
+"Los mandatos bancarios representan una autorización que el propietario de la "
+"cuenta bancaria da a una compañía para una operación específica."
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -106,7 +113,9 @@ msgstr "Cancelado"
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr "No se puede validar el mandato '%s' porque no tiene ninguna cuenta bancaria asociada."
+msgstr ""
+"No se puede validar el mandato '%s' porque no tiene ninguna cuenta bancaria "
+"asociada."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
@@ -174,6 +183,13 @@ msgstr "Borrador"
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
 msgstr "Expirado"
+
+#. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_valid_mandate_id
+#, fuzzy
+msgid "First Valid Mandate"
+msgstr "Mandato de adeudo directo"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -278,7 +294,9 @@ msgstr "Número de mandatos"
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr "Sólo se pueden usar mandatos validados en una línea de pago. Un mandato cancelado en un mandato que ha sido invalidado por el cliente."
+msgstr ""
+"Sólo se pueden usar mandatos validados en una línea de pago. Un mandato "
+"cancelado en un mandato que ha sido invalidado por el cliente."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -355,7 +373,9 @@ msgstr "La fecha de la firma del mandato '%s' no puede ser posterior a hoy."
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "El mandato '%s' no puede tener una fecha de último cobro antes de la fecha de firma."
+msgstr ""
+"El mandato '%s' no puede tener una fecha de último cobro antes de la fecha "
+"de firma."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -363,7 +383,10 @@ msgstr "El mandato '%s' no puede tener una fecha de último cobro antes de la fe
 msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
 "to the mandate '%s' (this mandate is attached to the bank account '%s')."
-msgstr "La línea de pago con el número %s tiene la cuenta bancaria '%s', que no tiene está asociada con el mandato '%s' (este mandato está asociado con la cuenta bancaria '%s')."
+msgstr ""
+"La línea de pago con el número %s tiene la cuenta bancaria '%s', que no "
+"tiene está asociada con el mandato '%s' (este mandato está asociado con la "
+"cuenta bancaria '%s')."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
@@ -386,4 +409,6 @@ msgstr "Validar"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr "Debe establecer un mandato de vuelta a borrador sólo si lo cancelo por error. ¿Desea continuar?"
+msgstr ""
+"Debe establecer un mandato de vuelta a borrador sólo si lo cancelo por "
+"error. ¿Desea continuar?"
