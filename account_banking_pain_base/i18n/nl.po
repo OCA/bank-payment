@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_pain_base
-# 
+#
 # Translators:
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Michel V. <m.vorenhout@mvhconsult.nl>, 2017
@@ -13,11 +13,12 @@ msgstr ""
 "POT-Creation-Date: 2018-04-21 00:48+0000\n"
 "PO-Revision-Date: 2018-04-24 08:45+0000\n"
 "Last-Translator: Thomas Pot <thomas@open2bizz.nl>\n"
-"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_pain_base
@@ -129,13 +130,20 @@ msgstr "Volgens Service Level"
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_charge_bearer
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must"
-" use this). Shared : transaction charges on the debtor side are to be borne "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
 "by the debtor, transaction charges on the creditor side are to be borne by "
-"the creditor. Borne by creditor : all transaction charges are to be borne by"
-" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
-msgstr "Volgens Service Level: transactiekosten worden toegepast volgens de regels vastgelegd in het service level en/of schema (SEPA Core berichten gebruiken dit). Gedeeld: transactiekosten aan de debiteurzijde komen ten laste van de debiteur, transactiekosten aan crediteurszijde komen ten laste van de crediteur. Ten laste van de crediteur: alle transactiekosten komen ten laste van de crediteur. Ten laste van de Debiteur: alle transactiekosten komen ten laste van de debiteur. "
+msgstr ""
+"Volgens Service Level: transactiekosten worden toegepast volgens de regels "
+"vastgelegd in het service level en/of schema (SEPA Core berichten gebruiken "
+"dit). Gedeeld: transactiekosten aan de debiteurzijde komen ten laste van de "
+"debiteur, transactiekosten aan crediteurszijde komen ten laste van de "
+"crediteur. Ten laste van de crediteur: alle transactiekosten komen ten laste "
+"van de crediteur. Ten laste van de Debiteur: alle transactiekosten komen ten "
+"laste van de debiteur. "
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -158,7 +166,10 @@ msgid ""
 "If active, Odoo will convert each accented character to the corresponding "
 "unaccented character, so that only ASCII characters are used in the "
 "generated PAIN file."
-msgstr "Wanneer actief, zal Odoo geaccentueerde karakters omzetten naar het corresponderende niet geaccentueerde karakter, dit zodat alleen ASCII gebruikt wordt in de gegenereerde PAIN file. "
+msgstr ""
+"Wanneer actief, zal Odoo geaccentueerde karakters omzetten naar het "
+"corresponderende niet geaccentueerde karakter, dit zodat alleen ASCII "
+"gebruikt wordt in de gegenereerde PAIN file. "
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
@@ -166,7 +177,9 @@ msgstr "Wanneer actief, zal Odoo geaccentueerde karakters omzetten naar het corr
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
-msgstr "Als noch uw bank, noch uw lokale regelgeving u verplicht het doel van de categorie in te stellen, laat dan dit veld leeg."
+msgstr ""
+"Als noch uw bank, noch uw lokale regelgeving u verplicht het doel van de "
+"categorie in te stellen, laat dan dit veld leeg."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_batch_booking
@@ -174,7 +187,10 @@ msgid ""
 "If true, the bank statement will display only one debit line for all the "
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
-msgstr "Wanneer waar, zal het bankafschrift één debit lijn bevatten voor alle overschrijvingen in het SEPA bestand; wanneer onwaar, zal het bankafschrift een debit lijn per overschrijving bevatten in het SEPA bestand. "
+msgstr ""
+"Wanneer waar, zal het bankafschrift één debit lijn bevatten voor alle "
+"overschrijvingen in het SEPA bestand; wanneer onwaar, zal het bankafschrift "
+"een debit lijn per overschrijving bevatten in het SEPA bestand. "
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
@@ -232,7 +248,9 @@ msgstr "Lokaal Instrument"
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
-msgstr "Missende 'Initiating Party Issuer' en/of 'Initiating Party Identifier' voor het bedrijf  '%s'. Beide velden moet een waarde bevatten."
+msgstr ""
+"Missende 'Initiating Party Issuer' en/of 'Initiating Party Identifier' voor "
+"het bedrijf  '%s'. Beide velden moet een waarde bevatten."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
@@ -355,7 +373,11 @@ msgid ""
 "Definition. The generated XML file and the full error have been written in "
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %s"
-msgstr "Het gegenereerde XML bestand is niet geldig volgens de officiële XML schema definities. Het gegenereerde XML bestand en de volledige fout zijn weggeschreven in de server log bestanden. Hier is de fout, wat u een idee kunt geven over de oorzaak van het probleem: %s\""
+msgstr ""
+"Het gegenereerde XML bestand is niet geldig volgens de officiële XML schema "
+"definities. Het gegenereerde XML bestand en de volledige fout zijn "
+"weggeschreven in de server log bestanden. Hier is de fout, wat u een idee "
+"kunt geven over de oorzaak van het probleem: %s\""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:114
@@ -367,9 +389,10 @@ msgstr "Het type van veld '%s' is %s. Dit moet een string of unicode zijn."
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_priority
 #: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_priority
 msgid ""
-"This field will be used as 'Instruction Priority' in the generated PAIN "
-"file."
-msgstr "Dit veld wordt gebruikt als 'Instructie Prioriteit' in het gegeneerde PAIN bestand."
+"This field will be used as 'Instruction Priority' in the generated PAIN file."
+msgstr ""
+"Dit veld wordt gebruikt als 'Instructie Prioriteit' in het gegeneerde PAIN "
+"bestand."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
@@ -377,17 +400,24 @@ msgstr "Dit veld wordt gebruikt als 'Instructie Prioriteit' in het gegeneerde PA
 msgid ""
 "This will be used as the 'Initiating Party Identifier' in the PAIN files "
 "generated by Odoo."
-msgstr "Wordt gebruikt als  'Initiating Party Identifier' in de gegenereerde PAIN bestanden."
+msgstr ""
+"Wordt gebruikt als  'Initiating Party Identifier' in de gegenereerde PAIN "
+"bestanden."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 msgid ""
-"This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo. If not defined, Initiating Party Identifier from company will be used.\n"
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Identifier from company "
+"will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
-msgstr "Wordt gebruikt als 'Initiating Party Identifier' in de gegenereerde PAIN bestanden. Wanneer niet ingesteld wordt de Initiating Party Identifier uit de bedrijfsinstellingen gebruikt."
+msgstr ""
+"Wordt gebruikt als 'Initiating Party Identifier' in de gegenereerde PAIN "
+"bestanden. Wanneer niet ingesteld wordt de Initiating Party Identifier uit "
+"de bedrijfsinstellingen gebruikt."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_issuer
@@ -395,17 +425,28 @@ msgstr "Wordt gebruikt als 'Initiating Party Identifier' in de gegenereerde PAIN
 msgid ""
 "This will be used as the 'Initiating Party Issuer' in the PAIN files "
 "generated by Odoo."
-msgstr "Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN bestanden."
+msgstr ""
+"Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN "
+"bestanden."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
 msgid ""
-"This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo. If not defined, Initiating Party Issuer from company will be used.\n"
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Issuer from company will "
+"be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
-msgstr "Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN bestanden. Wanneer niet ingesteld wordt de Initiating Party Issuer uit de bedrijfsinstellingen gebruikt.\nStandaard formaat(13):\n- Land Code (2, optioneel)\n- Bedrijfsidentificatie  (N, BTWnr)\n- Service achtervoegsel (N, uitgegeven door de bank)"
+msgstr ""
+"Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN "
+"bestanden. Wanneer niet ingesteld wordt de Initiating Party Issuer uit de "
+"bedrijfsinstellingen gebruikt.\n"
+"Standaard formaat(13):\n"
+"- Land Code (2, optioneel)\n"
+"- Bedrijfsidentificatie  (N, BTWnr)\n"
+"- Service achtervoegsel (N, uitgegeven door de bank)"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0

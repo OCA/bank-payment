@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_pain_base
-# 
+#
 # Translators:
 # Peter Hageman <hageman.p@gmail.com>, 2017
 msgid ""
@@ -11,11 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-08-18 00:42+0000\n"
 "PO-Revision-Date: 2017-11-20 14:00+0000\n"
 "Last-Translator: Peter Hageman <hageman.p@gmail.com>\n"
-"Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl_NL/)\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-bank-"
+"payment-10-0/language/nl_NL/)\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_pain_base
@@ -44,13 +45,13 @@ msgid "Borne by Debtor"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:105
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:106
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:110
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:111
 #, python-format
 msgid "Cannot compute the '%s'."
 msgstr ""
@@ -107,6 +108,13 @@ msgid "Dividend"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid ""
+"Enable this option if your country requires several SEPA/PAIN identifiers "
+"like in Spain."
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Fee Collection"
 msgstr ""
@@ -120,11 +128,11 @@ msgstr ""
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_charge_bearer
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must"
-" use this). Shared : transaction charges on the debtor side are to be borne "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
 "by the debtor, transaction charges on the creditor side are to be borne by "
-"the creditor. Borne by creditor : all transaction charges are to be borne by"
-" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
 msgstr ""
 
@@ -218,11 +226,16 @@ msgid "Local Instrument"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:302
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:303
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
+msgid "Multiple identifiers"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -288,6 +301,16 @@ msgid "SEPA Payment"
 msgstr "SEPA betaling"
 
 #. module: account_banking_pain_base
+#: model:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+msgid "SEPA/PAIN"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:res.groups,name:account_banking_pain_base.group_pain_multiple_identifier
+msgid "SEPA/PAIN Identifiers on Payment Modes"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Salary Payment"
 msgstr ""
@@ -318,13 +341,13 @@ msgid "Tax Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:118
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:119
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:139
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:140
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -334,7 +357,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:113
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:114
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
@@ -343,8 +366,7 @@ msgstr ""
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_priority
 #: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_priority
 msgid ""
-"This field will be used as 'Instruction Priority' in the generated PAIN "
-"file."
+"This field will be used as 'Instruction Priority' in the generated PAIN file."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -358,7 +380,9 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 msgid ""
-"This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo. If not defined, Initiating Party Identifier from company will be used.\n"
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Identifier from company "
+"will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
@@ -376,7 +400,9 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
 msgid ""
-"This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo. If not defined, Initiating Party Issuer from company will be used.\n"
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Issuer from company will "
+"be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"

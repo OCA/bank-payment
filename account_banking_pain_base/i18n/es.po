@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_pain_base
-# 
+#
 # Translators:
 # enjolras <yo@miguelrevilla.com>, 2018
 # Javi Melendez <javimelex@gmail.com>, 2018
@@ -15,11 +15,12 @@ msgstr ""
 "POT-Creation-Date: 2018-03-03 01:43+0000\n"
 "PO-Revision-Date: 2018-02-27 12:27+0000\n"
 "Last-Translator: Javi Melendez <javimelex@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_pain_base
@@ -51,7 +52,8 @@ msgstr "A cargo del deudor"
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:106
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr "No se puede procesar el campo '%s' de la línea de pago con referencia '%s'."
+msgstr ""
+"No se puede procesar el campo '%s' de la línea de pago con referencia '%s'."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:111
@@ -115,7 +117,9 @@ msgstr "Dividendo"
 msgid ""
 "Enable this option if your country requires several SEPA/PAIN identifiers "
 "like in Spain."
-msgstr "Activa esta opción si tu país necesita varios identificadores SEPA/PAIN como en España."
+msgstr ""
+"Activa esta opción si tu país necesita varios identificadores SEPA/PAIN como "
+"en España."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -131,13 +135,21 @@ msgstr "Según el acuerdo de servicio"
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_charge_bearer
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must"
-" use this). Shared : transaction charges on the debtor side are to be borne "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
 "by the debtor, transaction charges on the creditor side are to be borne by "
-"the creditor. Borne by creditor : all transaction charges are to be borne by"
-" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
-msgstr "Según el acuerdo de servicio: los costes de la transacción se aplicarán siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema (las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la transacción en la parte del acreedor están a cargo del acreedor, y los costes de la transacción del lado del deudor estarán a cargo del deudor. A cargo del acreedor: todos los costes de la transacción estarán a cargo del acreedor. A cargo del deudor: Todos los costes de la transacción estarán a cargo del deudor."
+msgstr ""
+"Según el acuerdo de servicio: los costes de la transacción se aplicarán "
+"siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema "
+"(las remesas SEPA Core deben usar esta opción). Compartidos: los costes de "
+"la transacción en la parte del acreedor están a cargo del acreedor, y los "
+"costes de la transacción del lado del deudor estarán a cargo del deudor. A "
+"cargo del acreedor: todos los costes de la transacción estarán a cargo del "
+"acreedor. A cargo del deudor: Todos los costes de la transacción estarán a "
+"cargo del deudor."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -160,7 +172,10 @@ msgid ""
 "If active, Odoo will convert each accented character to the corresponding "
 "unaccented character, so that only ASCII characters are used in the "
 "generated PAIN file."
-msgstr "Si está marcado, Odoo convertirá cada carácter acentuado en el correspondiente carácter no acentuado, para que sólo se usen caracteres ASCII en el archivo PAIN generado."
+msgstr ""
+"Si está marcado, Odoo convertirá cada carácter acentuado en el "
+"correspondiente carácter no acentuado, para que sólo se usen caracteres "
+"ASCII en el archivo PAIN generado."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
@@ -176,7 +191,11 @@ msgid ""
 "If true, the bank statement will display only one debit line for all the "
 "wire transfers of the SEPA XML file ; if false, the bank statement will "
 "display one debit line per wire transfer of the SEPA XML file."
-msgstr "Si está marcado, el extracto bancario mostrará sólo una línea del haber para todos los adeudos directos del archivo SEPA; si no está marcado, entonces el extracto bancario mostrará una línea por cada adeudo directo del archivo SEPA."
+msgstr ""
+"Si está marcado, el extracto bancario mostrará sólo una línea del haber para "
+"todos los adeudos directos del archivo SEPA; si no está marcado, entonces el "
+"extracto bancario mostrará una línea por cada adeudo directo del archivo "
+"SEPA."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
@@ -234,7 +253,9 @@ msgstr "Instrumento local"
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
-msgstr "Falta el 'Emisor de la transacción' y/o 'Identificador del iniciador de la transacción' para la compañía '%s'. Ambos campos deben tener un valor."
+msgstr ""
+"Falta el 'Emisor de la transacción' y/o 'Identificador del iniciador de la "
+"transacción' para la compañía '%s'. Ambos campos deben tener un valor."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
@@ -357,7 +378,11 @@ msgid ""
 "Definition. The generated XML file and the full error have been written in "
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %s"
-msgstr "El archivo XML generado no se puede validar contra la definición de esquema XML oficial. El archivo XML generado el error completo se ha escrito en los registros del servidor. Aquí está el error, que le puede dar una idea de la causa del problema : %s"
+msgstr ""
+"El archivo XML generado no se puede validar contra la definición de esquema "
+"XML oficial. El archivo XML generado el error completo se ha escrito en los "
+"registros del servidor. Aquí está el error, que le puede dar una idea de la "
+"causa del problema : %s"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:114
@@ -369,9 +394,10 @@ msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_priority
 #: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_priority
 msgid ""
-"This field will be used as 'Instruction Priority' in the generated PAIN "
-"file."
-msgstr "Este campo se usará como 'Prioridad de instrucción' en el archivo PAIN generado."
+"This field will be used as 'Instruction Priority' in the generated PAIN file."
+msgstr ""
+"Este campo se usará como 'Prioridad de instrucción' en el archivo PAIN "
+"generado."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
@@ -379,17 +405,28 @@ msgstr "Este campo se usará como 'Prioridad de instrucción' en el archivo PAIN
 msgid ""
 "This will be used as the 'Initiating Party Identifier' in the PAIN files "
 "generated by Odoo."
-msgstr "Esto se usará como el 'Identificador del iniciador de la transacción' en los archivos PAIN generados por Odoo."
+msgstr ""
+"Esto se usará como el 'Identificador del iniciador de la transacción' en los "
+"archivos PAIN generados por Odoo."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 msgid ""
-"This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo. If not defined, Initiating Party Identifier from company will be used.\n"
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Identifier from company "
+"will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
-msgstr "Se usará este campo como 'Identificador del iniciador de la transacción' en los archivos PAIN generados por Odoo. Si no está definido, entonces se usará el 'Identificador del iniciador de la transacción' definido en la compañía.\nFormato común (13):\n- Código de país (2, opcional)\n- Identificador de la compañía (N, NIF)\n- Sufijo de servicio (N, emitido por el banco)"
+msgstr ""
+"Se usará este campo como 'Identificador del iniciador de la transacción' en "
+"los archivos PAIN generados por Odoo. Si no está definido, entonces se usará "
+"el 'Identificador del iniciador de la transacción' definido en la compañía.\n"
+"Formato común (13):\n"
+"- Código de país (2, opcional)\n"
+"- Identificador de la compañía (N, NIF)\n"
+"- Sufijo de servicio (N, emitido por el banco)"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_issuer
@@ -397,17 +434,28 @@ msgstr "Se usará este campo como 'Identificador del iniciador de la transacció
 msgid ""
 "This will be used as the 'Initiating Party Issuer' in the PAIN files "
 "generated by Odoo."
-msgstr "Este campo se usará como 'Emisor de la transacción' en los archivos PAIN generados por Odoo."
+msgstr ""
+"Este campo se usará como 'Emisor de la transacción' en los archivos PAIN "
+"generados por Odoo."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
 msgid ""
-"This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo. If not defined, Initiating Party Issuer from company will be used.\n"
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Issuer from company will "
+"be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
-msgstr "Se usará este campo como 'Identificador del iniciador de la transacción' en los archivos PAIN generados por Odoo. Si no está definido, entonces se usará el 'Identificador del iniciador de la transacción' definido en la compañía.\nFormato común (13):\n- Código de país (2, opcional)\n- Identificador de la compañía (N, NIF)\n- Sufijo de servicio (N, emitido por el banco)"
+msgstr ""
+"Se usará este campo como 'Identificador del iniciador de la transacción' en "
+"los archivos PAIN generados por Odoo. Si no está definido, entonces se usará "
+"el 'Identificador del iniciador de la transacción' definido en la compañía.\n"
+"Formato común (13):\n"
+"- Código de país (2, opcional)\n"
+"- Identificador de la compañía (N, NIF)\n"
+"- Sufijo de servicio (N, emitido por el banco)"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
