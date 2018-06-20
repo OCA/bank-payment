@@ -1093,7 +1093,7 @@ msgstr "Total dans la devise de la société"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr Total résiduel""
+msgstr "Total résiduel"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
