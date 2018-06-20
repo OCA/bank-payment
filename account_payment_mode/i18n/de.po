@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_mode
-# 
+#
 # Translators:
 # Niki Waibel, 2016
 # Niki Waibel, 2016
@@ -14,24 +14,28 @@ msgstr ""
 "POT-Creation-Date: 2018-04-15 15:20+0000\n"
 "PO-Revision-Date: 2017-11-29 01:40+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_mode
 #: sql_constraint:account.payment.method:0
 msgid "A payment method of the same type already exists with this code"
-msgstr "Eine Zahlungsmethode der gleichen Art mit diesem Code existiert bereits"
+msgstr ""
+"Eine Zahlungsmethode der gleichen Art mit diesem Code existiert bereits"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method_bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
-msgstr "Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer des Kunden oder Lieferanten bekannt sein muss."
+msgstr ""
+"Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer "
+"des Kunden oder Lieferanten bekannt sein muss."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_active
@@ -120,7 +124,14 @@ msgid ""
 "transfer to suppliers), you should choose 'Variable', which means that you "
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
-msgstr "Für Zahlungsmodi, die stets einem bestimmten Bankkonto des Unternehmens zugeordnet sind (etwa Überweisungen von Kunden oder Lastschriften von Lieferanten), wird \"Fix\" gewählt. Für Zahlungsmodi, die nicht stets dem selben Bankkonto zugeordnet sind (so wie SEPA-Lastschriften für Kunden oder Überweisungen an Lieferanten), wird \"Variabel\" gewählt, so dass das Bankkonto in der Zahlungsanweisung zu wählen ist. Falls nur ein Bankkonto für das Unternehmen angelegt ist, sollte stets \"Fix\" gewählt werden.."
+msgstr ""
+"Für Zahlungsmodi, die stets einem bestimmten Bankkonto des Unternehmens "
+"zugeordnet sind (etwa Überweisungen von Kunden oder Lastschriften von "
+"Lieferanten), wird \"Fix\" gewählt. Für Zahlungsmodi, die nicht stets dem "
+"selben Bankkonto zugeordnet sind (so wie SEPA-Lastschriften für Kunden oder "
+"Überweisungen an Lieferanten), wird \"Variabel\" gewählt, so dass das "
+"Bankkonto in der Zahlungsanweisung zu wählen ist. Falls nur ein Bankkonto "
+"für das Unternehmen angelegt ist, sollte stets \"Fix\" gewählt werden.."
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -196,15 +207,17 @@ msgstr "Notiz"
 msgid ""
 "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
-msgstr "Im Zahlungsmodus '%s' ist eine fixe Verbindung zu einem Bankkonto gewählt, aber das fixe Bank-Journal ist nicht gesetzt!"
+msgstr ""
+"Im Zahlungsmodus '%s' ist eine fixe Verbindung zu einem Bankkonto gewählt, "
+"aber das fixe Bank-Journal ist nicht gesetzt!"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:92
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed"
-" bank journal '%s'"
+"method), but this debit method is not part of the debit methods of the fixed "
+"bank journal '%s'"
 msgstr ""
 
 #. module: account_payment_mode
@@ -286,7 +299,10 @@ msgid ""
 "This code is used in the code of the Odoo module that handle this payment "
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
-msgstr "Dieser Code wird in der Implementierung des Odoo Moduls, das diese Zahlungsmethode handhabt, benutzt. Bei einer Änderung des Wertes, wird die Erstellung des Zahlungsdatei wahrscheinlich nicht mehr funktionieren."
+msgstr ""
+"Dieser Code wird in der Implementierung des Odoo Moduls, das diese "
+"Zahlungsmethode handhabt, benutzt. Bei einer Änderung des Wertes, wird die "
+"Erstellung des Zahlungsdatei wahrscheinlich nicht mehr funktionieren."
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
