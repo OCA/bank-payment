@@ -9,20 +9,21 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 11:16+0000\n"
-"PO-Revision-Date: 2018-05-23 18:37+0000\n"
+"PO-Revision-Date: 2018-06-22 10:01+0000\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
-"Language-Team: Danish (Denmark) (http://www.transifex.com/oca/OCA-bank-"
-"payment-10-0/language/da_DK/)\n"
+"Language-Team: Danish (Denmark) (http://www.transifex.com/oca/"
+"OCA-bank-payment-10-0/language/da_DK/)\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_count
 msgid "# of Journal Entries"
-msgstr ""
+msgstr "# Journalposteringer"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:112
@@ -46,7 +47,7 @@ msgstr "Firma valuta"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Udfør:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -56,7 +57,7 @@ msgstr "Betalingstype"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr ""
+msgstr "<strong>Reference</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -72,6 +73,7 @@ msgstr "<strong>Anvendt konto:</strong>"
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
 msgstr ""
+"En betalingslinie findes allerede med denne reference i den samme virksomhed!"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:17
@@ -89,7 +91,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
-msgstr ""
+msgstr "Regnskab / Betalinger"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
@@ -127,18 +129,18 @@ msgstr ""
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Entries"
-msgstr ""
+msgstr "Alle posteringer"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Posted Entries"
-msgstr ""
+msgstr "Alle bogførte posteringer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_allow_blocked
 msgid "Allow Litigation Move Lines"
-msgstr ""
+msgstr "Tillad omstridte posteringer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_currency
@@ -146,24 +148,24 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Amount"
-msgstr ""
+msgstr "Beløb"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_company_currency
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_amount_company_currency
 msgid "Amount in Company Currency"
-msgstr ""
+msgstr "Beløb i firmavaluta"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Any"
-msgstr ""
+msgstr "Alle"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Attachments"
-msgstr ""
+msgstr "Vedhæftninger"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -213,7 +215,7 @@ msgstr "Bank betalingslinie reference"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Bank betalingslinier"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line_partner_bank_id
@@ -317,12 +319,12 @@ msgstr "Opret transaktioner"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_create_action
 msgid "Create Transactions from Move Lines"
-msgstr ""
+msgstr "Opret transkationer fra posteringer"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice_payment_line_multi
 msgid "Create payment lines from invoice tree view"
-msgstr ""
+msgstr "Opret betalingslinier fra faktura oversigt"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi_create_uid
@@ -355,7 +357,7 @@ msgstr "Valuta"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_currency_id
 msgid "Currency of the Payment Transaction"
-msgstr ""
+msgstr "Valuta for betalingstransaktionen"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
