@@ -1,31 +1,31 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
-    
-Prevent the usage of voucher from invoices
-==========================================
+
+Prevent the usage of payments from invoices
+===========================================
 
 This add-on disables the "Register Payment" button on
 customer invoices and the "Pay" button on supplier invoices.
 
-It also disables the voucher-related menus entries such as 
-"Sales Receipts", "Customer Payments", "Purchase Receipts", 
-"Supplier Payments" and "Journal Vouchers", "Sales Receipts Analysis".
+It also disables the payments-related menus entries such as
+"Customer Payments", "Supplier Payments"
 
-More precisely, this module adds a group "Use voucher in Invoices"
+More precisely, this module adds a group "Payments for Invoices"
 and only users in that group see these buttons and menus.
 
 Installation
 ============
 
 This module depends on :
-* account_voucher
+
+ * account
 
 This modules are parts of the OCA/bank-payment suite.
 
 Configuration
 =============
 
-There is nothing to configure.
+Use new group Payment for Invoices to allow make payments
 
 Usage
 =====
@@ -37,11 +37,6 @@ For further information, please visit:
 
  * https://www.odoo.com/forum/help-1
 
-Known issues / Roadmap
-======================
-
- * ...
- 
 Bug Tracker
 ===========
 
@@ -60,6 +55,7 @@ Contributors
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Anthony Muschang <anthony.muschang@acsone.eu>
 * Yannick Vaucher
+* Cristian Salamea <cs@prisehub.com>
 
 Maintainer
 ----------
@@ -73,4 +69,3 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
 
 To contribute to this module, please visit http://odoo-community.org.
-

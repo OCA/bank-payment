@@ -1,0 +1,5 @@
+<odoo>
+    <record id="invoice_payment_user" model="res.groups">
+      <field name="name">Payments for Invoices</field>
+    </record>
+</odoo>
