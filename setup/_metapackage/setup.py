@@ -17,6 +17,7 @@ setuptools.setup(
         'odoo10-addon-account_payment_order',
         'odoo10-addon-account_payment_partner',
         'odoo10-addon-account_payment_sale',
+        'odoo10-addon-account_voucher_killer',
     ],
     classifiers=[
         'Programming Language :: Python',
