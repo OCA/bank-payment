@@ -36,6 +36,7 @@ addon | version | summary
 [account_payment_order](account_payment_order/) | 10.0.1.5.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 10.0.1.1.2 | Adds payment mode on partners and invoices
 [account_payment_sale](account_payment_sale/) | 10.0.1.1.0 | Adds payment mode on sale orders
+[account_voucher_killer](account_voucher_killer/) | 10.0.1.0.0 | Accounting Payment Access
 
 
 Unported addons
@@ -46,7 +47,6 @@ addon | version | summary
 [account_import_line_multicurrency_extension](account_import_line_multicurrency_extension/) | 8.0.1.1.0 (unported) | Add an improved view for move line import in bank statement
 [account_payment_blocking](account_payment_blocking/) | 8.0.1.0.0 (unported) | Prevent invoices under litigation to be proposed in payment orders.
 [account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.2 (unported) | Account Banking - Payments Term Filter
-[account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 (unported) | Accounting voucher killer
 [bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
 [portal_payment_mode](portal_payment_mode/) | 8.0.1.0.0 (unported) | Adds payment mode ACL's for portal users
 
