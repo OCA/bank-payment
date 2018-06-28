@@ -227,7 +227,7 @@ msgid "Cancel Payments"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:164
+#: code:addons/account_payment_order/models/bank_payment_line.py:165
 #, python-format
 msgid "Cannot delete a payment order line whose payment order is in state '%s'. You need to cancel it first."
 msgstr ""
