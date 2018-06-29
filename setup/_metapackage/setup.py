@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo10-addon-account_banking_pain_base',
         'odoo10-addon-account_banking_sepa_credit_transfer',
         'odoo10-addon-account_banking_sepa_direct_debit',
+        'odoo10-addon-account_payment_line_cancel',
         'odoo10-addon-account_payment_mode',
         'odoo10-addon-account_payment_order',
         'odoo10-addon-account_payment_partner',
