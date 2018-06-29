@@ -32,6 +32,7 @@ addon | version | summary
 [account_banking_pain_base](account_banking_pain_base/) | 10.0.1.1.1 | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 10.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 10.0.1.1.2 | Create SEPA files for Direct Debit
+[account_payment_line_cancel](account_payment_line_cancel/) | 10.0.1.0.0 | Account payment line cancel
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.2 | Account Payment Mode
 [account_payment_order](account_payment_order/) | 10.0.1.5.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 10.0.1.1.2 | Adds payment mode on partners and invoices
