@@ -58,6 +58,17 @@ class BankPaymentLine(models.Model):
         'res.currency',
         related='order_id.payment_mode_id.company_id.currency_id',
         readonly=True, store=True)
+    purpose_code = fields.Selection(selection=[
+            ("SALA", "Salary payment"),
+            ("PENS", "Pension payment"),
+            ("CBFF", "Capital-forming payment (VWL)"),
+            ("CBFR", "Capital-forming payment for retirement (AVWL)"),
+            ("SSBE", "Social Security Benefit"),
+            ("INTC", "ICC payment"),
+            ("CASH", "Cash Management transfer"),
+            ("SUPP", "Other payment"),
+            ("NETT", "Netting"),
+        ], string="Purpose Code")
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):

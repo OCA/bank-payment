@@ -292,6 +292,13 @@ class AccountPaymentOrder(models.Model):
             iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
             iniparty_org_other_id.text = initiating_party_identifier
+            iniparty_org_other_schema = etree.SubElement(
+                iniparty_org_other, 'SchmeNm')
+            iniparty_org_other_schema_name = etree.SubElement(
+                iniparty_org_other_schema, 'Prtry')
+            iniparty_org_other_schema_name.text = (
+                self.payment_mode_id.initiating_party_schema or
+                self.payment_mode_id.company_id.initiating_party_schema)
             if initiating_party_issuer:
                 iniparty_org_other_issuer = etree.SubElement(
                     iniparty_org_other, 'Issr')

@@ -155,6 +155,10 @@ class AccountPaymentOrder(models.Model):
                     'C', line.partner_bank_id, gen_args, line)
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info, line, gen_args)
+                if line.purpose_code:
+                    purpose = etree.SubElement(
+                        credit_transfer_transaction_info, 'Purp')
+                    etree.SubElement(purpose, 'Cd').text = line.purpose_code
             if not pain_flavor.startswith('pain.001.001.02'):
                 nb_of_transactions_b.text = str(transactions_count_b)
                 control_sum_b.text = '%.2f' % amount_control_sum_b
