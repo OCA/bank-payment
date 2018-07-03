@@ -15,6 +15,7 @@
             <field name="priority"/>
             <field name="local_instrument"/>
             <field name="category_purpose"/>
+            <field name="purpose"/>
         </field>
     </field>
 </record>
