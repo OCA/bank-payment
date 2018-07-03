@@ -15,6 +15,7 @@
         <group name="main" position="inside">
             <field name="initiating_party_identifier" groups="account_banking_pain_base.group_pain_multiple_identifier"/>
             <field name="initiating_party_issuer" groups="account_banking_pain_base.group_pain_multiple_identifier"/>
+            <field name="initiating_party_scheme" groups="account_banking_pain_base.group_pain_multiple_identifier"/>
         </group>
     </field>
 </record>
