@@ -12,6 +12,8 @@ class ResConfigSettings(models.TransientModel):
         related='company_id.initiating_party_issuer')
     initiating_party_identifier = fields.Char(
         related='company_id.initiating_party_identifier')
+    initiating_party_scheme = fields.Char(
+        related='company_id.initiating_party_scheme')
     group_pain_multiple_identifier = fields.Boolean(
         string='Multiple identifiers',
         implied_group='account_banking_pain_base.'
