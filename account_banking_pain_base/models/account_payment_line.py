@@ -56,6 +56,15 @@ class AccountPaymentLine(models.Model):
         ], string="Category Purpose",
         help="If neither your bank nor your local regulations oblige you to "
         "set the category purpose, leave the field empty.")
+    purpose = fields.Selection(
+        selection=[
+            # XXX
+            ('OTHR', 'Other Payment'),
+            ('SALA', 'Salary Payment'),
+        ],
+        help="If neither your bank nor your local regulations oblige you to "
+             "set the category purpose, leave the field empty.",
+    )
     # PAIN allows 140 characters
     communication = fields.Char(size=140)
     # The field struct_communication_type has been dropped in v9
