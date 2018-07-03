@@ -153,6 +153,10 @@ class AccountPaymentOrder(models.Model):
                 self.generate_party_block(
                     credit_transfer_transaction_info, 'Cdtr',
                     'C', line.partner_bank_id, gen_args, line)
+                if line.purpose:
+                    purpose = etree.SubElement(
+                        credit_transfer_transaction_info, 'Purp')
+                    etree.SubElement(purpose, 'Cd').text = line.purpose
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info, line, gen_args)
             if not pain_flavor.startswith('pain.001.001.02'):
