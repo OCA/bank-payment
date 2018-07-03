@@ -215,6 +215,11 @@ class AccountPaymentOrder(models.Model):
                     dd_transaction_info, 'Dbtr', 'C',
                     line.partner_bank_id, gen_args, line)
 
+                if line.purpose:
+                    purpose = etree.SubElement(
+                        dd_transaction_info, 'Purp')
+                    etree.SubElement(purpose, 'Cd').text = line.purpose
+
                 self.generate_remittance_info_block(
                     dd_transaction_info, line, gen_args)
 
