@@ -72,6 +72,7 @@ Contributors
 * Danimar Ribeiro
 * Raphaël Valyi
 * Vicent Cubells <vicent.cubells@tecnativa.com>
+* Abraham Anes <abraham@studio73.es>
 
 Maintainer
 ----------
