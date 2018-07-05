@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2015-2017 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <data>
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.mode.form.inherit</field>
+            <field name="model">account.payment.mode</field>
+            <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_type" position="after">
+                    <field name="purchase_ok"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
