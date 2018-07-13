@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-07-13 09:23+0000\n"
+"Last-Translator: Enric Tobella <etobella@creublanca.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -45,7 +46,7 @@ msgstr "Cuenta bancaria requerida"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -67,7 +68,7 @@ msgstr "Apunte contable"
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
 #, python-format
 msgid "No Chart of Account Template has been defined !"
-msgstr ""
+msgstr "No se ha definido un Plan Contable!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
@@ -113,7 +114,7 @@ msgstr "Modo de pago de proveedor"
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
-msgstr ""
+msgstr "La compañía de la factura %s no corresponde con la del modo de pago"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:17
@@ -122,6 +123,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Invoice with this "
 "Payment Mode, already assigned to another Company."
 msgstr ""
+"No puede cambiar la Compañía. Ya existe como mínimo una Factura para este "
+"Modo de Pago asignado a otra Compañía."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:28
@@ -130,3 +133,5 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+"No puede cambiar la Compañía. Existe como mínimo una elemento del Diario con "
+"este Modo de Pago que ya está asignado a otra Compañía."
