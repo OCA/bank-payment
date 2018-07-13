@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-14 11:29+0000\n"
-"PO-Revision-Date: 2018-04-14 11:29+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-07-13 09:10+0000\n"
+"Last-Translator: Enric Tobella <etobella@creublanca.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #. module: account_payment_mode
 #: sql_constraint:account.payment.method:0
@@ -120,6 +121,14 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
+"Para modos de pago que siempre estarán asociados a la misma cuenta bancaria "
+"de la compañía (como las transferencias bancarias de clientes o los débitos "
+"directos SEPA de proveedores), selecciona 'Fijado\". Para modos de pagos en "
+"los que puede cambiar la cuenta bancaria (como el débito directo de clientes "
+"o las transferencias de proveedores), seleccione 'Variable', lo que "
+"significa que podrá seleccionar la cuenta bancaria en la orden de pago. Si "
+"su compañía tiene una única cuenta bancaria, debería seleccionar siempre "
+"'Fijo'."
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -274,7 +283,7 @@ msgstr "Tipo de pago"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_payment_mode_ids
 msgid "Payment modes"
-msgstr ""
+msgstr "Modos de pago"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -293,6 +302,8 @@ msgid ""
 "The company of the journal '%s' does not match with the company of the "
 "payment mode '%s' where it is being used as Fixed Bank Journal."
 msgstr ""
+"La compañía del diario %s no corresponde con la compañía del modo de pago '%"
+"s' que se usa con el diario fijo de banco."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_journal.py:46
@@ -301,6 +312,8 @@ msgid ""
 "The company of the journal '%s' does not match with the company of the "
 "payment mode '%s' where it is being used in the Allowed Bank Journals."
 msgstr ""
+"La compañía del diario %s no corresponde con la compañía del modo de pago '%"
+"s' que se usa con los diarios permitidos de banco."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:111
@@ -309,6 +322,8 @@ msgid ""
 "The company of the payment mode '%s', does not match with the company of "
 "journal '%s'."
 msgstr ""
+"La compañía del modo de pago '%s' no corresponde con la compañía del diario "
+"'%s'."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:121
@@ -317,6 +332,8 @@ msgid ""
 "The company of the payment mode '%s', does not match with the one of the "
 "Allowed Bank Journals."
 msgstr ""
+"La compañía del modo de pago '%s' no corresponde con la compañía de los "
+"diarios de banco permitidos."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_payment_method_code
@@ -325,6 +342,9 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
+"Este código se usa en el código del módulo de Odoo que gestiona el método de "
+"pago. Por lo tanto, si lo cambias, la generación del fichero de pago podría "
+"fallar."
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
