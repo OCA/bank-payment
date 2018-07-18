@@ -36,6 +36,7 @@ addon | version | summary
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.2 | Account Payment Mode
 [account_payment_order](account_payment_order/) | 10.0.1.5.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 10.0.1.1.2 | Adds payment mode on partners and invoices
+[account_payment_purchase](account_payment_purchase/) | 10.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 10.0.1.1.0 | Adds payment mode on sale orders
 [account_voucher_killer](account_voucher_killer/) | 10.0.1.0.0 | Accounting Payment Access
 
