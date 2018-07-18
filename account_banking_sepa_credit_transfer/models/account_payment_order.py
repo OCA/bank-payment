@@ -130,6 +130,11 @@ class AccountPaymentOrder(models.Model):
                     payment_info, 'CdtTrfTxInf')
                 payment_identification = etree.SubElement(
                     credit_transfer_transaction_info, 'PmtId')
+                instruction_identification = etree.SubElement(
+                    payment_identification, 'InstrId')
+                instruction_identification.text = self._prepare_field(
+                    'Instruction Identification', 'line.name',
+                    {'line': line}, 35, gen_args=gen_args)
                 end2end_identification = etree.SubElement(
                     payment_identification, 'EndToEndId')
                 end2end_identification.text = self._prepare_field(
