@@ -156,12 +156,11 @@ class AccountPaymentOrder(models.Model):
                     payment_info, 'DrctDbtTxInf')
                 payment_identification = etree.SubElement(
                     dd_transaction_info, 'PmtId')
-                if pain_flavor == 'pain.008.001.02.ch.01':
-                    instruction_identification = etree.SubElement(
-                        payment_identification, 'InstrId')
-                    instruction_identification.text = self._prepare_field(
-                        'Intruction Identification', 'line.name',
-                        {'line': line}, 35, gen_args=gen_args)
+                instruction_identification = etree.SubElement(
+                    payment_identification, 'InstrId')
+                instruction_identification.text = self._prepare_field(
+                    'Instruction Identification', 'line.name',
+                    {'line': line}, 35, gen_args=gen_args)
                 end2end_identification = etree.SubElement(
                     payment_identification, 'EndToEndId')
                 end2end_identification.text = self._prepare_field(
