@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2014-2015 ACSONE SA/NV (<https://acsone.eu>)

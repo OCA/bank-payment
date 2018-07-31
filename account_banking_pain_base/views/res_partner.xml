@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2018 Brain-Tec Group
+-->
+<odoo>
+
+    <record id="partner_view_buttons" model="ir.ui.view">
+        <field name="name">partner.view.buttons.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.partner_view_buttons"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[field[@name='bank_account_count']]" position="attributes">
+                <attribute name="context">
+                    {'search_default_partner_id': active_id, 'default_partner_id': active_id, 'default_account_holder': name}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

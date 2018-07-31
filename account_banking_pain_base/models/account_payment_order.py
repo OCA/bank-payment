@@ -23,7 +23,7 @@ class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
     sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment")
+        compute='_compute_sepa', readonly=True, string="SEPA Payment")
     charge_bearer = fields.Selection([
         ('SLEV', 'Following Service Level'),
         ('SHAR', 'Shared'),
@@ -55,7 +55,7 @@ class AccountPaymentOrder(models.Model):
         'company_partner_bank_id.acc_type',
         'payment_line_ids.currency_id',
         'payment_line_ids.partner_bank_id.acc_type')
-    def compute_sepa(self):
+    def _compute_sepa(self):
         eur = self.env.ref('base.EUR')
         for order in self:
             sepa = True
@@ -373,7 +373,7 @@ class AccountPaymentOrder(models.Model):
             party_type_label = 'Creditor'
         elif party_type == 'Dbtr':
             party_type_label = 'Debtor'
-        name = 'partner_bank.partner_id.name'
+        name = 'partner_bank.account_holder'
         eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,

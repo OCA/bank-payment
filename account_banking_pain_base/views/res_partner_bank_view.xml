@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2018 Brain-Tec Group
+-->
+<odoo>
+
+    <record id="view_partner_bank_form" model="ir.ui.view">
+        <field name="name">res.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <group col="4" position="after">
+                <group name="mandates" string="Direct Debit Mandates">
+                    <field name="account_holder"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="view_partner_bank_tree" model="ir.ui.view">
+        <field name="name">res.partner.bank.tree</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="account_holder"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

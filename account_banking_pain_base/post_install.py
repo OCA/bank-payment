@@ -3,9 +3,18 @@
 
 
 from odoo import api, SUPERUSER_ID
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def set_default_initiating_party(cr, registry):
+    logger.info('Launching the post init hook')
+    cr.execute("""
+        UPDATE res_partner_bank SET account_holder =
+        (SELECT name FROM res_partner WHERE res_partner.id =
+        res_partner_bank.partner_id);
+        """)
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         for company in env['res.company'].search([]):

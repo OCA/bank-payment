@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2010-2016 Akretion (www.akretion.com)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
