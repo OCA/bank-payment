@@ -255,7 +255,7 @@ class IBAN(str):
         'SI': BBANFormat('CCCCCAAAAAAAAVV', '%C-%A%V', ),
         # Slovakia uses two different format for local display. We stick with
         # their formal BBAN specs
-        'SK': BBANFormat('BBBBPPPPPPAAAAAAAAAAAA', '%B%P%A'),
+        'SK': BBANFormat('BBBBAAAAAAAAAAAAAAAA', '%B%A'),
         # San Marino: No information for display of BBAN, so stick with IBAN
         'SM': BBANFormat('WBBBBBCCCCCCAAAAAAAAAAAAV', '%I'),
         'TN': BBANFormat('BBCCCAAAAAAAAAAAAAVV', '%B %C %A %V'),
