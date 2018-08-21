@@ -138,6 +138,15 @@ def migrate_payment_mode_types(env):
             WHERE type = %s""",
             (method.id, row[0]),
         )
+    openupgrade.logged_query(
+        env.cr,
+        """UPDATE account_payment_mode
+        SET payment_type = account_payment_method.payment_type
+        FROM account_payment_method
+        WHERE account_payment_mode.payment_method_id=account_payment_method.id
+        AND account_payment_mode.payment_type is NULL
+        """
+    )
 
 
 @openupgrade.migrate(use_env=True)
