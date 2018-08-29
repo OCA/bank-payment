@@ -19,6 +19,7 @@
                     <field name="currency_id"/>
                     <field name="partner_id"/>
                     <field name="partner_bank_id"
+                           context="{'default_partner_id': partner_id}"
                            domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"
                            attrs="{'required': [('bank_account_required', '=', True)]}"
                     />
