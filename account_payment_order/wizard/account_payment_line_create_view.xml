@@ -19,7 +19,10 @@
                 <field name="due_date" attrs="{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"/>
                 <field name="journal_ids"
                    widget="many2many_tags"
-                    placeholder="Keep empty for using all journals"/>
+                   placeholder="Keep empty for using all journals"/>
+                <field name="partner_ids"
+                   widget="many2many_tags"
+                   placeholder="Keep empty to use all partners"/>
                 <field name="payment_mode"/>
                 <field name="target_move" widget="radio"/>
                 <field name="invoice"/>
