@@ -34,7 +34,7 @@ addon | version | summary
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 10.0.1.1.2 | Create SEPA files for Direct Debit
 [account_payment_line_cancel](account_payment_line_cancel/) | 10.0.1.0.0 | Account payment line cancel
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.2 | Account Payment Mode
-[account_payment_order](account_payment_order/) | 10.0.1.5.0 | Account Payment Order
+[account_payment_order](account_payment_order/) | 10.0.1.6.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 10.0.1.1.2 | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 10.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 10.0.1.1.0 | Adds payment mode on sale orders
