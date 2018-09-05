@@ -353,6 +353,16 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_party_id(
+            self, parent_node, party_type, partner):
+        """Generate an Id element for partner inside the parent node.
+        party_type can currently be Cdtr or Dbtr. Notably, the initiating
+        party orgid is generated with another mechanism and configured
+        at the company or payment mode level.
+        """
+        return
+
+    @api.model
     def generate_party_acc_number(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -415,6 +425,8 @@ class AccountPaymentOrder(models.Model):
                 adrline2.text = self._prepare_field(
                     'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
+
+        self.generate_party_id(party, party_type, partner)
 
         self.generate_party_acc_number(
             parent_node, party_type, order, partner_bank, gen_args,
