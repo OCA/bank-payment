@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
 msgid ""
@@ -11,12 +11,14 @@ msgstr ""
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
 "PO-Revision-Date: 2016-10-19 23:47+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/sl/)\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -40,8 +42,8 @@ msgstr "Generični bančni mandat"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -175,6 +177,13 @@ msgid "Expired"
 msgstr "Pretečeni"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_valid_mandate_id
+#, fuzzy
+msgid "First Valid Mandate"
+msgstr "Mandat za direktne obremenitve"
+
+#. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Format"
@@ -268,6 +277,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_mandate_count
 msgid "Number of Mandates"
 msgstr ""
 
@@ -276,7 +286,9 @@ msgstr ""
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr "V postavki plačila se lahko uporabijo le veljavni mandati. Preklican mandat je mandat, ki ga je kupec preklical."
+msgstr ""
+"V postavki plačila se lahko uporabijo le veljavni mandati. Preklican mandat "
+"je mandat, ki ga je kupec preklical."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -353,7 +365,8 @@ msgstr ""
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "Mandat '%s' ne sme imeti datuma zadnje obremenitve pred datumom podpisa."
+msgstr ""
+"Mandat '%s' ne sme imeti datuma zadnje obremenitve pred datumom podpisa."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -384,4 +397,6 @@ msgstr "Potrdi"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr "Mandat ponastavite v osnutek le, če ste ga pomotoma preklicali. Želite nadaljevati?"
+msgstr ""
+"Mandat ponastavite v osnutek le, če ste ga pomotoma preklicali. Želite "
+"nadaljevati?"

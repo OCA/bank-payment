@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_payment_line_cancel_view" model="ir.ui.view">
+        <field name="name">account.payment.line.cancel.tree</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <button name="cancel_line" type="object" icon="fa-undo" context="{'cancel_line_from_payment_order': 1}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

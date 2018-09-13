@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Thomas Pot <thomas@open2bizz.nl>, 2018
@@ -12,11 +12,12 @@ msgstr ""
 "POT-Creation-Date: 2018-04-21 00:48+0000\n"
 "PO-Revision-Date: 2018-04-24 08:29+0000\n"
 "Last-Translator: Thomas Pot <thomas@open2bizz.nl>\n"
-"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/nl/)\n"
+"Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
@@ -24,7 +25,10 @@ msgstr ""
 msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
-msgstr "Een bankmandaat is een document ondertekend door uw klant die autorisatie geeft om één of meerdere acties uit te voeren op de bankrekening van de klant."
+msgstr ""
+"Een bankmandaat is een document ondertekend door uw klant die autorisatie "
+"geeft om één of meerdere acties uit te voeren op de bankrekening van de "
+"klant."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -41,9 +45,11 @@ msgstr "Een generiek bank mandaat"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
-msgstr "Activeer deze optie wanneer bij de betaalwijze uw klant verplicht is om een incasso mandaat met uw bedrijf te ondertekenen."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
+msgstr ""
+"Activeer deze optie wanneer bij de betaalwijze uw klant verplicht is om een "
+"incasso mandaat met uw bedrijf te ondertekenen."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -82,7 +88,9 @@ msgstr "Bank mandaten"
 msgid ""
 "Banking mandates represent an authorization that the bank account owner "
 "gives to a company for a specific operation."
-msgstr "Een bank mandaat wordt door de bankrekening eigenaar\n gegeven aan een bedrijf om een specifieke actie uit te kunnen voeren. "
+msgstr ""
+"Een bank mandaat wordt door de bankrekening eigenaar\n"
+" gegeven aan een bedrijf om een specifieke actie uit te kunnen voeren. "
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -106,7 +114,9 @@ msgstr "Geannuleerd"
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr "Kan mandate '%s' niet valideren omdat deze niet aan een bankrekening gekoppeld is. "
+msgstr ""
+"Kan mandate '%s' niet valideren omdat deze niet aan een bankrekening "
+"gekoppeld is. "
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
@@ -284,7 +294,9 @@ msgstr "Aantal mandaten"
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr "Alleen gevalideerde bank mandaten kunnen worden gebruikt in betaalregels. Een geannuleerd mandaat is een mandaat dat geannuleerd is door de klant."
+msgstr ""
+"Alleen gevalideerde bank mandaten kunnen worden gebruikt in betaalregels. "
+"Een geannuleerd mandaat is een mandaat dat geannuleerd is door de klant."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -361,7 +373,9 @@ msgstr "De datum van de handtekening van mandaat '%s' is in de toekomts!"
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "Mandaat '%s' kan geen datum van laatste debet hebben coor de datum van ondertekenen."
+msgstr ""
+"Mandaat '%s' kan geen datum van laatste debet hebben coor de datum van "
+"ondertekenen."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -369,7 +383,9 @@ msgstr "Mandaat '%s' kan geen datum van laatste debet hebben coor de datum van o
 msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
 "to the mandate '%s' (this mandate is attached to the bank account '%s')."
-msgstr "Betaalregelnummer %s  heeft een bankrekeningnummer '%s' die niet gekoppeld is aan mandaat '%s'  (dit mandaat is gekoppeld aan bankrekeningnummer '%s')."
+msgstr ""
+"Betaalregelnummer %s  heeft een bankrekeningnummer '%s' die niet gekoppeld "
+"is aan mandaat '%s'  (dit mandaat is gekoppeld aan bankrekeningnummer '%s')."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
@@ -392,4 +408,6 @@ msgstr "Bevestig"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr "Een mandaat moet alleen teruggezet worden naar concept wanneer u deze per ongeluk heeft geannuleerd. Wilt u verdergaan? "
+msgstr ""
+"Een mandaat moet alleen teruggezet worden naar concept wanneer u deze per "
+"ongeluk heeft geannuleerd. Wilt u verdergaan? "

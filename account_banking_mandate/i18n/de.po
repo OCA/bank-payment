@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_banking_mandate
-# 
+#
 # Translators:
 # Niki Waibel, 2016
 # Niki Waibel, 2016
@@ -14,11 +14,12 @@ msgstr ""
 "POT-Creation-Date: 2017-08-18 00:42+0000\n"
 "PO-Revision-Date: 2017-09-23 04:05+0000\n"
 "Last-Translator: Udo Bremer <info@bremerd.de>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate
@@ -26,12 +27,15 @@ msgstr ""
 msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
-msgstr "Ein Bankmandat ist ein vom Kunden unterschriebenes Dokument, das für eine oder mehrere Operationen auf dem Bankkonto des Kunden bevollmächtigt."
+msgstr ""
+"Ein Bankmandat ist ein vom Kunden unterschriebenes Dokument, das für eine "
+"oder mehrere Operationen auf dem Bankkonto des Kunden bevollmächtigt."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr "Ein Mandat mit der selben Referenz existiert bereits für dieses Unternehmen!"
+msgstr ""
+"Ein Mandat mit der selben Referenz existiert bereits für dieses Unternehmen!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -43,9 +47,11 @@ msgstr "Ein generisches Bankmandat"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line_mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method_mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
-msgstr "Aktivieren dieser Option meint, dass diese Zahlungsmethode ein vom Kunden unterschriebenes Lastschrift-Mandat für das Unternehmen benötigt."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
+msgstr ""
+"Aktivieren dieser Option meint, dass diese Zahlungsmethode ein vom Kunden "
+"unterschriebenes Lastschrift-Mandat für das Unternehmen benötigt."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -84,7 +90,9 @@ msgstr "Bankaufträge"
 msgid ""
 "Banking mandates represent an authorization that the bank account owner "
 "gives to a company for a specific operation."
-msgstr "Bankmandate sind Vollmachten, die der Besitzer eines Bankkontos einem Unternehmen für bestimmte Operationen einräumt."
+msgstr ""
+"Bankmandate sind Vollmachten, die der Besitzer eines Bankkontos einem "
+"Unternehmen für bestimmte Operationen einräumt."
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -108,7 +116,9 @@ msgstr "Abgebrochen"
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
-msgstr "Das Mandat '%s' kann nicht validiert werden, da es keinem Bankkonto zugeordnet ist."
+msgstr ""
+"Das Mandat '%s' kann nicht validiert werden, da es keinem Bankkonto "
+"zugeordnet ist."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
@@ -176,6 +186,13 @@ msgstr "Entwurf"
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
 msgstr "Abgelaufen"
+
+#. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_valid_mandate_id
+#, fuzzy
+msgid "First Valid Mandate"
+msgstr "Lastschrift Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -280,7 +297,9 @@ msgstr "Anzahl der Mandate"
 msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
-msgstr "Nur valide Mandate können in einer Zahlungszeile verwendet werden. Ein widerrufenes Mandat ist ein Mandat, welches vom Kunden aufgehoben wurde."
+msgstr ""
+"Nur valide Mandate können in einer Zahlungszeile verwendet werden. Ein "
+"widerrufenes Mandat ist ein Mandat, welches vom Kunden aufgehoben wurde."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -357,7 +376,9 @@ msgstr "Das Datum der Unterschrift zum Mandat '%s' liegt in der Zukunft!"
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
-msgstr "Das Mandat '%s' kann kein Datum der letzten Belastung vor dem Datum der Unterschrift haben."
+msgstr ""
+"Das Mandat '%s' kann kein Datum der letzten Belastung vor dem Datum der "
+"Unterschrift haben."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:27
@@ -365,7 +386,9 @@ msgstr "Das Mandat '%s' kann kein Datum der letzten Belastung vor dem Datum der 
 msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
 "to the mandate '%s' (this mandate is attached to the bank account '%s')."
-msgstr "Die Zahlungszeile mit Nummer '%s' gehört zum Bankkonto '%s', welches nicht dem Mandat '%s' zugeordnet ist (dieses Mandat ist dem Konto '%s' zugeordnet)."
+msgstr ""
+"Die Zahlungszeile mit Nummer '%s' gehört zum Bankkonto '%s', welches nicht "
+"dem Mandat '%s' zugeordnet ist (dieses Mandat ist dem Konto '%s' zugeordnet)."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
@@ -388,4 +411,6 @@ msgstr "Bestätigen"
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
-msgstr "Ein Mandat sollte nur dann auf Entwurf zurückgestellt werden, falls es irrtümlich ungültig gemacht wurde. Soll fortgefahren werden?"
+msgstr ""
+"Ein Mandat sollte nur dann auf Entwurf zurückgestellt werden, falls es "
+"irrtümlich ungültig gemacht wurde. Soll fortgefahren werden?"

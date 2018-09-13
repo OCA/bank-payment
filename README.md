@@ -27,15 +27,18 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 10.0.1.1.5 | Banking mandates
+[account_banking_mandate](account_banking_mandate/) | 10.0.1.1.6 | Banking mandates
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 10.0.1.0.1 | Adds mandates on sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 10.0.1.1.1 | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 10.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 10.0.1.1.2 | Create SEPA files for Direct Debit
+[account_payment_line_cancel](account_payment_line_cancel/) | 10.0.1.0.0 | Account payment line cancel
 [account_payment_mode](account_payment_mode/) | 10.0.1.0.2 | Account Payment Mode
-[account_payment_order](account_payment_order/) | 10.0.1.3.4 | Account Payment Order
+[account_payment_order](account_payment_order/) | 10.0.1.6.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 10.0.1.1.2 | Adds payment mode on partners and invoices
+[account_payment_purchase](account_payment_purchase/) | 10.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 10.0.1.1.0 | Adds payment mode on sale orders
+[account_voucher_killer](account_voucher_killer/) | 10.0.1.0.0 | Accounting Payment Access
 
 
 Unported addons
@@ -46,7 +49,6 @@ addon | version | summary
 [account_import_line_multicurrency_extension](account_import_line_multicurrency_extension/) | 8.0.1.1.0 (unported) | Add an improved view for move line import in bank statement
 [account_payment_blocking](account_payment_blocking/) | 8.0.1.0.0 (unported) | Prevent invoices under litigation to be proposed in payment orders.
 [account_payment_mode_term](account_payment_mode_term/) | 8.0.0.1.2 (unported) | Account Banking - Payments Term Filter
-[account_voucher_killer](account_voucher_killer/) | 8.0.1.0.0 (unported) | Accounting voucher killer
 [bank_statement_instant_voucher](bank_statement_instant_voucher/) | 1.0r028 (unported) | Bank statement instant voucher
 [portal_payment_mode](portal_payment_mode/) | 8.0.1.0.0 (unported) | Adds payment mode ACL's for portal users
 
