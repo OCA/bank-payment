@@ -31,7 +31,7 @@ class CommonTestCase(SavepointCase):
         })
         cls.base_partner = cls.env["res.partner"].create({
             'name': 'Dummy',
-            'mail': 'dummy@example.com',
+            'email': 'dummy@example.com',
             'customer_payment_mode_id': cls.payment_mode.id,
         })
         cls.products = {
