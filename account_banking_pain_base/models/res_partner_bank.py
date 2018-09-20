@@ -7,8 +7,11 @@ from odoo import api, fields, models
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
-    account_holder = fields.Char(default=' ')
+    account_holder = fields.Char(default=' ',
+                                 help='Fill this field if the account'
+                                      ' holder\'s name differ from the'
+                                      ' partner name')
 
     @api.onchange('partner_id')
-    def _onchange_account_holder(self):
+    def _onchange_partner_id_account_banking_pain_base(self):
         self.account_holder = u'{}'.format(self.partner_id.name)
