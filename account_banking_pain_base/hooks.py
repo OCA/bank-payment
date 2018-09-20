@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def set_default_initiating_party(cr, registry):
+def post_init_hook(cr, registry):
     logger.info('Launching the post init hook')
     cr.execute("""
         UPDATE res_partner_bank SET account_holder =
