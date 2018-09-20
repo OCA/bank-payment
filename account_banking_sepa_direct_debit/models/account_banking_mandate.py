@@ -36,7 +36,7 @@ class AccountBankingMandate(models.Model):
         ('B2B', 'Enterprise (B2B)')],
         string='Scheme', default="CORE", track_visibility='onchange')
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
-    display_name = fields.Char(compute='compute_display_name', store=True)
+    display_name = fields.Char(compute='_compute_display_name', store=True)
 
     @api.multi
     @api.constrains('type', 'recurrent_sequence_type')
@@ -50,7 +50,7 @@ class AccountBankingMandate(models.Model):
 
     @api.multi
     @api.depends('unique_mandate_reference', 'recurrent_sequence_type')
-    def compute_display_name(self):
+    def _compute_display_name(self):
         for mandate in self:
             if mandate.format == 'sepa':
                 name = '%s (%s)' % (
