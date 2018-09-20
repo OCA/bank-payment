@@ -373,7 +373,7 @@ class AccountPaymentOrder(models.Model):
             party_type_label = 'Creditor'
         elif party_type == 'Dbtr':
             party_type_label = 'Debtor'
-        name = 'partner_bank.account_holder'
+        name = 'partner_bank.account_holder' or 'partner_bank.partner_id.name'
         eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,

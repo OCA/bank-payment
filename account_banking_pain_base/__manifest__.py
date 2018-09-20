@@ -29,6 +29,5 @@
         'views/res_partner_bank_view.xml',
         'views/res_partner.xml',
     ],
-    'post_init_hook': 'post_init_hook',
     'installable': True,
 }
