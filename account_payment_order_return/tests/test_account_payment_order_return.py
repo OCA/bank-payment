@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Tecnativa - Luis M. Ontalba
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
-from openerp.tests import common
-from openerp import fields
+from odoo.tests import common
+from odoo import fields
 
 
 class TestAccountPaymentOrderReturn(common.SavepointCase):
@@ -51,7 +50,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         })
 
     def test_global(self):
-        self.invoice.signal_workflow('invoice_open')
+        self.invoice.action_invoice_open()
         wizard_o = self.env['account.payment.line.create']
         context = wizard_o._context.copy()
         context.update({
