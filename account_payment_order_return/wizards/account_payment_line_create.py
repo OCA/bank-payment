@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Tecnativa - Luis M. Ontalba
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
