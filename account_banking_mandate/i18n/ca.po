@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2016-09-10 16:15+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"PO-Revision-Date: 2018-09-25 16:08+0000\n"
+"Last-Translator: eduardgm <eduard.garcia@qubiq.es>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -24,16 +25,18 @@ msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
 msgstr ""
+"Un mandat bancari és un document signat pel client que et dóna "
+"l'autorització per fer una o diverses operacions amb el seu compte bancari."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr ""
+msgstr "Ja existeix un mandat amb la mateixa referència per a aquesta empresa!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Un mandat bancari genèric"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_invoice_mandate_required
@@ -43,21 +46,23 @@ msgid ""
 "Activate this option if this payment method requires your customer to sign a "
 "direct debit mandate with your company."
 msgstr ""
+"Activeu aquesta opció si aquest mètode de pagament requereix que el vostre "
+"client signi un mandat de dèbit directe amb la vostra empresa."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Torna a Esborrany"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Compte bancari"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Comptes bancaris"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
