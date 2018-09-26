@@ -423,6 +423,16 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
+            if partner.zip:
+                pstcd = etree.SubElement(postal_address, 'PstCd')
+                pstcd.text = self._prepare_field(
+                    'Postal Code', 'partner.zip',
+                    {'partner': partner}, 16, gen_args=gen_args)
+            if partner.city:
+                twnnm = etree.SubElement(postal_address, 'TwnNm')
+                twnnm.text = self._prepare_field(
+                    'Town Name', 'partner.city',
+                    {'partner': partner}, 35, gen_args=gen_args)
             country = etree.SubElement(postal_address, 'Ctry')
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
@@ -431,11 +441,6 @@ class AccountPaymentOrder(models.Model):
                 adrline1 = etree.SubElement(postal_address, 'AdrLine')
                 adrline1.text = self._prepare_field(
                     'Adress Line1', 'partner.street',
-                    {'partner': partner}, 70, gen_args=gen_args)
-            if partner.city and partner.zip:
-                adrline2 = etree.SubElement(postal_address, 'AdrLine')
-                adrline2.text = self._prepare_field(
-                    'Address Line2', "partner.zip + ' ' + partner.city",
                     {'partner': partner}, 70, gen_args=gen_args)
 
         self.generate_party_id(party, party_type, partner)
