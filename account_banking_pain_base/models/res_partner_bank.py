@@ -11,7 +11,3 @@ class ResPartnerBank(models.Model):
                                  help='Fill this field if the account'
                                       ' holder\'s name differ from the'
                                       ' partner name')
-
-    @api.onchange('partner_id')
-    def _onchange_partner_id_account_banking_pain_base(self):
-        self.account_holder = u'{}'.format(self.partner_id.name)
