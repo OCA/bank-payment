@@ -27,7 +27,6 @@
         'views/res_config_settings.xml',
         'views/account_payment_method.xml',
         'views/res_partner_bank_view.xml',
-        'views/res_partner.xml',
     ],
     'post_init_hook': 'post_init_hook',
     'installable': True,
