@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -60,58 +59,56 @@ class AccountPaymentMode(models.Model):
 
     @api.onchange('company_id')
     def _onchange_company_id(self):
-        for mode in self:
-            mode.variable_journal_ids = False
-            mode.fixed_journal_id = False
+        self.variable_journal_ids = False
+        self.fixed_journal_id = False
 
     @api.constrains(
         'bank_account_link', 'fixed_journal_id', 'payment_method_id')
     def bank_account_link_constrains(self):
-        for mode in self:
-            if mode.bank_account_link == 'fixed':
-                if not mode.fixed_journal_id:
-                    raise ValidationError(_(
-                        "On the payment mode '%s', the bank account link is "
-                        "'Fixed' but the fixed bank journal is not set")
-                        % mode.name)
+        for mode in self.filtered(lambda x: x.bank_account_link == 'fixed'):
+            if not mode.fixed_journal_id:
+                raise ValidationError(_(
+                    "On the payment mode '%s', the bank account link is "
+                    "'Fixed' but the fixed bank journal is not set")
+                    % mode.name)
+            else:
+                if mode.payment_method_id.payment_type == 'outbound':
+                    if (
+                            mode.payment_method_id.id not in
+                            mode.fixed_journal_id.
+                            outbound_payment_method_ids.ids):
+                        raise ValidationError(_(
+                            "On the payment mode '%s', the payment method "
+                            "is '%s', but this payment method is not part "
+                            "of the payment methods of the fixed bank "
+                            "journal '%s'") % (
+                                mode.name,
+                                mode.payment_method_id.name,
+                                mode.fixed_journal_id.name))
                 else:
-                    if mode.payment_method_id.payment_type == 'outbound':
-                        if (
-                                mode.payment_method_id.id not in
-                                mode.fixed_journal_id.
-                                outbound_payment_method_ids.ids):
-                            raise ValidationError(_(
-                                "On the payment mode '%s', the payment method "
-                                "is '%s', but this payment method is not part "
-                                "of the payment methods of the fixed bank "
-                                "journal '%s'") % (
-                                    mode.name,
-                                    mode.payment_method_id.name,
-                                    mode.fixed_journal_id.name))
-                    else:
-                        if (
-                                mode.payment_method_id.id not in
-                                mode.fixed_journal_id.
-                                inbound_payment_method_ids.ids):
-                            raise ValidationError(_(
-                                "On the payment mode '%s', the payment method "
-                                "is '%s' (it is in fact a debit method), "
-                                "but this debit method is not part "
-                                "of the debit methods of the fixed bank "
-                                "journal '%s'") % (
-                                    mode.name,
-                                    mode.payment_method_id.name,
-                                    mode.fixed_journal_id.name))
+                    if (
+                            mode.payment_method_id.id not in
+                            mode.fixed_journal_id.
+                            inbound_payment_method_ids.ids):
+                        raise ValidationError(_(
+                            "On the payment mode '%s', the payment method "
+                            "is '%s' (it is in fact a debit method), "
+                            "but this debit method is not part "
+                            "of the debit methods of the fixed bank "
+                            "journal '%s'") % (
+                                mode.name,
+                                mode.payment_method_id.name,
+                                mode.fixed_journal_id.name))
 
     @api.constrains('company_id', 'fixed_journal_id')
     def company_id_fixed_journal_id_constrains(self):
-        for mode in self:
-            if mode.fixed_journal_id and mode.company_id != \
-                    mode.fixed_journal_id.company_id:
-                raise ValidationError(_(
-                    "The company of the payment mode '%s', does not match "
-                    "with the company of journal '%s'.") % (
-                    mode.name, mode.fixed_journal_id.name))
+        for mode in self.filtered(
+                lambda x: x.fixed_journal_id
+                and x.company_id != x.fixed_journal_id.company_id):
+            raise ValidationError(_(
+                "The company of the payment mode '%s', does not match "
+                "with the company of journal '%s'.") % (
+                mode.name, mode.fixed_journal_id.name))
 
     @api.constrains('company_id', 'variable_journal_ids')
     def company_id_variable_journal_ids_constrains(self):
