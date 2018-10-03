@@ -9,20 +9,20 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2016-09-10 16:15+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-10-03 04:29+0000\n"
+"Last-Translator: William Olhasque <william.olhasque@scopea.fr>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_count
-#, fuzzy
 msgid "# of Journal Entries"
-msgstr "Pièces comptables"
+msgstr "Nb Pièces comptables"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:112
@@ -43,34 +43,33 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "<strong>Company Currency:</strong>"
-msgstr "Total dans la devise de la société"
+msgstr "<strong>Devise de la société</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Exécution:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Payment Type:</strong>"
-msgstr ""
+msgstr "<strong>Type de paiement</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr ""
+msgstr "<strong>Référence:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Total</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Used Account:</strong>"
-msgstr ""
+msgstr "<strong>Compte utilisé:</strong>"
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
@@ -262,7 +261,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr ""
+msgstr "Choisir les options de filtre des lignes comptable"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -396,12 +395,12 @@ msgstr "Ordre de prélèvement %s"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
 msgid "Default Payment Execution Date"
-msgstr ""
+msgstr "Date d'exécution des paiements par défaut"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_description
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
@@ -551,7 +550,7 @@ msgstr "Grouper les opérations des ordres de paiement"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_id
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
@@ -560,7 +559,6 @@ msgstr "ISO"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_group_lines
-#, fuzzy
 msgid ""
 "If this mark is checked, the transaction lines of the payment order will be "
 "grouped upon confirmation of the payment order.The grouping will be done "
@@ -614,9 +612,8 @@ msgstr "Facture"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "Invoice Ref"
-msgstr "Facture"
+msgstr "Référence Facture"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
@@ -741,9 +738,8 @@ msgstr "La ligne d'écriture '%s' du partenaire '%s' a déjà été réconcilié
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
-#, fuzzy
 msgid "Name or Description"
-msgstr "Identique ou vide"
+msgstr "Nom ou Description"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:69
@@ -952,7 +948,6 @@ msgstr "Ordre de paiement"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "Payment Order / Payment"
 msgstr "Ordre de paiement"
 
@@ -985,7 +980,6 @@ msgstr "Ligne bancaire du paiement %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
-#, fuzzy
 msgid "Payment lines"
 msgstr "Lignes de paiement"
 
@@ -998,9 +992,8 @@ msgstr "Ordre de paiement %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
-#, fuzzy
 msgid "Payment order ok"
-msgstr "Ordre de paiement %s"
+msgstr "Ordre de paiement ok"
 
 #. module: account_payment_order
 #: model:ir.ui.menu,name:account_payment_order.payment_root
@@ -1171,7 +1164,6 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "Total (Currency)"
 msgstr "Total dans la devise de la société"
 
@@ -1229,9 +1221,8 @@ msgstr "Type du filtre sur la date"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "Value Date"
-msgstr "Date d'échéance"
+msgstr "Date de valeur"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
@@ -1271,7 +1262,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "report.account_payment_order.print_account_payment_order_main"
-msgstr ""
+msgstr "report.account_payment_order.print_account_payment_order_main fr"
 
 #~ msgid ""
 #~ "The invoice %s has a payment mode '%s' which is not selectable in payment "
