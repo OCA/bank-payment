@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016 Akretion (<http://www.akretion.com>).
 # Copyright 2017 Tecnativa - Vicent Cubells.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -21,6 +20,7 @@ class AccountInvoice(models.Model):
                              'payment mode.'),
             }
             return res
+        self.payment_mode_id = new_mode
         if self.partner_bank_id and self.partner_bank_id.id != new_bank:
             res['warning'] = {
                 'title': _('Warning'),
@@ -28,5 +28,4 @@ class AccountInvoice(models.Model):
                              'supplier bank.'),
             }
             return res
-        self.payment_mode_id = new_mode
         self.partner_bank_id = new_bank
