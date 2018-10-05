@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2013-2015 Tecnativa - Pedro M. Baeza
 # Copyright 2017 Tecnativa - Vicent Cubells
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
@@ -55,8 +54,8 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.force_assign()
-        picking.pack_operation_product_ids.write({'qty_done': 1.0})
-        picking.do_new_transfer()
+        picking.move_lines.write({'quantity_done': 1.0})
+        picking.do_transfer()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
@@ -76,8 +75,8 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.force_assign()
-        picking.pack_operation_product_ids.write({'qty_done': 1.0})
-        picking.do_new_transfer()
+        picking.move_lines.write({'quantity_done': 1.0})
+        picking.do_transfer()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
@@ -92,8 +91,8 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.force_assign()
-        picking.pack_operation_product_ids.write({'qty_done': 1.0})
-        picking.do_new_transfer()
+        picking.move_lines.write({'quantity_done': 1.0})
+        picking.do_transfer()
         invoice.purchase_id = purchase2.id
         result = invoice.purchase_order_change()
         self.assertEqual(result['warning']['title'], 'Warning')
@@ -109,14 +108,16 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.force_assign()
-        picking.pack_operation_product_ids.write({'qty_done': 1.0})
-        picking.do_new_transfer()
+        picking.move_lines.write({'quantity_done': 1.0})
+        picking.do_transfer()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
             'purchase_id': self.purchase.id,
             'account_id': self.partner.property_account_payable_id.id,
         })
+        # Avoid bank company from default_get method
+        invoice.partner_bank_id = False
         invoice.purchase_order_change()
         self.assertEqual(invoice.partner_bank_id, self.bank)
         purchase2 = self.purchase.copy()
@@ -124,8 +125,8 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.force_assign()
-        picking.pack_operation_product_ids.write({'qty_done': 1.0})
-        picking.do_new_transfer()
+        picking.move_lines.write({'quantity_done': 1.0})
+        picking.do_transfer()
         invoice.purchase_id = purchase2.id
         result = invoice.purchase_order_change()
         self.assertEqual(result['warning']['title'], 'Warning')
@@ -134,15 +135,17 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         route = self.env.ref('purchase.route_warehouse0_buy')
         rule = self.env['procurement.rule'].search(
             [('route_id', '=', route.id)], limit=1)
-        procurement_order = self.env['procurement.order'].create({
-            'product_id': self.mto_product.id,
-            'rule_id': rule.id,
-            'location_id': self.env['stock.location'].search([], limit=1).id,
-            'warehouse_id': self.env['stock.warehouse'].search([], limit=1).id,
-            'product_qty': 1,
-            'product_uom': self.mto_product.uom_id.id,
-            'name': 'Procurement order test',
-        })
-        procurement_order.run()
-        self.assertEqual(
-            procurement_order.purchase_id.payment_mode_id, self.payment_mode)
+        rule._run_buy(
+            product_id=self.mto_product,
+            product_qty=1,
+            product_uom=self.mto_product.uom_id,
+            location_id=self.env['stock.location'].search([], limit=1),
+            name='Procurement order test',
+            origin='Test',
+            values={
+                'company_id': self.env.user.company_id,
+                'date_planned': fields.Datetime.now(),
+            },
+        )
+        purchase = self.env['purchase.order'].search([('origin', '=', 'Test')])
+        self.assertEqual(purchase.payment_mode_id, self.payment_mode)
