@@ -126,7 +126,7 @@ class AccountPaymentLine(models.Model):
         localization modules"""
         # key = value of 'reference_type' field on account_invoice
         # value = value of 'communication_type' field on account_payment_line
-        res = {'none': 'normal'}
+        res = {'none': 'normal', 'structured': 'structured'}
         return res
 
     @api.multi
