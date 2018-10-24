@@ -25,7 +25,7 @@ Or :
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/173/10.0
+   :target: https://runbot.odoo-community.org/runbot/173/11.0
 
 Known issues / Roadmap
 ======================
@@ -54,6 +54,7 @@ Contributors
 * Marco Monzione <marco.mon@windowslive.com>
 * Emanuel Cino <ecino@compassion.ch>
 * Cyril Sester <cyril.sester@outlook.com>
+* Maxence Groine <mgroine@fiefmanage.ch>
 
 Do not contact contributors directly about support or help with technical issues.
 

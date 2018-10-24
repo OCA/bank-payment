@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Compassion CH (http://www.compassion.ch)
 # @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
@@ -79,20 +78,42 @@ class AccountCancelPayment(models.Model):
         """
         for payment_line in self:
             cancel_reason = payment_line.cancel_reason or _(
-                u"no reason given.")
+                "no reason given.")
             # Create a link to the invoice that was removed
-            invoice = payment_line.move_line_id.invoice_id
-            order = payment_line.order_id
-            invoice_url = u'<a href="web#id={}&view_type=form&model=' \
-                u'account.invoice">{}</a>'.format(invoice.id,
-                                                  invoice.move_name)
-            payment_order_url = u'<a href="web#id={}&view_type=form&model=' \
-                u'account.payment.order">{}</a>'.format(order.id, order.name)
-            # Add a message to the invoice
-            invoice.message_post(
-                _(u"The invoice has been removed from ") + u"{}, {}"
-                .format(payment_order_url, cancel_reason)
-            )
+            if payment_line.move_line_id and \
+                    payment_line.move_line_id.invoice_id:
+                invoice = payment_line.move_line_id.invoice_id
+                order = payment_line.order_id
+                invoice_url = "<a href=\"web#id={}&view_type=form&model=" \
+                    "account.invoice\">{}</a>".format(invoice.id,
+                                                      invoice.move_name)
+                payment_order_url = "<a href=\"web#id={}&view_type=form&" \
+                    "model=account.payment.order\">{}</a>".format(order.id,
+                                                                  order.name)
+                # Add a message to the invoice
+                invoice.message_post(
+                    _("The invoice has been removed from ") + "{}, {}"
+                    .format(payment_order_url, cancel_reason)
+                )
+                order_msg = invoice_url + _(" has been removed, ") \
+                    + cancel_reason
+            else:
+                # Log info about deleted line in case of manually added lines
+                order_msg = _("A payment line has been removed:<ul>"
+                              "<li><span>Partner: {}</span></li>"
+                              "<li><span>Communication: {}</span></li>"
+                              "<li><span>Payment Date: {}</span></li>"
+                              "<li><span>Amount: {}</span></li>"
+                              "<li><span>Currency: {}</span></li>"
+                              "<li><span>Partner Bank Account: {}</span></li>"
+                              "<li><span>Payment Reference: {}</span></li>"
+                              "</ul>").format(
+                    payment_line.partner_id.name,
+                    payment_line.communication,
+                    payment_line.date,
+                    payment_line.amount_currency,
+                    payment_line.currency_id.name,
+                    payment_line.partner_bank_id.acc_number,
+                    payment_line.name)
             # Add a message to the payment order
-            payment_line.order_id.message_post(
-                invoice_url + _(u" has been removed, ") + cancel_reason)
+            payment_line.order_id.message_post(order_msg)

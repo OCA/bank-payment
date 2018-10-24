@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Compassion CH (http://www.compassion.ch)
 # @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
