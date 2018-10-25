@@ -20,6 +20,11 @@ class ResCompany(models.Model):
              "checkum\n- a 3-letters business code\n- a country-specific "
              "identifier")
 
+    sepa_payment_order_schema = fields.Selection([
+        ('CORE', 'Basic (CORE)'),
+        ('B2B', 'Enterprise (B2B)')],
+        string='Payment Order Scheme', default="CORE")
+
     @api.multi
     @api.constrains('sepa_creditor_identifier')
     def _check_sepa_creditor_identifier(self):

@@ -10,3 +10,7 @@ class AccountConfigSettings(models.TransientModel):
 
     sepa_creditor_identifier = fields.Char(
         related='company_id.sepa_creditor_identifier')
+
+    sepa_payment_order_schema = fields.Selection(
+        related='company_id.sepa_payment_order_schema'
+    )
