@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 (x64) (http://www.altova.com) by Ivana Gargiulo (CONSORZIO CUSTOMER TO BUSINESS INTERACTION - CBI) -->
+<!-- Entrata in vigore: 20/11/2016 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:LMSG="urn:CBI:xsd:CBISDDReqLogMsg.00.01.00" xmlns="urn:CBI:xsd:CBIBdySDDReq.00.01.00" targetNamespace="urn:CBI:xsd:CBIBdySDDReq.00.01.00" elementFormDefault="qualified">
+	<!-- Namespace import -->
+	<xs:import namespace="urn:CBI:xsd:CBISDDReqLogMsg.00.01.00" schemaLocation="CBISDDReqLogMsg.00.01.00.xsd"/>
+	<!--xs:import namespace="urn:CBI:xsd:CBISgnInf.001.04" schemaLocation="CBISgnInf.001.04.xsd"/-->
+	<xs:element name="CBIBdySDDReq" type="CBIBdySDDReq.00.01.00"/>
+	<!-- Message Body structure definition -->
+	<xs:complexType name="CBIBdySDDReq.00.01.00">
+		<xs:sequence>
+			<xs:element name="PhyMsgInf" type="PhysicalMsgInfoType">
+				<xs:annotation>
+					<xs:documentation>1.3.1. - Informazioni generali sul messaggio fisico</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CBIEnvelSDDReqLogMsg" type="CBIEnvelSDDLogMsg.00.01.00" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>1.3.2. - Blocco contenente il messaggio logico CBI. E' strutturato per poter contenere anche la firma digitale secondo le regole riportate nel documento FIRMA-MO-001. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CBIEnvelSDDLogMsg.00.01.00">
+		<xs:choice>
+			<xs:element name="CBISDDReqLogMsg" type="LMSG:CBISDDReqLogMsg.00.01.00">
+				<xs:annotation>
+					<xs:documentation>1.3.2.1. - Messaggio logico CBI di richiesta incasso SDD </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!--xs:element name="CBISgnInf" type="SGNT:CBISgnInf.001.04">
+				<xs:annotation>
+					<xs:documentation>1.3.2.2. - Blocco contenente la firma digitale secondo le specifiche CBI</xs:documentation>
+				</xs:annotation>
+			</xs:element-->
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PhysicalMsgInfoType">
+		<xs:sequence>
+			<xs:element name="PhyMsgTpCd">
+				<xs:annotation>
+					<xs:documentation>1.3.1.1 - Tipologia di messaggio fisico, espressa in forma codificata</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="INC-SDDC-01"/>
+						<xs:enumeration value="INC-SDDB-01"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NbOfLogMsg" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>1.3.1.2 - Indica il numero di messaggi logici contenuti nel messaggio fisico. Deve coincidere con il numero dei blocchi 1.3.2.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgnlPhyMsgInfAndStsType">
+		<xs:sequence>
+			<xs:element name="IdE2EMsg">
+				<xs:annotation>
+					<xs:documentation>IdE2E presente nell'header di servizio del messaggio fisico referenziato </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="XMLCreDt">
+				<xs:annotation>
+					<xs:documentation>XMLCreDt presente nell'header di servizio del messaggio fisico referenziato </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="StatusType">
+				<xs:annotation>
+					<xs:documentation>Riporta informazioni circa lo stato del messaggio fisico referenziato</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusType">
+		<xs:choice>
+			<xs:element name="StsOK" type="xs:string"/>
+			<xs:sequence>
+				<xs:element name="StsKO" type="xs:string"/>
+				<xs:element name="ErrorDescr" type="Max256Text"/>
+				<xs:element name="ElmNm" type="Max256Text" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Max256Text">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="256"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
