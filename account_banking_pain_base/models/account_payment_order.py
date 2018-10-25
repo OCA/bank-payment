@@ -163,10 +163,16 @@ class AccountPaymentOrder(models.Model):
     def generate_pain_nsmap(self):
         self.ensure_one()
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
-        nsmap = {
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-        }
+        if pain_flavor.startswith('CBIBdySDDReq'):
+            nsmap = {
+                'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                None: 'urn:CBI:xsd:%s' % pain_flavor,
+            }
+        else:
+            nsmap = {
+                'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
+            }
         return nsmap
 
     @api.multi
@@ -176,7 +182,37 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def generate_group_header_block(self, parent_node, gen_args):
-        group_header = etree.SubElement(parent_node, 'GrpHdr')
+        # CBI Italy
+        # <CBIBdySDDReq xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        #               xmlns="urn:CBI:xsd:CBIBdySDDReq.00.01.00"
+        #               xsi:schemaLocation="urn:CBI:xsd:CBIBdySDDReq.00.01.00 CBIBdySDDReq.00.01.00.xsd">
+        #     <PhyMsgInf>
+        #         <PhyMsgTpCd>INC-SDDB-01</PhyMsgTpCd>
+        #         <NbOfLogMsg>1</NbOfLogMsg>
+        #     </PhyMsgInf>
+        #     <CBIEnvelSDDReqLogMsg>
+        #         <CBISDDReqLogMsg>
+        #             <GrpHdr xmlns="urn:CBI:xsd:CBISDDReqLogMsg.00.01.00">
+        if gen_args.get('pain_flavor').startswith('CBIBdySDDReq'):
+            phyMsgInf = etree.SubElement( parent_node, 'PhyMsgInf' )
+            phyMsgTpCd = etree.SubElement( phyMsgInf, 'PhyMsgTpCd' )
+            if self.scheme == 'CORE':
+                phyMsgTpCd.text = 'INC-SDDC-01'
+            elif self.scheme == 'B2B':
+                phyMsgTpCd.text = 'INC-SDDB-01'
+            else:
+                raise UserError(_('Invalid CBI Debit Order Scheme {}'.format(self.scheme)))
+            numLogMsg = etree.SubElement( phyMsgInf, 'NbOfLogMsg' )
+            #numLogMsg = etree.SubElement( phyMsgInf, 'NumLogMsg' )
+            numLogMsg.text = '1'  # Normally only 1 CBIEnvelSDDLogMsg
+            CBIEnvelSDDReqLogMsg = etree.SubElement( parent_node, 'CBIEnvelSDDReqLogMsg' )
+            CBISDDReqLogMsg = etree.SubElement( CBIEnvelSDDReqLogMsg, 'CBISDDReqLogMsg' )
+            payment_root = CBISDDReqLogMsg
+            group_header = etree.SubElement( CBISDDReqLogMsg, 'GrpHdr',
+                                             attrib={'xmlns': 'urn:CBI:xsd:CBISDDReqLogMsg.%s' % gen_args.get('pain_flavor').split('.',1)[1]} )
+        else:
+            group_header = etree.SubElement(parent_node, 'GrpHdr')
+            payment_root = group_header
         message_identification = etree.SubElement(
             group_header, 'MsgId')
         message_identification.text = self._prepare_field(
@@ -199,14 +235,18 @@ class AccountPaymentOrder(models.Model):
             grouping = etree.SubElement(group_header, 'Grpg')
             grouping.text = 'GRPD'
         self.generate_initiating_party_block(group_header, gen_args)
-        return group_header, nb_of_transactions, control_sum
+        return group_header, nb_of_transactions, control_sum, payment_root
 
     @api.model
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
             priority, local_instrument, category_purpose, sequence_type,
             requested_date, eval_ctx, gen_args):
-        payment_info = etree.SubElement(parent_node, 'PmtInf')
+        if gen_args.get('pain_flavor').startswith('CBIBdySDDReq'):
+            payment_info = etree.SubElement( parent_node, 'PmtInf',
+                                             attrib={'xmlns': 'urn:CBI:xsd:CBISDDReqLogMsg.%s' % gen_args.get('pain_flavor').split('.',1)[1]} )
+        else:
+            payment_info = etree.SubElement(parent_node, 'PmtInf')
         payment_info_identification = etree.SubElement(
             payment_info, 'PmtInfId')
         payment_info_identification.text = self._prepare_field(
@@ -216,7 +256,8 @@ class AccountPaymentOrder(models.Model):
         payment_method.text = gen_args['payment_method']
         nb_of_transactions = False
         control_sum = False
-        if gen_args.get('pain_flavor') != 'pain.001.001.02':
+        # But not for Italy!?
+        if gen_args.get('pain_flavor') not in ('pain.001.001.02', 'CBIBdySDDReq.00.01.00' ):
             batch_booking = etree.SubElement(payment_info, 'BtchBookg')
             batch_booking.text = unicode(self.batch_booking).lower()
         # The "SEPA Customer-to-bank
@@ -303,6 +344,11 @@ class AccountPaymentOrder(models.Model):
                 iniparty_org_other_scheme_name = etree.SubElement(
                     iniparty_org_other_scheme, 'Prtry')
                 iniparty_org_other_scheme_name.text = initiating_party_scheme
+            if gen_args.get('pain_flavor').startswith('CBIBdySDDReq') and \
+                    (not initiating_party_issuer or initiating_party_issuer != 'CBI'):
+                raise UserError(
+                    _("Missing 'Initiating Party Issuer' must be set to 'CBI' "
+                      "for the company '%s'.") % self.company_id.name)
             if initiating_party_issuer:
                 iniparty_org_other_issuer = etree.SubElement(
                     iniparty_org_other, 'Issr')
@@ -338,6 +384,45 @@ class AccountPaymentOrder(models.Model):
         In some localization (l10n_ch_sepa for example), they need the
         bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
+
+        # Italian CBI Creditor uses the node below:
+        #
+        # <CdtrAgt>
+        #   <FinInstnId>
+        #     <ClrSysMmbId>
+        #       <MmbId>ABI_CODE</MmbId>
+        #     </ClrSysMmbId>
+        #   </FinInstnId>
+        # </CdtrAgt>
+        #
+        # Debitor adds form in case the bank account isn't Italian
+        #
+        # <DbtrAgt>
+        #   <FinInstnId>
+        #     <BIC>SWIFT/BIC</BIC>
+        #   </FinInstnId>
+        # </DbtrAgt>
+        #
+        if gen_args.get( 'pain_flavor' ).startswith('CBIBdySDDReq'):
+            if party_type == 'Cdtr':
+                party_agent = etree.SubElement( parent_node, '%sAgt' % party_type )
+                party_agent_institution = etree.SubElement(
+                    party_agent, 'FinInstnId' )
+                party_agent_clr_sys_mmbid = etree.SubElement(
+                    party_agent_institution, 'ClrSysMmbId' )
+                party_agent_mmbid = etree.SubElement(
+                    party_agent_clr_sys_mmbid, 'MmbId' )
+                if partner_bank.bank_abi:
+                    party_agent_mmbid.text = partner_bank.bank_abi
+                else:
+                    party_agent_mmbid.text = 'NOTPROVIDED'
+                return True
+            else:
+                # If it's an Italian Bank we are done
+                if partner_bank.acc_type == 'iban' and partner_bank.sanitized_acc_number.upper().startswith('IT'):
+                    return True
+                # else: For not Italian banks it's necessary to specify the DbtrAgt node
+
         if partner_bank.bank_bic:
             party_agent = etree.SubElement(parent_node, '%sAgt' % party_type)
             party_agent_institution = etree.SubElement(
