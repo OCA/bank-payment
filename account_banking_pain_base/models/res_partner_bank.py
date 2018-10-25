@@ -7,7 +7,6 @@ from odoo import fields, models
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
-    account_holder = fields.Char(default=' ',
-                                 help='Fill this field if the account'
+    account_holder = fields.Char(help='Fill this field if the account'
                                       ' holder\'s name differ from the'
                                       ' partner name')
