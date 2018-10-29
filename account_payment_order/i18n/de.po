@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-01 15:18+0000\n"
-"PO-Revision-Date: 2018-05-01 15:18+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-10-30 21:07+0000\n"
+"Last-Translator: Mathias Neef <mathias.neef@syscoon.com>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.2.2\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:111
@@ -33,41 +34,44 @@ msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
 "automatically created."
 msgstr ""
+"%d Zahlungszeilen, wurden dem bestehenden Zahlungsauftrag %d hinzugefügt."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Company Currency:</strong>"
-msgstr ""
+msgstr "<strong>Unternehmenswährung:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Ausführung:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Payment Type:</strong>"
-msgstr ""
+msgstr "<strong>Zahlungsart:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr ""
+msgstr "<strong>Referenz</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Gesamtsumme</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Used Account:</strong>"
-msgstr ""
+msgstr "<strong>Verwendetes Konto:</strong>"
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
 msgstr ""
+"Eine Zahlungszeile mit dieser Referenz existiert bereits im gleichen "
+"Unternehmen!"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:16
@@ -76,6 +80,8 @@ msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
 "characters, so it is not valid."
 msgstr ""
+"Ein gültiger BIC besteht aus 8 oder 11 Zeichen. Der BIC '%s' enthält %d "
+"Zeichen, so dass er nicht gültig ist."
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
@@ -85,12 +91,12 @@ msgstr "Kontoeintrag"
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
-msgstr ""
+msgstr "Buchhaltung / Zahlungen"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Accounting Entries Options"
-msgstr ""
+msgstr "Optionen für Buchungseinträge"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_bank_account_required
@@ -104,22 +110,22 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Add All Move Lines"
-msgstr ""
+msgstr "Alle Buchungszeilen hinzufügen"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_form
 msgid "Add to Debit Order"
-msgstr ""
+msgstr "Zum Lastschriftauftrag hinzufügen"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_supplier_form
 msgid "Add to Payment Order"
-msgstr ""
+msgstr "Zum Zahlungsauftrag hinzufügen"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr ""
+msgstr "Zum Zahlungs-/Lastschriftauftrag hinzufügen"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
@@ -131,12 +137,12 @@ msgstr "Alle Einträge"
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Posted Entries"
-msgstr ""
+msgstr "Alle gebuchten Einträge"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_allow_blocked
 msgid "Allow Litigation Move Lines"
-msgstr ""
+msgstr "Erlaube Buchungszeilen zu verarbeiten"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_currency
@@ -144,19 +150,19 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Amount"
-msgstr ""
+msgstr "Betrag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_company_currency
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_amount_company_currency
 msgid "Amount in Company Currency"
-msgstr ""
+msgstr "Betrag in Unternehmenswährung"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Any"
-msgstr ""
+msgstr "Beliebige"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
