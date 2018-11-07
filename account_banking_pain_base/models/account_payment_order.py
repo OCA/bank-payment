@@ -425,16 +425,19 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
-            if partner.zip:
-                pstcd = etree.SubElement(postal_address, 'PstCd')
-                pstcd.text = self._prepare_field(
-                    'Postal Code', 'partner.zip',
-                    {'partner': partner}, 16, gen_args=gen_args)
-            if partner.city:
-                twnnm = etree.SubElement(postal_address, 'TwnNm')
-                twnnm.text = self._prepare_field(
-                    'Town Name', 'partner.city',
-                    {'partner': partner}, 35, gen_args=gen_args)
+            if gen_args.get('pain_flavor').startswith(
+                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
+                    'pain.008.001.'):
+                if partner.zip:
+                    pstcd = etree.SubElement(postal_address, 'PstCd')
+                    pstcd.text = self._prepare_field(
+                        'Postal Code', 'partner.zip',
+                        {'partner': partner}, 16, gen_args=gen_args)
+                if partner.city:
+                    twnnm = etree.SubElement(postal_address, 'TwnNm')
+                    twnnm.text = self._prepare_field(
+                        'Town Name', 'partner.city',
+                        {'partner': partner}, 35, gen_args=gen_args)
             country = etree.SubElement(postal_address, 'Ctry')
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
