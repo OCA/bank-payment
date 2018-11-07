@@ -156,12 +156,11 @@ class AccountPaymentOrder(models.Model):
                     payment_info, 'DrctDbtTxInf')
                 payment_identification = etree.SubElement(
                     dd_transaction_info, 'PmtId')
-                if pain_flavor == 'pain.008.001.02.ch.01':
-                    instruction_identification = etree.SubElement(
-                        payment_identification, 'InstrId')
-                    instruction_identification.text = self._prepare_field(
-                        'Intruction Identification', 'line.name',
-                        {'line': line}, 35, gen_args=gen_args)
+                instruction_identification = etree.SubElement(
+                    payment_identification, 'InstrId')
+                instruction_identification.text = self._prepare_field(
+                    'Instruction Identification', 'line.name',
+                    {'line': line}, 35, gen_args=gen_args)
                 end2end_identification = etree.SubElement(
                     payment_identification, 'EndToEndId')
                 end2end_identification.text = self._prepare_field(
@@ -214,6 +213,11 @@ class AccountPaymentOrder(models.Model):
                 self.generate_party_block(
                     dd_transaction_info, 'Dbtr', 'C',
                     line.partner_bank_id, gen_args, line)
+
+                if line.purpose:
+                    purpose = etree.SubElement(
+                        dd_transaction_info, 'Purp')
+                    etree.SubElement(purpose, 'Cd').text = line.purpose
 
                 self.generate_remittance_info_block(
                     dd_transaction_info, line, gen_args)

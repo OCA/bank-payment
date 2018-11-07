@@ -284,6 +284,9 @@ class AccountPaymentOrder(models.Model):
         initiating_party_issuer = (
             self.payment_mode_id.initiating_party_issuer or
             self.payment_mode_id.company_id.initiating_party_issuer)
+        initiating_party_scheme = (
+            self.payment_mode_id.initiating_party_scheme or
+            self.payment_mode_id.company_id.initiating_party_scheme)
         # in pain.008.001.02.ch.01.xsd files they use
         # initiating_party_identifier but not initiating_party_issuer
         if initiating_party_identifier:
@@ -292,6 +295,12 @@ class AccountPaymentOrder(models.Model):
             iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
             iniparty_org_other_id.text = initiating_party_identifier
+            if initiating_party_scheme:
+                iniparty_org_other_scheme = etree.SubElement(
+                    iniparty_org_other, 'SchmeNm')
+                iniparty_org_other_scheme_name = etree.SubElement(
+                    iniparty_org_other_scheme, 'Prtry')
+                iniparty_org_other_scheme_name.text = initiating_party_scheme
             if initiating_party_issuer:
                 iniparty_org_other_issuer = etree.SubElement(
                     iniparty_org_other, 'Issr')
@@ -342,6 +351,16 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_party_id(
+            self, parent_node, party_type, partner):
+        """Generate an Id element for partner inside the parent node.
+        party_type can currently be Cdtr or Dbtr. Notably, the initiating
+        party orgid is generated with another mechanism and configured
+        at the company or payment mode level.
+        """
+        return
+
+    @api.model
     def generate_party_acc_number(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -390,6 +409,19 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
+            if gen_args.get('pain_flavor').startswith(
+                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
+                    'pain.008.001.'):
+                if partner.zip:
+                    pstcd = etree.SubElement(postal_address, 'PstCd')
+                    pstcd.text = self._prepare_field(
+                        'Postal Code', 'partner.zip',
+                        {'partner': partner}, 16, gen_args=gen_args)
+                if partner.city:
+                    twnnm = etree.SubElement(postal_address, 'TwnNm')
+                    twnnm.text = self._prepare_field(
+                        'Town Name', 'partner.city',
+                        {'partner': partner}, 35, gen_args=gen_args)
             country = etree.SubElement(postal_address, 'Ctry')
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
@@ -399,11 +431,8 @@ class AccountPaymentOrder(models.Model):
                 adrline1.text = self._prepare_field(
                     'Adress Line1', 'partner.street',
                     {'partner': partner}, 70, gen_args=gen_args)
-            if partner.city and partner.zip:
-                adrline2 = etree.SubElement(postal_address, 'AdrLine')
-                adrline2.text = self._prepare_field(
-                    'Address Line2', "partner.zip + ' ' + partner.city",
-                    {'partner': partner}, 70, gen_args=gen_args)
+
+        self.generate_party_id(party, party_type, partner)
 
         self.generate_party_acc_number(
             parent_node, party_type, order, partner_bank, gen_args,
