@@ -314,6 +314,16 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_fininst_postal_address(self, parent_node, bank):
+        if not (bank.country or bank.city):
+            return
+        postal_address = etree.SubElement(parent_node, 'PstlAdr')
+        if bank.city:
+            etree.SubElement(postal_address, 'TwnNm').text = bank.city
+        if bank.country:
+            etree.SubElement(postal_address, 'Ctry').text = bank.country.code
+
+    @api.model
     def generate_party_agent(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -333,6 +343,8 @@ class AccountPaymentOrder(models.Model):
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = partner_bank.bank_bic
+            self.generate_fininst_postal_address(
+                party_agent_institution, partner_bank.bank_id)
         else:
             if order == 'B' or (
                     order == 'C' and gen_args['payment_method'] == 'DD'):
@@ -340,6 +352,8 @@ class AccountPaymentOrder(models.Model):
                     parent_node, '%sAgt' % party_type)
                 party_agent_institution = etree.SubElement(
                     party_agent, 'FinInstnId')
+                self.generate_fininst_postal_address(
+                    party_agent_institution, partner_bank.bank_id)
                 party_agent_other = etree.SubElement(
                     party_agent_institution, 'Othr')
                 party_agent_other_identification = etree.SubElement(
