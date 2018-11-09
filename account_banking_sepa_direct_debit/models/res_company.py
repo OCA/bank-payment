@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
