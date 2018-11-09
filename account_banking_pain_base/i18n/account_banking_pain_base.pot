@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
@@ -59,7 +59,7 @@ msgid "Bank Payment Lines"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "Batch Booking"
 msgstr ""
 
@@ -132,13 +132,13 @@ msgid "Cash Management Transfer"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_category_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_category_purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__category_purpose
 msgid "Category Purpose"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__charge_bearer
 msgid "Charge Bearer"
 msgstr ""
 
@@ -173,8 +173,23 @@ msgid "Commodity Transfer"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__communication
+msgid "Communication"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__communication_type
+msgid "Communication Type"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -188,7 +203,7 @@ msgid "Convalescent Care Facility"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__convert_to_ascii
 msgid "Convert to ASCII"
 msgstr ""
 
@@ -254,7 +269,7 @@ msgid "Electricity Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings_group_pain_multiple_identifier
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__group_pain_multiple_identifier
 msgid "Enable this option if your country requires several SEPA/PAIN identifiers like in Spain."
 msgstr ""
 
@@ -284,13 +299,18 @@ msgid "Following Service Level"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_charge_bearer
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order__charge_bearer
 msgid "Following service level : transaction charges are to be applied following the rules agreed in the service level and/or scheme (SEPA Core messages must use this). Shared : transaction charges on the debtor side are to be borne by the debtor, transaction charges on the creditor side are to be borne by the creditor. Borne by creditor : all transaction charges are to be borne by the creditor. Borne by debtor : all transaction charges are to be borne by the debtor."
 msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Foreign Exchange"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,communication_type:0
+msgid "Free"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -346,20 +366,25 @@ msgid "Housing Tax"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method_convert_to_ascii
+#: selection:account.payment.line,communication_type:0
+msgid "ISO"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method__convert_to_ascii
 msgid "If active, Odoo will convert each accented character to the corresponding unaccented character, so that only ASCII characters are used in the generated PAIN file."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "If neither your bank nor your local regulations oblige you to set the category purpose, leave the field empty."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order_batch_booking
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "If true, the bank statement will display only one debit line for all the wire transfers of the SEPA XML file ; if false, the bank statement will display one debit line per wire transfer of the SEPA XML file."
 msgstr ""
 
@@ -369,23 +394,23 @@ msgid "Income Tax"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_identifier
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_initiating_party_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_identifier
 msgid "Initiating Party Identifier"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_issuer
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_initiating_party_issuer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_issuer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_issuer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_issuer
 msgid "Initiating Party Issuer"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_scheme
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_scheme
 msgid "Initiating Party Scheme"
 msgstr ""
 
@@ -397,11 +422,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Instalment Hire Purchase Agreement"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.line,local_instrument:0
-msgid "Instant Transfer"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -441,6 +461,11 @@ msgid "Irrevocable Debit Card Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__communication
+msgid "Label of the payment that will be seen by the destinee"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Labor Insurance"
 msgstr ""
@@ -472,8 +497,8 @@ msgid "Loan Repayment"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_local_instrument
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_local_instrument
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__local_instrument
 msgid "Local Instrument"
 msgstr ""
 
@@ -499,7 +524,7 @@ msgid "Multiple Service Types"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_group_pain_multiple_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__group_pain_multiple_identifier
 msgid "Multiple identifiers"
 msgstr ""
 
@@ -555,7 +580,7 @@ msgid "Other Telecom Related Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__pain_version
 msgid "PAIN Version"
 msgstr ""
 
@@ -606,8 +631,8 @@ msgid "Price Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_priority
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__priority
 msgid "Priority"
 msgstr ""
 
@@ -627,8 +652,8 @@ msgid "Purchase Sale Of Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "Purpose"
 msgstr ""
 
@@ -663,12 +688,12 @@ msgid "Royalties"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__sepa
 msgid "SEPA Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
 msgid "SEPA/PAIN"
 msgstr ""
 
@@ -751,19 +776,19 @@ msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_priority
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_priority
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
+#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__priority
 msgid "This field will be used as 'Instruction Priority' in the generated PAIN file."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_identifier
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings_initiating_party_identifier
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_identifier
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_identifier
 msgid "This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_identifier
 msgid "This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo. If not defined, Initiating Party Identifier from company will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
@@ -772,13 +797,13 @@ msgid "This will be used as the 'Initiating Party Identifier' in the PAIN files 
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_issuer
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings_initiating_party_issuer
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_issuer
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_issuer
 msgid "This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_issuer
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_issuer
 msgid "This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo. If not defined, Initiating Party Issuer from company will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
@@ -787,13 +812,13 @@ msgid "This will be used as the 'Initiating Party Issuer' in the PAIN files gene
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_scheme
-#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings_initiating_party_scheme
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_scheme
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_scheme
 msgid "This will be used as the 'Initiating Party Scheme Name' in the PAIN files generated by Odoo."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_scheme
 msgid "This will be used as the 'Initiating Party Scheme Name' in the PAIN files generated by Odoo. This value is determined by the financial institution that will process the file. If not defined, no scheme will be used.\n"
 ""
 msgstr ""
@@ -857,55 +882,5 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "ePayment"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.02"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.03 (recommended for credit transfer)"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.04"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.05"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.03"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.04"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr ""
-
-#. module: account_banking_pain_base
-#: model:ir.model,name:account_banking_pain_base.model_res_config_settings
-msgid "res.config.settings"
 msgstr ""
 
