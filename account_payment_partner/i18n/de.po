@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-11-23 20:11+0000\n"
+"Last-Translator: chrispi-ch <chris@okc.ch>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.2.2\n"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -34,8 +35,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer "
-"des Kunden oder Lieferanten bekannt sein muss."
+"Aktivieren Sie diese Option, wenn mit dieser Zahlungsmethode die "
+"Bankkontonummer des Kunden oder Lieferanten bekannt sein muss."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
@@ -45,7 +46,7 @@ msgstr "Bankkonto erforderlich"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -61,13 +62,13 @@ msgstr "Rechnung"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr "Logbuch Eintrag"
+msgstr "Journaleintrag"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
 #, python-format
 msgid "No Chart of Account Template has been defined !"
-msgstr ""
+msgstr "Es wurde keine Kontenplanvorlage definiert!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
@@ -90,13 +91,13 @@ msgstr "Zahlungen"
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
-msgstr "Wähle die standard Zahlungsmethode für diesen Kunden."
+msgstr "Wählen Sie die vorgegebene Zahlungsmethode für diesen Kunden."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
-msgstr "Wähle die standard Zahlungsmethode für diesen Lieferanten."
+msgstr "Wählen Sie die vorgegebene Zahlungsmethode für diesen Lieferanten."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
@@ -110,6 +111,7 @@ msgstr "Zahlungsmethode des Lieferanten"
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
+"Das Unternehmen zur Rechnung %s entspricht nicht demjenigen des Zahlungsmodus"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:17
@@ -118,6 +120,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Invoice with this "
 "Payment Mode, already assigned to another Company."
 msgstr ""
+"Sie können das Unternehmen nicht ändern. Es exisitiert mindestens eine "
+"Rechnung eines anderen Unternehmens mit dieser Zahlungsmethode."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:28
@@ -126,3 +130,5 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+"Sie können das Unternehmen nicht ändern. Es exisitiert mindestens eine "
+"Rechnung eines anderen Unternehmens mit dieser Zahlungsmethode."
