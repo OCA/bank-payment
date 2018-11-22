@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-14 11:29+0000\n"
-"PO-Revision-Date: 2018-10-30 21:07+0000\n"
-"Last-Translator: Mathias Neef <mathias.neef@syscoon.com>\n"
+"PO-Revision-Date: 2018-11-23 20:11+0000\n"
+"Last-Translator: chrispi-ch <chris@okc.ch>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -31,8 +31,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Aktiviere diese Option, wenn mit dieser Zahlungsmethode die Bankkontonummer "
-"des Kunden oder Lieferanten bekannt sein muss."
+"Aktivieren Sie diese Option, wenn mit dieser Zahlungsmethode die "
+"Bankkontonummer des Kunden oder Lieferanten bekannt sein muss."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_active
@@ -43,7 +43,7 @@ msgstr "Aktiv"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_variable_journal_ids
 msgid "Allowed Bank Journals"
-msgstr "Erlaubte Banken Logbuch"
+msgstr "Erlaubte Bankenjournale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_bank_account_required
@@ -79,7 +79,7 @@ msgstr "Erstellt am"
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
 msgid "Credit Transfer to Suppliers"
-msgstr "Überweisung an Zulieferer"
+msgstr "Überweisung an Lieferanten"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
@@ -89,12 +89,12 @@ msgstr "Lastschriften der Kunden"
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
 msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Lastschriften der Zulieferer der La Banque Postale"
+msgstr "Lastschriften der Lieferanten der La Banque Postale"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
 msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Lastschriften der Zulieferer der Société Générale"
+msgstr "Lastschriften der Lieferanten der Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_display_name
@@ -134,7 +134,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Group By"
-msgstr "Gruppiere nach"
+msgstr "Gruppieren nach"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_id
@@ -160,7 +160,7 @@ msgstr "Eingangsgutschrift"
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
-msgstr "Logbuch"
+msgstr "Journal"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode___last_update
@@ -217,7 +217,7 @@ msgid ""
 "bank journal '%s'"
 msgstr ""
 "Bei der Zahlungsart \"%s\" ist die Zahlungsmethode \"%s\" (es handelt sich "
-"tatsächlich um eine Zahlungsmethode), aber diese Zahlungsmethode ist nicht "
+"tatsächlich um eine Belastungsmethode), aber diese Zahlungsmethode ist nicht "
 "Teil der Zahlungsmethoden des festen Bankjournals \"%s\""
 
 #. module: account_payment_mode
@@ -303,8 +303,8 @@ msgid ""
 "The company of the journal '%s' does not match with the company of the "
 "payment mode '%s' where it is being used as Fixed Bank Journal."
 msgstr ""
-"Die Firma des Journals '%s' stimmt nicht mit der Firma des Zahlungsmodus '%"
-"s' überein, wenn es als festes Bank Journal verwendet wird."
+"Das Unternehmen des Journals '%s' stimmt nicht mit dem Unternehmens des "
+"Zahlungsmodus '%s' überein, wo es als festes Bank Journal verwendet wird."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_journal.py:46
