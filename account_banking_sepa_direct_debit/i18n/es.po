@@ -156,7 +156,7 @@ msgstr ""
 "'Tipo de secuencia' se ha vuelto a 'Inicial'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:264
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:268
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -164,8 +164,8 @@ msgid ""
 "been marked as uploaded."
 msgstr ""
 "Se ha cambiado automáticamente de <b>Primero</b> a <b>Recurrente</b> cuando "
-"la orden de débito <a href=# data-oe-model=account.payment.order data-oe-"
-"id=%d1>%s2</a> se ha marcado como subido."
+"la orden de débito <a href=# data-oe-model=account.payment.order data-oe-id="
+"%d1>%s2</a> se ha marcado como subido."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
