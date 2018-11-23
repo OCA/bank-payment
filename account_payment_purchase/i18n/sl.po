@@ -31,8 +31,9 @@ msgid "Payment Mode"
 msgstr "Metoda plačila"
 
 #. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_procurement_order
-msgid "Procurement"
+#: model:ir.model,name:account_payment_purchase.model_procurement_rule
+#, fuzzy
+msgid "Procurement Rule"
 msgstr "Oskrbovanje"
 
 #. module: account_payment_purchase
@@ -51,7 +52,7 @@ msgstr ""
 "nakazilo. To polje se kopira iz partnerja in bo kopirano na prejeti račun."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:20
+#: code:addons/account_payment_purchase/models/account_invoice.py:19
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr ""
@@ -68,7 +69,7 @@ msgid "Supplier Bank Account"
 msgstr "Bančni račun dobavitelja"
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:19
+#: code:addons/account_payment_purchase/models/account_invoice.py:18
 #: code:addons/account_payment_purchase/models/account_invoice.py:26
 #, python-format
 msgid "Warning"
