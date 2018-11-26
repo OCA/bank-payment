@@ -240,7 +240,7 @@ msgid "Cancel Payments"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:164
+#: code:addons/account_payment_order/models/bank_payment_line.py:165
 #, python-format
 msgid ""
 "Cannot delete a payment order line whose payment order is in state '%s'. You "
@@ -365,14 +365,14 @@ msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:448
+#: code:addons/account_payment_order/models/account_payment_order.py:450
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:377
-#: code:addons/account_payment_order/models/account_payment_order.py:398
+#: code:addons/account_payment_order/models/account_payment_order.py:400
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -607,6 +607,11 @@ msgid "Keep empty for using all journals"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
+msgid "Keep empty to use all partners"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_communication
 msgid "Label of the payment that will be seen by the destinee"
 msgstr ""
@@ -820,6 +825,11 @@ msgid "Partner Bank Account"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_partner_ids
+msgid "Partners"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_account_id
 msgid ""
 "Pay off lines in 'file uploaded' payment orders with a move on this account. "
@@ -916,7 +926,7 @@ msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:446
+#: code:addons/account_payment_order/models/account_payment_order.py:448
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
@@ -929,7 +939,7 @@ msgstr "Stavke plaćanja"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:375
-#: code:addons/account_payment_order/models/account_payment_order.py:396
+#: code:addons/account_payment_order/models/account_payment_order.py:398
 #, python-format
 msgid "Payment order %s"
 msgstr ""
@@ -982,7 +992,7 @@ msgid "Search Payment Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/wizard/account_payment_line_create.py:132
+#: code:addons/account_payment_order/wizard/account_payment_line_create.py:136
 #, python-format
 msgid "Select Move Lines to Create Transactions"
 msgstr ""
