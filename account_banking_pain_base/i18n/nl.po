@@ -22,6 +22,50 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_pain_base
+#: sql_constraint:account.payment.method:0
+msgid ""
+"A payment method of the same type already exists with this code and PAIN "
+"version"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Account Management"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Advance Payment"
+msgstr "Belasting betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Agricultural Transfer"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Air"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Alimony Payment"
+msgstr "Pensioen betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Anesthesia Services"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Annuity"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
 msgstr "Bank betaalregels"
@@ -37,6 +81,12 @@ msgid "Bonus Payment"
 msgstr "Bonus betaling"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Bonus Payment."
+msgstr "Bonus betaling"
+
+#. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Creditor"
 msgstr "Ten laste van de Crediteur"
@@ -45,6 +95,26 @@ msgstr "Ten laste van de Crediteur"
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Debtor"
 msgstr "Ten laste van de Debiteur"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Bus"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Business Expenses"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Cable TV Bill"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Cancellation Fee"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:106
@@ -59,12 +129,18 @@ msgid "Cannot compute the '%s'."
 msgstr "Kan de '%s' niet berekenen."
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Car Loan Principal Repayment"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Card Bulk Clearing"
 msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Cash Management Transfer"
 msgstr ""
 
@@ -80,9 +156,52 @@ msgid "Charge Bearer"
 msgstr "Kostendrager"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Charity Payment"
+msgstr "Salaris betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Child Benefit"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Collection Payment"
+msgstr "Pensioen betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Commercial Payment"
+msgstr "Credit Card betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Commission"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Commodity Transfer"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
 msgid "Companies"
 msgstr "Bedrijven"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Consumer Third Party Consolidated Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Convalescent Care Facility"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
@@ -90,8 +209,30 @@ msgid "Convert to ASCII"
 msgstr "Converteer naar ASCII"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Copyright"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Costs"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Credit Card Payment"
+msgstr "Credit Card betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Credit Card Payment "
+msgstr "Credit Card betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Debit  Card  Payment"
 msgstr "Credit Card betaling"
 
 #. module: account_banking_pain_base
@@ -105,9 +246,30 @@ msgid "Deliver Against Payment"
 msgstr "Bezorgen tegen betaling"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Dental Services"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Derivatives"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Dividend"
 msgstr "Divident"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Durable Medicale Equipment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Electricity Bill"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
@@ -117,9 +279,24 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Energies"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Estate Tax"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Fee Collection"
 msgstr "Transactiekosten"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Ferry"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -146,12 +323,35 @@ msgstr ""
 "laste van de debiteur. "
 
 #. module: account_banking_pain_base
-#: selection:account.payment.line,category_purpose:0
-msgid "Government Payment"
+#: selection:account.payment.line,purpose:0
+msgid "Foreign Exchange"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Gas Bill"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Government Insurance"
 msgstr "Overheidsbetaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
+msgid "Government Payment"
+msgstr "Overheidsbetaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Health Insurance"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Hedging"
 msgstr "Afdekkingsreserve"
 
@@ -159,6 +359,26 @@ msgstr "Afdekkingsreserve"
 #: selection:account.payment.line,priority:0
 msgid "High"
 msgstr "Hoog"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Home Health Care"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Hospital Care"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Housing Loan Repayment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Housing Tax"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method_convert_to_ascii
@@ -173,7 +393,9 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_purpose
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
@@ -193,6 +415,11 @@ msgstr ""
 "een debit lijn per overschrijving bevatten in het SEPA bestand. "
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Income Tax"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_identifier
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_identifier
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_identifier
@@ -207,14 +434,49 @@ msgid "Initiating Party Issuer"
 msgstr "Initiating Party Issuer"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_scheme
+#, fuzzy
+msgid "Initiating Party Scheme"
+msgstr "Initiating Party Issuer"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Installment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Instalment Hire Purchase Agreement"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,local_instrument:0
 msgid "Instant Transfer"
 msgstr "Onmiddellijke overdracht"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Insurance Premium"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Interest"
 msgstr "Rente"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Intermediate Care Facility"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Intra Company Payment"
+msgstr "Betaling binnen de onderneming"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -232,9 +494,36 @@ msgid "Irrevocable Debit Card Payment"
 msgstr "Onherroepelijke debetkaartbetaling"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Labor Insurance"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "License Fee"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Life Insurance"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Liquidity Management"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Loan"
 msgstr "Lening"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Loan Repayment"
+msgstr "Bonus betaling"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_local_instrument
@@ -243,7 +532,17 @@ msgid "Local Instrument"
 msgstr "Lokaal Instrument"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:303
+#: selection:account.payment.line,purpose:0
+msgid "Long Term Care Facility"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Medical Services"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:312
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -253,9 +552,30 @@ msgstr ""
 "het bedrijf  '%s'. Beide velden moet een waarde bevatten."
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Multiple Service Types"
+msgstr "Meerdere Identificatienummers"
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
 msgid "Multiple identifiers"
 msgstr "Meerdere Identificatienummers"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Netting"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Network Charge"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Network Communication"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:23
@@ -269,9 +589,29 @@ msgid "Normal"
 msgstr "Normaal"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Not Otherwise Specified"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Opening Fee"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Other"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Other Payment"
 msgstr "Overige betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Other Telecom Related Bill"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version
@@ -299,9 +639,32 @@ msgid "Payment Order"
 msgstr "Betalingsopdracht"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Payment Terms"
+msgstr "Betaalregels"
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Pension Payment"
 msgstr "Pensioen betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Preauthorized debit"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Precious Metal"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Price Payment"
+msgstr "SEPA betaling"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_priority
@@ -310,9 +673,58 @@ msgid "Priority"
 msgstr "Prioriteit"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Property Insurance"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Purchase Sale Of Goods"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Purchase Sale Of Services"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_purpose
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_purpose
+#, fuzzy
+msgid "Purpose"
+msgstr "Doel categorie"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Railway"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Receipt Payment"
+msgstr "Ontvang tegen betaling"
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Receive Against Payment"
 msgstr "Ontvang tegen betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Recurring Installment Payment"
+msgstr "Overheidsbetaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Rent"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Royalties"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_sepa
@@ -331,11 +743,18 @@ msgstr "SEPA/PAIN Id's op betalingswijzen"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Salary Payment"
 msgstr "Salaris betaling"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Savings"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Securities"
 msgstr "Effecten"
 
@@ -346,18 +765,36 @@ msgstr "Gedeeld"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Social Security Benefit"
 msgstr "Sociale zekerheid voordeel"
 
 #. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Study"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Subscription"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Supplier Payment"
 msgstr "Leverancier betaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Tax Payment"
 msgstr "Belasting betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Telephone Bill"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:119
@@ -449,9 +886,33 @@ msgstr ""
 "- Service achtervoegsel (N, uitgegeven door de bank)"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_config_settings_initiating_party_scheme
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company_initiating_party_scheme
+#, fuzzy
+msgid ""
+"This will be used as the 'Initiating Party Scheme Name' in the PAIN files "
+"generated by Odoo."
+msgstr ""
+"Wordt gebruikt als 'Initiating Party Issuer' in de gegenereerde PAIN "
+"bestanden."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
+msgid ""
+"This will be used as the 'Initiating Party Scheme Name' in the PAIN files "
+"generated by Odoo. This value is determined by the financial institution "
+"that will process the file. If not defined, no scheme will be used.\n"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Trade"
 msgstr "Handel"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Trade Services"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -460,13 +921,40 @@ msgstr "Verrekening handelsafrekening"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
+#: selection:account.payment.line,purpose:0
 msgid "Treasury Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Trust Fund"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Unemployment Disability Benefit"
 msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "VAT Payment"
 msgstr "BTW betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+#, fuzzy
+msgid "Value Added Tax Payment"
+msgstr "Belasting betaling"
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Vision Care"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: selection:account.payment.line,purpose:0
+msgid "Water Bill"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
