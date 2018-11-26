@@ -100,7 +100,7 @@ class AccountBankingMandate(models.Model):
 
             if self.env['account.payment.line'].search(
                     [('mandate_id', '=', mandate.id),
-                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                     ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
                     _("You cannot change the company of mandate %s, "
                       "as there exists payment lines referencing it that "
@@ -109,7 +109,7 @@ class AccountBankingMandate(models.Model):
 
             if self.env['account.invoice'].search(
                     [('mandate_id', '=', mandate.id),
-                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                     ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
                     _("You cannot change the company of mandate %s, "
                       "as there exists invoices referencing it that belong to "
@@ -118,7 +118,7 @@ class AccountBankingMandate(models.Model):
 
             if self.env['account.move.line'].search(
                     [('mandate_id', '=', mandate.id),
-                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                     ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
                     _("You cannot change the company of mandate %s, "
                       "as there exists journal items referencing it that "
@@ -127,7 +127,7 @@ class AccountBankingMandate(models.Model):
 
             if self.env['bank.payment.line'].search(
                     [('mandate_id', '=', mandate.id),
-                     ('company_id', '=', mandate.company_id.id)], limit=1):
+                     ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
                     _("You cannot change the company of mandate %s, "
                       "as there exists bank payment lines referencing it that "
