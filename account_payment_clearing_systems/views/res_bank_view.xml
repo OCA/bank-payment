@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_res_bank_form_iso_payments">
+      <field name="name">Add fields needed for ISO payments</field>
+      <field name="model">res.bank</field>
+      <field name="inherit_id" ref="base.view_res_bank_form"/>
+      <field name="arch" type="xml">
+        <field name="bic" position="after">
+          <field name="csmi"/>
+          <field name="csmi_number" attrs="{'invisible': [('csmi', '=', 'other')], 'required': [('csmi', '!=', 'other')]}"/>
+        </field>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_res_bank_tree_iso_payments">
+      <field name="name">Add fields needed for ISO payments</field>
+      <field name="model">res.bank</field>
+      <field name="inherit_id" ref="base.view_res_bank_tree"/>
+      <field name="arch" type="xml">
+        <field name="bic" position="after">
+          <field name="csmi"/>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>
