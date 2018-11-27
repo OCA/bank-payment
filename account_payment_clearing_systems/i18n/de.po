@@ -1,0 +1,401 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_clearing_systems
+#
+# Translators:
+# Timka Piric Muratovic, 2018
+# Tobias Bächle, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-27 08:00+0000\n"
+"PO-Revision-Date: 2018-11-27 08:00+0000\n"
+"Last-Translator: Tobias Bächle, 2018\n"
+"Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:24
+#, python-format
+msgid "A valid Australian Bank State Branch Code (BSB) contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige Australian Bank State Branch Nummer (BSB) enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:21
+#, python-format
+msgid "A valid Austrian Bankleitzahl should contain 5 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige Östereichische Bankleitzahl enthält 5 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:96
+#, python-format
+msgid "A valid CHIPS Participant Identifier contains 4 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige CHIPS-Teilnehmernummer enthält 4 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:38
+#, python-format
+msgid "A valid CNAPS Identifier contains 12 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige CNAPS-Teilnehmernummer enthält 12 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:28
+#, python-format
+msgid "A valid Canadian Payments Association Payment Routing Number contains 9 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige Payment Routing Number der Canadian Payments Association enthält 9 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:90
+#, python-format
+msgid "A valid Financial Institution Code in Taiwan contains 7 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Finanzinstitutionscode in Taiwan enthält 7 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:41
+#, python-format
+msgid "A valid German Bankleitzahl contains 8 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige deutsche Bankleitzahl enthält 8 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:50
+#, python-format
+msgid "A valid Helenic Bank Identification Code contains 7 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Hellenic Bank Identification Code enthält 7 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:53
+#, python-format
+msgid "A valid Hong Kong Bank Code contains 3 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige Hong Kong Bank Code enthält 3 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:84
+#, python-format
+msgid "A valid IBG Sort Code contains 3, 4 or 7 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger IBG-Code enthält 3, 4 oder 7 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:59
+#, python-format
+msgid "A valid Indian Financial System Code contains 11 characters. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger indischer Finanzsystemcode enthält 11 Zeichen. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:56
+#, python-format
+msgid "A valid Irish National Clearing Code contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Irish National Clearing Code enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:62
+#, python-format
+msgid "A valid Italian Domestic Identification Code contains 10 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger italienischer Identifikationscode enthält 10 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:65
+#, python-format
+msgid "A valid Japan Zengin Clearing Code contains 7 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Japan Zengin Clearing Code enthält 7 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:68
+#, python-format
+msgid "A valid New Zealand National Clearing Code contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger neuseeländischer Teilnehmernummer enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:71
+#, python-format
+msgid "A valid Polish National Clearing Code contains 8 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Polish National Clearing Code enthält 8 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:74
+#, python-format
+msgid "A valid Portuguese National Clearing Code contains 8 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger portugiesische Clearing-Code besteht aus 8 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:77
+#, python-format
+msgid "A valid Russian Central Bank Identification Code contains 9 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger russischer Zentralbank-Code enthält 9 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:99
+#, python-format
+msgid "A valid South African National Clearing Code contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger südafrikanischer nationaler Clearing-Code enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:44
+#, python-format
+msgid "A valid Spanish Domestic Interbanking Code contains 8 to 9 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger spanischer Inlands-Interbank-Code enthält 8 bis 9 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:80
+#, python-format
+msgid "A valid Sweden Bankgiro Clearing Code contains 4 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Sweden Bankgiro Clearing Code enthält 4 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:35
+#, python-format
+msgid "A valid Swiss Financial Institution Identification (long) contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiges schweizer Finanzinstitut Identification (lang) enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:32
+#, python-format
+msgid "A valid Swiss Financial Institution Identification (short) contains 3 to 5 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiges schweizer Finanzinstitut Identification (kurz) enthält 3 bis 5 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:87
+#, python-format
+msgid "A valid Thai Central Bank Identification Code contains 3 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Ein gültiger Identifikationscode der thailändischen Zentralbank enthält 3 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:47
+#, python-format
+msgid "A valid UK Domestic Sort Code contains 6 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige britische Teilnehmernummer enthält 6 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:93
+#, python-format
+msgid "A valid United States Routing Number (Fedwire, NACHA) contains 9 digits. Please enter a correct Clearing System Member Identification Number."
+msgstr "Eine gültige USA Routing Number (Fedwire, NACHA) enthält 9 Ziffern. Bitte geben Sie eine korrekte Teilnehmernummer des Finanzinstituts ein."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:106
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Australian Bank State Branch Code (BSB) - Bank Branch code used in Australia"
+msgstr "Australian Bank State Branch Code (BSB) - In Australien verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:105
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Austrian Bankleitzahl - Bank Branch code used in Austria"
+msgstr "Austrian Bankleitzahl - In Austria verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: model:ir.model,name:account_payment_clearing_systems.model_res_bank
+msgid "Bank"
+msgstr "Bank"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:135
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "CHIPS Participant Identifier - Bank identifier used by CHIPs in the US"
+msgstr "CHIPS Participant Identifier - Bankkennung, die von CHIPs in den USA verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:114
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "CNAPS Identifier - Bank Branch code used in China"
+msgstr "CNAPS Identifier - In China verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:107
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Canadian Payments Association Payment Routing Number - Bank Branch code used in Canada"
+msgstr "Canadian Payments Association Payment Routing Number - In Kanada verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: model:ir.model.fields,field_description:account_payment_clearing_systems.field_res_bank_csmi
+msgid "Clearing System Member Identification"
+msgstr "Art der Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: model:ir.model.fields,help:account_payment_clearing_systems.field_res_bank_csmi
+msgid "Clearing System Member Identification - Not all Financial Institutions have BIC. To do ISO 20022 payments to the banks without BIC the Clearing System Member Identification has to be specified."
+msgstr "Art der Bankleitzahl - Nicht alle Finanzinstitute haben den BIC. Um die Zahlungen in ISO 20022 Format durchführen zu können soll der Bankleitzahl für die Banken ohne BIC eingefügt werden."
+
+#. module: account_payment_clearing_systems
+#: model:ir.model.fields,field_description:account_payment_clearing_systems.field_res_bank_csmi_number
+msgid "Clearing System Member Identification Number"
+msgstr "Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/account_payment_order.py:56
+#, python-format
+msgid "Country of the bank '%s' is missing. This is needed for international payments."
+msgstr "Das Land der Bank '%s' ist nicht gesetzt. Dies ist nötig für internationale Zahlungen."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:131
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Financial Institution Code - Bank Branch code used in Taiwan"
+msgstr "Financial Institution Code - In Taiwan verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:115
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "German Bankleitzahl - Bank Branch code used in Germany"
+msgstr "German Bankleitzahl - In Deutschland verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:118
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Helenic Bank Identification Code - Bank Branch code used in Greece"
+msgstr "Helenic Bank Identification Code - In Griechenland verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:119
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Hong Kong Bank Code - Bank Branch code used in Hong Kong"
+msgstr "Hong Kong Bank Code - Bankleitzahl, die in Hongkong verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:129
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "IBG Sort Code - Bank Branch code used in Singapore"
+msgstr "IBG Sort Code - In Singapur verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: model:ir.model.fields,help:account_payment_clearing_systems.field_res_bank_csmi_number
+msgid "If Clearing System Member Identification is different to 'Other Financial Institutions', Clearing System Member Identification Number has to be set."
+msgstr "Ist die Art der Bankleitzahl nicht 'Andere Finanzinstitutionen' muss eine Bankleitzahl angegeben werden."
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:121
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Indian Financial System Code - Bank Branch code used in India"
+msgstr "Indian Financial System Code - In Indien verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:120
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Irish National Clearing Code - Bank Branch code used in Ireland"
+msgstr "Irish National Clearing Code - In Irland verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:122
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Italian Domestic Identification Code - Bank Branch code used in Italy"
+msgstr "Italienischer nationaler Identifizierungscode - In Italien verwendeter Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:123
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Japan Zengin Clearing Code - Bank Branch code used in Japan"
+msgstr "Japan Zengin Clearing Code - In Japan verwendeter Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:124
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "New Zealand National Clearing Code - Bank Branch code used in New Zealand"
+msgstr "New Zealand National Clearing Code - In Neuseeland verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:104
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Other Financial Institutions"
+msgstr "Andere Finanzinstitutionen"
+
+#. module: account_payment_clearing_systems
+#: model:ir.model,name:account_payment_clearing_systems.model_account_payment_order
+msgid "Payment Order"
+msgstr "Zahlungsanweisung"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:125
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Polish National Clearing Code - Bank Branch code used in Poland"
+msgstr "Polnischer nationaler Abwicklungscode - Bankleitzahl, die in Polen verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:126
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Portuguese National Clearing Code - Bank Branch code used in Portugal"
+msgstr "Portugiesischer nationaler Abwicklungscode - Bankleitzahl, die in Portugal verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:127
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Russian Central Bank Identification Code - Bank Branch code used in Russia"
+msgstr "Russische Zentralbank Identifikationsnummer - Bankleitzahl, die in Russland verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:136
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "South African National Clearing Code - Bank Branch code used in South Africa"
+msgstr "South African National Clearing Code - Bankleitzahl, die in Südafrika verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:116
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Spanish Domestic Interbanking Code - Bank Branch code used in Spain"
+msgstr "Spanischer Inlands-Interbank-Code - In Spanien verwendete Bankleitzahl"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:128
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Sweden Bankgiro Clearing Code - Bank Branch code used in Sweden"
+msgstr "Sweden Bankgiro Clearing Code - Bankleitzahl, die in Schweden vewrwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:111
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Swiss Financial Institution Identification (long) -              Financial Institution Identification (IID) used in Switzerland, including check digit"
+msgstr "Identifikationsnummer des Schweizer Finanzinstituts (long) - In der Schweiz verwendete Identifikationsnummer des Finanzinstituts (einschließlich der Prüfziffer)"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:108
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Swiss Financial Institution Identification (short) -              Financial Institution Identification (IID) used in Switzerland, without check digit"
+msgstr "Identifikationsnummer des Schweizer Finanzinstituts (kurz) - In der Schweiz verwendete Identifikationsnummer des Finanzinstituts, ohne Prüfziffer"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:130
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "Thai Central Bank Identification Code - Bank Identification code used in Thailand"
+msgstr "Identifizierungscode der thailändischen Zentralbank - Bankleitzahl, die in Thailand verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:117
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "UK Domestic Sort Code - Bank Branch code used in the UK"
+msgstr "UK Domestic Sort Code - Bankleitzahl, die in Großbritannien verwendet wird"
+
+#. module: account_payment_clearing_systems
+#: code:addons/account_payment_clearing_systems/models/res_bank.py:132
+#: selection:res.bank,csmi:0
+#, python-format
+msgid "United States Routing Number (Fedwire, NACHA) -              Routing Transit number assigned by the ABA for US financial institutons"
+msgstr "United States Routing Number (Fedwire, NACHA) - Routing-Transit-Nummer von der ABA für US-Finanzinstitute zugewiesen"
