@@ -24,8 +24,12 @@ class AccountPaymentLineCreate(models.TransientModel):
         ], string='Target Moves')
     allow_blocked = fields.Boolean(
         string='Allow Litigation Move Lines')
-    invoice = fields.Boolean(
-        string='Linked to an Invoice or Refund')
+    invoice = fields.Boolean(string='Linked to an Invoice')
+    refund = fields.Boolean(
+        string='Auto-select Refunds',
+        help="If enabled, refunds will be added to payment lines. "
+        "Upon confirmation of the payment/debit order, Odoo will deduct "
+        "refunds from invoices and create a single bank payment line.")
     date_type = fields.Selection([
         ('due', 'Due Date'),
         ('move', 'Move Date'),
@@ -54,6 +58,7 @@ class AccountPaymentLineCreate(models.TransientModel):
             'journal_ids': mode.default_journal_ids.ids or False,
             'target_move': mode.default_target_move,
             'invoice': mode.default_invoice,
+            'refund': mode.default_refund,
             'date_type': mode.default_date_type,
             'payment_mode': mode.default_payment_mode,
             'order_id': order.id,
@@ -93,29 +98,19 @@ class AccountPaymentLineCreate(models.TransientModel):
                     ('payment_mode_id', '=', self.order_id.payment_mode_id.id)]
 
         if self.order_id.payment_type == 'outbound':
-            # For payables, propose all unreconciled credit lines,
-            # including partially reconciled ones.
-            # If they are partially reconciled with a supplier refund,
-            # the residual will be added to the payment order.
-            #
-            # For receivables, propose all unreconciled credit lines.
-            # (ie customer refunds): they can be refunded with a payment.
-            # Do not propose partially reconciled credit lines,
-            # as they are deducted from a customer invoice, and
-            # will not be refunded with a payment.
-            domain += [
-                ('credit', '>', 0),
-                #  '|',
-                ('account_id.internal_type', '=', 'payable'),
-                #  '&',
-                #  ('account_id.internal_type', '=', 'receivable'),
-                #  ('reconcile_partial_id', '=', False),  # TODO uncomment
-            ]
+            domain += [('account_id.internal_type', '=', 'payable')]
+            if not self.refund:
+                domain += [('credit', '>', 0)]
+            else:
+                # exclude lines with amount = 0, that may come from invoices
+                # with amount = 0
+                domain += ['|', ('credit', '>', 0), ('debit', '>', 0)]
         elif self.order_id.payment_type == 'inbound':
-            domain += [
-                ('debit', '>', 0),
-                ('account_id.internal_type', '=', 'receivable'),
-                ]
+            domain += [('account_id.internal_type', '=', 'receivable')]
+            if not self.refund:
+                domain += [('debit', '>', 0)]
+            else:
+                domain += ['|', ('credit', '>', 0), ('debit', '>', 0)]
         # Exclude lines that are already in a non-cancelled
         # and non-uploaded payment order; lines that are in a
         # uploaded payment order are proposed if they are not reconciled,

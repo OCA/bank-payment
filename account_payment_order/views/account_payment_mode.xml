@@ -26,6 +26,7 @@
                 <field name="default_payment_mode"/>
                 <field name="default_target_move" widget="radio"/>
                 <field name="default_invoice"/>
+                <field name="default_refund"/>
                 <field name="default_date_type"/>
             </group>
             <group name="accounting-config"

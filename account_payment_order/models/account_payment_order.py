@@ -7,6 +7,8 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import formatLang
+from babel.dates import format_date
 
 
 class AccountPaymentOrder(models.Model):
@@ -240,6 +242,7 @@ class AccountPaymentOrder(models.Model):
         """
         bplo = self.env['bank.payment.line']
         today = fields.Date.context_today(self)
+        lang = self.env.user.lang or 'en_US'
         for order in self:
             if not order.journal_id:
                 raise UserError(_(
@@ -257,9 +260,16 @@ class AccountPaymentOrder(models.Model):
             # Delete existing bank payment lines
             order.bank_line_ids.unlink()
             # Create the bank payment lines from the payment lines
-            group_paylines = {}  # key = hashcode
-            for payline in order.payment_line_ids:
-                payline.draft2open_payment_line_check()
+            # For negative lines (i.e. refunds, when date_prefered = 'due',
+            # don't put payment date = due date by default but try to find
+            # a positive payment line for the same partner and put the
+            # date of that line instead
+            refund_pay_date = {}  # key = partner, value = payment date
+            positive_lines = order.payment_line_ids.filtered(
+                lambda p: p.amount_currency > 0)
+            negative_lines_no_date = order.payment_line_ids.filtered(
+                lambda p: p.amount_currency < 0 and not p.date)
+            for payline in positive_lines:
                 # Compute requested payment date
                 if order.date_prefered == 'due':
                     requested_date = payline.ml_maturity_date or today
@@ -270,23 +280,24 @@ class AccountPaymentOrder(models.Model):
                 # No payment date in the past
                 if requested_date < today:
                     requested_date = today
-                # inbound: check option no_debit_before_maturity
-                if (
-                        order.payment_type == 'inbound' and
-                        order.payment_mode_id.no_debit_before_maturity and
-                        payline.ml_maturity_date and
-                        requested_date < payline.ml_maturity_date):
-                    raise UserError(_(
-                        "The payment mode '%s' has the option "
-                        "'Disallow Debit Before Maturity Date'. The "
-                        "payment line %s has a maturity date %s "
-                        "which is after the computed payment date %s.") % (
-                            order.payment_mode_id.name,
-                            payline.name,
-                            payline.ml_maturity_date,
-                            requested_date))
-                # Write requested_date on 'date' field of payment line
+                if not payline.date:
+                    payline.date = requested_date
+                refund_pay_date[payline.partner_id.id] = payline.date
+            for payline in negative_lines_no_date:
+                if order.date_prefered == 'due':
+                    requested_date = refund_pay_date.get(
+                        payline.partner_id.id,
+                        payline.ml_maturity_date or today)
+                elif order.date_prefered == 'fixed':
+                    requested_date = order.date_scheduled or today
+                else:
+                    requested_date = today
+                if requested_date < today:
+                    requested_date = today
                 payline.date = requested_date
+            group_paylines = {}  # key = hashcode
+            for payline in order.payment_line_ids:
+                payline.draft2open_payment_line_check()
                 # Group options
                 if order.payment_mode_id.group_lines:
                     hashcode = payline.payment_line_hashcode()
@@ -306,11 +317,18 @@ class AccountPaymentOrder(models.Model):
             for paydict in group_paylines.values():
                 # Block if a bank payment line is <= 0
                 if paydict['total'] <= 0:
+                    pay_date_formatted = format_date(
+                        fields.Date.from_string(paydict['paylines'][0].date),
+                        format='short', locale=lang)
+                    total_formatted = formatLang(
+                        self.env, paydict['total'], monetary=True,
+                        currency_obj=paydict['paylines'][0].currency_id)
                     raise UserError(_(
-                        "The amount for Partner '%s' is negative "
-                        "or null (%.2f) !")
+                        "The amount for Partner '%s' with payment date %s "
+                        "is negative or null (%s) !")
                         % (paydict['paylines'][0].partner_id.name,
-                           paydict['total']))
+                           pay_date_formatted,
+                           total_formatted))
                 vals = self._prepare_bank_payment_line(paydict['paylines'])
                 bplo.create(vals)
         self.write({'state': 'open'})

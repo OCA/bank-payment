@@ -4,6 +4,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from babel.dates import format_date
 
 
 class AccountPaymentLine(models.Model):
@@ -30,7 +31,7 @@ class AccountPaymentLine(models.Model):
         'account.move.line', string='Journal Item',
         ondelete='restrict')
     ml_maturity_date = fields.Date(
-        related='move_line_id.date_maturity', readonly=True)
+        related='move_line_id.date_maturity', readonly=True, store=True)
     currency_id = fields.Many2one(
         'res.currency', string='Currency of the Payment Transaction',
         required=True,
@@ -130,9 +131,41 @@ class AccountPaymentLine(models.Model):
         res = {'none': 'normal', 'structured': 'structured'}
         return res
 
-    @api.multi
     def draft2open_payment_line_check(self):
         self.ensure_one()
+        lang = self.env.user.lang or 'en_US'
         if self.bank_account_required and not self.partner_bank_id:
             raise UserError(_(
                 'Missing Partner Bank Account on payment line %s') % self.name)
+        if not self.date:
+            raise UserError(_(
+                "Missing payment date on payment line %s.") % self.name)
+        today = fields.Date.context_today(self)
+        if self.date < today:  # can happen if date was forced
+            raise UserError(_(
+                "On payment line %s, the payment date (%s) "
+                "is in the past.") % (
+                    self.name,
+                    format_date(
+                        fields.Date.from_string(self.date),
+                        format='short', locale=lang)))
+        # inbound: check option no_debit_before_maturity
+        order = self.order_id
+        if (
+                order.payment_type == 'inbound' and
+                order.payment_mode_id.no_debit_before_maturity and
+                self.ml_maturity_date and
+                self.date < self.ml_maturity_date):
+            raise UserError(_(
+                "The payment mode '%s' has the option "
+                "'Disallow Debit Before Maturity Date'. The "
+                "payment line %s has a maturity date %s "
+                "which is after the computed payment date %s.") % (
+                    order.payment_mode_id.name,
+                    self.name,
+                    format_date(
+                        fields.Date.from_string(self.ml_maturity_date),
+                        format='short', locale=lang),
+                    format_date(
+                        fields.Date.from_string(self.date),
+                        format='short', locale=lang)))

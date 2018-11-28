@@ -30,8 +30,8 @@ class AccountPaymentMode(models.Model):
         ], string='Payment Mode on Invoice', default='same')
     default_journal_ids = fields.Many2many(
         'account.journal', string="Journals Filter")
-    default_invoice = fields.Boolean(
-        string='Linked to an Invoice or Refund', default=False)
+    default_invoice = fields.Boolean(string='Linked to an Invoice')
+    default_refund = fields.Boolean(string='Auto-select Refunds')
     default_target_move = fields.Selection([
         ('posted', 'All Posted Entries'),
         ('all', 'All Entries'),
