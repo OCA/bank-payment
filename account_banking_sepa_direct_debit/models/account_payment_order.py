@@ -14,9 +14,10 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
         self.ensure_one()
-        if self.payment_method_id.code != 'sepa_direct_debit':
+        pay_method = self.payment_method_id
+        if pay_method.code != 'sepa_direct_debit':
             return super(AccountPaymentOrder, self).generate_payment_file()
-        pain_flavor = self.payment_method_id.pain_version
+        pain_flavor = pay_method.pain_version
         # We use pain_flavor.startswith('pain.008.001.xx')
         # to support country-specific extensions such as
         # pain.008.001.02.ch.01 (cf l10n_ch_sepa)
@@ -42,12 +43,12 @@ class AccountPaymentOrder(models.Model):
                   "Payment Type Code supported for SEPA Direct Debit are "
                   "'pain.008.001.02', 'pain.008.001.03' and "
                   "'pain.008.001.04'.") % pain_flavor)
-        pay_method = self.payment_mode_id.payment_method_id
         xsd_file = pay_method.get_xsd_file_path()
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
             'convert_to_ascii': pay_method.convert_to_ascii,
+            'pain_bank_address': pay_method.pain_bank_address,
             'payment_method': 'DD',
             'file_prefix': 'sdd_',
             'pain_flavor': pain_flavor,

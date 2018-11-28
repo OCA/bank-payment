@@ -11,6 +11,8 @@
             <field name="pain_version"/>
             <field name="convert_to_ascii"
                 attrs="{'invisible': [('pain_version', '=', False)]}"/>
+            <field name="pain_bank_address"
+                attrs="{'invisible': [('pain_version', '=', False)]}"/>
         </field>
     </field>
 </record>
