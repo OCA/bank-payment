@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-11 09:50+0000\n"
-"PO-Revision-Date: 2017-12-11 09:50+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2018-12-04 12:09+0000\n"
+"Last-Translator: Yung-Wa <yw.ng@onestein.nl>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_banking_pain_base
 #: sql_constraint:account.payment.method:0
@@ -24,11 +25,13 @@ msgid ""
 "A payment method of the same type already exists with this code and PAIN "
 "version"
 msgstr ""
+"Er bestaat al een betaalmethode van hetzelfde type met deze code en de PAIN-"
+"versie"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Account Management"
-msgstr ""
+msgstr "Account Management"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -60,7 +63,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Annuity"
-msgstr ""
+msgstr "Annuïteit"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
@@ -75,13 +78,12 @@ msgstr "Batch verwerking"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Bonus Payment"
-msgstr ""
+msgstr "Bonusbetaling"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Bonus Payment."
-msgstr "Bank betaalregels"
+msgstr "Bonusbetaling."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
@@ -111,7 +113,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Cancellation Fee"
-msgstr ""
+msgstr "Annuleringskosten"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:104
