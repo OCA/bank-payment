@@ -20,7 +20,7 @@
                         <span t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"/>
                     </t>
                     <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
-                        <span t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[o.payment_mode_id.show_bank_account_chars:]"/>
+                        <span t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"/>
                     </t>
                 </p>
             </t>
