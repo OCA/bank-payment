@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# © 2014-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2014-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
@@ -33,11 +33,10 @@ class AccountInvoice(models.Model):
                     self.partner_bank_id =\
                         self.commercial_partner_id.bank_ids[0]
             elif self.type == 'out_invoice':
-                pay_mode = self.partner_id.customer_payment_mode_id
-                self.payment_mode_id = pay_mode
-                if pay_mode and pay_mode.bank_account_link == 'fixed':
-                    self.partner_bank_id = pay_mode.fixed_journal_id.\
-                        bank_account_id
+                # No bank account assignation is done here as this is only
+                # needed for printing purposes and it can conflict with
+                # SEPA direct debit payments. Current report prints it.
+                self.payment_mode_id = self.partner_id.customer_payment_mode_id
         else:
             self.payment_mode_id = False
             if self.type == 'in_invoice':
@@ -97,3 +96,20 @@ class AccountInvoice(models.Model):
         if invoice.type == 'in_invoice':
             vals['partner_bank_id'] = invoice.partner_bank_id.id
         return vals
+
+    def partner_banks_to_show(self):
+        self.ensure_one()
+        if self.partner_bank_id:
+            return self.partner_bank_id
+        if self.payment_mode_id.show_bank_account_from_journal:
+            if self.payment_mode_id.bank_account_link == 'fixed':
+                return self.payment_mode_id.fixed_journal_id.bank_account_id
+            else:
+                return self.payment_mode_id.variable_journal_ids.mapped(
+                    'bank_account_id')
+        if self.payment_mode_id.payment_method_id.code == \
+                'sepa_direct_debit':  # pragma: no cover
+            return (self.mandate_id.partner_bank_id or
+                    self.partner_id.valid_mandate_id.partner_bank_id)
+        # Return this as empty recordset
+        return self.partner_bank_id
