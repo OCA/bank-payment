@@ -47,6 +47,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
         # refs
         cls.manual_out = cls.env.ref(
             'account.account_payment_method_manual_out')
+        cls.manual_out.bank_account_required = True
         cls.manual_in = cls.env.ref(
             'account.account_payment_method_manual_in')
 
@@ -77,6 +78,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             'name': 'Suppliers Bank 1',
             'bank_account_link': 'variable',
             'payment_method_id': cls.manual_out.id,
+            'show_bank_account_from_journal': True,
             'company_id': cls.company.id,
             'fixed_journal_id': cls.journal_c1.id,
             'variable_journal_ids': [(6, 0, [cls.journal_c1.id])]
@@ -110,16 +112,17 @@ class TestAccountPaymentPartner(common.SavepointCase):
             force_company=cls.company.id).create({
                 'name': 'Test supplier',
                 'supplier_payment_mode_id': cls.supplier_payment_mode,
-                'bank_ids': [
-                    (0, 0, {
-                        'acc_number': '5345345',
-                        'company_id': cls.company.id,
-                    }),
-                    (0, 0, {
-                        'acc_number': '3452342',
-                        'company_id': cls.company_2.id,
-                    })]
             })
+        cls.supplier_bank = cls.env['res.partner.bank'].create({
+            'acc_number': '5345345',
+            'partner_id': cls.supplier.id,
+            'company_id': cls.company.id,
+        })
+        cls.supplier_bank_2 = cls.env['res.partner.bank'].create({
+            'acc_number': '3452342',
+            'partner_id': cls.supplier.id,
+            'company_id': cls.company_2.id,
+        })
         cls.supplier.with_context(
             force_company=cls.company_2.id).supplier_payment_mode_id = \
             cls.supplier_payment_mode_c2
@@ -142,38 +145,10 @@ class TestAccountPaymentPartner(common.SavepointCase):
             'type': 'bank',
             'bank_account_id': cls.journal_bank.id,
         })
-        mode_in = cls.env['account.payment.mode'].create({
-            'name': 'Payment Mode Inbound',
-            'payment_method_id':
-                cls.env.ref('account.account_payment_method_manual_in').id,
-            'bank_account_link': 'fixed',
-            'fixed_journal_id': cls.journal.id,
-        })
-        method_out = cls.env.ref('account.account_payment_method_manual_out')
-        method_out.bank_account_required = True
-        cls.mode_out = cls.env['account.payment.mode'].create({
-            'name': 'Payment Mode Outbound',
-            'payment_method_id': method_out.id,
-            'bank_account_link': 'fixed',
-            'fixed_journal_id': cls.journal.id,
-        })
-        cls.partner = cls.env['res.partner'].create({
-            'name': 'Test Partner',
-            'customer': True,
-            'customer_payment_mode_id': mode_in.id,
-        })
-        cls.supplier = cls.env['res.partner'].create({
-            'name': 'Test Supplier',
-            'supplier': True,
-            'supplier_payment_mode_id': cls.mode_out.id,
-        })
-        cls.supplier_bank = cls.env['res.partner.bank'].create({
-            'acc_number': 'GB18BARC20040131665123',
-            'partner_id': cls.supplier.id,
-        })
         cls.supplier_invoice = cls.env['account.invoice'].create({
             'partner_id': cls.supplier.id,
             'type': 'in_invoice',
+            'journal_id': cls.journal_c1.id,
         })
 
     def _create_invoice(self):
@@ -223,9 +198,6 @@ class TestAccountPaymentPartner(common.SavepointCase):
         invoice._onchange_partner_id()
 
         self.assertEquals(invoice.payment_mode_id, self.customer_payment_mode)
-        self.assertEquals(
-            invoice.partner_bank_id,
-            self.customer_payment_mode.fixed_journal_id.bank_account_id)
 
         invoice.company_id = self.company_2
         invoice._onchange_partner_id()
@@ -247,19 +219,13 @@ class TestAccountPaymentPartner(common.SavepointCase):
         invoice._onchange_partner_id()
 
         self.assertEquals(invoice.payment_mode_id, self.supplier_payment_mode)
-        bank = self.partner_bank_model.search(
-            [('acc_number', '=', '5345345')], limit=1)
-        self.assertEquals(
-            invoice.partner_bank_id,
-            bank)
+        self.assertEquals(invoice.partner_bank_id, self.supplier_bank)
 
         invoice.company_id = self.company_2
         invoice._onchange_partner_id()
         self.assertEquals(invoice.payment_mode_id,
                           self.supplier_payment_mode_c2)
-        bank = self.partner_bank_model.search(
-            [('acc_number', '=', '3452342')], limit=1)
-        self.assertEquals(invoice.partner_bank_id, bank)
+        self.assertEquals(invoice.partner_bank_id, self.supplier_bank_2)
 
         invoice.payment_mode_id = self.supplier_payment_mode
         invoice._onchange_payment_mode_id()
@@ -359,12 +325,12 @@ class TestAccountPaymentPartner(common.SavepointCase):
 
     def test_partner_onchange(self):
         customer_invoice = self.env['account.invoice'].create({
-            'partner_id': self.partner.id,
+            'partner_id': self.customer.id,
             'type': 'out_invoice',
         })
         customer_invoice._onchange_partner_id()
         self.assertEqual(customer_invoice.payment_mode_id,
-                         self.partner.customer_payment_mode_id)
+                         self.customer_payment_mode)
 
         self.supplier_invoice._onchange_partner_id()
         self.assertEqual(self.supplier_invoice.partner_bank_id,
@@ -378,50 +344,39 @@ class TestAccountPaymentPartner(common.SavepointCase):
         invoice._onchange_partner_id()
         self.assertFalse(invoice.partner_bank_id)
 
-    def test_payment_mode_id_change(self):
-        self.supplier_invoice.payment_mode_id = self.mode_out.id
-        self.supplier_invoice.payment_mode_id_change()
+    def test_onchange_payment_mode_id(self):
+        mode = self.supplier_payment_mode
+        mode.payment_method_id.bank_account_required = True
+        self.supplier_invoice.partner_bank_id = self.supplier_bank.id
+        self.supplier_invoice.payment_mode_id = mode.id
+        self.supplier_invoice._onchange_payment_mode_id()
         self.assertEqual(self.supplier_invoice.partner_bank_id,
                          self.supplier_bank)
-        self.mode_out.payment_method_id.bank_account_required = False
-        self.supplier_invoice.payment_mode_id = self.mode_out.id
-        self.supplier_invoice.payment_mode_id_change()
+        mode.payment_method_id.bank_account_required = False
+        self.supplier_invoice._onchange_payment_mode_id()
         self.assertFalse(self.supplier_invoice.partner_bank_id)
         self.supplier_invoice.payment_mode_id = False
-        self.supplier_invoice.payment_mode_id_change()
+        self.supplier_invoice._onchange_payment_mode_id()
         self.assertFalse(self.supplier_invoice.partner_bank_id)
 
     def test_print_report(self):
-        self.env['account.invoice.line'].create({
-            'invoice_id': self.supplier_invoice.id,
-            'name': 'Product Text',
-            'price_unit': 10.0,
-            'account_id': self.env.ref('l10n_generic_coa.1_conf_o_income').id,
-        })
-        self.supplier_invoice.action_invoice_open()
-        self.assertEqual(
-            self.supplier_invoice.move_id.line_ids[0].payment_mode_id,
-            self.supplier_invoice.payment_mode_id)
-        (res, _) = report.render_report(
-            self.env.cr, self.env.uid,
-            [self.supplier_invoice.id], 'account.report_invoice', {})
-        self.assertRegexpMatches(res, self.supplier_bank.acc_number)
-        self.supplier_invoice.partner_bank_id = False
-        self.supplier_invoice.payment_mode_id\
-            .show_bank_account_from_journal = True
-        (res, _) = report.render_report(
-            self.env.cr, self.env.uid,
-            [self.supplier_invoice.id], 'account.report_invoice', {})
-        self.assertRegexpMatches(res, self.journal_bank.acc_number)
-        payment_mode = self.supplier_invoice.payment_mode_id
-        self.supplier_invoice.payment_mode_id = False
-        payment_mode.bank_account_link = 'variable'
-        payment_mode.variable_journal_ids = [
-            (6, 0, [self.journal.id])]
+        self.supplier_invoice.partner_bank_id = self.supplier_bank.id
+        report = self.env.ref('account.account_invoices')
+        res = str(report.render_qweb_html(
+            self.supplier_invoice.ids, report.report_name,
+        )[0])
+        self.assertIn(self.supplier_bank.acc_number, res)
+        payment_mode = self.supplier_payment_mode
+        payment_mode.show_bank_account_from_journal = True
         self.supplier_invoice.payment_mode_id = payment_mode.id
-        self.supplier_invoice.payment_mode_id_change()
-        (res, _) = report.render_report(
-            self.env.cr, self.env.uid,
-            [self.supplier_invoice.id], 'account.report_invoice', {})
-        self.assertRegexpMatches(
-            res, self.journal_bank.acc_number)
+        self.supplier_invoice.partner_bank_id = False
+        res = str(report.render_qweb_html(
+            self.supplier_invoice.ids, report.report_name,
+        )[0])
+        self.assertIn(self.journal_c1.bank_acc_number, res)
+        payment_mode.bank_account_link = 'variable'
+        payment_mode.variable_journal_ids = [(6, 0, self.journal.ids)]
+        res = str(report.render_qweb_html(
+            self.supplier_invoice.ids, report.report_name,
+        )[0])
+        self.assertIn(self.journal_bank.acc_number, res)
