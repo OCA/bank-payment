@@ -44,7 +44,9 @@ class AccountInvoice(models.Model):
                 # No bank account assignation is done here as this is only
                 # needed for printing purposes and it can conflict with
                 # SEPA direct debit payments. Current report prints it.
-                self.payment_mode_id = self.partner_id.customer_payment_mode_id
+                self.payment_mode_id = self.with_context(
+                    force_company=self.company_id.id,
+                ).partner_id.customer_payment_mode_id
         else:
             self.payment_mode_id = False
             if self.type == 'in_invoice':
