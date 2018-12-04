@@ -25,9 +25,7 @@ Account Payment Partner
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-[ This file must be max 2-3 paragraphs, and is required. ]
-
-This module adds severals fields :
+This module adds severals fields:
 
 * the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
 
@@ -56,31 +54,18 @@ word about that), so that's the reason behind the several options.
 Usage
 =====
 
-[ This file must be present and contains the usage instructions
-  for end-users. As all other rst files included in the README,
-  it MUST NOT contain reStructuredText sections
-  only body text (paragraphs, lists, tables, etc). Should you need
-  a more elaborate structure to explain the addon, please create a
-  Sphinx documentation (which may include this file as a "quick start"
-  section). ]
-
 You are able to add a payment mode directly on a partner.
-This payment mode is automatically associated to the invoice related to the partner. This default value could be change in a draft invoice.
-When you create an payment order, only invoices related to chosen payment mode are displayed.
-Invoices without any payment mode are displayed to.
+
+This payment mode is automatically associated to the invoice related to the
+partner. This default value could be changed in a draft invoice.
+
+When you create a payment order, only invoices related to chosen payment mode
+are displayed.
+
+Invoices without any payment mode are displayed too.
 
 Changelog
 =========
-
-[ The change log. The goal of this file is to help readers
-  understand changes between version. The primary audience is
-  end users and integrators. Purely technical changes such as
-  code refactoring must not be mentioned here.
-
-  This file may contain ONE level of section titles, underlined
-  with the ~ (tilde) character. Other section markers are
-  forbidden and will likely break the structure of the README.rst
-  or other documents where this fragment is included. ]
 
 10.0.1.2.0 (2018-05-24)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,8 +104,8 @@ Contributors
 * Angel Moya <angel.moya@domatix.com>
 * `Tecnativa <https://www.tecnativa.com>`_:
 
-  * Pedro M. Baeza
-  * Carlos Dauden
+  * Pedro M. Baeza <pedro.baeza@tecnativa.com>
+  * Carlos Dauden <carlos.dauden@tecnativa.com>
 
 Maintainers
 ~~~~~~~~~~~
