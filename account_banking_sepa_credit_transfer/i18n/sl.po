@@ -21,7 +21,7 @@ msgstr ""
 "%100==4 ? 2 : 3);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:154
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:162
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -31,7 +31,7 @@ msgstr ""
 "račun."
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:73
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr ""

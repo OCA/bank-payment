@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:154
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:162
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -31,7 +31,7 @@ msgstr ""
 "Das Bankkonto fehlt auf der Zahlungszeile des Partners '%s' (Referenz '%s')."
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:73
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "PAIN Version '%s' wird nicht unterstützt."
