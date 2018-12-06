@@ -6,43 +6,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2018-12-06 13:09+0000\n"
+"Last-Translator: alvarorib <alvaro.ribeiro@exo.pt>\n"
 "Language-Team: none\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:162
 #, python-format
 msgid "Bank account is missing on the bank payment line of partner '%s' (reference '%s')."
 msgstr ""
+"Falta conta bancária na linha de pagamento bancária do parceiro '%s' ("
+"referência '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:73
 #, python-format
 msgid "PAIN version '%s' is not supported."
-msgstr ""
+msgstr "A versão PAIN '%s' não é suportada."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Linhas de Pagamento"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Métodos de Pagamento"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordem de Pagamento"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
-msgstr ""
+msgstr "Transferência a Crédito SEPA para os fornecedores"
