@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2018-12-06 13:09+0000\n"
-"Last-Translator: alvarorib <alvaro.ribeiro@exo.pt>\n"
+"PO-Revision-Date: 2018-12-08 11:09+0000\n"
+"Last-Translator: Pedro Castro Silva <pedrocs@exo.pt>\n"
 "Language-Team: Portuguese (http://www.transifex.com/oca/"
 "OCA-bank-payment-10-0/language/pt/)\n"
 "Language: pt\n"
@@ -1190,7 +1190,7 @@ msgstr "Total Moeda da Empresa"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr "Total Residual"
+msgstr "Residual Total"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
@@ -1255,7 +1255,7 @@ msgid ""
 "if there are existing draft payment orders for the payment modes of the "
 "invoices, the payment lines will be added to those payment orders"
 msgstr ""
-"Se existirem rascunhos de ordens de pagamento para os modos de pagamento das "
+"se existirem rascunhos de ordens de pagamento para os modos de pagamento das "
 "faturas, as linhas de pagamento serão adicionadas a essas ordens de pagamento"
 
 #. module: account_payment_order
@@ -1273,4 +1273,4 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "report.account_payment_order.print_account_payment_order_main"
-msgstr "report.account_payment_order.print_account_payment_order_main"
+msgstr ""
