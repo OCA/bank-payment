@@ -142,7 +142,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:264
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:268
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
