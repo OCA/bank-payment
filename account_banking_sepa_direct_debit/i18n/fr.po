@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-01 01:24+0000\n"
-"PO-Revision-Date: 2018-12-11 16:34+0000\n"
+"PO-Revision-Date: 2018-12-11 16:57+0000\n"
 "Last-Translator: benj-filament <benjamin@le-filament.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/fr/)\n"
@@ -166,7 +166,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "By signing this mandate form, you authorise (A)"
-msgstr ""
+msgstr "En signant ce formulaire de mandat, vous autorisez (A)"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
@@ -207,7 +207,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr ""
+msgstr "Entreprise (B2B)"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
@@ -238,7 +238,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "One-Off"
-msgstr "One-Off"
+msgstr "Ponctuel"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
@@ -253,7 +253,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de Paiement"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:41
@@ -277,7 +277,7 @@ msgstr "Récurrent"
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "Recurring"
-msgstr "Recurring"
+msgstr "Récurrent"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_config_settings_sepa_creditor_identifier
@@ -342,8 +342,9 @@ msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
 "and it has a last debit date set to '%s', so we can't use it."
 msgstr ""
-"Le mandat portant la référence '%s' pour le partenaire '%s' est de type 'One-"
-"Off' et il a une date de dernier débit au '%s', donc il n'est pas utilisable."
+"Le mandat portant la référence '%s' pour le partenaire '%s' est de type "
+"'Ponctuel' et il a une date de dernier débit au '%s', donc il n'est pas "
+"utilisable."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:48
@@ -357,7 +358,7 @@ msgid ""
 "This field is only used for Recurrent mandates, not for One-Off mandates."
 msgstr ""
 "Ce champ n'est utilisé que pour les mandats récurrents, pas pour les mandats "
-"One-Off."
+"Ponctuels."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
