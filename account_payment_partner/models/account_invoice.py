@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# Copyright 2014-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
@@ -42,13 +41,12 @@ class AccountInvoice(models.Model):
                     self.partner_bank_id = False
 
             elif self.type == 'out_invoice':
-                pay_mode = self.with_context(
-                    force_company=self.company_id.id
+                # No bank account assignation is done here as this is only
+                # needed for printing purposes and it can conflict with
+                # SEPA direct debit payments. Current report prints it.
+                self.payment_mode_id = self.with_context(
+                    force_company=self.company_id.id,
                 ).partner_id.customer_payment_mode_id
-                self.payment_mode_id = pay_mode
-                if pay_mode and pay_mode.bank_account_link == 'fixed':
-                    self.partner_bank_id = pay_mode.fixed_journal_id. \
-                        bank_account_id
         else:
             self.payment_mode_id = False
             if self.type == 'in_invoice':
@@ -118,3 +116,20 @@ class AccountInvoice(models.Model):
                 raise ValidationError(
                     _("The company of the invoice %s does not match "
                       "with that of the payment mode") % rec.name)
+
+    def partner_banks_to_show(self):
+        self.ensure_one()
+        if self.partner_bank_id:
+            return self.partner_bank_id
+        if self.payment_mode_id.show_bank_account_from_journal:
+            if self.payment_mode_id.bank_account_link == 'fixed':
+                return self.payment_mode_id.fixed_journal_id.bank_account_id
+            else:
+                return self.payment_mode_id.variable_journal_ids.mapped(
+                    'bank_account_id')
+        if self.payment_mode_id.payment_method_id.code == \
+                'sepa_direct_debit':  # pragma: no cover
+            return (self.mandate_id.partner_bank_id or
+                    self.partner_id.valid_mandate_id.partner_bank_id)
+        # Return this as empty recordset
+        return self.partner_bank_id
