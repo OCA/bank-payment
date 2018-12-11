@@ -10,6 +10,7 @@
     <field name="name">account_payment_order.invoice_form</field>
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account_payment_partner.invoice_form" />
+    <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
     <field name="arch" type="xml">
         <button name="%(account.action_account_invoice_payment)d" type="action" position="after">
             <button name="create_account_payment_line" type="object"
@@ -34,6 +35,7 @@
     <field name="name">account_payment_order.invoice_supplier_form</field>
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account_payment_partner.invoice_supplier_form" />
+    <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
     <field name="arch" type="xml">
         <button name="%(account.action_account_invoice_payment)d" type="action" position="after">
             <button name="create_account_payment_line" type="object"
