@@ -61,6 +61,11 @@ msgid "Annuity"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_bank_address
+msgid "Bank Address in PAIN XML"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
 msgstr ""
@@ -370,6 +375,16 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method_pain_bank_address
+msgid ""
+"If enabled, the name and address of the bank will be set in the appropriate "
+"XML tags (if the bank account is linked to a bank and if the information is "
+"set on the related bank). Some banks reject PAIN XML files that contain the "
+"name and address of the bank, although the ISO 20022 standard and the EPC "
+"guidelines specify this possibility."
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_category_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line_category_purpose
@@ -545,7 +560,7 @@ msgid "Network Communication"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_method.py:23
+#: code:addons/account_banking_pain_base/models/account_payment_method.py:31
 #, python-format
 msgid "No XSD file path found for payment method '%s'"
 msgstr ""
