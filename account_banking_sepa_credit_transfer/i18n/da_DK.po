@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:162
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:164
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:73
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:74
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr ""

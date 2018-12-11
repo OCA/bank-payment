@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_credit_transfer
+# 	* account_banking_sepa_credit_transfer
 #
 msgid ""
 msgstr ""
@@ -17,15 +17,17 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:162
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:164
 #, python-format
-msgid "Bank account is missing on the bank payment line of partner '%s' (reference '%s')."
+msgid ""
+"Bank account is missing on the bank payment line of partner '%s' (reference "
+"'%s')."
 msgstr ""
-"Falta conta bancária na linha de pagamento bancária do parceiro '%s' ("
-"referência '%s')."
+"Falta conta bancária na linha de pagamento bancária do parceiro "
+"'%s' (referência '%s')."
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:73
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:74
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "A versão PAIN '%s' não é suportada."
