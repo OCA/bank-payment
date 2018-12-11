@@ -9,15 +9,16 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2016-10-19 23:46+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"PO-Revision-Date: 2018-12-12 17:58+0000\n"
+"Last-Translator: benj-filament <benjamin@le-filament.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -29,7 +30,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr ""
+msgstr "Un Mandat avec la même référence existe déjà pour cette société !"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -44,21 +45,23 @@ msgid ""
 "Activate this option if this payment method requires your customer to sign a "
 "direct debit mandate with your company."
 msgstr ""
+"Activer cette option si cette méthode de paiement nécessite que votre client "
+"signe un mandat de prélèvement avec votre société."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Retour au Brouillon"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Compte Bancaire"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Comptes Bancaires"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
@@ -98,7 +101,7 @@ msgstr "Annuler"
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Cancelled"
-msgstr ""
+msgstr "Annulé"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:88
@@ -107,22 +110,25 @@ msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
 msgstr ""
+"Vous ne pouvez pas valider le Mandat '%s' car il n'est ps rattaché à un "
+"compte bancaire."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
-msgstr ""
+msgstr "Vous ne pouvez pas valider le Mandat '%s' sans date de signature."
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
+#, fuzzy
 msgid "Click to create a new Banking Mandate."
-msgstr ""
+msgstr "Cliquer pour créer un nouveau Mandat."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_company_id
 msgid "Company"
-msgstr ""
+msgstr "Société"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
@@ -137,12 +143,13 @@ msgstr "Créée le"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
 msgid "Date of Signature of the Mandate"
-msgstr ""
+msgstr "Date de signature du Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_last_debit_date
+#, fuzzy
 msgid "Date of the Last Debit"
-msgstr ""
+msgstr "Date du dernier prélèvement"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice_mandate_id
@@ -150,13 +157,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line_mandate_id
 msgid "Direct Debit Mandate"
-msgstr ""
+msgstr "Mandat de Prélèvement"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank_mandate_ids
 #: model:ir.ui.view,arch_db:account_banking_mandate.mandate_partner_bank_form
 msgid "Direct Debit Mandates"
-msgstr ""
+msgstr "Mandats de Prélèvement"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_display_name
@@ -167,13 +174,13 @@ msgstr "Nom à afficher"
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Draft"
-msgstr ""
+msgstr "Brouillon"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
-msgstr ""
+msgstr "Expiré"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
@@ -200,7 +207,7 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Facture"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
@@ -225,7 +232,7 @@ msgstr "Modifié le"
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
 msgid "Mandate"
-msgstr ""
+msgstr "Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_format
@@ -305,12 +312,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Reference"
-msgstr ""
+msgstr "Référence"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Reference or Partner"
-msgstr ""
+msgstr "Référence ou Partenaire"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_payment_line_ids
@@ -337,7 +344,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Signature Date"
-msgstr ""
+msgstr "Date de Signature"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -347,7 +354,7 @@ msgstr "État"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_state
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:67
@@ -374,13 +381,13 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
 msgid "Unique Mandate Reference"
-msgstr ""
+msgstr "Référence Unique de Mandat (RUM)"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Valid"
-msgstr ""
+msgstr "Valide"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
