@@ -12,6 +12,7 @@ class CommonTestCase(SavepointCase):
 
         cls.bank = cls.env["res.partner.bank"].create({
             'acc_number': 'test',
+            'partner_id': cls.env.user.company_id.partner_id.id,
         })
         cls.journal = cls.env["account.journal"].create({
             'name': 'test journal',
@@ -37,6 +38,14 @@ class CommonTestCase(SavepointCase):
         cls.products = {
             'prod_order': cls.env.ref('product.product_order_01'),
             'prod_del': cls.env.ref('product.product_delivery_01'),
-            'serv_order': cls.env.ref('product.service_order_01'),
-            'serv_del': cls.env.ref('product.service_delivery'),
+            'serv_order': cls.env['product.product'].create({
+                'name': 'Test service product order',
+                'type': 'service',
+                'invoice_policy': 'order',
+            }),
+            'serv_del': cls.env['product.product'].create({
+                'name': 'Test service product delivery',
+                'type': 'service',
+                'invoice_policy': 'delivery',
+            }),
         }
