@@ -78,9 +78,10 @@ class AccountPaymentLine(models.Model):
     def _compute_amount_company_currency(self):
         for line in self:
             if line.currency_id and line.company_currency_id:
-                line.amount_company_currency = line.currency_id.with_context(
-                    date=line.date).compute(
-                        line.amount_currency, line.company_currency_id)
+                line.amount_company_currency = line.currency_id._convert(
+                    line.amount_currency, line.company_currency_id,
+                    line.company_id, line.date or fields.Date.today(),
+                )
 
     @api.multi
     def payment_line_hashcode(self):
