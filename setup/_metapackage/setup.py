@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo12-addon-account_banking_mandate',
+        'odoo12-addon-account_banking_pain_base',
         'odoo12-addon-account_payment_mode',
         'odoo12-addon-account_payment_order',
         'odoo12-addon-account_payment_partner',
