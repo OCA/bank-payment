@@ -33,16 +33,10 @@ class TestAccountPaymentPartner(common.SavepointCase):
         else:
             raise ValidationError(
                 _("No Chart of Account Template has been defined !"))
-        cls.wizard = cls.env['wizard.multi.charts.accounts'].create({
-            'company_id': cls.company_2.id,
-            'chart_template_id': cls.chart.id,
-            'sale_tax_id': False,
-            'purchase_tax_id': False,
-            'code_digits': 6,
-            'currency_id': cls.env.ref('base.EUR').id,
-            'transfer_account_id': cls.chart.transfer_account_id.id,
-        })
-        cls.wizard.execute()
+        old_company = cls.env.user.company_id
+        cls.env.user.company_id = cls.company_2.id
+        cls.chart.try_loading_for_current_company()
+        cls.env.user.company_id = old_company.id
 
         # refs
         cls.manual_out = cls.env.ref(
@@ -295,6 +289,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
 
     def test_invoice_refund(self):
         invoice = self._create_invoice()
+        invoice.partner_bank_id = False
         invoice.action_invoice_open()
         # Lets create a refund invoice for invoice_1.
         # I refund the invoice Using Refund Button.
@@ -362,21 +357,15 @@ class TestAccountPaymentPartner(common.SavepointCase):
     def test_print_report(self):
         self.supplier_invoice.partner_bank_id = self.supplier_bank.id
         report = self.env.ref('account.account_invoices')
-        res = str(report.render_qweb_html(
-            self.supplier_invoice.ids, report.report_name,
-        )[0])
+        res = str(report.render_qweb_html(self.supplier_invoice.ids)[0])
         self.assertIn(self.supplier_bank.acc_number, res)
         payment_mode = self.supplier_payment_mode
         payment_mode.show_bank_account_from_journal = True
         self.supplier_invoice.payment_mode_id = payment_mode.id
         self.supplier_invoice.partner_bank_id = False
-        res = str(report.render_qweb_html(
-            self.supplier_invoice.ids, report.report_name,
-        )[0])
+        res = str(report.render_qweb_html(self.supplier_invoice.ids)[0])
         self.assertIn(self.journal_c1.bank_acc_number, res)
         payment_mode.bank_account_link = 'variable'
         payment_mode.variable_journal_ids = [(6, 0, self.journal.ids)]
-        res = str(report.render_qweb_html(
-            self.supplier_invoice.ids, report.report_name,
-        )[0])
+        res = str(report.render_qweb_html(self.supplier_invoice.ids)[0])
         self.assertIn(self.journal_bank.acc_number, res)
