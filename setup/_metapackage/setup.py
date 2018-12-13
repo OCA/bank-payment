@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo12-addon-account_payment_mode',
         'odoo12-addon-account_payment_partner',
+        'odoo12-addon-account_payment_sale',
     ],
     classifiers=[
         'Programming Language :: Python',
