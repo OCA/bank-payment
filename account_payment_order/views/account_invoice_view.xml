@@ -26,6 +26,9 @@
         <field name="payment_mode_id" position="after">
             <field name="payment_order_ok" invisible="1"/>
         </field>
+        <field name="reference" position="before">
+              <field name="reference_type" required="1" nolabel="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+        </field>
     </field>
 </record>
 

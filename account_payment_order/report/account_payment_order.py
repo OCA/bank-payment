@@ -7,6 +7,7 @@ from odoo.tools.misc import formatLang
 
 class AccountPaymentOrderReport(models.AbstractModel):
     _name = 'report.account_payment_order.print_account_payment_order_main'
+    _description = 'Technical model for printing payment order'
 
     @api.model
     def get_report_values(self, docids, data=None):
