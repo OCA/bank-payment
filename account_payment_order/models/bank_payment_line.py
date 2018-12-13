@@ -78,9 +78,10 @@ class BankPaymentLine(models.Model):
         for bline in self:
             amount_currency = sum(
                 bline.mapped('payment_line_ids.amount_currency'))
-            amount_company_currency = bline.currency_id.with_context(
-                date=bline.date).compute(
-                    amount_currency, bline.company_currency_id)
+            amount_company_currency = bline.currency_id._convert(
+                amount_currency, bline.company_currency_id, bline.company_id,
+                bline.date or fields.Date.today(),
+            )
             bline.amount_currency = amount_currency
             bline.amount_company_currency = amount_company_currency
 

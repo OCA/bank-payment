@@ -13,6 +13,20 @@ class AccountInvoice(models.Model):
     payment_order_ok = fields.Boolean(
         compute="_compute_payment_order_ok",
     )
+    # we restore this field from <=v11 for now for preserving behavior
+    # TODO: Check if we can remove it and base everything in something at
+    # payment mode or company level
+    reference_type = fields.Selection(
+        selection=[
+            ('none', 'Free Reference'),
+            ('structured', 'Structured Reference'),
+        ],
+        string='Payment Reference',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default='none',
+    )
 
     @api.depends('payment_mode_id', 'move_id', 'move_id.line_ids',
                  'move_id.line_ids.payment_mode_id')
@@ -26,12 +40,6 @@ class AccountInvoice(models.Model):
             if not payment_mode:
                 payment_mode = invoice.payment_mode_id
             invoice.payment_order_ok = payment_mode.payment_order_ok
-
-    @api.model
-    def _get_reference_type(self):
-        rt = super(AccountInvoice, self)._get_reference_type()
-        rt.append(('structured', _('Structured Reference')))
-        return rt
 
     @api.model
     def line_get_convert(self, line, part):
@@ -103,12 +111,12 @@ class AccountInvoice(models.Model):
                     line.create_payment_line_from_move_line(payorder)
                     count += 1
                 if new_payorder:
-                    inv.message_post(_(
+                    inv.message_post(body=_(
                         '%d payment lines added to the new draft payment '
                         'order %s which has been automatically created.')
                         % (count, payorder.name))
                 else:
-                    inv.message_post(_(
+                    inv.message_post(body=_(
                         '%d payment lines added to the existing draft '
                         'payment order %s.')
                         % (count, payorder.name))
