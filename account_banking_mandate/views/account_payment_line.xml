@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="account_payment_line_form" model="ir.ui.view">
+    <field name="name">account_banking_mandate.account.payment.line.form</field>
+    <field name="model">account.payment.line</field>
+    <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
+    <field name="arch" type="xml">
+        <field name="partner_bank_id" position="after">
+            <field name="mandate_required" invisible="1"/>
+            <field name="mandate_id"
+                domain="[('partner_bank_id', '=', partner_bank_id), ('state', '=', 'valid')]"
+                attrs="{'invisible': [('mandate_required', '=', False)], 'required': [('mandate_required', '=', True)]}"
+                context="{'default_partner_bank_id': partner_bank_id}"/>
+        </field>
+    </field>
+</record>
+
+<record id="account_payment_line_tree" model="ir.ui.view">
+    <field name="name">account_banking_mandate.account.payment.line.tree</field>
+    <field name="model">account.payment.line</field>
+    <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="partner_bank_id" position="after">
+            <field name="mandate_id"
+                invisible="context.get('default_payment_type') != 'inbound'"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
