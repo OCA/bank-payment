@@ -20,7 +20,6 @@
     'depends': [
         'account_payment_partner',
         'base_iban',  # for manual_bank_tranfer
-        'document',  # to see the attachments on payment.order
     ],
     'data': [
         'security/payment_security.xml',
