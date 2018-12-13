@@ -107,6 +107,7 @@ class TestMandate(TransactionCase):
         bank_account_2 = self.env['res.partner.bank'].create({
             'acc_number': '1234',
             'company_id': self.company_2.id,
+            'partner_id': self.company_2.partner_id.id,
         })
         with self.assertRaises(ValidationError):
             mandate.partner_bank_id = bank_account_2
@@ -119,6 +120,7 @@ class TestMandate(TransactionCase):
         bank_account = self.env['res.partner.bank'].create({
             'acc_number': '1234',
             'company_id': self.company_2.id,
+            'partner_id': self.company_2.partner_id.id,
         })
         with self.assertRaises(ValidationError):
             bank_account.mandate_ids += mandate

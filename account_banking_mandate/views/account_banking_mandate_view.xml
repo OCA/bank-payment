@@ -68,11 +68,20 @@
             <field name="unique_mandate_reference" string="Reference"/>
             <field name="signature_date" string="Signature Date"/>
             <field name="last_debit_date"/>
-            <button name="validate" type="object" icon="fa-check"
+            <button name="validate"
+                    type="object"
+                    icon="fa-check"
+                    string="Validate"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'draft')]}"/>
-            <button name="cancel" type="object" icon="fa-times"
+            <button name="cancel"
+                    type="object"
+                    icon="fa-times"
+                    string="Cancel"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '=', 'cancel')]}"/>
-            <button name="back2draft" type="object" icon="fa-undo"
+            <button name="back2draft"
+                    type="object"
+                    icon="fa-undo"
+                    string="Draft"
                     groups="account.group_account_manager"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"/>
             <field name="state"/>
