@@ -531,6 +531,11 @@ msgid "ID"
 msgstr ""
 
 #. module: account_payment_order
+#: selection:account.payment.line,communication_type:0
+msgid "ISO"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
 msgid "If checked new messages require your attention."
 msgstr ""
