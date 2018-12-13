@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<!-- Avoid creation of bank accounts linked to contacts.
+Note that, when you use the res.partner.bank menu entry,
+there is a domain on the 'partner_id' field of res.partner.bank (base module)
+which prevents the selection of a contact -->
+<record id="partner_view_buttons" model="ir.ui.view">
+    <field name="name">account_payment_mode.res_partner_form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.partner_view_buttons"/>
+    <field name="arch" type="xml">
+        <group name="banks" position="attributes">
+            <attribute name="attrs">{'invisible': [('parent_id', '!=', False)]}</attribute>
+        </group>
+    </field>
+</record>
+
+
+</odoo>
