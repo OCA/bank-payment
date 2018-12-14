@@ -1,7 +1,8 @@
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
 
@@ -114,6 +115,7 @@ class AccountPaymentOrder(models.Model):
 
         for (requested_date, priority, categ_purpose, sequence_type, scheme),\
                 lines in list(lines_per_group.items()):
+            requested_date = fields.Date.to_string(requested_date)
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
@@ -187,8 +189,13 @@ class AccountPaymentOrder(models.Model):
                     mandate_related_info, 'DtOfSgntr')
                 mandate_signature_date.text = self._prepare_field(
                     'Mandate Signature Date',
-                    'line.mandate_id.signature_date',
-                    {'line': line}, 10, gen_args=gen_args)
+                    'signature_date',
+                    {
+                        'line': line,
+                        'signature_date': fields.Date.to_string(
+                            line.mandate_id.signature_date,
+                        ),
+                    }, 10, gen_args=gen_args)
                 if sequence_type == 'FRST' and line.mandate_id.last_debit_date:
                     amendment_indicator = etree.SubElement(
                         mandate_related_info, 'AmdmntInd')
