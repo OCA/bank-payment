@@ -1,9 +1,9 @@
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
@@ -26,7 +26,7 @@ class TestMandate(TransactionCase):
         self.assertEqual(self.mandate.recurrent_sequence_type, 'first')
 
     def test_expire(self):
-        self.mandate.signature_date = datetime.now() + relativedelta(
+        self.mandate.signature_date = fields.Date.today() + relativedelta(
             months=-50)
         self.mandate.validate()
         self.assertEqual(self.mandate.state, 'valid')
