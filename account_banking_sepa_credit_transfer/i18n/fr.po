@@ -29,8 +29,23 @@ msgstr ""
 "partenaire '%s' (référence '%s')."
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:27
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:61
+#: selection:account.payment.line,local_instrument:0
+msgid "Instant Transfer"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
+msgid "Local Instrument"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
+msgid "PAIN Version"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:26
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "PAIN version '%s' n'est pas supporté."
@@ -55,3 +70,48 @@ msgstr "Ordre de paiement"
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
 msgstr "Virement SEPA aux fournisseurs"
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.001.001.02"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.001.001.03 (recommended for credit transfer)"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.001.001.04"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.001.001.05"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.001.003.03 (credit transfer in Germany)"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.02 (recommended for direct debit)"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.03"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.04"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.003.02 (direct debit in Germany)"
+msgstr ""
