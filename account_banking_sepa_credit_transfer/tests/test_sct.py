@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
@@ -12,8 +11,6 @@ from lxml import etree
 
 
 class TestSCT(common.HttpCase):
-    post_install = True
-    at_install = False
 
     def setUp(self):
         super(TestSCT, self).setUp()
@@ -36,6 +33,9 @@ class TestSCT(common.HttpCase):
             'name': 'Test EUR company',
             'currency_id': self.eur_currency.id,
         })
+        self.partner_agrolait.company_id = self.main_company.id
+        self.partner_asus.company_id = self.main_company.id
+        self.partner_c2c.company_id = self.main_company.id
         self.env.user.write({
             'company_ids': [(6, 0, self.main_company.ids)],
             'company_id': self.main_company.id,
@@ -82,8 +82,7 @@ class TestSCT(common.HttpCase):
             'fixed_journal_id': self.bank_journal.id,
         })
         # Trigger the recompute of account type on res.partner.bank
-        for bank_acc in self.partner_bank_model.search([]):
-            bank_acc.acc_number = bank_acc.acc_number
+        self.partner_bank_model.search([])._compute_acc_type()
 
     def test_no_pain(self):
         self.payment_mode.payment_method_id.pain_version = False
