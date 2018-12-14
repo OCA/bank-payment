@@ -10,9 +10,6 @@ from lxml import etree
 
 
 class TestSDD(common.HttpCase):
-    post_install = True
-    at_install = False
-
     def setUp(self):
         super(TestSDD, self).setUp()
         self.company = self.env['res.company']
@@ -106,8 +103,7 @@ class TestSDD(common.HttpCase):
             'unique_mandate_reference': 'BMTEST2',
         })
         # Trigger the recompute of account type on res.partner.bank
-        for bank_acc in self.partner_bank_model.search([]):
-            bank_acc.acc_number = bank_acc.acc_number
+        self.partner_bank_model.search([])._compute_acc_type()
 
     def test_pain_001_02(self):
         self.payment_mode.payment_method_id.pain_version = 'pain.008.001.02'
