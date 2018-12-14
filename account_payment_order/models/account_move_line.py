@@ -43,6 +43,9 @@ class AccountMoveLine(models.Model):
                         self.invoice_id.type in ('in_invoice', 'in_refund') and
                         self.invoice_id.reference):
                     communication = self.invoice_id.reference
+                elif 'out' in self.invoice_id.type:
+                    # Force to only put invoice number here
+                    communication = self.invoice_id.number
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency
