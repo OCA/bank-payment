@@ -9,11 +9,17 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     initiating_party_issuer = fields.Char(
-        related='company_id.initiating_party_issuer')
+        related='company_id.initiating_party_issuer',
+        readonly=False,
+    )
     initiating_party_identifier = fields.Char(
-        related='company_id.initiating_party_identifier')
+        related='company_id.initiating_party_identifier',
+        readonly=False,
+    )
     initiating_party_scheme = fields.Char(
-        related='company_id.initiating_party_scheme')
+        related='company_id.initiating_party_scheme',
+        readonly=False,
+    )
     group_pain_multiple_identifier = fields.Boolean(
         string='Multiple identifiers',
         implied_group='account_banking_pain_base.'
