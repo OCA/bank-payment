@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo12-addon-account_banking_mandate',
         'odoo12-addon-account_banking_pain_base',
         'odoo12-addon-account_banking_sepa_credit_transfer',
+        'odoo12-addon-account_banking_sepa_direct_debit',
         'odoo12-addon-account_payment_mode',
         'odoo12-addon-account_payment_order',
         'odoo12-addon-account_payment_partner',
