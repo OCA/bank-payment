@@ -1,5 +1,5 @@
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2013-2016 Akretion - Alexis de Lattre
+# Copyright 2014 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 from odoo import models, fields, api, exceptions, _
 from datetime import datetime
@@ -35,7 +35,7 @@ class AccountBankingMandate(models.Model):
         ('B2B', 'Enterprise (B2B)')],
         string='Scheme', default="CORE", track_visibility='onchange')
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
-    display_name = fields.Char(compute='compute_display_name', store=True)
+    display_name = fields.Char(compute='_compute_display_name2', store=True)
 
     @api.multi
     @api.constrains('type', 'recurrent_sequence_type')
@@ -49,15 +49,14 @@ class AccountBankingMandate(models.Model):
 
     @api.multi
     @api.depends('unique_mandate_reference', 'recurrent_sequence_type')
-    def compute_display_name(self):
+    def _compute_display_name2(self):
         for mandate in self:
             if mandate.format == 'sepa':
-                name = '%s (%s)' % (
+                mandate.display_name = '%s (%s)' % (
                     mandate.unique_mandate_reference,
                     mandate.recurrent_sequence_type)
             else:
-                name = mandate.unique_mandate_reference
-            mandate.display_name = name
+                mandate.display_name = mandate.unique_mandate_reference
 
     @api.multi
     @api.onchange('partner_bank_id')
