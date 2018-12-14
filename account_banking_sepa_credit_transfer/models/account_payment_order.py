@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-# © 2010-2016 Akretion (www.akretion.com)
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2010-2016 Akretion (www.akretion.com)
+# Copyright 2014-2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
 
@@ -97,6 +96,7 @@ class AccountPaymentOrder(models.Model):
         for (requested_date, priority, local_instrument, categ_purpose),\
                 lines in list(lines_per_group.items()):
             # B. Payment info
+            requested_date = fields.Date.to_string(requested_date)
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
