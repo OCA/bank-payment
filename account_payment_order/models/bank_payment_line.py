@@ -1,4 +1,5 @@
-# © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2015-2016 Akretion - Alexis de Lattre
+# Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
@@ -101,7 +102,7 @@ class BankPaymentLine(models.Model):
         """
         self.ensure_one()
         if self.order_id.payment_mode_id.move_option == 'date':
-            hashcode = self.date
+            hashcode = fields.Date.to_string(self.date)
         else:
             hashcode = str(self.id)
         return hashcode
