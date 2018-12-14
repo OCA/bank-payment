@@ -1,5 +1,5 @@
 # Copyright 2013-2016 Akretion (www.akretion.com)
-# Copyright 2014-2017 Tecnativa - Pedro M. Baeza
+# Copyright 2014-2018 Tecnativa - Pedro M. Baeza
 # Copyright 2016 Tecnativa - Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
