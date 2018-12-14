@@ -361,6 +361,11 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: account_banking_mandate
+#: selection:account.banking.mandate,type:0
+msgid "One-Off"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__state
 msgid "Only valid mandates can be used in a payment line. A cancelled mandate is a mandate that has been cancelled by the customer."
 msgstr ""
@@ -378,6 +383,11 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_method
 msgid "Payment Methods"
+msgstr ""
+
+#. module: account_banking_mandate
+#: selection:account.banking.mandate,type:0
+msgid "Recurrent"
 msgstr ""
 
 #. module: account_banking_mandate
@@ -404,6 +414,11 @@ msgstr ""
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Search Banking Mandates"
+msgstr ""
+
+#. module: account_banking_mandate
+#: selection:account.banking.mandate,format:0
+msgid "Sepa Mandate"
 msgstr ""
 
 #. module: account_banking_mandate
