@@ -117,6 +117,14 @@ class AccountInvoice(models.Model):
                     _("The company of the invoice %s does not match "
                       "with that of the payment mode") % rec.name)
 
+    @api.constrains('partner_id', 'partner_bank_id')
+    def validate_partner_bank_id(self):
+        """Inhibit the validation of the bank account by default, as core
+        rules are not the expected one for the bank-payment suite.
+        """
+        if self.env.context.get('use_old_partner_bank_id_check'):
+            super().validate_partner_bank_id()
+
     def partner_banks_to_show(self):
         self.ensure_one()
         if self.partner_bank_id:
