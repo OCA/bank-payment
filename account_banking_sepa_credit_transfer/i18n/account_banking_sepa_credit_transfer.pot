@@ -87,3 +87,23 @@ msgstr ""
 msgid "pain.001.003.03 (credit transfer in Germany)"
 msgstr ""
 
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.02 (recommended for direct debit)"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.03"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.001.04"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: selection:account.payment.method,pain_version:0
+msgid "pain.008.003.02 (direct debit in Germany)"
+msgstr ""
+
