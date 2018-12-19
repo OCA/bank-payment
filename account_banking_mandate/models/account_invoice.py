@@ -66,7 +66,8 @@ class AccountInvoice(models.Model):
 
     def set_mandate(self):
         if self.payment_mode_id.payment_method_id.mandate_required:
-            self.mandate_id = self.partner_id.valid_mandate_id
+            self.mandate_id = self.partner_id.with_context(
+                force_company=self.company_id.id).valid_mandate_id
         else:
             self.mandate_id = False
 

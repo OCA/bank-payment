@@ -72,6 +72,9 @@ class TestMandate(TransactionCase):
         mandate.partner_bank_id = bank_account_2
         mandate.mandate_partner_bank_change()
         self.assertEquals(mandate.partner_id, bank_account_2.partner_id)
+        mandate.company_id = self.company_2
+        mandate._onchange_company_id()
+        self.assertFalse(mandate.partner_bank_id)
 
     def test_constrains_01(self):
         bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
