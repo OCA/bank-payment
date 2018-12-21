@@ -34,11 +34,13 @@ class AccountBankingMandate(models.Model):
             'account.banking.mandate'))
     unique_mandate_reference = fields.Char(
         string='Unique Mandate Reference', track_visibility='onchange')
+
     signature_date = fields.Date(string='Date of Signature of the Mandate',
                                  track_visibility='onchange')
     scan = fields.Binary(string='Scan of the Mandate')
     last_debit_date = fields.Date(string='Date of the Last Debit',
                                   readonly=True)
+    filename = fields.Char(string='Filename', readonly=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('valid', 'Valid'),
@@ -95,6 +97,8 @@ class AccountBankingMandate(models.Model):
             vals['unique_mandate_reference'] = \
                 self.env['ir.sequence'].next_by_code(
                     'account.banking.mandate') or 'New'
+            vals['filename'] = '{}.pdf'.format(
+                    vals['unique_mandate_reference'])
         return super(AccountBankingMandate, self).create(vals)
 
     @api.multi
