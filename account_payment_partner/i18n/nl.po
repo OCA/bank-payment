@@ -19,6 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "# of chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Bank Account:</strong>"
 msgstr "<strong>Bankrekening:</strong>"
@@ -43,6 +53,11 @@ msgid "Bank Account Required"
 msgstr "Bankrekening verplicht"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Contact"
 msgstr ""
@@ -54,6 +69,16 @@ msgid "Customer Payment Mode"
 msgstr "Betaalwijze klant"
 
 #. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "First n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Full"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
 msgid "Invoice"
 msgstr "Factuur"
@@ -62,6 +87,16 @@ msgstr "Factuur"
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
 msgstr "Boekingsregel"
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Last n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "No"
+msgstr ""
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
@@ -99,20 +134,35 @@ msgid "Select the default payment mode for this supplier."
 msgstr "Selecteer de standaard betaalwijze voor deze leverancier."
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show bank account"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Betaalwijze leverancier"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_invoice.py:119
+#: code:addons/account_payment_partner/models/account_invoice.py:117
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:17
+#: code:addons/account_payment_partner/models/account_payment_mode.py:35
 #, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Invoice with this "
@@ -120,7 +170,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:28
+#: code:addons/account_payment_partner/models/account_payment_mode.py:46
 #, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "

@@ -25,6 +25,11 @@ msgid "# of chars"
 msgstr "Nº de caracteres"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr "Nº de dígitos de cuenta bancaria del cliente"
+
+#. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Bank Account:</strong>"
 msgstr "<strong>Cuenta bancaria:</strong>"
@@ -36,8 +41,12 @@ msgstr "<strong>Modo de pago:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice_bank_account_required
-msgid "Activate this option if this payment method requires you to know the bank account number of your customer or supplier."
-msgstr "Activa esta opción si este método de pago debe requerirte informar el número de cuenta bancaria de tu cliente o proveedor"
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
+msgstr ""
+"Activa esta opción si este método de pago debe requerirte informar el número "
+"de cuenta bancaria de tu cliente o proveedor"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
@@ -45,13 +54,14 @@ msgid "Bank Account Required"
 msgstr "Cuenta bancaria requerida"
 
 #. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_res_partner
-msgid "Contact"
-msgstr "Contacto"
-
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_from_journal
 msgid "Bank account from journals"
 msgstr "Cuenta bancaria de los diarios"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
@@ -80,12 +90,6 @@ msgid "Journal Item"
 msgstr "Apunte contable"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
-#, python-format
-msgid "No Chart of Account Template has been defined !"
-msgstr "No se ha definido un Plan Contable!"
-
-#. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "Last n chars"
 msgstr "Últimos n caracteres"
@@ -96,19 +100,10 @@ msgid "No"
 msgstr "No"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_chars
-msgid "# of digits for customer bank account"
-msgstr "Nº de dígitos de cuenta bancaria del cliente"
-
-#. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_res_partner
-msgid "Partner"
-msgstr "Empresa"
-
-#. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_account_payment_method
-msgid "Payment Methods"
-msgstr "Métodos de pago"
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#, python-format
+msgid "No Chart of Account Template has been defined !"
+msgstr "No se ha definido un Plan Contable!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_payment_mode_id
@@ -129,14 +124,19 @@ msgstr "Pagos"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
-msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como cliente."
+msgstr ""
+"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
+"cliente."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
-msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
+msgstr ""
+"Seleccione el modo de pago por defecto cuando esta empresa actúa como "
+"proveedor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account
@@ -160,14 +160,14 @@ msgid "Supplier Payment Mode"
 msgstr "Modo de pago de proveedor"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_invoice.py:119
+#: code:addons/account_payment_partner/models/account_invoice.py:117
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
 msgstr "La compañía de la factura %s no corresponde con la del modo de pago"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:17
+#: code:addons/account_payment_partner/models/account_payment_mode.py:35
 #, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Invoice with this "
@@ -177,7 +177,7 @@ msgstr ""
 "Modo de Pago asignado a otra Compañía."
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:28
+#: code:addons/account_payment_partner/models/account_payment_mode.py:46
 #, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
@@ -185,3 +185,9 @@ msgid ""
 msgstr ""
 "No puede cambiar la Compañía. Existe como mínimo una elemento del Diario con "
 "este Modo de Pago que ya está asignado a otra Compañía."
+
+#~ msgid "Partner"
+#~ msgstr "Empresa"
+
+#~ msgid "Payment Methods"
+#~ msgstr "Métodos de pago"
