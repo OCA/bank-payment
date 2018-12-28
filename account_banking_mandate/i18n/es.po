@@ -258,19 +258,19 @@ msgid "Mandate Required"
 msgstr "Mandato requerido"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:192
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:208
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "El mandato debe estar en estado cancelado."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:180
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "El mandato debe estar en estado borrador o válido."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:171
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:187
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "El mandato debe estar en estado borrador."
@@ -401,11 +401,12 @@ msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La fecha de la firma del mandato '%s' no puede ser posterior a hoy!"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_invoice.py:90
+#: code:addons/account_banking_mandate/models/account_invoice.py:91
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
-msgstr "La factura %s tiene una empresa diferente que el mandato asociado (%s)."
+msgstr ""
+"La factura %s tiene una empresa diferente que el mandato asociado (%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_move_line.py:46

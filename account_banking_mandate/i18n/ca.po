@@ -258,19 +258,19 @@ msgid "Mandate Required"
 msgstr "Mandat requerit"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:192
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:208
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "El mandat hauria d'estar en estat cancel·lat."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:180
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "El mandat hauria de ser en estat esborrany o validat."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:171
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:187
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "El mandat hauria de ser en estat esborrany."
@@ -392,7 +392,8 @@ msgstr ""
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
-msgstr "La companyia del mandat %s és diferent de la companyia de l'empresa %s."
+msgstr ""
+"La companyia del mandat %s és diferent de la companyia de l'empresa %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:81
@@ -401,7 +402,7 @@ msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La data de la signatura del mandat %s no pot ser posterior a avui!"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_invoice.py:90
+#: code:addons/account_banking_mandate/models/account_invoice.py:91
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."

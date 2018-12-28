@@ -249,19 +249,19 @@ msgid "Mandate Required"
 msgstr "Mandat erforderlich"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:192
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:208
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "Mandate sollte im Abburchzustand sein."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:180
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "Mandat sollte im Entwurfs- oder Gültigzustand sein."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:171
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:187
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "Mandate sollte im Entwurfszustand sein."
@@ -388,7 +388,7 @@ msgid "The date of signature of mandate '%s' is in the future!"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_invoice.py:90
+#: code:addons/account_banking_mandate/models/account_invoice.py:91
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
