@@ -113,8 +113,8 @@ msgid ""
 msgstr ""
 "Les informations contenues dans le présent mandat, qui doit être complété et "
 "signé, sont destinées à n’être utilisées par le créancier que pour la "
-"gestion de sa relation avec son client. Elles pourront donner lieu à l’"
-"exercice, par ce dernier, de ses droits d’oppositions, d’accès et de "
+"gestion de sa relation avec son client. Elles pourront donner lieu à "
+"l’exercice, par ce dernier, de ses droits d’oppositions, d’accès et de "
 "rectification tels que prévus aux articles 38 et suivants de la loi n°78-17 "
 "du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés. "
 
@@ -130,8 +130,8 @@ msgid ""
 msgstr ""
 "Les informations contenues dans le présent mandat, qui doit être complété et "
 "signé, sont destinées à n’être utilisées par le créancier que pour la "
-"gestion de sa relation avec son client. Elles pourront donner lieu à l’"
-"exercice, par ce dernier, de ses droits d’oppositions, d’accès et de "
+"gestion de sa relation avec son client. Elles pourront donner lieu à "
+"l’exercice, par ce dernier, de ses droits d’oppositions, d’accès et de "
 "rectification tels que prévus aux articles 38 et suivants de la loi n°78-17 "
 "du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés. "
 
@@ -162,7 +162,7 @@ msgstr ""
 "'Type de séquence' a été remis à 'First'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:268
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:269
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -170,8 +170,8 @@ msgid ""
 "been marked as uploaded."
 msgstr ""
 "Change automatiquement de <b>FIRST</b> à <b>RECURRENT</b> lorsque l'ordre de "
-"prélèvement <a href=# data-oe-model=account.payment.order data-oe-"
-"id=%d>%s</a> a été mis à jour."
+"prélèvement <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</"
+"a> a été mis à jour."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -246,7 +246,7 @@ msgid "Mandate update"
 msgstr "Mise-à-jour du Mandat"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:79
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner "
@@ -276,7 +276,7 @@ msgid "Payment Order"
 msgstr "Ordre de Paiement"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:41
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:42
 #, python-format
 msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
@@ -346,7 +346,7 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr "L'Identifiant Créancier SEPA (ICS) '%s' est invalide."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:86
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
@@ -356,7 +356,7 @@ msgstr ""
 "'%s' a expiré."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:94
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "

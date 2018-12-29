@@ -158,7 +158,7 @@ msgstr ""
 "vrnil v 'Prvi'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:268
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:269
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -247,7 +247,7 @@ msgid "Mandate update"
 msgstr "Posodobitev mandata"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:79
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the bank payment line with partner "
@@ -279,7 +279,7 @@ msgid "Payment Order"
 msgstr "Plačilni nalog"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:41
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:42
 #, python-format
 msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
@@ -349,7 +349,7 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:86
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
@@ -359,7 +359,7 @@ msgstr ""
 "potekel."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:94
 #, python-format
 msgid ""
 "The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
