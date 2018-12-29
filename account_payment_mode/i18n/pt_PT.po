@@ -25,31 +25,37 @@ msgid "A payment method of the same type already exists with this code"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method_bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__company_partner_id
+msgid "Account Holder"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_active
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_active
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__active
 msgid "Active"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_variable_journal_ids
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__variable_journal_ids
 msgid "Allowed Bank Journals"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__bank_account_required
 msgid "Bank Account Required"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
-#: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner_bank__acc_type
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
 msgstr ""
 
@@ -59,17 +65,22 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_company_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
+msgid "Code (Do Not Modify)"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_uid
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_create_date
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_date
 msgid "Created on"
 msgstr "Criado em"
 
@@ -94,7 +105,7 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -104,12 +115,22 @@ msgid "Fixed"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_fixed_journal_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__fixed_journal_id
 msgid "Fixed Bank Journal"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_bank_account_link
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
+msgid "For Incoming Payments"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
+msgid "For Outgoing Payments"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__bank_account_link
 msgid ""
 "For payment modes that are always attached to the same bank account of your "
 "company (such as wire transfer from customers or SEPA direct debit from "
@@ -121,19 +142,19 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Group By"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
 msgstr "ID"
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr ""
 
@@ -153,43 +174,65 @@ msgid "Journal"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode___last_update
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_write_uid
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
 msgid "Last Updated by"
 msgstr "Atualizado pela última vez por"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_write_date
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_date
 msgid "Last Updated on"
 msgstr "Atualizado pela última vez em"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_bank_account_link
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
 msgid "Link to Bank Account"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_name
+#: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
+msgid ""
+"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Electronic: Get paid automatically through a payment acquirer by requesting "
+"a transaction on a card saved by the customer when buying or subscribing "
+"online (payment token).\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch "
+"deposit to submit to your bank. When encoding the bank statement in Odoo,you "
+"are suggested to reconcile the transaction with the batch deposit. Enable "
+"this option from the settings."
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
+msgid ""
+"Manual:Pay bill by cash or any other method outside of Odoo.\n"
+"Check:Pay bill by check and print it from Odoo.\n"
+"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit "
+"to your bank. Enable this option from the settings."
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
 msgid "Name"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Name or Code"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_note
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__note
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
 msgid "Note"
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:73
+#: code:addons/account_payment_mode/models/account_payment_mode.py:70
 #, python-format
 msgid ""
 "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
@@ -197,7 +240,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:96
+#: code:addons/account_payment_mode/models/account_payment_mode.py:93
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
@@ -206,7 +249,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:83
+#: code:addons/account_payment_mode/models/account_payment_mode.py:80
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s', but this payment "
@@ -214,25 +257,20 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal_company_partner_id
-msgid "Partner"
-msgstr ""
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_method_id
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Payment Method"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_method_code
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_code
 msgid "Payment Method Code"
 msgstr ""
 
@@ -240,12 +278,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_method_action
 #: model:ir.model,name:account_payment_mode.model_account_payment_method
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_tree
 msgid "Payment Methods"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
 msgid "Payment Mode"
 msgstr ""
 
@@ -253,33 +291,33 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
 #: model:ir.model,name:account_payment_mode.model_account_payment_mode
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_tree
 msgid "Payment Modes"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_type
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_type
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_payment_mode_ids
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
 msgid "Payment modes"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Search Payment Methods"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Search Payment Modes"
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_journal.py:37
+#: code:addons/account_payment_mode/models/account_journal.py:36
 #, python-format
 msgid ""
 "The company of the journal '%s' does not match with the company of the "
@@ -287,7 +325,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_journal.py:46
+#: code:addons/account_payment_mode/models/account_journal.py:45
 #, python-format
 msgid ""
 "The company of the journal '%s' does not match with the company of the "
@@ -295,7 +333,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:111
+#: code:addons/account_payment_mode/models/account_payment_mode.py:108
 #, python-format
 msgid ""
 "The company of the payment mode '%s', does not match with the company of "
@@ -303,7 +341,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:121
+#: code:addons/account_payment_mode/models/account_payment_mode.py:118
 #, python-format
 msgid ""
 "The company of the payment mode '%s', does not match with the one of the "
@@ -311,7 +349,8 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_payment_method_code
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__payment_method_code
 msgid ""
 "This code is used in the code of the Odoo module that handles this payment "
 "method. Therefore, if you change it, the generation of the payment file may "
