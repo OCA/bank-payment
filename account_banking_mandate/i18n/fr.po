@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2018-12-12 17:58+0000\n"
+"PO-Revision-Date: 2019-01-08 18:40+0000\n"
 "Last-Translator: benj-filament <benjamin@le-filament.com>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/fr/)\n"
@@ -26,6 +26,8 @@ msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
 msgstr ""
+"Un Mandat de Banque est un document signé par votre client qui vous autorise "
+"à faire une ou lusieurs opérations sur son compte bancaire."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
@@ -66,19 +68,19 @@ msgstr "Comptes Bancaires"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Lignes de paiement"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
-msgstr ""
+msgstr "Mandat Bancaire"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,name:account_banking_mandate.mandate_action
 #: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
 msgid "Banking Mandates"
-msgstr ""
+msgstr "Mandats Bancaires"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_res_partner_bank_mandate_ids
