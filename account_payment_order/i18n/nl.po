@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-01 15:18+0000\n"
-"PO-Revision-Date: 2018-05-01 15:18+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2019-01-21 15:41+0000\n"
+"Last-Translator: Raf Ven <raf.ven@dynapps.be>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:119
@@ -367,7 +368,7 @@ msgstr "Valuta van de betaaltransactie"
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
-msgstr "Betaalopdrachten"
+msgstr "Inkomende Betaalopdrachten"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:444
@@ -1019,7 +1020,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Orders"
-msgstr "Betaalopdrachten"
+msgstr "Uitgaande Betaalopdrachten"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice__reference_type
