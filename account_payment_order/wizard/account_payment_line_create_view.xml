@@ -15,6 +15,7 @@
             <group name="main">
                 <field name="order_id" invisible="1"/>
                 <field name="date_type"/>
+                <field name="due_on"/>
                 <field name="move_date" attrs="{'required': [('date_type', '=', 'move')], 'invisible': [('date_type', '!=', 'move')]}"/>
                 <field name="due_date" attrs="{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"/>
                 <field name="journal_ids"

@@ -30,6 +30,14 @@ class AccountPaymentLineCreate(models.TransientModel):
         ('due', 'Due Date'),
         ('move', 'Move Date'),
         ], string="Type of Date Filter", required=True)
+    due_on = fields.Selection(
+        string="Due on",
+        selection=[
+            ('<=', 'Before or equal'),
+            ('=', 'Equal')],
+        default='<=',
+        required=True,
+    )
     due_date = fields.Date(string="Due Date")
     move_date = fields.Date(
         string='Move Date', default=fields.Date.context_today)
@@ -76,10 +84,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         if self.date_type == 'due':
             domain += [
                 '|',
-                ('date_maturity', '<=', self.due_date),
+                ('date_maturity', self.due_on, self.due_date),
                 ('date_maturity', '=', False)]
         elif self.date_type == 'move':
-            domain.append(('date', '<=', self.move_date))
+            domain.append(('date', self.due_on, self.move_date))
         if self.invoice:
             domain.append(('invoice_id', '!=', False))
         if self.payment_mode:
@@ -138,8 +146,9 @@ class AccountPaymentLineCreate(models.TransientModel):
         return action
 
     @api.onchange(
-        'date_type', 'move_date', 'due_date', 'journal_ids', 'invoice',
-        'target_move', 'allow_blocked', 'payment_mode', 'partner_ids')
+        'date_type', 'due_on', 'move_date', 'due_date', 'journal_ids',
+        'invoice', 'target_move', 'allow_blocked', 'payment_mode',
+        'partner_ids')
     def move_line_filters_change(self):
         domain = self._prepare_move_line_domain()
         res = {'domain': {'move_line_ids': domain}}
