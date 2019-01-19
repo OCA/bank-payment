@@ -10,12 +10,6 @@ class TestAccountPaymentPurchase(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestAccountPaymentPurchase, cls).setUpClass()
-        cls.bank = cls.env['res.partner.bank'].create(
-            {'bank_name': 'Test bank',
-             'acc_number': '1234567890'})
-        cls.bank2 = cls.env['res.partner.bank'].create(
-            {'bank_name': 'Test bank #2',
-             'acc_number': '0123456789'})
         cls.journal = cls.env['account.journal'].create(
             {'name': 'Test journal',
              'code': 'TEST',
@@ -29,7 +23,17 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         cls.partner = cls.env['res.partner'].create(
             {'name': 'Test partner',
              'supplier_payment_mode_id': cls.payment_mode.id})
-        cls.uom_id = cls.env.ref('product.product_uom_unit').id
+        cls.bank = cls.env['res.partner.bank'].create(
+            {'bank_name': 'Test bank',
+             'acc_number': '1234567890',
+             'partner_id': cls.partner.id,
+             })
+        cls.bank2 = cls.env['res.partner.bank'].create(
+            {'bank_name': 'Test bank #2',
+             'acc_number': '0123456789',
+             'partner_id': cls.partner.id,
+             })
+        cls.uom_id = cls.env.ref('uom.product_uom_unit').id
         cls.mto_product = cls.env['product.product'].create(
             {'name': 'Test buy product',
              'type': 'product',
@@ -53,9 +57,9 @@ class TestAccountPaymentPurchase(common.SavepointCase):
     def test_purchase_order_invoicing(self):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
-        picking.force_assign()
+        picking.action_confirm()
         picking.move_lines.write({'quantity_done': 1.0})
-        picking.do_transfer()
+        picking.button_validate()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
@@ -74,9 +78,9 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         self.purchase.order_line[0].product_id = stockable_product.id
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
-        picking.force_assign()
+        picking.action_confirm()
         picking.move_lines.write({'quantity_done': 1.0})
-        picking.do_transfer()
+        picking.button_validate()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
@@ -90,9 +94,9 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         purchase2.payment_mode_id = payment_mode2.id
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
-        picking.force_assign()
+        picking.action_confirm()
         picking.move_lines.write({'quantity_done': 1.0})
-        picking.do_transfer()
+        picking.button_validate()
         invoice.purchase_id = purchase2.id
         result = invoice.purchase_order_change()
         self.assertEqual(result['warning']['title'], 'Warning')
@@ -107,9 +111,9 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         self.purchase.supplier_partner_bank_id = self.bank.id
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
-        picking.force_assign()
+        picking.action_confirm()
         picking.move_lines.write({'quantity_done': 1.0})
-        picking.do_transfer()
+        picking.button_validate()
 
         invoice = self.env['account.invoice'].create({
             'partner_id': self.partner.id,
@@ -124,16 +128,16 @@ class TestAccountPaymentPurchase(common.SavepointCase):
         purchase2.supplier_partner_bank_id = self.bank2.id
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
-        picking.force_assign()
+        picking.action_confirm()
         picking.move_lines.write({'quantity_done': 1.0})
-        picking.do_transfer()
+        picking.button_validate()
         invoice.purchase_id = purchase2.id
         result = invoice.purchase_order_change()
         self.assertEqual(result['warning']['title'], 'Warning')
 
     def test_procurement_buy_payment_mode(self):
-        route = self.env.ref('purchase.route_warehouse0_buy')
-        rule = self.env['procurement.rule'].search(
+        route = self.env.ref('purchase_stock.route_warehouse0_buy')
+        rule = self.env['stock.rule'].search(
             [('route_id', '=', route.id)], limit=1)
         rule._run_buy(
             product_id=self.mto_product,
