@@ -4,13 +4,13 @@
 from odoo import models
 
 
-class ProcurementRule(models.Model):
-    _inherit = "procurement.rule"
+class StockRule(models.Model):
+    _inherit = "stock.rule"
 
     def _prepare_purchase_order(self, product_id, product_qty, product_uom,
                                 origin, values, partner):
         """Propagate payment mode on MTO/drop shipping."""
-        values = super(ProcurementRule, self)._prepare_purchase_order(
+        values = super(StockRule, self)._prepare_purchase_order(
             product_id, product_qty, product_uom, origin, values, partner)
         if partner:
             values['payment_mode_id'] = partner.with_context(
