@@ -26,13 +26,8 @@ msgid "Invoice"
 msgstr ""
 
 #. module: account_payment_purchase
-#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
 msgid "Payment Mode"
-msgstr ""
-
-#. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_procurement_rule
-msgid "Procurement Rule"
 msgstr ""
 
 #. module: account_payment_purchase
@@ -41,7 +36,7 @@ msgid "Purchase Order"
 msgstr "Nákupní objednávka"
 
 #. module: account_payment_purchase
-#: model:ir.model.fields,help:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
+#: model:ir.model.fields,help:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
 msgid ""
 "Select the bank account of your supplier on which your company should send "
 "the payment. This field is copied from the partner and will be copied to the "
@@ -61,7 +56,12 @@ msgid "Selected purchase order have different supplier bank."
 msgstr ""
 
 #. module: account_payment_purchase
-#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order_supplier_partner_bank_id
+#: model:ir.model,name:account_payment_purchase.model_stock_rule
+msgid "Stock Rule"
+msgstr ""
+
+#. module: account_payment_purchase
+#: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
 msgid "Supplier Bank Account"
 msgstr ""
 
