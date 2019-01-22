@@ -44,7 +44,8 @@ See 'readme' files of the OCA/bank-payment suite.
 Known issues / Roadmap
 ======================
 
- * no known issues
+ * Unfortunately at this point in time in Germany it is not possible to make a payment to a
+bank account without an IBAN using a PAIN file (this is due to the PAIN variant that they use).
 
 Bug Tracker
 ===========
