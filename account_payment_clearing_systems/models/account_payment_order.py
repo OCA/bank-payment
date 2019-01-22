@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018 Braintec (https://www.braintec-group.com/)
+# Copyright 2018 brain-tec AG (https://www.braintec-group.com/)
 # @author: Timka Piric Muratovic, Tobias Bächle
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 

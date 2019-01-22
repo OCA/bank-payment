@@ -60,8 +60,8 @@ Credits
 Contributors
 ------------
 
-* Timka Piric Muratovic
-* Tobias Bächle
+* Timka Piric Muratovic (brain-tec AG)
+* Tobias Bächle (brain-tec AG)
 
 Maintainer
 ----------
