@@ -12,7 +12,7 @@ which prevents the selection of a contact -->
     <field name="inherit_id" ref="account.partner_view_buttons"/>
     <field name="arch" type="xml">
         <group name="banks" position="attributes">
-            <attribute name="attrs">{'invisible': [('parent_id', '!=', False)]}</attribute>
+            <attribute name="attrs">{'invisible': [('parent_id', '!=', False), ('is_company', '=', False)]}</attribute>
         </group>
     </field>
 </record>
