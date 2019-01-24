@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2019-01-24 10:47+0000\n"
+"Last-Translator: Alessandro Camilli <alessandrocamilli@openforce.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:111
@@ -35,37 +36,38 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Company Currency:</strong>"
-msgstr ""
+msgstr "<strong>Valuta Azienda:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Esecuzione:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Payment Type:</strong>"
-msgstr ""
+msgstr "<strong>Tipo Pagamento:</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr ""
+msgstr "<strong>Riferimento</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Totale</strong>"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Used Account:</strong>"
-msgstr ""
+msgstr "<strong>Conto da Usare:</strong>"
 
 #. module: account_payment_order
 #: sql_constraint:account.payment.line:0
 msgid "A payment line already exists with this reference in the same company!"
 msgstr ""
+"Riga di pagamento esiste già con lo stesso riferimento nella stessa azienda!"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:16
@@ -78,17 +80,17 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
 msgid "Account Entry"
-msgstr ""
+msgstr "Registrazione Contabile"
 
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
-msgstr ""
+msgstr "Contabilità / Pagamenti"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Accounting Entries Options"
-msgstr ""
+msgstr "Opzioni Registrazioni Contabili"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_bank_account_required
@@ -100,34 +102,34 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Add All Move Lines"
-msgstr ""
+msgstr "Aggiungi tutte le righe contabili"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_form
 msgid "Add to Debit Order"
-msgstr ""
+msgstr "Aggiungi all'ordine di debito"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.invoice_supplier_form
 msgid "Add to Payment Order"
-msgstr ""
+msgstr "Aggiungi all'ordine di pagamento"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr ""
+msgstr "Aggiungi all'ordine di pagamento/debito"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Entries"
-msgstr ""
+msgstr "Tutte le registrazioni"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
 #: selection:account.payment.mode,default_target_move:0
 msgid "All Posted Entries"
-msgstr ""
+msgstr "Solo registrazioni confermate"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_allow_blocked
@@ -140,13 +142,13 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Amount"
-msgstr ""
+msgstr "Importo"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_amount_company_currency
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_amount_company_currency
 msgid "Amount in Company Currency"
-msgstr ""
+msgstr "Importo nella valuta dell'azienda"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
@@ -157,17 +159,17 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Attachments"
-msgstr ""
+msgstr "Allegati"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Reimposta a Bozza"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banca"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,offsetting_account:0
@@ -179,25 +181,25 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_account_required
 msgid "Bank Account Required"
-msgstr ""
+msgstr "Conto della banca è obbligatorio"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_journal_id
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Bank Journal"
-msgstr ""
+msgstr "Sezionale della banca"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_bank_payment_line_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_line_id
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
 msgid "Bank Payment Line"
-msgstr ""
+msgstr "Riga di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_name
 msgid "Bank Payment Line Ref"
-msgstr ""
+msgstr "Riferimento riga pagamento"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.bank_payment_line_action
@@ -230,7 +232,7 @@ msgstr "Annulla"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Cancel Payments"
-msgstr ""
+msgstr "Cancella Pagamenti"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:165
@@ -257,13 +259,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_communication
 msgid "Communication"
-msgstr ""
+msgstr "Comunicazione"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_communication_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_communication_type
 msgid "Communication Type"
-msgstr ""
+msgstr "Tipo Comunicazione"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_company_id
@@ -275,33 +277,33 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_company_partner_bank_id
 msgid "Company Bank Account"
-msgstr ""
+msgstr "Conto Bancario Aziendale"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Confirm Payments"
-msgstr ""
+msgstr "Conferma Pagamenti"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Confirmed"
-msgstr ""
+msgstr "Confermato"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create Payment Lines"
-msgstr ""
+msgstr "Crea righe pagamento"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Create Payment Lines from Journal Items"
-msgstr ""
+msgstr "Crea Linee da registrazioni contabili"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -343,7 +345,7 @@ msgstr "Creato il"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_company_currency_id
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_currency_id
@@ -355,7 +357,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
-msgstr ""
+msgstr "Ordini di debito"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:444
@@ -368,7 +370,7 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_order.py:394
 #, python-format
 msgid "Debit order %s"
-msgstr ""
+msgstr "Ordine di debito %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_date_prefered
@@ -378,7 +380,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_description
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_no_debit_before_maturity
@@ -398,23 +400,23 @@ msgstr "Nome da visualizzare"
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 msgid "Done"
-msgstr ""
+msgstr "Fatto"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_done
 msgid "Done Date"
-msgstr ""
+msgstr "Data conferma"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Due"
-msgstr ""
+msgstr "Scadenza"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
@@ -422,18 +424,18 @@ msgstr ""
 #: selection:account.payment.order,date_prefered:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_due_date
 msgid "Due Date"
-msgstr ""
+msgstr "Data Scadenza"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_ml_maturity_date
 msgid "Due date"
-msgstr ""
+msgstr "Data scadenza"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Generated"
-msgstr ""
+msgstr "File Generato"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_generated
@@ -444,19 +446,19 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "File Successfully Uploaded"
-msgstr ""
+msgstr "File caricato con successo"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_uploaded
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Upload Date"
-msgstr ""
+msgstr "Data upload file"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Uploaded"
-msgstr ""
+msgstr "File Caricato"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
@@ -497,23 +499,23 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
-msgstr ""
+msgstr "Genera file di pagamento"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Generated File"
-msgstr ""
+msgstr "File Generato"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_generated_user_id
 msgid "Generated by"
-msgstr ""
+msgstr "Generato da"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Group By"
-msgstr ""
+msgstr "Raggruppa per"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_group_lines
@@ -533,7 +535,7 @@ msgstr "ID"
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 msgid "ISO"
-msgstr ""
+msgstr "ISO"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_group_lines
@@ -561,7 +563,7 @@ msgstr ""
 #: selection:account.payment.mode,default_date_prefered:0
 #: selection:account.payment.order,date_prefered:0
 msgid "Immediately"
-msgstr ""
+msgstr "Immediato"
 
 #. module: account_payment_order
 #: selection:account.payment.order,payment_type:0
@@ -572,23 +574,23 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Fattura"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Invoice Ref"
-msgstr ""
+msgstr "Rif Fattura"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
 msgid "Journal Entries"
-msgstr ""
+msgstr "Registrazioni contabili"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move_line
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_move_line_id
 msgid "Journal Item"
-msgstr ""
+msgstr "Riga registrazione contabile"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode_transfer_journal_id
@@ -601,7 +603,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_journal_ids
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_journal_ids
 msgid "Journals Filter"
-msgstr ""
+msgstr "Filtro Sezionali"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -738,7 +740,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_name
 msgid "Number"
-msgstr ""
+msgstr "Numero"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_bank_line_count
@@ -930,7 +932,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_payment_type
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipo Pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:442
@@ -941,19 +943,19 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
 msgid "Payment lines"
-msgstr ""
+msgstr "Linee Pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:369
 #: code:addons/account_payment_order/models/account_payment_order.py:392
 #, python-format
 msgid "Payment order %s"
-msgstr ""
+msgstr "Ordine di pagamento %s"
 
 #. module: account_payment_order
 #: model:ir.ui.menu,name:account_payment_order.payment_root
 msgid "Payments"
-msgstr ""
+msgstr "Pagamenti"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_post_move
@@ -969,17 +971,17 @@ msgstr ""
 #: selection:account.payment.line.create,payment_mode:0
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Same"
-msgstr ""
+msgstr "Stesso"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
 msgid "Same or Empty"
-msgstr ""
+msgstr "Stesso o non specificato"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_payment_mode:0
 msgid "Same or empty"
-msgstr ""
+msgstr "Stesso o non specificato"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
@@ -989,7 +991,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Search Payment Orders"
-msgstr ""
+msgstr "Cerca Ordini di Pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:130
@@ -1026,12 +1028,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_state
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:33
@@ -1043,7 +1045,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_target_move
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_default_target_move
 msgid "Target Moves"
-msgstr ""
+msgstr "Tipo movimenti"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:303
@@ -1105,12 +1107,12 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Total (Currency)"
-msgstr ""
+msgstr "Totale (Valuta)"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Total Amount"
-msgstr ""
+msgstr "Totale Importo"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
@@ -1121,12 +1123,12 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr ""
+msgstr "Totale Residuo"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Total in Company Currency"
-msgstr ""
+msgstr "Tatale in valuta dell'azienda"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_line_ids
@@ -1163,7 +1165,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
-msgstr ""
+msgstr "Data pagamento"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
