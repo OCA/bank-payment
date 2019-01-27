@@ -75,6 +75,7 @@ msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr ""
 
@@ -133,11 +134,13 @@ msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users__customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
 msgstr ""
 
@@ -158,6 +161,7 @@ msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr ""
 
