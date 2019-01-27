@@ -88,6 +88,7 @@ msgid "Banking Mandates"
 msgstr "Bančni mandati"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,help:account_banking_mandate.field_account_setup_bank_manual_config__mandate_ids
 #: model:ir.model.fields,help:account_banking_mandate.field_res_partner_bank__mandate_ids
 msgid ""
 "Banking mandates represent an authorization that the bank account owner "
@@ -169,6 +170,7 @@ msgid "Direct Debit Mandate"
 msgstr "Mandat za direktne obremenitve"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_setup_bank_manual_config__mandate_ids
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__mandate_ids
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.mandate_partner_bank_form
 msgid "Direct Debit Mandates"
@@ -194,6 +196,7 @@ msgstr "Pretečeni"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__valid_mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users__valid_mandate_id
 msgid "First Valid Mandate"
 msgstr ""
 
@@ -351,6 +354,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__mandate_count
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_users__mandate_count
 msgid "Number of Mandates"
 msgstr ""
 
