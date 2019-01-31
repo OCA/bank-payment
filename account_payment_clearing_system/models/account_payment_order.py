@@ -5,7 +5,7 @@
 
 from lxml import etree
 
-from odoo import models, fields, api, _
+from odoo import models, api, _
 from odoo.exceptions import UserError
 
 
@@ -13,12 +13,15 @@ class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
     @api.model
-    def generate_party_agent(self, parent_node, party_type, order, partner_bank, gen_args, bank_line=None):
+    def generate_party_agent(self, parent_node, party_type, order,
+                             partner_bank, gen_args, bank_line=None):
         """
-        Identify and generate the party agent information based on the csmi_number if it is set for the bank.
+        Identify and generate the party agent information based on the
+        csmi_number if it is set for the bank.
         Otherwise resort to the default implementation.
         """
-        if partner_bank.bank_id.csmi != 'other' and partner_bank.bank_id.csmi_number:
+        if partner_bank.bank_id.csmi != 'other' \
+                and partner_bank.bank_id.csmi_number:
             party_agent = etree.SubElement(
                 parent_node, '%sAgt' % party_type)
             party_agent_institution = etree.SubElement(
@@ -29,11 +32,13 @@ class AccountPaymentOrder(models.Model):
                 party_agent_csmi, 'ClrSysId')
             party_agent_csmi_identification_code = etree.SubElement(
                 party_agent_csmi_identification, 'Cd')
-            party_agent_csmi_identification_code.text = partner_bank.bank_id.csmi
+            party_agent_csmi_identification_code.text = \
+                partner_bank.bank_id.csmi
 
             party_agent_csmi_identification_member_id = etree.SubElement(
                 party_agent_csmi, 'MmbId')
-            party_agent_csmi_identification_member_id.text = partner_bank.bank_id.csmi_number
+            party_agent_csmi_identification_member_id.text = \
+                partner_bank.bank_id.csmi_number
             party_agent_name = etree.SubElement(
                 party_agent_institution, 'Nm')
             party_agent_name.text = partner_bank.bank_id.name
@@ -42,7 +47,8 @@ class AccountPaymentOrder(models.Model):
             if partner_bank.bank_id.street:
                 party_agent_postal_street_name = etree.SubElement(
                     party_agent_postal_address, 'StrtNm')
-                party_agent_postal_street_name.text = partner_bank.bank_id.street
+                party_agent_postal_street_name.text = \
+                    partner_bank.bank_id.street
             if partner_bank.bank_id.zip:
                 party_agent_postal_street_zip = etree.SubElement(
                     party_agent_postal_address, 'PstCd')
@@ -52,15 +58,18 @@ class AccountPaymentOrder(models.Model):
                     party_agent_postal_address, 'TwnNm')
                 party_agent_postal_street_city.text = partner_bank.bank_id.city
             if not partner_bank.bank_id.country:
-                raise UserError(
-                    _("Country of the bank '%s' is missing. This is needed for international payments.")
-                    % (partner_bank.bank_id.name))
+                error_message = _("Country of the bank '{}' is missing. "
+                                  "This is needed for international payments.")
+                raise UserError(error_message.format(
+                    partner_bank.bank_id.name))
             else:
                 party_agent_postal_street_country = etree.SubElement(
                     party_agent_postal_address, 'Ctry')
-                party_agent_postal_street_country.text = partner_bank.bank_id.country.code
+                party_agent_postal_street_country.text = \
+                    partner_bank.bank_id.country.code
 
             return True
         else:
-            return super(AccountPaymentOrder, self).generate_party_agent(parent_node, party_type, order, partner_bank,
-                                                                         gen_args, bank_line=bank_line)
+            return super(AccountPaymentOrder, self).generate_party_agent(
+                parent_node, party_type, order, partner_bank,
+                gen_args, bank_line=bank_line)
