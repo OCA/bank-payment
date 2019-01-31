@@ -2,7 +2,7 @@
     :alt: License: AGPL-3
 
 =======================================
-Account Payment Clearing Systems Module
+Account Payment Clearing System Module
 =======================================
 
 This module allows to set a 'Clearing System Member Identification' type on a bank (res.bank) and

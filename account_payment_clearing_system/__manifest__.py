@@ -3,7 +3,7 @@
 # @author: Timka Piric Muratovic, Tobias Bächle
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    'name': 'Account Payment Clearing Systems',
+    'name': 'Account Payment Clearing System',
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Odoo Community Association (OCA), brain-tec AG',
