@@ -15,15 +15,6 @@ class AccountPaymentOrder(models.Model):
     _inherit = ['mail.thread']
     _order = 'id desc'
 
-    def domain_journal_id(self):
-        if not self.payment_mode_id:
-            return [('id', '=', False)]
-        if self.payment_mode_id.bank_account_link == 'fixed':
-            return [('id', '=', self.payment_mode_id.fixed_journal_id.id)]
-        elif self.payment_mode_id.bank_account_link == 'variable':
-            jrl_ids = self.payment_mode_id.variable_journal_ids.ids
-            return [('id', 'in', jrl_ids)]
-
     name = fields.Char(
         string='Number', readonly=True, copy=False)  # v8 field : name
     payment_mode_id = fields.Many2one(
@@ -44,10 +35,14 @@ class AccountPaymentOrder(models.Model):
         readonly=True)
     bank_account_link = fields.Selection(
         related='payment_mode_id.bank_account_link', readonly=True)
+    allowed_journal_ids = fields.Many2many(
+        comodel_name='account.journal',
+        compute="_compute_allowed_journal_ids",
+        string="Allowed journals",
+    )
     journal_id = fields.Many2one(
         'account.journal', string='Bank Journal', ondelete='restrict',
         readonly=True, states={'draft': [('readonly', False)]},
-        domain=domain_journal_id,
         track_visibility='onchange')
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
@@ -105,6 +100,16 @@ class AccountPaymentOrder(models.Model):
         'account.move', 'payment_order_id', string='Journal Entries',
         readonly=True)
     description = fields.Char()
+
+    @api.depends('payment_mode_id')
+    def _compute_allowed_journal_ids(self):
+        for record in self:
+            if record.payment_mode_id.bank_account_link == 'fixed':
+                record.allowed_journal_ids = (
+                    record.payment_mode_id.fixed_journal_id)
+            elif record.payment_mode_id.bank_account_link == 'variable':
+                record.allowed_journal_ids = (
+                    self.payment_mode_id.variable_journal_ids)
 
     @api.multi
     def unlink(self):
@@ -174,16 +179,10 @@ class AccountPaymentOrder(models.Model):
 
     @api.onchange('payment_mode_id')
     def payment_mode_id_change(self):
-        domain = self.domain_journal_id()
-        res = {'domain': {
-            'journal_id': domain
-        }}
-        journals = self.env['account.journal'].search(domain)
-        if len(journals) == 1:
-            self.journal_id = journals
+        if len(self.allowed_journal_ids) == 1:
+            self.journal_id = self.allowed_journal_ids
         if self.payment_mode_id.default_date_prefered:
             self.date_prefered = self.payment_mode_id.default_date_prefered
-        return res
 
     @api.multi
     def action_done(self):
