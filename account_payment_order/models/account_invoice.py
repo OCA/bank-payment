@@ -79,7 +79,8 @@ class AccountInvoice(models.Model):
                 lambda x: (
                     not x.reconciled and x.payment_mode_id.payment_order_ok and
                     x.account_id.internal_type in ('receivable', 'payable') and
-                    not x.payment_line_ids
+                    not any(p_state in ('draft', 'open', 'generated')
+                            for p_state in x.payment_line_ids.mapped('state'))
                 )
             )
             if not applicable_lines:
