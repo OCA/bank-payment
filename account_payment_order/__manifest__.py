@@ -22,6 +22,7 @@
         'base_iban',  # for manual_bank_tranfer
     ],
     'data': [
+        'views/account_payment_method.xml',
         'security/payment_security.xml',
         'security/ir.model.access.csv',
         'wizard/account_payment_line_create_view.xml',
