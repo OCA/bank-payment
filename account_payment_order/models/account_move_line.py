@@ -78,10 +78,10 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def create_payment_line_from_move_line(self, payment_order):
-        aplo = self.env['account.payment.line']
+        vals_list = []
         for mline in self:
-            aplo.create(mline._prepare_payment_line_vals(payment_order))
-        return
+            vals_list.append(mline._prepare_payment_line_vals(payment_order))
+        return self.env['account.payment.line'].create(vals_list)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
