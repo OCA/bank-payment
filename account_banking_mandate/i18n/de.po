@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-09 14:56+0000\n"
-"PO-Revision-Date: 2018-03-09 14:56+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2019-02-15 09:44+0000\n"
+"Last-Translator: Thorsten Vocks <thorsten.vocks@big-consulting.net>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.4\n"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -24,11 +25,13 @@ msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
 msgstr ""
+"Ein Bankmandat ist ein vom Kunden unterzeichnetes Dokument, welches Sie "
+"berechtigt eine oder mehrere Bankeinzüge vorzunehmen."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr ""
+msgstr "Ein Mandat mit dieser Referenz existiert bereits für diese Firma!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -43,6 +46,8 @@ msgid ""
 "Activate this option if this payment method requires your customer to sign a "
 "direct debit mandate with your company."
 msgstr ""
+"Durch Aktivierung erfordert diese Zahlungsmethode ein vom Kunden zu "
+"unterschreibendes Mandat zum Direct Debit Bankeinzug durch Ihr Unternehmen."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -68,13 +73,13 @@ msgstr "Bankzahlungszeilen"
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
-msgstr "Bankauftrag"
+msgstr "Bankmandat"
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,name:account_banking_mandate.mandate_action
 #: model:ir.ui.menu,name:account_banking_mandate.mandate_menu
 msgid "Banking Mandates"
-msgstr "Bankaufträge"
+msgstr "Bankmandate"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_res_partner_bank_mandate_ids
@@ -82,6 +87,8 @@ msgid ""
 "Banking mandates represent an authorization that the bank account owner "
 "gives to a company for a specific operation."
 msgstr ""
+"Bankmandate repräsentieren eine Autorisierung durch den Inhaber eines "
+"Bankkontos zur Durchführung bestimmter Operationen."
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,format:0
@@ -106,17 +113,19 @@ msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
 msgstr ""
+"Das Mandat '%s' kann nicht validiert werden, da es nicht dem Bankkonto "
+"zugewiesen wurde."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:144
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
-msgstr ""
+msgstr "Das Mandat '%s' kann nicht ohne Unterschriftsdatum validiert werden."
 
 #. module: account_banking_mandate
 #: model:ir.actions.act_window,help:account_banking_mandate.mandate_action
 msgid "Click to create a new Banking Mandate."
-msgstr ""
+msgstr "Zur Erstellung eines neuen Bankmandats klicken."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_company_id
@@ -126,7 +135,7 @@ msgstr "Unternehmen"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_uid
@@ -136,7 +145,7 @@ msgstr "Erstellt von"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_create_date
 msgid "Created on"
-msgstr "Erstellt am:"
+msgstr "Erstellt am"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_signature_date
@@ -146,7 +155,7 @@ msgstr "Datum der Unterschrift des Mandats"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_last_debit_date
 msgid "Date of the Last Debit"
-msgstr ""
+msgstr "Datum des letzten Bankeinzugs"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice_mandate_id
@@ -160,12 +169,12 @@ msgstr "Lastschrift Mandat"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank_mandate_ids
 #: model:ir.ui.view,arch_db:account_banking_mandate.mandate_partner_bank_form
 msgid "Direct Debit Mandates"
-msgstr "Bankeinzug Mandanten"
+msgstr "Bankeinzug Mandante"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_display_name
 msgid "Display Name"
-msgstr "Anzeigename"
+msgstr "Bezeichnung"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -183,7 +192,7 @@ msgstr "Abgelaufen"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_valid_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_users_valid_mandate_id
 msgid "First Valid Mandate"
-msgstr ""
+msgstr "Erstes gültiges Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -194,7 +203,7 @@ msgstr "Format"
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
 msgid "Generic Mandate"
-msgstr ""
+msgstr "Generisches Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -214,22 +223,22 @@ msgstr "Rechnung"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
 msgid "Journal Item"
-msgstr "Logbuch Eintrag"
+msgstr "Buchung"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate___last_update
 msgid "Last Modified on"
-msgstr "Zuletzt geändert am"
+msgstr "Geändert am"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_uid
 msgid "Last Updated by"
-msgstr "Zuletzt aktualisiert von"
+msgstr "Aktualisiert von"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_write_date
 msgid "Last Updated on"
-msgstr "Zuletzt aktualisiert am"
+msgstr "Aktualisiert am"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
@@ -252,7 +261,7 @@ msgstr "Mandat erforderlich"
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:208
 #, python-format
 msgid "Mandate should be in cancel state."
-msgstr "Mandate sollte im Abburchzustand sein."
+msgstr "Mandate sollte im Abbruchzustand sein."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
@@ -280,7 +289,7 @@ msgstr "Mandate"
 #: code:addons/account_banking_mandate/models/account_payment_line.py:51
 #, python-format
 msgid "Missing Mandate on payment line %s"
-msgstr ""
+msgstr "Fehlendes Mandat bei der Zahlungsposition %s"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_mandate_count
@@ -291,7 +300,7 @@ msgstr "Anzahl der Mandate"
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
 msgid "One-Off"
-msgstr ""
+msgstr "Einmalig"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate_state
@@ -299,6 +308,8 @@ msgid ""
 "Only valid mandates can be used in a payment line. A cancelled mandate is a "
 "mandate that has been cancelled by the customer."
 msgstr ""
+"Nur gültige Mandate können in Zahlungspositionen genutzt werden. Ein "
+"widerrufenes Mandat wurde durch Ihren Kunden gekündigt."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_partner_id
@@ -318,7 +329,7 @@ msgstr "Zahlungsmethoden"
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
 msgid "Recurrent"
-msgstr ""
+msgstr "Wiederkehrend"
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
@@ -374,18 +385,22 @@ msgid ""
 "The bank payment line %s has a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"Die Zahlung %s beinhaltet ein anderes Unternehmen als das damit verknüpfte "
+"Mandat %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr ""
+"Das Unternehmen für das Mandat %s unterscheidet sich vom Unternehmen beim "
+"Partner %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:81
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
-msgstr ""
+msgstr "Das Unterschriftsdatum des Mandats '%s' liegt in der Zukunft!"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_invoice.py:91
@@ -393,6 +408,7 @@ msgstr ""
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
 msgstr ""
+"Die Rechnung %s hat ein anderes Unternehmen als das verknüpfte Mandat %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_move_line.py:46
@@ -401,6 +417,8 @@ msgid ""
 "The item %s of journal %s has a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"Die Buchung %s im Journal %s beinhaltet ein anderes Unternehmen als das "
+"verknüpfte Mandat %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
@@ -409,6 +427,8 @@ msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
 msgstr ""
+"Das Mandat '%s' kann kein Datum des letztmalig durchgeführten Bankeinzugs "
+"haben, welches vor dem Unterschriftsdatum des Mandats liegt."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:41
@@ -417,6 +437,8 @@ msgid ""
 "The payment line number %s a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"Die Zahlungspositionsnummer %s weist eine anderes Unternehmen aus als das "
+"verknüpfte Mandat %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:26
@@ -425,6 +447,8 @@ msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
 "to the mandate '%s' (this mandate is attached to the bank account '%s')."
 msgstr ""
+"Die Zahlungspositionsnummer %s mit dem Bankkonto '%s' wurde nicht mit dem "
+"Mandat '%s' verknüpft (dieses Mandat ist verknüpft mit dem Bankkonto '%s')."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -434,12 +458,12 @@ msgstr "Art"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_type
 msgid "Type of Mandate"
-msgstr ""
+msgstr "Mandatstyp"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate_unique_mandate_reference
 msgid "Unique Mandate Reference"
-msgstr "Eindeutige Mandantenreferenz"
+msgstr "Eindeutige Mandantsreferenz"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -459,6 +483,8 @@ msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
 "referencing it that belong to another company."
 msgstr ""
+"Sie können nicht einfach das Unternehmen der Bank %s für den Partner ändern, "
+"da bereits Mandate existieren, die zu einem anderen Unternehmen gehören."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
@@ -467,6 +493,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
 "lines referencing it that belong to another company."
 msgstr ""
+"Sie können nicht das Unternehmen des Mandates %s ändern, da bereits "
+"Zahlungspositionen für ein anderes Unternehmen existieren."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
@@ -475,6 +503,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
 "referencing it that belong to another company."
 msgstr ""
+"Sie können nicht das Unternehmen des Mandats %s ändern, da bereits "
+"Rechnungen existieren, die auf ein anderes Unternehmen referenzieren."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
@@ -483,6 +513,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
 "referencing it that belong to another company."
 msgstr ""
+"Sie können nicht das Unternehmen des Mandats %s ändern, da bereits Buchungen "
+"existieren, die auf ein anderes Unternehmen referenzieren."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:105
@@ -491,6 +523,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
 "referencing it that belong to another company."
 msgstr ""
+"Sie können nicht das Unternehmen des Mandats %s ändern, da bereits Zahlungen "
+"existieren, die auf ein anderes Unternehmen referenzieren."
 
 #. module: account_banking_mandate
 #: model:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -498,3 +532,5 @@ msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
 msgstr ""
+"Sie sollten ein Mandat nur dann in den Entwurf zurücksetzen, wenn Sie es "
+"versehentlich beendet haben. Möchten Sie tatsächlich fortfahren ?"
