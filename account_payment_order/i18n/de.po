@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-01 15:18+0000\n"
-"PO-Revision-Date: 2019-02-15 14:13+0000\n"
+"PO-Revision-Date: 2019-02-15 17:50+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@big-consulting.net>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
@@ -125,7 +125,7 @@ msgstr "Zum Zahlungsauftrag hinzufügen"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr "Zum Zahlungs-/Lastschriftauftrag hinzufügen"
+msgstr "Zum Zahlungsauftrag hinzufügen"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,target_move:0
@@ -724,7 +724,7 @@ msgstr "Bankkonto fehlt beim Bankjournal %s."
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Move"
-msgstr "Buchung"
+msgstr "Buchungsdatum"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
@@ -1231,7 +1231,7 @@ msgstr "Transferjournal"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transfer Journal Entries"
-msgstr "Transfer Buchungen"
+msgstr "Zahlungsbuchungen"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_date_type
