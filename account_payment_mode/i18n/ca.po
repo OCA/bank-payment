@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-15 00:44+0000\n"
-"PO-Revision-Date: 2018-04-15 00:44+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"PO-Revision-Date: 2019-02-16 10:50+0000\n"
+"Last-Translator: mtbochaca <mtbochaca@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.4\n"
 
 #. module: account_payment_mode
 #: sql_constraint:account.payment.method:0
@@ -120,6 +121,14 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
+"Per als modes de pagament que estan sempre associats al mateix compte "
+"bancari de la teva empresa (tals com transferència bancaria per a clienta o "
+"ordres de cobrament SEPA de proveïdors), selecciona 'Fix'. Per als modes de "
+"pagaments que no estan sempre associats al mateix compte bancari (tals com "
+"ordres de cobrament SEPA per a clients o transferències a proveïdors), heu "
+"d'elegri 'Variable', el que vol dir que seleccionaràs el compte bancari a la "
+"ordre de pagament. Si la teva empresa només te un compte bancari, hauràs de "
+"seleccionar sempre 'Fix'."
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
