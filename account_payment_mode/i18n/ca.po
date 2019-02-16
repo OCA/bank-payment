@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-15 00:44+0000\n"
-"PO-Revision-Date: 2019-02-16 10:50+0000\n"
+"PO-Revision-Date: 2019-02-16 13:50+0000\n"
 "Last-Translator: mtbochaca <mtbochaca@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
@@ -42,23 +42,23 @@ msgstr "Actiu"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_variable_journal_ids
 msgid "Allowed Bank Journals"
-msgstr "Permetre Diaris Bancaris "
+msgstr "Diaris bancaris permesos"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method_bank_account_required
 msgid "Bank Account Required"
-msgstr "Compte bancari requerit "
+msgstr "Compte bancari requerit"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_form
 #: model:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
-msgstr "Tipus de compte bancari "
+msgstr "Tipus de compte bancari"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Comptes Bancaris "
+msgstr "Comptes Bancaris"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_company_id
@@ -78,22 +78,22 @@ msgstr "Creat el"
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
 msgid "Credit Transfer to Suppliers"
-msgstr "Transferència de crèdit als proveïdors "
+msgstr "Ordres de pagament a proveïdors"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
 msgid "Direct Debit of customers"
-msgstr "Domiciliació bancaria als clients "
+msgstr "Ordres de cobrament a clients"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
 msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Domiciliació Bancaria de proveïdors de La Banque Postale "
+msgstr "Domiciliació Bancaria de proveïdors de La Banque Postale"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
 msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Domiciliació Bancaria de proveïdors de Société Générale "
+msgstr "Domiciliació Bancaria de proveïdors de Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_display_name
@@ -103,12 +103,12 @@ msgstr "Veure el nom"
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Fixed"
-msgstr "Fix "
+msgstr "Fix"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_fixed_journal_id
 msgid "Fixed Bank Journal"
-msgstr "Diari Bancari fixat "
+msgstr "Diari Bancari fix"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_bank_account_link
@@ -145,12 +145,12 @@ msgstr "ID"
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
-msgstr "Entrant "
+msgstr "Entrant"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
 msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Transferència entrant de crèdit La Banque Postale "
+msgstr "Transferència entrant de crèdit La Banque Postale"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
@@ -190,7 +190,7 @@ msgstr "Nom"
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Name or Code"
-msgstr "Nom o Codi "
+msgstr "Nom o Codi"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_note
@@ -206,7 +206,7 @@ msgid ""
 "bank journal is not set"
 msgstr ""
 "A la forma de pagament '%s', l'enllaç al compte bancari és 'Fixat' però el "
-"diari bancari fixat no s'estableix "
+"diari bancari fixat no s'estableix"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:92
@@ -218,7 +218,7 @@ msgid ""
 msgstr ""
 "A la forma de pagament '%s', el mètode de pagament és '%s' (de fet és un "
 "mètode de dèbit), però aquest mètode de dèbit no és part de mètode de dèbit "
-"del diari bancari fix '%s' "
+"del diari bancari fix '%s'"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:79
@@ -227,12 +227,15 @@ msgid ""
 "On the payment mode '%s', the payment method is '%s', but this payment "
 "method is not part of the payment methods of the fixed bank journal '%s'"
 msgstr ""
+"En el mode de pagament '%s', la forma de pagament és '%s', però aquesta "
+"forma de pagament no és part dels modes de pagament del diari bancari fix "
+"'%s'"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
-msgstr "Sortint "
+msgstr "Sortint"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal_company_partner_id
@@ -270,23 +273,23 @@ msgstr "Forma de pagament "
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_tree
 msgid "Payment Modes"
-msgstr "Formes de pagament "
+msgstr "Formes de pagament"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode_payment_type
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Payment Type"
-msgstr "Tipus de pagament "
+msgstr "Tipus de pagament"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Search Payment Methods"
-msgstr "Cerca mètodes de pagament "
+msgstr "Cerca mètodes de pagament"
 
 #. module: account_payment_mode
 #: model:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Search Payment Modes"
-msgstr "Cerca formes de pagament "
+msgstr "Cerca formes de pagament"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode_payment_method_code
@@ -295,6 +298,9 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
+"Aquest codi està utilitzat al codi del mòdul Odoo que fa servir aquesta "
+"forma de pagament. En conseqüència, si el canvieu, la generació del fitxer "
+"de pagament pot fallar."
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
