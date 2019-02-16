@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-26 01:23+0000\n"
-"PO-Revision-Date: 2019-02-16 09:02+0000\n"
+"PO-Revision-Date: 2019-02-16 10:50+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@big-consulting.net>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
@@ -51,7 +51,6 @@ msgstr "Sauerstoff / Luft / Gas"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Alimony Payment"
 msgstr "Rentenzahlung"
 
@@ -82,19 +81,18 @@ msgstr "Bonus-Zahlung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Bonus Payment."
-msgstr "Bonus-Zahlung"
+msgstr "Bonus-Zahlung."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "vom Kreditor bezahlt"
+msgstr "vom Gläubiger bezahlt"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "vom Debitor bezahlt"
+msgstr "vom Schuldner bezahlt"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -121,7 +119,7 @@ msgstr "Kündigungsgebühr"
 #, python-format
 msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgstr ""
-"Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet werden."
+"Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s' berechnet werden."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:109
@@ -143,7 +141,7 @@ msgstr "Kreditkartenabrechnung"
 #: selection:account.payment.line,category_purpose:0
 #: selection:account.payment.line,purpose:0
 msgid "Cash Management Transfer"
-msgstr "Kontoführungsgebühr"
+msgstr "Überweisungsgebühr"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_category_purpose
@@ -153,15 +151,13 @@ msgstr "Kategorie Zweck"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
-#, fuzzy
 msgid "Charge Bearer"
-msgstr "Chargenträger"
+msgstr "Gebührenregelung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Charity Payment"
-msgstr "Lohnauszahlung"
+msgstr "Spendenzahlung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -170,15 +166,13 @@ msgstr "Kindergeld"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Collection Payment"
-msgstr "Rentenzahlung"
+msgstr "Einzugsermächtigung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Commercial Payment"
-msgstr "Kreditkarten Zahlung"
+msgstr "Geschäftliche Zahlung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -198,12 +192,12 @@ msgstr "Unternehmen"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Consumer Third Party Consolidated Payment"
-msgstr "Konsolidierte Verbraucherzahlung"
+msgstr "Sammelzahlung von Drittanbieter"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Convalescent Care Facility"
-msgstr "Pflegeeinrichtung"
+msgstr "Rehaeinrichtung"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_convert_to_ascii
@@ -227,9 +221,8 @@ msgstr "Kreditkarten Zahlung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Credit Card Payment "
-msgstr "Kreditkarten Zahlung"
+msgstr "Kreditkarten Zahlung "
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -244,7 +237,7 @@ msgstr "EC-Kartenzahlung"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Deliver Against Payment"
-msgstr "Nachname"
+msgstr "Nachnamezahlung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -338,9 +331,8 @@ msgstr "Gasrechnung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Government Insurance"
-msgstr "Zahlung durch die Regierung"
+msgstr "Gesetzliche Versicherung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -477,7 +469,6 @@ msgstr "Kurzzeitpflegeeinrichtung"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Intra Company Payment"
 msgstr "Intra-Company Zahlung"
 
@@ -524,9 +515,8 @@ msgstr "Darlehen"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Loan Repayment"
-msgstr "Bonus-Zahlung"
+msgstr "Darlehens-Rückzahlung"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_local_instrument
@@ -556,9 +546,8 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Multiple Service Types"
-msgstr "Mehrere Bezeichner"
+msgstr "Mehrere Servicetypen"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_group_pain_multiple_identifier
@@ -691,9 +680,8 @@ msgstr "Kosten des Dienstleistungsverkaufs"
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line_purpose
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line_purpose
-#, fuzzy
 msgid "Purpose"
-msgstr "Kategorie Zweck"
+msgstr "Zweck"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -702,9 +690,8 @@ msgstr "Bahnfahrten"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Receipt Payment"
-msgstr "Gegen Bezahlung erhalten"
+msgstr "Zahlungseingang"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -903,15 +890,14 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
-#, fuzzy
 msgid ""
 "This will be used as the 'Initiating Party Scheme Name' in the PAIN files "
 "generated by Odoo. This value is determined by the financial institution "
 "that will process the file. If not defined, no scheme will be used.\n"
 msgstr ""
-"Dies wird in den von Odoo generierten PAIN-Dateien als 'ID der einleitenden "
-"Partei' verwendet. Dieser Wert wird von dem Finanzinstitut bestimmt, das die "
-"Datei verarbeitet. Wenn nicht definiert, wird kein bestimmtes Schema "
+"Dies wird in den von Odoo generierten PAIN-Dateien als 'Initiierende Partei "
+"Schema Name' verwendet. Dieser Wert wird von dem Finanzinstitut bestimmt, "
+"das die Datei verarbeitet. Wenn nicht definiert, wird kein bestimmtes Schema "
 "verwendet.\n"
 
 #. module: account_banking_pain_base
