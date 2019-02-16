@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-26 01:23+0000\n"
-"PO-Revision-Date: 2019-02-15 10:16+0000\n"
+"PO-Revision-Date: 2019-02-16 08:36+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@big-consulting.net>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
@@ -441,7 +441,6 @@ msgstr "Initiierende Partei Aussteller"
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode_initiating_party_scheme
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company_initiating_party_scheme
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings_initiating_party_scheme
-#, fuzzy
 msgid "Initiating Party Scheme"
 msgstr "Initiierende Partei Aussteller"
 
