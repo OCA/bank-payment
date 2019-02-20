@@ -16,6 +16,10 @@ class SaleOrder(models.Model):
         'account.banking.mandate', string='Direct Debit Mandate',
         ondelete='restrict', readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+    mandate_required = fields.Boolean(
+        related='payment_mode_id.payment_method_id.mandate_required',
+        readonly=True,
+    )
 
     @api.multi
     def _prepare_invoice(self):
@@ -27,11 +31,12 @@ class SaleOrder(models.Model):
     @api.onchange('payment_mode_id')
     def payment_mode_change(self):
         """Select by default the first valid mandate of the partner"""
-        if (
-                self.payment_mode_id.payment_method_id.mandate_required and
-                self.partner_id):
+        self.ensure_one()
+        if self.mandate_required and self.partner_id:
             mandates = self.env['account.banking.mandate'].search([
                 ('state', '=', 'valid'),
                 ('partner_id', '=', self.commercial_partner_id.id),
             ])
             self.mandate_id = mandates[:1]
+        else:
+            self.mandate_id = False
