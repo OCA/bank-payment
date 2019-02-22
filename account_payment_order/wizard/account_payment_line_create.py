@@ -102,7 +102,7 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [
                 ('credit', '>', 0),
                 #  '|',
-                ('account_id.internal_type', '=', 'payable'),
+                ('account_id.internal_type', 'in', ['payable', 'receivable']),
                 #  '&',
                 #  ('account_id.internal_type', '=', 'receivable'),
                 #  ('reconcile_partial_id', '=', False),  # TODO uncomment
@@ -110,7 +110,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         elif self.order_id.payment_type == 'inbound':
             domain += [
                 ('debit', '>', 0),
-                ('account_id.internal_type', '=', 'receivable'),
+                ('account_id.internal_type', 'in', ['receivable', 'payable']),
                 ]
         # Exclude lines that are already in a non-cancelled
         # and non-uploaded payment order; lines that are in a
