@@ -156,7 +156,7 @@ msgstr ""
 "naar 'Eerste'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:274
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:252
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -271,11 +271,11 @@ msgid "Mandate update"
 msgstr "Machtiging bijwerken"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
+#, fuzzy, python-format
 msgid ""
-"Missing SEPA Direct Debit mandate on the bank payment line with partner "
-"'%s' (reference '%s')."
+"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+"(reference {reference})."
 msgstr ""
 "Missende SEPA Incasso mandaten op betaalregel met klant '%s' (referentie "
 "'%s')."
@@ -291,6 +291,12 @@ msgstr "Eenmalig"
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__pain_version
 msgid "PAIN Version"
 msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_line
+#, fuzzy
+msgid "Payment Lines"
+msgstr "Bank betaalregels"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
@@ -386,20 +392,21 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr "De SEPA Incassant-ID '%s' is ongeldig."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
+#, fuzzy, python-format
 msgid ""
-"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
-"expired."
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has expired."
 msgstr ""
 "De SEPA incasso machtiging met referentie '%s' voor relatie '%s' is verlopen."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
+#, fuzzy, python-format
 msgid ""
-"The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
-"and it has a last debit date set to '%s', so we can't use it."
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has type set to 'One-Off' but has a last debit date set to "
+"{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
 "De machtiging referentie '%s' voor relatie %s' is ingesteld op 'eenmalig' en "
 "de laatste incasso datum is ingesteld op '%s'. Zodoende kunnen we deze niet "
