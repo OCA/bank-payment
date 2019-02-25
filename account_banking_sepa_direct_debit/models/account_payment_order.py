@@ -69,44 +69,22 @@ class AccountPaymentOrder(models.Model):
             transactions_count_a += 1
             priority = line.priority
             categ_purpose = line.category_purpose
-            # The field line.date is the requested payment date
-            # taking into account the 'date_prefered' setting
-            # cf account_banking_payment_export/models/account_payment.py
-            # in the inherit of action_open()
-            if not line.mandate_id:
-                raise UserError(
-                    _("Missing SEPA Direct Debit mandate on the "
-                      "bank payment line with partner '%s' "
-                      "(reference '%s').")
-                    % (line.partner_id.name, line.name))
             scheme = line.mandate_id.scheme
-            if line.mandate_id.state != 'valid':
-                raise Warning(
-                    _("The SEPA Direct Debit mandate with reference '%s' "
-                      "for partner '%s' has expired.")
-                    % (line.mandate_id.unique_mandate_reference,
-                       line.mandate_id.partner_id.name))
             if line.mandate_id.type == 'oneoff':
                 seq_type = 'OOFF'
-                if line.mandate_id.last_debit_date:
-                    raise Warning(
-                        _("The mandate with reference '%s' for partner "
-                          "'%s' has type set to 'One-Off' and it has a "
-                          "last debit date set to '%s', so we can't use "
-                          "it.")
-                        % (line.mandate_id.unique_mandate_reference,
-                           line.mandate_id.partner_id.name,
-                           line.mandate_id.last_debit_date))
             elif line.mandate_id.type == 'recurrent':
                 seq_type_map = {
                     'recurring': 'RCUR',
                     'first': 'FRST',
                     'final': 'FNAL',
                 }
-                seq_type_label = \
-                    line.mandate_id.recurrent_sequence_type
+                seq_type_label = line.mandate_id.recurrent_sequence_type
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
+            # The field line.date is the requested payment date
+            # taking into account the 'date_preferred' setting
+            # cf account_banking_payment_export/models/account_payment.py
+            # in the inherit of action_open()
             key = (line.date, priority, categ_purpose, seq_type, scheme)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
