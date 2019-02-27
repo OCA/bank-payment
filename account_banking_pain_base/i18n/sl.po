@@ -63,6 +63,11 @@ msgid "Annuity"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_res_bank
+msgid "Bank"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
 msgstr "Postavke bančnih plačil"
@@ -800,6 +805,16 @@ msgstr ""
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' je prazno ali 0. Vsebovati bi moralo ne ničelno vrednost."
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/res_bank.py:27
+#, python-format
+msgid ""
+"The following Bank Identifier Codes (BIC) do not respect the SEPA pattern:\n"
+"{bic_list}\n"
+"\n"
+"SEPA pattern: {sepa_pattern}"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:138
