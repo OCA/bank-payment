@@ -156,7 +156,7 @@ msgstr ""
 "'Type de séquence' a été remis à 'First'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:274
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:252
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -274,11 +274,11 @@ msgid "Mandate update"
 msgstr "Mise-à-jour du mandat"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:78
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
+#, fuzzy, python-format
 msgid ""
-"Missing SEPA Direct Debit mandate on the bank payment line with partner "
-"'%s' (reference '%s')."
+"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+"(reference {reference})."
 msgstr ""
 "Absence du mandat de prélèvement SEPA sur la ligne de paiement bancaire avec "
 "le partenaire' %s' (référence'%s')."
@@ -294,6 +294,12 @@ msgstr "One-Off"
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__pain_version
 msgid "PAIN Version"
 msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_line
+#, fuzzy
+msgid "Payment Lines"
+msgstr "Lignes de paiement bancaire"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
@@ -389,21 +395,22 @@ msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr "L'identification de créancier SEPA \"%s\" est invalide."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
+#, fuzzy, python-format
 msgid ""
-"The SEPA Direct Debit mandate with reference '%s' for partner '%s' has "
-"expired."
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has expired."
 msgstr ""
 "Le mandat de prélèvement SEPA portant la référence '%s' pour le partenaire "
 "'%s' a expiré."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:93
-#, python-format
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
+#, fuzzy, python-format
 msgid ""
-"The mandate with reference '%s' for partner '%s' has type set to 'One-Off' "
-"and it has a last debit date set to '%s', so we can't use it."
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has type set to 'One-Off' but has a last debit date set to "
+"{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
 "Le mandat portant la référence '%s' pour le partenaire '%s' est de type 'One-"
 "Off' et il a une date de dernier débit au '%s', donc il n'est pas utilisable."
