@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Weblate 3.4\n"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:111
+#: code:addons/account_payment_order/models/account_invoice.py:112
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
@@ -28,7 +28,7 @@ msgstr ""
 "hinzugefügt wurden."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:106
+#: code:addons/account_payment_order/models/account_invoice.py:107
 #, python-format
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
@@ -579,8 +579,8 @@ msgid ""
 msgstr ""
 "Wenn diese Feld markiert ist, werden die Transaktionszeilen des "
 "Zahlungsauftrags nach Bestätigung des Zahlungsauftrags gruppiert. Die "
-"Gruppierung wird nur durchgeführt, wenn die folgenden Felder übereinstimmen:"
-"\n"
+"Gruppierung wird nur durchgeführt, wenn die folgenden Felder "
+"übereinstimmen:\n"
 "* Partner\n"
 "* Währung\n"
 "* Zielbankkonto\n"
@@ -760,7 +760,7 @@ msgid "No Journal Entry on invoice %s"
 msgstr "Es gibt keine Buchung für die Rechnung %s"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:78
+#: code:addons/account_payment_order/models/account_invoice.py:79
 #, python-format
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
@@ -770,7 +770,7 @@ msgstr ""
 "diese bereits existiert oder da sie bereits bezahlt wurde."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:84
+#: code:addons/account_payment_order/models/account_invoice.py:85
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr "Es existiert kein Zahlungsmodus für die Rechnung %s"

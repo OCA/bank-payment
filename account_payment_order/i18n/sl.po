@@ -20,13 +20,13 @@ msgstr ""
 "%100==4 ? 2 : 3);\n"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:111
+#: code:addons/account_payment_order/models/account_invoice.py:112
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:106
+#: code:addons/account_payment_order/models/account_invoice.py:107
 #, python-format
 msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
@@ -716,7 +716,7 @@ msgid "No Journal Entry on invoice %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:78
+#: code:addons/account_payment_order/models/account_invoice.py:79
 #, python-format
 msgid ""
 "No Payment Line created for invoice %s because it already exists or because "
@@ -724,7 +724,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:84
+#: code:addons/account_payment_order/models/account_invoice.py:85
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr ""
