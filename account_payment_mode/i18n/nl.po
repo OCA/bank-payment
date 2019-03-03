@@ -54,16 +54,9 @@ msgid "Bank Account Required"
 msgstr "Bankrekening verplicht"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_setup_bank_manual_config__acc_type
-#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner_bank__acc_type
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
 msgstr "Soort bankrekening"
-
-#. module: account_payment_mode
-#: model:ir.model,name:account_payment_mode.model_res_partner_bank
-msgid "Bank Accounts"
-msgstr "Bankrekeningen"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
@@ -370,6 +363,9 @@ msgstr ""
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Variable"
 msgstr "Variabel"
+
+#~ msgid "Bank Accounts"
+#~ msgstr "Bankrekeningen"
 
 #~ msgid "Partner"
 #~ msgstr "Relatie"

@@ -53,15 +53,8 @@ msgid "Bank Account Required"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_setup_bank_manual_config__acc_type
-#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner_bank__acc_type
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
 msgid "Bank Account Type"
-msgstr ""
-
-#. module: account_payment_mode
-#: model:ir.model,name:account_payment_mode.model_res_partner_bank
-msgid "Bank Accounts"
 msgstr ""
 
 #. module: account_payment_mode
