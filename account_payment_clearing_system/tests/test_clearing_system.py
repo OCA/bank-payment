@@ -18,7 +18,7 @@ class TestClearingSystem(TransactionCase):
     def test_payment_file_generation(self):
         vals = {
             'name': 'SEPA Payment',
-            'code': 'sepa_credit_transfer',
+            'code': 'sepa_credit_transfer_clearing',
             'payment_type': 'outbound',
             'pain_version': 'pain.001.001.03'
         }
@@ -46,7 +46,7 @@ class TestClearingSystem(TransactionCase):
         vals = {
             'name': 'Bank',
             'type': 'bank',
-            'code': 'BNK1',
+            'code': 'BNKCL1',
             'bank_account_id': partner_bank_id.id,
         }
         journal_id = self.env['account.journal'].create(vals)
@@ -75,7 +75,7 @@ class TestClearingSystem(TransactionCase):
         bank_id = self.env['res.bank'].create(vals)
 
         vals = {
-            'acc_number': '123456',
+            'acc_number': '654321',
             'partner_id': partner_id.id,
             'bank_id': bank_id.id
         }
