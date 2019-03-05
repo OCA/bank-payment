@@ -16,14 +16,8 @@ class TestClearingSystem(TransactionCase):
         self.bank_model = self.env['res.bank']
 
     def test_payment_file_generation(self):
-        vals = {
-            'name': 'SEPA Payment',
-            'code': 'sepa_credit_transfer_clearing',
-            'payment_type': 'outbound',
-            'pain_version': 'pain.001.001.03'
-        }
-        payment_method_id = self.env['account.payment.method'].create(vals)
-
+        payment_method_id = self.env['account.payment.method'].search(
+            [('code', '=', 'sepa_credit_transfer')])
         vals = {
             'name': 'Company Test Bank',
             'csmi': 'other',

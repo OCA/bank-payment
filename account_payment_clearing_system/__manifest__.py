@@ -11,6 +11,7 @@
     'category': 'Banking addons',
     'depends': [
         'account_banking_pain_base',
+        'account_banking_sepa_credit_transfer',
     ],
     'data': [
         'views/res_bank_view.xml',
