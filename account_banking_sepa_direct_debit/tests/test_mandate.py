@@ -4,6 +4,7 @@
 
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
+from odoo.tools import mute_logger
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -12,8 +13,8 @@ class TestMandate(TransactionCase):
     def test_contrains(self):
         with self.assertRaises(ValidationError):
             self.mandate.recurrent_sequence_type = False
-            self.mandate.type = 'recurrent'
-            self.mandate._check_recurring_type()
+            with mute_logger('odoo.models'):
+                self.mandate.type = 'recurrent'
 
     def test_onchange_bank(self):
         self.mandate.write({
