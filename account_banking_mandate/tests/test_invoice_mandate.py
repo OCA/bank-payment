@@ -31,6 +31,7 @@ class TestInvoiceMandate(TransactionCase):
         payment_order.draft2open()
         payment_order.open2generated()
         payment_order.generated2uploaded()
+        self.assertEqual(self.mandate.payment_line_ids_count, 1)
 
     def test_post_invoice_02(self):
         partner_2 = self._create_res_partner('Jane with ACME Bank')
