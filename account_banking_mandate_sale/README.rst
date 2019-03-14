@@ -49,6 +49,7 @@ Contributors
 ------------
 
 * Alexis de Lattre <alexis.delattre@akretion.com>
+* Dave Burkholder <dave@thinkwelldesigns.com>
 
 Maintainer
 ----------
