@@ -2,7 +2,10 @@
 # Copyright 2017 Compassion CH (http://www.compassion.ch)
 # @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import models, api, _, exceptions
+import logging
+from odoo import models, api
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -25,7 +28,7 @@ class AccountInvoice(models.Model):
         payment_lines = pay_line_obj.search([
             ('move_line_id', 'in', move_line_ids)
         ])
-        if not payment_lines:
-            raise exceptions.UserError(_('No payment line found !'))
-
-        payment_lines.cancel_line()
+        if payment_lines:
+            payment_lines.cancel_line()
+        else:
+            _logger.warning('No payment lines to cancel.')
