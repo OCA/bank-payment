@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
-"PO-Revision-Date: 2018-02-02 03:43+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
+"PO-Revision-Date: 2019-03-15 12:53+0000\n"
+"Last-Translator: Jaume Planas <jplanas@itberga.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.4\n"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -31,7 +32,7 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Bank Account:</strong>"
-msgstr ""
+msgstr "<strong>Compte bancari:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -44,32 +45,34 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
+"Activeu aquesta opció si aquest mètode de pagament ha de demanar el número "
+"de compte bancari del client o proveïdor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_bank_account_required
 msgid "Bank Account Required"
-msgstr ""
+msgstr "Compte bancari necessari"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_from_journal
 msgid "Bank account from journals"
-msgstr ""
+msgstr "Compte bancari dels diaris"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacte"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Customer Payment Mode"
-msgstr ""
+msgstr "Mode de pagament del client"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "First n chars"
-msgstr ""
+msgstr "Primers n caràcters"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -79,12 +82,12 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Apunt comptable"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -94,7 +97,7 @@ msgstr ""
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
@@ -112,52 +115,56 @@ msgstr "Mode de pagament"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
 msgid "Payment Modes"
-msgstr ""
+msgstr "Modes de pagament"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
-msgstr ""
+msgstr "Pagaments"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr ""
+"Seleccioneu el mode de pagament per defecte quan aquesta empresa actua com a "
+"client."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
 msgstr ""
+"Seleccioneu el mode de pagament per defecte quan aquesta empresa actua com a "
+"proveïdor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account
 msgid "Show bank account"
-msgstr ""
+msgstr "Mostra el compte bancari"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
 msgid "Show bank account in invoice report"
-msgstr ""
+msgstr "Mostra el compte bancari a la factura impresa"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_show_bank_account
 msgid "Show in invoices partial or full bank account number"
-msgstr ""
+msgstr "Mostra a les factures el número de compte bancari parcial o complet"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
-msgstr ""
+msgstr "Mode de pagament de proveïdor"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_invoice.py:117
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
-msgstr ""
+msgstr "La companyia de la factura %s no coincideix amb la del mode de pagament"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:35
@@ -166,6 +173,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Invoice with this "
 "Payment Mode, already assigned to another Company."
 msgstr ""
+"No podeu canviar la companyia. Existeix com a mínim una factura amb aquest "
+"mode de pagament que ja s'ha assignat a una altra companyia."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:46
@@ -174,3 +183,5 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+"No podeu canviar la companyia. Com a mínim existeix un apunt comptable amb "
+"aquest mode de pagament que ja s'ha assignat a una altra companyia."
