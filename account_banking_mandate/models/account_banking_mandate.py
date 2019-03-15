@@ -98,7 +98,7 @@ class AccountBankingMandate(models.Model):
                       "company of partner %s.") %
                     (mandate.display_name, mandate.partner_id.name))
 
-            if self.env['account.payment.line'].search(
+            if self.env['account.payment.line'].sudo().search(
                     [('mandate_id', '=', mandate.id),
                      ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
@@ -107,7 +107,7 @@ class AccountBankingMandate(models.Model):
                       "belong to another company.") %
                     (mandate.display_name, ))
 
-            if self.env['account.invoice'].search(
+            if self.env['account.invoice'].sudo().search(
                     [('mandate_id', '=', mandate.id),
                      ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
@@ -116,7 +116,7 @@ class AccountBankingMandate(models.Model):
                       "another company.") %
                     (mandate.display_name, ))
 
-            if self.env['account.move.line'].search(
+            if self.env['account.move.line'].sudo().search(
                     [('mandate_id', '=', mandate.id),
                      ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
@@ -125,7 +125,7 @@ class AccountBankingMandate(models.Model):
                       "belong to another company.") %
                     (mandate.display_name, ))
 
-            if self.env['bank.payment.line'].search(
+            if self.env['bank.payment.line'].sudo().search(
                     [('mandate_id', '=', mandate.id),
                      ('company_id', '!=', mandate.company_id.id)], limit=1):
                 raise ValidationError(
