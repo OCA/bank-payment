@@ -584,6 +584,11 @@ msgid "Inbound"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
+msgid "Inbound Payment Order Only"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice
 msgid "Invoice"
 msgstr ""
@@ -596,6 +601,11 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_is_follower
 msgid "Is Follower"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_journal
+msgid "Journal"
 msgstr ""
 
 #. module: account_payment_order
@@ -845,6 +855,11 @@ msgid "One move per payment line"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
+msgid "Only for payment orders"
+msgstr ""
+
+#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Options for Payment Orders"
 msgstr ""
@@ -858,6 +873,11 @@ msgstr ""
 #: selection:account.payment.order,payment_type:0
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Outbound"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
+msgid "Outbound Payment Order Only"
 msgstr ""
 
 #. module: account_payment_order
@@ -918,6 +938,11 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_method_id
 msgid "Payment Method"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_payment_method
+msgid "Payment Methods"
 msgstr ""
 
 #. module: account_payment_order
@@ -998,6 +1023,7 @@ msgid "Payment order %s"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_payment
 #: model:ir.ui.menu,name:account_payment_order.payment_root
 msgid "Payments"
 msgstr ""
@@ -1132,6 +1158,11 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
 msgid "This field is used for payable and receivable journal entries. You can put the limit date for the payment of this line."
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_method__payment_order_only
+msgid "This option helps enforcing the use of payment orders for some payment methods."
 msgstr ""
 
 #. module: account_payment_order
