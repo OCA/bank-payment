@@ -368,14 +368,14 @@ msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:443
+#: code:addons/account_payment_order/models/account_payment_order.py:449
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:370
-#: code:addons/account_payment_order/models/account_payment_order.py:393
+#: code:addons/account_payment_order/models/account_payment_order.py:376
+#: code:addons/account_payment_order/models/account_payment_order.py:399
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -794,7 +794,7 @@ msgid "No Payment Mode on invoice %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:319
+#: code:addons/account_payment_order/models/account_payment_order.py:325
 #, python-format
 msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
@@ -946,7 +946,7 @@ msgid "Payment Execution Date Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:339
+#: code:addons/account_payment_order/models/account_payment_order.py:345
 #, python-format
 msgid "Payment File"
 msgstr ""
@@ -1026,7 +1026,7 @@ msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:441
+#: code:addons/account_payment_order/models/account_payment_order.py:447
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
@@ -1038,8 +1038,8 @@ msgid "Payment lines"
 msgstr "Mode de pagament"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:368
-#: code:addons/account_payment_order/models/account_payment_order.py:391
+#: code:addons/account_payment_order/models/account_payment_order.py:374
+#: code:addons/account_payment_order/models/account_payment_order.py:397
 #, python-format
 msgid "Payment order %s"
 msgstr ""
@@ -1144,7 +1144,7 @@ msgid "Technical model for printing payment order"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:302
+#: code:addons/account_payment_order/models/account_payment_order.py:308
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""
