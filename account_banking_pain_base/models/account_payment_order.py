@@ -424,6 +424,16 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def _has_detailed_address(self, gen_args):
+        """
+        Can be used to extend the address details of a partner with the
+        <PstCd> and <TwnNm> nodes that may not be supported by all PAIN flavors
+        """
+        return gen_args.get('pain_flavor').startswith(
+            'pain.001.001.') or gen_args.get('pain_flavor').startswith(
+            'pain.008.001.')
+
+    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -453,9 +463,7 @@ class AccountPaymentOrder(models.Model):
         partner = partner_bank.partner_id
         if partner.country_id:
             postal_address = etree.SubElement(party, 'PstlAdr')
-            if gen_args.get('pain_flavor').startswith(
-                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
-                    'pain.008.001.'):
+            if self._has_detailed_address(gen_args):
                 if partner.zip:
                     pstcd = etree.SubElement(postal_address, 'PstCd')
                     pstcd.text = self._prepare_field(
