@@ -424,35 +424,11 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
-    def generate_party_block(
-            self, parent_node, party_type, order, partner_bank, gen_args,
-            bank_line=None):
-        """Generate the piece of the XML file corresponding to Name+IBAN+BIC
-        This code is mutualized between TRF and DD
-        In some localization (l10n_ch_sepa for example), they need the
-        bank_line argument"""
-        assert order in ('B', 'C'), "Order can be 'B' or 'C'"
-        if party_type == 'Cdtr':
-            party_type_label = 'Creditor'
-        elif party_type == 'Dbtr':
-            party_type_label = 'Debtor'
-        name = 'partner_bank.partner_id.name'
-        eval_ctx = {'partner_bank': partner_bank}
-        party_name = self._prepare_field(
-            '%s Name' % party_type_label, name, eval_ctx,
-            gen_args.get('name_maxsize'), gen_args=gen_args)
-        # At C level, the order is : BIC, Name, IBAN
-        # At B level, the order is : Name, IBAN, BIC
-        if order == 'C':
-            self.generate_party_agent(
-                parent_node, party_type, order, partner_bank, gen_args,
-                bank_line=bank_line)
-        party = etree.SubElement(parent_node, party_type)
-        party_nm = etree.SubElement(party, 'Nm')
-        party_nm.text = party_name
-        partner = partner_bank.partner_id
+    def generate_address_block(
+            self, parent_node, partner, gen_args):
+        """Generate the piece of the XML corresponding to PstlAdr"""
         if partner.country_id:
-            postal_address = etree.SubElement(party, 'PstlAdr')
+            postal_address = etree.SubElement(parent_node, 'PstlAdr')
             if gen_args.get('pain_flavor').startswith(
                     'pain.001.001.') or gen_args.get('pain_flavor').startswith(
                     'pain.008.001.'):
@@ -480,6 +456,39 @@ class AccountPaymentOrder(models.Model):
                 adrline2.text = self._prepare_field(
                     'Address Line2', 'partner.street2',
                     {'partner': partner}, 70, gen_args=gen_args)
+
+        return True
+
+    @api.model
+    def generate_party_block(
+            self, parent_node, party_type, order, partner_bank, gen_args,
+            bank_line=None):
+        """Generate the piece of the XML file corresponding to Name+IBAN+BIC
+        This code is mutualized between TRF and DD
+        In some localization (l10n_ch_sepa for example), they need the
+        bank_line argument"""
+        assert order in ('B', 'C'), "Order can be 'B' or 'C'"
+        if party_type == 'Cdtr':
+            party_type_label = 'Creditor'
+        elif party_type == 'Dbtr':
+            party_type_label = 'Debtor'
+        name = 'partner_bank.partner_id.name'
+        eval_ctx = {'partner_bank': partner_bank}
+        party_name = self._prepare_field(
+            '%s Name' % party_type_label, name, eval_ctx,
+            gen_args.get('name_maxsize'), gen_args=gen_args)
+        # At C level, the order is : BIC, Name, IBAN
+        # At B level, the order is : Name, IBAN, BIC
+        if order == 'C':
+            self.generate_party_agent(
+                parent_node, party_type, order, partner_bank, gen_args,
+                bank_line=bank_line)
+        party = etree.SubElement(parent_node, party_type)
+        party_nm = etree.SubElement(party, 'Nm')
+        party_nm.text = party_name
+        partner = partner_bank.partner_id
+
+        self.generate_address_block(party, partner, gen_args)
 
         self.generate_party_id(party, party_type, partner)
 
