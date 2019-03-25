@@ -17,7 +17,7 @@
                 <button name="back2draft" type="object" string="Back to Draft"
                     states="cancel" groups="account.group_account_manager"
                     confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"/>
-                <field name="state" widget="statusbar"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,valid,expired"/>
             </header>
             <sheet>
                 <div class="oe_title">
