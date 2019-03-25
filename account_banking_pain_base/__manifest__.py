@@ -7,7 +7,7 @@
 {
     'name': 'Account Banking PAIN Base Module',
     'summary': 'Base module for PAIN file generation',
-    'version': '10.0.1.1.1',
+    'version': '10.0.1.1.2',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Noviat, "
