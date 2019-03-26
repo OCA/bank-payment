@@ -22,7 +22,9 @@ class ResBank(models.Model):
         :raise: ValidationError if the BIC doesn't respect the regex of the
         SEPA pain schemas.
         """
-        invalid_banks = self.filtered(lambda r: r.bic and not BIC_REGEX.match(r.bic))
+        invalid_banks = self.filtered(
+            lambda r: r.bic and not BIC_REGEX.match(r.bic)
+        )
         if invalid_banks:
             raise ValidationError(_(
                 "The following Bank Identifier Codes (BIC) do not respect "
