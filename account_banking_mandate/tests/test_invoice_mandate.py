@@ -10,6 +10,8 @@ class TestInvoiceMandate(TransactionCase):
 
     def test_post_invoice_01(self):
         self.invoice._onchange_partner_id()
+        # Make sure proper payment mode is selected
+        self.invoice.payment_mode_id = self.mode_inbound_acme.id
 
         self.assertEqual(self.invoice.mandate_id, self.mandate)
 
