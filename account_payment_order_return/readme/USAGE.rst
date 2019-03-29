@@ -1,6 +1,6 @@
 #. Go to Invoicing > Payments > Debit Orders.
 #. Create a new record.
-#. Click on button "Create Payment Lines fron Journal Items" to open the
+#. Click on button "Create Payment Lines from Journal Items" to open the
    wizard.
 #. Click on the "Include move lines from returns " check.
 #. Fill other options.
