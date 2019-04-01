@@ -38,9 +38,22 @@ class TestSCT(common.HttpCase):
             'company_ids': [(6, 0, self.main_company.ids)],
             'company_id': self.main_company.id,
         })
-        self.env.ref(
-            'l10n_generic_coa.configurable_chart_template'
-        ).try_loading_for_current_company()
+        # Install template chart through this method for avoiding problem
+        # when setting sales and purchase default taxes (bad code in Odoo)
+        chart = self.env.ref('l10n_generic_coa.configurable_chart_template')
+        wizard = self.env['wizard.multi.charts.accounts'].create({
+            'company_id': self.main_company.id,
+            'chart_template_id': chart.id,
+            'code_digits': chart.code_digits,
+            'transfer_account_id': chart.transfer_account_id.id,
+            'currency_id': chart.currency_id.id,
+            'bank_account_code_prefix': chart.bank_account_code_prefix,
+            'cash_account_code_prefix': chart.cash_account_code_prefix,
+            'sale_tax_id': False,
+            'purchase_tax_id': False,
+        })
+        wizard.onchange_chart_template_id()
+        wizard.execute()
         self.account_expense = self.account_model.search([
             ('user_type_id', '=',
              self.env.ref('account.data_account_type_expenses').id),
