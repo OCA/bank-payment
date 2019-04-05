@@ -5,7 +5,7 @@
 # © 2015-2016 Akretion (<https://www.akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -126,16 +126,9 @@ class AccountPaymentLineCreate(models.TransientModel):
         domain = self._prepare_move_line_domain()
         lines = self.env['account.move.line'].search(domain)
         self.move_line_ids = lines
-        action = {
-            'name': _('Select Move Lines to Create Transactions'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.payment.line.create',
-            'view_mode': 'form',
-            'target': 'new',
-            'res_id': self.id,
-            'context': self._context,
+        return {
+            "type": "ir.actions.do_nothing",
         }
-        return action
 
     @api.onchange(
         'date_type', 'move_date', 'due_date', 'journal_ids', 'invoice',
