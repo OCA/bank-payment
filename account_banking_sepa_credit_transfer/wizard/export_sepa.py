@@ -158,7 +158,7 @@ class BankingExportSepaWizard(models.TransientModel):
                         'priority': priority,
                         'requested_date': requested_date,
                     }, gen_args)
-            self.generate_party_block(
+            self.with_context(pain_base_line=line).generate_party_block(
                 payment_info_2_0, 'Dbtr', 'B',
                 self.payment_order_ids[0].mode.bank_id, gen_args)
             charge_bearer_2_24 = etree.SubElement(payment_info_2_0, 'ChrgBr')
@@ -193,7 +193,7 @@ class BankingExportSepaWizard(models.TransientModel):
                         _("Bank account is missing on the bank payment line "
                             "of partner '%s' (reference '%s').")
                         % (line.partner_id.name, line.name))
-                self.generate_party_block(
+                self.with_context(pain_base_line=line).generate_party_block(
                     credit_transfer_transaction_info_2_27, 'Cdtr',
                     'C', line.bank_id, gen_args)
                 self.generate_remittance_info_block(

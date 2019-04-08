@@ -41,8 +41,10 @@ class BankingExportPain(models.AbstractModel):
         if gen_args is None:
             gen_args = {}
         assert isinstance(eval_ctx, dict), 'eval_ctx must contain a dict'
+        line = eval_ctx.get('line')
+        ref = _(' Payment line reference: %s') % (line.name,) if line else ''
         try:
-            value = safe_eval(field_value, eval_ctx)
+            value = safe_eval(field_value, eval_ctx) or u''
             # SEPA uses XML ; XML = UTF-8 ; UTF-8 = support for all characters
             # But we are dealing with banks...
             # and many banks don't want non-ASCCI characters !
@@ -56,24 +58,19 @@ class BankingExportPain(models.AbstractModel):
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, '-')
         except:
-            line = eval_ctx.get('line')
-            if line:
-                raise Warning(
-                    _("Cannot compute the '%s' of the Payment Line with "
-                        "reference '%s'.")
-                    % (field_name, line.name))
-            else:
-                raise Warning(
-                    _("Cannot compute the '%s'.") % field_name)
+            raise Warning(
+                _("Cannot compute the '%s'.")
+                % (field_name,) + ref)
         if not isinstance(value, (str, unicode)):
             raise Warning(
                 _("The type of the field '%s' is %s. It should be a string "
-                    "or unicode.")
-                % (field_name, type(value)))
+                    "or unicode. %s")
+                % (field_name, type(value)) + ref)
         if not value:
             raise Warning(
-                _("The '%s' is empty or 0. It should have a non-null value.")
-                % field_name)
+                _("The '%s' is empty or 0. It should have a "
+                    "non-null value. %s")
+                % (field_name,) + ref)
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
@@ -315,6 +312,9 @@ class BankingExportPain(models.AbstractModel):
         iban = 'partner_bank.acc_number'
         bic = 'partner_bank.bank.bic or partner_bank.bank_bic'
         eval_ctx = {'partner_bank': partner_bank}
+        pain_base_line = self.env.context.get('pain_base_line')
+        if pain_base_line:
+            eval_ctx.update(dict(line=pain_base_line))
         party_name = self._prepare_field(
             '%s Name' % party_type_label, name, eval_ctx,
             gen_args.get('name_maxsize'), gen_args=gen_args)

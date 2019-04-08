@@ -282,7 +282,7 @@ class BankingExportSddWizard(models.TransientModel):
                     # After 20/11/2016, SMNDA means
                     # "Same Mandate New Debtor Account"
 
-                self.generate_party_block(
+                self.with_context(pain_base_line=line).generate_party_block(
                     dd_transaction_info_2_28, 'Dbtr', 'C',
                     line.bank_id, gen_args)
 
