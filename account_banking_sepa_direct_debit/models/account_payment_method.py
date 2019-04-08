@@ -13,6 +13,7 @@ class AccountPaymentMethod(models.Model):
         ('pain.008.001.03', 'pain.008.001.03'),
         ('pain.008.001.04', 'pain.008.001.04'),
         ('pain.008.003.02', 'pain.008.003.02 (direct debit in Germany)'),
+        ('pain.008.001.02.austrian.003', 'pain.008.001.02 (direct debit in Austria RB6)'),
         ])
 
     @api.multi
@@ -20,7 +21,7 @@ class AccountPaymentMethod(models.Model):
         self.ensure_one()
         if self.pain_version in [
                 'pain.008.001.02', 'pain.008.001.03', 'pain.008.001.04',
-                'pain.008.003.02']:
+                'pain.008.003.02', 'pain.008.001.02.austrian.003']:
             path = 'account_banking_sepa_direct_debit/data/%s.xsd'\
                 % self.pain_version
             return path

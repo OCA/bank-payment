@@ -163,10 +163,16 @@ class AccountPaymentOrder(models.Model):
     def generate_pain_nsmap(self):
         self.ensure_one()
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
-        nsmap = {
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
-        }
+        if pain_flavor in ['pain.008.001.02.austrian.003']:
+            nsmap = {
+                'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                None: 'ISO:pain.008.001.02:APC:STUZZA:payments:003',
+            }
+        else:
+            nsmap = {
+                'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                None: 'urn:iso:std:iso:20022:tech:xsd:%s' % pain_flavor,
+            }
         return nsmap
 
     @api.multi
@@ -411,7 +417,7 @@ class AccountPaymentOrder(models.Model):
         party_account = etree.SubElement(
             parent_node, '%sAcct' % party_type)
         party_account_id = etree.SubElement(party_account, 'Id')
-        if partner_bank.acc_type == 'iban':
+        if partner_bank.acc_type == 'iban' or gen_args.get('pain_flavor') == 'pain.008.001.02.austrian.003':
             party_account_iban = etree.SubElement(
                 party_account_id, 'IBAN')
             party_account_iban.text = partner_bank.sanitized_acc_number
@@ -429,9 +435,9 @@ class AccountPaymentOrder(models.Model):
         """Generate the piece of the XML corresponding to PstlAdr"""
         if partner.country_id:
             postal_address = etree.SubElement(parent_node, 'PstlAdr')
-            if gen_args.get('pain_flavor').startswith(
-                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
-                    'pain.008.001.'):
+            if gen_args.get('pain_flavor') != 'pain.008.001.02.austrian.003' and \
+                    (gen_args.get('pain_flavor').startswith('pain.001.001.') or
+                     gen_args.get('pain_flavor').startswith('pain.008.001.')):
                 if partner.zip:
                     pstcd = etree.SubElement(postal_address, 'PstCd')
                     pstcd.text = self._prepare_field(
@@ -446,16 +452,30 @@ class AccountPaymentOrder(models.Model):
             country.text = self._prepare_field(
                 'Country', 'partner.country_id.code',
                 {'partner': partner}, 2, gen_args=gen_args)
-            if partner.street:
-                adrline1 = etree.SubElement(postal_address, 'AdrLine')
-                adrline1.text = self._prepare_field(
-                    'Address Line1', 'partner.street',
-                    {'partner': partner}, 70, gen_args=gen_args)
-            if partner.street2:
+            if gen_args.get('pain_flavor') == 'pain.008.001.02.austrian.003':
+                if not partner.street and not partner.zip and not partner.city:
+                    raise UserError(_("Partner %s is missing address") % partner.display_name)
+                addr2 = "%s %s" % (partner.zip or '', partner.city or '')
+                if partner.street:
+                    adrline1 = etree.SubElement(postal_address, 'AdrLine')
+                    adrline1.text = self._prepare_field(
+                        'Address Line1', 'partner.street',
+                        {'partner': partner}, 70, gen_args=gen_args)
                 adrline2 = etree.SubElement(postal_address, 'AdrLine')
                 adrline2.text = self._prepare_field(
-                    'Address Line2', 'partner.street2',
-                    {'partner': partner}, 70, gen_args=gen_args)
+                    'Address Line2', 'addr2',
+                    {'addr2': addr2}, 70, gen_args=gen_args)
+            else:
+                if partner.street:
+                    adrline1 = etree.SubElement(postal_address, 'AdrLine')
+                    adrline1.text = self._prepare_field(
+                        'Address Line1', 'partner.street',
+                        {'partner': partner}, 70, gen_args=gen_args)
+                if partner.street2:
+                    adrline2 = etree.SubElement(postal_address, 'AdrLine')
+                    adrline2.text = self._prepare_field(
+                        'Address Line2', 'partner.street2',
+                        {'partner': partner}, 70, gen_args=gen_args)
 
         return True
 
