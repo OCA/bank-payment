@@ -10,7 +10,7 @@ class AccountPaymentOrderReport(models.AbstractModel):
     _description = 'Technical model for printing payment order'
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         AccountPaymentOrderObj = self.env['account.payment.order']
         docs = AccountPaymentOrderObj.browse(docids)
 
