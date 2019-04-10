@@ -62,6 +62,7 @@ Contributors
 
 * Adrien Peiffer <adrien.peiffer@acsone.eu>
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
+* Tom Blauwendraat <tom@sunflowerweb.nl>
 
 Maintainer
 ----------
