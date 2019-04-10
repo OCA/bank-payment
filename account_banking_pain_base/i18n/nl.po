@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-20 00:07+0000\n"
+"POT-Creation-Date: 2019-04-10 10:06+0000\n"
 "PO-Revision-Date: 2016-11-22 12:24+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
@@ -22,21 +22,15 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Bankrekeningen"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr ""
+msgstr "Bank betaalregels"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:62
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr "Kan de '%s' niet berekenen van de betaalregel met referentie '%s'."
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:67
 #, python-format
 msgid "Cannot compute the '%s'."
 msgstr "Kan de '%s' niet berekenen."
@@ -57,7 +51,7 @@ msgid "Display Name"
 msgstr "Te tonen naam"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:282
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:279
 #, python-format
 msgid "Error:"
 msgstr "Fout:"
@@ -84,7 +78,7 @@ msgstr ""
 #: field:payment.mode,initiating_party_identifier:0
 #: field:res.company,initiating_party_identifier:0
 msgid "Initiating Party Identifier"
-msgstr ""
+msgstr "Initiating Party Identifier"
 
 #. module: account_banking_pain_base
 #: field:payment.mode,initiating_party_issuer:0
@@ -98,12 +92,14 @@ msgid "Last Modified on"
 msgstr "Laatst bijgewerkt op"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:256
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:253
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
 msgstr ""
+"Ontbrekende 'Initiating Party Issuer' en/of 'Initiating Party Identifier' "
+"voor het bedrijf '%s'. Beide velden moeten een waarde hebben."
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/banking_export_pain.py:379
@@ -135,20 +131,26 @@ msgid "Payment Mode"
 msgstr "Betaalwijze"
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:45
+#, python-format
+msgid " Payment line reference: %s"
+msgstr " Referentie betaalregel: %s"
+
+#. module: account_banking_pain_base
 #: field:bank.payment.line,priority:0 field:payment.line,priority:0
 msgid "Priority"
 msgstr "Prioriteit"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:131
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:128
 #, python-format
 msgid "SEPA File"
-msgstr ""
+msgstr "SEPA bestand"
 
 #. module: account_banking_pain_base
 #: view:payment.mode:account_banking_pain_base.view_payment_mode_form_inherit
 msgid "SEPA identifiers"
-msgstr ""
+msgstr "SEPA kenmerken"
 
 #. module: account_banking_pain_base
 #: field:payment.mode,sepa_type:0
@@ -162,21 +164,23 @@ msgid "Structured Communication Type"
 msgstr "Structured Communication Type"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:75
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:71
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "De '%s' is leeg of 0. Deze waarde zou niet nul moeten zijn."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:283
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:280
 #, python-format
 msgid ""
 "The bank account with IBAN '%s' of partner '%s' must have an associated BIC "
 "because it is a cross-border SEPA operation."
 msgstr ""
+"De bankrekening met IBAN '%s' van partner '%s' moet een BIC code "
+"gedefinieerd hebben omdat het een grensoverschrijdende SEPA betaling betreft."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:96
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:93
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -190,7 +194,7 @@ msgstr ""
 "kunt geven over de oorzaak van het probleem: %s\""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/banking_export_pain.py:70
+#: code:addons/account_banking_pain_base/models/banking_export_pain.py:66
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr "Het type van veld '%s' is %s. Dit moet een string of unicode zijn."
@@ -216,6 +220,8 @@ msgid ""
 "This will be used as the 'Initiating Party Identifier' in the PAIN files "
 "generated by Odoo."
 msgstr ""
+"Dit wordt gebruikt als de 'Initiating Party Identifier' in de PAIN bestanden "
+"gegenereerd door Odoo."
 
 #. module: account_banking_pain_base
 #: help:payment.mode,initiating_party_identifier:0
@@ -228,6 +234,13 @@ msgid ""
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
 msgstr ""
+"Dit wordt gebruikt als de 'Initiating Party Identifier' in de PAIN bestanden "
+"gegenereerd door Odoo. Als dit niet is gedefinieerd, dan wordt de waarde "
+"die is ingesteld op het bedrijf gebruikt.\n"
+"Gebruikelijk formaat (13): \n"
+"- Landcode (2, optional)\n"
+"- Bedrijfskenmerk (N, VAT)\n"
+"- Service suffix (N, issued by bank)"
 
 #. module: account_banking_pain_base
 #: help:res.company,initiating_party_issuer:0
@@ -235,6 +248,8 @@ msgid ""
 "This will be used as the 'Initiating Party Issuer' in the PAIN files "
 "generated by Odoo."
 msgstr ""
+"Dit wordt gebruikt als de 'Initiating Party Issuer' in de PAIN bestanden "
+"gegenereerd door Odoo."
 
 #. module: account_banking_pain_base
 #: help:payment.mode,initiating_party_issuer:0
@@ -247,3 +262,11 @@ msgid ""
 "- Company idenfier (N, VAT)\n"
 "- Service suffix (N, issued by bank)"
 msgstr ""
+"Dit wordt gebruikt als de 'Initiating Party Identifier' in de PAIN bestanden "
+"gegenereerd door Odoo. Als dit niet is gedefinieerd, dan wordt de waarde "
+"die is ingesteld op het bedrijf gebruikt.\n"
+"Gebruikelijk formaat (13): \n"
+"- Landcode (2, optional)\n"
+"- Bedrijfskenmerk (N, VAT)\n"
+"- Service suffix (N, issued by bank)"
+
