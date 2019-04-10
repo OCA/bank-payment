@@ -386,6 +386,15 @@ class AccountPaymentOrder(models.Model):
             'payment_order_id': self.id,
             'line_ids': [],
             }
+        total_company_currency = total_payment_currency = 0
+        for bline in bank_lines:
+            total_company_currency += bline.amount_company_currency
+            total_payment_currency += bline.amount_currency
+            partner_ml_vals = self._prepare_move_line_partner_account(bline)
+            vals['line_ids'].append((0, 0, partner_ml_vals))
+        trf_ml_vals = self._prepare_move_line_offsetting_account(
+            total_company_currency, total_payment_currency, bank_lines)
+        vals['line_ids'].append((0, 0, trf_ml_vals))
         return vals
 
     @api.multi
@@ -472,16 +481,6 @@ class AccountPaymentOrder(models.Model):
         post_move = self.payment_mode_id.post_move
         am_obj = self.env['account.move']
         mvals = self._prepare_move(blines)
-        total_company_currency = total_payment_currency = 0
-        for bline in blines:
-            total_company_currency += bline.amount_company_currency
-            total_payment_currency += bline.amount_currency
-            partner_ml_vals = self._prepare_move_line_partner_account(
-                bline)
-            mvals['line_ids'].append((0, 0, partner_ml_vals))
-        trf_ml_vals = self._prepare_move_line_offsetting_account(
-            total_company_currency, total_payment_currency, blines)
-        mvals['line_ids'].append((0, 0, trf_ml_vals))
         move = am_obj.create(mvals)
         blines.reconcile_payment_lines()
         if post_move:
