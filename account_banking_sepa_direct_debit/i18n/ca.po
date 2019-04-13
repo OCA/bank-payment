@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 08:41+0000\n"
-"PO-Revision-Date: 2018-05-23 08:41+0000\n"
-"Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2018\n"
+"PO-Revision-Date: 2019-04-13 09:16+0000\n"
+"Last-Translator: mtbochaca <mtbochaca@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.5\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -92,17 +93,17 @@ msgstr "<em>Tipus de pagament:</em>"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Business-To-Business Direct debit Mandate</strong>"
-msgstr ""
+msgstr "<strong>SEPA B2B Ordre de domiciliació de deute directe</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Direct Debit Mandate</strong>"
-msgstr ""
+msgstr "<strong>Mandat de deute directe SEPA</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Un mandat bancari genèric"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -189,7 +190,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,scheme:0
 msgid "Enterprise (B2B)"
-msgstr "Empresarial (B2B) "
+msgstr "Empresarial (B2B)"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
@@ -199,13 +200,13 @@ msgstr "Final"
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,recurrent_sequence_type:0
 msgid "First"
-msgstr "Primer "
+msgstr "Primer"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
 #, python-format
 msgid "Mandate update"
-msgstr "Actualització del mandat "
+msgstr "Actualització del mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:98
@@ -363,7 +364,7 @@ msgstr "Tipus"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate_type
 msgid "Type of Mandate"
-msgstr "Tipus de mandat "
+msgstr "Tipus de mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
