@@ -10,24 +10,25 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-25 00:38+0000\n"
-"PO-Revision-Date: 2017-04-25 00:38+0000\n"
-"Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2017\n"
+"PO-Revision-Date: 2019-04-13 09:16+0000\n"
+"Last-Translator: mtbochaca <mtbochaca@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.5\n"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Bank Account:</strong>"
-msgstr ""
+msgstr "<strong>Compte Bancari:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Payment Mode:</strong>"
-msgstr ""
+msgstr "<strong>Mode de pagament:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice_bank_account_required
@@ -46,7 +47,7 @@ msgstr "Compte bancari requerit "
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
 msgid "Customer Payment Mode"
-msgstr ""
+msgstr "Mode de pagament del client"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
@@ -56,7 +57,7 @@ msgstr "Factura"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Apunt comptable"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
@@ -72,37 +73,35 @@ msgstr "Forma de pagament "
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
-#, fuzzy
 msgid "Payment Modes"
-msgstr "Forma de pagament "
+msgstr "Forma de pagament"
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
-msgstr ""
+msgstr "Pagaments"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_bank_invoice_report
-#, fuzzy
 msgid "Print Bank Account"
-msgstr "Compte bancari requerit "
+msgstr "Imprimir compte bancari"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
-msgstr ""
+msgstr "Seleccioneu el mode de pagament per defecte d'aquest client."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
-msgstr ""
+msgstr "Seleccioneu el mode de pagament per defecte per aquest proveïdor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_supplier_payment_mode_id
 msgid "Supplier Payment Mode"
-msgstr ""
+msgstr "Mode de pagament del proveïdor"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_bank_invoice_report
 msgid "Uncheck this option to hide bank account in invoice report"
-msgstr ""
+msgstr "Desmarca aquesta opció per ocultar el compte bancari a la factura"
