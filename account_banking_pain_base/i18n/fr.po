@@ -808,7 +808,7 @@ msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "Le '%s' est vide ou égal à 0. Il devrait avoir une valeur non-nulle."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/res_bank.py:27
+#: code:addons/account_banking_pain_base/models/res_bank.py:29
 #, python-format
 msgid ""
 "The following Bank Identifier Codes (BIC) do not respect the SEPA pattern:\n"
