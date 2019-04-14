@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-11-06 22:21+0000\n"
-"Last-Translator: Alessandro Camilli <alessandrocamilli@openforce.it>\n"
+"PO-Revision-Date: 2019-04-14 23:15+0000\n"
+"Last-Translator: Marco Calcagni <mcalcagni@dinamicheaziendali.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.2.2\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #. module: account_banking_pain_base
 #: sql_constraint:account.payment.method:0
@@ -63,7 +63,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banca"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
@@ -158,9 +158,8 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
-#, fuzzy
 msgid "Charity Payment"
-msgstr "Pagamento Stipendi"
+msgstr "Pagamento Beneficenza"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -181,7 +180,7 @@ msgstr "Pagamento Stipendi"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Commission"
-msgstr ""
+msgstr "Commissione"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
