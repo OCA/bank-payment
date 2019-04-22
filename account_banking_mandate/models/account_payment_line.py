@@ -12,7 +12,7 @@ class AccountPaymentLine(models.Model):
 
     mandate_id = fields.Many2one(
         comodel_name='account.banking.mandate', string='Direct Debit Mandate',
-        domain=[('state', '=', 'valid')])
+        domain=[('state', '=', 'valid')], index=True)
     mandate_required = fields.Boolean(
         related='order_id.payment_method_id.mandate_required', readonly=True)
 

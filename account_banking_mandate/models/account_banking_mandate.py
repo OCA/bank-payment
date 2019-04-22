@@ -39,7 +39,7 @@ class AccountBankingMandate(models.Model):
         domain=lambda self: self._get_default_partner_bank_id_domain(),)
     partner_id = fields.Many2one(
         comodel_name='res.partner', related='partner_bank_id.partner_id',
-        string='Partner', store=True)
+        string='Partner', store=True, index=True)
     company_id = fields.Many2one(
         comodel_name='res.company', string='Company', required=True,
         default=lambda self: self.env['res.company']._company_default_get(
@@ -68,10 +68,24 @@ class AccountBankingMandate(models.Model):
         compute='_compute_payment_line_ids_count',
     )
 
-    _sql_constraints = [(
-        'mandate_ref_company_uniq',
-        'unique(unique_mandate_reference, company_id)',
-        'A Mandate with the same reference already exists for this company!')]
+    _sql_constraints = [
+        ('mandate_ref_company_uniq',
+         'unique(unique_mandate_reference, company_id)',
+         'A Mandate with the same reference already exists for this company!'),
+        ('mandate_signature_date_future',
+         'CHECK("signature_date"<=CURRENT_DATE)',
+         'The date of signature of mandate is in the future!'),
+        ('mandate_last_debit_date',
+         'CHECK("signature_date"<="last_debit_date")',
+         'A mandate can\'t have a date of last debit before the date of signature.'),
+        ('mandate_valid_last_debit_date',
+         'CHECK("state"!=\'valid\' OR "last_debit_date" IS NOT NULL)',
+         'Cannot validate a mandate without a date of signature.'),
+        ('mandate_valid_partner_bank_id',
+         'CHECK("state"!=\'valid\' OR "partner_bank_id" IS NOT NULL)',
+         'Cannot validate a mandate not attached to a bank account.'),
+
+    ]
 
     @api.multi
     @api.depends('payment_line_ids')
@@ -101,24 +115,6 @@ class AccountBankingMandate(models.Model):
             'res_model': 'account.payment.line',
             'domain': [('mandate_id', '=', self.id)],
         }
-
-    @api.multi
-    @api.constrains('signature_date', 'last_debit_date')
-    def _check_dates(self):
-        for mandate in self:
-            if (mandate.signature_date and
-                    mandate.signature_date > fields.Date.context_today(
-                        mandate)):
-                raise ValidationError(
-                    _("The date of signature of mandate '%s' "
-                      "is in the future!")
-                    % mandate.unique_mandate_reference)
-            if (mandate.signature_date and mandate.last_debit_date and
-                    mandate.signature_date > mandate.last_debit_date):
-                raise ValidationError(
-                    _("The mandate '%s' can't have a date of last debit "
-                      "before the date of signature."
-                      ) % mandate.unique_mandate_reference)
 
     @api.constrains('company_id', 'payment_line_ids', 'partner_bank_id')
     def _company_constrains(self):
@@ -165,21 +161,6 @@ class AccountBankingMandate(models.Model):
                       "as there exists bank payment lines referencing it that "
                       "belong to another company.") %
                     (mandate.display_name, ))
-
-    @api.multi
-    @api.constrains('state', 'partner_bank_id', 'signature_date')
-    def _check_valid_state(self):
-        for mandate in self:
-            if mandate.state == 'valid':
-                if not mandate.signature_date:
-                    raise ValidationError(
-                        _("Cannot validate the mandate '%s' without a date of "
-                          "signature.") % mandate.unique_mandate_reference)
-                if not mandate.partner_bank_id:
-                    raise ValidationError(
-                        _("Cannot validate the mandate '%s' because it is not "
-                          "attached to a bank account.") %
-                        mandate.unique_mandate_reference)
 
     @api.model
     def create(self, vals=None):

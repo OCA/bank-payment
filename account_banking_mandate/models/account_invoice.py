@@ -14,7 +14,7 @@ class AccountInvoice(models.Model):
 
     mandate_id = fields.Many2one(
         'account.banking.mandate', string='Direct Debit Mandate',
-        ondelete='restrict',
+        ondelete='restrict', index=True,
         readonly=True, states={'draft': [('readonly', False)]})
     mandate_required = fields.Boolean(
         related='payment_mode_id.payment_method_id.mandate_required',

@@ -22,6 +22,7 @@
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
     <field name="signature_date" eval="time.strftime('%Y-01-01')"/>
+    <field name="last_debit_date" eval="time.strftime('%Y-01-01')"/>
     <field name="state">valid</field>
 </record>
 
@@ -37,6 +38,7 @@
     <field name="type">recurrent</field>
     <field name="recurrent_sequence_type">first</field>
     <field name="signature_date" eval="time.strftime('%Y-%m-01')" />
+    <field name="last_debit_date" eval="time.strftime('%Y-%m-01')"/>
     <field name="state">valid</field>
 </record>
 
