@@ -28,6 +28,8 @@ class TestAccountPayment(SavepointCase):
         cls.bank_journal.inbound_payment_method_ids = [
             (6, 0, [cls.inbound_payment_method_01.id,
                     cls.inbound_payment_method_02.id])]
+        cls.bank_journal.outbound_payment_method_ids = [
+            (6, 0, [cls.outbound_payment_method_01.id])]
 
     def test_account_payment_01(self):
         self.assertFalse(self.inbound_payment_method_01.payment_order_only)
