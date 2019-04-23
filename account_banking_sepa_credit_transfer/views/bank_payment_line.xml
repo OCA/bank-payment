@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--
+  © braintec-group
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+
+<record id="bank_payment_line_form" model="ir.ui.view">
+    <field name="name">sepa.credit.transfer.bank.payment.line.form</field>
+    <field name="model">bank.payment.line</field>
+    <field name="inherit_id"
+           ref="account_payment_order.bank_payment_line_form"/>
+    <field name="arch" type="xml">
+       <field name="communication" position="before">
+            <field name="sepa"/>
+        </field>
+    </field>
+</record>
+
+<record id="bank_payment_line_tree" model="ir.ui.view">
+    <field name="name">sepa.credit.transfer.bank.payment.line.tree</field>
+    <field name="model">bank.payment.line</field>
+    <field name="inherit_id"
+           ref="account_payment_order.bank_payment_line_tree"/>
+    <field name="arch" type="xml">
+       <field name="communication" position="before">
+            <field name="sepa"/>
+        </field>
+    </field>
+</record>
+
+</odoo>

@@ -22,8 +22,6 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment")
     charge_bearer = fields.Selection([
         ('SLEV', 'Following Service Level'),
         ('SHAR', 'Shared'),
@@ -49,32 +47,6 @@ class AccountPaymentOrder(models.Model):
         "line for all the wire transfers of the SEPA XML file ; if "
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
-
-    @api.multi
-    @api.depends(
-        'company_partner_bank_id.acc_type',
-        'payment_line_ids.currency_id',
-        'payment_line_ids.partner_bank_id.acc_type')
-    def compute_sepa(self):
-        eur = self.env.ref('base.EUR')
-        for order in self:
-            sepa = True
-            if order.company_partner_bank_id.acc_type != 'iban':
-                sepa = False
-            for pline in order.payment_line_ids:
-                if pline.currency_id != eur:
-                    sepa = False
-                    break
-                if pline.partner_bank_id.acc_type != 'iban':
-                    sepa = False
-                    break
-            sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
-
-    @api.multi
-    def compute_sepa_final_hook(self, sepa):
-        self.ensure_one()
-        return sepa
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
@@ -203,7 +175,7 @@ class AccountPaymentOrder(models.Model):
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
             priority, local_instrument, category_purpose, sequence_type,
-            requested_date, eval_ctx, gen_args):
+            requested_date, eval_ctx, gen_args, svc_lvl=None):
         payment_info = etree.SubElement(parent_node, 'PmtInf')
         payment_info_identification = etree.SubElement(
             payment_info, 'PmtInfId')
@@ -230,10 +202,10 @@ class AccountPaymentOrder(models.Model):
             instruction_priority = etree.SubElement(
                 payment_type_info, 'InstrPrty')
             instruction_priority.text = priority
-        if self.sepa:
+        if svc_lvl and svc_lvl['code']:
             service_level = etree.SubElement(payment_type_info, 'SvcLvl')
             service_level_code = etree.SubElement(service_level, 'Cd')
-            service_level_code.text = 'SEPA'
+            service_level_code.text = svc_lvl['code']
         if local_instrument:
             local_instrument_root = etree.SubElement(
                 payment_type_info, 'LclInstrm')

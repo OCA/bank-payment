@@ -153,12 +153,12 @@ class TestSCT(common.HttpCase):
         self.assertEqual(agrolait_pay_line1.communication, 'F1341')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
-        self.assertEqual(self.payment_order.sepa, True)
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id)])
         self.assertEqual(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
+        self.assertEqual(agrolait_bank_line.sepa, True)
         self.assertEqual(float_compare(
             agrolait_bank_line.amount_currency, 49.0, precision_digits=accpre),
             0)
@@ -230,12 +230,12 @@ class TestSCT(common.HttpCase):
         self.assertEqual(asus_pay_line1.communication, 'Inv9032')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
-        self.assertEqual(self.payment_order.sepa, False)
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_asus.id)])
         self.assertEqual(len(bank_lines), 1)
         asus_bank_line = bank_lines[0]
         self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
+        self.assertEqual(asus_bank_line.sepa, False)
         self.assertEqual(float_compare(
             asus_bank_line.amount_currency, 3054.0, precision_digits=accpre),
             0)

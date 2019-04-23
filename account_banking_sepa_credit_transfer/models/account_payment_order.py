@@ -85,17 +85,21 @@ class AccountPaymentOrder(models.Model):
             priority = line.priority
             local_instrument = line.local_instrument
             categ_purpose = line.category_purpose
+            sepa = line.sepa
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting
             # cf account_banking_payment_export/models/account_payment.py
             # in the inherit of action_open()
-            key = (line.date, priority, local_instrument, categ_purpose)
+            key = (line.date, priority, local_instrument, categ_purpose, sepa)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
-        for (requested_date, priority, local_instrument, categ_purpose),\
-                lines in list(lines_per_group.items()):
+        for (requested_date, priority, local_instrument, categ_purpose,
+             sepa), lines in list(lines_per_group.items()):
+            service_level = None
+            if sepa:
+                service_level = {'code': 'SEPA'}
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
@@ -110,12 +114,12 @@ class AccountPaymentOrder(models.Model):
                         'requested_date': requested_date,
                         'local_instrument': local_instrument or 'NOinstr',
                         'category_purpose': categ_purpose or 'NOcateg',
-                    }, gen_args)
+                    }, gen_args, service_level)
             self.generate_party_block(
                 payment_info, 'Dbtr', 'B',
                 self.company_partner_bank_id, gen_args)
             charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
-            if self.sepa:
+            if sepa:
                 charge_bearer_text = 'SLEV'
             else:
                 charge_bearer_text = self.charge_bearer

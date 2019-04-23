@@ -18,6 +18,7 @@
     'depends': ['account_banking_pain_base'],
     'data': [
         'data/account_payment_method.xml',
+        'views/bank_payment_line.xml'
     ],
     'demo': [
         'demo/sepa_credit_transfer_demo.xml'
