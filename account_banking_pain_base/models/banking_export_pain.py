@@ -64,12 +64,12 @@ class BankingExportPain(models.AbstractModel):
         if not isinstance(value, (str, unicode)):
             raise Warning(
                 _("The type of the field '%s' is %s. It should be a string "
-                    "or unicode. %s")
+                    "or unicode.")
                 % (field_name, type(value)) + ref)
         if not value:
             raise Warning(
                 _("The '%s' is empty or 0. It should have a "
-                    "non-null value. %s")
+                    "non-null value.")
                 % (field_name,) + ref)
         if max_size and len(value) > max_size:
             value = value[0:max_size]
