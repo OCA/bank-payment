@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2019-04-14 23:15+0000\n"
+"PO-Revision-Date: 2019-04-29 23:02+0000\n"
 "Last-Translator: Marco Calcagni <mcalcagni@dinamicheaziendali.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -142,9 +142,8 @@ msgstr "Cliccare per creare un nuovo Mandato Bancario."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__company_id
-#, fuzzy
 msgid "Company"
-msgstr "Company"
+msgstr "Azienda"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner
@@ -212,19 +211,16 @@ msgstr "Primo Mandato Valido"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_follower_ids
-#, fuzzy
 msgid "Followers"
 msgstr "Followers"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_channel_ids
-#, fuzzy
 msgid "Followers (Channels)"
 msgstr "Followers (Channels)"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_partner_ids
-#, fuzzy
 msgid "Followers (Partners)"
 msgstr "Followers (Partners)"
 
@@ -241,7 +237,6 @@ msgstr "Mandato Generico"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
-#, fuzzy
 msgid "Group By"
 msgstr "Group By"
 
@@ -396,7 +391,6 @@ msgstr "Numero di messaggi non letti"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
-#, fuzzy
 msgid "One-Off"
 msgstr "One-Off"
 
@@ -411,7 +405,6 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__partner_id
-#, fuzzy
 msgid "Partner"
 msgstr "Partner"
 
