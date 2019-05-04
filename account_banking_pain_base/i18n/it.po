@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-29 23:02+0000\n"
+"PO-Revision-Date: 2019-05-05 00:02+0000\n"
 "Last-Translator: Marco Calcagni <mcalcagni@dinamicheaziendali.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -507,7 +507,7 @@ msgstr ""
 #: selection:account.payment.line,category_purpose:0
 #: selection:account.payment.line,purpose:0
 msgid "Interest"
-msgstr ""
+msgstr "Interessi"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -528,22 +528,22 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Irrevocable Credit Card Payment"
-msgstr ""
+msgstr "Pagamento irrevocabile con Carta di Credito"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Irrevocable Debit Card Payment"
-msgstr ""
+msgstr "Pagamento irrevocabile Carta di Debito"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr ""
+msgstr "Descrizione del pagamento che verrà letto dal destinatario"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Labor Insurance"
-msgstr ""
+msgstr "Assicurazione sul lavoro"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -553,18 +553,18 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Life Insurance"
-msgstr ""
+msgstr "Assicurazione sulla vita"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Liquidity Management"
-msgstr ""
+msgstr "Gestione liquidità"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 #: selection:account.payment.line,purpose:0
 msgid "Loan"
-msgstr ""
+msgstr "Mutuo"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
