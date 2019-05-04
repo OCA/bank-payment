@@ -6,98 +6,100 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2019-05-05 00:02+0000\n"
+"Last-Translator: Marco Calcagni <mcalcagni@dinamicheaziendali.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
-msgstr ""
+msgstr "<em>Numero Conto - IBAN:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address of the Debtor:</em>"
-msgstr ""
+msgstr "<em>Indirizzo del debitore:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address:</em>"
-msgstr ""
+msgstr "<em>Indirizzo:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country of the debtor:</em>"
-msgstr ""
+msgstr "<em>Nazione del debitore:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country:</em>"
-msgstr ""
+msgstr "<em>Paese:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Creditor's Name:</em>"
-msgstr ""
+msgstr "<em>Nome del Creditore:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Date - Location:</em>"
-msgstr ""
+msgstr "<em>Data - Locazione:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Debtor's Name:</em>"
-msgstr ""
+msgstr "<em>Nome Debitore:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Identifier:</em>"
-msgstr ""
+msgstr "<em>Identificativo:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Mandate Reference:</em>"
-msgstr ""
+msgstr "<em>Riferimento del Mandato:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Postal Code - City - Town:</em>"
-msgstr ""
+msgstr "<em>Cap - Città - Località:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Signature of the debtor:</em>"
-msgstr ""
+msgstr "<em>Firma del Debitore:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Swift BIC (up to 8 or 11 characteres):</em>"
-msgstr ""
+msgstr "<em>Swift BIC (fino a 8 o 11 caratteri):</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Type of payment:</em>"
-msgstr ""
+msgstr "<em>Tipo di pagamento:</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Business-To-Business Direct debit Mandate</strong>"
-msgstr ""
+msgstr "<strong>Mandato Sepa Business-To-Business Direct debit</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<strong>Sepa Direct Debit Mandate</strong>"
-msgstr ""
+msgstr "<strong>Mandato Sepa Direct Debit</strong>"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Un generico mandato bancario"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
