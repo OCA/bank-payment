@@ -11,5 +11,6 @@ class AccountMoveLine(models.Model):
         'account.payment.mode',
         string='Payment Mode',
         domain="[('company_id', '=', company_id)]",
-        ondelete='restrict'
+        ondelete='restrict',
+        index=True,
     )
