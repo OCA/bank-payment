@@ -56,7 +56,9 @@ class AccountPaymentLine(models.Model):
         ], string='Communication Type', required=True, default='normal')
     # v8 field : state
     bank_line_id = fields.Many2one(
-        'bank.payment.line', string='Bank Payment Line', readonly=True)
+        'bank.payment.line', string='Bank Payment Line', readonly=True,
+        index=True,
+    )
 
     _sql_constraints = [(
         'name_company_unique',
