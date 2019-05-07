@@ -377,20 +377,27 @@ msgid "Currency of the Payment Transaction"
 msgstr "Moneda de la transacción de pago"
 
 #. module: account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#, fuzzy
+#| msgid "Debit Orders"
+msgid "Debit Order"
+msgstr "Órdenes de cobro"
+
+#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_inbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
 msgstr "Órdenes de cobro"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:449
+#: code:addons/account_payment_order/models/account_payment_order.py:458
 #, python-format
 msgid "Debit bank line %s"
 msgstr "Línea de adeudo de banco %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:376
-#: code:addons/account_payment_order/models/account_payment_order.py:399
+#: code:addons/account_payment_order/models/account_payment_order.py:408
 #, python-format
 msgid "Debit order %s"
 msgstr "Orden de cobro %s"
@@ -654,6 +661,13 @@ msgid "Inbound"
 msgstr "Entrante"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
+#, fuzzy
+#| msgid "Payment Order Ok"
+msgid "Inbound Payment Order Only"
+msgstr "Orden de Pago correcta"
+
+#. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
@@ -667,6 +681,13 @@ msgstr "Referencia de factura"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_is_follower
 msgid "Is Follower"
 msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_journal
+#, fuzzy
+#| msgid "Bank Journal"
+msgid "Journal"
+msgstr "Diario de banco"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
@@ -773,7 +794,7 @@ msgid "Missing Bank Journal on payment order %s."
 msgstr "No se ha establecido el diario de banco en la orden %s."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_line.py:137
+#: code:addons/account_payment_order/models/account_payment_line.py:139
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr "No se ha establecido la cuenta bancaria en la línea de pago %s"
@@ -946,6 +967,13 @@ msgid "One move per payment line"
 msgstr "Un asiento por línea de pago"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
+#, fuzzy
+#| msgid "Options for Payment Orders"
+msgid "Only for payment orders"
+msgstr "Opciones para las órdenes"
+
+#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Options for Payment Orders"
 msgstr "Opciones para las órdenes"
@@ -960,6 +988,13 @@ msgstr "Orden"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Outbound"
 msgstr "Saliente"
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
+#, fuzzy
+#| msgid "Payment Order Ok"
+msgid "Outbound Payment Order Only"
+msgstr "Orden de Pago correcta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_id
@@ -1028,6 +1063,13 @@ msgid "Payment Method"
 msgstr "Método de pago"
 
 #. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_payment_method
+#, fuzzy
+#| msgid "Payment Method"
+msgid "Payment Methods"
+msgstr "Método de pago"
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__payment_mode
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
@@ -1051,13 +1093,9 @@ msgstr "Modos de pago"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__order_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__order_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order"
 msgstr "Orden de pago"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-msgid "Payment Order / Payment"
-msgstr "Orden de Pago / Pago"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice__payment_order_ok
@@ -1087,7 +1125,7 @@ msgid "Payment Type"
 msgstr "Tipo de pago"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:447
+#: code:addons/account_payment_order/models/account_payment_order.py:456
 #, python-format
 msgid "Payment bank line %s"
 msgstr "Línea de pago bancario %s"
@@ -1099,12 +1137,13 @@ msgstr "Líneas de pago"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:374
-#: code:addons/account_payment_order/models/account_payment_order.py:397
+#: code:addons/account_payment_order/models/account_payment_order.py:406
 #, python-format
 msgid "Payment order %s"
 msgstr "Orden %s"
 
 #. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_account_payment
 #: model:ir.ui.menu,name:account_payment_order.payment_root
 msgid "Payments"
 msgstr "Pagos"
@@ -1269,6 +1308,13 @@ msgstr ""
 "límite para el pago de esta línea."
 
 #. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_method__payment_order_only
+msgid ""
+"This option helps enforcing the use of payment orders for some payment "
+"methods."
+msgstr ""
+
+#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "This wizard will create payment lines for the selected invoices:"
 msgstr ""
@@ -1391,6 +1437,9 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#~ msgid "Payment Order / Payment"
+#~ msgstr "Orden de Pago / Pago"
 
 #~ msgid "Account Entry"
 #~ msgstr "Asiento contable"
