@@ -23,8 +23,8 @@ class AccountMoveLine(models.Model):
         mandate = self.mandate_id
         if not mandate and vals.get('mandate_id', False):
             mandate = mandate.browse(vals['mandate_id'])
+        partner_bank_id = vals.get('partner_bank_id', False)
         if not mandate:
-            partner_bank_id = vals.get('partner_bank_id', False)
             if partner_bank_id:
                 domain = [('partner_bank_id', '=', partner_bank_id)]
             else:
