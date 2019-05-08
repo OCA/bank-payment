@@ -627,7 +627,7 @@ msgid "Missing Bank Journal on payment order %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_line.py:137
+#: code:addons/account_payment_order/models/account_payment_line.py:138
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr ""
@@ -980,6 +980,11 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_state
 msgid "Status"
+msgstr ""
+
+#. module: account_payment_order
+#: selection:account.payment.line,communication_type:0
+msgid "Structured"
 msgstr ""
 
 #. module: account_payment_order
