@@ -703,7 +703,7 @@ msgid "Missing Bank Journal on payment order %s."
 msgstr "No se ha establecido el diario de banco en la orden %s."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_line.py:138
+#: code:addons/account_payment_order/models/account_payment_line.py:140
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr "No se ha establecido la cuenta bancaria en la línea de pago %s"
