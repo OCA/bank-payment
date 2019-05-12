@@ -36,7 +36,10 @@ class AccountBankingMandate(models.Model):
         string='Unique Mandate Reference', track_visibility='onchange')
     signature_date = fields.Date(string='Date of Signature of the Mandate',
                                  track_visibility='onchange')
-    scan = fields.Binary(string='Scan of the Mandate')
+    scan = fields.Binary(
+        string='Scan of the Mandate',
+        attachment=True,
+    )
     last_debit_date = fields.Date(string='Date of the Last Debit',
                                   readonly=True)
     state = fields.Selection([
