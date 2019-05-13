@@ -290,19 +290,19 @@ msgid "Mandate Required"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:227
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:228
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:215
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:216
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:206
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:207
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr ""
