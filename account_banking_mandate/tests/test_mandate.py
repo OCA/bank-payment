@@ -125,6 +125,77 @@ class TestMandate(TransactionCase):
         with self.assertRaises(ValidationError):
             bank_account.mandate_ids += mandate
 
+    def test_mandate_reference_01(self):
+        """
+        Test case: create a mandate with no reference
+        Expected result: the reference of the created mandate is not empty
+        """
+        bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
+        mandate = self.env['account.banking.mandate'].create({
+            'partner_bank_id': bank_account.id,
+            'signature_date': '2015-01-01',
+            'company_id': self.company.id,
+        })
+        self.assertTrue(mandate.unique_mandate_reference)
+
+    def test_mandate_reference_02(self):
+        """
+        Test case: create a mandate with "ref01" as reference
+        Expected result: the reference of the created mandate is "ref01"
+        """
+        bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
+        mandate = self.env['account.banking.mandate'].create({
+            'partner_bank_id': bank_account.id,
+            'signature_date': '2015-01-01',
+            'company_id': self.company.id,
+            'unique_mandate_reference': "ref01",
+        })
+        self.assertEqual(mandate.unique_mandate_reference, "ref01")
+
+    def test_mandate_reference_03(self):
+        """
+        Test case: create a mandate with "New" as reference
+        Expected result: the reference of the created mandate is not empty and
+        is not "New"
+        """
+        bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
+        mandate = self.env['account.banking.mandate'].create({
+            'partner_bank_id': bank_account.id,
+            'signature_date': '2015-01-01',
+            'company_id': self.company.id,
+            'unique_mandate_reference': "New",
+        })
+        self.assertTrue(mandate.unique_mandate_reference)
+        self.assertNotEqual(mandate.unique_mandate_reference, "New")
+
+    def test_mandate_reference_05(self):
+        """
+        Test case: create a mandate with False as reference
+        Expected result: the reference of the created mandate is not empty
+        """
+        bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
+        mandate = self.env['account.banking.mandate'].create({
+            'partner_bank_id': bank_account.id,
+            'signature_date': '2015-01-01',
+            'company_id': self.company.id,
+            'unique_mandate_reference': False,
+        })
+        self.assertTrue(mandate.unique_mandate_reference)
+
+    def test_mandate_reference_06(self):
+        """
+        Test case: create a mandate with a empty string as reference
+        Expected result: the reference of the created mandate is not empty
+        """
+        bank_account = self.env.ref('account_payment_mode.res_partner_12_iban')
+        mandate = self.env['account.banking.mandate'].create({
+            'partner_bank_id': bank_account.id,
+            'signature_date': '2015-01-01',
+            'company_id': self.company.id,
+            'unique_mandate_reference': '',
+        })
+        self.assertTrue(mandate.unique_mandate_reference)
+
     def setUp(self):
         res = super(TestMandate, self).setUp()
         # Company
