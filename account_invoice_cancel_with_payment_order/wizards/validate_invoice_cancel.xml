@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="validate_invoice_cancel_form_view">
+        <field name="name">validate.invoice.cancel.form (in account_invoice_cancel_with_payment_order)</field>
+        <field name="model">validate.invoice.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Validate Invoice Cancel">
+                <group>
+                   <p>WARNING ! You try to cancel an invoice related to a payment order.</p>
+                </group>
+                 <group groups="account.group_account_manager">
+                   <p>This process can be dangerous. You assume the possible consequences of this action.</p>
+                </group>
+                <footer groups="account.group_account_manager">
+                    <button string="I accept and force invoice's cancellation" name="validate_cancel"
+                        type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link"
+                        special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
