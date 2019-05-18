@@ -105,7 +105,7 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:88
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:91
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -113,7 +113,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr ""
@@ -278,19 +278,19 @@ msgid "Mandate Required"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:120
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:111
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr ""
@@ -407,13 +407,13 @@ msgid "Status"
 msgstr "Olek"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:67
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:70
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:73
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:76
 #, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
