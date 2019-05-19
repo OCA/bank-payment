@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_direct_debit
+# 	* account_banking_sepa_direct_debit
 #
 msgid ""
 msgstr ""
@@ -103,34 +103,48 @@ msgstr "Un generico mandato bancario"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE."
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.\n"
-"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
-"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE.\n"
+"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S "
+"AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
+"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED "
+"AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "As part of your rights, you are entitled to a refund from\n"
-"                        your bank under the terms and conditions of your agreement\n"
+msgid ""
+"As part of your rights, you are entitled to a refund from\n"
+"                        your bank under the terms and conditions of your "
+"agreement\n"
 "                        with your bank.\n"
-"                        A refund must be claimed within 8 weeks starting from the date on which your account was debited."
+"                        A refund must be claimed within 8 weeks starting "
+"from the date on which your account was debited."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
 #, python-format
-msgid "As you changed the bank account attached to this mandate, the 'Sequence Type' has been set back to 'First'."
+msgid ""
+"As you changed the bank account attached to this mandate, the 'Sequence "
+"Type' has been set back to 'First'."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:252
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:257
 #, python-format
-msgid "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has been marked as uploaded."
+msgid ""
+"Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
+"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
+"been marked as uploaded."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -170,7 +184,10 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from "
+"company will be used.\n"
 "This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
@@ -181,7 +198,9 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_company__sepa_creditor_identifier
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_config_settings__sepa_creditor_identifier
-msgid "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. This identifier is composed of :\n"
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. This identifier is composed of :\n"
 "- your country ISO code (2 letters)\n"
 "- a 2-digits checkum\n"
 "- a 3-letters business code\n"
@@ -209,6 +228,12 @@ msgid "Generic Mandate"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
+#, python-format
+msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
 msgid "Mandate Format"
 msgstr ""
@@ -222,7 +247,9 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
 #, python-format
-msgid "Missing SEPA Direct Debit mandate on the line with partner {partner_name} (reference {reference})."
+msgid ""
+"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+"(reference {reference})."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -260,7 +287,10 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:41
 #, python-format
-msgid "Payment Type Code '%s' is not supported. The only Payment Type Code supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and 'pain.008.001.04'."
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Code "
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and "
+"'pain.008.001.04'."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -332,13 +362,18 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
 #, python-format
-msgid "The SEPA Direct Debit mandate with reference {mandate_ref} for partner {partner_name} has expired."
+msgid ""
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has expired."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
 #, python-format
-msgid "The SEPA Direct Debit mandate with reference {mandate_ref} for partner {partner_name} has type set to 'One-Off' but has a last debit date set to {last_debit_date}. Therefore, it cannot be used."
+msgid ""
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has type set to 'One-Off' but has a last debit date set to "
+"{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -349,15 +384,20 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_banking_mandate__recurrent_sequence_type
-msgid "This field is only used for Recurrent mandates, not for One-Off mandates."
+msgid ""
+"This field is only used for Recurrent mandates, not for One-Off mandates."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "This mandate is only intended for business-to-business transactions.\n"
-"                        You are not entitled to a refund from your bank after your account has\n"
-"                        been debited, but you are entitled to request your bank\n"
-"                        not to debit your account up until the day on which the payment is due."
+msgid ""
+"This mandate is only intended for business-to-business transactions.\n"
+"                        You are not entitled to a refund from your bank "
+"after your account has\n"
+"                        been debited, but you are entitled to request your "
+"bank\n"
+"                        not to debit your account up until the day on which "
+"the payment is due."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -438,6 +478,9 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-msgid "to send instructions to your bank to debit your account and (B) your bank to\n"
-"                       debit your account in accordance with the instructions from"
+msgid ""
+"to send instructions to your bank to debit your account and (B) your bank "
+"to\n"
+"                       debit your account in accordance with the "
+"instructions from"
 msgstr ""
