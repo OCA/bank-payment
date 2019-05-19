@@ -2,7 +2,7 @@
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import _, api, exceptions, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
 
@@ -81,6 +81,11 @@ class AccountPaymentOrder(models.Model):
                 seq_type_label = line.mandate_id.recurrent_sequence_type
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
+            else:
+                raise exceptions.UserError(_(
+                    "Invalid mandate type in '%s'. Valid ones are 'Recurrent' "
+                    "or 'One-Off'"
+                ) % line.mandate_id.unique_mandate_reference)
             # The field line.date is the requested payment date
             # taking into account the 'date_preferred' setting
             # cf account_banking_payment_export/models/account_payment.py
