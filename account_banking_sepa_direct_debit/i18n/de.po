@@ -141,7 +141,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:252
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:257
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -230,6 +230,12 @@ msgstr "Erstes"
 #, fuzzy
 msgid "Generic Mandate"
 msgstr "Sepa Mandat"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
+#, python-format
+msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
+msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
