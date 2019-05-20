@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_payment_order_return
-#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create_include_returned
+#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create__include_returned
 msgid "Include move lines from returns"
 msgstr "Inclure les écritures depuis les retours"
 
