@@ -710,7 +710,7 @@ msgid "Missing Bank Journal on payment order %s."
 msgstr "Bankjournal fehlt beim Zahlungsauftrag %s."
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_line.py:136
+#: code:addons/account_payment_order/models/account_payment_line.py:138
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr "Bankverbindung des Partners fehlt bei der Zahlungsposition %s"
@@ -1055,12 +1055,6 @@ msgid "Search Payment Orders"
 msgstr "Durchsuche Zahlungsaufträge"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/wizard/account_payment_line_create.py:130
-#, python-format
-msgid "Select Move Lines to Create Transactions"
-msgstr "Buchungen für Transaktion auswählen"
-
-#. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Select Move Lines to Pay - Default Values"
 msgstr "Zahlungsvorschlag - Standardeinstellungen"
@@ -1284,3 +1278,6 @@ msgstr ""
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "report.account_payment_order.print_account_payment_order_main"
 msgstr ""
+
+#~ msgid "Select Move Lines to Create Transactions"
+#~ msgstr "Buchungen für Transaktion auswählen"
