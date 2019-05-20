@@ -119,7 +119,7 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:148
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:183
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -129,7 +129,7 @@ msgstr ""
 "asociada."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:144
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:179
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "No se puede validar el mandato '%s' sin una fecha de firma."
@@ -312,19 +312,19 @@ msgid "Mandate Required"
 msgstr "Mandato requerido"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:192
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:228
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "El mandato debe estar en estado cancelado."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:180
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:216
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "El mandato debe estar en estado borrador o válido."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:171
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:207
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "El mandato debe estar en estado borrador."
@@ -409,6 +409,13 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__payment_line_ids_count
+#, fuzzy
+#| msgid "Payment Lines"
+msgid "Payment Line Ids Count"
+msgstr "Líneas de pago"
+
+#. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_payment_line
 msgid "Payment Lines"
 msgstr "Líneas de pago"
@@ -417,6 +424,14 @@ msgstr "Líneas de pago"
 #: model:ir.model,name:account_banking_mandate.model_account_payment_method
 msgid "Payment Methods"
 msgstr "Métodos de pago"
+
+#. module: account_banking_mandate
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:101
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
+#, fuzzy, python-format
+#| msgid "Payment Lines"
+msgid "Payment lines"
+msgstr "Líneas de pago"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
@@ -435,7 +450,6 @@ msgstr "Referencia o cliente"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__payment_line_ids
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Related Payment Lines"
 msgstr "Líneas de pago relacionadas"
 
@@ -471,13 +485,13 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr "La compañía del mandato %s difiere de la compañia de la empresa %s."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:81
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:116
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La fecha de la firma del mandato '%s' no puede ser posterior a hoy!"
@@ -501,7 +515,7 @@ msgstr ""
 "asociado (%s)."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:122
 #, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
@@ -589,7 +603,7 @@ msgstr ""
 "mandatos asociados que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:167
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
@@ -599,7 +613,7 @@ msgstr ""
 "bancario asociados que pertenecen a otras compañías."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:149
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
@@ -609,7 +623,7 @@ msgstr ""
 "asociadas que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:158
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
@@ -619,7 +633,7 @@ msgstr ""
 "diario asociados que pertenecen a otra compañía."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:105
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:140
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
