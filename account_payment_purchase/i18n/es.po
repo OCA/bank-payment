@@ -20,9 +20,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: model:ir.model,name:account_payment_purchase.model_account_move
+msgid "Journal Entries"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -46,21 +46,16 @@ msgstr ""
 "trasladará a la factura de proveedor."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:19
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr "El pedido de compra tiene diferente modo de pago."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:27
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
 msgstr "El pedido de compra tiene diferente banco de proveedor."
-
-#. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_stock_rule
-msgid "Stock Rule"
-msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
@@ -68,11 +63,13 @@ msgid "Supplier Bank Account"
 msgstr "Cuenta bancaria del proveedor"
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:18
-#: code:addons/account_payment_purchase/models/account_invoice.py:26
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Warning"
 msgstr "Aviso"
+
+#~ msgid "Invoice"
+#~ msgstr "Factura"
 
 #, fuzzy
 #~ msgid "Procurement Rule"
