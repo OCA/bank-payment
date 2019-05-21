@@ -21,9 +21,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_account_invoice
-msgid "Invoice"
-msgstr "Fatura"
+#: model:ir.model,name:account_payment_purchase.model_account_move
+msgid "Journal Entries"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -44,20 +44,15 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:19
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr ""
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:27
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
-
-#. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_stock_rule
-msgid "Stock Rule"
 msgstr ""
 
 #. module: account_payment_purchase
@@ -66,11 +61,13 @@ msgid "Supplier Bank Account"
 msgstr ""
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:18
-#: code:addons/account_payment_purchase/models/account_invoice.py:26
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Warning"
 msgstr "Aviso"
+
+#~ msgid "Invoice"
+#~ msgstr "Fatura"
 
 #, fuzzy
 #~ msgid "Procurement Rule"

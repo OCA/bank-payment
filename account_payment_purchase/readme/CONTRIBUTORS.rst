@@ -10,3 +10,4 @@
 
 * Nikul Chaudhary <nikulchaudhary2112@gmail.com>
 * Miquel Raïch <miquel.raich@forgeflow.com>
+* Andrea Stirpe <a.stirpe@onestein.nl>
