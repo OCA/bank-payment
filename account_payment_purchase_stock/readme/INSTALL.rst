@@ -1,6 +1,6 @@
 This module depends on :
 
-- purchase
-- account_payment_partner
+- purchase_stock
+- account_payment_purchase
 
 This module is part of the OCA/bank-payment suite.

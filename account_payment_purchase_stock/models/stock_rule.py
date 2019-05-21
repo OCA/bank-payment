@@ -9,9 +9,7 @@ class StockRule(models.Model):
 
     def _prepare_purchase_order(self, company_id, origins, values):
         """Propagate payment mode on MTO/drop shipping."""
-        res = super(StockRule, self)._prepare_purchase_order(
-            company_id, origins, values
-        )
+        res = super()._prepare_purchase_order(company_id, origins, values)
         values = values[0]
         partner = values["supplier"].name
         if partner:
