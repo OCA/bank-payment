@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="invoice_payment_group_customer_invoice" model="ir.ui.view">
       <field name="name">Hide payment in invoice</field>
       <field name="model">account.invoice</field>
