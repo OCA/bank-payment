@@ -21,9 +21,9 @@ msgstr ""
 "X-Generator: Weblate 3.8\n"
 
 #. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: model:ir.model,name:account_payment_purchase.model_account_move
+msgid "Journal Entries"
+msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -47,21 +47,16 @@ msgstr ""
 "proveïdor."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:19
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr "La comanda de compra seleccionada té un mode de pagament diferent."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:27
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
 msgstr "La comanda de compra seleccionada té un banc de proveïdor diferent."
-
-#. module: account_payment_purchase
-#: model:ir.model,name:account_payment_purchase.model_stock_rule
-msgid "Stock Rule"
-msgstr "Regla d'estoc"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
@@ -69,8 +64,13 @@ msgid "Supplier Bank Account"
 msgstr "Compte bancari proveïdor"
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:18
-#: code:addons/account_payment_purchase/models/account_invoice.py:26
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Warning"
 msgstr "Advertència"
+
+#~ msgid "Invoice"
+#~ msgstr "Factura"
+
+#~ msgid "Stock Rule"
+#~ msgstr "Regla d'estoc"
