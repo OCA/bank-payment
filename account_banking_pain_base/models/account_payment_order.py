@@ -513,3 +513,19 @@ class AccountPaymentOrder(models.Model):
             csi_scheme_name, 'Prtry')
         csi_scheme_name_proprietary.text = scheme_name_proprietary
         return True
+
+    @api.onchange('payment_mode_id')
+    def onchange_payment_mode(self):
+        if self.payment_mode_id:
+            self.batch_booking = self.payment_mode_id.default_batch_booking
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        payment_mode_model = self.env['account.payment.mode']
+        for vals in vals_list:
+            if 'batch_booking' not in vals:
+                payment_mode_id = vals.get('payment_mode_id', None)
+                if payment_mode_id:
+                    payment_mode = payment_mode_model.browse(payment_mode_id)
+                    vals['batch_booking'] = payment_mode.default_batch_booking
+        return super(AccountPaymentOrder, self).create(vals_list)
