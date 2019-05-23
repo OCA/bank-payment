@@ -27,6 +27,7 @@ class AccountMoveLine(models.Model):
                     # Processed in a job. We ignore failures, if they could
                     # not be reconciled it means it was already reconciled or
                     # not meant to be reconciled together (different accounts,
-                    # company, ...). In such case a failed job would be useless.
+                    # company, ...). In such case a failed job would be
+                    # useless.
                     return _('Not reconciled because of: %s') % (err.name,)
                 raise
