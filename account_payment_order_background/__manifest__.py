@@ -6,7 +6,7 @@
     'summary': 'The reconciliation of move lines from payment order '
                'is processed in jobs.',
     'version': '12.0.1.0.0',
-    'author': 'Camptocamp',
+    'author': 'Camptocamp, Odoo Community Association (OCA)',
     'license': 'AGPL-3',
     'category': 'Sales',
     'depends': [
