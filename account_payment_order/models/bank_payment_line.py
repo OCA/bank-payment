@@ -33,11 +33,11 @@ class BankPaymentLine(models.Model):
     # But is it still true in v9 ?
     amount_currency = fields.Monetary(
         string='Amount', currency_field='currency_id',
-        compute='_compute_amount', store=True, readonly=True)
+        compute='_compute_amount_currency', store=True)
     amount_company_currency = fields.Monetary(
         string='Amount in Company Currency',
         currency_field='company_currency_id',
-        compute='_compute_amount', store=True, readonly=True)
+        compute='_compute_amount_company_currency', store=True)
     currency_id = fields.Many2one(
         'res.currency', required=True, readonly=True,
         related='payment_line_ids.currency_id')  # v8 field: currency
@@ -73,15 +73,20 @@ class BankPaymentLine(models.Model):
 
     @api.multi
     @api.depends('payment_line_ids', 'payment_line_ids.amount_currency')
-    def _compute_amount(self):
+    def _compute_amount_currency(self):
         for bline in self:
-            amount_currency = sum(
+            bline.amount_currency = sum(
                 bline.mapped('payment_line_ids.amount_currency'))
-            amount_company_currency = bline.currency_id.with_context(
-                date=bline.date).compute(
-                    amount_currency, bline.company_currency_id)
-            bline.amount_currency = amount_currency
-            bline.amount_company_currency = amount_company_currency
+
+    @api.multi
+    @api.depends('currency_id', 'amount_currency', 'company_id')
+    def _compute_amount_company_currency(self):
+        for bline in self:
+            bline.amount_company_currency = bline.currency_id.with_context(
+                date=bline.date,
+            ).compute(
+                bline.amount_currency, bline.company_currency_id,
+            )
 
     @api.model
     @api.returns('self')
