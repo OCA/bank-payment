@@ -202,7 +202,7 @@ msgid "Bank account on which we should pay the supplier"
 msgstr "Cuenta bancaria en la que debemos pagar al proveedor"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:133
+#: code:addons/account_payment_order/models/bank_payment_line.py:138
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr ""
@@ -222,7 +222,7 @@ msgid "Cancel Payments"
 msgstr "Cancelar pagos"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:164
+#: code:addons/account_payment_order/models/bank_payment_line.py:169
 #, python-format
 msgid ""
 "Cannot delete a payment order line whose payment order is in state '%s'. You "
@@ -456,7 +456,7 @@ msgid "Followers (Partners)"
 msgstr "Seguidores (clientes)"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:147
+#: code:addons/account_payment_order/models/bank_payment_line.py:152
 #, python-format
 msgid ""
 "For partner '%s', the account of the account move line to pay (%s) is "
@@ -719,7 +719,7 @@ msgid "Move Option"
 msgstr "Opciones de asiento"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:139
+#: code:addons/account_payment_order/models/bank_payment_line.py:144
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr "El apunte '%s' de la empresa '%s' ya ha sido conciliado"
