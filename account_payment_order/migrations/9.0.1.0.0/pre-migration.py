@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-# © 2016 Sergio Teruel <sergio.teruel@tecnativa.com>
+# Copyright 2016 Sergio Teruel <sergio.teruel@tecnativa.com>
+# Copyright 2019 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openupgradelib import openupgrade
+from psycopg2.extensions import AsIs
 
 # V9 modules that don't exist in v8 and are dependent of
 # account_payment_order
@@ -149,6 +151,76 @@ def migrate_payment_mode_types(env):
     )
 
 
+def populate_computed_fields(env):
+    """Pre-add columns for not computing these related and computed fields
+    through ORM, and populate their values after with SQL querys for being
+    faster.
+    """
+    cr = env.cr
+    openupgrade.add_fields(cr, [
+        ('company_currency_id', 'account.payment.order',
+         'account_payment_order', 'many2one', False, 'account_payment_order'),
+        ('company_currency_id', 'account.payment.line', 'account_payment_line',
+         'many2one', False, 'account_payment_order'),
+        ('partner_id', 'bank.payment.line', 'bank_payment_line',
+         'many2one', False, 'account_payment_order'),
+        ('payment_type', 'bank.payment.line', 'bank_payment_line',
+         'selection', False, 'account_payment_order'),
+        ('state', 'bank.payment.line', 'bank_payment_line',
+         'selection', False, 'account_payment_order'),
+        ('amount_company_currency', 'bank.payment.line', 'bank_payment_line',
+         'monetary', False, 'account_payment_order'),
+    ])
+    openupgrade.logged_query(
+        cr, """
+        UPDATE account_payment_order apo
+        SET company_currency_id = apm.currency_id
+        FROM account_payment_mode apm
+        WHERE apm.id = apo.payment_mode_id""",
+    )
+    openupgrade.logged_query(
+        cr, """
+        UPDATE account_payment_line apl
+        SET company_currency_id = apo.company_currency_id
+        FROM account_payment_order apo
+        WHERE apl.order_id = apo.id""",
+    )
+    openupgrade.logged_query(
+        cr, """
+        UPDATE bank_payment_line bpl
+        SET partner_id = apl.partner_id
+        FROM account_payment_line apl
+        WHERE apl.bank_line_id = bpl.id""",
+    )
+    openupgrade.logged_query(
+        cr, """
+        UPDATE bank_payment_line bpl
+        SET payment_type = apo.payment_type,
+            state = apo.state
+        FROM account_payment_order apo
+        WHERE bpl.order_id = apo.id""",
+    )
+    openupgrade.logged_query(
+        cr, """
+        WITH currency_rate as (%s)
+        UPDATE bank_payment_line bpl
+        SET amount_company_currency = (
+            bpl.amount_currency / COALESCE(cr.rate, 1.0)
+        )
+        FROM bank_payment_line bpl2
+	    INNER JOIN payment_line apl ON apl.bank_line_id = bpl2.id
+        LEFT JOIN currency_rate cr ON (
+            cr.currency_id = apl.currency
+            AND cr.company_id = bpl2.company_id
+            AND cr.date_start <= COALESCE(apl.date, now())
+            AND (cr.date_end is null
+                OR cr.date_end > COALESCE(apl.date, now()))
+        )
+        WHERE bpl2.id = bpl.id
+        """, (AsIs(env['res.currency']._select_companies_rates()), ),
+    )
+
+
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
     install_new_modules(env.cr)
@@ -178,3 +250,4 @@ def migrate(env, version):
             merge_modules=True)
     openupgrade.rename_models(env.cr, models_renames)
     openupgrade.rename_tables(env.cr, table_renames)
+    populate_computed_fields(env)
