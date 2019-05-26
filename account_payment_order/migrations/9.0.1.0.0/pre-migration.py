@@ -157,7 +157,7 @@ def populate_computed_fields(env):
     faster.
     """
     cr = env.cr
-    openupgrade.add_fields(cr, [
+    openupgrade.add_fields(env, [
         ('company_currency_id', 'account.payment.order',
          'account_payment_order', 'many2one', False, 'account_payment_order'),
         ('company_currency_id', 'account.payment.line', 'account_payment_line',
