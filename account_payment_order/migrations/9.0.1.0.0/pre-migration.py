@@ -160,8 +160,6 @@ def populate_computed_fields(env):
     openupgrade.add_fields(env, [
         ('company_currency_id', 'account.payment.order',
          'account_payment_order', 'many2one', False, 'account_payment_order'),
-        ('company_currency_id', 'account.payment.line', 'account_payment_line',
-         'many2one', False, 'account_payment_order'),
         ('partner_id', 'bank.payment.line', 'bank_payment_line',
          'many2one', False, 'account_payment_order'),
         ('payment_type', 'bank.payment.line', 'bank_payment_line',
@@ -177,13 +175,6 @@ def populate_computed_fields(env):
         SET company_currency_id = apm.currency_id
         FROM account_payment_mode apm
         WHERE apm.id = apo.payment_mode_id""",
-    )
-    openupgrade.logged_query(
-        cr, """
-        UPDATE account_payment_line apl
-        SET company_currency_id = apo.company_currency_id
-        FROM account_payment_order apo
-        WHERE apl.order_id = apo.id""",
     )
     openupgrade.logged_query(
         cr, """
