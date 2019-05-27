@@ -172,9 +172,9 @@ def populate_computed_fields(env):
     openupgrade.logged_query(
         cr, """
         UPDATE account_payment_order apo
-        SET company_currency_id = apm.currency_id
-        FROM account_payment_mode apm
-        WHERE apm.id = apo.payment_mode_id""",
+        SET company_currency_id = rc.currency_id
+        FROM res_company rc
+        WHERE rc.id = apo.company_id""",
     )
     openupgrade.logged_query(
         cr, """
