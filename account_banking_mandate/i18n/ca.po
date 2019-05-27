@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2018-09-26 17:04+0000\n"
-"Last-Translator: Harald Panten <harald.panten@qubiq.es>\n"
+"PO-Revision-Date: 2019-05-27 13:19+0000\n"
+"Last-Translator: Jaume Planas <jplanas@itberga.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #. module: account_banking_mandate
 #: model_terms:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -42,7 +42,7 @@ msgstr "Un mandat bancari genèric"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "És necessària una acció"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_invoice__mandate_required
@@ -58,7 +58,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Número d'adjunts"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -211,17 +211,17 @@ msgstr "Primer mandat vàlid"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Seguidors"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Seguidors (canals)"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Seguidors (empreses)"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -247,17 +247,17 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "Si es marca els missatges nous requeriran la vostra atenció."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Si es marca els missatges nous requeriran la vostra atenció."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Si es marca, alguns missatges tenen un error de lliurament."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
@@ -267,7 +267,7 @@ msgstr "Factura"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "És seguidor"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
@@ -292,7 +292,7 @@ msgstr "Darrera actualització el"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Adjunt principal"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
@@ -342,12 +342,12 @@ msgstr "Mandats"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Error de lliurament de missatge"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Missatges"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:51
@@ -357,9 +357,8 @@ msgstr "Falta el mandat a la línia de pagament %s"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_needaction_counter
-#, fuzzy
 msgid "Number of Actions"
-msgstr "Número de mandats"
+msgstr "Número d'accions"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__mandate_count
@@ -369,25 +368,23 @@ msgstr "Número de mandats"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
-#, fuzzy
 msgid "Number of error"
-msgstr "Número de mandats"
+msgstr "Número d'error"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Número de missatges que requereixen una acció"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Número de missatges amb error de lliurament"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread_counter
-#, fuzzy
 msgid "Number of unread messages"
-msgstr "Número de mandats"
+msgstr "Número de missatges no llegits"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,type:0
@@ -562,12 +559,12 @@ msgstr "Referència única del mandat"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Missatges no llegits"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Total de missatges no llegits"
 
 #. module: account_banking_mandate
 #: selection:account.banking.mandate,state:0
@@ -584,12 +581,12 @@ msgstr "Validar"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Missatges del lloc Web"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Historial de comunicacions del lloc Web"
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/res_partner_bank.py:25
