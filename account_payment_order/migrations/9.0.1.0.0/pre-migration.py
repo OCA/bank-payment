@@ -198,7 +198,7 @@ def populate_computed_fields(env):
             AND cr.company_id = bpl2.company_id
             AND cr.date_start <= COALESCE(apl.date, aml.date_maturity)
             AND (cr.date_end is null
-                OR cr.date_end > COALESCE(apl.date, aml.date_maturity)
+                OR cr.date_end > COALESCE(apl.date, aml.date_maturity))
         )
         WHERE bpl2.id = bpl.id
         """, (AsIs(env['res.currency']._select_companies_rates()), ),
