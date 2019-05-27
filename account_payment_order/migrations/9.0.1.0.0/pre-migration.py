@@ -185,13 +185,6 @@ def populate_computed_fields(env):
     )
     openupgrade.logged_query(
         cr, """
-        UPDATE bank_payment_line bpl
-        SET state = apo.state
-        FROM account_payment_order apo
-        WHERE bpl.order_id = apo.id""",
-    )
-    openupgrade.logged_query(
-        cr, """
         WITH currency_rate as (%s)
         UPDATE bank_payment_line bpl
         SET amount_company_currency = (
