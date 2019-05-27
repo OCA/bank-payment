@@ -191,7 +191,7 @@ def populate_computed_fields(env):
             bpl.amount_currency / COALESCE(cr.rate, 1.0)
         )
         FROM bank_payment_line bpl2
-        INNER JOIN payment_line apl ON apl.bank_line_id = bpl2.id
+        INNER JOIN account_payment_line apl ON apl.bank_line_id = bpl2.id
         LEFT JOIN currency_rate cr ON (
             cr.currency_id = apl.currency
             AND cr.company_id = bpl2.company_id
