@@ -186,8 +186,7 @@ def populate_computed_fields(env):
     openupgrade.logged_query(
         cr, """
         UPDATE bank_payment_line bpl
-        SET payment_type = apo.payment_type,
-            state = apo.state
+        SET state = apo.state
         FROM account_payment_order apo
         WHERE bpl.order_id = apo.id""",
     )
