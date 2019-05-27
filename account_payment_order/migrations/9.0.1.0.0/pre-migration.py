@@ -160,6 +160,8 @@ def populate_computed_fields(env):
     openupgrade.add_fields(env, [
         ('company_currency_id', 'account.payment.order',
          'account_payment_order', 'many2one', False, 'account_payment_order'),
+        ('payment_type', 'account.payment.line', 'account_payment_line',
+         'selection', False, 'account_payment_order'),
         ('partner_id', 'bank.payment.line', 'bank_payment_line',
          'many2one', False, 'account_payment_order'),
         ('payment_type', 'bank.payment.line', 'bank_payment_line',
