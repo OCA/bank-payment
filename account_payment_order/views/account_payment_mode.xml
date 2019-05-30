@@ -18,6 +18,7 @@
                     attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"/>
                 <field name="default_date_prefered"/>
                 <field name="group_lines"/>
+                <field name="enable_passed_date"/>
             </group>
             <group name="payment_order_create_defaults"
                     string="Select Move Lines to Pay - Default Values"

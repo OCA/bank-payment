@@ -134,7 +134,8 @@ class AccountPaymentOrder(models.Model):
     def check_date_scheduled(self):
         today = fields.Date.context_today(self)
         for order in self:
-            if order.date_scheduled:
+            if order.date_scheduled and not \
+                    order.payment_mode_id.enable_passed_date:
                 if order.date_scheduled < today:
                     raise ValidationError(_(
                         "On payment order %s, the Payment Execution Date "
@@ -268,7 +269,8 @@ class AccountPaymentOrder(models.Model):
                 else:
                     requested_date = today
                 # No payment date in the past
-                if requested_date < today:
+                if requested_date < today and not \
+                        order.payment_mode_id.enable_passed_date:
                     requested_date = today
                 # inbound: check option no_debit_before_maturity
                 if (

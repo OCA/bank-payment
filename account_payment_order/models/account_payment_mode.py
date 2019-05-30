@@ -80,6 +80,9 @@ class AccountPaymentMode(models.Model):
         ('line', 'One move per payment line'),
         ], string='Move Option', default='date')
     post_move = fields.Boolean(string='Post Move', default=True)
+    enable_passed_date = fields.Boolean(
+        string='Enable Passed Date',
+        help='Payment order can be created with a passed date')
 
     @api.multi
     @api.constrains(
