@@ -162,14 +162,6 @@ def populate_computed_fields(env):
          'account_payment_order', 'many2one', False, 'account_payment_order'),
         ('payment_type', 'account.payment.line', 'account_payment_line',
          'selection', False, 'account_payment_order'),
-        ('partner_id', 'bank.payment.line', 'bank_payment_line',
-         'many2one', False, 'account_payment_order'),
-        ('payment_type', 'bank.payment.line', 'bank_payment_line',
-         'selection', False, 'account_payment_order'),
-        ('state', 'bank.payment.line', 'bank_payment_line',
-         'selection', False, 'account_payment_order'),
-        ('amount_company_currency', 'bank.payment.line', 'bank_payment_line',
-         'monetary', False, 'account_payment_order'),
     ])
     openupgrade.logged_query(
         cr, """
@@ -178,33 +170,44 @@ def populate_computed_fields(env):
         FROM res_company rc
         WHERE rc.id = apo.company_id""",
     )
-    openupgrade.logged_query(
-        cr, """
-        UPDATE bank_payment_line bpl
-        SET partner_id = apl.partner_id
-        FROM account_payment_line apl
-        WHERE apl.bank_line_id = bpl.id""",
-    )
-    openupgrade.logged_query(
-        cr, """
-        WITH currency_rate as (%s)
-        UPDATE bank_payment_line bpl
-        SET amount_company_currency = (
-            bpl.amount_currency / COALESCE(cr.rate, 1.0)
+    if openupgrade.table_exists('bank_payment_line'):
+        openupgrade.add_fields(env, [
+            ('partner_id', 'bank.payment.line', 'bank_payment_line',
+             'many2one', False, 'account_payment_order'),
+            ('payment_type', 'bank.payment.line', 'bank_payment_line',
+             'selection', False, 'account_payment_order'),
+            ('state', 'bank.payment.line', 'bank_payment_line',
+             'selection', False, 'account_payment_order'),
+            ('amount_company_currency', 'bank.payment.line', 'bank_payment_line',
+             'monetary', False, 'account_payment_order'),
+        ])
+        openupgrade.logged_query(
+            cr, """
+            UPDATE bank_payment_line bpl
+            SET partner_id = apl.partner_id
+            FROM account_payment_line apl
+            WHERE apl.bank_line_id = bpl.id""",
         )
-        FROM bank_payment_line bpl2
-        INNER JOIN account_payment_line apl ON apl.bank_line_id = bpl2.id
-        INNER JOIN account_move_line aml ON aml.id = apl.move_line_id
-        LEFT JOIN currency_rate cr ON (
-            cr.currency_id = apl.currency_id
-            AND cr.company_id = bpl2.company_id
-            AND cr.date_start <= COALESCE(apl.date, aml.date_maturity)
-            AND (cr.date_end is null
-                OR cr.date_end > COALESCE(apl.date, aml.date_maturity))
+        openupgrade.logged_query(
+            cr, """
+            WITH currency_rate as (%s)
+            UPDATE bank_payment_line bpl
+            SET amount_company_currency = (
+                bpl.amount_currency / COALESCE(cr.rate, 1.0)
+            )
+            FROM bank_payment_line bpl2
+            INNER JOIN account_payment_line apl ON apl.bank_line_id = bpl2.id
+            INNER JOIN account_move_line aml ON aml.id = apl.move_line_id
+            LEFT JOIN currency_rate cr ON (
+                cr.currency_id = apl.currency_id
+                AND cr.company_id = bpl2.company_id
+                AND cr.date_start <= COALESCE(apl.date, aml.date_maturity)
+                AND (cr.date_end is null
+                    OR cr.date_end > COALESCE(apl.date, aml.date_maturity))
+            )
+            WHERE bpl2.id = bpl.id
+            """, (AsIs(env['res.currency']._select_companies_rates()), ),
         )
-        WHERE bpl2.id = bpl.id
-        """, (AsIs(env['res.currency']._select_companies_rates()), ),
-    )
 
 
 @openupgrade.migrate(use_env=True)
