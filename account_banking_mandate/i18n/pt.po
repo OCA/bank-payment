@@ -107,7 +107,7 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:88
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:91
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -117,7 +117,7 @@ msgstr ""
 "uma conta bancária."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "Não é possível validar o mandato '%s' sem uma data de assinatura."
@@ -248,19 +248,19 @@ msgid "Mandate Required"
 msgstr "Exigido Mandato"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "O Mandato deve estar no estado cancelado."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:120
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "O Mandato deve estar em rascunho ou num estado válido."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:111
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "O Mandato deve estar no estado rascunho."
@@ -360,13 +360,13 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:67
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:70
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "A data da assinatura do mandato '%s' está no futuro!"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:73
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:76
 #, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
