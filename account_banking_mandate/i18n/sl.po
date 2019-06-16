@@ -101,7 +101,7 @@ msgid "Cancelled"
 msgstr "Preklicano"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:148
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:151
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -109,7 +109,7 @@ msgid ""
 msgstr "Mandata '%s' ni mogoče overiti, ker ni pripet bančnemu računu."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:144
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:147
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "Mandata '%s' ni mogoče overiti brez datuma podpisa."
@@ -250,19 +250,19 @@ msgid "Mandate Required"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:208
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:211
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:199
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:187
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:190
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr ""
@@ -379,13 +379,13 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:97
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:100
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:81
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:84
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr ""
@@ -406,7 +406,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:87
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:90
 #, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
@@ -465,7 +465,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:132
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
@@ -473,7 +473,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:117
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
@@ -481,7 +481,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:123
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:126
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
@@ -489,7 +489,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:105
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:108
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
