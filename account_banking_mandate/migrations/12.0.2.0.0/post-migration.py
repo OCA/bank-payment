@@ -12,4 +12,3 @@ def migrate(env, version):
         openupgrade_90.convert_binary_field_to_attachment(
             env, {'account.banking.mandate': [('scan', None)]},
         )
-
