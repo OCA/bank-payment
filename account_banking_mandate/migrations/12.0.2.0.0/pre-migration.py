@@ -14,4 +14,3 @@ column_renames = {
 def migrate(env, version):
     if openupgrade.column_exists(env.cr, 'account_banking_mandate', 'scan'):
         openupgrade.rename_columns(env.cr, column_renames)
-
