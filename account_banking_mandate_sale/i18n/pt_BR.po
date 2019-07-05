@@ -1,0 +1,40 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_mandate_sale
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-01 19:28+0000\n"
+"PO-Revision-Date: 2016-07-01 19:28+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
+"teams/23907/pt_BR/)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_commercial_partner_id
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_mandate_id
+msgid "Direct Debit Mandate"
+msgstr ""
+
+#. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr ""
+
+#. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de Venda"
