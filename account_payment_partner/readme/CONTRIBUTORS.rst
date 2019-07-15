@@ -9,3 +9,6 @@
 
   * Pedro M. Baeza <pedro.baeza@tecnativa.com>
   * Carlos Dauden <carlos.dauden@tecnativa.com>
+* `DynApps <https://www.dynapps.be>`_:
+
+  * Raf Ven <raf.ven@dynapps.be>
