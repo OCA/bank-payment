@@ -307,7 +307,8 @@ class TestAccountPaymentPartner(common.SavepointCase):
         self.assertEquals(invoice_refund.payment_mode_id,
                           invoice.payment_mode_id)
         self.assertEquals(invoice_refund.partner_bank_id,
-                          invoice.partner_bank_id)
+                          self.env.ref(
+                              'account_payment_mode.main_company_iban'))
 
     def test_partner(self):
         self.customer.write({
