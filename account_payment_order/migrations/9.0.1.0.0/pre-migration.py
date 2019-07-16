@@ -157,16 +157,18 @@ def populate_computed_fields(env):
     faster.
     """
     cr = env.cr
+    openupgrade.logged_query(
+        cr, "ALTER TABLE bank_payment_line ADD partner_id int4",
+    )
+    openupgrade.logged_query(
+        cr, "ALTER TABLE bank_payment_line ADD state varchar",
+    )
     openupgrade.add_fields(env, [
         ('company_currency_id', 'account.payment.order',
          'account_payment_order', 'many2one', False, 'account_payment_order'),
         ('payment_type', 'account.payment.line', 'account_payment_line',
          'selection', False, 'account_payment_order'),
-        ('partner_id', 'bank.payment.line', 'bank_payment_line',
-         'many2one', False, 'account_payment_order'),
         ('payment_type', 'bank.payment.line', 'bank_payment_line',
-         'selection', False, 'account_payment_order'),
-        ('state', 'bank.payment.line', 'bank_payment_line',
          'selection', False, 'account_payment_order'),
         ('amount_company_currency', 'bank.payment.line', 'bank_payment_line',
          'monetary', False, 'account_payment_order'),
