@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="account_payment_mode.payment_mode_inbound_dd1" model="account.payment.mode">
+        <field name="auto_reconcile_outstanding_credits" eval="True"/>
+    </record>
+</odoo>

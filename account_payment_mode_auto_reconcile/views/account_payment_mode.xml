@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="account_payment_mode_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.inherit</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+        <field name="arch" type="xml">
+            <group name="note" position="before">
+                <group string="Auto reconcile outstanding credits" name="auto_reconcile">
+                    <field name="auto_reconcile_outstanding_credits" />
+                    <field name="auto_reconcile_allow_partial" attrs="{'invisible': [('auto_reconcile_outstanding_credits', '=', False)]}" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
