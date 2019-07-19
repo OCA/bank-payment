@@ -94,13 +94,11 @@ class TestPartnerAutoReconcile(SavepointCase):
         auto_rec_invoice.action_invoice_open()
         self.assertEqual(auto_rec_invoice.residual, 500)
 
-    def test_invoice_onchange_auto_reconcile(self):
+    def test_invoice_change_auto_reconcile(self):
         self.assertEqual(self.invoice_copy.residual, 1500)
-        self.invoice_copy.payment_mode_id = self.payment_mode
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': self.payment_mode.id})
         self.assertEqual(self.invoice_copy.residual, 500)
-        self.invoice_copy.payment_mode_id = False
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': False})
         self.assertEqual(self.invoice_copy.residual, 1500)
         # Copy the refund so there's more outstanding credit than invoice total
         new_refund = self.refund.copy()
@@ -112,17 +110,14 @@ class TestPartnerAutoReconcile(SavepointCase):
         # Set reconcile partial to False
         self.payment_mode.auto_reconcile_allow_partial = False
         self.assertFalse(self.payment_mode.auto_reconcile_allow_partial)
-        self.invoice_copy.payment_mode_id = self.payment_mode
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': self.payment_mode.id})
         # Only the older move is used as payment
         self.assertEqual(self.invoice_copy.residual, 500)
-        self.invoice_copy.payment_mode_id = False
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': False})
         self.assertEqual(self.invoice_copy.residual, 1500)
         # Set allow partial will reconcile both moves
         self.payment_mode.auto_reconcile_allow_partial = True
-        self.invoice_copy.payment_mode_id = self.payment_mode
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': self.payment_mode.id})
         self.assertEqual(self.invoice_copy.state, 'paid')
         self.assertEqual(self.invoice_copy.residual, 0)
 
@@ -145,13 +140,11 @@ class TestPartnerAutoReconcile(SavepointCase):
         # As we had 2200 of outstanding credits and 800 was assigned, there's
         # 1400 left
         self.assertTrue(self.payment_mode.auto_reconcile_allow_partial)
-        self.invoice_copy.payment_mode_id = self.payment_mode
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': self.payment_mode.id})
         self.assertEqual(self.invoice_copy.residual, 100)
         # Unreconcile of an invoice doesn't change the reconciliation of the
         # other invoice
-        self.invoice_copy.payment_mode_id = False
-        self.invoice_copy.payment_mode_id_change()
+        self.invoice_copy.write({'payment_mode_id': False})
         self.assertEqual(self.invoice_copy.residual, 1500)
         self.assertEqual(auto_rec_invoice.state, 'paid')
         self.assertEqual(auto_rec_invoice.residual, 0)

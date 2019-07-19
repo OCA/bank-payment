@@ -28,19 +28,25 @@ class AccountInvoice(models.Model):
             invoice.auto_reconcile_credits(partial_allowed=partial_allowed)
         return res
 
-    @api.onchange('payment_mode_id')
-    def payment_mode_id_change(self):
-        super(AccountInvoice, self).payment_mode_id_change()
-        if self.state != 'open':
-            return
-        if (
-            self.payment_mode_id
-            and self.payment_mode_id.auto_reconcile_outstanding_credits
-        ):
-            partial_allowed = self.payment_mode_id.auto_reconcile_allow_partial
-            self.auto_reconcile_credits(partial_allowed=partial_allowed)
-        else:
-            self.auto_unreconcile_credits()
+    @api.multi
+    def write(self, vals):
+        res = super(AccountInvoice, self).write(vals)
+        if 'payment_mode_id' in vals:
+            for invoice in self:
+                if invoice.state != 'open':
+                    continue
+                payment_mode = invoice.payment_mode_id
+                if (
+                    payment_mode
+                    and payment_mode.auto_reconcile_outstanding_credits
+                ):
+                    partial_allowed = payment_mode.auto_reconcile_allow_partial
+                    invoice.auto_reconcile_credits(
+                        partial_allowed=partial_allowed
+                    )
+                elif invoice.payment_move_line_ids:
+                    invoice.auto_unreconcile_credits()
+        return res
 
     @api.multi
     def auto_reconcile_credits(self, partial_allowed=True):
