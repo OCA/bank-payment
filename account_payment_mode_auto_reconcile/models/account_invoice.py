@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl)
 import json
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class AccountInvoice(models.Model):
@@ -15,8 +15,11 @@ class AccountInvoice(models.Model):
     payment_mode_id = fields.Many2one(
         states={'draft': [('readonly', False)], 'open': [('readonly', False)]}
     )
-    auto_assigned_oustanding_credits = fields.Boolean(
-        compute='_compute_auto_assigned_oustanding_credits',
+    payment_mode_warning = fields.Char(
+        compute='_compute_payment_mode_warning',
+    )
+    display_payment_mode_warning = fields.Boolean(
+        compute='_compute_payment_mode_warning',
     )
 
     @api.multi
@@ -79,13 +82,47 @@ class AccountInvoice(models.Model):
                 )
                 aml.with_context(invoice_id=invoice.id).remove_move_reconcile()
 
-    @api.depends('payment_mode_id', 'payment_move_line_ids.amount_residual',
-                 'state')
-    def _compute_auto_assigned_oustanding_credits(self):
+    @api.depends(
+        'type', 'payment_mode_id', 'payment_move_line_ids', 'state',
+        'has_outstanding'
+    )
+    def _compute_payment_mode_warning(self):
+        # TODO Improve me but watch out
         for invoice in self:
-            invoice.auto_assigned_oustanding_credits = (
-                invoice.state == 'open' and
-                invoice.payment_mode_id and
-                invoice.payment_mode_id.auto_reconcile_outstanding_credits and
-                invoice.payment_move_line_ids
-            )
+            if invoice.type != 'out_invoice' or invoice.state == 'paid':
+                invoice.payment_mode_warning = ''
+                invoice.display_payment_mode_warning = False
+                continue
+            invoice.display_payment_mode_warning = True
+            if (
+                invoice.state != 'open' and invoice.payment_mode_id and
+                invoice.payment_mode_id.auto_reconcile_outstanding_credits
+            ):
+                invoice.payment_mode_warning = _(
+                    'Validating invoices with this payment mode will reconcile'
+                    ' any outstanding credits.'
+                )
+                invoice.display_payment_mode_warning = True
+            elif (
+                invoice.state == 'open' and invoice.payment_move_line_ids and (
+                    not invoice.payment_mode_id or not
+                    invoice.payment_mode_id.auto_reconcile_outstanding_credits
+                )
+            ):
+                invoice.payment_mode_warning = _(
+                    'Changing payment mode will unreconcile existing payments.'
+                )
+                invoice.display_payment_mode_warning = True
+            elif (
+                invoice.state == 'open' and not invoice.payment_move_line_ids
+                and invoice.payment_mode_id
+                and invoice.payment_mode_id.auto_reconcile_outstanding_credits
+                and invoice.has_outstanding
+            ):
+                invoice.payment_mode_warning = _(
+                    'Changing payment mode will reconcile outstanding credits.'
+                )
+                invoice.display_payment_mode_warning = True
+            else:
+                invoice.payment_mode_warning = ''
+                invoice.display_payment_mode_warning = False

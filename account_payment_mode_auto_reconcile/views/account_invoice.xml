@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
     <record id="invoice_form_inherit" model="ir.ui.view">
         <field name="name">account_payment_partner.invoice_form.inherit</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account_payment_partner.invoice_form" />
         <field name="arch" type="xml">
             <field name="payment_mode_id" position="before">
-                <field name="auto_assigned_oustanding_credits" invisible="True"/>
+                <field name="display_payment_mode_warning" invisible="True"/>"
             </field>
             <field name="payment_mode_id" position="after">
-                <label for="onchange_payment_mode_warning" invisible="True" />
-                <div class="alert alert-warning oe_edit_only" attrs="{'invisible': [('auto_assigned_oustanding_credits', '=', False)]}">
-                    <span name="onchange_payment_mode_warning" nolabel="1">Changing the payment mode might unreconcile payments.</span>
+                <label for="payment_mode_warning" invisible="True" />
+                <div class="alert alert-warning oe_edit_only" attrs="{'invisible': [('display_payment_mode_warning', '!=', True)]}">
+                    <field name="payment_mode_warning" nolabel="1" />
                 </div>
             </field>
         </field>
