@@ -26,6 +26,8 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         res = super(AccountInvoice, self).action_invoice_open()
         for invoice in self:
+            if invoice.type != 'out_invoice':
+                continue
             if not invoice.payment_mode_id.auto_reconcile_outstanding_credits:
                 continue
             partial_allowed = self.payment_mode_id.auto_reconcile_allow_partial
@@ -37,7 +39,7 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).write(vals)
         if 'payment_mode_id' in vals:
             for invoice in self:
-                if invoice.state != 'open':
+                if invoice.state != 'open' or invoice.type != 'out_invoice':
                     continue
                 payment_mode = invoice.payment_mode_id
                 if (
