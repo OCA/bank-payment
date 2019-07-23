@@ -289,7 +289,6 @@ class TestAccountPaymentPartner(common.SavepointCase):
 
     def test_invoice_refund(self):
         invoice = self._create_invoice()
-        invoice.partner_bank_id = False
         invoice.action_invoice_open()
         # Lets create a refund invoice for invoice_1.
         # I refund the invoice Using Refund Button.
