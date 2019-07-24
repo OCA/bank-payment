@@ -39,9 +39,11 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).write(vals)
         if 'payment_mode_id' in vals:
             for invoice in self:
+                # Do not auto reconcile anything else than open customer inv
                 if invoice.state != 'open' or invoice.type != 'out_invoice':
                     continue
                 payment_mode = invoice.payment_mode_id
+                # Auto reconcile if payment mode sets it
                 if (
                     payment_mode
                     and payment_mode.auto_reconcile_outstanding_credits
@@ -50,6 +52,8 @@ class AccountInvoice(models.Model):
                     invoice.auto_reconcile_credits(
                         partial_allowed=partial_allowed
                     )
+                # If the payment mode is not using auto reconcile we remove
+                #  the existing reconciliations
                 elif invoice.payment_move_line_ids:
                     invoice.auto_unreconcile_credits()
         return res
@@ -64,9 +68,9 @@ class AccountInvoice(models.Model):
             )
             # Get outstanding credits in chronological order
             # (using reverse because aml is sorted by date desc as default)
-            credits = credits_info.get('content')
-            credits.reverse()
-            for credit in credits:
+            credits_dict = credits_info.get('content')
+            credits_dict.reverse()
+            for credit in credits_dict:
                 if (
                     not partial_allowed
                     and credit.get('amount') > invoice.residual
@@ -104,7 +108,6 @@ class AccountInvoice(models.Model):
                     'Validating invoices with this payment mode will reconcile'
                     ' any outstanding credits.'
                 )
-                invoice.display_payment_mode_warning = True
             elif (
                 invoice.state == 'open' and invoice.payment_move_line_ids and (
                     not invoice.payment_mode_id or not
@@ -114,7 +117,6 @@ class AccountInvoice(models.Model):
                 invoice.payment_mode_warning = _(
                     'Changing payment mode will unreconcile existing payments.'
                 )
-                invoice.display_payment_mode_warning = True
             elif (
                 invoice.state == 'open' and not invoice.payment_move_line_ids
                 and invoice.payment_mode_id
@@ -124,7 +126,6 @@ class AccountInvoice(models.Model):
                 invoice.payment_mode_warning = _(
                     'Changing payment mode will reconcile outstanding credits.'
                 )
-                invoice.display_payment_mode_warning = True
             else:
                 invoice.payment_mode_warning = ''
                 invoice.display_payment_mode_warning = False
