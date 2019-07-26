@@ -31,7 +31,9 @@ class AccountInvoice(models.Model):
             if not invoice.payment_mode_id.auto_reconcile_outstanding_credits:
                 continue
             partial_allowed = self.payment_mode_id.auto_reconcile_allow_partial
-            invoice.auto_reconcile_credits(partial_allowed=partial_allowed)
+            invoice.with_context(
+                _payment_mode_auto_reconcile=True
+            ).auto_reconcile_credits(partial_allowed=partial_allowed)
         return res
 
     @api.multi
@@ -49,7 +51,9 @@ class AccountInvoice(models.Model):
                     and payment_mode.auto_reconcile_outstanding_credits
                 ):
                     partial_allowed = payment_mode.auto_reconcile_allow_partial
-                    invoice.auto_reconcile_credits(
+                    invoice.with_context(
+                        _payment_mode_auto_reconcile=True
+                    ).auto_reconcile_credits(
                         partial_allowed=partial_allowed
                     )
                 # If the payment mode is not using auto reconcile we remove
@@ -86,7 +90,16 @@ class AccountInvoice(models.Model):
                 aml = self.env['account.move.line'].browse(
                     payment.get('payment_id')
                 )
-                aml.with_context(invoice_id=invoice.id).remove_move_reconcile()
+                for apr in aml.matched_debit_ids:
+                    if apr.amount != payment.get('amount'):
+                        continue
+                    if (
+                        apr.payment_mode_auto_reconcile
+                        and apr.debit_move_id.invoice_id == invoice
+                    ):
+                        aml.with_context(
+                            invoice_id=invoice.id
+                        ).remove_move_reconcile()
 
     @api.depends(
         'type', 'payment_mode_id', 'payment_move_line_ids', 'state',
@@ -115,7 +128,8 @@ class AccountInvoice(models.Model):
                 )
             ):
                 invoice.payment_mode_warning = _(
-                    'Changing payment mode will unreconcile existing payments.'
+                    'Changing payment mode will unreconcile existing auto '
+                    'reconciled payments.'
                 )
             elif (
                 invoice.state == 'open' and not invoice.payment_move_line_ids

@@ -2,6 +2,7 @@
 # Copyright 2019 Camptocamp SA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl)
 from datetime import date, timedelta
+import json
 
 from odoo.tests import SavepointCase
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
@@ -149,3 +150,44 @@ class TestPartnerAutoReconcile(SavepointCase):
         self.assertEqual(self.invoice_copy.residual, 1500)
         self.assertEqual(auto_rec_invoice.state, 'paid')
         self.assertEqual(auto_rec_invoice.residual, 0)
+
+    def test_invoice_auto_unreconcile_only_auto_reconcile(self):
+        refund = self.refund.copy()
+        refund.invoice_line_ids.write({'price_unit': 100})
+        refund.action_invoice_open()
+        new_invoice = self.invoice_copy.copy()
+        new_invoice.action_invoice_open()
+        # Only reconcile 1000 refund manually
+        new_invoice_credits = json.loads(
+            new_invoice.outstanding_credits_debits_widget
+        ).get('content')
+        for cred in new_invoice_credits:
+            if cred.get('amount') == 100.0:
+                new_invoice.assign_outstanding_credit(cred.get('id'))
+        self.assertEqual(new_invoice.residual, 1400.0)
+        # Assign payment mode adds the outstanding credit of 1000.0
+        new_invoice.write({'payment_mode_id': self.payment_mode.id})
+        self.assertEqual(new_invoice.residual, 400.0)
+        # Remove payment mode only removes automatically added credit
+        new_invoice.write({'payment_mode_id': False})
+        self.assertEqual(new_invoice.residual, 1400.0)
+
+        # use the same payment partially on different invoices.
+        other_invoice = self.invoice.copy()
+        other_invoice.invoice_line_ids.write({
+            'price_unit': 200,
+        })
+        other_invoice.write({
+            'payment_mode_id': self.payment_mode.id,
+        })
+        other_invoice.action_invoice_open()
+        self.assertEqual(other_invoice.state, 'paid')
+        # since 200 were assigned on other invoice adding auto-rec payment mode
+        # on new_invoice will reconcile 800 and residual will be 600
+        new_invoice.write({'payment_mode_id': self.payment_mode.id})
+        self.assertEqual(new_invoice.residual, 600.0)
+        # Removing the payment mode should not remove the partial payment on
+        #  the other invoice
+        new_invoice.write({'payment_mode_id': False})
+        self.assertEqual(new_invoice.residual, 1400.0)
+        self.assertEqual(other_invoice.state, 'paid')
