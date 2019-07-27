@@ -19,21 +19,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_commercial_partner_id
+#: model:ir.model.fields,help:account_banking_mandate_sale.field_sale_order__mandate_required
+msgid ""
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
+msgstr ""
+
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__commercial_partner_id
 msgid "Commercial Entity"
 msgstr "Commerciële Entiteit"
 
 #. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order_mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Incasso mandaat"
+
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_required
+msgid "Mandate Required"
+msgstr ""
+
+#. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
+#, fuzzy
+#| msgid "Sales Order"
+msgid "Sale Order"
+msgstr "Verkooporder"
 
 #. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
 msgstr "Verkoop Incassofactuur"
-
-#. module: account_banking_mandate_sale
-#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
-msgid "Sales Order"
-msgstr "Verkooporder"
