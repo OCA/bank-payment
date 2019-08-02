@@ -332,6 +332,7 @@ class AccountPaymentOrder(models.Model):
         payment_file_str, filename = self.generate_payment_file()
         action = {}
         if payment_file_str and filename:
+            payment_file_str = payment_file_str.encode()
             attachment = self.env['ir.attachment'].create({
                 'res_model': 'account.payment.order',
                 'res_id': self.id,
