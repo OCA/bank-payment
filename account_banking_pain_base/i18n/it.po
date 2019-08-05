@@ -124,16 +124,10 @@ msgid "Cancellation Fee"
 msgstr "Spese di cancellazione"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:104
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-"Non è possibile calcolare '%s' della linea di pagamento con riferimento '%s'."
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
-#, python-format
-msgid "Cannot compute the '%s'."
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:101
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s'."
+msgid "Cannot compute the field '{field_name}'."
 msgstr "Non è possibile calcolare '%s'."
 
 #. module: account_banking_pain_base
@@ -259,6 +253,22 @@ msgid "Credit Card Payment "
 msgstr "Pagamento con Carta di Credito "
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:451
+#, fuzzy, python-format
+#| msgid "Credit Card Payment"
+msgid "Creditor name"
+msgstr "Pagamento con Carta di Credito"
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:107
+#, python-format
+msgid ""
+"Data for evaluation:\n"
+"\tcontext: {eval_ctx}\n"
+"\tfield path: {field_value}"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Debit  Card  Payment"
 msgstr "Pagamento con Carta di Debito"
@@ -267,6 +277,12 @@ msgstr "Pagamento con Carta di Debito"
 #: selection:account.payment.line,category_purpose:0
 msgid "Debit Card Payment"
 msgstr "Pagamento con Carta di Debito"
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:453
+#, python-format
+msgid "Debtor name"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -588,7 +604,7 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:310
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:337
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -660,6 +676,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__pain_version
 msgid "PAIN Version"
 msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:449
+#, python-format
+msgid "Partner name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:146
+#, python-format
+msgid "Partner's bank account is '%s'."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:142
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+msgid "Payment Line has reference '%s'."
+msgstr ""
+"Non è possibile calcolare '%s' della linea di pagamento con riferimento '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -837,7 +873,7 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:117
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:125
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr ""
@@ -853,7 +889,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:138
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:165
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -863,7 +899,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:112
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:120
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
@@ -1036,3 +1072,11 @@ msgstr ""
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
+
+#~ msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+#~ msgstr ""
+#~ "Non è possibile calcolare '%s' della linea di pagamento con riferimento "
+#~ "'%s'."
+
+#~ msgid "Cannot compute the '%s'."
+#~ msgstr "Non è possibile calcolare '%s'."
