@@ -119,15 +119,10 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:104
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
-#, python-format
-msgid "Cannot compute the '%s'."
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:101
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s'."
+msgid "Cannot compute the field '{field_name}'."
 msgstr "Ne morem izračunati '%s'."
 
 #. module: account_banking_pain_base
@@ -243,6 +238,21 @@ msgid "Credit Card Payment "
 msgstr ""
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:451
+#, python-format
+msgid "Creditor name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:107
+#, python-format
+msgid ""
+"Data for evaluation:\n"
+"\tcontext: {eval_ctx}\n"
+"\tfield path: {field_value}"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Debit  Card  Payment"
 msgstr ""
@@ -250,6 +260,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Debit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:453
+#, python-format
+msgid "Debtor name"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -551,7 +567,7 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:310
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:337
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -625,6 +641,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__pain_version
 msgid "PAIN Version"
 msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:449
+#, python-format
+msgid "Partner name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:146
+#, python-format
+msgid "Partner's bank account is '%s'."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:142
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+msgid "Payment Line has reference '%s'."
+msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -801,7 +836,7 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:117
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:125
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' je prazno ali 0. Vsebovati bi moralo ne ničelno vrednost."
@@ -817,7 +852,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:138
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:165
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -830,7 +865,7 @@ msgstr ""
 "dnevnike. Tu je napaka, ki bi lahko razjasnila, v čem je vzrok težave : %s"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:112
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:120
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr "Tip polja '%s' je %s. Moral bi biti niz ali unicode."
@@ -1024,3 +1059,9 @@ msgstr ""
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
+
+#~ msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+#~ msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
+
+#~ msgid "Cannot compute the '%s'."
+#~ msgstr "Ne morem izračunati '%s'."
