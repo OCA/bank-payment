@@ -109,15 +109,9 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:104
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:101
 #, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
-#, python-format
-msgid "Cannot compute the '%s'."
+msgid "Cannot compute the field '{field_name}'."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -233,6 +227,20 @@ msgid "Credit Card Payment "
 msgstr ""
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:451
+#, python-format
+msgid "Creditor name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:107
+#, python-format
+msgid "Data for evaluation:\n"
+"	context: {eval_ctx}\n"
+"	field path: {field_value}"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Debit  Card  Payment"
 msgstr ""
@@ -240,6 +248,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Debit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:453
+#, python-format
+msgid "Debtor name"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -523,7 +537,7 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:310
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:337
 #, python-format
 msgid "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for the company '%s'. Both fields must have a value."
 msgstr ""
@@ -592,6 +606,24 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__pain_version
 msgid "PAIN Version"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:449
+#, python-format
+msgid "Partner name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:146
+#, python-format
+msgid "Partner's bank account is '%s'."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:142
+#, python-format
+msgid "Payment Line has reference '%s'."
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -768,7 +800,7 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:117
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:125
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr ""
@@ -783,13 +815,13 @@ msgid "The following Bank Identifier Codes (BIC) do not respect the SEPA pattern
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:138
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:165
 #, python-format
 msgid "The generated XML file is not valid against the official XML Schema Definition. The generated XML file and the full error have been written in the server logs. Here is the error, which may give you an idea on the cause of the problem : %s"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:112
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:120
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
