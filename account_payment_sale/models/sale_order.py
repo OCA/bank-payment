@@ -30,5 +30,6 @@ class SaleOrder(models.Model):
             vals['payment_mode_id'] = self.payment_mode_id.id
             if self.payment_mode_id.bank_account_link == 'fixed':
                 vals['partner_bank_id'] =\
-                    self.payment_mode_id.fixed_journal_id.bank_account_id.id
+                    self.payment_mode_id.fixed_journal_id.sudo().\
+                    bank_account_id.id
         return vals
