@@ -20,7 +20,7 @@ Account Banking SEPA Credit Transfer
     :target: https://translation.odoo-community.org/projects/bank-payment-12-0/bank-payment-12-0-account_banking_sepa_credit_transfer
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/97/12.0
+    :target: https://runbot.odoo-community.org/runbot/173/12.0
     :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
