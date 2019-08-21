@@ -30,7 +30,7 @@ class AccountInvoice(models.Model):
                 continue
             if not invoice.payment_mode_id.auto_reconcile_outstanding_credits:
                 continue
-            partial_allowed = self.payment_mode_id.auto_reconcile_allow_partial
+            partial_allowed = invoice.payment_mode_id.auto_reconcile_allow_partial
             invoice.with_context(
                 _payment_mode_auto_reconcile=True
             ).auto_reconcile_credits(partial_allowed=partial_allowed)
