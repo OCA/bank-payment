@@ -1,17 +1,19 @@
-# © 2017 Camptocamp SA
-# © 2017 Creu Blanca
+# Copyright 2017 Camptocamp SA
+# Copyright 2017 Creu Blanca
+# Copyright 2019 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 from odoo.exceptions import ValidationError, UserError
 from datetime import date, timedelta
 
 
-class TestPaymentOrderInbound(TransactionCase):
-
-    def setUp(self):
-        super(TestPaymentOrderInbound, self).setUp()
-        self.inbound_mode = self.browse_ref(
+class TestPaymentOrderInboundBase(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        self = cls
+        super().setUpClass()
+        self.inbound_mode = self.env.ref(
             'account_payment_mode.payment_mode_inbound_dd1'
         )
         self.invoice_line_account = self.env['account.account'].search(
@@ -22,12 +24,27 @@ class TestPaymentOrderInbound(TransactionCase):
             [('type', '=', 'bank')], limit=1
         )
         self.inbound_mode.variable_journal_ids = self.journal
+        # Make sure no others orders are present
+        self.domain = [
+            ('state', '=', 'draft'),
+            ('payment_type', '=', 'inbound'),
+        ]
+        self.payment_order_obj = self.env['account.payment.order']
+        self.payment_order_obj.search(self.domain).unlink()
+        # Create payment order
         self.inbound_order = self.env['account.payment.order'].create({
             'payment_type': 'inbound',
             'payment_mode_id': self.inbound_mode.id,
             'journal_id': self.journal.id,
         })
-        self.invoice = self._create_customer_invoice()
+        # Open invoice
+        self.invoice = self._create_customer_invoice(self)
+        self.invoice.action_invoice_open()
+        # Add to payment order using the wizard
+        self.env['account.invoice.payment.line.multi'].with_context(
+            active_model='account.invoice',
+            active_ids=self.invoice.ids
+        ).create({}).run()
 
     def _create_customer_invoice(self):
         invoice_account = self.env['account.account'].search(
@@ -40,7 +57,6 @@ class TestPaymentOrderInbound(TransactionCase):
             'type': 'out_invoice',
             'payment_mode_id': self.inbound_mode.id
         })
-
         self.env['account.invoice.line'].create({
             'product_id': self.env.ref('product.product_product_4').id,
             'quantity': 1.0,
@@ -49,9 +65,10 @@ class TestPaymentOrderInbound(TransactionCase):
             'name': 'product that cost 100',
             'account_id': self.invoice_line_account,
         })
-
         return invoice
 
+
+class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
     def test_constrains_type(self):
         with self.assertRaises(ValidationError):
             order = self.env['account.payment.order'].create({
@@ -66,14 +83,7 @@ class TestPaymentOrderInbound(TransactionCase):
                 days=1)
 
     def test_creation(self):
-        # Open invoice
-        self.invoice.action_invoice_open()
-        # Add to payment order using the wizard
-        self.env['account.invoice.payment.line.multi'].with_context(
-            active_model='account.invoice',
-            active_ids=self.invoice.ids
-        ).create({}).run()
-        payment_order = self.env['account.payment.order'].search([])
+        payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
         bank_journal = self.env['account.journal'].search(
             [('type', '=', 'bank')], limit=1)
@@ -108,4 +118,4 @@ class TestPaymentOrderInbound(TransactionCase):
         self.assertEqual(payment_order.state, 'cancel')
         payment_order.cancel2draft()
         payment_order.unlink()
-        self.assertEqual(len(self.env['account.payment.order'].search([])), 0)
+        self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
