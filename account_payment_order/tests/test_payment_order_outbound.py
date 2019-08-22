@@ -26,6 +26,12 @@ class TestPaymentOrderOutbound(TransactionCase):
             'account_payment_mode.payment_mode_outbound_dd1')
         self.bank_journal = self.env['account.journal'].search(
             [('type', '=', 'bank')], limit=1)
+        # Make sure no other payment orders are in the DB
+        self.domain = [
+            ('state', '=', 'draft'),
+            ('payment_type', '=', 'outbound'),
+        ]
+        self.env['account.payment.order'].search(self.domain).unlink()
 
     def _create_supplier_invoice(self):
         invoice_account = self.env['account.account'].search(
@@ -136,8 +142,8 @@ class TestPaymentOrderOutbound(TransactionCase):
             active_ids=self.invoice.ids
         ).create({}).run()
 
-        payment_order = self.env['account.payment.order'].search([])
-        self.assertEqual(len(payment_order.ids), 1)
+        payment_order = self.env['account.payment.order'].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
         bank_journal = self.env['account.journal'].search(
             [('type', '=', 'bank')], limit=1)
         # Set journal to allow cancelling entries
@@ -171,7 +177,9 @@ class TestPaymentOrderOutbound(TransactionCase):
         self.assertEqual(payment_order.state, 'cancel')
         payment_order.cancel2draft()
         payment_order.unlink()
-        self.assertEqual(len(self.env['account.payment.order'].search([])), 0)
+        self.assertEqual(
+            len(self.env['account.payment.order'].search(self.domain)), 0,
+        )
 
     def test_constrains(self):
         outbound_order = self.env['account.payment.order'].create({
