@@ -29,11 +29,14 @@ msgid "Direct Debit Mandate"
 msgstr "Incasso mandaat"
 
 #. module: account_banking_mandate_sale
+#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
+msgid "Quotation"
+msgstr ""
+
+#. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
 msgstr "Verkoop Incassofactuur"
 
-#. module: account_banking_mandate_sale
-#: model:ir.model,name:account_banking_mandate_sale.model_sale_order
-msgid "Sales Order"
-msgstr "Verkooporder"
+#~ msgid "Sales Order"
+#~ msgstr "Verkooporder"
