@@ -265,7 +265,7 @@ class AccountPaymentOrder(models.Model):
                 'recurrent_sequence_type': 'recurring',
                 })
             for first_mandate in first_mandates:
-                first_mandate.message_post(_(
+                first_mandate.message_post(body=_(
                     "Automatically switched from <b>First</b> to "
                     "<b>Recurring</b> when the debit order "
                     "<a href=# data-oe-model=account.payment.order "
