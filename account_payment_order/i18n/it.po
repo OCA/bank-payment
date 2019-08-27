@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2019-05-31 13:08+0000\n"
-"Last-Translator: Ciro Urselli <c.urselli@apuliasoftware.it>\n"
+"PO-Revision-Date: 2019-08-27 17:01+0000\n"
+"Last-Translator: Giacomo Grasso <giacomo.grasso.82@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.8\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_count
@@ -30,7 +30,7 @@ msgstr "# di Registrazioni Sezionale"
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
-"%d righe di pagamento aggiunte a ordini di pagamento in bozza esistenti."
+"%d righe di pagamento aggiunte all'esistente bozza di ordine di pagamento %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:107
