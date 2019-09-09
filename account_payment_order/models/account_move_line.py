@@ -4,6 +4,7 @@
 
 from lxml import etree
 from odoo import api, fields, models
+from odoo.fields import first
 from odoo.osv import orm
 
 
@@ -55,13 +56,8 @@ class AccountMoveLine(models.Model):
             # in this case
         if payment_order.payment_type == 'outbound':
             amount_currency *= -1
-        partner_bank_id = False
-        if not self.partner_bank_id:
-            # Select partner bank account automatically if there is only one
-            if len(self.partner_id.bank_ids) == 1:
-                partner_bank_id = self.partner_id.bank_ids[0].id
-        else:
-            partner_bank_id = self.partner_bank_id.id
+        partner_bank_id = self.partner_bank_id.id or first(
+            self.partner_id.bank_ids).id
         vals = {
             'order_id': payment_order.id,
             'partner_bank_id': partner_bank_id,
