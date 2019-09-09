@@ -30,6 +30,15 @@ class CommonTestCase(SavepointCase):
             'bank_account_link': 'fixed',
             'fixed_journal_id': cls.journal.id,
         })
+        cls.payment_mode_2 = cls.env["account.payment.mode"].create({
+            'name': 'test_mode_2',
+            'active': True,
+            'payment_method_id': cls.env.ref(
+                "account.account_payment_method_manual_in"
+            ).id,
+            'bank_account_link': 'fixed',
+            'fixed_journal_id': cls.journal.id,
+        })
         cls.base_partner = cls.env["res.partner"].create({
             'name': 'Dummy',
             'email': 'dummy@example.com',
