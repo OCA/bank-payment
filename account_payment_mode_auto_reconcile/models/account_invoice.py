@@ -73,6 +73,8 @@ class AccountInvoice(models.Model):
             # Get outstanding credits in chronological order
             # (using reverse because aml is sorted by date desc as default)
             credits_dict = credits_info.get('content')
+            if invoice.payment_mode_id.auto_reconcile_same_journal:
+                credits_dict = invoice._filter_payment_same_journal(credits_dict)
             credits_dict.reverse()
             for credit in credits_dict:
                 if (
@@ -81,6 +83,16 @@ class AccountInvoice(models.Model):
                 ):
                     continue
                 invoice.assign_outstanding_credit(credit.get('id'))
+
+    @api.multi
+    def _filter_payment_same_journal(self, credits_dict):
+        """Keep only credits on the same journal than the invoice."""
+        self.ensure_one()
+        line_ids = [credit['id'] for credit in credits_dict]
+        lines = self.env['account.move.line'].browse(line_ids).filtered(
+            lambda line: line.journal_id == self.journal_id
+        )
+        return [credit for credit in credits_dict if credit['id'] in lines.ids]
 
     @api.multi
     def auto_unreconcile_credits(self):

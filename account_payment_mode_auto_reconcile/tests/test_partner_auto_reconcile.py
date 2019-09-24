@@ -55,10 +55,10 @@ class TestPartnerAutoReconcile(SavepointCase):
             })],
         })
         cls.invoice.action_invoice_open()
-        bank_journal = cls.env['account.journal'].search(
+        cls.bank_journal = cls.env['account.journal'].search(
             [('type', '=', 'bank')], limit=1
         )
-        cls.invoice.pay_and_reconcile(bank_journal)
+        cls.invoice.pay_and_reconcile(cls.bank_journal)
         cls.refund_wiz = cls.env['account.invoice.refund'].with_context(
             active_ids=cls.invoice.ids).create({
                 'filter_refund': 'refund',
@@ -192,3 +192,44 @@ class TestPartnerAutoReconcile(SavepointCase):
         new_invoice.write({'payment_mode_id': False})
         self.assertEqual(new_invoice.residual, 1400.0)
         self.assertEqual(other_invoice.state, 'paid')
+
+    def test_invoice_auto_reconcile_same_journal(self):
+        """Check reconciling credits on same journal."""
+        self.payment_mode.auto_reconcile_same_journal = True
+        auto_rec_invoice = self.invoice.copy({
+            'payment_mode_id': self.payment_mode.id,
+        })
+        auto_rec_invoice.write({
+            'invoice_line_ids': [(0, 0, {
+                'product_id': self.product.id,
+                'name': self.product.name,
+                'price_unit': 500.0,
+                'quantity': 1,
+                'account_id': self.acc_rev.id,
+            })]
+        })
+        self.assertTrue(self.payment_mode.auto_reconcile_outstanding_credits)
+        self.assertEqual(self.invoice_copy.residual, 1500)
+        auto_rec_invoice.action_invoice_open()
+        self.assertEqual(auto_rec_invoice.residual, 500)
+
+    def test_invoice_auto_reconcile_different_journal(self):
+        """Check not reconciling credits on different journal."""
+        self.payment_mode.auto_reconcile_same_journal = True
+        auto_rec_invoice = self.invoice.copy({
+            'payment_mode_id': self.payment_mode.id,
+            'journal_id': self.bank_journal.id,
+        })
+        auto_rec_invoice.write({
+            'invoice_line_ids': [(0, 0, {
+                'product_id': self.product.id,
+                'name': self.product.name,
+                'price_unit': 500.0,
+                'quantity': 1,
+                'account_id': self.acc_rev.id,
+            })]
+        })
+        self.assertTrue(self.payment_mode.auto_reconcile_outstanding_credits)
+        self.assertEqual(self.invoice_copy.residual, 1500)
+        auto_rec_invoice.action_invoice_open()
+        self.assertEqual(auto_rec_invoice.residual, 1500)

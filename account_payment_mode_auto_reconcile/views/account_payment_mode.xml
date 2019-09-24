@@ -9,6 +9,7 @@
                 <group string="Auto reconcile outstanding credits" name="auto_reconcile">
                     <field name="auto_reconcile_outstanding_credits" />
                     <field name="auto_reconcile_allow_partial" attrs="{'invisible': [('auto_reconcile_outstanding_credits', '=', False)]}" />
+                    <field name="auto_reconcile_same_journal" attrs="{'invisible': [('auto_reconcile_outstanding_credits', '=', False)]}" />
                 </group>
             </group>
         </field>
