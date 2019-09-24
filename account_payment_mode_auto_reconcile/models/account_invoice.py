@@ -30,10 +30,10 @@ class AccountInvoice(models.Model):
                 continue
             if not invoice.payment_mode_id.auto_reconcile_outstanding_credits:
                 continue
-            partial_allowed = invoice.payment_mode_id.auto_reconcile_allow_partial
+            partial = invoice.payment_mode_id.auto_reconcile_allow_partial
             invoice.with_context(
                 _payment_mode_auto_reconcile=True
-            ).auto_reconcile_credits(partial_allowed=partial_allowed)
+            ).auto_reconcile_credits(partial_allowed=partial)
         return res
 
     @api.multi
@@ -50,11 +50,11 @@ class AccountInvoice(models.Model):
                     payment_mode
                     and payment_mode.auto_reconcile_outstanding_credits
                 ):
-                    partial_allowed = payment_mode.auto_reconcile_allow_partial
+                    partial = payment_mode.auto_reconcile_allow_partial
                     invoice.with_context(
                         _payment_mode_auto_reconcile=True
                     ).auto_reconcile_credits(
-                        partial_allowed=partial_allowed
+                        partial_allowed=partial
                     )
                 # If the payment mode is not using auto reconcile we remove
                 #  the existing reconciliations
