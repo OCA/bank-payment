@@ -22,5 +22,5 @@ class AccountPaymentMode(models.Model):
     auto_reconcile_same_journal = fields.Boolean(
         default=False,
         string="Only same journal",
-        help="Only reconcile payment belonging to same journal than the invoice",
+        help="Only reconcile payment in the same journal than the invoice",
     )

@@ -74,7 +74,9 @@ class AccountInvoice(models.Model):
             # (using reverse because aml is sorted by date desc as default)
             credits_dict = credits_info.get('content')
             if invoice.payment_mode_id.auto_reconcile_same_journal:
-                credits_dict = invoice._filter_payment_same_journal(credits_dict)
+                credits_dict = invoice._filter_payment_same_journal(
+                    credits_dict
+                )
             credits_dict.reverse()
             for credit in credits_dict:
                 if (
