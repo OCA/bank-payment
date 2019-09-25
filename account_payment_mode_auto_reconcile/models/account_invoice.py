@@ -89,9 +89,9 @@ class AccountInvoice(models.Model):
         """Keep only credits on the same journal than the invoice."""
         self.ensure_one()
         line_ids = [credit['id'] for credit in credits_dict]
-        lines = self.env['account.move.line'].browse(line_ids).filtered(
-            lambda line: line.journal_id == self.journal_id
-        )
+        lines = self.env['account.move.line'].search([
+            ('id', 'in', line_ids), ('journal_id', '=', self.journal_id.id)
+        ])
         return [credit for credit in credits_dict if credit['id'] in lines.ids]
 
     @api.multi
