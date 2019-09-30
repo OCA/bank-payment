@@ -8,13 +8,11 @@
 .sepa_direct_debit input{
     vertical-align: baseline;
 }
-.sepa_direct_debit .panel-default{
+.sepa_direct_debit .card{
     border:2px solid;
-}
-.sepa_direct_debit .panel.panel-default{
     margin-bottom: 4px;
 }
-.sepa_direct_debit .panel-body{
+.sepa_direct_debit .card-body{
     padding: 2px 14px;
 }
 .sepa_direct_debit p{
