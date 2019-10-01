@@ -24,7 +24,7 @@ here. I hate the objects that don't have a view... -->
     <field name="name">account_payment_method.tree</field>
     <field name="model">account.payment.method</field>
     <field name="arch" type="xml">
-        <tree string="Payment Methods">
+        <tree>
             <field name="name"/>
             <field name="code"/>
             <field name="payment_type"/>
