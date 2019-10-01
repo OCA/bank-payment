@@ -13,7 +13,7 @@ class AccountPaymentMode(models.Model):
     _description = 'Payment Modes'
     _order = 'name'
 
-    name = fields.Char(string='Name', required=True, translate=True)
+    name = fields.Char(required=True, translate=True)
     company_id = fields.Many2one(
         'res.company', string='Company', required=True, ondelete='restrict',
         default=lambda self: self.env['res.company']._company_default_get(
@@ -44,18 +44,16 @@ class AccountPaymentMode(models.Model):
         'account.payment.method', string='Payment Method', required=True,
         ondelete='restrict')  # equivalent v8 field : type
     payment_type = fields.Selection(
-        related='payment_method_id.payment_type', readonly=True, store=True,
-        string="Payment Type")
+        related='payment_method_id.payment_type', readonly=True, store=True)
     payment_method_code = fields.Char(
-        related='payment_method_id.code', readonly=True, store=True,
-        string='Payment Method Code')
-    active = fields.Boolean(string='Active', default=True)
+        related='payment_method_id.code', readonly=True, store=True)
+    active = fields.Boolean(default=True)
     # I dropped sale_ok and purchase_ok fields, because it is replaced by
     # payment_type = 'inbound' or 'outbound'
     # In fact, with the new v9 datamodel, you MUST create 2 payment modes
     # for wire transfer : one for wire transfer from your customers (inbound)
     # and one for wire transfer to your suppliers (outbound)
-    note = fields.Text(string="Note", translate=True)
+    note = fields.Text(translate=True)
 
     @api.onchange('company_id')
     def _onchange_company_id(self):
