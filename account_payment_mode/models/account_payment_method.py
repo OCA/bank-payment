@@ -12,16 +12,14 @@ class AccountPaymentMethod(models.Model):
         help="This code is used in the code of the Odoo module that handles "
         "this payment method. Therefore, if you change it, "
         "the generation of the payment file may fail.")
-    active = fields.Boolean(string='Active', default=True)
+    active = fields.Boolean(default=True)
     bank_account_required = fields.Boolean(
-        string='Bank Account Required',
         help="Activate this option if this payment method requires you to "
         "know the bank account number of your customer or supplier.")
     payment_mode_ids = fields.One2many(
         comodel_name='account.payment.mode', inverse_name='payment_method_id',
         string='Payment modes')
 
-    @api.multi
     @api.depends('code', 'name', 'payment_type')
     def name_get(self):
         result = []
