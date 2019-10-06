@@ -100,15 +100,23 @@ class AccountPaymentOrder(models.Model):
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, '-')
         except:
-            line = eval_ctx.get('line')
-            if line:
-                raise UserError(
-                    _("Cannot compute the '%s' of the Payment Line with "
-                        "reference '%s'.")
-                    % (field_name, line.name))
-            else:
-                raise UserError(
-                    _("Cannot compute the '%s'.") % field_name)
+            error_msg_prefix = _("Cannot compute the field '{field_name}'.") \
+                .format(
+                field_name=field_name)
+
+            error_msg_details_list = self.except_messages_prepare_field(
+                eval_ctx, field_name)
+            error_msg_data = _("Data for evaluation:\n"
+                               "\tcontext: {eval_ctx}\n"
+                               "\tfield path: {field_value}") \
+                .format(
+                eval_ctx=eval_ctx,
+                field_value=field_value)
+            raise UserError('\n'.join(
+                [error_msg_prefix]
+                + error_msg_details_list
+                + [error_msg_data]))
+
         if not isinstance(value, (str, unicode)):
             raise UserError(
                 _("The type of the field '%s' is %s. It should be a string "
@@ -121,6 +129,25 @@ class AccountPaymentOrder(models.Model):
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
+
+    @api.model
+    def except_messages_prepare_field(self, eval_ctx, field_name):
+        """
+        Inherit this method to provide more detailed error messages for
+        exceptions to be raised while evaluating `field_name` using `eval_ctx`.
+        :return: List containing the error messages.
+        """
+        error_messages = list()
+        line = eval_ctx.get('line')
+        if line:
+            error_messages.append(
+                _("Payment Line has reference '%s'.") % line.name)
+        partner_bank = eval_ctx.get('partner_bank')
+        if partner_bank:
+            error_messages.append(
+                _("Partner's bank account is '%s'.")
+                % partner_bank.display_name)
+        return error_messages
 
     @api.model
     def _validate_xml(self, xml_string, gen_args):
@@ -468,15 +495,16 @@ class AccountPaymentOrder(models.Model):
         In some localization (l10n_ch_sepa for example), they need the
         bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
+        party_type_label = _("Partner name")
         if party_type == 'Cdtr':
-            party_type_label = 'Creditor'
+            party_type_label = _("Creditor name")
         elif party_type == 'Dbtr':
-            party_type_label = 'Debtor'
+            party_type_label = _("Debtor name")
         name = 'partner_bank.partner_id.name'
         eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
-            '%s Name' % party_type_label, name, eval_ctx,
-            gen_args.get('name_maxsize'), gen_args=gen_args)
+            party_type_label, name, eval_ctx, gen_args.get('name_maxsize'),
+            gen_args=gen_args)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'C':
