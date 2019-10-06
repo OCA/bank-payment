@@ -117,17 +117,10 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:106
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-"Impossible de calculer le '%s' de la ligne de paiement ayant la référence "
-"'%s'."
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:111
-#, python-format
-msgid "Cannot compute the '%s'."
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:103
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s'."
+msgid "Cannot compute the field '{field_name}'."
 msgstr "Impossible de calculer le '%s'."
 
 #. module: account_banking_pain_base
@@ -228,6 +221,21 @@ msgid "Credit Card Payment "
 msgstr ""
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:500
+#, python-format
+msgid "Creditor name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
+#, python-format
+msgid ""
+"Data for evaluation:\n"
+"\tcontext: {eval_ctx}\n"
+"\tfield path: {field_value}"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Debit  Card  Payment"
 msgstr ""
@@ -235,6 +243,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "Debit Card Payment"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:502
+#, python-format
+msgid "Debtor name"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -531,7 +545,7 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:312
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:339
 #, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
@@ -603,6 +617,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_version
 msgid "PAIN Version"
 msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:498
+#, python-format
+msgid "Partner name"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:148
+#, python-format
+msgid "Partner's bank account is '%s'."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:144
+#, fuzzy, python-format
+#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+msgid "Payment Line has reference '%s'."
+msgstr ""
+"Impossible de calculer le '%s' de la ligne de paiement ayant la référence "
+"'%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -778,13 +813,13 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:119
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:127
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "Le '%s' est vide ou égal à 0. Il devrait avoir une valeur non-nulle."
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:140
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:167
 #, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
@@ -798,7 +833,7 @@ msgstr ""
 "une idée sur la cause du problème : %s"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:114
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:122
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
 msgstr ""
