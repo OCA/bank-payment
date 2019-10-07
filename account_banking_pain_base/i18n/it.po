@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-10-07 09:30+0000\n"
-"Last-Translator: Simone Rubino <simone.rubino@agilebg.com>\n"
+"PO-Revision-Date: 2019-10-07 13:25+0000\n"
+"Last-Translator: Sergio Zanchetta <primes2h@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Pagamento in anticipo"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Agricultural Transfer"
-msgstr "Trasferimento agriculturale"
+msgstr "Trasferimento agricolo"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -51,7 +51,7 @@ msgstr "Pagamento alimenti"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Anesthesia Services"
-msgstr "Servizi anestetici"
+msgstr "Servizi di anestesia"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
