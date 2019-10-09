@@ -129,13 +129,6 @@ class AccountBankingMandate(models.Model):
     @api.constrains('company_id', 'payment_line_ids', 'partner_bank_id')
     def _company_constrains(self):
         for mandate in self:
-            if mandate.partner_bank_id.company_id and \
-                    mandate.partner_bank_id.company_id != mandate.company_id:
-                raise ValidationError(
-                    _("The company of the mandate %s differs from the "
-                      "company of partner %s.") %
-                    (mandate.display_name, mandate.partner_id.name))
-
             if self.env['account.payment.line'].sudo().search(
                     [('mandate_id', '=', mandate.id),
                      ('company_id', '!=', mandate.company_id.id)], limit=1):
