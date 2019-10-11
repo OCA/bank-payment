@@ -5,7 +5,7 @@
 OCA banking payment addons for Odoo
 ===================================
 
-On version 13.0, this project focus on payment interface. The indentation below 
+On version 13.0, this project focus on payment interface. The indentation below
 indicates the dependency graph of the main modules.
 
 -  `account_payment_order` - Basic export functionality of payment orders
@@ -15,7 +15,7 @@ indicates the dependency graph of the main modules.
     - `account_direct_debit` - Debit order infrastructure analogous to Odoo native payment orders
 
         - `account_banking_sepa_direct_debit` - Export of debit orders in SEPA format
-        
+
 Other features can now be found in these repositories:
 
  * https://github.com/OCA/bank-statement-import
@@ -28,8 +28,8 @@ Do you want to contribute? Please read our [contributing guidelines](https://git
 
 ----
 
-OCA, or the Odoo Community Association, is a nonprofit organization whose 
-mission is to support the collaborative development of Odoo features and 
+OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
 http://odoo-community.org/
