@@ -23,8 +23,8 @@ class AccountInvoice(models.Model):
     )
 
     @api.multi
-    def action_invoice_open(self):
-        res = super(AccountInvoice, self).action_invoice_open()
+    def invoice_validate(self):
+        res = super(AccountInvoice, self).invoice_validate()
         for invoice in self:
             if invoice.type != 'out_invoice':
                 continue
