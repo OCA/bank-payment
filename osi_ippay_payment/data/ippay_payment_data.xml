@@ -1,0 +1,16 @@
+<odoo>
+
+    <record id="payment_acquirer_ippay" model="payment.acquirer">
+        <field name="name">IPpay</field>
+        <field name="image" type="base64" file="osi_ippay_payment/static/src/img/ippay.png"/>
+        <field name="provider">ippay</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="environment">test</field>
+        <field name="description" type="html">
+            <p>
+                An IPpay payment gateway to accept online payments via credit cards.
+            </p>
+        </field>
+    </record>
+
+</odoo>

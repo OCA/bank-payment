@@ -1,0 +1,16 @@
+<odoo>
+    
+    <record id="view_account_payment_invoice_form_inherit_payment_ippay" model="ir.ui.view">
+        <field name="name">view.account.payment.invoice.form.inherit.payment.ippay</field>
+        <field name="model">account.register.payments</field>
+        <field name="inherit_id" ref="account.view_account_payment_from_invoices"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="payment_token_id" options="{'no_create': True}"
+                    attrs="{'invisible': [('payment_method_code', '!=', 'electronic')],
+                            'required': [('payment_method_code', '=', 'electronic')]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
