@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-10-07 13:25+0000\n"
+"PO-Revision-Date: 2019-10-21 10:32+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -66,7 +66,7 @@ msgstr "Indirizzo della banca nel XML PAIN"
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
 msgid "Bank Payment Lines"
-msgstr "Linee del pagamento bancario"
+msgstr "Righe pagamento bancario"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
@@ -117,7 +117,7 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:103
 #, python-format
 msgid "Cannot compute the field '{field_name}'."
-msgstr "Non posso calcolare il campo '{field_name}'."
+msgstr "Impossibile calcolare il campo \"{field_name}\"."
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -164,7 +164,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Commercial Payment"
-msgstr ""
+msgstr "Pagamento commerciale"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -295,7 +295,7 @@ msgstr "Energie"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Estate Tax"
-msgstr ""
+msgstr "Imposta di successione"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
@@ -487,7 +487,7 @@ msgstr "Pagamento irrevocabile con carta di debito"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Labor Insurance"
-msgstr ""
+msgstr "Assicurazione sul lavoro"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -540,12 +540,12 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Multiple Service Types"
-msgstr ""
+msgstr "Tipi di servizio multiplo"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_config_settings_group_pain_multiple_identifier
 msgid "Multiple identifiers"
-msgstr ""
+msgstr "Identificativi multipli"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -787,7 +787,7 @@ msgstr "Pagamento fornitore"
 #: selection:account.payment.line,category_purpose:0
 #: selection:account.payment.line,purpose:0
 msgid "Tax Payment"
-msgstr ""
+msgstr "Pagamento imposte"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -927,7 +927,7 @@ msgstr "account.config.settings"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
 msgid "ePayment"
-msgstr ""
+msgstr "Pagamento elettronico"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.method,pain_version:0
@@ -957,7 +957,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr ""
+msgstr "pain.008.001.02 (consigliato per addebito diretto)"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.method,pain_version:0
@@ -972,4 +972,4 @@ msgstr "pain.008.001.04"
 #. module: account_banking_pain_base
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr ""
+msgstr "pain.008.003.02 (addebito diretto in Germania)"
