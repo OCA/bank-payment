@@ -11,6 +11,8 @@
                 An IPpay payment gateway to accept online payments via credit cards.
             </p>
         </field>
+        <field name="api_url">https://testgtwy.ippay.com/ippay</field>
+        <field name="ippay_terminal_id">TESTTERMINAL</field>
     </record>
 
 </odoo>

@@ -3,8 +3,6 @@
 
 import requests
 import xmltodict
-import json
-
 from odoo import api, fields, models, _
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
@@ -13,6 +11,8 @@ class PaymentAcquirer(models.Model):
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('ippay', 'IPpay')])
+    api_url = fields.Char("Api URL")
+    ippay_terminal_id = fields.Char("IPpay TerminalID")
 
 
 class PaymentToken(models.Model):
@@ -20,7 +20,8 @@ class PaymentToken(models.Model):
 
     @api.model
     def ippay_create(self, values):
-
+        acquirer = self.env['payment.acquirer'].browse(
+            values['acquirer_id'])
         if values.get('cc_number'):
             values['cc_number'] = values['cc_number'].replace(' ', '')
             card_detail = {'cc_number': values['cc_number'],
@@ -29,18 +30,20 @@ class PaymentToken(models.Model):
 
             xml = '''<ippay>
             <TransactionType>TOKENIZE</TransactionType>
-            <TerminalID>TESTTERMINAL</TerminalID>
+            <TerminalID>%s</TerminalID>
             <CardNum>%s</CardNum>
             <CardExpMonth>%s</CardExpMonth>
             <CardExpYear>%s</CardExpYear>
-            </ippay>''' % (card_detail.get('cc_number'),
+            </ippay>''' % (acquirer.ippay_terminal_id,
+                           card_detail.get('cc_number'),
                            card_detail.get('expiry_month'),
                            card_detail.get('expiry_year'))
-
-            r = requests.post('https://testgtwy.ippay.com/ippay',
+            if acquirer.api_url:
+                url = acquirer.api_url
+            r = requests.post(url,
                               data=xml, headers={'Content-Type': 'text/xml'})
-            data = eval(json.dumps(xmltodict.parse(
-                r.content)).replace('null', 'False'))
+            data = xmltodict.parse(
+                r.content)
             token = data['IPPayResponse'].get('Token')
             if token:
                 return {
@@ -50,7 +53,8 @@ class PaymentToken(models.Model):
                 }
             else:
                 raise ValidationError(
-                    _('The Customer Profile creation in IPpay failed.'
+                    _('Customer payment token creation in IPpay failed: %s' % (
+                        data['IPPayResponse'].get('ErrMsg'))
                       ))
         else:
             return values

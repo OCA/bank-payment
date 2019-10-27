@@ -2,4 +2,3 @@
 
 from . import payment
 from . import payment_transaction
-from . import account_payment

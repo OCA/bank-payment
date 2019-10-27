@@ -16,4 +16,5 @@
         "views/payment_view.xml",
     ],
     "installable": True,
+    'external_dependencies': {'python': ['xmltodict']}
 }

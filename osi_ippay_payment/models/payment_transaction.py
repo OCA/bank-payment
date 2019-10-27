@@ -17,18 +17,19 @@ class PaymentTansaction(models.Model):
 
     @api.multi
     def _ippay_s2s_do_payment(self, invoice):
+        acquirer = self.acquirer_id
         amount = str(self.amount).replace('.', '')
         token_data = invoice.payment_token_id.acquirer_ref
         request = '''
             <ippay>
                 <TransactionType>SALE</TransactionType>
-                <TerminalID>TESTTERMINAL</TerminalID>
+                <TerminalID>%s</TerminalID>
                 <Token>%s</Token>
                 <TotalAmount>%s</TotalAmount>
-            </ippay>''' % (token_data, int(amount))
-
+            </ippay>''' % (acquirer.ippay_terminal_id, token_data, int(amount))
         _logger.info("Request to get IPPay Transaction ID: %s" % (request))
-        url = 'https://testgtwy.ippay.com/ippay'
+        if acquirer.api_url:
+            url = acquirer.api_url
         try:
             r = requests.post(url, data=request, headers={
                 'Content-Type': 'text/xml'})
@@ -40,29 +41,18 @@ class PaymentTansaction(models.Model):
                     'TransactionID')
                 self.date = fields.Datetime.now()
                 self.state = 'done'
-                if self.payment_id.state == 'draft':
-                    self.payment_id.post()
             else:
                 self.state = 'cancel'
                 invoice.message_post(
-                    body="IPPay Payment Confirmation Declined")
-
+                    body="IPpay Payment Confirmation Declined: %s" % (
+                        data['ippayResponse'].get('ErrMsg')))
         except Exception as e:
             raise ValidationError(_(e))
 
     @api.multi
     def ippay_s2s_do_transaction(self):
         context = self.env.context
-        inv_obj = self.env['account.invoice']
-        if len(context.get('active_ids')) == 1:
-            inv_rec = inv_obj.search(
-                [('id', '=', context.get('active_id')),
-                 ('type', '=', 'out_invoice')])
-            self._ippay_s2s_do_payment(invoice=inv_rec)
-        if len(context.get('active_ids')) > 1:
-            if context['active_domain'][0][2] == 'out_invoice':
-                inv_rec = inv_obj.search(
-                    [('id', 'in', context.get('active_ids')),
-                     ('type', '=', 'out_invoice')])
-                for rec in inv_rec:
-                    self._ippay_s2s_do_payment(invoice=rec)
+        inv_rec = self.env['account.invoice'].browse(context.get('active_ids'))
+        for inv in inv_rec:
+            if inv.type == 'out_invoice':
+                self._ippay_s2s_do_payment(invoice=inv)

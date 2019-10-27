@@ -12,5 +12,22 @@
             </field>
         </field>
     </record>
+    <record id='acquirer_form_ippay' model='ir.ui.view'>
+        <field name='name'>acquirer.form.ippay></field>
+        <field name='model'>payment.acquirer</field>
+        <field name='inherit_id' ref='payment.acquirer_form'/>
+        <field name='arch' type='xml'>
+            <xpath expr="//notebook" position="inside">
+                <page name="prismpay_config" string="IPpayay Config" attrs="{'invisible': [('provider', '!=', 'ippay')]}">
+                    <group>
+                        <group>
+                            <field name='api_url' widget="url"/>
+                            <field name='ippay_terminal_id'/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
