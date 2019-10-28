@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-10-21 10:32+0000\n"
+"PO-Revision-Date: 2019-10-28 13:33+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -55,8 +55,9 @@ msgstr "Servizi di anestesia"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
+#, fuzzy
 msgid "Annuity"
-msgstr ""
+msgstr "Rendita"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method_pain_bank_address
@@ -71,7 +72,7 @@ msgstr "Righe pagamento bancario"
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_batch_booking
 msgid "Batch Booking"
-msgstr ""
+msgstr "Addebito cumulativo"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
