@@ -10,7 +10,7 @@
                 <div class="oe_structure"/>
 
                 <div class="row">
-                    <div class="col-xs-4 col-xs-offset-8">
+                    <div class="col-4 offset-8">
                         <span t-raw="'%s &lt;br&gt;' % doc.journal_id.bank_id.name if doc.journal_id.bank_id.name else ''"/>
                         <span t-raw="'%s &lt;br&gt;' % doc.journal_id.bank_id.street if doc.journal_id.bank_id.street else ''"/>
                         <span t-raw="'%s &lt;br&gt;' % doc.journal_id.bank_id.street2 if doc.journal_id.bank_id.street2 else ''"/>
@@ -29,25 +29,25 @@
                 </t>
 
                 <div class="row mt32 mb32">
-                    <div t-if="doc.payment_mode_id.name" class="col-xs-2">
+                    <div t-if="doc.payment_mode_id.name" class="col-2">
                         <strong>Payment Type:</strong>
                         <p t-field="doc.payment_mode_id.name"/>
                     </div>
-                    <div t-if="doc.name" class="col-xs-2">
+                    <div t-if="doc.name" class="col-2">
                         <strong>Reference</strong>
                         <p t-field="doc.name"/>
                     </div>
-                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col-xs-2">
+                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col-2">
                         <strong>Used Account:</strong>
                         <p>
                             <span t-esc="get_bank_account_name(doc.company_partner_bank_id)"/>
                         </p>
                     </div>
-                    <div t-if="doc.date_prefered" class="col-xs-2">
+                    <div t-if="doc.date_prefered" class="col-2">
                         <strong>Execution:</strong>
                         <p t-field="doc.date_prefered"/>
                     </div>
-                    <div t-if="doc.company_id.currency_id.name" class="col-xs-2">
+                    <div t-if="doc.company_id.currency_id.name" class="col-2">
                         <strong>Company Currency:</strong>
                         <p t-field="doc.company_id.currency_id.name"/>
                     </div>
@@ -97,7 +97,7 @@
                 </table>
 
                 <div class="row pull-right">
-                    <div class="col-xs-4">
+                    <div class="col-4">
                         <table class="table table-condensed">
                             <tr class="border-black">
                                 <td><strong>Total</strong></td>
