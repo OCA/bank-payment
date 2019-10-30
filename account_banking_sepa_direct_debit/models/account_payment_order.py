@@ -82,7 +82,7 @@ class AccountPaymentOrder(models.Model):
                     % (line.partner_id.name, line.name))
             scheme = line.mandate_id.scheme
             if line.mandate_id.state != 'valid':
-                raise Warning(
+                raise UserError(
                     _("The SEPA Direct Debit mandate with reference '%s' "
                       "for partner '%s' has expired.")
                     % (line.mandate_id.unique_mandate_reference,
@@ -90,7 +90,7 @@ class AccountPaymentOrder(models.Model):
             if line.mandate_id.type == 'oneoff':
                 seq_type = 'OOFF'
                 if line.mandate_id.last_debit_date:
-                    raise Warning(
+                    raise UserError(
                         _("The mandate with reference '%s' for partner "
                           "'%s' has type set to 'One-Off' and it has a "
                           "last debit date set to '%s', so we can't use "
