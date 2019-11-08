@@ -31,9 +31,7 @@ class TestSaleOrder(CommonTestCase):
         )
         self.assertFalse(so.payment_mode_id)
         so.onchange_partner_id()
-        self.assertEqual(
-            so.payment_mode_id, self.base_partner.customer_payment_mode_id
-        )
+        self.assertEqual(so.payment_mode_id, self.base_partner.customer_payment_mode_id)
         # force payment mode
         if payment_mode:
             so.payment_mode_id = payment_mode.id
