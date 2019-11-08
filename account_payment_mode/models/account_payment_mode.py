@@ -20,9 +20,7 @@ class AccountPaymentMode(models.Model):
         string="Company",
         required=True,
         ondelete="restrict",
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "account.payment.mode"
-        ),
+        default=lambda self: self.env.company,
     )
     bank_account_link = fields.Selection(
         [("fixed", "Fixed"), ("variable", "Variable")],
