@@ -28,7 +28,6 @@ Account Payment Mode
 This module adds a new object *account.payment.mode*, that is used to better
 classify and route incoming/outgoing payment orders with the banks.
 
-
 **Table of contents**
 
 .. contents::
@@ -44,7 +43,6 @@ Usage
 =====
 
 This module doesn't add any feature, but it is used by several other modules.
-
 
 Bug Tracker
 ===========
