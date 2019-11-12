@@ -10,9 +10,13 @@ class AccountInvoice(models.Model):
 
     @api.onchange('purchase_id')
     def purchase_order_change(self):
+        new_purchase = self.purchase_id
         new_mode = self.purchase_id.payment_mode_id.id or False
         new_bank = self.purchase_id.supplier_partner_bank_id.id or False
         res = super(AccountInvoice, self).purchase_order_change()
+        if not new_purchase:
+            # User did not add a purchase order, no need to warn
+            return res
         if self.payment_mode_id and self.payment_mode_id.id != new_mode:
             res['warning'] = {
                 'title': _('Warning'),
