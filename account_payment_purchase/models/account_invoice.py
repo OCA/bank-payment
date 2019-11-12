@@ -10,6 +10,9 @@ class AccountMove(models.Model):
 
     @api.onchange("purchase_vendor_bill_id", "purchase_id")
     def _onchange_purchase_auto_complete(self):
+        if not self.purchase_id:
+            # User did not add a purchase order, no need to warn
+            return super()._onchange_purchase_auto_complete()
         new_mode = self.purchase_id.payment_mode_id.id or False
         new_bank = self.purchase_id.supplier_partner_bank_id.id or False
         res = super()._onchange_purchase_auto_complete() or {}
