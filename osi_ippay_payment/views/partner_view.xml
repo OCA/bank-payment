@@ -1,0 +1,15 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_partner_form_add_card">
+        <field name="name">view.partner.form.add.card</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="osi_ippay_payment.action_add_credit_card_token" type="action" string="Add Partner Credit Card" class="oe_stat_button" icon="fa-credit-card" context="{'default_partner_id': active_id}">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

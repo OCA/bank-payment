@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="account_payment_method_electric_outbound" model="account.payment.method">
+            <field name="name">Electronic</field>
+            <field name="code">electronic</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+    </data>
+</odoo>

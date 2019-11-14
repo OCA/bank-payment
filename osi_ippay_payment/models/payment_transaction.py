@@ -19,14 +19,17 @@ class PaymentTansaction(models.Model):
     def _ippay_s2s_do_payment(self, invoice):
         acquirer = self.acquirer_id
         amount = str(self.amount).replace('.', '')
-        token_data = invoice.payment_token_id.acquirer_ref
+        token_data = self.env['payment.token'].search([
+            ('acquirer_id', '=', acquirer.id),
+            ('partner_id', '=', invoice.partner_id.id)])
         request = '''
             <ippay>
                 <TransactionType>SALE</TransactionType>
                 <TerminalID>%s</TerminalID>
                 <Token>%s</Token>
                 <TotalAmount>%s</TotalAmount>
-            </ippay>''' % (acquirer.ippay_terminal_id, token_data, int(amount))
+            </ippay>''' % (acquirer.ippay_terminal_id, token_data.acquirer_ref,
+                           int(amount))
         _logger.info("Request to get IPPay Transaction ID: %s" % (request))
         if acquirer.api_url:
             url = acquirer.api_url

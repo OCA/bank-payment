@@ -10,10 +10,14 @@
     "maintainer": "Open Source Integrators",
     "website": "http://www.opensourceintegrators.com",
     "category": "Accounting",
-    "depends": ['osi_add_credit_card'],
+    "depends": ['payment_authorize'],
     "data": [
         "data/ippay_payment_data.xml",
+        "data/account_payment_method.xml",
+        "wizards/add_cc_token_wizard_view.xml",
         "views/payment_view.xml",
+        "views/partner_view.xml",
+        "views/account_invoice_view.xml",
     ],
     "installable": True,
     'external_dependencies': {'python': ['xmltodict']}
