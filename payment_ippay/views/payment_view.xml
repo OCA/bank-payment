@@ -18,7 +18,7 @@
         <field name='inherit_id' ref='payment.acquirer_form'/>
         <field name='arch' type='xml'>
             <xpath expr="//notebook" position="inside">
-                <page name="prismpay_config" string="IPpayay Config" attrs="{'invisible': [('provider', '!=', 'ippay')]}">
+                <page name="ippay_config" string="IPPay Config" attrs="{'invisible': [('provider', '!=', 'ippay')]}">
                     <group>
                         <group>
                             <field name='api_url' widget="url"/>
