@@ -6,10 +6,8 @@
         <t t-set="is_not_english" t-value="doc.partner_id.lang and doc.partner_id.lang[:2] != 'en'" />
         <div class="page sepa_direct_debit">
             <div class="row mt0">
-                <div class="col-3">
-                    <img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % doc.company_id.logo" style="max-height: 45px;"/>
-                </div>
                 <div class="col-12 text-center">
+                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 45px;" class="float-left"/>
                     <h4 t-if="doc.scheme != 'B2B'">
                         <strong>Sepa Direct Debit Mandate</strong>
                         <t t-if="is_not_english">
