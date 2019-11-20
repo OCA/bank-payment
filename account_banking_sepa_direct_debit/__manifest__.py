@@ -6,7 +6,7 @@
 {
     'name': 'Account Banking SEPA Direct Debit',
     'summary': 'Create SEPA files for Direct Debit',
-    'version': '12.0.1.1.0',
+    'version': '12.0.1.2.0',
     'license': 'AGPL-3',
     'author': "Akretion, "
               "Tecnativa, "
