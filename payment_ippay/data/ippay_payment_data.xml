@@ -2,7 +2,7 @@
 
     <record id="payment_acquirer_ippay" model="payment.acquirer">
         <field name="name">IPpay</field>
-        <field name="image" type="base64" file="osi_ippay_payment/static/src/img/ippay.png"/>
+        <field name="image" type="base64" file="payment_ippay/static/src/img/ippay.png"/>
         <field name="provider">ippay</field>
         <field name="company_id" ref="base.main_company"/>
         <field name="environment">test</field>
@@ -13,8 +13,7 @@
         </field>
         <field name="api_url">https://testgtwy.ippay.com/ippay</field>
         <field name="ippay_terminal_id">TESTTERMINAL</field>
-        <field name="payment_icon_ids"i
-            eval="[(6, 0, [
+        <field name="payment_icon_ids" eval="[(6, 0, [
                 ref('payment.payment_icon_cc_visa'),
                 ref('payment.payment_icon_cc_mastercard'),
                 ref('payment.payment_icon_cc_american_express'),
