@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_create_add_credit_card_token" model="ir.ui.view">
+        <field name="name">view.add.credit.card.token</field>
+        <field name="model">add.credit.card.token</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group colspan="4" col="4">
+                    <field name="cc_brand" colspan="2" readonly="1"/>
+                    <field name="partner_id" colspan="2"
+                    invisible="context.get('active_id')"/>
+                    <field name="cc_number" colspan="2" required="1"/>
+                    <separator string="Card Expiry" colspan="4"/>
+                    <field name="cc_expiry_month" placeholder="MM" colspan="2" required="1"/>
+                    <field name="cc_expiry_year" placeholder="YY" colspan="2" required="1"/>
+                    <separator string="CVC" colspan="4"/>
+                    <field name="cc_cvc" colspan="2" nolabel="1" required="1"/>
+                    <separator string="Provider" colspan="4"/>
+                    <field name="provider_id" colspan="2" nolabel="1" required="1"/>
+                </group>
+                <footer>
+                    <button class="btn-primary" 
+                    name="add_cc_token"
+                    string="Add"
+                    type="object" />
+                    or
+                    <button class="btn-default" 
+                    special="cancel"
+                    string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_add_credit_card_token" model="ir.actions.act_window">
+        <field name="name">Add Partner Credit Card</field>
+        <field name="res_model">add.credit.card.token</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_add_credit_card_token" />
+        <field name="target">new</field>
+    </record>
+</odoo>
