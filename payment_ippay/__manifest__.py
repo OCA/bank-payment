@@ -12,7 +12,6 @@
     "category": "Accounting",
     "depends": ['payment'],
     "data": [
-        "security/payment_security.xml",
         "data/ippay_payment_data.xml",
         "data/account_payment_method.xml",
         "views/payment_view.xml",
