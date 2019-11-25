@@ -4,7 +4,8 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
-BrandNames = {
+
+BRAND_NAMES = {
     '3': 'americanexpress',
     '4': 'visa',
     '5': 'mastercard',
@@ -29,18 +30,20 @@ class AddCreditCardToken(models.TransientModel):
         # Check the Card Brand
         if self.cc_number:
             cc_number = self.cc_number
-            self.cc_brand = BrandNames.get(cc_number[0])
+            self.cc_brand = BRAND_NAMES.get(cc_number[0])
 
-    def sum_digits(self, digit):
-        if digit < 10:
-            return digit
-        else:
-            sum = (digit % 10) + (digit // 10)
-            return sum
-
-    # Validate the Credit Card number before save
-    # Is valid as per Luhn's algorithm or not
     def validate(self, cc_num):
+        """
+        Validate if the Credit Card number
+        Is valid as per Luhn's algorithm or not
+        """
+        def sum_digits(self, digit):
+            if digit < 10:
+                res = digit
+            else:
+                res = (digit % 10) + (digit // 10)
+            return res
+
         # reverse the credit card number
         cc_num = cc_num[::-1]
         # convert to integer
@@ -55,8 +58,9 @@ class AddCreditCardToken(models.TransientModel):
                 doubled_second_digit_list.append(digit)
 
         # add the digits if any number is more than 9
-        doubled_second_digit_list = [self.sum_digits(
-            x) for x in doubled_second_digit_list]
+        doubled_second_digit_list = [
+            self.sum_digits(x)
+            for x in doubled_second_digit_list]
         # sum all digits
         sum_of_digits = sum(doubled_second_digit_list)
         # return True or False
@@ -73,19 +77,19 @@ class AddCreditCardToken(models.TransientModel):
                 ))
         # Search for IPpay acquirer
         if self.provider_id.provider != 'manual':
-            provider = self.env['payment.acquirer'].search(
-                [('provider', '=', self.provider_id.provider),
-                 ])
+            provider = self.env['payment.acquirer'].search([
+                ('provider', '=', self.provider_id.provider),
+            ])
         else:
             raise UserError(_(
                 "Error: %s Needs configuration!" % (self.provider_id.name)
             ))
-        if not self.partner_id.zip or not self.partner_id.street or \
-                not self.partner_id.city or not self.partner_id.state_id or \
-                not self.partner_id.country_id:
+        if (not self.partner_id.zip or not self.partner_id.street or
+                not self.partner_id.city or not self.partner_id.state_id or
+                not self.partner_id.country_id):
             raise UserError(_(
-                "Address Validation: Please verify partner address \
-                (street, city, zip, state, country)!"
+                "Address Validation: Please verify partner address "
+                "(street, city, zip, state, country)!"
             ))
         # creating payment token data
         expiry = str(self.cc_expiry_month) + '/' + str(self.cc_expiry_year)
