@@ -13,4 +13,18 @@
         </field>
     </record>
 
+    <record model='ir.ui.view' id='payment_token_form_view_default'>
+        <field name='name'>payment.token.form.default</field>
+        <field name='model'>payment.token</field>
+        <field name="inherit_id" ref="payment.payment_token_form_view"/>
+        <field name='arch' type='xml'>
+            <xpath expr="//button[@name='%(payment.action_payment_tx_ids)d']"
+                   position="before">
+                <button class="oe_stat_button" name="set_default_payment"
+                    type="object" string="Set Default Token" icon="fa-cog">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

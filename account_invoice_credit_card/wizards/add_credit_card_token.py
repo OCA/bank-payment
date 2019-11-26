@@ -101,4 +101,10 @@ class AddCreditCardToken(models.TransientModel):
             'cc_holder_name': self.partner_id.name,
         }
         # create payment token
-        self.env['payment.token'].sudo().create(payment_token_data)
+        token_id = self.env['payment.token'].sudo().create(payment_token_data)
+        return token_id
+
+    @api.multi
+    def add_default_token(self):
+        token_id = self.add_cc_token()
+        self.partner_id.payment_token_id = token_id.id

@@ -33,8 +33,11 @@ class AccountRegisterPayments(models.TransientModel):
         partners = self.partner_id | self.partner_id.commercial_partner_id | self.partner_id.commercial_partner_id.child_ids
         domain = [('partner_id', 'in', partners.ids),
                   ('acquirer_id.journal_id', '=', self.journal_id.id)]
-        self.payment_token_id = self.env['payment.token'].search(domain,
-                                                                 limit=1)
+        if self.partner_id.payment_token_id:
+            self.payment_token_id = self.partner_id.payment_token_id.id
+        else:
+            self.payment_token_id = self.env['payment.token'].search(domain,
+                                                                     limit=1)
 
         res['domain'] = {'payment_token_id': domain}
         return res

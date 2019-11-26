@@ -20,6 +20,11 @@
                     <field name="provider_id" colspan="2" nolabel="1" required="1"/>
                 </group>
                 <footer>
+                    <button name="add_default_token" type="object"
+                            class="btn-primary"
+                            string="Add &amp; Set Default Token">
+                    </button>
+                    or
                     <button class="btn-primary" 
                     name="add_cc_token"
                     string="Add"
@@ -28,6 +33,7 @@
                     <button class="btn-default" 
                     special="cancel"
                     string="Cancel" />
+
                 </footer>
             </form>
         </field>
