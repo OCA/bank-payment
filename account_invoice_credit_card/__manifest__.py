@@ -14,6 +14,7 @@
     "data": [
         "security/payment_security.xml",
         "wizards/add_cc_token_wizard_view.xml",
+        "wizards/payment_view.xml",
         "views/partner_view.xml",
         "views/account_invoice_view.xml",
     ],
