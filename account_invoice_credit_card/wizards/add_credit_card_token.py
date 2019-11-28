@@ -23,6 +23,10 @@ class AddCreditCardToken(models.TransientModel):
     cc_cvc = fields.Char("CVC", size=4)
     cc_brand = fields.Char("Brand", default="")
     provider_id = fields.Many2one('payment.acquirer', "Provider")
+    provider = fields.Selection(
+        "Related provider", related="provider_id.provider")
+    bank_acc_number = fields.Char("Account Number")
+    aba = fields.Char("ABA")
 
     @api.onchange('cc_number')
     def onchange_cc_number(self):
@@ -88,20 +92,32 @@ class AddCreditCardToken(models.TransientModel):
                 (street, city, zip, state, country)!"
             ))
         # creating payment token data
-        expiry = str(self.cc_expiry_month) + '/' + str(self.cc_expiry_year)
-        payment_token_data = {
-            'acquirer_id': provider.id,
-            'partner_id': self.partner_id.id,
-            'cc_number': self.cc_number,
-            'cc_expiry_month': self.cc_expiry_month,
-            'cc_expiry_year': self.cc_expiry_year,
-            'cc_expiry': expiry,
-            'cc_brand': self.cc_brand,
-            'cc_cvc': self.cc_cvc,
-            'cc_holder_name': self.partner_id.name,
-        }
-        # create payment token
-        token_id = self.env['payment.token'].sudo().create(payment_token_data)
+        if provider.provider == 'ippay_ach':
+            token_data = {
+                'acquirer_id': provider.id,
+                'bank_acc_number': self.bank_acc_number,
+                'aba': self.aba,
+                'ch_holder_name': self.partner_id.name,
+            }
+            # create payment token
+            token_id = self.env['payment.token'].sudo().create(token_data)
+            print("token_id-1------------1----------", token_id)
+        else:
+            expiry = str(self.cc_expiry_month) + '/' + str(self.cc_expiry_year)
+            payment_token_data = {
+                'acquirer_id': provider.id,
+                'partner_id': self.partner_id.id,
+                'cc_number': self.cc_number,
+                'cc_expiry_month': self.cc_expiry_month,
+                'cc_expiry_year': self.cc_expiry_year,
+                'cc_expiry': expiry,
+                'cc_brand': self.cc_brand,
+                'cc_cvc': self.cc_cvc,
+                'cc_holder_name': self.partner_id.name,
+            }
+            # create payment token
+            token_id = self.env['payment.token'].sudo().create(
+                payment_token_data)
         return token_id
 
     @api.multi

@@ -7,24 +7,38 @@
         <field name="arch" type="xml">
             <form>
                 <group colspan="4" col="4">
-                    <field name="cc_brand" colspan="2" readonly="1"/>
+                    <field name="cc_brand" colspan="2" readonly="1"  attrs="{'invisible': [('provider','=', 'ippay_ach')]}"/>
+                    <field name="provider" colspan="2" invisible="1"/>
                     <field name="partner_id" colspan="2"
                     invisible="context.get('active_id')"/>
-                    <field name="cc_number" colspan="2" required="1"/>
-                    <separator string="Card Expiry" colspan="4"/>
-                    <field name="cc_expiry_month" placeholder="MM" colspan="2" required="1"/>
-                    <field name="cc_expiry_year" placeholder="YY" colspan="2" required="1"/>
-                    <separator string="CVC" colspan="4"/>
-                    <field name="cc_cvc" colspan="2" nolabel="1" required="1"/>
                     <separator string="Provider" colspan="4"/>
                     <field name="provider_id" colspan="2" nolabel="1" required="1"/>
+                    <separator string="Account Number" colspan="4" attrs="{'invisible': [('provider','!=', 'ippay_ach')]}"/>
+                    <field name="bank_acc_number" nolabel="1" colspan="2" attrs="{'invisible': [('provider','!=', 'ippay_ach')],
+                    'required': [('provider','=', 'ippay_ach')]}"/>
+                    <separator string="ABA" colspan="4" attrs="{'invisible': [('provider','!=', 'ippay_ach')]}"/>
+                    <field name="aba" nolabel="1" colspan="2" attrs="{'invisible': [('provider','!=', 'ippay_ach')],
+                    'required': [('provider','=', 'ippay_ach')]}" />
+                    <separator string="Card Number" colspan="4" attrs="{'invisible': [('provider','=', 'ippay_ach')]}"/>
+                    <field name="cc_number" nolabel="1" colspan="2"  attrs="{'invisible': [('provider','=', 'ippay_ach')],
+                    'required': [('provider','!=', 'ippay_ach')]}" />
+                    <separator string="Card Expiry" colspan="4" attrs="{'invisible': [('provider','=', 'ippay_ach')],
+                    'required': [('provider','!=', 'ippay_ach')]}"/>
+                    <field name="cc_expiry_month" placeholder="MM" colspan="2" attrs="{'invisible': [('provider','=', 'ippay_ach')],
+                    'required': [('provider','!=', 'ippay_ach')]}"/>
+                    <field name="cc_expiry_year" placeholder="YY" colspan="2" attrs="{'invisible': [('provider','=', 'ippay_ach')],
+                    'required': [('provider','!=', 'ippay_ach')]}" />
+                    <separator string="CVC" colspan="4" attrs="{'invisible': [('provider','=', 'ippay_ach')]}"/>
+                    <field name="cc_cvc" colspan="2" nolabel="1" attrs="{'invisible': [('provider','=', 'ippay_ach')],
+                    'required': [('provider','!=', 'ippay_ach')]}"/>
                 </group>
                 <footer>
                     <button name="add_default_token" type="object"
                             class="btn-primary"
-                            string="Add &amp; Set Default Token">
+                            string="Add &amp; Set Default Token"
+                            attrs="{'invisible': [('provider','=', 'ippay_ach')]}">
                     </button>
-                    or
+                    <span attrs="{'invisible': [('provider','=', 'ippay_ach')]}"> or</span>
                     <button class="btn-primary" 
                     name="add_cc_token"
                     string="Add"
