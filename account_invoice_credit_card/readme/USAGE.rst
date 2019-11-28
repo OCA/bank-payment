@@ -8,3 +8,10 @@ Pay an Invoice using a stored Credit Card:
 
 * On an open invoice, select the "Payment" button and choose the Journal configured for IPPay.
 * Then select the "Electronic" option and the pick the saved Credit Card token from the list of available ones.
+
+Pay multiple invoices using stored Credit Card tokens:
+
+* On the invoice list, selecte the Invoices to pay. They must be open, and share the same payment processor.
+* On the Action menu select the "Register Payments" option.
+
+In Batch Payment using a credit card, a payment confirmation will done through cron job named 'Post process payment transactions'.

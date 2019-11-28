@@ -2,7 +2,6 @@
 
 *Manual changes will be overwritten.*
 
-Please provide content in the ``readme`` directory:
 
 * **DESCRIPTION.rst** (required)
 * INSTALL.rst (optional)

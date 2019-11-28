@@ -1,0 +1,30 @@
+<odoo>
+    
+    <record id="view_account_payment_invoice_form_inherit_payment_ippay" model="ir.ui.view">
+        <field name="name">view.account.payment.invoice.form.inherit.payment.ippay</field>
+        <field name="model">account.register.payments</field>
+        <field name="inherit_id" ref="account.view_account_payment_from_invoices"/>
+        <field name="arch" type="xml">
+            <field name="payment_method_id" position="after">
+                <field name="payment_token_id" options="{'no_create': True}"
+                    attrs="{'invisible': [('payment_method_code', '!=', 'electronic')],
+                            'required': [('payment_method_code', '=', 'electronic')]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record model='ir.ui.view' id='payment_token_form_view_default'>
+        <field name='name'>payment.token.form.default</field>
+        <field name='model'>payment.token</field>
+        <field name="inherit_id" ref="payment.payment_token_form_view"/>
+        <field name='arch' type='xml'>
+            <xpath expr="//button[@name='%(payment.action_payment_tx_ids)d']"
+                   position="before">
+                <button class="oe_stat_button" name="set_default_payment"
+                    type="object" string="Set Default Token" icon="fa-cog">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
