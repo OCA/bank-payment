@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "IPPay Payment Acquirer",
+    "name": "IPPay Payment Acquirer for Credit Cards",
     "version": "12.0.1.0.0",
     "license": "AGPL-3",
-    "summary": "IPPay Payment",
+    "summary": "Store and use credit cards using IPPay",
     "author": "Open Source Integrators",
     "maintainer": "Open Source Integrators",
     "website": "http://www.opensourceintegrators.com",

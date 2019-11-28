@@ -1,14 +1,14 @@
 <odoo>
 
     <record id="payment_acquirer_ippay" model="payment.acquirer">
-        <field name="name">IPPay</field>
+        <field name="name">IPPay Credit Cards</field>
         <field name="image" type="base64" file="payment_ippay/static/src/img/ippay.png"/>
         <field name="provider">ippay</field>
         <field name="company_id" ref="base.main_company"/>
         <field name="environment">test</field>
         <field name="description" type="html">
             <p>
-                An IPPay payment gateway to accept online payments via credit cards.
+                An IPPay payment gateway to accept online payments via Credit Cards.
             </p>
         </field>
         <field name="api_url">https://testgtwy.ippay.com/ippay</field>
