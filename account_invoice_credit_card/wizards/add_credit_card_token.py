@@ -23,7 +23,11 @@ class AddCreditCardToken(models.TransientModel):
     cc_expiry_year = fields.Char("Year", size=2)
     cc_cvc = fields.Char("CVC", size=4)
     cc_brand = fields.Char("Brand", default="")
-    provider_id = fields.Many2one('payment.acquirer', "Provider")
+    provider_id = fields.Many2one(
+        'payment.acquirer', "Provider",
+        required=True,
+        domain="[('website_published', '=', True)]",
+    )
 
     @api.onchange('cc_number')
     def onchange_cc_number(self):
@@ -37,7 +41,7 @@ class AddCreditCardToken(models.TransientModel):
         Validate if the Credit Card number
         Is valid as per Luhn's algorithm or not
         """
-        def sum_digits(self, digit):
+        def sum_digits(digit):
             if digit < 10:
                 res = digit
             else:
@@ -59,7 +63,7 @@ class AddCreditCardToken(models.TransientModel):
 
         # add the digits if any number is more than 9
         doubled_second_digit_list = [
-            self.sum_digits(x)
+            sum_digits(x)
             for x in doubled_second_digit_list]
         # sum all digits
         sum_of_digits = sum(doubled_second_digit_list)
@@ -75,26 +79,18 @@ class AddCreditCardToken(models.TransientModel):
                 raise UserError(_(
                     "Error: Not Valid Credit Card Number!"
                 ))
-        # Search for IPpay acquirer
-        if self.provider_id.provider != 'manual':
-            provider = self.env['payment.acquirer'].search([
-                ('provider', '=', self.provider_id.provider),
-            ])
-        else:
-            raise UserError(_(
-                "Error: %s Needs configuration!" % (self.provider_id.name)
-            ))
-        if (not self.partner_id.zip or not self.partner_id.street or
-                not self.partner_id.city or not self.partner_id.state_id or
-                not self.partner_id.country_id):
+        if not (self.partner_id.zip
+                and self.partner_id.street
+                and self.partner_id.city
+                and self.partner_id.country_id):
             raise UserError(_(
                 "Address Validation: Please verify partner address "
-                "(street, city, zip, state, country)!"
+                "(street, city, zip, country)!"
             ))
         # creating payment token data
         expiry = str(self.cc_expiry_month) + '/' + str(self.cc_expiry_year)
         payment_token_data = {
-            'acquirer_id': provider.id,
+            'acquirer_id': self.provider_id.id,
             'partner_id': self.partner_id.id,
             'cc_number': self.cc_number,
             'cc_expiry_month': self.cc_expiry_month,

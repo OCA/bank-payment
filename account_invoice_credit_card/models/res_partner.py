@@ -8,4 +8,4 @@ class ResPartner(models.Model):
 
     payment_token_id = fields.Many2one(
         comodel_name='payment.token',
-        string='Default Payment Token')
+        string='Default Payment Method')

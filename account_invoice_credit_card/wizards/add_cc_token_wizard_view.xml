@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="provider_id" required="1"/>
+                    <field name="provider_id" required="1"
+                        widget="radio"/>
                     <field name="partner_id" invisible="context.get('active_id')"/>
                     <field name="cc_number" required="1"/>
                     <field name="cc_brand" readonly="1"/>
@@ -35,7 +36,7 @@
         </field>
     </record>
     <record id="action_add_credit_card_token" model="ir.actions.act_window">
-        <field name="name">Add Partner Credit Card</field>
+        <field name="name">Add Electronic Payment Method</field>
         <field name="res_model">add.credit.card.token</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
