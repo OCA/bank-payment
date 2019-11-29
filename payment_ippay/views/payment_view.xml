@@ -5,15 +5,13 @@
         <field name='model'>payment.acquirer</field>
         <field name='inherit_id' ref='payment.acquirer_form'/>
         <field name='arch' type='xml'>
-            <xpath expr="//notebook" position="inside">
-                <page name="ippay_config" string="IPPay Config" attrs="{'invisible': [('provider', '!=', 'ippay')]}">
-                    <group>
-                        <group>
-                            <field name='api_url' widget="url"/>
-                            <field name='ippay_terminal_id'/>
-                        </group>
-                    </group>
-                </page>
+            <xpath expr="//group[@name='acquirer']" position="inside">
+                <group>
+                    <field name='api_url' widget="url" attrs="{'invisible': [('provider','!=', 'ippay')],
+                    'required': [('provider','=', 'ippay')]}"/>
+                    <field name='ippay_terminal_id' attrs="{'invisible': [('provider','!=', 'ippay')],
+                    'required': [('provider','=', 'ippay')]}"/>
+                </group>
             </xpath>
         </field>
     </record>

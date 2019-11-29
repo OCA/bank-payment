@@ -6,16 +6,25 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+
+                <group name="group_header">
                     <field name="provider_id" required="1"
                         widget="radio"/>
                     <field name="partner_id" invisible="context.get('active_id')"/>
-                    <field name="cc_number" required="1"/>
-                    <field name="cc_brand" readonly="1"/>
-                    <field name="cc_expiry_month" placeholder="MM" required="1"/>
-                    <field name="cc_expiry_year" placeholder="YY" required="1"/>
-                    <field name="cc_cvc" required="1"/>
+                    <field name="provider_type" invisible="True"/>
                 </group>
+                <group attrs="{'invisible': [('provider_type','!=', 'cc')]}">
+                    <field name="cc_number" attrs="{'required': [('provider_type','=', 'cc')]}"/>
+                    <field name="cc_brand" readonly="True"/>
+                    <field name="cc_expiry_month" placeholder="MM" attrs="{'required': [('provider_type','=', 'cc')]}"/>
+                    <field name="cc_expiry_year" placeholder="YY" attrs="{'required': [('provider_type','=', 'cc')]}"/>
+                    <field name="cc_cvc" attrs="{'required': [('provider_type','=', 'cc')]}"/>
+                </group>
+                <group attrs="{'invisible': [('provider_type','!=', 'ach')]}">
+                    <field name="bank_acc_number" attrs="{'required': [('provider_type','=', 'ach')]}"/>
+                    <field name="aba" attrs="{'required': [('provider_type','=', 'ach')]}"/>
+                </group>
+
                 <footer>
                     <button name="add_default_token" type="object"
                             class="btn-primary"
@@ -30,8 +39,8 @@
                     <button class="btn-default"
                     special="cancel"
                     string="Cancel" />
-
                 </footer>
+
             </form>
         </field>
     </record>

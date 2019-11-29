@@ -11,8 +11,9 @@ class PaymentAcquirer(models.Model):
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('ippay', 'IPpay')])
-    api_url = fields.Char("Api URL")
-    ippay_terminal_id = fields.Char("IPpay TerminalID")
+    api_url = fields.Char("Api URL", required_if_provider='ippay')
+    ippay_terminal_id = fields.Char("IPpay TerminalID",
+                                    required_if_provider='ippay')
 
 
 class PaymentToken(models.Model):

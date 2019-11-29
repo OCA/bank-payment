@@ -1,0 +1,12 @@
+
+<odoo>
+    <data>
+
+        <record id="account_payment_method_electric_outbound_ippay_ach" model="account.payment.method">
+            <field name="name">Electronic</field>
+            <field name="code">electronic</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+    </data>
+</odoo>
