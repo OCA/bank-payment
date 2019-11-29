@@ -1,0 +1,6 @@
+<odoo>
+    <record id="payment_icon_echeck" model="payment.icon">
+        <field name="name">ACH eCheck</field>
+        <field name="image" type="base64" file="payment_ippay_ach/static/src/img/echeck.png"/>
+    </record>
+</odoo>

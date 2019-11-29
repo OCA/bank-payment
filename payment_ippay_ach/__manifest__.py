@@ -13,8 +13,9 @@
     "depends": ['payment'],
     "data": [
         "security/payment_security.xml",
+        "data/payment_icon_data.xml",
         "data/ippay_payment_data.xml",
-        "data/account_payment_method.xml",
+        # TODO remove file: "data/account_payment_method.xml",
         "views/payment_view.xml",
         "views/account_payment_view.xml",
     ],
