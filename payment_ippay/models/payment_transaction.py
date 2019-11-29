@@ -18,39 +18,44 @@ class PaymentTansaction(models.Model):
     @api.multi
     def _ippay_s2s_do_payment(self, invoice):
         acquirer = self.acquirer_id
-        amount = str(self.amount).replace('.', '')
-        token_data = self.env['payment.token'].search([
-            ('acquirer_id', '=', acquirer.id),
-            ('partner_id', '=', invoice.partner_id.id)])
         request = '''
             <ippay>
                 <TransactionType>SALE</TransactionType>
                 <TerminalID>%s</TerminalID>
                 <Token>%s</Token>
                 <TotalAmount>%s</TotalAmount>
-            </ippay>''' % (acquirer.ippay_terminal_id, token_data.acquirer_ref,
-                           int(amount))
+            </ippay>''' % (
+                acquirer.ippay_terminal_id,
+                self.payment_token_id.acquirer_ref,
+                str(self.amount).replace('.', ''),
+            )
+        # TODO_ add verbosity parameter?
         _logger.info("Request to get IPPay Transaction ID: %s" % (request))
-        if acquirer.api_url:
-            url = acquirer.api_url
         try:
-            r = requests.post(url, data=request, headers={
-                'Content-Type': 'text/xml'})
-            data = eval(json.dumps(xmltodict.parse(r.content)
-                                   ).replace('null', 'False'))
-            _logger.info("Transaction Received: %s" % (r.content))
-            if data['ippayResponse'].get('ResponseText') == 'APPROVED':
-                self.acquirer_reference = data['ippayResponse'].get(
-                    'TransactionID')
-                self.date = fields.Datetime.now()
-                self.state = 'done'
-            else:
-                self.state = 'cancel'
-                invoice.message_post(
-                    body="IPpay Payment Confirmation Declined: %s" % (
-                        data['ippayResponse'].get('ErrMsg')))
+            r = requests.post(
+                acquirer.api_url,
+                data=request,
+                headers={'Content-Type': 'text/xml'})
         except Exception as e:
             raise ValidationError(_(e))
+        _logger.info("Transaction Received: %s" % (r.content))
+
+        data = xmltodict.parse(r.content)
+        response = data.get('ippayResponse')
+        # TODO: don't set as really paid if using test environment
+        # - risk of wrong data in Production db!
+        if response.get('ResponseText') == 'APPROVED':
+            self.acquirer_reference = response.get(
+                'TransactionID')
+            self.date = fields.Datetime.now()
+            self.state = 'done'
+        else:
+            self.state = 'cancel'
+            invoice.message_post(
+                body=_("IPPay Credit Card Payment DECLINED: %s - %s") % (
+                    response.get('ActionCode'),
+                    response.get('ErrMsg'),
+                ))
 
     @api.multi
     def ippay_s2s_do_transaction(self):
