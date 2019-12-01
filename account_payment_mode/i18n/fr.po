@@ -164,6 +164,11 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr ""
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr ""

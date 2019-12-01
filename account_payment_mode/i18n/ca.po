@@ -171,6 +171,11 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr "Credit Trf Société Générale entrant"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr "Diari"
@@ -207,10 +212,10 @@ msgid ""
 "are suggested to reconcile the transaction with the batch deposit. Enable "
 "this option from the settings."
 msgstr ""
-"Manual: Pagament en efectiu. xec o qualsevol altre mètode exterior a l'Odoo."
-"\n"
-"Electrònic: Pagament automàtic mitjançant un adquiridor de pagaments que sol·"
-"licita una transacció en una targeta desada pel client quan compra o es "
+"Manual: Pagament en efectiu. xec o qualsevol altre mètode exterior a "
+"l'Odoo.\n"
+"Electrònic: Pagament automàtic mitjançant un adquiridor de pagaments que "
+"sol·licita una transacció en una targeta desada pel client quan compra o es "
 "subscriu en línia (token de pagament).\n"
 "Dipòsit per lots: Agrupa diversos xecs del client generant un dipòsit per "
 "lots que s'enviarà al banc. Quan es codifica l'extracte bancari a l'Odoo, es "
