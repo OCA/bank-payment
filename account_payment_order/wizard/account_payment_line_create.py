@@ -118,7 +118,7 @@ class AccountPaymentLineCreate(models.TransientModel):
             "LEFT OUTER JOIN account_move_line aml "
             "  ON aml.id = apl.move_line_id "
             "WHERE apo.state != 'cancel' "
-            "  AND COALESCE(aml.reconciled, FALSE) = FALSE)")
+            "  AND COALESCE(aml.reconciled, FALSE) = FALSE")
         res = self.env.cr.fetchall()
         if res:
             move_lines_ids = [x[0] for x in res]
