@@ -110,14 +110,18 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [
                 ('debit', '>', 0),
                 ('account_id.internal_type', 'in', ['receivable', 'payable'])]
-        # Exclude lines that are already in a non-cancelled
-        # and non-uploaded payment order; lines that are in a
-        # uploaded payment order are proposed if they are not reconciled,
-        paylines = self.env['account.payment.line'].search([
-            ('state', 'in', ('draft', 'open', 'generated')),
-            ('move_line_id', '!=', False)])
-        if paylines:
-            move_lines_ids = [payline.move_line_id.id for payline in paylines]
+        # Exclude lines that are already in a non-cancelled payment order
+        self.env.cr.execute(
+            "SELECT aml.id FROM account_payment_line apl "
+            "INNER JOIN account_payment_order apo "
+            "  ON apl.order_id = apo.id "
+            "LEFT OUTER JOIN account_move_line aml "
+            "  ON aml.id = apl.move_line_id "
+            "WHERE apo.state != 'cancel' "
+            "  AND COALESCE(aml.reconciled, FALSE) = FALSE)")
+        res = self.env.cr.fetchall()
+        if res:
+            move_lines_ids = [x[0] for x in res]
             domain += [('id', 'not in', move_lines_ids)]
         return domain
 
