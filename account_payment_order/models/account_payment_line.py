@@ -1,6 +1,8 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# © 2019 Noviat - Luc De Meyer <luc.demeyer@noviat.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -122,6 +124,28 @@ class AccountPaymentLine(models.Model):
             self.amount_currency = 0.0
             self.currency_id = self.env.user.company_id.currency_id
             self.communication = False
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        res = super().fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+        if self._context.get('payment_line_readonly') \
+                and view_type in ['tree', 'form']:
+            doc = etree.XML(res['arch'])
+            tree = doc.xpath("/tree")
+            for node in tree:
+                if 'editable' in node.attrib:
+                    del node.attrib['editable']
+            form = doc.xpath("/form")
+            for el in [tree, form]:
+                for node in el:
+                    node.set('edit', 'false')
+                    node.set('create', 'false')
+                    node.set('delete', 'false')
+            res['arch'] = etree.tostring(doc)
+        return res
 
     def invoice_reference_type2communication_type(self):
         """This method is designed to be inherited by

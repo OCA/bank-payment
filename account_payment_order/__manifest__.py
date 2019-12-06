@@ -14,6 +14,7 @@
               "Therp BV, "
               "Tecnativa, "
               "Akretion, "
+              "Noviat, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/bank-payment',
     'category': 'Banking addons',

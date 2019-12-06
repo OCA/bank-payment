@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  © 2019 Noviat (Luc De Meyer <luc.demeyer@noviat.com>)
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 
@@ -58,5 +59,14 @@
     src_model="account.invoice"
     view_mode="form"
     target="new"/>
+
+<act_window id="account_invoice_2_payment_line_action"
+            name="Payment Lines"
+            groups="account.group_account_manager"
+            src_model="account.invoice"
+            res_model="account.payment.line"
+            domain="[('move_line_id.invoice_id.id', '=', active_id)]"
+            view_type="form"
+            context="{'payment_line_readonly': 1}"/>
 
 </odoo>
