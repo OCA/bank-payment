@@ -115,7 +115,7 @@ class AccountPaymentLineCreate(models.TransientModel):
             "SELECT aml.id FROM account_payment_line apl "
             "INNER JOIN account_payment_order apo "
             "  ON apl.order_id = apo.id "
-            "LEFT OUTER JOIN account_move_line aml "
+            "INNER JOIN account_move_line aml "
             "  ON aml.id = apl.move_line_id "
             "WHERE apo.state != 'cancel' "
             "  AND COALESCE(aml.reconciled, FALSE) = FALSE")
