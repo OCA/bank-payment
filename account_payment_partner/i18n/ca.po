@@ -161,10 +161,12 @@ msgstr "Mode de pagament de proveïdor"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_invoice.py:117
+#: code:addons/account_payment_partner/models/account_invoice.py:122
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
-msgstr "La companyia de la factura %s no coincideix amb la del mode de pagament"
+msgstr ""
+"La companyia de la factura %s no coincideix amb la del mode de pagament"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:35
