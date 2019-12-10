@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2010-2016 Akretion (www.akretion.com)
 # © 2014 Tecnativa - Pedro M. Baeza
 # © 2016 Tecnativa - Antonio Espinosa
