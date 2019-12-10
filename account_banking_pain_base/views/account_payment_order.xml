@@ -12,9 +12,7 @@
     <field name="inherit_id" ref="account_payment_order.account_payment_order_form"/>
     <field name="arch" type="xml">
         <field name="company_partner_bank_id" position="after">
-            <field name="sepa"/>
             <field name="batch_booking"/>
-            <field name="charge_bearer" attrs="{'invisible': [('sepa', '=', True)]}"/>
         </field>
     </field>
 </record>

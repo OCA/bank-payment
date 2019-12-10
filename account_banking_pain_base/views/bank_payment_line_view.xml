@@ -6,19 +6,29 @@
 <odoo>
 
 
-<record id="bank_payment_line_form" model="ir.ui.view">
-    <field name="name">pain.base.bank.payment.line.form</field>
-    <field name="model">bank.payment.line</field>
-    <field name="inherit_id" ref="account_payment_order.bank_payment_line_form"/>
-    <field name="arch" type="xml">
-        <field name="partner_bank_id" position="after">
-            <field name="priority"/>
-            <field name="local_instrument"/>
-            <field name="category_purpose"/>
-            <field name="purpose"/>
+    <record id="bank_payment_line_form" model="ir.ui.view">
+        <field name="name">pain.base.bank.payment.line.form</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.bank_payment_line_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="priority"/>
+                <field name="local_instrument"/>
+                <field name="category_purpose"/>
+                <field name="purpose"/>
+            </field>
         </field>
-    </field>
-</record>
+    </record>
 
-
+    <record id="bank_payment_line_tree" model="ir.ui.view">
+        <field name="name">bank.payment.line.tree</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.bank_payment_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sepa"/>
+                <field name="charge_bearer" attrs="{'readonly': [('sepa', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
 </odoo>

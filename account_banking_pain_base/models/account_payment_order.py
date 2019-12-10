@@ -22,25 +22,6 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment")
-    charge_bearer = fields.Selection([
-        ('SLEV', 'Following Service Level'),
-        ('SHAR', 'Shared'),
-        ('CRED', 'Borne by Creditor'),
-        ('DEBT', 'Borne by Debtor')], string='Charge Bearer',
-        default='SLEV', readonly=True,
-        states={'draft': [('readonly', False)], 'open': [('readonly', False)]},
-        track_visibility='onchange',
-        help="Following service level : transaction charges are to be "
-        "applied following the rules agreed in the service level "
-        "and/or scheme (SEPA Core messages must use this). Shared : "
-        "transaction charges on the debtor side are to be borne by "
-        "the debtor, transaction charges on the creditor side are to "
-        "be borne by the creditor. Borne by creditor : all "
-        "transaction charges are to be borne by the creditor. Borne "
-        "by debtor : all transaction charges are to be borne by the "
-        "debtor.")
     batch_booking = fields.Boolean(
         string='Batch Booking', readonly=True,
         states={'draft': [('readonly', False)], 'open': [('readonly', False)]},
@@ -59,22 +40,14 @@ class AccountPaymentOrder(models.Model):
         eur = self.env.ref('base.EUR')
         for order in self:
             sepa = True
-            if order.company_partner_bank_id.acc_type != 'iban':
-                sepa = False
-            for pline in order.payment_line_ids:
-                if pline.currency_id != eur:
+            for bline in order.bank_line_ids:
+                if order.company_partner_bank_id.acc_type != 'iban':
                     sepa = False
-                    break
-                if pline.partner_bank_id.acc_type != 'iban':
+                elif bline.currency_id != eur:
                     sepa = False
-                    break
-            sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
-
-    @api.multi
-    def compute_sepa_final_hook(self, sepa):
-        self.ensure_one()
-        return sepa
+                elif bline.partner_bank_id.acc_type != 'iban':
+                    sepa = False
+                bline.sepa = sepa
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
@@ -257,7 +230,7 @@ class AccountPaymentOrder(models.Model):
             instruction_priority = etree.SubElement(
                 payment_type_info, 'InstrPrty')
             instruction_priority.text = priority
-        if self.sepa:
+        if eval_ctx.get('sepa'):
             service_level = etree.SubElement(payment_type_info, 'SvcLvl')
             service_level_code = etree.SubElement(service_level, 'Cd')
             service_level_code.text = 'SEPA'

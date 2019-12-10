@@ -222,6 +222,8 @@ class AccountPaymentOrder(models.Model):
             'payment_line_ids': [(6, 0, paylines.ids)],
             'communication': '-'.join(
                 [line.communication for line in paylines]),
+            'sepa': paylines[0].sepa,
+            'charge_bearer': paylines[0].charge_bearer
             }
 
     @api.multi

@@ -6,19 +6,32 @@
 <odoo>
 
 
-<record id="account_payment_line_form" model="ir.ui.view">
-    <field name="name">pain.base.account.payment.line</field>
-    <field name="model">account.payment.line</field>
-    <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
-    <field name="arch" type="xml">
-        <field name="communication_type" position="before">
-            <field name="priority"/>
-            <field name="local_instrument"/>
-            <field name="category_purpose"/>
-            <field name="purpose"/>
+    <record id="account_payment_line_form" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.line</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
+        <field name="arch" type="xml">
+            <field name="communication_type" position="before">
+                <field name="priority"/>
+                <field name="local_instrument"/>
+                <field name="category_purpose"/>
+                <field name="purpose"/>
+                <field name="sepa"/>
+                <field name="charge_bearer" attrs="{'readonly': [('sepa', '=', True)]}"/>
+            </field>
         </field>
-    </field>
-</record>
+    </record>
 
+    <record id="account_payment_line_tree" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.line.tree</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sepa"/>
+                <field name="charge_bearer" attrs="{'readonly': [('sepa', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
 
 </odoo>
