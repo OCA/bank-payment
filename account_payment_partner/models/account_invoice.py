@@ -20,11 +20,15 @@ class AccountInvoice(models.Model):
 
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
+        if self.company_id:
+            company = self.company_id
+        else:
+            company = self.env.user.company_id
         res = super(AccountInvoice, self)._onchange_partner_id()
         if self.partner_id:
             if self.type == 'in_invoice':
                 pay_mode = self.with_context(
-                    force_company=self.company_id.id
+                    force_company=company.id
                 ).partner_id.supplier_payment_mode_id
                 self.payment_mode_id = pay_mode
                 if (
@@ -35,7 +39,7 @@ class AccountInvoice(models.Model):
                 ):
                     self.partner_bank_id = \
                         self.commercial_partner_id.bank_ids.filtered(
-                            lambda b: b.company_id == self.company_id or not
+                            lambda b: b.company_id == company or not
                             b.company_id)[:1]
                 else:
                     self.partner_bank_id = False
@@ -45,7 +49,7 @@ class AccountInvoice(models.Model):
                 # needed for printing purposes and it can conflict with
                 # SEPA direct debit payments. Current report prints it.
                 self.payment_mode_id = self.with_context(
-                    force_company=self.company_id.id,
+                    force_company=company.id,
                 ).partner_id.customer_payment_mode_id
         else:
             self.payment_mode_id = False
@@ -69,6 +73,7 @@ class AccountInvoice(models.Model):
     def create(self, vals):
         """Fill the payment_mode_id from the partner if none is provided on
         creation, using same method as upstream."""
+
         onchanges = {
             '_onchange_partner_id': ['payment_mode_id'],
         }
