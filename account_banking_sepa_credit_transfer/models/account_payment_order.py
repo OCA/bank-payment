@@ -85,7 +85,6 @@ class AccountPaymentOrder(models.Model):
             priority = line.priority
             local_instrument = line.local_instrument
             categ_purpose = line.category_purpose
-            line_name = line.name
             line.compute_sepa()
 
             # The field line.date is the requested payment date
@@ -93,18 +92,19 @@ class AccountPaymentOrder(models.Model):
             # cf account_banking_payment_export/models/account_payment.py
             # in the inherit of action_open()
             key = (line.date, priority, local_instrument, categ_purpose,
-                   line.sepa, line.charge_bearer, line_name)
+                   line.sepa, line.charge_bearer)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
-        for (requested_date, priority, local_instrument, categ_purpose,
-             is_sepa, lines_charge_bearer, line_name), lines in list(lines_per_group.items()):
+        for loop_index, ((requested_date, priority, local_instrument,
+                          categ_purpose, is_sepa, lines_charge_bearer), lines)\
+                in enumerate(list(lines_per_group.items())):
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
-                    "self.name + '-' + line_name + '-' + "
+                    "self.name + '-' + loop_index + '-' + "
                     "requested_date.replace('-', '')  + '-' + priority + "
                     "'-' + local_instrument + '-' + category_purpose",
                     priority, local_instrument, categ_purpose,
@@ -113,9 +113,9 @@ class AccountPaymentOrder(models.Model):
                         'priority': priority,
                         'requested_date': requested_date,
                         'local_instrument': local_instrument or 'NOinstr',
-                        'category_purpose': categ_purpose or 'NOcateg',
+                        'category_purpose': categ_purpose or 'NOcat',
                         'sepa': is_sepa,
-                        'line_name': line_name
+                        'loop_index': str(loop_index)
                     }, gen_args)
             self.generate_party_block(
                 payment_info, 'Dbtr', 'B',
