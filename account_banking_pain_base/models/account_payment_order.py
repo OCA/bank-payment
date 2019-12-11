@@ -31,23 +31,14 @@ class AccountPaymentOrder(models.Model):
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
 
-    @api.multi
-    @api.depends(
-        'company_partner_bank_id.acc_type',
-        'payment_line_ids.currency_id',
-        'payment_line_ids.partner_bank_id.acc_type')
-    def compute_sepa(self):
-        eur = self.env.ref('base.EUR')
-        for order in self:
-            sepa = True
-            for bline in order.bank_line_ids:
-                if order.company_partner_bank_id.acc_type != 'iban':
-                    sepa = False
-                elif bline.currency_id != eur:
-                    sepa = False
-                elif bline.partner_bank_id.acc_type != 'iban':
-                    sepa = False
-                bline.sepa = sepa
+    @api.model
+    def _prepare_bank_payment_line(self, paylines):
+        result = super()._prepare_bank_payment_line(paylines)
+        result.update({
+            'sepa': paylines[0].sepa,
+            'charge_bearer': paylines[0].charge_bearer
+        })
+        return result
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,

@@ -153,7 +153,6 @@ class TestSCT(common.HttpCase):
         self.assertEqual(agrolait_pay_line1.communication, 'F1341')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
-        self.assertEqual(self.payment_order.sepa, True)
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id)])
         self.assertEqual(len(bank_lines), 1)
@@ -230,7 +229,6 @@ class TestSCT(common.HttpCase):
         self.assertEqual(asus_pay_line1.communication, 'Inv9032')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
-        self.assertEqual(self.payment_order.sepa, False)
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_asus.id)])
         self.assertEqual(len(bank_lines), 1)
