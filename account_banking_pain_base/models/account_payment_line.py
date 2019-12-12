@@ -177,18 +177,29 @@ class AccountPaymentLine(models.Model):
         track_visibility='onchange',
         help="Following service level : transaction charges are to be "
              "applied following the rules agreed in the service level "
-             "and/or scheme (SEPA Core messages must use this). Shared : "
-             "transaction charges on the debtor side are to be borne by "
-             "the debtor, transaction charges on the creditor side are to "
-             "be borne by the creditor. Borne by creditor : all "
-             "transaction charges are to be borne by the creditor. Borne "
+             "and/or scheme (SEPA Core messages must use this). "
+             "\nShared : transaction charges on the debtor side are to be "
+             "borne by the debtor, transaction charges on the creditor side "
+             "are to be borne by the creditor. \n Borne by creditor : all "
+             "transaction charges are to be borne by the creditor. \nBorne "
              "by debtor : all transaction charges are to be borne by the "
              "debtor.")
     sepa = fields.Boolean(
         compute='compute_sepa', readonly=True, string="SEPA Payment Line")
 
     @api.multi
+    @api.onchange('sepa')
+    def compute_charge_bearer(self):
+        for line in self:
+            if line.sepa:
+                line.charge_bearer = 'SLEV'
+            else:
+                if line.order_id.charge_bearer:
+                    line.charge_bearer = line.order_id.charge_bearer
+
+    @api.multi
     @api.depends(
+        'order_id.company_partner_bank_id.acc_type',
         'currency_id',
         'partner_bank_id.acc_type')
     def compute_sepa(self):

@@ -30,6 +30,45 @@ class AccountPaymentOrder(models.Model):
         "line for all the wire transfers of the SEPA XML file ; if "
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
+    sepa = fields.Boolean(
+        compute='compute_sepa', readonly=True, string="SEPA", help=
+        "True only if all payment lines are SEPA payments")
+    charge_bearer = fields.Selection([
+        ('SLEV', 'Following Service Level'),
+        ('SHAR', 'Shared'),
+        ('CRED', 'Borne by Creditor'),
+        ('DEBT', 'Borne by Debtor')], string='Charge Bearer',
+        default='SLEV', readonly=True,
+        track_visibility='onchange',
+        help="Set the selected charge_bearer value for all the payment lines "
+             "of this order. \n"
+             "Following service level : transaction charges are to be "
+             "applied following the rules agreed in the service level "
+             "and/or scheme (SEPA Core messages must use this). "
+             "\nShared : transaction charges on the debtor side are to be "
+             "borne by the debtor, transaction charges on the creditor side "
+             "are to be borne by the creditor. \n Borne by creditor : all "
+             "transaction charges are to be borne by the creditor. \nBorne "
+             "by debtor : all transaction charges are to be borne by the "
+             "debtor.")
+
+    @api.multi
+    @api.depends(
+        'company_partner_bank_id.acc_type',
+        'payment_line_ids.currency_id',
+        'payment_line_ids.partner_bank_id.acc_type')
+    def compute_sepa(self):
+        sepa = True
+        for pline in self.payment_line_ids:
+            if not pline.sepa:
+                sepa = False
+                break
+        self.sepa = sepa
+        if self.sepa:
+            self.charge_bearer = 'SLEV'
+
+    def apply_charge_bearer(self):
+        self.payment_line_ids.compute_charge_bearer()
 
     @api.model
     def _prepare_bank_payment_line(self, paylines):

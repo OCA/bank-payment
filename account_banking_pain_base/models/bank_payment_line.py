@@ -28,11 +28,11 @@ class BankPaymentLine(models.Model):
         track_visibility='onchange',
         help="Following service level : transaction charges are to be "
              "applied following the rules agreed in the service level "
-             "and/or scheme (SEPA Core messages must use this). Shared : "
-             "transaction charges on the debtor side are to be borne by "
-             "the debtor, transaction charges on the creditor side are to "
-             "be borne by the creditor. Borne by creditor : all "
-             "transaction charges are to be borne by the creditor. Borne "
+             "and/or scheme (SEPA Core messages must use this). "
+             "\nShared : transaction charges on the debtor side are to be "
+             "borne by the debtor, transaction charges on the creditor side "
+             "are to be borne by the creditor. \n Borne by creditor : all "
+             "transaction charges are to be borne by the creditor. \nBorne "
              "by debtor : all transaction charges are to be borne by the "
              "debtor.")
 
