@@ -25,7 +25,7 @@ class AccountPaymentOrder(models.Model):
             return [('id', 'in', jrl_ids)]
 
     name = fields.Char(
-        string='Number', readonly=False, copy=False)  # v8 field : name
+        string='Number', readonly=True, copy=False)  # v8 field : name
     payment_mode_id = fields.Many2one(
         'account.payment.mode', 'Payment Mode', required=True,
         ondelete='restrict', track_visibility='onchange',

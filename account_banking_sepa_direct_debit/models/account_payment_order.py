@@ -68,7 +68,6 @@ class AccountPaymentOrder(models.Model):
             transactions_count_a += 1
             priority = line.priority
             categ_purpose = line.category_purpose
-            line.compute_sepa()
 
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting

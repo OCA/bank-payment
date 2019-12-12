@@ -185,7 +185,7 @@ class AccountPaymentLine(models.Model):
              "by debtor : all transaction charges are to be borne by the "
              "debtor.")
     sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment Line")
+        compute='_compute_sepa', readonly=True, string="SEPA Payment Line")
 
     @api.multi
     @api.onchange('sepa')
@@ -202,7 +202,7 @@ class AccountPaymentLine(models.Model):
         'order_id.company_partner_bank_id.acc_type',
         'currency_id',
         'partner_bank_id.acc_type')
-    def compute_sepa(self):
+    def _compute_sepa(self):
         for bpline in self:
             bpline._compute_sepa_line()
 
