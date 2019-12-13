@@ -16,7 +16,7 @@
             <xpath expr="//group[@name='head']">
                 <group name="head-left-2">
                     <field name="charge_bearer"
-                           attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('sepa', '=', True)]}"/>
+                           attrs="{'readonly': ['|', ('state', '!=', 'draft')], 'invisible': [('sepa', '=', True)]}"/>
                 </group>
                 <group name="head-right-2">
                     <button name="apply_charge_bearer"

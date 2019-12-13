@@ -210,6 +210,8 @@ class AccountPaymentLine(models.Model):
         self.ensure_one()
         eur = self.env.ref('base.EUR')
         self.sepa = True
+        if self.order_id.company_partner_bank_id.acc_type != 'iban':
+            self.sepa = False
         if self.currency_id != eur:
             self.sepa = False
         if self.partner_bank_id.acc_type != 'iban':

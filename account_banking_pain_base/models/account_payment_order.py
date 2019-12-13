@@ -3,13 +3,14 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+import logging
+from datetime import datetime
+
+from lxml import etree
+
 from odoo import models, fields, api, _, tools
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
-from datetime import datetime
-from lxml import etree
-import logging
-
 
 try:
     from unidecode import unidecode
@@ -31,8 +32,8 @@ class AccountPaymentOrder(models.Model):
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
     sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA", help=
-        "True only if all payment lines are SEPA payments")
+        compute='_compute_sepa', readonly=True, string="SEPA",
+        help="True only if all payment lines are SEPA payments")
     charge_bearer = fields.Selection([
         ('SLEV', 'Following Service Level'),
         ('SHAR', 'Shared'),
@@ -57,7 +58,7 @@ class AccountPaymentOrder(models.Model):
         'company_partner_bank_id.acc_type',
         'payment_line_ids.currency_id',
         'payment_line_ids.partner_bank_id.acc_type')
-    def compute_sepa(self):
+    def _compute_sepa(self):
         sepa = True
         for pline in self.payment_line_ids:
             if not pline.sepa:

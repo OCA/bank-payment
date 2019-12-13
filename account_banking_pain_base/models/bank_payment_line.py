@@ -17,7 +17,7 @@ class BankPaymentLine(models.Model):
     purpose = fields.Selection(
         related='payment_line_ids.purpose')
     sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment Line")
+        compute='_compute_sepa', readonly=True, string="SEPA Payment Line")
     charge_bearer = fields.Selection([
         ('SLEV', 'Following Service Level'),
         ('SHAR', 'Shared'),
@@ -44,7 +44,7 @@ class BankPaymentLine(models.Model):
                 'sepa', 'charge_bearer']
         return res
 
-    def compute_sepa(self):
+    def _compute_sepa(self):
         for bpline in self:
             bpline._compute_sepa_line()
 
