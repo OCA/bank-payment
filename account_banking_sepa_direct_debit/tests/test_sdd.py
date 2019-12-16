@@ -166,7 +166,6 @@ class TestSDD(common.HttpCase):
         self.assertEqual(agrolait_pay_line1.communication, invoice1.number)
         payment_order.draft2open()
         self.assertEqual(payment_order.state, 'open')
-        self.assertEqual(payment_order.sepa, True)
         # Check bank payment line
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id)])

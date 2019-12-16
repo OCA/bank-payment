@@ -3,13 +3,14 @@
 # © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+import logging
+from datetime import datetime
+
+from lxml import etree
+
 from odoo import models, fields, api, _, tools
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
-from datetime import datetime
-from lxml import etree
-import logging
-
 
 try:
     from unidecode import unidecode
@@ -22,25 +23,6 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    sepa = fields.Boolean(
-        compute='compute_sepa', readonly=True, string="SEPA Payment")
-    charge_bearer = fields.Selection([
-        ('SLEV', 'Following Service Level'),
-        ('SHAR', 'Shared'),
-        ('CRED', 'Borne by Creditor'),
-        ('DEBT', 'Borne by Debtor')], string='Charge Bearer',
-        default='SLEV', readonly=True,
-        states={'draft': [('readonly', False)], 'open': [('readonly', False)]},
-        track_visibility='onchange',
-        help="Following service level : transaction charges are to be "
-        "applied following the rules agreed in the service level "
-        "and/or scheme (SEPA Core messages must use this). Shared : "
-        "transaction charges on the debtor side are to be borne by "
-        "the debtor, transaction charges on the creditor side are to "
-        "be borne by the creditor. Borne by creditor : all "
-        "transaction charges are to be borne by the creditor. Borne "
-        "by debtor : all transaction charges are to be borne by the "
-        "debtor.")
     batch_booking = fields.Boolean(
         string='Batch Booking', readonly=True,
         states={'draft': [('readonly', False)], 'open': [('readonly', False)]},
@@ -49,32 +31,54 @@ class AccountPaymentOrder(models.Model):
         "line for all the wire transfers of the SEPA XML file ; if "
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
+    sepa = fields.Boolean(
+        compute='_compute_sepa', readonly=True, string="SEPA",
+        help="True only if all payment lines are SEPA payments")
+    charge_bearer = fields.Selection([
+        ('SLEV', 'Following Service Level'),
+        ('SHAR', 'Shared'),
+        ('CRED', 'Borne by Creditor'),
+        ('DEBT', 'Borne by Debtor')], string='Charge Bearer',
+        default='SLEV', readonly=True,
+        track_visibility='onchange',
+        help="Set the selected charge_bearer value for all the payment lines "
+             "of this order. \n"
+             "Following service level : transaction charges are to be "
+             "applied following the rules agreed in the service level "
+             "and/or scheme (SEPA Core messages must use this). "
+             "\nShared : transaction charges on the debtor side are to be "
+             "borne by the debtor, transaction charges on the creditor side "
+             "are to be borne by the creditor. \n Borne by creditor : all "
+             "transaction charges are to be borne by the creditor. \nBorne "
+             "by debtor : all transaction charges are to be borne by the "
+             "debtor.")
 
     @api.multi
     @api.depends(
         'company_partner_bank_id.acc_type',
         'payment_line_ids.currency_id',
         'payment_line_ids.partner_bank_id.acc_type')
-    def compute_sepa(self):
-        eur = self.env.ref('base.EUR')
-        for order in self:
-            sepa = True
-            if order.company_partner_bank_id.acc_type != 'iban':
+    def _compute_sepa(self):
+        sepa = True
+        for pline in self.payment_line_ids:
+            if not pline.sepa:
                 sepa = False
-            for pline in order.payment_line_ids:
-                if pline.currency_id != eur:
-                    sepa = False
-                    break
-                if pline.partner_bank_id.acc_type != 'iban':
-                    sepa = False
-                    break
-            sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
+                break
+        self.sepa = sepa
+        if self.sepa:
+            self.charge_bearer = 'SLEV'
 
-    @api.multi
-    def compute_sepa_final_hook(self, sepa):
-        self.ensure_one()
-        return sepa
+    def apply_charge_bearer(self):
+        self.payment_line_ids.compute_charge_bearer()
+
+    @api.model
+    def _prepare_bank_payment_line(self, paylines):
+        result = super()._prepare_bank_payment_line(paylines)
+        result.update({
+            'sepa': paylines[0].sepa,
+            'charge_bearer': paylines[0].charge_bearer
+        })
+        return result
 
     @api.model
     def _prepare_field(self, field_name, field_value, eval_ctx,
@@ -257,7 +261,7 @@ class AccountPaymentOrder(models.Model):
             instruction_priority = etree.SubElement(
                 payment_type_info, 'InstrPrty')
             instruction_priority.text = priority
-        if self.sepa:
+        if eval_ctx.get('sepa'):
             service_level = etree.SubElement(payment_type_info, 'SvcLvl')
             service_level_code = etree.SubElement(service_level, 'Cd')
             service_level_code.text = 'SEPA'

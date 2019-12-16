@@ -4,20 +4,30 @@
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
-
-<record id="account_payment_order_form" model="ir.ui.view">
-    <field name="name">pain.base.account.payment.order.form</field>
-    <field name="model">account.payment.order</field>
-    <field name="inherit_id" ref="account_payment_order.account_payment_order_form"/>
-    <field name="arch" type="xml">
-        <field name="company_partner_bank_id" position="after">
-            <field name="sepa"/>
-            <field name="batch_booking"/>
-            <field name="charge_bearer" attrs="{'invisible': [('sepa', '=', True)]}"/>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_order_form"/>
+        <field name="arch" type="xml">
+            <field name="bank_line_count" position="after">
+                <field name="batch_booking"/>
+                <field name="sepa"/>
+            </field>
+            <xpath expr="//group[@name='head']">
+                <group name="head-left-2">
+                    <field name="charge_bearer"
+                           attrs="{'readonly': ['|', ('state', '!=', 'draft')], 'invisible': [('sepa', '=', True)]}"/>
+                </group>
+                <group name="head-right-2">
+                    <button name="apply_charge_bearer"
+                            string="Apply Charge Bearer to all lines"
+                            type="object"
+                            class="oe_stat_button"
+                            attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('sepa', '=', True)]}"
+                            confirm="Warning! This will change the charge bearer value of all the payment line to the one you just selected. Do you really want to do that?"
+                    />
+                </group>
+            </xpath>
         </field>
-    </field>
-</record>
-
-
+    </record>
 </odoo>

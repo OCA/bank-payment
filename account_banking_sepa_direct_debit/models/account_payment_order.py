@@ -69,6 +69,7 @@ class AccountPaymentOrder(models.Model):
             transactions_count_a += 1
             priority = line.priority
             categ_purpose = line.category_purpose
+
             # The field line.date is the requested payment date
             # taking into account the 'date_prefered' setting
             # cf account_banking_payment_export/models/account_payment.py
@@ -107,19 +108,22 @@ class AccountPaymentOrder(models.Model):
                     line.mandate_id.recurrent_sequence_type
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
-            key = (line.date, priority, categ_purpose, seq_type, scheme)
+            key = (line.date, priority, categ_purpose, seq_type, scheme,
+                   line.sepa, line.charge_bearer)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
 
-        for (requested_date, priority, categ_purpose, sequence_type, scheme),\
-                lines in list(lines_per_group.items()):
+        for loop_index, ((requested_date, priority, categ_purpose,
+                          sequence_type, scheme, is_sepa,
+                          lines_charge_bearer), lines) \
+                in enumerate(list(lines_per_group.items())):
             # B. Payment info
             payment_info, nb_of_transactions_b, control_sum_b = \
                 self.generate_start_payment_info_block(
                     pain_root,
-                    "self.name + '-' + "
+                    "self.name + '-' + loop_index + '-' + "
                     "sequence_type + '-' + requested_date.replace('-', '')  "
                     "+ '-' + priority + '-' + category_purpose",
                     priority, scheme, categ_purpose,
@@ -129,16 +133,18 @@ class AccountPaymentOrder(models.Model):
                         'priority': priority,
                         'category_purpose': categ_purpose or 'NOcateg',
                         'requested_date': requested_date,
+                        'sepa': is_sepa,
+                        'loop_index': str(loop_index)
                     }, gen_args)
 
             self.generate_party_block(
                 payment_info, 'Cdtr', 'B',
                 self.company_partner_bank_id, gen_args)
             charge_bearer = etree.SubElement(payment_info, 'ChrgBr')
-            if self.sepa:
+            if is_sepa:
                 charge_bearer_text = 'SLEV'
             else:
-                charge_bearer_text = self.charge_bearer
+                charge_bearer_text = lines_charge_bearer
             charge_bearer.text = charge_bearer_text
             creditor_scheme_identification = etree.SubElement(
                 payment_info, 'CdtrSchmeId')

@@ -221,7 +221,7 @@ class AccountPaymentOrder(models.Model):
             'order_id': paylines[0].order_id.id,
             'payment_line_ids': [(6, 0, paylines.ids)],
             'communication': '-'.join(
-                [line.communication for line in paylines]),
+                [line.communication for line in paylines])
             }
 
     @api.multi
