@@ -139,6 +139,9 @@ class TestSCT(common.HttpCase):
         pay_lines = self.payment_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id),
             ('order_id', '=', self.payment_order.id)])
+        for pline in pay_lines:
+            self.assertEqual(pline.sepa, True)
+            self.assertEqual(pline.charge_bearer, 'SLEV')
         self.assertEqual(len(pay_lines), 3)
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
@@ -152,10 +155,14 @@ class TestSCT(common.HttpCase):
         self.assertEqual(agrolait_pay_line1.communication, 'F1341')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
+        self.assertEqual(self.payment_order.sepa, True)
+        self.assertEqual(self.payment_order.charge_bearer, 'SLEV')
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_agrolait.id)])
         self.assertEqual(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
+        self.assertEqual(bank_lines[0].sepa, True)
+        self.assertEqual(bank_lines[0].charge_bearer, 'SLEV')
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEqual(float_compare(
             agrolait_bank_line.amount_currency, 49.0, precision_digits=accpre),
@@ -215,6 +222,9 @@ class TestSCT(common.HttpCase):
         pay_lines = self.payment_line_model.search([
             ('partner_id', '=', self.partner_asus.id),
             ('order_id', '=', self.payment_order.id)])
+        for pline in pay_lines:
+            self.assertEqual(pline.sepa, False)
+            self.assertEqual(pline.charge_bearer, 'SLEV')
         self.assertEqual(len(pay_lines), 2)
         asus_pay_line1 = pay_lines[0]
         accpre = self.env['decimal.precision'].precision_get('Account')
@@ -228,10 +238,14 @@ class TestSCT(common.HttpCase):
         self.assertEqual(asus_pay_line1.communication, 'Inv9032')
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, 'open')
+        self.assertEqual(self.payment_order.sepa, False)
+        self.assertEqual(self.payment_order.charge_bearer, 'SLEV')
         bank_lines = self.bank_line_model.search([
             ('partner_id', '=', self.partner_asus.id)])
         self.assertEqual(len(bank_lines), 1)
         asus_bank_line = bank_lines[0]
+        self.assertEqual(bank_lines[0].sepa, False)
+        self.assertEqual(bank_lines[0].charge_bearer, 'SLEV')
         self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
         self.assertEqual(float_compare(
             asus_bank_line.amount_currency, 3054.0, precision_digits=accpre),
@@ -268,6 +282,36 @@ class TestSCT(common.HttpCase):
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, 'paid')
         return
+
+    def test_apply_charge_bearer(self):
+        invoice1 = self.create_invoice(
+            self.partner_asus.id,
+            'account_payment_mode.res_partner_2_iban', self.eur_currency.id,
+            2042.0, 'Inv9032')
+        invoice2 = self.create_invoice(
+            self.partner_asus.id,
+            'account_payment_mode.res_partner_2_iban', self.usd_currency.id,
+            1012.0, 'Inv9033')
+        for inv in [invoice1, invoice2]:
+            action = inv.create_account_payment_line()
+        self.payment_order = self.payment_order_model.browse(action['res_id'])
+        pay_lines = self.payment_line_model.search([
+            ('partner_id', '=', self.partner_asus.id),
+            ('order_id', '=', self.payment_order.id)])
+        self.assertEqual(self.payment_order.sepa, False)
+
+        self.assertEqual(pay_lines[0].sepa, True)
+        self.assertEqual(pay_lines[0].charge_bearer, 'SLEV')
+        self.assertEqual(pay_lines[1].sepa, False)
+        self.assertEqual(pay_lines[1].charge_bearer, 'SLEV')
+
+        self.payment_order.charge_bearer = 'SHAR'
+        self.payment_order.apply_charge_bearer()
+
+        self.assertEqual(pay_lines[0].sepa, True)
+        self.assertEqual(pay_lines[0].charge_bearer, 'SLEV')
+        self.assertEqual(pay_lines[1].sepa, False)
+        self.assertEqual(pay_lines[1].charge_bearer, 'SHAR')
 
     def create_invoice(
             self, partner_id, partner_bank_xmlid, currency_id,
