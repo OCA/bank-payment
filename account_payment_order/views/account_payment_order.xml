@@ -82,7 +82,7 @@
     <field name="name">account.payment.order.tree</field>
     <field name="model">account.payment.order</field>
     <field name="arch" type="xml">
-        <tree string="Payment Orders" colors="blue: state=='draft'; green: state=='generated'; gray: state=='cancel'; red: state=='open'" decoration-muted="state=='cancel'">
+        <tree string="Payment Orders" decoration-info="state=='draft'" decoration-success="state=='generated'" decoration-danger="state=='open'" decoration-muted="state=='cancel'">
             <field name="name"/>
             <field name="payment_mode_id"/>
             <field name="journal_id"/>
