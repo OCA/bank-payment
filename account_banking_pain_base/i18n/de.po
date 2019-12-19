@@ -120,19 +120,6 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:104
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-"Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet werden."
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
-#, python-format
-msgid "Cannot compute the '%s'."
-msgstr "Das Feld '%s' kann nicht berechnet werden."
-
-#. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:101
 #, fuzzy, python-format
 #| msgid "Cannot compute the '%s'."
@@ -608,7 +595,6 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:310
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:337
 #, python-format
 msgid ""
@@ -884,7 +870,6 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:117
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:125
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
@@ -901,7 +886,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:138
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:165
 #, python-format
 msgid ""
@@ -916,7 +900,6 @@ msgstr ""
 "eine Idee über die Ursache des Problems geben kann: %s"
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:112
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:120
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
@@ -1116,3 +1099,11 @@ msgstr ""
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
+
+#~ msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+#~ msgstr ""
+#~ "Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet "
+#~ "werden."
+
+#~ msgid "Cannot compute the '%s'."
+#~ msgstr "Das Feld '%s' kann nicht berechnet werden."
