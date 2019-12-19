@@ -115,18 +115,6 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:104
-#, python-format
-msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
-msgstr ""
-
-#. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:109
-#, python-format
-msgid "Cannot compute the '%s'."
-msgstr ""
-
-#. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:101
 #, python-format
 msgid "Cannot compute the field '{field_name}'."
@@ -547,7 +535,6 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:310
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:337
 #, python-format
 msgid ""
@@ -816,14 +803,12 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:117
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:125
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:138
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:165
 #, python-format
 msgid ""
@@ -834,7 +819,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
-#: code:addons/account_banking_pain_base/models/account_payment_order.py:112
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:120
 #, python-format
 msgid "The type of the field '%s' is %s. It should be a string or unicode."
