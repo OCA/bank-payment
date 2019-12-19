@@ -29,7 +29,7 @@ class AccountPaymentMode(models.Model):
     def account_invoice_company_constrains(self):
         for mode in self:
             if (
-                self.env["account.invoice"]
+                self.env["account.move"]
                 .sudo()
                 .search(
                     [
@@ -42,7 +42,7 @@ class AccountPaymentMode(models.Model):
                 raise ValidationError(
                     _(
                         "You cannot change the Company. There exists "
-                        "at least one Invoice with this Payment Mode, "
+                        "at least one Journal Entry with this Payment Mode, "
                         "already assigned to another Company."
                     )
                 )
