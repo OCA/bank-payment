@@ -64,7 +64,9 @@ class AccountPaymentLine(models.Model):
         required=True, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
-        selection=[("normal", "Free")], required=True, default="normal"
+        selection=[("normal", "Free"), ('structured', 'Structured Reference')],
+        required=True,
+        default="normal",
     )
     bank_line_id = fields.Many2one(
         comodel_name="bank.payment.line",
