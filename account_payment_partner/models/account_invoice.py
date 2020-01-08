@@ -18,6 +18,9 @@ class AccountInvoice(models.Model):
         readonly=True)
     partner_bank_id = fields.Many2one(ondelete='restrict')
 
+    def _get_refund_common_fields(self):
+        return super(AccountInvoice, self)._get_refund_common_fields() + ['company_id']
+
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
