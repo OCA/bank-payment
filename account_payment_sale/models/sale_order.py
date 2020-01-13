@@ -26,7 +26,10 @@ class SaleOrder(models.Model):
     def _get_payment_mode_vals(self, vals):
         if self.payment_mode_id:
             vals["payment_mode_id"] = self.payment_mode_id.id
-            if self.payment_mode_id.bank_account_link == "fixed":
+            if (
+                self.payment_mode_id.bank_account_link == "fixed"
+                and self.payment_mode_id.payment_method_id.code == "manual"
+            ):
                 vals[
                     "invoice_partner_bank_id"
                 ] = self.payment_mode_id.fixed_journal_id.bank_account_id.id
