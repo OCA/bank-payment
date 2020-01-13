@@ -22,11 +22,9 @@ class AccountInvoice(models.Model):
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
         if self.partner_id:
+            self.payment_mode_id = self._get_payment_mode()
+            pay_mode = self.payment_mode_id
             if self.type == 'in_invoice':
-                pay_mode = self.with_context(
-                    force_company=self.company_id.id
-                ).partner_id.supplier_payment_mode_id
-                self.payment_mode_id = pay_mode
                 if (
                     pay_mode and
                     pay_mode.payment_type == 'outbound' and
@@ -40,18 +38,25 @@ class AccountInvoice(models.Model):
                 else:
                     self.partner_bank_id = False
 
-            elif self.type == 'out_invoice':
-                # No bank account assignation is done here as this is only
-                # needed for printing purposes and it can conflict with
-                # SEPA direct debit payments. Current report prints it.
-                self.payment_mode_id = self.with_context(
-                    force_company=self.company_id.id,
-                ).partner_id.customer_payment_mode_id
         else:
             self.payment_mode_id = False
             if self.type == 'in_invoice':
                 self.partner_bank_id = False
         return res
+
+    def _get_payment_mode(self):
+        # find appropriate payment mode
+        # in cale of out-invoice bank account assignation is done here as this is only
+        # needed for printing purposes and it can conflict with
+        # SEPA direct debit payments. Current report prints it.
+        if self.type == 'in_invoice':
+            return self.with_context(
+                force_company=self.company_id.id
+            ).partner_id.supplier_payment_mode_id
+        if self.type == 'out_invoice':
+            return self.with_context(
+                force_company=self.company_id.id,
+            ).partner_id.customer_payment_mode_id
 
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
