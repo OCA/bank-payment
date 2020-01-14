@@ -46,7 +46,7 @@ class AccountInvoice(models.Model):
 
     def _get_payment_mode(self):
         # find appropriate payment mode
-        # in cale of out-invoice bank account assignation is done here as this is only
+        # in case of out-invoice bank account assignation is done here as this is only
         # needed for printing purposes and it can conflict with
         # SEPA direct debit payments. Current report prints it.
         if self.type == 'in_invoice':
