@@ -21,8 +21,8 @@ class AccountInvoice(models.Model):
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
+        self.payment_mode_id = self._get_payment_mode()
         if self.partner_id:
-            self.payment_mode_id = self._get_payment_mode()
             pay_mode = self.payment_mode_id
             if self.type == 'in_invoice':
                 if (
@@ -46,17 +46,18 @@ class AccountInvoice(models.Model):
 
     def _get_payment_mode(self):
         # find appropriate payment mode
-        # in case of out-invoice bank account assignation is done here as this is only
-        # needed for printing purposes and it can conflict with
+        # in case of out-invoice bank account assignation is done here as this
+        # is only needed for printing purposes and it can conflict with
         # SEPA direct debit payments. Current report prints it.
-        if self.type == 'in_invoice':
-            return self.with_context(
-                force_company=self.company_id.id
-            ).partner_id.supplier_payment_mode_id
-        if self.type == 'out_invoice':
-            return self.with_context(
-                force_company=self.company_id.id,
-            ).partner_id.customer_payment_mode_id
+        if self.partner_id:
+            if self.type == 'in_invoice':
+                return self.with_context(
+                    force_company=self.company_id.id
+                ).partner_id.supplier_payment_mode_id
+            if self.type == 'out_invoice':
+                return self.with_context(
+                    force_company=self.company_id.id,
+                ).partner_id.customer_payment_mode_id
 
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
