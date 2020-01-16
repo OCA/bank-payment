@@ -18,9 +18,8 @@ class PaymentTansaction(models.Model):
 
     @api.multi
     def _ippay_ach_s2s_do_payment(self, invoice):
-        # TODO: implement check numbers as a proper Odoo sequence
-        # see account_check_printing for a reference
-        check_number = self.id
+        sequence = self.acquirer_id.jounal_id.sequence_id
+        check_number = sequence.next_by_id()
         request = '''
             <ippay>
                 <TransactionType>CHECK</TransactionType>
