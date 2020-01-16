@@ -19,6 +19,12 @@
                     <field name="payment_token_id" domain="[('partner_id', '=', id)]"/>
                 </group>
             </xpath>
+            <xpath expr="//button[@icon='fa-credit-card']/div/span[@class='o_stat_text']" position="replace">
+                <span class="o_stat_text">
+                    Saved Payment Tokens
+                </span>
+            </xpath>
+
         </field>
     </record>
 

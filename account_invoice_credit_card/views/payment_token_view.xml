@@ -5,15 +5,22 @@
         <field name='model'>payment.token</field>
         <field name="inherit_id" ref="payment.payment_token_form_view"/>
         <field name='arch' type='xml'>
+
             <xpath expr="//button[@name='%(payment.action_payment_tx_ids)d']"
                    position="before">
                 <button class="oe_stat_button" name="set_default_payment"
-                    type="object" string="Set as Payment Default " icon="fa-cog">
+                    type="object" string="Set as Default" icon="fa-cog">
                 </button>
             </xpath>
+
             <field name="active" position="after">
                 <field name="is_default_payment"/>
             </field>
+
+            <field name="acquirer_ref" position="attributes">
+                <attribute name="readonly">True</attribute>
+            </field>
+
         </field>
     </record>
 
@@ -22,9 +29,11 @@
         <field name='model'>payment.token</field>
         <field name="inherit_id" ref="payment.payment_token_tree_view"/>
         <field name='arch' type='xml'>
+
             <field name="active" position="after">
                 <field name="is_default_payment"/>
             </field>
+
         </field>
     </record>
 
