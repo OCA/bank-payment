@@ -18,8 +18,6 @@ class BankPaymentLine(models.Model):
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
-        res = super(
-            BankPaymentLine, self
-        ).same_fields_payment_line_and_bank_payment_line()
+        res = super(BankPaymentLine, self).same_fields_payment_line_and_bank_payment_line()
         res += ["priority", "local_instrument", "category_purpose", "purpose"]
         return res

@@ -12,7 +12,6 @@ BIC_REGEX = re.compile(r"[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?$")
 class ResBank(models.Model):
     _inherit = "res.bank"
 
-    @api.multi
     @api.constrains("bic")
     def _check_bic(self):
         """
@@ -30,7 +29,6 @@ class ResBank(models.Model):
                     "the SEPA pattern:\n{bic_list}\n\nSEPA pattern: "
                     "{sepa_pattern}"
                 ).format(
-                    sepa_pattern=BIC_REGEX.pattern,
-                    bic_list="\n".join(invalid_banks.mapped("bic")),
+                    sepa_pattern=BIC_REGEX.pattern, bic_list="\n".join(invalid_banks.mapped("bic"))
                 )
             )

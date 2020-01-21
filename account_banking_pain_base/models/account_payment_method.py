@@ -1,7 +1,7 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -17,7 +17,6 @@ class AccountPaymentMethod(models.Model):
         "characters are used in the generated PAIN file.",
     )
 
-    @api.multi
     def get_xsd_file_path(self):
         """This method is designed to be inherited in the SEPA modules"""
         self.ensure_one()
@@ -28,7 +27,6 @@ class AccountPaymentMethod(models.Model):
             # Extending this constraint from account_payment_mode
             "code_payment_type_unique",
             "unique(code, payment_type, pain_version)",
-            "A payment method of the same type already exists with this code"
-            " and PAIN version",
+            "A payment method of the same type already exists with this code" " and PAIN version",
         )
     ]

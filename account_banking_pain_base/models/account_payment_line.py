@@ -12,8 +12,7 @@ class AccountPaymentLine(models.Model):
         [("NORM", "Normal"), ("HIGH", "High")],
         string="Priority",
         default="NORM",
-        help="This field will be used as 'Instruction Priority' in "
-        "the generated PAIN file.",
+        help="This field will be used as 'Instruction Priority' in " "the generated PAIN file.",
     )
     # local_instrument is used for instant credit transfers which
     # will begin on November 2017, cf account_banking_sepa_credit_transfer
