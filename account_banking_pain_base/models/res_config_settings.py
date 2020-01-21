@@ -6,24 +6,20 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
     initiating_party_issuer = fields.Char(
-        related='company_id.initiating_party_issuer',
-        readonly=False,
+        related="company_id.initiating_party_issuer", readonly=False
     )
     initiating_party_identifier = fields.Char(
-        related='company_id.initiating_party_identifier',
-        readonly=False,
+        related="company_id.initiating_party_identifier", readonly=False
     )
     initiating_party_scheme = fields.Char(
-        related='company_id.initiating_party_scheme',
-        readonly=False,
+        related="company_id.initiating_party_scheme", readonly=False
     )
     group_pain_multiple_identifier = fields.Boolean(
-        string='Multiple identifiers',
-        implied_group='account_banking_pain_base.'
-                      'group_pain_multiple_identifier',
+        string="Multiple identifiers",
+        implied_group="account_banking_pain_base." "group_pain_multiple_identifier",
         help="Enable this option if your country requires several SEPA/PAIN "
-             "identifiers like in Spain.",
+        "identifiers like in Spain.",
     )
