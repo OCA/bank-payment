@@ -23,7 +23,7 @@ class TestSCT(common.HttpCase):
         self.bank_line_model = self.env["bank.payment.line"]
         self.partner_bank_model = self.env["res.partner.bank"]
         self.attachment_model = self.env["ir.attachment"]
-        self.invoice_model = self.env["account.invoice"]
+        self.invoice_model = self.env["account.move.line"]
         self.invoice_line_model = self.env["account.invoice.line"]
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_asus = self.env.ref("base.res_partner_1")
@@ -37,32 +37,21 @@ class TestSCT(common.HttpCase):
         self.partner_asus.company_id = self.main_company.id
         self.partner_c2c.company_id = self.main_company.id
         self.env.user.write(
-            {
-                "company_ids": [(6, 0, self.main_company.ids)],
-                "company_id": self.main_company.id,
-            }
+            {"company_ids": [(6, 0, self.main_company.ids)], "company_id": self.main_company.id}
         )
         self.env.ref(
             "l10n_generic_coa.configurable_chart_template"
         ).try_loading_for_current_company()
         self.account_expense = self.account_model.search(
             [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_expenses").id,
-                ),
+                ("user_type_id", "=", self.env.ref("account.data_account_type_expenses").id),
                 ("company_id", "=", self.main_company.id),
             ],
             limit=1,
         )
         self.account_payable = self.account_model.search(
             [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_payable").id,
-                ),
+                ("user_type_id", "=", self.env.ref("account.data_account_type_payable").id),
                 ("company_id", "=", self.main_company.id),
             ],
             limit=1,
@@ -71,9 +60,7 @@ class TestSCT(common.HttpCase):
             {
                 "company_id": self.main_company.id,
                 "partner_id": self.main_company.partner_id.id,
-                "bank_id": (
-                    self.env.ref("account_payment_mode.bank_la_banque_postale").id
-                ),
+                "bank_id": (self.env.ref("account_payment_mode.bank_la_banque_postale").id),
             }
         )
         # create journal
@@ -173,27 +160,19 @@ class TestSCT(common.HttpCase):
         self.assertEqual(agrolait_pay_line1.currency_id, self.eur_currency)
         self.assertEqual(agrolait_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            float_compare(
-                agrolait_pay_line1.amount_currency, 42, precision_digits=accpre
-            ),
-            0,
+            float_compare(agrolait_pay_line1.amount_currency, 42, precision_digits=accpre), 0
         )
         self.assertEqual(agrolait_pay_line1.communication_type, "normal")
         self.assertEqual(agrolait_pay_line1.communication, "F1341")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, True)
-        bank_lines = self.bank_line_model.search(
-            [("partner_id", "=", self.partner_agrolait.id)]
-        )
+        bank_lines = self.bank_line_model.search([("partner_id", "=", self.partner_agrolait.id)])
         self.assertEqual(len(bank_lines), 1)
         agrolait_bank_line = bank_lines[0]
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEqual(
-            float_compare(
-                agrolait_bank_line.amount_currency, 49.0, precision_digits=accpre
-            ),
-            0,
+            float_compare(agrolait_bank_line.amount_currency, 49.0, precision_digits=accpre), 0
         )
         self.assertEqual(agrolait_bank_line.communication_type, "normal")
         self.assertEqual(agrolait_bank_line.communication, "F1341-F1342-A1301")
@@ -211,9 +190,7 @@ class TestSCT(common.HttpCase):
         namespaces.pop(None)
         pay_method_xpath = xml_root.xpath("//p:PmtInf/p:PmtMtd", namespaces=namespaces)
         self.assertEqual(pay_method_xpath[0].text, "TRF")
-        sepa_xpath = xml_root.xpath(
-            "//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd", namespaces=namespaces
-        )
+        sepa_xpath = xml_root.xpath("//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd", namespaces=namespaces)
         self.assertEqual(sepa_xpath[0].text, "SEPA")
         debtor_acc_xpath = xml_root.xpath(
             "//p:PmtInf/p:DbtrAcct/p:Id/p:IBAN", namespaces=namespaces
@@ -251,10 +228,7 @@ class TestSCT(common.HttpCase):
         self.assertEqual(self.payment_order.payment_mode_id, self.payment_mode)
         self.assertEqual(self.payment_order.journal_id, self.bank_journal)
         pay_lines = self.payment_line_model.search(
-            [
-                ("partner_id", "=", self.partner_asus.id),
-                ("order_id", "=", self.payment_order.id),
-            ]
+            [("partner_id", "=", self.partner_asus.id), ("order_id", "=", self.payment_order.id)]
         )
         self.assertEqual(len(pay_lines), 2)
         asus_pay_line1 = pay_lines[0]
@@ -262,27 +236,19 @@ class TestSCT(common.HttpCase):
         self.assertEqual(asus_pay_line1.currency_id, self.usd_currency)
         self.assertEqual(asus_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            float_compare(
-                asus_pay_line1.amount_currency, 2042, precision_digits=accpre
-            ),
-            0,
+            float_compare(asus_pay_line1.amount_currency, 2042, precision_digits=accpre), 0
         )
         self.assertEqual(asus_pay_line1.communication_type, "normal")
         self.assertEqual(asus_pay_line1.communication, "Inv9032")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, False)
-        bank_lines = self.bank_line_model.search(
-            [("partner_id", "=", self.partner_asus.id)]
-        )
+        bank_lines = self.bank_line_model.search([("partner_id", "=", self.partner_asus.id)])
         self.assertEqual(len(bank_lines), 1)
         asus_bank_line = bank_lines[0]
         self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
         self.assertEqual(
-            float_compare(
-                asus_bank_line.amount_currency, 3054.0, precision_digits=accpre
-            ),
-            0,
+            float_compare(asus_bank_line.amount_currency, 3054.0, precision_digits=accpre), 0
         )
         self.assertEqual(asus_bank_line.communication_type, "normal")
         self.assertEqual(asus_bank_line.communication, "Inv9032-Inv9033")
@@ -300,9 +266,7 @@ class TestSCT(common.HttpCase):
         namespaces.pop(None)
         pay_method_xpath = xml_root.xpath("//p:PmtInf/p:PmtMtd", namespaces=namespaces)
         self.assertEqual(pay_method_xpath[0].text, "TRF")
-        sepa_xpath = xml_root.xpath(
-            "//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd", namespaces=namespaces
-        )
+        sepa_xpath = xml_root.xpath("//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd", namespaces=namespaces)
         self.assertEqual(len(sepa_xpath), 0)
         debtor_acc_xpath = xml_root.xpath(
             "//p:PmtInf/p:DbtrAcct/p:Id/p:IBAN", namespaces=namespaces
@@ -318,36 +282,30 @@ class TestSCT(common.HttpCase):
         return
 
     def create_invoice(
-        self,
-        partner_id,
-        partner_bank_xmlid,
-        currency_id,
-        price_unit,
-        reference,
-        type="in_invoice",
+        self, partner_id, partner_bank_xmlid, currency_id, price_unit, reference, type="in_invoice"
     ):
         invoice = self.invoice_model.create(
             {
                 "partner_id": partner_id,
                 "reference_type": "none",
-                "reference": reference,
+                "ref": reference,
                 "currency_id": currency_id,
                 "name": "test",
                 "account_id": self.account_payable.id,
                 "type": type,
                 "date_invoice": time.strftime("%Y-%m-%d"),
                 "payment_mode_id": self.payment_mode.id,
-                "partner_bank_id": self.env.ref(partner_bank_xmlid).id,
+                "invoice_partner_bank_id": self.env.ref(partner_bank_xmlid).id,
             }
         )
         self.invoice_line_model.create(
             {
-                "invoice_id": invoice.id,
+                "move_id": invoice.id,
                 "price_unit": price_unit,
                 "quantity": 1,
                 "name": "Great service",
                 "account_id": self.account_expense.id,
             }
         )
-        invoice.action_invoice_open()
+        invoice.post()
         return invoice

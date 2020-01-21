@@ -1,7 +1,7 @@
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountPaymentMethod(models.Model):
@@ -17,7 +17,6 @@ class AccountPaymentMethod(models.Model):
         ]
     )
 
-    @api.multi
     def get_xsd_file_path(self):
         self.ensure_one()
         if self.pain_version in [
@@ -27,8 +26,6 @@ class AccountPaymentMethod(models.Model):
             "pain.001.001.05",
             "pain.001.003.03",
         ]:
-            path = (
-                "account_banking_sepa_credit_transfer/data/%s.xsd" % self.pain_version
-            )
+            path = "account_banking_sepa_credit_transfer/data/%s.xsd" % self.pain_version
             return path
         return super(AccountPaymentMethod, self).get_xsd_file_path()

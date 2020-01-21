@@ -4,15 +4,14 @@
 
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    @api.multi
-    def generate_payment_file(self):
+    def generate_payment_file(self):  # noqa: C901
         """Creates the SEPA Credit Transfer file. That's the important code!"""
         self.ensure_one()
         if self.payment_method_id.code != "sepa_credit_transfer":
@@ -98,7 +97,11 @@ class AccountPaymentOrder(models.Model):
         ):
             # B. Payment info
             requested_date = fields.Date.to_string(requested_date)
-            payment_info, nb_of_transactions_b, control_sum_b = self.generate_start_payment_info_block(
+            (
+                payment_info,
+                nb_of_transactions_b,
+                control_sum_b,
+            ) = self.generate_start_payment_info_block(
                 pain_root,
                 "self.name + '-' "
                 "+ requested_date.replace('-', '')  + '-' + priority + "
@@ -132,43 +135,21 @@ class AccountPaymentOrder(models.Model):
                 transactions_count_a += 1
                 transactions_count_b += 1
                 # C. Credit Transfer Transaction Info
-                credit_transfer_transaction_info = etree.SubElement(
-                    payment_info, "CdtTrfTxInf"
-                )
-                payment_identification = etree.SubElement(
-                    credit_transfer_transaction_info, "PmtId"
-                )
-                instruction_identification = etree.SubElement(
-                    payment_identification, "InstrId"
-                )
+                credit_transfer_transaction_info = etree.SubElement(payment_info, "CdtTrfTxInf")
+                payment_identification = etree.SubElement(credit_transfer_transaction_info, "PmtId")
+                instruction_identification = etree.SubElement(payment_identification, "InstrId")
                 instruction_identification.text = self._prepare_field(
-                    "Instruction Identification",
-                    "line.name",
-                    {"line": line},
-                    35,
-                    gen_args=gen_args,
+                    "Instruction Identification", "line.name", {"line": line}, 35, gen_args=gen_args
                 )
-                end2end_identification = etree.SubElement(
-                    payment_identification, "EndToEndId"
-                )
+                end2end_identification = etree.SubElement(payment_identification, "EndToEndId")
                 end2end_identification.text = self._prepare_field(
-                    "End to End Identification",
-                    "line.name",
-                    {"line": line},
-                    35,
-                    gen_args=gen_args,
+                    "End to End Identification", "line.name", {"line": line}, 35, gen_args=gen_args
                 )
                 currency_name = self._prepare_field(
-                    "Currency Code",
-                    "line.currency_id.name",
-                    {"line": line},
-                    3,
-                    gen_args=gen_args,
+                    "Currency Code", "line.currency_id.name", {"line": line}, 3, gen_args=gen_args
                 )
                 amount = etree.SubElement(credit_transfer_transaction_info, "Amt")
-                instructed_amount = etree.SubElement(
-                    amount, "InstdAmt", Ccy=currency_name
-                )
+                instructed_amount = etree.SubElement(amount, "InstdAmt", Ccy=currency_name)
                 instructed_amount.text = "%.2f" % line.amount_currency
                 amount_control_sum_a += line.amount_currency
                 amount_control_sum_b += line.amount_currency
