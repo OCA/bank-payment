@@ -6,7 +6,7 @@
     "version": "12.0.1.0.0",
     "license": "AGPL-3",
     "summary": "IPPay ACH eCheck Payment",
-    "author": "Open Source Integrators",
+    "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "maintainer": "Open Source Integrators",
     "website": "http://www.opensourceintegrators.com",
     "category": "Accounting",

@@ -3,7 +3,6 @@
 
 import requests
 import xmltodict
-import json
 import logging
 
 from odoo import api, fields, models, _
@@ -27,8 +26,7 @@ class PaymentTansaction(models.Model):
             </ippay>''' % (
                 acquirer.ippay_terminal_id,
                 self.payment_token_id.acquirer_ref,
-                str(self.amount).replace('.', ''),
-            )
+                str(self.amount).replace('.', ''))
         # TODO_ add verbosity parameter?
         _logger.info("Request to get IPPay Transaction ID: %s" % (request))
         try:
