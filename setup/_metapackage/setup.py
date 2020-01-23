@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo13-addon-account_payment_mode',
+        'odoo13-addon-account_payment_partner',
     ],
     classifiers=[
         'Programming Language :: Python',
