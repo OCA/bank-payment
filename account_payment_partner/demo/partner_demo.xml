@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+
+<record id="default_supplier_payment_mode_id" model="ir.property" forcecreate="True">
+    <field name="name">Default Supplier Payment Mode</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','supplier_payment_mode_id')]"/>
+    <field name="value"
+    eval="'account.payment.mode,'+str(ref('account_payment_mode.payment_mode_outbound_ct1'))"/>
+    <field name="company_id" ref="base.main_company"/>
+</record>
+
+<record id="default_customer_payment_mode_id" model="ir.property" forcecreate="True">
+    <field name="name">Default Customer Payment Mode</field>
+    <field name="fields_id"
+    search="[('model','=','res.partner'),('name','=','customer_payment_mode_id')]"/>
+    <field name="value"
+    eval="'account.payment.mode,'+str(ref('account_payment_mode.payment_mode_inbound_ct1'))"/>
+    <field name="company_id" ref="base.main_company"/>
+</record>
+
+
+</odoo>
