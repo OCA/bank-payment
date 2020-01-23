@@ -51,11 +51,6 @@ word about that), so that's the reason behind the several options.
 .. contents::
    :local:
 
-Configuration
-=============
-
-There is nothing to configure.
-
 Usage
 =====
 
