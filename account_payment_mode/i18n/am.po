@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_payment_mode
-#: sql_constraint:account.payment.method:0
+#: model:ir.model.constraint,message:account_payment_mode.constraint_account_payment_method_code_payment_type_unique
 msgid "A payment method of the same type already exists with this code"
 msgstr ""
 
@@ -58,6 +58,7 @@ msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_code
 msgid "Code (Do Not Modify)"
 msgstr ""
 
@@ -102,7 +103,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: account_payment_mode
-#: selection:account.payment.mode,bank_account_link:0
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__fixed
 msgid "Fixed"
 msgstr ""
 
@@ -224,7 +225,7 @@ msgid "Note"
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:70
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
@@ -232,7 +233,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:93
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
@@ -241,7 +242,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:80
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s', but this payment "
@@ -262,15 +263,9 @@ msgid "Payment Method"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_code
-msgid "Payment Method Code"
-msgstr ""
-
-#. module: account_payment_mode
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_method_action
 #: model:ir.model,name:account_payment_mode.model_account_payment_method
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_tree
 msgid "Payment Methods"
 msgstr ""
 
@@ -283,7 +278,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
 #: model:ir.model,name:account_payment_mode.model_account_payment_mode
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_tree
 msgid "Payment Modes"
 msgstr ""
 
@@ -309,7 +303,7 @@ msgid "Search Payment Modes"
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_journal.py:36
+#: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
 "The company of the journal '%s' does not match with the company of the "
@@ -317,7 +311,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_journal.py:45
+#: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
 "The company of the journal '%s' does not match with the company of the "
@@ -325,7 +319,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:108
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "The company of the payment mode '%s', does not match with the company of "
@@ -333,7 +327,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:118
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "The company of the payment mode '%s', does not match with the one of the "
@@ -350,6 +344,6 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
-#: selection:account.payment.mode,bank_account_link:0
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr ""
