@@ -27,7 +27,7 @@ class PurchaseOrder(models.Model):
         """This function is designed to be inherited"""
         return partner.bank_ids and partner.bank_ids[0].id or False
 
-    @api.onchange("partner_id")
+    @api.onchange("partner_id", "company_id")
     def onchange_partner_id(self):
         super(PurchaseOrder, self).onchange_partner_id()
         if self.partner_id:
