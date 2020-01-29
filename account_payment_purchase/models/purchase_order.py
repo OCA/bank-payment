@@ -9,16 +9,16 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     supplier_partner_bank_id = fields.Many2one(
-        comodel_name='res.partner.bank',
-        string='Supplier Bank Account',
+        comodel_name="res.partner.bank",
+        string="Supplier Bank Account",
         domain="[('partner_id', '=', partner_id)]",
         help="Select the bank account of your supplier on which your company "
-             "should send the payment. This field is copied from the partner "
-             "and will be copied to the supplier invoice.",
+        "should send the payment. This field is copied from the partner "
+        "and will be copied to the supplier invoice.",
     )
     payment_mode_id = fields.Many2one(
-        comodel_name='account.payment.mode',
-        string='Payment Mode',
+        comodel_name="account.payment.mode",
+        string="Payment Mode",
         domain="[('payment_type', '=', 'outbound')]",
     )
 
@@ -27,12 +27,13 @@ class PurchaseOrder(models.Model):
         """This function is designed to be inherited"""
         return partner.bank_ids and partner.bank_ids[0].id or False
 
-    @api.onchange('partner_id')
+    @api.onchange("partner_id")
     def onchange_partner_id(self):
         super(PurchaseOrder, self).onchange_partner_id()
         if self.partner_id:
-            self.supplier_partner_bank_id = \
-                self._get_default_supplier_partner_bank(self.partner_id)
+            self.supplier_partner_bank_id = self._get_default_supplier_partner_bank(
+                self.partner_id
+            )
             self.payment_mode_id = self.partner_id.supplier_payment_mode_id
         else:
             self.supplier_partner_bank_id = False
