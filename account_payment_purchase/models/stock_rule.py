@@ -7,15 +7,18 @@ from odoo import models
 class StockRule(models.Model):
     _inherit = "stock.rule"
 
-    def _prepare_purchase_order(self, product_id, product_qty, product_uom,
-                                origin, values, partner):
+    def _prepare_purchase_order(
+        self, product_id, product_qty, product_uom, origin, values, partner
+    ):
         """Propagate payment mode on MTO/drop shipping."""
         values = super(StockRule, self)._prepare_purchase_order(
-            product_id, product_qty, product_uom, origin, values, partner)
+            product_id, product_qty, product_uom, origin, values, partner
+        )
         if partner:
-            values['payment_mode_id'] = partner.with_context(
-                force_company=self.company_id.id).supplier_payment_mode_id.id
-            values['supplier_partner_bank_id'] = (
-                self.env['purchase.order']._get_default_supplier_partner_bank(
-                    partner))
+            values["payment_mode_id"] = partner.with_context(
+                force_company=self.company_id.id
+            ).supplier_payment_mode_id.id
+            values["supplier_partner_bank_id"] = self.env[
+                "purchase.order"
+            ]._get_default_supplier_partner_bank(partner)
         return values
