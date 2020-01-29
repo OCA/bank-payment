@@ -3,22 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Account Payment Purchase',
-    'version': '12.0.1.0.0',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'summary': "Adds Bank Account and Payment Mode on Purchase Orders",
-    'author': "Akretion, "
-              "Tecnativa, "
-              "Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/bank-payment',
-    'depends': [
-        'account_payment_partner',
-        'purchase_stock',
-    ],
-    'data': [
-        'views/purchase_order_view.xml',
-    ],
-    'installable': True,
-    'auto_install': True,
+    "name": "Account Payment Purchase",
+    "version": "12.0.1.0.0",
+    "category": "Banking addons",
+    "license": "AGPL-3",
+    "summary": "Adds Bank Account and Payment Mode on Purchase Orders",
+    "author": "Akretion, " "Tecnativa, " "Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/bank-payment",
+    "depends": ["account_payment_partner", "purchase_stock"],
+    "data": ["views/purchase_order_view.xml"],
+    "installable": True,
+    "auto_install": True,
 }
