@@ -9,3 +9,4 @@
   * Vicent Cubells <vicent.cubells@tecnativa.com>
 
 * Nikul Chaudhary <nikulchaudhary2112@gmail.com>
+* Miquel Raïch <miquel.raich@forgeflow.com>
