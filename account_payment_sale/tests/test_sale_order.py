@@ -1,51 +1,45 @@
 # Copyright 2018 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo.tests import Form
+
 from .common import CommonTestCase
 
 
 class TestSaleOrder(CommonTestCase):
     def create_sale_order(self, payment_mode=None):
-        so_lines = [
-            (
-                0,
-                0,
-                {
-                    "name": p.name,
-                    "product_id": p.id,
-                    "product_uom_qty": 2,
-                    "product_uom": p.uom_id.id,
-                    "price_unit": p.list_price,
-                },
-            )
-            for (_, p) in self.products.items()
-        ]
-        so = self.env["sale.order"].create(
-            {
-                "partner_id": self.base_partner.id,
-                "partner_invoice_id": self.base_partner.id,
-                "partner_shipping_id": self.base_partner.id,
-                "order_line": so_lines,
-                "pricelist_id": self.env.ref("product.list0").id,
-            }
+        with Form(self.env["sale.order"]) as sale_form:
+            sale_form.partner_id = self.base_partner
+            sale_form.partner_invoice_id = self.base_partner
+            sale_form.partner_shipping_id = self.base_partner
+            sale_form.pricelist_id = self.env.ref("product.list0")
+            for (_, p) in self.products.items():
+                with sale_form.order_line.new() as order_line:
+                    order_line.product_id = p
+                    order_line.name = p.name
+                    order_line.product_uom_qty = 2
+                    order_line.product_uom = p.uom_id
+                    order_line.price_unit = p.list_price
+        sale = sale_form.save()
+        self.assertEqual(
+            sale.payment_mode_id, self.base_partner.customer_payment_mode_id
         )
-        self.assertFalse(so.payment_mode_id)
-        so.onchange_partner_id()
-        self.assertEqual(so.payment_mode_id, self.base_partner.customer_payment_mode_id)
+        sale_form = Form(sale)
+
         # force payment mode
         if payment_mode:
-            so.payment_mode_id = payment_mode.id
-        return so
+            sale_form.payment_mode_id = payment_mode
+        return sale_form.save()
 
     def create_invoice_and_check(
         self, order, expected_payment_mode, expected_partner_bank
     ):
         order.action_confirm()
-        order.action_invoice_create()
+        order._create_invoices()
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, expected_payment_mode)
-        self.assertEqual(invoice.partner_bank_id, expected_partner_bank)
+        self.assertEqual(invoice.invoice_partner_bank_id, expected_partner_bank)
 
     def test_sale_to_invoice_payment_mode(self):
         """
@@ -93,7 +87,7 @@ class TestSaleOrder(CommonTestCase):
         payment = self.env["sale.advance.payment.inv"].create(
             {
                 "advance_payment_method": "fixed",
-                "amount": 5,
+                "fixed_amount": 5,
                 "product_id": self.env.ref("sale.advance_product_0").id,
             }
         )
@@ -101,4 +95,4 @@ class TestSaleOrder(CommonTestCase):
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, self.payment_mode_2)
-        self.assertEqual(invoice.partner_bank_id, self.bank)
+        self.assertEqual(invoice.invoice_partner_bank_id, self.bank)
