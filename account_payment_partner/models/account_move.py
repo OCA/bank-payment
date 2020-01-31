@@ -20,7 +20,7 @@ class AccountMove(models.Model):
         compute="_compute_payment_mode",
         store=True,
         ondelete="restrict",
-        states={"draft": [("readonly", False)]},
+        readonly=False,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
@@ -29,7 +29,7 @@ class AccountMove(models.Model):
         compute="_compute_invoice_partner_bank",
         store=True,
         ondelete="restrict",
-        states={"draft": [("readonly", False)]},
+        readonly=False,
     )
 
     @api.depends("type")
