@@ -39,7 +39,7 @@ msgid "<strong>Payment Mode:</strong>"
 msgstr "<strong>Zahlungsmethode:</strong>"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,help:account_payment_partner.field_account_invoice__bank_account_required
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
@@ -48,13 +48,13 @@ msgstr ""
 "des Kunden oder Lieferanten bekannt sein muss."
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__partner_bank_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__invoice_partner_bank_id
 #, fuzzy
 msgid "Bank Account"
 msgstr "Bankkonto erforderlich"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,help:account_payment_partner.field_account_invoice__partner_bank_id
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__invoice_partner_bank_id
 msgid ""
 "Bank Account Number to which the invoice will be paid. A Company bank "
 "account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
@@ -62,7 +62,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__bank_account_required
 msgid "Bank Account Required"
 msgstr "Bankkonto erforderlich"
 
@@ -83,19 +83,21 @@ msgid "Customer Payment Mode"
 msgstr "Zahlungsmethode des Kunden"
 
 #. module: account_payment_partner
-#: selection:account.payment.mode,show_bank_account:0
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
 msgid "First n chars"
 msgstr ""
 
 #. module: account_payment_partner
-#: selection:account.payment.mode,show_bank_account:0
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__full
 msgid "Full"
 msgstr ""
 
 #. module: account_payment_partner
-#: model:ir.model,name:account_payment_partner.model_account_invoice
-msgid "Invoice"
-msgstr "Rechnung"
+#: model:ir.model,name:account_payment_partner.model_account_move
+#, fuzzy
+#| msgid "Journal Item"
+msgid "Journal Entries"
+msgstr "Logbuch Eintrag"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
@@ -103,27 +105,37 @@ msgid "Journal Item"
 msgstr "Logbuch Eintrag"
 
 #. module: account_payment_partner
-#: selection:account.payment.mode,show_bank_account:0
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
 msgid "Last n chars"
 msgstr ""
 
 #. module: account_payment_partner
-#: selection:account.payment.mode,show_bank_account:0
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__no
 msgid "No"
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
 #, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr ""
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
+msgid "Partner Bank Filter Type Domain"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
 msgstr "Zahlungsmodus"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
+msgid "Payment Mode Filter Type Domain"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
@@ -169,24 +181,27 @@ msgid "Supplier Payment Mode"
 msgstr "Zahlungsmethode des Lieferanten"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_invoice.py:117
+#: code:addons/account_payment_partner/models/account_move.py:0
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:35
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"You cannot change the Company. There exists at least one Invoice with this "
-"Payment Mode, already assigned to another Company."
+"You cannot change the Company. There exists at least one Journal Entry with "
+"this Payment Mode, already assigned to another Company."
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_payment_mode.py:46
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+
+#~ msgid "Invoice"
+#~ msgstr "Rechnung"
