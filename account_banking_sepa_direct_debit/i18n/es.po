@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2018-07-14 09:44+0000\n"
-"Last-Translator: Enric Tobella <etobella@creublanca.es>\n"
+"PO-Revision-Date: 2020-02-05 15:13+0000\n"
+"Last-Translator: oihane <oihanecruce@gmail.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -285,13 +285,13 @@ msgstr "Actualizacion de mandato"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
 "(reference {reference})."
 msgstr ""
 "Falta el mandato de adeudo directo SEPA en la linea de pago bancario de la "
-"empresa '%s' (referencia '%s')."
+"empresa {partner_name} (referencia {reference})."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
@@ -406,24 +406,25 @@ msgstr "Identificador de acreedor SEPA '%s' no válido."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has expired."
 msgstr ""
-"El mandato de adeudo directo SEPA con referencia '%s' para la empresa '%s' "
-"ha expirado."
+"El mandato de adeudo directo SEPA con referencia {mandate_ref} para la "
+"empresa {partner_name} ha expirado."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has type set to 'One-Off' but has a last debit date set to "
 "{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
-"El mandato con referencia '%s' para la empresa '%s' tipo como 'Único', ya "
-"tiene como fecha de último cobro '%s', por lo que no se puede usar."
+"El mandato con referencia {mandate_ref} para la empresa {partner_name} tipo "
+"como 'Único', ya tiene como fecha de último cobro {last_debit_date}, por lo "
+"que no se puede usar."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:47
