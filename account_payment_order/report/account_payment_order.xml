@@ -5,7 +5,7 @@
     <template id="print_account_payment_order_document">
         <t
             t-set="doc"
-            t-value="doc.with_context({'lang':doc.generated_user_id.lang})"
+            t-value="doc.with_context({'lang': doc.generated_user_id and doc.generated_user_id.lang or user.lang})"
         />
         <t t-call="web.external_layout">
             <div class="page">
