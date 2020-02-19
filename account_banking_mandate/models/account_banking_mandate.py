@@ -1,6 +1,7 @@
 # Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
 # Copyright 2014 Tecnativa - Pedro M. Baeza
 # Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2020 Tecnativa - Carlos Dauden
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
@@ -14,7 +15,6 @@ class AccountBankingMandate(models.Model):
     """
     _name = 'account.banking.mandate'
     _description = "A generic banking mandate"
-    _rec_name = 'unique_mandate_reference'
     _inherit = ['mail.thread']
     _order = 'signature_date desc'
 
@@ -78,6 +78,16 @@ class AccountBankingMandate(models.Model):
         'mandate_ref_company_uniq',
         'unique(unique_mandate_reference, company_id)',
         'A Mandate with the same reference already exists for this company!')]
+
+    def name_get(self):
+        result = []
+        for mandate in self:
+            name = mandate.unique_mandate_reference
+            acc_number = mandate.partner_bank_id.acc_number
+            if acc_number:
+                name = '{} [...{}]'.format(name, acc_number[-4:])
+            result.append((mandate.id, name))
+        return result
 
     @api.multi
     @api.depends('payment_line_ids')
