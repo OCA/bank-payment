@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.models import expression
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -15,5 +16,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         domain = super(AccountPaymentLineCreate,
                        self)._prepare_move_line_domain()
         if not self.include_returned:
-            domain.append(('invoice_id.returned_payment', '=', False))
+            new_domain = [('invoice_id.returned_payment', '=', False)]
+            if not self.invoice:
+                new_domain = expression.OR(
+                    [[('invoice_id', '=', False)], new_domain])
+            domain = expression.AND(
+                [domain, new_domain])
         return domain
