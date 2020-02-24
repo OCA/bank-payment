@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="paperformat_euro_sepa_lowmargin" model="report.paperformat">
         <field name="name">European A4 low margin for SEPA</field>
         <field name="default" eval="True" />
@@ -16,5 +15,4 @@
         <field name="header_spacing">0</field>
         <field name="dpi">80</field>
     </record>
-
 </odoo>
