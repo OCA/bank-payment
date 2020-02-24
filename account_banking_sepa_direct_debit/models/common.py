@@ -19,20 +19,17 @@ def is_sepa_creditor_identifier_valid(sepa_creditor_identifier):
     try:
         sci = str(sepa_creditor_identifier).lower()
     except Exception:
-        logger.warning(
-            "SEPA Creditor ID should contain only ASCII characters.")
+        logger.warning("SEPA Creditor ID should contain only ASCII characters.")
         return False
     if len(sci) < 9:
         return False
-    before_replacement = sci[7:] + sci[0:2] + '00'
-    logger.debug(
-        "SEPA ID check before_replacement = %s" % before_replacement)
-    after_replacement = ''
+    before_replacement = sci[7:] + sci[0:2] + "00"
+    logger.debug("SEPA ID check before_replacement = %s" % before_replacement)
+    after_replacement = ""
     for char in before_replacement:
         if char.isalpha():
             after_replacement += str(ord(char) - 87)
         else:
             after_replacement += char
-    logger.debug(
-        "SEPA ID check after_replacement = %s" % after_replacement)
+    logger.debug("SEPA ID check after_replacement = %s" % after_replacement)
     return int(sci[2:4]) == (98 - (int(after_replacement) % 97))
