@@ -36,7 +36,10 @@ class AccountBankingMandate(models.Model):
         string='Unique Mandate Reference', track_visibility='onchange')
     signature_date = fields.Date(string='Date of Signature of the Mandate',
                                  track_visibility='onchange')
-    scan = fields.Binary(string='Scan of the Mandate')
+    scan = fields.Binary(
+        string='Scan of the Mandate',
+        attachment=True,
+    )
     last_debit_date = fields.Date(string='Date of the Last Debit',
                                   readonly=True)
     state = fields.Selection([
@@ -75,7 +78,7 @@ class AccountBankingMandate(models.Model):
                       ) % mandate.unique_mandate_reference)
 
     @api.multi
-    @api.constrains('state', 'partner_bank_id')
+    @api.constrains('state', 'partner_bank_id', 'signature_date')
     def _check_valid_state(self):
         for mandate in self:
             if mandate.state == 'valid':

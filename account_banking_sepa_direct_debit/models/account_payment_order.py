@@ -14,9 +14,10 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
         self.ensure_one()
-        if self.payment_method_id.code != 'sepa_direct_debit':
+        pay_method = self.payment_method_id
+        if pay_method.code != 'sepa_direct_debit':
             return super(AccountPaymentOrder, self).generate_payment_file()
-        pain_flavor = self.payment_method_id.pain_version
+        pain_flavor = pay_method.pain_version
         # We use pain_flavor.startswith('pain.008.001.xx')
         # to support country-specific extensions such as
         # pain.008.001.02.ch.01 (cf l10n_ch_sepa)
@@ -42,12 +43,12 @@ class AccountPaymentOrder(models.Model):
                   "Payment Type Code supported for SEPA Direct Debit are "
                   "'pain.008.001.02', 'pain.008.001.03' and "
                   "'pain.008.001.04'.") % pain_flavor)
-        pay_method = self.payment_mode_id.payment_method_id
         xsd_file = pay_method.get_xsd_file_path()
         gen_args = {
             'bic_xml_tag': bic_xml_tag,
             'name_maxsize': name_maxsize,
             'convert_to_ascii': pay_method.convert_to_ascii,
+            'pain_bank_address': pay_method.pain_bank_address,
             'payment_method': 'DD',
             'file_prefix': 'sdd_',
             'pain_flavor': pain_flavor,
@@ -81,7 +82,7 @@ class AccountPaymentOrder(models.Model):
                     % (line.partner_id.name, line.name))
             scheme = line.mandate_id.scheme
             if line.mandate_id.state != 'valid':
-                raise Warning(
+                raise UserError(
                     _("The SEPA Direct Debit mandate with reference '%s' "
                       "for partner '%s' has expired.")
                     % (line.mandate_id.unique_mandate_reference,
@@ -89,7 +90,7 @@ class AccountPaymentOrder(models.Model):
             if line.mandate_id.type == 'oneoff':
                 seq_type = 'OOFF'
                 if line.mandate_id.last_debit_date:
-                    raise Warning(
+                    raise UserError(
                         _("The mandate with reference '%s' for partner "
                           "'%s' has type set to 'One-Off' and it has a "
                           "last debit date set to '%s', so we can't use "
@@ -156,12 +157,11 @@ class AccountPaymentOrder(models.Model):
                     payment_info, 'DrctDbtTxInf')
                 payment_identification = etree.SubElement(
                     dd_transaction_info, 'PmtId')
-                if pain_flavor == 'pain.008.001.02.ch.01':
-                    instruction_identification = etree.SubElement(
-                        payment_identification, 'InstrId')
-                    instruction_identification.text = self._prepare_field(
-                        'Intruction Identification', 'line.name',
-                        {'line': line}, 35, gen_args=gen_args)
+                instruction_identification = etree.SubElement(
+                    payment_identification, 'InstrId')
+                instruction_identification.text = self._prepare_field(
+                    'Instruction Identification', 'line.name',
+                    {'line': line}, 35, gen_args=gen_args)
                 end2end_identification = etree.SubElement(
                     payment_identification, 'EndToEndId')
                 end2end_identification.text = self._prepare_field(
@@ -214,6 +214,11 @@ class AccountPaymentOrder(models.Model):
                 self.generate_party_block(
                     dd_transaction_info, 'Dbtr', 'C',
                     line.partner_bank_id, gen_args, line)
+
+                if line.purpose:
+                    purpose = etree.SubElement(
+                        dd_transaction_info, 'Purp')
+                    etree.SubElement(purpose, 'Cd').text = line.purpose
 
                 self.generate_remittance_info_block(
                     dd_transaction_info, line, gen_args)

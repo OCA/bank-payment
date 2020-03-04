@@ -100,15 +100,23 @@ class AccountPaymentOrder(models.Model):
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, '-')
         except:
-            line = eval_ctx.get('line')
-            if line:
-                raise UserError(
-                    _("Cannot compute the '%s' of the Payment Line with "
-                        "reference '%s'.")
-                    % (field_name, line.name))
-            else:
-                raise UserError(
-                    _("Cannot compute the '%s'.") % field_name)
+            error_msg_prefix = _("Cannot compute the field '{field_name}'.") \
+                .format(
+                field_name=field_name)
+
+            error_msg_details_list = self.except_messages_prepare_field(
+                eval_ctx, field_name)
+            error_msg_data = _("Data for evaluation:\n"
+                               "\tcontext: {eval_ctx}\n"
+                               "\tfield path: {field_value}") \
+                .format(
+                eval_ctx=eval_ctx,
+                field_value=field_value)
+            raise UserError('\n'.join(
+                [error_msg_prefix]
+                + error_msg_details_list
+                + [error_msg_data]))
+
         if not isinstance(value, (str, unicode)):
             raise UserError(
                 _("The type of the field '%s' is %s. It should be a string "
@@ -121,6 +129,25 @@ class AccountPaymentOrder(models.Model):
         if max_size and len(value) > max_size:
             value = value[0:max_size]
         return value
+
+    @api.model
+    def except_messages_prepare_field(self, eval_ctx, field_name):
+        """
+        Inherit this method to provide more detailed error messages for
+        exceptions to be raised while evaluating `field_name` using `eval_ctx`.
+        :return: List containing the error messages.
+        """
+        error_messages = list()
+        line = eval_ctx.get('line')
+        if line:
+            error_messages.append(
+                _("Payment Line has reference '%s'.") % line.name)
+        partner_bank = eval_ctx.get('partner_bank')
+        if partner_bank:
+            error_messages.append(
+                _("Partner's bank account is '%s'.")
+                % partner_bank.display_name)
+        return error_messages
 
     @api.model
     def _validate_xml(self, xml_string, gen_args):
@@ -286,6 +313,9 @@ class AccountPaymentOrder(models.Model):
         initiating_party_issuer = (
             self.payment_mode_id.initiating_party_issuer or
             self.payment_mode_id.company_id.initiating_party_issuer)
+        initiating_party_scheme = (
+            self.payment_mode_id.initiating_party_scheme or
+            self.payment_mode_id.company_id.initiating_party_scheme)
         # in pain.008.001.02.ch.01.xsd files they use
         # initiating_party_identifier but not initiating_party_issuer
         if initiating_party_identifier:
@@ -294,6 +324,12 @@ class AccountPaymentOrder(models.Model):
             iniparty_org_other = etree.SubElement(iniparty_org_id, 'Othr')
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, 'Id')
             iniparty_org_other_id.text = initiating_party_identifier
+            if initiating_party_scheme:
+                iniparty_org_other_scheme = etree.SubElement(
+                    iniparty_org_other, 'SchmeNm')
+                iniparty_org_other_scheme_name = etree.SubElement(
+                    iniparty_org_other_scheme, 'Prtry')
+                iniparty_org_other_scheme_name.text = initiating_party_scheme
             if initiating_party_issuer:
                 iniparty_org_other_issuer = etree.SubElement(
                     iniparty_org_other, 'Issr')
@@ -305,6 +341,44 @@ class AccountPaymentOrder(models.Model):
                     "Both fields must have a value.")
                 % self.company_id.name)
         return True
+
+    @api.model
+    def generate_fininst_postal_address(self, parent_node, bank, gen_args):
+        if not gen_args.get('pain_bank_address') or not bank:
+            return
+        # name is a required field on res.bank
+        name = etree.SubElement(parent_node, 'Nm')
+        name.text = self._prepare_field(
+            'Bank Name', 'bank.name',
+            {'bank': bank}, 140, gen_args=gen_args)
+        if not (bank.country or bank.city):
+            return
+        postal_address = etree.SubElement(parent_node, 'PstlAdr')
+        if bank.zip:
+            bankzip = etree.SubElement(postal_address, 'PstCd')
+            bankzip.text = self._prepare_field(
+                'Bank Zip', 'bank.zip',
+                {'bank': bank}, 16, gen_args=gen_args)
+        if bank.city:
+            city = etree.SubElement(postal_address, 'TwnNm')
+            city.text = self._prepare_field(
+                'Bank City', 'bank.city',
+                {'bank': bank}, 35, gen_args=gen_args)
+        if bank.country:
+            country_code = etree.SubElement(postal_address, 'Ctry')
+            country_code.text = self._prepare_field(
+                'Bank Country Code', 'bank.country.code',
+                {'bank': bank}, 2, gen_args=gen_args)
+        if bank.street:
+            adrline1 = etree.SubElement(postal_address, 'AdrLine')
+            adrline1.text = self._prepare_field(
+                'Bank Address Line1', 'bank.street',
+                {'bank': bank}, 70, gen_args=gen_args)
+        if bank.street2:
+            adrline2 = etree.SubElement(postal_address, 'AdrLine')
+            adrline2.text = self._prepare_field(
+                'Bank Address Line2', 'bank.street2',
+                {'bank': bank}, 70, gen_args=gen_args)
 
     @api.model
     def generate_party_agent(
@@ -326,6 +400,8 @@ class AccountPaymentOrder(models.Model):
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get('bic_xml_tag'))
             party_agent_bic.text = partner_bank.bank_bic
+            self.generate_fininst_postal_address(
+                party_agent_institution, partner_bank.bank_id, gen_args)
         else:
             if order == 'B' or (
                     order == 'C' and gen_args['payment_method'] == 'DD'):
@@ -333,6 +409,8 @@ class AccountPaymentOrder(models.Model):
                     parent_node, '%sAgt' % party_type)
                 party_agent_institution = etree.SubElement(
                     party_agent, 'FinInstnId')
+                self.generate_fininst_postal_address(
+                    party_agent_institution, partner_bank.bank_id, gen_args)
                 party_agent_other = etree.SubElement(
                     party_agent_institution, 'Othr')
                 party_agent_other_identification = etree.SubElement(
@@ -342,6 +420,16 @@ class AccountPaymentOrder(models.Model):
             # we should not put the 'Creditor Agent' block at all,
             # as per the guidelines of the EPC
         return True
+
+    @api.model
+    def generate_party_id(
+            self, parent_node, party_type, partner):
+        """Generate an Id element for partner inside the parent node.
+        party_type can currently be Cdtr or Dbtr. Notably, the initiating
+        party orgid is generated with another mechanism and configured
+        at the company or payment mode level.
+        """
+        return
 
     @api.model
     def generate_party_acc_number(
@@ -363,6 +451,42 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
+    def generate_address_block(
+            self, parent_node, partner, gen_args):
+        """Generate the piece of the XML corresponding to PstlAdr"""
+        if partner.country_id:
+            postal_address = etree.SubElement(parent_node, 'PstlAdr')
+            if gen_args.get('pain_flavor').startswith(
+                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
+                    'pain.008.001.'):
+                if partner.zip:
+                    pstcd = etree.SubElement(postal_address, 'PstCd')
+                    pstcd.text = self._prepare_field(
+                        'Postal Code', 'partner.zip',
+                        {'partner': partner}, 16, gen_args=gen_args)
+                if partner.city:
+                    twnnm = etree.SubElement(postal_address, 'TwnNm')
+                    twnnm.text = self._prepare_field(
+                        'Town Name', 'partner.city',
+                        {'partner': partner}, 35, gen_args=gen_args)
+            country = etree.SubElement(postal_address, 'Ctry')
+            country.text = self._prepare_field(
+                'Country', 'partner.country_id.code',
+                {'partner': partner}, 2, gen_args=gen_args)
+            if partner.street:
+                adrline1 = etree.SubElement(postal_address, 'AdrLine')
+                adrline1.text = self._prepare_field(
+                    'Address Line1', 'partner.street',
+                    {'partner': partner}, 70, gen_args=gen_args)
+            if partner.street2:
+                adrline2 = etree.SubElement(postal_address, 'AdrLine')
+                adrline2.text = self._prepare_field(
+                    'Address Line2', 'partner.street2',
+                    {'partner': partner}, 70, gen_args=gen_args)
+
+        return True
+
+    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -371,15 +495,16 @@ class AccountPaymentOrder(models.Model):
         In some localization (l10n_ch_sepa for example), they need the
         bank_line argument"""
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
+        party_type_label = _("Partner name")
         if party_type == 'Cdtr':
-            party_type_label = 'Creditor'
+            party_type_label = _("Creditor name")
         elif party_type == 'Dbtr':
-            party_type_label = 'Debtor'
+            party_type_label = _("Debtor name")
         name = 'partner_bank.partner_id.name'
         eval_ctx = {'partner_bank': partner_bank}
         party_name = self._prepare_field(
-            '%s Name' % party_type_label, name, eval_ctx,
-            gen_args.get('name_maxsize'), gen_args=gen_args)
+            party_type_label, name, eval_ctx, gen_args.get('name_maxsize'),
+            gen_args=gen_args)
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == 'C':
@@ -390,22 +515,10 @@ class AccountPaymentOrder(models.Model):
         party_nm = etree.SubElement(party, 'Nm')
         party_nm.text = party_name
         partner = partner_bank.partner_id
-        if partner.country_id:
-            postal_address = etree.SubElement(party, 'PstlAdr')
-            country = etree.SubElement(postal_address, 'Ctry')
-            country.text = self._prepare_field(
-                'Country', 'partner.country_id.code',
-                {'partner': partner}, 2, gen_args=gen_args)
-            if partner.street:
-                adrline1 = etree.SubElement(postal_address, 'AdrLine')
-                adrline1.text = self._prepare_field(
-                    'Adress Line1', 'partner.street',
-                    {'partner': partner}, 70, gen_args=gen_args)
-            if partner.city and partner.zip:
-                adrline2 = etree.SubElement(postal_address, 'AdrLine')
-                adrline2.text = self._prepare_field(
-                    'Address Line2', "partner.zip + ' ' + partner.city",
-                    {'partner': partner}, 70, gen_args=gen_args)
+
+        self.generate_address_block(party, partner, gen_args)
+
+        self.generate_party_id(party, party_type, partner)
 
         self.generate_party_acc_number(
             parent_node, party_type, order, partner_bank, gen_args,

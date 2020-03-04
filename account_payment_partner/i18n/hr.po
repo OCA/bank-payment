@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_payment_partner
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,12 +10,24 @@ msgstr ""
 "POT-Creation-Date: 2018-02-20 01:40+0000\n"
 "PO-Revision-Date: 2016-10-19 23:47+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-10-0/language/hr/)\n"
+"Language-Team: Croatian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
+"language/hr/)\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hr\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "# of chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -40,9 +52,24 @@ msgid "Bank Account Required"
 msgstr "Bankovni račun je obavezan"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner_customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users_customer_payment_mode_id
 msgid "Customer Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "First n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Full"
 msgstr ""
 
 #. module: account_payment_partner
@@ -56,6 +83,16 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "Last n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: selection:account.payment.mode,show_bank_account:0
+msgid "No"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Partner"
 msgstr ""
@@ -65,6 +102,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line_payment_mode_id
 #: model:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
+msgstr "Model plaćanja"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+#, fuzzy
+msgid "Payment Modes"
 msgstr "Model plaćanja"
 
 #. module: account_payment_partner
@@ -82,6 +125,21 @@ msgstr ""
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner_supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users_supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show bank account"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode_show_bank_account
+msgid "Show in invoices partial or full bank account number"
 msgstr ""
 
 #. module: account_payment_partner

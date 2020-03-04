@@ -1,7 +1,0 @@
-<openerp>
-  <data>
-    <record id="invoice_voucher_user" model="res.groups">
-      <field name="name">Use voucher in Invoices</field>
-    </record>
-  </data>
-</openerp>

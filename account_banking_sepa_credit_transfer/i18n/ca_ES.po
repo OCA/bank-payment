@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_banking_sepa_credit_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:164
+#, python-format
+msgid "Bank account is missing on the bank payment line of partner '%s' (reference '%s')."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:74
+#, python-format
+msgid "PAIN version '%s' is not supported."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
+msgid "Payment Methods"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
+#: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
+msgid "SEPA Credit Transfer to suppliers"
+msgstr ""
