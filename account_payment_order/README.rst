@@ -99,6 +99,7 @@ Contributors
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
 * Carlos Dauden
+* Pieter Paulussen <pieterpaulussen@code-source.be>
 
 Maintainers
 ~~~~~~~~~~~

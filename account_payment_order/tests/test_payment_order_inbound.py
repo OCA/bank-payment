@@ -21,7 +21,9 @@ class TestPaymentOrderInboundBase(SavepointCase):
                 'account.data_account_type_revenue').id)],
             limit=1).id
         self.journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')], limit=1
+            [('type', '=', 'bank'),
+             '|', ('company_id', '=', self.env.user.company_id.id),
+             ('company_id', '=', False)], limit=1
         )
         self.inbound_mode.variable_journal_ids = self.journal
         # Make sure no others orders are present
@@ -85,13 +87,11 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
     def test_creation(self):
         payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
-        bank_journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')], limit=1)
         # Set journal to allow cancelling entries
-        bank_journal.update_posted = True
+        self.journal.update_posted = True
 
         payment_order.write({
-            'journal_id': bank_journal.id,
+            'journal_id': self.journal.id,
         })
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
