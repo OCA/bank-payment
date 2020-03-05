@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_payment_sale
+# 	* account_payment_sale
 #
 msgid ""
 msgstr ""
@@ -22,16 +22,23 @@ msgid "<strong>Payment Mode:</strong>"
 msgstr "<strong>付款方式：</strong>"
 
 #. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_account_move
+msgid "Journal Entries"
+msgstr ""
+
+#. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
 msgid "Payment Mode"
 msgstr "付款方式"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_order
-msgid "Sale Order"
-msgstr "销售订单"
-
-#. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
 msgstr "销售预付款发票"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_order
+#, fuzzy
+#| msgid "Sale Order"
+msgid "Sales Order"
+msgstr "销售订单"
