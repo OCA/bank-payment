@@ -113,7 +113,6 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:186
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:196
 #, python-format
 msgid ""
@@ -122,7 +121,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:182
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:192
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
@@ -306,21 +304,18 @@ msgid "Mandate Required"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:231
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:241
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:219
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:229
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:210
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:220
 #, python-format
 msgid "Mandate should be in draft state."
@@ -416,7 +411,6 @@ msgid "Payment Methods"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:104
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, python-format
@@ -475,14 +469,12 @@ msgid "Status"
 msgstr "Status"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:145
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:119
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:129
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
@@ -504,7 +496,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:125
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
 #, python-format
 msgid ""
@@ -584,7 +575,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:170
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:180
 #, python-format
 msgid ""
@@ -593,7 +583,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:152
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:162
 #, python-format
 msgid ""
@@ -602,7 +591,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:161
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:171
 #, python-format
 msgid ""
@@ -611,7 +599,6 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:143
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:153
 #, python-format
 msgid ""
