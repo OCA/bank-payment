@@ -8,7 +8,6 @@ from odoo.exceptions import ValidationError
 class ResBank(models.Model):
     _inherit = "res.bank"
 
-    @api.multi
     @api.constrains("bic")
     def check_bic_length(self):
         for bank in self:

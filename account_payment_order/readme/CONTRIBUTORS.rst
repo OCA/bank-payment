@@ -13,3 +13,6 @@
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
 * Carlos Dauden
+* `DynApps <https://www.dynapps.be>`_:
+
+  * Raf Ven <raf.ven@dynapps.be>
