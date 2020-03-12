@@ -11,7 +11,10 @@ class AccountPaymentLine(models.Model):
 
     name = fields.Char(string="Payment Reference", readonly=True, copy=False)
     order_id = fields.Many2one(
-        "account.payment.order", string="Payment Order", ondelete="cascade", index=True
+        comodel_name="account.payment.order",
+        string="Payment Order",
+        ondelete="cascade",
+        index=True,
     )
     company_id = fields.Many2one(
         related="order_id.company_id", store=True, readonly=True
@@ -29,50 +32,45 @@ class AccountPaymentLine(models.Model):
         related="order_id.state", string="State", readonly=True, store=True
     )
     move_line_id = fields.Many2one(
-        "account.move.line", string="Journal Item", ondelete="restrict"
+        comodel_name="account.move.line", string="Journal Item", ondelete="restrict"
     )
     ml_maturity_date = fields.Date(related="move_line_id.date_maturity", readonly=True)
     currency_id = fields.Many2one(
-        "res.currency",
+        comodel_name="res.currency",
         string="Currency of the Payment Transaction",
         required=True,
         default=lambda self: self.env.user.company_id.currency_id,
     )
-    # v8 field : currency
     amount_currency = fields.Monetary(string="Amount", currency_field="currency_id")
     amount_company_currency = fields.Monetary(
         compute="_compute_amount_company_currency",
         string="Amount in Company Currency",
-        readonly=True,
         currency_field="company_currency_id",
-    )  # v8 field : amount
+    )
     partner_id = fields.Many2one(
-        "res.partner",
+        comodel_name="res.partner",
         string="Partner",
         required=True,
         domain=[("parent_id", "=", False)],
     )
     partner_bank_id = fields.Many2one(
-        "res.partner.bank",
+        comodel_name="res.partner.bank",
         string="Partner Bank Account",
         required=False,
         ondelete="restrict",
-    )  # v8 field : bank_id
+    )
     date = fields.Date(string="Payment Date")
     communication = fields.Char(
-        string="Communication",
-        required=True,
-        help="Label of the payment that will be seen by the destinee",
+        required=True, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
-        [("normal", "Free"),],
-        string="Communication Type",
-        required=True,
-        default="normal",
+        selection=[("normal", "Free")], required=True, default="normal"
     )
-    # v8 field : state
     bank_line_id = fields.Many2one(
-        "bank.payment.line", string="Bank Payment Line", readonly=True, index=True,
+        comodel_name="bank.payment.line",
+        string="Bank Payment Line",
+        readonly=True,
+        index=True,
     )
 
     _sql_constraints = [
@@ -91,7 +89,6 @@ class AccountPaymentLine(models.Model):
             )
         return super(AccountPaymentLine, self).create(vals)
 
-    @api.multi
     @api.depends("amount_currency", "currency_id", "company_currency_id", "date")
     def _compute_amount_company_currency(self):
         for line in self:
@@ -103,7 +100,6 @@ class AccountPaymentLine(models.Model):
                     line.date or fields.Date.today(),
                 )
 
-    @api.multi
     def payment_line_hashcode(self):
         self.ensure_one()
         bplo = self.env["bank.payment.line"]
@@ -150,7 +146,6 @@ class AccountPaymentLine(models.Model):
         res = {"none": "normal", "structured": "structured"}
         return res
 
-    @api.multi
     def draft2open_payment_line_check(self):
         self.ensure_one()
         if self.bank_account_required and not self.partner_bank_id:
