@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_payment_order
+# 	* account_payment_order
 #
 msgid ""
 msgstr ""
@@ -15,15 +15,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:120
+#: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:115
+#: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "%d payment lines added to the new draft payment order %s which has been automatically created."
+msgid ""
+"%d payment lines added to the new draft payment order %s which has been "
+"automatically created."
 msgstr ""
 
 #. module: account_payment_order
@@ -57,14 +59,16 @@ msgid "<strong>Used Account:</strong>"
 msgstr ""
 
 #. module: account_payment_order
-#: sql_constraint:account.payment.line:0
+#: model:ir.model.constraint,message:account_payment_order.constraint_account_payment_line_name_company_unique
 msgid "A payment line already exists with this reference in the same company!"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/res_bank.py:16
+#: code:addons/account_payment_order/models/res_bank.py:0
 #, python-format
-msgid "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d characters, so it is not valid."
+msgid ""
+"A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
+"characters, so it is not valid."
 msgstr ""
 
 #. module: account_payment_order
@@ -84,7 +88,9 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__bank_account_required
-msgid "Activate this option if this payment method requires you to know the bank account number of your customer or supplier."
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
 msgstr ""
 
 #. module: account_payment_order
@@ -93,12 +99,12 @@ msgid "Add All Move Lines"
 msgstr ""
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.invoice_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Add to Debit Order"
 msgstr ""
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.invoice_supplier_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Add to Payment Order"
 msgstr ""
 
@@ -108,14 +114,14 @@ msgid "Add to Payment/Debit Order"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,target_move:0
-#: selection:account.payment.mode,default_target_move:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__target_move__all
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_target_move__all
 msgid "All Entries"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,target_move:0
-#: selection:account.payment.mode,default_target_move:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__target_move__posted
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_target_move__posted
 msgid "All Posted Entries"
 msgstr ""
 
@@ -144,8 +150,8 @@ msgid "Amount in Company Currency"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,payment_mode:0
-#: selection:account.payment.mode,default_payment_mode:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__any
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__any
 msgid "Any"
 msgstr ""
 
@@ -170,8 +176,8 @@ msgid "Bank"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__partner_bank_id
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__offsetting_account__bank_account
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Bank Account"
 msgstr ""
@@ -215,13 +221,13 @@ msgid "Bank account on which we should pay the supplier"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:136
+#: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
 msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Cancel"
@@ -233,9 +239,11 @@ msgid "Cancel Payments"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:167
+#: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
-msgid "Cannot delete a payment order line whose payment order is in state '%s'. You need to cancel it first."
+msgid ""
+"Cannot delete a payment order line whose payment order is in state '%s'. You "
+"need to cancel it first."
 msgstr ""
 
 #. module: account_payment_order
@@ -245,7 +253,10 @@ msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
-msgid "Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
+msgid ""
+"Click on Add All Move Lines to auto-select the move lines matching the above "
+"criteria or click on Add an item to manually select the move lines filtered "
+"by the above criteria."
 msgstr ""
 
 #. module: account_payment_order
@@ -278,7 +289,7 @@ msgid "Confirm Payments"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__open
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Confirmed"
 msgstr ""
@@ -358,14 +369,13 @@ msgid "Debit Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:458
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Debit bank line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:376
-#: code:addons/account_payment_order/models/account_payment_order.py:408
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -396,7 +406,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__done
 msgid "Done"
 msgstr ""
 
@@ -406,31 +416,27 @@ msgid "Done Date"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__draft
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Draft"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,default_date_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_type__due
 msgid "Due"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,date_type:0
-#: selection:account.payment.mode,default_date_prefered:0
-#: selection:account.payment.order,date_prefered:0
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__ml_maturity_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__due_date
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__date_type__due
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__due
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__due
 msgid "Due Date"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__ml_maturity_date
-msgid "Due date"
-msgstr ""
-
-#. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__generated
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Generated"
 msgstr ""
@@ -453,14 +459,14 @@ msgid "File Upload Date"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,state:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__uploaded
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Uploaded"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,default_date_prefered:0
-#: selection:account.payment.order,date_prefered:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__fixed
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__fixed
 msgid "Fixed Date"
 msgstr ""
 
@@ -480,23 +486,32 @@ msgid "Followers (Partners)"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:150
+#: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
-msgid "For partner '%s', the account of the account move line to pay (%s) is different from the account of of the transit move line (%s)."
+msgid ""
+"For partner '%s', the account of the account move line to pay (%s) is "
+"different from the account of of the transit move line (%s)."
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
-msgid "For payment modes that are always attached to the same bank account of your company (such as wire transfer from customers or SEPA direct debit from suppliers), select 'Fixed'. For payment modes that are not always attached to the same bank account (such as SEPA Direct debit for customers, wire transfer to suppliers), you should select 'Variable', which means that you will select the bank account on the payment order. If your company only has one bank account, you should always select 'Fixed'."
+msgid ""
+"For payment modes that are always attached to the same bank account of your "
+"company (such as wire transfer from customers or SEPA direct debit from "
+"suppliers), select 'Fixed'. For payment modes that are not always attached "
+"to the same bank account (such as SEPA Direct debit for customers, wire "
+"transfer to suppliers), you should select 'Variable', which means that you "
+"will select the bank account on the payment order. If your company only has "
+"one bank account, you should always select 'Fixed'."
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line,communication_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__normal
 msgid "Free"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.invoice,reference_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__none
 msgid "Free Reference"
 msgstr ""
 
@@ -542,28 +557,23 @@ msgid "ID"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line,communication_type:0
-msgid "ISO"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
-msgid "If checked new messages require your attention."
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__group_lines
-msgid "If this mark is checked, the transaction lines of the payment order will be grouped upon confirmation of the payment order.The grouping will be done only if the following fields matches:\n"
+msgid ""
+"If this mark is checked, the transaction lines of the payment order will be "
+"grouped upon confirmation of the payment order.The grouping will be done "
+"only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -574,17 +584,20 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__no_debit_before_maturity
-msgid "If you activate this option on an Inbound payment mode, you will have an error message when you confirm a debit order that has a payment line with a payment date before the maturity date."
+msgid ""
+"If you activate this option on an Inbound payment mode, you will have an "
+"error message when you confirm a debit order that has a payment line with a "
+"payment date before the maturity date."
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,default_date_prefered:0
-#: selection:account.payment.order,date_prefered:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__now
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__now
 msgid "Immediately"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,payment_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__payment_type__inbound
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Inbound"
 msgstr ""
@@ -592,11 +605,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 msgid "Inbound Payment Order Only"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model,name:account_payment_order.model_account_invoice
-msgid "Invoice"
 msgstr ""
 
 #. module: account_payment_order
@@ -628,7 +636,9 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_journal_id
-msgid "Journal to write payment entries when confirming payment/debit orders of this mode"
+msgid ""
+"Journal to write payment entries when confirming payment/debit orders of "
+"this mode"
 msgstr ""
 
 #. module: account_payment_order
@@ -707,31 +717,31 @@ msgid "Messages"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:238
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_line.py:139
+#: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:243
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,default_date_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_type__move
 msgid "Move"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,date_type:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_date
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__date_type__move
 msgid "Move Date"
 msgstr ""
 
@@ -746,7 +756,7 @@ msgid "Move Option"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:142
+#: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
 msgstr ""
@@ -757,27 +767,25 @@ msgid "Name or Description"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:76
+#: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "No Journal Entry on invoice %s"
+msgid ""
+"No Payment Line created for invoice %s because it already exists or because "
+"this invoice is already paid."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:87
-#, python-format
-msgid "No Payment Line created for invoice %s because it already exists or because this invoice is already paid."
-msgstr ""
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:93
+#: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:325
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "No handler for this payment method. Maybe you haven't installed the related Odoo module."
+msgid ""
+"No handler for this payment method. Maybe you haven't installed the related "
+"Odoo module."
 msgstr ""
 
 #. module: account_payment_order
@@ -797,7 +805,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error_counter
-msgid "Number of error"
+msgid "Number of errors"
 msgstr ""
 
 #. module: account_payment_order
@@ -821,42 +829,48 @@ msgid "Offsetting Account"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:143
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:110
+#: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "On the payment mode '%s', you must choose an option for the 'Move Option' parameter."
+msgid ""
+"On the payment mode '%s', you must choose an option for the 'Move Option' "
+"parameter."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:100
+#: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "On the payment mode '%s', you must select a value for the 'Transfer Account'."
+msgid ""
+"On the payment mode '%s', you must select a value for the 'Transfer Account'."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:105
+#: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "On the payment mode '%s', you must select a value for the 'Transfer Journal'."
+msgid ""
+"On the payment mode '%s', you must select a value for the 'Transfer Journal'."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:94
+#: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "On the payment mode '%s', you must select an option for the 'Offsetting Account' parameter"
+msgid ""
+"On the payment mode '%s', you must select an option for the 'Offsetting "
+"Account' parameter"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,move_option:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
 msgid "One move per payment date"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,move_option:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
 msgid "One move per payment line"
 msgstr ""
 
@@ -876,7 +890,7 @@ msgid "Order"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.order,payment_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__payment_type__outbound
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Outbound"
 msgstr ""
@@ -907,7 +921,9 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_account_id
-msgid "Pay off lines in 'file uploaded' payment orders with a move on this account. You can only select accounts that are marked for reconciliation"
+msgid ""
+"Pay off lines in 'file uploaded' payment orders with a move on this account. "
+"You can only select accounts that are marked for reconciliation"
 msgstr ""
 
 #. module: account_payment_order
@@ -927,7 +943,7 @@ msgid "Payment Execution Date Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:345
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment File"
 msgstr ""
@@ -980,7 +996,7 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice__payment_order_ok
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_order_ok
 msgid "Payment Order Ok"
 msgstr ""
 
@@ -994,7 +1010,6 @@ msgid "Payment Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__name
 msgid "Payment Reference"
 msgstr ""
@@ -1007,7 +1022,7 @@ msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:456
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment bank line %s"
 msgstr ""
@@ -1018,8 +1033,7 @@ msgid "Payment lines"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:374
-#: code:addons/account_payment_order/models/account_payment_order.py:406
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
 msgstr ""
@@ -1036,23 +1050,33 @@ msgid "Post Move"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
+msgid "Reference Type"
+msgstr ""
+
+#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
 msgid "Related Payment Lines"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,payment_mode:0
-#: selection:account.payment.mode,default_payment_mode:0
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__same
 msgid "Same"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.line.create,payment_mode:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same_or_null
 msgid "Same or Empty"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,default_payment_mode:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__same_or_null
 msgid "Same or empty"
 msgstr ""
 
@@ -1067,7 +1091,7 @@ msgid "Search Payment Orders"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/wizard/account_payment_line_create.py:130
+#: code:addons/account_payment_order/wizard/account_payment_line_create.py:0
 #, python-format
 msgid "Select Move Lines to Create Transactions"
 msgstr ""
@@ -1079,7 +1103,9 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__date_scheduled
-msgid "Select a requested date of execution if you selected 'Due Date' as the Payment Execution Date Type."
+msgid ""
+"Select a requested date of execution if you selected 'Due Date' as the "
+"Payment Execution Date Type."
 msgstr ""
 
 #. module: account_payment_order
@@ -1095,7 +1121,6 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__state
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__state
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "State"
@@ -1103,11 +1128,12 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__state
+#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__state
 msgid "Status"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.invoice,reference_type:0
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
 msgid "Structured Reference"
 msgstr ""
 
@@ -1123,48 +1149,62 @@ msgid "Technical model for printing payment order"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:308
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "The amount for Partner '%s' is negative or null (%.2f) !"
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_line_ids
-msgid "The bank payment lines are used to generate the payment file. They are automatically created from transaction lines upon confirmation of the payment order: one bank payment line can group several transaction lines if the option 'Group Transactions in Payment Orders' is active on the payment mode."
+msgid ""
+"The bank payment lines are used to generate the payment file. They are "
+"automatically created from transaction lines upon confirmation of the "
+"payment order: one bank payment line can group several transaction lines if "
+"the option 'Group Transactions in Payment Orders' is active on the payment "
+"mode."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_invoice.py:73
+#: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "The invoice %s is not in Open state"
+msgid "The invoice %s is not in Posted state"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:272
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. The payment line %s has a maturity date %s which is after the computed payment date %s."
+msgid ""
+"The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
+"The payment line %s has a maturity date %s which is after the computed "
+"payment date %s."
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:130
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "The payment type (%s) is not the same as the payment type of the payment mode (%s)"
+msgid ""
+"The payment type (%s) is not the same as the payment type of the payment "
+"mode (%s)"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:247
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There are no transactions on payment order %s."
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
-msgid "This field is used for payable and receivable journal entries. You can put the limit date for the payment of this line."
+msgid ""
+"This field is used for payable and receivable journal entries. You can put "
+"the limit date for the payment of this line."
 msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_method__payment_order_only
-msgid "This option helps enforcing the use of payment orders for some payment methods."
+msgid ""
+"This option helps enforcing the use of payment orders for some payment "
+"methods."
 msgstr ""
 
 #. module: account_payment_order
@@ -1209,8 +1249,8 @@ msgid "Transactions"
 msgstr ""
 
 #. module: account_payment_order
-#: selection:account.payment.mode,offsetting_account:0
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__transfer_account_id
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__offsetting_account__transfer_account
 msgid "Transfer Account"
 msgstr ""
 
@@ -1261,14 +1301,18 @@ msgid "Wizard to create payment lines"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:118
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "You cannot delete an uploaded payment order. You can cancel it in order to do so."
+msgid ""
+"You cannot delete an uploaded payment order. You can cancel it in order to "
+"do so."
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
-msgid "if there are existing draft payment orders for the payment modes of the invoices, the payment lines will be added to those payment orders"
+msgid ""
+"if there are existing draft payment orders for the payment modes of the "
+"invoices, the payment lines will be added to those payment orders"
 msgstr ""
 
 #. module: account_payment_order

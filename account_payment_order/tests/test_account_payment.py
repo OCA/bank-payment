@@ -28,7 +28,11 @@ class TestAccountPayment(SavepointCase):
             [("type", "=", "bank")], limit=1
         )
         cls.bank_journal.inbound_payment_method_ids = [
-            (6, 0, [cls.inbound_payment_method_01.id, cls.inbound_payment_method_02.id])
+            (
+                6,
+                0,
+                [cls.inbound_payment_method_01.id, cls.inbound_payment_method_02.id],
+            )
         ]
         cls.bank_journal.outbound_payment_method_ids = [
             (6, 0, [cls.outbound_payment_method_01.id])
@@ -59,11 +63,7 @@ class TestAccountPayment(SavepointCase):
         self.assertFalse(self.inbound_payment_method_02.payment_order_only)
         self.assertFalse(self.bank_journal.inbound_payment_order_only)
         new_account_payment = self.account_payment_model.new(
-            {
-                "journal_id": self.bank_journal.id,
-                "payment_type": "inbound",
-                "amount": 1,
-            }
+            {"journal_id": self.bank_journal.id, "payment_type": "inbound", "amount": 1}
         )
         # check journals
         journal_res = new_account_payment._compute_journal_domain_and_types()

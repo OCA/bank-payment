@@ -17,7 +17,6 @@ class AccountPayment(models.Model):
         res["domain"] = journal_domain
         return res
 
-    @api.multi
     @api.onchange("journal_id")
     def _onchange_journal(self):
         res = super(AccountPayment, self)._onchange_journal()

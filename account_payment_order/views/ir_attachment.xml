@@ -14,15 +14,16 @@
                     <group name="main">
                         <field
                             name="datas"
-                            filename="datas_fname"
+                            filename="store_fname"
                             string="Generated File"
                         />
-                        <field name="datas_fname" invisible="1" />
+                        <field name="store_fname" invisible="1" />
                         <label for="create_uid" string="Created by" />
                         <div name="creation_div">
-                        <field name="create_uid" readonly="1" class="oe_inline" /> on
-                        <field name="create_date" readonly="1" class="oe_inline" />
-                    </div>
+                            <field name="create_uid" readonly="1" class="oe_inline" />
+                            on
+                            <field name="create_date" readonly="1" class="oe_inline" />
+                        </div>
                     </group>
                 </sheet>
             </form>
