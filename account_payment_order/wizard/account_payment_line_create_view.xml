@@ -46,7 +46,11 @@
                     name="move_lines"
                     string="Selected Move Lines to Create Transactions"
                 >
-                    <field name="move_line_ids" nolabel="1">
+                    <field
+                        name="move_line_ids"
+                        nolabel="1"
+                        context="{'tree_view_ref': 'account_payment_order.view_move_line_tree'}"
+                    >
                         <tree>
                             <field name="date" />
                             <field name="move_id" required="0" />

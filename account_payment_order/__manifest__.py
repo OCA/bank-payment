@@ -8,7 +8,7 @@
 
 {
     "name": "Account Payment Order",
-    "version": "12.0.1.4.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV, "
     "Therp BV, "
@@ -17,7 +17,8 @@
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "category": "Banking addons",
-    "depends": ["account_payment_partner", "base_iban",],  # for manual_bank_tranfer
+    "external_dependencies": {"python": ["lxml"]},
+    "depends": ["account_payment_partner", "base_iban"],  # for manual_bank_tranfer
     "data": [
         "views/account_payment_method.xml",
         "security/payment_security.xml",

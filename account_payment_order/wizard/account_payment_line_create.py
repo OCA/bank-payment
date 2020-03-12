@@ -11,29 +11,37 @@ class AccountPaymentLineCreate(models.TransientModel):
     _name = "account.payment.line.create"
     _description = "Wizard to create payment lines"
 
-    order_id = fields.Many2one("account.payment.order", string="Payment Order")
-    journal_ids = fields.Many2many("account.journal", string="Journals Filter")
+    order_id = fields.Many2one(
+        comodel_name="account.payment.order", string="Payment Order"
+    )
+    journal_ids = fields.Many2many(
+        comodel_name="account.journal", string="Journals Filter"
+    )
     partner_ids = fields.Many2many(
-        "res.partner", string="Partners", domain=[("parent_id", "=", False)]
+        comodel_name="res.partner",
+        string="Partners",
+        domain=[("parent_id", "=", False)],
     )
     target_move = fields.Selection(
-        [("posted", "All Posted Entries"), ("all", "All Entries"),],
+        selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
     )
     allow_blocked = fields.Boolean(string="Allow Litigation Move Lines")
     invoice = fields.Boolean(string="Linked to an Invoice or Refund")
     date_type = fields.Selection(
-        [("due", "Due Date"), ("move", "Move Date"),],
+        selection=[("due", "Due Date"), ("move", "Move Date")],
         string="Type of Date Filter",
         required=True,
     )
     due_date = fields.Date(string="Due Date")
     move_date = fields.Date(string="Move Date", default=fields.Date.context_today)
     payment_mode = fields.Selection(
-        [("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any"),],
+        selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
         string="Payment Mode",
     )
-    move_line_ids = fields.Many2many("account.move.line", string="Move Lines")
+    move_line_ids = fields.Many2many(
+        comodel_name="account.move.line", string="Move Lines"
+    )
 
     @api.model
     def default_get(self, field_list):
@@ -57,7 +65,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         )
         return res
 
-    @api.multi
     def _prepare_move_line_domain(self):
         self.ensure_one()
         domain = [
@@ -81,7 +88,13 @@ class AccountPaymentLineCreate(models.TransientModel):
         elif self.date_type == "move":
             domain.append(("date", "<=", self.move_date))
         if self.invoice:
-            domain.append(("invoice_id", "!=", False))
+            domain.append(
+                (
+                    "move_id.type",
+                    "in",
+                    ("in_invoice", "out_invoice", "in_refund", "out_refund"),
+                )
+            )
         if self.payment_mode:
             if self.payment_mode == "same":
                 domain.append(
@@ -128,7 +141,6 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [("id", "not in", move_lines_ids)]
         return domain
 
-    @api.multi
     def populate(self):
         domain = self._prepare_move_line_domain()
         lines = self.env["account.move.line"].search(domain)
@@ -160,7 +172,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         res = {"domain": {"move_line_ids": domain}}
         return res
 
-    @api.multi
     def create_payment_lines(self):
         if self.move_line_ids:
             self.move_line_ids.create_payment_line_from_move_line(self.order_id)

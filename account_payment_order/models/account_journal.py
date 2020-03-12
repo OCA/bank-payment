@@ -8,13 +8,12 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     inbound_payment_order_only = fields.Boolean(
-        compute="_compute_inbound_payment_order_only", readonly=True, store=True,
+        compute="_compute_inbound_payment_order_only", readonly=True, store=True
     )
     outbound_payment_order_only = fields.Boolean(
-        compute="_compute_outbound_payment_order_only", readonly=True, store=True,
+        compute="_compute_outbound_payment_order_only", readonly=True, store=True
     )
 
-    @api.multi
     @api.depends("inbound_payment_method_ids.payment_order_only")
     def _compute_inbound_payment_order_only(self):
         for rec in self:
@@ -22,7 +21,6 @@ class AccountJournal(models.Model):
                 p.payment_order_only for p in rec.inbound_payment_method_ids
             )
 
-    @api.multi
     @api.depends("outbound_payment_method_ids.payment_order_only")
     def _compute_outbound_payment_order_only(self):
         for rec in self:

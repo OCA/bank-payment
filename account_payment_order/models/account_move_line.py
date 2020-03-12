@@ -2,23 +2,20 @@
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from lxml import etree
-
-from odoo import api, fields, models
+from odoo import fields, models
 from odoo.fields import first
-from odoo.osv import orm
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     partner_bank_id = fields.Many2one(
-        "res.partner.bank",
+        comodel_name="res.partner.bank",
         string="Partner Bank Account",
         help="Bank account on which we should pay the supplier",
     )
     bank_payment_line_id = fields.Many2one(
-        "bank.payment.line", string="Bank Payment Line", readonly=True, index=True,
+        comodel_name="bank.payment.line", readonly=True, index=True
     )
     payment_line_ids = fields.One2many(
         comodel_name="account.payment.line",
@@ -26,29 +23,28 @@ class AccountMoveLine(models.Model):
         string="Payment lines",
     )
 
-    @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
         assert payment_order, "Missing payment order"
         aplo = self.env["account.payment.line"]
         # default values for communication_type and communication
         communication_type = "normal"
-        communication = self.move_id.ref or self.move_id.name
+        communication = self.ref or self.name
         # change these default values if move line is linked to an invoice
-        if self.invoice_id:
-            if self.invoice_id.reference_type != "none":
-                communication = self.invoice_id.reference
+        if self.move_id.is_invoice():
+            if self.move_id.reference_type != "none":
+                communication = self.move_id.ref
                 ref2comm_type = aplo.invoice_reference_type2communication_type()
-                communication_type = ref2comm_type[self.invoice_id.reference_type]
+                communication_type = ref2comm_type[self.move_id.reference_type]
             else:
                 if (
-                    self.invoice_id.type in ("in_invoice", "in_refund")
-                    and self.invoice_id.reference
+                    self.move_id.type in ("in_invoice", "in_refund")
+                    and self.move_id.ref
                 ):
-                    communication = self.invoice_id.reference
-                elif "out" in self.invoice_id.type:
+                    communication = self.move_id.ref
+                elif "out" in self.move_id.type:
                     # Force to only put invoice number here
-                    communication = self.invoice_id.number
+                    communication = self.move_id.name
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency
@@ -73,55 +69,8 @@ class AccountMoveLine(models.Model):
         }
         return vals
 
-    @api.multi
     def create_payment_line_from_move_line(self, payment_order):
         vals_list = []
         for mline in self:
             vals_list.append(mline._prepare_payment_line_vals(payment_order))
         return self.env["account.payment.line"].create(vals_list)
-
-    @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        # When the user looks for open payables or receivables, in the
-        # context of payment orders, she should focus primarily on amount that
-        # is due to be paid, and secondarily on the total amount. In this
-        # method we are forcing to display both the amount due in company and
-        # in the invoice currency.
-        # We then hide the fields debit and credit, because they add no value.
-        result = super(AccountMoveLine, self).fields_view_get(
-            view_id, view_type, toolbar=toolbar, submenu=submenu
-        )
-
-        doc = etree.XML(result["arch"])
-        if view_type == "tree" and self._module == "account_payment_order":
-            if not doc.xpath("//field[@name='balance']"):
-                for placeholder in doc.xpath("//field[@name='amount_currency']"):
-                    elem = etree.Element(
-                        "field", {"name": "balance", "readonly": "True"}
-                    )
-                    orm.setup_modifiers(elem)
-                    placeholder.addprevious(elem)
-            if not doc.xpath("//field[@name='amount_residual_currency']"):
-                for placeholder in doc.xpath("//field[@name='amount_currency']"):
-                    elem = etree.Element(
-                        "field",
-                        {"name": "amount_residual_currency", "readonly": "True"},
-                    )
-                    orm.setup_modifiers(elem)
-                    placeholder.addnext(elem)
-            if not doc.xpath("//field[@name='amount_residual']"):
-                for placeholder in doc.xpath("//field[@name='amount_currency']"):
-                    elem = etree.Element(
-                        "field", {"name": "amount_residual", "readonly": "True"}
-                    )
-                    orm.setup_modifiers(elem)
-                    placeholder.addnext(elem)
-            # Remove credit and debit data - which is irrelevant in this case
-            for elem in doc.xpath("//field[@name='debit']"):
-                doc.remove(elem)
-            for elem in doc.xpath("//field[@name='credit']"):
-                doc.remove(elem)
-            result["arch"] = etree.tostring(doc)
-        return result
