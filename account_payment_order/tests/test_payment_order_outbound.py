@@ -38,46 +38,30 @@ class TestPaymentOrderOutbound(TransactionCase):
             [("type", "=", "bank")], limit=1
         )
         # Make sure no other payment orders are in the DB
-        self.domain = [
-            ("state", "=", "draft"),
-            ("payment_type", "=", "outbound"),
-        ]
+        self.domain = [("state", "=", "draft"), ("payment_type", "=", "outbound")]
         self.env["account.payment.order"].search(self.domain).unlink()
 
     def _create_supplier_invoice(self):
-        invoice_account = (
-            self.env["account.account"]
-            .search(
-                [
-                    (
-                        "user_type_id",
-                        "=",
-                        self.env.ref("account.data_account_type_payable").id,
-                    )
-                ],
-                limit=1,
-            )
-            .id
-        )
-        invoice = self.env["account.invoice"].create(
+        invoice = self.env["account.move"].create(
             {
                 "partner_id": self.env.ref("base.res_partner_4").id,
-                "account_id": invoice_account,
                 "type": "in_invoice",
                 "payment_mode_id": self.env.ref(
                     "account_payment_mode.payment_mode_outbound_ct1"
                 ).id,
-            }
-        )
-
-        self.env["account.invoice.line"].create(
-            {
-                "product_id": self.env.ref("product.product_product_4").id,
-                "quantity": 1.0,
-                "price_unit": 100.0,
-                "invoice_id": invoice.id,
-                "name": "product that cost 100",
-                "account_id": self.invoice_line_account,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        None,
+                        {
+                            "product_id": self.env.ref("product.product_product_4").id,
+                            "quantity": 1.0,
+                            "price_unit": 100.0,
+                            "name": "product that cost 100",
+                            "account_id": self.invoice_line_account,
+                        },
+                    )
+                ],
             }
         )
 
@@ -110,12 +94,12 @@ class TestPaymentOrderOutbound(TransactionCase):
             }
         )
 
-        self.invoice_02.action_invoice_open()
+        self.invoice_02.action_post()
         self.order_creation("fixed")
 
     def order_creation(self, date_prefered):
         # Open invoice
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
         order_vals = {
             "payment_type": "outbound",
             "payment_mode_id": self.creation_mode.id,
@@ -160,10 +144,10 @@ class TestPaymentOrderOutbound(TransactionCase):
 
     def test_cancel_payment_order(self):
         # Open invoice
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
         # Add to payment order using the wizard
         self.env["account.invoice.payment.line.multi"].with_context(
-            active_model="account.invoice", active_ids=self.invoice.ids
+            active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
 
         payment_order = self.env["account.payment.order"].search(self.domain)
@@ -174,9 +158,7 @@ class TestPaymentOrderOutbound(TransactionCase):
         # Set journal to allow cancelling entries
         bank_journal.update_posted = True
 
-        payment_order.write(
-            {"journal_id": bank_journal.id,}
-        )
+        payment_order.write({"journal_id": bank_journal.id})
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
         self.assertEqual(len(payment_order.bank_line_ids), 0)
@@ -202,9 +184,7 @@ class TestPaymentOrderOutbound(TransactionCase):
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
         payment_order.unlink()
-        self.assertEqual(
-            len(self.env["account.payment.order"].search(self.domain)), 0,
-        )
+        self.assertEqual(len(self.env["account.payment.order"].search(self.domain)), 0)
 
     def test_constrains(self):
         outbound_order = self.env["account.payment.order"].create(
