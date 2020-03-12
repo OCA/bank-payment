@@ -99,16 +99,12 @@
                             </td>
                             <td class="text-center">
                                 <t
-                                    t-if="line.move_line_id.invoice_id and 'in_' in line.move_line_id.invoice_id.type"
+                                    t-if="line.move_line_id.move_id and 'in_' in line.move_line_id.move_id.type"
                                 >
-                                    <span
-                                        t-field="line.move_line_id.invoice_id.reference"
-                                    />
+                                    <span t-field="line.move_line_id.move_id.ref" />
                                 </t>
                                 <t t-else="">
-                                    <span
-                                        t-esc="line.move_line_id.invoice_id.number or line.move_line_id.move_id.name"
-                                    />
+                                    <span t-esc="line.move_line_id.move_id.name" />
                                 </t>
                             </td>
                             <td class="text-center">

@@ -26,12 +26,12 @@ class AccountPaymentMode(models.Model):
     )
     # Default options for the "payment.order.create" wizard
     default_payment_mode = fields.Selection(
-        [("same", "Same"), ("same_or_null", "Same or empty"), ("any", "Any"),],
+        selection=[("same", "Same"), ("same_or_null", "Same or empty"), ("any", "Any")],
         string="Payment Mode on Invoice",
         default="same",
     )
     default_journal_ids = fields.Many2many(
-        "account.journal",
+        comodel_name="account.journal",
         string="Journals Filter",
         domain="[('company_id', '=', company_id)]",
     )
@@ -39,16 +39,22 @@ class AccountPaymentMode(models.Model):
         string="Linked to an Invoice or Refund", default=False
     )
     default_target_move = fields.Selection(
-        [("posted", "All Posted Entries"), ("all", "All Entries"),],
+        selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
         default="posted",
     )
     default_date_type = fields.Selection(
-        [("due", "Due"), ("move", "Move"),], default="due", string="Type of Date Filter"
+        selection=[("due", "Due"), ("move", "Move")],
+        default="due",
+        string="Type of Date Filter",
     )
     # default option for account.payment.order
     default_date_prefered = fields.Selection(
-        [("now", "Immediately"), ("due", "Due Date"), ("fixed", "Fixed Date"),],
+        selection=[
+            ("now", "Immediately"),
+            ("due", "Due Date"),
+            ("fixed", "Fixed Date"),
+        ],
         string="Default Payment Execution Date",
     )
     group_lines = fields.Boolean(
@@ -70,32 +76,33 @@ class AccountPaymentMode(models.Model):
         string="Generate Accounting Entries On File Upload", default=True
     )
     offsetting_account = fields.Selection(
-        [("bank_account", "Bank Account"), ("transfer_account", "Transfer Account"),],
-        string="Offsetting Account",
+        selection=[
+            ("bank_account", "Bank Account"),
+            ("transfer_account", "Transfer Account"),
+        ],
         default="bank_account",
     )
     transfer_account_id = fields.Many2one(
-        "account.account",
-        string="Transfer Account",
+        comodel_name="account.account",
         domain=[("reconcile", "=", True)],
         help="Pay off lines in 'file uploaded' payment orders with a move on "
         "this account. You can only select accounts "
         "that are marked for reconciliation",
     )
     transfer_journal_id = fields.Many2one(
-        "account.journal",
-        string="Transfer Journal",
+        comodel_name="account.journal",
         help="Journal to write payment entries when confirming "
         "payment/debit orders of this mode",
     )
     move_option = fields.Selection(
-        [("date", "One move per payment date"), ("line", "One move per payment line"),],
-        string="Move Option",
+        selection=[
+            ("date", "One move per payment date"),
+            ("line", "One move per payment line"),
+        ],
         default="date",
     )
-    post_move = fields.Boolean(string="Post Move", default=True)
+    post_move = fields.Boolean(default=True)
 
-    @api.multi
     @api.constrains(
         "generate_move",
         "offsetting_account",
