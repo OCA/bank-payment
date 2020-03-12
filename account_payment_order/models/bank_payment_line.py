@@ -12,26 +12,26 @@ class BankPaymentLine(models.Model):
 
     name = fields.Char(string="Bank Payment Line Ref", required=True, readonly=True)
     order_id = fields.Many2one(
-        "account.payment.order",
-        string="Order",
+        comodel_name="account.payment.order",
         ondelete="cascade",
         index=True,
         readonly=True,
     )
     payment_type = fields.Selection(
-        related="order_id.payment_type",
-        string="Payment Type",
-        readonly=True,
-        store=True,
+        related="order_id.payment_type", readonly=True, store=True
     )
-    state = fields.Selection(
-        related="order_id.state", string="State", readonly=True, store=True
-    )
+    state = fields.Selection(related="order_id.state", readonly=True, store=True)
     payment_line_ids = fields.One2many(
-        "account.payment.line", "bank_line_id", string="Payment Lines", readonly=True
+        comodel_name="account.payment.line",
+        inverse_name="bank_line_id",
+        string="Payment Lines",
+        readonly=True,
     )
     partner_id = fields.Many2one(
-        "res.partner", related="payment_line_ids.partner_id", readonly=True, store=True
+        comodel_name="res.partner",
+        related="payment_line_ids.partner_id",
+        readonly=True,
+        store=True,
     )  # store=True for groupby
     # Function Float fields are sometimes badly displayed in tree view,
     # see bug report https://github.com/odoo/odoo/issues/8632
@@ -51,30 +51,30 @@ class BankPaymentLine(models.Model):
         readonly=True,
     )
     currency_id = fields.Many2one(
-        "res.currency",
+        comodel_name="res.currency",
         required=True,
         readonly=True,
         related="payment_line_ids.currency_id",
-    )  # v8 field: currency
+    )
     partner_bank_id = fields.Many2one(
-        "res.partner.bank",
+        comodel_name="res.partner.bank",
         string="Bank Account",
         readonly=True,
         related="payment_line_ids.partner_bank_id",
-    )  # v8 field: bank_id
+    )
     date = fields.Date(related="payment_line_ids.date", readonly=True)
     communication_type = fields.Selection(
         related="payment_line_ids.communication_type", readonly=True
     )
     communication = fields.Char(string="Communication", required=True, readonly=True)
     company_id = fields.Many2one(
-        "res.company",
+        comodel_name="res.company",
         related="order_id.payment_mode_id.company_id",
         store=True,
         readonly=True,
     )
     company_currency_id = fields.Many2one(
-        "res.currency",
+        comodel_name="res.currency",
         related="order_id.payment_mode_id.company_id.currency_id",
         readonly=True,
         store=True,
@@ -97,7 +97,6 @@ class BankPaymentLine(models.Model):
         ]
         return same_fields
 
-    @api.multi
     @api.depends("payment_line_ids", "payment_line_ids.amount_currency")
     def _compute_amount(self):
         for bline in self:
@@ -120,7 +119,6 @@ class BankPaymentLine(models.Model):
             )
         return super(BankPaymentLine, self).create(vals)
 
-    @api.multi
     def move_line_offsetting_account_hashcode(self):
         """
         This method is inherited in the module
@@ -133,7 +131,6 @@ class BankPaymentLine(models.Model):
             hashcode = str(self.id)
         return hashcode
 
-    @api.multi
     def reconcile_payment_lines(self):
         for bline in self:
             if all([pline.move_line_id for pline in bline.payment_line_ids]):
@@ -141,12 +138,10 @@ class BankPaymentLine(models.Model):
             else:
                 bline.no_reconcile_hook()
 
-    @api.multi
     def no_reconcile_hook(self):
         """This method is designed to be inherited if needed"""
         return
 
-    @api.multi
     def reconcile(self):
         self.ensure_one()
         amlo = self.env["account.move.line"]
@@ -188,7 +183,6 @@ class BankPaymentLine(models.Model):
 
         lines_to_rec.reconcile()
 
-    @api.multi
     def unlink(self):
         for line in self:
             order_state = line.order_id.state
