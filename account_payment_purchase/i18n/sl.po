@@ -10,15 +10,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 08:41+0000\n"
-"PO-Revision-Date: 2018-05-23 08:41+0000\n"
-"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>, 2018\n"
+"PO-Revision-Date: 2020-03-13 18:13+0000\n"
+"Last-Translator: Matjaz Mozetic <matjaz@matmoz.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_invoice
@@ -49,18 +50,18 @@ msgstr ""
 #: code:addons/account_payment_purchase/models/account_invoice.py:19
 #, python-format
 msgid "Selected purchase order have different payment mode."
-msgstr ""
+msgstr "Izbrani nabavni nalog vsebuje drugačno metodo plačila."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:27
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "Izbrani nabavni nalog vsebuje drugačno banko dobavitelja."
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_stock_rule
 msgid "Stock Rule"
-msgstr ""
+msgstr "Pravilo zaloge"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
