@@ -1,0 +1,42 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-08-22 01:59+0000\n"
+"Last-Translator: Ignacio Buioli <ibuioli@gmail.com>\n"
+"Language-Team: none\n"
+"Language: es_AR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: account_payment_sale
+#: model_terms:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Modo de Pago:</strong>"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_account_move
+msgid "Journal Entries"
+msgstr "Asientos Contables"
+
+#. module: account_payment_sale
+#: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
+msgid "Payment Mode"
+msgstr "Modo de Pago"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Factura de Anticipo de Ventas"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de Ventas"

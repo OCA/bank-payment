@@ -39,6 +39,5 @@ msgstr "销售预付款发票"
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 #, fuzzy
-#| msgid "Sale Order"
 msgid "Sales Order"
 msgstr "销售订单"

@@ -42,6 +42,5 @@ msgstr "Factura d'avançament de venda"
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 #, fuzzy
-#| msgid "Sale Order"
 msgid "Sales Order"
 msgstr "Comanda"
