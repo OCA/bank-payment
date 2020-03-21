@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-01 19:28+0000\n"
-"PO-Revision-Date: 2020-03-13 18:13+0000\n"
+"PO-Revision-Date: 2020-03-21 14:13+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@matmoz.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -26,11 +26,13 @@ msgid ""
 "Activate this option if this payment method requires your customer to sign a "
 "direct debit mandate with your company."
 msgstr ""
+"Aktivirajte to opcijo, če ta plačilna metoda zahteva strankin podpis za "
+"direkten debetni mandat vaši družbi."
 
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__commercial_partner_id
 msgid "Commercial Entity"
-msgstr ""
+msgstr "Gospodarski subjekt"
 
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_id
@@ -40,7 +42,7 @@ msgstr "Mandat za direktne obremenitve"
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_required
 msgid "Mandate Required"
-msgstr ""
+msgstr "Zahteva se mandat"
 
 #. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
@@ -50,4 +52,4 @@ msgstr "Prodajni nalog"
 #. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
-msgstr ""
+msgstr "Prodajni račun za plačilo avansa"
