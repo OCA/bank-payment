@@ -14,5 +14,6 @@ class PaymentOrderCreate(models.TransientModel):
             self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
-        domain += [('blocked', '!=', True)]
+        if not self.env.context.get('include_blocked_moves'):
+            domain += [('blocked', '!=', True)]
         return True
