@@ -1,4 +1,3 @@
-
 from . import account_banking_mandate
 from . import account_payment_method
 from . import account_invoice
