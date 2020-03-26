@@ -4,13 +4,11 @@
 from openupgradelib import openupgrade
 
 column_renames = {
-    'account_banking_mandate': [
-        ('scan', None),
-    ],
+    "account_banking_mandate": [("scan", None)],
 }
 
 
 @openupgrade.migrate()
 def migrate(env, version):
-    if openupgrade.column_exists(env.cr, 'account_banking_mandate', 'scan'):
+    if openupgrade.column_exists(env.cr, "account_banking_mandate", "scan"):
         openupgrade.rename_columns(env.cr, column_renames)
