@@ -234,7 +234,7 @@ class AccountPaymentOrder(models.Model):
     def generate_start_payment_info_block(
             self, parent_node, payment_info_ident,
             priority, local_instrument, category_purpose, sequence_type,
-            requested_date, eval_ctx, gen_args):
+            requested_date, sepa, eval_ctx, gen_args):
         payment_info = etree.SubElement(parent_node, 'PmtInf')
         payment_info_identification = etree.SubElement(
             payment_info, 'PmtInfId')
@@ -261,7 +261,7 @@ class AccountPaymentOrder(models.Model):
             instruction_priority = etree.SubElement(
                 payment_type_info, 'InstrPrty')
             instruction_priority.text = priority
-        if eval_ctx.get('sepa'):
+        if sepa:
             service_level = etree.SubElement(payment_type_info, 'SvcLvl')
             service_level_code = etree.SubElement(service_level, 'Cd')
             service_level_code.text = 'SEPA'

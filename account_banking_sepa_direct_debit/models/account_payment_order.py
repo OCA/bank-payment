@@ -126,13 +126,12 @@ class AccountPaymentOrder(models.Model):
                     "sequence_type + '-' + requested_date.replace('-', '')  "
                     "+ '-' + priority + '-' + category_purpose",
                     priority, scheme, categ_purpose,
-                    sequence_type, requested_date, {
+                    sequence_type, requested_date, is_sepa, {
                         'self': self,
                         'sequence_type': sequence_type,
                         'priority': priority,
                         'category_purpose': categ_purpose or 'NOcateg',
                         'requested_date': requested_date,
-                        'sepa': is_sepa,
                         'loop_index': str(loop_index)
                     }, gen_args)
 

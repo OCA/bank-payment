@@ -106,13 +106,12 @@ class AccountPaymentOrder(models.Model):
                     "requested_date.replace('-', '')  + '-' + priority + "
                     "'-' + local_instrument + '-' + category_purpose",
                     priority, local_instrument, categ_purpose,
-                    False, requested_date, {
+                    False, requested_date, is_sepa, {
                         'self': self,
                         'priority': priority,
                         'requested_date': requested_date,
                         'local_instrument': local_instrument or 'NOinstr',
                         'category_purpose': categ_purpose or 'NOcat',
-                        'sepa': is_sepa,
                         'loop_index': str(loop_index)
                     }, gen_args)
             self.generate_party_block(
