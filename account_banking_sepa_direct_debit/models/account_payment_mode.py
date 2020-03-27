@@ -23,7 +23,6 @@ class AccountPaymentMode(models.Model):
         "- a country-specific identifier",
     )
 
-    @api.multi
     @api.constrains("sepa_creditor_identifier")
     def _check_sepa_creditor_identifier(self):
         for payment_mode in self:
