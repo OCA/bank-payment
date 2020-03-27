@@ -56,17 +56,15 @@ class AccountBankingMandate(models.Model):
         comodel_name="res.company",
         string="Company",
         required=True,
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "account.banking.mandate"
-        ),
+        default=lambda self: self.env.company,
     )
     unique_mandate_reference = fields.Char(
-        string="Unique Mandate Reference", track_visibility="onchange", copy=False,
+        string="Unique Mandate Reference", track_visibility="onchange", copy=False
     )
     signature_date = fields.Date(
         string="Date of Signature of the Mandate", track_visibility="onchange"
     )
-    scan = fields.Binary(string="Scan of the Mandate", attachment=True,)
+    scan = fields.Binary(string="Scan of the Mandate")
     last_debit_date = fields.Date(string="Date of the Last Debit", readonly=True)
     state = fields.Selection(
         [
@@ -86,7 +84,7 @@ class AccountBankingMandate(models.Model):
         inverse_name="mandate_id",
         string="Related Payment Lines",
     )
-    payment_line_ids_count = fields.Integer(compute="_compute_payment_line_ids_count",)
+    payment_line_ids_count = fields.Integer(compute="_compute_payment_line_ids_count")
 
     _sql_constraints = [
         (
@@ -106,13 +104,12 @@ class AccountBankingMandate(models.Model):
             result.append((mandate.id, name))
         return result
 
-    @api.multi
     @api.depends("payment_line_ids")
     def _compute_payment_line_ids_count(self):
         payment_line_model = self.env["account.payment.line"]
         domain = [("mandate_id", "in", self.ids)]
         res = payment_line_model.read_group(
-            domain=domain, fields=["mandate_id"], groupby=["mandate_id"],
+            domain=domain, fields=["mandate_id"], groupby=["mandate_id"]
         )
         payment_line_dict = {}
         for dic in res:
@@ -122,7 +119,6 @@ class AccountBankingMandate(models.Model):
         for rec in self:
             rec.payment_line_ids_count = payment_line_dict.get(rec.id, 0)
 
-    @api.multi
     def show_payment_lines(self):
         self.ensure_one()
         return {
@@ -133,7 +129,6 @@ class AccountBankingMandate(models.Model):
             "domain": [("mandate_id", "=", self.id)],
         }
 
-    @api.multi
     @api.constrains("signature_date", "last_debit_date")
     def _check_dates(self):
         for mandate in self:
@@ -194,7 +189,7 @@ class AccountBankingMandate(models.Model):
                 )
 
             if (
-                self.env["account.invoice"]
+                self.env["account.move"]
                 .sudo()
                 .search(
                     [
@@ -253,7 +248,6 @@ class AccountBankingMandate(models.Model):
                     % (mandate.display_name,)
                 )
 
-    @api.multi
     @api.constrains("state", "partner_bank_id", "signature_date")
     def _check_valid_state(self):
         for mandate in self:
@@ -284,13 +278,11 @@ class AccountBankingMandate(models.Model):
             )
         return super(AccountBankingMandate, self).create(vals)
 
-    @api.multi
     @api.onchange("partner_bank_id")
     def mandate_partner_bank_change(self):
         for mandate in self:
             mandate.partner_id = mandate.partner_bank_id.partner_id
 
-    @api.multi
     def validate(self):
         for mandate in self:
             if mandate.state != "draft":
@@ -298,7 +290,6 @@ class AccountBankingMandate(models.Model):
         self.write({"state": "valid"})
         return True
 
-    @api.multi
     def cancel(self):
         for mandate in self:
             if mandate.state not in ("draft", "valid"):
@@ -306,7 +297,6 @@ class AccountBankingMandate(models.Model):
         self.write({"state": "cancel"})
         return True
 
-    @api.multi
     def back2draft(self):
         """Allows to set the mandate back to the draft state.
         This is for mandates cancelled by mistake.
