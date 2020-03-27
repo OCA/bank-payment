@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
-import time
 
 from lxml import etree
 
+from odoo import fields
 from odoo.tests import common
 from odoo.tools import float_compare
 
@@ -16,7 +16,6 @@ class TestSDD(common.HttpCase):
         super(TestSDD, self).setUp()
         self.company = self.env["res.company"]
         self.account_model = self.env["account.account"]
-        self.move_model = self.env["account.move"]
         self.journal_model = self.env["account.journal"]
         self.payment_order_model = self.env["account.payment.order"]
         self.payment_line_model = self.env["account.payment.line"]
@@ -24,8 +23,7 @@ class TestSDD(common.HttpCase):
         self.bank_line_model = self.env["bank.payment.line"]
         self.partner_bank_model = self.env["res.partner.bank"]
         self.attachment_model = self.env["ir.attachment"]
-        self.invoice_model = self.env["account.invoice"]
-        self.invoice_line_model = self.env["account.invoice.line"]
+        self.invoice_model = self.env["account.move"]
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_c2c = self.env.ref("base.res_partner_12")
         self.eur_currency = self.env.ref("base.EUR")
@@ -44,9 +42,11 @@ class TestSDD(common.HttpCase):
         )
         self.partner_agrolait.company_id = self.main_company.id
         self.partner_c2c.company_id = self.main_company.id
+
         self.env.ref(
             "l10n_generic_coa.configurable_chart_template"
         ).try_loading_for_current_company()
+
         self.account_revenue = self.account_model.search(
             [
                 (
@@ -175,7 +175,7 @@ class TestSDD(common.HttpCase):
             0,
         )
         self.assertEqual(agrolait_pay_line1.communication_type, "normal")
-        self.assertEqual(agrolait_pay_line1.communication, invoice1.number)
+        self.assertEqual(agrolait_pay_line1.communication, invoice1.name)
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
         self.assertEqual(payment_order.sepa, True)
@@ -193,7 +193,7 @@ class TestSDD(common.HttpCase):
             0,
         )
         self.assertEqual(agrolait_bank_line.communication_type, "normal")
-        self.assertEqual(agrolait_bank_line.communication, invoice1.number)
+        self.assertEqual(agrolait_bank_line.communication, invoice1.name)
         self.assertEqual(agrolait_bank_line.mandate_id, invoice1.mandate_id)
         self.assertEqual(
             agrolait_bank_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
@@ -202,7 +202,7 @@ class TestSDD(common.HttpCase):
         self.assertEqual(payment_order.state, "generated")
         self.assertEqual(action["res_model"], "ir.attachment")
         attachment = self.attachment_model.browse(action["res_id"])
-        self.assertEqual(attachment.datas_fname[-4:], ".xml")
+        self.assertEqual(attachment.name[-4:], ".xml")
         xml_file = base64.b64decode(attachment.datas)
         xml_root = etree.fromstring(xml_file)
         namespaces = xml_root.nsmap
@@ -224,32 +224,34 @@ class TestSDD(common.HttpCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "uploaded")
         for inv in [invoice1, invoice2]:
-            self.assertEqual(inv.state, "paid")
+            self.assertEqual(inv.invoice_payment_state, "paid")
         self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
         return
 
     def create_invoice(self, partner_id, mandate, price_unit, type="out_invoice"):
+        invoice_vals = [
+            (
+                0,
+                0,
+                {
+                    "name": "Great service",
+                    "quantity": 1,
+                    "account_id": self.account_revenue.id,
+                    "price_unit": price_unit,
+                },
+            )
+        ]
         invoice = self.invoice_model.create(
             {
                 "partner_id": partner_id,
                 "reference_type": "none",
                 "currency_id": self.env.ref("base.EUR").id,
-                "name": "test",
-                "account_id": self.account_receivable.id,
                 "type": type,
-                "date_invoice": time.strftime("%Y-%m-%d"),
+                "date": fields.Date.today(),
                 "payment_mode_id": self.payment_mode.id,
                 "mandate_id": mandate.id,
+                "invoice_line_ids": invoice_vals,
             }
         )
-        self.invoice_line_model.create(
-            {
-                "invoice_id": invoice.id,
-                "price_unit": price_unit,
-                "quantity": 1,
-                "name": "Great service",
-                "account_id": self.account_revenue.id,
-            }
-        )
-        invoice.action_invoice_open()
+        invoice.post()
         return invoice

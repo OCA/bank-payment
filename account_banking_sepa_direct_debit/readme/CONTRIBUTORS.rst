@@ -6,3 +6,4 @@
 * Sandy Carter
 * Antonio Espinosa <antonioea@antiun.com>
 * Sergio Teruel <sergio.teruel@tecnativa.com>
+* Marçal Isern <marsal.isern@qubiq.es>
