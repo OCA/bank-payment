@@ -14,7 +14,6 @@ class AccountMoveLine(models.Model):
         "account.banking.mandate", string="Direct Debit Mandate", ondelete="restrict"
     )
 
-    @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super(AccountMoveLine, self)._prepare_payment_line_vals(payment_order)
         if payment_order.payment_type != "inbound":
@@ -38,7 +37,6 @@ class AccountMoveLine(models.Model):
         )
         return vals
 
-    @api.multi
     @api.constrains("mandate_id", "company_id")
     def _check_company_constrains(self):
         for ml in self:
