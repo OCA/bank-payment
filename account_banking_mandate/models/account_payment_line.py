@@ -19,7 +19,6 @@ class AccountPaymentLine(models.Model):
         related="order_id.payment_method_id.mandate_required", readonly=True
     )
 
-    @api.multi
     @api.constrains("mandate_id", "partner_bank_id")
     def _check_mandate_bank_link(self):
         for pline in self:
@@ -42,7 +41,6 @@ class AccountPaymentLine(models.Model):
                     )
                 )
 
-    @api.multi
     @api.constrains("mandate_id", "company_id")
     def _check_company_constrains(self):
         for pline in self:
@@ -58,7 +56,6 @@ class AccountPaymentLine(models.Model):
                     % (pline.name, pline.mandate_id.display_name)
                 )
 
-    @api.multi
     def draft2open_payment_line_check(self):
         res = super(AccountPaymentLine, self).draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
