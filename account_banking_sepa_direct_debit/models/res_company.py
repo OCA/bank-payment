@@ -22,7 +22,6 @@ class ResCompany(models.Model):
         "identifier",
     )
 
-    @api.multi
     @api.constrains("sepa_creditor_identifier")
     def _check_sepa_creditor_identifier(self):
         for company in self:
