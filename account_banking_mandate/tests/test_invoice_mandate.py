@@ -1,6 +1,7 @@
 # Copyright 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -11,16 +12,16 @@ class TestInvoiceMandate(TransactionCase):
 
         self.assertEqual(self.invoice.mandate_id, self.mandate)
 
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
 
-        payable_move_lines = self.invoice.move_id.line_ids.filtered(
+        payable_move_lines = self.invoice.line_ids.filtered(
             lambda s: s.account_id == self.invoice_account
         )
         if payable_move_lines:
             self.assertEqual(payable_move_lines[0].mandate_id, self.mandate)
 
         self.env["account.invoice.payment.line.multi"].with_context(
-            active_model="account.invoice", active_ids=self.invoice.ids
+            active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
 
         payment_order = self.env["account.payment.order"].search([])
@@ -54,9 +55,9 @@ class TestInvoiceMandate(TransactionCase):
 
         self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
 
-        payable_move_lines = self.invoice.move_id.line_ids.filtered(
+        payable_move_lines = self.invoice.line_ids.filtered(
             lambda s: s.account_id == self.invoice_account
         )
         if payable_move_lines:
@@ -65,9 +66,22 @@ class TestInvoiceMandate(TransactionCase):
 
     def test_post_invoice_and_refund_02(self):
         self.invoice._onchange_partner_id()
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
-        self.invoice.refund()
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=self.invoice.ids)
+            .create(
+                {
+                    "date": fields.Date.today(),
+                    "reason": "no reason",
+                    "refund_method": "refund",
+                }
+            )
+        )
+        reversal = move_reversal.reverse_moves()
+        ref = self.env["account.move"].browse(reversal["res_id"])
+        self.assertEqual(self.invoice.mandate_id, ref.mandate_id)
 
     def test_onchange_partner(self):
         partner_2 = self._create_res_partner("Jane with ACME Bank")
@@ -90,10 +104,9 @@ class TestInvoiceMandate(TransactionCase):
         )
         mandate_2.validate()
 
-        invoice = self.env["account.invoice"].new(
+        invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
-                "account_id": self.invoice_account.id,
                 "type": "out_invoice",
                 "company_id": self.company.id,
             }
@@ -104,10 +117,9 @@ class TestInvoiceMandate(TransactionCase):
         self.assertEqual(invoice.mandate_id, mandate_2)
 
     def test_onchange_payment_mode(self):
-        invoice = self.env["account.invoice"].new(
+        invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
-                "account_id": self.invoice_account.id,
                 "type": "out_invoice",
                 "company_id": self.company.id,
             }
@@ -156,10 +168,9 @@ class TestInvoiceMandate(TransactionCase):
         )
         mandate_2.validate()
 
-        invoice = self.env["account.invoice"].create(
+        invoice = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
-                "account_id": self.invoice_account.id,
                 "type": "out_invoice",
                 "company_id": self.company.id,
             }
@@ -252,23 +263,29 @@ class TestInvoiceMandate(TransactionCase):
             .id
         )
 
-        self.invoice = self.env["account.invoice"].create(
+        invoice_vals = [
+            (
+                0,
+                0,
+                {
+                    "product_id": self.env.ref("product.product_product_4").id,
+                    "quantity": 1.0,
+                    "account_id": invoice_line_account,
+                    "price_unit": 200.00,
+                },
+            )
+        ]
+
+        self.invoice = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
-                "account_id": self.invoice_account.id,
                 "type": "out_invoice",
                 "company_id": self.company.id,
+                "journal_id": self.env["account.journal"]
+                .search([("type", "=", "sale")], limit=1)
+                .id,
+                "invoice_line_ids": invoice_vals,
             }
         )
 
-        self.env["account.invoice.line"].create(
-            {
-                "product_id": self.env.ref("product.product_product_4").id,
-                "quantity": 1.0,
-                "price_unit": 100.0,
-                "invoice_id": self.invoice.id,
-                "name": "product that cost 100",
-                "account_id": invoice_line_account,
-            }
-        )
         return res
