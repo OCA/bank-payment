@@ -40,7 +40,6 @@ class AccountBankingMandate(models.Model):
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
     display_name = fields.Char(compute="_compute_display_name2", store=True)
 
-    @api.multi
     @api.constrains("type", "recurrent_sequence_type")
     def _check_recurring_type(self):
         for mandate in self:
@@ -50,18 +49,16 @@ class AccountBankingMandate(models.Model):
                     % mandate.unique_mandate_reference
                 )
 
-    @api.multi
     @api.depends("unique_mandate_reference", "recurrent_sequence_type")
     def _compute_display_name2(self):
         for mandate in self:
             if mandate.format == "sepa":
                 mandate.display_name = "{} ({})".format(
-                    mandate.unique_mandate_reference, mandate.recurrent_sequence_type,
+                    mandate.unique_mandate_reference, mandate.recurrent_sequence_type
                 )
             else:
                 mandate.display_name = mandate.unique_mandate_reference
 
-    @api.multi
     @api.onchange("partner_bank_id")
     def mandate_partner_bank_change(self):
         for mandate in self:
@@ -84,7 +81,6 @@ class AccountBankingMandate(models.Model):
                 }
             return res
 
-    @api.model
     def _sdd_mandate_set_state_to_expired(self):
         logger.info("Searching for SDD Mandates that must be set to Expired")
         expire_limit_date = datetime.today() + relativedelta(

@@ -1,14 +1,13 @@
 # Copyright 2019 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
-    @api.multi
     def draft2open_payment_line_check(self):
         res = super(AccountPaymentLine, self).draft2open_payment_line_check()
         sepa_dd_lines = self.filtered(
@@ -17,7 +16,6 @@ class AccountPaymentLine(models.Model):
         sepa_dd_lines._check_sepa_direct_debit_ready()
         return res
 
-    @api.multi
     def _check_sepa_direct_debit_ready(self):
         """
         This method checks whether the payment line(s) are ready to be used
