@@ -4,14 +4,13 @@
 
 from lxml import etree
 
-from odoo import _, api, exceptions, fields, models
+from odoo import _, exceptions, fields, models
 from odoo.exceptions import UserError
 
 
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    @api.multi
     def generate_payment_file(self):
         """Creates the SEPA Direct Debit file. That's the important code !"""
         self.ensure_one()
@@ -267,7 +266,6 @@ class AccountPaymentOrder(models.Model):
 
         return self.finalize_sepa_file_creation(xml_root, gen_args)
 
-    @api.multi
     def generated2uploaded(self):
         """Write 'last debit date' on mandates
         Set mandates from first to recurring
