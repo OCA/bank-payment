@@ -7,7 +7,7 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "12.0.2.0.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Compassion CH, "
     "Tecnativa, "
@@ -19,7 +19,7 @@
     "data": [
         "views/account_banking_mandate_view.xml",
         "views/account_payment_method.xml",
-        "views/account_invoice_view.xml",
+        "views/account_move_view.xml",
         "views/account_payment_line.xml",
         "views/res_partner_bank_view.xml",
         "views/res_partner.xml",
