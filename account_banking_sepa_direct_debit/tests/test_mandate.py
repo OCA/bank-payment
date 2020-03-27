@@ -4,13 +4,13 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
 class TestMandate(TransactionCase):
     def test_contrains(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             self.mandate.recurrent_sequence_type = False
             self.mandate.type = "recurrent"
             self.mandate._check_recurring_type()
