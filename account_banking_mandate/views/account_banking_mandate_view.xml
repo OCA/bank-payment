@@ -105,7 +105,8 @@
         <field name="arch" type="xml">
             <tree
                 string="Banking Mandate"
-                colors="blue:state=='draft';black:state in ('expired', 'cancel')"
+                decoration-info="state=='draft'"
+                decoration-muted="state in ('expired','cancel')"
             >
                 <field name="id" invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
