@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_invoice_payment_line_multi_form" model="ir.ui.view">
+        <field name="name">account_invoice_payment_line_multi.form</field>
+        <field name="model">account.invoice.payment.line.multi</field>
+        <field name="arch" type="xml">
+            <form string="Create Payment Lines">
+                <p>This wizard will create payment lines for the selected invoices:</p>
+                <ul>
+                    <li
+                    >if there are existing draft payment orders for the payment modes of the invoices, the payment lines will be added to those payment orders</li>
+                    <li
+                    >otherwise, new payment orders will be created (one per payment mode).</li>
+                </ul>
+                <footer>
+                    <button
+                        type="object"
+                        name="run"
+                        string="Create"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancel" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

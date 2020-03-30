@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_line_form" model="ir.ui.view">
+        <field name="name">account.payment.line.form</field>
+        <field name="model">account.payment.line</field>
+        <field name="arch" type="xml">
+            <form string="Payment Lines">
+                <group name="main" col="2">
+                    <group name="left">
+                        <field
+                            name="order_id"
+                            invisible="not context.get('account_payment_line_main_view')"
+                        />
+                        <field name="name" />
+                        <field
+                            name="move_line_id"
+                            domain="[('reconciled','=', False), ('account_id.reconcile', '=', True)] "
+                        />
+                        <!-- we removed the filter on amount_to_pay, because we want to be able to select refunds -->
+                        <field name="date" />
+                        <field name="ml_maturity_date" readonly="1" />
+                        <field name="amount_currency" />
+                        <field name="currency_id" />
+                        <field name="partner_id" />
+                        <field
+                            name="partner_bank_id"
+                            context="{'default_partner_id': partner_id}"
+                            domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                            attrs="{'required': [('bank_account_required', '=', True)]}"
+                        />
+                        <field name="bank_account_required" invisible="1" />
+                        <field name="communication_type" />
+                        <field name="communication" />
+                    </group>
+                    <group name="right">
+                        <field
+                            name="company_id"
+                            widget="selection"
+                            groups="base.group_multi_company"
+                        />
+                        <field name="amount_company_currency" />
+                        <field name="company_currency_id" invisible="1" />
+                        <field name="bank_line_id" />
+                        <field name="payment_type" invisible="1" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="account_payment_line_tree" model="ir.ui.view">
+        <field name="name">account.payment.line.tree</field>
+        <field name="model">account.payment.line</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Lines">
+                <field
+                    name="order_id"
+                    invisible="not context.get('account_payment_line_main_view')"
+                />
+                <field name="partner_id" />
+                <field name="communication" />
+                <field name="partner_bank_id" />
+                <field name="move_line_id" invisible="1" />
+                <field name="ml_maturity_date" />
+                <field name="date" />
+                <field name="amount_currency" string="Amount" />
+                <field name="currency_id" />
+                <field name="name" />
+                <field
+                    name="amount_company_currency"
+                    sum="Total in Company Currency"
+                    invisible="1"
+                />
+                <field name="payment_type" invisible="1" />
+            </tree>
+        </field>
+    </record>
+    <record id="account_payment_line_action" model="ir.actions.act_window">
+        <field name="name">Payment Lines</field>
+        <field name="res_model">account.payment.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'account_payment_line_main_view': True}</field>
+    </record>
+</odoo>
