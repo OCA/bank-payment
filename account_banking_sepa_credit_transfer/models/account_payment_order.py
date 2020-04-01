@@ -71,8 +71,8 @@ class AccountPaymentOrder(models.Model):
         xml_root = etree.Element("Document", nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
-        group_header, nb_of_transactions_a, control_sum_a = \
-            self.generate_group_header_block(pain_root, gen_args)
+        header = self.generate_group_header_block(pain_root, gen_args)
+        group_header, nb_of_transactions_a, control_sum_a = header
         transactions_count_a = 0
         amount_control_sum_a = 0.0
         lines_per_group = {}
