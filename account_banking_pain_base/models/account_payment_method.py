@@ -27,6 +27,7 @@ class AccountPaymentMethod(models.Model):
             # Extending this constraint from account_payment_mode
             "code_payment_type_unique",
             "unique(code, payment_type, pain_version)",
-            "A payment method of the same type already exists with this code" " and PAIN version",
+            "A payment method of the same type already exists with this code"
+            " and PAIN version",
         )
     ]

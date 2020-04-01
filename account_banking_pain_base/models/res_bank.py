@@ -29,6 +29,7 @@ class ResBank(models.Model):
                     "the SEPA pattern:\n{bic_list}\n\nSEPA pattern: "
                     "{sepa_pattern}"
                 ).format(
-                    sepa_pattern=BIC_REGEX.pattern, bic_list="\n".join(invalid_banks.mapped("bic"))
+                    sepa_pattern=BIC_REGEX.pattern,
+                    bic_list="\n".join(invalid_banks.mapped("bic")),
                 )
             )

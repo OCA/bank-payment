@@ -83,7 +83,9 @@ class AccountPaymentOrder(models.Model):
         return sepa
 
     @api.model
-    def _prepare_field(self, field_name, field_value, eval_ctx, max_size=0, gen_args=None):
+    def _prepare_field(
+        self, field_name, field_value, eval_ctx, max_size=0, gen_args=None
+    ):
         """This function is designed to be inherited !"""
         if gen_args is None:
             gen_args = {}
@@ -128,22 +130,32 @@ class AccountPaymentOrder(models.Model):
                 field_name=field_name
             )
 
-            error_msg_details_list = self.except_messages_prepare_field(eval_ctx, field_name)
+            error_msg_details_list = self.except_messages_prepare_field(
+                eval_ctx, field_name
+            )
             error_msg_data = _(
-                "Data for evaluation:\n" "\tcontext: {eval_ctx}\n" "\tfield path: {field_value}"
+                "Data for evaluation:\n"
+                "\tcontext: {eval_ctx}\n"
+                "\tfield path: {field_value}"
             ).format(eval_ctx=eval_ctx, field_value=field_value)
             raise UserError(
-                "\n".join([error_msg_prefix] + error_msg_details_list + [error_msg_data])
+                "\n".join(
+                    [error_msg_prefix] + error_msg_details_list + [error_msg_data]
+                )
             )
 
         if not isinstance(value, str):
             raise UserError(
-                _("The type of the field '%s' is %s. It should be a string " "or unicode.")
+                _(
+                    "The type of the field '%s' is %s. It should be a string "
+                    "or unicode."
+                )
                 % (field_name, type(value))
             )
         if not value:
             raise UserError(
-                _("The '%s' is empty or 0. It should have a non-null value.") % field_name
+                _("The '%s' is empty or 0. It should have a non-null value.")
+                % field_name
             )
         if max_size and len(value) > max_size:
             value = value[0:max_size]
@@ -162,7 +174,9 @@ class AccountPaymentOrder(models.Model):
             error_messages.append(_("Payment Line has reference '%s'.") % line.name)
         partner_bank = eval_ctx.get("partner_bank")
         if partner_bank:
-            error_messages.append(_("Partner's bank account is '%s'.") % partner_bank.display_name)
+            error_messages.append(
+                _("Partner's bank account is '%s'.") % partner_bank.display_name
+            )
         return error_messages
 
     @api.model
@@ -193,7 +207,9 @@ class AccountPaymentOrder(models.Model):
         xml_string = etree.tostring(
             xml_root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
-        logger.debug("Generated SEPA XML file in format %s below" % gen_args["pain_flavor"])
+        logger.debug(
+            "Generated SEPA XML file in format %s below" % gen_args["pain_flavor"]
+        )
         logger.debug(xml_string)
         self._validate_xml(xml_string, gen_args)
 
@@ -221,7 +237,9 @@ class AccountPaymentOrder(models.Model):
             "Message Identification", "self.name", {"self": self}, 35, gen_args=gen_args
         )
         creation_date_time = etree.SubElement(group_header, "CreDtTm")
-        creation_date_time.text = datetime.strftime(datetime.today(), "%Y-%m-%dT%H:%M:%S")
+        creation_date_time.text = datetime.strftime(
+            datetime.today(), "%Y-%m-%dT%H:%M:%S"
+        )
         if gen_args.get("pain_flavor") == "pain.001.001.02":
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
@@ -340,7 +358,9 @@ class AccountPaymentOrder(models.Model):
             iniparty_org_other_id = etree.SubElement(iniparty_org_other, "Id")
             iniparty_org_other_id.text = initiating_party_identifier
             if initiating_party_scheme:
-                iniparty_org_other_scheme = etree.SubElement(iniparty_org_other, "SchmeNm")
+                iniparty_org_other_scheme = etree.SubElement(
+                    iniparty_org_other, "SchmeNm"
+                )
                 iniparty_org_other_scheme_name = etree.SubElement(
                     iniparty_org_other_scheme, "Prtry"
                 )
@@ -375,14 +395,18 @@ class AccountPaymentOrder(models.Model):
         if partner_bank.bank_bic:
             party_agent = etree.SubElement(parent_node, "%sAgt" % party_type)
             party_agent_institution = etree.SubElement(party_agent, "FinInstnId")
-            party_agent_bic = etree.SubElement(party_agent_institution, gen_args.get("bic_xml_tag"))
+            party_agent_bic = etree.SubElement(
+                party_agent_institution, gen_args.get("bic_xml_tag")
+            )
             party_agent_bic.text = partner_bank.bank_bic
         else:
             if order == "B" or (order == "C" and gen_args["payment_method"] == "DD"):
                 party_agent = etree.SubElement(parent_node, "%sAgt" % party_type)
                 party_agent_institution = etree.SubElement(party_agent, "FinInstnId")
                 party_agent_other = etree.SubElement(party_agent_institution, "Othr")
-                party_agent_other_identification = etree.SubElement(party_agent_other, "Id")
+                party_agent_other_identification = etree.SubElement(
+                    party_agent_other, "Id"
+                )
                 party_agent_other_identification.text = "NOTPROVIDED"
             # for Credit Transfers, in the 'C' block, if BIC is not provided,
             # we should not put the 'Creditor Agent' block at all,
@@ -424,21 +448,37 @@ class AccountPaymentOrder(models.Model):
                 if partner.zip:
                     pstcd = etree.SubElement(postal_address, "PstCd")
                     pstcd.text = self._prepare_field(
-                        "Postal Code", "partner.zip", {"partner": partner}, 16, gen_args=gen_args
+                        "Postal Code",
+                        "partner.zip",
+                        {"partner": partner},
+                        16,
+                        gen_args=gen_args,
                     )
                 if partner.city:
                     twnnm = etree.SubElement(postal_address, "TwnNm")
                     twnnm.text = self._prepare_field(
-                        "Town Name", "partner.city", {"partner": partner}, 35, gen_args=gen_args
+                        "Town Name",
+                        "partner.city",
+                        {"partner": partner},
+                        35,
+                        gen_args=gen_args,
                     )
             country = etree.SubElement(postal_address, "Ctry")
             country.text = self._prepare_field(
-                "Country", "partner.country_id.code", {"partner": partner}, 2, gen_args=gen_args
+                "Country",
+                "partner.country_id.code",
+                {"partner": partner},
+                2,
+                gen_args=gen_args,
             )
             if partner.street:
                 adrline1 = etree.SubElement(postal_address, "AdrLine")
                 adrline1.text = self._prepare_field(
-                    "Adress Line1", "partner.street", {"partner": partner}, 70, gen_args=gen_args
+                    "Adress Line1",
+                    "partner.street",
+                    {"partner": partner},
+                    70,
+                    gen_args=gen_args,
                 )
 
         return True
@@ -460,13 +500,22 @@ class AccountPaymentOrder(models.Model):
         name = "partner_bank.partner_id.name"
         eval_ctx = {"partner_bank": partner_bank}
         party_name = self._prepare_field(
-            party_type_label, name, eval_ctx, gen_args.get("name_maxsize"), gen_args=gen_args
+            party_type_label,
+            name,
+            eval_ctx,
+            gen_args.get("name_maxsize"),
+            gen_args=gen_args,
         )
         # At C level, the order is : BIC, Name, IBAN
         # At B level, the order is : Name, IBAN, BIC
         if order == "C":
             self.generate_party_agent(
-                parent_node, party_type, order, partner_bank, gen_args, bank_line=bank_line
+                parent_node,
+                party_type,
+                order,
+                partner_bank,
+                gen_args,
+                bank_line=bank_line,
             )
         party = etree.SubElement(parent_node, party_type)
         party_nm = etree.SubElement(party, "Nm")
@@ -483,7 +532,12 @@ class AccountPaymentOrder(models.Model):
 
         if order == "B":
             self.generate_party_agent(
-                parent_node, party_type, order, partner_bank, gen_args, bank_line=bank_line
+                parent_node,
+                party_type,
+                order,
+                partner_bank,
+                gen_args,
+                bank_line=bank_line,
             )
         return True
 
@@ -501,24 +555,40 @@ class AccountPaymentOrder(models.Model):
             )
         else:
             remittance_info_structured = etree.SubElement(remittance_info, "Strd")
-            creditor_ref_information = etree.SubElement(remittance_info_structured, "CdtrRefInf")
+            creditor_ref_information = etree.SubElement(
+                remittance_info_structured, "CdtrRefInf"
+            )
             if gen_args.get("pain_flavor") == "pain.001.001.02":
-                creditor_ref_info_type = etree.SubElement(creditor_ref_information, "CdtrRefTp")
-                creditor_ref_info_type_code = etree.SubElement(creditor_ref_info_type, "Cd")
+                creditor_ref_info_type = etree.SubElement(
+                    creditor_ref_information, "CdtrRefTp"
+                )
+                creditor_ref_info_type_code = etree.SubElement(
+                    creditor_ref_info_type, "Cd"
+                )
                 creditor_ref_info_type_code.text = "SCOR"
                 # SCOR means "Structured Communication Reference"
-                creditor_ref_info_type_issuer = etree.SubElement(creditor_ref_info_type, "Issr")
+                creditor_ref_info_type_issuer = etree.SubElement(
+                    creditor_ref_info_type, "Issr"
+                )
                 creditor_ref_info_type_issuer.text = line.communication_type
-                creditor_reference = etree.SubElement(creditor_ref_information, "CdtrRef")
+                creditor_reference = etree.SubElement(
+                    creditor_ref_information, "CdtrRef"
+                )
             else:
                 if gen_args.get("structured_remittance_issuer", True):
-                    creditor_ref_info_type = etree.SubElement(creditor_ref_information, "Tp")
+                    creditor_ref_info_type = etree.SubElement(
+                        creditor_ref_information, "Tp"
+                    )
                     creditor_ref_info_type_or = etree.SubElement(
                         creditor_ref_info_type, "CdOrPrtry"
                     )
-                    creditor_ref_info_type_code = etree.SubElement(creditor_ref_info_type_or, "Cd")
+                    creditor_ref_info_type_code = etree.SubElement(
+                        creditor_ref_info_type_or, "Cd"
+                    )
                     creditor_ref_info_type_code.text = "SCOR"
-                    creditor_ref_info_type_issuer = etree.SubElement(creditor_ref_info_type, "Issr")
+                    creditor_ref_info_type_issuer = etree.SubElement(
+                        creditor_ref_info_type, "Issr"
+                    )
                     creditor_ref_info_type_issuer.text = line.communication_type
 
                 creditor_reference = etree.SubElement(creditor_ref_information, "Ref")
