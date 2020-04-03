@@ -29,7 +29,7 @@ msgstr ""
 "l'autorització per fer una o diverses operacions amb el seu compte bancari."
 
 #. module: account_banking_mandate
-#: sql_constraint:account.banking.mandate:0
+#: model:ir.model.constraint,message:account_banking_mandate.constraint_account_banking_mandate_mandate_ref_company_uniq
 msgid "A Mandate with the same reference already exists for this company!"
 msgstr ""
 "Ja existeix un mandat amb la mateixa referència per a aquesta companyia!"
@@ -45,7 +45,7 @@ msgid "Action Needed"
 msgstr "És necessària una acció"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_invoice__mandate_required
+#: model:ir.model.fields,help:account_banking_mandate.field_account_move__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method__mandate_required
 msgid ""
@@ -103,7 +103,7 @@ msgstr ""
 "compte bancari dóna a una companyia per a una operació específica."
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,format:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__format__basic
 msgid "Basic Mandate"
 msgstr "Mandat bàsic"
 
@@ -114,13 +114,13 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,state:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__state__cancel
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:186
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
@@ -129,7 +129,7 @@ msgstr ""
 "No es pot validar el mandat '%s' perquè no té cap compte bancari associat."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:182
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "No es pot validar el mandat '%s' sense una data de signatura."
@@ -170,7 +170,7 @@ msgid "Date of the Last Debit"
 msgstr "Data de l'últim cobrament"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice__mandate_id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
@@ -190,14 +190,14 @@ msgid "Display Name"
 msgstr "Nom mostrat"
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,state:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__state__draft
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Draft"
 msgstr "Esborrany"
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,state:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__state__expired
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Expired"
 msgstr "Expirat"
@@ -230,7 +230,7 @@ msgid "Format"
 msgstr "Format"
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,type:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__type__generic
 msgid "Generic Mandate"
 msgstr "Mandat genèric"
 
@@ -245,29 +245,28 @@ msgid "ID"
 msgstr "ID"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread
-msgid "If checked new messages require your attention."
-msgstr "Si es marca els missatges nous requeriran la vostra atenció."
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction
+#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Si es marca els missatges nous requeriran la vostra atenció."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
+#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si es marca, alguns missatges tenen un error de lliurament."
-
-#. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_is_follower
 msgid "Is Follower"
 msgstr "És seguidor"
+
+#. module: account_banking_mandate
+#: model:ir.model,name:account_banking_mandate.model_account_move
+#, fuzzy
+#| msgid "Journal Item"
+msgid "Journal Entries"
+msgstr "Apunt comptable"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
@@ -305,26 +304,26 @@ msgid "Mandate Format"
 msgstr "Format del mandat"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_invoice__mandate_required
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__mandate_required
 msgid "Mandate Required"
 msgstr "Mandat requerit"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:231
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "El mandat hauria d'estar en estat cancel·lat."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:219
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "El mandat hauria de ser en estat esborrany o validat."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:210
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in draft state."
 msgstr "El mandat hauria de ser en estat esborrany."
@@ -350,7 +349,7 @@ msgid "Messages"
 msgstr "Missatges"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_payment_line.py:51
+#: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid "Missing Mandate on payment line %s"
 msgstr "Falta el mandat a la línia de pagament %s"
@@ -368,7 +367,9 @@ msgstr "Número de mandats"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
-msgid "Number of error"
+#, fuzzy
+#| msgid "Number of error"
+msgid "Number of errors"
 msgstr "Número d'error"
 
 #. module: account_banking_mandate
@@ -385,11 +386,6 @@ msgstr "Número de missatges amb error de lliurament"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de missatges no llegits"
-
-#. module: account_banking_mandate
-#: selection:account.banking.mandate,type:0
-msgid "One-Off"
-msgstr "Únic"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__state
@@ -421,16 +417,11 @@ msgid "Payment Methods"
 msgstr "Mètodes de pagament"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:104
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, python-format
 msgid "Payment lines"
 msgstr "Línies de pagament"
-
-#. module: account_banking_mandate
-#: selection:account.banking.mandate,type:0
-msgid "Recurrent"
-msgstr "Recurrent"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
@@ -448,6 +439,13 @@ msgid "Related Payment Lines"
 msgstr "Línies de pagament relacionades"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
+#, fuzzy
+#| msgid "Message Delivery error"
+msgid "SMS Delivery error"
+msgstr "Error de lliurament de missatge"
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
 msgid "Scan of the Mandate"
 msgstr "Escanejat del mandat"
@@ -456,11 +454,6 @@ msgstr "Escanejat del mandat"
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Search Banking Mandates"
 msgstr "Cercar mandats bancaris"
-
-#. module: account_banking_mandate
-#: selection:account.banking.mandate,format:0
-msgid "Sepa Mandate"
-msgstr "Mandat SEPA"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
@@ -479,27 +472,27 @@ msgid "Status"
 msgstr "Estat"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:135
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr ""
 "La companyia del mandat %s és diferent de la companyia de l'empresa %s."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:119
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La data de la signatura del mandat %s no pot ser posterior a avui!"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_invoice.py:90
+#: code:addons/account_banking_mandate/models/account_move.py:0
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
 msgstr "La factura %s té una empresa diferent a la del mandat associat (%s)."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_move_line.py:46
+#: code:addons/account_banking_mandate/models/account_move_line.py:0
 #, python-format
 msgid ""
 "The item %s of journal %s has a different company than that of the linked "
@@ -509,7 +502,7 @@ msgstr ""
 "(%s)."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:125
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
@@ -519,7 +512,7 @@ msgstr ""
 "signatura."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_payment_line.py:41
+#: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
 "The payment line number %s a different company than that of the linked "
@@ -529,7 +522,7 @@ msgstr ""
 "mandat associat (%s)."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_payment_line.py:26
+#: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
 "The payment line number %s has the bank account '%s' which is not attached "
@@ -564,7 +557,7 @@ msgid "Unread Messages Counter"
 msgstr "Total de missatges no llegits"
 
 #. module: account_banking_mandate
-#: selection:account.banking.mandate,state:0
+#: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__state__valid
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
 msgid "Valid"
 msgstr "Vàlid"
@@ -586,7 +579,7 @@ msgid "Website communication history"
 msgstr "Historial de comunicacions del lloc Web"
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/res_partner_bank.py:25
+#: code:addons/account_banking_mandate/models/res_partner_bank.py:0
 #, python-format
 msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
@@ -596,7 +589,7 @@ msgstr ""
 "mandats associats que pertanyen a una altra companyia."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:170
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
@@ -606,7 +599,7 @@ msgstr ""
 "pagament bancari associades que pertanyen a altres companyies."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:152
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
@@ -616,7 +609,7 @@ msgstr ""
 "associades que pertanyen a una altra companyia."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:161
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
@@ -626,7 +619,7 @@ msgstr ""
 "diari associats que pertanyen a una altra companyia."
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_banking_mandate.py:143
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
@@ -643,6 +636,21 @@ msgid ""
 msgstr ""
 "Només hauria de tornar un mandat a estat esborrany si va cancel·lar-lo per "
 "error. Desitja continuar?"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Si es marca els missatges nous requeriran la vostra atenció."
+
+#~ msgid "Invoice"
+#~ msgstr "Factura"
+
+#~ msgid "One-Off"
+#~ msgstr "Únic"
+
+#~ msgid "Recurrent"
+#~ msgstr "Recurrent"
+
+#~ msgid "Sepa Mandate"
+#~ msgstr "Mandat SEPA"
 
 #~ msgid ""
 #~ "The bank payment line %s has a different company than that of the linked "
