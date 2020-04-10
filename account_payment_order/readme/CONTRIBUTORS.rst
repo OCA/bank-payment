@@ -16,3 +16,4 @@
 * `DynApps <https://www.dynapps.be>`_:
 
   * Raf Ven <raf.ven@dynapps.be>
+* Andrea Stirpe <a.stirpe@onestein.nl>
