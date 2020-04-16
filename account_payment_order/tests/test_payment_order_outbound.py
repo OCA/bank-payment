@@ -4,55 +4,66 @@
 
 from datetime import date, datetime, timedelta
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
-class TestPaymentOrderOutbound(TransactionCase):
+class TestPaymentOrderOutbound(SavepointCase):
 
-    def setUp(self):
-        super(TestPaymentOrderOutbound, self).setUp()
-        self.journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')], limit=1
-        )
-        self.invoice_line_account = self.env['account.account'].search(
-            [('user_type_id', '=', self.env.ref(
+    @classmethod
+    def setUpClass(cls):
+        super(TestPaymentOrderOutbound, cls).setUpClass()
+        cls.company = cls.env.user.company_id
+        cls.invoice_line_account = cls.env['account.account'].search(
+            [('user_type_id', '=', cls.env.ref(
                 'account.data_account_type_expenses').id)],
             limit=1).id
-        self.invoice = self._create_supplier_invoice()
-        self.invoice_02 = self._create_supplier_invoice()
-        self.mode = self.env.ref(
+        cls.invoice = cls._create_supplier_invoice()
+        cls.invoice_02 = cls._create_supplier_invoice()
+        cls.mode = cls.env.ref(
             'account_payment_mode.payment_mode_outbound_ct1')
-        self.creation_mode = self.env.ref(
+        cls.mode.default_journal_ids = cls.env['account.journal'].search([
+            ('type', 'in', ('purchase', 'purchase_refund')),
+            ('company_id', '=', cls.env.user.company_id.id)
+        ])
+        cls.creation_mode = cls.env.ref(
             'account_payment_mode.payment_mode_outbound_dd1')
-        self.bank_journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')], limit=1)
+        cls.creation_mode.default_journal_ids = (
+            cls.env['account.journal'].search([
+                ('type', 'in', ('sale', 'sale_refund')),
+                ('company_id', '=', cls.env.user.company_id.id)
+            ]))
+        cls.bank_journal = cls.env['account.journal'].search(
+            [('type', '=', 'bank'),
+             '|', ('company_id', '=', cls.env.user.company_id.id),
+             ('company_id', '=', False)], limit=1)
         # Make sure no other payment orders are in the DB
-        self.domain = [
+        cls.domain = [
             ('state', '=', 'draft'),
             ('payment_type', '=', 'outbound'),
         ]
-        self.env['account.payment.order'].search(self.domain).unlink()
+        cls.env['account.payment.order'].search(cls.domain).unlink()
 
-    def _create_supplier_invoice(self):
-        invoice_account = self.env['account.account'].search(
-            [('user_type_id', '=', self.env.ref(
+    @classmethod
+    def _create_supplier_invoice(cls):
+        invoice_account = cls.env['account.account'].search(
+            [('user_type_id', '=', cls.env.ref(
                 'account.data_account_type_payable').id)],
             limit=1).id
-        invoice = self.env['account.invoice'].create({
-            'partner_id': self.env.ref('base.res_partner_4').id,
+        invoice = cls.env['account.invoice'].create({
+            'partner_id': cls.env.ref('base.res_partner_4').id,
             'account_id': invoice_account,
             'type': 'in_invoice',
-            'payment_mode_id': self.env.ref(
+            'payment_mode_id': cls.env.ref(
                 'account_payment_mode.payment_mode_outbound_ct1').id
         })
 
-        self.env['account.invoice.line'].create({
-            'product_id': self.env.ref('product.product_product_4').id,
+        cls.env['account.invoice.line'].create({
+            'product_id': cls.env.ref('product.product_product_4').id,
             'quantity': 1.0,
             'price_unit': 100.0,
             'invoice_id': invoice.id,
             'name': 'product that cost 100',
-            'account_id': self.invoice_line_account,
+            'account_id': cls.invoice_line_account,
         })
 
         return invoice
@@ -144,13 +155,11 @@ class TestPaymentOrderOutbound(TransactionCase):
 
         payment_order = self.env['account.payment.order'].search(self.domain)
         self.assertEqual(len(payment_order), 1)
-        bank_journal = self.env['account.journal'].search(
-            [('type', '=', 'bank')], limit=1)
         # Set journal to allow cancelling entries
-        bank_journal.update_posted = True
+        self.bank_journal.update_posted = True
 
         payment_order.write({
-            'journal_id': bank_journal.id,
+            'journal_id': self.bank_journal.id,
         })
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
@@ -185,7 +194,7 @@ class TestPaymentOrderOutbound(TransactionCase):
         outbound_order = self.env['account.payment.order'].create({
             'payment_type': 'outbound',
             'payment_mode_id': self.mode.id,
-            'journal_id': self.journal.id,
+            'journal_id': self.bank_journal.id,
         })
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(
