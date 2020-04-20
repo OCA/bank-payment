@@ -132,5 +132,8 @@ class AccountMoveLine(models.Model):
                 doc.remove(elem)
             for elem in doc.xpath("//field[@name='credit']"):
                 doc.remove(elem)
-            result['arch'] = etree.tostring(doc)
+            arch, fields = self.env['ir.ui.view'].postprocess_and_fields(
+                self._name, doc, view_id,
+            )
+            result.update(arch=arch, fields=fields)
         return result
