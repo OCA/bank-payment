@@ -28,5 +28,9 @@
     <field name="default_journal_ids" search="[('type', 'in', ('sale', 'sale_refund')), ('company_id', '=', ref('base.main_company'))]"/>
 </record>
 
+<!-- without this, account tests fail /-->
+<record id="account.group_account_manager" model="res.groups">
+    <field name="implied_ids" eval="[(4, ref('group_account_payment'))]" />
+</record>
 
 </odoo>
