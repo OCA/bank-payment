@@ -12,7 +12,6 @@ BIC_REGEX = re.compile(r"[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?$")
 class ResBank(models.Model):
     _inherit = "res.bank"
 
-    @api.multi
     @api.constrains("bic")
     def _check_bic(self):
         """
