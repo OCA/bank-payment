@@ -36,7 +36,7 @@ class ResCompany(models.Model):
         """This method is called from post_install.py"""
         self.ensure_one()
         party_issuer_per_country = {
-            "BE": "KBO-BCE",  # KBO-BCE = the registry of companies in Belgium
+            "BE": "KBO-BCE"  # KBO-BCE = the registry of companies in Belgium
         }
         logger.debug("Calling _default_initiating_party on company %s", self.name)
         country_code = self.country_id.code
