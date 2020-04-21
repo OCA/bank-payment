@@ -7,3 +7,6 @@
 * Sandy Carter
 * Stefan Rijnhart (Therp)
 * Antonio Espinosa <antonioea@antiun.com>
+* `DynApps NV <https://www.dynapps.be>`_:
+
+  * Axel Priem <axel.priem@dynapps.be>
