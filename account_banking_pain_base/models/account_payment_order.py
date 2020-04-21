@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    sepa = fields.Boolean(compute="compute_sepa", readonly=True, string="SEPA Payment")
+    sepa = fields.Boolean(compute="_compute_sepa", readonly=True, string="SEPA Payment")
     charge_bearer = fields.Selection(
         [
             ("SLEV", "Following Service Level"),
@@ -57,13 +57,12 @@ class AccountPaymentOrder(models.Model):
         "transfer of the SEPA XML file.",
     )
 
-    @api.multi
     @api.depends(
         "company_partner_bank_id.acc_type",
         "payment_line_ids.currency_id",
         "payment_line_ids.partner_bank_id.acc_type",
     )
-    def compute_sepa(self):
+    def _compute_sepa(self):
         eur = self.env.ref("base.EUR")
         for order in self:
             sepa = True
@@ -79,7 +78,6 @@ class AccountPaymentOrder(models.Model):
             sepa = order.compute_sepa_final_hook(sepa)
             self.sepa = sepa
 
-    @api.multi
     def compute_sepa_final_hook(self, sepa):
         self.ensure_one()
         return sepa
@@ -205,7 +203,6 @@ class AccountPaymentOrder(models.Model):
             )
         return True
 
-    @api.multi
     def finalize_sepa_file_creation(self, xml_root, gen_args):
         xml_string = etree.tostring(
             xml_root, pretty_print=True, encoding="UTF-8", xml_declaration=True
@@ -219,7 +216,6 @@ class AccountPaymentOrder(models.Model):
         filename = "{}{}.xml".format(gen_args["file_prefix"], self.name)
         return (xml_string, filename)
 
-    @api.multi
     def generate_pain_nsmap(self):
         self.ensure_one()
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
@@ -229,7 +225,6 @@ class AccountPaymentOrder(models.Model):
         }
         return nsmap
 
-    @api.multi
     def generate_pain_attrib(self):
         self.ensure_one()
         return {}
