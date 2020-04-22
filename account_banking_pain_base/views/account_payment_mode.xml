@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2015-2017 Tecnativa
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="name">pain_base.account.payment.mode.form</field>
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="main" position="inside">
+                <field
+                    name="initiating_party_identifier"
+                    groups="account_banking_pain_base.group_pain_multiple_identifier"
+                />
+                <field
+                    name="initiating_party_issuer"
+                    groups="account_banking_pain_base.group_pain_multiple_identifier"
+                />
+                <field
+                    name="initiating_party_scheme"
+                    groups="account_banking_pain_base.group_pain_multiple_identifier"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="company_partner_bank_id" position="after">
+                <field name="sepa" />
+                <field name="batch_booking" />
+                <field
+                    name="charge_bearer"
+                    attrs="{'invisible': [('sepa', '=', True)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
