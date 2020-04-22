@@ -2,7 +2,7 @@
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.fields import first
 
 
@@ -12,6 +12,9 @@ class AccountMoveLine(models.Model):
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
         string="Partner Bank Account",
+        compute="_compute_partner_bank_id",
+        readonly=False,
+        store=True,
         help="Bank account on which we should pay the supplier",
     )
     bank_payment_line_id = fields.Many2one(
@@ -22,6 +25,23 @@ class AccountMoveLine(models.Model):
         inverse_name="move_line_id",
         string="Payment lines",
     )
+
+    @api.depends(
+        "move_id", "move_id.invoice_partner_bank_id", "move_id.payment_mode_id"
+    )
+    def _compute_partner_bank_id(self):
+        for ml in self:
+            if (
+                ml.move_id.type in ("in_invoice", "in_refund")
+                and not ml.reconciled
+                and ml.payment_mode_id.payment_order_ok
+                and ml.account_id.internal_type in ("receivable", "payable")
+                and not any(
+                    p_state in ("draft", "open", "generated")
+                    for p_state in ml.payment_line_ids.mapped("state")
+                )
+            ):
+                ml.partner_bank_id = ml.move_id.invoice_partner_bank_id.id
 
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
