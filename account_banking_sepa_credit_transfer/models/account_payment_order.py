@@ -4,15 +4,14 @@
 
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    @api.multi
-    def generate_payment_file(self):
+    def generate_payment_file(self):  # noqa: C901
         """Creates the SEPA Credit Transfer file. That's the important code!"""
         self.ensure_one()
         if self.payment_method_id.code != "sepa_credit_transfer":
@@ -72,11 +71,8 @@ class AccountPaymentOrder(models.Model):
         xml_root = etree.Element("Document", nsmap=nsmap, attrib=attrib)
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
-        (
-            group_header,
-            nb_of_transactions_a,
-            control_sum_a,
-        ) = self.generate_group_header_block(pain_root, gen_args)
+        header = self.generate_group_header_block(pain_root, gen_args)
+        group_header, nb_of_transactions_a, control_sum_a = header
         transactions_count_a = 0
         amount_control_sum_a = 0.0
         lines_per_group = {}
