@@ -1,6 +1,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+import unittest
 from odoo import fields, _
 from odoo.tests import common
 from odoo.exceptions import ValidationError
@@ -31,8 +32,10 @@ class TestAccountPaymentPartner(common.SavepointCase):
         if charts:
             cls.chart = charts[0]
         else:
-            raise ValidationError(
+            cls.tearDownClass()
+            raise unittest.SkipTest(
                 _("No Chart of Account Template has been defined !"))
+
         old_company = cls.env.user.company_id
         cls.env.user.company_id = cls.company_2.id
         cls.chart.try_loading_for_current_company()

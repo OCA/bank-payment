@@ -1,7 +1,7 @@
 # © 2017 Camptocamp SA
 # © 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
+import unittest
 from datetime import date, datetime, timedelta
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import SavepointCase
@@ -17,6 +17,8 @@ class TestPaymentOrderOutbound(SavepointCase):
             [('user_type_id', '=', cls.env.ref(
                 'account.data_account_type_expenses').id)],
             limit=1).id
+        if not cls.invoice_line_account:
+            raise unittest.SkipTest('No account found')
         cls.invoice = cls._create_supplier_invoice()
         cls.invoice_02 = cls._create_supplier_invoice()
         cls.mode = cls.env.ref(

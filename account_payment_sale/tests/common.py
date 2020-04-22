@@ -1,6 +1,7 @@
 # Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import unittest
 from odoo.tests.common import SavepointCase
 
 
@@ -9,6 +10,9 @@ class CommonTestCase(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        if not cls.env['account.account'].search([]):
+            raise unittest.SkipTest('No accounts defined')
 
         cls.bank = cls.env["res.partner.bank"].create({
             'acc_number': 'test',
