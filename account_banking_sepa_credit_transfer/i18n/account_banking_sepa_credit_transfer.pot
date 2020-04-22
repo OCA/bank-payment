@@ -106,4 +106,3 @@ msgstr ""
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
-
