@@ -13,6 +13,8 @@ setuptools.setup(
         'odoo13-addon-account_payment_mode',
         'odoo13-addon-account_payment_order',
         'odoo13-addon-account_payment_partner',
+        'odoo13-addon-account_payment_purchase',
+        'odoo13-addon-account_payment_purchase_stock',
         'odoo13-addon-account_payment_sale',
     ],
     classifiers=[
