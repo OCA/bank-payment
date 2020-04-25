@@ -17,13 +17,13 @@ Account Payment Purchase Stock
     :target: https://github.com/OCA/bank-payment/tree/13.0/account_payment_purchase_stock
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/bank-payment-13-/bank-payment-13--account_payment_purchase_stock
+    :target: https://translation.odoo-community.org/projects/bank-payment-13-0/bank-payment-13-0-account_payment_purchase_stock
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/97/13.0
+    :target: https://runbot.odoo-community.org/runbot/173/13.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5|
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
 This module combines the *account_payment_purchase* module with *purchase_stock*.
 
