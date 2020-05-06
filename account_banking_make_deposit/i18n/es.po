@@ -66,12 +66,12 @@ msgstr "Calcula el monto total de las lineas."
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.deposit_ticket_report
 msgid "Check Number"
-msgstr ""
+msgstr "Numero de cheque"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_items_line__company_id
@@ -143,7 +143,7 @@ msgstr "Cuenta de origen"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__deposit_from_account_id
 msgid "Deposit From Acct"
-msgstr "Cuenta de destino"
+msgstr "Cuenta de origen"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_items_line__deposit_items_id
