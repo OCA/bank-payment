@@ -1,0 +1,17 @@
+<odoo>
+
+    <record id="action_deposit_method" model="ir.actions.act_window">
+        <field name="name">Deposit Method</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">deposit.method</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_deposit_methods"
+              name="Deposit Methods"
+              parent="account.account_account_menu"
+              action="action_deposit_method"
+              sequence="8" />
+
+</odoo>

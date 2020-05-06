@@ -1,0 +1,61 @@
+<odoo>
+
+    <template id="deposit_ticket_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <h1>Deposit Ticket <t t-esc="o.name"/></h1>
+                    <table style="width: 100%; margin-top: 30pt;">
+                        <tr>
+                            <td>
+                                <strong>Bank:</strong>
+                                <t t-esc="o.journal_id.bank_id.display_name"/>
+                            </td>
+                            <td>
+                                <strong>Bank Account:</strong>
+                                <t t-esc="o.journal_id.bank_account_id.acc_number"/>
+                            </td>
+                            <td>
+                                <strong>Date:</strong>
+                                <t t-esc="o.date"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%; margin-top: 30pt;">
+                        <tr>
+                            <th style="width: 60%;">Company</th>
+                            <th style="width: 20%;">Check Number</th>
+                            <th style="width: 20%; text-align: right;">Amount</th>
+                        </tr>
+                        <t t-foreach="o.ticket_line_ids" t-as="dtl">
+                            <tr>
+                                <td>
+                                    <t t-esc="dtl.move_line_id.partner_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="dtl.ref"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span t-field="dtl.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;dtl.currency_id&quot;}"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                    <table style="width: 100%; margin-top: 20pt;">
+                        <tr>
+                            <td>
+                                <strong>Count: </strong><t t-esc="o.count_total"/>
+                            </td>
+                            <td style="text-align: right;">
+                                <strong>Total Amount: </strong>
+                                <span t-field="o.amount"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.journal_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

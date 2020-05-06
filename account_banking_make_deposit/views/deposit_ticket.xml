@@ -1,0 +1,174 @@
+<odoo>
+
+    <record id="view_deposit_ticket_tree" model="ir.ui.view">
+        <field name="name">deposit.ticket.tree</field>
+        <field name="model">deposit.ticket</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <tree string="Deposit Tickets"
+                  colors="grey:state=='cancel';blue:state in ('to_be_reviewed')">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="deposit_from_account_id"/>
+                <field name="deposit_to_account_id"/>
+                <field name="amount"/>
+                <field name="count_total"/>
+                <field name="prepared_by_user_id"/>
+                <field name="verified_by_user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_deposit_ticket_form" model="ir.ui.view">
+        <field name="name">deposit.ticket.form</field>
+        <field name="model">deposit.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Deposit Ticket" version="7.0">
+                <header>
+                    <button name="action_review" type="object" states="draft"
+                            class="oe_highlight"
+                            string="Ready for Review"/>
+                    <button name="action_process" type="object"
+                            class="oe_highlight"
+                            states="to_be_reviewed" string="Process"/>
+                    <button name="action_cancel" type="object"
+                            states="draft,to_be_reviewed" string="Cancel"/>
+                    <button name="action_cancel_draft" states="cancel,done"
+                            string="Set to Draft" type="object"/>
+                    <field name="state" widget="statusbar" nolabel="1"/>
+                </header>
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="deposit_from_account_id"
+                               placeholder="Enter Account Name (from)"/>
+                        <field name="deposit_to_account_id"
+                               placeholder="Enter Account Name (to)"/>
+                        <field name="journal_id"
+                               placeholder="Enter journal name"
+                               domain="[('type','=','bank')]"/>
+                        <field name="date" placeholder="Enter deposite date"/>
+                        <field name="name"/>
+                        <field name="deposit_bag_no"
+                               placeholder="Enter deposit bag number"/>
+                        <field name="bank_tracking_no"
+                               placeholder="Enter deposit tracking number"/>
+                        <field name="deposit_method_id"
+                               placeholder="Enter deposit method"/>
+                        <field name="memo" placeholder="Enter memo"/>
+                        <field name="company_id"
+                               groups="base.group_multi_company"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <button name="add_deposit_items"
+                                states="draft,to_be_reviewed"
+                                string="Add Deposit Items" type="object"/>
+                    </group>
+                    <notebook colspan="5">
+                        <page string="Deposit Ticket Lines">
+                            <field colspan="4" mode="tree"
+                                   name="ticket_line_ids"
+                                   widget="one2many_list" nolabel="1">
+                                <tree string="Deposit Ticket Lines">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="ref"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount"/>
+                                    <field name="company_id"
+                                           groups="base.group_multi_company"/>
+                                </tree>
+                                <form string="Deposit Ticket Lines">
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="ref"/>
+                                        <field name="partner_id"/>
+                                        <field name="amount"/>
+                                        <field name="date"/>
+                                        <field name="company_id"
+                                               groups="base.group_multi_company"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group name="calculation" col="4" colspan="2">
+                                <field name="amount"/>
+                                <field name="count_total"/>
+                            </group>
+                        </page>
+                        <page string="Other Information">
+                            <separator string="Tracking Information"
+                                       colspan="4"/>
+                            <group colspan="2" col="2">
+                                <field name="verified_by_user_id"
+                                       placeholder="Enter user name who varified"/>
+                                <field name="prepared_by_user_id"
+                                       placeholder="Enter user name who prepared"/>
+                                <field name="verified_date"
+                                       placeholder="Enter date of verification"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_deposit_ticket_filter" model="ir.ui.view">
+        <field name="name">deposit.ticket.select</field>
+        <field name="model">deposit.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Search Deposit Tickets">
+                <field name="name"/>
+                <field name="date" string="Order date"/>
+                <field name="journal_id"/>
+                <field name="deposit_from_account_id"/>
+                <field name="deposit_to_account_id"/>
+                <field name="prepared_by_user_id"
+                       domain="[('prepared_by_user_id', '=', uid)]"
+                       string="Prepared by me"/>
+                <field name="verified_by_user_id"
+                       domain="[('verified_by_user_id', '=', uid)]"
+                       string="Verified by me"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="review" string="To be Reviewed"
+                        domain="[('state', '=', 'to_be_reviewed')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <group string="Group By...">
+                    <filter name="group_by_account_from" string="Deposit From Account"
+                            context="{'group_by': 'deposit_from_account_id'}"/>
+                    <filter name="group_by_account_to" string="Deposit To Account"
+                            context="{'group_by': 'deposit_to_account_id'}"/>
+                    <separator/>
+                    <filter name="group_by_state" string="State" domain="[]"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_deposit_ticket" model="ir.actions.act_window">
+        <field name="name">Deposit Ticket</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">deposit.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_deposit_ticket_filter"/>
+        <field name="help">With Deposit Tickets you can create new deposit
+            tickets, by selecting and grouping customer payments, supplier
+            refunds, or other payments into a Deposit Ticket. OpenERP
+            automatically posts accounting entries for “Done” deposit tickets.
+            The GL entry for the deposit is posted into the Current Period
+            based on the date range selected.
+        </field>
+    </record>
+
+    <menuitem id="menu_make_deposit_tickets"
+              name="Deposits"
+              parent="account.menu_finance_receivables"
+              groups="group_make_deposits_preparer,group_make_deposits_verifier"
+              action="action_deposit_ticket"
+              sequence="18"/>
+
+</odoo>
