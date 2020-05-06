@@ -79,7 +79,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket_line__company_id
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.deposit_ticket_report
 msgid "Company"
-msgstr "Cancelar"
+msgstr "Compañía"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__count_total
@@ -682,4 +682,3 @@ msgstr "_Seleccionar todos"
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_add_deposit_items
 msgid "_Unselect All"
 msgstr "_Deseleccionar todos"
-
