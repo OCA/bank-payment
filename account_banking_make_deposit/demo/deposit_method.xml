@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<odoo>
-  <data noupdate="1">
+<odoo noupdate="1">
 
     <record id="deposit_method_teller" model="deposit.method">
       <field name="name">Teller</field>
@@ -22,5 +20,4 @@
       <field name="name">Night Drop</field>
     </record>
 
-  </data>
 </odoo>
