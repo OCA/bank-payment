@@ -20,4 +20,8 @@
       <field name="name">Night Drop</field>
     </record>
 
+    <record id="deposit_method_armored_vehicle" model="deposit.method">
+      <field name="name">Armored Vehicle</field>
+    </record>
+
 </odoo>

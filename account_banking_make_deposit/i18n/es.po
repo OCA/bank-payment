@@ -593,16 +593,21 @@ msgstr "Ese campo tiene el numéro de rastreo del banco en caso de deposito remo
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
-msgid "This is how the deposit was made: Examples: *Teller \n"
-"*ATM \n"
-"*Remote Deposit Capture \n"
-"*Online Deposit Capture \n"
-"*Night Drop"
-msgstr "Como se hizo el deposito: * Ventanilla \n"
+msgid "This is how the deposit was made:\n"
+"Examples:"
+"* Teller \n"
+"* ATM \n"
+"* Remote Deposit Capture \n"
+"* Online Deposit Capture \n"
+"* Night Drop \n"
+"* Armored Vehicle"
+msgstr "Como se hizo el deposito:\n"
+"* Ventanilla \n"
 "* Cajero automatico \n"
 "* Captura remota \n"
 "* Captura en linea \n"
-"* Deposito de noche"
+"* Deposito de noche \n"
+"* Vehiculo blindado"
 
 #. module: account_banking_make_deposit
 #: model:ir.model,name:account_banking_make_deposit.model_report_account_banking_make_deposit_quickbooks_ticket

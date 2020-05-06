@@ -9,5 +9,5 @@ class DepositMethod(models.Model):
     _name = "deposit.method"
     _description = "Deposit Method"
 
-    name = fields.Char(string="Name",
-                       help="Name of the method used for deposit")
+    name = fields.Char(string="Name", translate=True,
+                       help="Name of the method used to deposit")

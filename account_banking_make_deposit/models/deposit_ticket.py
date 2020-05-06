@@ -217,12 +217,13 @@ class DepositTicket(models.Model):
         'deposit.method', 'Deposit Method',
         states={'done': [('readonly', True)]},
         help=(
-            "This is how the deposit was made: Examples: "
-            "*Teller \n"
-            "*ATM \n"
-            "*Remote Deposit Capture \n"
-            "*Online Deposit Capture \n"
-            "*Night Drop"
+            "This is how the deposit was made:\nExamples:\n"
+            "* Teller \n"
+            "* ATM \n"
+            "* Remote Deposit Capture \n"
+            "* Online Deposit Capture \n"
+            "* Night Drop \n"
+            "* Armored Vehicle"
         )
     )
     verified_date = fields.Date(

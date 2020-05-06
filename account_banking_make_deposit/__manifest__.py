@@ -15,6 +15,7 @@
         "account_cancel",
     ],
     "data": [
+        "data/deposit_method.xml",
         "security/res_groups.xml",
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
@@ -24,9 +25,6 @@
         "report/deposit_ticket.xml",
         "report/deposit_ticket_report.xml",
         "wizard/add_deposit_items.xml",
-    ],
-    "demo": [
-        "demo/deposit_method.xml"
     ],
     "development_status": "Beta",
     "maintainers": ["max3903"],
