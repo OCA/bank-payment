@@ -80,7 +80,6 @@ class AddDepositItems(models.TransientModel):
     @api.multi
     def unselect_all(self):
         """Unselect all the deposit item lines in the wizard."""
-        """Select all the deposit item lines in the wizard."""
         deposit_items_line = self.env['deposit.items.line']
         line_ids = deposit_items_line.search([(
             'deposit_items_id', '=', self.id)])

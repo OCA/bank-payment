@@ -114,14 +114,14 @@ class DepositTicket(models.Model):
         return True
 
     @api.multi
-    def get_move_line(self, deposit, type):
+    def get_move_line(self, deposit, line_type):
         return {
-            'type': type,
+            'type': line_type,
             'name': deposit.name or '/',
-            'debit': type == 'dest' and deposit.amount or 0.0,
-            'credit': type == 'src' and deposit.amount or 0.0,
+            'debit': line_type == 'dest' and deposit.amount or 0.0,
+            'credit': line_type == 'src' and deposit.amount or 0.0,
             'account_id': (
-                type == 'src' and
+                line_type == 'src' and
                 deposit.deposit_from_account_id.id or
                 deposit.deposit_to_account_id.id
             ),
@@ -165,7 +165,7 @@ class DepositTicket(models.Model):
         return True
 
     @api.multi
-    def _get_amount(self):
+    def _compute_amount(self):
         for deposit in self:
             total = 0.0
             for line in deposit.ticket_line_ids:
@@ -272,7 +272,7 @@ class DepositTicket(models.Model):
         states={'done': [('readonly', True)]},
     )
     amount = fields.Float(
-        'Amount', compute='_get_amount',
+        'Amount', compute='_compute_amount',
         digits=dp.get_precision('Account'),
         help=(
             "Calculates the Total of All Deposit Lines - "
@@ -280,7 +280,7 @@ class DepositTicket(models.Model):
         ),
     )
     count_total = fields.Float(
-        'Total Items', compute='_get_amount',
+        'Total Items', compute='_compute_amount',
         help="Counts the total # of line items in the deposit ticket."
     )
     state = fields.Selection(
