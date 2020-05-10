@@ -41,7 +41,6 @@ class AddDepositItems(models.TransientModel):
 
             lines = account_move_line.search([
                 ('account_id', '=', deposit.deposit_from_account_id.id),
-                ('debit', '>', 0.0),
                 ('move_id', 'in', move_ids),
                 ('draft_assigned', '=', False),
                 ('deposit_id', '=', False)])
@@ -49,7 +48,7 @@ class AddDepositItems(models.TransientModel):
                 vals = {
                     'name': line.name,
                     'ref': line.ref,
-                    'amount': line.debit,
+                    'amount': line.debit > 0 and line.debit or -line.credit,
                     'partner_id': line.partner_id.id,
                     'date': line.date,
                     'move_line_id': line.id,
