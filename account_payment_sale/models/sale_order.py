@@ -23,7 +23,9 @@ class SaleOrder(models.Model):
     def onchange_partner_id(self):
         res = super().onchange_partner_id()
         if self.partner_id:
-            self.payment_mode_id = self.partner_id.customer_payment_mode_id
+            self.payment_mode_id = self.partner_id.with_context(
+                force_company=self.company_id.id
+            ).customer_payment_mode_id
         else:
             self.payment_mode_id = False
         return res
