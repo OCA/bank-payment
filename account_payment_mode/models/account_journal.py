@@ -26,9 +26,6 @@ class AccountJournal(models.Model):
     inbound_payment_method_ids = fields.Many2many(
         default=_default_inbound_payment_methods
     )
-    company_partner_id = fields.Many2one(
-        "res.partner", related="company_id.partner_id", readonly=True
-    )  # Used in domain of field bank_account_id
 
     @api.constrains("company_id")
     def company_id_account_payment_mode_constrains(self):
