@@ -25,11 +25,6 @@ msgid "A payment method of the same type already exists with this code"
 msgstr "Ja existeix un mètode de pagament del mateix tipus amb aquest codi"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__company_partner_id
-msgid "Account Holder"
-msgstr "Titular del compte"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
@@ -357,3 +352,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr ""
+
+#~ msgid "Account Holder"
+#~ msgstr "Titular del compte"
