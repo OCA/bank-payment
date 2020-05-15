@@ -35,6 +35,7 @@ class AccountMove(models.Model):
         for onchange_method, changed_fields in list(onchanges.items()):
             if any(f not in vals for f in changed_fields):
                 invoice = self.new(vals)
+                invoice = invoice.with_context(force_company=invoice.company_id.id,)
                 getattr(invoice, onchange_method)()
                 for field in changed_fields:
                     if field not in vals and invoice[field]:
