@@ -4,6 +4,7 @@
     <record id="view_attachment_simplified_form" model="ir.ui.view">
         <field name="name">ir.attachment.simplified.form</field>
         <field name="model">ir.attachment</field>
+        <field name="priority" eval="25" />
         <field name="arch" type="xml">
             <form string="Attachments">
                 <sheet>
