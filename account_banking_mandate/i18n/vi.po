@@ -481,6 +481,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_invoice.py:90
+#: code:addons/account_banking_mandate/models/account_invoice.py:93
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
