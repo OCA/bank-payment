@@ -17,11 +17,12 @@
         <field name="partner_id" position="after">
             <field name="scheme" attrs="{'invisible': [('format', '!=', 'sepa')],
                                          'required': [('format', '=', 'sepa')]}"/>
-            <field name="type" attrs="{'invisible': [('format', '!=', 'sepa')],
-                                       'required': [('format', '=', 'sepa')]}"/>
             <field name="recurrent_sequence_type"
                    attrs="{'invisible': ['|', ('type', '=', 'oneoff'), ('format', '!=', 'sepa')],
                            'required': [('type', '=', 'recurrent')]}"/>
+        </field>
+        <field name="type" position="attributes">
+            <attribute name="attrs">{'required': [('format', '=', 'sepa')]}</attribute>
         </field>
     </field>
 </record>
