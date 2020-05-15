@@ -480,7 +480,6 @@ msgid "The date of signature of mandate '%s' is in the future!"
 msgstr ""
 
 #. module: account_banking_mandate
-#: code:addons/account_banking_mandate/models/account_invoice.py:90
 #: code:addons/account_banking_mandate/models/account_invoice.py:93
 #, python-format
 msgid ""
