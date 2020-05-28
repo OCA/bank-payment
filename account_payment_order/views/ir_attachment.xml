@@ -12,12 +12,7 @@
                         <field name="name" />
                     </h1>
                     <group name="main">
-                        <field
-                            name="datas"
-                            filename="store_fname"
-                            string="Generated File"
-                        />
-                        <field name="store_fname" invisible="1" />
+                        <field name="datas" filename="name" string="Generated File" />
                         <label for="create_uid" string="Created by" />
                         <div name="creation_div">
                             <field name="create_uid" readonly="1" class="oe_inline" />
