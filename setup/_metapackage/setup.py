@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-bank-payment Odoo addons",
     version=version,
     install_requires=[
+        'odoo12-addon-account_banking_make_deposit',
         'odoo12-addon-account_banking_mandate',
         'odoo12-addon-account_banking_mandate_sale',
         'odoo12-addon-account_banking_pain_base',
