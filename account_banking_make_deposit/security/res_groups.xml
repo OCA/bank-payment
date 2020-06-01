@@ -1,0 +1,19 @@
+<odoo>
+
+    <record id="group_make_deposits_preparer" model="res.groups">
+        <field name="name">Make Deposits Preparer</field>
+    </record>
+
+    <record id="group_make_deposits_verifier" model="res.groups">
+        <field name="name">Make Deposits Verifier</field>
+    </record>
+
+    <record id="account.group_account_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_make_deposits_preparer'))]"/>
+    </record>
+
+    <record id="account.group_account_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_make_deposits_verifier'))]"/>
+    </record>
+
+</odoo>
