@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0+e\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 20:05+0000\n"
-"PO-Revision-Date: 2020-05-06 20:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,6 +39,11 @@ msgid "<strong>Total Amount: </strong>"
 msgstr ""
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_atm
+msgid "ATM"
+msgstr ""
+
+#. module: account_banking_make_deposit
 #: model:ir.actions.act_window,name:account_banking_make_deposit.action_view_add_deposit_items
 #: model:ir.model,name:account_banking_make_deposit.model_add_deposit_items
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
@@ -56,12 +59,17 @@ msgid "Amount"
 msgstr ""
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_armored_vehicle
+msgid "Armored Vehicle"
+msgstr ""
+
+#. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__amount
 msgid "Calculates the Total of All Deposit Lines - This is the Total Amount of Deposit."
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:289
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:291
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, python-format
@@ -168,11 +176,6 @@ msgid "Deposit Methods"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket_report
-msgid "Deposit Reports"
-msgstr ""
-
-#. module: account_banking_make_deposit
 #: model:ir.actions.act_window,name:account_banking_make_deposit.action_deposit_ticket
 #: model:ir.actions.report,name:account_banking_make_deposit.report_deposit_ticket
 #: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket
@@ -220,13 +223,13 @@ msgid "Deposit Tracking #"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:322
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:324
 #, python-format
 msgid "Deposit_Ticket"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:323
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:325
 #, python-format
 msgid "Deposit_Ticket_%s"
 msgstr ""
@@ -263,7 +266,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:288
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:290
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 #, python-format
@@ -271,7 +274,7 @@ msgid "Done"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:286
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:288
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 #, python-format
@@ -284,7 +287,7 @@ msgid "Draft Assigned"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:321
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:323
 #, python-format
 msgid "Draft_Deposit_Ticket"
 msgstr ""
@@ -453,11 +456,21 @@ msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_method__name
-msgid "Name of the method used for deposit"
+msgid "Name of the method used to deposit"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:33
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_night_drop
+msgid "Night Drop"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_online_deposit_capture
+msgid "Online Deposit Capture"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:34
 #, python-format
 msgid "Only a member of Deposits Verifier group may delete/edit deposit tickets when not in draft state!"
 msgstr ""
@@ -479,7 +492,7 @@ msgid "Partner"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:82
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:83
 #, python-format
 msgid "Please define sequence on deposit journal"
 msgstr ""
@@ -500,7 +513,7 @@ msgid "Process"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:287
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:289
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, python-format
@@ -519,6 +532,11 @@ msgid "Related Journal Item"
 msgstr ""
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_remote_deposit_capture
+msgid "Remote Deposit Capture"
+msgstr ""
+
+#. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 msgid "Search Deposit Tickets"
 msgstr ""
@@ -529,7 +547,7 @@ msgid "Select"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:301
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:303
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_add_deposit_items
 #, python-format
 msgid "Select Payments for Deposit"
@@ -549,6 +567,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__state
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 msgid "State"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_teller
+msgid "Teller"
 msgstr ""
 
 #. module: account_banking_make_deposit
@@ -593,16 +616,14 @@ msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
-msgid "This is how the deposit was made: Examples: *Teller \n"
-"*ATM \n"
-"*Remote Deposit Capture \n"
-"*Online Deposit Capture \n"
-"*Night Drop"
-msgstr ""
-
-#. module: account_banking_make_deposit
-#: model:ir.model,name:account_banking_make_deposit.model_report_account_banking_make_deposit_quickbooks_ticket
-msgid "Ticket Reports"
+msgid "This is how the deposit was made:\n"
+"Examples:\n"
+"* Teller \n"
+"* ATM \n"
+"* Remote Deposit Capture \n"
+"* Online Deposit Capture \n"
+"* Night Drop \n"
+"* Armored Vehicle"
 msgstr ""
 
 #. module: account_banking_make_deposit
@@ -646,13 +667,13 @@ msgid "With Deposit Tickets you can create new deposit\n"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:115
+#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:114
 #, python-format
 msgid "You cannot add any new deposit line item manually as of this revision!"
 msgstr ""
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:49
+#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:50
 #, python-format
 msgid "You cannot add any new deposit ticket line manually as of this revision! Please use the button 'Add Deposit Items' to add deposit ticket line!"
 msgstr ""
