@@ -23,7 +23,7 @@
                     groups="account_payment_order.group_account_payment"
                     attrs="{'invisible': ['|', '|',
                                               ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'open'),
+                                              ('state', '!=', 'posted'),
                                               ('type', 'not in', ('out_invoice', 'out_refund'))
                                              ]}"
                 />
@@ -34,7 +34,7 @@
                     groups="account_payment_order.group_account_payment"
                     attrs="{'invisible': ['|', '|',
                                               ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'open'),
+                                              ('state', '!=', 'posted'),
                                               ('type', 'not in', ('in_invoice', 'in_refund'))
                                              ]}"
                 />
