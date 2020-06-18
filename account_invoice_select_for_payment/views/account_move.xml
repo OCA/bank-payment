@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field
+                    name="selected_for_payment"
+                    attrs="{'invisible': [('invoice_payment_state', '!=', 'not_paid') ]}"
+                    widget="toggle_button"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.move.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='late']" position="after">
+                <separator />
+                <filter
+                    string="Selected for payment"
+                    name="selected_for_payment"
+                    domain="[('selected_for_payment', '=', True)]"
+                />
+                <filter
+                    string="Not selected for payment"
+                    name="not_selected_for_payment"
+                    domain="[('selected_for_payment', '=', False)]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
