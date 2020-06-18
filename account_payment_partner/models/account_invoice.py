@@ -105,7 +105,11 @@ class AccountInvoice(models.Model):
             description=description, journal_id=journal_id)
         vals['payment_mode_id'] = invoice.payment_mode_id.id
         if invoice.type == 'in_invoice':
-            vals['partner_bank_id'] = invoice.partner_bank_id.id
+            bank = invoice.partner_bank_id
+            if not bank:
+                # Fallback to company partner
+                bank = next(iter(invoice.company_id.partner_id.bank_ids))
+            vals['partner_bank_id'] = bank.id
         return vals
 
     @api.constrains('company_id', 'payment_mode_id')
