@@ -44,30 +44,41 @@ class TestSCT(SavepointCase):
                 "company_id": cls.main_company.id,
             }
         )
-        cls.env.ref(
-            "l10n_generic_coa.configurable_chart_template"
-        ).try_loading_for_current_company()
-        cls.account_expense = cls.account_model.search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    cls.env.ref("account.data_account_type_expenses").id,
-                ),
-                ("company_id", "=", cls.main_company.id),
-            ],
-            limit=1,
+        cls.account_expense = cls.account_model.create(
+            {
+                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "name": "Test expense account",
+                "code": "TEA",
+                "company_id": cls.main_company.id,
+            }
         )
-        cls.account_payable = cls.account_model.search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    cls.env.ref("account.data_account_type_payable").id,
-                ),
-                ("company_id", "=", cls.main_company.id),
-            ],
-            limit=1,
+        cls.account_payable = cls.account_model.create(
+            {
+                "user_type_id": cls.env.ref("account.data_account_type_payable").id,
+                "name": "Test payable account",
+                "code": "TTA",
+                "company_id": cls.main_company.id,
+                "reconcile": True,
+            }
+        )
+        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_context(
+            force_company=cls.main_company.id
+        ).write({"property_account_payable_id": cls.account_payable.id})
+        cls.general_journal = cls.journal_model.create(
+            {
+                "name": "General journal",
+                "type": "general",
+                "code": "GEN",
+                "company_id": cls.main_company.id,
+            }
+        )
+        cls.purchase_journal = cls.journal_model.create(
+            {
+                "name": "Purchase journal",
+                "type": "purchase",
+                "code": "PUR",
+                "company_id": cls.main_company.id,
+            }
         )
         cls.partner_bank = cls.env.ref("account_payment_mode.main_company_iban").copy(
             {
@@ -78,7 +89,6 @@ class TestSCT(SavepointCase):
                 ),
             }
         )
-        # create journal
         cls.bank_journal = cls.journal_model.create(
             {
                 "name": "Company Bank journal",
@@ -86,11 +96,12 @@ class TestSCT(SavepointCase):
                 "code": "BNKFB",
                 "bank_account_id": cls.partner_bank.id,
                 "bank_id": cls.partner_bank.bank_id.id,
+                "company_id": cls.main_company.id,
             }
         )
         # update payment mode
         cls.payment_mode = cls.env.ref(
-            "account_banking_sepa_credit_transfer." "payment_mode_outbound_sepa_ct1"
+            "account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1"
         ).copy({"company_id": cls.main_company.id})
         cls.payment_mode.write(
             {"bank_account_link": "fixed", "fixed_journal_id": cls.bank_journal.id}
