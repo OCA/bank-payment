@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_mode_outbound_sepa_ct1" model="account.payment.mode">
+        <field name="name">SEPA Credit Transfer to suppliers</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_method_id" ref="sepa_credit_transfer" />
+        <field
+            name="default_journal_ids"
+            search="[('type', 'in', ('purchase', 'purchase_refund'))]"
+        />
+    </record>
+    <!-- Camptocamp -->
+    <record id="base.res_partner_12" model="res.partner">
+        <field name="supplier_payment_mode_id" ref="payment_mode_outbound_sepa_ct1" />
+    </record>
+    <!-- Asustek -->
+    <record id="base.res_partner_1" model="res.partner">
+        <field name="supplier_payment_mode_id" ref="payment_mode_outbound_sepa_ct1" />
+    </record>
+</odoo>
