@@ -16,7 +16,8 @@ class AccountPaymentOrder(models.Model):
     _order = 'id desc'
 
     name = fields.Char(
-        string='Number', readonly=False, copy=False)  # v8 field : name
+        string='Number', readonly=False, copy=False,  # v8 field : name
+        default=lambda self: self.env['ir.sequence'].next_by_code('account.payment.order'))
     payment_mode_id = fields.Many2one(
         'account.payment.mode', 'Payment Mode', required=True,
         ondelete='restrict', track_visibility='onchange',
