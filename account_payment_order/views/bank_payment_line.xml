@@ -99,7 +99,7 @@
     <menuitem
         id="bank_payment_line_menu"
         action="bank_payment_line_action"
-        parent="payment_root"
+        parent="account.menu_finance_payables"
         sequence="50"
         groups="group_account_payment"
     />

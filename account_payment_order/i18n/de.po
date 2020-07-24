@@ -1076,7 +1076,6 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
-#: model:ir.ui.menu,name:account_payment_order.payment_root
 msgid "Payments"
 msgstr "Zahlungen"
 
