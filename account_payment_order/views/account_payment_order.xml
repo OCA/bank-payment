@@ -239,21 +239,15 @@
         <field name="context">{'default_payment_type': 'inbound'}</field>
     </record>
     <menuitem
-        id="payment_root"
-        name="Payments"
-        parent="account.menu_finance"
-        sequence="7"
-    />
-    <menuitem
         id="account_payment_order_outbound_menu"
         action="account_payment_order_outbound_action"
-        parent="payment_root"
-        sequence="10"
+        parent="account.menu_finance_payables"
+        sequence="21"
     />
     <menuitem
         id="account_payment_order_inbound_menu"
         action="account_payment_order_inbound_action"
-        parent="payment_root"
-        sequence="20"
+        parent="account.menu_finance_receivables"
+        sequence="18"
     />
 </odoo>
