@@ -205,8 +205,8 @@
     </record>
     <menuitem
         id="mandate_menu"
-        parent="account_payment_order.payment_root"
+        parent="account.menu_finance_receivables"
         action="mandate_action"
-        sequence="30"
+        sequence="50"
     />
 </odoo>
