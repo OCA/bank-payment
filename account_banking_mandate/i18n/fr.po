@@ -390,7 +390,6 @@ msgstr "Partenaire"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__payment_line_ids_count
 #, fuzzy
-#| msgid "Payment Lines"
 msgid "Payment Line Ids Count"
 msgstr "Lignes de règlement"
 
@@ -408,7 +407,6 @@ msgstr "Methodes de règlement"
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, fuzzy, python-format
-#| msgid "Payment Lines"
 msgid "Payment lines"
 msgstr "Lignes de règlement"
 

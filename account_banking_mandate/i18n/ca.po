@@ -264,7 +264,6 @@ msgstr "És seguidor"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move
 #, fuzzy
-#| msgid "Journal Item"
 msgid "Journal Entries"
 msgstr "Apunt comptable"
 
@@ -368,7 +367,6 @@ msgstr "Número de mandats"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
 #, fuzzy
-#| msgid "Number of error"
 msgid "Number of errors"
 msgstr "Número d'error"
 
@@ -441,7 +439,6 @@ msgstr "Línies de pagament relacionades"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 #, fuzzy
-#| msgid "Message Delivery error"
 msgid "SMS Delivery error"
 msgstr "Error de lliurament de missatge"
 
