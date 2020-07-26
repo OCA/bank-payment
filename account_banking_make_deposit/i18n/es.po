@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_make_deposit
+# 	* account_banking_make_deposit
 #
 msgid ""
 msgstr ""
@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2020-05-06 20:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -41,6 +42,11 @@ msgid "<strong>Total Amount: </strong>"
 msgstr "<strong>Monto Total: </strong>"
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_atm
+msgid "ATM"
+msgstr ""
+
+#. module: account_banking_make_deposit
 #: model:ir.actions.act_window,name:account_banking_make_deposit.action_view_add_deposit_items
 #: model:ir.model,name:account_banking_make_deposit.model_add_deposit_items
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
@@ -56,12 +62,19 @@ msgid "Amount"
 msgstr "Monto"
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_armored_vehicle
+msgid "Armored Vehicle"
+msgstr ""
+
+#. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__amount
-msgid "Calculates the Total of All Deposit Lines - This is the Total Amount of Deposit."
+msgid ""
+"Calculates the Total of All Deposit Lines - This is the Total Amount of "
+"Deposit."
 msgstr "Calcula el monto total de las lineas."
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:289
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:291
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, python-format
@@ -168,11 +181,6 @@ msgid "Deposit Methods"
 msgstr "Metodos de deposito"
 
 #. module: account_banking_make_deposit
-#: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket_report
-msgid "Deposit Reports"
-msgstr "Reportes de deposito"
-
-#. module: account_banking_make_deposit
 #: model:ir.actions.act_window,name:account_banking_make_deposit.action_deposit_ticket
 #: model:ir.actions.report,name:account_banking_make_deposit.report_deposit_ticket
 #: model:ir.model,name:account_banking_make_deposit.model_deposit_ticket
@@ -220,13 +228,13 @@ msgid "Deposit Tracking #"
 msgstr "Numero de rastreo"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:322
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:324
 #, python-format
 msgid "Deposit_Ticket"
 msgstr "Deposito"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:323
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:325
 #, python-format
 msgid "Deposit_Ticket_%s"
 msgstr "Deposito_%s"
@@ -263,7 +271,7 @@ msgid "Display Name"
 msgstr "Nombre por mostrar"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:288
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:290
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 #, python-format
@@ -271,7 +279,7 @@ msgid "Done"
 msgstr "Hecho"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:286
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:288
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 #, python-format
@@ -284,7 +292,7 @@ msgid "Draft Assigned"
 msgstr "Borrador Assignado"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:321
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:323
 #, python-format
 msgid "Draft_Deposit_Ticket"
 msgstr "Deposito_Borrador"
@@ -352,7 +360,8 @@ msgstr "Entrar el nombre de la persona quien verifico el deposito."
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__prepared_by_user_id
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__verified_by_user_id
-msgid "Entered automatically by the 'last user' who saved it. System generated."
+msgid ""
+"Entered automatically by the 'last user' who saved it. System generated."
 msgstr "Entrado automaticamente por la ultima persona que modifico el deposito"
 
 #. module: account_banking_make_deposit
@@ -453,14 +462,32 @@ msgstr "Nombre"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_method__name
-msgid "Name of the method used for deposit"
+#, fuzzy
+#| msgid "Name of the method used for deposit"
+msgid "Name of the method used to deposit"
 msgstr "Nombre del metodo usado para depositar"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:33
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_night_drop
+msgid "Night Drop"
+msgstr ""
+
+#. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_online_deposit_capture
+#, fuzzy
+#| msgid "Enter deposite date"
+msgid "Online Deposit Capture"
+msgstr "Entrar la fecha de deposito"
+
+#. module: account_banking_make_deposit
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:34
 #, python-format
-msgid "Only a member of Deposits Verifier group may delete/edit deposit tickets when not in draft state!"
-msgstr "Solo miembro del grupo Verificador de depositos pueden borrar/editar depositos que no son en estado borrador!"
+msgid ""
+"Only a member of Deposits Verifier group may delete/edit deposit tickets "
+"when not in draft state!"
+msgstr ""
+"Solo miembro del grupo Verificador de depositos pueden borrar/editar "
+"depositos que no son en estado borrador!"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
@@ -479,7 +506,7 @@ msgid "Partner"
 msgstr "Tercero"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:82
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:83
 #, python-format
 msgid "Please define sequence on deposit journal"
 msgstr "POr favor define una secuencia en el diario"
@@ -500,7 +527,7 @@ msgid "Process"
 msgstr "Procesar"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:287
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:289
 #: selection:deposit.ticket,state:0
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, python-format
@@ -519,6 +546,13 @@ msgid "Related Journal Item"
 msgstr "Apunte contable relacionado"
 
 #. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_remote_deposit_capture
+#, fuzzy
+#| msgid "Enter deposite date"
+msgid "Remote Deposit Capture"
+msgstr "Entrar la fecha de deposito"
+
+#. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 msgid "Search Deposit Tickets"
 msgstr "Buscar depositos"
@@ -529,7 +563,7 @@ msgid "Select"
 msgstr "Seleccionar"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:301
+#: code:addons/account_banking_make_deposit/models/deposit_ticket.py:303
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_add_deposit_items
 #, python-format
 msgid "Select Payments for Deposit"
@@ -550,6 +584,11 @@ msgstr "Regresar a Borrador"
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
 msgid "State"
 msgstr "Estado"
+
+#. module: account_banking_make_deposit
+#: model:deposit.method,name:account_banking_make_deposit.deposit_method_teller
+msgid "Teller"
+msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_from_account_id
@@ -583,36 +622,50 @@ msgstr "El diario de los asientos contables."
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_account_move_line__draft_assigned
-msgid "This field is checked when the move line is assigned to a draft deposit ticket. The deposit ticket is not still completely processed"
-msgstr "Ese campo esta seleccionado cuando el apunte contable esta asignado a un deposito borrador. El deposito no esta procesado todavia."
+msgid ""
+"This field is checked when the move line is assigned to a draft deposit "
+"ticket. The deposit ticket is not still completely processed"
+msgstr ""
+"Ese campo esta seleccionado cuando el apunte contable esta asignado a un "
+"deposito borrador. El deposito no esta procesado todavia."
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__bank_tracking_no
-msgid "This field is used to hold a tracking number provided by the bank/financial institution often used in Remote Deposit Capture on a deposit receipt. Entered after deposit occurs."
-msgstr "Ese campo tiene el numéro de rastreo del banco en caso de deposito remoto."
+msgid ""
+"This field is used to hold a tracking number provided by the bank/financial "
+"institution often used in Remote Deposit Capture on a deposit receipt. "
+"Entered after deposit occurs."
+msgstr ""
+"Ese campo tiene el numéro de rastreo del banco en caso de deposito remoto."
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
-msgid "This is how the deposit was made:\n"
-"Examples:"
+#, fuzzy
+#| msgid ""
+#| "This is how the deposit was made:\n"
+#| "Examples:* Teller \n"
+#| "* ATM \n"
+#| "* Remote Deposit Capture \n"
+#| "* Online Deposit Capture \n"
+#| "* Night Drop \n"
+#| "* Armored Vehicle"
+msgid ""
+"This is how the deposit was made:\n"
+"Examples:\n"
 "* Teller \n"
 "* ATM \n"
 "* Remote Deposit Capture \n"
 "* Online Deposit Capture \n"
 "* Night Drop \n"
 "* Armored Vehicle"
-msgstr "Como se hizo el deposito:\n"
+msgstr ""
+"Como se hizo el deposito:\n"
 "* Ventanilla \n"
 "* Cajero automatico \n"
 "* Captura remota \n"
 "* Captura en linea \n"
 "* Deposito de noche \n"
 "* Vehiculo blindado"
-
-#. module: account_banking_make_deposit
-#: model:ir.model,name:account_banking_make_deposit.model_report_account_banking_make_deposit_quickbooks_ticket
-msgid "Ticket Reports"
-msgstr "Reportes de deposito"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_filter
@@ -646,27 +699,36 @@ msgstr "Verificado por mi"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.actions.act_window,help:account_banking_make_deposit.action_deposit_ticket
-msgid "With Deposit Tickets you can create new deposit\n"
+msgid ""
+"With Deposit Tickets you can create new deposit\n"
 "            tickets, by selecting and grouping customer payments, supplier\n"
 "            refunds, or other payments into a Deposit Ticket. OpenERP\n"
-"            automatically posts accounting entries for “Done” deposit tickets.\n"
+"            automatically posts accounting entries for “Done” deposit "
+"tickets.\n"
 "            The GL entry for the deposit is posted into the Current Period\n"
 "            based on the date range selected."
-msgstr "Con Depositos pueden crear depositos seleccionando y agrupando \n"
-"            pagos de clientes, notas de creditos de proveedores y otros pagos.\n"
-"            Odoo publica automaticamente los asientos contable de los depositos hechos."
+msgstr ""
+"Con Depositos pueden crear depositos seleccionando y agrupando \n"
+"            pagos de clientes, notas de creditos de proveedores y otros "
+"pagos.\n"
+"            Odoo publica automaticamente los asientos contable de los "
+"depositos hechos."
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:115
+#: code:addons/account_banking_make_deposit/wizard/add_deposit_items.py:114
 #, python-format
 msgid "You cannot add any new deposit line item manually as of this revision!"
 msgstr "No puede agregar nueva linea a un deposito por revisar!"
 
 #. module: account_banking_make_deposit
-#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:49
+#: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:50
 #, python-format
-msgid "You cannot add any new deposit ticket line manually as of this revision! Please use the button 'Add Deposit Items' to add deposit ticket line!"
-msgstr "No puede agregar nueva linea a un deposito por revisar! Por favor use el boton 'Agregar transacciones'!"
+msgid ""
+"You cannot add any new deposit ticket line manually as of this revision! "
+"Please use the button 'Add Deposit Items' to add deposit ticket line!"
+msgstr ""
+"No puede agregar nueva linea a un deposito por revisar! Por favor use el "
+"boton 'Agregar transacciones'!"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_add_deposit_items
@@ -687,3 +749,9 @@ msgstr "_Seleccionar todos"
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_add_deposit_items
 msgid "_Unselect All"
 msgstr "_Deseleccionar todos"
+
+#~ msgid "Deposit Reports"
+#~ msgstr "Reportes de deposito"
+
+#~ msgid "Ticket Reports"
+#~ msgstr "Reportes de deposito"
