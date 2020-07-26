@@ -25,6 +25,7 @@ msgstr ""
 "Eine Zahlungsmethode der gleichen Art mit diesem Code existiert bereits"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__company_partner_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__company_partner_id
 msgid "Account Holder"
 msgstr ""
@@ -115,11 +116,13 @@ msgid "Fixed Bank Journal"
 msgstr ""
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid "For Incoming Payments"
 msgstr ""
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid "For Outgoing Payments"
 msgstr ""
@@ -194,6 +197,7 @@ msgid "Link to Bank Account"
 msgstr "Verbindung zum Bankkonto"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid ""
 "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
@@ -207,6 +211,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid ""
 "Manual:Pay bill by cash or any other method outside of Odoo.\n"

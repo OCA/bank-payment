@@ -11,8 +11,8 @@ msgstr ""
 "POT-Creation-Date: 2018-04-14 11:29+0000\n"
 "PO-Revision-Date: 2020-06-12 01:19+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
-"23907/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
+"teams/23907/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,6 +26,7 @@ msgid "A payment method of the same type already exists with this code"
 msgstr "Um método de pagamento do mesmo tipo já existe com este código"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__company_partner_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__company_partner_id
 msgid "Account Holder"
 msgstr "Titular da Conta"
@@ -116,11 +117,13 @@ msgid "Fixed Bank Journal"
 msgstr "Diário de Banco Fixo"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid "For Incoming Payments"
 msgstr "Para pagamentos recebidos"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid "For Outgoing Payments"
 msgstr "Para pagamentos de saída"
@@ -203,6 +206,7 @@ msgid "Link to Bank Account"
 msgstr "Link para Conta Bancária"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid ""
 "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
@@ -214,8 +218,8 @@ msgid ""
 "are suggested to reconcile the transaction with the batch deposit. Enable "
 "this option from the settings."
 msgstr ""
-"Manual: Seja pago em dinheiro, cheque ou lqualquer outro método fora do Odoo."
-"\n"
+"Manual: Seja pago em dinheiro, cheque ou lqualquer outro método fora do "
+"Odoo.\n"
 "Eletrônico: Seja pago automaticamente através de um adquiridor de pagamentos "
 "requerendo uma transação em um cartão salvo pelo cliente quando comprando ou "
 "subscrição online(token de pagamento).\n"
@@ -225,6 +229,7 @@ msgstr ""
 "em lote. Habilite essa opção nas configurações."
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid ""
 "Manual:Pay bill by cash or any other method outside of Odoo.\n"
