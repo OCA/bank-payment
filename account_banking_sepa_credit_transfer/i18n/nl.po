@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Weblate 3.10\n"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:155
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
@@ -29,7 +29,7 @@ msgstr ""
 "Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference '%s')."
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.line,local_instrument:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
 msgid "Instant Transfer"
 msgstr "Directe Overdracht"
 
@@ -44,8 +44,7 @@ msgid "PAIN Version"
 msgstr "PAIN Versie"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:26
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "PAIN versie '%s' is niet ondersteund."
@@ -72,46 +71,38 @@ msgid "SEPA Credit Transfer to suppliers"
 msgstr "SEPA overboeking naar leveranciers"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_02
 msgid "pain.001.001.02"
 msgstr "pain.001.001.02"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_03
 msgid "pain.001.001.03 (recommended for credit transfer)"
 msgstr "pain.001.001.03 (aanbevolen voor overboeking)"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_04
 msgid "pain.001.001.04"
 msgstr "pain.001.001.04"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_05
 msgid "pain.001.001.05"
 msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
 msgid "pain.001.003.03 (credit transfer in Germany)"
 msgstr "pain.001.003.03 (overboeking in Duitsland)"
 
-#. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
+#~ msgid "pain.008.001.02 (recommended for direct debit)"
+#~ msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
 
-#. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.03"
-msgstr "pain.008.001.03"
+#~ msgid "pain.008.001.03"
+#~ msgstr "pain.008.001.03"
 
-#. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.001.04"
-msgstr "pain.008.001.04"
+#~ msgid "pain.008.001.04"
+#~ msgstr "pain.008.001.04"
 
-#. module: account_banking_sepa_credit_transfer
-#: selection:account.payment.method,pain_version:0
-msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr "pain.008.003.02 (automatische incasso in Duitsland)"
+#~ msgid "pain.008.003.02 (direct debit in Germany)"
+#~ msgstr "pain.008.003.02 (automatische incasso in Duitsland)"
