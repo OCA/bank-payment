@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2020-03-21 14:13+0000\n"
+"PO-Revision-Date: 2020-07-31 18:59+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@matmoz.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -477,7 +477,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: selection:account.payment.line,local_instrument:0
 msgid "Instant Transfer"
-msgstr ""
+msgstr "Takojšen transfer"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -518,7 +518,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr ""
+msgstr "Oznaka plačila, ki bo vidna prejemniku"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
@@ -670,7 +670,7 @@ msgstr "Plačilne postavke"
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Metode plačila"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_mode
