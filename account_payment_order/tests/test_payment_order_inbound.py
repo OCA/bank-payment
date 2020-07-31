@@ -3,6 +3,7 @@
 # Copyright 2019 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import unittest
 from odoo.tests.common import SavepointCase
 from odoo.exceptions import ValidationError, UserError
 from datetime import date, timedelta
@@ -24,6 +25,8 @@ class TestPaymentOrderInboundBase(SavepointCase):
              '|', ('company_id', '=', cls.env.user.company_id.id),
              ('company_id', '=', False)], limit=1
         )
+        if not cls.journal:
+            raise unittest.SkipTest('No journal found')
         cls.inbound_mode.variable_journal_ids = cls.journal
         # Make sure no others orders are present
         cls.domain = [

@@ -1,6 +1,7 @@
 # © 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import unittest
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
 
@@ -9,6 +10,9 @@ class TestPaymentMode(TransactionCase):
 
     def setUp(self):
         super(TestPaymentMode, self).setUp()
+
+        if not self.env['account.account'].search([]):
+            raise unittest.SkipTest('No accounts defined')
 
         # Company
         self.company = self.env.ref('base.main_company')

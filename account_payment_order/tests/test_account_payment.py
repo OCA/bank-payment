@@ -1,6 +1,7 @@
 # Copyright 2019 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import unittest
 from odoo.tests.common import SavepointCase
 
 
@@ -25,6 +26,8 @@ class TestAccountPayment(SavepointCase):
         # Journals
         cls.bank_journal = cls.account_journal_model.search(
             [('type', '=', 'bank')], limit=1)
+        if not cls.bank_journal:
+            raise unittest.SkipTest('No journals defined')
         cls.bank_journal.inbound_payment_method_ids = [
             (6, 0, [cls.inbound_payment_method_01.id,
                     cls.inbound_payment_method_02.id])]
