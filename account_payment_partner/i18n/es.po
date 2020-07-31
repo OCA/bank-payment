@@ -115,6 +115,7 @@ msgstr "No"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:37
 #, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr "No se ha definido un Plan Contable!"

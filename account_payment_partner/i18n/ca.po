@@ -117,6 +117,7 @@ msgstr "No"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:35
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:37
 #, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr "No s'ha definit cap plantilla de pla comptable !"
@@ -176,7 +177,8 @@ msgstr "Mode de pagament del proveïdor"
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
-msgstr "La companyia de la factura %s no coincideix amb la del mode de pagament"
+msgstr ""
+"La companyia de la factura %s no coincideix amb la del mode de pagament"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:35
