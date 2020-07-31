@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2020-03-21 14:13+0000\n"
+"PO-Revision-Date: 2020-07-31 18:59+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@matmoz.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -257,9 +257,8 @@ msgstr "Prva"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
-#, fuzzy
 msgid "Generic Mandate"
-msgstr "SEPA mandat"
+msgstr "Generičen mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
@@ -280,13 +279,13 @@ msgstr "Posodobitev mandata"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
 "(reference {reference})."
 msgstr ""
-"Pri postavki bančnega plačila partnerja '%s' (sklic '%s') manjka SEPA "
-"direktna obremenitev."
+"Pri postavki SEPA direktnega debetnega mandata manjka vrstica s partnerjem "
+"{partner_name} (reference {reference})."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0
@@ -308,7 +307,7 @@ msgstr "Plačilne postavke"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Metode plačila"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_mode
@@ -400,25 +399,25 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has expired."
 msgstr ""
-"SEPA mandat za direktno obremenitev s sklicem '%s' za partnerja '%s' je "
-"potekel."
+"SEPA mandat za direktno obremenitev s sklicem {mandate_ref} za partnerja "
+"{partner_name} je potekel."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has type set to 'One-Off' but has a last debit date set to "
 "{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
-"Pri mandatu s sklicem '%s' za partnerja '%s' je tip nastavljen na "
-"'enkraten', zadnji datum obremenitve pa ima nastavljen na '%s', zato ga ne "
-"moremo uporabiti."
+"Pri SEPA mandatu za direktno bremenitev s sklicem {mandate_ref} za partnerja "
+"{partner_name} je tip nastavljen na 'enkraten', zadnji datum obremenitve pa "
+"ima nastavljen na {last_debit_date}, zato ga ne moremo uporabiti."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:47
@@ -470,9 +469,8 @@ msgstr "Tip"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__type
-#, fuzzy
 msgid "Type of Mandate"
-msgstr "SEPA mandat"
+msgstr "Tip mandata"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__unique_mandate_reference
