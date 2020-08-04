@@ -9,40 +9,38 @@ import time
 from lxml import etree
 
 
-class TestSDD(common.HttpCase):
-    at_install = False
-    post_install = True
-
-    def setUp(self):
-        super(TestSDD, self).setUp()
-        self.company = self.env['res.company']
-        self.account_model = self.env['account.account']
-        self.move_model = self.env['account.move']
-        self.journal_model = self.env['account.journal']
-        self.payment_order_model = self.env['account.payment.order']
-        self.payment_line_model = self.env['account.payment.line']
-        self.mandate_model = self.env['account.banking.mandate']
-        self.bank_line_model = self.env['bank.payment.line']
-        self.partner_bank_model = self.env['res.partner.bank']
-        self.attachment_model = self.env['ir.attachment']
-        self.invoice_model = self.env['account.invoice']
-        self.invoice_line_model = self.env['account.invoice.line']
-        self.eur_currency = self.env.ref('base.EUR')
-        self.main_company = self.env['res.company'].create({
+class TestSDD(common.SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super(TestSDD, cls).setUpClass()
+        cls.company = cls.env['res.company']
+        cls.account_model = cls.env['account.account']
+        cls.move_model = cls.env['account.move']
+        cls.journal_model = cls.env['account.journal']
+        cls.payment_order_model = cls.env['account.payment.order']
+        cls.payment_line_model = cls.env['account.payment.line']
+        cls.mandate_model = cls.env['account.banking.mandate']
+        cls.bank_line_model = cls.env['bank.payment.line']
+        cls.partner_bank_model = cls.env['res.partner.bank']
+        cls.attachment_model = cls.env['ir.attachment']
+        cls.invoice_model = cls.env['account.invoice']
+        cls.invoice_line_model = cls.env['account.invoice.line']
+        cls.eur_currency = cls.env.ref('base.EUR')
+        cls.main_company = cls.env['res.company'].create({
             'name': 'Test EUR company',
-            'currency_id': self.eur_currency.id,
+            'currency_id': cls.eur_currency.id,
             'sepa_creditor_identifier': 'FR78ZZZ424242',
         })
-        self.env.user.write({
-            'company_ids': [(6, 0, self.main_company.ids)],
-            'company_id': self.main_company.id,
+        cls.env.user.write({
+            'company_ids': [(6, 0, cls.main_company.ids)],
+            'company_id': cls.main_company.id,
         })
-        chart = self.env.ref('l10n_generic_coa.configurable_chart_template')
-        wizard = self.env['wizard.multi.charts.accounts'].create({
-            'company_id': self.main_company.id,
+        chart = cls.env.ref('l10n_generic_coa.configurable_chart_template')
+        wizard = cls.env['wizard.multi.charts.accounts'].create({
+            'company_id': cls.main_company.id,
             'chart_template_id': chart.id,
             'code_digits': 6,
-            'currency_id': self.env.ref('base.EUR').id,
+            'currency_id': cls.env.ref('base.EUR').id,
             'transfer_account_id': chart.transfer_account_id.id,
             # Set these values for not letting the dangerous default ones
             'sale_tax_id': False,
@@ -50,50 +48,50 @@ class TestSDD(common.HttpCase):
         })
         wizard.onchange_chart_template_id()
         wizard.execute()
-        self.partner_agrolait = self.env.ref('base.res_partner_2')
-        self.partner_c2c = self.env.ref('base.res_partner_12')
-        self.partner_agrolait.company_id = self.main_company.id
-        self.partner_c2c.company_id = self.main_company.id
-        self.account_revenue = self.account_model.search([
+        cls.partner_agrolait = cls.env.ref('base.res_partner_2')
+        cls.partner_c2c = cls.env.ref('base.res_partner_12')
+        cls.partner_agrolait.company_id = cls.main_company.id
+        cls.partner_c2c.company_id = cls.main_company.id
+        cls.account_revenue = cls.account_model.search([
             ('user_type_id', '=',
-             self.env.ref(
+             cls.env.ref(
                  'account.data_account_type_revenue').id),
-            ('company_id', '=', self.main_company.id),
+            ('company_id', '=', cls.main_company.id),
         ], limit=1)
-        self.account_receivable = self.account_model.search([
+        cls.account_receivable = cls.account_model.search([
             ('user_type_id', '=',
-             self.env.ref('account.data_account_type_receivable').id),
-            ('company_id', '=', self.main_company.id),
+             cls.env.ref('account.data_account_type_receivable').id),
+            ('company_id', '=', cls.main_company.id),
         ], limit=1)
-        self.company_bank = self.env.ref(
+        cls.company_bank = cls.env.ref(
             'account_payment_mode.main_company_iban'
         ).copy({
-            'company_id': self.main_company.id,
-            'partner_id': self.main_company.partner_id.id,
+            'company_id': cls.main_company.id,
+            'partner_id': cls.main_company.partner_id.id,
             'bank_id': (
-                self.env.ref('account_payment_mode.bank_la_banque_postale').id
+                cls.env.ref('account_payment_mode.bank_la_banque_postale').id
             ),
         })
         # create journal
-        self.bank_journal = self.journal_model.create({
+        cls.bank_journal = cls.journal_model.create({
             'name': 'Company Bank journal',
             'type': 'bank',
             'code': 'BNKFC',
-            'bank_account_id': self.company_bank.id,
-            'bank_id': self.company_bank.bank_id.id,
+            'bank_account_id': cls.company_bank.id,
+            'bank_id': cls.company_bank.bank_id.id,
         })
         # update payment mode
-        self.payment_mode = self.env.ref(
+        cls.payment_mode = cls.env.ref(
             'account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1'
         ).copy({
-            'company_id': self.main_company.id,
+            'company_id': cls.main_company.id,
         })
-        self.payment_mode.write({
+        cls.payment_mode.write({
             'bank_account_link': 'fixed',
-            'fixed_journal_id': self.bank_journal.id,
+            'fixed_journal_id': cls.bank_journal.id,
         })
         # Trigger the recompute of account type on res.partner.bank
-        for bank_acc in self.partner_bank_model.search([]):
+        for bank_acc in cls.partner_bank_model.search([]):
             bank_acc.acc_number = bank_acc.acc_number
 
     def test_sdd(self):
