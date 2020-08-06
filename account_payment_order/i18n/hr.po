@@ -366,7 +366,6 @@ msgstr "Valuta transakcije"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Debit Order"
 msgstr "Nalog za plaćanje"
 
@@ -630,7 +629,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
 #, fuzzy
-#| msgid "Bank Journal"
 msgid "Journal"
 msgstr "Dnevnik banke"
 
@@ -890,7 +888,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Only for payment orders"
 msgstr "Nalog za plaćanje"
 
@@ -982,7 +979,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
 #, fuzzy
-#| msgid "Payment Modes"
 msgid "Payment Methods"
 msgstr "Modeli plaćanja"
 

@@ -857,7 +857,6 @@ msgstr "Nombre de línies de banc"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error_counter
 #, fuzzy
-#| msgid "Number of error"
 msgid "Number of errors"
 msgstr "Número d'error"
 
@@ -1118,7 +1117,6 @@ msgstr "Publica assentament"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
 #, fuzzy
-#| msgid "Free Reference"
 msgid "Reference Type"
 msgstr "Referència lliure"
 
@@ -1130,7 +1128,6 @@ msgstr "Línies de pagament relacionades"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
 #, fuzzy
-#| msgid "Message Delivery error"
 msgid "SMS Delivery error"
 msgstr "Error de lliurament de missatge"
 
@@ -1244,7 +1241,6 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, fuzzy, python-format
-#| msgid "The invoice %s is not in Open state"
 msgid "The invoice %s is not in Posted state"
 msgstr "La factura %s no està en estat Obert"
 

@@ -365,7 +365,6 @@ msgstr ""
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Debit Order"
 msgstr "Ordem de Pagamento"
 
@@ -614,7 +613,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__inbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Inbound Payment Order Only"
 msgstr "Ordem de Pagamento"
 
@@ -631,7 +629,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
 #, fuzzy
-#| msgid "Journals Filter"
 msgid "Journal"
 msgstr "Filtro de diário"
 
@@ -891,7 +888,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Payment Orders"
 msgid "Only for payment orders"
 msgstr "Ordens de Pagamento"
 
@@ -915,7 +911,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Outbound Payment Order Only"
 msgstr "Ordem de Pagamento"
 
@@ -985,7 +980,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
 #, fuzzy
-#| msgid "Payment Mode"
 msgid "Payment Methods"
 msgstr "Modo de Pagamento"
 

@@ -379,7 +379,6 @@ msgstr "Moneda de la transacción de pago"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Debit Orders"
 msgid "Debit Order"
 msgstr "Órdenes de cobro"
 
@@ -651,7 +650,6 @@ msgstr "Entrante"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__inbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order Ok"
 msgid "Inbound Payment Order Only"
 msgstr "Orden de Pago correcta"
 
@@ -668,7 +666,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
 #, fuzzy
-#| msgid "Bank Journal"
 msgid "Journal"
 msgstr "Diario de banco"
 
@@ -946,7 +943,6 @@ msgstr "Un asiento por línea de pago"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Options for Payment Orders"
 msgid "Only for payment orders"
 msgstr "Opciones para las órdenes"
 
@@ -970,7 +966,6 @@ msgstr "Saliente"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order Ok"
 msgid "Outbound Payment Order Only"
 msgstr "Orden de Pago correcta"
 
@@ -1043,7 +1038,6 @@ msgstr "Método de pago"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
 #, fuzzy
-#| msgid "Payment Method"
 msgid "Payment Methods"
 msgstr "Método de pago"
 
@@ -1254,7 +1248,6 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, fuzzy, python-format
-#| msgid "The invoice %s is not in Open state"
 msgid "The invoice %s is not in Posted state"
 msgstr "La factura %s no está en estado abierta"
 
