@@ -365,7 +365,6 @@ msgstr ""
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Order"
 msgid "Debit Order"
 msgstr "Order"
 

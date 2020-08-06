@@ -372,7 +372,6 @@ msgstr "Valuta van de betaaltransactie"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Debit Orders"
 msgid "Debit Order"
 msgstr "Inkomende Betaalopdrachten"
 
@@ -621,7 +620,6 @@ msgstr "Inkomend"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__inbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Inbound Payment Order Only"
 msgstr "Betalingsopdracht"
 
@@ -638,7 +636,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
 #, fuzzy
-#| msgid "Bank Journal"
 msgid "Journal"
 msgstr "Bankboek"
 
@@ -903,7 +900,6 @@ msgstr "Één boeking per betaalregel"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Options for Payment Orders"
 msgid "Only for payment orders"
 msgstr "Betaalopdrachten"
 
@@ -927,7 +923,6 @@ msgstr "UItgaand"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Add to Payment Order"
 msgid "Outbound Payment Order Only"
 msgstr "Toevoegen aan betaalopdracht"
 
@@ -997,7 +992,6 @@ msgstr "Betaalwijze"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
 #, fuzzy
-#| msgid "Payment Method"
 msgid "Payment Methods"
 msgstr "Betaalwijze"
 
