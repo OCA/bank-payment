@@ -146,7 +146,7 @@ msgstr ""
 "sobre sus derechos en su entidad financiera."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:76
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
 "As you changed the bank account attached to this mandate, the 'Sequence "
@@ -156,7 +156,7 @@ msgstr ""
 "'Tipo de secuencia' se ha vuelto a 'Inicial'."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:257
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
@@ -173,15 +173,9 @@ msgid "Bank Payment Lines"
 msgstr "Líneas de pago bancario"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,scheme:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
 msgid "Basic (CORE)"
 msgstr "Básico (CORE)"
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,format:0
-#, fuzzy
-msgid "Basic Mandate"
-msgstr "Mandato SEPA"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -245,28 +239,22 @@ msgstr ""
 "- un identificador específico de país (en España, el NIF)"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,scheme:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__b2b
 msgid "Enterprise (B2B)"
 msgstr "Empresa (B2B)"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,recurrent_sequence_type:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__final
 msgid "Final"
 msgstr "Final"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,recurrent_sequence_type:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__first
 msgid "First"
 msgstr "Inicial"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,type:0
-#, fuzzy
-msgid "Generic Mandate"
-msgstr "Mandato SEPA"
-
-#. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:85
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
@@ -278,13 +266,13 @@ msgid "Mandate Format"
 msgstr "Actualizacion de mandato"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:75
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate update"
 msgstr "Actualizacion de mandato"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:28
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 #, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
@@ -294,7 +282,7 @@ msgstr ""
 "empresa {partner_name} (referencia {reference})."
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,type:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "One-Off"
@@ -327,7 +315,7 @@ msgid "Payment Order"
 msgstr "Orden de pago"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:41
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
@@ -339,14 +327,14 @@ msgstr ""
 "'pain.008.001.03' y 'pain.008.001.04'."
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,type:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__recurrent
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Recurrent"
 msgstr "Recurrente"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,recurrent_sequence_type:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__recurring
 msgid "Recurring"
 msgstr "Periódico"
 
@@ -374,8 +362,8 @@ msgid "Scheme"
 msgstr "Esquema"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.banking.mandate,format:0
 #: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__format__sepa
 msgid "Sepa Mandate"
 msgstr "Mandato SEPA"
 
@@ -398,14 +386,14 @@ msgid "Set SEPA Direct Debit Mandates to Expired"
 msgstr "Marcar los Mandatos de débitos directo SEPA como Expirados"
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:31
-#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:30
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:0
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:0
 #, python-format
 msgid "The SEPA Creditor Identifier '%s' is invalid."
 msgstr "Identificador de acreedor SEPA '%s' no válido."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:33
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
@@ -415,7 +403,7 @@ msgstr ""
 "empresa {partner_name} ha expirado."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:41
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 #, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
@@ -427,7 +415,7 @@ msgstr ""
 "que no se puede usar."
 
 #. module: account_banking_sepa_direct_debit
-#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:47
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
 #, python-format
 msgid "The recurrent mandate '%s' must have a sequence type."
 msgstr "El mandato periódico '%s' debe tener un tipo de secuencia."
@@ -490,47 +478,22 @@ msgid "Write the ICS of your company"
 msgstr "Escriba el IAS de su compañía"
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.02"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.03 (recommended for credit transfer)"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.04"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.001.05"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_02
 msgid "pain.008.001.02 (recommended for direct debit)"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_03
 msgid "pain.008.001.03"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_04
 msgid "pain.008.001.04"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: selection:account.payment.method,pain_version:0
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_003_02
 msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
 
@@ -545,3 +508,11 @@ msgstr ""
 "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
 "a la entidad para efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#, fuzzy
+#~ msgid "Basic Mandate"
+#~ msgstr "Mandato SEPA"
+
+#, fuzzy
+#~ msgid "Generic Mandate"
+#~ msgstr "Mandato SEPA"
