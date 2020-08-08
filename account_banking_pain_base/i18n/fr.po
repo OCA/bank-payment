@@ -121,7 +121,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
-#| msgid "Cannot compute the '%s'."
 msgid "Cannot compute the field '{field_name}'."
 msgstr "Impossible de calculer le '%s'."
 
@@ -646,7 +645,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
-#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgid "Payment Line has reference '%s'."
 msgstr ""
 "Impossible de calculer le '%s' de la ligne de paiement ayant la référence "
