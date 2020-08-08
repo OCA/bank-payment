@@ -122,7 +122,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
-#| msgid "Cannot compute the '%s'."
 msgid "Cannot compute the field '{field_name}'."
 msgstr "Das Feld '%s' kann nicht berechnet werden."
 
@@ -245,7 +244,6 @@ msgstr "Kreditkarten Zahlung"
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
-#| msgid "Credit Card Payment"
 msgid "Creditor name"
 msgstr "Kreditkarten Zahlung"
 
@@ -676,7 +674,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
-#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgid "Payment Line has reference '%s'."
 msgstr ""
 "Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet werden."
