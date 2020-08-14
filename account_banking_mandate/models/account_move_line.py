@@ -20,6 +20,7 @@ class AccountMoveLine(models.Model):
         if payment_order.payment_type != 'inbound':
             return vals
         mandate = self.mandate_id
+        partner_bank_id = False
         if not mandate and vals.get('mandate_id', False):
             mandate = mandate.browse(vals['mandate_id'])
         if not mandate:
