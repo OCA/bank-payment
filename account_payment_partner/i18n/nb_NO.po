@@ -94,7 +94,6 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move
 #, fuzzy
-#| msgid "Journal Item"
 msgid "Journal Entries"
 msgstr "Journalgjenstand"
 
