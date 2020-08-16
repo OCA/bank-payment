@@ -365,7 +365,6 @@ msgstr ""
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Add to Debit Order"
 msgid "Debit Order"
 msgstr "Aggiungi a ordine di Addebito"
 
@@ -907,7 +906,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Add to Payment/Debit Order"
 msgid "Outbound Payment Order Only"
 msgstr "Aggiungi a ordine di Pagamento/Addebito"
 
