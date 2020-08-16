@@ -463,7 +463,6 @@ msgstr "Nombre"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_method__name
 #, fuzzy
-#| msgid "Name of the method used for deposit"
 msgid "Name of the method used to deposit"
 msgstr "Nombre del metodo usado para depositar"
 
@@ -475,7 +474,6 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:deposit.method,name:account_banking_make_deposit.deposit_method_online_deposit_capture
 #, fuzzy
-#| msgid "Enter deposite date"
 msgid "Online Deposit Capture"
 msgstr "Entrar la fecha de deposito"
 
@@ -548,7 +546,6 @@ msgstr "Apunte contable relacionado"
 #. module: account_banking_make_deposit
 #: model:deposit.method,name:account_banking_make_deposit.deposit_method_remote_deposit_capture
 #, fuzzy
-#| msgid "Enter deposite date"
 msgid "Remote Deposit Capture"
 msgstr "Entrar la fecha de deposito"
 
@@ -641,14 +638,6 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
 #, fuzzy
-#| msgid ""
-#| "This is how the deposit was made:\n"
-#| "Examples:* Teller \n"
-#| "* ATM \n"
-#| "* Remote Deposit Capture \n"
-#| "* Online Deposit Capture \n"
-#| "* Night Drop \n"
-#| "* Armored Vehicle"
 msgid ""
 "This is how the deposit was made:\n"
 "Examples:\n"

@@ -70,9 +70,6 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__amount
 #, fuzzy
-#| msgid ""
-#| "Calculates the Total of All Deposit Lines – This is the Total Amount of "
-#| "Deposit."
 msgid ""
 "Calculates the Total of All Deposit Lines - This is the Total Amount of "
 "Deposit."
@@ -111,7 +108,6 @@ msgstr "Nombre de lignes de dépôt"
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__create_uid
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket_line__create_uid
 #, fuzzy
-#| msgid "Prepared by me"
 msgid "Created by"
 msgstr "Préparés par moi"
 
@@ -148,7 +144,6 @@ msgstr "Date de dépôt"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__deposit_bag_no
 #, fuzzy
-#| msgid "Deposit Bag No"
 msgid "Deposit Bag #"
 msgstr "Enveloppe de dépôt"
 
@@ -234,28 +229,24 @@ msgstr "Compte de destination"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__bank_tracking_no
 #, fuzzy
-#| msgid "Deposit Tracking No"
 msgid "Deposit Tracking #"
 msgstr "Numéro de repérage"
 
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:324
 #, fuzzy, python-format
-#| msgid "Deposit Ticket"
 msgid "Deposit_Ticket"
 msgstr "Bordereau de paiement"
 
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:325
 #, fuzzy, python-format
-#| msgid "Deposit Tickets"
 msgid "Deposit_Ticket_%s"
 msgstr "Bordereau de dépôt"
 
 #. module: account_banking_make_deposit
 #: model:ir.ui.menu,name:account_banking_make_deposit.menu_make_deposit_tickets
 #, fuzzy
-#| msgid "Make Deposits"
 msgid "Deposits"
 msgstr "Préparer un dépôt"
 
@@ -267,7 +258,6 @@ msgstr "Dérivé du montant de débit de l'écriture comptable."
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket_line__date
 #, fuzzy
-#| msgid "Derived from the related Journal Item."
 msgid "Derived from the related Journal Item"
 msgstr "Dérivée de l'écriture comptable"
 
@@ -311,7 +301,6 @@ msgstr "Assigné"
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:323
 #, fuzzy, python-format
-#| msgid "Deposit Ticket"
 msgid "Draft_Deposit_Ticket"
 msgstr "Bordereau de paiement"
 
@@ -333,14 +322,12 @@ msgstr "Entrez le nom du compte"
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, fuzzy
-#| msgid "Enter date of varification"
 msgid "Enter date of verification"
 msgstr "Entrez la date de validation"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, fuzzy
-#| msgid "Enter deposit bag no."
 msgid "Enter deposit bag number"
 msgstr "Entrez le numéro d'enveloppe"
 
@@ -352,7 +339,6 @@ msgstr "Entrez la méthode de dépôt"
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.view_deposit_ticket_form
 #, fuzzy
-#| msgid "Enter deposit tracking no."
 msgid "Enter deposit tracking number"
 msgstr "Entrer le numéro de repérage"
 
@@ -385,8 +371,6 @@ msgstr "Usager ayant validé le dépôt"
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__prepared_by_user_id
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__verified_by_user_id
 #, fuzzy
-#| msgid ""
-#| "Entered automatically by the “last user” who saved it. System generated."
 msgid ""
 "Entered automatically by the 'last user' who saved it. System generated."
 msgstr "Dernier usager à avoir modifier le document. Généré par le système."
@@ -490,7 +474,6 @@ msgstr "Nom"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_method__name
 #, fuzzy
-#| msgid "Name of the method used for deposit"
 msgid "Name of the method used to deposit"
 msgstr "Méthode utilisée pour le dépôt."
 
@@ -502,16 +485,12 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:deposit.method,name:account_banking_make_deposit.deposit_method_online_deposit_capture
 #, fuzzy
-#| msgid "Deposit Date"
 msgid "Online Deposit Capture"
 msgstr "Date de dépôt"
 
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:34
 #, fuzzy, python-format
-#| msgid ""
-#| "Only a member of '%s' group may delete/edit deposit tickets when not in "
-#| "draft state!"
 msgid ""
 "Only a member of Deposits Verifier group may delete/edit deposit tickets "
 "when not in draft state!"
@@ -573,14 +552,12 @@ msgstr "Référence"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket_line__move_line_id
 #, fuzzy
-#| msgid "Related Journal Item."
 msgid "Related Journal Item"
 msgstr "Écritures comptables associées"
 
 #. module: account_banking_make_deposit
 #: model:deposit.method,name:account_banking_make_deposit.deposit_method_remote_deposit_capture
 #, fuzzy
-#| msgid "Deposit Date"
 msgid "Remote Deposit Capture"
 msgstr "Date de dépôt"
 
@@ -635,7 +612,6 @@ msgstr "Le compte de destination"
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__company_id
 #, fuzzy
-#| msgid "The Company for which the deposit ticket is made to"
 msgid "The Company for which the deposit ticket is made"
 msgstr "La société pour laquelle le dépôt est fait."
 
@@ -672,12 +648,6 @@ msgstr "Numéro de repérage fourni par la banque ou l'institution financière."
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
 #, fuzzy
-#| msgid ""
-#| "This is how the deposit was made: Examples: *Teller \n"
-#| "*ATM \n"
-#| "*Remote Deposit Capture \n"
-#| "*Online Deposit Capture \n"
-#| "*Night Drop"
 msgid ""
 "This is how the deposit was made:\n"
 "Examples:\n"
@@ -722,12 +692,6 @@ msgstr "Vérifiés par moi"
 #. module: account_banking_make_deposit
 #: model_terms:ir.actions.act_window,help:account_banking_make_deposit.action_deposit_ticket
 #, fuzzy
-#| msgid ""
-#| "With Deposit Tickets you can create new deposit tickets, by selecting and "
-#| "grouping customer payments, supplier refunds, or other payments into a "
-#| "Deposit Ticket. OpenERP automatically posts accounting entries for “Done” "
-#| "deposit tickets. The GL entry for the deposit is posted into the Current "
-#| "Period based on the date range selected."
 msgid ""
 "With Deposit Tickets you can create new deposit\n"
 "            tickets, by selecting and grouping customer payments, supplier\n"
@@ -750,9 +714,6 @@ msgstr "Vous ne pouvez pas créer de ligne de dépôt manuellement."
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:50
 #, fuzzy, python-format
-#| msgid ""
-#| "You cannot add any new deposit ticket line manually as of this revision! "
-#| "Please use the button \"Add Deposit Items\" to add deposit ticket line!"
 msgid ""
 "You cannot add any new deposit ticket line manually as of this revision! "
 "Please use the button 'Add Deposit Items' to add deposit ticket line!"
