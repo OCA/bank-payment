@@ -382,7 +382,6 @@ msgstr "Devise de l'opération de paiement"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Debit Orders"
 msgid "Debit Order"
 msgstr "Ordres de prélèvement"
 
@@ -675,7 +674,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
 #, fuzzy
-#| msgid "Bank Journal"
 msgid "Journal"
 msgstr "Journal de banque"
 
@@ -955,7 +953,6 @@ msgstr "Un mouvement par ligne de paiement"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Options for Payment Orders"
 msgid "Only for payment orders"
 msgstr "Options pour les ordres de paiement"
 
@@ -1051,7 +1048,6 @@ msgstr "Méthode de paiement"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
 #, fuzzy
-#| msgid "Payment Method"
 msgid "Payment Methods"
 msgstr "Méthode de paiement"
 
@@ -1264,7 +1260,6 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, fuzzy, python-format
-#| msgid "The invoice %s is not in Open state"
 msgid "The invoice %s is not in Posted state"
 msgstr "La facture %s n'est pas ouverte"
 
