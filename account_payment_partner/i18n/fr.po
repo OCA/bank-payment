@@ -97,7 +97,6 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move
 #, fuzzy
-#| msgid "Journal Item"
 msgid "Journal Entries"
 msgstr "Élément de journal"
 
@@ -193,9 +192,6 @@ msgstr ""
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, fuzzy, python-format
-#| msgid ""
-#| "You cannot change the Company. There exists at least one Journal Item "
-#| "with this Payment Mode, already assigned to another Company."
 msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
