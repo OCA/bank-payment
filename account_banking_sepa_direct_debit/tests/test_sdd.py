@@ -1,5 +1,5 @@
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2018 Tecnativa - Pedro M. Baeza
+# Copyright 2018-2020 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
@@ -11,9 +11,11 @@ from odoo.tests import common
 from odoo.tools import float_compare
 
 
-class TestSDD(common.HttpCase):
+class TestSDDBase(common.HttpCase):
+    _chart_template_xml_id = "l10n_generic_coa.configurable_chart_template"
+
     def setUp(self):
-        super(TestSDD, self).setUp()
+        super().setUp()
         self.company = self.env["res.company"]
         self.account_model = self.env["account.account"]
         self.journal_model = self.env["account.journal"]
@@ -42,11 +44,7 @@ class TestSDD(common.HttpCase):
         )
         self.partner_agrolait.company_id = self.main_company.id
         self.partner_c2c.company_id = self.main_company.id
-
-        self.env.ref(
-            "l10n_generic_coa.configurable_chart_template"
-        ).try_loading_for_current_company()
-
+        self.env.ref(self._chart_template_xml_id).try_loading_for_current_company()
         self.account_revenue = self.account_model.search(
             [
                 (
@@ -124,22 +122,6 @@ class TestSDD(common.HttpCase):
         )
         # Trigger the recompute of account type on res.partner.bank
         self.partner_bank_model.search([])._compute_acc_type()
-
-    def test_pain_001_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.02"
-        self.check_sdd()
-
-    def test_pain_003_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.003.02"
-        self.check_sdd()
-
-    def test_pain_001_03(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.03"
-        self.check_sdd()
-
-    def test_pain_001_04(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.04"
-        self.check_sdd()
 
     def check_sdd(self):
         self.mandate2.recurrent_sequence_type = "first"
@@ -228,7 +210,7 @@ class TestSDD(common.HttpCase):
         self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
         return
 
-    def create_invoice(self, partner_id, mandate, price_unit, type="out_invoice"):
+    def create_invoice(self, partner_id, mandate, price_unit, inv_type="out_invoice"):
         invoice_vals = [
             (
                 0,
@@ -246,7 +228,7 @@ class TestSDD(common.HttpCase):
                 "partner_id": partner_id,
                 "reference_type": "none",
                 "currency_id": self.env.ref("base.EUR").id,
-                "type": type,
+                "type": inv_type,
                 "date": fields.Date.today(),
                 "payment_mode_id": self.payment_mode.id,
                 "mandate_id": mandate.id,
@@ -255,3 +237,21 @@ class TestSDD(common.HttpCase):
         )
         invoice.post()
         return invoice
+
+
+class TestSDD(TestSDDBase):
+    def test_pain_001_02(self):
+        self.payment_mode.payment_method_id.pain_version = "pain.008.001.02"
+        self.check_sdd()
+
+    def test_pain_003_02(self):
+        self.payment_mode.payment_method_id.pain_version = "pain.008.003.02"
+        self.check_sdd()
+
+    def test_pain_001_03(self):
+        self.payment_mode.payment_method_id.pain_version = "pain.008.001.03"
+        self.check_sdd()
+
+    def test_pain_001_04(self):
+        self.payment_mode.payment_method_id.pain_version = "pain.008.001.04"
+        self.check_sdd()
