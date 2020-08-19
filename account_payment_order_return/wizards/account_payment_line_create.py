@@ -15,5 +15,9 @@ class AccountPaymentLineCreate(models.TransientModel):
         domain = super(AccountPaymentLineCreate,
                        self)._prepare_move_line_domain()
         if not self.include_returned:
-            domain.append(('invoice_id.returned_payment', '=', False))
+            domain += [
+                '|',
+                ('invoice_id', '=', False),
+                ('invoice_id.returned_payment', '=', False)
+            ]
         return domain
