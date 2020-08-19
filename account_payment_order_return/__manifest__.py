@@ -3,7 +3,7 @@
 
 {
     'name': 'Account Payment Order Return',
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.1.0',
     'category': 'Banking addons',
     'author': 'Tecnativa, '
               'Odoo Community Association (OCA)',
