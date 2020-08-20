@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-11 09:51+0000\n"
-"PO-Revision-Date: 2018-11-23 20:11+0000\n"
-"Last-Translator: chrispi-ch <chris@okc.ch>\n"
+"PO-Revision-Date: 2020-08-20 10:00+0000\n"
+"Last-Translator: André Volksdorf <volksdorf@smartpage.de>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.2.2\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:155
@@ -31,12 +31,12 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.line,local_instrument:0
 msgid "Instant Transfer"
-msgstr ""
+msgstr "Sofortige Übertragung"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
 msgid "Local Instrument"
-msgstr ""
+msgstr "Lokale Instrumente"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
@@ -74,32 +74,32 @@ msgstr "SEPA-Überweisung an Lieferanten"
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.02"
-msgstr ""
+msgstr "pain.001.001.02"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.03 (recommended for credit transfer)"
-msgstr ""
+msgstr "pain.001.001.03 (empfohlen für die Überweisung)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.04"
-msgstr ""
+msgstr "pain.001.001.04"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.05"
-msgstr ""
+msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr ""
+msgstr "pain.001.003.03 (Überweisung in Deutschland)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr ""
+msgstr "pain.008.001.02 (empfohlen für Lastschrift)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
@@ -114,4 +114,4 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr ""
+msgstr "pain.008.003.02 (Lastschriftverfahren in Deutschland)"
