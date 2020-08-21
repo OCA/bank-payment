@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-07 05:59+0000\n"
+"PO-Revision-Date: 2020-08-22 01:59+0000\n"
 "Last-Translator: Ignacio Buioli <ibuioli@gmail.com>\n"
 "Language-Team: none\n"
 "Language: es_AR\n"
@@ -27,8 +27,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Activa esta opción si este método de pago debe requerirte informar el número "
-"de cuenta bancaria de tu cliente o proveedor."
+"Active esta opción si este método de pago requiere que conozca el número de "
+"cuenta bancaria de su cliente o proveedor."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
@@ -289,7 +289,7 @@ msgstr "Método de pago"
 #: model:ir.model,name:account_payment_mode.model_account_payment_method
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
 msgid "Payment Methods"
-msgstr "Métodos de pago"
+msgstr "Métodos de Pago"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
