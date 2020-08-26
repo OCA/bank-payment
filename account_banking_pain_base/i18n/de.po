@@ -237,6 +237,7 @@ msgid "Credit Card Payment "
 msgstr "Kreditkarten Zahlung "
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:449
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:451
 #, python-format
 msgid "Creditor name"
@@ -262,6 +263,7 @@ msgid "Debit Card Payment"
 msgstr "Debitkartenzahlung"
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:451
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:453
 #, python-format
 msgid "Debtor name"
@@ -663,6 +665,7 @@ msgid "PAIN Version"
 msgstr ""
 
 #. module: account_banking_pain_base
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:447
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:449
 #, python-format
 msgid "Partner name"
