@@ -340,7 +340,6 @@ class AccountPaymentOrder(models.Model):
                 % self.company_id.name)
         return True
 
-    @api.model
     def generate_party_agent(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -437,7 +436,6 @@ class AccountPaymentOrder(models.Model):
 
         return True
 
-    @api.model
     def generate_party_block(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
