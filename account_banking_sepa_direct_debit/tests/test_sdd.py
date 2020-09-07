@@ -7,15 +7,18 @@ import base64
 from lxml import etree
 
 from odoo import fields
-from odoo.tests import common
 from odoo.tools import float_compare
 
+from odoo.addons.account.tests.account_test_multi_company_no_chart import (
+    TestAccountMultiCompanyNoChartCommon,
+)
 
-class TestSDDBase(common.HttpCase):
-    _chart_template_xml_id = "l10n_generic_coa.configurable_chart_template"
 
-    def setUp(self):
-        super().setUp()
+class TestSDDBase(TestAccountMultiCompanyNoChartCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        self = cls
         self.company = self.env["res.company"]
         self.account_model = self.env["account.account"]
         self.journal_model = self.env["account.journal"]
@@ -29,7 +32,10 @@ class TestSDDBase(common.HttpCase):
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_c2c = self.env.ref("base.res_partner_12")
         self.eur_currency = self.env.ref("base.EUR")
-        self.main_company = self.env["res.company"].create(
+        cls.setUpAdditionalAccounts()
+        cls.setUpAccountJournal()
+        self.main_company = cls.company_B
+        cls.company_B.write(
             {
                 "name": "Test EUR company",
                 "currency_id": self.eur_currency.id,
@@ -42,30 +48,12 @@ class TestSDDBase(common.HttpCase):
                 "company_id": self.main_company.id,
             }
         )
-        self.partner_agrolait.company_id = self.main_company.id
-        self.partner_c2c.company_id = self.main_company.id
-        self.env.ref(self._chart_template_xml_id).try_loading_for_current_company()
-        self.account_revenue = self.account_model.search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_revenue").id,
-                ),
-                ("company_id", "=", self.main_company.id),
-            ],
-            limit=1,
-        )
-        self.account_receivable = self.account_model.search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_receivable").id,
-                ),
-                ("company_id", "=", self.main_company.id),
-            ],
-            limit=1,
+        (self.partner_agrolait + self.partner_c2c).write(
+            {
+                "company_id": cls.main_company.id,
+                "property_account_payable_id": cls.account_payable_company_B.id,
+                "property_account_receivable_id": cls.account_receivable_company_B.id,
+            }
         )
         self.company_bank = self.env.ref("account_payment_mode.main_company_iban").copy(
             {
@@ -218,7 +206,7 @@ class TestSDDBase(common.HttpCase):
                 {
                     "name": "Great service",
                     "quantity": 1,
-                    "account_id": self.account_revenue.id,
+                    "account_id": self.account_revenue_company_B.id,
                     "price_unit": price_unit,
                 },
             )
