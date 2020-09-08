@@ -110,7 +110,7 @@ class AccountInvoice(models.Model):
 
     @api.constrains('company_id', 'payment_mode_id')
     def _check_payment_mode_company_constrains(self):
-        for rec in self.sudo():
+        for rec in self:
             if (rec.payment_mode_id and rec.company_id !=
                     rec.payment_mode_id.company_id):
                 raise ValidationError(
