@@ -57,6 +57,7 @@
         name="Add to Payment/Debit Order"
         res_model="account.invoice.payment.line.multi"
         binding_model="account.move"
+        binding_views="list,form"
         view_mode="form"
         target="new"
         id="account_invoice_create_account_payment_line_action"
