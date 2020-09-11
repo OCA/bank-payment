@@ -172,7 +172,6 @@ msgid "Supplier Payment Mode"
 msgstr "Zahlungsmethode des Lieferanten"
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_invoice.py:117
 #: code:addons/account_payment_partner/models/account_invoice.py:120
 #, python-format
 msgid ""
