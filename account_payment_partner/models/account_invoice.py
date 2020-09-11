@@ -22,9 +22,12 @@ class AccountInvoice(models.Model):
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
         if self.partner_id:
+            company_id = (self.company_id.id or
+                          self.env.context.get('force_company') or
+                          self.env.user.company_id.id)
             if self.type == 'in_invoice':
                 pay_mode = self.with_context(
-                    force_company=self.company_id.id
+                    force_company=company_id
                 ).partner_id.supplier_payment_mode_id
                 self.payment_mode_id = pay_mode
                 if (
@@ -45,7 +48,7 @@ class AccountInvoice(models.Model):
                 # needed for printing purposes and it can conflict with
                 # SEPA direct debit payments. Current report prints it.
                 self.payment_mode_id = self.with_context(
-                    force_company=self.company_id.id,
+                    force_company=company_id,
                 ).partner_id.customer_payment_mode_id
         else:
             self.payment_mode_id = False
