@@ -42,6 +42,8 @@ class AccountMoveLine(models.Model):
                 )
             ):
                 ml.partner_bank_id = ml.move_id.invoice_partner_bank_id.id
+            else:
+                ml.partner_bank_id = ml.partner_bank_id
 
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
