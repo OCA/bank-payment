@@ -146,6 +146,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             'partner_id': cls.supplier.id,
             'type': 'in_invoice',
             'journal_id': cls.journal_c1.id,
+            'company_id': cls.company.id,
         })
 
     def _create_invoice(self):

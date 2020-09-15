@@ -21,10 +21,8 @@ class AccountInvoice(models.Model):
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
-        if self.partner_id:
-            company_id = (self.company_id.id or
-                          self.env.context.get('force_company') or
-                          self.env.user.company_id.id)
+        company_id = self.company_id.id or self.env.context.get('force_company')
+        if self.partner_id and company_id:
             if self.type == 'in_invoice':
                 pay_mode = self.with_context(
                     force_company=company_id
