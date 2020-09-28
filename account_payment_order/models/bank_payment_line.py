@@ -1,5 +1,6 @@
 # Copyright 2015-2016 Akretion - Alexis de Lattre
 # Copyright 2018 Tecnativa - Pedro M. Baeza
+# Copyright 2020 360 ERP - Cas Vissers
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
@@ -146,42 +147,42 @@ class BankPaymentLine(models.Model):
         self.ensure_one()
         amlo = self.env["account.move.line"]
         transit_mlines = amlo.search([("bank_payment_line_id", "=", self.id)])
-        assert len(transit_mlines) == 1, "We should have only 1 move"
-        transit_mline = transit_mlines[0]
-        assert not transit_mline.reconciled, "Transit move should not be reconciled"
-        lines_to_rec = transit_mline
-        for payment_line in self.payment_line_ids:
+        assert len(transit_mlines.mapped('account_id')) == 1, "All move lines within a bank payment line should be on the same account"
+        account = transit_mlines.mapped('account_id')
 
-            if not payment_line.move_line_id:
-                raise UserError(
-                    _(
-                        "Can not reconcile: no move line for "
-                        "payment line %s of partner '%s'."
-                    )
-                    % (payment_line.name, payment_line.partner_id.name)
-                )
-            if payment_line.move_line_id.reconciled:
-                raise UserError(
-                    _("Move line '%s' of partner '%s' has already " "been reconciled")
-                    % (payment_line.move_line_id.name, payment_line.partner_id.name)
-                )
-            if payment_line.move_line_id.account_id != transit_mline.account_id:
-                raise UserError(
-                    _(
-                        "For partner '%s', the account of the account "
-                        "move line to pay (%s) is different from the "
-                        "account of of the transit move line (%s)."
-                    )
-                    % (
-                        payment_line.move_line_id.partner_id.name,
-                        payment_line.move_line_id.account_id.code,
-                        transit_mline.account_id.code,
-                    )
-                )
+        for line in transit_mlines:
+            lines_to_rec = line
+            for payment_line in self.payment_line_ids.filtered(lambda x: line.transient_payment_line_id in x):
 
-            lines_to_rec += payment_line.move_line_id
+                if not payment_line.move_line_id:
+                    raise UserError(
+                        _(
+                            "Can not reconcile: no move line for "
+                            "payment line %s of partner '%s'."
+                        )
+                        % (payment_line.name, payment_line.partner_id.name)
+                    )
+                if payment_line.move_line_id.reconciled:
+                    raise UserError(
+                        _("Move line '%s' of partner '%s' has already " "been reconciled")
+                        % (payment_line.move_line_id.name, payment_line.partner_id.name)
+                    )
+                if payment_line.move_line_id.account_id != account:
+                    raise UserError(
+                        _(
+                            "For partner '%s', the account of the account "
+                            "move line to pay (%s) is different from the "
+                            "account (%s) of of the transit move line."
+                        )
+                        % (
+                            payment_line.move_line_id.partner_id.name,
+                            payment_line.move_line_id.account_id.code,
+                            account.code,
+                        )
+                    )
 
-        lines_to_rec.reconcile()
+                lines_to_rec += payment_line.move_line_id
+            lines_to_rec.reconcile()
 
     def unlink(self):
         for line in self:

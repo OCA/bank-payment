@@ -2,6 +2,7 @@
 # © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2016 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # © 2016 Akretion (Alexis de Lattre - alexis.delattre@akretion.com)
+# © 2020 360 ERP - Cas Vissers
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import base64
@@ -434,10 +435,11 @@ class AccountPaymentOrder(models.Model):
         }
         total_company_currency = total_payment_currency = 0
         for bline in bank_lines:
-            total_company_currency += bline.amount_company_currency
-            total_payment_currency += bline.amount_currency
-            partner_ml_vals = self._prepare_move_line_partner_account(bline)
-            vals["line_ids"].append((0, 0, partner_ml_vals))
+            for line in bline.payment_line_ids:
+                total_company_currency += line.amount_company_currency
+                total_payment_currency += line.amount_currency
+                partner_ml_vals = self._prepare_move_line_partner_account(line)
+                vals["line_ids"].append((0, 0, partner_ml_vals))
         trf_ml_vals = self._prepare_move_line_offsetting_account(
             total_company_currency, total_payment_currency, bank_lines
         )
@@ -492,9 +494,10 @@ class AccountPaymentOrder(models.Model):
             )
         return vals
 
-    def _prepare_move_line_partner_account(self, bank_line):
-        if bank_line.payment_line_ids[0].move_line_id:
-            account_id = bank_line.payment_line_ids[0].move_line_id.account_id.id
+    def _prepare_move_line_partner_account(self, payment_line):
+        bank_line = payment_line.bank_line_id
+        if payment_line.move_line_id:
+            account_id = payment_line.move_line_id.account_id.id
         else:
             if self.payment_type == "inbound":
                 account_id = bank_line.partner_id.property_account_receivable_id.id
@@ -506,27 +509,28 @@ class AccountPaymentOrder(models.Model):
             name = _("Debit bank line %s") % bank_line.name
         vals = {
             "name": name,
+            'transient_payment_line_id': payment_line.id,
             "bank_payment_line_id": bank_line.id,
             "partner_id": bank_line.partner_id.id,
             "account_id": account_id,
             "credit": (
                 self.payment_type == "inbound"
-                and bank_line.amount_company_currency
+                and payment_line.amount_company_currency
                 or 0.0
             ),
             "debit": (
                 self.payment_type == "outbound"
-                and bank_line.amount_company_currency
+                and payment_line.amount_company_currency
                 or 0.0
             ),
         }
 
-        if bank_line.currency_id != bank_line.company_currency_id:
+        if payment_line.currency_id != payment_line.company_currency_id:
             sign = self.payment_type == "inbound" and -1 or 1
             vals.update(
                 {
-                    "currency_id": bank_line.currency_id.id,
-                    "amount_currency": bank_line.amount_currency * sign,
+                    "currency_id": payment_line.currency_id.id,
+                    "amount_currency": payment_line.amount_currency * sign,
                 }
             )
         return vals

@@ -1,5 +1,6 @@
 # © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# © 2020 360 ERP - Cas Vissers
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
@@ -24,6 +25,10 @@ class AccountMoveLine(models.Model):
         comodel_name="account.payment.line",
         inverse_name="move_line_id",
         string="Payment lines",
+    )
+    transient_payment_line_id = fields.Many2one(
+        'account.payment.line',
+        string='Inverse Payment Line',
     )
 
     @api.depends(
