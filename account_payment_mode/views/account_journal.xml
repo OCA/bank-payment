@@ -11,9 +11,9 @@ allow to link to an existing bank account -->
                 <field name="company_partner_id" invisible="1" />
             </field>
             <field name="bank_account_id" position="attributes">
-                <attribute
-                    name="domain"
-                >[('partner_id', '=', company_partner_id)]</attribute>
+                <attribute name="domain">
+                    [('partner_id', '=', company_partner_id)]
+                </attribute>
             </field>
             <!-- better when related fields are readonly, otherwise the user
         doesn't understand that he is changing the bank_id on the underlying
