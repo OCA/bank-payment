@@ -1,4 +1,5 @@
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2020 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
@@ -41,8 +42,8 @@ class AccountPaymentMode(models.Model):
         domain=[("type", "=", "bank")],
         ondelete="restrict",
     )
-    # I need to use the old definition, because I have 2 M2M fields
-    # pointing to account.journal
+    # I need to explicitly define the table name
+    # because I have 2 M2M fields pointing to account.journal
     variable_journal_ids = fields.Many2many(
         comodel_name="account.journal",
         relation="account_payment_mode_variable_journal_rel",
@@ -55,7 +56,7 @@ class AccountPaymentMode(models.Model):
         string="Payment Method",
         required=True,
         ondelete="restrict",
-    )  # equivalent v8 field : type
+    )
     payment_type = fields.Selection(
         related="payment_method_id.payment_type", readonly=True, store=True
     )
@@ -63,11 +64,6 @@ class AccountPaymentMode(models.Model):
         related="payment_method_id.code", readonly=True, store=True
     )
     active = fields.Boolean(default=True)
-    # I dropped sale_ok and purchase_ok fields, because it is replaced by
-    # payment_type = 'inbound' or 'outbound'
-    # In fact, with the new v9 datamodel, you MUST create 2 payment modes
-    # for wire transfer : one for wire transfer from your customers (inbound)
-    # and one for wire transfer to your suppliers (outbound)
     note = fields.Text(translate=True)
 
     @api.onchange("company_id")
