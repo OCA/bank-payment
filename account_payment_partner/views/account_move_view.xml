@@ -39,7 +39,7 @@
                 <field name="payment_mode_filter_type_domain" invisible="1" />
                 <field name="partner_bank_filter_type_domain" invisible="1" />
             </xpath>
-            <field name="invoice_partner_bank_id" position="attributes">
+            <field name="partner_bank_id" position="attributes">
                 <attribute name="domain">
                     [('partner_id', '=', partner_bank_filter_type_domain),
                     '|',('company_id', '=', company_id),('company_id', '=', False)]
