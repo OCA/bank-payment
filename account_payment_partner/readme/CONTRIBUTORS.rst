@@ -12,3 +12,4 @@
 * `DynApps <https://www.dynapps.be>`_:
 
   * Raf Ven <raf.ven@dynapps.be>
+* Marçal Isern <marsal.isern@qubiq.es>
