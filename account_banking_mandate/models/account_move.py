@@ -22,7 +22,7 @@ class AccountMove(models.Model):
 
     def post(self):
         self.line_ids.mandate_id = self.mandate_id
-        super(AccountMove, self).post()
+        return super(AccountMove, self).post()
 
     @api.model
     def create(self, vals):
