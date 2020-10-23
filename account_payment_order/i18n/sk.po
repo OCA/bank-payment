@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-15 21:59+0000\n"
+"PO-Revision-Date: 2020-10-23 10:08+0000\n"
 "Last-Translator: Jan Prokop <jprokop@jackie.sk>\n"
 "Language-Team: none\n"
 "Language: sk\n"
@@ -40,7 +40,7 @@ msgstr "<strong>Mena spoločnosti:</strong>"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr "<strong>Prevod:</strong>"
+msgstr "<strong>Úhrada:</strong>"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -50,7 +50,7 @@ msgstr "<strong>Typ platby:</strong>"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Reference</strong>"
-msgstr "<strong>Variabilný symbol</strong>"
+msgstr "<strong>Referencia</strong>"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -644,7 +644,7 @@ msgstr "Faktúra"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Invoice Ref"
-msgstr "Referencia faktúry"
+msgstr "Referencia/Var. symbol"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_is_follower
@@ -866,7 +866,7 @@ msgstr "Počet neprečítaných správ"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__offsetting_account
 msgid "Offsetting Account"
-msgstr "Vyrovnávací účet"
+msgstr "Kompenzačný účet"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:143
@@ -896,7 +896,7 @@ msgstr "V režime platby %s musíte vybrať hodnotu pre \"Transferový denník\"
 #: code:addons/account_payment_order/models/account_payment_mode.py:94
 #, python-format
 msgid "On the payment mode '%s', you must select an option for the 'Offsetting Account' parameter"
-msgstr "V režime platby %s musíte vybrať hodnotu pre \"kompenzačný účet\""
+msgstr "V režime platby %s musíte vybrať hodnotu pre \"Kompenzačný účet\""
 
 #. module: account_payment_order
 #: selection:account.payment.mode,move_option:0
@@ -1308,7 +1308,7 @@ msgstr "Počítadlo neprečítaných správ"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
-msgstr "Dátum hodnoty"
+msgstr "Dátum valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__website_message_ids
