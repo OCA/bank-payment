@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">account_payment_partner.invoice_form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account_payment_partner.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="before">
+                <field name="show_payment_condition" invisible="1"/>
+                <field name="payment_condition_id" attrs="{'invisible': [('show_payment_condition', '=', False)]}"/>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="invisible">[('show_payment_condition', '=', True)]</attribute>
+                <attribute name="force_save">True</attribute>
+            </field>
+            <field name="payment_mode_id" position="attributes">
+                <attribute name="invisible">[('show_payment_condition', '=', True)]</attribute>
+                <attribute name="force_save">True</attribute>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="invoice_supplier_form" model="ir.ui.view">
+        <field name="name">account_payment_partner.invoice_supplier_form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account_payment_partner.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="before">
+                <field name="show_payment_condition" invisible="1"/>
+                <field name="payment_condition_id" attrs="{'invisible': [('show_payment_condition', '=', False)]}"/>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="invisible">[('show_payment_condition', '=', True)]</attribute>
+                <attribute name="force_save">True</attribute>
+            </field>
+            <field name="payment_mode_id" position="attributes">
+                <attribute name="invisible">[('show_payment_condition', '=', True)]</attribute>
+                <attribute name="force_save">True</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

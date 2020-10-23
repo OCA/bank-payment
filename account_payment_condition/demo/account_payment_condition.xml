@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo noupdate="1">
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_1">
+       <field name="payment_term_id" ref="account.account_payment_term"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_dd1"/>
+    </record>
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_2">
+       <field name="payment_term_id" ref="account.account_payment_term"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_ct2"/>
+    </record>
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_3">
+       <field name="payment_term_id" ref="account.account_payment_term"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_ct1"/>
+    </record>
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_4">
+       <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_dd1"/>
+    </record>
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_5">
+       <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_ct2"/>
+    </record>
+
+    <record model="account.payment.condition" id="account_payment_condition_demo_6">
+       <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+       <field name="payment_mode_id" ref="account_payment_mode.payment_mode_inbound_ct1"/>
+    </record>
+
+</odoo>
