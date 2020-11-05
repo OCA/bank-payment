@@ -16,8 +16,10 @@ class SaleOrder(models.Model):
             vals['payment_mode_id'] = self.payment_mode_id.id
             if (self.payment_mode_id.bank_account_link == 'fixed' and
                     self.payment_mode_id.payment_method_id.code == 'manual'):
-                vals['partner_bank_id'] =\
-                    self.payment_mode_id.fixed_journal_id.bank_account_id.id
+                journal = self.payment_mode_id.fixed_journal_id
+                vals['partner_bank_id'] = journal.bank_account_id.id
+                if journal.default_debit_account_id:
+                    vals['account_id'] = journal.default_debit_account_id.id
         return vals
 
     @api.onchange('partner_id')
