@@ -88,7 +88,7 @@ class TestPaymentMode(TransactionCase):
         self.assertFalse(self.payment_mode_c1.move_option)
 
     def test_onchange_offsetting_account(self):
-        self.payment_mode_c1.offsetting = "bank_account"
+        self.payment_mode_c1.offsetting_account = "bank_account"
         self.payment_mode_c1.offsetting_account_change()
         self.assertFalse(self.payment_mode_c1.transfer_account_id)
 

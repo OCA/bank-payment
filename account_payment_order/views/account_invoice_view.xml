@@ -24,7 +24,7 @@
                     attrs="{'invisible': ['|', '|',
                                               ('payment_order_ok', '=', False),
                                               ('state', '!=', 'posted'),
-                                              ('type', 'not in', ('out_invoice', 'out_refund'))
+                                              ('move_type', 'not in', ('out_invoice', 'out_refund'))
                                              ]}"
                 />
                 <button
@@ -35,7 +35,7 @@
                     attrs="{'invisible': ['|', '|',
                                               ('payment_order_ok', '=', False),
                                               ('state', '!=', 'posted'),
-                                              ('type', 'not in', ('in_invoice', 'in_refund'))
+                                              ('move_type', 'not in', ('in_invoice', 'in_refund'))
                                              ]}"
                 />
             </button>
@@ -48,17 +48,19 @@
                     required="1"
                     nolabel="1"
                     attrs="{'readonly':[('state','!=','draft')],
-                               'invisible': [('type', 'not in', ('out_invoice', 'out_refund'))]}"
+                               'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
                 />
             </field>
         </field>
     </record>
-    <act_window
-        name="Add to Payment/Debit Order"
-        res_model="account.invoice.payment.line.multi"
-        binding_model="account.move"
-        view_mode="form"
-        target="new"
+    <record
         id="account_invoice_create_account_payment_line_action"
-    />
+        model="ir.actions.act_window"
+    >
+        <field name="name">Add to Payment/Debit Order</field>
+        <field name="res_model">account.invoice.payment.line.multi</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+    </record>
 </odoo>

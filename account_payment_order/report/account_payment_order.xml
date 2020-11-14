@@ -99,7 +99,7 @@
                             </td>
                             <td class="text-center">
                                 <t
-                                    t-if="line.move_line_id.move_id and 'in_' in line.move_line_id.move_id.type"
+                                    t-if="line.move_line_id.move_id and 'in_' in line.move_line_id.move_id.move_type"
                                 >
                                     <span t-field="line.move_line_id.move_id.ref" />
                                 </t>

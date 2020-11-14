@@ -45,7 +45,7 @@ class TestPaymentOrderOutbound(TransactionCase):
         invoice = self.env["account.move"].create(
             {
                 "partner_id": self.env.ref("base.res_partner_4").id,
-                "type": "in_invoice",
+                "move_type": "in_invoice",
                 "payment_mode_id": self.env.ref(
                     "account_payment_mode.payment_mode_outbound_ct1"
                 ).id,
@@ -155,8 +155,6 @@ class TestPaymentOrderOutbound(TransactionCase):
         bank_journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
-        # Set journal to allow cancelling entries
-        bank_journal.update_posted = True
 
         payment_order.write({"journal_id": bank_journal.id})
 
