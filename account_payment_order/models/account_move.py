@@ -116,9 +116,9 @@ class AccountMove(models.Model):
                         )
                         % (count, payorder.name)
                     )
-        action = self.env["ir.actions.act_window"].for_xml_id(
-            "account_payment_order",
-            "account_payment_order_%s_action" % action_payment_type,
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "account_payment_order.account_payment_order_%s_action"
+            % action_payment_type,
         )
         if len(result_payorder_ids) == 1:
             action.update(

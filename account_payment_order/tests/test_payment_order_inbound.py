@@ -53,7 +53,7 @@ class TestPaymentOrderInboundBase(SavepointCase):
 
     def _create_customer_invoice(self):
         with Form(
-            self.env["account.move"].with_context(default_type="out_invoice")
+            self.env["account.move"].with_context(default_move_type="out_invoice")
         ) as invoice_form:
             invoice_form.partner_id = self.env.ref("base.res_partner_4")
             with invoice_form.invoice_line_ids.new() as invoice_line_form:
@@ -86,8 +86,6 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         bank_journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
-        # Set journal to allow cancelling entries
-        bank_journal.update_posted = True
 
         payment_order.write({"journal_id": bank_journal.id})
 
