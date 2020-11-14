@@ -26,13 +26,11 @@ class AccountMoveLine(models.Model):
         string="Payment lines",
     )
 
-    @api.depends(
-        "move_id", "move_id.invoice_partner_bank_id", "move_id.payment_mode_id"
-    )
+    @api.depends("move_id", "move_id.partner_bank_id", "move_id.payment_mode_id")
     def _compute_partner_bank_id(self):
         for ml in self:
             if (
-                ml.move_id.type in ("in_invoice", "in_refund")
+                ml.move_id.move_type in ("in_invoice", "in_refund")
                 and not ml.reconciled
                 and ml.payment_mode_id.payment_order_ok
                 and ml.account_id.internal_type in ("receivable", "payable")
@@ -41,7 +39,7 @@ class AccountMoveLine(models.Model):
                     for p_state in ml.payment_line_ids.mapped("state")
                 )
             ):
-                ml.partner_bank_id = ml.move_id.invoice_partner_bank_id.id
+                ml.partner_bank_id = ml.move_id.partner_bank_id.id
             else:
                 ml.partner_bank_id = ml.partner_bank_id
 
@@ -60,11 +58,11 @@ class AccountMoveLine(models.Model):
                 communication_type = ref2comm_type[self.move_id.reference_type]
             else:
                 if (
-                    self.move_id.type in ("in_invoice", "in_refund")
+                    self.move_id.move_type in ("in_invoice", "in_refund")
                     and self.move_id.ref
                 ):
                     communication = self.move_id.ref
-                elif "out" in self.move_id.type:
+                elif "out" in self.move_id.move_type:
                     # Force to only put invoice number here
                     communication = self.move_id.name
         if self.currency_id:

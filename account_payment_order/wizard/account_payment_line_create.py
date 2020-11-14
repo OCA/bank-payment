@@ -90,7 +90,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         if self.invoice:
             domain.append(
                 (
-                    "move_id.type",
+                    "move_id.move_type",
                     "in",
                     ("in_invoice", "out_invoice", "in_refund", "out_refund"),
                 )
