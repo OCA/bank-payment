@@ -7,22 +7,33 @@ from odoo import api, models
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    def _compute_journal_domain_and_types(self):
-        res = super(AccountPayment, self)._compute_journal_domain_and_types()
-        journal_domain = res.get("domain", [])
-        if self.payment_type == "inbound":
-            journal_domain.append(("inbound_payment_order_only", "=", False))
-        else:
-            journal_domain.append(("outbound_payment_order_only", "=", False))
-        res["domain"] = journal_domain
-        return res
+    def _get_default_journal(self):
+        res = super()._get_default_journal()
+        return res.filtered(lambda journal: not journal.inbound_payment_order_only)
 
-    @api.onchange("journal_id")
-    def _onchange_journal(self):
-        res = super(AccountPayment, self)._onchange_journal()
-        domains = res.get("domain")
-        if not domains:
-            return res
-        if domains.get("payment_method_id"):
-            domains["payment_method_id"].append(("payment_order_only", "!=", True))
+    @api.depends(
+        "payment_type",
+        "journal_id.inbound_payment_method_ids",
+        "journal_id.outbound_payment_method_ids",
+    )
+    def _compute_payment_method_fields(self):
+        res = super()._compute_payment_method_fields()
+        for pay in self:
+            if pay.payment_type == "inbound":
+                pay.available_payment_method_ids = (
+                    pay.journal_id.inbound_payment_method_ids.filtered(
+                        lambda m: not m.payment_order_only
+                    )
+                )
+            else:
+                pay.available_payment_method_ids = (
+                    pay.journal_id.outbound_payment_method_ids.filtered(
+                        lambda m: not m.payment_order_only
+                    )
+                )
+
+            pay.hide_payment_method = (
+                len(pay.available_payment_method_ids) == 1
+                and pay.available_payment_method_ids.code == "manual"
+            )
         return res
