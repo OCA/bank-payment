@@ -17,3 +17,6 @@
 
   * Raf Ven <raf.ven@dynapps.be>
 * Andrea Stirpe <a.stirpe@onestein.nl>
+* `Jarsa <https://www.jarsa.com.mx>`_:
+
+  * Alan Ramos <alan.ramos@jarsa.com.mx>

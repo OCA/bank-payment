@@ -3,12 +3,16 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
     <!-- QWeb Report -->
-    <report
-        id="action_print_payment_order"
-        model="account.payment.order"
-        string="Payment Order"
-        report_type="qweb-pdf"
-        name="account_payment_order.print_account_payment_order_main"
-        file="account_payment_order.print_account_payment_order_main"
-    />
+    <record id="action_print_payment_order" model="ir.actions.report">
+        <field name="name">ayment Order</field>
+        <field name="model">account.payment.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >account_payment_order.print_account_payment_order_main</field>
+        <field
+            name="report_file"
+        >account_payment_order.print_account_payment_order_main</field>
+    </record>
+
 </odoo>

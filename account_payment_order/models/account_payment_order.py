@@ -21,7 +21,7 @@ class AccountPaymentOrder(models.Model):
         comodel_name="account.payment.mode",
         required=True,
         ondelete="restrict",
-        track_visibility="onchange",
+        tracking=True,
         states={"draft": [("readonly", False)]},
     )
     payment_type = fields.Selection(
@@ -56,7 +56,7 @@ class AccountPaymentOrder(models.Model):
         ondelete="restrict",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
     )
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
@@ -78,7 +78,7 @@ class AccountPaymentOrder(models.Model):
         readonly=True,
         copy=False,
         default="draft",
-        track_visibility="onchange",
+        tracking=True,
     )
     date_prefered = fields.Selection(
         selection=[
@@ -89,7 +89,7 @@ class AccountPaymentOrder(models.Model):
         string="Payment Execution Date Type",
         required=True,
         default="due",
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -97,7 +97,7 @@ class AccountPaymentOrder(models.Model):
         string="Payment Execution Date",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
         help="Select a requested date of execution if you selected 'Due Date' "
         "as the Payment Execution Date Type.",
     )
@@ -458,7 +458,7 @@ class AccountPaymentOrder(models.Model):
             vals.update({"date_maturity": bank_lines[0].date})
 
         if self.payment_mode_id.offsetting_account == "bank_account":
-            account_id = self.journal_id.default_debit_account_id.id
+            account_id = self.journal_id.default_account_id.id
         elif self.payment_mode_id.offsetting_account == "transfer_account":
             account_id = self.payment_mode_id.transfer_account_id.id
         partner_id = False
@@ -537,9 +537,9 @@ class AccountPaymentOrder(models.Model):
         am_obj = self.env["account.move"]
         mvals = self._prepare_move(blines)
         move = am_obj.create(mvals)
-        blines.reconcile_payment_lines()
         if post_move:
-            move.post()
+            move.action_post()
+        blines.reconcile_payment_lines()
 
     def _prepare_trf_moves(self):
         """

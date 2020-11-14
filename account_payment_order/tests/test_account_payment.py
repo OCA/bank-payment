@@ -66,54 +66,32 @@ class TestAccountPayment(SavepointCase):
             {"journal_id": self.bank_journal.id, "payment_type": "inbound", "amount": 1}
         )
         # check journals
-        journal_res = new_account_payment._compute_journal_domain_and_types()
-        journal_domain = journal_res.get("domain")
-        self.assertTrue(journal_domain)
-        journals = self.account_journal_model.search(journal_domain)
+        journals = new_account_payment._get_default_journal()
         self.assertIn(self.bank_journal, journals)
         # check payment methods
-        payment_method_res = new_account_payment._onchange_journal()
-        payment_method_domain = payment_method_res.get("domain", {}).get(
-            "payment_method_id"
-        )
-        self.assertTrue(payment_method_domain)
-        payment_methods = self.payment_method_model.search(payment_method_domain)
-        self.assertIn(self.inbound_payment_method_01, payment_methods)
-        self.assertIn(self.inbound_payment_method_02, payment_methods)
+        payment_methods = new_account_payment.available_payment_method_ids.ids
+        self.assertIn(self.inbound_payment_method_01.id, payment_methods)
+        self.assertIn(self.inbound_payment_method_02.id, payment_methods)
         # Set one payment method of the bank journal 'payment order only'
         self.inbound_payment_method_01.payment_order_only = True
         # check journals
-        journal_res = new_account_payment._compute_journal_domain_and_types()
-        journal_domain = journal_res.get("domain")
-        self.assertTrue(journal_domain)
-        journals = self.account_journal_model.search(journal_domain)
+        journals = new_account_payment._get_default_journal()
         self.assertIn(self.bank_journal, journals)
         # check payment methods
-        payment_method_res = new_account_payment._onchange_journal()
-        payment_method_domain = payment_method_res.get("domain", {}).get(
-            "payment_method_id"
-        )
-        self.assertTrue(payment_method_domain)
-        payment_methods = self.payment_method_model.search(payment_method_domain)
-        self.assertNotIn(self.inbound_payment_method_01, payment_methods)
-        self.assertIn(self.inbound_payment_method_02, payment_methods)
+        new_account_payment._compute_payment_method_fields()
+        payment_methods = new_account_payment.available_payment_method_ids.ids
+        self.assertNotIn(self.inbound_payment_method_01.id, payment_methods)
+        self.assertIn(self.inbound_payment_method_02.id, payment_methods)
         # Set all payment methods of the bank journal 'payment order only'
         self.inbound_payment_method_02.payment_order_only = True
         self.assertTrue(self.inbound_payment_method_01.payment_order_only)
         self.assertTrue(self.inbound_payment_method_02.payment_order_only)
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
         # check journals
-        journal_res = new_account_payment._compute_journal_domain_and_types()
-        journal_domain = journal_res.get("domain")
-        self.assertTrue(journal_domain)
-        journals = self.account_journal_model.search(journal_domain)
+        journals = new_account_payment._get_default_journal()
         self.assertNotIn(self.bank_journal, journals)
         # check payment methods
-        payment_method_res = new_account_payment._onchange_journal()
-        payment_method_domain = payment_method_res.get("domain", {}).get(
-            "payment_method_id"
-        )
-        self.assertTrue(payment_method_domain)
-        payment_methods = self.payment_method_model.search(payment_method_domain)
-        self.assertNotIn(self.inbound_payment_method_01, payment_methods)
-        self.assertNotIn(self.inbound_payment_method_02, payment_methods)
+        new_account_payment._compute_payment_method_fields()
+        payment_methods = new_account_payment.available_payment_method_ids.ids
+        self.assertNotIn(self.inbound_payment_method_01.id, payment_methods)
+        self.assertNotIn(self.inbound_payment_method_02.id, payment_methods)
