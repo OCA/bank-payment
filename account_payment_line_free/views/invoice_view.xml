@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2014 Compassion (http://www.compassion.ch)
+  @author: Cyril Sester <cyril.sester@outlook.com>
+  The licence is in the file __openerp__.py
+-->
+<odoo>
+    <record id="account_invoice_free_view" model="ir.ui.view">
+      <field name="name">account.invoice.free.form</field>
+      <field name="model">account.invoice.free</field>
+      <field name="arch" type="xml">
+        <form string="Free Invoices from payment order">
+          <p class="oe_grey">
+            This will extract payment lines corresponding to selected
+            invoices and put them in a cancelled payment order. This way,
+            invoices can be added to another payment order.
+          </p>
+          <footer>
+            <button string="Free Invoices" name="invoice_free" type="object" default_focus="1" class="oe_highlight"/>
+            or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <act_window id="action_account_invoice_free"
+
+      key2="client_action_multi" name="Free Invoices"
+      res_model="account.invoice.free" src_model="account.invoice"
+      view_mode="form" target="new" view_type="form" />
+</odoo>
