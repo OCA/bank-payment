@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-16 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account_payment_partner.account_invoice_search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <filter name="status" position="after">
+                <filter
+                    string="Payment Mode"
+                    name="payment_mode_groupby"
+                    context="{'group_by': 'payment_mode_id'}"
+                />
+            </filter>
+        </field>
+    </record>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account_payment_partner.view_move_form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//div[field[@name='invoice_payment_term_id']]"
+                position="after"
+            >
+                <field
+                    name="payment_mode_id"
+                    domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
+                    widget="selection"
+                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                    invisible="context.get('default_type') not in  ('out_invoice','out_refund','in_invoice','in_refund')"
+                />
+                <field name="commercial_partner_id" invisible="1" />
+                <field name="bank_account_required" invisible="1" />
+                <field name="payment_mode_filter_type_domain" invisible="1" />
+                <field name="partner_bank_filter_type_domain" invisible="1" />
+            </xpath>
+            <field name="partner_bank_id" position="attributes">
+                <attribute name="domain">
+                    [('partner_id', '=', partner_bank_filter_type_domain),
+                    '|',('company_id', '=', company_id),('company_id', '=', False)]
+                </attribute>
+                <attribute name="attrs">
+                    {'required': [('bank_account_required', '=', True)], 'readonly':
+                    [('state', '!=', 'draft')]}
+                </attribute>
+                <attribute name="context">
+                    {'default_partner_id':commercial_partner_id}
+                </attribute>
+            </field>
+        </field>
+    </record>
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account_payment_partner.view_invoice_tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="amount_residual_signed" position="after">
+                <field name="payment_mode_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
