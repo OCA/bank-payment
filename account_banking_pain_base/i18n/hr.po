@@ -229,7 +229,6 @@ msgstr "Plaćanje kreditom karticom"
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:500
 #, fuzzy, python-format
-#| msgid "Credit Card Payment"
 msgid "Creditor name"
 msgstr "Plaćanje kreditom karticom"
 
