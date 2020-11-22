@@ -1094,7 +1094,6 @@ msgstr "Estado"
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 #, fuzzy
-#| msgid "Structured Reference"
 msgid "Structured"
 msgstr "Referencia esctructurada"
 
