@@ -424,7 +424,6 @@ msgstr "Métodos de pago"
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, fuzzy, python-format
-#| msgid "Payment Lines"
 msgid "Payment lines"
 msgstr "Líneas de pago"
 

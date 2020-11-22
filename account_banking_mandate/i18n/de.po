@@ -32,7 +32,8 @@ msgstr ""
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr "Ein Mandat mit der gleichen Referenz existiert bereits für diese Firma!"
+msgstr ""
+"Ein Mandat mit der gleichen Referenz existiert bereits für diese Firma!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -428,7 +429,6 @@ msgstr "Zahlungsmethoden"
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:114
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, fuzzy, python-format
-#| msgid "Payment Lines"
 msgid "Payment lines"
 msgstr "Zahlungszeilen"
 
