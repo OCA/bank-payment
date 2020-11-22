@@ -43,7 +43,6 @@ msgstr ""
 #. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
 #, fuzzy
-#| msgid "Sales Order"
 msgid "Sale Order"
 msgstr "Verkooporder"
 
