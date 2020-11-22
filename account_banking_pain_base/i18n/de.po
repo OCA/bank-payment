@@ -677,7 +677,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:142
 #, fuzzy, python-format
-#| msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
 msgid "Payment Line has reference '%s'."
 msgstr ""
 "Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet werden."
