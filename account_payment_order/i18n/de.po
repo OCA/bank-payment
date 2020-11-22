@@ -378,7 +378,6 @@ msgstr "Währung der Zahlungstransaktion"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Add to Debit Order"
 msgid "Debit Order"
 msgstr "Zum Lastschriftauftrag hinzufügen"
 
@@ -640,7 +639,6 @@ msgstr "Eingehend"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__inbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Inbound Payment Order Only"
 msgstr "Zahlungsauftrag"
 
@@ -932,7 +930,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Add to Payment Order"
 msgid "Only for payment orders"
 msgstr "Zum Zahlungsauftrag hinzufügen"
 
@@ -956,7 +953,6 @@ msgstr "Ausgehend"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Add to Payment Order"
 msgid "Outbound Payment Order Only"
 msgstr "Zum Zahlungsauftrag hinzufügen"
 

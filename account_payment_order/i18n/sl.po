@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3;\n"
 "X-Generator: Weblate 3.10\n"
 
 #. module: account_payment_order
@@ -366,7 +366,6 @@ msgstr ""
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Debit Order"
 msgstr "Plačilni nalog"
 
@@ -628,7 +627,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__inbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Inbound Payment Order Only"
 msgstr "Plačilni nalog"
 
@@ -915,7 +913,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 #, fuzzy
-#| msgid "Payment Orders"
 msgid "Only for payment orders"
 msgstr "Plačilni nalogi"
 
@@ -939,7 +936,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_import_journal_creation__outbound_payment_order_only
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 #, fuzzy
-#| msgid "Payment Order"
 msgid "Outbound Payment Order Only"
 msgstr "Plačilni nalog"
 
