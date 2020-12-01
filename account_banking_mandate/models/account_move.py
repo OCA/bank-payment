@@ -21,7 +21,8 @@ class AccountMove(models.Model):
     )
 
     def post(self):
-        self.line_ids.mandate_id = self.mandate_id
+        for record in self:
+            record.line_ids.write({"mandate_id": record.mandate_id})
         return super(AccountMove, self).post()
 
     @api.model
