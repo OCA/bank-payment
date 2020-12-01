@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-12-01 18:36+0000\n"
+"Last-Translator: stevech091 <stefano.sforzi@agilebg.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -27,12 +29,12 @@ msgstr ""
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Bank Account:</strong>"
-msgstr ""
+msgstr "<strong>Conto Bancario:</strong>"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
 msgid "<strong>Payment Mode:</strong>"
-msgstr ""
+msgstr "<strong>Modalità di pagamento:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice__bank_account_required
@@ -42,7 +44,7 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__partner_bank_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Conto Bancario"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice__partner_bank_id
@@ -52,7 +54,7 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__bank_account_required
 msgid "Bank Account Required"
-msgstr ""
+msgstr "Contro Bancario Richiesto"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_from_journal
@@ -62,13 +64,13 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contatto"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
-msgstr ""
+msgstr "Modalità pagamento cliente"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -83,12 +85,12 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Fattura"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Registro"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -98,7 +100,7 @@ msgstr ""
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:37
@@ -111,7 +113,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 msgid "Payment Mode"
-msgstr ""
+msgstr "Modalità di Pagamento"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
@@ -121,29 +123,29 @@ msgstr ""
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
-msgstr ""
+msgstr "Pagamenti"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users__customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
-msgstr ""
+msgstr "Selezionare la modalità di pagamento di default per questo cliente."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,help:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Select the default payment mode for this supplier."
-msgstr ""
+msgstr "Selezionare la modalità di pagamento per questo fornitore."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show bank account"
-msgstr ""
+msgstr "Mostra conto bancario"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
 msgid "Show bank account in invoice report"
-msgstr ""
+msgstr "Mostra il conto bancario nella fattura"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
@@ -154,13 +156,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
-msgstr ""
+msgstr "Modalità pagamento fornitore"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_invoice.py:120
 #, python-format
 msgid "The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
+"La company nella fattura %s non coincide con quella nella modalità di "
+"pagamento"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:35
