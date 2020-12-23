@@ -50,7 +50,7 @@ This module is part of the OCA/bank-payment suite.
 Usage
 =====
 
-To use this module, see menu "Invoicing/Accounting > Payments > Debit Orders"
+To use this module, see menu "Invoicing/Accounting > Customers > Debit Orders"
 
 Bug Tracker
 ===========

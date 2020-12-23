@@ -2,8 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class AccountMove(models.Model):
@@ -14,16 +13,17 @@ class AccountMove(models.Model):
         string="Direct Debit Mandate",
         ondelete="restrict",
         readonly=True,
+        check_company=True,
         states={"draft": [("readonly", False)]},
     )
     mandate_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.mandate_required", readonly=True
     )
 
-    def post(self):
+    def _post(self, soft=True):
         for record in self:
             record.line_ids.write({"mandate_id": record.mandate_id})
-        return super(AccountMove, self).post()
+        return super()._post(soft=soft)
 
     @api.model
     def create(self, vals):
@@ -35,15 +35,15 @@ class AccountMove(models.Model):
         }
         for onchange_method, changed_fields in list(onchanges.items()):
             if any(f not in vals for f in changed_fields):
-                invoice = self.new(vals)
-                invoice = invoice.with_context(force_company=invoice.company_id.id,)
-                getattr(invoice, onchange_method)()
+                move = self.new(vals)
+                move = move.with_company(move.company_id.id)
+                getattr(move, onchange_method)()
                 for field in changed_fields:
-                    if field not in vals and invoice[field]:
-                        vals[field] = invoice._fields[field].convert_to_write(
-                            invoice[field], invoice
+                    if field not in vals and move[field]:
+                        vals[field] = move._fields[field].convert_to_write(
+                            move[field], move
                         )
-        return super(AccountMove, self).create(vals)
+        return super().create(vals)
 
     def set_mandate(self):
         if self.payment_mode_id.payment_method_id.mandate_required:
@@ -54,25 +54,10 @@ class AccountMove(models.Model):
     @api.onchange("partner_id", "company_id")
     def _onchange_partner_id(self):
         """Select by default the first valid mandate of the partner"""
-        res = super(AccountMove, self)._onchange_partner_id()
+        res = super()._onchange_partner_id()
         self.set_mandate()
         return res
 
     @api.onchange("payment_mode_id")
     def _onchange_payment_mode_id(self):
         self.set_mandate()
-
-    @api.constrains("mandate_id", "company_id")
-    def _check_company_constrains(self):
-        for inv in self:
-            if (
-                inv.mandate_id.company_id
-                and inv.mandate_id.company_id != inv.company_id
-            ):
-                raise ValidationError(
-                    _(
-                        "The invoice %s has a different company than "
-                        "that of the linked mandate %s)."
-                    )
-                    % (inv.name, inv.mandate_id.display_name)
-                )

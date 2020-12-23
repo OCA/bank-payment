@@ -3,19 +3,19 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import fields, models
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     mandate_id = fields.Many2one(
-        "account.banking.mandate", string="Direct Debit Mandate", ondelete="restrict"
+        "account.banking.mandate", string="Direct Debit Mandate", ondelete="restrict",
+        check_company=True,
     )
 
     def _prepare_payment_line_vals(self, payment_order):
-        vals = super(AccountMoveLine, self)._prepare_payment_line_vals(payment_order)
+        vals = super()._prepare_payment_line_vals(payment_order)
         if payment_order.payment_type != "inbound":
             return vals
         mandate = self.mandate_id
@@ -36,16 +36,3 @@ class AccountMoveLine(models.Model):
             }
         )
         return vals
-
-    @api.constrains("mandate_id", "company_id")
-    def _check_company_constrains(self):
-        for ml in self:
-            mandate = ml.mandate_id
-            if mandate.company_id and mandate.company_id != ml.company_id:
-                raise ValidationError(
-                    _(
-                        "The item %s of journal %s has a different company than "
-                        "that of the linked mandate %s)."
-                    )
-                    % (ml.name, ml.move_id.name, ml.mandate_id.display_name)
-                )

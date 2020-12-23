@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2013-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
@@ -15,26 +15,29 @@
                         type="object"
                         string="Validate"
                         states="draft"
-                        class="oe_highlight"
+                        class="btn-primary"
                         invisible="context.get('mandate_bank_partner_view')"
+                        groups="account_payment_order.group_account_payment"
                     />
                     <button
                         name="cancel"
                         type="object"
                         string="Cancel"
                         states="draft,valid"
+                        confirm="Are you sure you want to cancel this mandate?"
                         invisible="context.get('mandate_bank_partner_view')"
+                        groups="account_payment_order.group_account_payment"
                     />
                     <button
                         name="back2draft"
                         type="object"
                         string="Back to Draft"
                         states="cancel"
-                        groups="account.group_account_manager"
+                        groups="account_payment_order.group_account_payment"
                         confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
                         invisible="context.get('mandate_bank_partner_view')"
                     />
-                    <field name="state" widget="statusbar" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,valid,expired"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
@@ -61,13 +64,15 @@
                             invisible="context.get('mandate_bank_partner_view')"
                             readonly="True"
                         />
-                        <field name="signature_date" />
+                        <field name="signature_date"
+                               options="{'datepicker': {'warn_future': true}}"/>
                         <field name="scan" />
                         <field name="last_debit_date" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
@@ -103,44 +108,51 @@
         <field name="name">view.mandate.tree</field>
         <field name="model">account.banking.mandate</field>
         <field name="arch" type="xml">
-            <tree
-                string="Banking Mandate"
-                decoration-info="state=='draft'"
-                decoration-muted="state in ('expired','cancel')"
-            >
+            <tree string="Banking Mandate">
                 <field name="id" invisible="1" />
-                <field name="company_id" groups="base.group_multi_company" />
+                <field name="unique_mandate_reference" string="Reference" />
                 <field
                     name="partner_id"
                     invisible="context.get('mandate_bank_partner_view')"
                 />
-                <field name="format" string="Format" />
-                <field name="unique_mandate_reference" string="Reference" />
+                <field
+                    name="format"
+                    string="Format"
+                    widget="badge"
+                    decoration-muted="format == 'basic'"
+                />
+                <field
+                    name="type"
+                    string="Type"
+                    widget="badge"
+                    decoration-muted="type == 'generic'"
+                />
                 <field name="signature_date" string="Signature Date" />
                 <field name="last_debit_date" />
+                <field name="company_id" groups="base.group_multi_company" />
                 <button
                     name="validate"
                     type="object"
                     icon="fa-check"
                     string="Validate"
+                    groups="account_payment_order.group_account_payment"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'draft')]}"
                 />
-                <button
-                    name="cancel"
-                    type="object"
-                    icon="fa-times"
-                    string="Cancel"
-                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '=', 'cancel')]}"
-                />
+                <!-- Removed cancel button in tree view. Too dangerous.
+                    'confirm' attribute doesn't work in tree view. -->
                 <button
                     name="back2draft"
                     type="object"
                     icon="fa-undo"
                     string="Draft"
-                    groups="account.group_account_manager"
+                    groups="account_payment_order.group_account_payment"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"
                 />
-                <field name="state" />
+                <field name="state" widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'valid'"
+                    decoration-muted="state == 'cancel'"
+                    decoration-warning="state == 'expired'"/>
             </tree>
         </field>
     </record>
@@ -166,14 +178,14 @@
                     domain="[('state', '=', 'valid')]"
                 />
                 <filter
-                    name="cancel"
-                    string="Cancelled"
-                    domain="[('state', '=', 'cancel')]"
-                />
-                <filter
                     name="expired"
                     string="Expired"
                     domain="[('state', '=', 'expired')]"
+                />
+                <filter
+                    name="cancel"
+                    string="Cancelled"
+                    domain="[('state', '=', 'cancel')]"
                 />
                 <group string="Group By" name="groupby">
                     <filter
@@ -186,6 +198,12 @@
                         string="Signature Date"
                         context="{'group_by': 'signature_date'}"
                     />
+                    <filter
+                        name="partner_groupby"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+
                 </group>
             </search>
         </field>

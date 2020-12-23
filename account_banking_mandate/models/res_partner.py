@@ -30,13 +30,11 @@ class ResPartner(models.Model):
 
     def _compute_valid_mandate_id(self):
         # Dict for reducing the duplicated searches on parent/child partners
-        company_id = self.env.context.get("force_company", False)
+        company_id = self.env.company.id
         if company_id:
             company = self.env["res.company"].browse(company_id)
         else:
-            company = self.env["res.company"]._company_default_get(
-                "account.banking.mandate"
-            )
+            company = self.env.company
 
         mandates_dic = {}
         for partner in self:

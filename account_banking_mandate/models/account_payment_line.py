@@ -14,6 +14,7 @@ class AccountPaymentLine(models.Model):
         comodel_name="account.banking.mandate",
         string="Direct Debit Mandate",
         domain=[("state", "=", "valid")],
+        check_company=True,
     )
     mandate_required = fields.Boolean(
         related="order_id.payment_method_id.mandate_required", readonly=True
@@ -57,7 +58,7 @@ class AccountPaymentLine(models.Model):
                 )
 
     def draft2open_payment_line_check(self):
-        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        res = super().draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
             raise UserError(_("Missing Mandate on payment line %s") % self.name)
         return res
