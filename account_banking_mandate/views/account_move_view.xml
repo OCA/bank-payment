@@ -9,7 +9,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account_payment_partner.view_move_form" />
         <field name="arch" type="xml">
-            <field name="invoice_partner_bank_id" position="after">
+            <field name="partner_bank_id" position="after">
                 <field
                     name="mandate_id"
                     domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"

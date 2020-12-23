@@ -1,6 +1,6 @@
 # Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
 # Copyright 2014 Tecnativa - Pedro M. Baeza
-# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2015-2020 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # Copyright 2020 Tecnativa - Carlos Dauden
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -16,8 +16,9 @@ class AccountBankingMandate(models.Model):
 
     _name = "account.banking.mandate"
     _description = "A generic banking mandate"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "signature_date desc"
+    _check_company_auto = True
 
     def _get_default_partner_bank_id_domain(self):
         if "default_partner_id" in self.env.context:
@@ -30,20 +31,21 @@ class AccountBankingMandate(models.Model):
         default="basic",
         required=True,
         string="Mandate Format",
-        track_visibility="onchange",
+        tracking=20,
     )
     type = fields.Selection(
         [("generic", "Generic Mandate")],
         string="Type of Mandate",
-        track_visibility="onchange",
+        tracking=30,
     )
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
         string="Bank Account",
-        track_visibility="onchange",
+        tracking=40,
         domain=lambda self: self._get_default_partner_bank_id_domain(),
         ondelete="restrict",
         index=True,
+        check_company=True,
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -59,10 +61,10 @@ class AccountBankingMandate(models.Model):
         default=lambda self: self.env.company,
     )
     unique_mandate_reference = fields.Char(
-        string="Unique Mandate Reference", track_visibility="onchange", copy=False
+        string="Unique Mandate Reference", tracking=10, copy=False
     )
     signature_date = fields.Date(
-        string="Date of Signature of the Mandate", track_visibility="onchange"
+        string="Date of Signature of the Mandate", tracking=50,
     )
     scan = fields.Binary(string="Scan of the Mandate")
     last_debit_date = fields.Date(string="Date of the Last Debit", readonly=True)
@@ -75,7 +77,7 @@ class AccountBankingMandate(models.Model):
         ],
         string="Status",
         default="draft",
-        track_visibility="onchange",
+        tracking=60,
         help="Only valid mandates can be used in a payment line. A cancelled "
         "mandate is a mandate that has been cancelled by the customer.",
     )
@@ -131,10 +133,11 @@ class AccountBankingMandate(models.Model):
 
     @api.constrains("signature_date", "last_debit_date")
     def _check_dates(self):
+        today = fields.Date.context_today(self)
         for mandate in self:
             if (
                 mandate.signature_date
-                and mandate.signature_date > fields.Date.context_today(mandate)
+                and mandate.signature_date > today
             ):
                 raise ValidationError(
                     _("The date of signature of mandate '%s' " "is in the future!")
@@ -151,101 +154,6 @@ class AccountBankingMandate(models.Model):
                         "before the date of signature."
                     )
                     % mandate.unique_mandate_reference
-                )
-
-    @api.constrains("company_id", "payment_line_ids", "partner_bank_id")
-    def _company_constrains(self):
-        for mandate in self:
-            if (
-                mandate.partner_bank_id.company_id
-                and mandate.partner_bank_id.company_id != mandate.company_id
-            ):
-                raise ValidationError(
-                    _(
-                        "The company of the mandate %s differs from the "
-                        "company of partner %s."
-                    )
-                    % (mandate.display_name, mandate.partner_id.name)
-                )
-
-            if (
-                self.env["account.payment.line"]
-                .sudo()
-                .search(
-                    [
-                        ("mandate_id", "=", mandate.id),
-                        ("company_id", "!=", mandate.company_id.id),
-                    ],
-                    limit=1,
-                )
-            ):
-                raise ValidationError(
-                    _(
-                        "You cannot change the company of mandate %s, "
-                        "as there exists payment lines referencing it that "
-                        "belong to another company."
-                    )
-                    % (mandate.display_name,)
-                )
-
-            if (
-                self.env["account.move"]
-                .sudo()
-                .search(
-                    [
-                        ("mandate_id", "=", mandate.id),
-                        ("company_id", "!=", mandate.company_id.id),
-                    ],
-                    limit=1,
-                )
-            ):
-                raise ValidationError(
-                    _(
-                        "You cannot change the company of mandate %s, "
-                        "as there exists invoices referencing it that belong to "
-                        "another company."
-                    )
-                    % (mandate.display_name,)
-                )
-
-            if (
-                self.env["account.move.line"]
-                .sudo()
-                .search(
-                    [
-                        ("mandate_id", "=", mandate.id),
-                        ("company_id", "!=", mandate.company_id.id),
-                    ],
-                    limit=1,
-                )
-            ):
-                raise ValidationError(
-                    _(
-                        "You cannot change the company of mandate %s, "
-                        "as there exists journal items referencing it that "
-                        "belong to another company."
-                    )
-                    % (mandate.display_name,)
-                )
-
-            if (
-                self.env["bank.payment.line"]
-                .sudo()
-                .search(
-                    [
-                        ("mandate_id", "=", mandate.id),
-                        ("company_id", "!=", mandate.company_id.id),
-                    ],
-                    limit=1,
-                )
-            ):
-                raise ValidationError(
-                    _(
-                        "You cannot change the company of mandate %s, "
-                        "as there exists bank payment lines referencing it that "
-                        "belong to another company."
-                    )
-                    % (mandate.display_name,)
                 )
 
     @api.constrains("state", "partner_bank_id", "signature_date")
@@ -276,7 +184,7 @@ class AccountBankingMandate(models.Model):
             vals["unique_mandate_reference"] = (
                 self.env["ir.sequence"].next_by_code("account.banking.mandate") or "New"
             )
-        return super(AccountBankingMandate, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("partner_bank_id")
     def mandate_partner_bank_change(self):
@@ -288,14 +196,12 @@ class AccountBankingMandate(models.Model):
             if mandate.state != "draft":
                 raise UserError(_("Mandate should be in draft state."))
         self.write({"state": "valid"})
-        return True
 
     def cancel(self):
         for mandate in self:
             if mandate.state not in ("draft", "valid"):
                 raise UserError(_("Mandate should be in draft or valid state."))
         self.write({"state": "cancel"})
-        return True
 
     def back2draft(self):
         """Allows to set the mandate back to the draft state.
@@ -305,4 +211,3 @@ class AccountBankingMandate(models.Model):
             if mandate.state != "cancel":
                 raise UserError(_("Mandate should be in cancel state."))
         self.write({"state": "draft"})
-        return True
