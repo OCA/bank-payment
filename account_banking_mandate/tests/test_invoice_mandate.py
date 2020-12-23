@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -61,7 +61,7 @@ class TestInvoiceMandate(TransactionCase):
             lambda s: s.account_id == self.invoice_account
         )
         if payable_move_lines:
-            with self.assertRaises(ValidationError):
+            with self.assertRaises(UserError):
                 payable_move_lines[0].mandate_id = mandate_2
 
     def test_post_invoice_and_refund_02(self):
@@ -107,7 +107,7 @@ class TestInvoiceMandate(TransactionCase):
         invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "company_id": self.company.id,
             }
         )
@@ -120,7 +120,7 @@ class TestInvoiceMandate(TransactionCase):
         invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "company_id": self.company.id,
             }
         )
@@ -171,12 +171,12 @@ class TestInvoiceMandate(TransactionCase):
         invoice = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "company_id": self.company.id,
             }
         )
 
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             invoice.mandate_id = mandate_2
 
     def _create_res_partner(self, name):
@@ -228,8 +228,10 @@ class TestInvoiceMandate(TransactionCase):
             }
         )
         bank_journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
-        )
+            [
+                ("type", "=", "bank"),
+                ('company_id', '=', self.company.id),
+            ], limit=1)
         self.mode_inbound_acme.variable_journal_ids = bank_journal
         self.mode_inbound_acme.payment_method_id.mandate_required = True
         self.mode_inbound_acme.payment_order_ok = True
@@ -279,10 +281,12 @@ class TestInvoiceMandate(TransactionCase):
         self.invoice = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "company_id": self.company.id,
                 "journal_id": self.env["account.journal"]
-                .search([("type", "=", "sale")], limit=1)
+                .search([
+                    ("type", "=", "sale"),
+                    ('company_id', '=', self.company.id)], limit=1)
                 .id,
                 "invoice_line_ids": invoice_vals,
             }

@@ -1,1 +1,1 @@
-To use this module, see menu "Invoicing/Accounting > Payments > Debit Orders"
+To use this module, see menu "Invoicing/Accounting > Customers > Debit Orders"

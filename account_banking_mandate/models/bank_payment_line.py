@@ -13,12 +13,11 @@ class BankPaymentLine(models.Model):
         comodel_name="account.banking.mandate",
         string="Direct Debit Mandate",
         related="payment_line_ids.mandate_id",
+        check_company=True,
     )
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
-        res = super(
-            BankPaymentLine, self
-        ).same_fields_payment_line_and_bank_payment_line()
+        res = super().same_fields_payment_line_and_bank_payment_line()
         res.append("mandate_id")
         return res
