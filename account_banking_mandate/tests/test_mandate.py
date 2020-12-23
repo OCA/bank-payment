@@ -78,7 +78,7 @@ class TestMandate(TransactionCase):
         bank_account_2 = self.env.ref("account_payment_mode.res_partner_2_iban")
         mandate.partner_bank_id = bank_account_2
         mandate.mandate_partner_bank_change()
-        self.assertEquals(mandate.partner_id, bank_account_2.partner_id)
+        self.assertEqual(mandate.partner_id, bank_account_2.partner_id)
 
     def test_constrains_01(self):
         bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
@@ -106,7 +106,7 @@ class TestMandate(TransactionCase):
             }
         )
 
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             mandate.company_id = self.company_2
 
     def test_constrains_03(self):
@@ -125,7 +125,7 @@ class TestMandate(TransactionCase):
                 "partner_id": self.company_2.partner_id.id,
             }
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             mandate.partner_bank_id = bank_account_2
 
     def test_constrains_04(self):
@@ -139,7 +139,7 @@ class TestMandate(TransactionCase):
                 "partner_id": self.company_2.partner_id.id,
             }
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             bank_account.mandate_ids += mandate
 
     def test_mandate_reference_01(self):
