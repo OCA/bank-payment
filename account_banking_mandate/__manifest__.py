@@ -1,13 +1,13 @@
-# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# Copyright 2014 Tecnativa - Pedro M. Baeza
-# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2017 Tecnativa - Carlos Dauden <carlos.dauden@tecnativa.com>
+# Copyright 2014-2020 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014-2020 Tecnativa - Pedro M. Baeza
+# Copyright 2015-2020 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2017-2020 Tecnativa - Carlos Dauden <carlos.dauden@tecnativa.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "13.0.1.1.2",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Compassion CH, "
     "Tecnativa, "
