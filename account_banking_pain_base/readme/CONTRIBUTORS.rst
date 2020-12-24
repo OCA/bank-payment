@@ -1,5 +1,4 @@
 * Alexis de Lattre <alexis.delattre@akretion.com>
-* Pedro M. Baeza
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Ignacio Ibeas - Acysos S.L.
 * Alexandre Fayolle
@@ -10,3 +9,7 @@
 * `DynApps NV <https://www.dynapps.be>`_:
 
   * Axel Priem <axel.priem@dynapps.be>
+* `Tecnativa <https://www.tecnativa.com>`_:
+
+  * Pedro M. Baeza
+  * Carlos Roca
