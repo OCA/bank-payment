@@ -230,8 +230,10 @@ class TestInvoiceMandate(TransactionCase):
         bank_journal = self.env["account.journal"].search(
             [
                 ("type", "=", "bank"),
-                ('company_id', '=', self.company.id),
-            ], limit=1)
+                ("company_id", "=", self.company.id),
+            ],
+            limit=1,
+        )
         self.mode_inbound_acme.variable_journal_ids = bank_journal
         self.mode_inbound_acme.payment_method_id.mandate_required = True
         self.mode_inbound_acme.payment_order_ok = True
@@ -284,9 +286,10 @@ class TestInvoiceMandate(TransactionCase):
                 "move_type": "out_invoice",
                 "company_id": self.company.id,
                 "journal_id": self.env["account.journal"]
-                .search([
-                    ("type", "=", "sale"),
-                    ('company_id', '=', self.company.id)], limit=1)
+                .search(
+                    [("type", "=", "sale"), ("company_id", "=", self.company.id)],
+                    limit=1,
+                )
                 .id,
                 "invoice_line_ids": invoice_vals,
             }
