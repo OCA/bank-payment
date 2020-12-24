@@ -1,6 +1,7 @@
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# Copyright 2021 Tecnativa - Carlos Roca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -35,7 +36,7 @@ class AccountPaymentOrder(models.Model):
         default="SLEV",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
         help="Following service level : transaction charges are to be "
         "applied following the rules agreed in the service level "
         "and/or scheme (SEPA Core messages must use this). Shared : "
@@ -50,7 +51,7 @@ class AccountPaymentOrder(models.Model):
         string="Batch Booking",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
         help="If true, the bank statement will display only one debit "
         "line for all the wire transfers of the SEPA XML file ; if "
         "false, the bank statement will display one debit line per wire "
