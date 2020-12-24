@@ -1,6 +1,6 @@
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2013 Noviat (http://www.noviat.com) - Luc de Meyer
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2013 Noviat (http://www.noviat.com) - Luc de Meyer
+# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
