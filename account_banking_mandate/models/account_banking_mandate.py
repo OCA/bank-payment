@@ -64,7 +64,8 @@ class AccountBankingMandate(models.Model):
         string="Unique Mandate Reference", tracking=10, copy=False
     )
     signature_date = fields.Date(
-        string="Date of Signature of the Mandate", tracking=50,
+        string="Date of Signature of the Mandate",
+        tracking=50,
     )
     scan = fields.Binary(string="Scan of the Mandate")
     last_debit_date = fields.Date(string="Date of the Last Debit", readonly=True)
@@ -135,10 +136,7 @@ class AccountBankingMandate(models.Model):
     def _check_dates(self):
         today = fields.Date.context_today(self)
         for mandate in self:
-            if (
-                mandate.signature_date
-                and mandate.signature_date > today
-            ):
+            if mandate.signature_date and mandate.signature_date > today:
                 raise ValidationError(
                     _("The date of signature of mandate '%s' " "is in the future!")
                     % mandate.unique_mandate_reference
