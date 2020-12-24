@@ -10,7 +10,9 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     mandate_id = fields.Many2one(
-        "account.banking.mandate", string="Direct Debit Mandate", ondelete="restrict",
+        "account.banking.mandate",
+        string="Direct Debit Mandate",
+        ondelete="restrict",
         check_company=True,
     )
 
