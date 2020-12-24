@@ -1,17 +1,15 @@
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api
+from odoo import api, models
 
 
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = 'sale.advance.payment.inv'
 
-    @api.multi
-    def _create_invoice(self, order, so_line, amount):
+    def _prepare_invoice_values(self, order, name, amount, so_line):
         """Copy mandate from sale order to invoice"""
-        inv = super(SaleAdvancePaymentInv, self)._create_invoice(
-            order, so_line, amount)
+        vals = super()._prepare_invoice_values(order, name, amount, so_line)
         if order.mandate_id:
-            inv.mandate_id = order.mandate_id.id
-        return inv
+            vals['mandate_id'] = order.mandate_id.id
+        return vals
