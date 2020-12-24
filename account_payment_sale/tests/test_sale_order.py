@@ -39,7 +39,7 @@ class TestSaleOrder(CommonTestCase):
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, expected_payment_mode)
-        self.assertEqual(invoice.invoice_partner_bank_id, expected_partner_bank)
+        self.assertEqual(invoice.partner_bank_id, expected_partner_bank)
 
     def test_sale_to_invoice_payment_mode(self):
         """
@@ -95,4 +95,4 @@ class TestSaleOrder(CommonTestCase):
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, self.payment_mode_2)
-        self.assertEqual(invoice.invoice_partner_bank_id, self.bank)
+        self.assertEqual(invoice.partner_bank_id, self.bank)
