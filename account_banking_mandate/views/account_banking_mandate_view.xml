@@ -37,7 +37,11 @@
                         confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
                         invisible="context.get('mandate_bank_partner_view')"
                     />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,valid,expired"/>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,valid,expired"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
@@ -64,15 +68,17 @@
                             invisible="context.get('mandate_bank_partner_view')"
                             readonly="True"
                         />
-                        <field name="signature_date"
-                               options="{'datepicker': {'warn_future': true}}"/>
+                        <field
+                            name="signature_date"
+                            options="{'datepicker': {'warn_future': true}}"
+                        />
                         <field name="scan" />
                         <field name="last_debit_date" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="activity_ids" widget="mail_activity" />
                     <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
@@ -148,11 +154,14 @@
                     groups="account_payment_order.group_account_payment"
                     attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"
                 />
-                <field name="state" widget="badge"
+                <field
+                    name="state"
+                    widget="badge"
                     decoration-info="state == 'draft'"
                     decoration-success="state == 'valid'"
                     decoration-muted="state == 'cancel'"
-                    decoration-warning="state == 'expired'"/>
+                    decoration-warning="state == 'expired'"
+                />
             </tree>
         </field>
     </record>
