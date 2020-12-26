@@ -1,4 +1,4 @@
-# Copyright 2019 ACSONE SA/NV
+# Copyright 2019-2020 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, models
@@ -9,7 +9,7 @@ class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
     def draft2open_payment_line_check(self):
-        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        res = super().draft2open_payment_line_check()
         sepa_dd_lines = self.filtered(
             lambda l: l.order_id.payment_method_id.code == "sepa_direct_debit"
         )
