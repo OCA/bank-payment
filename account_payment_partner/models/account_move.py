@@ -2,8 +2,7 @@
 # Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class AccountMove(models.Model):
@@ -21,6 +20,7 @@ class AccountMove(models.Model):
         store=True,
         ondelete="restrict",
         readonly=False,
+        check_company=True,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
@@ -100,18 +100,6 @@ class AccountMove(models.Model):
         if self.move_type == "in_invoice":
             move_vals["partner_bank_id"] = self.partner_bank_id.id
         return move_vals
-
-    @api.constrains("company_id", "payment_mode_id")
-    def _check_payment_mode_company_constrains(self):
-        for rec in self.sudo():
-            if rec.payment_mode_id and rec.company_id != rec.payment_mode_id.company_id:
-                raise ValidationError(
-                    _(
-                        "The company of the invoice %s does not match "
-                        "with that of the payment mode"
-                    )
-                    % rec.name
-                )
 
     def partner_banks_to_show(self):
         self.ensure_one()
