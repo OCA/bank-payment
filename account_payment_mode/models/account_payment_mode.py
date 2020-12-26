@@ -14,6 +14,7 @@ class AccountPaymentMode(models.Model):
     _name = "account.payment.mode"
     _description = "Payment Modes"
     _order = "name"
+    _check_company_auto = True
 
     name = fields.Char(required=True, translate=True)
     company_id = fields.Many2one(
@@ -41,6 +42,7 @@ class AccountPaymentMode(models.Model):
         string="Fixed Bank Journal",
         domain=[("type", "=", "bank")],
         ondelete="restrict",
+        check_company=True,
     )
     # I need to explicitly define the table name
     # because I have 2 M2M fields pointing to account.journal
@@ -121,20 +123,6 @@ class AccountPaymentMode(models.Model):
                             )
                         )
 
-    @api.constrains("company_id", "fixed_journal_id")
-    def company_id_fixed_journal_id_constrains(self):
-        for mode in self.filtered(
-            lambda x: x.fixed_journal_id
-            and x.company_id != x.fixed_journal_id.company_id
-        ):
-            raise ValidationError(
-                _(
-                    "The company of the payment mode '%s', does not match "
-                    "with the company of journal '%s'."
-                )
-                % (mode.name, mode.fixed_journal_id.name)
-            )
-
     @api.constrains("company_id", "variable_journal_ids")
     def company_id_variable_journal_ids_constrains(self):
         for mode in self:
@@ -142,7 +130,7 @@ class AccountPaymentMode(models.Model):
                 raise ValidationError(
                     _(
                         "The company of the payment mode '%s', does not match "
-                        "with the one of the Allowed Bank Journals."
+                        "with one of the Allowed Bank Journals."
                     )
                     % mode.name
                 )
