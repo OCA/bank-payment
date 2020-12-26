@@ -1,6 +1,6 @@
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# Copyright 2013-2020 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014-2020 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2016-2020 Antiun Ingenieria S.L. - Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -12,18 +12,19 @@ from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
+logger = logging.getLogger(__name__)
+
 try:
     from unidecode import unidecode
 except ImportError:
     unidecode = None
-
-logger = logging.getLogger(__name__)
+    logger.debug("The python lib unidecode is not installed")
 
 
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    sepa = fields.Boolean(compute="_compute_sepa", readonly=True, string="SEPA Payment")
+    sepa = fields.Boolean(compute="_compute_sepa", string="SEPA Payment")
     charge_bearer = fields.Selection(
         [
             ("SLEV", "Following Service Level"),
@@ -35,7 +36,7 @@ class AccountPaymentOrder(models.Model):
         default="SLEV",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
         help="Following service level : transaction charges are to be "
         "applied following the rules agreed in the service level "
         "and/or scheme (SEPA Core messages must use this). Shared : "
@@ -50,7 +51,7 @@ class AccountPaymentOrder(models.Model):
         string="Batch Booking",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
-        track_visibility="onchange",
+        tracking=True,
         help="If true, the bank statement will display only one debit "
         "line for all the wire transfers of the SEPA XML file ; if "
         "false, the bank statement will display one debit line per wire "
@@ -325,7 +326,6 @@ class AccountPaymentOrder(models.Model):
         countries in which the initiating party is required"""
         return False
 
-    @api.model
     def generate_initiating_party_block(self, parent_node, gen_args):
         my_company_name = self._prepare_field(
             "Company Name",
@@ -411,7 +411,6 @@ class AccountPaymentOrder(models.Model):
             # for Credit Transfers, in the 'C' block, if BIC is not provided,
             # we should not put the 'Creditor Agent' block at all,
             # as per the guidelines of the EPC
-        return True
 
     @api.model
     def generate_party_id(self, parent_node, party_type, partner):
@@ -435,7 +434,6 @@ class AccountPaymentOrder(models.Model):
             party_account_other = etree.SubElement(party_account_id, "Othr")
             party_account_other_id = etree.SubElement(party_account_other, "Id")
             party_account_other_id.text = partner_bank.sanitized_acc_number
-        return True
 
     @api.model
     def generate_address_block(self, parent_node, partner, gen_args):
@@ -480,8 +478,6 @@ class AccountPaymentOrder(models.Model):
                     70,
                     gen_args=gen_args,
                 )
-
-        return True
 
     @api.model
     def generate_party_block(
@@ -539,7 +535,6 @@ class AccountPaymentOrder(models.Model):
                 gen_args,
                 bank_line=bank_line,
             )
-        return True
 
     @api.model
     def generate_remittance_info_block(self, parent_node, line, gen_args):
@@ -600,7 +595,6 @@ class AccountPaymentOrder(models.Model):
                 35,
                 gen_args=gen_args,
             )
-        return True
 
     @api.model
     def generate_creditor_scheme_identification(
@@ -622,4 +616,3 @@ class AccountPaymentOrder(models.Model):
         csi_scheme_name = etree.SubElement(csi_other, "SchmeNm")
         csi_scheme_name_proprietary = etree.SubElement(csi_scheme_name, "Prtry")
         csi_scheme_name_proprietary.text = scheme_name_proprietary
-        return True

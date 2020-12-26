@@ -1,12 +1,11 @@
-# Copyright 2013-2016 Akretion - Alexis de Lattre
-# Copyright 2014-2017 Tecnativa - Pedro M. Baeza
-# Copyright 2016 Tecnativa - Antonio Espinosa
+# Copyright 2013-2020 Akretion - Alexis de Lattre
+# Copyright 2014-2020 Tecnativa - Pedro M. Baeza and Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Account Banking PAIN Base Module",
     "summary": "Base module for PAIN file generation",
-    "version": "13.0.1.0.1",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Akretion, " "Noviat, " "Tecnativa, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",

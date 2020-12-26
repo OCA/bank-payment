@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2016-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
@@ -9,34 +9,54 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="account.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='analytic']" position="after">
+            <xpath expr="//div[@id='bank_cash']" position="after">
                 <h2>SEPA/PAIN</h2>
                 <div class="row mt16 o_settings_container" id="pain">
-                    <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div
+                        class="col-12 col-lg-6 o_setting_box"
+                        id="pain_initiating_party_identifier"
+                    >
+                        <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <label
-                                        for="initiating_party_identifier"
-                                        class="col-md-3 o_light_label"
-                                    />
-                                    <field name="initiating_party_identifier" />
-                                </div>
-                                <div class="row mt16">
-                                    <label
-                                        for="initiating_party_issuer"
-                                        class="col-md-3 o_light_label"
-                                    />
-                                    <field name="initiating_party_issuer" />
-                                </div>
-                                <div class="row mt16">
-                                    <label
-                                        for="group_pain_multiple_identifier"
-                                        class="col-md-3 o_light_label"
-                                    />
-                                    <field name="group_pain_multiple_identifier" />
-                                </div>
+                            <span class="o_form_label">
+                                <label for="initiating_party_identifier" />
+                            </span>
+                            <div class="text-muted">
+                                Initiating party identifier of your company
                             </div>
+                            <div class="text-muted">
+                                <field name="initiating_party_identifier" />
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 col-lg-6 o_setting_box"
+                        id="pain_initiating_party_issuer"
+                    >
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">
+                                <label for="initiating_party_issuer" />
+                            </span>
+                            <div class="text-muted">
+                                Initiating party issuer of your company
+                            </div>
+                            <div class="text-muted">
+                                <field name="initiating_party_issuer" />
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 col-lg-6 o_setting_box"
+                        id="pain_group_pain_multiple_identifier"
+                    >
+                        <div class="o_setting_left_pane">
+                            <field name="group_pain_multiple_identifier" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">
+                                <label for="group_pain_multiple_identifier" />
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2013-2020 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014-2020 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models
@@ -169,4 +169,7 @@ class AccountPaymentLine(models.Model):
     # The field struct_communication_type has been dropped in v9
     # We now use communication_type ; you should add an option
     # in communication_type with selection_add=[]
-    communication_type = fields.Selection(selection_add=[("ISO", "ISO")])
+    communication_type = fields.Selection(
+        selection_add=[("ISO", "ISO")],
+        ondelete={"ISO": "set default"},
+    )
