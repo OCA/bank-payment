@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import _, fields
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import common
 
 
@@ -288,7 +288,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
         self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
 
     def test_invoice_constrains(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             self.move_model.create(
                 {
                     "partner_id": self.supplier.id,
@@ -306,7 +306,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
                 "company_id": self.company.id,
             }
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             self.supplier_payment_mode.company_id = self.company_2
 
     def test_payment_mode_constrains_02(self):
@@ -343,7 +343,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
                 ],
             }
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             self.supplier_payment_mode.company_id = self.company_2
 
     def test_invoice_refund(self):
