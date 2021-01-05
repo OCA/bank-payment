@@ -15,6 +15,7 @@ class AccountMove(models.Model):
         string="Payment Order",
         copy=False,
         readonly=True,
+        check_company=True,
     )
     payment_order_ok = fields.Boolean(compute="_compute_payment_order_ok")
     # we restore this field from <=v11 for now for preserving behavior
