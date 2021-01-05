@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account_payment_order.view_move_form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_payment_partner.view_move_form" />
+        <field name="arch" type="xml">
+            <button id="account_invoice_payment_btn" position="after">
+                <!-- For customer refunds:
+                 'Add to Direct Debit Order' will deduct the refund from a customer invoice
+                 We could also need a button 'Add to Payment Order' to reimburse
+                 a customer via wire transfer... but I prefer to keep things
+                 simple ; to do that, the user should manually create a payment order
+                 and select the move lines  -->
+                <button
+                    name="create_account_payment_line"
+                    type="object"
+                    string="Add to Debit Order"
+                    groups="account_payment_order.group_account_payment"
+                    attrs="{'invisible': ['|', '|',
+                                              ('payment_order_ok', '=', False),
+                                              ('state', '!=', 'posted'),
+                                              ('move_type', 'not in', ('out_invoice', 'out_refund'))
+                                             ]}"
+                />
+                <button
+                    name="create_account_payment_line"
+                    type="object"
+                    string="Add to Payment Order"
+                    groups="account_payment_order.group_account_payment"
+                    attrs="{'invisible': ['|', '|',
+                                              ('payment_order_ok', '=', False),
+                                              ('state', '!=', 'posted'),
+                                              ('move_type', 'not in', ('in_invoice', 'in_refund'))
+                                             ]}"
+                />
+            </button>
+            <field name="payment_mode_id" position="after">
+                <field name="payment_order_ok" invisible="1" />
+            </field>
+            <field name="ref" position="before">
+                <field
+                    name="reference_type"
+                    required="1"
+                    nolabel="1"
+                    attrs="{'readonly':[('state','!=','draft')],
+                               'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                />
+            </field>
+        </field>
+    </record>
+    <record
+        id="account_invoice_create_account_payment_line_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Add to Payment/Debit Order</field>
+        <field name="res_model">account.invoice.payment.line.multi</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+    </record>
+</odoo>
