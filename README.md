@@ -20,6 +20,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [account_payment_mode](account_payment_mode/) | 14.0.1.0.0 | Account Payment Mode
+[account_payment_order](account_payment_order/) | 14.0.1.0.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 14.0.1.0.0 | Adds payment mode on partners and invoices
 
 [//]: # (end addons)
