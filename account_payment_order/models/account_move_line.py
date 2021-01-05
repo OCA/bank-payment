@@ -16,14 +16,19 @@ class AccountMoveLine(models.Model):
         readonly=False,
         store=True,
         help="Bank account on which we should pay the supplier",
+        check_company=True,
     )
     bank_payment_line_id = fields.Many2one(
-        comodel_name="bank.payment.line", readonly=True, index=True
+        comodel_name="bank.payment.line",
+        readonly=True,
+        index=True,
+        check_company=True,
     )
     payment_line_ids = fields.One2many(
         comodel_name="account.payment.line",
         inverse_name="move_line_id",
         string="Payment lines",
+        check_company=True,
     )
 
     @api.depends("move_id", "move_id.partner_bank_id", "move_id.payment_mode_id")

@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 class BankPaymentLine(models.Model):
     _name = "bank.payment.line"
     _description = "Bank Payment Lines"
+    _check_company_auto = True
 
     name = fields.Char(string="Bank Payment Line Ref", required=True, readonly=True)
     order_id = fields.Many2one(
@@ -16,6 +17,7 @@ class BankPaymentLine(models.Model):
         ondelete="cascade",
         index=True,
         readonly=True,
+        check_company=True,
     )
     payment_type = fields.Selection(
         related="order_id.payment_type", readonly=True, store=True
@@ -32,6 +34,7 @@ class BankPaymentLine(models.Model):
         related="payment_line_ids.partner_id",
         readonly=True,
         store=True,
+        check_company=True,
     )  # store=True for groupby
     # Function Float fields are sometimes badly displayed in tree view,
     # see bug report https://github.com/odoo/odoo/issues/8632
@@ -61,6 +64,7 @@ class BankPaymentLine(models.Model):
         string="Bank Account",
         readonly=True,
         related="payment_line_ids.partner_bank_id",
+        check_company=True,
     )
     date = fields.Date(related="payment_line_ids.date", readonly=True)
     communication_type = fields.Selection(

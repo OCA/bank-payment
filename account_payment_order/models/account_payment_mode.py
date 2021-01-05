@@ -88,11 +88,13 @@ class AccountPaymentMode(models.Model):
         help="Pay off lines in 'file uploaded' payment orders with a move on "
         "this account. You can only select accounts "
         "that are marked for reconciliation",
+        check_company=True,
     )
     transfer_journal_id = fields.Many2one(
         comodel_name="account.journal",
         help="Journal to write payment entries when confirming "
         "payment/debit orders of this mode",
+        check_company=True,
     )
     move_option = fields.Selection(
         selection=[
