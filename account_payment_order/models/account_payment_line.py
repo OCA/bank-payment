@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 class AccountPaymentLine(models.Model):
     _name = "account.payment.line"
     _description = "Payment Lines"
+    _check_company_auto = True
 
     name = fields.Char(string="Payment Reference", readonly=True, copy=False)
     order_id = fields.Many2one(
@@ -15,6 +16,7 @@ class AccountPaymentLine(models.Model):
         string="Payment Order",
         ondelete="cascade",
         index=True,
+        check_company=True,
     )
     company_id = fields.Many2one(
         related="order_id.company_id", store=True, readonly=True
@@ -32,7 +34,10 @@ class AccountPaymentLine(models.Model):
         related="order_id.state", string="State", readonly=True, store=True
     )
     move_line_id = fields.Many2one(
-        comodel_name="account.move.line", string="Journal Item", ondelete="restrict"
+        comodel_name="account.move.line",
+        string="Journal Item",
+        ondelete="restrict",
+        check_company=True,
     )
     ml_maturity_date = fields.Date(related="move_line_id.date_maturity", readonly=True)
     currency_id = fields.Many2one(
@@ -52,12 +57,14 @@ class AccountPaymentLine(models.Model):
         string="Partner",
         required=True,
         domain=[("parent_id", "=", False)],
+        check_company=True,
     )
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
         string="Partner Bank Account",
         required=False,
         ondelete="restrict",
+        check_company=True,
     )
     date = fields.Date(string="Payment Date")
     communication = fields.Char(
@@ -71,6 +78,7 @@ class AccountPaymentLine(models.Model):
         string="Bank Payment Line",
         readonly=True,
         index=True,
+        check_company=True,
     )
 
     _sql_constraints = [
