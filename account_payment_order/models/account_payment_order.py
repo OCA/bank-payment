@@ -15,6 +15,7 @@ class AccountPaymentOrder(models.Model):
     _description = "Payment Order"
     _inherit = ["mail.thread"]
     _order = "id desc"
+    _check_company_auto = True
 
     name = fields.Char(string="Number", readonly=True, copy=False)
     payment_mode_id = fields.Many2one(
@@ -23,6 +24,7 @@ class AccountPaymentOrder(models.Model):
         ondelete="restrict",
         tracking=True,
         states={"draft": [("readonly", False)]},
+        check_company=True,
     )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
@@ -57,6 +59,7 @@ class AccountPaymentOrder(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         tracking=True,
+        check_company=True,
     )
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
@@ -110,6 +113,7 @@ class AccountPaymentOrder(models.Model):
         readonly=True,
         ondelete="restrict",
         copy=False,
+        check_company=True,
     )
     payment_line_ids = fields.One2many(
         comodel_name="account.payment.line",
@@ -567,3 +571,20 @@ class AccountPaymentOrder(models.Model):
         trfmoves = self._prepare_trf_moves()
         for hashcode, blines in trfmoves.items():
             self._create_reconcile_move(hashcode, blines)
+
+    def action_bank_payment_line(self):
+        self.ensure_one()
+        action = self.env.ref("account_payment_order.bank_payment_line_action")
+        action_dict = action.read()[0]
+        action_dict["domain"] = [("id", "in", self.bank_line_ids.ids)]
+        return action_dict
+
+    def action_move_journal_line(self):
+        self.ensure_one()
+        action = self.env.ref("account.action_move_journal_line")
+        action_dict = action.read()[0]
+        action_dict["domain"] = [("id", "in", self.move_ids.ids)]
+        ctx = self.env.context.copy()
+        ctx.update({"search_default_misc_filter": 0})
+        action_dict["context"] = ctx
+        return action_dict

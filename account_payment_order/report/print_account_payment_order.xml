@@ -4,7 +4,7 @@
 <odoo>
     <!-- QWeb Report -->
     <record id="action_print_payment_order" model="ir.actions.report">
-        <field name="name">ayment Order</field>
+        <field name="name">Payment Order</field>
         <field name="model">account.payment.order</field>
         <field name="report_type">qweb-pdf</field>
         <field

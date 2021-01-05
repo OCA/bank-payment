@@ -52,13 +52,13 @@ Configuration > Management > Payment Modes.
 Usage
 =====
 
-You can create a Payment order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the move lines to pay.
+You can create a Payment order via the menu Invoicing/Accounting > Vendors > Payment Orders and then select the move lines to pay.
 
-You can create a Debit order via the menu Invoicing/Accounting > Payments > Debit Orders and then select the move lines to debit.
+You can create a Debit order via the menu Invoicing/Accounting > Customers > Debit Orders and then select the move lines to debit.
 
-This module also adds a button *Add to Payment Order* on supplier invoices and a button *Add to Debit Order* on customer invoices.
+This module also adds an action *Add to Payment Order* on supplier invoices and *Add to Debit Order* on customer invoices.
 
-You can print a Payment order via the menu Invoicing/Accounting > Payments > Payment Orders and then select the payment oder to print.
+You can print a Payment order via the menu Invoicing/Accounting > Vendors > Payment Orders and then select the payment oder to print.
 
 Bug Tracker
 ===========
@@ -86,7 +86,6 @@ Contributors
 
 * Stéphane Bidoul <stephane.bidoul@acsone.eu>
 * Alexis de Lattre <alexis.delattre@akretion.com>
-* Pedro M. Baeza
 * Adrien Peiffer <adrien.peiffer@acsone.eu>
 * Stefan Rijnhart
 * Laurent Mignon <laurent.mignon@acsone.eu>
@@ -98,7 +97,6 @@ Contributors
 * Angel Moya <angel.moya@domatix.com>
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
-* Carlos Dauden
 * `DynApps <https://www.dynapps.be>`_:
 
   * Raf Ven <raf.ven@dynapps.be>
@@ -106,6 +104,11 @@ Contributors
 * `Jarsa <https://www.jarsa.com.mx>`_:
 
   * Alan Ramos <alan.ramos@jarsa.com.mx>
+* `Tecnativa <https://www.tecnativa.com>`_:
+
+  * Pedro M. Baeza
+  * Carlos Dauden
+  * Carlos Roca
 
 Maintainers
 ~~~~~~~~~~~
