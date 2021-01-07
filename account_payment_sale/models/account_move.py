@@ -8,7 +8,10 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals_list):
-        if vals_list.get("payment_mode_id"):
+        if vals_list.get("payment_mode_id") and vals_list.get("type") in (
+            "out_invoice",
+            "out_refund",
+        ):
             payment_mode = self.env["account.payment.mode"].browse(
                 vals_list["payment_mode_id"]
             )
