@@ -3,24 +3,17 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import fields, models
+from odoo import models
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    mandate_id = fields.Many2one(
-        "account.banking.mandate",
-        string="Direct Debit Mandate",
-        ondelete="restrict",
-        check_company=True,
-    )
-
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
         if payment_order.payment_type != "inbound":
             return vals
-        mandate = self.mandate_id
+        mandate = self.move_id.mandate_id
         if not mandate and vals.get("mandate_id", False):
             mandate = mandate.browse(vals["mandate_id"])
         partner_bank_id = vals.get("partner_bank_id", False)
