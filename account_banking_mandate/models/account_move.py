@@ -20,11 +20,6 @@ class AccountMove(models.Model):
         related="payment_mode_id.payment_method_id.mandate_required", readonly=True
     )
 
-    def _post(self, soft=True):
-        for record in self:
-            record.line_ids.write({"mandate_id": record.mandate_id})
-        return super()._post(soft=soft)
-
     @api.model
     def create(self, vals):
         """Fill the mandate_id from the partner if none is provided on
