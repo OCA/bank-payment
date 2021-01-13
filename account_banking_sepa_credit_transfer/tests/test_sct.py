@@ -244,7 +244,8 @@ class TestSCT(SavepointCase):
         for inv in [invoice1, invoice2, invoice3, invoice4, invoice5]:
             self.assertEqual(inv.state, "posted")
             self.assertEqual(
-                float_compare(inv.amount_residual, 0.0, precision_digits=accpre), 0,
+                float_compare(inv.amount_residual, 0.0, precision_digits=accpre),
+                0,
             )
         return
 
@@ -340,7 +341,8 @@ class TestSCT(SavepointCase):
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, "posted")
             self.assertEqual(
-                float_compare(inv.amount_residual, 0.0, precision_digits=accpre), 0,
+                float_compare(inv.amount_residual, 0.0, precision_digits=accpre),
+                0,
             )
         return
 
