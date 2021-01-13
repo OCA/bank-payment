@@ -1,5 +1,5 @@
-# Copyright 2010-2016 Akretion (www.akretion.com)
-# Copyright 2014-2018 Tecnativa - Pedro M. Baeza
+# Copyright 2010-2020 Akretion (www.akretion.com)
+# Copyright 2014-2020 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from lxml import etree
@@ -15,7 +15,7 @@ class AccountPaymentOrder(models.Model):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
         self.ensure_one()
         if self.payment_method_id.code != "sepa_credit_transfer":
-            return super(AccountPaymentOrder, self).generate_payment_file()
+            return super().generate_payment_file()
 
         pain_flavor = self.payment_method_id.pain_version
         # We use pain_flavor.startswith('pain.001.001.xx')
