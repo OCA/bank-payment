@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Akretion - Alexis de Lattre
+# Copyright 2020 Akretion - Alexis de Lattre
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models
@@ -15,6 +15,6 @@ class BankPaymentLine(models.Model):
         So we split the transfer move lines by mandate type, so easier
         reconciliation of the bank statement.
         """
-        hashcode = super(BankPaymentLine, self).move_line_offsetting_account_hashcode()
+        hashcode = super().move_line_offsetting_account_hashcode()
         hashcode += "-" + str(self.mandate_id.recurrent_sequence_type)
         return hashcode
