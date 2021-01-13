@@ -1,4 +1,4 @@
-# Copyright 2013-2016 Akretion - Alexis de Lattre
+# Copyright 2020 Akretion - Alexis de Lattre
 # Copyright 2014 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 import logging
@@ -19,14 +19,20 @@ class AccountBankingMandate(models.Model):
     _inherit = "account.banking.mandate"
     _rec_name = "display_name"
 
-    format = fields.Selection(selection_add=[("sepa", "Sepa Mandate")], default="sepa")
+    format = fields.Selection(
+        selection_add=[("sepa", "Sepa Mandate")],
+        default="sepa",
+        ondelete={"sepa": "set default"},
+    )
     type = fields.Selection(
-        selection_add=[("recurrent", "Recurrent"), ("oneoff", "One-Off")]
+        selection_add=[("recurrent", "Recurrent"), ("oneoff", "One-Off")],
+        default="recurrent",
+        ondelete={"recurrent": "set null", "oneoff": "set null"},
     )
     recurrent_sequence_type = fields.Selection(
         [("first", "First"), ("recurring", "Recurring"), ("final", "Final")],
         string="Sequence Type for Next Debit",
-        track_visibility="onchange",
+        tracking=70,
         help="This field is only used for Recurrent mandates, not for "
         "One-Off mandates.",
         default="first",
@@ -35,7 +41,7 @@ class AccountBankingMandate(models.Model):
         [("CORE", "Basic (CORE)"), ("B2B", "Enterprise (B2B)")],
         string="Scheme",
         default="CORE",
-        track_visibility="onchange",
+        tracking=80,
     )
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
     display_name = fields.Char(compute="_compute_display_name2", store=True)
@@ -61,47 +67,50 @@ class AccountBankingMandate(models.Model):
 
     @api.onchange("partner_bank_id")
     def mandate_partner_bank_change(self):
-        for mandate in self:
-            super(AccountBankingMandate, self).mandate_partner_bank_change()
-            res = {}
-            if (
-                mandate.state == "valid"
-                and mandate.partner_bank_id
-                and mandate.type == "recurrent"
-                and mandate.recurrent_sequence_type != "first"
-            ):
-                mandate.recurrent_sequence_type = "first"
-                res["warning"] = {
-                    "title": _("Mandate update"),
-                    "message": _(
-                        "As you changed the bank account attached "
-                        "to this mandate, the 'Sequence Type' has "
-                        "been set back to 'First'."
-                    ),
-                }
-            return res
+        super().mandate_partner_bank_change()
+        res = {}
+        if (
+            self.state == "valid"
+            and self.partner_bank_id
+            and self.type == "recurrent"
+            and self.recurrent_sequence_type != "first"
+        ):
+            self.recurrent_sequence_type = "first"
+            res["warning"] = {
+                "title": _("Mandate update"),
+                "message": _(
+                    "As you changed the bank account attached "
+                    "to this mandate, the 'Sequence Type' has "
+                    "been set back to 'First'."
+                ),
+            }
+        return res
 
     def _sdd_mandate_set_state_to_expired(self):
         logger.info("Searching for SDD Mandates that must be set to Expired")
         expire_limit_date = datetime.today() + relativedelta(
             months=-NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
         )
-        expire_limit_date_str = expire_limit_date.strftime("%Y-%m-%d")
         expired_mandates = self.search(
             [
                 "|",
                 ("last_debit_date", "=", False),
-                ("last_debit_date", "<=", expire_limit_date_str),
+                ("last_debit_date", "<=", expire_limit_date),
                 ("state", "=", "valid"),
-                ("signature_date", "<=", expire_limit_date_str),
+                ("signature_date", "<=", expire_limit_date),
             ]
         )
         if expired_mandates:
             expired_mandates.write({"state": "expired"})
+            expired_mandates.message_post(
+                body=_(
+                    "Mandate automatically set to expired after %d months without use."
+                )
+                % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
+            )
             logger.info(
-                "The following SDD Mandate IDs has been set to expired: %s"
-                % expired_mandates.ids
+                "%d SDD Mandate set to expired: IDs %s"
+                % (len(expired_mandates), expired_mandates.ids)
             )
         else:
             logger.info("0 SDD Mandates had to be set to Expired")
-        return True
