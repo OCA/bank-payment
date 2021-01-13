@@ -1,4 +1,4 @@
-# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models
@@ -14,7 +14,14 @@ class AccountPaymentMethod(models.Model):
             ("pain.001.001.04", "pain.001.001.04"),
             ("pain.001.001.05", "pain.001.001.05"),
             ("pain.001.003.03", "pain.001.003.03 (credit transfer in Germany)"),
-        ]
+        ],
+        ondelete={
+            "pain.001.001.02": "set null",
+            "pain.001.001.03": "set null",
+            "pain.001.001.04": "set null",
+            "pain.001.001.05": "set null",
+            "pain.001.003.03": "set null",
+        },
     )
 
     def get_xsd_file_path(self):
@@ -30,4 +37,4 @@ class AccountPaymentMethod(models.Model):
                 "account_banking_sepa_credit_transfer/data/%s.xsd" % self.pain_version
             )
             return path
-        return super(AccountPaymentMethod, self).get_xsd_file_path()
+        return super().get_xsd_file_path()

@@ -61,8 +61,8 @@ class TestSCT(SavepointCase):
                 "reconcile": True,
             }
         )
-        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_context(
-            force_company=cls.main_company.id
+        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
+            cls.main_company.id
         ).write({"property_account_payable_id": cls.account_payable.id})
         cls.general_journal = cls.journal_model.create(
             {
@@ -184,9 +184,7 @@ class TestSCT(SavepointCase):
         agrolait_pay_line1 = pay_lines[0]
         accpre = self.env["decimal.precision"].precision_get("Account")
         self.assertEqual(agrolait_pay_line1.currency_id, self.eur_currency)
-        self.assertEqual(
-            agrolait_pay_line1.partner_bank_id, invoice1.invoice_partner_bank_id
-        )
+        self.assertEqual(agrolait_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
             float_compare(
                 agrolait_pay_line1.amount_currency, 42, precision_digits=accpre
@@ -212,9 +210,7 @@ class TestSCT(SavepointCase):
         )
         self.assertEqual(agrolait_bank_line.communication_type, "normal")
         self.assertEqual(agrolait_bank_line.communication, "F1341-F1342-A1301")
-        self.assertEqual(
-            agrolait_bank_line.partner_bank_id, invoice1.invoice_partner_bank_id
-        )
+        self.assertEqual(agrolait_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
         self.assertEqual(self.payment_order.state, "generated")
@@ -281,9 +277,7 @@ class TestSCT(SavepointCase):
         asus_pay_line1 = pay_lines[0]
         accpre = self.env["decimal.precision"].precision_get("Account")
         self.assertEqual(asus_pay_line1.currency_id, self.usd_currency)
-        self.assertEqual(
-            asus_pay_line1.partner_bank_id, invoice1.invoice_partner_bank_id
-        )
+        self.assertEqual(asus_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
             float_compare(
                 asus_pay_line1.amount_currency, 2042, precision_digits=accpre
@@ -309,9 +303,7 @@ class TestSCT(SavepointCase):
         )
         self.assertEqual(asus_bank_line.communication_type, "normal")
         self.assertEqual(asus_bank_line.communication, "Inv9032-Inv9033")
-        self.assertEqual(
-            asus_bank_line.partner_bank_id, invoice1.invoice_partner_bank_id
-        )
+        self.assertEqual(asus_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
         self.assertEqual(self.payment_order.state, "generated")
@@ -354,7 +346,7 @@ class TestSCT(SavepointCase):
         currency_id,
         price_unit,
         reference,
-        type="in_invoice",
+        move_type="in_invoice",
     ):
         data = {
             "partner_id": partner_id,
@@ -362,9 +354,9 @@ class TestSCT(SavepointCase):
             "ref": reference,
             "currency_id": currency_id,
             "invoice_date": time.strftime("%Y-%m-%d"),
-            "type": type,
+            "move_type": move_type,
             "payment_mode_id": cls.payment_mode.id,
-            "invoice_partner_bank_id": cls.env.ref(partner_bank_xmlid).id,
+            "partner_bank_id": cls.env.ref(partner_bank_xmlid).id,
             "invoice_line_ids": [],
         }
         line_data = {
@@ -375,5 +367,5 @@ class TestSCT(SavepointCase):
         }
         data["invoice_line_ids"].append((0, 0, line_data))
         inv = cls.env["account.move"].create(data)
-        inv.post()
+        inv.action_post()
         return inv
