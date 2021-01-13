@@ -10,6 +10,7 @@
 
   * Antonio Espinosa
   * Pedro M. Baeza
+  * Carlos Roca
 * `DynApps NV <https://www.dynapps.be>`_:
 
   * Axel Priem <axel.priem@dynapps.be>

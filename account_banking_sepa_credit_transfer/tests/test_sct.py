@@ -348,6 +348,8 @@ class TestSCT(SavepointCase):
         reference,
         move_type="in_invoice",
     ):
+        partner_bank = cls.env.ref(partner_bank_xmlid)
+        partner_bank.write({"company_id": cls.main_company.id})
         data = {
             "partner_id": partner_id,
             "reference_type": "none",
@@ -356,7 +358,7 @@ class TestSCT(SavepointCase):
             "invoice_date": time.strftime("%Y-%m-%d"),
             "move_type": move_type,
             "payment_mode_id": cls.payment_mode.id,
-            "partner_bank_id": cls.env.ref(partner_bank_xmlid).id,
+            "partner_bank_id": partner_bank.id,
             "invoice_line_ids": [],
         }
         line_data = {
