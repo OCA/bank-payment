@@ -216,14 +216,14 @@ class TestSDDBase(TestAccountMultiCompanyNoChartCommon):
                 "partner_id": partner_id,
                 "reference_type": "none",
                 "currency_id": self.env.ref("base.EUR").id,
-                "type": inv_type,
+                "move_type": inv_type,
                 "date": fields.Date.today(),
                 "payment_mode_id": self.payment_mode.id,
                 "mandate_id": mandate.id,
                 "invoice_line_ids": invoice_vals,
             }
         )
-        invoice.post()
+        invoice.action_post()
         return invoice
 
 
