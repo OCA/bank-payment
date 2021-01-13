@@ -19,6 +19,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[account_banking_mandate](account_banking_mandate/) | 14.0.1.0.0 | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 14.0.1.0.0 | Base module for PAIN file generation
 [account_payment_mode](account_payment_mode/) | 14.0.1.0.0 | Account Payment Mode
 [account_payment_order](account_payment_order/) | 14.0.1.0.0 | Account Payment Order
