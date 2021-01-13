@@ -3,10 +3,10 @@
 # Copyright 2016 Tecnativa - Antonio Espinosa
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from stdnum.eu.at_02 import is_valid
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
-from .common import is_sepa_creditor_identifier_valid
 
 
 class ResCompany(models.Model):
@@ -25,11 +25,8 @@ class ResCompany(models.Model):
     @api.constrains("sepa_creditor_identifier")
     def _check_sepa_creditor_identifier(self):
         for company in self:
-            if company.sepa_creditor_identifier:
-                if not is_sepa_creditor_identifier_valid(
-                    company.sepa_creditor_identifier
-                ):
-                    raise ValidationError(
-                        _("The SEPA Creditor Identifier '%s' is invalid.")
-                        % company.sepa_creditor_identifier
-                    )
+            ics = company.sepa_creditor_identifier
+            if ics and not is_valid(ics):
+                raise ValidationError(
+                    _("The SEPA Creditor Identifier '%s' is invalid.") % ics
+                )
