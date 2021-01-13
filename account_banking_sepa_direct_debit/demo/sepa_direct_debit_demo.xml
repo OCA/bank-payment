@@ -6,15 +6,12 @@
             <field name="company_id" ref="base.main_company" />
             <field name="bank_account_link">variable</field>
             <field name="payment_method_id" ref="sepa_direct_debit" />
-            <field
-                name="default_journal_ids"
-                search="[('type', 'in', ('sale', 'sale_refund'))]"
-            />
+            <field name="default_journal_ids" search="[('type', '=', 'sale')]" />
         </record>
         <record id="base.main_company" model="res.company">
             <field name="sepa_creditor_identifier">FR78ZZZ424242</field>
         </record>
-        <!-- Camptocamp -->
+        <!-- Azure Interior -->
         <record id="res_partner_12_mandate" model="account.banking.mandate">
             <field
                 name="partner_bank_id"
@@ -32,7 +29,7 @@
                 ref="payment_mode_inbound_sepa_dd1"
             />
         </record>
-        <!-- Agrolait -->
+        <!-- Deco Addict -->
         <record id="res_partner_2_mandate" model="account.banking.mandate">
             <field
                 name="partner_bank_id"

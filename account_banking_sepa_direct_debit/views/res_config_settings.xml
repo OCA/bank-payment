@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_config_settings" model="ir.ui.view">
+        <field name="name">sepa_direct_debit.account_config_settings.form
+        </field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="account_banking_pain_base.view_account_config_settings"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//div[@id='pain']/div[@id='pain_group_pain_multiple_identifier']"
+                position="after"
+            >
+                <div
+                    id="pain_sepa_creditor_identifier"
+                    class="col-12 col-lg-6 o_setting_box"
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">
+                            <label for="sepa_creditor_identifier" />
+                        </span>
+                        <div class="text-muted">
+                            ICS of your company
+                        </div>
+                        <div class="text-muted">
+                            <field name="sepa_creditor_identifier" />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

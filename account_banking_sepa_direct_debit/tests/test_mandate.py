@@ -1,4 +1,4 @@
-# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from dateutil.relativedelta import relativedelta
@@ -34,7 +34,7 @@ class TestMandate(TransactionCase):
         self.assertEqual(self.mandate.state, "expired")
 
     def setUp(self):
-        res = super(TestMandate, self).setUp()
+        res = super().setUp()
         self.partner = self.env.ref("base.res_partner_12")
         bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         self.mandate = self.env["account.banking.mandate"].create(

@@ -1,4 +1,4 @@
-# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -15,7 +15,7 @@ class AccountPaymentOrder(models.Model):
         """Creates the SEPA Direct Debit file. That's the important code !"""
         self.ensure_one()
         if self.payment_method_id.code != "sepa_direct_debit":
-            return super(AccountPaymentOrder, self).generate_payment_file()
+            return super().generate_payment_file()
         pain_flavor = self.payment_method_id.pain_version
         # We use pain_flavor.startswith('pain.008.001.xx')
         # to support country-specific extensions such as
@@ -275,7 +275,7 @@ class AccountPaymentOrder(models.Model):
         # from first to recurring, so that the account move
         # is generated BEFORE, which will allow the split
         # of the account move per sequence_type
-        res = super(AccountPaymentOrder, self).generated2uploaded()
+        res = super().generated2uploaded()
         abmo = self.env["account.banking.mandate"]
         for order in self:
             to_expire_mandates = abmo.browse([])

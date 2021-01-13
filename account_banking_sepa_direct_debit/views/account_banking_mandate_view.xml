@@ -19,16 +19,17 @@
                                          'required': [('format', '=', 'sepa')]}"
                 />
                 <field
-                    name="type"
-                    attrs="{'invisible': [('format', '!=', 'sepa')],
-                                       'required': [('format', '=', 'sepa')]}"
-                />
-                <field
                     name="recurrent_sequence_type"
                     attrs="{'invisible': ['|', ('type', '=', 'oneoff'), ('format', '!=', 'sepa')],
                            'required': [('type', '=', 'recurrent')]}"
                 />
             </field>
+            <field name="type" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required': [('format', '=', 'sepa')]}</attribute>
+            </field>
+
         </field>
     </record>
     <record id="view_mandate_tree" model="ir.ui.view">
@@ -36,11 +37,30 @@
         <field name="model">account.banking.mandate</field>
         <field name="inherit_id" ref="account_banking_mandate.view_mandate_tree" />
         <field name="arch" type="xml">
-            <field name="unique_mandate_reference" position="after">
-                <field name="scheme" />
-                <field name="type" string="Type" />
-                <field name="recurrent_sequence_type" string="Sequence Type" />
+            <field name="type" position="after">
+                <field
+                    name="scheme"
+                    widget="badge"
+                    decoration-info="scheme == 'CORE'"
+                    decoration-success="scheme == 'B2B'"
+                />
+                <field
+                    name="recurrent_sequence_type"
+                    string="Sequence Type"
+                    widget="badge"
+                    decoration-info="recurrent_sequence_type == 'first'"
+                    decoration-success="recurrent_sequence_type == 'recurring'"
+                    decoration-warning="recurrent_sequence_type == 'final'"
+                />
             </field>
+            <field name="type" position="attributes">
+                <attribute name="decoration-info">type == 'recurrent'</attribute>
+                <attribute name="decoration-warning">type == 'oneoff'</attribute>
+            </field>
+            <field name="format" position="attributes">
+                <attribute name="decoration-success">format == 'sepa'</attribute>
+            </field>
+
         </field>
     </record>
     <record id="view_mandate_search" model="ir.ui.view">
@@ -49,6 +69,7 @@
         <field name="inherit_id" ref="account_banking_mandate.view_mandate_search" />
         <field name="arch" type="xml">
             <filter name="expired" position="after">
+                <separator />
                 <filter
                     name="oneoff"
                     string="One-Off"

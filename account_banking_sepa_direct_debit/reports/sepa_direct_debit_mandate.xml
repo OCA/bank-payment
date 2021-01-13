@@ -13,18 +13,23 @@
         </xpath>
     </template>
     <!-- QWeb Report -->
-    <report
-        id="report_sepa_direct_debit_mandate"
-        model="account.banking.mandate"
-        string="Sepa Mandate"
-        report_type="qweb-pdf"
-        name="account_banking_sepa_direct_debit.sepa_direct_debit_mandate"
-        file="account_banking_sepa_direct_debit.sepa_direct_debit_mandate"
-    />
     <record id="report_sepa_direct_debit_mandate" model="ir.actions.report">
+        <field name="name">SEPA Mandate</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >account_banking_sepa_direct_debit.sepa_direct_debit_mandate</field>
+        <field
+            name="report_file"
+        >account_banking_sepa_direct_debit.sepa_direct_debit_mandate</field>
         <field
             name="paperformat_id"
             ref="account_banking_sepa_direct_debit.paperformat_euro_sepa_lowmargin"
         />
+        <field
+            name="print_report_name"
+        >'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id.name.replace(' ', '_')</field>
+        <field name="binding_model_id" ref="model_account_banking_mandate" />
     </record>
 </odoo>
