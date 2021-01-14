@@ -9,26 +9,16 @@
             ref="account_banking_pain_base.view_account_config_settings"
         />
         <field name="arch" type="xml">
-            <xpath
-                expr="//div[@id='pain']/div[@id='pain_group_pain_multiple_identifier']"
-                position="after"
-            >
-                <div
-                    id="pain_sepa_creditor_identifier"
-                    class="col-12 col-lg-6 o_setting_box"
-                >
-                    <div class="o_setting_left_pane" />
-                    <div class="o_setting_right_pane">
-                        <span class="o_form_label">
-                            <label for="sepa_creditor_identifier" />
-                        </span>
-                        <div class="text-muted">
-                            ICS of your company
-                        </div>
-                        <div class="text-muted">
-                            <field name="sepa_creditor_identifier" />
-                        </div>
-                    </div>
+            <xpath expr="//div[@id='pain']/div/div/div" position="inside">
+                <div class="row mt16">
+                    <label
+                        for="sepa_creditor_identifier"
+                        class="col-md-3 o_light_label"
+                    />
+                    <field
+                        name="sepa_creditor_identifier"
+                        placeholder="Write the ICS of your company"
+                    />
                 </div>
             </xpath>
         </field>
