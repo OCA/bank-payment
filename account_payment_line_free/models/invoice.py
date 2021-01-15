@@ -14,11 +14,12 @@ class AccountInvoice(models.Model):
     def free_payment_lines(self):
         """ finds related payment lines and free them.
         """
-        move_line_ids = self.move_id.line_ids.ids
-        payment_lines = self.env['account.payment.line'].search([
-            ('move_line_id', 'in', move_line_ids)
-        ])
-        if not payment_lines:
-            raise exceptions.UserError(_('No payment line found !'))
+        for record in self:
+            move_line_ids = record.move_id.line_ids.ids
+            payment_lines = self.env['account.payment.line'].search([
+                ('move_line_id', 'in', move_line_ids)
+            ])
+            if not payment_lines:
+                raise exceptions.UserError(_('No payment line found !'))
 
-        payment_lines.free_line()
+            payment_lines.free_line()
