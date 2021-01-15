@@ -21,6 +21,7 @@ addon | version | summary
 --- | --- | ---
 [account_banking_mandate](account_banking_mandate/) | 14.0.1.0.0 | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 14.0.1.0.0 | Base module for PAIN file generation
+[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 14.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_payment_mode](account_payment_mode/) | 14.0.1.0.0 | Account Payment Mode
 [account_payment_order](account_payment_order/) | 14.0.1.0.0 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 14.0.1.0.0 | Adds payment mode on partners and invoices
