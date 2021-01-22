@@ -19,7 +19,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
-            {"partner_id": self.partner.id, "type": "in_invoice"}
+            {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
         with Form(invoice) as inv:
             inv.purchase_id = self.purchase
@@ -40,7 +40,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
-            {"partner_id": self.partner.id, "type": "in_invoice"}
+            {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
         invoice.purchase_id = self.purchase
         invoice._onchange_purchase_auto_complete()
@@ -74,11 +74,11 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
-            {"partner_id": self.partner.id, "type": "in_invoice"}
+            {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
         invoice.purchase_id = self.purchase
         invoice._onchange_purchase_auto_complete()
-        self.assertEqual(invoice.invoice_partner_bank_id, self.bank)
+        self.assertEqual(invoice.partner_bank_id, self.bank)
         purchase2 = self.purchase.copy()
         purchase2.supplier_partner_bank_id = self.bank2
         purchase2.button_confirm()
