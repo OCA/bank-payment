@@ -1,0 +1,33 @@
+<odoo>
+    <record id="bank_payment_line_form_custom_void" model="ir.ui.view">
+        <field name="name">bank.payment.line.form.void</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.bank_payment_line_form" />
+        <field name="arch" type="xml">
+            <group name="main" position="after">
+                <group name="void">
+                    <field name="is_voided" />
+                    <field name="void_date" />
+                    <field name="void_reason" />
+                </group>
+            </group>
+        </field>
+    </record>
+    <record id="bank_payment_line_tree_void_custom" model="ir.ui.view">
+        <field name="name">bank.payment.line.tree.void</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.bank_payment_line_tree" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="is_voided" />
+                <field name="state" invisible="1" />
+                <button
+                    name="call_payment_void_wizard"
+                    string="Void"
+                    type="object"
+                    attrs="{'invisible':['|',('state','!=','uploaded'),('is_voided','=',True)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
