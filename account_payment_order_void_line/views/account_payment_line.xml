@@ -1,0 +1,30 @@
+<odoo>
+    <record id="account_payment_line_form_void_custom" model="ir.ui.view">
+        <field name="name">account.payment.line.form.void</field>
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_form"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="is_voided" />
+                <field name="void_date" />
+                <field name="void_reason" />
+            </field>
+        </field>
+    </record>
+    <record id="account_payment_line_tree_void_custom" model="ir.ui.view">
+        <field name="name">account.payment.line.tree.void</field>
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="is_voided" />
+            </field>
+        </field>
+    </record>
+</odoo>
