@@ -7,7 +7,7 @@ which prevents the selection of a contact -->
     <record id="partner_view_buttons" model="ir.ui.view">
         <field name="name">account_payment_mode.res_partner_form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="account.partner_view_buttons" />
+        <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
             <group name="banks" position="attributes">
                 <attribute
