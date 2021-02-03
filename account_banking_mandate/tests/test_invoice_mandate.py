@@ -60,6 +60,25 @@ class TestInvoiceMandate(TransactionCase):
             with self.assertRaises(ValidationError):
                 payable_move_lines[0].mandate_id = mandate_2
 
+    def test_post_invoice_default_mandate(self):
+        self.invoice.mandate_id = False
+        self.invoice.partner_bank_id = self.mandate.partner_bank_id
+
+        self.invoice.action_invoice_open()
+
+        self.env['account.invoice.payment.line.multi'].with_context(
+            active_model='account.invoice',
+            active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env['account.payment.order'].search([])
+        self.assertEqual(len(payment_order.ids), 1)
+        payment_order.payment_mode_id_change()
+        payment_order.draft2open()
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        self.assertEqual(self.mandate.payment_line_ids_count, 1)
+
     def test_post_invoice_and_refund_02(self):
         self.invoice._onchange_partner_id()
         self.invoice.action_invoice_open()
