@@ -207,13 +207,6 @@ msgid "Supplier Payment Mode"
 msgstr ""
 
 #. module: account_payment_partner
-#: code:addons/account_payment_partner/models/account_move.py:0
-#, python-format
-msgid ""
-"The company of the invoice %s does not match with that of the payment mode"
-msgstr ""
-
-#. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
