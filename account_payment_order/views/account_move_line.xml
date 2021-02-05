@@ -13,6 +13,11 @@
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account_payment_partner.view_move_line_form" />
     <field name="arch" type="xml">
+        <xpath expr="//notebook" postion="inside">
+            <page string="Payment Lines">
+                <field name="payment_line_ids"/>
+            </page>
+        </xpath>
         <group name="payments" position="inside">
             <field name="partner_bank_id"
                    domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"/>
