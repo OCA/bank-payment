@@ -15,6 +15,10 @@
     <field name="arch" type="xml">
         <xpath expr="//notebook" postion="inside">
             <page string="Payment Lines">
+                <group>
+                <button name="action_add_to_payment_order" type="object" string="Add to Payment Order"/>
+                <button name="action_cancel_payment_line" type="object" string="Cancel Payment Line"/>
+                </group>
                 <field name="payment_line_ids"/>
             </page>
         </xpath>
