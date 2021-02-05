@@ -3,8 +3,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from lxml import etree
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.fields import first
+from odoo.exceptions import UserError
 from odoo.osv import orm
 
 
@@ -134,3 +135,101 @@ class AccountMoveLine(models.Model):
                 doc.remove(elem)
             result['arch'] = etree.tostring(doc)
         return result
+
+    @api.multi
+    def _prepare_new_payment_order(self, payment_mode=None):
+        self.ensure_one()
+        if payment_mode is None:
+            payment_mode = self.env['account.payment.mode']
+        vals = {
+            'payment_mode_id': payment_mode.id or self.payment_mode_id.id,
+        }
+        # other important fields are set by the inherit of create
+        # in account_payment_order.py
+        return vals
+
+    def action_add_to_payment_order(self):
+        """
+        Adds paymnet lines related to a move line not yet reconciled to a draft
+        payment order
+        :return: Action: Draft payment order
+        """
+
+        apoo = self.env['account.payment.order']
+        result_payorder_ids = []
+        result_count_lines = []
+        action_payment_type = 'debit'
+        for line_id in self:
+            if line_id.reconciled:
+                raise UserError(_(
+                    "The move line %s is already reconciled") % line_id.ref)
+
+            applicable_lines = line_id.filtered(
+                lambda x: (
+                    not x.reconciled and x.payment_mode_id.payment_order_ok and
+                    x.account_id.internal_type in ('receivable', 'payable') and
+                    not any(p_state in ('draft', 'open', 'generated')
+                            for p_state in x.payment_line_ids.mapped('state'))
+                )
+            )
+            if not applicable_lines:
+                raise UserError(_(
+                    'No Payment Line created for move line %s because '
+                    'it already exists or because this move line is '
+                    'already reconciled.') % line_id.ref)
+            payment_modes = applicable_lines.mapped('payment_mode_id')
+            if not payment_modes:
+                raise UserError(_(
+                    "No Payment Mode on move line %s") % line_id.ref)
+            for payment_mode in payment_modes:
+                payorder = apoo.search([
+                    ('payment_mode_id', '=', payment_mode.id),
+                    ('state', '=', 'draft')
+                ], limit=1)
+                new_payorder = False
+                if not payorder:
+                    payorder = apoo.create(line_id._prepare_new_payment_order(
+                        payment_mode
+                    ))
+                    new_payorder = True
+                result_payorder_ids.append(payorder)
+                action_payment_type = payorder.payment_type
+                count = 0
+                for line in applicable_lines.filtered(
+                    lambda x: x.payment_mode_id == payment_mode
+                ):
+                    line.create_payment_line_from_move_line(payorder)
+                    count += 1
+                result_count_lines.append((count, new_payorder))
+
+        result_payorder_ids = list(set(result_payorder_ids))
+        for payorder in range(len(result_payorder_ids)):
+            count = result_count_lines[payorder][0]
+            new_payorder = result_count_lines[payorder][1]
+            payorder_id = result_payorder_ids[payorder]
+            if new_payorder:
+                line_id.invoice_id.message_post(body=_(
+                    '%d payment lines added to the new draft payment '
+                    'order %s which has been automatically created.')
+                                      % (count, payorder_id.name))
+            else:
+                line_id.invoice_id.message_post(body=_(
+                    '%d payment lines added to the existing draft '
+                    'payment order %s.')
+                                      % (count, payorder_id.name))
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'account_payment_order',
+            'account_payment_order_%s_action' % action_payment_type)
+        if len(result_payorder_ids) == 1:
+            action.update({
+                'view_mode': 'form,tree,pivot,graph',
+                'res_id': payorder_id.id,
+                'views': False,
+            })
+        else:
+            action.update({
+                'view_mode': 'tree,form,pivot,graph',
+                'domain': "[('id', 'in', %s)]" % result_payorder_ids.ids,
+                'views': False,
+            })
+        return action
