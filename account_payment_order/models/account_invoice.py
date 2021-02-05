@@ -65,3 +65,9 @@ class AccountInvoice(models.Model):
             lambda x: x.account_id.internal_type in (
                 'receivable', 'payable')).action_add_to_payment_order()
 
+    @api.multi
+    def action_invoice_cancel(self):
+        self.mapped("move_id.line_ids").filtered(
+            'payment_line_ids').action_cancel_payment_line()
+        return super().action_invoice_cancel()
+

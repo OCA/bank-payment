@@ -233,3 +233,16 @@ class AccountMoveLine(models.Model):
                 'views': False,
             })
         return action
+
+    def action_cancel_payment_line(self):
+        """
+        Removes payment lines related to move line that is still in draft
+        payment order
+        """
+        open_aml = self.filtered(lambda x: x.payment_line_ids.state == "draft")
+        open_aml.mapped('payment_line_ids').unlink()
+
+        not_open_aml = self - open_aml
+        if not_open_aml:
+            raise UserError(
+                _('The move line is related to an unopened payment order'))
