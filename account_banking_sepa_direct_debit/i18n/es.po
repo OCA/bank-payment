@@ -1,0 +1,518 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_sepa_direct_debit
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-23 03:38+0000\n"
+"PO-Revision-Date: 2020-02-05 15:13+0000\n"
+"Last-Translator: oihane <oihanecruce@gmail.com>\n"
+"Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Account Number - IBAN:</em>"
+msgstr "<em>Número de cuenta - IBAN:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Address of the Debtor:</em>"
+msgstr "<em>Dirección del deudor:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Address:</em>"
+msgstr "<em>Dirección:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Country of the debtor:</em>"
+msgstr "<em>País del deudor:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Country:</em>"
+msgstr "<em>País:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Creditor's Name:</em>"
+msgstr "<em>Nombre del acreedor:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Date - Location:</em>"
+msgstr "<em>Fecha - Localidad:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Debtor's Name:</em>"
+msgstr "<em>Nombre del deudor:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Identifier:</em>"
+msgstr "<em>Identificador:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Mandate Reference:</em>"
+msgstr "<em>Referencia del mandato:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Postal Code - City - Town:</em>"
+msgstr "<em>Código postal - Población - Provincia:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Signature of the debtor:</em>"
+msgstr "<em>Firma del deudor:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Swift BIC (up to 8 or 11 characteres):</em>"
+msgstr "<em>Swift BIC (puede contener 8 u 11 posiciones):</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<em>Type of payment:</em>"
+msgstr "<em>Tipo de pago:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<strong>Sepa Business-To-Business Direct debit Mandate</strong>"
+msgstr "<strong>Orden de domiciliación de adeudo directo SEPA B2B</strong>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "<strong>Sepa Direct Debit Mandate</strong>"
+msgstr "<strong>Mandato de adeudo directo SEPA</strong>"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
+msgid "A generic banking mandate"
+msgstr "Un mandato bancario genérico"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE."
+msgstr ""
+"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA "
+"ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA."
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
+"CREDITOR FOR STORAGE.\n"
+"                        NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S "
+"AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.\n"
+"                        THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED "
+"AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK."
+msgstr ""
+"TODOS LOS CAMPOS HAN DE SER CUMPLIMENTADOS OBLIGATORIAMENTE. UNA VEZ FIRMADA "
+"ESTA ORDEN DE DOMICILIACIÓN DEBE SER ENVIADA AL ACREEDOR PARA SU CUSTODIA.LA "
+"ENTIDAD DE DEUDOR REQUIERE AUTORIZACIÓN DE ÉSTE PREVIA AL CARGO EN CUENTA DE "
+"LOS ADEUDOS DIRECTOS B2B.EL DEUDOR PODRÁ GESTIONAR DICHA AUTORIZACIÓN CON "
+"LOS MEDIOS QUE SU ENTIDAD PONGA A SU DISPOSICIÓN."
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"As part of your rights, you are entitled to a refund from\n"
+"                        your bank under the terms and conditions of your "
+"agreement\n"
+"                        with your bank.\n"
+"                        A refund must be claimed within 8 weeks starting "
+"from the date on which your account was debited."
+msgstr ""
+"Como parte de sus derechos, el deudor está legitimado al reembolso por su "
+"entidad en los términos y condiciones del contrato suscrito con la misma. La "
+"solicitud de reembolso deberá efectuarse dentro de las ocho semanas que "
+"siguen a la fecha de adeudo en cuenta. Puede obtener información adicional "
+"sobre sus derechos en su entidad financiera."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
+#, python-format
+msgid ""
+"As you changed the bank account attached to this mandate, the 'Sequence "
+"Type' has been set back to 'First'."
+msgstr ""
+"Puesto que ha cambiado la cuenta bancaria relacionada con este mandato, el "
+"'Tipo de secuencia' se ha vuelto a 'Inicial'."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
+"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
+"been marked as uploaded."
+msgstr ""
+"Se ha cambiado automáticamente de <b>Primero</b> a <b>Recurrente</b> cuando "
+"la orden de débito <a href=# data-oe-model=account.payment.order data-oe-id="
+"%d1>%s2</a> se ha marcado como subido."
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
+msgid "Bank Payment Lines"
+msgstr "Líneas de pago bancario"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
+msgid "Basic (CORE)"
+msgstr "Básico (CORE)"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "By signing this mandate form, you authorise (A)"
+msgstr ""
+"Mediante la firma de esta orden de domiciliación, el deudor autoriza (A)"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_res_config_settings
+#, fuzzy
+msgid "Config Settings"
+msgstr "res.config.settings"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from "
+"company will be used.\n"
+"This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+"Introduzca el identificador de acreedor que se le ha atribuido a su compañía "
+"para realizar adeudos directos SEPA. Su banco suele poseer esta información. "
+"Este identificador se compone de:\n"
+"- el código ISO de 2 letras de su país\n"
+"- dos dígitos de comprobación\n"
+"- tres letras de código de negocio\n"
+"- un identificador específico de país (en España, el NIF)"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_company__sepa_creditor_identifier
+#: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_config_settings__sepa_creditor_identifier
+msgid ""
+"Enter the Creditor Identifier that has been attributed to your company to "
+"make SEPA Direct Debits. This identifier is composed of :\n"
+"- your country ISO code (2 letters)\n"
+"- a 2-digits checkum\n"
+"- a 3-letters business code\n"
+"- a country-specific identifier"
+msgstr ""
+"Introduzca el identificador de acreedor que se le ha atribuido a su compañía "
+"para realizar adeudos directos SEPA. Su banco suele poseer esta información. "
+"Este identificador se compone de:\n"
+"- el código ISO de 2 letras de su país\n"
+"- dos dígitos de comprobación\n"
+"- tres letras de código de negocio\n"
+"- un identificador específico de país (en España, el NIF)"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__b2b
+msgid "Enterprise (B2B)"
+msgstr "Empresa (B2B)"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__final
+msgid "Final"
+msgstr "Final"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__first
+msgid "First"
+msgstr "Inicial"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
+#, python-format
+msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
+#, fuzzy
+msgid "Mandate Format"
+msgstr "Actualizacion de mandato"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
+#, python-format
+msgid "Mandate update"
+msgstr "Actualizacion de mandato"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+"(reference {reference})."
+msgstr ""
+"Falta el mandato de adeudo directo SEPA en la linea de pago bancario de la "
+"empresa {partner_name} (referencia {reference})."
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
+msgid "One-Off"
+msgstr "Único"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__pain_version
+msgid "PAIN Version"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_line
+#, fuzzy
+msgid "Payment Lines"
+msgstr "Líneas de pago bancario"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_method
+msgid "Payment Methods"
+msgstr "Métodos de pago"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Métodos de pago"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_order
+msgid "Payment Order"
+msgstr "Orden de pago"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Payment Type Code '%s' is not supported. The only Payment Type Code "
+"supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and "
+"'pain.008.001.04'."
+msgstr ""
+"El código de tipo de pago '%s' no está soportado. Los únicos códigos de tipo "
+"de pago soportados para los adedudos directos SEPA son 'pain.008.001.02', "
+"'pain.008.001.03' y 'pain.008.001.04'."
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__recurrent
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
+msgid "Recurrent"
+msgstr "Recurrente"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__recurrent_sequence_type__recurring
+msgid "Recurring"
+msgstr "Periódico"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__sepa_creditor_identifier
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__sepa_creditor_identifier
+msgid "SEPA Creditor Identifier"
+msgstr "Identificador de acreedor SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: model:account.payment.method,name:account_banking_sepa_direct_debit.sepa_direct_debit
+msgid "SEPA Direct Debit for customers"
+msgstr "Débito directo SEPA para clientes"
+
+#. module: account_banking_sepa_direct_debit
+#: model:account.payment.mode,name:account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1
+msgid "SEPA Direct Debit of customers"
+msgstr "Adeudo directo SEPA de clientes"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__scheme
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
+msgid "Scheme"
+msgstr "Esquema"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__format__sepa
+msgid "Sepa Mandate"
+msgstr "Mandato SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_tree
+msgid "Sequence Type"
+msgstr "Tipo de secuencia"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__recurrent_sequence_type
+msgid "Sequence Type for Next Debit"
+msgstr "Tipo de secuencia para el próximo cobro"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.actions.server,name:account_banking_sepa_direct_debit.sdd_mandate_expire_cron_ir_actions_server
+#: model:ir.cron,cron_name:account_banking_sepa_direct_debit.sdd_mandate_expire_cron
+#: model:ir.cron,name:account_banking_sepa_direct_debit.sdd_mandate_expire_cron
+msgid "Set SEPA Direct Debit Mandates to Expired"
+msgstr "Marcar los Mandatos de débitos directo SEPA como Expirados"
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_mode.py:0
+#: code:addons/account_banking_sepa_direct_debit/models/res_company.py:0
+#, python-format
+msgid "The SEPA Creditor Identifier '%s' is invalid."
+msgstr "Identificador de acreedor SEPA '%s' no válido."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has expired."
+msgstr ""
+"El mandato de adeudo directo SEPA con referencia {mandate_ref} para la "
+"empresa {partner_name} ha expirado."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+"{partner_name} has type set to 'One-Off' but has a last debit date set to "
+"{last_debit_date}. Therefore, it cannot be used."
+msgstr ""
+"El mandato con referencia {mandate_ref} para la empresa {partner_name} tipo "
+"como 'Único', ya tiene como fecha de último cobro {last_debit_date}, por lo "
+"que no se puede usar."
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
+#, python-format
+msgid "The recurrent mandate '%s' must have a sequence type."
+msgstr "El mandato periódico '%s' debe tener un tipo de secuencia."
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_banking_mandate__recurrent_sequence_type
+msgid ""
+"This field is only used for Recurrent mandates, not for One-Off mandates."
+msgstr "Este campo se utiliza sólo para mandatos periódicos, no para únicos."
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"This mandate is only intended for business-to-business transactions.\n"
+"                        You are not entitled to a refund from your bank "
+"after your account has\n"
+"                        been debited, but you are entitled to request your "
+"bank\n"
+"                        not to debit your account up until the day on which "
+"the payment is due."
+msgstr ""
+"Esta orden de domiciliación está prevista para operaciones exclusivamente "
+"entre empresas y/o autónomos. El deudor no tiene derecho a que su entidad le "
+"reembolse una vez que se haya realizado el cargo en cuenta, pero puede "
+"solicitar a su entidad que no efectúe el adeudo en la cuenta hasta la fecha "
+"debida. Podrá obtener información detallada del procedimiento en su entidad "
+"financiera."
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the creditor"
+msgstr "A cumplimentar por el acreedor"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid "To be completed by the debtor"
+msgstr "A cumplimentar por el deudor"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_tree
+msgid "Type"
+msgstr "Tipo"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__type
+#, fuzzy
+msgid "Type of Mandate"
+msgstr "Mandato SEPA"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__unique_mandate_reference
+#, fuzzy
+msgid "Unique Mandate Reference"
+msgstr "<em>Referencia del mandato:</em>"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
+msgid "Write the ICS of your company"
+msgstr "Escriba el IAS de su compañía"
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_02
+msgid "pain.008.001.02 (recommended for direct debit)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_03
+msgid "pain.008.001.03"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_04
+msgid "pain.008.001.04"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_003_02
+msgid "pain.008.003.02 (direct debit in Germany)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
+msgid ""
+"to send instructions to your bank to debit your account and (B) your bank "
+"to\n"
+"                       debit your account in accordance with the "
+"instructions from"
+msgstr ""
+"a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
+"a la entidad para efectuar los adeudos en su cuenta siguiendo las "
+"instrucciones del acreedor"
+
+#, fuzzy
+#~ msgid "Basic Mandate"
+#~ msgstr "Mandato SEPA"
+
+#, fuzzy
+#~ msgid "Generic Mandate"
+#~ msgstr "Mandato SEPA"
