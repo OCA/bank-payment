@@ -247,5 +247,8 @@ class AccountMoveLine(models.Model):
 
         not_open_aml = self - open_aml
         if not_open_aml:
+            payorder = not_open_aml.mapped(
+                "payment_line_ids").mapped("order_id")
             raise UserError(
-                _('The move line is related to an unopened payment order'))
+                _('The move line is related to payment order %s which is in '
+                  'state %s' % (payorder.name, payorder.state)))
