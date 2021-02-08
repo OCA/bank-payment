@@ -70,4 +70,3 @@ class AccountInvoice(models.Model):
         self.mapped("move_id.line_ids").filtered(
             'payment_line_ids').action_cancel_payment_line()
         return super().action_invoice_cancel()
-

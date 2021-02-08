@@ -208,18 +208,20 @@ class AccountMoveLine(models.Model):
             new_payorder = result_count_lines[payorder][1]
             payorder_id = result_payorder_ids[payorder]
             if new_payorder:
-                line_id.invoice_id.message_post(body=_(
-                    '%d payment lines added to the new draft payment '
-                    'order %s which has been automatically created.')
-                                      % (count, payorder_id.name))
+                line_id.invoice_id.message_post(
+                    body=_(
+                        '%d payment lines added to the new draft payment order'
+                        ' %s which has been automatically created.'
+                    ) % (count, payorder_id.name)
+                )
             else:
                 line_id.invoice_id.message_post(body=_(
                     '%d payment lines added to the existing draft '
-                    'payment order %s.')
-                                      % (count, payorder_id.name))
+                    'payment order %s.') % (count, payorder_id.name))
         action = self.env['ir.actions.act_window'].for_xml_id(
             'account_payment_order',
-            'account_payment_order_%s_action' % action_payment_type)
+            'account_payment_order_%s_action' % action_payment_type
+        )
         if len(result_payorder_ids) == 1:
             action.update({
                 'view_mode': 'form,tree,pivot,graph',
