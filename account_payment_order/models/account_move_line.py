@@ -229,7 +229,8 @@ class AccountMoveLine(models.Model):
         else:
             action.update({
                 'view_mode': 'tree,form,pivot,graph',
-                'domain': "[('id', 'in', %s)]" % result_payorder_ids.ids,
+                'domain': "[('id', 'in', %s)]" % [
+                    payment.id for payment in result_payorder_ids],
                 'views': False,
             })
         return action
