@@ -190,3 +190,22 @@ class TestPaymentOrderOutbound(TransactionCase):
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(
                 days=1)
+
+    def test_cancel_invoice_debit_order(self):
+        self.invoice.action_invoice_open()
+
+        # Add account_payment_line to debit order using button in invoice
+        self.invoice.create_account_payment_line()
+
+        payment_order = self.env['account.payment.order'].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        self.invoice.journal_id.update_posted = True
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+        self.assertEqual(len(payment_order.bank_line_ids), 0)
+
+        # Cancel payment order lines using cancel button in invoice
+        self.invoice.action_invoice_cancel()
+
+        self.assertEqual(len(payment_order.payment_line_ids), 0)
+        self.assertEqual(len(payment_order.bank_line_ids), 0)
