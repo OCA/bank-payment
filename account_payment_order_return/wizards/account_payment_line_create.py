@@ -5,19 +5,17 @@ from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
-    _inherit = 'account.payment.line.create'
+    _inherit = "account.payment.line.create"
 
-    include_returned = fields.Boolean(
-        string='Include move lines from returns')
+    include_returned = fields.Boolean(string="Include move lines from returns")
 
     @api.multi
     def _prepare_move_line_domain(self):
-        domain = super(AccountPaymentLineCreate,
-                       self)._prepare_move_line_domain()
+        domain = super(AccountPaymentLineCreate, self)._prepare_move_line_domain()
         if not self.include_returned:
             domain += [
-                '|',
-                ('invoice_id', '=', False),
-                ('invoice_id.returned_payment', '=', False)
+                "|",
+                ("invoice_id", "=", False),
+                ("invoice_id.returned_payment", "=", False),
             ]
         return domain
