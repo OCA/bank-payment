@@ -1,12 +1,14 @@
 [![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/173/13.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-bank-payment-173)
-[![Build Status](https://travis-ci.org/OCA/bank-payment.svg?branch=13.0)](https://travis-ci.org/OCA/bank-payment)
-[![Coverage Status](https://coveralls.io/repos/OCA/bank-payment/badge.png?branch=13.0)](https://coveralls.io/r/OCA/bank-payment?branch=13.0)
+[![Build Status](https://travis-ci.com/OCA/bank-payment.svg?branch=13.0)](https://travis-ci.com/OCA/bank-payment)
+[![codecov](https://codecov.io/gh/OCA/bank-payment/branch/13.0/graph/badge.svg)](https://codecov.io/gh/OCA/bank-payment)
+[![Translation Status](https://translation.odoo-community.org/widgets/bank-payment-13-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/bank-payment-13-0/?utm_source=widget)
 
-OCA banking payment addons for Odoo
-===================================
+<!-- /!\ do not modify above this line -->
 
-On version 13.0, this project focus on payment interface. The indentation below
-indicates the dependency graph of the main modules.
+# OCA banking payment addons for Odoo
+
+On version 13.0, this project focus on payment interface.
+The indentation below indicates the dependency graph of the main modules.
 
 -  `account_payment_order` - Basic export functionality of payment orders
 
@@ -21,15 +23,28 @@ Other features can now be found in these repositories:
  * https://github.com/OCA/bank-statement-import
  * https://github.com/OCA/bank-statement-reconcile
 
+<!-- /!\ do not modify below this line -->
 
-Contributing
-------------
-Do you want to contribute? Please read our [contributing guidelines](https://github.com/OCA/maintainer-tools/blob/master/CONTRIBUTING.md).
+<!-- prettier-ignore-start -->
+
+[//]: # (addons)
+
+This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+
+[//]: # (end addons)
+
+<!-- prettier-ignore-end -->
+
+## Licenses
+
+This repository is licensed under [AGPL-3.0](LICENSE).
+
+However, each module can have a totally different license, as long as they adhere to OCA
+policy. Consult each module's `__manifest__.py` file, which contains a `license` key
+that explains its license.
 
 ----
 
-OCA, or the Odoo Community Association, is a nonprofit organization whose
-mission is to support the collaborative development of Odoo features and
-promote its widespread use.
-
-http://odoo-community.org/
+OCA, or the [Odoo Community Association](http://odoo-community.org/), is a nonprofit
+organization whose mission is to support the collaborative development of Odoo features
+and promote its widespread use.
