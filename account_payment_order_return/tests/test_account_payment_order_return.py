@@ -1,8 +1,10 @@
 # Copyright 2017 Tecnativa - Luis M. Ontalba
+# Copyright 2021 Tecnativa - João Marques
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
 from odoo import fields
 from odoo.tests import common
+from odoo.tests.common import Form
 
 
 class TestAccountPaymentOrderReturn(common.SavepointCase):
@@ -10,42 +12,36 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
     def setUpClass(cls):
         super(TestAccountPaymentOrderReturn, cls).setUpClass()
         cls.account_type = cls.env["account.account.type"].create(
-            {"name": "Test Account Type"}
+            {
+                "name": "Test Account Type",
+                "type": "receivable",
+                "internal_group": "income",
+            }
         )
         cls.a_receivable = cls.env["account.account"].create(
             {
                 "code": "TAA",
                 "name": "Test Receivable Account",
+                "reconcile": True,
                 "internal_type": "receivable",
                 "user_type_id": cls.account_type.id,
             }
         )
-        cls.partner = cls.env["res.partner"].create(
-            {"name": "Test Partner 2", "parent_id": False,}
-        )
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner 2"})
         cls.journal = cls.env["account.journal"].create(
-            {"name": "Test Journal", "type": "bank",}
+            {"name": "Test Journal", "type": "bank"}
         )
-        cls.invoice = cls.env["account.invoice"].create(
-            {
-                "name": "Test Invoice 3",
-                "partner_id": cls.partner.id,
-                "type": "out_invoice",
-                "journal_id": cls.journal.id,
-                "invoice_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "account_id": cls.a_receivable.id,
-                            "name": "Test line",
-                            "quantity": 1.0,
-                            "price_unit": 100.00,
-                        },
-                    )
-                ],
-            }
+        move_form = Form(
+            cls.env["account.move"].with_context(default_type="out_invoice")
         )
+        move_form.partner_id = cls.partner
+        move_form.journal_id = cls.journal
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.name = "Test line"
+            line_form.account_id = cls.a_receivable
+            line_form.quantity = 1.0
+            line_form.price_unit = 100.00
+        cls.invoice = move_form.save()
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
@@ -65,7 +61,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
 
     def test_global(self):
-        self.invoice.action_invoice_open()
+        self.invoice.action_post()
         wizard_o = self.env["account.payment.line.create"]
         context = wizard_o._context.copy()
         context.update(
@@ -88,15 +84,16 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
         wizard.populate()
         self.assertTrue(len(wizard.move_line_ids), 1)
-        self.receivable_line = self.invoice.move_id.line_ids.filtered(
+        self.receivable_line = self.invoice.line_ids.filtered(
             lambda x: x.account_id.internal_type == "receivable"
         )
         # Invert the move to simulate the payment
-        self.payment_move = self.invoice.move_id.copy({"journal_id": self.journal.id})
-        for move_line in self.payment_move.line_ids:
-            move_line.with_context(check_move_validity=False).write(
-                {"debit": move_line.credit, "credit": move_line.debit}
+        self.payment_move = self.env["account.move"].create(
+            self.invoice._reverse_move_vals(
+                default_values={"journal_id": self.journal.id}
             )
+        )
+        self.payment_move.action_post()
         self.payment_line = self.payment_move.line_ids.filtered(
             lambda x: x.account_id.internal_type == "receivable"
         )
