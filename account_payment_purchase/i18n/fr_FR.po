@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-21 01:10+0000\n"
-"PO-Revision-Date: 2021-02-11 16:44+0000\n"
+"PO-Revision-Date: 2021-02-12 18:45+0000\n"
 "Last-Translator: Yves Le Doeuff <yld@alliasys.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/oca/"
 "OCA-bank-payment-8-0/language/fr_FR/)\n"
@@ -22,11 +22,10 @@ msgstr ""
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_move
 msgid "Journal Entries"
-msgstr ""
+msgstr "Écritures comptabilisées + non-comptabilisées"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
-#, fuzzy
 msgid "Payment Mode"
 msgstr "Mode de règlement"
 
@@ -42,26 +41,30 @@ msgid ""
 "the payment. This field is copied from the partner and will be copied to the "
 "supplier invoice."
 msgstr ""
+"Sélectionnez le compte bancaire de votre fournisseur sur lequel votre "
+"société pourra envoyer le paiement. Cette information est reprise de la "
+"fiche partenaire et copiée sur la facture fournisseur."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr ""
+"Les commandes d'achat sélectionnées ont des modes de paiement différents."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "Les commandes d'achat sélectionnées ont des banques différentes."
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
 msgid "Supplier Bank Account"
-msgstr ""
+msgstr "Compte bancaire fournisseur"
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Warning"
-msgstr ""
+msgstr "Attention"
