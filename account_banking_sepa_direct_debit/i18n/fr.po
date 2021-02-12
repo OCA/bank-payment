@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-10 02:10+0000\n"
-"PO-Revision-Date: 2018-02-10 02:10+0000\n"
-"Last-Translator: Nicolas JEUDY <njeudy@panda-chi.io>, 2018\n"
+"PO-Revision-Date: 2021-02-12 18:45+0000\n"
+"Last-Translator: Yves Le Doeuff <yld@alliasys.fr>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -163,6 +164,9 @@ msgid ""
 "order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
 "been marked as uploaded."
 msgstr ""
+"Remplacé automatiquement de <b>First</b> par <b>Récurrent</b> quand l'ordre "
+"de débit <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> "
+"a été marqué comme téléchargé."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -186,14 +190,13 @@ msgstr "Sociétés"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_config_settings
-#, fuzzy
 msgid "Config Settings"
-msgstr "res.config.settings"
+msgstr "Configuration"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
@@ -254,12 +257,13 @@ msgstr "First"
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
+"Mandat non valide dans '%s'. Les mandats valides sont 'Récurrent' ou 'One-"
+"Off'"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
-#, fuzzy
 msgid "Mandate Format"
-msgstr "Mise-à-jour du mandat"
+msgstr "Format du mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
@@ -269,13 +273,13 @@ msgstr "Mise-à-jour du mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
 "(reference {reference})."
 msgstr ""
 "Absence du mandat de prélèvement SEPA sur la ligne de paiement bancaire avec "
-"le partenaire' %s' (référence'%s')."
+"le partenaire ' %s' (référence '%s')."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -287,11 +291,10 @@ msgstr "One-Off"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__pain_version
 msgid "PAIN Version"
-msgstr ""
+msgstr "PAIN Version"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_payment_line
-#, fuzzy
 msgid "Payment Lines"
 msgstr "Lignes de paiement bancaire"
 
@@ -390,7 +393,7 @@ msgstr "L'identification de créancier SEPA \"%s\" est invalide."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has expired."
@@ -400,14 +403,15 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
 "{partner_name} has type set to 'One-Off' but has a last debit date set to "
 "{last_debit_date}. Therefore, it cannot be used."
 msgstr ""
-"Le mandat portant la référence '%s' pour le partenaire '%s' est de type 'One-"
-"Off' et il a une date de dernier débit au '%s', donc il n'est pas utilisable."
+"Le mandat SEPA portant la référence '%s' pour le partenaire '%s' est de type "
+"'One-Off' et il a une date de dernier débit au '%s'. Il n'est donc pas "
+"utilisable."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
@@ -457,15 +461,13 @@ msgstr "Type"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__type
-#, fuzzy
 msgid "Type of Mandate"
-msgstr "Mandat SEPA"
+msgstr "Type de mandat"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__unique_mandate_reference
-#, fuzzy
 msgid "Unique Mandate Reference"
-msgstr "<em>Référence du mandat:</em>"
+msgstr "Référence de mandat unique"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
@@ -475,22 +477,22 @@ msgstr "Saisir l'ICS de votre société"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_02
 msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr ""
+msgstr "pain.008.001.02 (recommandé pour les prélèvements)"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_03
 msgid "pain.008.001.03"
-msgstr ""
+msgstr "pain.008.001.03"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_04
 msgid "pain.008.001.04"
-msgstr ""
+msgstr "pain.008.001.04"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_003_02
 msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr ""
+msgstr "pain.008.003.02 (prélèvement en Allemagne)"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
