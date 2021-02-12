@@ -1,6 +1,7 @@
 * Tecnativa <https://www.tecnativa.com>
 
-  * Luis M. Ontalba <luis.martinez@tecnativa.com>
-  * Vicent Cubells <vicent.cubells@tecnativa.com>
+  * Luis M. Ontalba
+  * Vicent Cubells
+  * João Marques
 
 * Kitti U. <kittiu@ecosoft.co.th>
