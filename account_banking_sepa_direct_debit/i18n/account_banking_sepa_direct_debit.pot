@@ -17,7 +17,7 @@ msgstr ""
 #: model:ir.actions.report,print_report_name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid ""
 "'Mandate-%s-%s' % (object.unique_mandate_reference, "
-"object.partner_id.name.replace(' ', '_')"
+"object.partner_id.name.replace(' ', '_'))"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -314,6 +314,11 @@ msgid ""
 "Payment Type Code '%s' is not supported. The only Payment Type Code "
 "supported for SEPA Direct Debit are 'pain.008.001.02', 'pain.008.001.03' and"
 " 'pain.008.001.04'."
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
+msgid "Print"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit

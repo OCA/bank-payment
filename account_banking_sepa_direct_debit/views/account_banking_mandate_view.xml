@@ -12,6 +12,9 @@
         <field name="model">account.banking.mandate</field>
         <field name="inherit_id" ref="account_banking_mandate.view_mandate_form" />
         <field name="arch" type="xml">
+            <button name="validate" position="before">
+                <button name="print_report" type="object" string="Print" />
+            </button>
             <field name="partner_id" position="after">
                 <field
                     name="scheme"
