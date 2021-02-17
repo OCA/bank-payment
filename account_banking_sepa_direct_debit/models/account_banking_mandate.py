@@ -114,3 +114,9 @@ class AccountBankingMandate(models.Model):
             )
         else:
             logger.info("0 SDD Mandates had to be set to Expired")
+
+    def print_report(self):
+        self.ensure_one()
+        xmlid = "account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate"
+        action = self.env.ref(xmlid).report_action(self)
+        return action
