@@ -17,6 +17,13 @@ msgstr ""
 "X-Generator: Weblate 3.5.1\n"
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.actions.report,print_report_name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+msgid ""
+"'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id.name."
+"replace(' ', '_'))"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
 msgstr "<em>Numero Conto - IBAN:</em>"
@@ -174,6 +181,13 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -218,14 +232,44 @@ msgid "First"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__id
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
 msgid "Mandate Format"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
+#, python-format
+msgid "Mandate automatically set to expired after %d months without use."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -284,6 +328,11 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
+msgid "Print"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__recurrent
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
@@ -313,13 +362,17 @@ msgid "SEPA Direct Debit of customers"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+msgid "SEPA Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__scheme
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Scheme"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__format__sepa
 msgid "Sepa Mandate"
 msgstr ""
@@ -402,7 +455,6 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
-#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_tree
 msgid "Type"
 msgstr ""
 
