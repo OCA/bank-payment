@@ -404,6 +404,11 @@ msgid "Missing Mandate on payment line %s"
 msgstr ""
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
