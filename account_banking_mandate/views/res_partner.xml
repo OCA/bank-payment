@@ -7,7 +7,7 @@
     <record id="partner_view_buttons" model="ir.ui.view">
         <field name="name">mandate.res.partner.form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="account.partner_view_buttons" />
+        <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
             <xpath
                 expr="//button[@name='%(base.action_res_partner_bank_account_form)d']"

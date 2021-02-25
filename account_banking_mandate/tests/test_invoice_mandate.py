@@ -18,7 +18,7 @@ class TestInvoiceMandate(TransactionCase):
             lambda s: s.account_id == self.invoice_account
         )
         if payable_move_lines:
-            self.assertEqual(payable_move_lines[0].mandate_id, self.mandate)
+            self.assertEqual(payable_move_lines[0].move_id.mandate_id, self.mandate)
 
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
@@ -62,7 +62,7 @@ class TestInvoiceMandate(TransactionCase):
         )
         if payable_move_lines:
             with self.assertRaises(UserError):
-                payable_move_lines[0].mandate_id = mandate_2
+                payable_move_lines[0].move_id.mandate_id = mandate_2
 
     def test_post_invoice_and_refund_02(self):
         self.invoice._onchange_partner_id()
