@@ -14,25 +14,28 @@ class TestPaymentOrderInboundBase(SavepointCase):
     def setUpClass(cls):
         self = cls
         super().setUpClass()
+        self.env.user.company_id = self.env.ref("base.main_company").id
         self.inbound_mode = self.env.ref(
             "account_payment_mode.payment_mode_inbound_dd1"
         )
-        self.invoice_line_account = self.env["account.account"].search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_revenue").id,
-                )
-            ],
-            limit=1,
+        self.invoice_line_account = self.env["account.account"].create(
+            {
+                "name": "Test account",
+                "code": "TEST1",
+                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+            }
         )
         self.journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
+            [("type", "=", "bank"), ("company_id", "=", self.env.user.company_id.id)],
+            limit=1,
         )
         self.inbound_mode.variable_journal_ids = self.journal
         # Make sure no others orders are present
-        self.domain = [("state", "=", "draft"), ("payment_type", "=", "inbound")]
+        self.domain = [
+            ("state", "=", "draft"),
+            ("payment_type", "=", "inbound"),
+            ("company_id", "=", self.env.user.company_id.id),
+        ]
         self.payment_order_obj = self.env["account.payment.order"]
         self.payment_order_obj.search(self.domain).unlink()
         # Create payment order
@@ -62,6 +65,7 @@ class TestPaymentOrderInboundBase(SavepointCase):
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
                 invoice_line_form.account_id = self.invoice_line_account
+                invoice_line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
         invoice_form.payment_mode_id = self.inbound_mode
