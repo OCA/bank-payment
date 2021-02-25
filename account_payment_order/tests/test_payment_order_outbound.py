@@ -11,22 +11,16 @@ from odoo.tests.common import TransactionCase
 class TestPaymentOrderOutbound(TransactionCase):
     def setUp(self):
         super(TestPaymentOrderOutbound, self).setUp()
+        self.env.user.company_id = self.env.ref("base.main_company").id
         self.journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
-        self.invoice_line_account = (
-            self.env["account.account"]
-            .search(
-                [
-                    (
-                        "user_type_id",
-                        "=",
-                        self.env.ref("account.data_account_type_expenses").id,
-                    )
-                ],
-                limit=1,
-            )
-            .id
+        self.invoice_line_account = self.env["account.account"].create(
+            {
+                "name": "Test account",
+                "code": "TEST1",
+                "user_type_id": self.env.ref("account.data_account_type_expenses").id,
+            }
         )
         self.invoice = self._create_supplier_invoice()
         self.invoice_02 = self._create_supplier_invoice()
@@ -35,10 +29,15 @@ class TestPaymentOrderOutbound(TransactionCase):
             "account_payment_mode.payment_mode_outbound_dd1"
         )
         self.bank_journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
+            [("type", "=", "bank"), ("company_id", "=", self.env.user.company_id.id)],
+            limit=1,
         )
         # Make sure no other payment orders are in the DB
-        self.domain = [("state", "=", "draft"), ("payment_type", "=", "outbound")]
+        self.domain = [
+            ("state", "=", "draft"),
+            ("payment_type", "=", "outbound"),
+            ("company_id", "=", self.env.user.company_id.id),
+        ]
         self.env["account.payment.order"].search(self.domain).unlink()
 
     def _create_supplier_invoice(self):
@@ -58,7 +57,7 @@ class TestPaymentOrderOutbound(TransactionCase):
                             "quantity": 1.0,
                             "price_unit": 100.0,
                             "name": "product that cost 100",
-                            "account_id": self.invoice_line_account,
+                            "account_id": self.invoice_line_account.id,
                         },
                     )
                 ],
