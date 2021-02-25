@@ -11,6 +11,7 @@ from odoo.tests.common import TransactionCase
 class TestPaymentOrderOutbound(TransactionCase):
     def setUp(self):
         super(TestPaymentOrderOutbound, self).setUp()
+        self.env.user.company_id = self.env.ref("base.main_company").id
         self.journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
@@ -22,7 +23,8 @@ class TestPaymentOrderOutbound(TransactionCase):
                         "user_type_id",
                         "=",
                         self.env.ref("account.data_account_type_expenses").id,
-                    )
+                    ),
+                    ("company_id", "=", self.env.user.company_id.id),
                 ],
                 limit=1,
             )
@@ -35,10 +37,15 @@ class TestPaymentOrderOutbound(TransactionCase):
             "account_payment_mode.payment_mode_outbound_dd1"
         )
         self.bank_journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
+            [("type", "=", "bank"), ("company_id", "=", self.env.user.company_id.id)],
+            limit=1,
         )
         # Make sure no other payment orders are in the DB
-        self.domain = [("state", "=", "draft"), ("payment_type", "=", "outbound")]
+        self.domain = [
+            ("state", "=", "draft"),
+            ("payment_type", "=", "outbound"),
+            ("company_id", "=", self.env.user.company_id.id),
+        ]
         self.env["account.payment.order"].search(self.domain).unlink()
 
     def _create_supplier_invoice(self):
