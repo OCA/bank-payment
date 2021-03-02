@@ -19,12 +19,12 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 14.0.1.0.0 | Banking mandates
+[account_banking_mandate](account_banking_mandate/) | 14.0.1.0.1 | Banking mandates
 [account_banking_pain_base](account_banking_pain_base/) | 14.0.1.0.0 | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 14.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 14.0.1.1.0 | Create SEPA files for Direct Debit
 [account_payment_mode](account_payment_mode/) | 14.0.1.0.0 | Account Payment Mode
-[account_payment_order](account_payment_order/) | 14.0.1.0.0 | Account Payment Order
+[account_payment_order](account_payment_order/) | 14.0.1.0.1 | Account Payment Order
 [account_payment_partner](account_payment_partner/) | 14.0.1.1.0 | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 14.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 14.0.1.0.0 | Integrate Account Payment Purchase with Stock
