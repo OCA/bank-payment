@@ -9,15 +9,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: Portuguese (Portugal) (https://www.transifex.com/oca/"
-"teams/23907/pt_PT/)\n"
+"PO-Revision-Date: 2021-03-04 13:45+0000\n"
+"Last-Translator: alvarorib <alvaro.ribeiro@exo.pt>\n"
+"Language-Team: Portuguese (Portugal) (https://www.transifex.com/oca/teams/"
+"23907/pt_PT/)\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:120
@@ -703,7 +704,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__write_uid
 msgid "Last Updated by"
-msgstr "Atualizado pela última vez por"
+msgstr "Última Atualização por"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__write_date
@@ -712,7 +713,7 @@ msgstr "Atualizado pela última vez por"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__write_date
 msgid "Last Updated on"
-msgstr "Atualizado pela última vez em"
+msgstr "Última Atualização em"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_account_link
