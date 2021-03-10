@@ -16,10 +16,24 @@
         <xpath expr="//notebook" postion="inside">
             <page string="Payment Lines">
                 <group>
-                <button name="action_add_to_payment_order" type="object" string="Add to Payment Order"/>
-                <button name="action_cancel_payment_line" type="object" string="Cancel Payment Line"/>
+                    <button name="action_add_to_payment_order" type="object" string="Add to Payment Order"/>
+                    <button name="action_cancel_payment_line" type="object" string="Cancel Open Payment Lines"/>
                 </group>
-                <field name="payment_line_ids"/>
+                <field name="payment_line_ids">
+                    <tree>
+                        <field name="order_id"/>
+                        <field name="partner_id"/>
+                        <field name="communication"/>
+                        <field name="partner_bank_id"/>
+                        <field name="ml_maturity_date"/>
+                        <field name="date"/>
+                        <field name="amount_currency" string="Amount"/>
+                        <field name="currency_id"/>
+                        <field name="name"/>
+                        <field name="bank_line_id"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
             </page>
         </xpath>
         <group name="payments" position="inside">

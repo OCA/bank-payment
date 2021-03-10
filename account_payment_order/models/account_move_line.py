@@ -242,13 +242,15 @@ class AccountMoveLine(models.Model):
         Removes payment lines related to move line that is still in draft
         payment order
         """
-        open_aml = self.filtered(lambda x: x.payment_line_ids.state == "draft")
-        open_aml.mapped('payment_line_ids').unlink()
-
-        not_open_aml = self - open_aml
+        open_aml = self.payment_line_ids.filtered(lambda x: x.state == "draft")
+        cancel_aml = self.payment_line_ids.filtered(lambda x: x.state == "cancel")
+        open_aml.unlink()
+        not_open_aml = self.payment_line_ids - open_aml - cancel_aml
         if not_open_aml:
-            payorder = not_open_aml.mapped(
-                "payment_line_ids").mapped("order_id")
-            raise UserError(
-                _('The move line is related to payment order %s which is in '
-                  'state %s' % (payorder.name, payorder.state)))
+            message = ' \n'.join(
+                '- {} ({})'.format(x.name, x.state) for x in not_open_aml)
+            raise UserError(_(
+                """You can´t cancel this move because it's related to
+                 the following payment orders: \n {}""".format(
+                    message))
+            )
