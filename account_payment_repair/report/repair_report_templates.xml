@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_sale_payment_mode" inherit_id="repair.report_repairorder">
+        <xpath expr="//p[@t-field='o.quotation_notes']" position="after">
+            <p t-if="o.payment_mode_id.note and o.invoice_method !='none'" id="payment_mode_note">
+                <strong>Payment Mode:</strong>
+                <span t-field="o.payment_mode_id.note" />
+            </p>
+        </xpath>
+    </template>
+
+</odoo>
