@@ -1,5 +1,6 @@
 # Copyright 2017 Tecnativa - Luis M. Ontalba
 # Copyright 2021 Tecnativa - João Marques
+# Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
 from odoo import fields
@@ -29,13 +30,12 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner 2"})
         cls.journal = cls.env["account.journal"].create(
-            {"name": "Test Journal", "type": "bank"}
+            {"name": "Test Journal", "type": "bank", "code": "Test"}
         )
         move_form = Form(
             cls.env["account.move"].with_context(default_type="out_invoice")
         )
         move_form.partner_id = cls.partner
-        move_form.journal_id = cls.journal
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "Test line"
             line_form.account_id = cls.a_receivable
@@ -45,7 +45,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
-                "fixed_journal_id": cls.journal.id,
+                "fixed_journal_id": cls.invoice.journal_id.id,
                 "bank_account_link": "variable",
                 "payment_method_id": cls.env.ref(
                     "account.account_payment_method_manual_in"
@@ -73,7 +73,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         wizard = wizard_o.with_context(context).create(
             {
                 "order_id": self.payment_order.id,
-                "journal_ids": [(4, self.journal.id)],
+                "journal_ids": [(4, self.journal.id), (4, self.invoice.journal_id.id)],
                 "allow_blocked": True,
                 "date_type": "move",
                 "move_date": fields.Date.today(),
@@ -89,9 +89,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
         # Invert the move to simulate the payment
         self.payment_move = self.env["account.move"].create(
-            self.invoice._reverse_move_vals(
-                default_values={"journal_id": self.journal.id}
-            )
+            self.invoice._reverse_move_vals(default_values={})
         )
         self.payment_move.action_post()
         self.payment_line = self.payment_move.line_ids.filtered(
@@ -99,6 +97,10 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
         # Reconcile both
         (self.receivable_line | self.payment_line).reconcile()
+        # prev_move_lines
+        wizard.include_returned = False
+        wizard.populate()
+        prev_move_lines = wizard.move_line_ids
         # Create payment return
         self.payment_return = self.env["payment.return"].create(
             {
@@ -119,4 +121,4 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         self.payment_return.action_confirm()
         wizard.include_returned = False
         wizard.populate()
-        self.assertFalse(wizard.move_line_ids)
+        self.assertTrue((wizard.move_line_ids - prev_move_lines), 1)
