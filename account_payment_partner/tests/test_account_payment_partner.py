@@ -181,7 +181,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": cls.supplier.id,
                 "move_type": "in_invoice",
-                "journal_id": cls.journal_c1.id,
+                "journal_id": cls.journal_purchase.id,
             }
         )
 
@@ -422,7 +422,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.supplier.id,
                 "move_type": "in_invoice",
-                "journal_id": self.journal_c1.id,
+                "journal_id": self.journal_purchase.id,
             }
         )
         self.assertEqual(in_invoice.payment_mode_filter_type_domain, "outbound")
@@ -433,7 +433,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.customer.id,
                 "move_type": "out_refund",
-                "journal_id": self.journal_c2.id,
+                "journal_id": self.journal_sale.id,
             }
         )
         self.assertEqual(out_refund.payment_mode_filter_type_domain, "outbound")
@@ -444,7 +444,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.supplier.id,
                 "move_type": "in_refund",
-                "journal_id": self.journal_c1.id,
+                "journal_id": self.journal_purchase.id,
             }
         )
         self.assertEqual(in_refund.payment_mode_filter_type_domain, "inbound")
@@ -455,7 +455,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.customer.id,
                 "move_type": "out_invoice",
-                "journal_id": self.journal_c2.id,
+                "journal_id": self.journal_sale.id,
             }
         )
         self.assertEqual(out_invoice.payment_mode_filter_type_domain, "inbound")
