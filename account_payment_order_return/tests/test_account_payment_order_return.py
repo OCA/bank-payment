@@ -28,7 +28,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         )
         move_form = Form(
             cls.env["account.move"].with_context(
-                default_type="out_invoice", default_journal_id=cls.sale_journal.id
+                default_move_type="out_invoice", default_journal_id=cls.sale_journal.id
             )
         )
         move_form.partner_id = cls.partner
@@ -83,21 +83,21 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
             }
         )
         wizard.populate()
-        self.assertEquals(len(wizard.move_line_ids), 1)
-        payment = Form(
-            self.env["account.payment"].with_context(
+        self.assertEqual(len(wizard.move_line_ids), 1)
+        payment_register = Form(
+            self.env["account.payment.register"].with_context(
                 active_model="account.move", active_ids=self.invoice.ids
             )
         )
-        self.payment = payment.save()
-        self.payment.post()
+        self.payment = payment_register.save()._create_payments()
+        self.payment.action_post()
         wizard.populate()
         # Create payment return
         payment_return_form = Form(self.env["payment.return"])
         payment_return_form.journal_id = self.bank_journal
         with payment_return_form.line_ids.new() as line_form:
             line_form.move_line_ids.add(
-                self.payment.move_line_ids.filtered(
+                self.payment.move_id.line_ids.filtered(
                     lambda x: x.account_id.internal_type == "receivable"
                 )
             )
@@ -105,4 +105,4 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         self.payment_return.action_confirm()
         wizard.include_returned = False
         wizard.populate()
-        self.assertEquals(len(wizard.move_line_ids), 0)
+        self.assertEqual(len(wizard.move_line_ids), 0)
