@@ -11,42 +11,38 @@ from odoo.tests.common import Form
 class TestAccountPaymentOrderReturn(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestAccountPaymentOrderReturn, cls).setUpClass()
-        cls.account_type = cls.env["account.account.type"].create(
+        super().setUpClass()
+        cls.a_income = cls.env["account.account"].create(
             {
-                "name": "Test Account Type",
-                "type": "receivable",
-                "internal_group": "income",
-            }
-        )
-        cls.a_receivable = cls.env["account.account"].create(
-            {
-                "code": "TAA",
-                "name": "Test Receivable Account",
-                "reconcile": True,
-                "internal_type": "receivable",
-                "user_type_id": cls.account_type.id,
+                "code": "TIA",
+                "name": "Test Income Account",
+                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
             }
         )
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner 2"})
-        cls.journal = cls.env["account.journal"].create(
-            {"name": "Test Journal", "type": "bank", "code": "Test"}
+        cls.sale_journal = cls.env["account.journal"].create(
+            {"name": "Test Sale Journal", "type": "sale", "code": "Test"}
+        )
+        cls.bank_journal = cls.env["account.journal"].create(
+            {"name": "Test Bank Journal", "type": "bank"}
         )
         move_form = Form(
-            cls.env["account.move"].with_context(default_type="out_invoice")
+            cls.env["account.move"].with_context(
+                default_type="out_invoice", default_journal_id=cls.sale_journal.id
+            )
         )
         move_form.partner_id = cls.partner
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "Test line"
-            line_form.account_id = cls.a_receivable
+            line_form.account_id = cls.a_income
             line_form.quantity = 1.0
             line_form.price_unit = 100.00
         cls.invoice = move_form.save()
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
-                "fixed_journal_id": cls.invoice.journal_id.id,
-                "bank_account_link": "variable",
+                "fixed_journal_id": cls.bank_journal.id,
+                "bank_account_link": "fixed",
                 "payment_method_id": cls.env.ref(
                     "account.account_payment_method_manual_in"
                 ).id,
@@ -73,7 +69,11 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
         wizard = wizard_o.with_context(context).create(
             {
                 "order_id": self.payment_order.id,
-                "journal_ids": [(4, self.journal.id), (4, self.invoice.journal_id.id)],
+                "journal_ids": [
+                    (4, self.bank_journal.id),
+                    (4, self.invoice.journal_id.id),
+                ],
+                "partner_ids": [(4, self.partner.id)],
                 "allow_blocked": True,
                 "date_type": "move",
                 "move_date": fields.Date.today(),
@@ -83,42 +83,26 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
             }
         )
         wizard.populate()
-        self.assertTrue(len(wizard.move_line_ids), 1)
-        self.receivable_line = self.invoice.line_ids.filtered(
-            lambda x: x.account_id.internal_type == "receivable"
+        self.assertEquals(len(wizard.move_line_ids), 1)
+        payment = Form(
+            self.env["account.payment"].with_context(
+                active_model="account.move", active_ids=self.invoice.ids
+            )
         )
-        # Invert the move to simulate the payment
-        self.payment_move = self.env["account.move"].create(
-            self.invoice._reverse_move_vals(default_values={})
-        )
-        self.payment_move.action_post()
-        self.payment_line = self.payment_move.line_ids.filtered(
-            lambda x: x.account_id.internal_type == "receivable"
-        )
-        # Reconcile both
-        (self.receivable_line | self.payment_line).reconcile()
-        # prev_move_lines
-        wizard.include_returned = False
+        self.payment = payment.save()
+        self.payment.post()
         wizard.populate()
-        prev_move_lines = wizard.move_line_ids
         # Create payment return
-        self.payment_return = self.env["payment.return"].create(
-            {
-                "journal_id": self.journal.id,
-                "line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "partner_id": self.partner.id,
-                            "move_line_ids": [(6, 0, self.payment_line.ids)],
-                            "amount": self.payment_line.credit,
-                        },
-                    )
-                ],
-            }
-        )
+        payment_return_form = Form(self.env["payment.return"])
+        payment_return_form.journal_id = self.bank_journal
+        with payment_return_form.line_ids.new() as line_form:
+            line_form.move_line_ids.add(
+                self.payment.move_line_ids.filtered(
+                    lambda x: x.account_id.internal_type == "receivable"
+                )
+            )
+        self.payment_return = payment_return_form.save()
         self.payment_return.action_confirm()
         wizard.include_returned = False
         wizard.populate()
-        self.assertTrue((wizard.move_line_ids - prev_move_lines), 1)
+        self.assertEquals(len(wizard.move_line_ids), 0)
