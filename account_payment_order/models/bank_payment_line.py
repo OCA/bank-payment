@@ -150,42 +150,16 @@ class BankPaymentLine(models.Model):
         self.ensure_one()
         amlo = self.env["account.move.line"]
         transit_mlines = amlo.search([("bank_payment_line_id", "=", self.id)])
-        assert len(transit_mlines) == 1, "We should have only 1 move"
-        transit_mline = transit_mlines[0]
-        assert not transit_mline.reconciled, "Transit move should not be reconciled"
-        lines_to_rec = transit_mline
-        for payment_line in self.payment_line_ids:
-
-            if not payment_line.move_line_id:
-                raise UserError(
-                    _(
-                        "Can not reconcile: no move line for "
-                        "payment line %s of partner '%s'."
-                    )
-                    % (payment_line.name, payment_line.partner_id.name)
-                )
-            if payment_line.move_line_id.reconciled:
-                raise UserError(
-                    _("Move line '%s' of partner '%s' has already " "been reconciled")
-                    % (payment_line.move_line_id.name, payment_line.partner_id.name)
-                )
-            if payment_line.move_line_id.account_id != transit_mline.account_id:
-                raise UserError(
-                    _(
-                        "For partner '%s', the account of the account "
-                        "move line to pay (%s) is different from the "
-                        "account of of the transit move line (%s)."
-                    )
-                    % (
-                        payment_line.move_line_id.partner_id.name,
-                        payment_line.move_line_id.account_id.code,
-                        transit_mline.account_id.code,
-                    )
-                )
-
-            lines_to_rec += payment_line.move_line_id
-
-        lines_to_rec.reconcile()
+        for line in transit_mlines:
+            lines_to_rec = line
+            for payment_line in self.payment_line_ids.filtered(
+                lambda x: x.move_line_id
+                and not x.move_line_id.reconciled
+                and x.move_line_id.account_id == line.account_id
+                and x.move_line_id.credit == line.debit
+            ):
+                lines_to_rec += payment_line.move_line_id
+            lines_to_rec.reconcile()
 
     def unlink(self):
         for line in self:
