@@ -14,25 +14,30 @@ class TestPaymentOrderInboundBase(SavepointCase):
     def setUpClass(cls):
         self = cls
         super().setUpClass()
+        self.env.user.company_id = self.env.ref("base.main_company").id
         self.inbound_mode = self.env.ref(
             "account_payment_mode.payment_mode_inbound_dd1"
         )
-        self.invoice_line_account = self.env["account.account"].search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_revenue").id,
-                )
-            ],
-            limit=1,
+        self.invoice_line_account = self.env["account.account"].create(
+            {
+                "name": "Test account",
+                "code": "TEST1",
+                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+                "tax_ids": [
+                    (4, self.env.ref("l10n_generic_coa.1_sale_tax_template").id)
+                ],
+            }
         )
-        self.journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
+        self.journal = self.env["account.journal"].create(
+            {"name": "Test journal", "code": "BANK", "type": "bank"}
         )
         self.inbound_mode.variable_journal_ids = self.journal
         # Make sure no others orders are present
-        self.domain = [("state", "=", "draft"), ("payment_type", "=", "inbound")]
+        self.domain = [
+            ("state", "=", "draft"),
+            ("payment_type", "=", "inbound"),
+            ("company_id", "=", self.env.user.company_id.id),
+        ]
         self.payment_order_obj = self.env["account.payment.order"]
         self.payment_order_obj.search(self.domain).unlink()
         # Create payment order
