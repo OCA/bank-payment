@@ -23,9 +23,6 @@ class TestPaymentOrderInboundBase(SavepointCase):
                 "name": "Test account",
                 "code": "TEST1",
                 "user_type_id": self.env.ref("account.data_account_type_revenue").id,
-                "tax_ids": [
-                    (4, self.env.ref("l10n_generic_coa.1_sale_tax_template").id)
-                ],
             }
         )
         self.journal = self.env["account.journal"].create(
@@ -67,6 +64,7 @@ class TestPaymentOrderInboundBase(SavepointCase):
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
                 invoice_line_form.account_id = self.invoice_line_account
+                invoice_line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
         invoice_form.payment_mode_id = self.inbound_mode
