@@ -18,16 +18,12 @@ class TestPaymentOrderInboundBase(SavepointCase):
         self.inbound_mode = self.env.ref(
             "account_payment_mode.payment_mode_inbound_dd1"
         )
-        self.invoice_line_account = self.env["account.account"].search(
-            [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_revenue").id,
-                ),
-                ("company_id", "=", self.env.user.company_id.id),
-            ],
-            limit=1,
+        self.invoice_line_account = self.env["account.account"].create(
+            {
+                "name": "Test account",
+                "code": "TEST1",
+                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+            }
         )
         self.journal = self.env["account.journal"].search(
             [("type", "=", "bank"), ("company_id", "=", self.env.user.company_id.id)],
@@ -69,6 +65,7 @@ class TestPaymentOrderInboundBase(SavepointCase):
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
                 invoice_line_form.account_id = self.invoice_line_account
+                invoice_line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
         invoice_form.payment_mode_id = self.inbound_mode
