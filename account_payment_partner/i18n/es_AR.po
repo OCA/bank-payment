@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-07 05:59+0000\n"
+"PO-Revision-Date: 2021-04-01 03:48+0000\n"
 "Last-Translator: Ignacio Buioli <ibuioli@gmail.com>\n"
 "Language-Team: none\n"
 "Language: es_AR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -88,7 +88,7 @@ msgstr "Modo de Pago del Cliente"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
@@ -106,12 +106,12 @@ msgstr "Completo"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Asiento Contable"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
@@ -124,7 +124,7 @@ msgstr "Apunte Contable"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación en"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
@@ -179,7 +179,7 @@ msgstr "Pagos"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
 msgid "Recipient Bank"
-msgstr ""
+msgstr "Banco Destinatario"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
