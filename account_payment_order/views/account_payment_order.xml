@@ -41,6 +41,12 @@
                         string="Back to Draft"
                     />
                     <button
+                        name="action_done"
+                        type="object"
+                        states="uploaded"
+                        string="Done Payments"
+                    />
+                    <button
                         name="action_cancel"
                         type="object"
                         states="draft,open,generated"
