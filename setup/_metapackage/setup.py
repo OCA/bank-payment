@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo14-addon-account_payment_partner',
         'odoo14-addon-account_payment_purchase',
         'odoo14-addon-account_payment_purchase_stock',
+        'odoo14-addon-account_payment_sale',
     ],
     classifiers=[
         'Programming Language :: Python',
