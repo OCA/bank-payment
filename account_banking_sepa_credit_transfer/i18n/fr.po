@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-10 02:10+0000\n"
-"PO-Revision-Date: 2021-02-12 18:45+0000\n"
+"PO-Revision-Date: 2021-04-10 14:55+0000\n"
 "Last-Translator: Yves Le Doeuff <yld@alliasys.fr>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
@@ -37,7 +37,7 @@ msgstr "Transfert immédiat"
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
 msgid "Local Instrument"
-msgstr ""
+msgstr "Instrument local"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
