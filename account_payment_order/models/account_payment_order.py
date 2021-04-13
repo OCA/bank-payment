@@ -465,6 +465,10 @@ class AccountPaymentOrder(models.Model):
         else:
             account_id = self.journal_id.payment_debit_account_id.id
 
+        if self.payment_mode_id.offsetting_account == "bank_account":
+            account_id = self.journal_id.payment_debit_account_id.id
+        elif self.payment_mode_id.offsetting_account == "transfer_account":
+            account_id = self.payment_mode_id.transfer_account_id.id
         partner_id = False
         for index, bank_line in enumerate(bank_lines):
             if index == 0:
