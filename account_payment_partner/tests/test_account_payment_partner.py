@@ -180,6 +180,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
         cls.supplier_invoice = cls.move_model.create(
             {
                 "partner_id": cls.supplier.id,
+                "invoice_date": fields.Date.today(),
                 "move_type": "in_invoice",
                 "journal_id": cls.journal_purchase.id,
             }
@@ -191,6 +192,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
                 "partner_id": self.supplier.id,
                 "journal_id": self.journal_purchase.id,
                 "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
                 "company_id": self.company.id,
                 "payment_mode_id": self.env.ref(
                     "account_payment_mode.payment_mode_outbound_ct1"
@@ -257,6 +259,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.supplier.id,
                 "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
                 "company_id": self.company.id,
             }
         )
@@ -293,6 +296,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
                 {
                     "partner_id": self.supplier.id,
                     "move_type": "in_invoice",
+                    "invoice_date": fields.Date.today(),
                     "company_id": self.company.id,
                     "payment_mode_id": self.supplier_payment_mode_c2.id,
                 }
@@ -303,6 +307,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.supplier.id,
                 "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
                 "company_id": self.company.id,
             }
         )
@@ -386,7 +391,11 @@ class TestAccountPaymentPartner(common.SavepointCase):
         vals = {"partner_id": False, "move_type": "out_invoice"}
         invoice = self.move_model.new(vals)
         self.assertFalse(invoice.payment_mode_id)
-        vals = {"partner_id": False, "move_type": "in_invoice"}
+        vals = {
+            "partner_id": False,
+            "move_type": "in_invoice",
+            "invoice_date": fields.Date.today(),
+        }
         invoice = self.move_model.new(vals)
         self.assertFalse(invoice.partner_bank_id)
 
@@ -422,6 +431,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
             {
                 "partner_id": self.supplier.id,
                 "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
                 "journal_id": self.journal_purchase.id,
             }
         )
