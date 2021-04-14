@@ -3,6 +3,8 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
+from freezegun import freeze_time
+
 from odoo import fields
 from odoo.tests import common
 from odoo.tests.common import Form
@@ -56,6 +58,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
             }
         )
 
+    @freeze_time("2020-10-21 10:00:00")
     def test_global(self):
         self.invoice.action_post()
         wizard_o = self.env["account.payment.line.create"]
