@@ -4,6 +4,7 @@
 
 from datetime import date, datetime, timedelta
 
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -48,6 +49,7 @@ class TestPaymentOrderOutbound(TransactionCase):
                 "payment_mode_id": self.env.ref(
                     "account_payment_mode.payment_mode_outbound_ct1"
                 ).id,
+                "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
                     (
                         0,
