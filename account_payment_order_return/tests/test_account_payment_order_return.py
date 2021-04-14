@@ -90,7 +90,8 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
             )
         )
         self.payment = payment_register.save()._create_payments()
-        self.payment.action_post()
+        if self.payment.state != "posted":
+            self.payment.action_post()
         wizard.populate()
         # Create payment return
         payment_return_form = Form(self.env["payment.return"])
