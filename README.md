@@ -38,7 +38,7 @@ addon | version | summary
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 13.0.1.0.0 | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 13.0.1.0.2 | Create SEPA files for Direct Debit
 [account_payment_mode](account_payment_mode/) | 13.0.1.2.0 | Account Payment Mode
-[account_payment_order](account_payment_order/) | 13.0.1.4.3 | Account Payment Order
+[account_payment_order](account_payment_order/) | 13.0.1.4.4 | Account Payment Order
 [account_payment_order_return](account_payment_order_return/) | 13.0.1.0.2 | Account Payment Order Return
 [account_payment_partner](account_payment_partner/) | 13.0.1.0.3 | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 13.0.1.0.0 | Adds Bank Account and Payment Mode on Purchase Orders
