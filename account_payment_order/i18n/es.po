@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-05 10:20+0000\n"
-"PO-Revision-Date: 2021-01-05 11:24+0100\n"
-"Last-Translator: Carlos <carlos.roca@tecnativa.com>\n"
+"PO-Revision-Date: 2021-04-18 16:46+0000\n"
+"Last-Translator: Nelson Ramírez Sánchez <info@konos.cl>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -168,9 +168,8 @@ msgstr "Cualquiera"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_attachment_count
-#, fuzzy
 msgid "Attachment Count"
-msgstr "Adjuntos"
+msgstr "Recuento Adjuntos"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
@@ -378,7 +377,6 @@ msgstr "Moneda de la transacción de pago"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
-#, fuzzy
 msgid "Debit Order"
 msgstr "Órdenes de cobro"
 
@@ -549,9 +547,8 @@ msgstr "Libre"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__none
-#, fuzzy
 msgid "Free Reference"
-msgstr "Referencia de pago"
+msgstr "Referencia Libre"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
@@ -662,9 +659,8 @@ msgstr "Entrante"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
-#, fuzzy
 msgid "Inbound Payment Order Only"
-msgstr "Orden de Pago correcta"
+msgstr "Solo Orden de Pago Entrante"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -678,9 +674,8 @@ msgstr "Es un seguidor"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
-#, fuzzy
 msgid "Journal"
-msgstr "Diario de banco"
+msgstr "Diario de Banco"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__move_ids
@@ -689,10 +684,8 @@ msgstr "Asientos contables"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
-#, fuzzy
-#| msgid "Journal Entries"
 msgid "Journal Entry"
-msgstr "Asientos contables"
+msgstr "Asiento Contable"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move_line
@@ -722,9 +715,8 @@ msgstr "Dejar vacío para usar todos los diarios"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
-#, fuzzy
 msgid "Keep empty to use all partners"
-msgstr "Dejar vacío para usar todos los diarios"
+msgstr "Mantener vacío para usar todos los contactos"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__communication
@@ -779,9 +771,8 @@ msgstr "Vinculado a una factura o factura rectificativa"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_main_attachment_id
-#, fuzzy
 msgid "Main Attachment"
-msgstr "Adjuntos"
+msgstr "Adjunto Principal"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error
@@ -876,9 +867,8 @@ msgstr "Número"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction_counter
-#, fuzzy
 msgid "Number of Actions"
-msgstr "Número de líneas bancarias"
+msgstr "Número de Acciones"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_line_count
@@ -887,9 +877,8 @@ msgstr "Número de líneas bancarias"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error_counter
-#, fuzzy
 msgid "Number of errors"
-msgstr "Número de líneas bancarias"
+msgstr "Número de errores"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
@@ -903,9 +892,8 @@ msgstr "Número de mensajes con error de envío"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread_counter
-#, fuzzy
 msgid "Number of unread messages"
-msgstr "Número de líneas bancarias"
+msgstr "Número de mensajes sin leer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__offsetting_account
@@ -968,9 +956,8 @@ msgstr "Un asiento por línea de pago"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
-#, fuzzy
 msgid "Only for payment orders"
-msgstr "Opciones para las órdenes"
+msgstr "Solo para órdenes de pago"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
@@ -990,9 +977,8 @@ msgstr "Saliente"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
-#, fuzzy
 msgid "Outbound Payment Order Only"
-msgstr "Orden de Pago correcta"
+msgstr "Solo Orden de Pago saliente"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_id
@@ -1010,9 +996,8 @@ msgstr "Cuenta bancaria"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__partner_ids
-#, fuzzy
 msgid "Partners"
-msgstr "Empresa"
+msgstr "Contactos"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_account_id
@@ -1062,9 +1047,8 @@ msgstr "Método de pago"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
-#, fuzzy
 msgid "Payment Methods"
-msgstr "Método de pago"
+msgstr "Métodos de Pago"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__payment_mode
@@ -1155,9 +1139,8 @@ msgstr "Publicar movimiento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__reference_type
-#, fuzzy
 msgid "Reference Type"
-msgstr "Referencia de pago"
+msgstr "Tipo de Referencia"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
@@ -1278,9 +1261,9 @@ msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
-#, fuzzy, python-format
+#, python-format
 msgid "The invoice %s is not in Posted state"
-msgstr "La factura %s no está en estado abierta"
+msgstr "La factura %s no está en estado registrado"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
