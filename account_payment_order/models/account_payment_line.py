@@ -107,6 +107,8 @@ class AccountPaymentLine(models.Model):
                     line.company_id,
                     line.date or fields.Date.today(),
                 )
+            else:
+                line.amount_company_currency = 0
 
     def payment_line_hashcode(self):
         self.ensure_one()
