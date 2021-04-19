@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-18 16:46+0000\n"
+"PO-Revision-Date: 2021-04-19 14:46+0000\n"
 "Last-Translator: Nelson Ramírez Sánchez <info@konos.cl>\n"
 "Language-Team: none\n"
 "Language: es_CL\n"
@@ -21,7 +21,7 @@ msgstr ""
 #, python-format
 msgid "%d payment lines added to the existing draft payment order %s."
 msgstr ""
-"%d líneas de pago agregadas al borrador de la orden de pago existente %s."
+"%d líneas de pago agregadas al borrador del pago de nómina existente %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -30,7 +30,7 @@ msgid ""
 "%d payment lines added to the new draft payment order %s which has been "
 "automatically created."
 msgstr ""
-"%d líneas de pago agregadas al nuevo borrador de la orden de pago %s que se "
+"%d líneas de pago agregadas al nuevo borrador del pago de nómina %s que se "
 "ha creado automáticamente."
 
 #. module: account_payment_order
@@ -115,12 +115,12 @@ msgstr "Agregar a la orden de débito"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Add to Payment Order"
-msgstr "Agregar a la orden de pago"
+msgstr "Agregar al pago de nómina"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_invoice_create_account_payment_line_action
 msgid "Add to Payment/Debit Order"
-msgstr "Agregar a la orden de pago / débito"
+msgstr "Agregar al pago de nómina / débito"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__target_move__all
@@ -256,7 +256,7 @@ msgid ""
 "Cannot delete a payment order line whose payment order is in state '%s'. You"
 " need to cancel it first."
 msgstr ""
-"No se puede eliminar una línea de orden de pago cuya orden de pago está en "
+"No se puede eliminar una línea de orden de pago cuyo pago de nómina está en "
 "el estado  '%s'. Primero debes cancelarlo."
 
 #. module: account_payment_order
@@ -538,7 +538,7 @@ msgstr ""
 "modos de pago que no siempre están vinculados a la misma cuenta bancaria ("
 "como débito directo SEPA para clientes, transferencia bancaria a proveedores)"
 ", debe seleccionar 'Variable', lo que significa que seleccionará la cuenta "
-"bancaria en la orden de pago. Si su empresa solo tiene una cuenta bancaria, "
+"bancaria en el pago de nómina. Si su empresa solo tiene una cuenta bancaria, "
 "siempre debe seleccionar 'Fijo'."
 
 #. module: account_payment_order
@@ -580,7 +580,7 @@ msgstr "Agrupar por"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__group_lines
 msgid "Group Transactions in Payment Orders"
-msgstr "Transacciones grupales en órdenes de pago"
+msgstr "Transacciones grupales en Pago de Nómina"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__id
@@ -623,8 +623,8 @@ msgid ""
 "(other modules can set additional fields to restrict the grouping.)"
 msgstr ""
 "Si se marca esta, las líneas de transacción de la orden de pago se agruparán "
-"tras la confirmación de la orden de pago. La agrupación se realizará solo si "
-"los siguientes campos coinciden:\n"
+"tras la confirmación de la pago de nómina. La agrupación se realizará solo "
+"si los siguientes campos coinciden:\n"
 "* Pareja\n"
 "* Divisa\n"
 "* Cuenta bancaria de destino\n"
@@ -659,7 +659,7 @@ msgstr "Entrante"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
 msgid "Inbound Payment Order Only"
-msgstr "Solo orden de pago entrante"
+msgstr "Solo pago de nómina entrante"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -698,7 +698,7 @@ msgid ""
 "Journal to write payment entries when confirming payment/debit orders of "
 "this mode"
 msgstr ""
-"Diario para escribir entradas de pago al confirmar órdenes de pago / débito "
+"Diario para escribir entradas de pago al confirmar pagos de nómina / débito "
 "de este modo"
 
 #. module: account_payment_order
@@ -787,7 +787,7 @@ msgstr "Mensajes"
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
-msgstr "Falta el diario de banco en la orden de pago %s."
+msgstr "Falta el diario de banco el pago de nómina %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_line.py:0
@@ -904,7 +904,7 @@ msgstr "Cuenta de compensación"
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
-"En la orden de pago %s, la Fecha de ejecución del pago es anterior a (%s)."
+"En el pago de nómina %s, la Fecha de ejecución del pago es anterior a (%s)."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:0
@@ -959,12 +959,12 @@ msgstr "Un movimiento por línea de pago"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
 msgid "Only for payment orders"
-msgstr "Solo para órdenes de pago"
+msgstr "Solo para pago de nómina"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Options for Payment Orders"
-msgstr "Opciones para órdenes de pago"
+msgstr "Opciones para pagos de nómina"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__order_id
@@ -980,7 +980,7 @@ msgstr "Saliente"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
 msgid "Outbound Payment Order Only"
-msgstr "Solo orden de pago saliente"
+msgstr "Solo pagos de nómina saliente"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_id
@@ -1007,7 +1007,7 @@ msgid ""
 "Pay off lines in 'file uploaded' payment orders with a move on this account."
 " You can only select accounts that are marked for reconciliation"
 msgstr ""
-"Pague las líneas en las órdenes de pago \"cargadas de archivos\" con un "
+"Pague las líneas en los pagos de nómina \"cargadas de archivos\" con un "
 "movimiento en esta cuenta. Solo puede seleccionar cuentas que están marcadas "
 "para conciliación"
 
@@ -1080,14 +1080,14 @@ msgstr "Modos de pago"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order"
-msgstr "Orden de Pago"
+msgstr "Pago de Nómina"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_order_ok
 msgid "Payment Order Ok"
-msgstr "Orden de Pago Ok"
+msgstr "Pago de Nómina Ok"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -1096,7 +1096,7 @@ msgstr "Orden de Pago Ok"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Orders"
-msgstr "Ordenes de Pago"
+msgstr "Pagos de Nómina"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__name
@@ -1126,7 +1126,7 @@ msgstr "Líneas de pago"
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
-msgstr "Orden de pago %s"
+msgstr "Pago de Nómina %s"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
@@ -1179,7 +1179,7 @@ msgstr "Buscar líneas de pago bancarias"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Search Payment Orders"
-msgstr "Buscar órdenes de pago"
+msgstr "Buscar Pagos de Nómina"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:0
@@ -1205,7 +1205,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__payment_order_ok
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_search
 msgid "Selectable in Payment Orders"
-msgstr "Seleccionable en Órdenes de Pago"
+msgstr "Seleccionable en Pagos de Nómina"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -1239,7 +1239,7 @@ msgstr "Movimientos de destino"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "Technical model for printing payment order"
-msgstr "Modelo técnico para imprimir orden de pago"
+msgstr "Modelo técnico para imprimir pago de nómina"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
@@ -1258,9 +1258,9 @@ msgid ""
 msgstr ""
 "Las líneas de pago bancarias se utilizan para generar el archivo de pago. Se "
 "crean automáticamente a partir de las líneas de transacción tras la "
-"confirmación de la orden de pago: una línea de pago bancaria puede agrupar "
-"varias líneas de transacción si la opción 'Transacciones de grupo en órdenes "
-"de pago' está activa en el modo de pago."
+"confirmación del pago de nómina: una línea de pago bancaria puede agrupar "
+"varias líneas de transacción si la opción 'Transacciones de grupo en Pagos "
+"de nómina' está activa en el modo de pago."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -1293,7 +1293,7 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There are no transactions on payment order %s."
-msgstr "No hay transacciones en la orden de pago %s."
+msgstr "No hay transacciones en el pago de nómina %s."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
@@ -1310,7 +1310,7 @@ msgid ""
 "This option helps enforcing the use of payment orders for some payment "
 "methods."
 msgstr ""
-"Esta opción ayuda a hacer cumplir el uso de órdenes de pago para algunos "
+"Esta opción ayuda a hacer cumplir el uso de pagos de nómina para algunos "
 "métodos de pago."
 
 #. module: account_payment_order
@@ -1413,7 +1413,7 @@ msgid ""
 "You cannot delete an uploaded payment order. You can cancel it in order to "
 "do so."
 msgstr ""
-"No puede eliminar una orden de pago cargada. Puede cancelarlo para poder "
+"No puede eliminar un pago de nómina cargada. Puede cancelarlo para poder "
 "hacerlo."
 
 #. module: account_payment_order
@@ -1422,8 +1422,8 @@ msgid ""
 "if there are existing draft payment orders for the payment modes of the "
 "invoices, the payment lines will be added to those payment orders"
 msgstr ""
-"si existen órdenes de pago en borrador existentes para los modos de pago de "
-"las facturas, las líneas de pago se agregarán a esas órdenes de pago"
+"si existen pagos de nómina en borrador existentes para los modos de pago de "
+"las facturas, las líneas de pago se agregarán a esos pagos de nómina"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
@@ -1434,4 +1434,4 @@ msgstr "en"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
-"de lo contrario, se crearán nuevas órdenes de pago (una por modo de pago)."
+"de lo contrario, se crearán nuevos pagos de nómina (una por modo de pago)."
