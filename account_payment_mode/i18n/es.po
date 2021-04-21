@@ -45,14 +45,15 @@ msgid "Allowed Bank Journals"
 msgstr "Diarios de banco permitidos"
 
 #. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Archived"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__bank_account_required
 msgid "Bank Account Required"
 msgstr "Cuenta bancaria requerida"
-
-#. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_partner_bank_tree
-msgid "Bank Account Type"
-msgstr "Tipo de cuenta bancaria"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
@@ -96,6 +97,8 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr "Adeudo directo de proveedores de Société Générale"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
@@ -109,18 +112,6 @@ msgstr "Fijo"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__fixed_journal_id
 msgid "Fixed Bank Journal"
 msgstr "Diario de banco fijo"
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid "For Incoming Payments"
-msgstr "Para pagos recibidos"
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid "For Outgoing Payments"
-msgstr "Para pagos efectuados"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__bank_account_link
@@ -149,6 +140,8 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
 msgstr "ID"
@@ -170,11 +163,18 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr "Transf. entrante Société Générale"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
+msgid "Inbound Payment Methods"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr "Diario"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal____last_update
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
@@ -195,7 +195,6 @@ msgid "Link to Bank Account"
 msgstr "Enlazado a la cuenta bancaria"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid ""
 "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
@@ -218,7 +217,6 @@ msgstr ""
 "lotes. Habilite esta opción desde la configuración."
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid ""
 "Manual:Pay bill by cash or any other method outside of Odoo.\n"
@@ -286,6 +284,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
 msgstr "Saliente"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
+msgid "Outbound Payment Methods"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
@@ -358,21 +361,9 @@ msgstr ""
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with the company of "
-"journal '%s'."
+"The company of the payment mode '%s', does not match with one of the Allowed "
+"Bank Journals."
 msgstr ""
-"La compañía del modo de pago '%s' no corresponde con la compañía del diario "
-"'%s'."
-
-#. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"The company of the payment mode '%s', does not match with the one of the "
-"Allowed Bank Journals."
-msgstr ""
-"La compañía del modo de pago '%s' no corresponde con la compañía de los "
-"diarios de banco permitidos."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
@@ -390,6 +381,29 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variable"
+
+#~ msgid "Bank Account Type"
+#~ msgstr "Tipo de cuenta bancaria"
+
+#~ msgid "For Incoming Payments"
+#~ msgstr "Para pagos recibidos"
+
+#~ msgid "For Outgoing Payments"
+#~ msgstr "Para pagos efectuados"
+
+#~ msgid ""
+#~ "The company of the payment mode '%s', does not match with the company of "
+#~ "journal '%s'."
+#~ msgstr ""
+#~ "La compañía del modo de pago '%s' no corresponde con la compañía del "
+#~ "diario '%s'."
+
+#~ msgid ""
+#~ "The company of the payment mode '%s', does not match with the one of the "
+#~ "Allowed Bank Journals."
+#~ msgstr ""
+#~ "La compañía del modo de pago '%s' no corresponde con la compañía de los "
+#~ "diarios de banco permitidos."
 
 #~ msgid "Payment Method Code"
 #~ msgstr "Código del método de pago"
