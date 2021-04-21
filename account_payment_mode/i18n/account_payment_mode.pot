@@ -313,16 +313,8 @@ msgstr ""
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with the company of "
-"journal '%s'."
-msgstr ""
-
-#. module: account_payment_mode
-#: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"The company of the payment mode '%s', does not match with the one of the "
-"Allowed Bank Journals."
+"The company of the payment mode '%s', does not match with one of the Allowed"
+" Bank Journals."
 msgstr ""
 
 #. module: account_payment_mode
