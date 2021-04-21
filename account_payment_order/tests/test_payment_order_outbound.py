@@ -140,6 +140,7 @@ class TestPaymentOrderOutbound(TransactionCase):
         order.draft2open()
         order.open2generated()
         order.generated2uploaded()
+        self.assertEqual(order.move_ids[0].date, order.bank_line_ids[0].date)
         order.action_done()
         self.assertEqual(order.state, "done")
 
