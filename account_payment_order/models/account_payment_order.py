@@ -420,6 +420,7 @@ class AccountPaymentOrder(models.Model):
         return True
 
     def _prepare_move(self, bank_lines=None):
+        move_date = False
         if self.payment_type == "outbound":
             ref = _("Payment order %s") % self.name
         else:
@@ -428,6 +429,8 @@ class AccountPaymentOrder(models.Model):
             ref += " - " + bank_lines.name
         if self.payment_mode_id.offsetting_account == "bank_account":
             journal_id = self.journal_id.id
+            if bank_lines:
+                move_date = bank_lines[0].date
         elif self.payment_mode_id.offsetting_account == "transfer_account":
             journal_id = self.payment_mode_id.transfer_journal_id.id
         vals = {
@@ -436,6 +439,8 @@ class AccountPaymentOrder(models.Model):
             "payment_order_id": self.id,
             "line_ids": [],
         }
+        if move_date:
+            vals.update({"date": move_date})
         total_company_currency = total_payment_currency = 0
         for bline in bank_lines:
             total_company_currency += bline.amount_company_currency
