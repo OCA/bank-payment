@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2021-04-17 15:46+0000\n"
+"PO-Revision-Date: 2021-04-22 18:47+0000\n"
 "Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
@@ -27,7 +27,7 @@ msgstr "# tekens"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_chars
 msgid "# of digits for customer bank account"
-msgstr ""
+msgstr "# tekens voor de bankrekening van de klant"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
@@ -58,6 +58,9 @@ msgid ""
 "account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
 "Partner bank account number."
 msgstr ""
+"Bankrekeningnummer waarop de factuur zal worden betaald. Een "
+"bedrijfsbankrekening als dit een klantfactuur of een creditfactuur van een "
+"leverancier betreft, anders een bankrekeningnummer van een relatie."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__bank_account_required
@@ -98,7 +101,7 @@ msgstr "Eerste aantal tekens"
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__full
 msgid "Full"
-msgstr ""
+msgstr "Volledig"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
@@ -179,7 +182,7 @@ msgstr "Betalingen"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
 msgid "Recipient Bank"
-msgstr ""
+msgstr "Ontvangende bank"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
@@ -196,17 +199,17 @@ msgstr "Selecteer de standaard betaalwijze voor deze leverancier."
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show bank account"
-msgstr ""
+msgstr "Toon bankrekening"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
 msgid "Show bank account in invoice report"
-msgstr ""
+msgstr "Bankrekening weergeven op de factuur"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show in invoices partial or full bank account number"
-msgstr ""
+msgstr "Toon op facturen een gedeeltelijk of volledig bankrekeningnummer"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
@@ -221,6 +224,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+"U kunt het bedrijf niet wijzigen. Er bestaat minstens één boeking met deze "
+"betalingwijze, al toegewezen aan een ander bedrijf."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
@@ -229,6 +234,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
+"U kunt het bedrijf niet wijzigen. Er bestaat ten minste één dagboek item met "
+"deze betalingsmodus, al toegewezen aan een ander bedrijf."
 
 #, fuzzy
 #~ msgid "Bank Account"
