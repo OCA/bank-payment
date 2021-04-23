@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-04 15:36+0000\n"
-"PO-Revision-Date: 2021-04-17 15:46+0000\n"
+"PO-Revision-Date: 2021-04-23 18:47+0000\n"
 "Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
@@ -167,15 +167,15 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
 "order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
 "been marked as uploaded."
 msgstr ""
-"Automatish gewisseld van <b>Eerste</b> naar <b>Herhaalde</b> betaalopdracht "
-"wanneer <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> "
-"is gemarkeerd als ge-upload."
+"Automatisch omgeschakeld van <b>First</b> naar <b>Recurring</b> wanneer de "
+"incasso opdracht <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%d>%s</a> is gemarkeerd als geüpload."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -376,7 +376,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
 msgid "Print"
-msgstr ""
+msgstr "Print"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__recurrent
@@ -551,17 +551,12 @@ msgstr "pain.008.003.02 (automatische incasso in Duitsland)"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
-#, fuzzy
 msgid ""
 "to send instructions to your bank to debit your account and (B) your bank "
 "to\n"
 "                       debit your account in accordance with the "
 "instructions from"
 msgstr ""
-"om opdrachten te verzenden naar uw bank om automatische incassos uit te "
-"voeren vanaf uw rekening en (B) your bank to\n"
-"                       debit your account in accordance with the "
-"instructions from"
 
 #, fuzzy
 #~ msgid "Basic Mandate"
