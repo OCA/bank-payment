@@ -252,8 +252,8 @@ msgstr "Cancelar pagos"
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
 msgid ""
-"Cannot delete a payment order line whose payment order is in state '%s'. You"
-" need to cancel it first."
+"Cannot delete a payment order line whose payment order is in state '%s'. You "
+"need to cancel it first."
 msgstr ""
 "No se puede eliminar una línea de una orden de pago cuyo estado es '%s'. "
 "Primero debes cancelarla."
@@ -266,9 +266,9 @@ msgstr "Escoja las opciones de filtro de apuntes"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid ""
-"Click on Add All Move Lines to auto-select the move lines matching the above"
-" criteria or click on Add an item to manually select the move lines filtered"
-" by the above criteria."
+"Click on Add All Move Lines to auto-select the move lines matching the above "
+"criteria or click on Add an item to manually select the move lines filtered "
+"by the above criteria."
 msgstr ""
 "Pulse en \"Añadir todos los apuntes\" para auto-seleccionar los apuntes que "
 "casen con los criterios de arriba o pulse en \"Añadir un elemento\" para "
@@ -390,7 +390,6 @@ msgid "Debit bank line %s"
 msgstr "Línea de adeudo de banco %s"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Debit order %s"
@@ -597,7 +596,9 @@ msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__group_lines
 msgid ""
-"If this mark is checked, the transaction lines of the payment order will be grouped upon confirmation of the payment order.The grouping will be done only if the following fields matches:\n"
+"If this mark is checked, the transaction lines of the payment order will be "
+"grouped upon confirmation of the payment order.The grouping will be done "
+"only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -892,8 +893,7 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', you must select a value for the 'Transfer "
-"Account'."
+"On the payment mode '%s', you must select a value for the 'Transfer Account'."
 msgstr ""
 "En el modo de pago '%s', debe seleccionar un valor para la 'Cuenta de "
 "transferencia'."
@@ -902,8 +902,7 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', you must select a value for the 'Transfer "
-"Journal'."
+"On the payment mode '%s', you must select a value for the 'Transfer Journal'."
 msgstr ""
 "En el modo de pago '%s', debe seleccionar un valor para el 'Diario de "
 "transferencia'."
@@ -977,8 +976,8 @@ msgstr "Socios"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_account_id
 msgid ""
-"Pay off lines in 'file uploaded' payment orders with a move on this account."
-" You can only select accounts that are marked for reconciliation"
+"Pay off lines in 'file uploaded' payment orders with a move on this account. "
+"You can only select accounts that are marked for reconciliation"
 msgstr ""
 "Las líneas de pago de la orden se conciliarán en la 'subida de archivo' con "
 "un apunte a esta cuenta. Sólo puede seleccionar las cuentas que están "
@@ -1091,7 +1090,6 @@ msgid "Payment lines"
 msgstr "Líneas de pago"
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
