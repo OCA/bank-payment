@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-09 14:56+0000\n"
-"PO-Revision-Date: 2021-04-19 19:46+0000\n"
+"PO-Revision-Date: 2021-04-23 18:47+0000\n"
 "Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
@@ -207,7 +207,7 @@ msgstr "Vervallen"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__valid_mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_users__valid_mandate_id
 msgid "First Valid Mandate"
-msgstr ""
+msgstr "Eerste geldig Mandaat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_follower_ids
@@ -476,6 +476,7 @@ msgstr "Status"
 #, python-format
 msgid "The company of the mandate %s differs from the company of partner %s."
 msgstr ""
+"Het bedrijf van de mandaat %s verschilt van het bedrijf van de relatie %s."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -488,7 +489,7 @@ msgstr "De datum van de handtekening van mandaat '%s' is in de toekomts!"
 #, python-format
 msgid ""
 "The invoice %s has a different company than that of the linked mandate %s)."
-msgstr ""
+msgstr "De factuur %s is van een andere bedrijf dan de gekoppelde mandaat %s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_move_line.py:0
@@ -497,6 +498,8 @@ msgid ""
 "The item %s of journal %s has a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"De item %s van dagboek %s is van een andere bedrijf dan gekoppelde mandaat "
+"%s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -515,6 +518,8 @@ msgid ""
 "The payment line number %s a different company than that of the linked "
 "mandate %s)."
 msgstr ""
+"De betalingsregelnummer %s is van een andere bedrijf dan de gekoppelde "
+"mandaat %s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
@@ -580,6 +585,8 @@ msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
 "referencing it that belong to another company."
 msgstr ""
+"U kunt het bedrijf van de relatiebank %s niet wijzigingen, omdat er mandaten "
+"bestaan die ernaar verwijzen en die tot een ander bedrijf behoren."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -588,6 +595,9 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists bank payment "
 "lines referencing it that belong to another company."
 msgstr ""
+"U kunt het bedrijf van mandaat %s niet wijzigen, omdat er "
+"bankbetalingsregels bestaan die verwijzen naar het bedrijf dat tot een ander "
+"bedrijf behoort."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -596,6 +606,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists invoices "
 "referencing it that belong to another company."
 msgstr ""
+"U kunt het bedrijf van mandaat %s niet wijzigen, omdat er facturen bestaan "
+"die ernaar verwijzen en die tot een ander bedrijf behoren."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -604,6 +616,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists journal items "
 "referencing it that belong to another company."
 msgstr ""
+"U kunt het bedrijf van mandaat %s niet wijzigen, omdat er boekingsregels "
+"naar verwijzen die van een ander bedrijf zijn."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
@@ -612,6 +626,8 @@ msgid ""
 "You cannot change the company of mandate %s, as there exists payment lines "
 "referencing it that belong to another company."
 msgstr ""
+"U kunt het bedrijf van mandaat %s niet wijzigen, omdat er betalingsregels "
+"bestaan die verwijzen naar het bedrijf dat tot een ander bedrijf behoort."
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
