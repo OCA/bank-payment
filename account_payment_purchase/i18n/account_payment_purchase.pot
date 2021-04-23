@@ -38,11 +38,13 @@ msgstr ""
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr ""
 
 #. module: account_payment_purchase
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
@@ -54,6 +56,8 @@ msgid "Supplier Bank Account"
 msgstr ""
 
 #. module: account_payment_purchase
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#: code:addons/account_payment_purchase/models/account_invoice.py:0
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #: code:addons/account_payment_purchase/models/account_invoice.py:0
 #, python-format
