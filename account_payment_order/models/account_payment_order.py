@@ -293,16 +293,7 @@ class AccountPaymentOrder(models.Model):
             group_paylines = {}  # key = hashcode
             for payline in order.payment_line_ids:
                 payline.draft2open_payment_line_check()
-                # Compute requested payment date
-                if order.date_prefered == "due":
-                    requested_date = payline.ml_maturity_date or payline.date or today
-                elif order.date_prefered == "fixed":
-                    requested_date = order.date_scheduled or today
-                else:
-                    requested_date = today
-                # No payment date in the past
-                if requested_date < today:
-                    requested_date = today
+                requested_date = payline.get_requested_date(today)
                 # inbound: check option no_debit_before_maturity
                 if (
                     order.payment_type == "inbound"
