@@ -12,6 +12,7 @@ from odoo.addons.account_payment_purchase.tests.test_account_payment_purchase im
 
 class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
     def test_purchase_stock_order_invoicing(self):
+        self.purchase.onchange_partner_id()
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
@@ -65,7 +66,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
             {"name": "Test stockable product", "type": "product"}
         )
         self.purchase.order_line[0].product_id = stockable_product
-        self.purchase.payment_mode_id = False
         self.purchase.supplier_partner_bank_id = self.bank
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
