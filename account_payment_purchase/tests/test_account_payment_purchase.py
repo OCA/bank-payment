@@ -13,14 +13,20 @@ class TestAccountPaymentPurchase(SavepointCase):
         cls.journal = cls.env["account.journal"].create(
             {"name": "Test journal", "code": "TEST", "type": "general"}
         )
+        cls.payment_method_out = cls.env["account.payment.method"].create(
+            {
+                "name": "Test payment method",
+                "code": "test",
+                "payment_type": "outbound",
+                "bank_account_required": True,
+            }
+        )
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
                 "fixed_journal_id": cls.journal.id,
                 "bank_account_link": "variable",
-                "payment_method_id": cls.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
+                "payment_method_id": cls.payment_method_out.id,
             }
         )
         cls.partner = cls.env["res.partner"].create(
@@ -75,6 +81,7 @@ class TestAccountPaymentPurchase(SavepointCase):
         self.assertEqual(self.purchase.payment_mode_id, self.payment_mode)
 
     def test_purchase_order_invoicing(self):
+        self.purchase.onchange_partner_id()
         self.purchase.button_confirm()
 
         invoice = self.env["account.move"].create(
@@ -113,10 +120,8 @@ class TestAccountPaymentPurchase(SavepointCase):
         # Test partner_bank
         product = self.env["product.product"].create({"name": "Test product"})
         self.purchase.order_line[0].product_id = product
-        self.purchase.payment_mode_id = False
         self.purchase.supplier_partner_bank_id = self.bank
         self.purchase.button_confirm()
-
         invoice = self.env["account.move"].create(
             {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
