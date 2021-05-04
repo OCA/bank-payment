@@ -1,5 +1,6 @@
 # Copyright 2014-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
@@ -57,14 +58,26 @@ class AccountMove(models.Model):
         for move in self:
             move.payment_mode_id = False
             if move.partner_id:
-                if move.move_type == "in_invoice":
-                    move.payment_mode_id = move.with_company(
-                        move.company_id.id
-                    ).partner_id.supplier_payment_mode_id
-                elif move.move_type == "out_invoice":
-                    move.payment_mode_id = move.with_company(
-                        move.company_id.id
-                    ).partner_id.customer_payment_mode_id
+                partner = move.with_context(force_company=move.company_id.id).partner_id
+                if move.type == "in_invoice":
+                    move.payment_mode_id = partner.supplier_payment_mode_id
+                elif move.type == "out_invoice":
+                    move.payment_mode_id = partner.customer_payment_mode_id
+                elif (
+                    move.type in ["out_refund", "in_refund"] and move.reversed_entry_id
+                ):
+                    move.payment_mode_id = (
+                        move.reversed_entry_id.payment_mode_id.refund_payment_mode_id
+                    )
+                elif not move.reversed_entry_id:
+                    if move.type == "out_refund":
+                        move.payment_mode_id = (
+                            partner.customer_payment_mode_id.refund_payment_mode_id
+                        )
+                    elif move.type == "in_refund":
+                        move.payment_mode_id = (
+                            partner.supplier_payment_mode_id.refund_payment_mode_id
+                        )
 
     @api.depends("partner_id", "payment_mode_id")
     def _compute_partner_bank(self):
@@ -90,15 +103,11 @@ class AccountMove(models.Model):
                         bank_id = get_bank_id()
             move.partner_bank_id = bank_id
 
-    # I think copying payment mode from invoice to refund by default
-    # is a good idea because the most common way of "paying" a refund is to
-    # deduct it on the payment of the next invoice (and OCA/bank-payment
-    # allows to have negative payment lines since March 2016)
     def _reverse_move_vals(self, default_values, cancel=True):
         move_vals = super()._reverse_move_vals(default_values, cancel=cancel)
-        move_vals["payment_mode_id"] = self.payment_mode_id.id
-        if self.move_type == "in_invoice":
-            move_vals["partner_bank_id"] = self.partner_bank_id.id
+        move_vals["payment_mode_id"] = self.payment_mode_id.refund_payment_mode_id.id
+        if self.type == "in_invoice":
+            move_vals["invoice_partner_bank_id"] = self.invoice_partner_bank_id.id
         return move_vals
 
     def partner_banks_to_show(self):
