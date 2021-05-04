@@ -6,6 +6,9 @@
         <field name="model">account.payment.mode</field>
         <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
         <field name="arch" type="xml">
+            <field name="variable_journal_ids" position="before">
+                <field name="refund_payment_mode_id" />
+            </field>
             <group name="note" position="before">
                 <group string="Show bank account in invoice report">
                     <group>

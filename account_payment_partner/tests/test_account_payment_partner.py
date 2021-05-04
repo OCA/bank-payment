@@ -1,12 +1,13 @@
 # Copyright 2017 ForgeFlow S.L.
+# Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import _, fields
-from odoo.exceptions import UserError, ValidationError
-from odoo.tests import common
+from odoo.exceptions import ValidationError
+from odoo.tests.common import Form, SavepointCase
 
 
-class TestAccountPaymentPartner(common.SavepointCase):
+class TestAccountPaymentPartner(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -20,6 +21,7 @@ class TestAccountPaymentPartner(common.SavepointCase):
         # Refs
         cls.company = cls.env.ref("base.main_company")
         cls.acct_type_payable = cls.env.ref("account.data_account_type_payable")
+        cls.acct_type_receivable = cls.env.ref("account.data_account_type_receivable")
         cls.acct_type_expenses = cls.env.ref("account.data_account_type_expenses")
 
         cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
@@ -106,8 +108,12 @@ class TestAccountPaymentPartner(common.SavepointCase):
                 "payment_method_id": cls.manual_in.id,
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
+                "refund_payment_mode_id": cls.supplier_payment_mode.id,
                 "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
             }
+        )
+        cls.supplier_payment_mode.write(
+            {"refund_payment_mode_id": cls.customer_payment_mode.id}
         )
 
         cls.customer = (
@@ -186,33 +192,18 @@ class TestAccountPaymentPartner(common.SavepointCase):
             }
         )
 
-    def _create_invoice(self):
-        invoice = self.move_model.create(
-            {
-                "partner_id": self.supplier.id,
-                "journal_id": self.journal_purchase.id,
-                "move_type": "in_invoice",
-                "invoice_date": fields.Date.today(),
-                "company_id": self.company.id,
-                "payment_mode_id": self.env.ref(
-                    "account_payment_mode.payment_mode_outbound_ct1"
-                ).id,
-                "invoice_line_ids": [
-                    (
-                        0,
-                        None,
-                        {
-                            "product_id": self.env.ref("product.product_product_4").id,
-                            "quantity": 1.0,
-                            "price_unit": 100.0,
-                            "name": "product that cost 100",
-                            "account_id": self.invoice_line_account.id,
-                        },
-                    )
-                ],
-            }
+    def _create_invoice(self, default_type, partner):
+        move_form = Form(
+            self.env["account.move"].with_context(default_type=default_type)
         )
-        return invoice
+        move_form.partner_id = partner
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.env.ref("product.product_product_4")
+            line_form.name = "product that cost 100"
+            line_form.quantity = 1.0
+            line_form.price_unit = 100.0
+            line_form.account_id = self.invoice_line_account
+        return move_form.save()
 
     def test_create_partner(self):
         customer = (
@@ -282,13 +273,41 @@ class TestAccountPaymentPartner(common.SavepointCase):
         self.assertEqual(invoice.payment_mode_id, self.payment_mode_model)
         self.assertEqual(invoice.partner_bank_id, self.partner_bank_model)
 
-    def test_invoice_create(self):
-        invoice = self._create_invoice()
+    def test_invoice_create_in_invoice(self):
+        invoice = self._create_invoice(default_type="in_invoice", partner=self.supplier)
         invoice.action_post()
         aml = invoice.line_ids.filtered(
             lambda l: l.account_id.user_type_id == self.acct_type_payable
         )
         self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
+
+    def test_invoice_create_out_invoice(self):
+        invoice = self._create_invoice(
+            default_type="out_invoice", partner=self.customer
+        )
+        invoice.action_post()
+        aml = invoice.line_ids.filtered(
+            lambda l: l.account_id.user_type_id == self.acct_type_receivable
+        )
+        self.assertEquals(invoice.payment_mode_id, aml[0].payment_mode_id)
+
+    def test_invoice_create_out_refund(self):
+        self.manual_out.bank_account_required = False
+        invoice = self._create_invoice(default_type="out_refund", partner=self.customer)
+        invoice.action_post()
+        self.assertEquals(
+            invoice.payment_mode_id,
+            self.customer.customer_payment_mode_id.refund_payment_mode_id,
+        )
+
+    def test_invoice_create_in_refund(self):
+        self.manual_in.bank_account_required = False
+        invoice = self._create_invoice(default_type="in_refund", partner=self.supplier)
+        invoice.action_post()
+        self.assertEquals(
+            invoice.payment_mode_id,
+            self.supplier.supplier_payment_mode_id.refund_payment_mode_id,
+        )
 
     def test_invoice_constrains(self):
         with self.assertRaises(UserError):
@@ -351,9 +370,39 @@ class TestAccountPaymentPartner(common.SavepointCase):
         with self.assertRaises(UserError):
             self.supplier_payment_mode.company_id = self.company_2
 
-    def test_invoice_refund(self):
-        invoice = self._create_invoice()
-        invoice.partner_bank_id = False
+    def test_invoice_in_refund(self):
+        invoice = self._create_invoice(default_type="in_invoice", partner=self.supplier)
+        invoice.invoice_partner_bank_id = False
+        invoice.action_post()
+        # Lets create a refund invoice for invoice_1.
+        # I refund the invoice Using Refund Button.
+        refund_invoice_wizard = (
+            self.env["account.move.reversal"]
+            .with_context(
+                {
+                    "active_ids": [invoice.id],
+                    "active_id": invoice.id,
+                    "active_model": "account.move",
+                }
+            )
+            .create({"refund_method": "refund", "reason": "reason test create"})
+        )
+        refund_invoice = self.move_model.browse(
+            refund_invoice_wizard.reverse_moves()["res_id"]
+        )
+        self.assertEquals(
+            refund_invoice.payment_mode_id,
+            invoice.payment_mode_id.refund_payment_mode_id,
+        )
+        self.assertEquals(
+            refund_invoice.invoice_partner_bank_id, invoice.invoice_partner_bank_id
+        )
+
+    def test_invoice_out_refund(self):
+        invoice = self._create_invoice(
+            default_type="out_invoice", partner=self.customer
+        )
+        invoice.invoice_partner_bank_id = False
         invoice.action_post()
         # Lets create a refund invoice for invoice_1.
         # I refund the invoice Using Refund Button.
@@ -372,8 +421,13 @@ class TestAccountPaymentPartner(common.SavepointCase):
             refund_invoice_wizard.reverse_moves()["res_id"]
         )
 
-        self.assertEqual(refund_invoice.payment_mode_id, invoice.payment_mode_id)
-        self.assertEqual(refund_invoice.partner_bank_id, invoice.partner_bank_id)
+        self.assertEquals(
+            refund_invoice.payment_mode_id,
+            invoice.payment_mode_id.refund_payment_mode_id,
+        )
+        self.assertEquals(
+            refund_invoice.invoice_partner_bank_id, invoice.invoice_partner_bank_id
+        )
 
     def test_partner(self):
         self.customer.write({"customer_payment_mode_id": self.customer_payment_mode.id})
@@ -387,17 +441,27 @@ class TestAccountPaymentPartner(common.SavepointCase):
         )
         self.assertEqual(customer_invoice.payment_mode_id, self.customer_payment_mode)
 
-        self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
-        vals = {"partner_id": False, "move_type": "out_invoice"}
+        self.assertEqual(
+            self.supplier_invoice.invoice_partner_bank_id, self.supplier_bank
+        )
+        vals = {"partner_id": self.customer.id, "type": "out_refund"}
+        invoice = self.move_model.new(vals)
+        self.assertEquals(invoice.payment_mode_id, self.supplier_payment_mode)
+        vals = {"partner_id": self.supplier.id, "type": "in_refund"}
+        invoice = self.move_model.new(vals)
+        self.assertEquals(invoice.payment_mode_id, self.customer_payment_mode)
+        vals = {"partner_id": False, "type": "out_invoice"}
         invoice = self.move_model.new(vals)
         self.assertFalse(invoice.payment_mode_id)
-        vals = {
-            "partner_id": False,
-            "move_type": "in_invoice",
-            "invoice_date": fields.Date.today(),
-        }
+        vals = {"partner_id": False, "type": "out_refund"}
         invoice = self.move_model.new(vals)
-        self.assertFalse(invoice.partner_bank_id)
+        self.assertFalse(invoice.invoice_partner_bank_id)
+        vals = {"partner_id": False, "type": "in_invoice"}
+        invoice = self.move_model.new(vals)
+        self.assertFalse(invoice.invoice_partner_bank_id)
+        vals = {"partner_id": False, "type": "in_refund"}
+        invoice = self.move_model.new(vals)
+        self.assertFalse(invoice.invoice_partner_bank_id)
 
     def test_onchange_payment_mode_id(self):
         mode = self.supplier_payment_mode
