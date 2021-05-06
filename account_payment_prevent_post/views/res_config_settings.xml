@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_prevent_post" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.prevent.post</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//div[@id='pay_invoice_online_setting_container']"
+                position="inside"
+            >
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="account_prevent_payment_entry_post"
+                    groups="account.group_account_user"
+                >
+                    <div class="o_setting_left_pane">
+                        <field
+                            name="account_prevent_payment_entry_post"
+                            widget="upgrade_boolean"
+                        />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label
+                            for="account_prevent_payment_entry_post"
+                            string="Prevent payment entry post"
+                        />
+                        <div class="text-muted">
+                            Prevent entry post on Register payment
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='bank_cash']" position="inside">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="account_prevent_bank_st_entry_post"
+                    groups="account.group_account_user"
+                >
+                    <div class="o_setting_left_pane">
+                        <field
+                            name="account_prevent_bank_st_entry_post"
+                            widget="upgrade_boolean"
+                        />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label
+                            for="account_prevent_bank_st_entry_post"
+                            string="Prevent bank statement entry post"
+                        />
+                        <div class="text-muted">
+                            Prevent entry post on bank statement post
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
