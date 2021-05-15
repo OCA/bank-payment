@@ -222,6 +222,7 @@ msgstr "Ostala plaćanja"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:451
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:479
 #, fuzzy, python-format
 msgid "Creditor name"
 msgstr "Ostala plaćanja"
@@ -248,6 +249,7 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:453
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:481
 #, python-format
 msgid "Debtor name"
 msgstr ""
@@ -612,6 +614,7 @@ msgstr "PAIN verzija"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:449
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:477
 #, python-format
 msgid "Partner name"
 msgstr ""
