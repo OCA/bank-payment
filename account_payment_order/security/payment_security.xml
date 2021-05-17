@@ -7,7 +7,7 @@
                 name="users"
                 eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
             />
-            <field name="category_id" ref="base.module_category_extra" />
+            <field name="category_id" ref="base.module_category_usability" />
         </record>
     </data>
     <data noupdate="1">
