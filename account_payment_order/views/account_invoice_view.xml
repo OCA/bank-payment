@@ -42,11 +42,10 @@
             <field name="payment_mode_id" position="after">
                 <field name="payment_order_ok" invisible="1" />
             </field>
-            <field name="ref" position="before">
+            <field name="ref" position="after">
                 <field
                     name="reference_type"
                     required="1"
-                    nolabel="1"
                     attrs="{'readonly':[('state','!=','draft')],
                                'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
                 />
