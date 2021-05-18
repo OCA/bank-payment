@@ -25,8 +25,10 @@ Account Invoice Select for Payment
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module allows to mark invoices as "selected for payment". This can be done in the list view of invoices using a button in the first column of the view which shows the selection status. This selection persists until a payment is registered.
-
+This module allows to mark invoices as "selected for payment". This can be done
+in the list view of invoices using a button in the first column of the view
+which shows the selection status. This selection persists until a payment is
+registered.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
