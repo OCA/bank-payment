@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo13-addon-account_banking_pain_base',
         'odoo13-addon-account_banking_sepa_credit_transfer',
         'odoo13-addon-account_banking_sepa_direct_debit',
+        'odoo13-addon-account_invoice_select_for_payment',
         'odoo13-addon-account_payment_mode',
         'odoo13-addon-account_payment_order',
         'odoo13-addon-account_payment_order_return',
