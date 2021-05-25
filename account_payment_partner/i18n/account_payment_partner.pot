@@ -106,6 +106,7 @@ msgstr ""
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
 #, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr ""
@@ -130,6 +131,11 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
 msgid "Payment Modes"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
 msgstr ""
 
 #. module: account_payment_partner
@@ -172,12 +178,21 @@ msgstr ""
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_move.py:0
+#: code:addons/account_payment_partner/models/account_move.py:0
 #, python-format
 msgid ""
 "The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
 
 #. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -186,6 +201,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
