@@ -58,23 +58,24 @@ class AccountMove(models.Model):
         for move in self:
             move.payment_mode_id = False
             if move.partner_id:
-                partner = move.with_context(force_company=move.company_id.id).partner_id
-                if move.type == "in_invoice":
+                partner = move.with_company(move.company_id.id).partner_id
+                if move.move_type == "in_invoice":
                     move.payment_mode_id = partner.supplier_payment_mode_id
-                elif move.type == "out_invoice":
+                elif move.move_type == "out_invoice":
                     move.payment_mode_id = partner.customer_payment_mode_id
                 elif (
-                    move.type in ["out_refund", "in_refund"] and move.reversed_entry_id
+                    move.move_type in ["out_refund", "in_refund"]
+                    and move.reversed_entry_id
                 ):
                     move.payment_mode_id = (
                         move.reversed_entry_id.payment_mode_id.refund_payment_mode_id
                     )
                 elif not move.reversed_entry_id:
-                    if move.type == "out_refund":
+                    if move.move_type == "out_refund":
                         move.payment_mode_id = (
                             partner.customer_payment_mode_id.refund_payment_mode_id
                         )
-                    elif move.type == "in_refund":
+                    elif move.move_type == "in_refund":
                         move.payment_mode_id = (
                             partner.supplier_payment_mode_id.refund_payment_mode_id
                         )
@@ -106,8 +107,8 @@ class AccountMove(models.Model):
     def _reverse_move_vals(self, default_values, cancel=True):
         move_vals = super()._reverse_move_vals(default_values, cancel=cancel)
         move_vals["payment_mode_id"] = self.payment_mode_id.refund_payment_mode_id.id
-        if self.type == "in_invoice":
-            move_vals["invoice_partner_bank_id"] = self.invoice_partner_bank_id.id
+        if self.move_type == "in_invoice":
+            move_vals["partner_bank_id"] = self.partner_bank_id.id
         return move_vals
 
     def partner_banks_to_show(self):
