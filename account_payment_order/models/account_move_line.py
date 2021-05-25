@@ -87,6 +87,7 @@ class AccountMoveLine(models.Model):
             "communication_type": communication_type,
             "currency_id": currency_id,
             "amount_currency": amount_currency,
+            "date": False,
             # date is set when the user confirms the payment order
         }
         return vals
