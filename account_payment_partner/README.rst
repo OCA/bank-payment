@@ -104,8 +104,9 @@ Contributors
 * Angel Moya <angel.moya@domatix.com>
 * `Tecnativa <https://www.tecnativa.com>`_:
 
-  * Pedro M. Baeza <pedro.baeza@tecnativa.com>
-  * Carlos Dauden <carlos.dauden@tecnativa.com>
+  * Pedro M. Baeza
+  * Carlos Dauden
+  * Víctor Martínez
 * `DynApps <https://www.dynapps.be>`_:
 
   * Raf Ven <raf.ven@dynapps.be>
