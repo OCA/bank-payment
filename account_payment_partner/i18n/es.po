@@ -232,8 +232,8 @@ msgid ""
 "This payment mode will be used when doing refunds coming from the current "
 "payment mode."
 msgstr ""
-"Este modo de pago se utilizará cuando se realicen facturas rectificativas provenientes "
-"del modo de pago actual."
+"Este modo de pago se utilizará cuando se realicen facturas rectificativas "
+"provenientes del modo de pago actual."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
