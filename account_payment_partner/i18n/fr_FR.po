@@ -171,6 +171,11 @@ msgid "Payment Modes"
 msgstr "Mode de paiement"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
+msgstr ""
+
+#. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Règlements"
@@ -215,6 +220,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Mode de règlement fournisseur"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
