@@ -299,7 +299,7 @@ class AccountPaymentOrder(models.Model):
                 payline.draft2open_payment_line_check()
                 # Compute requested payment date
                 if order.date_prefered == "due":
-                    requested_date = payline.ml_maturity_date or today
+                    requested_date = payline.ml_maturity_date or payline.date or today
                 elif order.date_prefered == "fixed":
                     requested_date = order.date_scheduled or today
                 else:
