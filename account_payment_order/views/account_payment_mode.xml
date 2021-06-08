@@ -39,21 +39,6 @@
                 >
                     <field name="generate_move" />
                     <field
-                        name="offsetting_account"
-                        widget="radio"
-                        attrs="{'required': [('generate_move', '=', True)], 'invisible': [('generate_move', '=', False)]}"
-                    />
-                    <field
-                        name="transfer_account_id"
-                        attrs="{'invisible': [('offsetting_account', '!=', 'transfer_account')], 'required': [('offsetting_account', '=', 'transfer_account')]}"
-                        context="{'default_reconcile': True, 'default_company_id': company_id}"
-                    />
-                    <!-- We can't put a default vue to user_type_id... -->
-                    <field
-                        name="transfer_journal_id"
-                        attrs="{'invisible': [('offsetting_account', '!=', 'transfer_account')], 'required': [('offsetting_account', '=', 'transfer_account')]}"
-                    />
-                    <field
                         name="move_option"
                         attrs="{'invisible': [('generate_move', '=', False)], 'required': [('generate_move', '=', True)]}"
                     />
