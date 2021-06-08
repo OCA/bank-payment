@@ -21,5 +21,19 @@
                 />
             </field>
         </field>
-    </record>
+</record>
+    <record id="account_payment_order_tree" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.order.tree</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_tree"
+        />
+        <field name="arch" type="xml">
+                <field name="description" position="after">
+                        <field name="sepa" optional="hide" />
+            </field>
+        </field>
+</record>
+
 </odoo>
