@@ -42,7 +42,7 @@
             <field name="payment_mode_id" position="after">
                 <field name="payment_order_ok" invisible="1" />
             </field>
-            <field name="ref" position="after">
+            <field name="payment_reference" position="before">
                 <field
                     name="reference_type"
                     required="1"
@@ -51,7 +51,7 @@
                 />
             </field>
         </field>
-    </record>
+</record>
     <record
         id="account_invoice_create_account_payment_line_action"
         model="ir.actions.act_window"
@@ -62,4 +62,21 @@
         <field name="target">new</field>
         <field name="binding_model_id" ref="account.model_account_move" />
     </record>
+
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account_payment_order.view_invoice_tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+                <button name="action_register_payment" position="after">
+                    <button
+                    name="%(account_invoice_create_account_payment_line_action)d"
+                    type="action"
+                    string="Add to Payment/Debit Order"
+                    groups="account_payment_order.group_account_payment"
+                    invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')"
+                />
+            </button>
+        </field>
+</record>
 </odoo>
