@@ -1,7 +1,6 @@
 # © 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -48,37 +47,6 @@ class TestPaymentMode(TransactionCase):
             }
         )
 
-    def test_constrains(self):
-        with self.assertRaises(ValidationError):
-            self.payment_mode_c1.write(
-                {"generate_move": True, "offsetting_account": False}
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_c1.write(
-                {
-                    "generate_move": True,
-                    "offsetting_account": "bank_account",
-                    "move_option": False,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_c1.write(
-                {
-                    "generate_move": True,
-                    "offsetting_account": "transfer_account",
-                    "transfer_account_id": False,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_c1.write(
-                {
-                    "generate_move": True,
-                    "offsetting_account": "transfer_account",
-                    "transfer_account_id": self.account.id,
-                    "transfer_journal_id": False,
-                }
-            )
-
     def test_onchange_generate_move(self):
         self.payment_mode_c1.generate_move = True
         self.payment_mode_c1.generate_move_change()
@@ -86,11 +54,6 @@ class TestPaymentMode(TransactionCase):
         self.payment_mode_c1.generate_move = False
         self.payment_mode_c1.generate_move_change()
         self.assertFalse(self.payment_mode_c1.move_option)
-
-    def test_onchange_offsetting_account(self):
-        self.payment_mode_c1.offsetting_account = "bank_account"
-        self.payment_mode_c1.offsetting_account_change()
-        self.assertFalse(self.payment_mode_c1.transfer_account_id)
 
     def test_onchange_payment_type(self):
         self.payment_mode_c1.payment_method_id = self.manual_in
