@@ -75,27 +75,6 @@ class AccountPaymentMode(models.Model):
     generate_move = fields.Boolean(
         string="Generate Accounting Entries On File Upload", default=True
     )
-    offsetting_account = fields.Selection(
-        selection=[
-            ("bank_account", "Bank Account"),
-            ("transfer_account", "Transfer Account"),
-        ],
-        default="bank_account",
-    )
-    transfer_account_id = fields.Many2one(
-        comodel_name="account.account",
-        domain=[("reconcile", "=", True)],
-        help="Pay off lines in 'file uploaded' payment orders with a move on "
-        "this account. You can only select accounts "
-        "that are marked for reconciliation",
-        check_company=True,
-    )
-    transfer_journal_id = fields.Many2one(
-        comodel_name="account.journal",
-        help="Journal to write payment entries when confirming "
-        "payment/debit orders of this mode",
-        check_company=True,
-    )
     move_option = fields.Selection(
         selection=[
             ("date", "One move per payment date"),
@@ -105,50 +84,17 @@ class AccountPaymentMode(models.Model):
     )
     post_move = fields.Boolean(default=True)
 
-    @api.constrains(
-        "generate_move",
-        "offsetting_account",
-        "transfer_account_id",
-        "transfer_journal_id",
-        "move_option",
-    )
+    @api.constrains("generate_move", "move_option")
     def transfer_move_constrains(self):
         for mode in self:
-            if mode.generate_move:
-                if not mode.offsetting_account:
-                    raise ValidationError(
-                        _(
-                            "On the payment mode '%s', you must select an "
-                            "option for the 'Offsetting Account' parameter"
-                        )
-                        % mode.name
+            if mode.generate_move and not mode.move_option:
+                raise ValidationError(
+                    _(
+                        "On the payment mode '%s', you must "
+                        "choose an option for the 'Move Option' parameter."
                     )
-                elif mode.offsetting_account == "transfer_account":
-                    if not mode.transfer_account_id:
-                        raise ValidationError(
-                            _(
-                                "On the payment mode '%s', you must "
-                                "select a value for the 'Transfer Account'."
-                            )
-                            % mode.name
-                        )
-                    if not mode.transfer_journal_id:
-                        raise ValidationError(
-                            _(
-                                "On the payment mode '%s', you must "
-                                "select a value for the 'Transfer Journal'."
-                            )
-                            % mode.name
-                        )
-                if not mode.move_option:
-                    raise ValidationError(
-                        _(
-                            "On the payment mode '%s', you must "
-                            "choose an option for the 'Move Option' "
-                            "parameter."
-                        )
-                        % mode.name
-                    )
+                    % mode.name
+                )
 
     @api.onchange("payment_method_id")
     def payment_method_id_change(self):
@@ -175,16 +121,6 @@ class AccountPaymentMode(models.Model):
     def generate_move_change(self):
         if self.generate_move:
             # default values
-            self.offsetting_account = "bank_account"
             self.move_option = "date"
         else:
-            self.offsetting_account = False
-            self.transfer_account_id = False
-            self.transfer_journal_id = False
             self.move_option = False
-
-    @api.onchange("offsetting_account")
-    def offsetting_account_change(self):
-        if self.offsetting_account == "bank_account":
-            self.transfer_account_id = False
-            self.transfer_journal_id = False
