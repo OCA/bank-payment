@@ -68,7 +68,7 @@ class AccountPaymentLine(models.Model):
     )
     date = fields.Date(string="Payment Date")
     communication = fields.Char(
-        required=True, help="Label of the payment that will be seen by the destinee"
+        required=False, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
         selection=[("normal", "Free")], required=True, default="normal"
