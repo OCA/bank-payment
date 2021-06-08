@@ -49,8 +49,8 @@
                 <field name="partner_bank_id" />
                 <field name="date" />
                 <field name="amount_currency" sum="Total Amount" />
-                <field name="currency_id" />
-                <field name="name" />
+                <field name="currency_id" invisible="1" />
+                <field name="name" optional="show" />
                 <field
                     name="company_id"
                     groups="base.group_multi_company"
