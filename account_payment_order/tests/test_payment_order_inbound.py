@@ -115,7 +115,7 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
 
         with self.assertRaises(UserError):
             bank_line.unlink()
-        payment_order.action_done_cancel()
+        payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
         payment_order.unlink()

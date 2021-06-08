@@ -48,8 +48,8 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
                 ).id,
             }
         )
-        cls.invoice = cls._create_supplier_invoice(cls)
-        cls.invoice_02 = cls._create_supplier_invoice(cls)
+        cls.invoice = cls._create_supplier_invoice(cls, "F1242")
+        cls.invoice_02 = cls._create_supplier_invoice(cls, "F1243")
         cls.bank_journal = cls.company_data["default_journal_bank"]
         # Make sure no other payment orders are in the DB
         cls.domain = [
@@ -59,11 +59,12 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
         ]
         cls.env["account.payment.order"].search(cls.domain).unlink()
 
-    def _create_supplier_invoice(self):
+    def _create_supplier_invoice(self, ref):
         invoice = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
                 "move_type": "in_invoice",
+                "ref": ref,
                 "payment_mode_id": self.mode.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
@@ -157,8 +158,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
         order.open2generated()
         order.generated2uploaded()
         self.assertEqual(order.move_ids[0].date, order.bank_line_ids[0].date)
-        order.action_done()
-        self.assertEqual(order.state, "done")
+        self.assertEqual(order.state, "uploaded")
 
     def test_cancel_payment_order(self):
         # Open invoice
@@ -193,7 +193,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
 
         with self.assertRaises(UserError):
             bank_line.unlink()
-        payment_order.action_done_cancel()
+        payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
         payment_order.unlink()

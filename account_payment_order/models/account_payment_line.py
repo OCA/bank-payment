@@ -68,7 +68,7 @@ class AccountPaymentLine(models.Model):
     )
     date = fields.Date(string="Payment Date")
     communication = fields.Char(
-        required=True, help="Label of the payment that will be seen by the destinee"
+        required=False, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
         selection=[("normal", "Free")], required=True, default="normal"
@@ -162,3 +162,5 @@ class AccountPaymentLine(models.Model):
             raise UserError(
                 _("Missing Partner Bank Account on payment line %s") % self.name
             )
+        if not self.communication:
+            raise UserError(_("Communication is empty on payment line %s.") % self.name)

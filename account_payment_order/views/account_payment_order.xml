@@ -47,29 +47,31 @@
                         string="Cancel Payments"
                     />
                     <button
-                        name="action_done_cancel"
+                        name="action_uploaded_cancel"
                         type="object"
                         states="uploaded"
                         string="Cancel Payments"
                     />
-                    <field name="state" widget="statusbar" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,open,generated,uploaded"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
                             class="oe_stat_button"
-                            name="action_bank_payment_line"
-                            string="Bank Payment Lines"
-                            type="object"
-                            icon="fa-bars"
-                        />
-                        <button
-                            class="oe_stat_button"
                             name="action_move_journal_line"
-                            string="Transfer Journal Entries"
                             type="object"
                             icon="fa-bars"
-                        />
+                        >
+                                <field
+                                string="Journal Entries"
+                                name="move_count"
+                                widget="statinfo"
+                            />
+                </button>
                     </div>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" />
@@ -82,12 +84,10 @@
                             <field
                                 name="payment_mode_id"
                                 domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
-                                widget="selection"
                             />
                             <field name="allowed_journal_ids" invisible="1" />
                             <field
                                 name="journal_id"
-                                widget="selection"
                                 domain="[('id', 'in', allowed_journal_ids)]"
                             />
                             <field name="bank_account_link" invisible="1" />
@@ -97,7 +97,10 @@
                                 groups="base.group_multi_company"
                             />
                             <field name="payment_type" invisible="0" />
-                            <field name="bank_line_count" />
+                            <field
+                                name="bank_line_count"
+                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                            />
                         </group>
                         <group name="head-right">
                             <field name="date_prefered" />
@@ -118,6 +121,13 @@
                                 context="{'default_payment_type': payment_type}"
                             />
                         </page>
+                        <page
+                            name="bank-lines"
+                            string="Bank Transactions"
+                            attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                        >
+                            <field name="bank_line_ids" edit="0" create="0" />
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -131,22 +141,29 @@
         <field name="name">account.payment.order.tree</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <tree
-                string="Payment Orders"
-                decoration-info="state=='draft'"
-                decoration-success="state=='generated'"
-                decoration-danger="state=='open'"
-                decoration-muted="state=='cancel'"
-            >
-                <field name="name" />
+            <tree string="Payment Orders">
+                <field name="name" decoration-bf="1" />
                 <field name="payment_mode_id" />
                 <field name="journal_id" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="date_uploaded" />
-                <field name="description" />
+                <field name="description" optional="show" />
+                <field
+                    name="bank_line_count"
+                    optional="hide"
+                    string="Bank Transactions"
+                />
                 <field name="total_company_currency" sum="Total Company Currency" />
                 <field name="company_currency_id" invisible="1" />
-                <field name="state" />
+                <field
+                    name="state"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'uploaded'"
+                    decoration-warning="state == 'open'"
+                    decoration-danger="state == 'generated'"
+                    decoration-muted="state == 'cancel'"
+                    widget="badge"
+                />
             </tree>
         </field>
     </record>
