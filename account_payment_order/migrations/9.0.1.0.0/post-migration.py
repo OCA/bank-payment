@@ -17,7 +17,7 @@ def map_payment_type(cr):
     openupgrade.map_values(
         cr,
         openupgrade.get_legacy_name('state'), 'state',
-        [('done', 'uploaded'), ('sent', 'generated')],
+        [('sent', 'uploaded')],
         table='account_payment_order', write='sql')
     # Populate these missing related fields
     openupgrade.logged_query(

@@ -49,6 +49,7 @@ class AccountPaymentOrder(models.Model):
         ('open', 'Confirmed'),
         ('generated', 'File Generated'),
         ('uploaded', 'File Uploaded'),
+        ('done', 'Done'),
         ('cancel', 'Cancel'),
         ], string='Status', readonly=True, copy=False, default='draft',
         track_visibility='onchange')
