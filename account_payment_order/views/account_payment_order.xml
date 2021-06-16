@@ -47,7 +47,7 @@
                         string="Cancel Payments"
                     />
                     <button
-                        name="action_done_cancel"
+                        name="action_uploaded_cancel"
                         type="object"
                         states="uploaded"
                         string="Cancel Payments"
@@ -55,7 +55,7 @@
                     <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="draft,open,generated,uploaded,done"
+                        statusbar_visible="draft,open,generated,uploaded"
                     />
                 </header>
                 <sheet>
@@ -158,7 +158,7 @@
                 <field
                     name="state"
                     decoration-info="state == 'draft'"
-                    decoration-success="state in ('uploaded', 'done')"
+                    decoration-success="state == 'uploaded'"
                     decoration-warning="state == 'open'"
                     decoration-danger="state == 'generated'"
                     decoration-muted="state == 'cancel'"
