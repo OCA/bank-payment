@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="sepa_direct_debit_mandate_document">
-        <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
+        <t
+            t-set="doc"
+            t-value="doc.with_context({'lang':doc.partner_id.lang or doc.company_id.partner_id.lang or doc.env.user.lang})"
+        />
         <t
             t-set="is_not_english"
             t-value="doc.partner_id.lang and doc.partner_id.lang[:2] != 'en'"
@@ -380,7 +383,7 @@
                 <t t-call="web.basic_layout">
                     <t
                         t-call="account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document"
-                        t-lang="doc.partner_id.lang"
+                        t-lang="doc.partner_id.lang or doc.company_id.partner_id.lang or doc.env.user.lang"
                     />
                 </t>
             </t>
