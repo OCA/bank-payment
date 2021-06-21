@@ -22,9 +22,12 @@ def migrate(cr, version):
     cr.execute(
         """
         UPDATE account_move am
-        SET mandate_id = aml.mandate_id
+        SET mandate_id = subquery.mandate_id
+        FROM
+        (SELECT DISTINCT aml.move_id, aml.mandate_id
         FROM account_move_line aml
         WHERE aml.mandate_id IS NOT NULL
-            AND am.mandate_id IS NULL
+        ORDER BY move_id ASC) subquery
+        WHERE subquery.move_id = am.id
         """
     )
