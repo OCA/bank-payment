@@ -26,7 +26,8 @@ class AccountMoveLine(models.Model):
     )
 
     @api.onchange('partner_id')
-    def empty_partner_bank(self):
+    def _onchange_partner_id(self):
+        """Empty partner bank for avoiding inconsistencies."""
         self.partner_bank_id = None
 
     @api.multi
