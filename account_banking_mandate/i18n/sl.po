@@ -498,7 +498,6 @@ msgstr "Račun %s vsebuje drugačno družbo kot je na povezanem mandatu %s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_move_line.py:42
-#: code:addons/account_banking_mandate/models/account_move_line.py:46
 #, python-format
 msgid ""
 "The item %s of journal %s has a different company than that of the linked "
