@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -24,17 +23,19 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp.osv import fields, orm
 
 
 class payment_mode(orm.Model):
     _inherit = "payment.mode"
 
     _columns = {
-        'payment_term_ids': fields.many2many(
-            'account.payment.term', 'account_payment_order_terms_rel',
-            'mode_id', 'term_id', 'Payment terms',
-            help=('Limit selected invoices to invoices with these payment '
-                  'terms')
-            ),
-        }
+        "payment_term_ids": fields.many2many(
+            "account.payment.term",
+            "account_payment_order_terms_rel",
+            "mode_id",
+            "term_id",
+            "Payment terms",
+            help=("Limit selected invoices to invoices with these payment " "terms"),
+        ),
+    }

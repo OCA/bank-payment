@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2009 EduSense BV (<http://www.edusense.nl>).
@@ -25,18 +24,14 @@
 ##############################################################################
 
 {
-    'name': 'Account Banking - Payments Term Filter',
-    'version': '8.0.0.1.2',
-    'license': 'AGPL-3',
-    'author': "Banking addons community,Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/banking',
-    'category': 'Banking addons',
-    'depends': [
-        'account_banking_payment_export',
-    ],
-    'data': [
-        'views/payment_mode.xml',
-    ],
-    'auto_install': False,
-    'installable': False,
+    "name": "Account Banking - Payments Term Filter",
+    "version": "8.0.0.1.2",
+    "license": "AGPL-3",
+    "author": "Banking addons community,Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/bank-payment",
+    "category": "Banking addons",
+    "depends": ["account_banking_payment_export",],
+    "data": ["views/payment_mode.xml",],
+    "auto_install": False,
+    "installable": False,
 }
