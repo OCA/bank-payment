@@ -12,8 +12,8 @@ msgstr ""
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
 "PO-Revision-Date: 2021-03-04 13:45+0000\n"
 "Last-Translator: alvarorib <alvaro.ribeiro@exo.pt>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/oca/"
-"OCA-bank-payment-10-0/language/pt_PT/)\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/oca/OCA-bank-"
+"payment-10-0/language/pt_PT/)\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,8 @@ msgstr ""
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
 msgid "A Mandate with the same reference already exists for this company!"
-msgstr "Já existe um Mandato Bancário com a mesma referência para esta empresa!"
+msgstr ""
+"Já existe um Mandato Bancário com a mesma referência para esta empresa!"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_banking_mandate
@@ -500,6 +501,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
+#: code:addons/account_banking_mandate/models/account_move_line.py:42
 #: code:addons/account_banking_mandate/models/account_move_line.py:46
 #, python-format
 msgid ""

@@ -11,8 +11,8 @@ msgstr ""
 "POT-Creation-Date: 2018-03-09 14:56+0000\n"
 "PO-Revision-Date: 2020-06-06 06:19+0000\n"
 "Last-Translator: Fernando Colus <fcolus1@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
-"23907/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
+"teams/23907/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -500,6 +500,7 @@ msgstr ""
 "%s."
 
 #. module: account_banking_mandate
+#: code:addons/account_banking_mandate/models/account_move_line.py:42
 #: code:addons/account_banking_mandate/models/account_move_line.py:46
 #, python-format
 msgid ""
