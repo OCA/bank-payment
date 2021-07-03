@@ -116,7 +116,11 @@ class AccountPaymentOrder(models.Model):
             sepa = True
             if order.company_partner_bank_id.acc_type != "iban":
                 sepa = False
-            if order.company_partner_bank_id and order.company_partner_bank_id.sanitized_acc_number[:2] not in sepa_list:
+            if (
+                order.company_partner_bank_id
+                and order.company_partner_bank_id.sanitized_acc_number[:2]
+                not in sepa_list
+            ):
                 sepa = False
             for pline in order.payment_line_ids:
                 if pline.currency_id != eur:
@@ -125,7 +129,10 @@ class AccountPaymentOrder(models.Model):
                 if pline.partner_bank_id.acc_type != "iban":
                     sepa = False
                     break
-                if pline.partner_bank_id and pline.partner_bank_id.sanitized_acc_number[:2] not in sepa_list:
+                if (
+                    pline.partner_bank_id
+                    and pline.partner_bank_id.sanitized_acc_number[:2] not in sepa_list
+                ):
                     sepa = False
                     break
             sepa = order.compute_sepa_final_hook(sepa)
