@@ -21,6 +21,7 @@ class AccountPaymentOrderReport(models.AbstractModel):
             'data': data,
             'env': self.env,
             'get_bank_account_name': self.get_bank_account_name,
+            'get_invoice_ref': self.get_invoice_ref,
             'formatLang': formatLang,
         }
         return self.env['report'].render(
@@ -46,3 +47,9 @@ class AccountPaymentOrderReport(models.AbstractModel):
             return name
         else:
             return False
+
+    @api.model
+    def get_invoice_ref(self, line):
+        value = (line.move_line_id.invoice_id.number or
+                 line.move_line_id.move_id.name)
+        return value or ''
