@@ -56,7 +56,7 @@
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
             <field name="amount_residual_signed" position="after">
-                <field name="payment_mode_id" />
+                <field name="payment_mode_id" optional="hide" />
             </field>
         </field>
     </record>
