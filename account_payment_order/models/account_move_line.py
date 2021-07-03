@@ -25,6 +25,11 @@ class AccountMoveLine(models.Model):
         string="Payment lines",
     )
 
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        """Empty partner bank for avoiding inconsistencies."""
+        self.partner_bank_id = None
+
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
