@@ -8,7 +8,7 @@
 
 {
     'name': 'Account Payment Order',
-    'version': '12.0.1.6.2',
+    'version': '12.0.1.6.3',
     'license': 'AGPL-3',
     'author': "ACSONE SA/NV, "
               "Therp BV, "
