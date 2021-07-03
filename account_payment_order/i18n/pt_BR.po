@@ -959,6 +959,11 @@ msgid "Payments"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+msgid "Payments Done"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_post_move
 msgid "Post Move"
 msgstr ""
