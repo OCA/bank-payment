@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo12-addon-account_payment_order_return',
         'odoo12-addon-account_payment_partner',
         'odoo12-addon-account_payment_purchase',
+        'odoo12-addon-account_payment_repair',
         'odoo12-addon-account_payment_sale',
     ],
     classifiers=[
