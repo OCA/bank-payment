@@ -49,6 +49,9 @@ class AccountMove(models.Model):
         # in account_payment_order.py
         return vals
 
+    def get_account_payment_domain(self, payment_mode):
+        return [("payment_mode_id", "=", payment_mode.id), ("state", "=", "draft")]
+
     def create_account_payment_line(self):
         apoo = self.env["account.payment.order"]
         result_payorder_ids = []
@@ -81,11 +84,7 @@ class AccountMove(models.Model):
                 raise UserError(_("No Payment Mode on invoice %s") % move.name)
             for payment_mode in payment_modes:
                 payorder = apoo.search(
-                    [
-                        ("payment_mode_id", "=", payment_mode.id),
-                        ("state", "=", "draft"),
-                    ],
-                    limit=1,
+                    self.get_account_payment_domain(payment_mode), limit=1
                 )
                 new_payorder = False
                 if not payorder:
