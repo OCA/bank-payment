@@ -1,0 +1,31 @@
+<odoo>
+    <record id="account_invoice_payment_line_multi_form_inherit" model="ir.ui.view">
+        <field name="name">account_invoice_payment_line_multi.form.inherit</field>
+        <field name="model">account.invoice.payment.line.multi</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_invoice_payment_line_multi_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//form/ul" position="after">
+                <field name="draft_orders" invisible="1" />
+                <field name="info_message" readonly="1" />
+            </xpath>
+            <xpath expr="//footer/button[@name='run']" position="attributes">
+                <attribute name="string">Link to Draft Order(s)</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('draft_orders', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//footer/button[@name='run']" position="before">
+                <button
+                    name="create_new_orders"
+                    type="object"
+                    string="Create"
+                    class="oe_highlight"
+                    context="{'is_new_order':True}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
