@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_account_payment_partner_inherit" model="ir.ui.view">
+            <field name="name">account.payment.mode.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_payment_partner.view_move_form" />
+            <field name="arch" type="xml">
+                <field name="payment_mode_filter_type_domain" position="after">
+                    <field name="alllow_payment_mode_id_filter_domain" invisible="1" />
+                </field>
+                <field name="payment_mode_id" position="attributes">
+                    <attribute
+                        name="domain"
+                    >[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id),('id', 'in', alllow_payment_mode_id_filter_domain)]</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

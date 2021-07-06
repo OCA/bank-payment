@@ -1,2 +1,3 @@
-from . import payment_mode
-from . import payment_order_create
+from . import account_move
+from . import account_payment_mode
+from . import account_payment_term

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_account_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.mode.form.inherit</field>
+            <field name="model">account.payment.mode</field>
+            <field
+                name="inherit_id"
+                ref="account_payment_mode.account_payment_mode_form"
+            />
+            <field name="arch" type="xml">
+                <field name="variable_journal_ids" position="after">
+                    <field name="payment_term_ids" widget="many2many_tags" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
