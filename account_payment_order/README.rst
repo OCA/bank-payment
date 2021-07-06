@@ -110,6 +110,10 @@ Contributors
   * Carlos Dauden
   * Carlos Roca
 
+* `Open Source Integrators <https://www.opensourceintegrators.com>`_:
+
+  * Ammar Officewala <aofficewala@opensourceintegrators.com>
+
 Maintainers
 ~~~~~~~~~~~
 
