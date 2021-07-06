@@ -48,8 +48,8 @@ msgstr "Action demandée"
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method__mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 "Activez cette option si cette méthode de paiement nécessite que votre client "
 "signe un mandat de prélèvement pour votre société."
@@ -414,6 +414,11 @@ msgstr "Messages"
 #, python-format
 msgid "Missing Mandate on payment line %s"
 msgstr "Mandat manquant sur la ligne de paiement %s"
+
+#. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_date_deadline
