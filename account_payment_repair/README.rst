@@ -66,6 +66,17 @@ Contributors
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
 
+Other credits
+~~~~~~~~~~~~~
+
+[ This file is optional and contains additional credits, other than
+  authors, contributors, and maintainers. ]
+
+The development of this module has been financially supported by:
+
+* KMEE
+
+
 Maintainers
 ~~~~~~~~~~~
 
@@ -78,6 +89,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
+    :target: https://github.com/mileo
+    :alt: mileo
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-mileo| 
 
 This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/12.0/account_payment_repair>`_ project on GitHub.
 
