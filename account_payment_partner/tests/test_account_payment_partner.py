@@ -172,7 +172,7 @@ class TestAccountPaymentPartner(SavepointCase):
         cls.journal_bank = cls.env["res.partner.bank"].create(
             {
                 "acc_number": "GB95LOYD87430237296288",
-                "partner_id": cls.env.user.company_id.id,
+                "partner_id": cls.env.user.company_id.partner_id.id,
             }
         )
         cls.journal = cls.env["account.journal"].create(
@@ -228,6 +228,16 @@ class TestAccountPaymentPartner(SavepointCase):
             ).customer_payment_mode_id,
             self.payment_mode_model,
         )
+
+    def test_partner_id_changes_compute_invoice_partner_bank(self):
+        # Test _compute_invoice_partner_bank is executed when partner_id changes
+        move_form = Form(
+            self.env["account.move"].with_context(default_type="out_invoice")
+        )
+        self.assertFalse(move_form.invoice_partner_bank_id)
+        move_form.partner_id = self.customer
+        self.assertEquals(move_form.payment_mode_id, self.customer_payment_mode)
+        self.assertFalse(move_form.invoice_partner_bank_id)
 
     def test_out_invoice_onchange(self):
         # Test the onchange methods in invoice
