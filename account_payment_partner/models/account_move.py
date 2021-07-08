@@ -79,6 +79,15 @@ class AccountMove(models.Model):
                             partner.supplier_payment_mode_id.refund_payment_mode_id
                         )
 
+    @api.onchange("partner_id")
+    def _onchange_partner_id(self):
+        """Force compute because the onchange chain doesn't call
+        ``_compute_invoice_partner_bank``.
+        """
+        res = super()._onchange_partner_id()
+        self._compute_invoice_partner_bank()
+        return res
+
     @api.depends("partner_id", "payment_mode_id")
     def _compute_invoice_partner_bank(self):
         for move in self:
