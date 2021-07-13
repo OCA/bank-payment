@@ -157,5 +157,7 @@ class AccountMove(models.Model):
         """ Force compute invoice_partner_bank_id when invoice is created from SO
          to avoid that odoo _prepare_invoice method value will be set"""
         if self.env.context.get("active_model") == "sale.order":  # pragma: no cover
-            vals.pop("invoice_partner_bank_id", False)
+            virtual_move = self.new(vals)
+            virtual_move._compute_invoice_partner_bank()
+            vals["invoice_partner_bank_id"] = virtual_move.invoice_partner_bank_id
         return super().create(vals)
