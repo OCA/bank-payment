@@ -20,7 +20,7 @@ class ResPartnerBank(models.Model):
     @api.constrains("company_id")
     def _company_constrains(self):
         for rpb in self:
-            if (
+            if rpb.company_id and (
                 self.env["account.banking.mandate"]
                 .sudo()
                 .search(
