@@ -95,4 +95,4 @@ class TestSaleOrder(CommonTestCase):
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, self.payment_mode_2)
-        self.assertEqual(invoice.partner_bank_id, self.bank)
+        self.assertFalse(invoice.partner_bank_id)
