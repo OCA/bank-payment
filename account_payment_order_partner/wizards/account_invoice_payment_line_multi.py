@@ -8,7 +8,6 @@ class AccountInvoicePaymentLineMulti(models.TransientModel):
     _inherit = "account.invoice.payment.line.multi"
 
     draft_orders = fields.Boolean(string="is Draft Payments available")
-    info_message = fields.Html(string="Info")
     is_pyo_as_per_customer = fields.Boolean(string="As Per Customer", default=True)
 
     @api.model
@@ -20,18 +19,6 @@ class AccountInvoicePaymentLineMulti(models.TransientModel):
         )
         if not account_payment_order:
             res.update({"draft_orders": True})
-        invoices = self.env["account.move"].browse(self._context["active_ids"])
-        for invoice in invoices:
-            no_draft_account_payment_order = account_payment_order_obj.search(
-                [("partner_id", "=", invoice.partner_id.id), ("state", "=", "draft")]
-            )
-            if not no_draft_account_payment_order:
-                res.update(
-                    {
-                        "info_message": """<p style='color:red'>This Partner has
-                        no draft Invoice. </p>"""
-                    }
-                )
         return res
 
     def create_new_orders(self):

@@ -9,7 +9,6 @@
         <field name="arch" type="xml">
             <xpath expr="//form/ul" position="after">
                 <field name="draft_orders" invisible="1" />
-                <field name="info_message" readonly="1" />
             </xpath>
             <xpath expr="//footer/button[@name='run']" position="attributes">
                 <attribute name="string">Link to Draft Order(s)</attribute>
