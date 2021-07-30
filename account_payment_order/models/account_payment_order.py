@@ -23,6 +23,7 @@ class AccountPaymentOrder(models.Model):
         required=True,
         ondelete="restrict",
         tracking=True,
+        readonly=True,
         states={"draft": [("readonly", False)]},
         check_company=True,
     )
