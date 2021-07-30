@@ -159,5 +159,5 @@ class AccountMove(models.Model):
         if self.env.context.get("active_model") == "sale.order":  # pragma: no cover
             virtual_move = self.new(vals)
             virtual_move._compute_invoice_partner_bank()
-            vals["invoice_partner_bank_id"] = virtual_move.invoice_partner_bank_id
+            vals["invoice_partner_bank_id"] = virtual_move.invoice_partner_bank_id.id
         return super().create(vals)
