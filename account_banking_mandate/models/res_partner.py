@@ -34,9 +34,7 @@ class ResPartner(models.Model):
         if company_id:
             company = self.env["res.company"].browse(company_id)
         else:
-            company = self.env["res.company"]._company_default_get(
-                "account.banking.mandate"
-            )
+            company = self.env.company
 
         mandates_dic = {}
         for partner in self:
