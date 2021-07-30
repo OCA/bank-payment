@@ -162,3 +162,5 @@ class AccountPaymentLine(models.Model):
             raise UserError(
                 _("Missing Partner Bank Account on payment line %s") % self.name
             )
+        if not self.communication:
+            raise UserError(_("Communication is empty on payment line %s.") % self.name)
