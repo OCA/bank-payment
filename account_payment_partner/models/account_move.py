@@ -110,7 +110,8 @@ class AccountMove(models.Model):
                         and move.commercial_partner_id.bank_ids
                     ):
                         bank_id = get_bank_id()
-            move.invoice_partner_bank_id = bank_id
+            if bank_id:
+                move.invoice_partner_bank_id = bank_id
 
     def _reverse_move_vals(self, default_values, cancel=True):
         move_vals = super()._reverse_move_vals(default_values, cancel=cancel)
