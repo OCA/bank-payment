@@ -10,7 +10,7 @@
                 <span t-field="o.payment_mode_id.note" />
             </p>
             <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
-                <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank">
+                <p t-foreach="o.sudo().partner_banks_to_show()" t-as="partner_bank">
                     <strong>Bank Account:</strong>
                     <t t-if="partner_bank.bank_id">
                         <t
