@@ -25,7 +25,7 @@ Account Payment Partner
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module adds severals fields:
+This module adds several fields:
 
 * the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
 
@@ -36,6 +36,8 @@ This module adds severals fields:
 * the *# of digits for customer bank account* on Payment Mode.
 
 * the *Bank account from journals* on Payment Mode.
+
+* the *Payment mode* on Invoices Analysis.
 
 On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices will
 be filtered per Payment Mode.
