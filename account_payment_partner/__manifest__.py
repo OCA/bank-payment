@@ -19,6 +19,7 @@
         "views/account_move_line.xml",
         "views/account_payment_mode.xml",
         "views/report_invoice.xml",
+        "reports/account_invoice_report_view.xml",
     ],
     "demo": ["demo/partner_demo.xml"],
     "installable": True,
