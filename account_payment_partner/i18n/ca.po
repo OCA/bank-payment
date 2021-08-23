@@ -86,6 +86,7 @@ msgid "Customer Payment Mode"
 msgstr "Mode de pagament del client"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__display_name
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__display_name
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
@@ -104,11 +105,17 @@ msgid "Full"
 msgstr "Complet"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
 msgid "ID"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_invoice_report
+msgid "Invoices Statistics"
 msgstr ""
 
 #. module: account_payment_partner
@@ -122,6 +129,7 @@ msgid "Journal Item"
 msgstr "Apunt comptable"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report____last_update
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move____last_update
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
@@ -158,6 +166,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_report_search
 msgid "Payment Mode"
 msgstr "Mode de pagament"
 
@@ -172,6 +181,11 @@ msgstr ""
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
 msgid "Payment Modes"
 msgstr "Modes de pagament"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__payment_mode_id
+msgid "Payment mode"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
