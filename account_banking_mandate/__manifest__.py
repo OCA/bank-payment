@@ -1,33 +1,18 @@
-# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# Copyright 2014 Tecnativa - Pedro M. Baeza
-# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2017 Tecnativa - Carlos Dauden <carlos.dauden@tecnativa.com>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# © 2021 DanielDominguez (Xtendoo)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Account Banking Mandate",
-    "summary": "Banking mandates",
-    "version": "13.0.1.1.3",
-    "license": "AGPL-3",
-    "author": "Compassion CH, "
-    "Tecnativa, "
-    "Akretion, "
-    "Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/bank-payment",
+    "name": "Account Banking Mandate Sale",
+    "version": "13.0.1.0.1",
     "category": "Banking addons",
-    "depends": ["account_payment_order"],
-    "data": [
-        "views/account_banking_mandate_view.xml",
-        "views/account_payment_method.xml",
-        "views/account_move_view.xml",
-        "views/account_payment_line.xml",
-        "views/res_partner_bank_view.xml",
-        "views/res_partner.xml",
-        "views/bank_payment_line_view.xml",
-        "views/account_move_line.xml",
-        "data/mandate_reference_sequence.xml",
-        "security/mandate_security.xml",
-        "security/ir.model.access.csv",
-    ],
+    "license": "AGPL-3",
+    "summary": "Adds mandates on sale orders",
+    "author": "Odoo Community Association (OCA), "
+    "Akretion,"
+    "Daniel Domínguez (Xtendoo)",
+    "website": "https://github.com/OCA/bank-payment",
+    "depends": ["account_payment_sale", "account_banking_mandate"],
+    "data": ["views/sale_order.xml"],
     "installable": True,
 }
