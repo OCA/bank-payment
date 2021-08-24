@@ -1,5 +1,5 @@
 # © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# © 2021 DanielDominguez (Xtendoo)
+# © 2021 Daniel Dominguez (Xtendoo)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
