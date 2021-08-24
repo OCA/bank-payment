@@ -8,11 +8,9 @@
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Adds mandates on sale orders",
-    "author": "Odoo Community Association (OCA), "
-    "Akretion,"
-    "Daniel Domínguez (Xtendoo)",
+    "author": "Odoo Community Association (OCA), " "Akretion," "Xtendoo",
     "website": "https://github.com/OCA/bank-payment",
-    "depends": ["account_payment_sale", "account_banking_mandate"],
+    "depends": ["account_payment_sale", "account_banking_mandate", "sale"],
     "data": ["views/sale_order.xml"],
     "installable": True,
 }
