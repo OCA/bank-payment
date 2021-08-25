@@ -9,6 +9,8 @@ import base64
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+import io, csv
+
 
 class AccountPaymentOrder(models.Model):
     _name = "account.payment.order"
@@ -367,7 +369,9 @@ class AccountPaymentOrder(models.Model):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
         if self.payment_method_id.code == "manual":
-            return (False, False)
+            # return (False, False)
+
+            return self._get_payment_lines(), self.name
         else:
             raise UserError(
                 _(
@@ -376,17 +380,40 @@ class AccountPaymentOrder(models.Model):
                 )
             )
 
+    def _get_payment_lines(self):
+        columns = ['Partner', 'Communication', 'Bank Account', 'Due Date', 'Amount', 'Currency', 'Reference']
+        buf = io.StringIO()
+
+        writer = csv.writer(buf, quoting=csv.QUOTE_ALL, delimiter='\t')
+        writer.writerow(columns)
+
+        if self.payment_line_ids:
+            for line in self.payment_line_ids:
+                line_data = [
+                    line.partner_id.name if line.partner_id else '',
+                    line.communication if line.communication else '',
+                    line.partner_bank_id.acc_number if line.partner_bank_id else '',
+                    line.ml_maturity_date if line.ml_maturity_date else '',
+                    line.amount_currency if line.amount_currency else '',
+                    line.currency_id.name if line.currency_id else '',
+                    line.name,
+                ]
+                writer.writerow(line_data)
+        return buf
+
     def open2generated(self):
         self.ensure_one()
         payment_file_str, filename = self.generate_payment_file()
+        payment_file_str = payment_file_str.getvalue()
+
         action = {}
-        if payment_file_str and filename:
+        if filename:
             attachment = self.env["ir.attachment"].create(
                 {
                     "res_model": "account.payment.order",
                     "res_id": self.id,
-                    "name": filename,
-                    "datas": base64.b64encode(payment_file_str),
+                    "name": filename + '.txt',
+                    "datas": base64.b64encode(payment_file_str.encode("utf-8")),
                 }
             )
             simplified_form_view = self.env.ref(
