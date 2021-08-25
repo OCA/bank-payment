@@ -9,7 +9,6 @@ class TestSaleMandate(TransactionCase):
         res = super(TestSaleMandate, self).setUp()
         self.company = self.env.ref("base.main_company")
         self.partner = self._create_res_partner("Peter with ACME Bank")
-        self.payment_term = self._create_postponed_payment_term("30 days")
         self.acme_bank = self._create_res_bank(
             "ACME Bank", "GEBABEBB03B", "Charleroi", self.env.ref("base.be")
         )
@@ -82,20 +81,62 @@ class TestSaleMandate(TransactionCase):
 
     def test_sale_order_without_mandate_on_change_partner_id(self):
         partner_3 = self._create_res_partner("Jane without ACME Bank")
+        payment_method = self.env["account.payment.method"].create(
+            {
+                "name": "Test method",
+                "code": "manual2",
+                "payment_type": "inbound",
+                "mandate_required": False,
+            }
+        )
+        mode_inbound_without_mandate = self.env["account.payment.mode"].create(
+            {
+                "name": "Test payment mode",
+                "company_id": self.company.id,
+                "bank_account_link": "variable",
+                "payment_method_id": payment_method.id,
+            }
+        )
         self.sale_order.partner_id = partner_3.id
+
+        partner_3.customer_payment_mode_id = mode_inbound_without_mandate.id
+
         self.sale_order.onchange_partner_id()
+        self.payment_mode = mode_inbound_without_mandate
         self.sale_order.payment_mode_change()
         self.assertEqual(self.sale_order.mandate_id.id, False)
         self.sale_order.action_confirm()
         self.sale_order._create_invoices()
         self.assertEqual(
-            self.sale_order.mandate_id.id, self.sale_order.invoice_ids.mandate_id.id
+            self.sale_order.mandate_id, self.sale_order.invoice_ids.mandate_id
         )
 
     def test_sale_order_with_payment_term_amount(self):
         partner_3 = self._create_res_partner("Jane without ACME Bank")
-        self.sale_order.payment_term = self.payment_term
         self.sale_order.partner_id = partner_3.id
+        self.sale_order.onchange_partner_id()
+        payment_term = self.env['account.payment.term'].create({
+            'name': '30% Advance End of Following Month',
+            'note': 'Payment terms: 30% Advance End of Following Month',
+            'line_ids': [
+                (0, 0, {
+                    'value': 'percent',
+                    'value_amount': 30.0,
+                    'sequence': 400,
+                    'days': 0,
+                    'option': 'day_after_invoice_date',
+                }),
+                (0, 0, {
+                    'value': 'balance',
+                    'value_amount': 0.0,
+                    'sequence': 500,
+                    'days': 31,
+                    'option': 'day_following_month',
+                }),
+            ],
+        })
+        self.sale_order.payment_term = payment_term
+        self.sale_order.onchange_partner_id()
         self.sale_order.payment_mode_change()
         self.assertEqual(self.sale_order.mandate_id.id, False)
         self.sale_order.action_confirm()
@@ -143,7 +184,7 @@ class TestSaleMandate(TransactionCase):
 
     def _create_postponed_payment_term(self, name):
         line_id = self.env["account.payment.term.line"].create(
-            {"value": "balance", "value_amount": 0.0, "days": 30, "payment_id": 1}
+            {"value": "percent", "value_amount": 30.0, "days": 30, "payment_id": 1}
         )
         return self.env["account.payment.term"].create(
             {"name": name, "line_ids": line_id}
