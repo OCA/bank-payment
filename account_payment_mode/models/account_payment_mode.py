@@ -40,7 +40,7 @@ class AccountPaymentMode(models.Model):
     fixed_journal_id = fields.Many2one(
         "account.journal",
         string="Fixed Bank Journal",
-        domain=[("type", "=", "bank")],
+        domain="[('company_id', '=', company_id), ('type', 'in', ('bank', 'cash'))]",
         ondelete="restrict",
         check_company=True,
     )
@@ -52,6 +52,7 @@ class AccountPaymentMode(models.Model):
         column1="payment_mode_id",
         column2="journal_id",
         string="Allowed Bank Journals",
+        domain="[('company_id', '=', company_id), ('type', 'in', ('bank', 'cash'))]",
     )
     payment_method_id = fields.Many2one(
         "account.payment.method",
