@@ -21,9 +21,11 @@ class TestPersistentStateMessage(common.SavepointCase):
         # Write a value in state_message field
         # set transaction_done
         # state_message is void but persistent_state_message is set
-        self.transaction.write({
-            "state_message": "A first message",
-        })
+        self.transaction.write(
+            {
+                "state_message": "A first message",
+            }
+        )
         self.assertEqual(
             "A first message",
             self.transaction.state_message,
@@ -40,9 +42,11 @@ class TestPersistentStateMessage(common.SavepointCase):
             "A first message",
             self.transaction.persistent_state_message,
         )
-        self.transaction.write({
-            "state_message": "A second message",
-        })
+        self.transaction.write(
+            {
+                "state_message": "A second message",
+            }
+        )
         self.assertEqual(
             "A first message\nA second message",
             self.transaction.persistent_state_message,
