@@ -1,4 +1,4 @@
 # generated from manifests external_dependencies
 lxml
-openupgradelib
+openupgradelib @ git+https://github.com/OCA/openupgradelib@master
 unidecode
