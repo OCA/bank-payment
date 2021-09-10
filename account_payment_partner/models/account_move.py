@@ -45,7 +45,7 @@ class AccountMove(models.Model):
 
     @api.depends("partner_id", "move_type")
     def _compute_partner_bank_filter_type_domain(self):
-        for move in self:
+        for move in self.filtered(lambda m: not m.partner_bank_id):
             if move.move_type in ("out_invoice", "in_refund"):
                 move.partner_bank_filter_type_domain = move.bank_partner_id
             elif move.move_type in ("in_invoice", "out_refund"):
