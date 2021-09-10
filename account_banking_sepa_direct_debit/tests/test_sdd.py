@@ -36,8 +36,15 @@ class TestSDD(common.HttpCase):
             'company_ids': [(6, 0, self.main_company.ids)],
             'company_id': self.main_company.id,
         })
-        self.partner_agrolait.company_id = self.main_company.id
-        self.partner_c2c.company_id = self.main_company.id
+        # Done as direct SQL for avoiding ORM constraint about changing company
+        self.env.cr.execute(
+            "UPDATE res_partner SET company_id = %s WHERE id = %s",
+            (self.main_company.id, self.partner_agrolait.id)
+        )
+        self.env.cr.execute(
+            "UPDATE res_partner SET company_id = %s WHERE id = %s",
+            (self.main_company.id, self.partner_c2c.id)
+        )
         self.env.ref(
             'l10n_generic_coa.configurable_chart_template'
         ).try_loading_for_current_company()
