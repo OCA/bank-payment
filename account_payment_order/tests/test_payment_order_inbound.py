@@ -6,59 +6,64 @@
 from datetime import date, timedelta
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestPaymentOrderInboundBase(SavepointCase):
+class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        self = cls
-        super().setUpClass()
-        self.env.user.company_id = self.env.ref("base.main_company").id
-        self.inbound_mode = self.env.ref(
-            "account_payment_mode.payment_mode_inbound_dd1"
-        )
-        self.invoice_line_account = self.env["account.account"].create(
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.env.user.company_id = cls.company.id
+        cls.partner = cls.env["res.partner"].create(
             {
-                "name": "Test account",
-                "code": "TEST1",
-                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+                "name": "Test Partner",
             }
         )
-        self.journal = self.env["account.journal"].search(
-            [("type", "=", "bank"), ("company_id", "=", self.env.user.company_id.id)],
-            limit=1,
+        cls.inbound_mode = cls.env["account.payment.mode"].create(
+            {
+                "name": "Test Direct Debit of customers",
+                "bank_account_link": "variable",
+                "payment_method_id": cls.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+                "company_id": cls.company.id,
+            }
         )
-        self.inbound_mode.variable_journal_ids = self.journal
+        cls.invoice_line_account = cls.company_data["default_account_revenue"]
+        cls.journal = cls.company_data["default_journal_bank"]
+        cls.inbound_mode.variable_journal_ids = cls.journal
         # Make sure no others orders are present
-        self.domain = [
+        cls.domain = [
             ("state", "=", "draft"),
             ("payment_type", "=", "inbound"),
-            ("company_id", "=", self.env.user.company_id.id),
+            ("company_id", "=", cls.env.user.company_id.id),
         ]
-        self.payment_order_obj = self.env["account.payment.order"]
-        self.payment_order_obj.search(self.domain).unlink()
+        cls.payment_order_obj = cls.env["account.payment.order"]
+        cls.payment_order_obj.search(cls.domain).unlink()
         # Create payment order
-        self.inbound_order = self.env["account.payment.order"].create(
+        cls.inbound_order = cls.env["account.payment.order"].create(
             {
                 "payment_type": "inbound",
-                "payment_mode_id": self.inbound_mode.id,
-                "journal_id": self.journal.id,
+                "payment_mode_id": cls.inbound_mode.id,
+                "journal_id": cls.journal.id,
             }
         )
         # Open invoice
-        self.invoice = self._create_customer_invoice(self)
-        self.invoice.action_post()
+        cls.invoice = cls._create_customer_invoice(cls)
+        cls.invoice.action_post()
         # Add to payment order using the wizard
-        self.env["account.invoice.payment.line.multi"].with_context(
-            active_model="account.move", active_ids=self.invoice.ids
+        cls.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=cls.invoice.ids
         ).create({}).run()
 
     def _create_customer_invoice(self):
         with Form(
             self.env["account.move"].with_context(default_move_type="out_invoice")
         ) as invoice_form:
-            invoice_form.partner_id = self.env.ref("base.res_partner_4")
+            invoice_form.partner_id = self.partner
             with invoice_form.invoice_line_ids.new() as invoice_line_form:
                 invoice_line_form.product_id = self.env.ref("product.product_product_4")
                 invoice_line_form.name = "product that cost 100"
@@ -87,11 +92,8 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
     def test_creation(self):
         payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
-        bank_journal = self.env["account.journal"].search(
-            [("type", "=", "bank")], limit=1
-        )
 
-        payment_order.write({"journal_id": bank_journal.id})
+        payment_order.write({"journal_id": self.journal.id})
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
         self.assertEqual(len(payment_order.bank_line_ids), 0)
