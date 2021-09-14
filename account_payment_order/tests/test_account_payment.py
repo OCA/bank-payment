@@ -1,13 +1,16 @@
 # Copyright 2019 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import SavepointCase
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccountPayment(SavepointCase):
+class TestAccountPayment(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        super(TestAccountPayment, cls).setUpClass()
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.env.user.company_ids += cls.company
 
         # MODELS
         cls.account_payment_model = cls.env["account.payment"]
@@ -16,17 +19,28 @@ class TestAccountPayment(SavepointCase):
 
         # INSTANCES
         # Payment methods
-        (
-            cls.inbound_payment_method_01,
-            cls.inbound_payment_method_02,
-        ) = cls.payment_method_model.search([("payment_type", "=", "inbound")], limit=2)
-        cls.outbound_payment_method_01 = cls.payment_method_model.search(
-            [("payment_type", "=", "outbound")], limit=1
+        cls.inbound_payment_method_01 = cls.payment_method_model.create(
+            {
+                "name": "inbound",
+                "code": "IN",
+                "payment_type": "inbound",
+            }
+        )
+        cls.inbound_payment_method_02 = cls.inbound_payment_method_01.copy(
+            {
+                "name": "inbound 2",
+                "code": "IN2",
+            }
+        )
+        cls.outbound_payment_method_01 = cls.payment_method_model.create(
+            {
+                "name": "outbound",
+                "code": "OUT",
+                "payment_type": "outbound",
+            }
         )
         # Journals
-        cls.bank_journal = cls.account_journal_model.search(
-            [("type", "=", "bank")], limit=1
-        )
+        cls.bank_journal = cls.company_data["default_journal_bank"]
         cls.bank_journal.inbound_payment_method_ids = [
             (
                 6,
@@ -62,8 +76,15 @@ class TestAccountPayment(SavepointCase):
         self.assertFalse(self.inbound_payment_method_01.payment_order_only)
         self.assertFalse(self.inbound_payment_method_02.payment_order_only)
         self.assertFalse(self.bank_journal.inbound_payment_order_only)
-        new_account_payment = self.account_payment_model.new(
-            {"journal_id": self.bank_journal.id, "payment_type": "inbound", "amount": 1}
+        new_account_payment = self.account_payment_model.with_context(
+            default_company_id=self.company.id
+        ).new(
+            {
+                "journal_id": self.bank_journal.id,
+                "payment_type": "inbound",
+                "amount": 1,
+                "company_id": self.company.id,
+            }
         )
         # check journals
         journals = new_account_payment._get_default_journal()
