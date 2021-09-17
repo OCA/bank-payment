@@ -56,7 +56,9 @@ class AccountMove(models.Model):
     @api.depends("partner_id", "company_id")
     def _compute_payment_mode(self):
         for move in self:
-            move.payment_mode_id = False
+            move.payment_mode_id = move.payment_mode_id
+            if move.company_id and move.payment_mode_id.company_id != move.company_id:
+                move.payment_mode_id = False
             if move.partner_id:
                 partner = move.with_company(move.company_id.id).partner_id
                 if move.move_type == "in_invoice":
