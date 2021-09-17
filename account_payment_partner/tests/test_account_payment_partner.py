@@ -282,7 +282,7 @@ class TestAccountPaymentPartner(SavepointCase):
         self.assertFalse(invoice.partner_bank_id)
 
         invoice.partner_id = False
-        self.assertEqual(invoice.payment_mode_id, self.payment_mode_model)
+        self.assertEqual(invoice.payment_mode_id, self.supplier_payment_mode_c2)
         self.assertEqual(invoice.partner_bank_id, self.partner_bank_model)
 
     def test_invoice_create_in_invoice(self):
@@ -550,3 +550,19 @@ class TestAccountPaymentPartner(SavepointCase):
         self.assertEqual(
             out_invoice.partner_bank_filter_type_domain, out_invoice.bank_partner_id
         )
+
+    def test_account_move_payment_mode_id_default(self):
+        payment_mode = self.env.ref("account_payment_mode.payment_mode_inbound_dd1")
+        field = self.env["ir.model.fields"].search(
+            [
+                ("model_id.model", "=", self.move_model._name),
+                ("name", "=", "payment_mode_id"),
+            ]
+        )
+        move_form = Form(self.move_model.with_context(default_type="out_invoice"))
+        self.assertFalse(move_form.payment_mode_id)
+        self.env["ir.default"].create(
+            {"field_id": field.id, "json_value": payment_mode.id}
+        )
+        move_form = Form(self.move_model.with_context(default_type="out_invoice"))
+        self.assertEqual(move_form.payment_mode_id, payment_mode)
