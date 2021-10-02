@@ -29,7 +29,7 @@
         />
         <field
             name="print_report_name"
-        >'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id.name.replace(' ', '_'))</field>
+        >'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id and object.partner_id.name.replace(' ', '_') or '')</field>
         <field name="binding_model_id" ref="model_account_banking_mandate" />
     </record>
 </odoo>
