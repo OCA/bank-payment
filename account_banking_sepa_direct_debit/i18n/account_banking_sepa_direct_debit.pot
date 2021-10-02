@@ -16,8 +16,8 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid ""
-"'Mandate-%s-%s' % (object.unique_mandate_reference, "
-"object.partner_id.name.replace(' ', '_'))"
+"'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id and "
+"object.partner_id.name.replace(' ', '_') or '')"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
