@@ -114,8 +114,9 @@ class AccountMoveLine(models.Model):
                     elem = etree.Element(
                         'field', {
                             'name': 'balance',
-                            'readonly': 'True'
-                        })
+                            'readonly': 'True',
+                            'sum': 'Total Balance',
+                    })
                     orm.setup_modifiers(elem)
                     placeholder.addprevious(elem)
             if not doc.xpath("//field[@name='amount_residual_currency']"):
@@ -124,7 +125,8 @@ class AccountMoveLine(models.Model):
                     elem = etree.Element(
                         'field', {
                             'name': 'amount_residual_currency',
-                            'readonly': 'True'
+                            'readonly': 'True',
+                            'sum': 'Total Residual Amount in Currency',
                         })
                     orm.setup_modifiers(elem)
                     placeholder.addnext(elem)
@@ -134,7 +136,8 @@ class AccountMoveLine(models.Model):
                     elem = etree.Element(
                         'field', {
                             'name': 'amount_residual',
-                            'readonly': 'True'
+                            'readonly': 'True',
+                            'sum': 'Total Residual Amount',
                         })
                     orm.setup_modifiers(elem)
                     placeholder.addnext(elem)
