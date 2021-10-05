@@ -114,7 +114,7 @@ class AccountPaymentOrder(models.Model):
     @api.multi
     def unlink(self):
         for order in self:
-            if order.state == 'uploaded':
+            if order.state in ('uploaded', 'done'):
                 raise UserError(_(
                     "You cannot delete an uploaded payment order. You can "
                     "cancel it in order to do so."))
@@ -359,13 +359,13 @@ class AccountPaymentOrder(models.Model):
 
     @api.multi
     def generated2uploaded(self):
-        for order in self:
-            if order.payment_mode_id.generate_move:
-                order.generate_move()
         self.write({
             'state': 'uploaded',
             'date_uploaded': fields.Date.context_today(self),
             })
+        for order in self:
+            if order.payment_mode_id.generate_move:
+                order.generate_move()
         return True
 
     @api.multi
@@ -514,3 +514,18 @@ class AccountPaymentOrder(models.Model):
         trfmoves = self._prepare_trf_moves()
         for hashcode, blines in trfmoves.items():
             self._create_reconcile_move(hashcode, blines)
+
+    @api.multi
+    def _all_lines_reconciled(self):
+        """
+        Return true if all payment lines' counterpart lines are reconciled too
+        Also return true if the counterpart account cannot be reconciled
+        """
+        self.ensure_one()
+        move_lines = self.env['account.move.line'].search([(
+            'bank_payment_line_id', 'in', self.mapped('bank_line_ids').ids
+        )]).mapped('move_id.line_ids')
+        return bool(move_lines) and all(
+            move_line.reconciled for move_line in move_lines
+            if move_line.account_id.reconcile
+        )

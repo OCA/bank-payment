@@ -163,7 +163,7 @@ class BankPaymentLine(models.Model):
     def unlink(self):
         for line in self:
             order_state = line.order_id.state
-            if order_state == 'uploaded':
+            if order_state in ('uploaded', 'done'):
                 raise UserError(_(
                     'Cannot delete a payment order line whose payment order is'
                     ' in state \'%s\'. You need to cancel it first.')
