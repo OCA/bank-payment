@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_payment_order
+# 	* account_payment_order
 #
 msgid ""
 msgstr ""
@@ -27,7 +27,9 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:115
 #, python-format
-msgid "%d payment lines added to the new draft payment order %s which has been automatically created."
+msgid ""
+"%d payment lines added to the new draft payment order %s which has been "
+"automatically created."
 msgstr ""
 "Platobné položky %d pridané do nového konceptu platobného príkazu %s, ktorý "
 "bol automaticky vytvorený."
@@ -71,7 +73,9 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/res_bank.py:16
 #, python-format
-msgid "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d characters, so it is not valid."
+msgid ""
+"A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
+"characters, so it is not valid."
 msgstr ""
 "Platný BIC obsahuje 8 alebo 11 znakov. BIC '%s' obsahuje %d znakov, takže "
 "nie je platný."
@@ -93,7 +97,9 @@ msgstr "Potrebná akcia"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__bank_account_required
-msgid "Activate this option if this payment method requires you to know the bank account number of your customer or supplier."
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
 msgstr ""
 "Aktivujte túto možnosť, ak tento spôsob platby vyžaduje, aby ste poznali "
 "číslo bankového účtu svojho zákazníka alebo dodávateľa."
@@ -248,7 +254,9 @@ msgstr "Zrušiť platby"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:167
 #, python-format
-msgid "Cannot delete a payment order line whose payment order is in state '%s'. You need to cancel it first."
+msgid ""
+"Cannot delete a payment order line whose payment order is in state '%s'. You "
+"need to cancel it first."
 msgstr ""
 "Položku platobného príkazu, ktorý je v stave '%s', nie je možné odstrániť. "
 "Najprv ho musíš zrušiť."
@@ -260,7 +268,10 @@ msgstr "Vybrať možnosti filtra položiek pohybu"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
-msgid "Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
+msgid ""
+"Click on Add All Move Lines to auto-select the move lines matching the above "
+"criteria or click on Add an item to manually select the move lines filtered "
+"by the above criteria."
 msgstr ""
 "Kliknutím na \"Pridať všetky riadky presunu\" automaticky vyberiete riadky "
 "presunu zodpovedajúce vyššie uvedeným kritériám alebo kliknite na položku "
@@ -501,14 +512,23 @@ msgstr "Odberatelia (Partneri)"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:150
 #, python-format
-msgid "For partner '%s', the account of the account move line to pay (%s) is different from the account of of the transit move line (%s)."
+msgid ""
+"For partner '%s', the account of the account move line to pay (%s) is "
+"different from the account of of the transit move line (%s)."
 msgstr ""
 "U partnera '%s' je účet na položke pohybu platby (%s) odlišný od účtu na "
 "prechodnej položke (%s)."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
-msgid "For payment modes that are always attached to the same bank account of your company (such as wire transfer from customers or SEPA direct debit from suppliers), select 'Fixed'. For payment modes that are not always attached to the same bank account (such as SEPA Direct debit for customers, wire transfer to suppliers), you should select 'Variable', which means that you will select the bank account on the payment order. If your company only has one bank account, you should always select 'Fixed'."
+msgid ""
+"For payment modes that are always attached to the same bank account of your "
+"company (such as wire transfer from customers or SEPA direct debit from "
+"suppliers), select 'Fixed'. For payment modes that are not always attached "
+"to the same bank account (such as SEPA Direct debit for customers, wire "
+"transfer to suppliers), you should select 'Variable', which means that you "
+"will select the bank account on the payment order. If your company only has "
+"one bank account, you should always select 'Fixed'."
 msgstr ""
 "Pre spôsoby platby, ktoré sú vždy pripojené k rovnakému bankovému účtu vašej "
 "spoločnosti (napríklad bankovým prevodom od zákazníkov alebo separátne "
@@ -592,7 +612,10 @@ msgstr "Ak zaškrtnuté, niektoré správy majú chybu dodania."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__group_lines
-msgid "If this mark is checked, the transaction lines of the payment order will be grouped upon confirmation of the payment order.The grouping will be done only if the following fields matches:\n"
+msgid ""
+"If this mark is checked, the transaction lines of the payment order will be "
+"grouped upon confirmation of the payment order.The grouping will be done "
+"only if the following fields matches:\n"
 "* Partner\n"
 "* Currency\n"
 "* Destination Bank Account\n"
@@ -612,7 +635,10 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__no_debit_before_maturity
-msgid "If you activate this option on an Inbound payment mode, you will have an error message when you confirm a debit order that has a payment line with a payment date before the maturity date."
+msgid ""
+"If you activate this option on an Inbound payment mode, you will have an "
+"error message when you confirm a debit order that has a payment line with a "
+"payment date before the maturity date."
 msgstr ""
 "Ak túto možnosť aktivujete v režime prichádzajúcej platby, pri potvrdení "
 "inkasnej platby, ktorá má platobnú položku s dátumom platby pred dátumom "
@@ -670,7 +696,9 @@ msgstr "Účtovná položka"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_journal_id
-msgid "Journal to write payment entries when confirming payment/debit orders of this mode"
+msgid ""
+"Journal to write payment entries when confirming payment/debit orders of "
+"this mode"
 msgstr ""
 "Denník na zápis platobných položiek pri potvrdení platby/inkasa u tohto "
 "režimu"
@@ -809,7 +837,9 @@ msgstr "Žiadny záznam účtovného denníka na faktúre %s"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:87
 #, python-format
-msgid "No Payment Line created for invoice %s because it already exists or because this invoice is already paid."
+msgid ""
+"No Payment Line created for invoice %s because it already exists or because "
+"this invoice is already paid."
 msgstr ""
 "Pre faktúru %s nebola vytvorená žiadna položka platby, pretože už existuje "
 "alebo je už zaplatená."
@@ -823,7 +853,9 @@ msgstr "Faktúra %s nemá platobný mód"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:325
 #, python-format
-msgid "No handler for this payment method. Maybe you haven't installed the related Odoo module."
+msgid ""
+"No handler for this payment method. Maybe you haven't installed the related "
+"Odoo module."
 msgstr ""
 "Pre tento spôsob platby nie je príslušný modul. Možno ste nenainštalovali "
 "potrebné Odoo moduly."
@@ -877,25 +909,31 @@ msgstr "Na platobnom príkaze %s je dátum vykonania platby v minulosti (%s)."
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:110
 #, python-format
-msgid "On the payment mode '%s', you must choose an option for the 'Move Option' parameter."
+msgid ""
+"On the payment mode '%s', you must choose an option for the 'Move Option' "
+"parameter."
 msgstr "V režime platby '%s' musíte vybrať možnosť parametra Možnosť pohybu."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:100
 #, python-format
-msgid "On the payment mode '%s', you must select a value for the 'Transfer Account'."
+msgid ""
+"On the payment mode '%s', you must select a value for the 'Transfer Account'."
 msgstr "V režime platby %s musíte vybrať hodnotu pre \"Transferový účet\"."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:105
 #, python-format
-msgid "On the payment mode '%s', you must select a value for the 'Transfer Journal'."
+msgid ""
+"On the payment mode '%s', you must select a value for the 'Transfer Journal'."
 msgstr "V režime platby %s musíte vybrať hodnotu pre \"Transferový denník\"."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:94
 #, python-format
-msgid "On the payment mode '%s', you must select an option for the 'Offsetting Account' parameter"
+msgid ""
+"On the payment mode '%s', you must select an option for the 'Offsetting "
+"Account' parameter"
 msgstr "V režime platby %s musíte vybrať hodnotu pre \"Kompenzačný účet\""
 
 #. module: account_payment_order
@@ -956,7 +994,9 @@ msgstr "Partneri"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_account_id
-msgid "Pay off lines in 'file uploaded' payment orders with a move on this account. You can only select accounts that are marked for reconciliation"
+msgid ""
+"Pay off lines in 'file uploaded' payment orders with a move on this account. "
+"You can only select accounts that are marked for reconciliation"
 msgstr ""
 "Uhradené položky v nahraných platobných príkazoch s pohybom na tomto účte. "
 "Môžete vybrať iba účty, ktoré sú označené na odsúhlasenie"
@@ -1130,7 +1170,9 @@ msgstr "Vyberte položky na úhradu - preddefinované hodnoty"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__date_scheduled
-msgid "Select a requested date of execution if you selected 'Due Date' as the Payment Execution Date Type."
+msgid ""
+"Select a requested date of execution if you selected 'Due Date' as the "
+"Payment Execution Date Type."
 msgstr ""
 "Vyberte požadovaný dátum úhrady pokiaľ ste vybrali možnosť \"Splatnosť\" ako "
 "typ úhrady."
@@ -1145,6 +1187,11 @@ msgstr "Vyberateľné v platobných príkazoch"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Selected Move Lines to Create Transactions"
 msgstr "Vybrané položky pohybov pre vytvorenie transakcií"
+
+#. module: account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+msgid "Set Done"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__state
@@ -1183,13 +1230,18 @@ msgstr "Čiastka pre partnera '%s' je záporná alebo má hodnotu null (%.2f) !"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_line_ids
-msgid "The bank payment lines are used to generate the payment file. They are automatically created from transaction lines upon confirmation of the payment order: one bank payment line can group several transaction lines if the option 'Group Transactions in Payment Orders' is active on the payment mode."
+msgid ""
+"The bank payment lines are used to generate the payment file. They are "
+"automatically created from transaction lines upon confirmation of the "
+"payment order: one bank payment line can group several transaction lines if "
+"the option 'Group Transactions in Payment Orders' is active on the payment "
+"mode."
 msgstr ""
 "Položky platobného príkazu použité pri generovaní platobného súboru. Sú "
 "vytvorené automaticky z transakčných položiek po potvrdení platobného "
 "príkazu: jedna položka bankovej platby môže zoskupiť niekoľko transakčných "
-"položiek v závislosti od nastavenia \"Zoskupiť transakcie platobného "
-"príkazu\" v nastavení platobného módu."
+"položiek v závislosti od nastavenia \"Zoskupiť transakcie platobného príkazu"
+"\" v nastavení platobného módu."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:73
@@ -1200,7 +1252,10 @@ msgstr "Faktúra %s nemá status \"Otvorená\""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:272
 #, python-format
-msgid "The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. The payment line %s has a maturity date %s which is after the computed payment date %s."
+msgid ""
+"The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
+"The payment line %s has a maturity date %s which is after the computed "
+"payment date %s."
 msgstr ""
 "Platobný mód '%s' má možnosť \"Zakázať úhradu pred dátumom splatnosti\". "
 "Platobná položka %s má dátum splatnosti %s, ktorý je po vypočítanom dátume "
@@ -1209,7 +1264,9 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:130
 #, python-format
-msgid "The payment type (%s) is not the same as the payment type of the payment mode (%s)"
+msgid ""
+"The payment type (%s) is not the same as the payment type of the payment "
+"mode (%s)"
 msgstr "Typ platby (%s) nie je rovnaký ako typ platby v platobnom móde (%s)"
 
 #. module: account_payment_order
@@ -1220,14 +1277,18 @@ msgstr "Platobný príkaz %s neobsahuje žiadne transakcie."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
-msgid "This field is used for payable and receivable journal entries. You can put the limit date for the payment of this line."
+msgid ""
+"This field is used for payable and receivable journal entries. You can put "
+"the limit date for the payment of this line."
 msgstr ""
 "Toto pole je používané pre zaúčtovanie záväzkov a pohľadávok do účtovnej "
 "knihy. Môžete dať konečný dátum pre platbu tejto položky."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_method__payment_order_only
-msgid "This option helps enforcing the use of payment orders for some payment methods."
+msgid ""
+"This option helps enforcing the use of payment orders for some payment "
+"methods."
 msgstr ""
 "Táto možnosť pomáha pri presadzovaní používania platobných príkazov pre "
 "niektoré spôsoby platby."
@@ -1328,12 +1389,16 @@ msgstr "Sprievodca vytvorením platobných položiek"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:118
 #, python-format
-msgid "You cannot delete an uploaded payment order. You can cancel it in order to do so."
+msgid ""
+"You cannot delete an uploaded payment order. You can cancel it in order to "
+"do so."
 msgstr "Odoslaný platobný príkaz nemôžete zmazať. Obvykle ho môžete zrušiť."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
-msgid "if there are existing draft payment orders for the payment modes of the invoices, the payment lines will be added to those payment orders"
+msgid ""
+"if there are existing draft payment orders for the payment modes of the "
+"invoices, the payment lines will be added to those payment orders"
 msgstr ""
 "ak existujú platobné príkazy v stave návrhu pre daný platobný mód faktúry, "
 "platobné položky budú doňho pridané"
