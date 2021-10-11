@@ -21,8 +21,11 @@
                     string="Back to Draft" />
                 <button name="action_cancel" type="object" states="draft,open,generated"
                     string="Cancel Payments"/>
-                <button name="action_done_cancel" type="object" states="uploaded"
+                <button name="action_done_cancel" type="object" states="uploaded,done"
                     string="Cancel Payments"/>
+                <button name="action_done" type="object" states="uploaded"
+                    string="Set Done"
+                    />
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>

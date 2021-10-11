@@ -109,7 +109,7 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment_order.open2generated()
         payment_order.generated2uploaded()
 
-        self.assertEqual(payment_order.state, 'uploaded')
+        self.assertEqual(payment_order.state, 'done')
         with self.assertRaises(UserError):
             payment_order.unlink()
 

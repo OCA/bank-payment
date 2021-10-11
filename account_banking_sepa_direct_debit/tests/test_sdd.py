@@ -209,7 +209,7 @@ class TestSDD(common.HttpCase):
             debtor_acc_xpath[0].text,
             payment_order.company_partner_bank_id.sanitized_acc_number)
         payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, 'uploaded')
+        self.assertEqual(payment_order.state, 'done')
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, 'paid')
         self.assertEqual(self.mandate2.recurrent_sequence_type, 'recurring')

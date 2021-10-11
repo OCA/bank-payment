@@ -148,3 +148,37 @@ class AccountMoveLine(models.Model):
             )
             result.update(arch=arch, fields=fields)
         return result
+
+    @api.multi
+    def reconcile(self, writeoff_acc_id=False, writeoff_journal_id=False):
+        """ Set payment orders with fully reconciled lines to done """
+        result = super().reconcile(
+            writeoff_acc_id=writeoff_acc_id,
+            writeoff_journal_id=writeoff_journal_id,
+        )
+        if not self.env.context.get('account_payment_order_defer_close'):
+            self.filtered('full_reconcile_id')._close_payment_orders()
+        return result
+
+    @api.multi
+    def _close_payment_orders(self):
+        """
+        Set payment orders linked to move lines in self to done if all
+        of them are reconciled
+        """
+        for order in self._find_payment_orders():
+            if order.state != 'done' and order._all_lines_reconciled():
+                order.action_done()
+
+    @api.multi
+    def _find_payment_orders(self):
+        """
+        Return all payment orders linked (directly by payment_line_ids
+        or indirectly by reconciliation with a transfer account) to self
+        """
+        return self.mapped(
+            'move_id.line_ids.bank_payment_line_id.order_id'
+        ) | self.mapped(
+            'full_reconcile_id.reconciled_line_ids.move_id.line_ids.'
+            'bank_payment_line_id.order_id'
+        )

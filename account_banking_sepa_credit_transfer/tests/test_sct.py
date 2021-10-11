@@ -199,7 +199,7 @@ class TestSCT(common.HttpCase):
             debtor_acc_xpath[0].text,
             self.payment_order.company_partner_bank_id.sanitized_acc_number)
         self.payment_order.generated2uploaded()
-        self.assertEqual(self.payment_order.state, 'uploaded')
+        self.assertEqual(self.payment_order.state, 'done')
         for inv in [invoice1, invoice2, invoice3, invoice4, invoice5]:
             self.assertEqual(inv.state, 'paid')
         return
@@ -276,7 +276,7 @@ class TestSCT(common.HttpCase):
             debtor_acc_xpath[0].text,
             self.payment_order.company_partner_bank_id.sanitized_acc_number)
         self.payment_order.generated2uploaded()
-        self.assertEqual(self.payment_order.state, 'uploaded')
+        self.assertEqual(self.payment_order.state, 'done')
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, 'paid')
         return

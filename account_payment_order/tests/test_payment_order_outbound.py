@@ -145,6 +145,7 @@ class TestPaymentOrderOutbound(SavepointCase):
         order.generated2uploaded()
         order.action_done()
         self.assertEqual(order.state, 'done')
+        return order
 
     def test_cancel_payment_order(self):
         # Open invoice
@@ -176,7 +177,7 @@ class TestPaymentOrderOutbound(SavepointCase):
         payment_order.open2generated()
         payment_order.generated2uploaded()
 
-        self.assertEqual(payment_order.state, 'uploaded')
+        self.assertEqual(payment_order.state, 'done')
         with self.assertRaises(UserError):
             payment_order.unlink()
 
@@ -201,3 +202,57 @@ class TestPaymentOrderOutbound(SavepointCase):
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(
                 days=1)
+
+    def test_reconciliation_full(self):
+        self.mode.write({
+            'bank_account_link': 'fixed',
+            'default_date_prefered': 'fixed',
+            'fixed_journal_id': self.bank_journal.id,
+        })
+        self.bank_journal.default_debit_account_id.reconcile = True
+
+        order_full = self.order_creation('fixed')
+        order_full.write({'state': 'uploaded'})
+        self.reconcile_order_lines(order_full)
+        self.assertEqual(order_full.state, 'done')
+
+    def test_reconciliation_partial(self):
+        self.mode.write({
+            'bank_account_link': 'fixed',
+            'default_date_prefered': 'fixed',
+            'fixed_journal_id': self.bank_journal.id,
+        })
+        self.bank_journal.default_debit_account_id.reconcile = True
+
+        order_partial = self.order_creation('fixed')
+        order_partial.write({'state': 'uploaded'})
+        self.reconcile_order_lines(order_partial, .9)
+        self.assertEqual(order_partial.state, 'uploaded')
+
+    def reconcile_order_lines(self, order, factor=1):
+        to_reconcile = self.env['account.move.line'].search([
+            ('bank_payment_line_id', 'in', order.mapped('bank_line_ids').ids)
+        ]).mapped('move_id.line_ids').filtered(lambda x: not x.reconciled)
+        for move_line in to_reconcile[:]:
+            move = self.env['account.move'].create({
+                'name': 'payment',
+                'date': move_line.date,
+                'journal_id': self.bank_journal.id,
+                'line_ids': [
+                    (0, 0, dict(
+                        credit=move_line.credit * factor,
+                        debit=move_line.debit * factor,
+                        account_id=move_line.account_id.id,
+                    )),
+                    (0, 0, dict(
+                        credit=move_line.debit * factor,
+                        debit=move_line.credit * factor,
+                        account_id=move_line.account_id.id,
+                    )),
+                ],
+            })
+            to_reconcile += move.line_ids.filtered(
+                lambda x: x.credit != move_line.credit
+            )
+        to_reconcile.reconcile()
+        return to_reconcile
