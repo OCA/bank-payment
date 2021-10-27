@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-10-13 16:34+0000\n"
+"PO-Revision-Date: 2021-10-27 17:35+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -52,16 +52,19 @@ msgstr "Conto Bancario"
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice__partner_bank_id
 msgid "Bank Account Number to which the invoice will be paid. A Company bank account if this is a Customer Invoice or Vendor Credit Note, otherwise a Partner bank account number."
 msgstr ""
+"Numero conto bancario a cui sarà pagata la fattura. Un conto bancario "
+"dell'azienda se è una fattura cliente o nota di credito fornitore, "
+"altrimenti un conto bancario del contatto."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__bank_account_required
 msgid "Bank Account Required"
-msgstr "Contro Bancario Richiesto"
+msgstr "Conto bancario necessario"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_from_journal
 msgid "Bank account from journals"
-msgstr ""
+msgstr "Conto bancario dai registri"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
@@ -77,12 +80,12 @@ msgstr "Modalità pagamento cliente"
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "First n chars"
-msgstr ""
+msgstr "Primi n caratteri"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "Full"
-msgstr ""
+msgstr "Intero"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice
@@ -97,7 +100,7 @@ msgstr "Registro"
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
 msgid "Last n chars"
-msgstr ""
+msgstr "Ultimi n caratteri"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -108,7 +111,7 @@ msgstr "No"
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:37
 #, python-format
 msgid "No Chart of Account Template has been defined !"
-msgstr ""
+msgstr "Non è stato definito un modello per il piano dei conti!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__payment_mode_id
@@ -120,7 +123,7 @@ msgstr "Modalità di Pagamento"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
 msgid "Payment Modes"
-msgstr ""
+msgstr "Modi di pagamento"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
@@ -152,7 +155,7 @@ msgstr "Mostra il conto bancario nella fattura"
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show in invoices partial or full bank account number"
-msgstr ""
+msgstr "Mostra il numero di conto interamente o parzialmente nelle fatture"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
@@ -173,9 +176,13 @@ msgstr ""
 #, python-format
 msgid "You cannot change the Company. There exists at least one Invoice with this Payment Mode, already assigned to another Company."
 msgstr ""
+"Non puoi cambiare l'Azienda. Esiste almeno una fattura con questo modo di "
+"pagamento che è già assegnata ad un'altra azienda."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:46
 #, python-format
 msgid "You cannot change the Company. There exists at least one Journal Item with this Payment Mode, already assigned to another Company."
 msgstr ""
+"Non puoi cambiare l'Azienda. Esiste almeno un movimento contabile con questo "
+"modo di pagamento che è già assegnata ad un'altra azienda."
