@@ -10,7 +10,6 @@ from lxml import etree
 
 from odoo.exceptions import UserError
 from odoo.tests.common import SavepointCase
-from odoo.tools import float_compare
 
 
 class TestSCT(SavepointCase):
@@ -182,12 +181,11 @@ class TestSCT(SavepointCase):
         )
         self.assertEqual(len(pay_lines), 3)
         agrolait_pay_line1 = pay_lines[0]
-        accpre = self.env["decimal.precision"].precision_get("Account")
         self.assertEqual(agrolait_pay_line1.currency_id, self.eur_currency)
         self.assertEqual(agrolait_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            float_compare(
-                agrolait_pay_line1.amount_currency, 42, precision_digits=accpre
+            agrolait_pay_line1.currency_id.compare_amounts(
+                agrolait_pay_line1.amount_currency, 42
             ),
             0,
         )
@@ -203,8 +201,8 @@ class TestSCT(SavepointCase):
         agrolait_bank_line = bank_lines[0]
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEqual(
-            float_compare(
-                agrolait_bank_line.amount_currency, 49.0, precision_digits=accpre
+            agrolait_bank_line.currency_id.compare_amounts(
+                agrolait_bank_line.amount_currency, 49.0
             ),
             0,
         )
@@ -240,7 +238,7 @@ class TestSCT(SavepointCase):
         for inv in [invoice1, invoice2, invoice3, invoice4, invoice5]:
             self.assertEqual(inv.state, "posted")
             self.assertEqual(
-                float_compare(inv.amount_residual, 0.0, precision_digits=accpre),
+                inv.currency_id.compare_amounts(inv.amount_residual, 0.0),
                 0,
             )
         return
@@ -275,12 +273,11 @@ class TestSCT(SavepointCase):
         )
         self.assertEqual(len(pay_lines), 2)
         asus_pay_line1 = pay_lines[0]
-        accpre = self.env["decimal.precision"].precision_get("Account")
         self.assertEqual(asus_pay_line1.currency_id, self.usd_currency)
         self.assertEqual(asus_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            float_compare(
-                asus_pay_line1.amount_currency, 2042, precision_digits=accpre
+            asus_pay_line1.currency_id.compare_amounts(
+                asus_pay_line1.amount_currency, 2042
             ),
             0,
         )
@@ -296,8 +293,8 @@ class TestSCT(SavepointCase):
         asus_bank_line = bank_lines[0]
         self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
         self.assertEqual(
-            float_compare(
-                asus_bank_line.amount_currency, 3054.0, precision_digits=accpre
+            asus_bank_line.currency_id.compare_amounts(
+                asus_bank_line.amount_currency, 3054.0
             ),
             0,
         )
@@ -333,7 +330,7 @@ class TestSCT(SavepointCase):
         for inv in [invoice1, invoice2]:
             self.assertEqual(inv.state, "posted")
             self.assertEqual(
-                float_compare(inv.amount_residual, 0.0, precision_digits=accpre),
+                inv.currency_id.compare_amounts(inv.amount_residual, 0.0),
                 0,
             )
         return
@@ -349,7 +346,7 @@ class TestSCT(SavepointCase):
         move_type="in_invoice",
     ):
         partner_bank = cls.env.ref(partner_bank_xmlid)
-        partner_bank.write({"company_id": cls.main_company.id})
+        partner_bank.write({"company_id": False})
         data = {
             "partner_id": partner_id,
             "reference_type": "none",
@@ -359,6 +356,7 @@ class TestSCT(SavepointCase):
             "move_type": move_type,
             "payment_mode_id": cls.payment_mode.id,
             "partner_bank_id": partner_bank.id,
+            "company_id": cls.main_company.id,
             "invoice_line_ids": [],
         }
         line_data = {
