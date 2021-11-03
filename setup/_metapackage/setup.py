@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-account_banking_mandate',
+        'odoo14-addon-account_banking_mandate_sale',
         'odoo14-addon-account_banking_pain_base',
         'odoo14-addon-account_banking_sepa_credit_transfer',
         'odoo14-addon-account_banking_sepa_direct_debit',
