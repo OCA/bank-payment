@@ -24,7 +24,6 @@ class AccountMove(models.Model):
     reference_type = fields.Selection(
         selection=[("none", "Free Reference"), ("structured", "Structured Reference")],
         string="Reference Type",
-        required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
         default="none",
