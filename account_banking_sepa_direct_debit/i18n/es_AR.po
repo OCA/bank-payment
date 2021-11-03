@@ -19,11 +19,9 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid ""
-"'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id.name."
-"replace(' ', '_'))"
+"'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id and "
+"object.partner_id.name.replace(' ', '_') or '')"
 msgstr ""
-"'Mandatario-%s-%s' % (object.unique_mandate_reference, object.partner_id.name"
-".replace(' ', '_'))"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -558,3 +556,10 @@ msgstr ""
 "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
 "a la entidad para efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#~ msgid ""
+#~ "'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id."
+#~ "name.replace(' ', '_'))"
+#~ msgstr ""
+#~ "'Mandatario-%s-%s' % (object.unique_mandate_reference, object.partner_id."
+#~ "name.replace(' ', '_'))"
