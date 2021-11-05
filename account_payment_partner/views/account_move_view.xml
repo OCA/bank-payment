@@ -31,8 +31,7 @@
                     name="payment_mode_id"
                     domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
                     widget="selection"
-                    attrs="{'readonly': [('state', '!=', 'draft')]}"
-                    invisible="context.get('default_type') not in  ('out_invoice','out_refund','in_invoice','in_refund')"
+                    attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('type', 'not in', ('out_invoice','out_refund','in_invoice','in_refund'))]}"
                 />
                 <field name="commercial_partner_id" invisible="1" />
                 <field name="bank_account_required" invisible="1" />
