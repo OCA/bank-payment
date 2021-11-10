@@ -7,7 +7,7 @@
             ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
-            <button name="action_uploaded_cancel" position="after">
+            <button name="action_cancel" position="after">
                 <button
                     name="send_vendor_email"
                     string="Send Email"
