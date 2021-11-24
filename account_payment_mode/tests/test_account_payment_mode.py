@@ -6,41 +6,45 @@ from odoo.tests.common import TransactionCase
 
 
 class TestAccountPaymentMode(TransactionCase):
-    def setUp(self):
-        super(TestAccountPaymentMode, self).setUp()
-        self.res_users_model = self.env["res.users"]
-        self.journal_model = self.env["account.journal"]
-        self.payment_mode_model = self.env["account.payment.mode"]
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        cls.res_users_model = cls.env["res.users"]
+        cls.journal_model = cls.env["account.journal"]
+        cls.payment_mode_model = cls.env["account.payment.mode"]
 
         # refs
-        self.manual_out = self.env.ref("account.account_payment_method_manual_out")
+        cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
         # Company
-        self.company = self.env.ref("base.main_company")
+        cls.company = cls.env.ref("base.main_company")
 
         # Company 2
-        self.company_2 = self.env["res.company"].create({"name": "Company 2"})
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
 
-        self.journal_c1 = self._create_journal("J1", self.company)
-        self.journal_c2 = self._create_journal("J2", self.company_2)
-        self.journal_c3 = self._create_journal("J3", self.company)
+        cls.journal_c1 = cls._create_journal("J1", cls.company)
+        cls.journal_c2 = cls._create_journal("J2", cls.company_2)
+        cls.journal_c3 = cls._create_journal("J3", cls.company)
 
-        self.payment_mode_c1 = self.payment_mode_model.create(
+        cls.payment_mode_c1 = cls.payment_mode_model.create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
                 "bank_account_link": "variable",
-                "payment_method_id": self.manual_out.id,
-                "company_id": self.company.id,
-                "fixed_journal_id": self.journal_c1.id,
+                "payment_method_id": cls.manual_out.id,
+                "company_id": cls.company.id,
+                "fixed_journal_id": cls.journal_c1.id,
                 "variable_journal_ids": [
-                    (6, 0, [self.journal_c1.id, self.journal_c3.id])
+                    (6, 0, [cls.journal_c1.id, cls.journal_c3.id])
                 ],
             }
         )
 
-    def _create_journal(self, name, company):
+    @classmethod
+    def _create_journal(cls, name, company):
         # Create a cash account
         # Create a journal for cash account
-        journal = self.journal_model.create(
+        journal = cls.journal_model.create(
             {"name": name, "code": name, "type": "bank", "company_id": company.id}
         )
         return journal
@@ -103,7 +107,7 @@ class TestAccountPaymentMode(TransactionCase):
                     "company_id": self.company.id,
                 }
             )
-        self.journal_c1.outbound_payment_method_ids = False
+        self.journal_c1.outbound_payment_method_line_ids = False
         with self.assertRaises(ValidationError):
             self.payment_mode_model.create(
                 {
@@ -114,7 +118,7 @@ class TestAccountPaymentMode(TransactionCase):
                     "fixed_journal_id": self.journal_c1.id,
                 }
             )
-        self.journal_c1.inbound_payment_method_ids = False
+        self.journal_c1.inbound_payment_method_line_ids = False
         with self.assertRaises(ValidationError):
             self.payment_mode_model.create(
                 {

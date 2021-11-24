@@ -31,7 +31,6 @@ here. I hate the objects that don't have a view... -->
         <field name="model">account.payment.method</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="code" />
                 <field name="payment_type" />
