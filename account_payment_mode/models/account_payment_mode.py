@@ -80,47 +80,44 @@ class AccountPaymentMode(models.Model):
             if not mode.fixed_journal_id:
                 raise ValidationError(
                     _(
-                        "On the payment mode '%s', the bank account link is "
-                        "'Fixed' but the fixed bank journal is not set"
+                        "On the payment mode %(name)s, the bank account link is "
+                        "'Fixed' but the fixed bank journal is not set",
+                        name=mode.name,
                     )
-                    % mode.name
                 )
             else:
+                f_journal = mode.fixed_journal_id
                 if mode.payment_method_id.payment_type == "outbound":
-                    if (
-                        mode.payment_method_id.id
-                        not in mode.fixed_journal_id.outbound_payment_method_ids.ids
-                    ):
+                    p_modes = f_journal.outbound_payment_method_line_ids.mapped(
+                        "payment_method_id.id"
+                    )
+                    if mode.payment_method_id.id not in p_modes:
                         raise ValidationError(
                             _(
-                                "On the payment mode '%s', the payment method "
-                                "is '%s', but this payment method is not part "
+                                "On the payment mode %(paymode)s, the payment method "
+                                "is %(paymethod)s, but this payment method is not part "
                                 "of the payment methods of the fixed bank "
-                                "journal '%s'"
-                            )
-                            % (
-                                mode.name,
-                                mode.payment_method_id.name,
-                                mode.fixed_journal_id.name,
+                                "journal %(journal)s",
+                                paymode=mode.name,
+                                paymethod=mode.payment_method_id.name,
+                                journal=mode.fixed_journal_id.name,
                             )
                         )
                 else:
-                    if (
-                        mode.payment_method_id.id
-                        not in mode.fixed_journal_id.inbound_payment_method_ids.ids
-                    ):
+                    p_modes = f_journal.inbound_payment_method_line_ids.mapped(
+                        "payment_method_id.id"
+                    )
+                    if mode.payment_method_id.id not in p_modes:
                         raise ValidationError(
                             _(
-                                "On the payment mode '%s', the payment method "
-                                "is '%s' (it is in fact a debit method), "
+                                "On the payment mode %(paymode)s, the payment method "
+                                "is %(paymethod)s (it is in fact a debit method), "
                                 "but this debit method is not part "
                                 "of the debit methods of the fixed bank "
-                                "journal '%s'"
-                            )
-                            % (
-                                mode.name,
-                                mode.payment_method_id.name,
-                                mode.fixed_journal_id.name,
+                                "journal %(journal)s",
+                                paymode=mode.name,
+                                paymethod=mode.payment_method_id.name,
+                                journal=mode.fixed_journal_id.name,
                             )
                         )
 
@@ -130,8 +127,8 @@ class AccountPaymentMode(models.Model):
             if any(mode.company_id != j.company_id for j in mode.variable_journal_ids):
                 raise ValidationError(
                     _(
-                        "The company of the payment mode '%s', does not match "
-                        "with one of the Allowed Bank Journals."
+                        "The company of the payment mode %(paymode)s, does not match "
+                        "with one of the Allowed Bank Journals.",
+                        paymode=mode.name,
                     )
-                    % mode.name
                 )
