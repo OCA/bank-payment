@@ -38,11 +38,3 @@ class AccountPaymentMethod(models.Model):
                 )
             )
         return result
-
-    _sql_constraints = [
-        (
-            "code_payment_type_unique",
-            "unique(code, payment_type)",
-            "A payment method of the same type already exists with this code",
-        )
-    ]

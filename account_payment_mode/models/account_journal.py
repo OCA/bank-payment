@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
 
@@ -21,13 +21,6 @@ class AccountJournal(models.Model):
         )
         return all_in
 
-    outbound_payment_method_ids = fields.Many2many(
-        default=_default_outbound_payment_methods
-    )
-    inbound_payment_method_ids = fields.Many2many(
-        default=_default_inbound_payment_methods
-    )
-
     @api.constrains("company_id")
     def company_id_account_payment_mode_constrains(self):
         for journal in self:
@@ -41,11 +34,12 @@ class AccountJournal(models.Model):
             if mode:
                 raise ValidationError(
                     _(
-                        "The company of the journal '%s' does not match "
-                        "with the company of the payment mode '%s' where it is "
-                        "being used as Fixed Bank Journal."
+                        "The company of the journal %(journal)s does not match "
+                        "with the company of the payment mode %(paymode)s where it is "
+                        "being used as Fixed Bank Journal.",
+                        journal=journal.name,
+                        paymode=mode.name,
                     )
-                    % (journal.name, mode.name)
                 )
             mode = self.env["account.payment.mode"].search(
                 [
@@ -57,9 +51,10 @@ class AccountJournal(models.Model):
             if mode:
                 raise ValidationError(
                     _(
-                        "The company of the journal '%s' does not match "
-                        "with the company of the payment mode '%s' where it is "
-                        "being used in the Allowed Bank Journals."
+                        "The company of the journal  %(journal)s does not match "
+                        "with the company of the payment mode  %(paymode)s where it is "
+                        "being used in the Allowed Bank Journals.",
+                        journal=journal.name,
+                        paymode=mode.name,
                     )
-                    % (journal.name, mode.name)
                 )
