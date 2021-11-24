@@ -399,7 +399,7 @@ class TestAccountPaymentPartner(SavepointCase):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                {
+                **{
                     "active_ids": [invoice.id],
                     "active_id": invoice.id,
                     "active_model": "account.move",
@@ -427,7 +427,7 @@ class TestAccountPaymentPartner(SavepointCase):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                {
+                **{
                     "active_ids": [invoice.id],
                     "active_id": invoice.id,
                     "active_model": "account.move",
