@@ -17,7 +17,6 @@ class AccountPaymentMode(models.Model):
             ("last", "Last n chars"),
             ("no", "No"),
         ],
-        string="Show bank account",
         default="full",
         help="Show in invoices partial or full bank account number",
     )
