@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+    <record id="account_payment_mode_company_rule" model="ir.rule">
+        <field name="name">Payment mode multi-company rule</field>
+        <field name="model_id" ref="model_account_payment_mode"/>
+    </record>
+</odoo>

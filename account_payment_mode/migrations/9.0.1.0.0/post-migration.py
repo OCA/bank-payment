@@ -22,3 +22,6 @@ def migrate(env, version):
         FROM account_payment_method pm WHERE apm.payment_method_id = pm.id
         WHERE payment_type IS NULL;
         """)
+    openupgrade.load_data(
+        env.cr, "account_payment_mode", "migrations/9.0.1.0.0/noupdate_changes.xml"
+    )
