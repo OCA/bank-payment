@@ -7,6 +7,14 @@ def pre_init_hook(cr):
     migrate_from_8(cr)
 
 
+xmlid_renames = [
+    (
+        "account_payment_order.payment_mode_comp_rule",
+        "account_payment_mode.account_payment_mode_company_rule",
+    )
+]
+
+
 def migrate_from_8(cr):
     """If we're installed on a database which has the payment_mode table
     from 8.0, move its table so that we use the already existing modes"""
@@ -14,9 +22,12 @@ def migrate_from_8(cr):
     if not cr.fetchone():
         return
     try:
-        from openupgradelib.openupgrade import rename_models, rename_tables
+        from openupgradelib.openupgrade import (
+            rename_models, rename_tables, rename_xmlids
+        )
         rename_models(cr, [('payment.mode', 'account.payment.mode')])
         rename_tables(cr, [('payment_mode', 'account_payment_mode')])
+        rename_xmlids(cr, xmlid_renames)
     except ImportError:
         cr.execute('ALTER TABLE payment_mode RENAME TO account_payment_mode')
         cr.execute('ALTER SEQUENCE payment_mode_id_seq '
