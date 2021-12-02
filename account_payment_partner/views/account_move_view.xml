@@ -30,7 +30,6 @@
                     widget="selection"
                     attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('move_type', 'not in', ('out_invoice','out_refund','in_invoice','in_refund'))]}"
                 />
-                <field name="commercial_partner_id" invisible="1" />
                 <field name="bank_account_required" invisible="1" />
                 <field name="payment_mode_filter_type_domain" invisible="1" />
                 <field name="partner_bank_filter_type_domain" invisible="1" />
