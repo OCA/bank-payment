@@ -17,7 +17,7 @@ class AccountMove(models.Model):
     )
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
-        compute="_compute_payment_mode",
+        compute="_compute_payment_mode_id",
         store=True,
         ondelete="restrict",
         readonly=False,
@@ -27,7 +27,7 @@ class AccountMove(models.Model):
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
     )
     partner_bank_id = fields.Many2one(
-        compute="_compute_partner_bank",
+        compute="_compute_partner_bank_id",
         store=True,
         ondelete="restrict",
         readonly=False,
@@ -54,9 +54,8 @@ class AccountMove(models.Model):
                 move.partner_bank_filter_type_domain = False
 
     @api.depends("partner_id", "company_id")
-    def _compute_payment_mode(self):
+    def _compute_payment_mode_id(self):
         for move in self:
-            move.payment_mode_id = move.payment_mode_id
             if move.company_id and move.payment_mode_id.company_id != move.company_id:
                 move.payment_mode_id = False
             if move.partner_id:
@@ -88,19 +87,21 @@ class AccountMove(models.Model):
         ``_compute_partner_bank``.
         """
         res = super()._onchange_partner_id()
-        self._compute_partner_bank()
+        self._compute_partner_bank_id()
         return res
 
     @api.depends("partner_id", "payment_mode_id")
-    def _compute_partner_bank(self):
+    def _compute_partner_bank_id(self):
         for move in self:
             # No bank account assignation is done for out_invoice as this is only
             # needed for printing purposes and it can conflict with
             # SEPA direct debit payments. Current report prints it.
             def get_bank_id():
-                return move.commercial_partner_id.bank_ids.filtered(
-                    lambda b: b.company_id == move.company_id or not b.company_id
-                )[:1]
+                return fields.first(
+                    move.commercial_partner_id.bank_ids.filtered(
+                        lambda b: b.company_id == move.company_id or not b.company_id
+                    )
+                )
 
             bank_id = False
             if move.partner_id:
@@ -145,11 +146,10 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        """Force compute partner_bank_id when invoice is created from SO
-        to avoid that odoo _prepare_invoice method value will be set.
-        """
+        # Force compute partner_bank_id when invoice is created from SO
+        # to avoid that odoo _prepare_invoice method value will be set.
         if self.env.context.get("active_model") == "sale.order":  # pragma: no cover
             virtual_move = self.new(vals)
-            virtual_move._compute_partner_bank()
+            virtual_move._compute_partner_bank_id()
             vals["partner_bank_id"] = virtual_move.partner_bank_id.id
         return super().create(vals)
