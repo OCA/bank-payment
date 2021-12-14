@@ -4,7 +4,7 @@
         <field name="name">SEPA Credit Transfer to suppliers</field>
         <field name="code">sepa_credit_transfer</field>
         <field name="payment_type">outbound</field>
-        <field name="bank_account_required" eval="True" />
+        <field name="bank_account_required" eval="False" />
         <field name="pain_version">pain.001.001.03</field>
     </record>
 </odoo>
