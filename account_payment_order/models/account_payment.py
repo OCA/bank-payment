@@ -11,29 +11,33 @@ class AccountPayment(models.Model):
         res = super()._get_default_journal()
         return res.filtered(lambda journal: not journal.inbound_payment_order_only)
 
-    @api.depends(
-        "payment_type",
-        "journal_id.inbound_payment_method_ids",
-        "journal_id.outbound_payment_method_ids",
-    )
-    def _compute_payment_method_fields(self):
-        res = super()._compute_payment_method_fields()
+    @api.depends("payment_type", "journal_id")
+    def _compute_payment_method_line_fields(self):
+        res = super()._compute_payment_method_line_fields()
         for pay in self:
-            if pay.payment_type == "inbound":
-                pay.available_payment_method_ids = (
-                    pay.journal_id.inbound_payment_method_ids.filtered(
-                        lambda m: not m.payment_order_only
-                    )
-                )
-            else:
-                pay.available_payment_method_ids = (
-                    pay.journal_id.outbound_payment_method_ids.filtered(
-                        lambda m: not m.payment_order_only
-                    )
-                )
-
-            pay.hide_payment_method = (
-                len(pay.available_payment_method_ids) == 1
-                and pay.available_payment_method_ids.code == "manual"
+            pay.available_payment_method_line_ids = (
+                pay.journal_id._get_available_payment_method_lines(
+                    pay.payment_type
+                ).filtered(lambda x: not x.payment_method_id.payment_order_only)
             )
+            to_exclude = self._get_payment_method_codes_to_exclude()
+            if to_exclude:
+                pay.available_payment_method_line_ids = (
+                    pay.available_payment_method_line_ids.filtered(
+                        lambda x: x.code not in to_exclude
+                    )
+                )
+            if (
+                pay.payment_method_line_id.id
+                not in pay.available_payment_method_line_ids.ids
+            ):
+                # In some cases, we could be linked to a payment method
+                # line that has been unlinked from the journal.
+                # In such cases, we want to show it on the payment.
+                pay.hide_payment_method_line = False
+            else:
+                pay.hide_payment_method_line = (
+                    len(pay.available_payment_method_line_ids) == 1
+                    and pay.available_payment_method_line_ids.code == "manual"
+                )
         return res

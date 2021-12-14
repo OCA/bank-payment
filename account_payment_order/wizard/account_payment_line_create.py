@@ -33,11 +33,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         string="Type of Date Filter",
         required=True,
     )
-    due_date = fields.Date(string="Due Date")
-    move_date = fields.Date(string="Move Date", default=fields.Date.context_today)
+    due_date = fields.Date()
+    move_date = fields.Date(default=fields.Date.context_today)
     payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
-        string="Payment Mode",
     )
     move_line_ids = fields.Many2many(
         comodel_name="account.move.line", string="Move Lines"

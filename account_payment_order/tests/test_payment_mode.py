@@ -1,12 +1,27 @@
 # © 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
 
 class TestPaymentMode(TransactionCase):
     def setUp(self):
         super(TestPaymentMode, self).setUp()
+
+        Method_get_payment_method_information = (
+            AccountPaymentMethod._get_payment_method_information
+        )
+
+        def _get_payment_method_information(self):
+            res = Method_get_payment_method_information(self)
+            res["IN"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
+            res["IN2"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
+            res["electronic_out"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
+            return res
 
         # Company
         self.company = self.env.ref("base.main_company")
@@ -28,13 +43,19 @@ class TestPaymentMode(TransactionCase):
 
         self.manual_in = self.env.ref("account.account_payment_method_manual_in")
 
-        self.electronic_out = self.env["account.payment.method"].create(
-            {
-                "name": "Electronic Out",
-                "code": "electronic_out",
-                "payment_type": "outbound",
-            }
-        )
+        with patch.object(
+            AccountPaymentMethod,
+            "_get_payment_method_information",
+            _get_payment_method_information,
+        ):
+
+            self.electronic_out = self.env["account.payment.method"].create(
+                {
+                    "name": "Electronic Out",
+                    "code": "electronic_out",
+                    "payment_type": "outbound",
+                }
+            )
 
         self.payment_mode_c1 = self.env["account.payment.mode"].create(
             {
