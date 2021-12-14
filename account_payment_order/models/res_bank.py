@@ -14,10 +14,11 @@ class ResBank(models.Model):
             if bank.bic and len(bank.bic) not in (8, 11):
                 raise ValidationError(
                     _(
-                        "A valid BIC contains 8 or 11 characters. The BIC '%s' "
-                        "contains %d characters, so it is not valid."
+                        "A valid BIC contains 8 or 11 characters. The BIC '%(bic)s' "
+                        "contains %(num)d characters, so it is not valid.",
+                        bic=bank.bic,
+                        num=len(bank.bic),
                     )
-                    % (bank.bic, len(bank.bic))
                 )
 
 

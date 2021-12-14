@@ -51,7 +51,7 @@
         <field name="name">account.payment.line.tree</field>
         <field name="model">account.payment.line</field>
         <field name="arch" type="xml">
-            <tree string="Payment Lines">
+            <tree>
                 <field
                     name="order_id"
                     invisible="not context.get('account_payment_line_main_view')"
