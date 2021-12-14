@@ -23,7 +23,6 @@ class AccountMove(models.Model):
     # payment mode or company level
     reference_type = fields.Selection(
         selection=[("none", "Free Reference"), ("structured", "Structured Reference")],
-        string="Reference Type",
         readonly=True,
         states={"draft": [("readonly", False)]},
         default="none",
@@ -102,18 +101,20 @@ class AccountMove(models.Model):
                 if new_payorder:
                     move.message_post(
                         body=_(
-                            "%d payment lines added to the new draft payment "
-                            "order %s which has been automatically created."
+                            "%(count)d payment lines added to the new draft payment "
+                            "order %(name)s which has been automatically created.",
+                            count=count,
+                            name=payorder.name,
                         )
-                        % (count, payorder.name)
                     )
                 else:
                     move.message_post(
                         body=_(
-                            "%d payment lines added to the existing draft "
-                            "payment order %s."
+                            "%(count)d payment lines added to the existing draft "
+                            "payment order %(name)s.",
+                            count=count,
+                            name=payorder.name,
                         )
-                        % (count, payorder.name)
                     )
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "account_payment_order.account_payment_order_%s_action"

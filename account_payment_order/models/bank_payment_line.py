@@ -70,7 +70,7 @@ class BankPaymentLine(models.Model):
     communication_type = fields.Selection(
         related="payment_line_ids.communication_type", readonly=True
     )
-    communication = fields.Char(string="Communication", required=True, readonly=True)
+    communication = fields.Char(required=True, readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         related="order_id.payment_mode_id.company_id",
@@ -160,26 +160,29 @@ class BankPaymentLine(models.Model):
                 raise UserError(
                     _(
                         "Can not reconcile: no move line for "
-                        "payment line %s of partner '%s'."
+                        "payment line %(line)s of partner '%(partner)s'.",
+                        line=payment_line.name,
+                        partner=payment_line.partner_id.name,
                     )
-                    % (payment_line.name, payment_line.partner_id.name)
                 )
             if payment_line.move_line_id.reconciled:
                 raise UserError(
-                    _("Move line '%s' of partner '%s' has already " "been reconciled")
-                    % (payment_line.move_line_id.name, payment_line.partner_id.name)
+                    _(
+                        "Move line '%(line)s' of partner '%(partner)s' has already "
+                        "been reconciled",
+                        line=payment_line.move_line_id.name,
+                        partner=payment_line.partner_id.name,
+                    )
                 )
             if payment_line.move_line_id.account_id != transit_mline.account_id:
                 raise UserError(
                     _(
-                        "For partner '%s', the account of the account "
-                        "move line to pay (%s) is different from the "
-                        "account of of the transit move line (%s)."
-                    )
-                    % (
-                        payment_line.move_line_id.partner_id.name,
-                        payment_line.move_line_id.account_id.code,
-                        transit_mline.account_id.code,
+                        "For partner '%(partner)s', the account of the account "
+                        "move line to pay (%(line1)s) is different from the "
+                        "account of of the transit move line (%(line2)s).",
+                        partner=payment_line.move_line_id.partner_id.name,
+                        line1=payment_line.move_line_id.account_id.code,
+                        line2=transit_mline.account_id.code,
                     )
                 )
 
@@ -194,8 +197,8 @@ class BankPaymentLine(models.Model):
                 raise UserError(
                     _(
                         "Cannot delete a payment order line whose payment order is"
-                        " in state '%s'. You need to cancel it first."
+                        " in state '%(state)s'. You need to cancel it first.",
+                        state=order_state,
                     )
-                    % order_state
                 )
         return super(BankPaymentLine, self).unlink()
