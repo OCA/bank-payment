@@ -29,7 +29,6 @@ class AccountPaymentOrder(models.Model):
     )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
-        string="Payment Type",
         readonly=True,
         required=True,
     )
@@ -180,10 +179,11 @@ class AccountPaymentOrder(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "The payment type (%s) is not the same as the payment "
-                        "type of the payment mode (%s)"
+                        "The payment type (%(ptype)s) is not the same as the payment "
+                        "type of the payment mode (%(pmode)s)",
+                        ptype=order.payment_type,
+                        pmode=order.payment_mode_id.payment_type,
                     )
-                    % (order.payment_type, order.payment_mode_id.payment_type)
                 )
 
     @api.constrains("date_scheduled")
@@ -194,10 +194,11 @@ class AccountPaymentOrder(models.Model):
                 if order.date_scheduled < today:
                     raise ValidationError(
                         _(
-                            "On payment order %s, the Payment Execution Date "
-                            "is in the past (%s)."
+                            "On payment order %(porder)s, the Payment Execution Date "
+                            "is in the past (%(exedate)s).",
+                            porder=order.name,
+                            exedate=order.date_scheduled,
                         )
-                        % (order.name, order.date_scheduled)
                     )
 
     @api.depends("payment_line_ids", "payment_line_ids.amount_company_currency")
@@ -327,16 +328,14 @@ class AccountPaymentOrder(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "The payment mode '%s' has the option "
+                            "The payment mode '%(pmode)s' has the option "
                             "'Disallow Debit Before Maturity Date'. The "
-                            "payment line %s has a maturity date %s "
-                            "which is after the computed payment date %s."
-                        )
-                        % (
-                            order.payment_mode_id.name,
-                            payline.name,
-                            payline.ml_maturity_date,
-                            requested_date,
+                            "payment line %(pline)s has a maturity date %(mdate)s "
+                            "which is after the computed payment date %(pdate)s.",
+                            pmode=order.payment_mode_id.name,
+                            pline=payline.name,
+                            mdate=payline.ml_maturity_date,
+                            pdate=requested_date,
                         )
                     )
                 # Write requested_date on 'date' field of payment line
@@ -366,8 +365,12 @@ class AccountPaymentOrder(models.Model):
                 # Block if a bank payment line is <= 0
                 if paydict["total"] <= 0:
                     raise UserError(
-                        _("The amount for Partner '%s' is negative " "or null (%.2f) !")
-                        % (paydict["paylines"][0].partner_id.name, paydict["total"])
+                        _(
+                            "The amount for Partner '%(partner)s' is negative "
+                            "or null (%(amount).2f) !",
+                            partner=paydict["paylines"][0].partner_id.name,
+                            amount=paydict["total"],
+                        )
                     )
                 vals = self._prepare_bank_payment_line(paydict["paylines"])
                 bplo.create(vals)
@@ -460,10 +463,22 @@ class AccountPaymentOrder(models.Model):
         self, amount_company_currency, amount_payment_currency, bank_lines
     ):
         vals = {}
-        if self.payment_type == "outbound":
-            account_id = self.journal_id.payment_credit_account_id.id
-        else:
-            account_id = self.journal_id.payment_debit_account_id.id
+        payment_method = self.payment_mode_id.payment_method_id
+        account_id = False
+        if self.payment_type == "inbound":
+            account_id = (
+                self.journal_id.inbound_payment_method_line_ids.filtered(
+                    lambda x: x.payment_method_id == payment_method
+                ).payment_account_id.id
+                or self.journal_id.company_id.account_journal_payment_debit_account_id.id
+            )
+        elif self.payment_type == "outbound":
+            account_id = (
+                self.journal_id.outbound_payment_method_line_ids.filtered(
+                    lambda x: x.payment_method_id == payment_method
+                ).payment_account_id.id
+                or self.journal_id.company_id.account_journal_payment_credit_account_id.id
+            )
 
         partner_id = False
         for index, bank_line in enumerate(bank_lines):
