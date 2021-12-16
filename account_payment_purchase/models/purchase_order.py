@@ -29,7 +29,7 @@ class PurchaseOrder(models.Model):
 
     @api.onchange("partner_id", "company_id")
     def onchange_partner_id(self):
-        super(PurchaseOrder, self).onchange_partner_id()
+        ret = super(PurchaseOrder, self).onchange_partner_id()
         if self.partner_id:
             self.supplier_partner_bank_id = self._get_default_supplier_partner_bank(
                 self.partner_id
@@ -38,3 +38,4 @@ class PurchaseOrder(models.Model):
         else:
             self.supplier_partner_bank_id = False
             self.payment_mode_id = False
+        return ret
