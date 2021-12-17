@@ -1,0 +1,2 @@
+git+https://github.com/OCA/bank-payment@refs/pull/873/head#subdirectory=setup/account_payment_partner
+git+https://github.com/OCA/bank-payment@refs/pull/870/head#subdirectory=setup/account_payment_mode
