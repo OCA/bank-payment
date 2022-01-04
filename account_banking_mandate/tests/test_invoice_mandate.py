@@ -1,4 +1,4 @@
-# Copyright 2017 Creu Blanca
+# Copyright 2017-2022 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields
@@ -8,8 +8,6 @@ from odoo.tests.common import TransactionCase
 
 class TestInvoiceMandate(TransactionCase):
     def test_post_invoice_01(self):
-        self.invoice._onchange_partner_id()
-
         self.assertEqual(self.invoice.mandate_id, self.mandate)
 
         self.invoice.action_post()
@@ -53,7 +51,6 @@ class TestInvoiceMandate(TransactionCase):
         )
         mandate_2.validate()
 
-        self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
         self.invoice.action_post()
 
@@ -65,7 +62,6 @@ class TestInvoiceMandate(TransactionCase):
                 payable_move_lines[0].move_id.mandate_id = mandate_2
 
     def test_post_invoice_and_refund_02(self):
-        self.invoice._onchange_partner_id()
         self.invoice.action_post()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
         move_reversal = (
@@ -76,6 +72,7 @@ class TestInvoiceMandate(TransactionCase):
                     "date": fields.Date.today(),
                     "reason": "no reason",
                     "refund_method": "refund",
+                    "journal_id": self.invoice.journal_id.id,
                 }
             )
         )
@@ -83,7 +80,7 @@ class TestInvoiceMandate(TransactionCase):
         ref = self.env["account.move"].browse(reversal["res_id"])
         self.assertEqual(self.invoice.mandate_id, ref.mandate_id)
 
-    def test_onchange_partner(self):
+    def test_partner_update(self):
         partner_2 = self._create_res_partner("Jane with ACME Bank")
         partner_2.customer_payment_mode_id = self.mode_inbound_acme
         bank_account = self.env["res.partner.bank"].create(
@@ -113,10 +110,9 @@ class TestInvoiceMandate(TransactionCase):
         )
 
         invoice.partner_id = partner_2
-        invoice._onchange_partner_id()
         self.assertEqual(invoice.mandate_id, mandate_2)
 
-    def test_onchange_payment_mode(self):
+    def test_payment_mode_update(self):
         invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
@@ -124,12 +120,11 @@ class TestInvoiceMandate(TransactionCase):
                 "company_id": self.company.id,
             }
         )
-        invoice._onchange_partner_id()
 
         pay_method_test = self.env["account.payment.method"].create(
             {
                 "name": "Test",
-                "code": "test",
+                "code": "test_mandate",
                 "payment_type": "inbound",
                 "mandate_required": False,
             }
@@ -144,7 +139,6 @@ class TestInvoiceMandate(TransactionCase):
         )
 
         invoice.payment_mode_id = mode_inbound_acme_2
-        invoice._onchange_payment_mode_id()
         self.assertEqual(invoice.mandate_id, self.env["account.banking.mandate"])
 
     def test_invoice_constrains(self):
@@ -188,7 +182,7 @@ class TestInvoiceMandate(TransactionCase):
         )
 
     def setUp(self):
-        res = super(TestInvoiceMandate, self).setUp()
+        res = super().setUp()
         self.company = self.env.ref("base.main_company")
 
         self.partner = self._create_res_partner("Peter with ACME Bank")

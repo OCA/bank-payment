@@ -1,6 +1,6 @@
-# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# Copyright 2014 Tecnativa - Pedro M. Baeza
-# Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014-2022 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2015-2022 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
@@ -30,35 +30,22 @@ class AccountPaymentLine(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "The payment line number %s has the bank account "
-                        "'%s' which is not attached to the mandate '%s' (this "
-                        "mandate is attached to the bank account '%s')."
+                        "The payment line '{pay_line}' has the bank account "
+                        "'{pay_line_bank_account}' which is not attached to "
+                        "the mandate '{mandate}' (this mandate is attached to the "
+                        "bank account '{mandate_bank_account}')."
+                    ).format(
+                        pay_line=pline.display_name,
+                        pay_line_bank_account=pline.partner_bank_id.display_name,
+                        mandate=pline.mandate_id.display_name,
+                        mandate_bank_account=pline.mandate_id.partner_bank_id.display_name,
                     )
-                    % (
-                        pline.name,
-                        pline.partner_bank_id.acc_number,
-                        pline.mandate_id.unique_mandate_reference,
-                        pline.mandate_id.partner_bank_id.acc_number,
-                    )
-                )
-
-    @api.constrains("mandate_id", "company_id")
-    def _check_company_constrains(self):
-        for pline in self:
-            if (
-                pline.mandate_id.company_id
-                and pline.mandate_id.company_id != pline.company_id
-            ):
-                raise ValidationError(
-                    _(
-                        "The payment line number %s a different company than "
-                        "that of the linked mandate %s)."
-                    )
-                    % (pline.name, pline.mandate_id.display_name)
                 )
 
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
-            raise UserError(_("Missing Mandate on payment line %s") % self.name)
+            raise UserError(
+                _("Missing Mandate on payment line '%s'.") % self.display_name
+            )
         return res

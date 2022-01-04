@@ -1,4 +1,4 @@
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from datetime import timedelta
@@ -224,7 +224,7 @@ class TestMandate(TransactionCase):
         self.assertTrue(mandate.unique_mandate_reference)
 
     def setUp(self):
-        res = super(TestMandate, self).setUp()
+        res = super().setUp()
         # Company
         self.company = self.env.ref("base.main_company")
 

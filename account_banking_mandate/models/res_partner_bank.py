@@ -1,5 +1,5 @@
-# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# Copyright 2014 Tecnativa - Pedro M. Baeza
+# Copyright 2014-2022 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models

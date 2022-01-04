@@ -1,5 +1,5 @@
-# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
+# Copyright 2016-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2017-2022 Carlos Dauden <carlos.dauden@tecnativa.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models
@@ -9,7 +9,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     mandate_count = fields.Integer(
-        compute="_compute_mandate_count", string="Number of Mandates", readonly=True
+        compute="_compute_mandate_count", string="Number of Mandates"
     )
     valid_mandate_id = fields.Many2one(
         comodel_name="account.banking.mandate",
@@ -29,22 +29,18 @@ class ResPartner(models.Model):
             partner.mandate_count = mapped_data.get(partner.id, 0)
 
     def _compute_valid_mandate_id(self):
-        # Dict for reducing the duplicated searches on parent/child partners
         company_id = self.env.company.id
-        if company_id:
-            company = self.env["res.company"].browse(company_id)
-        else:
-            company = self.env.company
 
+        # Dict for reducing the duplicated searches on parent/child partners
         mandates_dic = {}
         for partner in self:
-            commercial_partner_id = partner.commercial_partner_id.id
-            if commercial_partner_id in mandates_dic:
-                partner.valid_mandate_id = mandates_dic[commercial_partner_id]
+            commercial_partner = partner.commercial_partner_id
+            if commercial_partner.id in mandates_dic:
+                partner.valid_mandate_id = mandates_dic[commercial_partner.id]
             else:
-                mandates = partner.commercial_partner_id.bank_ids.mapped(
-                    "mandate_ids"
-                ).filtered(lambda x: x.state == "valid" and x.company_id == company)
+                mandates = commercial_partner.bank_ids.mandate_ids.filtered(
+                    lambda x: x.state == "valid" and x.company_id.id == company_id
+                )
                 first_valid_mandate_id = mandates[:1].id
                 partner.valid_mandate_id = first_valid_mandate_id
-                mandates_dic[commercial_partner_id] = first_valid_mandate_id
+                mandates_dic[commercial_partner.id] = first_valid_mandate_id

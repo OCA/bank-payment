@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2013-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2013-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
@@ -8,7 +8,7 @@
         <field name="name">view.mandate.form</field>
         <field name="model">account.banking.mandate</field>
         <field name="arch" type="xml">
-            <form string="Banking Mandate">
+            <form>
                 <header>
                     <button
                         name="validate"
@@ -114,7 +114,15 @@
         <field name="name">view.mandate.tree</field>
         <field name="model">account.banking.mandate</field>
         <field name="arch" type="xml">
-            <tree string="Banking Mandate">
+            <tree>
+                <header>
+                    <button
+                        name="validate"
+                        type="object"
+                        string="Validate"
+                        groups="account_payment_order.group_account_payment"
+                    />
+                </header>
                 <field name="id" invisible="1" />
                 <field name="unique_mandate_reference" string="Reference" />
                 <field
@@ -133,8 +141,8 @@
                     widget="badge"
                     decoration-muted="type == 'generic'"
                 />
-                <field name="signature_date" string="Signature Date" />
-                <field name="last_debit_date" />
+                <field name="signature_date" string="Signature Date" optional="show" />
+                <field name="last_debit_date" optional="show" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <button
                     name="validate"
@@ -198,19 +206,29 @@
                 />
                 <group string="Group By" name="groupby">
                     <filter
+                        name="partner_groupby"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
                         name="state_groupby"
                         string="State"
                         context="{'group_by': 'state'}"
                     />
                     <filter
+                        name="type_groupby"
+                        string="Type"
+                        context="{'group_by': 'type'}"
+                    />
+                    <filter
+                        name="format_groupby"
+                        string="Format"
+                        context="{'group_by': 'format'}"
+                    />
+                    <filter
                         name="signature_date_groupby"
                         string="Signature Date"
                         context="{'group_by': 'signature_date'}"
-                    />
-                    <filter
-                        name="partner_groupby"
-                        string="Partner"
-                        context="{'group_by': 'partner_id'}"
                     />
 
                 </group>

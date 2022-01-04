@@ -1,7 +1,7 @@
-# Copyright 2014 Compassion CH - Cyril Sester <csester@compassion.ch>
-# Copyright 2014 Tecnativa - Pedro M. Baeza
-# Copyright 2015-2020 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2020 Tecnativa - Carlos Dauden
+# Copyright 2014-2022 Compassion CH - Cyril Sester <csester@compassion.ch>
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2015-2022 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2020-2022 Tecnativa - Carlos Dauden
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
@@ -19,6 +19,7 @@ class AccountBankingMandate(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "signature_date desc"
     _check_company_auto = True
+    _rec_name = "unique_mandate_reference"
 
     def _get_default_partner_bank_id_domain(self):
         if "default_partner_id" in self.env.context:
@@ -61,7 +62,7 @@ class AccountBankingMandate(models.Model):
         default=lambda self: self.env.company,
     )
     unique_mandate_reference = fields.Char(
-        string="Unique Mandate Reference", tracking=10, copy=False
+        tracking=10, copy=False, default=lambda self: _("New")
     )
     signature_date = fields.Date(
         string="Date of Signature of the Mandate",
@@ -177,11 +178,14 @@ class AccountBankingMandate(models.Model):
 
     @api.model
     def create(self, vals=None):
-        unique_mandate_reference = vals.get("unique_mandate_reference")
-        if not unique_mandate_reference or unique_mandate_reference == "New":
-            vals["unique_mandate_reference"] = (
-                self.env["ir.sequence"].next_by_code("account.banking.mandate") or "New"
-            )
+        if "company_id" in vals:
+            self = self.with_company(vals["company_id"])
+        if vals.get("unique_mandate_reference", _("New")) == _("New") or not vals.get(
+            "unique_mandate_reference"
+        ):
+            vals["unique_mandate_reference"] = self.env["ir.sequence"].next_by_code(
+                "account.banking.mandate"
+            ) or _("New")
         return super().create(vals)
 
     @api.onchange("partner_bank_id")
@@ -192,13 +196,18 @@ class AccountBankingMandate(models.Model):
     def validate(self):
         for mandate in self:
             if mandate.state != "draft":
-                raise UserError(_("Mandate should be in draft state."))
+                raise UserError(
+                    _("Mandate '%s' should be in draft state.") % mandate.display_name
+                )
         self.write({"state": "valid"})
 
     def cancel(self):
         for mandate in self:
             if mandate.state not in ("draft", "valid"):
-                raise UserError(_("Mandate should be in draft or valid state."))
+                raise UserError(
+                    _("Mandate '%s' should be in draft or valid state.")
+                    % mandate.display_name
+                )
         self.write({"state": "cancel"})
 
     def back2draft(self):
@@ -207,5 +216,8 @@ class AccountBankingMandate(models.Model):
         """
         for mandate in self:
             if mandate.state != "cancel":
-                raise UserError(_("Mandate should be in cancel state."))
+                raise UserError(
+                    _("Mandate '%s' should be in cancelled state.")
+                    % mandate.display_name
+                )
         self.write({"state": "draft"})
