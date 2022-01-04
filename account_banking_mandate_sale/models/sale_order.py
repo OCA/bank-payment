@@ -1,4 +1,4 @@
-# Copyright 2014-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2014-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -7,15 +7,18 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    # This field commercial_partner_id should be moved
-    # in an OCA base module named for example sale_commercial_partner
+    commercial_invoice_partner_id = fields.Many2one(
+        related="partner_invoice_id.commercial_partner_id",
+        string="Invoicing Commercial Entity",
+        store=True,
+    )
     mandate_id = fields.Many2one(
         "account.banking.mandate",
         string="Direct Debit Mandate",
         ondelete="restrict",
         check_company=True,
         readonly=False,
-        domain="[('partner_id', '=', commercial_partner_id), "
+        domain="[('partner_id', '=', commercial_invoice_partner_id), "
         "('state', 'in', ('draft', 'valid')), "
         "('company_id', '=', company_id)]",
     )
@@ -26,20 +29,25 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         """Copy mandate from sale order to invoice"""
         vals = super()._prepare_invoice()
-        vals["mandate_id"] = self.mandate_id.id or False
+        if self.mandate_id:
+            vals["mandate_id"] = self.mandate_id.id
         return vals
 
-    @api.depends("partner_id")
+    @api.depends("partner_invoice_id")
     def _compute_payment_mode(self):
-        """Select by default the first valid mandate of the partner"""
-        super()._compute_payment_mode()
+        """Select by default the first valid mandate of the invoicing partner"""
+        res = super()._compute_payment_mode()
         abm_obj = self.env["account.banking.mandate"]
         for order in self:
-            if order.mandate_required and order.partner_id:
+            if order.mandate_required and order.partner_invoice_id:
                 mandate = abm_obj.search(
                     [
                         ("state", "=", "valid"),
-                        ("partner_id", "=", order.commercial_partner_id.id),
+                        (
+                            "partner_id",
+                            "=",
+                            order.partner_invoice_id.commercial_partner_id.id,
+                        ),
                         ("company_id", "=", order.company_id.id),
                     ],
                     limit=1,
@@ -47,3 +55,4 @@ class SaleOrder(models.Model):
                 order.mandate_id = mandate or False
             else:
                 order.mandate_id = False
+        return res
