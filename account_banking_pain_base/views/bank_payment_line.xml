@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2015-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
@@ -12,8 +12,8 @@
             <field name="partner_bank_id" position="after">
                 <field name="priority" />
                 <field name="local_instrument" />
-                <field name="category_purpose" />
-                <field name="purpose" />
+                <field name="category_purpose_id" />
+                <field name="purpose_id" />
             </field>
         </field>
     </record>
@@ -23,9 +23,12 @@
         <field name="inherit_id" ref="account_payment_order.bank_payment_line_tree" />
         <field name="arch" type="xml">
             <field name="communication" position="after">
-                    <field name="priority" optional="hide" />
+                <field name="priority" optional="hide" />
+                <field name="local_instrument" optional="hide" />
+                <field name="category_purpose_id" optional="hide" />
+                <field name="purpose_id" optional="hide" />
             </field>
-    </field>
+        </field>
     </record>
 
 </odoo>

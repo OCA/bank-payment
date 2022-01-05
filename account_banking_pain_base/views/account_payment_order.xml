@@ -21,7 +21,7 @@
                 />
             </field>
         </field>
-</record>
+    </record>
     <record id="account_payment_order_tree" model="ir.ui.view">
         <field name="name">pain.base.account.payment.order.tree</field>
         <field name="model">account.payment.order</field>
@@ -30,10 +30,32 @@
             ref="account_payment_order.account_payment_order_tree"
         />
         <field name="arch" type="xml">
-                <field name="description" position="after">
-                        <field name="sepa" optional="hide" />
+            <field name="journal_id" position="after">
+                <field name="sepa" optional="show" />
+                <field name="batch_booking" optional="hide" />
+                <field name="charge_bearer" optional="hide" />
             </field>
         </field>
-</record>
+    </record>
+    <record id="account_payment_order_search" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.order.search</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_search"
+        />
+        <field name="arch" type="xml">
+            <filter name="uploaded" position="after">
+                <separator />
+                <filter name="sepa" string="SEPA" domain="[('sepa', '=', True)]" />
+                <filter
+                    name="not-sepa"
+                    string="Not SEPA"
+                    domain="[('sepa', '=', False)]"
+                />
+            </filter>
+        </field>
+    </record>
+
 
 </odoo>

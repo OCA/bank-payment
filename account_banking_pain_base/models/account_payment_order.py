@@ -1,7 +1,7 @@
-# Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# Copyright 2016 Antiun Ingenieria S.L. - Antonio Espinosa
-# Copyright 2021 Tecnativa - Carlos Roca
+# Copyright 2013-2022 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2014-2022 Serv. Tecnol. Avanzados - Pedro M. Baeza
+# Copyright 2016-2022 Antiun Ingenieria S.L. - Antonio Espinosa
+# Copyright 2021-2022 Tecnativa - Carlos Roca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -24,7 +24,9 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    sepa = fields.Boolean(compute="_compute_sepa", readonly=True, string="SEPA Payment")
+    sepa = fields.Boolean(
+        compute="_compute_sepa", readonly=True, string="SEPA", store=True
+    )
     charge_bearer = fields.Selection(
         [
             ("SLEV", "Following Service Level"),
@@ -32,7 +34,6 @@ class AccountPaymentOrder(models.Model):
             ("CRED", "Borne by Creditor"),
             ("DEBT", "Borne by Debtor"),
         ],
-        string="Charge Bearer",
         default="SLEV",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
@@ -48,7 +49,6 @@ class AccountPaymentOrder(models.Model):
         "debtor.",
     )
     batch_booking = fields.Boolean(
-        string="Batch Booking",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
@@ -103,6 +103,7 @@ class AccountPaymentOrder(models.Model):
         ]
 
     @api.depends(
+        "charge_bearer",
         "company_partner_bank_id.acc_type",
         "company_partner_bank_id.sanitized_acc_number",
         "payment_line_ids.currency_id",
@@ -114,6 +115,8 @@ class AccountPaymentOrder(models.Model):
         sepa_list = self._sepa_iban_prefix_list()
         for order in self:
             sepa = True
+            if order.charge_bearer != "SLEV":
+                sepa = False
             if order.company_partner_bank_id.acc_type != "iban":
                 sepa = False
             if (
@@ -136,7 +139,7 @@ class AccountPaymentOrder(models.Model):
                     sepa = False
                     break
             sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
+            order.sepa = sepa
 
     def compute_sepa_final_hook(self, sepa):
         self.ensure_one()
@@ -202,15 +205,14 @@ class AccountPaymentOrder(models.Model):
                 "\n".join(
                     [error_msg_prefix] + error_msg_details_list + [error_msg_data]
                 )
-            )
+            ) from None
 
         if not isinstance(value, str):
             raise UserError(
                 _(
-                    "The type of the field '%s' is %s. It should be a string "
-                    "or unicode."
-                )
-                % (field_name, type(value))
+                    "The type of the field '{field_name}' is {field_type}. "
+                    "It should be a string."
+                ).format(field_name=field_name, field_type=type(value))
             )
         if not value:
             raise UserError(
@@ -260,7 +262,7 @@ class AccountPaymentOrder(models.Model):
                     "of the problem : %s"
                 )
                 % str(e)
-            )
+            ) from e
         return True
 
     def finalize_sepa_file_creation(self, xml_root, gen_args):

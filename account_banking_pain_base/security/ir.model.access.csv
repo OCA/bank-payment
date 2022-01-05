@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_iso20022_code_list_read,Read access on iso20022.code.list,model_iso20022_code_list,base.group_user,1,0,0,0
+access_iso20022_code_list_full,Full access on iso20022.code.list,model_iso20022_code_list,account.group_account_manager,1,1,1,1
