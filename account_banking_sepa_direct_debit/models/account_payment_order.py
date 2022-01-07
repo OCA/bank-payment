@@ -1,5 +1,5 @@
-# Copyright 2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2018 Tecnativa - Pedro M. Baeza
+# Copyright 2020-2022 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from lxml import etree
@@ -75,7 +75,7 @@ class AccountPaymentOrder(models.Model):
         for line in self.bank_line_ids:
             transactions_count_a += 1
             priority = line.priority
-            categ_purpose = line.category_purpose
+            categ_purpose = line.category_purpose_id.code or False
             scheme = line.mandate_id.scheme
             if line.mandate_id.type == "oneoff":
                 seq_type = "OOFF"
@@ -253,9 +253,9 @@ class AccountPaymentOrder(models.Model):
                     line,
                 )
 
-                if line.purpose:
+                if line.purpose_id:
                     purpose = etree.SubElement(dd_transaction_info, "Purp")
-                    etree.SubElement(purpose, "Cd").text = line.purpose
+                    etree.SubElement(purpose, "Cd").text = line.purpose_id.code
 
                 self.generate_remittance_info_block(dd_transaction_info, line, gen_args)
 
@@ -302,8 +302,8 @@ class AccountPaymentOrder(models.Model):
                         "Automatically switched from <b>First</b> to "
                         "<b>Recurring</b> when the debit order "
                         "<a href=# data-oe-model=account.payment.order "
-                        "data-oe-id=%d>%s</a> has been marked as uploaded."
-                    )
-                    % (order.id, order.name)
+                        "data-oe-id={pay_order_id}>{pay_order_name}</a> "
+                        "has been marked as uploaded."
+                    ).format(pay_order_id=order.id, pay_order_name=order.display_name)
                 )
         return res

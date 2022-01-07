@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="payment_mode_inbound_sepa_dd1" model="account.payment.mode">
             <field name="name">SEPA Direct Debit of customers</field>
             <field name="company_id" ref="base.main_company" />
@@ -14,9 +13,9 @@
         <!-- Azure Interior -->
         <record id="res_partner_12_mandate" model="account.banking.mandate">
             <field
-                name="partner_bank_id"
-                ref="account_payment_mode.res_partner_12_iban"
-            />
+            name="partner_bank_id"
+            ref="account_payment_mode.res_partner_12_iban"
+        />
             <field name="format">sepa</field>
             <field name="type">recurrent</field>
             <field name="recurrent_sequence_type">first</field>
@@ -25,16 +24,16 @@
         </record>
         <record id="base.res_partner_12" model="res.partner">
             <field
-                name="customer_payment_mode_id"
-                ref="payment_mode_inbound_sepa_dd1"
-            />
+            name="customer_payment_mode_id"
+            ref="payment_mode_inbound_sepa_dd1"
+        />
         </record>
         <!-- Deco Addict -->
         <record id="res_partner_2_mandate" model="account.banking.mandate">
             <field
-                name="partner_bank_id"
-                ref="account_payment_mode.res_partner_2_iban"
-            />
+            name="partner_bank_id"
+            ref="account_payment_mode.res_partner_2_iban"
+        />
             <field name="format">sepa</field>
             <field name="type">recurrent</field>
             <field name="recurrent_sequence_type">first</field>
@@ -43,9 +42,8 @@
         </record>
         <record id="base.res_partner_2" model="res.partner">
             <field
-                name="customer_payment_mode_id"
-                ref="payment_mode_inbound_sepa_dd1"
-            />
+            name="customer_payment_mode_id"
+            ref="payment_mode_inbound_sepa_dd1"
+        />
         </record>
-    </data>
 </odoo>

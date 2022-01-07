@@ -2,7 +2,7 @@ Create SEPA files for Direct Debit
 
 Module to export direct debit payment orders in SEPA XML file format.
 
-SEPA PAIN (PAyment INitiation) is the new european standard for
+SEPA PAIN (PAyment INitiation) is the european standard for
 Customer-to-Bank payment instructions. This module implements SEPA Direct
 Debit (SDD), more specifically PAIN versions 008.001.02, 008.001.03 and
 008.001.04. It is part of the ISO 20022 standard, available on
