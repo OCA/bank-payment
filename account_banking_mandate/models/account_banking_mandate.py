@@ -16,7 +16,7 @@ class AccountBankingMandate(models.Model):
 
     _name = "account.banking.mandate"
     _description = "A generic banking mandate"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "signature_date desc"
 
     def _get_default_partner_bank_id_domain(self):
