@@ -93,6 +93,9 @@ class AccountMove(models.Model):
 
     @api.depends("partner_id", "payment_mode_id")
     def _compute_partner_bank(self):
+        # Module l10n-switzerland/l10n_ch_isr_payment_grouping needs this setting
+        if not self.company_id.force_blank_partner_bank_id:
+            return
         for move in self:
             # No bank account assignation is done for out_invoice as this is only
             # needed for printing purposes and it can conflict with
@@ -103,16 +106,17 @@ class AccountMove(models.Model):
                 )[:1]
 
             bank_id = False
-            if move.partner_id:
+            if move.move_type != "in_invoice" or not move.partner_id:
+                pass
+            else:
                 pay_mode = move.payment_mode_id
-                if move.move_type == "in_invoice":
-                    if (
-                        pay_mode
-                        and pay_mode.payment_type == "outbound"
-                        and pay_mode.payment_method_id.bank_account_required
-                        and move.commercial_partner_id.bank_ids
-                    ):
-                        bank_id = get_bank_id()
+                if (
+                    pay_mode
+                    and pay_mode.payment_type == "outbound"
+                    and pay_mode.payment_method_id.bank_account_required
+                    and move.commercial_partner_id.bank_ids
+                ):
+                    bank_id = get_bank_id()
             move.partner_bank_id = bank_id
 
     def _reverse_move_vals(self, default_values, cancel=True):

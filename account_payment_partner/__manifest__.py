@@ -15,6 +15,7 @@
     "depends": ["account_payment_mode"],
     "data": [
         "views/res_partner_view.xml",
+        "views/res_config_settings.xml",
         "views/account_move_view.xml",
         "views/account_move_line.xml",
         "views/account_payment_mode.xml",
