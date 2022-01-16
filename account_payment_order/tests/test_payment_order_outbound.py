@@ -5,12 +5,14 @@
 from datetime import date, datetime, timedelta
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
-class TestPaymentOrderOutbound(TransactionCase):
-    def setUp(self):
-        super(TestPaymentOrderOutbound, self).setUp()
+class TestPaymentOrderOutboundBase(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        self = cls
+        super().setUpClass()
         self.env.user.company_id = self.env.ref("base.main_company").id
         self.journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
@@ -30,8 +32,8 @@ class TestPaymentOrderOutbound(TransactionCase):
             )
             .id
         )
-        self.invoice = self._create_supplier_invoice()
-        self.invoice_02 = self._create_supplier_invoice()
+        self.invoice = self._create_supplier_invoice(cls)
+        self.invoice_02 = self._create_supplier_invoice(cls)
         self.mode = self.env.ref("account_payment_mode.payment_mode_outbound_ct1")
         self.creation_mode = self.env.ref(
             "account_payment_mode.payment_mode_outbound_dd1"
@@ -74,6 +76,8 @@ class TestPaymentOrderOutbound(TransactionCase):
 
         return invoice
 
+
+class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
         self.mode.group_lines = False
