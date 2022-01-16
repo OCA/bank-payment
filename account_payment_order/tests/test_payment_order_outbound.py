@@ -10,7 +10,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
+class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
@@ -85,6 +85,8 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
 
         return invoice
 
+
+class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
         self.mode.group_lines = False
