@@ -252,90 +252,40 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(days=2)
 
-
-def test_manual_line_and_manual_date(self):
-    # Create payment order
-    outbound_order = self.env["account.payment.order"].create(
-        {
-            "date_prefered": "due",
-            "payment_type": "outbound",
-            "payment_mode_id": self.mode.id,
-            "journal_id": self.journal.id,
-            "description": "order with manual line",
+    def test_manual_line_and_manual_date(self):
+        # Create payment order
+        outbound_order = self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+            }
+        )
+        self.assertEqual(len(outbound_order.payment_line_ids), 0)
+        # Create a manual payment order line with custom date
+        vals = {
+            "order_id": outbound_order.id,
+            "partner_id": self.partner.id,
+            "communication": "manual line and manual date",
+            "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 192.38,
+            "date": date.today() + timedelta(days=8),
         }
-    )
-    self.assertEqual(len(outbound_order.payment_line_ids), 0)
-    # Create a manual payment order line with custom date
-    vals = {
-        "order_id": outbound_order.id,
-        "partner_id": self.env.ref("base.res_partner_4").id,
-        "partner_bank_id": self.env.ref("base.res_partner_4").bank_ids[0].id,
-        "communication": "manual line and manual date",
-        "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
-        "amount_currency": 192.38,
-        "date": date.today() + timedelta(days=8),
-    }
-    self.env["account.payment.line"].create(vals)
-
-    self.assertEqual(len(outbound_order.payment_line_ids), 1)
-    self.assertEqual(
-        outbound_order.payment_line_ids[0].date, date.today() + timedelta(days=8)
-    )
-
-    # Create a manual payment order line with normal date
-    vals = {
-        "order_id": outbound_order.id,
-        "partner_id": self.env.ref("base.res_partner_4").id,
-        "partner_bank_id": self.env.ref("base.res_partner_4").bank_ids[0].id,
-        "communication": "manual line",
-        "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
-        "amount_currency": 200.38,
-    }
-    self.env["account.payment.line"].create(vals)
-
-    self.assertEqual(len(outbound_order.payment_line_ids), 2)
-    self.assertEqual(outbound_order.payment_line_ids[1].date, False)
-
-    # Open payment order
-    self.assertEqual(len(outbound_order.bank_line_ids), 0)
-    outbound_order.draft2open()
-    self.assertEqual(outbound_order.bank_line_count, 2)
-    self.assertEqual(
-        outbound_order.payment_line_ids[0].date,
-        outbound_order.payment_line_ids[0].bank_line_id.date,
-    )
-    self.assertEqual(
-        outbound_order.payment_line_ids[1].date,
-        fields.Date.context_today(outbound_order),
-    )
-    self.assertEqual(
-        outbound_order.payment_line_ids[1].bank_line_id.date,
-        fields.Date.context_today(outbound_order),
-    )
-    # Generate and upload
-    outbound_order.open2generated()
-    outbound_order.generated2uploaded()
-
-    self.assertEqual(outbound_order.state, "uploaded")
-    with self.assertRaises(UserError):
-        outbound_order.unlink()
-
-    bank_line = outbound_order.bank_line_ids
-
-    with self.assertRaises(UserError):
-        bank_line.unlink()
-    outbound_order.action_done_cancel()
-    self.assertEqual(outbound_order.state, "cancel")
-    outbound_order.cancel2draft()
-    outbound_order.unlink()
-    self.assertEqual(
-        len(
-            self.env["account.payment.order"].search(
-                [("description", "=", "order with manual line")]
-            )
-        ),
-        0,
-    )
+        self.env["account.payment.line"].create(vals)
+        self.assertEqual(len(outbound_order.payment_line_ids), 1)
+        self.assertEqual(
+            outbound_order.payment_line_ids[0].date, date.today() + timedelta(days=8)
+        )
+        # Create a manual payment order line with normal date
+        vals = {
+            "order_id": outbound_order.id,
+            "partner_id": self.partner.id,
+            "communication": "manual line",
+            "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200.38,
+        }
         self.env["account.payment.line"].create(vals)
         self.assertEqual(len(outbound_order.payment_line_ids), 2)
         self.assertEqual(outbound_order.payment_line_ids[1].date, False)
