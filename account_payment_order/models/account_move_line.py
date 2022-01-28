@@ -37,8 +37,11 @@ class AccountMoveLine(models.Model):
                 communication = self.invoice_id.reference
                 ref2comm_type =\
                     aplo.invoice_reference_type2communication_type()
-                communication_type =\
-                    ref2comm_type[self.invoice_id.reference_type]
+                if self.invoice_id.reference_type == 'QRR':
+                    communication_type = 'qrr'
+                else:
+                    communication_type =\
+                        ref2comm_type[self.invoice_id.reference_type]
             else:
                 if (
                         self.invoice_id.type in ('in_invoice', 'in_refund') and
