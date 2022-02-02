@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-14 11:29+0000\n"
-"PO-Revision-Date: 2021-04-22 18:47+0000\n"
+"PO-Revision-Date: 2022-02-02 21:33+0000\n"
 "Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
@@ -264,9 +264,9 @@ msgid ""
 "method), but this debit method is not part of the debit methods of the fixed "
 "bank journal '%s'"
 msgstr ""
-"Op de betaal mode '%s', de betaalwijze is '%s' (dit is een debet mode), maar "
-"de debet mode is geen onderdeel van de debet modes van de vaste bankrekening "
-"'%s'"
+"Op de betaal mode '%s', is de betaalwijze '%s' (dit is een debet mode), maar "
+"de betaalwijze is niet toegestaan volgens de instellingen voor deze "
+"bankrekening op het dagboek '%s'"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
@@ -320,7 +320,7 @@ msgstr "Betaalmode"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_type
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 msgid "Payment Type"
-msgstr "Betaalwijze"
+msgstr "Betaalrichting"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
