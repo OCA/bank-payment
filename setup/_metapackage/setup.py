@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-account_payment_mode>=15.0dev,<15.1dev',
+        'odoo-addon-account_payment_partner>=15.0dev,<15.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
