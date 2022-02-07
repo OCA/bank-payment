@@ -1,0 +1,259 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_partner
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-23 03:38+0000\n"
+"PO-Revision-Date: 2017-11-23 03:38+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: Croatian (https://www.transifex.com/oca/teams/23907/hr/)\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "# of chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
+msgid "<strong>Bank Account:</strong>"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.report_invoice_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__bank_account_required
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment__bank_account_required
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__partner_bank_id
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__partner_bank_id
+msgid ""
+"Bank Account Number to which the invoice will be paid. A Company bank "
+"account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
+"Partner bank account number."
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__bank_account_required
+msgid "Bank Account Required"
+msgstr "Bankovni račun je obavezan"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
+msgid "First n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__full
+msgid "Full"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report____last_update
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move____last_update
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
+msgid "Last n chars"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__no
+msgid "No"
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
+#, python-format
+msgid "No Chart of Account Template has been defined !"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__partner_bank_filter_type_domain
+msgid "Partner Bank Filter Type Domain"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_id
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_report_search
+msgid "Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_filter_type_domain
+msgid "Payment Mode Filter Type Domain"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modeli plaćanja"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__payment_mode_id
+msgid "Payment mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
+msgid "Payments"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
+msgid "Recipient Bank"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_partner.field_res_users__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
+msgid "Show bank account"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Journal Entry with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+
+#. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_payment_mode.py:0
+#, python-format
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+
+#, fuzzy
+#~ msgid "Bank Account"
+#~ msgstr "Bankovni račun je obavezan"
