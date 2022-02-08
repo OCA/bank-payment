@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-11-17 13:36+0000\n"
+"PO-Revision-Date: 2022-02-08 11:59+0000\n"
 "Last-Translator: Simon S <simon.stromberg@vertel.se>\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -274,19 +274,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__communication
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__communication
 msgid "Communication"
-msgstr "Kommunikation"
+msgstr "Referens"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__communication_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__communication_type
 msgid "Communication Type"
-msgstr "Kommunikationstyp"
+msgstr "Referenstyp"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Communication is empty on payment line %s."
-msgstr ""
+msgstr "Referens är tom på betalningsrad %s."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
@@ -319,12 +319,12 @@ msgstr "Skapa"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create Payment Lines"
-msgstr ""
+msgstr "Skapa betalrader"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Create Payment Lines from Journal Items"
-msgstr ""
+msgstr "Skapa betalrader från journalposter"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -438,7 +438,7 @@ msgstr "Utkast"
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_type__due
 msgid "Due"
-msgstr ""
+msgstr "Förfaller"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__ml_maturity_date
@@ -869,12 +869,12 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
 msgid "One move per payment date"
-msgstr ""
+msgstr "En post per betalningsdatum"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
 msgid "One move per payment line"
-msgstr ""
+msgstr "En post per betalningsrad"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1024,12 +1024,12 @@ msgstr "Betalningstyp"
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment bank line %s"
-msgstr ""
+msgstr "Bankbetalningsrad %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__payment_line_ids
 msgid "Payment lines"
-msgstr ""
+msgstr "Betalningsrader"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
@@ -1045,7 +1045,7 @@ msgstr "Betalningar"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
 msgid "Post Move"
-msgstr ""
+msgstr "Bokför post"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1083,7 +1083,7 @@ msgstr "Samma eller tom"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Search Bank Payment Lines"
-msgstr ""
+msgstr "Sök bankbetalningsrader"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
