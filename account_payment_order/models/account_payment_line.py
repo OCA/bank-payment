@@ -67,6 +67,10 @@ class AccountPaymentLine(models.Model):
         check_company=True,
     )
     date = fields.Date(string="Payment Date")
+    # communication field is required=False because we don't want to block
+    # the creation of lines from move/invoices when communication is empty
+    # This field is required in the form view and there is an error message
+    # when going from draft to confirm if the field is empty
     communication = fields.Char(
         required=False, help="Label of the payment that will be seen by the destinee"
     )
