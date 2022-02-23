@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+  <record id="sepa_credit_transfer" model="account.payment.method">
+    <field name="bank_account_required" eval="True" />
+  </record>
+</odoo>

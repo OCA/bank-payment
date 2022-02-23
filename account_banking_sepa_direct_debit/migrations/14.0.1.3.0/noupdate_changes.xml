@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+  <record id="sepa_direct_debit" model="account.payment.method">
+    <field name="mandate_required" eval="True" />
+  </record>
+</odoo>
