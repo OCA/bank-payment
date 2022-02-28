@@ -11,7 +11,6 @@
     "website": "https://github.com/OCA/bank-payment",
     "category": "Banking addons",
     "depends": ["account_banking_pain_base", "account_banking_mandate"],
-    "external_dependencies": {"python": ["stdnum"]},
     "data": [
         "views/account_banking_mandate_view.xml",
         "views/res_config_settings.xml",
