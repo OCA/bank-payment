@@ -5,13 +5,12 @@
 {
     "name": "Account Banking SEPA Direct Debit",
     "summary": "Create SEPA files for Direct Debit",
-    "version": "14.0.1.3.0",
+    "version": "14.0.1.3.1",
     "license": "AGPL-3",
     "author": "Akretion, " "Tecnativa, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "category": "Banking addons",
     "depends": ["account_banking_pain_base", "account_banking_mandate"],
-    "external_dependencies": {"python": ["stdnum"]},
     "data": [
         "views/account_banking_mandate_view.xml",
         "views/res_config_settings.xml",
