@@ -41,8 +41,9 @@
                     '|',('company_id', '=', company_id),('company_id', '=', False)]
                 </attribute>
                 <attribute name="attrs">
-                    {'required': [('bank_account_required', '=', True)], 'readonly':
-                    [('state', '!=', 'draft')]}
+                    {'required': [('bank_account_required', '=', True),('move_type', 'in', ('in_invoice', 'in_refund'))],
+                    'readonly': [('state', '!=', 'draft')],
+                    'invisible': [('move_type', '=', 'entry')]}
                 </attribute>
                 <attribute name="context">
                     {'default_partner_id':commercial_partner_id}
