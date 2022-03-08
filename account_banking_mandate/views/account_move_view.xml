@@ -13,7 +13,8 @@
                 <field
                     name="mandate_id"
                     domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
-                    attrs="{'required': [('mandate_required', '=', True)], 'invisible': [('mandate_required', '=', False)]}"
+                    attrs="{'required': [('mandate_required', '=', True),('move_type', 'in', ('out_invoice', 'out_refund'))],
+                    'invisible': ['|', ('mandate_required', '=', False),('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
                 />
                 <field name="mandate_required" invisible="1" />
             </field>
