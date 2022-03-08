@@ -45,9 +45,9 @@
             <field name="payment_reference" position="before">
                 <field
                     name="reference_type"
-                    required="1"
                     attrs="{'readonly':[('state','!=','draft')],
-                               'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                            'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))],
+                            'required': [('move_type', 'in', ('out_invoice', 'out_refund'))]}"
                 />
             </field>
         </field>
