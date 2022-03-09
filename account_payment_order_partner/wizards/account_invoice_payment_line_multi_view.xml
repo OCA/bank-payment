@@ -12,6 +12,7 @@
             </xpath>
             <xpath expr="//footer/button[@name='run']" position="attributes">
                 <attribute name="string">Link to Draft Order(s)</attribute>
+                <attribute name="context">{'is_update_order': True}</attribute>
                 <attribute
                     name="attrs"
                 >{'invisible': [('draft_orders', '=', True)]}</attribute>
