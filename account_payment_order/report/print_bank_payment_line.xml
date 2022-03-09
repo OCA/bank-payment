@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 2022 Copyright ForgeFlow, S.L. (https://www.forgeflow.com)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- QWeb Report -->
+    <report
+        id="action_print_bank_payment_line"
+        model="account.payment.order"
+        string="Bank Payment Lines"
+        report_type="qweb-pdf"
+        name="account_payment_order.print_bank_payment_line_main"
+        file="account_payment_order.print_bank_payment_line_main"
+    />
+</odoo>

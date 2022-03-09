@@ -35,6 +35,8 @@
         "data/payment_seq.xml",
         "report/print_account_payment_order.xml",
         "report/account_payment_order.xml",
+        "report/print_bank_payment_line.xml",
+        "report/bank_payment_line.xml",
     ],
     "demo": ["demo/payment_demo.xml"],
     "installable": True,
