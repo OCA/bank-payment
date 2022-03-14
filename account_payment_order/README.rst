@@ -23,7 +23,7 @@ Account Payment Order
     :target: https://runbot.odoo-community.org/runbot/173/13.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5|
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
 This module adds support for payment orders and debit orders.
 
@@ -103,7 +103,6 @@ Contributors
 
   * Raf Ven <raf.ven@dynapps.be>
 * Andrea Stirpe <a.stirpe@onestein.nl>
-* Guillem Casassas <guillem.casassas@forgeflow.com>
 
 Maintainers
 ~~~~~~~~~~~
