@@ -37,31 +37,37 @@ msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Company Currency:</strong>"
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Execution:</strong>"
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Payment Type:</strong>"
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Reference</strong>"
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Total</strong>"
 msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "<strong>Used Account:</strong>"
 msgstr ""
 
@@ -151,6 +157,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__amount_currency
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Amount"
 msgstr "Bedrag"
 
@@ -191,6 +198,7 @@ msgstr "Bank"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__partner_bank_id
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__offsetting_account__bank_account
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Bank Account"
 msgstr "Bankrekeningen"
 
@@ -219,11 +227,13 @@ msgstr "Betaalregel referentie"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.bank_payment_line_action
+#: model:ir.actions.report,name:account_payment_order.action_print_bank_payment_line
 #: model:ir.model,name:account_payment_order.model_bank_payment_line
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_line_ids
 #: model:ir.ui.menu,name:account_payment_order.bank_payment_line_menu
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Bank Payment Lines"
 msgstr "Bank betaalregels"
 
@@ -360,6 +370,7 @@ msgstr "Aangemaakt op"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__company_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__company_currency_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Currency"
 msgstr "Valuta"
 
@@ -415,6 +426,7 @@ msgstr "Sta geen debit toe voor vervaldatum"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main__display_name
+#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_bank_payment_line_main__display_name
 msgid "Display Name"
 msgstr "Weergave naam"
 
@@ -567,6 +579,7 @@ msgstr "Groepeer transacties in betaalopdracht"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main__id
+#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_bank_payment_line_main__id
 msgid "ID"
 msgstr "ID"
 
@@ -625,6 +638,7 @@ msgstr "Betalingsopdracht"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Invoice Ref"
 msgstr ""
 
@@ -687,6 +701,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main____last_update
+#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_bank_payment_line_main____last_update
 msgid "Last Modified on"
 msgstr "Laatst bijgewerkt op"
 
@@ -931,6 +946,7 @@ msgstr "Toevoegen aan betaalopdracht"
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__partner_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Partner"
 msgstr "Relatie"
 
@@ -956,6 +972,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__date
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__date
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Payment Date"
 msgstr "Betaaldatum"
 
@@ -1177,6 +1194,11 @@ msgid "Target Moves"
 msgstr "Welke mutaties"
 
 #. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_bank_payment_line_main
+msgid "Technical model for printing Bank Payment Line"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "Technical model for printing payment order"
 msgstr ""
@@ -1247,6 +1269,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
+#: model_terms:ir.ui.view,arch_db:account_payment_order.print_bank_payment_line_document
 msgid "Total (Currency)"
 msgstr ""
 
