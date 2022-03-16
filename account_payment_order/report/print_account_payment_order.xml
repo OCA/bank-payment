@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2017 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- QWeb Report -->
+    <record id="action_print_payment_order" model="ir.actions.report">
+        <field name="name">Payment Order</field>
+        <field name="model">account.payment.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >account_payment_order.print_account_payment_order_main</field>
+        <field
+            name="report_file"
+        >account_payment_order.print_account_payment_order_main</field>
+        <field
+            name="binding_model_id"
+            ref="account_payment_order.model_account_payment_order"
+        />
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
