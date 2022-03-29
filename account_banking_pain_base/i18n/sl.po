@@ -647,7 +647,7 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
 msgid "Payment Line has reference '%s'."
-msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
+msgstr "Plačilne postavke s sklicem '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
