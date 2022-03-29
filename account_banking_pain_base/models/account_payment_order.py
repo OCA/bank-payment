@@ -32,7 +32,6 @@ class AccountPaymentOrder(models.Model):
             ("CRED", "Borne by Creditor"),
             ("DEBT", "Borne by Debtor"),
         ],
-        string="Charge Bearer",
         default="SLEV",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
@@ -48,7 +47,6 @@ class AccountPaymentOrder(models.Model):
         "debtor.",
     )
     batch_booking = fields.Boolean(
-        string="Batch Booking",
         readonly=True,
         states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
@@ -202,15 +200,16 @@ class AccountPaymentOrder(models.Model):
                 "\n".join(
                     [error_msg_prefix] + error_msg_details_list + [error_msg_data]
                 )
-            )
+            ) from None
 
         if not isinstance(value, str):
             raise UserError(
                 _(
-                    "The type of the field '%s' is %s. It should be a string "
-                    "or unicode."
+                    "The type of the field '%(field)s' is %(value)s. It should be a string "
+                    "or unicode.",
+                    field=field_name,
+                    value=type(value),
                 )
-                % (field_name, type(value))
             )
         if not value:
             raise UserError(
@@ -260,7 +259,7 @@ class AccountPaymentOrder(models.Model):
                     "of the problem : %s"
                 )
                 % str(e)
-            )
+            ) from None
         return True
 
     def finalize_sepa_file_creation(self, xml_root, gen_args):
