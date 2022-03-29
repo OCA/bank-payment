@@ -11,7 +11,6 @@ class AccountPaymentLine(models.Model):
 
     priority = fields.Selection(
         [("NORM", "Normal"), ("HIGH", "High")],
-        string="Priority",
         default="NORM",
         help="This field will be used as 'Instruction Priority' in "
         "the generated PAIN file.",
@@ -20,7 +19,7 @@ class AccountPaymentLine(models.Model):
     # will begin on November 2017, cf account_banking_sepa_credit_transfer
     # It is also used in some countries such as switzerland,
     # cf l10n_ch_pain_base that adds some entries in the selection field
-    local_instrument = fields.Selection([], string="Local Instrument")
+    local_instrument = fields.Selection([])
     category_purpose = fields.Selection(
         [
             # Full category purpose list found on:
@@ -56,7 +55,6 @@ class AccountPaymentLine(models.Model):
             ("VATX", "VAT Payment"),
             ("WHLD", "WithHolding"),
         ],
-        string="Category Purpose",
         help="If neither your bank nor your local regulations oblige you to "
         "set the category purpose, leave the field empty.",
     )

@@ -13,3 +13,6 @@
 
   * Pedro M. Baeza
   * Carlos Roca
+* `Sygel <https://www.sygel.es>`_:
+
+  * Manuel Regidor
