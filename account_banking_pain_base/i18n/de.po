@@ -676,7 +676,7 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Payment Line has reference '%s'."
 msgstr ""
-"Das '%s' der Zahlungszeile kann nicht mit der Referenz '%s'berechnet werden."
+"Das 'Referenz '%s'berechnet werden."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line

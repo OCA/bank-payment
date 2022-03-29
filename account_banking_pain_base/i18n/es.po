@@ -663,7 +663,7 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Payment Line has reference '%s'."
 msgstr ""
-"No se puede procesar el campo '%s' de la línea de pago con referencia '%s'."
+"Línea de pago con referencia '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
