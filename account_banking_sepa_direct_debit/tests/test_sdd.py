@@ -130,7 +130,7 @@ class TestSDDBase(SavepointCase):
 
     @classmethod
     def setUpAdditionalAccounts(cls):
-        """ Set up some addionnal accounts: expenses, revenue, ... """
+        """Set up some addionnal accounts: expenses, revenue, ..."""
         user_type_income = cls.env.ref("account.data_account_type_direct_costs")
         cls.account_income = cls.env["account.account"].create(
             {
