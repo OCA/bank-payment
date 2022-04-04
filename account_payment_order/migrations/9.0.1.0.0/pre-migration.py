@@ -61,6 +61,18 @@ column_renames_payment_transfer = {
     ],
 }
 
+xmlids_renames = [
+    (
+        "account_payment_order.payment_order_comp_rule",
+        "account_payment_order.account_payment_order_company_rule",
+    ),
+    (
+        "account_payment_order.payment_line_comp_rule",
+        "account_payment_order.account_payment_line_company_rule",
+    ),
+]
+
+
 # They are being handled after module rename, so source module name is correct
 EXISTING_PAYMENT_MODE_TYPE_XML_IDS = {
     'account_payment_order.manual_bank_tranfer':
@@ -238,4 +250,5 @@ def migrate(env, version):
             merge_modules=True)
     openupgrade.rename_models(env.cr, models_renames)
     openupgrade.rename_tables(env.cr, table_renames)
+    openupgrade.rename_xmlids(env.cr, xmlids_renames)
     populate_computed_fields(env)
