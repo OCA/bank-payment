@@ -91,7 +91,7 @@ class TestSaleOrder(CommonTestCase):
                 "product_id": self.env.ref("sale.advance_product_0").id,
             }
         )
-        payment.with_context(context).create_invoices()
+        payment.with_context(**context).create_invoices()
         invoice = order.invoice_ids
         self.assertEqual(len(invoice), 1)
         self.assertEqual(invoice.payment_mode_id, self.payment_mode_2)
