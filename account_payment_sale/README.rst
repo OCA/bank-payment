@@ -23,7 +23,7 @@ Account Payment Sale
     :target: https://runbot.odoo-community.org/runbot/173/14.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
 This modules adds one field on sale orders: *Payment Mode*.
 This field is copied from customer to sale order and then from sale order to
@@ -83,6 +83,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/14.0/account_payment_sale>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/15.0/account_payment_sale>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
