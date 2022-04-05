@@ -1,13 +1,14 @@
 # Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class CommonTestCase(SavepointCase):
+class CommonTestCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.bank = cls.env["res.partner.bank"].create(
             {"acc_number": "test", "partner_id": cls.env.user.company_id.partner_id.id}
