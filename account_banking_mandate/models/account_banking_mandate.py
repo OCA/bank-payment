@@ -60,9 +60,7 @@ class AccountBankingMandate(models.Model):
         required=True,
         default=lambda self: self.env.company,
     )
-    unique_mandate_reference = fields.Char(
-        string="Unique Mandate Reference", tracking=10, copy=False
-    )
+    unique_mandate_reference = fields.Char(tracking=10, copy=False)
     signature_date = fields.Date(
         string="Date of Signature of the Mandate",
         tracking=50,

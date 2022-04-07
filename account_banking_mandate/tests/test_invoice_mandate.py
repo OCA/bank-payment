@@ -1,9 +1,13 @@
 # Copyright 2017 Creu Blanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from unittest.mock import patch
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
 
 class TestInvoiceMandate(TransactionCase):
@@ -76,6 +80,7 @@ class TestInvoiceMandate(TransactionCase):
                     "date": fields.Date.today(),
                     "reason": "no reason",
                     "refund_method": "refund",
+                    "journal_id": self.invoice.journal_id.id,
                 }
             )
         )
@@ -117,6 +122,16 @@ class TestInvoiceMandate(TransactionCase):
         self.assertEqual(invoice.mandate_id, mandate_2)
 
     def test_onchange_payment_mode(self):
+
+        Method_get_payment_method_information = (
+            AccountPaymentMethod._get_payment_method_information
+        )
+
+        def _get_payment_method_information(self):
+            res = Method_get_payment_method_information(self)
+            res["test"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
+            return res
+
         invoice = self.env["account.move"].new(
             {
                 "partner_id": self.partner.id,
@@ -126,14 +141,19 @@ class TestInvoiceMandate(TransactionCase):
         )
         invoice._onchange_partner_id()
 
-        pay_method_test = self.env["account.payment.method"].create(
-            {
-                "name": "Test",
-                "code": "test",
-                "payment_type": "inbound",
-                "mandate_required": False,
-            }
-        )
+        with patch.object(
+            AccountPaymentMethod,
+            "_get_payment_method_information",
+            _get_payment_method_information,
+        ):
+            pay_method_test = self.env["account.payment.method"].create(
+                {
+                    "name": "Test",
+                    "code": "test",
+                    "payment_type": "inbound",
+                    "mandate_required": False,
+                }
+            )
         mode_inbound_acme_2 = self.env["account.payment.mode"].create(
             {
                 "name": "Inbound Credit ACME Bank 2",
