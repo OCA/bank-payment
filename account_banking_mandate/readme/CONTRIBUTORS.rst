@@ -7,3 +7,4 @@
 * Carlos Dauden <carlos.dauden@tecnativa.com>
 * Marçal Isern <marsal.isern@qubiq.es>
 * Andrea Stirpe <a.stirpe@onestein.nl>
+* Manuel Regidor <manuel.regidor@sygel.es>
