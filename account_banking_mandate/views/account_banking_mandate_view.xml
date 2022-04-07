@@ -114,7 +114,7 @@
         <field name="name">view.mandate.tree</field>
         <field name="model">account.banking.mandate</field>
         <field name="arch" type="xml">
-            <tree string="Banking Mandate">
+            <tree>
                 <field name="id" invisible="1" />
                 <field name="unique_mandate_reference" string="Reference" />
                 <field
