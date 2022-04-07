@@ -30,15 +30,16 @@ class AccountPaymentLine(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "The payment line number %s has the bank account "
-                        "'%s' which is not attached to the mandate '%s' (this "
-                        "mandate is attached to the bank account '%s')."
-                    )
-                    % (
-                        pline.name,
-                        pline.partner_bank_id.acc_number,
-                        pline.mandate_id.unique_mandate_reference,
-                        pline.mandate_id.partner_bank_id.acc_number,
+                        "The payment line number {line_number} has "
+                        "the bank account  '{line_bank_account}' which "
+                        "is not attached to the mandate '{mandate_ref}' "
+                        "(this mandate is attached to the bank account "
+                        "'{mandate_bank_account}')."
+                    ).format(
+                        line_number=pline.name,
+                        line_bank_account=pline.partner_bank_id.acc_number,
+                        mandate_ref=pline.mandate_id.unique_mandate_reference,
+                        mandate_bank_account=pline.mandate_id.partner_bank_id.acc_number,
                     )
                 )
 
@@ -51,10 +52,11 @@ class AccountPaymentLine(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "The payment line number %s a different company than "
-                        "that of the linked mandate %s)."
+                        "The payment line number {line_number} a different "
+                        "company than that of the linked mandate {mandate})."
+                    ).format(
+                        line_number=pline.name, mandate=pline.mandate_id.display_name
                     )
-                    % (pline.name, pline.mandate_id.display_name)
                 )
 
     def draft2open_payment_line_check(self):

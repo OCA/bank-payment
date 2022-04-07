@@ -8,7 +8,6 @@ class AccountPaymentMethod(models.Model):
     _inherit = "account.payment.method"
 
     mandate_required = fields.Boolean(
-        string="Mandate Required",
         help="Activate this option if this payment method requires your "
         "customer to sign a direct debit mandate with your company.",
     )
