@@ -11,5 +11,15 @@ def update_bank_journals(cr, registry):
         journals = ajo.search([("type", "=", "bank")])
         sdd = env.ref("account_banking_sepa_direct_debit.sepa_direct_debit")
         if sdd:
-            journals.write({"inbound_payment_method_ids": [(4, sdd.id)]})
+            journals.write(
+                {
+                    "inbound_payment_method_line_ids": [
+                        (
+                            0,
+                            0,
+                            {"payment_method_id": sdd.id, "name": "SEPA Direct Debit"},
+                        )
+                    ]
+                }
+            )
     return

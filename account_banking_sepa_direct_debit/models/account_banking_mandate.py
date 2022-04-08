@@ -6,7 +6,8 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, exceptions, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY = 36
 
@@ -39,7 +40,6 @@ class AccountBankingMandate(models.Model):
     )
     scheme = fields.Selection(
         [("CORE", "Basic (CORE)"), ("B2B", "Enterprise (B2B)")],
-        string="Scheme",
         default="CORE",
         tracking=80,
     )
@@ -50,7 +50,7 @@ class AccountBankingMandate(models.Model):
     def _check_recurring_type(self):
         for mandate in self:
             if mandate.type == "recurrent" and not mandate.recurrent_sequence_type:
-                raise exceptions.Warning(
+                raise UserError(
                     _("The recurrent mandate '%s' must have a sequence type.")
                     % mandate.unique_mandate_reference
                 )
