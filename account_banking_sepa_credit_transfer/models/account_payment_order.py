@@ -178,10 +178,10 @@ class AccountPaymentOrder(models.Model):
                     raise UserError(
                         _(
                             "Bank account is missing on the bank payment line "
-                            "of partner '%s' (reference '%s')."
-                        )
-                        % (line.partner_id.name, line.name)
+                            "of partner '{partner}' (reference '{reference}')."
+                        ).format(partner=line.partner_id.name, reference=line.name)
                     )
+
                 self.generate_party_block(
                     credit_transfer_transaction_info,
                     "Cdtr",
