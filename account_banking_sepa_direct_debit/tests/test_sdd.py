@@ -7,11 +7,11 @@ import base64
 from lxml import etree
 
 from odoo import fields
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
 
 
-class TestSDDBase(SavepointCase):
+class TestSDDBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -89,6 +89,18 @@ class TestSDDBase(SavepointCase):
                 "code": "BNKFC",
                 "bank_account_id": cls.company_bank.id,
                 "bank_id": cls.company_bank.bank_id.id,
+                "inbound_payment_method_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "payment_method_id": cls.env.ref(
+                                "account_banking_sepa_direct_debit.sepa_direct_debit"
+                            ).id,
+                            "payment_account_id": cls.account_expense_company_B.id,
+                        },
+                    )
+                ],
             }
         )
         # update payment mode
@@ -194,8 +206,7 @@ class TestSDDBase(SavepointCase):
                 "code": "AJ-PURC",
                 "type": "purchase",
                 "company_id": cls.company_B.id,
-                "payment_debit_account_id": cls.account_expense_company_B.id,
-                "payment_credit_account_id": cls.account_expense_company_B.id,
+                "default_account_id": cls.account_expense_company_B.id,
             }
         )
         cls.journal_sale_company_B = cls.env["account.journal"].create(
@@ -204,8 +215,7 @@ class TestSDDBase(SavepointCase):
                 "code": "AJ-SALE",
                 "type": "sale",
                 "company_id": cls.company_B.id,
-                "payment_debit_account_id": cls.account_income_company_B.id,
-                "payment_credit_account_id": cls.account_income_company_B.id,
+                "default_account_id": cls.account_income_company_B.id,
             }
         )
         cls.journal_general_company_B = cls.env["account.journal"].create(
