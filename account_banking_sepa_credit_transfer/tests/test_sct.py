@@ -9,10 +9,10 @@ import time
 from lxml import etree
 
 from odoo.exceptions import UserError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestSCT(SavepointCase):
+class TestSCT(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -96,8 +96,21 @@ class TestSCT(SavepointCase):
                 "bank_account_id": cls.partner_bank.id,
                 "bank_id": cls.partner_bank.bank_id.id,
                 "company_id": cls.main_company.id,
+                "outbound_payment_method_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "payment_method_id": cls.env.ref(
+                                "account_banking_sepa_credit_transfer.sepa_credit_transfer"
+                            ).id,
+                            "payment_account_id": cls.account_payable.id,
+                        },
+                    )
+                ],
             }
         )
+
         # update payment mode
         cls.payment_mode = cls.env.ref(
             "account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1"
