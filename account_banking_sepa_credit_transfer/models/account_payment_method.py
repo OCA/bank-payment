@@ -1,7 +1,7 @@
 # Copyright 2016-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentMethod(models.Model):
@@ -38,3 +38,12 @@ class AccountPaymentMethod(models.Model):
             )
             return path
         return super().get_xsd_file_path()
+
+    @api.model
+    def _get_payment_method_information(self):
+        res = super()._get_payment_method_information()
+        res["sepa_credit_transfer"] = {
+            "mode": "multi",
+            "domain": [("type", "=", "bank")],
+        }
+        return res
