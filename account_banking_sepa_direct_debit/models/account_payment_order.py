@@ -302,8 +302,7 @@ class AccountPaymentOrder(models.Model):
                         "Automatically switched from <b>First</b> to "
                         "<b>Recurring</b> when the debit order "
                         "<a href=# data-oe-model=account.payment.order "
-                        "data-oe-id=%d>%s</a> has been marked as uploaded."
-                    )
-                    % (order.id, order.name)
+                        "data-oe-id=%d>{}</a> has been marked as uploaded."
+                    ).format(order.id, order.name)
                 )
         return res
