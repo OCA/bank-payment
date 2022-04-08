@@ -10,3 +10,4 @@
   * Pedro M. Baeza
   * Sergio Teruel
   * Carlos Roca
+* Manuel Regidor <manuel.regidor@sygel.es>
