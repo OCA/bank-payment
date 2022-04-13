@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-18 00:42+0000\n"
-"PO-Revision-Date: 2019-10-07 09:24+0000\n"
-"Last-Translator: Jaume Planas <jaume.planas@minorisa.net>\n"
+"PO-Revision-Date: 2022-04-13 10:05+0000\n"
+"Last-Translator: Noel estudillo <noelestudilloviera@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_sale
 #: model_terms:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
@@ -28,19 +28,19 @@ msgstr "<strong>Mode de pagament:</strong>"
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_advance_payment_inv__display_name
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom de visualització"
 
 #. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_advance_payment_inv__id
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_advance_payment_inv____last_update
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificació el"
 
 #. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
@@ -54,6 +54,5 @@ msgstr "Factura d'avançament de venda"
 
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
-#, fuzzy
 msgid "Sales Order"
-msgstr "Comanda"
+msgstr "Comanda de venda"
