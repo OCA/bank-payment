@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
-"PO-Revision-Date: 2019-10-04 15:48+0000\n"
-"Last-Translator: Jaume Planas <jaume.planas@minorisa.net>\n"
+"PO-Revision-Date: 2022-04-13 10:05+0000\n"
+"Last-Translator: Noel estudillo <noelestudilloviera@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -92,7 +92,7 @@ msgstr "Mode de pagament del client"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom de visualització"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
@@ -111,17 +111,17 @@ msgstr "Complet"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice_report
 msgid "Invoices Statistics"
-msgstr ""
+msgstr "Estadístiques de factures"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Entrada de diari"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
@@ -135,7 +135,7 @@ msgstr "Apunt comptable"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificació el"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
@@ -158,7 +158,7 @@ msgstr "No s'ha definit cap plantilla de pla comptable !"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__partner_bank_filter_type_domain
 msgid "Partner Bank Filter Type Domain"
-msgstr ""
+msgstr "Domini del tipus de filtre del banc soci"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_id
@@ -175,7 +175,7 @@ msgstr "Mode de pagament"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_filter_type_domain
 msgid "Payment Mode Filter Type Domain"
-msgstr ""
+msgstr "Mode de pagament Tipus de filtre Domini"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
@@ -185,12 +185,12 @@ msgstr "Modes de pagament"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__payment_mode_id
 msgid "Payment mode"
-msgstr ""
+msgstr "Modalitat de pagament"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
 msgid "Payment mode for refunds"
-msgstr ""
+msgstr "Modalitat de pagament per a devolucions"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
@@ -201,7 +201,7 @@ msgstr "Pagaments"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
 msgid "Recipient Bank"
-msgstr ""
+msgstr "Banc receptor"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
@@ -242,10 +242,12 @@ msgid ""
 "This payment mode will be used when doing refunds coming from the current "
 "payment mode."
 msgstr ""
+"Aquesta modalitat de pagament s'utilitzarà quan es facin reemborsaments "
+"procedents de la modalitat de pagament actual."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
