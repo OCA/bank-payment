@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
-"PO-Revision-Date: 2019-10-04 15:48+0000\n"
-"Last-Translator: Jaume Planas <jaume.planas@minorisa.net>\n"
+"PO-Revision-Date: 2022-04-13 10:05+0000\n"
+"Last-Translator: Noel estudillo <noelestudilloviera@gmail.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/oca/teams/23907/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -233,7 +233,7 @@ msgstr "Línies de pagament del banc"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Bank Transactions"
-msgstr ""
+msgstr "Transaccions bancàries"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line__partner_bank_id
@@ -303,7 +303,7 @@ msgstr "Tipus de comunicació"
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Communication is empty on payment line %s."
-msgstr ""
+msgstr "La comunicació està buida a la línia de pagament %s."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
@@ -690,7 +690,7 @@ msgstr "Apunts"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Entrada de diari"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move_line
@@ -869,16 +869,15 @@ msgstr "Nombre d'accions"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_line_count
 msgid "Number of Bank Transactions"
-msgstr ""
+msgstr "Nombre d'operacions bancàries"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__move_count
 msgid "Number of Journal Entries"
-msgstr ""
+msgstr "Nombre d'entrades de diari"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error_counter
-#, fuzzy
 msgid "Number of errors"
 msgstr "Número d'error"
 
@@ -1100,7 +1099,6 @@ msgstr "Publica assentament"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__reference_type
-#, fuzzy
 msgid "Reference Type"
 msgstr "Referència lliure"
 
@@ -1111,7 +1109,6 @@ msgstr "Línies de pagament relacionades"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
-#, fuzzy
 msgid "SMS Delivery error"
 msgstr "Error de lliurament de missatge"
 
@@ -1224,7 +1221,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
-#, fuzzy, python-format
+#, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr "La factura %s no està en estat Obert"
 
