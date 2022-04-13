@@ -6,104 +6,108 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-04-13 10:05+0000\n"
+"Last-Translator: Noel estudillo <noelestudilloviera@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:155
 #, python-format
 msgid "Bank account is missing on the bank payment line of partner '%s' (reference '%s')."
 msgstr ""
+"Falta un compte bancari a la línia de pagament bancari del soci '%s' ("
+"referència '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.line,local_instrument:0
 msgid "Instant Transfer"
-msgstr ""
+msgstr "Transferència instantània"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
 msgid "Local Instrument"
-msgstr ""
+msgstr "Instrument local"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
 msgid "PAIN Version"
-msgstr ""
+msgstr "Versió PAIN"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:26
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:60
 #, python-format
 msgid "PAIN version '%s' is not supported."
-msgstr ""
+msgstr "La versió de PAIN '%s' no és compatible."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Línies de pagament"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Mètodes de Pagament"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Ordre de pagament"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
-msgstr ""
+msgstr "Transferència de crèdit SEPA a proveïdors"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.02"
-msgstr ""
+msgstr "dolor.001.001.02"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.03 (recommended for credit transfer)"
-msgstr ""
+msgstr "pain.001.001.03 (recomanat per a la transferència de crèdit)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.04"
-msgstr ""
+msgstr "dolor.001.001.04"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.001.05"
-msgstr ""
+msgstr "dolor.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr ""
+msgstr "pain.001.003.03 (transferència de crèdit a Alemanya)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.001.02 (recommended for direct debit)"
-msgstr ""
+msgstr "pain.008.001.02 (recomanat per a domiciliació bancària)"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.001.03"
-msgstr ""
+msgstr "dolor.008.001.03"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.001.04"
-msgstr ""
+msgstr "dolor.008.001.04"
 
 #. module: account_banking_sepa_credit_transfer
 #: selection:account.payment.method,pain_version:0
 msgid "pain.008.003.02 (direct debit in Germany)"
-msgstr ""
+msgstr "pain.008.003.02 (domiciliació domiciliària a Alemanya)"
