@@ -48,9 +48,10 @@ class AccountMoveLine(models.Model):
             else:
                 ml.partner_bank_id = ml.partner_bank_id
 
-    def _prepare_payment_line_vals(self, payment_order):
-        self.ensure_one()
-        assert payment_order, "Missing payment order"
+    def _get_communication(self):
+        """
+        Retrieve the communication string for the payment order
+        """
         aplo = self.env["account.payment.line"]
         # default values for communication_type and communication
         communication_type = "normal"
@@ -66,10 +67,23 @@ class AccountMoveLine(models.Model):
                     self.move_id.move_type in ("in_invoice", "in_refund")
                     and self.move_id.ref
                 ):
-                    communication = self.move_id.ref
+                    communication = self.move_id.payment_reference or self.move_id.ref
                 elif "out" in self.move_id.move_type:
                     # Force to only put invoice number here
-                    communication = self.move_id.name
+                    communication = self.move_id.payment_reference or self.move_id.name
+                # If we have credit note(s) - reversal_move_id is a one2many
+                if self.move_id.reversal_move_id:
+                    references = [
+                        move.payment_reference or move.ref
+                        for move in self.move_id.reversal_move_id
+                        if move.payment_reference or move.ref
+                    ]
+                    communication += " " + " ".join(references)
+        return communication_type, communication
+
+    def _prepare_payment_line_vals(self, payment_order):
+        self.ensure_one()
+        communication_type, communication = self._get_communication()
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency
