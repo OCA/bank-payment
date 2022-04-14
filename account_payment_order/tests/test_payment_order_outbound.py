@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form
+from odoo.tests.common import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -101,6 +101,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
         return wizard.new_move_ids
 
 
+@tagged("post_install", "-at_install")
 class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
