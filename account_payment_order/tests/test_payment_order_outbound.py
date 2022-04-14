@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import tagged
+from odoo.tests.common import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -87,6 +87,21 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
 
         return invoice
 
+    def _create_supplier_refund(self, move):
+        wizard = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=move.ids)
+            .create(
+                {
+                    "date_mode": "custom",
+                    "refund_method": "refund",
+                }
+            )
+        )
+        wizard.reverse_moves()
+        return wizard.new_move_ids
+
+class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
         self.mode.group_lines = False
@@ -300,3 +315,49 @@ def test_manual_line_and_manual_date(self):
         ),
         0,
     )
+        self.env["account.payment.line"].create(vals)
+        self.assertEqual(len(outbound_order.payment_line_ids), 2)
+        self.assertEqual(outbound_order.payment_line_ids[1].date, False)
+        # Open payment order
+        self.assertEqual(len(outbound_order.bank_line_ids), 0)
+        outbound_order.draft2open()
+        self.assertEqual(outbound_order.bank_line_count, 2)
+        self.assertEqual(
+            outbound_order.payment_line_ids[0].date,
+            outbound_order.payment_line_ids[0].bank_line_id.date,
+        )
+        self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
+        self.assertEqual(
+            outbound_order.payment_line_ids[1].bank_line_id.date, date.today()
+        )
+
+    def test_supplier_refund(self):
+        """
+        Confirm the supplier invoice
+        Create a credit note based on that one with an inferior amount
+        Confirm the credit note
+        Create the payment order
+        The communication should be a combination of the invoice reference
+        and the credit note one
+        """
+        self.invoice.action_post()
+        self.refund = self._create_supplier_refund(self.invoice)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+            with refund_form.invoice_line_ids.edit(0) as line_form:
+                line_form.price_unit = 75.0
+
+        self.refund.action_post()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+
+        self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)

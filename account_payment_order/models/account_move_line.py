@@ -71,6 +71,12 @@ class AccountMoveLine(models.Model):
                 elif "out" in self.move_id.move_type:
                     # Force to only put invoice number here
                     communication = self.move_id.name
+                # If we have credit note(s) - reversal_move_id is a one2many
+                if self.move_id.reversal_move_id:
+                    references = self.move_id.reversal_move_id.filtered(
+                        lambda r: r.ref
+                    ).mapped("ref")
+                    communication += " " + " ".join(references)
         return communication_type, communication
 
     def _prepare_payment_line_vals(self, payment_order):
