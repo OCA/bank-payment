@@ -361,3 +361,36 @@ def test_manual_line_and_manual_date(self):
         self.assertEqual(len(payment_order.payment_line_ids), 1)
 
         self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
+
+    def test_supplier_refund_reference(self):
+        """
+        Confirm the supplier invoice
+        Set a payment referece
+        Create a credit note based on that one with an inferior amount
+        Confirm the credit note
+        Create the payment order
+        The communication should be a combination of the invoice payment reference
+        and the credit note one
+        """
+        self.invoice.payment_reference = "F/1234"
+        self.invoice.action_post()
+        self.refund = self._create_supplier_refund(self.invoice)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+            with refund_form.invoice_line_ids.edit(0) as line_form:
+                line_form.price_unit = 75.0
+
+        self.refund.action_post()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+
+        self.assertEqual("F/1234 R1234", payment_order.payment_line_ids.communication)

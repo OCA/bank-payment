@@ -67,15 +67,17 @@ class AccountMoveLine(models.Model):
                     self.move_id.move_type in ("in_invoice", "in_refund")
                     and self.move_id.ref
                 ):
-                    communication = self.move_id.ref
+                    communication = self.move_id.payment_reference or self.move_id.ref
                 elif "out" in self.move_id.move_type:
                     # Force to only put invoice number here
-                    communication = self.move_id.name
+                    communication = self.move_id.payment_reference or self.move_id.name
                 # If we have credit note(s) - reversal_move_id is a one2many
                 if self.move_id.reversal_move_id:
-                    references = self.move_id.reversal_move_id.filtered(
-                        lambda r: r.ref
-                    ).mapped("ref")
+                    references = [
+                        move.payment_reference or move.ref
+                        for move in self.move_id.reversal_move_id
+                        if move.payment_reference or move.ref
+                    ]
                     communication += " " + " ".join(references)
         return communication_type, communication
 
