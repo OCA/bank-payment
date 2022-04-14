@@ -81,7 +81,6 @@ class AccountMoveLine(models.Model):
 
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
-        assert payment_order, "Missing payment order"
         communication_type, communication = self._get_communication()
         if self.currency_id:
             currency_id = self.currency_id.id
