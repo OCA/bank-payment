@@ -11,6 +11,8 @@
 * Angel Moya <angel.moya@domatix.com>
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
+* Denis Roussel <denis.roussel@acsone.eu>
+
 * `DynApps <https://www.dynapps.be>`_:
 
   * Raf Ven <raf.ven@dynapps.be>
