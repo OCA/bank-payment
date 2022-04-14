@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from unittest.mock import patch
+from odoo.tests.common import tagged
 
 from odoo.tests import tagged
 
@@ -9,7 +10,7 @@ from odoo.addons.account.models.account_payment_method import AccountPaymentMeth
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-@tagged("-at_install", "post_install")
+@tagged("post_install", "-at_install")
 class TestAccountPayment(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
