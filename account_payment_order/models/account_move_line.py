@@ -58,6 +58,7 @@ class AccountMoveLine(models.Model):
         communication = self.ref or self.name
         # change these default values if move line is linked to an invoice
         if self.move_id.is_invoice():
+            references = []
             if (self.move_id.reference_type or "none") != "none":
                 communication = self.move_id.ref
                 ref2comm_type = aplo.invoice_reference_type2communication_type()
@@ -73,11 +74,25 @@ class AccountMoveLine(models.Model):
                     communication = self.move_id.payment_reference or self.move_id.name
                 # If we have credit note(s) - reversal_move_id is a one2many
                 if self.move_id.reversal_move_id:
-                    references = [
-                        move.payment_reference or move.ref
-                        for move in self.move_id.reversal_move_id
-                        if move.payment_reference or move.ref
-                    ]
+                    references.extend(
+                        [
+                            move.payment_reference or move.ref
+                            for move in self.move_id.reversal_move_id
+                            if move.payment_reference or move.ref
+                        ]
+                    )
+                # Retrieve partial payments - e.g.: manual credit notes
+                for (
+                    _,
+                    _,
+                    payment_move_line,
+                ) in self.move_id._get_reconciled_invoices_partials():
+                    payment_move = payment_move_line.move_id
+                    if payment_move.payment_reference or payment_move.ref:
+                        references.append(
+                            payment_move.payment_reference or payment_move.ref
+                        )
+                if references:
                     communication += " " + " ".join(references)
         return communication_type, communication
 
