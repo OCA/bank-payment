@@ -17,6 +17,7 @@
     "Akretion, "
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
+    "development_status": "Mature",
     "category": "Banking addons",
     "external_dependencies": {"python": ["lxml"]},
     "depends": ["account_payment_partner", "base_iban"],  # for manual_bank_tranfer
