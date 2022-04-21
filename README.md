@@ -25,9 +25,9 @@ addon | version | maintainers | summary
 [account_banking_pain_base](account_banking_pain_base/) | 15.0.1.0.1 |  | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 15.0.1.0.0 |  | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 15.0.1.0.0 |  | Create SEPA files for Direct Debit
-[account_payment_mode](account_payment_mode/) | 15.0.1.0.0 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 15.0.1.0.0 |  | Account Payment Order
-[account_payment_partner](account_payment_partner/) | 15.0.1.1.0 |  | Adds payment mode on partners and invoices
+[account_payment_mode](account_payment_mode/) | 15.0.1.0.1 |  | Account Payment Mode
+[account_payment_order](account_payment_order/) | 15.0.1.0.1 |  | Account Payment Order
+[account_payment_partner](account_payment_partner/) | 15.0.1.1.1 |  | Adds payment mode on partners and invoices
 [account_payment_sale](account_payment_sale/) | 15.0.1.0.0 |  | Adds payment mode on sale orders
 
 [//]: # (end addons)
