@@ -27,11 +27,11 @@ addon | version | maintainers | summary
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 14.0.1.2.0 |  | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 14.0.1.3.3 |  | Create SEPA files for Direct Debit
 [account_invoice_select_for_payment](account_invoice_select_for_payment/) | 14.0.1.0.0 |  | Account Invoice Select for Payment
-[account_payment_mode](account_payment_mode/) | 14.0.1.0.2 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 14.0.1.7.0 |  | Account Payment Order
+[account_payment_mode](account_payment_mode/) | 14.0.1.1.0 |  | Account Payment Mode
+[account_payment_order](account_payment_order/) | 14.0.1.8.0 |  | Account Payment Order
 [account_payment_order_return](account_payment_order_return/) | 14.0.1.0.1 |  | Account Payment Order Return
 [account_payment_order_vendor_email](account_payment_order_vendor_email/) | 14.0.1.0.0 |  | Account Payment Order Email
-[account_payment_partner](account_payment_partner/) | 14.0.1.4.0 |  | Adds payment mode on partners and invoices
+[account_payment_partner](account_payment_partner/) | 14.0.1.5.0 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 14.0.1.0.1 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 14.0.1.0.1 |  | Integrate Account Payment Purchase with Stock
 [account_payment_sale](account_payment_sale/) | 14.0.1.0.0 |  | Adds payment mode on sale orders
