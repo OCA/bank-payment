@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Mode",
-    "version": "14.0.1.0.2",
+    "version": "14.0.1.1.0",
     "development_status": "Mature",
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
