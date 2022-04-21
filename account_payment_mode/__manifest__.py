@@ -5,7 +5,7 @@
 {
     "name": "Account Payment Mode",
     "version": "14.0.1.0.2",
-    "development_status": "Production/Stable",
+    "development_status": "Mature",
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
