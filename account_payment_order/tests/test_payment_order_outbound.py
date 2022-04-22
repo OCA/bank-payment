@@ -4,6 +4,7 @@
 
 from datetime import date, datetime, timedelta
 
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import SavepointCase
 
@@ -133,7 +134,9 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         line_create = (
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
-            .create({"date_type": "move", "move_date": datetime.now()})
+            .create(
+                {"date_type": "move", "move_date": datetime.now() + timedelta(days=1)}
+            )
         )
         line_create.payment_mode = "any"
         line_create.move_line_filters_change()
@@ -142,7 +145,9 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         line_created_due = (
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
-            .create({"date_type": "due", "due_date": datetime.now()})
+            .create(
+                {"date_type": "due", "due_date": datetime.now() + timedelta(days=1)}
+            )
         )
         line_created_due.populate()
         line_created_due.create_payment_lines()
@@ -207,7 +212,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             }
         )
         with self.assertRaises(ValidationError):
-            outbound_order.date_scheduled = date.today() - timedelta(days=1)
+            outbound_order.date_scheduled = date.today() - timedelta(days=2)
 
     def test_manual_line_and_manual_date(self):
         # Create payment order
@@ -260,9 +265,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             outbound_order.payment_line_ids[0].date,
             outbound_order.payment_line_ids[0].bank_line_id.date,
         )
-        self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
         self.assertEqual(
-            outbound_order.payment_line_ids[1].bank_line_id.date, date.today()
+            outbound_order.payment_line_ids[1].date,
+            fields.Date.context_today(outbound_order),
+        )
+        self.assertEqual(
+            outbound_order.payment_line_ids[1].bank_line_id.date,
+            fields.Date.context_today(outbound_order),
         )
         # Generate and upload
         outbound_order.open2generated()
