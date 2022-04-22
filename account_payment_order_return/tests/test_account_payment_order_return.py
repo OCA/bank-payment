@@ -3,6 +3,8 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
+from datetime import timedelta
+
 from odoo import fields
 from odoo.tests import common
 from odoo.tests.common import Form
@@ -76,7 +78,7 @@ class TestAccountPaymentOrderReturn(common.SavepointCase):
                 "partner_ids": [(4, self.partner.id)],
                 "allow_blocked": True,
                 "date_type": "move",
-                "move_date": fields.Date.today(),
+                "move_date": fields.Date.today() + timedelta(days=1),
                 "payment_mode": "any",
                 "invoice": True,
                 "include_returned": True,
