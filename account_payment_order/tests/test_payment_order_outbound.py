@@ -353,6 +353,15 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         self.refund.action_post()
 
+        # The user add the outstanding payment to the invoice
+        invoice_line = self.invoice.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        refund_line = self.refund.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        (invoice_line | refund_line).reconcile()
+
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
