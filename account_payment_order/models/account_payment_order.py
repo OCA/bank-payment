@@ -7,6 +7,8 @@
 import base64
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+import threading
+import odoo
 
 
 class AccountPaymentOrder(models.Model):
@@ -194,13 +196,29 @@ class AccountPaymentOrder(models.Model):
 
     @api.multi
     def action_done_cancel(self):
-        for move in self.move_ids:
-            move.button_cancel()
-            for move_line in move.line_ids:
-                move_line.remove_move_reconcile()
-            move.unlink()
         self.action_cancel()
+        thread = threading.Thread(target=self.po_order_to_remove_reconcile)
+        thread.daemon = True
+        thread.start()
         return True
+
+    @api.multi
+    def po_order_to_remove_reconcile(self):
+        config = odoo.tools.config
+        dbname = config['db_name']
+        registry = odoo.modules.registry.Registry.new(dbname)
+        with odoo.api.Environment.manage():
+            with registry.cursor() as cr:
+                self = self.with_env(self.env(cr=cr)).with_context(original_cr=self._cr)
+                account_payment_order_ids = self.env['account.payment.order'].search(
+                    [("state", "=", "cancel")], order="id desc", limit=1)
+                for order_id in account_payment_order_ids:
+                    for move in order_id.move_ids:
+                        move.button_cancel()
+                        for move_line in move.line_ids:
+                            move_line.remove_move_reconcile()
+                        move.unlink()
+                cr.autocommit(True)
 
     @api.multi
     def cancel2draft(self):
@@ -362,11 +380,29 @@ class AccountPaymentOrder(models.Model):
         self.write({
             'state': 'uploaded',
             'date_uploaded': fields.Date.context_today(self),
-            })
-        for order in self:
-            if order.payment_mode_id.generate_move:
-                order.generate_move()
+        })
+        thread = threading.Thread(target=self.po_order_to_generatemove_reconcile)
+        thread.daemon = True
+        thread.start()
         return True
+
+    @api.multi
+    def po_order_to_generatemove_reconcile(self):
+        config = odoo.tools.config
+        dbname = config['db_name']
+        registry = odoo.modules.registry.Registry.new(dbname)
+        with odoo.api.Environment.manage():
+            with registry.cursor() as cr:
+                self = self.with_env(self.env(cr=cr)).with_context(original_cr=self._cr)
+                account_payment_order_ids = self.env['account.payment.order'].search(
+                    [("state", "=", "uploaded")], order="id desc", limit=1)
+                for move in account_payment_order_ids.move_ids:
+                    for line in move.line_ids.filtered(lambda x: (x.matched_debit_ids or x.matched_credit_ids) and not x.reconciled):
+                        if line:
+                            for order in account_payment_order_ids:
+                                if order.payment_mode_id.generate_move:
+                                    order.generate_move()
+                cr.autocommit(True)
 
     @api.multi
     def _prepare_move(self, bank_lines=None):
