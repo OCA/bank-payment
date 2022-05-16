@@ -3,9 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("-at_install", "post_install")
 class TestAccountPaymentPurchase(TransactionCase):
     @classmethod
     def setUpClass(cls):
