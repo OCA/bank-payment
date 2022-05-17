@@ -16,6 +16,7 @@ class TestAccountPaymentPurchase(TransactionCase):
         cls.payment_method_out = cls.env.ref(
             "account.account_payment_method_manual_out"
         )
+        cls.payment_method_out.bank_account_required = True
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
