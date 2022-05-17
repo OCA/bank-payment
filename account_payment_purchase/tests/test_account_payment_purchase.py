@@ -3,9 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("-at_install", "post_install")
 class TestAccountPaymentPurchase(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -16,6 +17,7 @@ class TestAccountPaymentPurchase(TransactionCase):
         cls.payment_method_out = cls.env.ref(
             "account.account_payment_method_manual_out"
         )
+        cls.payment_method_out.bank_account_required = True
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test payment mode",
