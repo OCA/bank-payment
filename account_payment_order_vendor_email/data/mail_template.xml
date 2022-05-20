@@ -58,7 +58,7 @@
                                                 alt="${object.company_id.name}"
                                         />
                                     </td></tr>
-                                    <tr><td colspan="2" style="text-align:center;min-width:750px;"">
+                                    <tr><td colspan="2" style="text-align:center;min-width:750px;">
                                         <hr
                                                 width="100%"
                                                 style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"
