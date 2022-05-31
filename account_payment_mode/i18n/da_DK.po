@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
-"PO-Revision-Date: 2022-01-27 13:40+0000\n"
+"PO-Revision-Date: 2022-05-31 18:05+0000\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: Danish (Denmark) (https://www.transifex.com/oca/teams/23907/"
 "da_DK/)\n"
@@ -23,13 +23,13 @@ msgstr ""
 #. module: account_payment_mode
 #: sql_constraint:account.payment.method:0
 msgid "A payment method of the same type already exists with this code"
-msgstr ""
+msgstr "En betalingsmetode af samme type findes allerede med denne kode"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__company_partner_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__company_partner_id
 msgid "Account Holder"
-msgstr ""
+msgstr "Konto indehaver"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
@@ -37,6 +37,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
+"Aktiver denne mulighed, hvis denne betalingsmetode kræver, at du kender "
+"bankkontonummeret på din kunde eller leverandør."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
@@ -62,7 +64,7 @@ msgstr "Bank konto type"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
 msgid "Code (Do Not Modify)"
-msgstr ""
+msgstr "Kode (må ikke ændres)"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
@@ -82,12 +84,12 @@ msgstr "Oprettet den"
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
 msgid "Credit Transfer to Suppliers"
-msgstr ""
+msgstr "Kreditoverførsel til leverandører"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
 msgid "Direct Debit of customers"
-msgstr ""
+msgstr "Direkte debitering af kunder"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
@@ -102,29 +104,29 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Vist navn"
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Fixed"
-msgstr ""
+msgstr "Fast"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__fixed_journal_id
 msgid "Fixed Bank Journal"
-msgstr ""
+msgstr "Fast bankjournal"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid "For Incoming Payments"
-msgstr ""
+msgstr "For indgående betalinger"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
 msgid "For Outgoing Payments"
-msgstr ""
+msgstr "For udgående betalinger"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__bank_account_link
@@ -137,23 +139,30 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
+"For betalingsmåder, der altid er knyttet til den samme bankkonto i din "
+"virksomhed (såsom bankoverførsel fra kunder eller SEPA direkte debitering "
+"fra leverandører), skal du vælge 'Fast'. For betalingsformer, der ikke altid "
+"er knyttet til den samme bankkonto (såsom SEPA Direct debit for kunder, "
+"bankoverførsel til leverandører), skal du vælge 'Variabel', hvilket betyder, "
+"at du vælger bankkontoen på betalingsordren. Hvis din virksomhed kun har én "
+"bankkonto, skal du altid vælge 'Fast'."
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Group By"
-msgstr ""
+msgstr "Grupper efter"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
-msgstr ""
+msgstr "Indgående"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
@@ -168,32 +177,32 @@ msgstr ""
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Faktura"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Sidst rettet den"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "SIdst rettet af"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Sidst rettet den"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
 msgid "Link to Bank Account"
-msgstr ""
+msgstr "Link til bankkonto"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__inbound_payment_method_ids
@@ -208,6 +217,15 @@ msgid ""
 "are suggested to reconcile the transaction with the batch deposit. Enable "
 "this option from the settings."
 msgstr ""
+"Manuel: Få betaling med kontanter, check eller enhver anden metode uden for "
+"Odoo.\n"
+"Elektronisk: Få betalt automatisk gennem en betalingsindløser ved at anmode "
+"om en transaktion på et kort, som kunden har gemt ved køb eller abonnement "
+"online (betalingstoken).\n"
+"Batchindbetaling: Indsæt flere kundechecks på én gang ved at generere en "
+"batchindbetaling, der skal sendes til din bank. Når du koder kontoudtoget i "
+"Odoo, foreslås du at afstemme transaktionen med batchindbetalingen. Aktiver "
+"denne mulighed fra indstillingerne."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_import_journal_creation__outbound_payment_method_ids
@@ -218,6 +236,10 @@ msgid ""
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit "
 "to your bank. Enable this option from the settings."
 msgstr ""
+"Manuel: Betal regningen kontant eller på anden måde uden for Odoo.\n"
+"Check: Betal regningen med check og udskriv den fra Odoo.\n"
+"SEPA-kreditoverførsel: Betal regningen fra en SEPA-kreditoverførselsfil, som "
+"du sender til din bank. Aktiver denne mulighed fra indstillingerne."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
@@ -242,6 +264,8 @@ msgid ""
 "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
+"I betalingsformen '%s' er bankkontolinket 'Fast', men den faste bankjournal "
+"er ikke angivet"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:93
@@ -251,6 +275,9 @@ msgid ""
 "method), but this debit method is not part of the debit methods of the fixed "
 "bank journal '%s'"
 msgstr ""
+"I betalingsmåden '%s' er betalingsmetoden '%s' (det er faktisk en "
+"debetmetode), men denne debetmetode er ikke en del af debetmetoderne i den "
+"faste bankjournal '%s'"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:80
@@ -259,6 +286,8 @@ msgid ""
 "On the payment mode '%s', the payment method is '%s', but this payment "
 "method is not part of the payment methods of the fixed bank journal '%s'"
 msgstr ""
+"På betalingsmåden '%s' er betalingsmetoden '%s', men denne betalingsmetode "
+"er ikke en del af betalingsmåderne i den faste bankjournal '%s'"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -308,7 +337,7 @@ msgstr "Betalingstype"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
 msgid "Payment modes"
-msgstr ""
+msgstr "Betalingsmåder"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -327,6 +356,8 @@ msgid ""
 "The company of the journal '%s' does not match with the company of the "
 "payment mode '%s' where it is being used as Fixed Bank Journal."
 msgstr ""
+"Firmaet for journalen '%s' stemmer ikke overens med firmaet i betalingsmåden "
+"'%s', hvor det bruges som fast bankjournal."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_journal.py:45
@@ -335,6 +366,8 @@ msgid ""
 "The company of the journal '%s' does not match with the company of the "
 "payment mode '%s' where it is being used in the Allowed Bank Journals."
 msgstr ""
+"Firmaet for journalen '%s' stemmer ikke overens med firmaet i betalingsmåden "
+"'%s', hvor det bruges i de Tilladte bankjournaler."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:108
@@ -343,6 +376,8 @@ msgid ""
 "The company of the payment mode '%s', does not match with the company of "
 "journal '%s'."
 msgstr ""
+"Firmaet for betalingsmåden '%s' stemmer ikke overens med firmaet i journalen "
+"'%s'."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:118
@@ -351,6 +386,8 @@ msgid ""
 "The company of the payment mode '%s', does not match with the one of the "
 "Allowed Bank Journals."
 msgstr ""
+"Firmaet for betalingsmåden '%s' stemmer ikke overens med det af de tilladte "
+"bankjournaler."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
@@ -360,8 +397,11 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
+"Denne kode bruges i koden til Odoo-modulet, der håndterer denne "
+"betalingsmetode. Hvis du ændrer den, kan genereringen af betalingsfilen "
+"derfor mislykkes."
 
 #. module: account_payment_mode
 #: selection:account.payment.mode,bank_account_link:0
 msgid "Variable"
-msgstr ""
+msgstr "Variabel"
