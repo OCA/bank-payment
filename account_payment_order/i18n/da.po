@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-05-31 18:05+0000\n"
+"PO-Revision-Date: 2022-05-31 18:30+0000\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: none\n"
 "Language: da\n"
@@ -502,6 +502,13 @@ msgstr ""
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
 msgid "For payment modes that are always attached to the same bank account of your company (such as wire transfer from customers or SEPA direct debit from suppliers), select 'Fixed'. For payment modes that are not always attached to the same bank account (such as SEPA Direct debit for customers, wire transfer to suppliers), you should select 'Variable', which means that you will select the bank account on the payment order. If your company only has one bank account, you should always select 'Fixed'."
 msgstr ""
+"For betalingsmåder, der altid er knyttet til den samme bankkonto i din "
+"virksomhed (såsom bankoverførsel fra kunder eller SEPA direkte debitering "
+"fra leverandører), skal du vælge 'Fast'. For betalingsformer, der ikke altid "
+"er knyttet til den samme bankkonto (såsom SEPA Direct debit for kunder, "
+"bankoverførsel til leverandører), skal du vælge 'Variabel', hvilket betyder, "
+"at du vælger bankkontoen på betalingsordren. Hvis din virksomhed kun har én "
+"bankkonto, skal du altid vælge 'Fast'."
 
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
@@ -516,7 +523,7 @@ msgstr "Fri reference"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
 msgid "Generate Accounting Entries On File Upload"
-msgstr ""
+msgstr "Generer regnskabsposter ved filupload"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -537,12 +544,12 @@ msgstr "Genereret af"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 #: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Group By"
-msgstr ""
+msgstr "Grupper efter"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__group_lines
 msgid "Group Transactions in Payment Orders"
-msgstr ""
+msgstr "Grupper transaktioner i betalingsordrer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__id
@@ -557,22 +564,22 @@ msgstr "Id"
 #. module: account_payment_order
 #: selection:account.payment.line,communication_type:0
 msgid "ISO"
-msgstr ""
+msgstr "ISO"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "Hvis markeret, kræver nye beskeder din opmærksomhed."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Hvis markeret, kræver nye beskeder din opmærksomhed."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Hvis markeret, har nogle meddelelser en leveringsfejl."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__group_lines
@@ -584,11 +591,23 @@ msgid "If this mark is checked, the transaction lines of the payment order will 
 "and if the 'Communication Type' is 'Free'\n"
 "(other modules can set additional fields to restrict the grouping.)"
 msgstr ""
+"Hvis dette er markeret, vil betalingsordrens transaktionslinjer blive "
+"grupperet ved bekræftelse af betalingsordren. Grupperingen udføres kun, hvis "
+"følgende felter matcher:\n"
+"* Partner\n"
+"* Betalingsmiddel\n"
+"* Destinationsbankkonto\n"
+"* Betalingsdato\n"
+"og hvis 'Kommunikationstype' er 'Fri'\n"
+"(andre moduler kan indstille yderligere felter for at begrænse grupperingen.)"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__no_debit_before_maturity
 msgid "If you activate this option on an Inbound payment mode, you will have an error message when you confirm a debit order that has a payment line with a payment date before the maturity date."
 msgstr ""
+"Hvis du aktiverer denne mulighed på en Indgående betalingstilstand, vil du "
+"få en fejlmeddelelse, når du bekræfter en debetordre, der har en "
+"betalingslinje med en betalingsdato før forfaldsdatoen."
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
@@ -644,12 +663,14 @@ msgstr "Postering"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_journal_id
 msgid "Journal to write payment entries when confirming payment/debit orders of this mode"
 msgstr ""
+"Journal for at skrive betalingsposter ved bekræftelse af betalings-/"
+"debetordrer i denne betalingsmåde"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__journal_ids
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__default_journal_ids
 msgid "Journals Filter"
-msgstr "Journals filter"
+msgstr "Journalfilter"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -664,7 +685,7 @@ msgstr "Hold tom for at bruge alle partnere"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr ""
+msgstr "Etiket på betalingen, der vil blive set af modtageren"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi____last_update
@@ -697,7 +718,7 @@ msgstr "Sidst opdateret den"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_account_link
 msgid "Link to Bank Account"
-msgstr ""
+msgstr "Link til bankkonto"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__invoice
@@ -713,7 +734,7 @@ msgstr "Primær vedhæftning"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Fejl ved levering af besked"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_ids
@@ -730,18 +751,18 @@ msgstr "Manglende bank journal på betalingsorder %s."
 #: code:addons/account_payment_order/models/account_payment_line.py:139
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
-msgstr ""
+msgstr "Manglende partnerbankkonto på betalingslinje %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:243
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
-msgstr ""
+msgstr "Manglende bankkonto på bankjounal '%s'."
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_type:0
 msgid "Move"
-msgstr ""
+msgstr "Postering"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,date_type:0
@@ -757,13 +778,13 @@ msgstr "Posteringslinjer"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
 msgid "Move Option"
-msgstr ""
+msgstr "Posterings muligheder"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:142
 #, python-format
 msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr ""
+msgstr "Posteringslinjen '%s' for partneren '%s' er allerede blevet afstemt"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
@@ -774,7 +795,7 @@ msgstr "Navn eller beskrivelse"
 #: code:addons/account_payment_order/models/account_invoice.py:76
 #, python-format
 msgid "No Journal Entry on invoice %s"
-msgstr ""
+msgstr "Ingen posteringslinjer for faktura %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:87
@@ -819,17 +840,17 @@ msgstr "Antal fejl"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Antal meddelelser, som kræver en handling"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Antal meddelelser med leveringsfejl"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Antal ulæste beskeder"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__offsetting_account
@@ -1244,7 +1265,7 @@ msgstr "Overførsels journal"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transfer Journal Entries"
-msgstr ""
+msgstr "Overførslens betalingsposteringer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__date_type
