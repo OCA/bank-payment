@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-05-05 19:14+0000\n"
+"PO-Revision-Date: 2022-05-31 18:05+0000\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: none\n"
 "Language: da\n"
@@ -319,7 +319,7 @@ msgstr "Opret transaktioner"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_create_action
 msgid "Create Transactions from Move Lines"
-msgstr "Opret transkationer fra posteringer"
+msgstr "Opret transaktioner fra posteringer"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice_payment_line_multi
@@ -1108,7 +1108,7 @@ msgstr ""
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Selected Move Lines to Create Transactions"
-msgstr ""
+msgstr "Postering valgt til at oprette transkationer fra"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -1250,7 +1250,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__date_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__default_date_type
 msgid "Type of Date Filter"
-msgstr ""
+msgstr "Datofiltertype"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_unread
