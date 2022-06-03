@@ -29,3 +29,7 @@
 * `Open Source Integrators <https://www.opensourceintegrators.com>`_:
 
   * Ammar Officewala <aofficewala@opensourceintegrators.com>
+
+* `Ooops <https://www.ooops404.com>`_:
+
+  * Giovanni Serra <giovanni@gslab.it>
