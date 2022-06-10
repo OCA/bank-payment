@@ -69,7 +69,7 @@ class AccountPaymentOrder(models.Model):
                     sepa = False
                     break
             sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
+            order.sepa = sepa
 
     @api.multi
     def compute_sepa_final_hook(self, sepa):
