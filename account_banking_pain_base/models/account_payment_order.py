@@ -432,6 +432,21 @@ class AccountPaymentOrder(models.Model):
         return
 
     @api.model
+    def generate_party_currency(self, parent_node, partner_bank, gen_args):
+        """
+            This will generate the currency (Ccy) tag for a bank
+            https://www.europeanpaymentscouncil.eu/document-library/implementation-guidelines/sepa-credit-transfer-scheme-customer-psp-implementation
+
+        """
+        if partner_bank.currency_id:
+            party_account_currency = etree.SubElement(
+                parent_node, 'Ccy')
+            party_account_currency.text = self._prepare_field(
+                'Currency Code', 'bank.currency_id.name',
+                {'bank': partner_bank}, 3, gen_args=gen_args)
+        return True
+
+    @api.model
     def generate_party_acc_number(
             self, parent_node, party_type, order, partner_bank, gen_args,
             bank_line=None):
@@ -448,6 +463,7 @@ class AccountPaymentOrder(models.Model):
             party_account_other_id = etree.SubElement(
                 party_account_other, 'Id')
             party_account_other_id.text = partner_bank.sanitized_acc_number
+        self.generate_party_currency(party_account, partner_bank, gen_args)
         return True
 
     @api.model
