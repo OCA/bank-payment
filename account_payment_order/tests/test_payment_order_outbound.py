@@ -6,6 +6,7 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.tests import Form
 from odoo.tests.common import SavepointCase
 
 
@@ -15,6 +16,7 @@ class TestPaymentOrderOutboundBase(SavepointCase):
         self = cls
         super().setUpClass()
         self.env.user.company_id = self.env.ref("base.main_company").id
+        self.partner = self.env["res.partner"].create({"name": "Test"})
         self.journal = self.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
@@ -76,6 +78,31 @@ class TestPaymentOrderOutboundBase(SavepointCase):
         )
 
         return invoice
+
+    def _create_manual_supplier_refund(self, move):
+        # Do the supplier refund manually
+        vals = {
+            "partner_id": self.partner.id,
+            "type": "in_refund",
+            "ref": move.ref,
+            "payment_mode_id": self.mode.id,
+            "invoice_date": fields.Date.today(),
+            "invoice_line_ids": [
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": self.env.ref("product.product_product_4").id,
+                        "quantity": 1.0,
+                        "price_unit": 90.0,
+                        "name": "refund of 90.0",
+                        "account_id": self.invoice_line_account,
+                    },
+                )
+            ],
+        }
+        move = self.env["account.move"].create(vals)
+        return move
 
 
 class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
@@ -297,3 +324,43 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             ),
             0,
         )
+
+    def test_supplier_manual_refund(self):
+        """
+        Confirm the supplier invoice with reference
+        Create a credit note manually
+        Confirm the credit note
+        Reconcile move lines together
+        Create the payment order
+        The communication should be a combination of the invoice payment reference
+        and the credit note one
+        """
+        self.invoice.ref = "F1242"
+        self.invoice.action_post()
+        self.refund = self._create_manual_supplier_refund(self.invoice)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+
+        self.refund.action_post()
+
+        # The user add the outstanding payment to the invoice
+        invoice_line = self.invoice.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        refund_line = self.refund.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        (invoice_line | refund_line).reconcile()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+
+        self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)

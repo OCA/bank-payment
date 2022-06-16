@@ -45,6 +45,45 @@ class AccountMoveLine(models.Model):
             else:
                 ml.partner_bank_id = ml.partner_bank_id
 
+    def _get_linked_move_communication(self):
+        """
+        This will collect the references from referral moves:
+            - Reversal moves
+            - Partial payments
+        """
+        self.ensure_one()
+        references = []
+        # Build a recordset to gather moves from which references have already
+        # taken in order to avoid duplicates
+        reference_moves = self.env["account.move"].browse()
+        # If we have credit note(s) - reversal_move_id is a one2many
+        if self.move_id.reversal_move_id:
+            references.extend(
+                [
+                    move.invoice_payment_ref or move.ref
+                    for move in self.move_id.reversal_move_id
+                    if move.invoice_payment_ref or move.ref
+                ]
+            )
+            reference_moves |= self.move_id.reversal_move_id
+
+        # Retrieve partial payments - e.g.: manual credit notes
+        pay_term_lines = self.move_id.line_ids.filtered(
+            lambda line: line.account_internal_type in ("receivable", "payable")
+        )
+        invoice_partials = []
+        for partial in pay_term_lines.matched_debit_ids:
+            invoice_partials.append(partial.debit_move_id)
+        for partial in pay_term_lines.matched_credit_ids:
+            invoice_partials.append(partial.credit_move_id)
+        for payment_move_line in invoice_partials:
+            payment_move = payment_move_line.move_id
+            if payment_move not in reference_moves and (
+                payment_move.invoice_payment_ref or payment_move.ref
+            ):
+                references.append(payment_move.invoice_payment_ref or payment_move.ref)
+        return references
+
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
         assert payment_order, "Missing payment order"
@@ -67,6 +106,9 @@ class AccountMoveLine(models.Model):
                 elif "out" in self.move_id.type:
                     # Force to only put invoice number here
                     communication = self.move_id.name
+                references = self._get_linked_move_communication()
+                if references:
+                    communication += " " + " ".join(references)
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency
