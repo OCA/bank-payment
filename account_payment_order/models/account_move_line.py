@@ -89,7 +89,7 @@ class AccountMoveLine(models.Model):
         aplo = self.env["account.payment.line"]
         # default values for communication_type and communication
         communication_type = "normal"
-        communication = self.ref or self.name
+        communication = self.ref or self.name or ""
         # change these default values if move line is linked to an invoice
         if self.move_id.is_invoice():
             if (self.move_id.reference_type or "none") != "none":
