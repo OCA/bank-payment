@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.inherit</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+        <field name="arch" type="xml">
+            <group name="note" position="before">
+                <group name="account_defaults" string="Default accounts">
+                    <field name="default_receivable_account_id" />
+                    <field name="default_payable_account_id" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
