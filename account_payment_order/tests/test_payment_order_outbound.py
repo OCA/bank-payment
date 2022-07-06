@@ -6,10 +6,12 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
+@tagged("-at_install", "post_install")
 class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
