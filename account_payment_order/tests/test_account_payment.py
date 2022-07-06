@@ -3,10 +3,13 @@
 
 from unittest.mock import patch
 
+from odoo.tests import tagged
+
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
+@tagged("-at_install", "post_install")
 class TestAccountPayment(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
@@ -62,6 +65,7 @@ class TestAccountPayment(AccountTestInvoicingCommon):
             )
         # Journals
         cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
+        cls.sepa_in = cls.env.ref("account_banking_sepa_direct_debit.sepa_direct_debit")
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
 
         cls.bank_journal = cls.company_data["default_journal_bank"]
@@ -78,6 +82,7 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertTrue(self.inbound_payment_method_01.payment_order_only)
         self.assertTrue(self.inbound_payment_method_02.payment_order_only)
         self.manual_in.payment_order_only = True
+        self.sepa_in.payment_order_only = True
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
 
     def test_account_payment_02(self):
@@ -145,6 +150,7 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertTrue(self.inbound_payment_method_01.payment_order_only)
         self.assertTrue(self.inbound_payment_method_02.payment_order_only)
         self.manual_in.payment_order_only = True
+        self.sepa_in.payment_order_only = True
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
         # check journals
         journals = new_account_payment._get_default_journal()
