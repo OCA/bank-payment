@@ -34,6 +34,7 @@ class TestAccountPaymentPartner(TransactionCase):
             raise ValidationError(_("No Chart of Account Template has been defined !"))
         old_company = cls.env.user.company_id
         cls.env.user.company_id = cls.company_2.id
+        cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
         cls.chart.try_loading()
         cls.env.user.company_id = old_company.id
 
