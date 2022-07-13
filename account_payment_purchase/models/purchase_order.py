@@ -25,6 +25,10 @@ class PurchaseOrder(models.Model):
     @api.model
     def _get_default_supplier_partner_bank(self, partner):
         """This function is designed to be inherited"""
+        if partner.parent_id:
+            return (
+                partner.parent_id.bank_ids and partner.parent_id.bank_ids[0].id or False
+            )
         return partner.bank_ids and partner.bank_ids[0].id or False
 
     @api.onchange("partner_id", "company_id")
