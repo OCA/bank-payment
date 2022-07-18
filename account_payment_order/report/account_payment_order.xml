@@ -72,7 +72,12 @@
                         <tr>
                             <th>Partner</th>
                             <th class="text-center">Bank Account</th>
-                            <th class="text-center">Invoice Ref</th>
+                            <t t-if="doc.payment_type == 'inbound'">
+                                <th class="text-center">Invoice Ref</th>
+                            </t>
+                            <t t-else="">
+                                <th class="text-center">Vendor Bill #</th>
+                            </t>
                             <th class="text-center">Value Date</th>
                             <th class="text-right">Amount</th>
                             <th class="text-right">Currency</th>
