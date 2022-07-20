@@ -3,12 +3,13 @@
 # @author: David Wulliamoz, Emanuel Cino
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, exceptions
+from odoo import models, fields, exceptions, api
 
 
 class AccountPaymentLine(models.Model):
     _inherit = 'account.payment.line'
 
+    @api.one
     def free_line(self, rsn=''):
         """
         Set move_line_id to Null in order to cancel the related invoice
@@ -17,7 +18,7 @@ class AccountPaymentLine(models.Model):
         """
         for rec in self:
             if not rec.move_line_id.full_reconcile_id:
-                rec._post_free_message(rsn)
+                rec._post_free_message(str(rsn))
                 rec.move_line_id = False
                 rec.payment_line_returned = True
 
@@ -35,7 +36,7 @@ class AccountPaymentLine(models.Model):
             invoice = payment_line.move_line_id.invoice_id
             order = payment_line.order_id
             if additional_msg != '':
-                additional_msg = '\n'+additional_msg
+                additional_msg = '\n' + additional_msg
             invoice_url = u'<a href="web#id={}&view_type=form&model=' \
                 u'account.invoice">{}</a>'.format(invoice.id,
                                                   invoice.move_name)
