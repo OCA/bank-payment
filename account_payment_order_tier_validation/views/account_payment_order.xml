@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_payment_order_search_view">
+        <field
+            name="name"
+        >account.payment.order.search (in account_payment_order_tier_validation)</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_search"
+        />
+        <field name="arch" type="xml">
+            <filter name="uploaded" position="after">
+                <filter
+                    name="needs_review"
+                    string="Needs my Review"
+                    domain="[('reviewer_ids','in',uid), ('state', 'not in', ['open', 'cancel', 'generated', 'uploaded'])]"
+                    help="My Payment Orders to review"
+                />
+                <filter
+                    name="tier_validated"
+                    string="Validated"
+                    domain="[('validated', '=', True)]"
+                    help="Payment Orders validated and ready to be confirmed"
+                />
+            </filter>
+        </field>
+    </record>
+
+</odoo>
