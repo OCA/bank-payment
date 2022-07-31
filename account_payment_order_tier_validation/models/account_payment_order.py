@@ -9,5 +9,3 @@ class AccountPaymentOrder(models.Model):
     _inherit = [_name, "tier.validation"]
     _state_from = ["draft"]
     _state_to = ["open"]
-
-    _tier_validation_manual_config = False

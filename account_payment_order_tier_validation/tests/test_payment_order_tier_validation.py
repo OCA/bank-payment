@@ -97,6 +97,6 @@ class TestPaymentOrderTierValidation(common.SavepointCase):
         with self.assertRaises(ValidationError):
             po.draft2open()
         po.request_validation()
-        po.with_user(self.test_user_1).validate_tier()
+        po.sudo(self.test_user_1).validate_tier()
         po.draft2open()
         self.assertEqual(po.state, "open")

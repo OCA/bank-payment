@@ -13,7 +13,7 @@
             ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
-            <button name="draft2open" position="before">
+            <xpath expr="/form/header/button[last()]" position="after">
                 <button
                     name="request_validation"
                     string="Request Validation"
@@ -26,7 +26,7 @@
                     attrs="{'invisible': ['|',('review_ids', '=', []),('state','not in',['draft'])]}"
                     type="object"
                 />
-            </button>
+            </xpath>
             <header position="after">
                 <field name="need_validation" invisible="1" />
                 <field name="validated" invisible="1" />
