@@ -52,7 +52,7 @@ class AccountMove(models.Model):
 
     def create_account_payment_line(self):
         apoo = self.env["account.payment.order"]
-        result_payorder_ids = []
+        result_payorder_ids = set()
         action_payment_type = "debit"
         for move in self:
             if move.state != "posted":
@@ -90,7 +90,7 @@ class AccountMove(models.Model):
                         move._prepare_new_payment_order(payment_mode)
                     )
                     new_payorder = True
-                result_payorder_ids.append(payorder.id)
+                result_payorder_ids.add(payorder.id)
                 action_payment_type = payorder.payment_type
                 count = 0
                 for line in applicable_lines.filtered(
