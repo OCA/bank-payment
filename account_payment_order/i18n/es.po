@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-01 15:18+0000\n"
-"PO-Revision-Date: 2022-06-21 23:05+0000\n"
+"PO-Revision-Date: 2022-08-11 18:07+0000\n"
 "Last-Translator: Luis D. Lafaurie <luislafaurie@hotmail.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -513,7 +513,7 @@ msgstr "Seguidores (Canales)"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Seguidores (Socios)"
+msgstr "Seguidores (Empresas)"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
@@ -713,7 +713,7 @@ msgstr "Dejar vacío para usar todos los diarios"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Keep empty to use all partners"
-msgstr "Dejar vacío para usar todos los socios"
+msgstr "Dejar vacío para usar todas las empresas"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__communication
