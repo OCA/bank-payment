@@ -3,7 +3,7 @@
 
 from unittest.mock import patch
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
@@ -96,4 +96,24 @@ class TestPaymentMode(TransactionCase):
                     for journal in self.payment_mode_c1.default_journal_ids
                 ]
             )
+        )
+
+    def test_bank_journal_apply(self):
+        inbound_mode = self.env["account.payment.mode"].create(
+            {
+                "name": "Test Direct Debit of customers",
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+                "company_id": self.company.id,
+                "bank_account_link": "fixed",
+                "fixed_journal_id": self.journal_c1.id,
+            }
+        )
+        payment_order_form = Form(self.env["account.payment.order"])
+        payment_order_form.payment_mode_id = inbound_mode
+        self.assertEqual(
+            payment_order_form.journal_id,
+            self.journal_c1,
+            "Payment Order Bank Journal should be set!",
         )

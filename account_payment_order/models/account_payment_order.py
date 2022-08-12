@@ -246,7 +246,7 @@ class AccountPaymentOrder(models.Model):
     @api.onchange("payment_mode_id")
     def payment_mode_id_change(self):
         if len(self.allowed_journal_ids) == 1:
-            self.journal_id = self.allowed_journal_ids
+            self.journal_id = self.allowed_journal_ids._origin
         if self.payment_mode_id.default_date_prefered:
             self.date_prefered = self.payment_mode_id.default_date_prefered
 
