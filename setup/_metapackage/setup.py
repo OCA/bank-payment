@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo-addon-account_payment_mode>=15.0dev,<15.1dev',
         'odoo-addon-account_payment_order>=15.0dev,<15.1dev',
         'odoo-addon-account_payment_partner>=15.0dev,<15.1dev',
+        'odoo-addon-account_payment_purchase>=15.0dev,<15.1dev',
         'odoo-addon-account_payment_sale>=15.0dev,<15.1dev',
     ],
     classifiers=[
