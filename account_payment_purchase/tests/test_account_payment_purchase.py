@@ -116,6 +116,15 @@ class TestAccountPaymentPurchase(SavepointCase):
             result and result.get("warning", {}).get("title", False), "Warning"
         )
 
+    def test_from_purchase_order_empty_mode_invoicing(self):
+        self.purchase.payment_mode_id = False
+        self.purchase.button_confirm()
+        invoice_form = Form(
+            self.env["account.move"].with_context(default_type="in_invoice")
+        )
+        invoice_form.purchase_id = self.purchase
+        self.assertEqual(invoice_form.payment_mode_id, self.payment_mode)
+
     def test_from_purchase_order_invoicing_bank(self):
         # Test partner_bank
         product = self.env["product.product"].create({"name": "Test product"})
