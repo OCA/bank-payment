@@ -46,13 +46,13 @@ msgstr ""
 "trasladará a la factura de proveedor."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr "El pedido de compra tiene diferente modo de pago."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
 msgstr "El pedido de compra tiene diferente banco de proveedor."
@@ -63,7 +63,7 @@ msgid "Supplier Bank Account"
 msgstr "Cuenta bancaria del proveedor"
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Warning"
 msgstr "Aviso"
