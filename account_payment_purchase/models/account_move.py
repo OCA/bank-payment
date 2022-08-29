@@ -1,5 +1,6 @@
 # Copyright 2016 Akretion (<http://www.akretion.com>).
-# Copyright 2017 Tecnativa - Vicent Cubells.
+# Copyright 2017 Tecnativa - Vicent Cubells
+# Copyright 2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, models
@@ -22,7 +23,8 @@ class AccountMove(models.Model):
                 "message": _("Selected purchase order have different payment mode."),
             }
             return res
-        self.payment_mode_id = new_mode
+        if new_mode:
+            self.payment_mode_id = new_mode
         if (
             self.invoice_partner_bank_id
             and new_bank
@@ -33,5 +35,6 @@ class AccountMove(models.Model):
                 "message": _("Selected purchase order have different supplier bank."),
             }
             return res
-        self.invoice_partner_bank_id = new_bank
+        if new_bank:
+            self.invoice_partner_bank_id = new_bank
         return res
