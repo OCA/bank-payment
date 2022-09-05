@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_tier_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "My Payment Orders to review"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Needs my Review"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model,name:account_payment_order_tier_validation.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Payment Orders validated and ready to be confirmed"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model,name:account_payment_order_tier_validation.model_tier_definition
+msgid "Tier Definition"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Validated"
+msgstr ""
