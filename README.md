@@ -43,6 +43,7 @@ addon | version | maintainers | summary
 [account_payment_mode](account_payment_mode/) | 13.0.1.2.1 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 13.0.1.6.3 |  | Account Payment Order
 [account_payment_order_return](account_payment_order_return/) | 13.0.1.0.3 |  | Account Payment Order Return
+[account_payment_order_tier_validation](account_payment_order_tier_validation/) | 13.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Extends the functionality of Payment Orders to support a tier validation process.
 [account_payment_partner](account_payment_partner/) | 13.0.1.4.1 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 13.0.1.0.3 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 13.0.1.0.1 |  | Integrate Account Payment Purchase with Stock
