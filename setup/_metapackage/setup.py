@@ -17,6 +17,7 @@ setuptools.setup(
         'odoo12-addon-account_payment_mode',
         'odoo12-addon-account_payment_order',
         'odoo12-addon-account_payment_order_return',
+        'odoo12-addon-account_payment_order_tier_validation',
         'odoo12-addon-account_payment_partner',
         'odoo12-addon-account_payment_purchase',
         'odoo12-addon-account_payment_repair',
