@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo13-addon-account_payment_mode',
         'odoo13-addon-account_payment_order',
         'odoo13-addon-account_payment_order_return',
+        'odoo13-addon-account_payment_order_tier_validation',
         'odoo13-addon-account_payment_partner',
         'odoo13-addon-account_payment_purchase',
         'odoo13-addon-account_payment_purchase_stock',
