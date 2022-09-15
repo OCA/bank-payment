@@ -50,6 +50,50 @@ class AccountPaymentOrder(models.Model):
         "false, the bank statement will display one debit line per wire "
         "transfer of the SEPA XML file.")
 
+    @api.model
+    def _sepa_iban_prefix_list(self):
+        # List of IBAN prefixes (not country codes !)
+        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2020-10/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v3.0_1.pdf  # noqa: B950
+        # Some countries use IBAN but are not part of the SEPA zone
+        # example: Turkey, Madagascar, Tunisia, etc.
+        return [
+            "BE",
+            "BG",
+            "ES",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "DE",
+            "GI",
+            "GR",
+            "GB",
+            "HU",
+            "IS",
+            "IE",
+            "IT",
+            "LV",
+            "LI",
+            "LT",
+            "LU",
+            "PT",
+            "MT",
+            "MC",
+            "NL",
+            "NO",
+            "PL",
+            "RO",
+            "SM",
+            "SK",
+            "SI",
+            "SE",
+            "CH",
+            "VA",
+        ]
+
     @api.multi
     @api.depends(
         'company_partner_bank_id.acc_type',
@@ -57,15 +101,27 @@ class AccountPaymentOrder(models.Model):
         'payment_line_ids.partner_bank_id.acc_type')
     def compute_sepa(self):
         eur = self.env.ref('base.EUR')
+        sepa_list = self._sepa_iban_prefix_list()
         for order in self:
             sepa = True
             if order.company_partner_bank_id.acc_type != 'iban':
+                sepa = False
+            if (
+                order.company_partner_bank_id
+                and order.company_partner_bank_id.sanitized_acc_number[:2] not in sepa_list
+            ):
                 sepa = False
             for pline in order.payment_line_ids:
                 if pline.currency_id != eur:
                     sepa = False
                     break
                 if pline.partner_bank_id.acc_type != 'iban':
+                    sepa = False
+                    break
+                if (
+                    pline.partner_bank_id
+                    and pline.partner_bank_id.sanitized_acc_number[:2] not in sepa_list
+                ):
                     sepa = False
                     break
             sepa = order.compute_sepa_final_hook(sepa)
