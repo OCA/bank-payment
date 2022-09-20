@@ -101,7 +101,9 @@
                                 <t
                                     t-if="line.move_line_id.move_id and 'in_' in line.move_line_id.move_id.move_type"
                                 >
-                                    <span t-field="line.move_line_id.move_id.ref" />
+                                    <span
+                                        t-esc="line.move_line_id.move_id.ref or line.move_line_id.move_id.payment_reference"
+                                    />
                                 </t>
                                 <t t-else="">
                                     <span t-esc="line.move_line_id.move_id.name" />
