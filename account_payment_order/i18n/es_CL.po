@@ -19,19 +19,17 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "%d payment lines added to the existing draft payment order %s."
+msgid ""
+"%(count)d payment lines added to the existing draft payment order %(name)s."
 msgstr ""
-"%d líneas de pago agregadas al borrador del pago de nómina existente %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%d payment lines added to the new draft payment order %s which has been "
-"automatically created."
+"%(count)d payment lines added to the new draft payment order %(name)s which "
+"has been automatically created."
 msgstr ""
-"%d líneas de pago agregadas al nuevo borrador del pago de nómina %s que se "
-"ha creado automáticamente."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -72,11 +70,9 @@ msgstr "¡Ya existe una línea de pago con esta referencia en la misma empresa!"
 #: code:addons/account_payment_order/models/res_bank.py:0
 #, python-format
 msgid ""
-"A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
+"A valid BIC contains 8 or 11 characters. The BIC '%(bic)s' contains %(num)d "
 "characters, so it is not valid."
 msgstr ""
-"Un SBIF válido contiene 8 u 11 caracteres. El SBIF '%s' contiene %d "
-"caracteres, por lo que no es válido."
 
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
@@ -218,7 +214,6 @@ msgstr "Ref. Línea Pago Bancario"
 #: model:ir.actions.act_window,name:account_payment_order.bank_payment_line_action
 #: model:ir.model,name:account_payment_order.model_bank_payment_line
 #: model:ir.ui.menu,name:account_payment_order.bank_payment_line_menu
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Bank Payment Lines"
 msgstr "Líneas de pago bancarias"
 
@@ -237,10 +232,10 @@ msgstr "Cuenta bancaria en la que debemos pagar al proveedor"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
-msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
+msgid ""
+"Can not reconcile: no move line for payment line %(line)s of partner "
+"'%(partner)s'."
 msgstr ""
-"No se puede conciliar: no hay línea de movimiento para la línea de pago %s "
-"de contacto '%s'."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -258,11 +253,9 @@ msgstr "Cancelar Pagos"
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
 msgid ""
-"Cannot delete a payment order line whose payment order is in state '%s'. You "
-"need to cancel it first."
+"Cannot delete a payment order line whose payment order is in state "
+"'%(state)s'. You need to cancel it first."
 msgstr ""
-"No se puede eliminar una línea de orden de pago cuyo pago de nómina está en "
-"el estado  '%s'. Primero debes cancelarlo."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -425,18 +418,10 @@ msgstr "Rechazar débito antes de la fecha de vencimiento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_res_bank__display_name
 msgid "Display Name"
 msgstr "Nombre Mostrado"
 
@@ -501,11 +486,6 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canales)"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Contactos)"
@@ -514,12 +494,10 @@ msgstr "Seguidores (Contactos)"
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
 msgid ""
-"For partner '%s', the account of the account move line to pay (%s) is "
-"different from the account of of the transit move line (%s)."
+"For partner '%(partner)s', the account of the account move line to pay "
+"(%(line1)s) is different from the account of of the transit move line "
+"(%(line2)s)."
 msgstr ""
-"Para el contacto '%s', la cuenta de la línea de movimiento de cuenta para "
-"pagar (%s) es diferente de la cuenta de la línea de movimiento de tránsito "
-"(%s)."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
@@ -583,19 +561,16 @@ msgid "Group Transactions in Payment Orders"
 msgstr "Transacciones grupales en Pago de Nómina"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__id
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main__id
-#: model:ir.model.fields,field_description:account_payment_order.field_res_bank__id
 msgid "ID"
 msgstr "ID"
 
@@ -718,18 +693,10 @@ msgstr "Etiqueta del pago que verá el destinatario"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_journal____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_res_bank____last_update
 msgid "Last Modified on"
 msgstr "Última modificación el"
 
@@ -819,8 +786,9 @@ msgstr "Opción de Movimiento"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:0
 #, python-format
-msgid "Move line '%s' of partner '%s' has already been reconciled"
-msgstr "Apunte contable '%s' del contacto '%s' ya se ha conciliado"
+msgid ""
+"Move line '%(line)s' of partner '%(partner)s' has already been reconciled"
+msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
@@ -896,9 +864,10 @@ msgstr "Número de mensajes no leídos"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
+msgid ""
+"On payment order %(porder)s, the Payment Execution Date is in the past "
+"(%(exedate)s)."
 msgstr ""
-"En el pago de nómina %s, la Fecha de ejecución del pago es anterior a (%s)."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_mode.py:0
@@ -992,7 +961,6 @@ msgstr "Archivo de pago"
 #: model:ir.model,name:account_payment_order.model_account_payment_line
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__payment_line_ids
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Payment Lines"
 msgstr "Líneas de pago"
 
@@ -1048,7 +1016,6 @@ msgstr "Pago de Nómina Ok"
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_outbound_menu
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Orders"
 msgstr "Pagos de Nómina"
 
@@ -1197,8 +1164,9 @@ msgstr "Modelo técnico para imprimir pago de nómina"
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "The amount for Partner '%s' is negative or null (%.2f) !"
-msgstr "La cantidad para el contacto '%s' es negativa o nula (%.2f) !"
+msgid ""
+"The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_line_ids
@@ -1225,22 +1193,18 @@ msgstr "La factura %s no está en estado registrado"
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
-"The payment line %s has a maturity date %s which is after the computed "
-"payment date %s."
+"The payment mode '%(pmode)s' has the option 'Disallow Debit Before Maturity "
+"Date'. The payment line %(pline)s has a maturity date %(mdate)s which is "
+"after the computed payment date %(pdate)s."
 msgstr ""
-"El modo de pago '%s' tiene la opción 'No permitir débito antes de la fecha "
-"de vencimiento'. La línea de pago %s tiene una fecha de vencimiento %s que "
-"es posterior a la fecha de pago calculada %s."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The payment type (%s) is not the same as the payment type of the payment "
-"mode (%s)"
+"The payment type (%(ptype)s) is not the same as the payment type of the "
+"payment mode (%(pmode)s)"
 msgstr ""
-"El tipo de pago (%s) no es el mismo que el tipo de pago del modo de pago (%s)"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
@@ -1368,6 +1332,74 @@ msgstr "en"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "de lo contrario, se crearán nuevos pagos de nómina (una por modo de pago)."
+
+#~ msgid "%d payment lines added to the existing draft payment order %s."
+#~ msgstr ""
+#~ "%d líneas de pago agregadas al borrador del pago de nómina existente %s."
+
+#~ msgid ""
+#~ "%d payment lines added to the new draft payment order %s which has been "
+#~ "automatically created."
+#~ msgstr ""
+#~ "%d líneas de pago agregadas al nuevo borrador del pago de nómina %s que "
+#~ "se ha creado automáticamente."
+
+#~ msgid ""
+#~ "A valid BIC contains 8 or 11 characters. The BIC '%s' contains %d "
+#~ "characters, so it is not valid."
+#~ msgstr ""
+#~ "Un SBIF válido contiene 8 u 11 caracteres. El SBIF '%s' contiene %d "
+#~ "caracteres, por lo que no es válido."
+
+#~ msgid "Can not reconcile: no move line for payment line %s of partner '%s'."
+#~ msgstr ""
+#~ "No se puede conciliar: no hay línea de movimiento para la línea de pago "
+#~ "%s de contacto '%s'."
+
+#~ msgid ""
+#~ "Cannot delete a payment order line whose payment order is in state '%s'. "
+#~ "You need to cancel it first."
+#~ msgstr ""
+#~ "No se puede eliminar una línea de orden de pago cuyo pago de nómina está "
+#~ "en el estado  '%s'. Primero debes cancelarlo."
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canales)"
+
+#~ msgid ""
+#~ "For partner '%s', the account of the account move line to pay (%s) is "
+#~ "different from the account of of the transit move line (%s)."
+#~ msgstr ""
+#~ "Para el contacto '%s', la cuenta de la línea de movimiento de cuenta para "
+#~ "pagar (%s) es diferente de la cuenta de la línea de movimiento de "
+#~ "tránsito (%s)."
+
+#~ msgid "Move line '%s' of partner '%s' has already been reconciled"
+#~ msgstr "Apunte contable '%s' del contacto '%s' ya se ha conciliado"
+
+#~ msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
+#~ msgstr ""
+#~ "En el pago de nómina %s, la Fecha de ejecución del pago es anterior a "
+#~ "(%s)."
+
+#~ msgid "The amount for Partner '%s' is negative or null (%.2f) !"
+#~ msgstr "La cantidad para el contacto '%s' es negativa o nula (%.2f) !"
+
+#~ msgid ""
+#~ "The payment mode '%s' has the option 'Disallow Debit Before Maturity "
+#~ "Date'. The payment line %s has a maturity date %s which is after the "
+#~ "computed payment date %s."
+#~ msgstr ""
+#~ "El modo de pago '%s' tiene la opción 'No permitir débito antes de la "
+#~ "fecha de vencimiento'. La línea de pago %s tiene una fecha de vencimiento "
+#~ "%s que es posterior a la fecha de pago calculada %s."
+
+#~ msgid ""
+#~ "The payment type (%s) is not the same as the payment type of the payment "
+#~ "mode (%s)"
+#~ msgstr ""
+#~ "El tipo de pago (%s) no es el mismo que el tipo de pago del modo de pago "
+#~ "(%s)"
 
 #~ msgid "Done"
 #~ msgstr "Hecho"
