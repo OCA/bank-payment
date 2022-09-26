@@ -386,6 +386,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:0
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Debit order %s"
 msgstr ""
@@ -1025,6 +1026,7 @@ msgid "Payment lines"
 msgstr ""
 
 #. module: account_payment_order
+#: code:addons/account_payment_order/models/account_payment_order.py:0
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
