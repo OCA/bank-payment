@@ -466,6 +466,7 @@ class AccountPaymentOrder(models.Model):
         payment_method = self.payment_mode_id.payment_method_id
         account_id = False
         if self.payment_type == "inbound":
+            name = _("Debit order %s") % self.name
             account_id = (
                 self.journal_id.inbound_payment_method_line_ids.filtered(
                     lambda x: x.payment_method_id == payment_method
@@ -473,6 +474,7 @@ class AccountPaymentOrder(models.Model):
                 or self.journal_id.company_id.account_journal_payment_debit_account_id.id
             )
         elif self.payment_type == "outbound":
+            name = _("Payment order %s") % self.name
             account_id = (
                 self.journal_id.outbound_payment_method_line_ids.filtered(
                     lambda x: x.payment_method_id == payment_method
@@ -490,6 +492,7 @@ class AccountPaymentOrder(models.Model):
                 break
         vals.update(
             {
+                "name": name,
                 "partner_id": partner_id,
                 "account_id": account_id,
                 "credit": (
