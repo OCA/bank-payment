@@ -461,8 +461,10 @@ class AccountPaymentOrder(models.Model):
     ):
         vals = {}
         if self.payment_type == "outbound":
+            name = _("Payment order %s") % self.name
             account_id = self.journal_id.payment_credit_account_id.id
         else:
+            name = _("Debit order %s") % self.name
             account_id = self.journal_id.payment_debit_account_id.id
 
         partner_id = False
@@ -475,6 +477,7 @@ class AccountPaymentOrder(models.Model):
                 break
         vals.update(
             {
+                "name": name,
                 "partner_id": partner_id,
                 "account_id": account_id,
                 "credit": (
