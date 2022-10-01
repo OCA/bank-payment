@@ -37,7 +37,8 @@
                         invisible="context.get('mandate_bank_partner_view')"
                         readonly="True"/>
                     <field name="signature_date"/>
-                    <field name="scan"/>
+                    <field name="scan" filename="filename"/>
+                    <field name="filename" invisible="True"/>
                     <field name="last_debit_date"/>
                 </group>
                 <group name="payment_lines" string="Related Payment Lines">
