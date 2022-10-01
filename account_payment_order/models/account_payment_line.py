@@ -154,3 +154,18 @@ class AccountPaymentLine(models.Model):
             raise UserError(
                 _("Missing Partner Bank Account on payment line %s") % self.name
             )
+
+    def get_requested_date(self, default_date):
+        self.ensure_one()
+        order = self.order_id
+        # Compute requested payment date
+        if order.date_prefered == "due":
+            requested_date = self.ml_maturity_date or self.date or default_date
+        elif order.date_prefered == "fixed":
+            requested_date = order.date_scheduled or default_date
+        else:
+            requested_date = default_date
+        # No payment date in the past
+        if requested_date < default_date:
+            requested_date = default_date
+        return requested_date
