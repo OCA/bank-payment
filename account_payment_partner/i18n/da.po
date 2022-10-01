@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_payment_partner
+# 	* account_payment_partner
 #
 msgid ""
 msgstr ""
@@ -38,7 +38,9 @@ msgstr "<strong>Betalingsform:</strong>"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice__bank_account_required
-msgid "Activate this option if this payment method requires you to know the bank account number of your customer or supplier."
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
 msgstr ""
 "Aktivér denne mulighed, hvis denne betalingsmetode kræver, at du kender din "
 "kundes eller leverandørs bankkontonummer."
@@ -50,7 +52,10 @@ msgstr "Bank konto"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_invoice__partner_bank_id
-msgid "Bank Account Number to which the invoice will be paid. A Company bank account if this is a Customer Invoice or Vendor Credit Note, otherwise a Partner bank account number."
+msgid ""
+"Bank Account Number to which the invoice will be paid. A Company bank "
+"account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
+"Partner bank account number."
 msgstr ""
 "Bankkontonummer, som fakturaen skal betales til. En virksomheds bankkonto, "
 "hvis dette er en kundefaktura eller leverandørkreditnote, ellers et "
@@ -164,16 +169,20 @@ msgid "Supplier Payment Mode"
 msgstr "Leverandør betalingsfrom"
 
 #. module: account_payment_partner
+#: code:addons/account_payment_partner/models/account_invoice.py:118
 #: code:addons/account_payment_partner/models/account_invoice.py:120
 #, python-format
-msgid "The company of the invoice %s does not match with that of the payment mode"
+msgid ""
+"The company of the invoice %s does not match with that of the payment mode"
 msgstr ""
 "Virksomheden med fakturaen %s stemmer ikke overens med den i betalingsform"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:35
 #, python-format
-msgid "You cannot change the Company. There exists at least one Invoice with this Payment Mode, already assigned to another Company."
+msgid ""
+"You cannot change the Company. There exists at least one Invoice with this "
+"Payment Mode, already assigned to another Company."
 msgstr ""
 "Du kan ikke ændre selskabet. Der findes mindst én faktura med denne "
 "betalingstilstand, der allerede er tildelt et andet firma."
@@ -181,7 +190,9 @@ msgstr ""
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:46
 #, python-format
-msgid "You cannot change the Company. There exists at least one Journal Item with this Payment Mode, already assigned to another Company."
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
 msgstr ""
 "Du kan ikke ændre selskabet. Der findes mindst én faktura med denne "
 "betalingstilstand, der allerede er tildelt et andet firma."
