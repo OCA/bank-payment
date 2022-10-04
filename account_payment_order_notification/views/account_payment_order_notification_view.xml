@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_order_notification_form" model="ir.ui.view">
+        <field name="name">account.payment.order.notification.form</field>
+        <field name="model">account.payment.order.notification</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="order_id" />
+                        </h1>
+                    </div>
+                    <group name="head" col="2">
+                        <group name="head-left">
+                            <field name="partner_id" />
+                            <field name="create_date" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="payment-lines" string="Transactions">
+                            <field name="payment_line_ids" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="account_payment_order_notification_tree" model="ir.ui.view">
+        <field name="name">account.payment.order.notification.tree</field>
+        <field name="model">account.payment.order.notification</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="order_id" />
+                <field name="partner_id" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+    <record id="account_payment_order_notification_search" model="ir.ui.view">
+        <field name="name">account.payment.order.notification.search</field>
+        <field name="model">account.payment.order.notification</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="order_id" invisible="1" />
+                <field name="partner_id" />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="order_id"
+                        string="Payment Order"
+                        context="{'group_by': 'order_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record
+        id="account_payment_order_notification_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Payment Order Notifications</field>
+        <field name="res_model">account.payment.order.notification</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
