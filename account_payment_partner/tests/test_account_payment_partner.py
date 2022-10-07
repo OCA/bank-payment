@@ -254,6 +254,10 @@ class TestAccountPaymentPartner(TransactionCase):
             lambda l: l.account_id.account_type == "liability_payable"
         )
         self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
+        # Test payment mode change on aml
+        mode = self.supplier_payment_mode.copy()
+        aml.payment_mode_id = mode
+        self.assertEqual(invoice.payment_mode_id, mode)
 
     def test_invoice_create_out_invoice(self):
         invoice = self._create_invoice(

@@ -22,6 +22,7 @@ class AccountMove(models.Model):
         ondelete="restrict",
         readonly=False,
         check_company=True,
+        tracking=True,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
