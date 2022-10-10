@@ -14,16 +14,16 @@ Account Payment Mode
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
-    :target: https://github.com/OCA/bank-payment/tree/15.0/account_payment_mode
+    :target: https://github.com/OCA/bank-payment/tree/16.0/account_payment_mode
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/bank-payment-15-0/bank-payment-15-0-account_payment_mode
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/173/15.0
+    :target: https://runbot.odoo-community.org/runbot/173/16.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module adds a new object *account.payment.mode*, that is used to better
 classify and route incoming/outgoing payment orders with the banks.
@@ -83,6 +83,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/15.0/account_payment_mode>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/16.0/account_payment_mode>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
