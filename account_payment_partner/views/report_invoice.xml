@@ -4,7 +4,7 @@
         id="report_invoice_payment_mode"
         inherit_id="account.report_invoice_document"
     >
-        <xpath expr="//p[@t-if='o.invoice_payment_term_id']" position="after">
+        <xpath expr="//span[@t-field='o.narration']/.." position="before">
             <p t-if="o.payment_mode_id.note">
                 <strong>Payment Mode:</strong>
                 <span t-field="o.payment_mode_id.note" />
