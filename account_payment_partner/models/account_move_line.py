@@ -18,9 +18,9 @@ class AccountMoveLine(models.Model):
     @api.depends("move_id.payment_mode_id")
     def _compute_payment_mode(self):
         for line in self:
-            if line.move_id.is_invoice() and line.account_internal_type in (
-                "receivable",
-                "payable",
+            if line.move_id.is_invoice() and line.account_type in (
+                "asset_receivable",
+                "liability_payable",
             ):
                 line.payment_mode_id = line.move_id.payment_mode_id
             else:
