@@ -37,7 +37,7 @@ Configuration
 
 To configure this module, you need to:
 
-#. Go to *Invoicing > Configuration > Payment Modes* and create a payment mode if you wish.    
+#. Go to *Invoicing > Configuration > Payment Modes* and create a payment mode if you wish.
 
 #. Go to *Invoicing > Customers > Customers* and creates a new record as follows:
     * Name: Test customer 1
@@ -50,7 +50,7 @@ To configure this module, you need to:
 Usage
 =====
 
-#. Go to *Invoicing > Customers > Invoices* and creates one or more invoices linked to the payment mode.  
+#. Go to *Invoicing > Customers > Invoices* and creates one or more invoices linked to the payment mode.
 #. Go to *Invoicing > Customers > Invoices* select the invoices created and execute the action called "Post entries".
 #. Go to *Invoicing > Customers > Invoices* select the invoices created and execute the action called "Add to Payment/Debit Order" and creates a payment order.
 #. Click on "Confirm Payments" button.
