@@ -32,7 +32,7 @@
         </thead>
         % for payment_line in object.payment_line_ids:
             <tr>
-                <td>${payment_line.move_line_id.move_id.name}</td>
+                <td>${payment_line.communication}</td>
                 <td>${payment_line.date}</td>
                 <td>${format_amount(payment_line.amount_currency, payment_line.currency_id)}</td>
             </tr>
