@@ -20,11 +20,6 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_mode
-#: model:ir.model.constraint,message:account_payment_mode.constraint_account_payment_method_code_payment_type_unique
-msgid "A payment method of the same type already exists with this code"
-msgstr "Un metodo di pagamento dello stesso tipo esiste già con questo codice"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
@@ -97,8 +92,6 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
 msgstr "Nome da visualizzare"
@@ -132,8 +125,6 @@ msgid "Group By"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
 msgstr "ID"
@@ -155,18 +146,11 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid "Inbound Payment Methods"
-msgstr ""
-
-#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal____last_update
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
@@ -187,28 +171,6 @@ msgid "Link to Bank Account"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
-"Electronic: Get paid automatically through a payment acquirer by requesting "
-"a transaction on a card saved by the customer when buying or subscribing "
-"online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch "
-"deposit to submit to your bank. When encoding the bank statement in Odoo,you "
-"are suggested to reconcile the transaction with the batch deposit. Enable "
-"this option from the settings."
-msgstr ""
-
-#. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
-"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit "
-"to your bank. Enable this option from the settings."
-msgstr ""
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
 msgid "Name"
 msgstr "Nome"
@@ -225,28 +187,32 @@ msgid "Note"
 msgstr "Note"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed "
-"bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
+"in fact a debit method), but this debit method is not part of the debit "
+"methods of the fixed bank journal %(journal)s"
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s', but this payment "
-"method is not part of the payment methods of the fixed bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
+"this payment method is not part of the payment methods of the fixed bank "
+"journal %(journal)s"
 msgstr ""
 
 #. module: account_payment_mode
@@ -254,11 +220,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
 msgstr "In uscita"
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid "Outbound Payment Methods"
-msgstr "Metodi di pagamento in uscita"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
@@ -308,27 +269,31 @@ msgid "Search Payment Modes"
 msgstr "Cerca modi di pagamento"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used as Fixed Bank Journal."
+"The company of the journal  %(journal)s does not match with the company of "
+"the payment mode  %(paymode)s where it is being used in the Allowed Bank "
+"Journals."
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used in the Allowed Bank Journals."
+"The company of the journal %(journal)s does not match with the company of "
+"the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with one of the Allowed "
-"Bank Journals."
+"The company of the payment mode %(paymode)s, does not match with one of the "
+"Allowed Bank Journals."
 msgstr ""
 
 #. module: account_payment_mode
@@ -344,3 +309,10 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr ""
+
+#~ msgid "A payment method of the same type already exists with this code"
+#~ msgstr ""
+#~ "Un metodo di pagamento dello stesso tipo esiste già con questo codice"
+
+#~ msgid "Outbound Payment Methods"
+#~ msgstr "Metodi di pagamento in uscita"

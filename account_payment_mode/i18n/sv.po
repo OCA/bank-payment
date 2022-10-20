@@ -17,11 +17,6 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_mode
-#: model:ir.model.constraint,message:account_payment_mode.constraint_account_payment_method_code_payment_type_unique
-msgid "A payment method of the same type already exists with this code"
-msgstr "En betalningsmetod av samma typ finns redan med den här koden"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
@@ -94,8 +89,6 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr "Autogirering av leverantörer från Société Générale"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
@@ -121,8 +114,8 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
-"För betalningssätt som alltid är kopplade till samma bankkonto i ditt bolag ("
-"t.ex. banköverföring från kunder eller SEPA-autogiro från leverantörer), "
+"För betalningssätt som alltid är kopplade till samma bankkonto i ditt bolag "
+"(t.ex. banköverföring från kunder eller SEPA-autogiro från leverantörer), "
 "välj \"Fast\". För betalningssätt som inte alltid är kopplade till samma "
 "bankkonto (t.ex. SEPA-direktdebitering för kunder, banköverföring till "
 "leverantörer) ska du välja \"Variabel\", vilket innebär att du kommer att "
@@ -136,8 +129,6 @@ msgid "Group By"
 msgstr "Gruppera efter"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
 msgstr "ID"
@@ -159,18 +150,11 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr "Inkommande kredit Trf Société Générale"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid "Inbound Payment Methods"
-msgstr "Betalningsmetoder för inkommande betalningar"
-
-#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr "Journal"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal____last_update
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
 msgstr "Senast modifierad den"
@@ -191,35 +175,6 @@ msgid "Link to Bank Account"
 msgstr "Länk till bankkonto"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
-"Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
-msgstr ""
-"Manuell: Få betalt med kontanter, checkar eller andra metoder utanför Odoo.\n"
-"Elektronisk: Få betalt automatiskt via en betalningsförmedlare genom att "
-"begära en transaktion på ett kort som kunden sparat när han eller hon köper "
-"eller prenumererar online (betalningstoken).\n"
-"Batchinbetalning: Inkludera flera kundbetalningar på en gång genom att "
-"generera en batchinbetalning som kan lämnas in hos din bank. När du kodar "
-"bankutdraget i Odoo föreslås att du stämmer av transaktionen med "
-"batchinbetalningen. Aktivera det här alternativet i inställningarna."
-
-#. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
-"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
-msgstr ""
-"Manuell: Betala räkningar med kontanter eller någon annan metod utanför Odoo."
-"\n"
-"Check: Betala räkningar med check och skriv ut den från Odoo.\n"
-"SEPA-kreditöverföring: Betala räkningar med en SEPA Credit Transfer-fil som "
-"du lämnar in hos din bank. Aktivera det här alternativet i inställningarna."
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
 msgid "Name"
 msgstr "Namn"
@@ -236,48 +191,39 @@ msgid "Note"
 msgstr "Anteckning"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
-"På betalningssättet '%s', är länken till bankkontot 'Fast' men den fasta "
-"bankjournalen är inte inställd"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed"
-" bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
+"in fact a debit method), but this debit method is not part of the debit "
+"methods of the fixed bank journal %(journal)s"
 msgstr ""
-"På betalningssättet '%s', är betalningsmetoden '%s' (det är i själva verket "
-"en debiteringsmetod), men denna debiteringsmetod ingår inte i "
-"debiteringsmetoderna för den fasta bankjournalen '%s'"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s', but this payment "
-"method is not part of the payment methods of the fixed bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
+"this payment method is not part of the payment methods of the fixed bank "
+"journal %(journal)s"
 msgstr ""
-"På betalningssättet '%s', är betalningsmetoden '%s', men denna "
-"betalningsmetod ingår inte i betalningsmetoderna för den fasta bankjournalen "
-"'%s'"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
 msgstr "Utgående"
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid "Outbound Payment Methods"
-msgstr "Betalningsmetoder för utgående betalningar"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
@@ -327,34 +273,32 @@ msgid "Search Payment Modes"
 msgstr "Sök betalningssätt"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used as Fixed Bank Journal."
+"The company of the journal  %(journal)s does not match with the company of "
+"the payment mode  %(paymode)s where it is being used in the Allowed Bank "
+"Journals."
 msgstr ""
-"Bolaget på journalen '%s' matchar inte med bolaget på betalningssättet '%s' "
-"där den används som fast bankjournal."
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used in the Allowed Bank Journals."
+"The company of the journal %(journal)s does not match with the company of "
+"the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
-"Bolaget på journalen '%s' matchar inte med bolaget på betalningssättet '%s' "
-"där det används i de tillåtna bankjournalerna."
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with one of the Allowed"
-" Bank Journals."
+"The company of the payment mode %(paymode)s, does not match with one of the "
+"Allowed Bank Journals."
 msgstr ""
-"Bolaget på betalningssättet '%s', matchar inte med en av de tillåtna "
-"bankjournalerna."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
@@ -372,3 +316,96 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variabel"
+
+#~ msgid "A payment method of the same type already exists with this code"
+#~ msgstr "En betalningsmetod av samma typ finns redan med den här koden"
+
+#~ msgid "Inbound Payment Methods"
+#~ msgstr "Betalningsmetoder för inkommande betalningar"
+
+#~ msgid ""
+#~ "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+#~ "Electronic: Get paid automatically through a payment acquirer by "
+#~ "requesting a transaction on a card saved by the customer when buying or "
+#~ "subscribing online (payment token).\n"
+#~ "Batch Deposit: Encase several customer checks at once by generating a "
+#~ "batch deposit to submit to your bank. When encoding the bank statement in "
+#~ "Odoo,you are suggested to reconcile the transaction with the batch "
+#~ "deposit. Enable this option from the settings."
+#~ msgstr ""
+#~ "Manuell: Få betalt med kontanter, checkar eller andra metoder utanför "
+#~ "Odoo.\n"
+#~ "Elektronisk: Få betalt automatiskt via en betalningsförmedlare genom att "
+#~ "begära en transaktion på ett kort som kunden sparat när han eller hon "
+#~ "köper eller prenumererar online (betalningstoken).\n"
+#~ "Batchinbetalning: Inkludera flera kundbetalningar på en gång genom att "
+#~ "generera en batchinbetalning som kan lämnas in hos din bank. När du kodar "
+#~ "bankutdraget i Odoo föreslås att du stämmer av transaktionen med "
+#~ "batchinbetalningen. Aktivera det här alternativet i inställningarna."
+
+#~ msgid ""
+#~ "Manual:Pay bill by cash or any other method outside of Odoo.\n"
+#~ "Check:Pay bill by check and print it from Odoo.\n"
+#~ "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you "
+#~ "submit to your bank. Enable this option from the settings."
+#~ msgstr ""
+#~ "Manuell: Betala räkningar med kontanter eller någon annan metod utanför "
+#~ "Odoo.\n"
+#~ "Check: Betala räkningar med check och skriv ut den från Odoo.\n"
+#~ "SEPA-kreditöverföring: Betala räkningar med en SEPA Credit Transfer-fil "
+#~ "som du lämnar in hos din bank. Aktivera det här alternativet i "
+#~ "inställningarna."
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
+#~ "bank journal is not set"
+#~ msgstr ""
+#~ "På betalningssättet '%s', är länken till bankkontot 'Fast' men den fasta "
+#~ "bankjournalen är inte inställd"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the payment method is '%s' (it is in fact a "
+#~ "debit method), but this debit method is not part of the debit methods of "
+#~ "the fixed bank journal '%s'"
+#~ msgstr ""
+#~ "På betalningssättet '%s', är betalningsmetoden '%s' (det är i själva "
+#~ "verket en debiteringsmetod), men denna debiteringsmetod ingår inte i "
+#~ "debiteringsmetoderna för den fasta bankjournalen '%s'"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the payment method is '%s', but this payment "
+#~ "method is not part of the payment methods of the fixed bank journal '%s'"
+#~ msgstr ""
+#~ "På betalningssättet '%s', är betalningsmetoden '%s', men denna "
+#~ "betalningsmetod ingår inte i betalningsmetoderna för den fasta "
+#~ "bankjournalen '%s'"
+
+#~ msgid "Outbound Payment Methods"
+#~ msgstr "Betalningsmetoder för utgående betalningar"
+
+#, python-format
+#~ msgid ""
+#~ "The company of the journal '%s' does not match with the company of the "
+#~ "payment mode '%s' where it is being used as Fixed Bank Journal."
+#~ msgstr ""
+#~ "Bolaget på journalen '%s' matchar inte med bolaget på betalningssättet "
+#~ "'%s' där den används som fast bankjournal."
+
+#, python-format
+#~ msgid ""
+#~ "The company of the journal '%s' does not match with the company of the "
+#~ "payment mode '%s' where it is being used in the Allowed Bank Journals."
+#~ msgstr ""
+#~ "Bolaget på journalen '%s' matchar inte med bolaget på betalningssättet "
+#~ "'%s' där det används i de tillåtna bankjournalerna."
+
+#, python-format
+#~ msgid ""
+#~ "The company of the payment mode '%s', does not match with one of the "
+#~ "Allowed Bank Journals."
+#~ msgstr ""
+#~ "Bolaget på betalningssättet '%s', matchar inte med en av de tillåtna "
+#~ "bankjournalerna."

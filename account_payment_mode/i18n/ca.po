@@ -20,11 +20,6 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_mode
-#: model:ir.model.constraint,message:account_payment_mode.constraint_account_payment_method_code_payment_type_unique
-msgid "A payment method of the same type already exists with this code"
-msgstr "Ja existeix un mètode de pagament del mateix tipus amb aquest codi"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
@@ -97,8 +92,6 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr "Dèbit directe de proveïdors de Société Générale"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
 msgid "Display Name"
 msgstr "Nom de visualització"
@@ -139,8 +132,6 @@ msgid "Group By"
 msgstr "Agrupar per"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
 msgid "ID"
 msgstr "ID"
@@ -162,18 +153,11 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr "Crèdit entrant transf. Société Générale"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid "Inbound Payment Methods"
-msgstr "Mètodes de pagament entrant"
-
-#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr "Diari"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal____last_update
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
 msgid "Last Modified on"
 msgstr "Darrera modificació el"
@@ -194,41 +178,6 @@ msgid "Link to Bank Account"
 msgstr "Enllaç al compte bancari"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
-msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
-"Electronic: Get paid automatically through a payment acquirer by requesting "
-"a transaction on a card saved by the customer when buying or subscribing "
-"online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch "
-"deposit to submit to your bank. When encoding the bank statement in Odoo,you "
-"are suggested to reconcile the transaction with the batch deposit. Enable "
-"this option from the settings."
-msgstr ""
-"Manual: Rebre pagaments en efectiu, xec o qualsevol altre mètode fora d'Odoo."
-"\n"
-"Electronic: Rebre pagaments automàticament per mitjà d'un connector de "
-"pagament tot sol·licitant una transacció sobre una targeta introduïda pel "
-"client quan compra o es subscriu online (token de pagament).\n"
-"Remesa: Envia diversos xecs de clients al mateix temps tot generant una "
-"remesa per a enviar al banc. Quan s'introdueix l'extracte bancari a Odoo, se "
-"us suggereix conciliar la tranacció amb la remesa. Activeu aquesta opció als "
-"ajustos."
-
-#. module: account_payment_mode
-#: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
-"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit "
-"to your bank. Enable this option from the settings."
-msgstr ""
-"Manual: Pagar en efectiu o altres mètodes fora d'Odoo.\n"
-"Xec: Pagar amb xec i imprimir-lo des de Odoo.\n"
-"Transferència SEPA: Pagar amb una transferència SEPA que pugeu al banc. "
-"Activeu aquesta opció als ajustos."
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
 msgid "Name"
 msgstr "Nom"
@@ -245,47 +194,39 @@ msgid "Note"
 msgstr "Nota"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
-"Al mode de pagament '%s', l'enllaç al compte bancari és 'Fix', però el "
-"compte bancari fixat no s'ha establert"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed "
-"bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
+"in fact a debit method), but this debit method is not part of the debit "
+"methods of the fixed bank journal %(journal)s"
 msgstr ""
-"Al mode de pagament '%s', el mètode de pagament és '%s' (un mètode de càrrec)"
-", però aquest mètode de càrrec no és part dels mètodes de càrrec del diari "
-"bancari fixat '%s'"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"On the payment mode '%s', the payment method is '%s', but this payment "
-"method is not part of the payment methods of the fixed bank journal '%s'"
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
+"this payment method is not part of the payment methods of the fixed bank "
+"journal %(journal)s"
 msgstr ""
-"Al mode de pagament '%s', el mètode de pagament és '%s', però aquest mètode "
-"de pagament no és part dels mètodes de pagament del diari bancari fixat '%s'"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Outbound"
 msgstr "Sortint"
-
-#. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__outbound_payment_method_ids
-msgid "Outbound Payment Methods"
-msgstr "Mètodes de pagament sortints"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
@@ -335,34 +276,32 @@ msgid "Search Payment Modes"
 msgstr "Cerca modes de pagament"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used as Fixed Bank Journal."
+"The company of the journal  %(journal)s does not match with the company of "
+"the payment mode  %(paymode)s where it is being used in the Allowed Bank "
+"Journals."
 msgstr ""
-"La companyia del diari '%s' no coincideix amb la companyia del mode de "
-"pagament '%s' on s'utilitza com a diari bancari fixat."
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
-"The company of the journal '%s' does not match with the company of the "
-"payment mode '%s' where it is being used in the Allowed Bank Journals."
+"The company of the journal %(journal)s does not match with the company of "
+"the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
-"La companyia del diari '%s' no coincideix amb la companyia del mode de "
-"pagament '%s' on s'utilitza dins dels diaris bancaris permesos."
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with one of the Allowed "
-"Bank Journals."
+"The company of the payment mode %(paymode)s, does not match with one of the "
+"Allowed Bank Journals."
 msgstr ""
-"La companyia del mode de pagament '%s', no coincideix amb un dels diaris "
-"bancaris permesos."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
@@ -380,6 +319,97 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variable"
+
+#~ msgid "A payment method of the same type already exists with this code"
+#~ msgstr "Ja existeix un mètode de pagament del mateix tipus amb aquest codi"
+
+#~ msgid "Inbound Payment Methods"
+#~ msgstr "Mètodes de pagament entrant"
+
+#~ msgid ""
+#~ "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+#~ "Electronic: Get paid automatically through a payment acquirer by "
+#~ "requesting a transaction on a card saved by the customer when buying or "
+#~ "subscribing online (payment token).\n"
+#~ "Batch Deposit: Encase several customer checks at once by generating a "
+#~ "batch deposit to submit to your bank. When encoding the bank statement in "
+#~ "Odoo,you are suggested to reconcile the transaction with the batch "
+#~ "deposit. Enable this option from the settings."
+#~ msgstr ""
+#~ "Manual: Rebre pagaments en efectiu, xec o qualsevol altre mètode fora "
+#~ "d'Odoo.\n"
+#~ "Electronic: Rebre pagaments automàticament per mitjà d'un connector de "
+#~ "pagament tot sol·licitant una transacció sobre una targeta introduïda pel "
+#~ "client quan compra o es subscriu online (token de pagament).\n"
+#~ "Remesa: Envia diversos xecs de clients al mateix temps tot generant una "
+#~ "remesa per a enviar al banc. Quan s'introdueix l'extracte bancari a Odoo, "
+#~ "se us suggereix conciliar la tranacció amb la remesa. Activeu aquesta "
+#~ "opció als ajustos."
+
+#~ msgid ""
+#~ "Manual:Pay bill by cash or any other method outside of Odoo.\n"
+#~ "Check:Pay bill by check and print it from Odoo.\n"
+#~ "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you "
+#~ "submit to your bank. Enable this option from the settings."
+#~ msgstr ""
+#~ "Manual: Pagar en efectiu o altres mètodes fora d'Odoo.\n"
+#~ "Xec: Pagar amb xec i imprimir-lo des de Odoo.\n"
+#~ "Transferència SEPA: Pagar amb una transferència SEPA que pugeu al banc. "
+#~ "Activeu aquesta opció als ajustos."
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
+#~ "bank journal is not set"
+#~ msgstr ""
+#~ "Al mode de pagament '%s', l'enllaç al compte bancari és 'Fix', però el "
+#~ "compte bancari fixat no s'ha establert"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the payment method is '%s' (it is in fact a "
+#~ "debit method), but this debit method is not part of the debit methods of "
+#~ "the fixed bank journal '%s'"
+#~ msgstr ""
+#~ "Al mode de pagament '%s', el mètode de pagament és '%s' (un mètode de "
+#~ "càrrec), però aquest mètode de càrrec no és part dels mètodes de càrrec "
+#~ "del diari bancari fixat '%s'"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', the payment method is '%s', but this payment "
+#~ "method is not part of the payment methods of the fixed bank journal '%s'"
+#~ msgstr ""
+#~ "Al mode de pagament '%s', el mètode de pagament és '%s', però aquest "
+#~ "mètode de pagament no és part dels mètodes de pagament del diari bancari "
+#~ "fixat '%s'"
+
+#~ msgid "Outbound Payment Methods"
+#~ msgstr "Mètodes de pagament sortints"
+
+#, python-format
+#~ msgid ""
+#~ "The company of the journal '%s' does not match with the company of the "
+#~ "payment mode '%s' where it is being used as Fixed Bank Journal."
+#~ msgstr ""
+#~ "La companyia del diari '%s' no coincideix amb la companyia del mode de "
+#~ "pagament '%s' on s'utilitza com a diari bancari fixat."
+
+#, python-format
+#~ msgid ""
+#~ "The company of the journal '%s' does not match with the company of the "
+#~ "payment mode '%s' where it is being used in the Allowed Bank Journals."
+#~ msgstr ""
+#~ "La companyia del diari '%s' no coincideix amb la companyia del mode de "
+#~ "pagament '%s' on s'utilitza dins dels diaris bancaris permesos."
+
+#, python-format
+#~ msgid ""
+#~ "The company of the payment mode '%s', does not match with one of the "
+#~ "Allowed Bank Journals."
+#~ msgstr ""
+#~ "La companyia del mode de pagament '%s', no coincideix amb un dels diaris "
+#~ "bancaris permesos."
 
 #~ msgid "Bank Account Type"
 #~ msgstr "Tipus de compte bancari"
