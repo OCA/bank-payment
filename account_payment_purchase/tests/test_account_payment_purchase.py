@@ -3,14 +3,15 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("-at_install", "post_install")
 class TestAccountPaymentPurchase(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestAccountPaymentPurchase, cls).setUpClass()
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.journal = cls.env["account.journal"].create(
             {"name": "Test journal", "code": "TEST", "type": "general"}
         )
@@ -49,7 +50,7 @@ class TestAccountPaymentPurchase(TransactionCase):
                 "name": "Test buy product",
                 "uom_id": cls.uom_id,
                 "uom_po_id": cls.uom_id,
-                "seller_ids": [(0, 0, {"name": cls.partner.id})],
+                "seller_ids": [(0, 0, {"partner_id": cls.partner.id})],
             }
         )
         cls.purchase = cls.env["purchase.order"].create(
@@ -84,8 +85,8 @@ class TestAccountPaymentPurchase(TransactionCase):
         invoice = self.env["account.move"].create(
             {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
-        with Form(invoice) as inv:
-            inv.purchase_id = self.purchase
+        invoice.purchase_id = self.purchase
+        invoice._onchange_purchase_auto_complete()
         self.assertEqual(
             self.purchase.invoice_ids[0].payment_mode_id, self.payment_mode
         )
