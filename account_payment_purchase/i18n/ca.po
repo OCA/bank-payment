@@ -22,7 +22,7 @@ msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_move
-msgid "Journal Entries"
+msgid "Journal Entry"
 msgstr ""
 
 #. module: account_payment_purchase
@@ -47,13 +47,15 @@ msgstr ""
 "proveïdor."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#. odoo-python
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
 msgstr "La comanda de compra seleccionada té un mode de pagament diferent."
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#. odoo-python
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
 msgstr "La comanda de compra seleccionada té un banc de proveïdor diferent."
@@ -64,7 +66,8 @@ msgid "Supplier Bank Account"
 msgstr "Compte bancari proveïdor"
 
 #. module: account_payment_purchase
-#: code:addons/account_payment_purchase/models/account_invoice.py:0
+#. odoo-python
+#: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Warning"
 msgstr "Advertència"
