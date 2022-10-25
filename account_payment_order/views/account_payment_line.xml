@@ -9,6 +9,7 @@
                     <group name="left">
                         <field
                             name="order_id"
+                            groups="base.group_multi_company"
                             invisible="not context.get('account_payment_line_main_view')"
                         />
                         <field name="name" />
@@ -25,7 +26,7 @@
                         <field
                             name="partner_bank_id"
                             context="{'default_partner_id': partner_id}"
-                            domain="[('partner_id', '=', partner_id), '|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                            domain="[('partner_id', '=', partner_id)]"
                             attrs="{'required': [('bank_account_required', '=', True)]}"
                         />
                         <field name="bank_account_required" invisible="1" />

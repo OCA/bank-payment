@@ -359,7 +359,7 @@ class AccountPaymentOrder(models.Model):
                         "paylines": payline,
                         "total": payline.amount_currency,
                     }
-            order.recompute()
+            order.env.flush_all()
             # Create bank payment lines
             for paydict in list(group_paylines.values()):
                 # Block if a bank payment line is <= 0

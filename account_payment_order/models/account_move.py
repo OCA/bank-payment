@@ -61,7 +61,8 @@ class AccountMove(models.Model):
                 lambda x: (
                     not x.reconciled
                     and x.payment_mode_id.payment_order_ok
-                    and x.account_id.internal_type in ("receivable", "payable")
+                    and x.account_id.account_type
+                    in ("asset_receivable", "liability_payable")
                     and not any(
                         p_state in ("draft", "open", "generated")
                         for p_state in x.payment_line_ids.mapped("state")

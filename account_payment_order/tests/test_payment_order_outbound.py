@@ -27,7 +27,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
             {
                 "name": "Test account",
                 "code": "TEST1",
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
             }
         )
         cls.mode = cls.env["account.payment.mode"].create(

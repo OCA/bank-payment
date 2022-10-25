@@ -38,7 +38,8 @@ class AccountMoveLine(models.Model):
                 ml.move_id.move_type in ("in_invoice", "in_refund")
                 and not ml.reconciled
                 and ml.payment_mode_id.payment_order_ok
-                and ml.account_id.internal_type in ("receivable", "payable")
+                and ml.account_id.account_type
+                in ("asset_receivable", "liability_payable")
                 and not any(
                     p_state in ("draft", "open", "generated")
                     for p_state in ml.payment_line_ids.mapped("state")
