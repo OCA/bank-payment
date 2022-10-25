@@ -20,17 +20,21 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%(count)d payment lines added to the existing draft payment order %(name)s."
+"%(count)d payment lines added to the existing draft payment order <a href=# "
+"data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%(count)d payment lines added to the new draft payment order %(name)s which "
+"%(count)d payment lines added to the new draft payment order <a href=# data-"
+"oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>, which "
 "has been automatically created."
 msgstr ""
 
@@ -71,6 +75,7 @@ msgstr ""
 "Er bestaat reeds een regel met dezelfde referentie binnen hetzelfde bedrijf!"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/res_bank.py:0
 #, python-format
 msgid ""
@@ -82,11 +87,6 @@ msgstr ""
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
 msgstr "Boekhouding / Betalingen"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Boekhoud opties"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
@@ -167,7 +167,6 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__amount_currency
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__amount_currency
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Amount"
@@ -175,7 +174,6 @@ msgstr "Bedrag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__amount_company_currency
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__amount_company_currency
 msgid "Amount in Company Currency"
 msgstr "Bedrag in bedrijfsvaluta"
 
@@ -207,7 +205,6 @@ msgid "Bank"
 msgstr "Bank"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__partner_bank_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Bank Account"
 msgstr "Bankrekeningen"
@@ -224,43 +221,9 @@ msgid "Bank Journal"
 msgstr "Bankboek"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__bank_payment_line_id
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__bank_line_id
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
-msgid "Bank Payment Line"
-msgstr "Betaalopdrachtregel"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__name
-msgid "Bank Payment Line Ref"
-msgstr "Betaalregel referentie"
-
-#. module: account_payment_order
-#: model:ir.actions.act_window,name:account_payment_order.bank_payment_line_action
-#: model:ir.model,name:account_payment_order.model_bank_payment_line
-#: model:ir.ui.menu,name:account_payment_order.bank_payment_line_menu
-msgid "Bank Payment Lines"
-msgstr "Bank betaalregels"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_line_ids
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
-msgid "Bank Transactions"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line__partner_bank_id
 msgid "Bank account on which we should pay the supplier"
 msgstr "Bankrekening waarop de leverancier etaald dient te worden"
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:0
-#, python-format
-msgid ""
-"Can not reconcile: no move line for payment line %(line)s of partner "
-"'%(partner)s'."
-msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -273,14 +236,6 @@ msgstr "Annuleren"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Cancel Payments"
 msgstr "Annuleer betalingen"
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:0
-#, python-format
-msgid ""
-"Cannot delete a payment order line whose payment order is in state "
-"'%(state)s'. You need to cancel it first."
-msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -301,17 +256,16 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__communication
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__communication
 msgid "Communication"
 msgstr "Communicatie"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__communication_type
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__communication_type
 msgid "Communication Type"
 msgstr "Communicatie type"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Communication is empty on payment line %s."
@@ -320,7 +274,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__company_id
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__company_id
 msgid "Company"
 msgstr "Bedrijf"
 
@@ -375,7 +328,6 @@ msgstr "Aanmaken betaalregels van factuur lijstweergave"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__create_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__create_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__create_uid
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__create_uid
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Created by"
 msgstr "Aangemaakt door"
@@ -385,21 +337,18 @@ msgstr "Aangemaakt door"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__create_date
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__create_date
 msgid "Created on"
 msgstr "Aangemaakt op"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_currency_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__company_currency_id
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__company_currency_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Currency"
 msgstr "Valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__currency_id
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__currency_id
 msgid "Currency of the Payment Transaction"
 msgstr "Valuta van de betaaltransactie"
 
@@ -414,18 +363,6 @@ msgstr "Inkomende Betaalopdrachten"
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_inbound_menu
 msgid "Debit Orders"
 msgstr "Inkomende Betaalopdrachten"
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid "Debit bank line %s"
-msgstr "Debit betaalregel %s"
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid "Debit order %s"
-msgstr "Betaalopdrachten %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__default_date_prefered
@@ -447,7 +384,6 @@ msgstr "Sta geen debit toe voor vervaldatum"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__display_name
 msgid "Display Name"
 msgstr "Weergave naam"
 
@@ -522,15 +458,6 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:0
-#, python-format
-msgid ""
-"For partner '%(partner)s', the account of the account move line to pay "
-"(%(line1)s) is different from the account of of the transit move line "
-"(%(line2)s)."
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
 msgid ""
 "For payment modes that are always attached to the same bank account of your "
@@ -554,11 +481,6 @@ msgid "Free Reference"
 msgstr "Betaalreferentie"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Maak financiele boekingen bij bestand upload"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr "Aanmaken betaalbestand"
@@ -575,7 +497,6 @@ msgstr "Aangemaakt door"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Group By"
 msgstr "Groepeer op"
 
@@ -594,7 +515,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__id
 msgid "ID"
 msgstr "ID"
 
@@ -610,7 +530,6 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Indien aangevinkt, vereisen nieuwe berichten uw aandacht."
 
@@ -660,7 +579,6 @@ msgstr "Direct"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__payment_type__inbound
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Inbound"
 msgstr "Inkomend"
 
@@ -730,7 +648,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create____last_update
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line____last_update
 msgid "Last Modified on"
 msgstr "Laatst bijgewerkt op"
 
@@ -739,7 +656,6 @@ msgstr "Laatst bijgewerkt op"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_uid
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__write_uid
 msgid "Last Updated by"
 msgstr "Laatst bijgewerkt door"
 
@@ -748,7 +664,6 @@ msgstr "Laatst bijgewerkt door"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_date
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__write_date
 msgid "Last Updated on"
 msgstr "Laatst bijgewerkt op"
 
@@ -780,18 +695,21 @@ msgid "Messages"
 msgstr "Berichten"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr "Ontbrekend bankboek op betaalopdracht %s."
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr "Ontbrekenende bankrekening van relatie op betaalregel %s"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
@@ -812,18 +730,6 @@ msgstr "Mutatie datum"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_line_ids
 msgid "Move Lines"
 msgstr "Mutatieregels"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Mutatie optie"
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:0
-#, python-format
-msgid ""
-"Move line '%(line)s' of partner '%(partner)s' has already been reconciled"
-msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
@@ -852,6 +758,7 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
@@ -860,12 +767,14 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr "Geen betaalmode van factuur %s"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -885,13 +794,13 @@ msgid "Number of Actions"
 msgstr "Aantal bankregels"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__bank_line_count
-msgid "Number of Bank Transactions"
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__move_count
+msgid "Number of Journal Entries"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__move_count
-msgid "Number of Journal Entries"
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_count
+msgid "Number of Payment Transactions"
 msgstr ""
 
 #. module: account_payment_order
@@ -910,36 +819,13 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread_counter
-#, fuzzy
-msgid "Number of unread messages"
-msgstr "Aantal bankregels"
-
-#. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "On payment order %(porder)s, the Payment Execution Date is in the past "
 "(%(exedate)s)."
 msgstr ""
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "Één boeking per betaaldatum"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "Één boeking per betaalregel"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -953,13 +839,7 @@ msgid "Options for Payment Orders"
 msgstr "Betaalopdrachten"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__order_id
-msgid "Order"
-msgstr "Volgorde"
-
-#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__payment_type__outbound
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Outbound"
 msgstr "UItgaand"
 
@@ -971,8 +851,6 @@ msgstr "Toevoegen aan betaalopdracht"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_id
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__partner_id
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Partner"
 msgstr "Relatie"
@@ -991,7 +869,6 @@ msgstr "Relatie"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__date
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__date
 msgid "Payment Date"
 msgstr "Betaaldatum"
 
@@ -1006,15 +883,20 @@ msgid "Payment Execution Date Type"
 msgstr "Betaaldatum soort"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Payment File"
 msgstr "Betaalbestand"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_ids
+msgid "Payment Line"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
 #: model:ir.model,name:account_payment_order.model_account_payment_line
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__payment_line_ids
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 msgid "Payment Lines"
 msgstr "Betaalregels"
@@ -1081,17 +963,17 @@ msgid "Payment Reference"
 msgstr "Betaalreferentie"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_type
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_type
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__payment_type
-msgid "Payment Type"
-msgstr "Betaalwijze"
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_ids
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
+msgid "Payment Transactions"
+msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid "Payment bank line %s"
-msgstr "Betaalregel %s"
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_type
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_type
+msgid "Payment Type"
+msgstr "Betaalwijze"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__payment_line_ids
@@ -1099,20 +981,14 @@ msgid "Payment lines"
 msgstr ""
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid "Payment order %s"
-msgstr "Betaalopdracht %s"
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_ids
+msgid "Payment transaction"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
 msgstr "Betalingen"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1121,11 +997,6 @@ msgstr ""
 #, fuzzy
 msgid "Reference Type"
 msgstr "Betaalreferentie"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
-msgid "Related Payment Lines"
-msgstr "Gekoppelde betaalregels"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_user_id
@@ -1154,16 +1025,12 @@ msgid "Same or empty"
 msgstr "Zelfde of leeg"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
-msgid "Search Bank Payment Lines"
-msgstr "Zoek in bank betaalregels"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Search Payment Orders"
 msgstr "Zoek in betaalopdrachten"
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:0
 #, python-format
 msgid "Select Move Lines to Create Transactions"
@@ -1195,13 +1062,11 @@ msgstr "Selecteer boekingen om transacties aan te maken"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__state
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "State"
 msgstr "Staat/Provincie"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__state
-#: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line__state
 msgid "Status"
 msgstr "Status"
 
@@ -1231,6 +1096,7 @@ msgid "Technical model for printing payment order"
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -1238,22 +1104,14 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_line_ids
-msgid ""
-"The bank payment lines are used to generate the payment file. They are "
-"automatically created from transaction lines upon confirmation of the "
-"payment order: one bank payment line can group several transaction lines if "
-"the option 'Group Transactions in Payment Orders' is active on the payment "
-"mode."
-msgstr ""
-
-#. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -1263,6 +1121,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -1271,6 +1130,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There are no transactions on payment order %s."
@@ -1299,11 +1159,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Total (Currency)"
 msgstr ""
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
-msgid "Total Amount"
-msgstr "Totaalbedrag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__total_company_currency
@@ -1339,16 +1194,6 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
 msgstr ""
@@ -1369,6 +1214,7 @@ msgid "Wizard to create payment lines"
 msgstr ""
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -1392,6 +1238,62 @@ msgstr "op"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Boekhoud opties"
+
+#~ msgid "Bank Payment Line"
+#~ msgstr "Betaalopdrachtregel"
+
+#~ msgid "Bank Payment Line Ref"
+#~ msgstr "Betaalregel referentie"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Bank betaalregels"
+
+#, python-format
+#~ msgid "Debit bank line %s"
+#~ msgstr "Debit betaalregel %s"
+
+#, python-format
+#~ msgid "Debit order %s"
+#~ msgstr "Betaalopdrachten %s"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Maak financiele boekingen bij bestand upload"
+
+#~ msgid "Move Option"
+#~ msgstr "Mutatie optie"
+
+#, fuzzy
+#~ msgid "Number of unread messages"
+#~ msgstr "Aantal bankregels"
+
+#~ msgid "One move per payment date"
+#~ msgstr "Één boeking per betaaldatum"
+
+#~ msgid "One move per payment line"
+#~ msgstr "Één boeking per betaalregel"
+
+#~ msgid "Order"
+#~ msgstr "Volgorde"
+
+#, python-format
+#~ msgid "Payment bank line %s"
+#~ msgstr "Betaalregel %s"
+
+#, python-format
+#~ msgid "Payment order %s"
+#~ msgstr "Betaalopdracht %s"
+
+#~ msgid "Related Payment Lines"
+#~ msgstr "Gekoppelde betaalregels"
+
+#~ msgid "Search Bank Payment Lines"
+#~ msgstr "Zoek in bank betaalregels"
+
+#~ msgid "Total Amount"
+#~ msgstr "Totaalbedrag"
 
 #~ msgid "%d payment lines added to the existing draft payment order %s."
 #~ msgstr ""

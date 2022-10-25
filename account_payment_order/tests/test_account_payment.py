@@ -105,9 +105,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
                 "company_id": self.company.id,
             }
         )
-        # check journals
-        journals = new_account_payment._get_default_journal()
-        self.assertIn(self.bank_journal, journals)
         # check payment methods
         payment_methods = (
             new_account_payment.available_payment_method_line_ids.filtered(
@@ -120,9 +117,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertIn(self.inbound_payment_method_02.id, payment_methods)
         # Set one payment method of the bank journal 'payment order only'
         self.inbound_payment_method_01.payment_order_only = True
-        # check journals
-        journals = new_account_payment._get_default_journal()
-        self.assertIn(self.bank_journal, journals)
         # check payment methods
         new_account_payment2 = self.account_payment_model.with_context(
             default_company_id=self.company.id
@@ -143,9 +137,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         for p in self.bank_journal.inbound_payment_method_line_ids.payment_method_id:
             p.payment_order_only = True
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
-        # check journals
-        journals = new_account_payment._get_default_journal()
-        self.assertNotIn(self.bank_journal, journals)
         # check payment methods
         new_account_payment3 = self.account_payment_model.with_context(
             default_company_id=self.company.id

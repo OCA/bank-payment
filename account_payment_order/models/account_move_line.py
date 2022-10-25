@@ -32,7 +32,8 @@ class AccountMoveLine(models.Model):
                 ml.move_id.move_type in ("in_invoice", "in_refund")
                 and not ml.reconciled
                 and ml.payment_mode_id.payment_order_ok
-                and ml.account_id.internal_type in ("receivable", "payable")
+                and ml.account_id.account_type
+                in ("asset_receivable", "liability_payable")
                 and not any(
                     p_state in ("draft", "open", "generated")
                     for p_state in ml.payment_line_ids.mapped("state")
@@ -64,11 +65,13 @@ class AccountMoveLine(models.Model):
             )
             reference_moves |= self.move_id.reversal_move_id
         # Retrieve partial payments - e.g.: manual credit notes
-        for (
-            _,
-            _,
-            payment_move_line,
-        ) in self.move_id._get_reconciled_invoices_partials():
+        (
+            invoice_partials,
+            exchange_diff_moves,
+        ) = self.move_id._get_reconciled_invoices_partials()
+        for (_, _, payment_move_line,) in (
+            invoice_partials + exchange_diff_moves
+        ):
             payment_move = payment_move_line.move_id
             if payment_move not in reference_moves and (
                 payment_move.payment_reference or payment_move.ref
