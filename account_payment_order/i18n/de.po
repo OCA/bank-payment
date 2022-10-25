@@ -21,7 +21,8 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%(count)d payment lines added to the existing draft payment order %(name)s."
+"%(count)d payment lines added to the existing draft payment order <a href=# "
+"data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 
 #. module: account_payment_order
@@ -29,7 +30,8 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%(count)d payment lines added to the new draft payment order %(name)s which "
+"%(count)d payment lines added to the new draft payment order <a href=# data-"
+"oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>, which "
 "has been automatically created."
 msgstr ""
 
@@ -84,11 +86,6 @@ msgstr ""
 #: model:res.groups,name:account_payment_order.group_account_payment
 msgid "Accounting / Payments"
 msgstr "Buchhaltung / Zahlungen"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Optionen für Buchungseinträge"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
@@ -454,15 +451,6 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font Awesome Icon z.B. "
 
 #. module: account_payment_order
-#: code:addons/account_payment_order/models/bank_payment_line.py:0
-#, python-format
-msgid ""
-"For partner '%(partner)s', the account of the account move line to pay "
-"(%(line1)s) is different from the account of of the transit move line "
-"(%(line2)s)."
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
 msgid ""
 "For payment modes that are always attached to the same bank account of your "
@@ -483,11 +471,6 @@ msgstr "Kostenlos"
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__none
 msgid "Free Reference"
 msgstr "Zahlungsreferenz"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Erzeuge Buchhaltungseinträge beim Datei-Upload"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -544,6 +527,7 @@ msgstr "Wenn aktiviert, erfordern neue Nachrichten Ihre Aufmerksamkeit."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 "Wenn diese Option aktiviert ist, weisen einige Nachrichten einen "
@@ -728,11 +712,6 @@ msgid "Move Lines"
 msgstr "Zeilen verschieben"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Option verschieben"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Meine Aktivitätsfrist"
@@ -741,11 +720,6 @@ msgstr "Meine Aktivitätsfrist"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Name or Description"
 msgstr "Gleich oder leer"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr "Kalenderereignis der nächsten Aktivität"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_date_deadline
@@ -830,25 +804,6 @@ msgid ""
 "On payment order %(porder)s, the Payment Execution Date is in the past "
 "(%(exedate)s)."
 msgstr ""
-
-#. module: account_payment_order
-#. odoo-python
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "Ein Zug pro Zahlungstermin"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "Ein Zug pro Zahlungslinie"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1010,21 +965,11 @@ msgid "Payments"
 msgstr "Zahlungen"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr "Verschieben nach"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__reference_type
 msgid "Reference Type"
 msgstr "Zahlungsreferenz"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
-msgid "Related Payment Lines"
-msgstr "Zugehörige Zahlungszeilen"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_user_id
@@ -1223,16 +1168,6 @@ msgid "Type of the exception activity on record."
 msgstr "Typ der aufgezeichneten Ausnahmeaktivität."
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
 msgstr "Wertstellungsdatum"
@@ -1278,3 +1213,27 @@ msgstr "ein"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "Andernfalls werden neue Zahlungsaufträge erstellt (einer pro Zahlungsart)."
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Optionen für Buchungseinträge"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Erzeuge Buchhaltungseinträge beim Datei-Upload"
+
+#~ msgid "Move Option"
+#~ msgstr "Option verschieben"
+
+#~ msgid "Next Activity Calendar Event"
+#~ msgstr "Kalenderereignis der nächsten Aktivität"
+
+#~ msgid "One move per payment date"
+#~ msgstr "Ein Zug pro Zahlungstermin"
+
+#~ msgid "One move per payment line"
+#~ msgstr "Ein Zug pro Zahlungslinie"
+
+#~ msgid "Post Move"
+#~ msgstr "Verschieben nach"
+
+#~ msgid "Related Payment Lines"
+#~ msgstr "Zugehörige Zahlungszeilen"

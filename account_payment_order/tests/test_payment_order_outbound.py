@@ -28,7 +28,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
             {
                 "name": "Test account",
                 "code": "TEST1",
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
             }
         )
         cls.mode = cls.env["account.payment.mode"].create(
@@ -361,10 +361,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         # The user add the outstanding payment to the invoice
         invoice_line = self.invoice.line_ids.filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         )
         refund_line = self.refund.line_ids.filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         )
         (invoice_line | refund_line).reconcile()
 
@@ -399,7 +399,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.refund.action_post()
 
         (self.invoice.line_ids + self.refund.line_ids).filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         ).reconcile()
 
         self.env["account.invoice.payment.line.multi"].with_context(
