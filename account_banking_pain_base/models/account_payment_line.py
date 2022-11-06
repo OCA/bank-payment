@@ -1,9 +1,9 @@
 # Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # Copyright 2021 Tecnativa - Carlos Roca
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentLine(models.Model):
@@ -173,3 +173,10 @@ class AccountPaymentLine(models.Model):
     communication_type = fields.Selection(
         selection_add=[("ISO", "ISO")], ondelete={"ISO": "cascade"}
     )
+
+    @api.model
+    def _get_payment_line_grouping_fields(self):
+        """Add specific PAIN fields to the grouping criteria."""
+        res = super()._get_payment_line_grouping_fields()
+        res += ["priority", "local_instrument", "category_purpose", "purpose"]
+        return res
