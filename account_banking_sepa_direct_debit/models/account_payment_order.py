@@ -1,5 +1,5 @@
 # Copyright 2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2018 Tecnativa - Pedro M. Baeza
+# Copyright 2018-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from lxml import etree
@@ -72,16 +72,17 @@ class AccountPaymentOrder(models.Model):
         lines_per_group = {}
         # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
-        for line in self.bank_line_ids:
+        for line in self.payment_ids:
             transactions_count_a += 1
-            priority = line.priority
-            categ_purpose = line.category_purpose
-            scheme = line.mandate_id.scheme
-            if line.mandate_id.type == "oneoff":
+            payment_line = line.payment_line_ids[:1]
+            priority = payment_line.priority
+            categ_purpose = payment_line.category_purpose
+            scheme = payment_line.mandate_id.scheme
+            if payment_line.mandate_id.type == "oneoff":
                 seq_type = "OOFF"
-            elif line.mandate_id.type == "recurrent":
+            elif payment_line.mandate_id.type == "recurrent":
                 seq_type_map = {"recurring": "RCUR", "first": "FRST", "final": "FNAL"}
-                seq_type_label = line.mandate_id.recurrent_sequence_type
+                seq_type_label = payment_line.mandate_id.recurrent_sequence_type
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
             else:
@@ -90,7 +91,7 @@ class AccountPaymentOrder(models.Model):
                         "Invalid mandate type in '%s'. Valid ones are 'Recurrent' "
                         "or 'One-Off'"
                     )
-                    % line.mandate_id.unique_mandate_reference
+                    % payment_line.mandate_id.unique_mandate_reference
                 )
             # The field line.date is the requested payment date
             # taking into account the 'date_preferred' setting
@@ -165,7 +166,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 instruction_identification.text = self._prepare_field(
                     "Instruction Identification",
-                    "line.name",
+                    "str(line.move_id.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
@@ -175,7 +176,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 end2end_identification.text = self._prepare_field(
                     "End to End Identification",
-                    "line.name",
+                    "str(line.move_id.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
@@ -190,18 +191,19 @@ class AccountPaymentOrder(models.Model):
                 instructed_amount = etree.SubElement(
                     dd_transaction_info, "InstdAmt", Ccy=currency_name
                 )
-                instructed_amount.text = "%.2f" % line.amount_currency
-                amount_control_sum_a += line.amount_currency
-                amount_control_sum_b += line.amount_currency
+                instructed_amount.text = "%.2f" % line.amount
+                amount_control_sum_a += line.amount
+                amount_control_sum_b += line.amount
                 dd_transaction = etree.SubElement(dd_transaction_info, "DrctDbtTx")
                 mandate_related_info = etree.SubElement(dd_transaction, "MndtRltdInf")
                 mandate_identification = etree.SubElement(
                     mandate_related_info, "MndtId"
                 )
+                mandate = line.payment_line_ids[:1].mandate_id
                 mandate_identification.text = self._prepare_field(
                     "Unique Mandate Reference",
-                    "line.mandate_id.unique_mandate_reference",
-                    {"line": line},
+                    "mandate.unique_mandate_reference",
+                    {"mandate": mandate},
                     35,
                     gen_args=gen_args,
                 )
@@ -211,16 +213,11 @@ class AccountPaymentOrder(models.Model):
                 mandate_signature_date.text = self._prepare_field(
                     "Mandate Signature Date",
                     "signature_date",
-                    {
-                        "line": line,
-                        "signature_date": fields.Date.to_string(
-                            line.mandate_id.signature_date
-                        ),
-                    },
+                    {"signature_date": fields.Date.to_string(mandate.signature_date)},
                     10,
                     gen_args=gen_args,
                 )
-                if sequence_type == "FRST" and line.mandate_id.last_debit_date:
+                if sequence_type == "FRST" and mandate.last_debit_date:
                     amendment_indicator = etree.SubElement(
                         mandate_related_info, "AmdmntInd"
                     )
@@ -252,10 +249,10 @@ class AccountPaymentOrder(models.Model):
                     gen_args,
                     line,
                 )
-
-                if line.purpose:
+                line_purpose = line.payment_line_ids[:1].purpose
+                if line_purpose:
                     purpose = etree.SubElement(dd_transaction_info, "Purp")
-                    etree.SubElement(purpose, "Cd").text = line.purpose
+                    etree.SubElement(purpose, "Cd").text = line_purpose
 
                 self.generate_remittance_info_block(dd_transaction_info, line, gen_args)
 
@@ -281,18 +278,19 @@ class AccountPaymentOrder(models.Model):
             to_expire_mandates = abmo.browse([])
             first_mandates = abmo.browse([])
             all_mandates = abmo.browse([])
-            for bline in order.bank_line_ids:
-                if bline.mandate_id in all_mandates:
+            for payment in order.payment_ids:
+                mandate = payment.payment_line_ids.mandate_id
+                if mandate in all_mandates:
                     continue
-                all_mandates += bline.mandate_id
-                if bline.mandate_id.type == "oneoff":
-                    to_expire_mandates += bline.mandate_id
-                elif bline.mandate_id.type == "recurrent":
-                    seq_type = bline.mandate_id.recurrent_sequence_type
+                all_mandates += mandate
+                if mandate.type == "oneoff":
+                    to_expire_mandates += mandate
+                elif mandate.type == "recurrent":
+                    seq_type = mandate.recurrent_sequence_type
                     if seq_type == "final":
-                        to_expire_mandates += bline.mandate_id
+                        to_expire_mandates += mandate
                     elif seq_type == "first":
-                        first_mandates += bline.mandate_id
+                        first_mandates += mandate
             all_mandates.write({"last_debit_date": order.date_generated})
             to_expire_mandates.write({"state": "expired"})
             first_mandates.write({"recurrent_sequence_type": "recurring"})
