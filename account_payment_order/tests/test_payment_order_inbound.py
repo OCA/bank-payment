@@ -1,6 +1,6 @@
 # Copyright 2017 Camptocamp SA
 # Copyright 2017 Creu Blanca
-# Copyright 2019 Tecnativa - Pedro M. Baeza
+# Copyright 2019-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from datetime import date, timedelta
@@ -97,12 +97,12 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment_order.write({"journal_id": self.journal.id})
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
-        self.assertEqual(len(payment_order.bank_line_ids), 0)
+        self.assertFalse(payment_order.payment_ids)
 
         # Open payment order
         payment_order.draft2open()
 
-        self.assertEqual(payment_order.bank_line_count, 1)
+        self.assertEqual(payment_order.payment_count, 1)
 
         # Generate and upload
         payment_order.open2generated()
@@ -112,10 +112,6 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         with self.assertRaises(UserError):
             payment_order.unlink()
 
-        bank_line = payment_order.bank_line_ids
-
-        with self.assertRaises(UserError):
-            bank_line.unlink()
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()

@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_account_payment_order,Full access on account.payment.order to Payment Manager,model_account_payment_order,group_account_payment,1,1,1,1
 access_account_payment_line,Full access on account.payment.line to Payment Manager,model_account_payment_line,group_account_payment,1,1,1,1
-access_bank_payment_line,Full access on bank.payment.line to Payment Manager,model_bank_payment_line,group_account_payment,1,1,1,1
+access_bank_payment_line,Full access on account.payment to Payment Manager,account.model_account_payment,group_account_payment,1,1,1,1
 base.access_res_partner_bank_group_partner_manager,Full access on res.partner.bank to Account Payment group,base.model_res_partner_bank,group_account_payment,1,1,1,1
 base.access_res_bank_group_partner_manager,Full access on res.bank to Account Payment group,base.model_res_bank,group_account_payment,1,1,1,1
 access_account_payment_line_create,access_account_payment_line_create,model_account_payment_line_create,group_account_payment,1,1,1,1
