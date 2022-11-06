@@ -1,4 +1,5 @@
 # Copyright (C) 2020 Open Source Integrators
+# Copyright 2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
@@ -25,10 +26,10 @@ class PaymentOrder(models.Model):
         for rec in self:
             if rec.payment_mode_id.send_email_to_partner:
                 date_generated = rec.date_generated
-                for bank_line in rec.bank_line_ids:
-                    partner_name = bank_line.partner_id.name
-                    total_amount = bank_line.amount_currency
-                    payment_ref = bank_line.name
+                for payment in rec.payment_ids:
+                    partner_name = payment.partner_id.name
+                    total_amount = payment.amount
+                    payment_ref = payment.payment_reference
                     line_data = []
                     header_data = {
                         "inv_no": "Invoice No.",
@@ -42,7 +43,7 @@ class PaymentOrder(models.Model):
                         "due_amount": "Due Amount",
                     }
                     line_data.append(header_data)
-                    for payment_line in bank_line.payment_line_ids:
+                    for payment_line in payment.payment_line_ids:
                         invoice_date = (
                             payment_line.move_line_id.move_id.invoice_date
                             and datetime.strftime(
@@ -69,7 +70,7 @@ class PaymentOrder(models.Model):
                             "account_payment_order_vendor_email."
                             "ach_payment_email_template"
                         )
-                    partner_email_id = bank_line.partner_id.email
+                    partner_email_id = payment.partner_id.email
                     if partner_email_id:
                         template.write({"email_to": partner_email_id})
                         template.with_context(
