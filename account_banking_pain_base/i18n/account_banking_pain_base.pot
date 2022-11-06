@@ -61,11 +61,6 @@ msgid "Bank"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr ""
-
-#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "Batch Booking"
 msgstr ""
@@ -134,7 +129,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__category_purpose
 msgid "Category Purpose"
 msgstr ""
 
@@ -407,8 +401,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__purpose
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
@@ -532,7 +524,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__local_instrument
 msgid "Local Instrument"
 msgstr ""
 
@@ -686,7 +677,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__priority
 msgid "Priority"
 msgstr ""
 
@@ -707,7 +697,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "Purpose"
 msgstr ""
 
@@ -847,7 +836,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__priority
 msgid ""
 "This field will be used as 'Instruction Priority' in the generated PAIN "
 "file."

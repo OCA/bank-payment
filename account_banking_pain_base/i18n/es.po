@@ -68,11 +68,6 @@ msgid "Bank"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
-
-#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "Batch Booking"
 msgstr "Reserva por lotes"
@@ -142,7 +137,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__category_purpose
 msgid "Category Purpose"
 msgstr ""
 
@@ -426,8 +420,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__purpose
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
@@ -556,7 +548,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__local_instrument
 msgid "Local Instrument"
 msgstr "Instrumento local"
 
@@ -662,8 +653,7 @@ msgstr ""
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
 msgid "Payment Line has reference '%s'."
-msgstr ""
-"Línea de pago con referencia '%s'."
+msgstr "Línea de pago con referencia '%s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -715,7 +705,6 @@ msgstr "Pago SEPA"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__priority
 msgid "Priority"
 msgstr "Prioridad"
 
@@ -736,7 +725,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "Purpose"
 msgstr ""
 
@@ -873,12 +861,13 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
-msgid "The type of the field '%s' is %s. It should be a string or unicode."
-msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
+msgid ""
+"The type of the field '%(field)s' is %(value)s. It should be a string or "
+"unicode."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__priority
 msgid ""
 "This field will be used as 'Instruction Priority' in the generated PAIN file."
 msgstr ""
@@ -1022,6 +1011,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__epay
 msgid "ePayment"
 msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Líneas de pago bancario"
+
+#, python-format
+#~ msgid "The type of the field '%s' is %s. It should be a string or unicode."
+#~ msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
 
 #~ msgid "pain.001.001.02"
 #~ msgstr "pain.001.001.02"
