@@ -1,7 +1,7 @@
 # Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# Copyright 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # Copyright 2016 Antiun Ingenieria S.L. - Antonio Espinosa
 # Copyright 2021 Tecnativa - Carlos Roca
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -606,11 +606,12 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def generate_remittance_info_block(self, parent_node, line, gen_args):
         remittance_info = etree.SubElement(parent_node, "RmtInf")
-        if line.communication_type == "normal":
+        communication_type = line.payment_line_ids[:1].communication_type
+        if communication_type == "normal":
             remittance_info_unstructured = etree.SubElement(remittance_info, "Ustrd")
             remittance_info_unstructured.text = self._prepare_field(
                 "Remittance Unstructured Information",
-                "line.communication",
+                "line.payment_reference",
                 {"line": line},
                 140,
                 gen_args=gen_args,
@@ -632,7 +633,7 @@ class AccountPaymentOrder(models.Model):
                 creditor_ref_info_type_issuer = etree.SubElement(
                     creditor_ref_info_type, "Issr"
                 )
-                creditor_ref_info_type_issuer.text = line.communication_type
+                creditor_ref_info_type_issuer.text = communication_type
                 creditor_reference = etree.SubElement(
                     creditor_ref_information, "CdtrRef"
                 )
@@ -651,13 +652,13 @@ class AccountPaymentOrder(models.Model):
                     creditor_ref_info_type_issuer = etree.SubElement(
                         creditor_ref_info_type, "Issr"
                     )
-                    creditor_ref_info_type_issuer.text = line.communication_type
+                    creditor_ref_info_type_issuer.text = communication_type
 
                 creditor_reference = etree.SubElement(creditor_ref_information, "Ref")
 
             creditor_reference.text = self._prepare_field(
                 "Creditor Structured Reference",
-                "line.communication",
+                "line.payment_reference",
                 {"line": line},
                 35,
                 gen_args=gen_args,
