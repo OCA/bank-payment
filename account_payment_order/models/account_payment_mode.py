@@ -4,8 +4,7 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class AccountPaymentMode(models.Model):
@@ -72,29 +71,6 @@ class AccountPaymentMode(models.Model):
         "(other modules can set additional fields to restrict the "
         "grouping.)",
     )
-    generate_move = fields.Boolean(
-        string="Generate Accounting Entries On File Upload", default=True
-    )
-    move_option = fields.Selection(
-        selection=[
-            ("date", "One move per payment date"),
-            ("line", "One move per payment line"),
-        ],
-        default="date",
-    )
-    post_move = fields.Boolean(default=True)
-
-    @api.constrains("generate_move", "move_option")
-    def transfer_move_constrains(self):
-        for mode in self:
-            if mode.generate_move and not mode.move_option:
-                raise ValidationError(
-                    _(
-                        "On the payment mode '%s', you must "
-                        "choose an option for the 'Move Option' parameter."
-                    )
-                    % mode.name
-                )
 
     @api.onchange("payment_method_id")
     def payment_method_id_change(self):
@@ -116,11 +92,3 @@ class AccountPaymentMode(models.Model):
                     ]
                 ).ids
             self.default_journal_ids = [(6, 0, aj_ids)]
-
-    @api.onchange("generate_move")
-    def generate_move_change(self):
-        if self.generate_move:
-            # default values
-            self.move_option = "date"
-        else:
-            self.move_option = False
