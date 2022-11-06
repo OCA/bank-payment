@@ -1,9 +1,9 @@
 # © 2009 EduSense BV (<http://www.edusense.nl>)
 # © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2013-2014 ACSONE SA (<https://acsone.eu>).
-# © 2014-2016 Tecnativa - Pedro M. Baeza
 # © 2016 Akretion (<https://www.akretion.com>).
 # © 2016 Aselcis (<https://www.aselcis.com>).
+# © 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
@@ -30,7 +30,6 @@
         "views/account_payment_mode.xml",
         "views/account_payment_order.xml",
         "views/account_payment_line.xml",
-        "views/bank_payment_line.xml",
         "views/account_move_line.xml",
         "views/ir_attachment.xml",
         "views/account_invoice_view.xml",
