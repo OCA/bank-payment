@@ -40,7 +40,7 @@
                         />
                         <field name="amount_company_currency" />
                         <field name="company_currency_id" invisible="1" />
-                        <field name="bank_line_id" />
+                        <field name="payment_ids" />
                         <field name="payment_type" invisible="1" />
                     </group>
                 </group>

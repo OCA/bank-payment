@@ -32,21 +32,6 @@
                     <field name="default_invoice" />
                     <field name="default_date_type" />
                 </group>
-                <group
-                    name="accounting-config"
-                    string="Accounting Entries Options"
-                    attrs="{'invisible': [('payment_order_ok', '=', False)]}"
-                >
-                    <field name="generate_move" />
-                    <field
-                        name="move_option"
-                        attrs="{'invisible': [('generate_move', '=', False)], 'required': [('generate_move', '=', True)]}"
-                    />
-                    <field
-                        name="post_move"
-                        attrs="{'invisible': [('generate_move', '=', False)]}"
-                    />
-                </group>
             </group>
         </field>
     </record>
