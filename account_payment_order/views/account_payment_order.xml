@@ -98,7 +98,7 @@
                             />
                             <field name="payment_type" invisible="0" />
                             <field
-                                name="bank_line_count"
+                                name="payment_count"
                                 attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
                             />
                         </group>
@@ -122,11 +122,11 @@
                             />
                         </page>
                         <page
-                            name="bank-lines"
-                            string="Bank Transactions"
+                            name="payment-lines"
+                            string="Payment Transactions"
                             attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
                         >
-                            <field name="bank_line_ids" edit="0" create="0" />
+                            <field name="payment_ids" edit="0" create="0" />
                         </page>
                     </notebook>
                 </sheet>
@@ -149,9 +149,9 @@
                 <field name="date_uploaded" />
                 <field name="description" optional="show" />
                 <field
-                    name="bank_line_count"
+                    name="payment_count"
                     optional="hide"
-                    string="Bank Transactions"
+                    string="Payment Transactions"
                 />
                 <field name="total_company_currency" sum="Total Company Currency" />
                 <field name="company_currency_id" invisible="1" />
