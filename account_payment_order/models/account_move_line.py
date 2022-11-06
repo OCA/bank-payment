@@ -18,12 +18,6 @@ class AccountMoveLine(models.Model):
         help="Bank account on which we should pay the supplier",
         check_company=True,
     )
-    bank_payment_line_id = fields.Many2one(
-        comodel_name="bank.payment.line",
-        readonly=True,
-        index=True,
-        check_company=True,
-    )
     payment_line_ids = fields.One2many(
         comodel_name="account.payment.line",
         inverse_name="move_line_id",

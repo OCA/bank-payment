@@ -77,19 +77,17 @@ class AccountPaymentLine(models.Model):
     communication_type = fields.Selection(
         selection=[("normal", "Free")], required=True, default="normal"
     )
-    bank_line_id = fields.Many2one(
-        comodel_name="bank.payment.line",
-        string="Bank Payment Line",
+    payment_ids = fields.Many2many(
+        comodel_name="account.payment",
+        string="Payment transaction",
         readonly=True,
-        index=True,
-        check_company=True,
     )
 
     _sql_constraints = [
         (
             "name_company_unique",
             "unique(name, company_id)",
-            "A payment line already exists with this reference " "in the same company!",
+            "A payment line already exists with this reference in the same company!",
         )
     ]
 
@@ -114,11 +112,21 @@ class AccountPaymentLine(models.Model):
             else:
                 line.amount_company_currency = 0
 
+    @api.model
+    def _get_payment_line_grouping_fields(self):
+        """This list of fields is used o compute the grouping hashcode."""
+        return [
+            "currency_id",
+            "partner_id",
+            "partner_bank_id",
+            "date",
+            "communication_type",
+        ]
+
     def payment_line_hashcode(self):
         self.ensure_one()
-        bplo = self.env["bank.payment.line"]
         values = []
-        for field in bplo.same_fields_payment_line_and_bank_payment_line():
+        for field in self._get_payment_line_grouping_fields():
             values.append(str(self[field]))
         # Don't group the payment lines that are attached to the same supplier
         # but to move lines with different accounts (very unlikely),
@@ -128,8 +136,7 @@ class AccountPaymentLine(models.Model):
         # otherwise it would break the structured communication system !
         if self.communication_type != "normal":
             values.append(str(self.id))
-        hashcode = "-".join(values)
-        return hashcode
+        return "-".join(values)
 
     @api.onchange("partner_id")
     def partner_id_change(self):
@@ -168,3 +175,45 @@ class AccountPaymentLine(models.Model):
             )
         if not self.communication:
             raise UserError(_("Communication is empty on payment line %s.") % self.name)
+
+    def _prepare_account_payment_vals(self):
+        """Prepare the dictionary to create an account payment record from a set of
+        payment lines.
+        """
+        journal = self.order_id.journal_id
+        vals = {
+            "payment_type": self.order_id.payment_type,
+            "partner_id": self.partner_id.id,
+            "destination_account_id": self.move_line_id.account_id.id,
+            "company_id": self.order_id.company_id.id,
+            "amount": sum(self.mapped("amount_currency")),
+            "date": self[:1].date,
+            "currency_id": self.currency_id.id,
+            "ref": self.order_id.name,
+            "payment_reference": "-".join([line.communication for line in self]),
+            "journal_id": journal.id,
+            "partner_bank_id": self.partner_bank_id.id,
+            "payment_order_id": self.order_id.id,
+            "payment_method_id": self.order_id.payment_mode_id.payment_method_id.id,
+            "payment_line_ids": [(6, 0, self.ids)],
+        }
+        # Determine partner_type
+        move_type = self[:1].move_line_id.move_id.move_type
+        if move_type in {"out_invoice", "out_refund"}:
+            vals["partner_type"] = "customer"
+        elif move_type in {"in_invoice", "in_refund"}:
+            vals["partner_type"] = "supplier"
+        else:
+            p_type = "customer" if vals["payment_type"] == "inbound" else "supplier"
+            vals["partner_type"] = p_type
+        # Fill destination account if manual payment line with no linked journal item
+        if not vals["destination_account_id"]:
+            if vals["partner_type"] == "customer":
+                vals[
+                    "destination_account_id"
+                ] = self.partner_id.property_account_receivable_id.id
+            else:
+                vals[
+                    "destination_account_id"
+                ] = self.partner_id.property_account_payable_id.id
+        return vals
