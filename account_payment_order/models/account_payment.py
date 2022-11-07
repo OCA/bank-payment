@@ -10,6 +10,8 @@ class AccountPayment(models.Model):
 
     payment_order_id = fields.Many2one(comodel_name="account.payment.order")
     payment_line_ids = fields.Many2many(comodel_name="account.payment.line")
+    # Compatibility with previous approach for returns - To be removed on v16
+    old_bank_payment_line_name = fields.Char()
 
     def _get_default_journal(self):
         res = super()._get_default_journal()
