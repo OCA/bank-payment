@@ -103,17 +103,20 @@ class AccountMove(models.Model):
                     move.message_post(
                         body=_(
                             "%d payment lines added to the new draft payment "
-                            "order %s which has been automatically created."
+                            "order <a href=# data-oe-model=account.payment.order "
+                            "data-oe-id=%d>%s</a> which has been automatically created."
                         )
-                        % (count, payorder.name)
+                        % (count, payorder.id, payorder.display_name)
                     )
                 else:
                     move.message_post(
                         body=_(
                             "%d payment lines added to the existing draft "
-                            "payment order %s."
+                            "payment order "
+                            "<a href=# data-oe-model=account.payment.order "
+                            "data-oe-id=%d>%s</a>."
                         )
-                        % (count, payorder.name)
+                        % (count, payorder.id, payorder.display_name)
                     )
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "account_payment_order.account_payment_order_%s_action"
