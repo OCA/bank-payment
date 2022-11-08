@@ -102,8 +102,11 @@ class AccountMove(models.Model):
                     move.message_post(
                         body=_(
                             "%(count)d payment lines added to the new draft payment "
-                            "order %(name)s which has been automatically created.",
+                            "order <a href=# data-oe-model=account.payment.order "
+                            "data-oe-id=%(order_id)d>%(name)s</a>, which has been "
+                            "automatically created.",
                             count=count,
+                            order_id=payorder.id,
                             name=payorder.name,
                         )
                     )
@@ -111,8 +114,11 @@ class AccountMove(models.Model):
                     move.message_post(
                         body=_(
                             "%(count)d payment lines added to the existing draft "
-                            "payment order %(name)s.",
+                            "payment order "
+                            "<a href=# data-oe-model=account.payment.order "
+                            "data-oe-id=%(order_id)d>%(name)s</a>.",
                             count=count,
+                            order_id=payorder.id,
                             name=payorder.name,
                         )
                     )
