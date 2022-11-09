@@ -19,19 +19,19 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "%d payment lines added to the existing draft payment order %s."
+msgid ""
+"%d payment lines added to the existing draft payment order <a href=# data-oe-"
+"model=account.payment.order data-oe-id=%d>%s</a>."
 msgstr ""
-"Lignes de paiement %d ont été ajouté à l'ordre de paiement %s en brouillon."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%d payment lines added to the new draft payment order %s which has been "
+"%d payment lines added to the new draft payment order <a href=# data-oe-"
+"model=account.payment.order data-oe-id=%d>%s</a> which has been "
 "automatically created."
 msgstr ""
-"Lignes de paiement %d ont été ajouté au nouveau ordre de paiement %s qui a "
-"été automatiquement créé."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -1445,6 +1445,20 @@ msgstr "sur"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "sinon, de nouveaux ordres de paiement seront créés (un par mode de paiement)."
+
+#, python-format
+#~ msgid "%d payment lines added to the existing draft payment order %s."
+#~ msgstr ""
+#~ "Lignes de paiement %d ont été ajouté à l'ordre de paiement %s en "
+#~ "brouillon."
+
+#, python-format
+#~ msgid ""
+#~ "%d payment lines added to the new draft payment order %s which has been "
+#~ "automatically created."
+#~ msgstr ""
+#~ "Lignes de paiement %d ont été ajouté au nouveau ordre de paiement %s qui "
+#~ "a été automatiquement créé."
 
 #~ msgid "Done"
 #~ msgstr "Fait"
