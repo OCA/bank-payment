@@ -16,14 +16,17 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
-msgid "%d payment lines added to the existing draft payment order %s."
+msgid ""
+"%d payment lines added to the existing draft payment order <a href=# data-"
+"oe-model=account.payment.order data-oe-id=%d>%s</a>."
 msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"%d payment lines added to the new draft payment order %s which has been "
+"%d payment lines added to the new draft payment order <a href=# data-oe-"
+"model=account.payment.order data-oe-id=%d>%s</a> which has been "
 "automatically created."
 msgstr ""
 
