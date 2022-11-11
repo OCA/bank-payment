@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
         compute="_compute_payment_mode",
         store=True,
         readonly=False,
+        precompute=True,
         check_company=True,
         domain="[('payment_type', '=', 'inbound'), ('company_id', '=', company_id)]",
     )
