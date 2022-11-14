@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2022-04-12 18:05+0000\n"
+"PO-Revision-Date: 2022-11-14 16:44+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -17,30 +17,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_account_move__display_name
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome da visualizzare"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_account_move__id
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Registrazione Contabile"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_account_move____last_update
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -59,29 +59,32 @@ msgid ""
 "the payment. This field is copied from the partner and will be copied to the "
 "supplier invoice."
 msgstr ""
+"Seleziona il conto bancario del tuo fornitore sul quale la tua azienda "
+"effettuerà il pagamento. Questo campo è ereditato dal contatto e verrà "
+"ereditato dalla fattura fornitore."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
-msgstr ""
+msgstr "L'ordine di acquisto selezionato ha un modo di pagamento differente."
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "L'ordine di acquisto selezionato ha una banca fornitore differente."
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
 msgid "Supplier Bank Account"
-msgstr ""
+msgstr "Conto bancario fornitore"
 
 #. module: account_payment_purchase
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Warning"
-msgstr "Warning"
+msgstr "Attenzione"
 
 #~ msgid "Journal Entries"
 #~ msgstr "Registrazioni contabili"
