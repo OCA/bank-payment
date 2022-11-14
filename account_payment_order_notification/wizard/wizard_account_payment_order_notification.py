@@ -9,7 +9,9 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
     _description = "Wizard Account Payment Order Notification"
 
     order_id = fields.Many2one(
-        comodel_name="account.payment.order", required=True, readonly=True,
+        comodel_name="account.payment.order",
+        required=True,
+        readonly=True,
     )
     mail_template_id = fields.Many2one(
         comodel_name="mail.template",

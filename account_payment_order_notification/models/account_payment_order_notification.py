@@ -10,11 +10,15 @@ class AccountPaymentOrderNotification(models.Model):
     _inherit = ["mail.thread"]
 
     order_id = fields.Many2one(
-        comodel_name="account.payment.order", required=True, readonly=True,
+        comodel_name="account.payment.order",
+        required=True,
+        readonly=True,
     )
     company_id = fields.Many2one(related="order_id.company_id")
     partner_id = fields.Many2one(
-        comodel_name="res.partner", required=True, readonly=True,
+        comodel_name="res.partner",
+        required=True,
+        readonly=True,
     )
     payment_line_ids = fields.Many2many(
         comodel_name="account.payment.line", readonly=True
@@ -39,6 +43,7 @@ class AccountPaymentOrderNotification(models.Model):
                     subtype_ids=follower.subtype_ids.ids,
                 )
             rec.message_subscribe(
-                partner_ids=[rec.partner_id.id], subtype_ids=mt_comment.ids,
+                partner_ids=[rec.partner_id.id],
+                subtype_ids=mt_comment.ids,
             )
         return res
