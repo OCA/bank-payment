@@ -30,7 +30,7 @@ class AccountPaymentOrder(models.Model):
             "account_payment_order_notification",
             "account_payment_order_notification_action",
         )
-        action = self.env.ref(xml_id).read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(xml_id)
         action["domain"] = [("order_id", "=", self.id)]
         return action
 

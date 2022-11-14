@@ -20,9 +20,9 @@ class TestAccountPaymentOrderNotification(common.SavepointCase):
         )
         cls.mt_comment = cls.env.ref("mail.mt_comment")
 
-    def _create_invoice(self, partner, invoice_type="out_invoice"):
+    def _create_invoice(self, partner, move_type="out_invoice"):
         invoice_form = Form(
-            self.env["account.move"].with_context(default_type=invoice_type)
+            self.env["account.move"].with_context(default_move_type=move_type)
         )
         invoice_form.partner_id = partner
         invoice_form.payment_mode_id = self.payment_mode
