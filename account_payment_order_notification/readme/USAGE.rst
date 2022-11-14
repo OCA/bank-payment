@@ -1,6 +1,6 @@
-#. Go to *Invoicing > Customers > Invoices* and creates one or more invoices linked to the payment mode.
+#. Go to *Invoicing > Customers > Invoices* and create one or more invoices linked to the payment mode.
 #. Go to *Invoicing > Customers > Invoices* select the invoices created and execute the action called "Post entries".
-#. Go to *Invoicing > Customers > Invoices* select the invoices created and execute the action called "Add to Payment/Debit Order" and creates a payment order.
+#. Go to *Invoicing > Customers > Invoices* select the invoices created and execute the action called "Add to Payment/Debit Order" and create a payment order.
 #. Click on "Confirm Payments" button.
 #. Click on "Generate Payment File" button.
 #. Click on "File Successfully Uploaded" button.
