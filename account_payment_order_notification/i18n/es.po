@@ -136,6 +136,7 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__display_name
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__display_name
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__display_name
@@ -174,6 +175,7 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order__id
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__id
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__id
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__id
@@ -198,6 +200,7 @@ msgid "Is Follower"
 msgstr "Es seguidor"
 
 #. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification____last_update
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification____last_update
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line____last_update
