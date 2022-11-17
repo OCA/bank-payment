@@ -32,7 +32,11 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
         )
         if po:
             line_ids = []
-            for partner in po.payment_line_ids.mapped("partner_id"):
+            # We need to transfer invoice partner so that the email is sent to the
+            # correct partner (not parent)
+            for partner in po.payment_line_ids.mapped(
+                lambda x: x.move_line_id.move_id.partner_id or x.partner_id
+            ):
                 line_ids += [
                     (
                         0,
@@ -61,7 +65,7 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
         notifications = []
         for item in self.line_ids.filtered("to_send"):
             payment_line_ids = self.order_id.payment_line_ids.filtered(
-                lambda x: x.partner_id == item.partner_id
+                lambda x: x.partner_id == item.partner_id.commercial_partner_id
             )
             data = {
                 "partner_id": item.partner_id.id,
