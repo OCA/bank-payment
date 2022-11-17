@@ -8,8 +8,14 @@ class TestAccountPaymentOrderNotification(common.SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.payment_mode = cls.env.ref("account_payment_mode.payment_mode_inbound_dd1")
-        cls.partner_a = cls.env["res.partner"].create(
-            {"name": "Test partner A", "email": "partner-a@test.com"}
+        cls.partner_a = cls.env["res.partner"].create({"name": "Test partner A"})
+        cls.partner_a_child = cls.env["res.partner"].create(
+            {
+                "name": "Invoice",
+                "type": "invoice",
+                "email": "partner-a@test.com",
+                "parent_id": cls.partner_a.id,
+            }
         )
         cls.partner_b = cls.env["res.partner"].create(
             {"name": "Test partner B", "email": "partner-b@test.com"}
@@ -30,17 +36,18 @@ class TestAccountPaymentOrderNotification(common.SavepointCase):
             line_form.product_id = self.product
         return invoice_form.save()
 
-    def _test_notification_from_partner(self, po, partner):
+    def _test_notification_from_partner(self, po, partner, total):
         notification = po.notification_ids.filtered(lambda x: x.partner_id == partner)
+        self.assertEqual(len(notification.payment_line_ids), total)
         self.assertIn(partner, notification.mapped("message_follower_ids.partner_id"))
         self.assertIn(self.mt_comment, notification.mapped("message_ids.subtype_id"))
 
     def test_wizard_account_payment_order_notification(self):
-        self._create_invoice(self.partner_a)
-        self._create_invoice(self.partner_a)
+        self._create_invoice(self.partner_a_child)
+        self._create_invoice(self.partner_a_child)
         self._create_invoice(self.partner_b)
         self._create_invoice(self.partner_c)
-        partners = self.partner_a + self.partner_b + self.partner_c
+        partners = self.partner_a_child + self.partner_b + self.partner_c
         invoices = self.env["account.move"].search([("partner_id", "in", partners.ids)])
         invoices.action_post()
         wizard = (
@@ -61,8 +68,10 @@ class TestAccountPaymentOrderNotification(common.SavepointCase):
             .create({"mail_template_id": self.env.ref(template_xml_id).id})
         )
         self.assertEqual(len(wizard.line_ids), 3)
-        line_a = wizard.line_ids.filtered(lambda x: x.partner_id == self.partner_a)
-        self.assertEqual(line_a.email, self.partner_a.email)
+        line_a = wizard.line_ids.filtered(
+            lambda x: x.partner_id == self.partner_a_child
+        )
+        self.assertEqual(line_a.email, self.partner_a_child.email)
         self.assertTrue(line_a.to_send)
         line_b = wizard.line_ids.filtered(lambda x: x.partner_id == self.partner_b)
         self.assertEqual(line_b.email, self.partner_b.email)
@@ -71,8 +80,8 @@ class TestAccountPaymentOrderNotification(common.SavepointCase):
         self.assertFalse(line_c.email)
         self.assertFalse(line_c.to_send)
         wizard.action_process()
-        self._test_notification_from_partner(payment_order, self.partner_a)
-        self._test_notification_from_partner(payment_order, self.partner_b)
+        self._test_notification_from_partner(payment_order, self.partner_a_child, 2)
+        self._test_notification_from_partner(payment_order, self.partner_b, 1)
         self.assertNotIn(
             self.partner_c, payment_order.mapped("notification_ids.partner_id")
         )
