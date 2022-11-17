@@ -352,7 +352,7 @@ class TestSCT(SavepointCase):
         currency_id,
         price_unit,
         reference,
-        type="in_invoice",
+        invoice_type="in_invoice",
     ):
         data = {
             "partner_id": partner_id,
@@ -360,7 +360,7 @@ class TestSCT(SavepointCase):
             "ref": reference,
             "currency_id": currency_id,
             "invoice_date": time.strftime("%Y-%m-%d"),
-            "type": type,
+            "type": invoice_type,
             "payment_mode_id": cls.payment_mode.id,
             "invoice_partner_bank_id": cls.env.ref(partner_bank_xmlid).id,
             "invoice_line_ids": [],
