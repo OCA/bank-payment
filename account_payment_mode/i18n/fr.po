@@ -197,6 +197,7 @@ msgid "Note"
 msgstr "Note"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -205,6 +206,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -214,6 +216,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -276,6 +279,7 @@ msgid "Search Payment Modes"
 msgstr "Rechercher des modes de paiement"
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
@@ -285,6 +289,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
 #, python-format
 msgid ""
@@ -293,6 +298,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_mode
+#. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
