@@ -19,8 +19,8 @@ msgstr ""
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,help:account_banking_mandate_sale.field_sale_order__mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 "Activeu aquesta opció si aquest mètode de pagament requereix que el client "
 "signi un mandat amb la vostra empresa."
@@ -31,22 +31,9 @@ msgid "Direct Debit Mandate"
 msgstr "Mandat de càrrec directe"
 
 #. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_advance_payment_inv__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__display_name
-msgid "Display Name"
-msgstr "Nom a mostrar"
-
-#. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_advance_payment_inv__id
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__id
-msgid "ID"
-msgstr "ID"
-
-#. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_advance_payment_inv____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order____last_update
-msgid "Last Modified on"
-msgstr "Darrera modificació el"
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__commercial_invoice_partner_id
+msgid "Invoicing Commercial Entity"
+msgstr ""
 
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_required
@@ -62,3 +49,12 @@ msgstr ""
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
 msgid "Sales Order"
 msgstr "Comanda de venda"
+
+#~ msgid "Display Name"
+#~ msgstr "Nom a mostrar"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Darrera modificació el"
