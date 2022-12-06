@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_invoice_payment_mode"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath expr="//span[@t-field='o.narration']/.." position="before">
+            <p t-if="o.payment_mode_id.note">
+                <strong>Payment Mode:</strong>
+                <span t-field="o.payment_mode_id.note" />
+            </p>
+            <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
+                <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank">
+                    <strong>Bank Account:</strong>
+                    <t t-if="partner_bank.bank_id">
+                        <t
+                            t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"
+                        />
+                    </t>
+                    <t t-if="o.payment_mode_id.show_bank_account == 'full'">
+                        <span t-field="partner_bank.acc_number" />
+                    </t>
+                    <t t-elif="o.payment_mode_id.show_bank_account == 'first'">
+                        <span
+                            t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"
+                        />
+                    </t>
+                    <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
+                        <span
+                            t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"
+                        />
+                    </t>
+                </p>
+            </t>
+        </xpath>
+    </template>
+</odoo>
