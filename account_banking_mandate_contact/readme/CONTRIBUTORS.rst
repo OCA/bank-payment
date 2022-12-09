@@ -1,1 +1,5 @@
-* Carlos Dauden <carlos.dauden@tecnativa.com>
+* `Tecnativa <https://www.tecnativa.com>`_:
+
+  * Carlos Dauden
+  * Ernesto Tejeda
+  * Pedro M. Baeza
