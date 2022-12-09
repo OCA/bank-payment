@@ -1,26 +1,30 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl
+
+from unittest.mock import patch
+
 from odoo import fields
 from odoo.tests.common import Form, TransactionCase
+
+from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
 
 class TestAccountPaymentOrder(TransactionCase):
     def setUp(self):
-        super(TestAccountPaymentOrder, self).setUp()
+        super().setUp()
         self.partner = self.env["res.partner"].create({"name": "Test Partner"})
         self.product = self.env["product.product"].create({"name": "Test product"})
         self.partner_bank_core = self._create_res_partner_bank("N-CORE")
         self.mandate_core = self._create_mandate(self.partner_bank_core, "CORE")
         self.partner_bank_b2b = self._create_res_partner_bank("N-B2B")
         self.mandate_b2b = self._create_mandate(self.partner_bank_b2b, "B2B")
-        self.method_sepa = self.env["account.payment.method"].create(
-            {
-                "name": "SEPA",
-                "code": "sepa_direct_debit",
-                "payment_type": "inbound",
-                "bank_account_required": True,
-            }
-        )
+        payment_method_vals = {
+            "name": "SEPA",
+            "code": "sepa_direct_debit",
+            "payment_type": "inbound",
+            "bank_account_required": True,
+        }
+        self.method_sepa = self._create_multi_bank_payment_method(payment_method_vals)
         self.journal_bank = self.env["account.journal"].create(
             {"name": "BANK", "type": "bank", "code": "bank"}
         )
@@ -45,6 +49,26 @@ class TestAccountPaymentOrder(TransactionCase):
         payment_order_form.payment_mode_id = self.payment_core
         self.payment_order = payment_order_form.save()
 
+    def _create_multi_bank_payment_method(self, payment_method_vals):
+        method_get_payment_method_information = (
+            AccountPaymentMethod._get_payment_method_information
+        )
+
+        def _get_payment_method_information(self):
+            res = method_get_payment_method_information(self)
+            res[payment_method_vals["code"]] = {
+                "mode": "multi",
+                "domain": [("type", "=", "bank")],
+            }
+            return res
+
+        with patch.object(
+            AccountPaymentMethod,
+            "_get_payment_method_information",
+            _get_payment_method_information,
+        ):
+            return self.env["account.payment.method"].create(payment_method_vals)
+
     def _create_res_partner_bank(self, acc_number):
         res_partner_bank_form = Form(self.env["res.partner.bank"])
         res_partner_bank_form.partner_id = self.partner
@@ -61,7 +85,7 @@ class TestAccountPaymentOrder(TransactionCase):
 
     def _create_invoice(self):
         invoice_form = Form(
-            self.env["account.move"].with_context(default_type="out_invoice")
+            self.env["account.move"].with_context(default_move_type="out_invoice")
         )
         invoice_form.partner_id = self.partner
         invoice_form.invoice_date = fields.Date.from_string("2021-01-01")
