@@ -18,4 +18,4 @@ class ResPartner(models.Model):
             if partner.contact_mandate_id.state == "valid":
                 partner.valid_mandate_id = partner.contact_mandate_id
                 procesed_partners |= partner
-        super(ResPartner, self - procesed_partners)._compute_valid_mandate_id()
+        return super(ResPartner, self - procesed_partners)._compute_valid_mandate_id()

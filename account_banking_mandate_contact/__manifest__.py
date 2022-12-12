@@ -3,8 +3,8 @@
 {
     "name": "Account Banking Mandate Contact",
     "summary": "Assign specific banking mandates in contact level",
-    "version": "13.0.1.0.0",
-    "development_status": "Production/Stable",
+    "version": "14.0.1.0.0",
+    "development_status": "Beta",
     "category": "Banking addons",
     "website": "https://github.com/OCA/bank-payment",
     "author": "Tecnativa, Odoo Community Association (OCA)",

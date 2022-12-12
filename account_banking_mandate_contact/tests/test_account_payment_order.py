@@ -61,7 +61,7 @@ class TestAccountPaymentOrder(TransactionCase):
 
     def _create_invoice(self):
         invoice_form = Form(
-            self.env["account.move"].with_context(default_type="out_invoice")
+            self.env["account.move"].with_context(default_move_type="out_invoice")
         )
         invoice_form.partner_id = self.partner
         invoice_form.invoice_date = fields.Date.from_string("2021-01-01")
