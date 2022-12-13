@@ -525,25 +525,28 @@ class AccountPaymentOrder(models.Model):
                 and (partner.zip or partner.city)
             ):
                 adrline2 = etree.SubElement(postal_address, "AdrLine")
+                val = []
                 if partner.zip:
-                    val = self._prepare_field(
-                        "zip",
-                        "partner.zip",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
+                    val.append(
+                        self._prepare_field(
+                            "zip",
+                            "partner.zip",
+                            {"partner": partner},
+                            70,
+                            gen_args=gen_args,
+                        )
                     )
-                else:
-                    val = ""
                 if partner.city:
-                    val += " " + self._prepare_field(
-                        "city",
-                        "partner.city",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
+                    val.append(
+                        self._prepare_field(
+                            "city",
+                            "partner.city",
+                            {"partner": partner},
+                            70,
+                            gen_args=gen_args,
+                        )
                     )
-                adrline2.text = val
+                adrline2.text = " ".join(val)
         return True
 
     @api.model
