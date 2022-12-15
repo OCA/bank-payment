@@ -92,8 +92,11 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (overboeking in Duitsland)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (overboeking in Duitsland)"
 
 #~ msgid "pain.008.001.02 (recommended for direct debit)"
 #~ msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
