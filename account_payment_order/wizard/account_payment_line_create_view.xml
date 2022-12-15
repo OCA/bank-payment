@@ -40,7 +40,13 @@
                         string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
                         colspan="2"
                     />
-                    <button name="populate" type="object" string="Add All Move Lines" />
+                    <button
+                        name="populate"
+                        type="object"
+                        colspan="2"
+                        icon="fa-plus"
+                        string="Add All Move Lines"
+                    />
                 </group>
                 <group
                     name="move_lines"
@@ -49,6 +55,7 @@
                     <field
                         name="move_line_ids"
                         nolabel="1"
+                        colspan="2"
                         context="{'tree_view_ref': 'account_payment_order.view_move_line_tree'}"
                     >
                         <tree>
