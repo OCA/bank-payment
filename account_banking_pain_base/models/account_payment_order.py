@@ -442,27 +442,6 @@ class AccountPaymentOrder(models.Model):
         """Generate the piece of the XML corresponding to PstlAdr"""
         if partner.country_id:
             postal_address = etree.SubElement(parent_node, "PstlAdr")
-            if gen_args.get("pain_flavor").startswith("pain.001.001.") or gen_args.get(
-                "pain_flavor"
-            ).startswith("pain.008.001."):
-                if partner.zip:
-                    pstcd = etree.SubElement(postal_address, "PstCd")
-                    pstcd.text = self._prepare_field(
-                        "Postal Code",
-                        "partner.zip",
-                        {"partner": partner},
-                        16,
-                        gen_args=gen_args,
-                    )
-                if partner.city:
-                    twnnm = etree.SubElement(postal_address, "TwnNm")
-                    twnnm.text = self._prepare_field(
-                        "Town Name",
-                        "partner.city",
-                        {"partner": partner},
-                        35,
-                        gen_args=gen_args,
-                    )
             country = etree.SubElement(postal_address, "Ctry")
             country.text = self._prepare_field(
                 "Country",
@@ -480,7 +459,34 @@ class AccountPaymentOrder(models.Model):
                     70,
                     gen_args=gen_args,
                 )
-
+            if (
+                gen_args.get("pain_flavor").startswith("pain.001.001.")
+                or gen_args.get("pain_flavor").startswith("pain.008.001.")
+                and (partner.zip or partner.city)
+            ):
+                adrline2 = etree.SubElement(postal_address, "AdrLine")
+                val = []
+                if partner.zip:
+                    val.append(
+                        self._prepare_field(
+                            "zip",
+                            "partner.zip",
+                            {"partner": partner},
+                            70,
+                            gen_args=gen_args,
+                        )
+                    )
+                if partner.city:
+                    val.append(
+                        self._prepare_field(
+                            "city",
+                            "partner.city",
+                            {"partner": partner},
+                            70,
+                            gen_args=gen_args,
+                        )
+                    )
+                adrline2.text = " ".join(val)
         return True
 
     @api.model
