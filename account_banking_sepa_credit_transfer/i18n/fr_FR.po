@@ -64,7 +64,6 @@ msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
 msgstr "PAIN version '%s' n'est pas supporté."
@@ -112,5 +111,8 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (Virement en Allemagne)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (Virement en Allemagne)"
