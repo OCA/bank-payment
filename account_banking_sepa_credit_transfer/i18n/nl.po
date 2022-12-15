@@ -29,9 +29,30 @@ msgstr ""
 "Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference '%s')."
 
 #. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__id
+msgid "ID"
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
 msgid "Instant Transfer"
 msgstr "Directe Overdracht"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method____last_update
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order____last_update
+msgid "Last Modified on"
+msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
@@ -92,8 +113,11 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (overboeking in Duitsland)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (overboeking in Duitsland)"
 
 #~ msgid "pain.008.001.02 (recommended for direct debit)"
 #~ msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
