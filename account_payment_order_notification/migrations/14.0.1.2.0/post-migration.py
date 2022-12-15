@@ -11,3 +11,8 @@ def migrate(env, version):
         "account_payment_order_notification",
         "migrations/14.0.1.2.0/noupdate_changes.xml",
     )
+    openupgrade.delete_record_translations(
+        env.cr,
+        "account_payment_order_notification",
+        ["email_account_payment_order_notification"],
+    )
