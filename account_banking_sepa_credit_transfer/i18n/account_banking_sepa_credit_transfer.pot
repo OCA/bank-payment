@@ -107,5 +107,5 @@ msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
+msgid "pain.001.003.03"
 msgstr ""
