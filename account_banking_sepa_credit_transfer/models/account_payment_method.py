@@ -10,10 +10,10 @@ class AccountPaymentMethod(models.Model):
     pain_version = fields.Selection(
         selection_add=[
             ("pain.001.001.02", "pain.001.001.02"),
-            ("pain.001.001.03", "pain.001.001.03 " "(recommended for credit transfer)"),
+            ("pain.001.001.03", "pain.001.001.03 (recommended for credit transfer)"),
             ("pain.001.001.04", "pain.001.001.04"),
             ("pain.001.001.05", "pain.001.001.05"),
-            ("pain.001.003.03", "pain.001.003.03 (credit transfer in Germany)"),
+            ("pain.001.003.03", "pain.001.003.03"),
         ],
         ondelete={
             "pain.001.001.02": "set null",
