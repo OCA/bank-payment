@@ -20,37 +20,14 @@ msgstr ""
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"Bank account is missing on the bank payment line of partner '%s' (reference "
-"'%s')."
-msgstr ""
-"Le compte bancaire est manquant sur la ligne de paiement bancaire du "
-"partenaire '%s' (référence '%s')."
-
-#. module: account_banking_sepa_credit_transfer
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: account_banking_sepa_credit_transfer
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__id
-msgid "ID"
+"Bank account is missing on the bank payment line of partner "
+"'{partner}' (reference '{reference}')."
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
 msgid "Instant Transfer"
 msgstr "Transfert immédiat"
-
-#. module: account_banking_sepa_credit_transfer
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order____last_update
-msgid "Last Modified on"
-msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
@@ -63,7 +40,6 @@ msgid "PAIN Version"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
@@ -112,5 +88,16 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (Virement en Allemagne)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "Bank account is missing on the bank payment line of partner "
+#~ "'%s' (reference '%s')."
+#~ msgstr ""
+#~ "Le compte bancaire est manquant sur la ligne de paiement bancaire du "
+#~ "partenaire '%s' (référence '%s')."
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (Virement en Allemagne)"
