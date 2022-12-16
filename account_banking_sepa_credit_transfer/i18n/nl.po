@@ -23,10 +23,9 @@ msgstr ""
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"Bank account is missing on the bank payment line of partner '%s' (reference "
-"'%s')."
+"Bank account is missing on the bank payment line of partner "
+"'{partner}' (reference '{reference}')."
 msgstr ""
-"Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference '%s')."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
@@ -92,8 +91,19 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (overboeking in Duitsland)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "Bank account is missing on the bank payment line of partner "
+#~ "'%s' (reference '%s')."
+#~ msgstr ""
+#~ "Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference "
+#~ "'%s')."
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (overboeking in Duitsland)"
 
 #~ msgid "pain.008.001.02 (recommended for direct debit)"
 #~ msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
