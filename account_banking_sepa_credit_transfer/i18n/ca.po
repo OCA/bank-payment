@@ -20,8 +20,8 @@ msgstr ""
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"Bank account is missing on the bank payment line of partner '{partner}' "
-"(reference '{reference}')."
+"Bank account is missing on the bank payment line of partner "
+"'{partner}' (reference '{reference}')."
 msgstr ""
 "Falta el compte bancari a la línia del partner '{partner}' (referència "
 "'{reference}')."
@@ -42,7 +42,6 @@ msgid "PAIN Version"
 msgstr "Versió PAIN"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
@@ -91,5 +90,8 @@ msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
-msgid "pain.001.003.03 (credit transfer in Germany)"
-msgstr "pain.001.003.03 (transferències de crèdit a Alemanya)"
+msgid "pain.001.003.03"
+msgstr ""
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (transferències de crèdit a Alemanya)"
