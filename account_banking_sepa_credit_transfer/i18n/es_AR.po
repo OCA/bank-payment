@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-08 05:59+0000\n"
+"PO-Revision-Date: 2022-12-17 22:44+0000\n"
 "Last-Translator: Ignacio Buioli <ibuioli@gmail.com>\n"
 "Language-Team: none\n"
 "Language: es_AR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
@@ -31,14 +31,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
@@ -50,7 +50,7 @@ msgstr "Transferencia Instantánea"
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_order____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación en"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
@@ -112,7 +112,7 @@ msgstr "pain.001.001.05"
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
 msgid "pain.001.003.03"
-msgstr ""
+msgstr "pain.001.003.03"
 
 #~ msgid "pain.001.003.03 (credit transfer in Germany)"
 #~ msgstr "pain.001.003.03 (transferencia de crédito en Alemania)"
