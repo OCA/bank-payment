@@ -523,8 +523,7 @@ class AccountPaymentOrder(models.Model):
             if (
                 gen_args.get("pain_flavor").startswith("pain.001.001.")
                 or gen_args.get("pain_flavor").startswith("pain.008.001.")
-                and (partner.zip or partner.city)
-            ):
+            ) and (partner.zip or partner.city):
                 adrline2 = etree.SubElement(postal_address, "AdrLine")
                 if partner.zip:
                     val = self._prepare_field(
