@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo14-addon-account_banking_sepa_direct_debit',
         'odoo14-addon-account_invoice_select_for_payment',
         'odoo14-addon-account_payment_mode',
+        'odoo14-addon-account_payment_mode_default_account',
         'odoo14-addon-account_payment_order',
         'odoo14-addon-account_payment_order_notification',
         'odoo14-addon-account_payment_order_return',
