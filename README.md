@@ -29,6 +29,7 @@ addon | version | maintainers | summary
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 14.0.1.3.3 |  | Create SEPA files for Direct Debit
 [account_invoice_select_for_payment](account_invoice_select_for_payment/) | 14.0.1.0.0 |  | Account Invoice Select for Payment
 [account_payment_mode](account_payment_mode/) | 14.0.1.1.0 |  | Account Payment Mode
+[account_payment_mode_default_account](account_payment_mode_default_account/) | 14.0.1.0.0 |  | Set Receivable or Payable account according to payment mode
 [account_payment_order](account_payment_order/) | 14.0.1.11.0 |  | Account Payment Order
 [account_payment_order_notification](account_payment_order_notification/) | 14.0.1.3.0 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Account Payment Order Notification
 [account_payment_order_return](account_payment_order_return/) | 14.0.1.0.2 |  | Account Payment Order Return
