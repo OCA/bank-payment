@@ -10,14 +10,14 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="account_payment_sale.view_order_form" />
     <field name="arch" type="xml">
-        <field name="fiscal_position_id" position="after">
+        <xpath expr="//field[@name='fiscal_position_id']/parent::div" position="after">
             <field
                     name="mandate_id"
                     attrs="{'invisible': [('mandate_required', '=', False)]}"
                 />
             <field name="mandate_required" invisible="1" />
             <field name="commercial_invoice_partner_id" invisible="1" />
-        </field>
+        </xpath>
     </field>
 </record>
 
