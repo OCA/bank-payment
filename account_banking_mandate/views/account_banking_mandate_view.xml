@@ -88,10 +88,6 @@
         <field name="name">view.mandate.form.buttons</field>
         <field name="model">account.banking.mandate</field>
         <field name="inherit_id" ref="account_banking_mandate.view_mandate_form" />
-        <field
-            name="groups_id"
-            eval="[(6, 0, [ref('account_payment_order.group_account_payment')])]"
-        />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
@@ -100,6 +96,7 @@
                     class="oe_stat_button"
                     icon="fa-list"
                     type="object"
+                    groups="account_payment_order.group_account_payment"
                 >
                     <field
                         name="payment_line_ids_count"
