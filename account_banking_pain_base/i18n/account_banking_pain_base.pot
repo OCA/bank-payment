@@ -61,11 +61,6 @@ msgid "Bank"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr ""
-
-#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "Batch Booking"
 msgstr ""
@@ -134,7 +129,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__category_purpose
 msgid "Category Purpose"
 msgstr ""
 
@@ -279,7 +273,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__display_name
@@ -408,7 +401,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__id
@@ -431,8 +423,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__purpose
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
@@ -533,7 +523,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank____last_update
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company____last_update
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings____last_update
@@ -568,7 +557,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__local_instrument
 msgid "Local Instrument"
 msgstr ""
 
@@ -722,7 +710,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__priority
 msgid "Priority"
 msgstr ""
 
@@ -743,7 +730,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "Purpose"
 msgstr ""
 
@@ -881,7 +867,6 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__priority
 msgid ""
 "This field will be used as 'Instruction Priority' in the generated PAIN "
 "file."
