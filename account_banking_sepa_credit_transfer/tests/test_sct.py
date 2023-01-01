@@ -1,6 +1,6 @@
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2018 Tecnativa - Pedro M. Baeza
 # Copyright 2020 Sygel Technology - Valentin Vinagre
+# Copyright 2018-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
@@ -21,7 +21,6 @@ class TestSCT(SavepointCase):
         cls.journal_model = cls.env["account.journal"]
         cls.payment_order_model = cls.env["account.payment.order"]
         cls.payment_line_model = cls.env["account.payment.line"]
-        cls.bank_line_model = cls.env["bank.payment.line"]
         cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.attachment_model = cls.env["ir.attachment"]
         cls.invoice_model = cls.env["account.move"]
@@ -194,20 +193,16 @@ class TestSCT(SavepointCase):
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, True)
-        bank_lines = self.bank_line_model.search(
-            [("partner_id", "=", self.partner_agrolait.id)]
-        )
-        self.assertEqual(len(bank_lines), 1)
-        agrolait_bank_line = bank_lines[0]
+        self.assertTrue(self.payment_order.payment_ids)
+        agrolait_bank_line = self.payment_order.payment_ids[0]
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
         self.assertEqual(
             agrolait_bank_line.currency_id.compare_amounts(
-                agrolait_bank_line.amount_currency, 49.0
+                agrolait_bank_line.amount, 49.0
             ),
             0,
         )
-        self.assertEqual(agrolait_bank_line.communication_type, "normal")
-        self.assertEqual(agrolait_bank_line.communication, "F1341-F1342-A1301")
+        self.assertEqual(agrolait_bank_line.payment_reference, "F1341-F1342-A1301")
         self.assertEqual(agrolait_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
@@ -286,20 +281,14 @@ class TestSCT(SavepointCase):
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, False)
-        bank_lines = self.bank_line_model.search(
-            [("partner_id", "=", self.partner_asus.id)]
-        )
-        self.assertEqual(len(bank_lines), 1)
-        asus_bank_line = bank_lines[0]
+        self.assertEqual(self.payment_order.payment_count, 1)
+        asus_bank_line = self.payment_order.payment_ids[0]
         self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
         self.assertEqual(
-            asus_bank_line.currency_id.compare_amounts(
-                asus_bank_line.amount_currency, 3054.0
-            ),
+            asus_bank_line.currency_id.compare_amounts(asus_bank_line.amount, 3054.0),
             0,
         )
-        self.assertEqual(asus_bank_line.communication_type, "normal")
-        self.assertEqual(asus_bank_line.communication, "Inv9032-Inv9033")
+        self.assertEqual(asus_bank_line.payment_reference, "Inv9032-Inv9033")
         self.assertEqual(asus_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
