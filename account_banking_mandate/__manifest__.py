@@ -7,7 +7,7 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "14.0.1.2.0",
+    "version": "14.0.2.0.0",
     "license": "AGPL-3",
     "author": "Compassion CH, "
     "Tecnativa, "
