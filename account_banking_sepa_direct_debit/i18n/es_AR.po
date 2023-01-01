@@ -175,11 +175,6 @@ msgstr ""
 "%d1>%s2</a> se ha marcado como subido."
 
 #. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
-
-#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
 msgid "Basic (CORE)"
 msgstr "Básico (CORE)"
@@ -206,7 +201,6 @@ msgstr "Configurar Ajustes"
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__display_name
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__display_name
 msgid "Display Name"
@@ -272,7 +266,6 @@ msgstr "Inicial"
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__id
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__id
 msgid "ID"
@@ -292,7 +285,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method____last_update
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company____last_update
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings____last_update
 msgid "Last Modified on"
@@ -559,6 +551,9 @@ msgstr ""
 "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
 "a la entidad para efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Líneas de pago bancario"
 
 #~ msgid ""
 #~ "'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id."
