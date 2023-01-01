@@ -97,11 +97,6 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr ""
-
-#. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
@@ -191,7 +186,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr ""
 
@@ -208,7 +202,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
@@ -275,7 +268,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
@@ -324,7 +316,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank____last_update
 msgid "Last Modified on"
@@ -343,11 +334,6 @@ msgstr "Son güncelleme"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
-
-#. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
-msgid "Mandate"
 msgstr ""
 
 #. module: account_banking_mandate

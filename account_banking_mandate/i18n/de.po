@@ -97,11 +97,6 @@ msgid "Bank Accounts"
 msgstr "Bankkonto"
 
 #. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Bankzahlungszeilen"
-
-#. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
@@ -191,7 +186,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Lastschrift Mandat"
 
@@ -208,7 +202,6 @@ msgstr "Bankeinzug Mandanten"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
@@ -275,7 +268,6 @@ msgstr "Gruppiere nach"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
@@ -324,7 +316,6 @@ msgstr "Logbuch Eintrag"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner____last_update
 #: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank____last_update
 msgid "Last Modified on"
@@ -344,11 +335,6 @@ msgstr "Zuletzt aktualisiert am"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
-
-#. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
-msgid "Mandate"
-msgstr "Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -655,6 +641,12 @@ msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
 msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Bankzahlungszeilen"
+
+#~ msgid "Mandate"
+#~ msgstr "Mandat"
 
 #, fuzzy
 #~ msgid "Journal Entries"
