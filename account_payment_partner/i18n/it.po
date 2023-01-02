@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-10-27 17:35+0000\n"
+"PO-Revision-Date: 2023-01-02 12:05+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -100,7 +100,7 @@ msgstr "Fattura"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr "Registro"
+msgstr "Movimento contabile"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
