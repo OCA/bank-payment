@@ -94,6 +94,8 @@ class AccountMove(models.Model):
         return res
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
+        if not default_values_list:
+            default_values_list = [{} for _ in self]
         for move, default_values in zip(self, default_values_list):
             default_values[
                 "payment_mode_id"
