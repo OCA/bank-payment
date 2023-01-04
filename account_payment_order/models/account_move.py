@@ -152,7 +152,7 @@ class AccountMove(models.Model):
             action.update(
                 {
                     "view_mode": "tree,form,pivot,graph",
-                    "domain": "[('id', 'in', %s)]" % result_payorder_ids,
+                    "domain": "[('id', 'in', %s)]" % list(result_payorder_ids),
                     "views": False,
                 }
             )
