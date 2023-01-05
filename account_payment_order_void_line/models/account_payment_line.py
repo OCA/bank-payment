@@ -8,7 +8,5 @@ class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
     is_voided = fields.Boolean(string="Voided", default=False)
-    void_date = fields.Date(string="Void Date")
-    void_reason = fields.Text(
-        string="Void Reason",
-    )
+    void_date = fields.Date()
+    void_reason = fields.Text()
