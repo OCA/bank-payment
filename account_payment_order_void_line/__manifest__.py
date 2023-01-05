@@ -4,7 +4,7 @@
 {
     "name": "Account Payment Order Void Lines",
     "summary": "Cancel payment order lines",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "Open Source Integrators, " "Odoo Community Association (OCA)",
     "category": "Banking Addons",

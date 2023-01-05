@@ -1,54 +1,59 @@
-# © 2017 Creu Blanca
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright (C) 2020 Open Source Integrators
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import tagged
+from odoo.tests.common import Form
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestBankPayment(TransactionCase):
-    def setUp(self):
-        super(TestBankPayment, self).setUp()
-        self.company = self.env.user.company_id
-        self.journal = self.env["account.journal"].search(
-            [("company_id", "=", self.company.id), ("type", "=", "purchase")], limit=1
-        )
-        self.partner = self.env["res.partner"].create(
+@tagged("-at_install", "post_install")
+class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.env.user.company_id = cls.company.id
+        cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
             }
         )
-        self.inbound_mode = self.env["account.payment.mode"].create(
+        cls.inbound_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test Direct Debit of customers",
                 "bank_account_link": "variable",
-                "payment_method_id": self.env.ref(
+                "payment_method_id": cls.env.ref(
                     "account.account_payment_method_manual_in"
                 ).id,
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
-        self.default_account_revenue = self.env["account.account"].search(
-            [
-                ("company_id", "=", self.company.id),
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_revenue").id,
-                ),
-            ],
-            limit=1,
-        )
-        self.inbound_order = self.env["account.payment.order"].create(
+        cls.invoice_line_account = cls.company_data["default_account_revenue"]
+        cls.journal = cls.company_data["default_journal_bank"]
+        cls.inbound_mode.variable_journal_ids = cls.journal
+        # Make sure no others orders are present
+        cls.domain = [
+            ("state", "=", "draft"),
+            ("payment_type", "=", "inbound"),
+            ("company_id", "=", cls.env.user.company_id.id),
+        ]
+        cls.payment_order_obj = cls.env["account.payment.order"]
+        cls.payment_order_obj.search(cls.domain).unlink()
+        # Create payment order
+        cls.inbound_order = cls.env["account.payment.order"].create(
             {
                 "payment_type": "inbound",
-                "payment_mode_id": self.inbound_mode.id,
-                "journal_id": self.journal.id,
+                "payment_mode_id": cls.inbound_mode.id,
+                "journal_id": cls.journal.id,
             }
         )
-        self.invoice = self._create_customer_invoice()
-        self.invoice.action_post()
+        # Open invoice
+        cls.invoice = cls._create_customer_invoice(cls)
+        cls.invoice.action_post()
         # Add to payment order using the wizard
-        self.env["account.invoice.payment.line.multi"].with_context(
-            active_model="account.move", active_ids=self.invoice.ids
+        cls.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=cls.invoice.ids
         ).create({}).run()
 
     def _create_customer_invoice(self):
@@ -61,7 +66,7 @@ class TestBankPayment(TransactionCase):
                 invoice_line_form.name = "product that cost 100"
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
-                invoice_line_form.account_id = self.default_account_revenue
+                invoice_line_form.account_id = self.invoice_line_account
                 invoice_line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
