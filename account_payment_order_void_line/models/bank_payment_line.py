@@ -8,10 +8,8 @@ class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
 
     is_voided = fields.Boolean(string="Voided", default=False)
-    void_date = fields.Date(string="Void Date")
-    void_reason = fields.Text(
-        string="Void Reason",
-    )
+    void_date = fields.Date()
+    void_reason = fields.Text()
 
     def call_payment_void_wizard(self):
         return {
