@@ -7,12 +7,13 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "15.0.1.0.1",
+    "version": "16.0.1.0.0",
     "development_status": "Production/Stable",
     "license": "AGPL-3",
     "author": "Compassion CH, "
     "Tecnativa, "
     "Akretion, "
+    "Therp B.V., "
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "category": "Banking addons",
