@@ -262,11 +262,7 @@ class TestInvoiceMandate(TransactionCase):
 
         self.invoice_account = self.env["account.account"].search(
             [
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_receivable").id,
-                ),
+                ("account_type", "=", "asset_receivable"),
                 ("company_id", "=", self.company.id),
             ],
             limit=1,
@@ -275,11 +271,7 @@ class TestInvoiceMandate(TransactionCase):
             self.env["account.account"]
             .search(
                 [
-                    (
-                        "user_type_id",
-                        "=",
-                        self.env.ref("account.data_account_type_expenses").id,
-                    ),
+                    ("account_type", "=", "expense"),
                     ("company_id", "=", self.company.id),
                 ],
                 limit=1,

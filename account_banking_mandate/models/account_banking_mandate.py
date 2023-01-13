@@ -44,7 +44,7 @@ class AccountBankingMandate(models.Model):
         tracking=40,
         domain=lambda self: self._get_default_partner_bank_id_domain(),
         ondelete="restrict",
-        index=True,
+        index="btree",
         check_company=True,
     )
     partner_id = fields.Many2one(
@@ -52,7 +52,7 @@ class AccountBankingMandate(models.Model):
         related="partner_bank_id.partner_id",
         string="Partner",
         store=True,
-        index=True,
+        index="btree",
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
