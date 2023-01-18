@@ -33,6 +33,10 @@ class AccountMove(models.Model):
         ondelete="restrict",
         readonly=False,
     )
+    has_reconciled_items = fields.Boolean(
+        help="Technical field for supporting the editability of the payment mode",
+        compute="_compute_has_reconciled_items",
+    )
 
     @api.depends("move_type")
     def _compute_payment_mode_filter_type_domain(self):
@@ -82,6 +86,17 @@ class AccountMove(models.Model):
                         move.payment_mode_id = (
                             partner.supplier_payment_mode_id.refund_payment_mode_id
                         )
+
+    @api.depends("line_ids.matched_credit_ids", "line_ids.matched_debit_ids")
+    def _compute_has_reconciled_items(self):
+        for record in self:
+            lines_to_consider = record.line_ids.filtered(
+                lambda x: x.account_id.internal_type in ("receivable", "payable")
+            )
+            record.has_reconciled_items = bool(
+                lines_to_consider.matched_credit_ids
+                + lines_to_consider.matched_debit_ids
+            )
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
