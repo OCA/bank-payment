@@ -14,9 +14,34 @@
                 position="after"
             >
                 <group name="payments" string="Payments">
-                    <field name="payment_mode_id" widget="selection" />
+                    <field name="account_internal_type" invisible="1" />
+                    <field name="reconciled" invisible="1" />
+                    <field
+                        name="payment_mode_id"
+                        widget="selection"
+                        force_save="1"
+                        attrs="{'invisible': [('account_internal_type', 'not in', ['receivable', 'payable'])], 'readonly': ['|', ('account_internal_type', 'not in', ['receivable', 'payable']), ('reconciled', '=', True)]}"
+                    />
                 </group>
             </xpath>
+        </field>
+    </record>
+    <record id="view_move_line_tree" model="ir.ui.view">
+        <field name="name">account.move.line.tree - Add payment mode</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree" />
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="after">
+                <field name="account_internal_type" invisible="1" />
+                <field name="reconciled" invisible="1" />
+                <field
+                    name="payment_mode_id"
+                    optional="hide"
+                    widget="selection"
+                    force_save="1"
+                    attrs="{'invisible': [('account_internal_type', 'not in', ['receivable', 'payable'])], 'readonly': ['|', ('account_internal_type', 'not in', ['receivable', 'payable']), ('reconciled', '=', True)]}"
+                />
+            </field>
         </field>
     </record>
 </odoo>
