@@ -126,9 +126,6 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
         wizard.reverse_moves()
         return wizard.new_move_ids
 
-
-@tagged("post_install", "-at_install")
-class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
         self.mode.group_lines = False
