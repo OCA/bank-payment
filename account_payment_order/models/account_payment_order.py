@@ -29,7 +29,6 @@ class AccountPaymentOrder(models.Model):
     )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
-        string="Payment Type",
         readonly=True,
         required=True,
     )
