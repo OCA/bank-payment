@@ -11,8 +11,8 @@ msgstr ""
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
 "PO-Revision-Date: 2022-09-16 19:07+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
-"23907/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
+"teams/23907/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,6 +98,13 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__full
 msgid "Full"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Has Reconciled Items"
 msgstr ""
 
 #. module: account_payment_partner
@@ -231,6 +238,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Modo de Pagamento do Fornecedor"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id

@@ -102,6 +102,13 @@ msgid "Full"
 msgstr "Completo"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Has Reconciled Items"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__id
@@ -232,6 +239,13 @@ msgstr "Mostrar en las facturas el número de cuenta bancaria total o parcial"
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Modo de pago del proveedor"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
