@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-08-29 22:50+0000\n"
+"PO-Revision-Date: 2023-01-23 03:06+0000\n"
 "Last-Translator: Ignacio Buioli <ibuioli@gmail.com>\n"
 "Language-Team: none\n"
 "Language: es_AR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -106,7 +106,7 @@ msgstr "Completo"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Has Reconciled Items"
-msgstr ""
+msgstr "Tiene Apuntes Conciliados"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
@@ -245,7 +245,7 @@ msgstr "Modo de Pago del Proveedor"
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Technical field for supporting the editability of the payment mode"
-msgstr ""
+msgstr "Campo técnico para permitir editar el modo de pago"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
