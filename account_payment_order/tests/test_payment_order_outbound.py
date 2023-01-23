@@ -356,10 +356,10 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
 
         # The user add the outstanding payment to the invoice
         invoice_line = self.invoice.line_ids.filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         )
         refund_line = self.refund.line_ids.filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         )
         (invoice_line | refund_line).reconcile()
 
@@ -394,7 +394,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
         self.refund.action_post()
 
         (self.invoice.line_ids + self.refund.line_ids).filtered(
-            lambda line: line.account_internal_type == "payable"
+            lambda line: line.account_type == "liability_payable"
         ).reconcile()
 
         self.env["account.invoice.payment.line.multi"].with_context(
