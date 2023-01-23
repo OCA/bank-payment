@@ -118,6 +118,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
             .with_context(active_model="account.move", active_ids=move.ids)
             .create(
                 {
+                   "journal_id": move.journal_id.id,
                     "date_mode": "custom",
                     "refund_method": "refund",
                 }
