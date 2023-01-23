@@ -65,11 +65,13 @@ class AccountMoveLine(models.Model):
             )
             reference_moves |= self.move_id.reversal_move_id
         # Retrieve partial payments - e.g.: manual credit notes
-        for (
-            _,
-            _,
-            payment_move_line,
-        ) in self.move_id._get_reconciled_invoices_partials():
+        (
+            invoice_partials,
+            exchange_diff_moves,
+        ) = self.move_id._get_reconciled_invoices_partials()
+        for (_, _, payment_move_line,) in (
+            invoice_partials + exchange_diff_moves
+        ):
             payment_move = payment_move_line.move_id
             if payment_move not in reference_moves and (
                 payment_move.payment_reference or payment_move.ref

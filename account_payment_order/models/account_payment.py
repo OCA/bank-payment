@@ -17,9 +17,7 @@ class AccountPayment(models.Model):
         for pay in self:
             if pay.payment_order_id:
                 pay.available_payment_method_line_ids = (
-                    pay.journal_id._get_available_payment_method_lines(
-                        pay.payment_type
-                    )
+                    pay.journal_id._get_available_payment_method_lines(pay.payment_type)
                 )
             else:
                 pay.available_payment_method_line_ids = (
