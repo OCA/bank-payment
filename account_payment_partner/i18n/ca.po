@@ -86,15 +86,6 @@ msgid "Customer Payment Mode"
 msgstr "Modalitat de pagament del client"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__display_name
-msgid "Display Name"
-msgstr "Nom mostrat"
-
-#. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
 msgid "First n chars"
 msgstr "Primers n caràcters"
@@ -105,13 +96,11 @@ msgid "Full"
 msgstr "Complet"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
-msgid "ID"
-msgstr "ID"
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Has Reconciled Items"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice_report
@@ -127,15 +116,6 @@ msgstr "Entrada de diari"
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
 msgstr "Apunt comptable"
-
-#. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última modificació el"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
@@ -217,8 +197,8 @@ msgstr "Seleccioneu el mode de pagament per defecte per a aquest proveïdor."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
-msgid "Show bank account"
-msgstr "Mostra compte bancari"
+msgid "Show Bank Account"
+msgstr ""
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -235,6 +215,13 @@ msgstr "Mostra en les factures el número de compte bancari parcial o complet"
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
 msgstr "Mode de pagament del proveïdor"
+
+#. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
@@ -264,6 +251,18 @@ msgid ""
 msgstr ""
 "No podeu canviar la companyia. Com a mínim existeix un assentament amb "
 "aquest mode de pagament, ja assignat a una altra companyia."
+
+#~ msgid "Display Name"
+#~ msgstr "Nom mostrat"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificació el"
+
+#~ msgid "Show bank account"
+#~ msgstr "Mostra compte bancari"
 
 #~ msgid "Bank Account"
 #~ msgstr "Compte bancari"
