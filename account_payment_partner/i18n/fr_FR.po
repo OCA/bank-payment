@@ -83,15 +83,6 @@ msgid "Customer Payment Mode"
 msgstr "Mode de paiement client"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__first
 msgid "First n chars"
 msgstr "Premiers n caractères"
@@ -102,12 +93,10 @@ msgid "Full"
 msgstr "Complet"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__id
-msgid "ID"
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Has Reconciled Items"
 msgstr ""
 
 #. module: account_payment_partner
@@ -126,15 +115,6 @@ msgid "Journal Item"
 msgstr "Ligne de journal"
 
 #. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:account_payment_partner.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
 msgid "Last n chars"
 msgstr "n dernier caractères"
@@ -145,6 +125,7 @@ msgid "No"
 msgstr "Non"
 
 #. module: account_payment_partner
+#. odoo-python
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
 #, python-format
 msgid "No Chart of Account Template has been defined !"
@@ -214,8 +195,8 @@ msgstr "Sélectionnez le mode de paiement par défaut pour ce fournisseur."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
-msgid "Show bank account"
-msgstr "Afficher le compte bancaire"
+msgid "Show Bank Account"
+msgstr ""
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -236,6 +217,13 @@ msgid "Supplier Payment Mode"
 msgstr "Mode de règlement fournisseur"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
 msgid ""
 "This payment mode will be used when doing refunds coming from the current "
@@ -243,6 +231,7 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_partner
+#. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -253,6 +242,7 @@ msgstr ""
 "journalier avec ce mode de paiement, déjà affecté à une autre société."
 
 #. module: account_payment_partner
+#. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -261,3 +251,6 @@ msgid ""
 msgstr ""
 "Vous ne pouvez pas modifier la Société. Il existe au moins un poste "
 "journalier avec ce mode de paiement, déjà affecté à une autre société."
+
+#~ msgid "Show bank account"
+#~ msgstr "Afficher le compte bancaire"
