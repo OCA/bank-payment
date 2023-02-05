@@ -48,6 +48,19 @@ class AccountMove(models.Model):
         # in account_payment_order.py
         return vals
 
+    def _get_applicable_lines(self, move):
+        return move.line_ids.filtered(
+            lambda x: (
+                not x.reconciled
+                and x.payment_mode_id.payment_order_ok
+                and x.account_id.internal_type in ("receivable", "payable")
+                and not any(
+                    p_state in ("draft", "open", "generated")
+                    for p_state in x.payment_line_ids.mapped("state")
+                )
+            )
+        )
+
     def create_account_payment_line(self):
         apoo = self.env["account.payment.order"]
         result_payorder_ids = set()
@@ -55,17 +68,7 @@ class AccountMove(models.Model):
         for move in self:
             if move.state != "posted":
                 raise UserError(_("The invoice %s is not in Posted state") % move.name)
-            applicable_lines = move.line_ids.filtered(
-                lambda x: (
-                    not x.reconciled
-                    and x.payment_mode_id.payment_order_ok
-                    and x.account_id.internal_type in ("receivable", "payable")
-                    and not any(
-                        p_state in ("draft", "open", "generated")
-                        for p_state in x.payment_line_ids.mapped("state")
-                    )
-                )
-            )
+            applicable_lines = self._get_applicable_lines(move)
             if not applicable_lines:
                 raise UserError(
                     _(
