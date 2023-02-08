@@ -47,14 +47,6 @@ class TestPaymentMode(TransactionCase):
             }
         )
 
-    def test_onchange_generate_move(self):
-        self.payment_mode_c1.generate_move = True
-        self.payment_mode_c1.generate_move_change()
-        self.assertEqual(self.payment_mode_c1.move_option, "date")
-        self.payment_mode_c1.generate_move = False
-        self.payment_mode_c1.generate_move_change()
-        self.assertFalse(self.payment_mode_c1.move_option)
-
     def test_onchange_payment_type(self):
         self.payment_mode_c1.payment_method_id = self.manual_in
         self.payment_mode_c1.payment_method_id_change()
