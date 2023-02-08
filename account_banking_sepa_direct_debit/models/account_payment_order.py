@@ -213,7 +213,10 @@ class AccountPaymentOrder(models.Model):
                 mandate_signature_date.text = self._prepare_field(
                     "Mandate Signature Date",
                     "signature_date",
-                    {"signature_date": fields.Date.to_string(mandate.signature_date)},
+                    {
+                        "line": line,
+                        "signature_date": fields.Date.to_string(mandate.signature_date),
+                    },
                     10,
                     gen_args=gen_args,
                 )
