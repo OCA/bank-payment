@@ -18,6 +18,7 @@
         <field name="recurrent_sequence_type">first</field>
         <field name="signature_date" eval="time.strftime('%Y-01-01')" />
         <field name="state">valid</field>
+        <field name="company_id" ref="base.main_company" />
     </record>
     <record id="base.res_partner_12" model="res.partner">
         <field name="customer_payment_mode_id" ref="payment_mode_inbound_sepa_dd1" />
@@ -30,6 +31,7 @@
         <field name="recurrent_sequence_type">first</field>
         <field name="signature_date" eval="time.strftime('%Y-%m-01')" />
         <field name="state">valid</field>
+        <field name="company_id" ref="base.main_company" />
     </record>
     <record id="base.res_partner_2" model="res.partner">
         <field name="customer_payment_mode_id" ref="payment_mode_inbound_sepa_dd1" />
