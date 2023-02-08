@@ -86,11 +86,6 @@ msgid "Accounting / Payments"
 msgstr ""
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -486,11 +481,6 @@ msgid "Free Reference"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr ""
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr ""
@@ -737,11 +727,6 @@ msgid "Move Lines"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -837,24 +822,6 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
-msgstr ""
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
 msgstr ""
 
 #. module: account_payment_order
@@ -1015,11 +982,6 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
 msgstr ""
 
 #. module: account_payment_order

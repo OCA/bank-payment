@@ -89,11 +89,6 @@ msgid "Accounting / Payments"
 msgstr "Facturació / Pagaments"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Opcions d'assentaments comptables"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
 msgid "Action Needed"
 msgstr "Es necessita una acció"
@@ -502,11 +497,6 @@ msgid "Free Reference"
 msgstr "Referència lliure"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Genera apunts al pujar el fitxer"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr "Genera fitxer de pagaments"
@@ -765,11 +755,6 @@ msgid "Move Lines"
 msgstr "Apunts"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Opció d'apunt"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -872,26 +857,6 @@ msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
 "A l'ordre de pagament %s, la Data d'execució del pagament és en el passat "
 "(%s)."
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-"Al mode de pagament '%s' heu d'escollir una opció per al paràmetre 'Opció "
-"d'apunt'."
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "Un assentament per data de pagament"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "Un assentament per línia de pagament"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1052,11 +1017,6 @@ msgstr ""
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
 msgstr "Pagaments"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr "Publica assentament"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1326,6 +1286,32 @@ msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "altrament, es crearan ordres de pagament noves (una per cada mode de "
 "pagament)."
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Opcions d'assentaments comptables"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Genera apunts al pujar el fitxer"
+
+#~ msgid "Move Option"
+#~ msgstr "Opció d'apunt"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', you must choose an option for the 'Move Option' "
+#~ "parameter."
+#~ msgstr ""
+#~ "Al mode de pagament '%s' heu d'escollir una opció per al paràmetre 'Opció "
+#~ "d'apunt'."
+
+#~ msgid "One move per payment date"
+#~ msgstr "Un assentament per data de pagament"
+
+#~ msgid "One move per payment line"
+#~ msgstr "Un assentament per línia de pagament"
+
+#~ msgid "Post Move"
+#~ msgstr "Publica assentament"
 
 #~ msgid "Bank Payment Line"
 #~ msgstr "Línia de pagament del banc"

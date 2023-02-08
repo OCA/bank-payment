@@ -85,11 +85,6 @@ msgid "Accounting / Payments"
 msgstr "Comptabilité / Paiements"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Options des pièces comptables"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -499,11 +494,6 @@ msgid "Free Reference"
 msgstr "Référence libre"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Générer des écritures comptables lors du téléchargement de fichier"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr "Générer un fichier de paiement"
@@ -764,11 +754,6 @@ msgid "Move Lines"
 msgstr "Écritures comptables"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Option écriture"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -870,26 +855,6 @@ msgstr ""
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
 "Sur l'ordre de paiement %s, la date d'exécution du paiement est passée (%s)."
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-"Sur le mode de paiement '%s', vous devez choisir une option pour le "
-"paramètre 'Option d'écriture'."
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "Un mouvement par date de paiement"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "Un mouvement par ligne de paiement"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1050,11 +1015,6 @@ msgstr ""
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
 msgstr "Paiements"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr "Mouvement posté"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1322,6 +1282,32 @@ msgstr "sur"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "sinon, de nouveaux ordres de paiement seront créés (un par mode de paiement)."
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Options des pièces comptables"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Générer des écritures comptables lors du téléchargement de fichier"
+
+#~ msgid "Move Option"
+#~ msgstr "Option écriture"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', you must choose an option for the 'Move Option' "
+#~ "parameter."
+#~ msgstr ""
+#~ "Sur le mode de paiement '%s', vous devez choisir une option pour le "
+#~ "paramètre 'Option d'écriture'."
+
+#~ msgid "One move per payment date"
+#~ msgstr "Un mouvement par date de paiement"
+
+#~ msgid "One move per payment line"
+#~ msgstr "Un mouvement par ligne de paiement"
+
+#~ msgid "Post Move"
+#~ msgstr "Mouvement posté"
 
 #~ msgid "Bank Payment Line"
 #~ msgstr "Ligne de paiement bancaire"

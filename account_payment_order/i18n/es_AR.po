@@ -89,11 +89,6 @@ msgid "Accounting / Payments"
 msgstr "Contabilidad / Pagos"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Opciones de asientos contables"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
 msgid "Action Needed"
 msgstr "Acción Requerida"
@@ -502,11 +497,6 @@ msgid "Free Reference"
 msgstr "Referencia Libre"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Generar asientos contables al subir el archivo"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr "Generar archivo de pago"
@@ -766,11 +756,6 @@ msgid "Move Lines"
 msgstr "Apuntes"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Opciones de asiento"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Mi Plazo de Actividad"
@@ -871,26 +856,6 @@ msgstr "Nombre de las Líneas de Pago Bancario Viejo"
 #, python-format
 msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr "En la orden %s, la fecha de ejecución es anterior a la actual (%s)."
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-"En el modo de pago '%s', debe escoger una opción para las 'Opciones de "
-"asiento'."
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "Un asiento por fecha de pago"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "Un asiento por línea de pago"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1051,11 +1016,6 @@ msgstr "Transacción de pago"
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
 msgstr "Pagos"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr "Publicar movimiento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1326,6 +1286,32 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Opciones de asientos contables"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Generar asientos contables al subir el archivo"
+
+#~ msgid "Move Option"
+#~ msgstr "Opciones de asiento"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', you must choose an option for the 'Move Option' "
+#~ "parameter."
+#~ msgstr ""
+#~ "En el modo de pago '%s', debe escoger una opción para las 'Opciones de "
+#~ "asiento'."
+
+#~ msgid "One move per payment date"
+#~ msgstr "Un asiento por fecha de pago"
+
+#~ msgid "One move per payment line"
+#~ msgstr "Un asiento por línea de pago"
+
+#~ msgid "Post Move"
+#~ msgstr "Publicar movimiento"
 
 #~ msgid "Bank Payment Line"
 #~ msgstr "Línea de pago bancario"

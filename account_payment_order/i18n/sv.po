@@ -84,11 +84,6 @@ msgid "Accounting / Payments"
 msgstr "Redovisning / Betalningar"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
-msgid "Accounting Entries Options"
-msgstr "Inställningar för verifikat"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction
 msgid "Action Needed"
 msgstr "Åtgärd behövs"
@@ -497,11 +492,6 @@ msgid "Free Reference"
 msgstr "Fri referens"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__generate_move
-msgid "Generate Accounting Entries On File Upload"
-msgstr "Generera verifikat vid filuppladdning"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Generate Payment File"
 msgstr "Generera betalningsfil"
@@ -760,11 +750,6 @@ msgid "Move Lines"
 msgstr "Verifikatrader"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__move_option
-msgid "Move Option"
-msgstr "Alternativ för verifikat"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -867,26 +852,6 @@ msgid "On payment order %s, the Payment Execution Date is in the past (%s)."
 msgstr ""
 "På betalningsorder %s har datumet för genomförande av betalning i det "
 "förflutna (%s)."
-
-#. module: account_payment_order
-#: code:addons/account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"On the payment mode '%s', you must choose an option for the 'Move Option' "
-"parameter."
-msgstr ""
-"På betalningssättet '%s' måste du välja en inställning för 'Alternativ för "
-"verifikat'-parametern."
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__date
-msgid "One move per payment date"
-msgstr "En post per betalningsdatum"
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__move_option__line
-msgid "One move per payment line"
-msgstr "En post per betalningsrad"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -1047,11 +1012,6 @@ msgstr ""
 #: model:ir.model,name:account_payment_order.model_account_payment
 msgid "Payments"
 msgstr "Betalningar"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__post_move
-msgid "Post Move"
-msgstr "Bokför post"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
@@ -1319,6 +1279,32 @@ msgstr "på"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr "annars kommer nya betalningsordrar skapas (en per betalningssätt)."
+
+#~ msgid "Accounting Entries Options"
+#~ msgstr "Inställningar för verifikat"
+
+#~ msgid "Generate Accounting Entries On File Upload"
+#~ msgstr "Generera verifikat vid filuppladdning"
+
+#~ msgid "Move Option"
+#~ msgstr "Alternativ för verifikat"
+
+#, python-format
+#~ msgid ""
+#~ "On the payment mode '%s', you must choose an option for the 'Move Option' "
+#~ "parameter."
+#~ msgstr ""
+#~ "På betalningssättet '%s' måste du välja en inställning för 'Alternativ "
+#~ "för verifikat'-parametern."
+
+#~ msgid "One move per payment date"
+#~ msgstr "En post per betalningsdatum"
+
+#~ msgid "One move per payment line"
+#~ msgstr "En post per betalningsrad"
+
+#~ msgid "Post Move"
+#~ msgstr "Bokför post"
 
 #~ msgid "Bank Payment Line"
 #~ msgstr "Bankbetalningsrad"
