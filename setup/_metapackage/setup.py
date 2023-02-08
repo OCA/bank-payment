@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo14-addon-account_payment_mode',
         'odoo14-addon-account_payment_mode_default_account',
         'odoo14-addon-account_payment_order',
+        'odoo14-addon-account_payment_order_grouped_output',
         'odoo14-addon-account_payment_order_notification',
         'odoo14-addon-account_payment_order_return',
         'odoo14-addon-account_payment_order_sequence_payment_mode',
