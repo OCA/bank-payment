@@ -14,6 +14,5 @@
     "depends": ["account_banking_pain_base"],
     "data": ["data/account_payment_method.xml"],
     "demo": ["demo/sepa_credit_transfer_demo.xml"],
-    "post_init_hook": "update_bank_journals",
     "installable": True,
 }
