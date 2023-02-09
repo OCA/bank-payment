@@ -32,6 +32,5 @@
         "views/report_sepa_direct_debit_mandate.xml",
     ],
     "demo": ["demo/sepa_direct_debit_demo.xml"],
-    "post_init_hook": "update_bank_journals",
     "installable": True,
 }
