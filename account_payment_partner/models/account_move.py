@@ -71,10 +71,10 @@ class AccountMove(models.Model):
                     move.payment_mode_id = partner.customer_payment_mode_id
                 elif (
                     move.move_type in ["out_refund", "in_refund"]
-                    and move.reversed_entry_id
+                    and move.reversal_move_id
                 ):
                     move.payment_mode_id = (
-                        move.reversed_entry_id.payment_mode_id.refund_payment_mode_id
+                        move.reversal_move_id.payment_mode_id.refund_payment_mode_id
                     )
                 elif not move.reversed_entry_id:
                     if move.move_type == "out_refund":
