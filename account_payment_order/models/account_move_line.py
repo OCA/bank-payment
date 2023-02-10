@@ -9,6 +9,7 @@ from odoo.fields import first
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
+    invoice_date = fields.Date(related="move_id.invoice_date")
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
         string="Partner Bank Account",

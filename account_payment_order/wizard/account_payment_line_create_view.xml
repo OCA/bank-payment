@@ -53,6 +53,11 @@
                     >
                         <tree>
                             <field name="date" />
+                            <field
+                                name="invoice_date"
+                                optional="hide"
+                                string="Bill Date"
+                            />
                             <field name="move_id" required="0" />
                             <field name="journal_id" />
                             <field name="partner_id" />
