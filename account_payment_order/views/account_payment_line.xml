@@ -7,9 +7,9 @@
             <form string="Payment Lines">
                 <group name="main" col="2">
                     <group name="left">
+                        <field name="company_id" invisible="1" />
                         <field
                             name="order_id"
-                            groups="base.group_multi_company"
                             invisible="not context.get('account_payment_line_main_view')"
                         />
                         <field name="name" />

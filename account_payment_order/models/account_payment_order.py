@@ -221,22 +221,24 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.move_count = mapped_data.get(order.id, 0)
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "New") == "New":
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("account.payment.order") or "New"
-            )
-        if vals.get("payment_mode_id"):
-            payment_mode = self.env["account.payment.mode"].browse(
-                vals["payment_mode_id"]
-            )
-            vals["payment_type"] = payment_mode.payment_type
-            if payment_mode.bank_account_link == "fixed":
-                vals["journal_id"] = payment_mode.fixed_journal_id.id
-            if not vals.get("date_prefered") and payment_mode.default_date_prefered:
-                vals["date_prefered"] = payment_mode.default_date_prefered
-        return super(AccountPaymentOrder, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", "New") == "New":
+                vals["name"] = (
+                    self.env["ir.sequence"].next_by_code("account.payment.order")
+                    or "New"
+                )
+            if vals.get("payment_mode_id"):
+                payment_mode = self.env["account.payment.mode"].browse(
+                    vals["payment_mode_id"]
+                )
+                vals["payment_type"] = payment_mode.payment_type
+                if payment_mode.bank_account_link == "fixed":
+                    vals["journal_id"] = payment_mode.fixed_journal_id.id
+                if not vals.get("date_prefered") and payment_mode.default_date_prefered:
+                    vals["date_prefered"] = payment_mode.default_date_prefered
+        return super(AccountPaymentOrder, self).create(vals_list)
 
     @api.onchange("payment_mode_id")
     def payment_mode_id_change(self):
