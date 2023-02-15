@@ -8,11 +8,12 @@ import time
 
 from lxml import etree
 
-from odoo.exceptions import UserError
-from odoo.tests.common import SavepointCase
+from odoo import _
+from odoo.exceptions import UserError, ValidationError
+from odoo.tests.common import TransactionCase
 
 
-class TestSCT(SavepointCase):
+class TestSCT(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -30,9 +31,7 @@ class TestSCT(SavepointCase):
         cls.partner_c2c = cls.env.ref("base.res_partner_12")
         cls.eur_currency = cls.env.ref("base.EUR")
         cls.usd_currency = cls.env.ref("base.USD")
-        cls.main_company = cls.env["res.company"].create(
-            {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
-        )
+        cls.main_company = cls.env["res.company"].create({"name": "Test EUR company"})
         cls.partner_agrolait.company_id = cls.main_company.id
         cls.partner_asus.company_id = cls.main_company.id
         cls.partner_c2c.company_id = cls.main_company.id
@@ -42,21 +41,28 @@ class TestSCT(SavepointCase):
                 "company_id": cls.main_company.id,
             }
         )
+
+        charts = cls.env["account.chart.template"].search([])
+        if charts:
+            cls.chart = charts[0]
+        else:
+            raise ValidationError(_("No Chart of Account Template has been defined !"))
+        cls.chart.try_loading()
+
         cls.account_expense = cls.account_model.create(
             {
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
-                "name": "Test expense account",
-                "code": "TEA",
+                "account_type": "expense",
                 "company_id": cls.main_company.id,
+                "name": "Test expense",
+                "code": "TE.1",
             }
         )
         cls.account_payable = cls.account_model.create(
             {
-                "user_type_id": cls.env.ref("account.data_account_type_payable").id,
-                "name": "Test payable account",
-                "code": "TTA",
+                "account_type": "liability_payable",
                 "company_id": cls.main_company.id,
-                "reconcile": True,
+                "name": "Test payable",
+                "code": "TP.1",
             }
         )
         (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
@@ -106,6 +112,11 @@ class TestSCT(SavepointCase):
         )
         # Trigger the recompute of account type on res.partner.bank
         cls.partner_bank_model.search([])._compute_acc_type()
+
+        # cls.main_company.write({
+        #     'account_journal_payment_debit_account_id': cls.payment_debit_account_id.id,
+        #     'account_journal_payment_credit_account_id': cls.payment_credit_account_id.id
+        # })
 
     def test_no_pain(self):
         self.payment_mode.payment_method_id.pain_version = False
@@ -353,6 +364,7 @@ class TestSCT(SavepointCase):
             "account_id": cls.account_expense.id,
             "price_unit": price_unit,
             "quantity": 1,
+            "tax_ids": [],  # no tax
         }
         data["invoice_line_ids"].append((0, 0, line_data))
         inv = cls.env["account.move"].create(data)
