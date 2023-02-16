@@ -7,13 +7,13 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, tagged
+from odoo.tests import tagged
+from odoo.tests.common import Form
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-@tagged("-at_install", "post_install")
-class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
+class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
@@ -120,6 +120,7 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
                 {
                     "date_mode": "custom",
                     "refund_method": "refund",
+                    "journal_id": self.company_data["default_journal_purchase"].id,
                 }
             )
         )
@@ -366,6 +367,15 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
                 line_form.price_unit = 75.0
 
         self.refund.action_post()
+
+        # The user add the outstanding payment to the invoice
+        invoice_line = self.invoice.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        refund_line = self.refund.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        (invoice_line | refund_line).reconcile()
 
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids

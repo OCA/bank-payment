@@ -2,9 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from unittest.mock import patch
-from odoo.tests.common import tagged
 
-from odoo.tests import tagged
+from odoo.tests.common import tagged
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
