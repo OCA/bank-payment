@@ -288,28 +288,39 @@ class AccountPaymentOrder(models.Model):
             order.payment_ids.action_draft()
             order.payment_ids.action_cancel()
             order.payment_ids.unlink()
+
+            # Compute requested payment date
+            requested_date = today
+            is_date_prefered_due = False
+            if order.date_prefered == "due":
+                is_date_prefered_due = True
+            elif order.date_prefered == "fixed":
+                requested_date = order.date_scheduled
+            # Check option on the order
+            order_pay_type_debit_before_maturity = False
+            if order.payment_type == "inbound" and order.payment_mode_id.no_debit_before_maturity:
+                order_pay_type_debit_before_maturity = True
+            # Raise one user error and not multiple.
+            payline_err_text = []
             # Prepare account payments from the payment lines
             group_paylines = {}  # key = hashcode
             for payline in order.payment_line_ids:
-                payline.draft2open_payment_line_check()
-                # Compute requested payment date
-                if order.date_prefered == "due":
-                    requested_date = payline.ml_maturity_date or payline.date or today
-                elif order.date_prefered == "fixed":
-                    requested_date = order.date_scheduled or today
-                else:
-                    requested_date = today
+                # Catch exception to raise them all at once so the user can correct it all in one try
+                try:
+                    payline.draft2open_payment_line_check()
+                except UserError as e:
+                    payline_err_text.append(e.args[0])
                 # No payment date in the past
-                if requested_date < today:
-                    requested_date = today
+                if is_date_prefered_due:
+                    requested_date = payline.ml_maturity_date or payline.date
+                requested_date = max(requested_date, today)
+
                 # inbound: check option no_debit_before_maturity
-                if (
-                    order.payment_type == "inbound"
-                    and order.payment_mode_id.no_debit_before_maturity
+                if (order_pay_type_debit_before_maturity
                     and payline.ml_maturity_date
                     and requested_date < payline.ml_maturity_date
                 ):
-                    raise UserError(
+                    payline_err_text.append(
                         _(
                             "The payment mode '%s' has the option "
                             "'Disallow Debit Before Maturity Date'. The "
@@ -344,6 +355,10 @@ class AccountPaymentOrder(models.Model):
                         "paylines": payline,
                         "total": payline.amount_currency,
                     }
+            # Raise errors that happened on the validation process
+            if payline_err_text:
+                raise UserError("A bunch of validation didn't passed\n" + '\n'.join(payline_err_text))
+
             order.recompute()
             # Create account payments
             payment_vals = []
