@@ -108,6 +108,10 @@
                                 name="date_scheduled"
                                 attrs="{'invisible': [('date_prefered', '!=', 'fixed')], 'required': [('date_prefered', '=', 'fixed')]}"
                             />
+                            <field
+                                name="allow_past_date"
+                                attrs="{'invisible': [('date_prefered', '!=', 'fixed')]}"
+                            />
                             <field name="date_generated" />
                             <field name="generated_user_id" />
                             <field name="date_uploaded" />

@@ -250,6 +250,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         )
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(days=2)
+        # No raise
+        outbound_order.write(
+            {
+                "allow_past_date": True,
+                "date_scheduled": date.today() - timedelta(days=2),
+            }
+        )
 
     def test_manual_line_and_manual_date(self):
         # Create payment order
