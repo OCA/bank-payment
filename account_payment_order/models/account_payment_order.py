@@ -292,9 +292,13 @@ class AccountPaymentOrder(models.Model):
             order.payment_ids.action_cancel()
             order.payment_ids.unlink()
             # Prepare account payments from the payment lines
+            payline_err_text = []
             group_paylines = {}  # key = hashcode
             for payline in order.payment_line_ids:
-                payline.draft2open_payment_line_check()
+                try:
+                    payline.draft2open_payment_line_check()
+                except UserError as e:
+                    payline_err_text.append(e.args[0])
                 # Compute requested payment date
                 if order.date_prefered == "due":
                     requested_date = payline.ml_maturity_date or payline.date or today
@@ -303,8 +307,7 @@ class AccountPaymentOrder(models.Model):
                 else:
                     requested_date = today
                 # No payment date in the past
-                if requested_date < today:
-                    requested_date = today
+                requested_date = max(today, requested_date)
                 # inbound: check option no_debit_before_maturity
                 if (
                     order.payment_type == "inbound"
@@ -312,7 +315,7 @@ class AccountPaymentOrder(models.Model):
                     and payline.ml_maturity_date
                     and requested_date < payline.ml_maturity_date
                 ):
-                    raise UserError(
+                    payline_err_text.append(
                         _(
                             "The payment mode '%(pmode)s' has the option "
                             "'Disallow Debit Before Maturity Date'. The "
@@ -332,11 +335,11 @@ class AccountPaymentOrder(models.Model):
                 with self.env.norecompute():
                     payline.date = requested_date
                 # Group options
-                if order.payment_mode_id.group_lines:
-                    hashcode = payline.payment_line_hashcode()
-                else:
-                    # Use line ID as hascode, which actually means no grouping
-                    hashcode = payline.id
+                hashcode = (
+                    payline.payment_line_hashcode()
+                    if order.payment_mode_id.group_lines
+                    else payline.id
+                )
                 if hashcode in group_paylines:
                     group_paylines[hashcode]["paylines"] += payline
                     group_paylines[hashcode]["total"] += payline.amount_currency
@@ -345,7 +348,15 @@ class AccountPaymentOrder(models.Model):
                         "paylines": payline,
                         "total": payline.amount_currency,
                     }
+            # Raise errors that happened on the validation process
+            if payline_err_text:
+                raise UserError(
+                    _("There's at least one validation error:\n")
+                    + "\n".join(payline_err_text)
+                )
+
             order.env.flush_all()
+
             # Create account payments
             payment_vals = []
             for paydict in list(group_paylines.values()):
