@@ -1139,6 +1139,13 @@ msgid "There are no transactions on payment order %s."
 msgstr "No hi han transaccions a l'ordre de pagament %s."
 
 #. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_payment_order.py:0
+#, python-format
+msgid "There's at least one validation error:\n"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
 msgid ""
 "This field is used for payable and receivable journal entries. You can put "
