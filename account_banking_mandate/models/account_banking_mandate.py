@@ -152,6 +152,13 @@ class AccountBankingMandate(models.Model):
                     % mandate.unique_mandate_reference
                 )
 
+    @api.constrains("partner_bank_id", "company_id")
+    def _check_same_company(self):
+        for mandate in self:
+            if mandate.partner_bank_id.company_id and mandate.company_id and \
+                mandate.partner_bank_id.company_id != mandate.company_id:
+                raise UserError(_('Mandate must belong to the same company as partner bank !'))
+
     @api.constrains("state", "partner_bank_id", "signature_date")
     def _check_valid_state(self):
         for mandate in self:
@@ -173,14 +180,15 @@ class AccountBankingMandate(models.Model):
                         % mandate.unique_mandate_reference
                     )
 
-    @api.model
-    def create(self, vals=None):
-        unique_mandate_reference = vals.get("unique_mandate_reference")
-        if not unique_mandate_reference or unique_mandate_reference == "New":
-            vals["unique_mandate_reference"] = (
-                self.env["ir.sequence"].next_by_code("account.banking.mandate") or "New"
-            )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            unique_mandate_reference = vals.get("unique_mandate_reference")
+            if not unique_mandate_reference or unique_mandate_reference == "New":
+                vals["unique_mandate_reference"] = (
+                    self.env["ir.sequence"].next_by_code("account.banking.mandate") or "New"
+                )
+        return super().create(vals_list)
 
     @api.onchange("partner_bank_id")
     def mandate_partner_bank_change(self):

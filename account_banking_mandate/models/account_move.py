@@ -20,25 +20,26 @@ class AccountMove(models.Model):
         related="payment_mode_id.payment_method_id.mandate_required", readonly=True
     )
 
-    @api.model
-    def create(self, vals):
-        """Fill the mandate_id from the partner if none is provided on
-        creation, using same method as upstream."""
-        onchanges = {
-            "_onchange_partner_id": ["mandate_id"],
-            "_onchange_payment_mode_id": ["mandate_id"],
-        }
-        for onchange_method, changed_fields in list(onchanges.items()):
-            if any(f not in vals for f in changed_fields):
-                move = self.new(vals)
-                move = move.with_company(move.company_id.id)
-                getattr(move, onchange_method)()
-                for field in changed_fields:
-                    if field not in vals and move[field]:
-                        vals[field] = move._fields[field].convert_to_write(
-                            move[field], move
-                        )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            """Fill the mandate_id from the partner if none is provided on
+            creation, using same method as upstream."""
+            onchanges = {
+                "_onchange_partner_id": ["mandate_id"],
+                "_onchange_payment_mode_id": ["mandate_id"],
+            }
+            for onchange_method, changed_fields in list(onchanges.items()):
+                if any(f not in vals for f in changed_fields):
+                    move = self.new(vals)
+                    move = move.with_company(move.company_id.id)
+                    getattr(move, onchange_method)()
+                    for field in changed_fields:
+                        if field not in vals and move[field]:
+                            vals[field] = move._fields[field].convert_to_write(
+                                move[field], move
+                            )
+        return super().create(vals_list)
 
     def set_mandate(self):
         if self.payment_mode_id.payment_method_id.mandate_required:

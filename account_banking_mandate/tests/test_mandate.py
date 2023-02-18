@@ -98,6 +98,7 @@ class TestMandate(TransactionCase):
 
     def test_constrains_02(self):
         bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
+        bank_account.company_id = self.company.id
         mandate = self.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": bank_account.id,
@@ -105,12 +106,13 @@ class TestMandate(TransactionCase):
                 "company_id": self.company.id,
             }
         )
-
         with self.assertRaises(UserError):
             mandate.company_id = self.company_2
+        bank_account.company_id = None
 
     def test_constrains_03(self):
         bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
+        bank_account.company_id = self.company.id
         mandate = self.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": bank_account.id,
@@ -125,8 +127,16 @@ class TestMandate(TransactionCase):
                 "partner_id": self.company_2.partner_id.id,
             }
         )
+        '''
+        It is not clear for me why this is needed - res.partner.bank company_id is a related fields to
+        partner_id.company_id - with store=True. So in this case it should get created with company_id set to
+        company_2 - but company2_partner_id does not have a company_id set - so it seems that the related
+        field does have more affect as the direct field...
+        '''
+        bank_account_2.company_id = self.company_2
         with self.assertRaises(UserError):
             mandate.partner_bank_id = bank_account_2
+        bank_account.company_id = None
 
     def test_constrains_04(self):
         mandate = self.env["account.banking.mandate"].create(
@@ -139,8 +149,10 @@ class TestMandate(TransactionCase):
                 "partner_id": self.company_2.partner_id.id,
             }
         )
+        bank_account.company_id = self.company_2
         with self.assertRaises(UserError):
             bank_account.mandate_ids += mandate
+        bank_account.company_id = None
 
     def test_mandate_reference_01(self):
         """
