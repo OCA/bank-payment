@@ -11,6 +11,9 @@ def _insert_account_payments(env):
     openupgrade.logged_query(
         env.cr, "ALTER TABLE account_payment ADD old_bank_payment_line_id INT4"
     )
+    openupgrade.logged_query(
+        env.cr, "ALTER TABLE account_payment ADD old_bank_payment_line_name text"
+    )
     # Create an account.payment record for each bank.payment.line
     openupgrade.logged_query(
         env.cr,
@@ -161,6 +164,18 @@ def _insert_payment_line_payment_link(env):
 
 @openupgrade.migrate()
 def migrate(env, version):
+    env.cr.execute(
+        """
+        SELECT column_name
+            FROM information_schema.columns
+            WHERE table_name='account_payment' and column_name='old_bank_payment_line_id'
+        """
+    )
+
+    if len(env.cr.fetchall()) > 0:
+        # scripts have already been applied because column old_bank_payment_line_id exist
+        return
+
     openupgrade.logged_query(
         env.cr, "ALTER TABLE account_payment ALTER move_id DROP NOT NULL"
     )
