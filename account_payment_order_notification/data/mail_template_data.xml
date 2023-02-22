@@ -33,7 +33,11 @@
         <tbody>
         % for payment_line in object.payment_line_ids:
             <tr>
-                <td>${payment_line.communication}</td>
+                % if payment_line.move_line_id.move_id.move_type in ("in_invoice", "in_refund") and payment_line.move_line_id.move_id.ref:
+                    <td>${payment_line.move_line_id.move_id.ref}</td>
+                % else:
+                    <td>${payment_line.communication}</td>
+                % endif
                 <td>${payment_line.date}</td>
                 <td>${format_amount(payment_line.amount_currency, payment_line.currency_id)}</td>
             </tr>
