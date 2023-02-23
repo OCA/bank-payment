@@ -32,7 +32,7 @@ addon | version | maintainers | summary
 [account_payment_mode_default_account](account_payment_mode_default_account/) | 14.0.1.0.0 |  | Set Receivable or Payable account according to payment mode
 [account_payment_order](account_payment_order/) | 14.0.2.0.1 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 14.0.1.0.0 |  | Account Payment Order - Generate grouped moves
-[account_payment_order_notification](account_payment_order_notification/) | 14.0.1.3.0 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Account Payment Order Notification
+[account_payment_order_notification](account_payment_order_notification/) | 14.0.1.4.0 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Account Payment Order Notification
 [account_payment_order_return](account_payment_order_return/) | 14.0.1.0.2 |  | Account Payment Order Return
 [account_payment_order_sequence_payment_mode](account_payment_order_sequence_payment_mode/) | 14.0.1.0.0 |  | Account Payment Order Sequence Payment Mode
 [account_payment_order_tier_validation](account_payment_order_tier_validation/) | 14.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Extends the functionality of Payment Orders to support a tier validation process.
