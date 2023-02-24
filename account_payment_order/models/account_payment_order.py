@@ -444,15 +444,42 @@ class AccountPaymentOrder(models.Model):
         return action
 
     def generated2uploaded(self):
+        """Post payments and reconcile against source journal items
+
+        Partially reconcile payments that don't match their source journal items,
+        then reconcile the rest in one go.
+        """
         self.payment_ids.action_post()
         # Perform the reconciliation of payments and source journal items
         for payment in self.payment_ids:
-            (
-                payment.payment_line_ids.move_line_id
-                + payment.move_id.line_ids.filtered(
-                    lambda x: x.account_id == payment.destination_account_id
-                )
-            ).reconcile()
+            payment_move_line_id = payment.move_id.line_ids.filtered(
+                lambda x: x.account_id == payment.destination_account_id
+            )
+            apr = self.env["account.partial.reconcile"]
+            excl_pay_lines = self.env["account.payment.line"]
+            for line in payment.payment_line_ids:
+                if not line.move_line_id:
+                    continue
+                if line.amount_currency != -line.move_line_id.amount_residual_currency:
+                    if line.move_line_id.amount_residual_currency < 0:
+                        debit_move_id = payment_move_line_id.id
+                        credit_move_id = line.move_line_id.id
+                    else:
+                        debit_move_id = line.move_line_id.id
+                        credit_move_id = payment_move_line_id.id
+                    apr.create(
+                        {
+                            "debit_move_id": debit_move_id,
+                            "credit_move_id": credit_move_id,
+                            "amount": abs(line.amount_company_currency),
+                            "debit_amount_currency": abs(line.amount_currency),
+                            "credit_amount_currency": abs(line.amount_currency),
+                        }
+                    )
+                    excl_pay_lines |= line
+            pay_lines = payment.payment_line_ids - excl_pay_lines
+            if pay_lines:
+                (pay_lines.move_line_id + payment_move_line_id).reconcile()
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
