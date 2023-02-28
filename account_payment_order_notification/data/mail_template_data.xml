@@ -38,7 +38,7 @@
                 % else:
                     <td>${payment_line.communication}</td>
                 % endif
-                <td>${payment_line.date}</td>
+                <td>${format_date(payment_line.date)}</td>
                 <td>${format_amount(payment_line.amount_currency, payment_line.currency_id)}</td>
             </tr>
         % endfor
