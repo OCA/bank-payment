@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-05 10:20+0000\n"
-"PO-Revision-Date: 2021-04-18 16:46+0000\n"
-"Last-Translator: Nelson Ramírez Sánchez <info@konos.cl>\n"
+"PO-Revision-Date: 2023-03-02 11:22+0000\n"
+"Last-Translator: brendapaniagua <brenda.paniagua@qubiq.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -26,6 +26,8 @@ msgid ""
 "%d payment lines added to the existing draft payment order <a href=# data-oe-"
 "model=account.payment.order data-oe-id=%d>%s</a>."
 msgstr ""
+"Se agregaron %d líneas de pago a la orden de pago en borrador existente <a "
+"href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a>."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -35,6 +37,9 @@ msgid ""
 "model=account.payment.order data-oe-id=%d>%s</a> which has been "
 "automatically created."
 msgstr ""
+"Se agregaron %d líneas de pago a la nueva orden de pago preliminar <a href=# "
+"data-oe-model=account.payment.order data-oe-id=%d>%s</a> que se creó "
+"automáticamente."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
