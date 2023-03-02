@@ -13,7 +13,7 @@ class AccountPaymentMode(models.Model):
 
     _name = "account.payment.mode"
     _description = "Payment Modes"
-    _order = "name"
+    _order = "sequence, name"
     _check_company_auto = True
 
     name = fields.Char(required=True, translate=True)
@@ -68,6 +68,7 @@ class AccountPaymentMode(models.Model):
     )
     active = fields.Boolean(default=True)
     note = fields.Text(translate=True)
+    sequence = fields.Integer(default=10)
 
     @api.onchange("company_id")
     def _onchange_company_id(self):

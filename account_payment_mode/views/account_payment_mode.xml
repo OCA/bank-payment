@@ -46,6 +46,7 @@
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="payment_method_id" />
                 <field name="payment_type" />
