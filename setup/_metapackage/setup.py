@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-account_payment_mode>=16.0dev,<16.1dev',
+        'odoo-addon-account_payment_order>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_partner>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_sale>=16.0dev,<16.1dev',
     ],
