@@ -103,13 +103,7 @@ msgid "Bank Accounts"
 msgstr "Conti Bancari"
 
 #. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Righe di pagamento bancario"
-
-#. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
 msgstr "Mandato Bancario"
 
@@ -201,7 +195,6 @@ msgstr "Data dell'ultimo Addebito"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Mandato Addebito Diretto"
 
@@ -214,13 +207,6 @@ msgstr "Mandato Addebito Diretto"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
 msgstr "Nome da visualizzare"
 
@@ -249,11 +235,6 @@ msgid "Followers"
 msgstr "Followers"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Followers (Channels)"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Followers (Partners)"
@@ -280,14 +261,12 @@ msgid "Group By"
 msgstr "Group By"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
 msgstr "ID"
 
@@ -330,13 +309,6 @@ msgstr "Movimento contabile"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank____last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
 
@@ -354,11 +326,6 @@ msgstr "Ultimo aggiornamento il"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Allegato principale"
-
-#. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
-msgid "Mandate"
-msgstr "Mandato"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -591,20 +558,19 @@ msgstr ""
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s a different company than that of the linked "
-"mandate %s)."
+"The payment line number {line_number} a different company than that of the "
+"linked mandate {mandate})."
 msgstr ""
-"La riga numero %s ha una company diversa da quella collegata al mandato %s)."
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s has the bank account '%s' which is not attached "
-"to the mandate '%s' (this mandate is attached to the bank account '%s')."
+"The payment line number {line_number} has the bank account  "
+"'{line_bank_account}' which is not attached to the mandate "
+"'{mandate_ref}' (this mandate is attached to the bank account "
+"'{mandate_bank_account}')."
 msgstr ""
-"La linea numero %s ha il conto bancario '%s' che non è collegato al mandato "
-"'%s' (questo mandato è collegato al conto bancario '%s')."
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -678,6 +644,32 @@ msgid ""
 msgstr ""
 "Dovresti reimpostare un mandato a Bozza solo se lo hai cancellato per "
 "errore. Vuoi continuare?"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Righe di pagamento bancario"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Followers (Channels)"
+
+#~ msgid "Mandate"
+#~ msgstr "Mandato"
+
+#, python-format
+#~ msgid ""
+#~ "The payment line number %s a different company than that of the linked "
+#~ "mandate %s)."
+#~ msgstr ""
+#~ "La riga numero %s ha una company diversa da quella collegata al mandato "
+#~ "%s)."
+
+#, python-format
+#~ msgid ""
+#~ "The payment line number %s has the bank account '%s' which is not "
+#~ "attached to the mandate '%s' (this mandate is attached to the bank "
+#~ "account '%s')."
+#~ msgstr ""
+#~ "La linea numero %s ha il conto bancario '%s' che non è collegato al "
+#~ "mandato '%s' (questo mandato è collegato al conto bancario '%s')."
 
 #, fuzzy
 #~ msgid "Journal Entries"

@@ -97,13 +97,7 @@ msgid "Bank Accounts"
 msgstr "Bankkonto"
 
 #. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Bankzahlungszeilen"
-
-#. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
 msgstr "Bankauftrag"
 
@@ -191,7 +185,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Lastschrift Mandat"
 
@@ -204,13 +197,6 @@ msgstr "Bankeinzug Mandanten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
 msgstr "Anzeigename"
 
@@ -236,11 +222,6 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: account_banking_mandate
@@ -270,14 +251,12 @@ msgid "Group By"
 msgstr "Gruppiere nach"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
 msgstr "ID"
 
@@ -320,13 +299,6 @@ msgstr "Logbuch Eintrag"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank____last_update
 msgid "Last Modified on"
 msgstr "Zuletzt geändert am"
 
@@ -344,11 +316,6 @@ msgstr "Zuletzt aktualisiert am"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
-
-#. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
-msgid "Mandate"
-msgstr "Mandat"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -576,16 +543,18 @@ msgstr ""
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s a different company than that of the linked "
-"mandate %s)."
+"The payment line number {line_number} a different company than that of the "
+"linked mandate {mandate})."
 msgstr ""
 
 #. module: account_banking_mandate
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s has the bank account '%s' which is not attached "
-"to the mandate '%s' (this mandate is attached to the bank account '%s')."
+"The payment line number {line_number} has the bank account  "
+"'{line_bank_account}' which is not attached to the mandate "
+"'{mandate_ref}' (this mandate is attached to the bank account "
+"'{mandate_bank_account}')."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -655,6 +624,12 @@ msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
 msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Bankzahlungszeilen"
+
+#~ msgid "Mandate"
+#~ msgstr "Mandat"
 
 #, fuzzy
 #~ msgid "Journal Entries"
