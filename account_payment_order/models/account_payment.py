@@ -1,11 +1,17 @@
 # Copyright 2019 ACSONE SA/NV
+# Copyright 2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class AccountPayment(models.Model):
     _inherit = "account.payment"
+
+    payment_order_id = fields.Many2one(comodel_name="account.payment.order")
+    payment_line_ids = fields.Many2many(comodel_name="account.payment.line")
+    # Compatibility with previous approach for returns - To be removed on v16
+    old_bank_payment_line_name = fields.Char()
 
     def _get_default_journal(self):
         res = super()._get_default_journal()
