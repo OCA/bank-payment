@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record
+        id="account_payment_mode.payment_mode_outbound_dd1"
+        model="account.payment.mode"
+    >
+        <field name="payment_order_ok" eval="False" />
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_outbound_dd2"
+        model="account.payment.mode"
+    >
+        <field name="payment_order_ok" eval="False" />
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_inbound_ct1"
+        model="account.payment.mode"
+    >
+        <field name="payment_order_ok" eval="False" />
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_inbound_ct2"
+        model="account.payment.mode"
+    >
+        <field name="payment_order_ok" eval="False" />
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_outbound_ct1"
+        model="account.payment.mode"
+    >
+        <!-- Credit Transfer to Suppliers -->
+        <field
+            name="default_journal_ids"
+            search="[('type', 'in', ('purchase', 'purchase_refund'))]"
+        />
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_inbound_dd1"
+        model="account.payment.mode"
+    >
+        <!-- Direct Debit of customers -->
+        <field
+            name="default_journal_ids"
+            search="[('type', 'in', ('sale', 'sale_refund'))]"
+        />
+    </record>
+</odoo>
