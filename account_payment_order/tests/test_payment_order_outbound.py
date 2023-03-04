@@ -6,13 +6,13 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("-at_install", "post_install")
-class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
+class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
@@ -87,6 +87,48 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
 
         return invoice
 
+    def _create_supplier_refund(self, move, manual=False):
+        if manual:
+            # Do the supplier refund manually
+            vals = {
+                "partner_id": self.partner.id,
+                "move_type": "in_refund",
+                "ref": move.ref,
+                "payment_mode_id": self.mode.id,
+                "invoice_date": fields.Date.today(),
+                "invoice_line_ids": [
+                    (
+                        0,
+                        None,
+                        {
+                            "product_id": self.env.ref("product.product_product_4").id,
+                            "quantity": 1.0,
+                            "price_unit": 90.0,
+                            "name": "refund of 90.0",
+                            "account_id": self.invoice_line_account.id,
+                        },
+                    )
+                ],
+            }
+            move = self.env["account.move"].create(vals)
+            return move
+        wizard = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=move.ids)
+            .create(
+                {
+                    "date_mode": "entry",
+                    "refund_method": "refund",
+                    "journal_id": move.journal_id.id,
+                }
+            )
+        )
+        wizard.reverse_moves()
+        return wizard.new_move_ids
+
+
+@tagged("-at_install", "post_install")
+class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_creation_due_date(self):
         self.mode.variable_journal_ids = self.bank_journal
         self.mode.group_lines = False
@@ -216,87 +258,159 @@ class TestPaymentOrderOutbound(AccountTestInvoicingCommon):
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(days=2)
 
-
-def test_manual_line_and_manual_date(self):
-    # Create payment order
-    outbound_order = self.env["account.payment.order"].create(
-        {
-            "date_prefered": "due",
-            "payment_type": "outbound",
-            "payment_mode_id": self.mode.id,
-            "journal_id": self.journal.id,
-            "description": "order with manual line",
+    def test_manual_line_and_manual_date(self):
+        # Create payment order
+        outbound_order = self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+            }
+        )
+        self.assertEqual(len(outbound_order.payment_line_ids), 0)
+        # Create a manual payment order line with custom date
+        vals = {
+            "order_id": outbound_order.id,
+            "partner_id": self.partner.id,
+            "communication": "manual line and manual date",
+            "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 192.38,
+            "date": date.today() + timedelta(days=8),
         }
-    )
-    self.assertEqual(len(outbound_order.payment_line_ids), 0)
-    # Create a manual payment order line with custom date
-    vals = {
-        "order_id": outbound_order.id,
-        "partner_id": self.env.ref("base.res_partner_4").id,
-        "partner_bank_id": self.env.ref("base.res_partner_4").bank_ids[0].id,
-        "communication": "manual line and manual date",
-        "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
-        "amount_currency": 192.38,
-        "date": date.today() + timedelta(days=8),
-    }
-    self.env["account.payment.line"].create(vals)
+        self.env["account.payment.line"].create(vals)
+        self.assertEqual(len(outbound_order.payment_line_ids), 1)
+        self.assertEqual(
+            outbound_order.payment_line_ids[0].date, date.today() + timedelta(days=8)
+        )
+        # Create a manual payment order line with normal date
+        vals = {
+            "order_id": outbound_order.id,
+            "partner_id": self.partner.id,
+            "communication": "manual line",
+            "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200.38,
+        }
+        self.env["account.payment.line"].create(vals)
+        self.assertEqual(len(outbound_order.payment_line_ids), 2)
+        self.assertEqual(outbound_order.payment_line_ids[1].date, False)
+        # Open payment order
+        self.assertEqual(len(outbound_order.bank_line_ids), 0)
+        outbound_order.draft2open()
+        self.assertEqual(outbound_order.bank_line_count, 2)
+        self.assertEqual(
+            outbound_order.payment_line_ids[0].date,
+            outbound_order.payment_line_ids[0].bank_line_id.date,
+        )
+        self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
+        self.assertEqual(
+            outbound_order.payment_line_ids[1].bank_line_id.date, date.today()
+        )
 
-    self.assertEqual(len(outbound_order.payment_line_ids), 1)
-    self.assertEqual(
-        outbound_order.payment_line_ids[0].date, date.today() + timedelta(days=8)
-    )
+    def test_supplier_refund(self):
+        """
+        Confirm the supplier invoice
+        Create a credit note based on that one with an inferior amount
+        Confirm the credit note
+        Create the payment order
+        The communication should be a combination of the invoice reference
+        and the credit note one
+        """
+        self.invoice.action_post()
+        self.refund = self._create_supplier_refund(self.invoice)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+            with refund_form.invoice_line_ids.edit(0) as line_form:
+                line_form.price_unit = 75.0
 
-    # Create a manual payment order line with normal date
-    vals = {
-        "order_id": outbound_order.id,
-        "partner_id": self.env.ref("base.res_partner_4").id,
-        "partner_bank_id": self.env.ref("base.res_partner_4").bank_ids[0].id,
-        "communication": "manual line",
-        "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
-        "amount_currency": 200.38,
-    }
-    self.env["account.payment.line"].create(vals)
+        self.refund.action_post()
 
-    self.assertEqual(len(outbound_order.payment_line_ids), 2)
-    self.assertEqual(outbound_order.payment_line_ids[1].date, False)
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
 
-    # Open payment order
-    self.assertEqual(len(outbound_order.bank_line_ids), 0)
-    outbound_order.draft2open()
-    self.assertEqual(outbound_order.bank_line_count, 2)
-    self.assertEqual(
-        outbound_order.payment_line_ids[0].date,
-        outbound_order.payment_line_ids[0].bank_line_id.date,
-    )
-    self.assertEqual(
-        outbound_order.payment_line_ids[1].date,
-        fields.Date.context_today(outbound_order),
-    )
-    self.assertEqual(
-        outbound_order.payment_line_ids[1].bank_line_id.date,
-        fields.Date.context_today(outbound_order),
-    )
-    # Generate and upload
-    outbound_order.open2generated()
-    outbound_order.generated2uploaded()
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
 
-    self.assertEqual(outbound_order.state, "uploaded")
-    with self.assertRaises(UserError):
-        outbound_order.unlink()
+        payment_order.write({"journal_id": self.bank_journal.id})
 
-    bank_line = outbound_order.bank_line_ids
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
 
-    with self.assertRaises(UserError):
-        bank_line.unlink()
-    outbound_order.action_done_cancel()
-    self.assertEqual(outbound_order.state, "cancel")
-    outbound_order.cancel2draft()
-    outbound_order.unlink()
-    self.assertEqual(
-        len(
-            self.env["account.payment.order"].search(
-                [("description", "=", "order with manual line")]
-            )
-        ),
-        0,
-    )
+        self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
+
+    def test_supplier_refund_reference(self):
+        """
+        Confirm the supplier invoice
+        Set a payment referece
+        Create a credit note based on that one with an inferior amount
+        Confirm the credit note
+        Create the payment order
+        The communication should be a combination of the invoice payment reference
+        and the credit note one
+        """
+        self.invoice.payment_reference = "F/1234"
+        self.invoice.action_post()
+        self.refund = self._create_supplier_refund(self.invoice)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+            with refund_form.invoice_line_ids.edit(0) as line_form:
+                line_form.price_unit = 75.0
+
+        self.refund.action_post()
+
+        # The user add the outstanding payment to the invoice
+        invoice_line = self.invoice.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        refund_line = self.refund.line_ids.filtered(
+            lambda line: line.account_internal_type == "payable"
+        )
+        (invoice_line | refund_line).reconcile()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+
+        self.assertEqual("F/1234 R1234", payment_order.payment_line_ids.communication)
+
+    def test_supplier_manual_refund(self):
+        """
+        Confirm the supplier invoice with reference
+        Create a credit note manually
+        Confirm the credit note
+        Reconcile move lines together
+        Create the payment order
+        The communication should be a combination of the invoice payment reference
+        and the credit note one
+        """
+        self.invoice.action_post()
+        self.refund = self._create_supplier_refund(self.invoice, manual=True)
+        with Form(self.refund) as refund_form:
+            refund_form.ref = "R1234"
+
+        self.refund.action_post()
+
+        (self.invoice.line_ids + self.refund.line_ids).filtered(
+            lambda line: line.account_internal_type == "payable"
+        ).reconcile()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+
+        self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
