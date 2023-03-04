@@ -42,10 +42,11 @@ class AccountPaymentOrder(models.Model):
 
     def generated2uploaded(self):
         """Generate grouped moves if configured that way."""
-        super().generated2uploaded()
+        res = super().generated2uploaded()
         for order in self:
             if order.payment_mode_id.generate_move:
                 order.generate_move()
+        return res
 
     def generate_move(self):
         """Create the moves that pay off the move lines from the payment/debit order."""
@@ -77,11 +78,12 @@ class AccountPaymentOrder(models.Model):
     def reconcile_grouped_payments(self, move, payments):
         lines_to_rec = move.line_ids[:-1]
         for payment in payments:
+            journal = payment.journal_id
             lines_to_rec += payment.move_id.line_ids.filtered(
                 lambda x: x.account_id
                 in (
-                    payment.journal_id.payment_debit_account_id,
-                    payment.journal_id.payment_credit_account_id,
+                    journal._get_journal_inbound_outstanding_payment_accounts()
+                    + journal._get_journal_inbound_outstanding_payment_accounts()
                 )
             )
         lines_to_rec.reconcile()
@@ -113,15 +115,26 @@ class AccountPaymentOrder(models.Model):
         vals["line_ids"].append((0, 0, trf_ml_vals))
         return vals
 
-    def _prepare_move_line_partner_account(self, payment):
-        if self.payment_type == "inbound":
-            account = payment.journal_id.payment_debit_account_id
+    def _get_grouped_output_liquidity_account(self, payment):
+        domain = [
+            ("journal_id", "=", self.journal_id.id),
+            ("payment_method_id", "=", payment.payment_method_id.id),
+            ("payment_type", "=", self.payment_type),
+        ]
+        apml = self.env["account.payment.method.line"].search(domain)
+        if apml.payment_account_id:
+            return apml.payment_account_id
+        elif self.payment_type == "inbound":
+            return payment.company_id.account_journal_payment_debit_account_id
         else:
-            account = payment.journal_id.payment_credit_account_id
+            return payment.company_id.account_journal_payment_credit_account_id
+
+    def _prepare_move_line_partner_account(self, payment):
         if self.payment_type == "outbound":
             name = _("Payment bank line %s") % payment.name
         else:
             name = _("Debit bank line %s") % payment.name
+        account = self._get_grouped_output_liquidity_account(payment)
         sign = self.payment_type == "inbound" and -1 or 1
         amount_company_currency = abs(payment.move_id.line_ids[0].balance)
         vals = {
@@ -144,12 +157,11 @@ class AccountPaymentOrder(models.Model):
     ):
         if self.payment_type == "outbound":
             name = _("Payment order %s") % self.name
-            account = self.journal_id.payment_credit_account_id
         else:
             name = _("Debit order %s") % self.name
-            account = self.journal_id.payment_debit_account_id
         partner = self.env["res.partner"]
         for index, payment in enumerate(payments):
+            account = self._get_grouped_output_liquidity_account(payment)
             if index == 0:
                 partner = payment.payment_line_ids[0].partner_id
             elif payment.payment_line_ids[0].partner_id != partner:
