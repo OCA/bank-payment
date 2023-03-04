@@ -65,9 +65,7 @@ class TestAccountPayment(AccountTestInvoicingCommon):
             )
         # Journals
         cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
-        cls.sepa_in = cls.env.ref("account_banking_sepa_direct_debit.sepa_direct_debit")
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
-
         cls.bank_journal = cls.company_data["default_journal_bank"]
 
     def test_account_payment_01(self):
@@ -78,11 +76,8 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertTrue(self.inbound_payment_method_01.payment_order_only)
         self.assertFalse(self.inbound_payment_method_02.payment_order_only)
         self.assertFalse(self.bank_journal.inbound_payment_order_only)
-        self.inbound_payment_method_02.payment_order_only = True
-        self.assertTrue(self.inbound_payment_method_01.payment_order_only)
-        self.assertTrue(self.inbound_payment_method_02.payment_order_only)
-        self.manual_in.payment_order_only = True
-        self.sepa_in.payment_order_only = True
+        for p in self.bank_journal.inbound_payment_method_line_ids.payment_method_id:
+            p.payment_order_only = True
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
 
     def test_account_payment_02(self):
@@ -90,7 +85,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertFalse(self.bank_journal.outbound_payment_order_only)
         self.outbound_payment_method_01.payment_order_only = True
         self.assertTrue(self.outbound_payment_method_01.payment_order_only)
-
         payment_method_id = (
             self.bank_journal.outbound_payment_method_line_ids.payment_method_id
         )
@@ -146,11 +140,8 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         self.assertNotIn(self.inbound_payment_method_01.id, payment_methods)
         self.assertIn(self.inbound_payment_method_02.id, payment_methods)
         # Set all payment methods of the bank journal 'payment order only'
-        self.inbound_payment_method_02.payment_order_only = True
-        self.assertTrue(self.inbound_payment_method_01.payment_order_only)
-        self.assertTrue(self.inbound_payment_method_02.payment_order_only)
-        self.manual_in.payment_order_only = True
-        self.sepa_in.payment_order_only = True
+        for p in self.bank_journal.inbound_payment_method_line_ids.payment_method_id:
+            p.payment_order_only = True
         self.assertTrue(self.bank_journal.inbound_payment_order_only)
         # check journals
         journals = new_account_payment._get_default_journal()
