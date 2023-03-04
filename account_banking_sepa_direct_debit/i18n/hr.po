@@ -153,14 +153,9 @@ msgstr ""
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
-"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
+"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}</a> has "
 "been marked as uploaded."
 msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Stavke izvoda"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
@@ -184,13 +179,6 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -235,33 +223,9 @@ msgid "First"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__id
-msgid "ID"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -505,3 +469,6 @@ msgid ""
 "                       debit your account in accordance with the "
 "instructions from"
 msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Stavke izvoda"

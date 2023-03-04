@@ -167,17 +167,9 @@ msgstr ""
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
-"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
+"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}</a> has "
 "been marked as uploaded."
 msgstr ""
-"Se ha cambiado automáticamente de <b>Primero</b> a <b>Recurrente</b> cuando "
-"la orden de débito <a href=# data-oe-model=account.payment.order data-oe-id="
-"%d1>%s2</a> se ha marcado como subido."
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
@@ -202,13 +194,6 @@ msgstr "Configurar Ajustes"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__display_name
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
 
@@ -267,36 +252,12 @@ msgid "First"
 msgstr "Inicial"
 
 #. module: account_banking_sepa_direct_debit
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company__id
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings__id
-msgid "ID"
-msgstr "ID"
-
-#. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
 "El tipo de mandato no es válido en '%s'. Los válidos son 'Recurrente' o "
 "'Único'"
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_company____last_update
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_res_config_settings____last_update
-msgid "Last Modified on"
-msgstr "Última modificación en"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
@@ -559,6 +520,25 @@ msgstr ""
 "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
 "a la entidad para efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#, python-format
+#~ msgid ""
+#~ "Automatically switched from <b>First</b> to <b>Recurring</b> when the "
+#~ "debit order <a href=# data-oe-model=account.payment.order data-oe-id=%d>"
+#~ "%s</a> has been marked as uploaded."
+#~ msgstr ""
+#~ "Se ha cambiado automáticamente de <b>Primero</b> a <b>Recurrente</b> "
+#~ "cuando la orden de débito <a href=# data-oe-model=account.payment.order "
+#~ "data-oe-id=%d1>%s2</a> se ha marcado como subido."
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Líneas de pago bancario"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificación en"
 
 #~ msgid ""
 #~ "'Mandate-%s-%s' % (object.unique_mandate_reference, object.partner_id."
