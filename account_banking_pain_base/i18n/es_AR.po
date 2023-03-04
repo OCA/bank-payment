@@ -66,11 +66,6 @@ msgid "Bank"
 msgstr "Banco"
 
 #. module: account_banking_pain_base
-#: model:ir.model,name:account_banking_pain_base.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Líneas de pago bancario"
-
-#. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
 msgid "Batch Booking"
 msgstr "Reserva por lotes"
@@ -139,7 +134,6 @@ msgstr "Transferencia de Gestión de Efectivo"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__category_purpose
 msgid "Category Purpose"
 msgstr "Propósito de la Categoría"
 
@@ -336,17 +330,17 @@ msgstr "Según el acuerdo de servicio"
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order__charge_bearer
 msgid ""
 "Following service level : transaction charges are to be applied following "
-"the rules agreed in the service level and/or scheme (SEPA Core messages must"
-" use this). Shared : transaction charges on the debtor side are to be borne "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
 "by the debtor, transaction charges on the creditor side are to be borne by "
-"the creditor. Borne by creditor : all transaction charges are to be borne by"
-" the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
 "the debtor."
 msgstr ""
 "Según el acuerdo de servicio: los costes de la transacción se aplicarán "
-"siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema ("
-"las remesas SEPA Core deben usar esta opción). Compartidos: los costes de la "
-"transacción en la parte del acreedor están a cargo del acreedor, y los "
+"siguiendo las reglas acordadas en el nivel de servicio y/o en el esquema "
+"(las remesas SEPA Core deben usar esta opción). Compartidos: los costes de "
+"la transacción en la parte del acreedor están a cargo del acreedor, y los "
 "costes de la transacción del lado del deudor estarán a cargo del deudor. A "
 "cargo del acreedor: todos los costes de la transacción estarán a cargo del "
 "acreedor. A cargo del deudor: Todos los costes de la transacción estarán a "
@@ -428,8 +422,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__category_purpose
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__purpose
 msgid ""
 "If neither your bank nor your local regulations oblige you to set the "
 "category purpose, leave the field empty."
@@ -559,7 +551,6 @@ msgstr "Pago de Préstamo"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__local_instrument
 msgid "Local Instrument"
 msgstr "Instrumento Local"
 
@@ -715,7 +706,6 @@ msgstr "Pago del Precio"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__priority
 msgid "Priority"
 msgstr "Prioridad"
 
@@ -736,7 +726,6 @@ msgstr "Compra Venta de Servicios"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
-#: model:ir.model.fields,field_description:account_banking_pain_base.field_bank_payment_line__purpose
 msgid "Purpose"
 msgstr "Propósito"
 
@@ -878,15 +867,15 @@ msgstr ""
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
-msgid "The type of the field '%s' is %s. It should be a string or unicode."
-msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
+msgid ""
+"The type of the field '%(field)s' is %(value)s. It should be a string or "
+"unicode."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
-#: model:ir.model.fields,help:account_banking_pain_base.field_bank_payment_line__priority
 msgid ""
-"This field will be used as 'Instruction Priority' in the generated PAIN "
-"file."
+"This field will be used as 'Instruction Priority' in the generated PAIN file."
 msgstr ""
 "Este campo se usará como 'Prioridad de instrucción' en el archivo PAIN "
 "generado."
@@ -904,7 +893,9 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_identifier
 msgid ""
-"This will be used as the 'Initiating Party Identifier' in the PAIN files generated by Odoo. If not defined, Initiating Party Identifier from company will be used.\n"
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Identifier from company "
+"will be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
@@ -931,7 +922,9 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_issuer
 msgid ""
-"This will be used as the 'Initiating Party Issuer' in the PAIN files generated by Odoo. If not defined, Initiating Party Issuer from company will be used.\n"
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Issuer from company will "
+"be used.\n"
 "Common format (13): \n"
 "- Country code (2, optional)\n"
 "- Company idenfier (N, VAT)\n"
@@ -1027,3 +1020,10 @@ msgstr "Retenciones"
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__epay
 msgid "ePayment"
 msgstr "Pago Electrónico"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Líneas de pago bancario"
+
+#, python-format
+#~ msgid "The type of the field '%s' is %s. It should be a string or unicode."
+#~ msgstr "El tipo del campo '%s' es %s. Debería ser una cadena o unicode."
