@@ -23,6 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_payment_mode](account_payment_mode/) | 16.0.1.1.0 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 16.0.1.0.0 |  | Account Payment Order
+[account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.0 |  | Account Payment Order - Generate grouped moves
 [account_payment_partner](account_payment_partner/) | 16.0.1.1.1 |  | Adds payment mode on partners and invoices
 [account_payment_sale](account_payment_sale/) | 16.0.1.0.0 |  | Adds payment mode on sale orders
 
