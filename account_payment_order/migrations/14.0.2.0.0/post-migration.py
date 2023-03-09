@@ -173,3 +173,6 @@ def migrate(env, version):
     )
     _delete_hooks(env)
     _insert_payment_line_payment_link(env)
+    openupgrade.delete_records_safely_by_xml_id(
+        env, ["account_payment_order.bank_payment_line_company_rule"]
+    )
