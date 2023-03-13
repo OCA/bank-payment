@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-bank-payment Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-account_banking_mandate>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_mode>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order_grouped_output>=16.0dev,<16.1dev',
