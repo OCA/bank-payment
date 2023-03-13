@@ -21,6 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[account_banking_mandate](account_banking_mandate/) | 16.0.1.0.0 |  | Banking mandates
 [account_payment_mode](account_payment_mode/) | 16.0.1.1.0 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 16.0.1.0.0 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.0 |  | Account Payment Order - Generate grouped moves
