@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.tests import Form
 
 from odoo.addons.account_payment_purchase.tests.test_account_payment_purchase import (
     TestAccountPaymentPurchase,
@@ -16,14 +15,14 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_lines.write({"quantity_done": 1.0})
+        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
             {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
-        with Form(invoice) as inv:
-            inv.purchase_id = self.purchase
+        invoice.purchase_id = self.purchase
+        invoice._onchange_purchase_auto_complete()
         self.assertEqual(
             self.purchase.invoice_ids[0].payment_mode_id, self.payment_mode
         )
@@ -37,7 +36,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_lines.write({"quantity_done": 1.0})
+        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
@@ -52,7 +51,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.action_confirm()
-        picking.move_lines.write({"quantity_done": 1.0})
+        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
         invoice.purchase_id = purchase2
         result = invoice._onchange_purchase_auto_complete()
@@ -70,7 +69,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_lines.write({"quantity_done": 1.0})
+        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
@@ -84,7 +83,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.action_confirm()
-        picking.move_lines.write({"quantity_done": 1.0})
+        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
         invoice.purchase_id = purchase2
         result = invoice._onchange_purchase_auto_complete()

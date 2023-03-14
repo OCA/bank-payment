@@ -11,7 +11,7 @@ class StockRule(models.Model):
         """Propagate payment mode on MTO/drop shipping."""
         res = super()._prepare_purchase_order(company_id, origins, values)
         values = values[0]
-        partner = values["supplier"].name
+        partner = values["supplier"].partner_id
         if partner:
             res["payment_mode_id"] = partner.with_company(
                 self.company_id.id
