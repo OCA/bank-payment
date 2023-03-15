@@ -59,10 +59,12 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def _sepa_iban_prefix_list(self):
         # List of IBAN prefixes (not country codes !)
-        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2020-10/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v3.0_1.pdf  # noqa: B950
+        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2023-01/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v4.0_0.pdf  # noqa: B950
         # Some countries use IBAN but are not part of the SEPA zone
         # example: Turkey, Madagascar, Tunisia, etc.
         return [
+            "AD",
+            "AT",
             "BE",
             "BG",
             "ES",
