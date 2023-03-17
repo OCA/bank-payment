@@ -10,15 +10,16 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-03 11:42+0000\n"
-"PO-Revision-Date: 2017-02-17 15:35+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-bank-"
-"payment-8-0/language/pt_BR/)\n"
+"PO-Revision-Date: 2023-03-17 22:23+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/"
+"OCA-bank-payment-8-0/language/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: account_banking_payment_export
 #: code:addons/account_banking_payment_export/models/res_partner_bank.py:17
@@ -226,7 +227,7 @@ msgstr "Fatura"
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
 msgid "Journal Entry"
-msgstr "Entrada do diário"
+msgstr "Lançamento de Diário"
 
 #. module: account_banking_payment_export
 #: field:account.move.line,journal_entry_ref:0
