@@ -46,19 +46,18 @@ class TestSCT(TransactionCase):
         )
         cls.account_expense = cls.account_model.create(
             {
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
-                "name": "Test expense account",
-                "code": "TEA",
+                "account_type": "expense",
                 "company_id": cls.main_company.id,
+                "name": "Test expense",
+                "code": "TE.1",
             }
         )
         cls.account_payable = cls.account_model.create(
             {
-                "user_type_id": cls.env.ref("account.data_account_type_payable").id,
-                "name": "Test payable account",
-                "code": "TTA",
+                "account_type": "liability_payable",
                 "company_id": cls.main_company.id,
-                "reconcile": True,
+                "name": "Test payable",
+                "code": "TP.1",
             }
         )
         (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
