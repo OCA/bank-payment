@@ -12,8 +12,6 @@ from odoo.addons.account.models.account_payment_method import AccountPaymentMeth
 
 class TestInvoiceMandate(TransactionCase):
     def test_post_invoice_01(self):
-        self.invoice._onchange_partner_id()
-
         self.assertEqual(self.invoice.mandate_id, self.mandate)
 
         self.invoice.action_post()
@@ -57,7 +55,6 @@ class TestInvoiceMandate(TransactionCase):
         )
         mandate_2.validate()
 
-        self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
         self.invoice.action_post()
 
@@ -69,7 +66,6 @@ class TestInvoiceMandate(TransactionCase):
                 payable_move_lines[0].move_id.mandate_id = mandate_2
 
     def test_post_invoice_and_refund_02(self):
-        self.invoice._onchange_partner_id()
         self.invoice.action_post()
         self.assertEqual(self.invoice.mandate_id, self.mandate)
         move_reversal = (
@@ -118,7 +114,6 @@ class TestInvoiceMandate(TransactionCase):
         )
 
         invoice.partner_id = partner_2
-        invoice._onchange_partner_id()
         self.assertEqual(invoice.mandate_id, mandate_2)
 
     def test_onchange_payment_mode(self):
@@ -139,7 +134,6 @@ class TestInvoiceMandate(TransactionCase):
                 "company_id": self.company.id,
             }
         )
-        invoice._onchange_partner_id()
 
         with patch.object(
             AccountPaymentMethod,
@@ -164,7 +158,6 @@ class TestInvoiceMandate(TransactionCase):
         )
 
         invoice.payment_mode_id = mode_inbound_acme_2
-        invoice._onchange_payment_mode_id()
         self.assertEqual(invoice.mandate_id, self.env["account.banking.mandate"])
 
     def test_invoice_constrains(self):
