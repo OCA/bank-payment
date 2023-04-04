@@ -118,6 +118,7 @@ class AccountMove(models.Model):
                         )
                         % (count, payorder.id, payorder.display_name)
                     )
+                move.payment_order_id = payorder
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "account_payment_order.account_payment_order_%s_action"
             % action_payment_type,
