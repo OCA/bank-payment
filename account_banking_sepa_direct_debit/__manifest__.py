@@ -18,7 +18,7 @@
         ],
     },
     "assets": {
-        "web.assets_backend": [
+        "web.report_assets_common": [
             "/account_banking_sepa_direct_debit/static/src/css/report.css"
         ],
     },
