@@ -192,6 +192,9 @@ class AccountPaymentLine(models.Model):
             "date": self[:1].date,
             "currency_id": self.currency_id.id,
             "ref": self.order_id.name,
+            # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
+            # the sequence for all the payment at the same time
+            "name": "/",
             "payment_reference": "-".join([line.communication for line in self]),
             "journal_id": journal.id,
             "partner_bank_id": self.partner_bank_id.id,
