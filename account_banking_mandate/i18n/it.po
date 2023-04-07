@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-02 01:12+0000\n"
-"PO-Revision-Date: 2022-12-30 11:48+0000\n"
+"PO-Revision-Date: 2023-04-07 18:24+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -229,7 +229,7 @@ msgstr "Fattura"
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_is_follower:0
 msgid "Is a Follower"
-msgstr "È un follower"
+msgstr "Sta seguendo"
 
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_last_post:0
@@ -298,7 +298,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: field:account.banking.mandate,message_ids:0
 msgid "Messages"
-msgstr "Messages"
+msgstr "Messaggi"
 
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_ids:0
