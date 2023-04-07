@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2023-04-05 11:23+0000\n"
-"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"PO-Revision-Date: 2023-04-07 18:26+0000\n"
+"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
 "Language: it\n"
@@ -619,7 +619,7 @@ msgstr "Riferimento Fattura"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Journal Entries"
-msgstr "Voci Sezionale"
+msgstr "Registrazioni contabili"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_move_line
