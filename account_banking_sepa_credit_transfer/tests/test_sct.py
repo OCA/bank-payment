@@ -202,7 +202,7 @@ class TestSCT(SavepointCase):
             ),
             0,
         )
-        self.assertEqual(agrolait_bank_line.payment_reference, "F1341-F1342-A1301")
+        self.assertEqual(agrolait_bank_line.ref, "F1341-F1342-A1301")
         self.assertEqual(agrolait_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
@@ -288,7 +288,7 @@ class TestSCT(SavepointCase):
             asus_bank_line.currency_id.compare_amounts(asus_bank_line.amount, 3054.0),
             0,
         )
-        self.assertEqual(asus_bank_line.payment_reference, "Inv9032-Inv9033")
+        self.assertEqual(asus_bank_line.ref, "Inv9032-Inv9033")
         self.assertEqual(asus_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
         action = self.payment_order.open2generated()
