@@ -612,7 +612,7 @@ class AccountPaymentOrder(models.Model):
             remittance_info_unstructured = etree.SubElement(remittance_info, "Ustrd")
             remittance_info_unstructured.text = self._prepare_field(
                 "Remittance Unstructured Information",
-                "line.payment_reference",
+                "line.ref",
                 {"line": line},
                 140,
                 gen_args=gen_args,

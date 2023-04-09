@@ -271,7 +271,7 @@ class TestSDDBase(TransactionCase):
             float_compare(agrolait_bank_line.amount, 42.0, precision_digits=accpre),
             0,
         )
-        self.assertEqual(agrolait_bank_line.payment_reference, invoice1.name)
+        self.assertEqual(agrolait_bank_line.ref, invoice1.name)
         self.assertEqual(
             agrolait_bank_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
         )

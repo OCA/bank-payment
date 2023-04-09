@@ -10,7 +10,7 @@ class AccountPaymentLine(models.Model):
     _description = "Payment Lines"
     _check_company_auto = True
 
-    name = fields.Char(string="Payment Reference", readonly=True, copy=False)
+    name = fields.Char(string="Payment Line ID", readonly=True, copy=False)
     order_id = fields.Many2one(
         comodel_name="account.payment.order",
         string="Payment Order",
@@ -72,7 +72,9 @@ class AccountPaymentLine(models.Model):
     # This field is required in the form view and there is an error message
     # when going from draft to confirm if the field is empty
     communication = fields.Char(
-        required=False, help="Label of the payment that will be seen by the destinee"
+        string="Payment Reference",
+        required=False,
+        help="Label of the payment that will be seen by the destinee",
     )
     communication_type = fields.Selection(
         selection=[("normal", "Free")], required=True, default="normal"
@@ -189,8 +191,7 @@ class AccountPaymentLine(models.Model):
             "amount": sum(self.mapped("amount_currency")),
             "date": self[:1].date,
             "currency_id": self.currency_id.id,
-            "ref": self.order_id.name,
-            "payment_reference": "-".join([line.communication for line in self]),
+            "ref": " - ".join([line.communication for line in self]),
             "journal_id": journal.id,
             "partner_bank_id": self.partner_bank_id.id,
             "payment_order_id": self.order_id.id,
