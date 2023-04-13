@@ -35,7 +35,13 @@
                 <field name="payment_mode_filter_type_domain" invisible="1" />
                 <field name="partner_bank_filter_type_domain" invisible="1" />
             </field>
-            <field name="partner_bank_id" position="attributes">
+            <xpath
+                expr="//group[@id='header_right_group']//field[@name='partner_bank_id']"
+                position="attributes"
+            >
+                <attribute name="context">
+                    {'default_partner_id':commercial_partner_id}
+                </attribute>
                 <attribute name="domain">
                     [('partner_id', '=', partner_bank_filter_type_domain),
                     '|',('company_id', '=', company_id),('company_id', '=', False)]
@@ -43,12 +49,21 @@
                 <attribute name="attrs">
                     {'required': [('bank_account_required', '=', True),('move_type', 'in', ('in_invoice', 'in_refund'))],
                     'readonly': [('state', '!=', 'draft')],
-                    'invisible': [('move_type', '=', 'entry')]}
+                    'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}
                 </attribute>
+            </xpath>
+            <xpath
+                expr="//page[@id='other_tab']//field[@name='partner_bank_id']"
+                position="attributes"
+            >
                 <attribute name="context">
                     {'default_partner_id':commercial_partner_id}
                 </attribute>
-            </field>
+                <attribute name="domain">
+                    [('partner_id', '=', partner_bank_filter_type_domain),
+                    '|',('company_id', '=', company_id),('company_id', '=', False)]
+                </attribute>
+            </xpath>
         </field>
     </record>
     <record id="view_invoice_tree" model="ir.ui.view">
