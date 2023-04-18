@@ -23,6 +23,7 @@ class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     def send_vendor_email(self):
+        context = dict(self._context)
         for rec in self:
             if rec.payment_mode_id.send_email_to_partner:
                 date_generated = rec.date_generated
@@ -73,7 +74,7 @@ class PaymentOrder(models.Model):
                     partner_email_id = payment.partner_id.email
                     if partner_email_id:
                         template.write({"email_to": partner_email_id})
-                        template.with_context(
+                        context.update(
                             {
                                 "date": date_generated,
                                 "partner_name": partner_name,
@@ -81,19 +82,18 @@ class PaymentOrder(models.Model):
                                 "payment_ref": payment_ref,
                                 "line_data": line_data,
                             }
-                        ).send_mail(rec.id, force_send=True)
+                        )
+                        template.with_context(**context).send_mail(
+                            rec.id, force_send=True
+                        )
                         rec.message_post(
-                            body=_(
-                                "An email is sent successfully to %s vendor."
-                                % partner_name
-                            )
+                            body=_("An email is not able to send to %s vendor.")
+                            % partner_name
                         )
                     else:
                         rec.message_post(
-                            body=_(
-                                "An email is not able to send to %s vendor."
-                                % partner_name
-                            )
+                            body=_("An email is not able to send to %s vendor.")
+                            % partner_name
                         )
 
     def generated2uploaded(self):
