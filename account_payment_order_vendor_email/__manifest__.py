@@ -3,10 +3,10 @@
 
 {
     "name": "Account Payment Order Email",
-    "version": "14.0.2.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
-    "maintainers": [],
+    "maintainers": ["ursais"],
     "website": "https://github.com/OCA/bank-payment",
     "category": "Accounting",
     "depends": ["account_payment_order", "account_payment_mode"],
