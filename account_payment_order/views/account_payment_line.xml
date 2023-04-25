@@ -41,9 +41,11 @@
                         />
                         <field name="amount_company_currency" />
                         <field name="company_currency_id" invisible="1" />
-                        <field name="payment_ids" />
                         <field name="payment_type" invisible="1" />
                     </group>
+                </group>
+                <group col="12" string="Payment Transaction">
+                    <field name="payment_ids" colspan="12" nolabel="1" />
                 </group>
             </form>
         </field>
