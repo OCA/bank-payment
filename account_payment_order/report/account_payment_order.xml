@@ -14,7 +14,7 @@
                     <div class="col-4 offset-8">
                         <div t-field="doc.journal_id.bank_id.name" />
                         <div t-field="doc.journal_id.bank_id.street" />
-                        <div t-field="doc.journal_id.bank_id.treet2" />
+                        <div t-field="doc.journal_id.bank_id.street2" />
                         <div t-field="doc.journal_id.bank_id.zip" />
                         <div t-field="doc.journal_id.bank_id.city" />
                         <div t-field="doc.journal_id.bank_id.state.name" />
