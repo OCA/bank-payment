@@ -83,7 +83,7 @@ class AccountPaymentOrder(models.Model):
                 lambda x: x.account_id
                 in (
                     journal._get_journal_inbound_outstanding_payment_accounts()
-                    + journal._get_journal_inbound_outstanding_payment_accounts()
+                    + journal._get_journal_outbound_outstanding_payment_accounts()
                 )
             )
         lines_to_rec.reconcile()
