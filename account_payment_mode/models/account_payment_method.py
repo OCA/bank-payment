@@ -2,7 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountPaymentMethod(models.Model):
@@ -38,3 +39,34 @@ class AccountPaymentMethod(models.Model):
                 )
             )
         return result
+
+    def write(self, vals):
+        res = super().write(vals)
+        methods_info = self._get_payment_method_information().keys()
+        if (
+            "code" in vals
+            and vals.get("code", False)
+            and vals.get("code") not in methods_info
+        ):
+            raise UserError(
+                _(
+                    "You cann't use '{}' code for payment method."
+                    " if you change it, the generation of the payment file may fail."
+                    " \nPlease use '{}' codes."
+                ).format(vals.get("code"), ", ".join(list(methods_info)))
+            )
+        return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        methods_info = self._get_payment_method_information().keys()
+        for vals in vals_list:
+            if vals and vals.get("code", False) not in methods_info:
+                raise UserError(
+                    _(
+                        "You cann't use '{}' code for payment method."
+                        " if you change it, the generation of the payment file may fail."
+                        " \nPlease use '{}' codes."
+                    ).format(vals.get("code"), ", ".join(list(methods_info)))
+                )
+        return super().create(vals_list)
