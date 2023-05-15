@@ -29,7 +29,9 @@ class TestSCT(TransactionCase):
         cls.partner_asus = cls.env.ref("base.res_partner_1")
         cls.partner_c2c = cls.env.ref("base.res_partner_12")
         cls.eur_currency = cls.env.ref("base.EUR")
+        cls.eur_currency.active = True
         cls.usd_currency = cls.env.ref("base.USD")
+        cls.usd_currency.active = True
         cls.main_company = cls.env["res.company"].create(
             {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
         )
