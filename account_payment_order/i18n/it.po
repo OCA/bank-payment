@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2023-05-18 16:38+0000\n"
+"PO-Revision-Date: 2023-05-22 12:09+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.4\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_count
@@ -928,7 +928,7 @@ msgstr "Righe Pagamento"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_method_id
 msgid "Payment Method"
-msgstr "Metodo di Pagamento"
+msgstr "Metodo di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create_payment_mode
