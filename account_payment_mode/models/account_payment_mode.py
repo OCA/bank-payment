@@ -10,6 +10,7 @@ class AccountPaymentMode(models.Model):
     important changes. It also replaces the object payment.method
     of the module sale_payment_method of OCA/e-commerce"""
     _name = "account.payment.mode"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Payment Modes'
     _order = 'name'
 
