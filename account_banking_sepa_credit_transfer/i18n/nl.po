@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_sepa_credit_transfer
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-23 03:38+0000\n"
+"PO-Revision-Date: 2020-07-21 13:19+0000\n"
+"Last-Translator: Yung-Wa <yw.ng@onestein.nl>\n"
+"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Bank account is missing on the bank payment line of partner "
+"'{partner}' (reference '{reference}')."
+msgstr ""
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
+msgid "Instant Transfer"
+msgstr "Directe Overdracht"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
+msgid "Local Instrument"
+msgstr "Lokaal Instrument"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
+msgid "PAIN Version"
+msgstr "PAIN Versie"
+
+#. module: account_banking_sepa_credit_transfer
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
+#, python-format
+msgid "PAIN version '%s' is not supported."
+msgstr "PAIN versie '%s' is niet ondersteund."
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Betaalregels"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
+msgid "Payment Methods"
+msgstr "Betaalwijzes"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
+msgid "Payment Order"
+msgstr "Betalingsopdracht"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
+#: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
+msgid "SEPA Credit Transfer to suppliers"
+msgstr "SEPA overboeking naar leveranciers"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_02
+msgid "pain.001.001.02"
+msgstr "pain.001.001.02"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_03
+msgid "pain.001.001.03 (recommended for credit transfer)"
+msgstr "pain.001.001.03 (aanbevolen voor overboeking)"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_04
+msgid "pain.001.001.04"
+msgstr "pain.001.001.04"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_05
+msgid "pain.001.001.05"
+msgstr "pain.001.001.05"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
+msgid "pain.001.003.03"
+msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "Bank account is missing on the bank payment line of partner "
+#~ "'%s' (reference '%s')."
+#~ msgstr ""
+#~ "Bankrekening ontbreekt op de betaalregel van relatie '%s' (reference "
+#~ "'%s')."
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (overboeking in Duitsland)"
+
+#~ msgid "pain.008.001.02 (recommended for direct debit)"
+#~ msgstr "pain.008.001.02 (aanbevolen voor automatische incasso)"
+
+#~ msgid "pain.008.001.03"
+#~ msgstr "pain.008.001.03"
+
+#~ msgid "pain.008.001.04"
+#~ msgstr "pain.008.001.04"
+
+#~ msgid "pain.008.003.02 (direct debit in Germany)"
+#~ msgstr "pain.008.003.02 (automatische incasso in Duitsland)"

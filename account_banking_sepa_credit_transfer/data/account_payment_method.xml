@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="sepa_credit_transfer" model="account.payment.method">
+        <field name="name">SEPA Credit Transfer to suppliers</field>
+        <field name="code">sepa_credit_transfer</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+        <field name="pain_version">pain.001.001.03</field>
+    </record>
+</odoo>
