@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2015-2017 Tecnativa
+     Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="name">Add SEPA identifiers on payment mode form</field>
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_banking_pain_base.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="main" position="inside">
+                <field
+                    name="sepa_creditor_identifier"
+                    groups="account_banking_pain_base.group_pain_multiple_identifier"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>
