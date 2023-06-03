@@ -20,6 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: account_banking_sepa_credit_transfer
+#. odoo-python
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -43,6 +44,7 @@ msgid "PAIN Version"
 msgstr ""
 
 #. module: account_banking_sepa_credit_transfer
+#. odoo-python
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
