@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-11 09:50+0000\n"
-"PO-Revision-Date: 2017-12-11 09:50+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2023-06-05 13:08+0000\n"
+"Last-Translator: Jesarregui <jesarreguisan@gmail.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model.constraint,message:account_banking_pain_base.constraint_account_payment_method_code_payment_type_unique
@@ -24,48 +25,48 @@ msgid ""
 "A payment method of the same type already exists with this code and PAIN "
 "version"
 msgstr ""
+"Un método de pago del mismo tipo ya existe con este código y esta versión "
+"PAIN"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__acct
 msgid "Account Management"
-msgstr ""
+msgstr "Gestionar Cuenta"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__adva
-#, fuzzy
 msgid "Advance Payment"
-msgstr "Pago SEPA"
+msgstr "Pago Avanzado"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__agrt
 msgid "Agricultural Transfer"
-msgstr ""
+msgstr "Transferencia agraria"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__airb
 msgid "Air"
-msgstr ""
+msgstr "Aire"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__almy
-#, fuzzy
 msgid "Alimony Payment"
-msgstr "Pago SEPA"
+msgstr "Pago de Pensión Alimenticia"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ants
 msgid "Anesthesia Services"
-msgstr ""
+msgstr "Servicios de Anestesia"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__anni
 msgid "Annuity"
-msgstr ""
+msgstr "Anualidad"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banco"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
@@ -75,13 +76,12 @@ msgstr "Reserva por lotes"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__bonu
 msgid "Bonus Payment"
-msgstr ""
+msgstr "Pago del bonus"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bonu
-#, fuzzy
 msgid "Bonus Payment."
-msgstr "Líneas de pago bancario"
+msgstr "Pago del bonus."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__cred
@@ -96,17 +96,17 @@ msgstr "A cargo del deudor"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__busb
 msgid "Bus"
-msgstr ""
+msgstr "Colectivo"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bexp
 msgid "Business Expenses"
-msgstr ""
+msgstr "Gastos de empresa"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cbtv
 msgid "Cable TV Bill"
-msgstr ""
+msgstr "Factura del Cable de TV"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cfee
