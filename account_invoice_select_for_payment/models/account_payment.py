@@ -14,4 +14,3 @@ class AccountPayment(models.Model):
                 [("id", "in", active_ids), ("selected_for_payment", "=", True)]
             )
             invoices.write({"selected_for_payment": False})
-        return super().action_register_payment()

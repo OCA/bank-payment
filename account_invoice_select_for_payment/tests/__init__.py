@@ -1,0 +1,2 @@
+from . import test_account_move_select_for_payment
+from . import test_account_payment_select_for_payment
