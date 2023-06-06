@@ -35,7 +35,7 @@
                         />
                     </group>
                     <group string="Note" name="note">
-                        <field name="note" nolabel="1" />
+                        <field name="note" nolabel="1" colspan="2" />
                     </group>
                 </sheet>
             </form>
