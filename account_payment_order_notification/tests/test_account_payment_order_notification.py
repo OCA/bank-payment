@@ -1,9 +1,9 @@
 # Copyright 2022 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo.tests import Form, common
+from odoo.tests import Form, TransactionCase
 
 
-class TestAccountPaymentOrderNotification(common.SavepointCase):
+class TestAccountPaymentOrderNotification(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
