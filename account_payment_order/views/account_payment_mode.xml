@@ -20,6 +20,7 @@
                     />
                     <field name="default_date_prefered" />
                     <field name="group_lines" />
+                    <field name="allow_blocked" />
                 </group>
                 <group
                     name="payment_order_create_defaults"
