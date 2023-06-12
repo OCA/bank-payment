@@ -182,6 +182,9 @@ class AccountPaymentOrder(models.Model):
                         )
                         % (line.partner_id.name, line.name)
                     )
+                self.generate_agent_block(
+                    credit_transfer_transaction_info, "CdtrAgt", line.partner_bank_id,
+                )
                 self.generate_party_block(
                     credit_transfer_transaction_info,
                     "Cdtr",
