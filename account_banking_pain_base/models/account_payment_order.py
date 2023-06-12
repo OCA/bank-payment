@@ -628,3 +628,10 @@ class AccountPaymentOrder(models.Model):
         csi_scheme_name_proprietary = etree.SubElement(csi_scheme_name, "Prtry")
         csi_scheme_name_proprietary.text = scheme_name_proprietary
         return True
+
+    @api.model
+    def generate_agent_block(self, parent_node, party_type, partner_bank):
+        if partner_bank.bank_id and partner_bank.bank_bic:
+            agt = etree.SubElement(parent_node, party_type)
+            fininstnid = etree.SubElement(agt, "FinInstnId")
+            etree.SubElement(fininstnid, "BIC").text = partner_bank.bank_bic
