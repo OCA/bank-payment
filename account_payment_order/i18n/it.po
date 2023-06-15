@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 08:41+0000\n"
-"PO-Revision-Date: 2023-06-08 09:09+0000\n"
+"PO-Revision-Date: 2023-06-15 10:08+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -437,12 +437,12 @@ msgstr "Followers"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_channel_ids
 msgid "Followers (Channels)"
-msgstr "Followers (Canali)"
+msgstr "Seguito da (canali)"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Followers (Partners)"
+msgstr "Seguito da (partner)"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:152
@@ -565,7 +565,7 @@ msgstr "Fattura"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_message_is_follower
 msgid "Is Follower"
-msgstr "È un follower"
+msgstr "Segue"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_move_ids
