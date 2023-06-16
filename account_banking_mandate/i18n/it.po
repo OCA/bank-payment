@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-02 01:12+0000\n"
-"PO-Revision-Date: 2023-05-25 14:08+0000\n"
+"PO-Revision-Date: 2023-06-16 13:10+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -219,7 +219,7 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: help:account.banking.mandate,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+msgstr "Se selezionata, nuovi messaggi richiedono attenzione."
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_invoice
