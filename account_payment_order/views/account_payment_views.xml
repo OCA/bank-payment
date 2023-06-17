@@ -20,7 +20,7 @@
             <field name="ref" position="attributes">
                 <attribute name="string">Payment Reference</attribute>
             </field>
-            <field name="move_id" position="after">
+            <field name="payment_method_line_id" position="after">
                 <field name="payment_order_id" />
             </field>
         </field>
