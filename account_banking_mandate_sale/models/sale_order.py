@@ -14,10 +14,12 @@ class SaleOrder(models.Model):
     )
     mandate_id = fields.Many2one(
         "account.banking.mandate",
+        compute="_compute_mandate_id",
         string="Direct Debit Mandate",
         ondelete="restrict",
         check_company=True,
         readonly=False,
+        store=True,
         domain="[('partner_id', '=', commercial_invoice_partner_id), "
         "('state', 'in', ('draft', 'valid')), "
         "('company_id', '=', company_id)]",
@@ -33,13 +35,16 @@ class SaleOrder(models.Model):
             vals["mandate_id"] = self.mandate_id.id
         return vals
 
-    @api.depends("partner_invoice_id")
-    def _compute_payment_mode(self):
+    @api.depends("partner_invoice_id", "payment_mode_id")
+    def _compute_mandate_id(self):
         """Select by default the first valid mandate of the invoicing partner"""
-        res = super()._compute_payment_mode()
         abm_obj = self.env["account.banking.mandate"]
         for order in self:
-            if order.mandate_required and order.partner_invoice_id:
+            if (
+                order.partner_invoice_id
+                and order.payment_mode_id
+                and order.payment_mode_id.payment_method_id.mandate_required
+            ):
                 mandate = abm_obj.search(
                     [
                         ("state", "=", "valid"),
@@ -55,4 +60,3 @@ class SaleOrder(models.Model):
                 order.mandate_id = mandate or False
             else:
                 order.mandate_id = False
-        return res
