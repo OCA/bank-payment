@@ -11,8 +11,8 @@ msgstr ""
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
 "PO-Revision-Date: 2020-08-12 18:59+0000\n"
 "Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
-"23907/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
+"teams/23907/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,21 +26,23 @@ msgid "<strong>Payment Mode:</strong>"
 msgstr "<strong>Modo de Pagamento:</strong>"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_account_move
-msgid "Journal Entries"
-msgstr "Entradas diárias"
-
-#. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_sale.field_sale_report__payment_mode_id
 msgid "Payment Mode"
 msgstr "Modo de Pagamento"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr "Fatura de pagamento antecipado de vendas"
+#: model:ir.model,name:account_payment_sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr ""
 
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de Venda"
+
+#~ msgid "Journal Entries"
+#~ msgstr "Entradas diárias"
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Fatura de pagamento antecipado de vendas"
