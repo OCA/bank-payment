@@ -44,7 +44,7 @@ class AccountPaymentOrder(models.Model):
         """Generate grouped moves if configured that way."""
         res = super().generated2uploaded()
         for order in self:
-            if order.payment_mode_id.generate_move:
+            if order.payment_mode_id.generate_move and len(order.payment_ids) > 1:
                 order.generate_move()
         return res
 
