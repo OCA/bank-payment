@@ -908,9 +908,17 @@ msgid "Payment Line"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_line_count
+#: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_line_count
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_count
+msgid "Payment Line Count"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
 #: model:ir.model,name:account_payment_order.model_account_payment_line
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Payment Lines"
 msgstr "Líneas de Pago"
 
@@ -953,6 +961,11 @@ msgstr "Modos de pago"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order"
 msgstr "Orden de Pago"
+
+#. module: account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
+msgid "Payment Order Lines"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok

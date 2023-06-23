@@ -39,6 +39,21 @@
                                              ]}"
                 />
             </button>
+            <div name="button_box" position="inside">
+                <button
+                    name="action_payment_lines"
+                    type="object"
+                    attrs="{'invisible': [('payment_line_count', '=', 0)]}"
+                    icon="fa-bars"
+                    help="Payment Order Lines"
+                >
+                    <field
+                        string="Payment Lines"
+                        name="payment_line_count"
+                        widget="statinfo"
+                    />
+                </button>
+            </div>
             <field name="payment_mode_id" position="after">
                 <field name="payment_order_ok" invisible="1" />
             </field>
