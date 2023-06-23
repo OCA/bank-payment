@@ -5,8 +5,8 @@
 from odoo.addons.component.core import Component
 
 
-class EdiOutputGenerateDDSFTP(Component):
-    _name = "edi.output.generate.dd_sftp"
+class EdiOutputGeneratePaymentOrderSFTP(Component):
+    _name = "edi.output.generate.payment_order_sftp"
     _inherit = "base.event.listener"
     _apply_on = ["account.payment.order"]
 
@@ -20,17 +20,18 @@ class EdiOutputGenerateDDSFTP(Component):
 
     def on_file_generation_payment_order(self, records):
         for record in records:
-            if record.disable_edi_auto:
+            if record.payment_mode_id.disable_edi_auto:
                 continue
-            backend = record.edi_exchange_type_id.backend_id
+            backend = record.payment_mode_id.edi_exchange_type_id.backend_id
             if not backend:
                 continue
-            exchange_type = record.edi_exchange_type_id
+            exchange_type = record.payment_mode_id.edi_exchange_type_id
             if record._has_exchange_record(exchange_type, backend):
                 continue
             exchange_record = backend.create_record(
                 exchange_type.code, self._get_exchange_record_vals(record)
             )
+            exchange_record.exchange_create_ack_record()
             if exchange_record.exchange_file:
                 exchange_record.edi_exchange_state = "output_pending"
                 exchange_record.with_delay().action_exchange_send()

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_payment_order_edi_form" model="ir.ui.view">
-        <field name="name">account_payment_order_edi_functionnality.form</field>
-        <field name="model">account.payment.order</field>
+    <record id="view_payment_mode_edi_form" model="ir.ui.view">
+        <field name="name">account_payment_mode_edi_functionnality.form</field>
+        <field name="model">account.payment.mode</field>
         <field
             name="inherit_id"
-            ref="account_payment_order.account_payment_order_form"
+            ref="account_payment_order.account_payment_mode_form"
         />
         <field name="arch" type="xml">
-            <field name="payment_mode_id" position="after">
+            <field name="group_lines" position="after">
                 <field name="disable_edi_auto" />
                 <field
                     name="edi_exchange_type_id"

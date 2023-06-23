@@ -16,6 +16,8 @@
         "storage_backend_sftp",  # OCA/storage
         "account_payment_return_import_iso20022",  # OCA/account-payment
     ],
-    "data": ["views/account_payment_order_view.xml"],
+    "data": [
+        "views/account_payment_mode_view.xml",
+    ],
     "installable": True,
 }
