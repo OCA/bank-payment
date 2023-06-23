@@ -27,6 +27,7 @@ class AccountMove(models.Model):
         states={"draft": [("readonly", False)]},
         default="none",
     )
+    payment_line_count = fields.Integer(compute="_compute_payment_line_count")
 
     @api.depends("payment_mode_id", "line_ids", "line_ids.payment_mode_id")
     def _compute_payment_order_ok(self):
@@ -37,6 +38,14 @@ class AccountMove(models.Model):
             if not payment_mode:
                 payment_mode = move.payment_mode_id
             move.payment_order_ok = payment_mode.payment_order_ok
+
+    def _compute_payment_line_count(self):
+        for move in self:
+            move.payment_line_count = len(
+                self.env["account.payment.line"]._search(
+                    [("move_line_id", "in", self.line_ids.ids)]
+                )
+            )
 
     def _get_payment_order_communication_direct(self):
         """Retrieve the communication string for this direct item."""
@@ -206,4 +215,21 @@ class AccountMove(models.Model):
                     "views": False,
                 }
             )
+        return action
+
+    def action_payment_lines(self):
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "account_payment_order.account_payment_line_action"
+        )
+        action.update(
+            {
+                "domain": [("move_line_id", "in", self.line_ids.ids)],
+                "context": dict(
+                    self.env.context,
+                    account_payment_line_main_view=1,
+                    form_view_ref="account_payment_order.account_payment_line_form_readonly",
+                ),
+            }
+        )
         return action
