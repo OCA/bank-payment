@@ -248,6 +248,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_update_view_form
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -347,6 +348,7 @@ msgstr "Crea righe di pagamento da fattura in vista albero"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__create_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__create_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__create_uid
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__create_uid
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "Created by"
 msgstr "Creato da"
@@ -356,6 +358,7 @@ msgstr "Creato da"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__create_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__create_date
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__create_date
 msgid "Created on"
 msgstr "Creato il"
 
@@ -402,6 +405,7 @@ msgstr "Non consentire l'addebito prima della scadenza"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__display_name
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__display_name
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
@@ -540,6 +544,7 @@ msgstr "Ha un messaggio"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__id
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__id
 msgid "ID"
 msgstr "ID"
 
@@ -674,6 +679,7 @@ msgstr "Etichetta del pagamento che sarà vista dal destinatario"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_uid
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
 
@@ -682,6 +688,7 @@ msgstr "Ultimo aggiornamento di"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__write_date
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__write_date
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
@@ -987,6 +994,11 @@ msgid "Payment Order Ok"
 msgstr "Ordine di pagamento ok"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__order_state
+msgid "Payment Order State"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_outbound_menu
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
@@ -996,6 +1008,7 @@ msgstr "Ordini di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__name
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_update__payment_reference
 msgid "Payment Reference"
 msgstr "Riferimento pagamento"
 
@@ -1268,6 +1281,16 @@ msgstr "Tipo di filtro data"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Tipo di attività eccezione sul record."
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_payment.py:0
+#: model:ir.model,name:account_payment_order.model_account_payment_update
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_update_view_form
+#: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
+#, python-format
+msgid "Update Payment Reference"
+msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
