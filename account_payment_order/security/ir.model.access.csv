@@ -6,3 +6,4 @@ base.access_res_partner_bank_group_partner_manager,Full access on res.partner.ba
 base.access_res_bank_group_partner_manager,Full access on res.bank to Account Payment group,base.model_res_bank,group_account_payment,1,1,1,1
 access_account_payment_line_create,access_account_payment_line_create,model_account_payment_line_create,group_account_payment,1,1,1,1
 access_account_invoice_payment_line_multi,access_account_invoice_payment_line_multi,model_account_invoice_payment_line_multi,group_account_payment,1,1,1,1
+access_account_payment_update,access_account_payment_update,model_account_payment_update,group_account_payment,1,1,1,1
