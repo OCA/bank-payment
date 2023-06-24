@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_payment_mode_layout_view_form" model="ir.ui.view">
+        <field name="name">account.payment.mode.layout.view.form</field>
+        <field name="model">account.payment.mode.layout</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="code" />
+                        </group>
+                        <group>
+                            <field name="print_file_name" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="active" widget="boolean_toggle" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field
+                                name="line_ids"
+                                context="{'default_usage': 'line'}"
+                            />
+                        </page>
+                        <page name="header" string="Header">
+                            <field
+                                name="header_line_ids"
+                                context="{'default_usage': 'header'}"
+                            />
+                        </page>
+                        <page name="footer" string="Footer">
+                            <field
+                                name="footer_line_ids"
+                                context="{'default_usage': 'footer'}"
+                            />
+                        </page>
+                        <page name="advanced" string="Advanced Configuration">
+                            <group>
+                                <group>
+                                    <field name="characters_to_remove" />
+                                    <field name="separator" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="help" string="Help">
+                            <group string="Dynamic Expression Generator">
+                                <field name="model_id" widget="selection" />
+                                <field
+                                    name="model_field_id"
+                                    domain="[('model_id', '=', model_id), ('ttype', '!=', 'one2many'), ('ttype', '!=', 'many2many')]"
+                                />
+                                <field name="submodel_id" readonly="1" />
+                                <field
+                                    name="submodel_field_id"
+                                    domain="[('model_id', '=', submodel_id), ('ttype', '!=', 'one2many'), ('ttype', '!=', 'many2many')]"
+                                    attrs="{'readonly': [('submodel_id', '=', False)], 'required': [('submodel_id', '!=', False)]}"
+                                />
+                                <field name="expression" />
+                            </group>
+                            <h3>Available variables:</h3>
+                            <ul>
+                                <li>order: record of the current payment order</li>
+                                <li>line: record of the current payment line</li>
+                                <li
+                                >time, datetime, dateutil: useful Python libraries</li>
+                                <li
+                                >log: log(message, level='info'): logging function to record debug information in ir.logging table</li>
+                                <li>UserError: Warning Exception to use with raise</li>
+                            </ul>
+                            <p>
+                                You must assign a value to a variable named 'result'
+                                <br />
+                                Example:
+                                <br />
+                                result = line.name
+                            </p>
+                            <p>
+                                You can assign a variable named 'error' to raise a warning if something goes wrong
+                                <br />
+                                Example:
+                                <br />
+                                error = 'Something went wrong'
+                            </p>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_payment_mode_layout_view_tree" model="ir.ui.view">
+        <field name="name">account.payment.mode.layout.view.tree</field>
+        <field name="model">account.payment.mode.layout</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="code" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="active" widget="boolean_toggle" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_payment_mode_layout_view_search" model="ir.ui.view">
+        <field name="name">account.payment.mode.layout.view.search</field>
+        <field name="model">account.payment.mode.layout</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="code" />
+            </search>
+        </field>
+    </record>
+
+    <record id="account_payment_mode_layout_action" model="ir.actions.act_window">
+        <field name="name">Payment Mode Layout</field>
+        <field name="res_model">account.payment.mode.layout</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new payment mode layout.
+            </p><p>
+                Payment mode layouts are used to define the layout of the payment
+                order file.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="account_payment_mode_layout_menu"
+        name="Payment Mode Layout"
+        parent="account.account_management_menu"
+        action="account_payment_mode_layout_action"
+        sequence="26"
+    />
+
+</odoo>
