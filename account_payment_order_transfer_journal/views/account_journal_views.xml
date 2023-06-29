@@ -8,6 +8,11 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
+            <field name="payment_sequence" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('transfer_journal_id', '!=', False)]}</attribute>
+            </field>
             <field name="payment_sequence" position="after">
                 <field name="transfer_journal_id" />
             </field>
