@@ -1,0 +1,397 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_notification
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-06-29 12:08+0000\n"
+"Last-Translator: Rémi <remi@le-filament.com>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: account_payment_order_notification
+#: model:mail.template,body_html:account_payment_order_notification.email_account_payment_order_notification
+msgid ""
+"<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p>Hello <t t-out=\"object.partner_id.name or ''\">Brandon Freeman</t>,</p>\n"
+"                <t t-if=\"object.order_id.payment_type == 'inbound'\">\n"
+"                    <p>A debit order including at least one of your invoices has been processed and\n"
+"                        sent to the bank.</p>\n"
+"                </t>\n"
+"                <t t-else=\"\">\n"
+"                    <p>A payment order including at least one of your invoices has been processed\n"
+"                        and sent to the bank.</p>\n"
+"                </t>\n"
+"                <p>It includes the following transactions:</p>\n"
+"                <table class=\"table table-striped\">\n"
+"                    <thead>\n"
+"                        <tr style=\"height: 15px; background-color: #d8d8d8;font-size: 13px;font-weight:bold;\" align=\"center\" valign=\"middle\">\n"
+"                            <td>Number</td>\n"
+"                            <td>Date</td>\n"
+"                            <td>Amount</td>\n"
+"                        </tr>\n"
+"                    </thead>\n"
+"                    <tbody>\n"
+"                        <t t-foreach=\"object.payment_line_ids\" t-as=\"payment_line\">\n"
+"                            <tr>\n"
+"                                <td>\n"
+"                                    <t t-if=\"payment_line.move_line_id.move_id.move_type in ('in_invoice', 'in_refund') and payment_line.move_line_id.move_id.ref\">\n"
+"                                        <t t-out=\"payment_line.move_line_id.move_id.ref or ''\">PY000</t>\n"
+"                                    </t>\n"
+"                                    <t t-else=\"\">\n"
+"                                        <t t-out=\"payment_line.communication or ''\">Email</t>\n"
+"                                    </t>\n"
+"                                </td>\n"
+"                                <td>\n"
+"                                    <t t-out=\"format_date(payment_line.date)\"></t>\n"
+"                                </td>\n"
+"                                <td>\n"
+"                                    <t t-out=\"format_amount(payment_line.amount_currency, payment_line.currency_id) or ''\">$\n"
+"                                        1000</t>\n"
+"                                </td>\n"
+"                            </tr>\n"
+"                        </t>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <p>Do not hesitate to contact us if you have any questions.</p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"font-family : 'Lucida Grande', Ubuntu, Arial, Verdana, sans-"
+"serif ; font-size : 12px ; color : rgb(34, 34, 34) ; background-color : #FFF "
+"; \">\n"
+"                <p>Bonjour <t t-out=\"object.partner_id.name or ''\">Brandon "
+"Freeman</t>,</p>\n"
+"                <t t-if=\"object.order_id.payment_type == 'inbound'\">\n"
+"                    <p>Un ordre de débit comprenant au moins une de vos "
+"factures a été traité et envoyé à la banque.</p>\n"
+"                </t>\n"
+"                <t t-else=\"\">\n"
+"                    <p>Un ordre de paiement incluant au moins une de vos "
+"factures a été traité et envoyé à la banque.</p>\n"
+"                </t>\n"
+"                <p>Il comprend les abonnés suivants :</p>\n"
+"                <table class=\"table table-striped\">\n"
+"                    <thead>\n"
+"                        <tr style=\"height : 15px ; background-color : #"
+"d8d8d8 ;font-size : 13px ;font-weight :bold ;\" align=\"center\" valign="
+"\"middle\">\n"
+"                            <td>Numéro</td>\n"
+"                            <td>Date</td>\n"
+"                            <td>Montant</td>\n"
+"                        </tr>\n"
+"                    </thead>\n"
+"                    <tbody>\n"
+"                        <t t-foreach=\"object.payment_line_ids\" t-as="
+"\"payment_line\">\n"
+"                            <tr>\n"
+"                                <td>\n"
+"                                    <t t-if=\"payment_line."
+"move_line_id.move_id.move_type in ('in_invoice', 'in_refund') and "
+"payment_line.move_line_id.move_id.ref\">\n"
+"                                        <t t-out=\"payment_line."
+"move_line_id.move_id.ref or ''\">PY000</t>\n"
+"                                    </t>\n"
+"                                    <t t-else=\"\">\n"
+"                                        <t t-out=\"payment_line."
+"communication or ''\">Email</t>\n"
+"                                    </t>\n"
+"                                </td>\n"
+"                                <td>\n"
+"                                    <t t-out=\"format_date(payment_line.date)"
+"\"></t>\n"
+"                                </td>\n"
+"                                <td>\n"
+"                                    <t t-out=\"format_amount("
+"payment_line.amount_currency, payment_line.currency_id) or ''\">$ 1000</t>\n"
+"                                </td>\n"
+"                            </tr>\n"
+"                        </t>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <p>N'hésitez pas à nous contacter si vous avez des "
+"questions.</p>\n"
+"            </div>\n"
+"        "
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_needaction
+msgid "Action Needed"
+msgstr "Nécessite une action"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: account_payment_order_notification
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.wizard_account_payment_order_notification_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: account_payment_order_notification
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.wizard_account_payment_order_notification_form
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__create_uid
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__create_uid
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__create_date
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__create_date
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__display_name
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__display_name
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__email
+msgid "Email"
+msgstr "Email"
+
+#. module: account_payment_order_notification
+#. odoo-python
+#: code:addons/account_payment_order_notification/models/account_payment_order.py:0
+#, python-format
+msgid "Email has been sent to the following partners: %s"
+msgstr "L'email a été envoyé aux abonnés suivants : %s"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (Partenaires)"
+
+#. module: account_payment_order_notification
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_notification_search
+msgid "Group By"
+msgstr "Regrouper par"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__id
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__id
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_error
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur de livraison."
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_is_follower
+msgid "Is Follower"
+msgstr "Est un abonné"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification____last_update
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification____last_update
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__write_uid
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__write_uid
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__write_uid
+msgid "Last Updated by"
+msgstr "Mis à jour par"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__write_date
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__write_date
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__write_date
+msgid "Last Updated on"
+msgstr "Mis à jour le"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__line_ids
+msgid "Lines"
+msgstr "Lignes"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__mail_template_id
+msgid "Mail Template"
+msgstr "Modèle d'email"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Pièce jointe principale"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur d'envoi du message"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order__notification_count
+msgid "Notification count"
+msgstr "Nombre de notifications"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order__notification_ids
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_form
+msgid "Notifications"
+msgstr "Notifications"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Nombre de messages nécessitant une action"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages avec des erreurs d'envoi"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__order_id
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__order_id
+msgid "Order"
+msgstr "Ordre"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__parent_id
+msgid "Parent"
+msgstr "Parent"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__partner_id
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__partner_id
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__payment_line_ids
+msgid "Payment Line"
+msgstr "Ligne de paiement"
+
+#. module: account_payment_order_notification
+#: model:ir.model,name:account_payment_order_notification.model_account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_notification_search
+msgid "Payment Order"
+msgstr "Ordre de paiement"
+
+#. module: account_payment_order_notification
+#: model:ir.model,name:account_payment_order_notification.model_account_payment_order_notification
+msgid "Payment Order Notification"
+msgstr "Notification d'ordre de paiement"
+
+#. module: account_payment_order_notification
+#: model:mail.template,name:account_payment_order_notification.email_account_payment_order_notification
+msgid "Payment Order Notification: Send by email"
+msgstr "Notification d'ordre de paiement : Envoi par email"
+
+#. module: account_payment_order_notification
+#: model:ir.actions.act_window,name:account_payment_order_notification.account_payment_order_notification_action
+msgid "Payment Order Notifications"
+msgstr "Notifications d'ordres de paiement"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erreur d'envoi SMS"
+
+#. module: account_payment_order_notification
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_form
+msgid "Send mails"
+msgstr "Envoyer des courriers électroniques"
+
+#. module: account_payment_order_notification
+#: model:ir.actions.act_window,name:account_payment_order_notification.wizard_account_payment_order_notification_action
+msgid "Send notifications"
+msgstr "Envoyer des notifications"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__to_send
+msgid "To send"
+msgstr "À envoyer"
+
+#. module: account_payment_order_notification
+#: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_notification_form
+msgid "Transactions"
+msgstr "Opérations"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__website_message_ids
+msgid "Website Messages"
+msgstr "Messages du site web"
+
+#. module: account_payment_order_notification
+#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__website_message_ids
+msgid "Website communication history"
+msgstr "Historique des échanges sur le site Web"
+
+#. module: account_payment_order_notification
+#: model:ir.model,name:account_payment_order_notification.model_wizard_account_payment_order_notification
+msgid "Wizard Account Payment Order Notification"
+msgstr "Assistant notification de l'ordre de paiement"
+
+#. module: account_payment_order_notification
+#: model:ir.model,name:account_payment_order_notification.model_wizard_account_payment_order_notification_line
+msgid "Wizard Account Payment Order Notification Line"
+msgstr "Assistant ligne de notification de l'ordre de paiement"
+
+#. module: account_payment_order_notification
+#: model:mail.template,subject:account_payment_order_notification.email_account_payment_order_notification
+msgid ""
+"{{ object.company_id.name }} Payment Order (Ref {{ object.order_id.name or "
+"'n/a' }})"
+msgstr ""
+"{{ object.company_id.name }} Ordre de paiement (Réf {{ object.order_id.name "
+"or 'n/a' }})"
