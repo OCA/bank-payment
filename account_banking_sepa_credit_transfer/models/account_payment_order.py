@@ -175,7 +175,10 @@ class AccountPaymentOrder(models.Model):
                 instructed_amount.text = "%.2f" % line.amount
                 amount_control_sum_a += line.amount
                 amount_control_sum_b += line.amount
-                if not line.partner_bank_id:
+                if (
+                    self.payment_method_id.bank_account_required
+                    and not line.partner_bank_id
+                ):
                     raise UserError(
                         _(
                             "Bank account is missing on the bank payment line "
