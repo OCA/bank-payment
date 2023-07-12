@@ -216,9 +216,10 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
-"Sur le mode de paiement %(paymode)s, la méthode de paiement est %(paymethod)"
-"s (il s'agit en fait d'une méthode de débit), mais cette méthode de débit ne "
-"fait pas partie des méthodes de débit du journal de banque fixe %(journal)s"
+"Sur le mode de paiement %(paymode)s, la méthode de paiement est "
+"%(paymethod)s (il s'agit en fait d'une méthode de débit), mais cette méthode "
+"de débit ne fait pas partie des méthodes de débit du journal de banque fixe "
+"%(journal)s"
 
 #. module: account_payment_mode
 #. odoo-python
@@ -229,9 +230,9 @@ msgid ""
 "this payment method is not part of the payment methods of the fixed bank "
 "journal %(journal)s"
 msgstr ""
-"Sur le mode de paiement %(paymode)s, la méthode de paiement est %(paymethod)"
-"s, mais cette méthode de paiement ne fait pas partie des méthodes de "
-"paiement du journal de banque fixe %(journal)s"
+"Sur le mode de paiement %(paymode)s, la méthode de paiement est "
+"%(paymethod)s, mais cette méthode de paiement ne fait pas partie des "
+"méthodes de paiement du journal de banque fixe %(journal)s"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
