@@ -50,6 +50,7 @@
                         name="move_line_ids"
                         nolabel="1"
                         context="{'tree_view_ref': 'account_payment_order.view_move_line_tree'}"
+                        colspan="3"
                     >
                         <tree>
                             <field name="date" />
