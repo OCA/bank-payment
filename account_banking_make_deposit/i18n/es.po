@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-06 20:05+0000\n"
-"PO-Revision-Date: 2020-05-06 20:05+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2023-07-20 09:10+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.ui.view,arch_db:account_banking_make_deposit.deposit_ticket_report
@@ -411,7 +412,7 @@ msgstr "Ultima modification el"
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__write_uid
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket_line__write_uid
 msgid "Last Updated by"
-msgstr "Ultima modificacion por"
+msgstr "Última actualización por"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_add_deposit_items__write_date
@@ -420,37 +421,37 @@ msgstr "Ultima modificacion por"
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__write_date
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket_line__write_date
 msgid "Last Updated on"
-msgstr "Ultima modification el"
+msgstr "Última actualización el"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_add_deposit_items__deposit_items_line_ids
 msgid "Lines"
-msgstr "Lineas"
+msgstr "Líneas"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__move_id
 msgid "Link to the automatically generated Journal Items."
-msgstr "Enlace al apunte contable generado"
+msgstr "Enlace a los artículos del diario generados automáticamente."
 
 #. module: account_banking_make_deposit
 #: model:res.groups,name:account_banking_make_deposit.group_make_deposits_preparer
 msgid "Make Deposits Preparer"
-msgstr "Preparador de depositos"
+msgstr "Preparador de depósitos"
 
 #. module: account_banking_make_deposit
 #: model:res.groups,name:account_banking_make_deposit.group_make_deposits_verifier
 msgid "Make Deposits Verifier"
-msgstr "Verificador de depositos"
+msgstr "Verificador de depósitos"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_deposit_ticket__memo
 msgid "Memo"
-msgstr ""
+msgstr "memoria"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__memo
 msgid "Memo for the deposit ticket"
-msgstr "Memo"
+msgstr "Nota para el ticket de depósito"
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,field_description:account_banking_make_deposit.field_add_deposit_items__name
