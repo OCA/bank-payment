@@ -57,16 +57,21 @@ class AccountMove(models.Model):
         for move in self:
             if move.state != "posted":
                 raise UserError(_("The invoice %s is not in Posted state") % move.name)
-            applicable_lines = move.line_ids.filtered(
+            pre_applicable_lines = move.line_ids.filtered(
                 lambda x: (
                     not x.reconciled
-                    and x.payment_mode_id.payment_order_ok
                     and x.account_id.internal_type in ("receivable", "payable")
                     and not any(
                         p_state in ("draft", "open", "generated")
                         for p_state in x.payment_line_ids.mapped("state")
                     )
                 )
+            )
+            payment_modes = pre_applicable_lines.mapped("payment_mode_id")
+            if not payment_modes:
+                raise UserError(_("No Payment Mode on invoice %s") % move.name)
+            applicable_lines = pre_applicable_lines.filtered(
+                lambda x: x.payment_mode_id.payment_order_ok
             )
             if not applicable_lines:
                 raise UserError(
@@ -77,9 +82,6 @@ class AccountMove(models.Model):
                     )
                     % move.name
                 )
-            payment_modes = applicable_lines.mapped("payment_mode_id")
-            if not payment_modes:
-                raise UserError(_("No Payment Mode on invoice %s") % move.name)
             for payment_mode in payment_modes:
                 payorder = apoo.search(
                     move.get_account_payment_domain(payment_mode), limit=1
