@@ -209,6 +209,14 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(order.move_ids[0].date, order.payment_ids[0].date)
         self.assertEqual(order.state, "uploaded")
 
+    def test_account_payment_line_creation_without_payment_mode(self):
+        self.invoice.payment_mode_id = False
+        self.invoice.action_post()
+        with self.assertRaises(UserError):
+            self.env["account.invoice.payment.line.multi"].with_context(
+                active_model="account.move", active_ids=self.invoice.ids
+            ).create({}).run()
+
     def test_cancel_payment_order(self):
         # Open invoice
         self.invoice.action_post()
