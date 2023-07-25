@@ -8,6 +8,7 @@ import base64
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_compare
 
 
 class AccountPaymentOrder(models.Model):
@@ -436,7 +437,15 @@ class AccountPaymentOrder(models.Model):
             for line in payment.payment_line_ids:
                 if not line.move_line_id:
                     continue
-                if line.amount_currency != -line.move_line_id.amount_residual_currency:
+                sign = -1 if payment.payment_order_id.payment_type == "outbound" else 1
+                if (
+                    float_compare(
+                        line.amount_currency,
+                        (line.move_line_id.amount_residual_currency * sign),
+                        precision_rounding=line.move_line_id.currency_id.rounding,
+                    )
+                    != 0
+                ):
                     if line.move_line_id.amount_residual_currency < 0:
                         debit_move_id = payment_move_line_id.id
                         credit_move_id = line.move_line_id.id
