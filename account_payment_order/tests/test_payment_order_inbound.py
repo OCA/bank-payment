@@ -111,6 +111,10 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         self.assertEqual(payment_order.state, "uploaded")
         with self.assertRaises(UserError):
             payment_order.unlink()
+        matching_number = (
+            payment_order.payment_ids.payment_line_ids.move_line_id.matching_number
+        )
+        self.assertTrue(matching_number and matching_number != "P")
 
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
