@@ -15,7 +15,6 @@
                     <field name="reconciled" invisible="1" />
                     <field
                         name="payment_mode_id"
-                        widget="selection"
                         force_save="1"
                         attrs="{'invisible': [('account_type', 'not in', ['asset_receivable', 'liability_payable'])], 'readonly': ['|', ('account_type', 'not in', ['asset_receivable', 'liability_payable']), ('reconciled', '=', True)]}"
                     />
@@ -34,7 +33,6 @@
                 <field
                     name="payment_mode_id"
                     optional="hide"
-                    widget="selection"
                     force_save="1"
                     attrs="{'invisible': [('account_type', 'not in', ['asset_receivable', 'liability_payable'])], 'readonly': ['|', ('account_type', 'not in', ['asset_receivable', 'liability_payable']), ('reconciled', '=', True)]}"
                 />
