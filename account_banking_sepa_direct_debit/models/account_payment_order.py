@@ -278,8 +278,8 @@ class AccountPaymentOrder(models.Model):
             to_expire_mandates = abmo.browse([])
             first_mandates = abmo.browse([])
             all_mandates = abmo.browse([])
-            for payment in order.payment_ids:
-                mandate = payment.payment_line_ids.mandate_id
+            for bank_line in order.bank_line_ids:
+                mandate = bank_line.payment_line_ids.mandate_id
                 if mandate in all_mandates:
                     continue
                 all_mandates += mandate
