@@ -13,7 +13,5 @@ class AccountPaymentLineCreate(models.TransientModel):
     def _prepare_move_line_domain(self):
         domain = super()._prepare_move_line_domain()
         if not self.include_returned:
-            domain += [
-                ("move_id.returned_payment", "=", False),
-            ]
+            domain += [("move_id.returned_payment", "=", False)]
         return domain

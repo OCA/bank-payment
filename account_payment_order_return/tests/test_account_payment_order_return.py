@@ -14,13 +14,6 @@ class TestAccountPaymentOrderReturn(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.a_income = cls.env["account.account"].create(
-            {
-                "code": "TIA",
-                "name": "Test Income Account",
-                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
-            }
-        )
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner 2"})
         cls.sale_journal = cls.env["account.journal"].create(
             {"name": "Test Sale Journal", "type": "sale", "code": "Test"}
@@ -34,9 +27,22 @@ class TestAccountPaymentOrderReturn(common.TransactionCase):
             )
         )
         move_form.partner_id = cls.partner
+        uom_unit = cls.env.ref("uom.product_uom_unit")
+        cls.product_order = cls.env["product.product"].create(
+            {
+                "name": "Zed+ Antivirus",
+                "standard_price": 235.0,
+                "list_price": 280.0,
+                "type": "consu",
+                "uom_id": uom_unit.id,
+                "uom_po_id": uom_unit.id,
+                "default_code": "PROD_ORDER",
+                "taxes_id": False,
+            }
+        )
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "Test line"
-            line_form.account_id = cls.a_income
+            line_form.product_id = cls.product_order
             line_form.quantity = 1.0
             line_form.price_unit = 100.00
         cls.invoice = move_form.save()
@@ -101,7 +107,7 @@ class TestAccountPaymentOrderReturn(common.TransactionCase):
         with payment_return_form.line_ids.new() as line_form:
             line_form.move_line_ids.add(
                 self.payment.move_id.line_ids.filtered(
-                    lambda x: x.account_id.internal_type == "receivable"
+                    lambda x: x.account_id.account_type == "asset_receivable"
                 )
             )
         self.payment_return = payment_return_form.save()
