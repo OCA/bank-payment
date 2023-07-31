@@ -316,6 +316,62 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             fields.Date.context_today(outbound_order),
         )
 
+    def test_partial_reconciliation(self):
+        """
+        Confirm both supplier invoices
+        Add invoices to payment order
+        Reduce payment amount of first invoice from 100 to 80
+        Take payment order all the way to uploaded
+        Confirm 80 reconciled with first, not second invoice
+
+        generated2uploaded() does partial reconciliation of non-matching
+        line amounts before running .reconcile() against the remaining
+        matching line amounts.
+        """
+        # Open both invoices
+        self.invoice.action_post()
+        self.invoice_02.action_post()
+
+        # Add to payment order using the wizard
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move",
+            active_ids=self.invoice.ids + self.invoice_02.ids,
+        ).create({}).run()
+
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+
+        payment_order.write({"journal_id": self.bank_journal.id})
+
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
+        self.assertFalse(payment_order.payment_ids)
+
+        # Reduce payment of first invoice from 100 to 80
+        first_payment_line, second_payment_line = payment_order.payment_line_ids
+        first_payment_line.write({"amount_currency": 80.0})
+
+        # Open payment order
+        payment_order.draft2open()
+
+        # Confirm single payment (grouped - two invoices one partner)
+        self.assertEqual(payment_order.payment_count, 1)
+
+        # Generate and upload
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+
+        self.assertEqual(payment_order.state, "uploaded")
+        with self.assertRaises(UserError):
+            payment_order.unlink()
+
+        # Confirm payments were reconciled against correct invoices
+        self.assertEqual(first_payment_line.amount_currency, 80.0)
+        self.assertEqual(
+            first_payment_line.move_line_id.amount_residual_currency, -20.0
+        )
+        self.assertEqual(second_payment_line.amount_currency, 100.0)
+        self.assertEqual(second_payment_line.move_line_id.amount_residual_currency, 0.0)
+
     def test_supplier_refund(self):
         """
         Confirm the supplier invoice
