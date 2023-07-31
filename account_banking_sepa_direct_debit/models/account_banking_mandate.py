@@ -102,12 +102,13 @@ class AccountBankingMandate(models.Model):
         )
         if expired_mandates:
             expired_mandates.write({"state": "expired"})
-            expired_mandates.message_post(
-                body=_(
-                    "Mandate automatically set to expired after %d months without use."
+            for mandate in expired_mandates:
+                mandate.message_post(
+                    body=_(
+                        "Mandate automatically set to expired after %d months without use."
+                    )
+                    % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
                 )
-                % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
-            )
             logger.info(
                 "%d SDD Mandate set to expired: IDs %s"
                 % (len(expired_mandates), expired_mandates.ids)
