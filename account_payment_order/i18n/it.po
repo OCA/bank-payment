@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2023-06-16 17:10+0000\n"
+"PO-Revision-Date: 2023-08-03 11:10+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -415,7 +415,7 @@ msgstr "Scadenza"
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__due
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__due
 msgid "Due Date"
-msgstr "Data Scadenza"
+msgstr "Data scadenza"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__generated
