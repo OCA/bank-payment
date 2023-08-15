@@ -25,21 +25,23 @@ msgid "<strong>Payment Mode:</strong>"
 msgstr "<strong>Betaalmode:</strong>"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_account_move
-msgid "Journal Entries"
-msgstr "Boekingen"
-
-#. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_sale.field_sale_report__payment_mode_id
 msgid "Payment Mode"
 msgstr "Betaalwijze"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr "Verkoop Incassofactuur"
+#: model:ir.model,name:account_payment_sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr ""
 
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
 msgstr ""
+
+#~ msgid "Journal Entries"
+#~ msgstr "Boekingen"
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Verkoop Incassofactuur"
