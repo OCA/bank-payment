@@ -25,11 +25,6 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr ""
-
-#. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_report
 msgid "Sales Analysis Report"
 msgstr ""
