@@ -738,8 +738,8 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"No Payment Line created for invoice %s because it already exists or because "
-"this invoice is already paid."
+"No Payment Line created for invoice %s because its payment mode is not "
+"intended for payment orders."
 msgstr ""
 
 #. module: account_payment_order
@@ -756,6 +756,13 @@ msgstr ""
 msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
 "Odoo module."
+msgstr ""
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid "No pending AR/AP lines to add on %s"
 msgstr ""
 
 #. module: account_payment_order
@@ -785,7 +792,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: account_payment_order
@@ -1076,6 +1083,14 @@ msgstr ""
 #, python-format
 msgid ""
 "The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
+msgstr ""
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid ""
+"The invoice %(move)s is already added in the payment order(s) %(order)s."
 msgstr ""
 
 #. module: account_payment_order
