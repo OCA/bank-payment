@@ -62,12 +62,10 @@ class AccountMove(models.Model):
                     not x.reconciled
                     and x.account_id.account_type
                     in ("asset_receivable", "liability_payable")
-                    and not any(
-                        p_state in ("draft", "open", "generated")
-                        for p_state in x.payment_line_ids.mapped("state")
-                    )
                 )
             )
+            if not pre_applicable_lines:
+                raise UserError(_("No pending AR/AP lines to add on %s") % move.name)
             payment_modes = pre_applicable_lines.mapped("payment_mode_id")
             if not payment_modes:
                 raise UserError(_("No Payment Mode on invoice %s") % move.name)
@@ -78,10 +76,23 @@ class AccountMove(models.Model):
                 raise UserError(
                     _(
                         "No Payment Line created for invoice %s because "
-                        "it already exists or because this invoice is "
-                        "already paid."
+                        "its payment mode is not intended for payment orders."
                     )
                     % move.name
+                )
+            payment_lines = applicable_lines.payment_line_ids.filtered(
+                lambda l: l.state in ("draft", "open", "generated")
+            )
+            if payment_lines:
+                raise UserError(
+                    _(
+                        "The invoice %(move)s is already added in the payment "
+                        "order(s) %(order)s."
+                    )
+                    % {
+                        "move": move.name,
+                        "order": payment_lines.order_id.mapped("name"),
+                    }
                 )
             for payment_mode in payment_modes:
                 payorder = apoo.search(
