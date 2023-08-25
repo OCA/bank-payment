@@ -35,9 +35,6 @@ class TestSCT(TransactionCase):
         cls.main_company = cls.env["res.company"].create(
             {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
         )
-        cls.partner_agrolait.company_id = cls.main_company.id
-        cls.partner_asus.company_id = cls.main_company.id
-        cls.partner_c2c.company_id = cls.main_company.id
         cls.env.user.write(
             {
                 "company_ids": [(6, 0, cls.main_company.ids)],
@@ -60,9 +57,9 @@ class TestSCT(TransactionCase):
                 "code": "TP.1",
             }
         )
-        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
-            cls.main_company.id
-        ).write({"property_account_payable_id": cls.account_payable.id})
+        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).write(
+            {"property_account_payable_id": cls.account_payable.id}
+        )
         cls.general_journal = cls.journal_model.create(
             {
                 "name": "General journal",
