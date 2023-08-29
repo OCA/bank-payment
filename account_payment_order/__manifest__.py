@@ -30,7 +30,6 @@
         "views/account_payment_views.xml",
         "views/account_payment_order.xml",
         "views/account_payment_line.xml",
-        "views/account_payment.xml",
         "views/account_move_line.xml",
         "views/ir_attachment.xml",
         "views/account_invoice_view.xml",
