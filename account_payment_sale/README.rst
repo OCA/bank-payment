@@ -69,6 +69,7 @@ Contributors
 * Danimar Ribeiro
 * Raphaël Valyi
 * Raf Ven <raf.ven@dynapps.be>
+* Raphaël Reverdy <raphael.reverdy@akretion.com>
 
 Maintainers
 ~~~~~~~~~~~

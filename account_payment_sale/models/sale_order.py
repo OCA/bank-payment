@@ -40,3 +40,15 @@ class SaleOrder(models.Model):
         vals = super()._prepare_invoice()
         self._get_payment_mode_vals(vals)
         return vals
+
+    def partner_banks_to_show(self):
+        self.ensure_one()
+        if self.payment_mode_id.show_bank_account_from_journal:
+            if self.payment_mode_id.bank_account_link == "fixed":
+                return self.payment_mode_id.fixed_journal_id.bank_account_id
+            else:
+                return self.payment_mode_id.variable_journal_ids.mapped(
+                    "bank_account_id"
+                )
+        # Return this as empty recordset
+        return self.env["res.partner.bank"].browse(0)
