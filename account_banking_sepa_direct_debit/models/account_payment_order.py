@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from lxml import etree
-
 from odoo import _, exceptions, fields, models
 from odoo.exceptions import UserError
 
@@ -102,6 +101,7 @@ class AccountPaymentOrder(models.Model):
                 lines_per_group[key].append(line)
             else:
                 lines_per_group[key] = [line]
+
 
         for (
             (requested_date, priority, categ_purpose, sequence_type, scheme),
@@ -244,11 +244,12 @@ class AccountPaymentOrder(models.Model):
                     # After 20/11/2016, SMNDA means
                     # "Same Mandate New Debtor Account"
 
+                partner_bank_id = line.payment_line_ids[:1].partner_bank_id
                 self.generate_party_block(
                     dd_transaction_info,
                     "Dbtr",
                     "C",
-                    line.partner_bank_id,
+                    partner_bank_id,
                     gen_args,
                     line,
                 )
