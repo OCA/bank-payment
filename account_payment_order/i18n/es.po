@@ -770,11 +770,9 @@ msgstr "Tipo de la siguiente actividad"
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"No Payment Line created for invoice %s because it already exists or because "
-"this invoice is already paid."
+"No Payment Line created for invoice %s because its payment mode is not "
+"intended for payment orders."
 msgstr ""
-"No se ha creado línea de pago para la factura %s porque ya existe o porque "
-"la factura ya está pagada."
 
 #. module: account_payment_order
 #. odoo-python
@@ -793,6 +791,13 @@ msgid ""
 msgstr ""
 "Sin manejador para este método de pago. Tal vez no ha instalado el módulo de "
 "Odoo relacionado."
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid "No pending AR/AP lines to add on %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
@@ -1127,6 +1132,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
+msgid ""
+"The invoice %(move)s is already added in the payment order(s) %(order)s."
+msgstr ""
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr "La factura %s no está en estado registrado"
 
@@ -1281,6 +1294,14 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#, python-format
+#~ msgid ""
+#~ "No Payment Line created for invoice %s because it already exists or "
+#~ "because this invoice is already paid."
+#~ msgstr ""
+#~ "No se ha creado línea de pago para la factura %s porque ya existe o "
+#~ "porque la factura ya está pagada."
 
 #~ msgid "Accounting Entries Options"
 #~ msgstr "Opciones de asientos contables"
