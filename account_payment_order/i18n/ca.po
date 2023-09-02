@@ -757,11 +757,9 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"No Payment Line created for invoice %s because it already exists or because "
-"this invoice is already paid."
+"No Payment Line created for invoice %s because its payment mode is not "
+"intended for payment orders."
 msgstr ""
-"No s'ha creat cap línia de pagament per a la factura %s perquè ja existeix o "
-"perquè aquesta factura ja està pagada."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -778,6 +776,12 @@ msgid ""
 msgstr ""
 "No s'ha trobat cap gestor per a aquest mètode de pagament. Potser no heu "
 "instal·lat el mòdul Odoo relacionat."
+
+#. module: account_payment_order
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid "No pending AR/AP lines to add on %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
@@ -1105,6 +1109,13 @@ msgstr ""
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
+msgid ""
+"The invoice %(move)s is already added in the payment order(s) %(order)s."
+msgstr ""
+
+#. module: account_payment_order
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr "La factura %s no està en estat Obert"
 
@@ -1260,6 +1271,14 @@ msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "altrament, es crearan ordres de pagament noves (una per cada mode de "
 "pagament)."
+
+#, python-format
+#~ msgid ""
+#~ "No Payment Line created for invoice %s because it already exists or "
+#~ "because this invoice is already paid."
+#~ msgstr ""
+#~ "No s'ha creat cap línia de pagament per a la factura %s perquè ja "
+#~ "existeix o perquè aquesta factura ja està pagada."
 
 #~ msgid "Accounting Entries Options"
 #~ msgstr "Opcions d'assentaments comptables"

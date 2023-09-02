@@ -770,11 +770,9 @@ msgstr ""
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"No Payment Line created for invoice %s because it already exists or because "
-"this invoice is already paid."
+"No Payment Line created for invoice %s because its payment mode is not "
+"intended for payment orders."
 msgstr ""
-"Aucune ligne de paiement créée pour la facture %s parce qu'elle existe déjà "
-"ou parce que cette facture est déjà payée."
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
@@ -791,6 +789,12 @@ msgid ""
 msgstr ""
 "Aucun gestionnaire pour ce mode de paiement. Vous n'avez peut-être pas "
 "installé le module Odoo associé."
+
+#. module: account_payment_order
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid "No pending AR/AP lines to add on %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
@@ -1127,6 +1131,13 @@ msgstr ""
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid ""
+"The invoice %(move)s is already added in the payment order(s) %(order)s."
+msgstr ""
+
+#. module: account_payment_order
+#: code:addons/account_payment_order/models/account_move.py:0
 #, fuzzy, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr "La facture %s n'est pas ouverte"
@@ -1281,6 +1292,14 @@ msgstr "sur"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "Sinon, de nouveaux ordres de paiement seront créés (un par mode de paiement)."
+
+#, python-format
+#~ msgid ""
+#~ "No Payment Line created for invoice %s because it already exists or "
+#~ "because this invoice is already paid."
+#~ msgstr ""
+#~ "Aucune ligne de paiement créée pour la facture %s parce qu'elle existe "
+#~ "déjà ou parce que cette facture est déjà payée."
 
 #~ msgid "Accounting Entries Options"
 #~ msgstr "Options des pièces comptables"
