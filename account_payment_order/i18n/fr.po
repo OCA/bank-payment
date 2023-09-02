@@ -28,8 +28,8 @@ msgid ""
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 "%(count)d lignes de paiement ajoutées à l'ordre de paiement brouillon "
-"existant <a href=# data-oe-model=account.payment.order data-oe-"
-"id=%(order_id)d>%(name)s</a>."
+"existant <a href=# data-oe-model=account.payment.order data-oe-id="
+"%(order_id)d>%(name)s</a>."
 
 #. module: account_payment_order
 #. odoo-python
@@ -41,8 +41,8 @@ msgid ""
 "has been automatically created."
 msgstr ""
 "%(count)d lignes de paiement ajoutées au nouvel ordre de paiement en "
-"brouillon<a href=# data-oe-model=account.payment.order data-oe-"
-"id=%(order_id)d>%(name)s</a>, qui a été automatiquement créé."
+"brouillon<a href=# data-oe-model=account.payment.order data-oe-id="
+"%(order_id)d>%(name)s</a>, qui a été automatiquement créé."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -774,11 +774,9 @@ msgstr "Type d'activité à venir"
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid ""
-"No Payment Line created for invoice %s because it already exists or because "
-"this invoice is already paid."
+"No Payment Line created for invoice %s because its payment mode is not "
+"intended for payment orders."
 msgstr ""
-"Aucune ligne de paiement créée pour la facture %s parce qu'elle existe déjà "
-"ou parce que cette facture est déjà payée."
 
 #. module: account_payment_order
 #. odoo-python
@@ -797,6 +795,13 @@ msgid ""
 msgstr ""
 "Aucun gestionnaire pour ce mode de paiement. Vous n'avez peut-être pas "
 "installé le module Odoo associé."
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid "No pending AR/AP lines to add on %s"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
@@ -1125,8 +1130,16 @@ msgstr "Modèle technique pour imprimer un order de paiement"
 msgid ""
 "The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
 msgstr ""
-"Le montant pour le partenaire '%(partner)s' est négatif ou nul (%(amount).2f)"
-" !"
+"Le montant pour le partenaire '%(partner)s' est négatif ou nul "
+"(%(amount).2f) !"
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_move.py:0
+#, python-format
+msgid ""
+"The invoice %(move)s is already added in the payment order(s) %(order)s."
+msgstr ""
 
 #. module: account_payment_order
 #. odoo-python
@@ -1285,6 +1298,14 @@ msgstr "sur"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "Sinon, de nouveaux ordres de paiement seront créés (un par mode de paiement)."
+
+#, python-format
+#~ msgid ""
+#~ "No Payment Line created for invoice %s because it already exists or "
+#~ "because this invoice is already paid."
+#~ msgstr ""
+#~ "Aucune ligne de paiement créée pour la facture %s parce qu'elle existe "
+#~ "déjà ou parce que cette facture est déjà payée."
 
 #~ msgid "Accounting Entries Options"
 #~ msgstr "Options des pièces comptables"
