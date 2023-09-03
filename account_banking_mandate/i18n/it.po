@@ -103,13 +103,7 @@ msgid "Bank Accounts"
 msgstr "Conti Bancari"
 
 #. module: account_banking_mandate
-#: model:ir.model,name:account_banking_mandate.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Righe di pagamento bancario"
-
-#. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
 msgstr "Mandato Bancario"
 
@@ -146,6 +140,7 @@ msgid "Cancelled"
 msgstr "Annullato"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
@@ -156,6 +151,7 @@ msgstr ""
 "bancario."
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
@@ -201,7 +197,6 @@ msgstr "Data dell'ultimo Addebito"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Mandato Addebito Diretto"
 
@@ -214,13 +209,6 @@ msgstr "Mandato Addebito Diretto"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
@@ -249,11 +237,6 @@ msgid "Followers"
 msgstr "Seguito da"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguito da (canali)"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguito da (partner)"
@@ -280,14 +263,12 @@ msgid "Group By"
 msgstr "Raggruppa per"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
 msgstr "ID"
 
@@ -303,7 +284,6 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Se selezionata, nuovi messaggi richiedono attenzione."
 
@@ -330,13 +310,6 @@ msgstr "Movimento contabile"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_bank_payment_line____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner____last_update
-#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank____last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
 
@@ -356,11 +329,6 @@ msgid "Main Attachment"
 msgstr "Allegato principale"
 
 #. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.bank_payment_line_tree
-msgid "Mandate"
-msgstr "Mandato"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
 #, fuzzy
 msgid "Mandate Format"
@@ -376,18 +344,21 @@ msgid "Mandate Required"
 msgstr "Mandato Richiesto"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in cancel state."
 msgstr "Il Mandato dovrebbe essere in stato Cancellato."
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "Il Mandato dovrebbe essere in stato Bozza o Valido."
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate should be in draft state."
@@ -414,6 +385,7 @@ msgid "Messages"
 msgstr "Messaggi"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid "Missing Mandate on payment line %s"
@@ -458,18 +430,13 @@ msgstr "Numero di Errori"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Numero di messaggi che richiedono un'azione"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Numero di messaggi con errore di consegna"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Numero di messaggi non letti"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__state
@@ -503,6 +470,7 @@ msgid "Payment Methods"
 msgstr "Metodi di pagamento"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 #, fuzzy, python-format
@@ -570,12 +538,14 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La data di firma del mandato '%s' è nel futuro!"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #, python-format
 msgid ""
@@ -586,23 +556,24 @@ msgstr ""
 "firma."
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s a different company than that of the linked "
-"mandate %s)."
+"The payment line number {line_number} a different company than that of the "
+"linked mandate {mandate})."
 msgstr ""
-"La riga numero %s ha una company diversa da quella collegata al mandato %s)."
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 #, python-format
 msgid ""
-"The payment line number %s has the bank account '%s' which is not attached "
-"to the mandate '%s' (this mandate is attached to the bank account '%s')."
+"The payment line number {line_number} has the bank account  "
+"'{line_bank_account}' which is not attached to the mandate "
+"'{mandate_ref}' (this mandate is attached to the bank account "
+"'{mandate_bank_account}')."
 msgstr ""
-"La linea numero %s ha il conto bancario '%s' che non è collegato al mandato "
-"'%s' (questo mandato è collegato al conto bancario '%s')."
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -624,16 +595,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__unique_mandate_reference
 msgid "Unique Mandate Reference"
 msgstr "Riferimento univoco del Mandato"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_unread
-msgid "Unread Messages"
-msgstr "Messaggi non letti"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Numero messaggi non letti"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields.selection,name:account_banking_mandate.selection__account_banking_mandate__state__valid
@@ -659,6 +620,7 @@ msgid "Website communication history"
 msgstr "Website communication history"
 
 #. module: account_banking_mandate
+#. odoo-python
 #: code:addons/account_banking_mandate/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -676,6 +638,44 @@ msgid ""
 msgstr ""
 "Dovresti reimpostare un mandato a Bozza solo se lo hai cancellato per "
 "errore. Vuoi continuare?"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Righe di pagamento bancario"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguito da (canali)"
+
+#~ msgid "Mandate"
+#~ msgstr "Mandato"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Numero di messaggi che richiedono un'azione"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Numero di messaggi non letti"
+
+#, python-format
+#~ msgid ""
+#~ "The payment line number %s a different company than that of the linked "
+#~ "mandate %s)."
+#~ msgstr ""
+#~ "La riga numero %s ha una company diversa da quella collegata al mandato "
+#~ "%s)."
+
+#, python-format
+#~ msgid ""
+#~ "The payment line number %s has the bank account '%s' which is not "
+#~ "attached to the mandate '%s' (this mandate is attached to the bank "
+#~ "account '%s')."
+#~ msgstr ""
+#~ "La linea numero %s ha il conto bancario '%s' che non è collegato al "
+#~ "mandato '%s' (questo mandato è collegato al conto bancario '%s')."
+
+#~ msgid "Unread Messages"
+#~ msgstr "Messaggi non letti"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Numero messaggi non letti"
 
 #, fuzzy
 #~ msgid "Journal Entries"
