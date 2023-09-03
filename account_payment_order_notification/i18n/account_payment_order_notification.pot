@@ -232,7 +232,7 @@ msgstr ""
 
 #. module: account_payment_order_notification
 #: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: account_payment_order_notification
