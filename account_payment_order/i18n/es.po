@@ -826,8 +826,8 @@ msgstr "Número de errores"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensajes que requieren una acción"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error_counter
@@ -1294,6 +1294,9 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensajes que requieren una acción"
 
 #, python-format
 #~ msgid ""
