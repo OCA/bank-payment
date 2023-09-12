@@ -87,7 +87,9 @@ class AccountPaymentOrder(models.Model):
             # taking into account the 'date_prefered' setting
             # cf account_banking_payment_export/models/account_payment.py
             # in the inherit of action_open()
-            key = (line.date, priority, local_instrument, categ_purpose)
+            key = self._get_transaction_grouping_key(
+                line, priority, local_instrument, categ_purpose
+            )
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
@@ -168,6 +170,9 @@ class AccountPaymentOrder(models.Model):
                     3,
                     gen_args=gen_args,
                 )
+                self.generate_transaction_payment_type_information(
+                    credit_transfer_transaction_info, line, gen_args
+                )
                 amount = etree.SubElement(credit_transfer_transaction_info, "Amt")
                 instructed_amount = etree.SubElement(
                     amount, "InstdAmt", Ccy=currency_name
@@ -208,3 +213,19 @@ class AccountPaymentOrder(models.Model):
             nb_of_transactions_a.text = str(transactions_count_a)
             control_sum_a.text = "%.2f" % amount_control_sum_a
         return self.finalize_sepa_file_creation(xml_root, gen_args)
+
+    def generate_transaction_payment_type_information(
+        self, credit_transfer_transaction_info, line, gen_args
+    ):
+        """
+        Inherit in create PmtTpInf block on transaction level
+        """
+
+    def _get_transaction_grouping_key(
+        self, line, priority, local_instrument, categ_purpose
+    ):
+        """
+        Inherit in order to change grouping logic
+        E.g. to move PmtTpInf to the transaction level
+        """
+        return (line.date, priority, local_instrument, categ_purpose)
