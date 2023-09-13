@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-02 01:12+0000\n"
-"PO-Revision-Date: 2023-07-03 16:09+0000\n"
+"PO-Revision-Date: 2023-09-20 17:49+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -506,7 +506,7 @@ msgstr ""
 #. module: account_banking_payment_export
 #: view:bank.payment.line:account_banking_payment_export.bank_payment_line_tree
 msgid "Total Amount"
-msgstr "Importo Totale"
+msgstr "Importo totale"
 
 #. module: account_banking_payment_export
 #: view:account.move.line:account_banking_payment_export.payment_order_populate_view_move_line_tree
