@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-02 01:12+0000\n"
-"PO-Revision-Date: 2023-07-03 16:09+0000\n"
+"PO-Revision-Date: 2023-09-20 17:49+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -531,7 +531,7 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,total_amount:0
 msgid "Total Amount"
-msgstr "Importo Totale"
+msgstr "Importo totale"
 
 #. module: account_banking_sepa_direct_debit
 #: view:account.banking.mandate:account_banking_sepa_direct_debit.sdd_mandate_search
