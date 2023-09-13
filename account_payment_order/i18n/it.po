@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2023-08-08 15:11+0000\n"
+"PO-Revision-Date: 2023-09-20 17:54+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -1111,7 +1111,7 @@ msgstr "Totale (Valuta)"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_tree
 msgid "Total Amount"
-msgstr "Totale Importo"
+msgstr "Importo totale"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_total_company_currency
