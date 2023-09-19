@@ -548,7 +548,6 @@ msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur de livraison."
 
@@ -1026,11 +1025,6 @@ msgid "Responsible User"
 msgstr "Utilisateur responsable"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur d'envoi SMS"
-
-#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__same
 msgid "Same"
@@ -1298,6 +1292,9 @@ msgstr "sur"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "Sinon, de nouveaux ordres de paiement seront créés (un par mode de paiement)."
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur d'envoi SMS"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Nombre de messages nécessitant une action"

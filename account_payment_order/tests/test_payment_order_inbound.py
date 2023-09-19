@@ -92,6 +92,21 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         with self.assertRaises(ValidationError):
             self.inbound_order.date_scheduled = date.today() - timedelta(days=1)
 
+    def test_invoice_communication_01(self):
+        self.assertEqual(
+            self.invoice.name, self.invoice._get_payment_order_communication_direct()
+        )
+        self.invoice.ref = "R1234"
+        self.assertEqual(
+            self.invoice.name, self.invoice._get_payment_order_communication_direct()
+        )
+
+    def test_invoice_communication_02(self):
+        self.invoice.payment_reference = "R1234"
+        self.assertEqual(
+            "R1234", self.invoice._get_payment_order_communication_direct()
+        )
+
     def test_creation(self):
         payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
