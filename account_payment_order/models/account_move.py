@@ -39,6 +39,31 @@ class AccountMove(models.Model):
                 payment_mode = move.payment_mode_id
             move.payment_order_ok = payment_mode.payment_order_ok
 
+    def _get_payment_order_communication(self):
+        """
+        Retrieve the communication string for the payment order
+        """
+        communication = self.payment_reference or self.ref or self.name or ""
+        if self.is_invoice():
+            if (self.reference_type or "none") != "none":
+                communication = self.ref
+            elif self.is_purchase_document():
+                communication = self.ref or self.payment_reference
+            else:
+                communication = self.payment_reference or self.name
+        # If we have credit note(s) - reversal_move_id is a one2many
+        if self.reversal_move_id:
+            references = []
+            references.extend(
+                [
+                    move._get_payment_order_communication()
+                    for move in self.reversal_move_id
+                    if move.payment_reference or move.ref
+                ]
+            )
+            communication += " " + " ".join(references)
+        return communication
+
     def _prepare_new_payment_order(self, payment_mode=None):
         self.ensure_one()
         if payment_mode is None:
