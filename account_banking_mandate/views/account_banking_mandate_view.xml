@@ -50,7 +50,7 @@
                             <field
                                 name="unique_mandate_reference"
                                 class="oe_inline"
-                                readonly="1"
+                                attrs="{'readonly': [('id', '!=', False)]}"
                             />
                         </h1>
                     </div>
