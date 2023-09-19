@@ -38,6 +38,56 @@ class AccountMove(models.Model):
                 payment_mode = move.payment_mode_id
             move.payment_order_ok = payment_mode.payment_order_ok
 
+    def _get_payment_order_communication_direct(self):
+        """Retrieve the communication string for this direct item."""
+        communication = self.payment_reference or self.ref or self.name or ""
+        if self.is_invoice():
+            if (self.reference_type or "none") != "none":
+                communication = self.ref
+            elif self.is_purchase_document():
+                communication = self.ref or self.payment_reference
+            else:
+                communication = self.payment_reference or self.name
+        return communication
+
+    def _get_payment_order_communication_full(self):
+        """Retrieve the full communication string for the payment order.
+        Reversal moves and partial payments references added.
+        Avoid having everything in the same method to avoid infinite recursion
+        with partial payments.
+        """
+        communication = self._get_payment_order_communication_direct()
+        references = []
+        # Build a recordset to gather moves from which references have already
+        # taken in order to avoid duplicates
+        reference_moves = self.env["account.move"].browse()
+        # If we have credit note(s) - reversal_move_id is a one2many
+        if self.reversal_move_id:
+            references.extend(
+                [
+                    move._get_payment_order_communication_direct()
+                    for move in self.reversal_move_id
+                ]
+            )
+            reference_moves |= self.reversal_move_id
+        # Retrieve partial payments - e.g.: manual credit notes
+        (
+            invoice_partials,
+            exchange_diff_moves,
+        ) = self._get_reconciled_invoices_partials()
+        for (_x, _y, payment_move_line,) in (
+            invoice_partials + exchange_diff_moves
+        ):
+            payment_move = payment_move_line.move_id
+            if payment_move not in reference_moves:
+                references.append(
+                    payment_move._get_payment_order_communication_direct()
+                )
+        # Add references to communication from lines move
+        if references:
+            communication += " " + " ".join(references)
+        return communication
+
     def _prepare_new_payment_order(self, payment_mode=None):
         self.ensure_one()
         if payment_mode is None:
