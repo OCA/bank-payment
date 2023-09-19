@@ -5,5 +5,6 @@
         <field name="code">account.banking.mandate</field>
         <field name="prefix">BM</field>
         <field name="padding" eval="7" />
+        <field name="company_id" eval="False" />
     </record>
 </odoo>
