@@ -114,6 +114,7 @@ msgid "Cancellation Fee"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
 msgid "Cannot compute the field '{field_name}'."
@@ -231,12 +232,14 @@ msgid "Credit Card Payment "
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Creditor name"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -256,6 +259,7 @@ msgid "Debit Card Payment"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Debtor name"
@@ -547,6 +551,7 @@ msgid "Medical Services"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -582,6 +587,7 @@ msgid "Network Communication"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:0
 #, python-format
 msgid "No XSD file path found for payment method '%s'"
@@ -623,18 +629,21 @@ msgid "PAIN Version"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Partner name"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Partner's bank account is '%s'."
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, fuzzy, python-format
 msgid "Payment Line has reference '%s'."
@@ -813,12 +822,14 @@ msgid "Telephone Bill"
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' je prazno ali 0. Vsebovati bi moralo ne ničelno vrednost."
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/res_bank.py:0
 #, python-format
 msgid ""
@@ -829,6 +840,7 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -842,6 +854,7 @@ msgstr ""
 "dnevnike. Tu je napaka, ki bi lahko razjasnila, v čem je vzrok težave : %s"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
