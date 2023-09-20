@@ -115,6 +115,7 @@ msgid "Cancellation Fee"
 msgstr "Frais d'annulation"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Cannot compute the field '{field_name}'."
@@ -232,12 +233,14 @@ msgid "Credit Card Payment "
 msgstr "Paiement CB "
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Creditor name"
 msgstr "Nom du créancier"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -260,6 +263,7 @@ msgid "Debit Card Payment"
 msgstr "Paiement par carte de débit"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Debtor name"
@@ -568,6 +572,7 @@ msgid "Medical Services"
 msgstr "Services médicaux"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -604,6 +609,7 @@ msgid "Network Communication"
 msgstr "Communication réseau"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:0
 #, python-format
 msgid "No XSD file path found for payment method '%s'"
@@ -646,18 +652,21 @@ msgid "PAIN Version"
 msgstr "Version PAIN"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Partner name"
 msgstr "Nom du partenaire"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Partner's bank account is '%s'."
 msgstr "Le compte bancaire du partenaire est '%s'."
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Payment Line has reference '%s'."
@@ -835,12 +844,14 @@ msgid "Telephone Bill"
 msgstr "Facture de téléphone"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "Le '%s' est vide ou égal à 0. Il devrait avoir une valeur non-nulle."
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/res_bank.py:0
 #, python-format
 msgid ""
@@ -855,6 +866,7 @@ msgstr ""
 "Modèle SEPA : {sepa_pattern}"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -869,6 +881,7 @@ msgstr ""
 "une idée sur la cause du problème : %s"
 
 #. module: account_banking_pain_base
+#. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid ""
