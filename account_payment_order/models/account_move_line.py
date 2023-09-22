@@ -53,16 +53,7 @@ class AccountMoveLine(models.Model):
         # Build a recordset to gather moves from which references have already
         # taken in order to avoid duplicates
         reference_moves = self.env["account.move"].browse()
-        # If we have credit note(s) - reversal_move_id is a one2many
-        if self.move_id.reversal_move_id:
-            references.extend(
-                [
-                    move.payment_reference or move.ref
-                    for move in self.move_id.reversal_move_id
-                    if move.payment_reference or move.ref
-                ]
-            )
-            reference_moves |= self.move_id.reversal_move_id
+        reference_moves |= self.move_id.reversal_move_id
         # Retrieve partial payments - e.g.: manual credit notes
         for (
             _,
@@ -73,7 +64,7 @@ class AccountMoveLine(models.Model):
             if payment_move not in reference_moves and (
                 payment_move.payment_reference or payment_move.ref
             ):
-                references.append(payment_move.payment_reference or payment_move.ref)
+                references.append(payment_move._get_payment_order_communication())
         return references
 
     def _get_communication(self):
@@ -83,22 +74,14 @@ class AccountMoveLine(models.Model):
         aplo = self.env["account.payment.line"]
         # default values for communication_type and communication
         communication_type = "normal"
-        communication = self.ref or self.name or ""
+        communication = self.move_id._get_payment_order_communication()
         # change these default values if move line is linked to an invoice
         if self.move_id.is_invoice():
             if (self.move_id.reference_type or "none") != "none":
-                communication = self.move_id.ref
                 ref2comm_type = aplo.invoice_reference_type2communication_type()
                 communication_type = ref2comm_type[self.move_id.reference_type]
             else:
-                if (
-                    self.move_id.move_type in ("in_invoice", "in_refund")
-                    and self.move_id.ref
-                ):
-                    communication = self.move_id.payment_reference or self.move_id.ref
-                elif "out" in self.move_id.move_type:
-                    # Force to only put invoice number here
-                    communication = self.move_id.payment_reference or self.move_id.name
+                # Add references to communication from lines move
                 references = self._get_linked_move_communication()
                 if references:
                     communication += " " + " ".join(references)
