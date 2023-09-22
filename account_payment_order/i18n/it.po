@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2023-08-08 15:11+0000\n"
+"PO-Revision-Date: 2023-09-22 16:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -1179,7 +1179,7 @@ msgstr "Non ci sono transazioni nell'ordine di pagamento %s."
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There's at least one validation error:\n"
-msgstr ""
+msgstr "C'è almeno un errore di validazione:\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
