@@ -177,6 +177,21 @@ class AccountPaymentLine(models.Model):
             )
         if not self.communication:
             raise UserError(_("Communication is empty on payment line %s.") % self.name)
+        if (
+            self.move_line_id
+            and self.move_line_id.blocked
+            and not self.order_id.payment_mode_id.allow_blocked
+        ):
+            raise UserError(
+                _(
+                    "Journal item '%(move_line)s' linked to payment line "
+                    "'%(payment_line)s' is marked as litigation and the payment mode "
+                    "'%(payment_mode)s' doesn't allow litigation journal items.",
+                    move_line=self.move_line_id.display_name,
+                    payment_line=self.display_name,
+                    payment_mode=self.order_id.payment_mode_id.display_name,
+                )
+            )
 
     def _prepare_account_payment_vals(self):
         """Prepare the dictionary to create an account payment record from a set of

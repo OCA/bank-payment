@@ -110,6 +110,18 @@ class AccountMove(models.Model):
                 for line in applicable_lines.filtered(
                     lambda x: x.payment_mode_id == payment_mode
                 ):
+                    if line.blocked and not payment_mode.allow_blocked:
+                        raise UserError(
+                            _(
+                                "The journal item '%(line)s' related to "
+                                "journal entry '%(move)s' is marked as litigation, "
+                                "and the payment mode '%(pay_mode)s' "
+                                "doesn't allow litigation lines.",
+                                line=line.display_name,
+                                move=move.display_name,
+                                pay_mode=payment_mode.display_name,
+                            )
+                        )
                     line.create_payment_line_from_move_line(payorder)
                     count += 1
                 if new_payorder:

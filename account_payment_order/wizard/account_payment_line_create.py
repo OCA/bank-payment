@@ -26,7 +26,11 @@ class AccountPaymentLineCreate(models.TransientModel):
         selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
     )
-    allow_blocked = fields.Boolean(string="Allow Litigation Move Lines")
+    payment_mode_allow_blocked = fields.Boolean(
+        related="order_id.payment_mode_id.allow_blocked",
+        string="Allow Litigation at Payment Mode Level",
+    )
+    allow_blocked = fields.Boolean(string="Allow Litigation Journal Items")
     invoice = fields.Boolean(string="Linked to an Invoice or Refund")
     date_type = fields.Selection(
         selection=[("due", "Due Date"), ("move", "Move Date")],
@@ -76,8 +80,10 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [("partner_id", "in", self.partner_ids.ids)]
         if self.target_move == "posted":
             domain += [("move_id.state", "=", "posted")]
-        if not self.allow_blocked:
-            domain += [("blocked", "!=", True)]
+        if not self.order_id.payment_mode_id.allow_blocked:
+            domain += [("blocked", "=", False)]
+        elif not self.allow_blocked:
+            domain += [("blocked", "=", False)]
         if self.date_type == "due":
             domain += [
                 "|",
@@ -170,7 +176,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         "journal_ids",
         "invoice",
         "target_move",
-        "allow_blocked",
         "payment_mode",
         "partner_ids",
     )

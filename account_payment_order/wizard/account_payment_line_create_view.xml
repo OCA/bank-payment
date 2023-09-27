@@ -34,7 +34,11 @@
                     <field name="payment_mode" />
                     <field name="target_move" widget="radio" />
                     <field name="invoice" />
-                    <field name="allow_blocked" />
+                    <field
+                        name="allow_blocked"
+                        attrs="{'invisible': [('payment_mode_allow_blocked', '=', False)]}"
+                    />
+                    <field name="payment_mode_allow_blocked" invisible="1" />
                     <label
                         for="populate"
                         string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
