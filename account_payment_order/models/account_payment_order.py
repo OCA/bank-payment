@@ -221,6 +221,20 @@ class AccountPaymentOrder(models.Model):
                         )
                     )
 
+    @api.constrains("payment_line_ids")
+    def _check_payment_lines(self):
+        for order in self:
+            move_line_ids = [x.move_line_id.id for x in order.payment_line_ids]
+            if len(move_line_ids) != len(set(move_line_ids)):
+                raise ValidationError(
+                    _(
+                        "There are several lines pointing to the same pending "
+                        "balance. This is probably caused by a manual line creation. "
+                        "Please remove this duplication for being able to save the "
+                        "order."
+                    )
+                )
+
     @api.depends("payment_line_ids", "payment_line_ids.amount_company_currency")
     def _compute_total(self):
         for rec in self:

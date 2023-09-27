@@ -83,6 +83,16 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
 
 @tagged("-at_install", "post_install")
 class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
+    def _line_creation(self, inbound_order):
+        vals = {
+            "order_id": inbound_order.id,
+            "partner_id": self.partner.id,
+            "currency_id": inbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200.38,
+            "move_line_id": self.invoice.invoice_line_ids[0].id,
+        }
+        return self.env["account.payment.line"].create(vals)
+
     def test_constrains_type(self):
         with self.assertRaises(ValidationError):
             order = self.env["account.payment.order"].create(
@@ -136,3 +146,15 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment_order.cancel2draft()
         payment_order.unlink()
         self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
+
+    def test_constrains_payment_line(self):
+        inbound_order = self.env["account.payment.order"].create(
+            {"payment_mode_id": self.inbound_mode.id, "journal_id": self.journal.id}
+        )
+        # Create two payment lines with the same
+        # move line id and try to assign them to inbound order
+        payment_line_1 = self._line_creation(inbound_order)
+        inbound_order.payment_line_ids |= payment_line_1
+        with self.assertRaises(ValidationError):
+            payment_line_2 = self._line_creation(inbound_order)
+            inbound_order.payment_line_ids |= payment_line_2
