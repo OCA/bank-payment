@@ -7,5 +7,6 @@
         <field name="bank_account_required" eval="False" />
         <field name="mandate_required" eval="True" />
         <field name="pain_version">pain.008.001.02</field>
+        <field name="warn_not_sepa" eval="True" />
     </record>
 </odoo>
