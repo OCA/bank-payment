@@ -62,6 +62,7 @@
                 <field name="partner_id" />
                 <field name="communication" />
                 <field name="partner_bank_id" />
+                <field name="partner_bank_acc_type" optional="hide" />
                 <field name="move_line_id" optional="hide" />
                 <field name="ml_maturity_date" optional="show" />
                 <field name="date" />
