@@ -16,6 +16,7 @@ class AccountPaymentMethod(models.Model):
         "the corresponding unaccented character, so that only ASCII "
         "characters are used in the generated PAIN file.",
     )
+    warn_not_sepa = fields.Boolean(string="Warn If Not SEPA")
 
     def get_xsd_file_path(self):
         """This method is designed to be inherited in the SEPA modules"""
