@@ -24,7 +24,12 @@ logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    sepa = fields.Boolean(compute="_compute_sepa", readonly=True, string="SEPA Payment")
+    sepa = fields.Boolean(compute="_compute_sepa", string="SEPA Payment")
+    sepa_payment_method = fields.Boolean(
+        compute="_compute_sepa",
+        string="SEPA Payment Method",
+    )
+    show_warning_not_sepa = fields.Boolean(compute="_compute_sepa")
     charge_bearer = fields.Selection(
         [
             ("SLEV", "Following Service Level"),
@@ -103,6 +108,7 @@ class AccountPaymentOrder(models.Model):
         ]
 
     @api.depends(
+        "payment_mode_id",
         "company_partner_bank_id.acc_type",
         "company_partner_bank_id.sanitized_acc_number",
         "payment_line_ids.currency_id",
@@ -113,30 +119,47 @@ class AccountPaymentOrder(models.Model):
         eur = self.env.ref("base.EUR")
         sepa_list = self._sepa_iban_prefix_list()
         for order in self:
-            sepa = True
-            if order.company_partner_bank_id.acc_type != "iban":
-                sepa = False
-            if (
-                order.company_partner_bank_id
-                and order.company_partner_bank_id.sanitized_acc_number[:2]
-                not in sepa_list
-            ):
-                sepa = False
-            for pline in order.payment_line_ids:
-                if pline.currency_id != eur:
-                    sepa = False
-                    break
-                if pline.partner_bank_id.acc_type != "iban":
-                    sepa = False
-                    break
+            sepa_payment_method = False
+            sepa = False
+            warn_not_sepa = False
+            payment_method = order.payment_mode_id.payment_method_id
+            if payment_method.pain_version:
+                sepa_payment_method = True
+                sepa = True
                 if (
-                    pline.partner_bank_id
-                    and pline.partner_bank_id.sanitized_acc_number[:2] not in sepa_list
+                    order.company_partner_bank_id
+                    and order.company_partner_bank_id.acc_type != "iban"
                 ):
                     sepa = False
-                    break
-            sepa = order.compute_sepa_final_hook(sepa)
-            self.sepa = sepa
+                if (
+                    order.company_partner_bank_id
+                    and order.company_partner_bank_id.sanitized_acc_number[:2]
+                    not in sepa_list
+                ):
+                    sepa = False
+                for pline in order.payment_line_ids:
+                    if pline.currency_id != eur:
+                        sepa = False
+                        break
+                    if (
+                        pline.partner_bank_id
+                        and pline.partner_bank_id.acc_type != "iban"
+                    ):
+                        sepa = False
+                        break
+                    if (
+                        pline.partner_bank_id
+                        and pline.partner_bank_id.sanitized_acc_number[:2]
+                        not in sepa_list
+                    ):
+                        sepa = False
+                        break
+                sepa = order.compute_sepa_final_hook(sepa)
+                if not sepa and payment_method.warn_not_sepa:
+                    warn_not_sepa = True
+            order.sepa = sepa
+            order.sepa_payment_method = sepa_payment_method
+            order.show_warning_not_sepa = warn_not_sepa
 
     def compute_sepa_final_hook(self, sepa):
         self.ensure_one()
