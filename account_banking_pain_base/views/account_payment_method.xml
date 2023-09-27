@@ -10,8 +10,13 @@
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
                 <field name="pain_version" />
+
                 <field
                     name="convert_to_ascii"
+                    attrs="{'invisible': [('pain_version', '=', False)]}"
+                />
+                <field
+                    name="warn_not_sepa"
                     attrs="{'invisible': [('pain_version', '=', False)]}"
                 />
             </field>

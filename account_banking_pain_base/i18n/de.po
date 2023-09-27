@@ -789,6 +789,16 @@ msgid "SEPA Payment"
 msgstr "SEPA Zahlung"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__sepa_payment_method
+msgid "SEPA Payment Method"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid "SEPA zone"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model_terms:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
 msgid "SEPA/PAIN"
 msgstr "SEPA/PAIN"
@@ -819,6 +829,11 @@ msgstr "Wertpapiere"
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__shar
 msgid "Shared"
 msgstr "Geteilt"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__show_warning_not_sepa
+msgid "Show Warning Not Sepa"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__ssbe
@@ -902,6 +917,14 @@ msgid ""
 msgstr ""
 "Dieses Feld wird als 'Befehlspriorität' in der generierten PAIN-Datei "
 "verwendet."
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid ""
+"This payment order is <b>not SEPA</b>. If it is not intented, check that all "
+"payment lines are in € and that all bank accounts are valid IBANs with a "
+"country prefix in the"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_identifier
@@ -1025,6 +1048,11 @@ msgstr "Tax Payment"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__view
 msgid "Vision Care"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__warn_not_sepa
+msgid "Warn If Not SEPA"
 msgstr ""
 
 #. module: account_banking_pain_base
