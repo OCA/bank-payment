@@ -206,7 +206,10 @@ class TestSCT(TransactionCase):
         self.assertEqual(agrolait_pay_line1.communication, "F1341")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
-        self.assertEqual(self.payment_order.sepa, True)
+        if self.payment_mode.payment_method_id.pain_version:
+            self.assertTrue(self.payment_order.sepa)
+        else:
+            self.assertFalse(self.payment_order.sepa)
         self.assertTrue(self.payment_order.payment_ids)
         agrolait_bank_line = self.payment_order.payment_ids[0]
         self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
