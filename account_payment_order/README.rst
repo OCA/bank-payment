@@ -63,6 +63,8 @@ This module also adds an action *Add to Payment Order* on supplier invoices and 
 
 You can print a Payment order via the menu Invoicing/Accounting > Vendors > Payment Orders and then select the payment oder to print.
 
+The module also let's you implement a real Upload mechanism for the *File Successfully Uploaded* button.
+
 Bug Tracker
 ===========
 

@@ -422,7 +422,13 @@ class AccountPaymentOrder(models.Model):
         )
         return action
 
+    def upload_payment_file(self):
+        """
+        Override this method to implement your automatic uploading mechanism to your bank.
+        """
+
     def generated2uploaded(self):
+        self.upload_payment_file()
         self.payment_ids.action_post()
         # Perform the reconciliation of payments and source journal items
         for payment in self.payment_ids:
