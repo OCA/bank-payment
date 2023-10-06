@@ -290,7 +290,6 @@ msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur de livraison."
 
@@ -496,11 +495,6 @@ msgid "Responsible User"
 msgstr "Utilisateur responsable"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur d'envoi SMS"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
 msgid "Scan of the Mandate"
 msgstr "Image du mandat"
@@ -639,6 +633,9 @@ msgid ""
 msgstr ""
 "Vous ne devez remettre un mandat en brouillon que si vous l'avez annulé par "
 "erreur. Voulez-vous continuer ?"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur d'envoi SMS"
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Lignes de paiement bancaire"
