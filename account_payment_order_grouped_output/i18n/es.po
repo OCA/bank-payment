@@ -24,7 +24,6 @@ msgstr "Línea de débito %s"
 
 #. module: account_payment_order_grouped_output
 #: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
-#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #, python-format
 msgid "Debit order %s"
 msgstr "Orden de adeudo %s"
@@ -104,7 +103,6 @@ msgid "Payment bank line %s"
 msgstr "Línea bancaria de pago %s"
 
 #. module: account_payment_order_grouped_output
-#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
