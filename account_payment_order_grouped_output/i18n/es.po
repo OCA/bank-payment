@@ -26,7 +26,6 @@ msgstr "Línea de débito bancaria %s"
 #. module: account_payment_order_grouped_output
 #. odoo-python
 #: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
-#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #, python-format
 msgid "Debit order %s"
 msgstr "Orden de débito %s"
@@ -87,7 +86,6 @@ msgstr "Línea de pago bancaria %s"
 
 #. module: account_payment_order_grouped_output
 #. odoo-python
-#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
 #, python-format
 msgid "Payment order %s"
