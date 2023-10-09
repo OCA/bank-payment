@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_make_deposit
+# 	* account_banking_make_deposit
 #
 msgid ""
 msgstr ""
@@ -66,7 +66,9 @@ msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__amount
-msgid "Calculates the Total of All Deposit Lines - This is the Total Amount of Deposit."
+msgid ""
+"Calculates the Total of All Deposit Lines - This is the Total Amount of "
+"Deposit."
 msgstr ""
 
 #. module: account_banking_make_deposit
@@ -356,7 +358,8 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__prepared_by_user_id
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__verified_by_user_id
-msgid "Entered automatically by the 'last user' who saved it. System generated."
+msgid ""
+"Entered automatically by the 'last user' who saved it. System generated."
 msgstr ""
 
 #. module: account_banking_make_deposit
@@ -473,7 +476,9 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket.py:34
 #, python-format
-msgid "Only a member of Deposits Verifier group may delete/edit deposit tickets when not in draft state!"
+msgid ""
+"Only a member of Deposits Verifier group may delete/edit deposit tickets "
+"when not in draft state!"
 msgstr ""
 
 #. module: account_banking_make_deposit
@@ -607,17 +612,23 @@ msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_account_move_line__draft_assigned
-msgid "This field is checked when the move line is assigned to a draft deposit ticket. The deposit ticket is not still completely processed"
+msgid ""
+"This field is checked when the move line is assigned to a draft deposit "
+"ticket. The deposit ticket is not still completely processed"
 msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__bank_tracking_no
-msgid "This field is used to hold a tracking number provided by the bank/financial institution often used in Remote Deposit Capture on a deposit receipt. Entered after deposit occurs."
+msgid ""
+"This field is used to hold a tracking number provided by the bank/financial "
+"institution often used in Remote Deposit Capture on a deposit receipt. "
+"Entered after deposit occurs."
 msgstr ""
 
 #. module: account_banking_make_deposit
 #: model:ir.model.fields,help:account_banking_make_deposit.field_deposit_ticket__deposit_method_id
-msgid "This is how the deposit was made:\n"
+msgid ""
+"This is how the deposit was made:\n"
 "Examples:\n"
 "* Teller \n"
 "* ATM \n"
@@ -659,10 +670,12 @@ msgstr ""
 
 #. module: account_banking_make_deposit
 #: model_terms:ir.actions.act_window,help:account_banking_make_deposit.action_deposit_ticket
-msgid "With Deposit Tickets you can create new deposit\n"
+msgid ""
+"With Deposit Tickets you can create new deposit\n"
 "            tickets, by selecting and grouping customer payments, supplier\n"
 "            refunds, or other payments into a Deposit Ticket. OpenERP\n"
-"            automatically posts accounting entries for “Done” deposit tickets.\n"
+"            automatically posts accounting entries for “Done” deposit "
+"tickets.\n"
 "            The GL entry for the deposit is posted into the Current Period\n"
 "            based on the date range selected."
 msgstr ""
@@ -676,7 +689,9 @@ msgstr ""
 #. module: account_banking_make_deposit
 #: code:addons/account_banking_make_deposit/models/deposit_ticket_line.py:50
 #, python-format
-msgid "You cannot add any new deposit ticket line manually as of this revision! Please use the button 'Add Deposit Items' to add deposit ticket line!"
+msgid ""
+"You cannot add any new deposit ticket line manually as of this revision! "
+"Please use the button 'Add Deposit Items' to add deposit ticket line!"
 msgstr ""
 
 #. module: account_banking_make_deposit
