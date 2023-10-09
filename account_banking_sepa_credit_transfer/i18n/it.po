@@ -23,8 +23,8 @@ msgid ""
 "Bank account is missing on the bank payment line of partner '%s' (reference "
 "'%s')."
 msgstr ""
-"Conto bancario mancante nella riga di pagamento banca del partner \"%s\" ("
-"riferimento \"%s\")."
+"Conto bancario mancante nella riga di pagamento banca del partner \"%s"
+"\" (riferimento \"%s\")."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__display_name
@@ -63,7 +63,6 @@ msgid "PAIN Version"
 msgstr "Versione PAIN"
 
 #. module: account_banking_sepa_credit_transfer
-#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
