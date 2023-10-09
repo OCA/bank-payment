@@ -27,8 +27,8 @@ msgid ""
 "Bank account is missing on the bank payment line of partner "
 "'{partner}' (reference '{reference}')."
 msgstr ""
-"Falta la cuenta bancaria en la línea de pago del partner '{partner}' ("
-"reference '{reference}')."
+"Falta la cuenta bancaria en la línea de pago del partner "
+"'{partner}' (reference '{reference}')."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
