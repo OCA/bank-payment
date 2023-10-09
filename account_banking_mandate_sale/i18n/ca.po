@@ -19,8 +19,8 @@ msgstr ""
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,help:account_banking_mandate_sale.field_sale_order__mandate_required
 msgid ""
-"Activate this option if this payment method requires your customer to sign a"
-" direct debit mandate with your company."
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 "Activeu aquesta opció si aquest mètode de pagament requereix que el client "
 "signi un mandat amb la vostra empresa."
