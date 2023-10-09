@@ -17,26 +17,20 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: account_payment_order_return
-#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create__display_name
-msgid "Display Name"
-msgstr "Mostrar Nombre"
-
-#. module: account_payment_order_return
-#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create__id
-msgid "ID"
-msgstr "ID"
-
-#. module: account_payment_order_return
 #: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create__include_returned
 msgid "Include move lines from returns"
 msgstr "Incluir líneas de movimiento de devoluciones"
 
 #. module: account_payment_order_return
-#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create____last_update
-msgid "Last Modified on"
-msgstr "Última modificación en"
-
-#. module: account_payment_order_return
 #: model:ir.model,name:account_payment_order_return.model_account_payment_line_create
 msgid "Wizard to create payment lines"
 msgstr "Asistente para crear líneas de pago"
+
+#~ msgid "Display Name"
+#~ msgstr "Mostrar Nombre"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificación en"
