@@ -46,14 +46,12 @@ msgid "Mandate Required"
 msgstr "Mandato requerido"
 
 #. module: account_banking_mandate_sale
-#: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr "Ventas. Anticipo pago factura"
-
-#. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
 msgid "Sales Order"
 msgstr "Órdenes de venta"
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Ventas. Anticipo pago factura"
 
 #~ msgid "Commercial Entity"
 #~ msgstr "Entidad comercial"
