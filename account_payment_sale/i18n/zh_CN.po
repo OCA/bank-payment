@@ -22,11 +22,6 @@ msgid "<strong>Payment Mode:</strong>"
 msgstr "<strong>付款方式：</strong>"
 
 #. module: account_payment_sale
-#: model:ir.model,name:account_payment_sale.model_account_move
-msgid "Journal Entries"
-msgstr ""
-
-#. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
 msgid "Payment Mode"
 msgstr "付款方式"
