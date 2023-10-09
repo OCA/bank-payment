@@ -28,14 +28,14 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate_sale
-#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__commercial_partner_id
-msgid "Commercial Entity"
-msgstr "Entidade Comercial"
-
-#. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Mandato de débito direto"
+
+#. module: account_banking_mandate_sale
+#: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__commercial_invoice_partner_id
+msgid "Invoicing Commercial Entity"
+msgstr ""
 
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,field_description:account_banking_mandate_sale.field_sale_order__mandate_required
@@ -44,11 +44,15 @@ msgstr ""
 
 #. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
-#, fuzzy
-msgid "Sale Order"
-msgstr "Pedido de Venda"
+msgid "Sales Order"
+msgstr ""
 
-#. module: account_banking_mandate_sale
-#: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr "Fatura de pagamento antecipado de vendas"
+#~ msgid "Commercial Entity"
+#~ msgstr "Entidade Comercial"
+
+#, fuzzy
+#~ msgid "Sale Order"
+#~ msgstr "Pedido de Venda"
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Fatura de pagamento antecipado de vendas"

@@ -45,14 +45,12 @@ msgid "Mandate Required"
 msgstr "Mandat erforderlich"
 
 #. module: account_banking_mandate_sale
-#: model:ir.model,name:account_banking_mandate_sale.model_sale_advance_payment_inv
-msgid "Sales Advance Payment Invoice"
-msgstr "Verkaufsanzahlungsrechnung"
-
-#. module: account_banking_mandate_sale
 #: model:ir.model,name:account_banking_mandate_sale.model_sale_order
 msgid "Sales Order"
 msgstr ""
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Verkaufsanzahlungsrechnung"
 
 #~ msgid "Commercial Entity"
 #~ msgstr "Gewerbliche Instanz"
