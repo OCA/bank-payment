@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_sepa_credit_transfer
+# 	* account_banking_sepa_credit_transfer
 #
 msgid ""
 msgstr ""
@@ -19,7 +19,9 @@ msgstr ""
 #. module: account_banking_sepa_credit_transfer
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:155
 #, python-format
-msgid "Bank account is missing on the bank payment line of partner '%s' (reference '%s')."
+msgid ""
+"Bank account is missing on the bank payment line of partner '%s' (reference "
+"'%s')."
 msgstr ""
 "A conta bancária está em falta na linha de pagamento bancário do parceiro "
 "'%s' (referência '%s')."
