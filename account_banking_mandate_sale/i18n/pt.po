@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_mandate_sale
+# 	* account_banking_mandate_sale
 #
 msgid ""
 msgstr ""
@@ -18,7 +18,9 @@ msgstr ""
 
 #. module: account_banking_mandate_sale
 #: model:ir.model.fields,help:account_banking_mandate_sale.field_sale_order__mandate_required
-msgid "Activate this option if this payment method requires your customer to sign a direct debit mandate with your company."
+msgid ""
+"Activate this option if this payment method requires your customer to sign a "
+"direct debit mandate with your company."
 msgstr ""
 "Ativar esta opção se este método de pagamento necessitar que o seu cliente "
 "assine um mandato de débito direto com a sua empresa."
