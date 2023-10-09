@@ -56,7 +56,8 @@ msgstr "Ausgewählte Bestellungen haben unterschiedliche Zahlungsmodi."
 #: code:addons/account_payment_purchase/models/account_invoice.py:27
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr "Ausgewählte Bestellungen haben unterschiedliche Banken der Lieferanten."
+msgstr ""
+"Ausgewählte Bestellungen haben unterschiedliche Banken der Lieferanten."
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_stock_rule

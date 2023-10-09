@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_payment_purchase
+# 	* account_payment_purchase
 #
 msgid ""
 msgstr ""
@@ -31,7 +31,10 @@ msgstr ""
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,help:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
-msgid "Select the bank account of your supplier on which your company should send the payment. This field is copied from the partner and will be copied to the supplier invoice."
+msgid ""
+"Select the bank account of your supplier on which your company should send "
+"the payment. This field is copied from the partner and will be copied to the "
+"supplier invoice."
 msgstr ""
 
 #. module: account_payment_purchase
