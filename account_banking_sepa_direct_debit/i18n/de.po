@@ -174,8 +174,8 @@ msgid ""
 "been marked as uploaded."
 msgstr ""
 "Automatisches Umschalten von <b>Erst</b> auf <b>Wiederkehrend</b>, wenn der "
-"Belastungsauftrag <a href=# data-oe-model=konto.payment.order data-oe-"
-"id=%d>%s</a> als hochgeladen markiert wurde."
+"Belastungsauftrag <a href=# data-oe-model=konto.payment.order data-oe-id=%d>"
+"%s</a> als hochgeladen markiert wurde."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -299,8 +299,8 @@ msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
 "(reference {reference})."
 msgstr ""
-"Fehlendes SEPA-Lastschrift-Mandat in der Zeile mit Partner {partner_name} ("
-"Verweis {reference})."
+"Fehlendes SEPA-Lastschrift-Mandat in der Zeile mit Partner {partner_name} "
+"(Verweis {reference})."
 
 #. module: account_banking_sepa_direct_debit
 #: selection:account.banking.mandate,type:0

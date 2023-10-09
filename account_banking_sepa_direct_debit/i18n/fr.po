@@ -167,8 +167,8 @@ msgid ""
 "been marked as uploaded."
 msgstr ""
 "Passe automatiquement de <b>FIRST</b> à <b>RECURRENT</b> lorsque l’ordre de "
-"débit <a href=\"#\" data-oe-model=\"account.payment.order\" data-oe-id=\"%d\""
-">%s</a> a été marqué comme téléchargé."
+"débit <a href=\"#\" data-oe-model=\"account.payment.order\" data-oe-id=\"%d"
+"\">%s</a> a été marqué comme téléchargé."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
