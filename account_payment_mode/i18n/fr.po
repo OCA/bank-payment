@@ -148,8 +148,8 @@ msgstr ""
 "que le débit direct SEPA pour les clients, le virement bancaire vers les "
 "fournisseurs), vous devez sélectionner « Variable », ce qui signifie que "
 "vous sélectionnerez le compte bancaire sur l’ordre de paiement. Si votre "
-"entreprise n’a qu’un seul compte bancaire, vous devez toujours sélectionner «"
-" Fixe »."
+"entreprise n’a qu’un seul compte bancaire, vous devez toujours sélectionner "
+"« Fixe »."
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
