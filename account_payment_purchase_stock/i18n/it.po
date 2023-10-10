@@ -17,21 +17,15 @@ msgstr ""
 "X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_purchase_stock
-#: model:ir.model.fields,field_description:account_payment_purchase_stock.field_stock_rule__display_name
-msgid "Display Name"
-msgstr "Nome visualizzato"
-
-#. module: account_payment_purchase_stock
-#: model:ir.model.fields,field_description:account_payment_purchase_stock.field_stock_rule__id
-msgid "ID"
-msgstr "ID"
-
-#. module: account_payment_purchase_stock
-#: model:ir.model.fields,field_description:account_payment_purchase_stock.field_stock_rule____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: account_payment_purchase_stock
 #: model:ir.model,name:account_payment_purchase_stock.model_stock_rule
 msgid "Stock Rule"
 msgstr "Regola di giacenza"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome visualizzato"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
