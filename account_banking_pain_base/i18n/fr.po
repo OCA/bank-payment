@@ -992,9 +992,9 @@ msgid ""
 "that will process the file. If not defined, no scheme will be used.\n"
 msgstr ""
 "Cela sera utilisé comme « nom du régime de parti initiatique » dans les "
-"fichiers PAIN générés par Odoo. Cette valeur est déterminée par l’"
-"institution financière qui traitera le dossier. S’il n’est pas défini, aucun "
-"système ne sera utilisé.\n"
+"fichiers PAIN générés par Odoo. Cette valeur est déterminée par "
+"l’institution financière qui traitera le dossier. S’il n’est pas défini, "
+"aucun système ne sera utilisé.\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__trad
