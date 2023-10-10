@@ -26,8 +26,8 @@ msgid ""
 "A Banking Mandate is a document signed by your customer that gives you the "
 "autorization to do one or several operations on his bank account."
 msgstr ""
-"Un mandat bancaire est un document signé par votre client qui vous donne l’"
-"autorisation de faire une ou plusieurs opérations sur son compte bancaire."
+"Un mandat bancaire est un document signé par votre client qui vous donne "
+"l’autorisation de faire une ou plusieurs opérations sur son compte bancaire."
 
 #. module: account_banking_mandate
 #: sql_constraint:account.banking.mandate:0
