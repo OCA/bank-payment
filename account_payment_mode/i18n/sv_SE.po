@@ -183,8 +183,13 @@ msgstr ""
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__inbound_payment_method_ids
 msgid ""
 "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
-"Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
+"Electronic: Get paid automatically through a payment acquirer by requesting "
+"a transaction on a card saved by the customer when buying or subscribing "
+"online (payment token).\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch "
+"deposit to submit to your bank. When encoding the bank statement in Odoo,you "
+"are suggested to reconcile the transaction with the batch deposit. Enable "
+"this option from the settings."
 msgstr ""
 
 #. module: account_payment_mode
@@ -192,7 +197,8 @@ msgstr ""
 msgid ""
 "Manual:Pay bill by cash or any other method outside of Odoo.\n"
 "Check:Pay bill by check and print it from Odoo.\n"
-"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
+"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit "
+"to your bank. Enable this option from the settings."
 msgstr ""
 
 #. module: account_payment_mode
@@ -224,8 +230,8 @@ msgstr ""
 #, python-format
 msgid ""
 "On the payment mode '%s', the payment method is '%s' (it is in fact a debit "
-"method), but this debit method is not part of the debit methods of the fixed"
-" bank journal '%s'"
+"method), but this debit method is not part of the debit methods of the fixed "
+"bank journal '%s'"
 msgstr ""
 
 #. module: account_payment_mode
@@ -314,8 +320,8 @@ msgstr ""
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 #, python-format
 msgid ""
-"The company of the payment mode '%s', does not match with one of the Allowed"
-" Bank Journals."
+"The company of the payment mode '%s', does not match with one of the Allowed "
+"Bank Journals."
 msgstr ""
 
 #. module: account_payment_mode

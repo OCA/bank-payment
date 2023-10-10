@@ -211,10 +211,10 @@ msgstr ""
 "Eletrónico: Receba pagamentos automaticamente através de um gestor de "
 "transações pedindo uma transação com um cartão registado pelo cliente ao "
 "comprar ou subscrevendo online (token de pagamento).\n"
-"Depósito em Lote: Junte vários cheques de clientes ao mesmo tempo gerando um "
-"depósito em lote e submetendo ao seu banco. Quando codificar o extrato "
-"bancário no Odoo, é-lhe sugerido que reconcilie a transação com o depósito "
-"em lote. Ative esta opção nas definições."
+"Depósito em Lote: Junte vários cheques de clientes ao mesmo tempo gerando "
+"um depósito em lote e submetendo ao seu banco. Quando codificar o "
+"extrato bancário no Odoo, é-lhe sugerido que reconcilie a transação com o "
+"depósito em lote. Ative esta opção nas definições."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_journal__outbound_payment_method_ids
@@ -227,8 +227,8 @@ msgstr ""
 "Manual: Pague a fornecedores por numerário ou qualquer outro método fora do "
 "Odoo.\n"
 "Cheque: Pague a for5necedores por cheque e imprima-o através do Odoo.\n"
-"Transferência a Crédito SEPA: Pague uma conta através de um ficheiro de "
-"Transferência a Crédito SEPA submetido ao seu banco. Ative esta opção nas "
+"Transferência a Crédito SEPA: Pague uma conta através de um ficheiro "
+"de Transferência a Crédito SEPA submetido ao seu banco. Ative esta opção nas "
 "definições."
 
 #. module: account_payment_mode
