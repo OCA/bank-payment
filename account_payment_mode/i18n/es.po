@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-14 11:29+0000\n"
-"PO-Revision-Date: 2023-07-01 20:08+0000\n"
+"PO-Revision-Date: 2023-10-10 21:37+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -201,6 +201,8 @@ msgid ""
 "On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
+"En el modo de pago %(name)s, la cuenta bancaria relacionada es 'Fija' pero "
+"el diario bancario fijo no está establecido"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
@@ -210,6 +212,9 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
+"En el modo de pago %(paymode)s, el método de pago %(paymethod)s (es de hecho "
+"un metodo de débito), pero no está establecido entre los métodos de débito "
+"del banco del diario %(journal)s"
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
@@ -219,6 +224,9 @@ msgid ""
 "this payment method is not part of the payment methods of the fixed bank "
 "journal %(journal)s"
 msgstr ""
+"En el modo de pago %(paymode)s, el método de pago es %(paymethod)s, pero "
+"este método de pago no forma parte de los métodos de pago del diario "
+"bancario fijo %(journal)s"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -281,6 +289,8 @@ msgid ""
 "the payment mode  %(paymode)s where it is being used in the Allowed Bank "
 "Journals."
 msgstr ""
+"La compañía del diario  %(journal)s no coincide con la compañía del modo de "
+"pago   %(paymode)s donde se está usando en Diarios de Banco Permitidos."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_journal.py:0
@@ -289,6 +299,8 @@ msgid ""
 "The company of the journal %(journal)s does not match with the company of "
 "the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
+"La compañía del diario %(journal)s no coincoide con la compañía del modo de "
+"pago %(paymode)s donde se usa como Diario de Banco Fijo."
 
 #. module: account_payment_mode
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
@@ -297,6 +309,8 @@ msgid ""
 "The company of the payment mode %(paymode)s, does not match with one of the "
 "Allowed Bank Journals."
 msgstr ""
+"La compañía del modo de pago %(paymode)s, no coincide con ninguna de los "
+"Diarios de Banco Permitidos."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
