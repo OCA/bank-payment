@@ -7,7 +7,7 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "16.0.1.0.2",
+    "version": "16.0.1.1.0",
     "development_status": "Production/Stable",
     "license": "AGPL-3",
     "author": "Compassion CH, "
