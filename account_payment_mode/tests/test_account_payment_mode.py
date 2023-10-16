@@ -4,12 +4,14 @@
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 
 class TestAccountPaymentMode(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
 
         cls.res_users_model = cls.env["res.users"]
         cls.journal_model = cls.env["account.journal"]
