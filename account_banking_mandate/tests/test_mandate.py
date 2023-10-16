@@ -171,3 +171,24 @@ class TestMandate(TransactionCase):
             }
         )
         self.assertTrue(mandate.unique_mandate_reference)
+
+    @classmethod
+    def setUpClass(cls):
+        res = super(TestMandate, cls).setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
+
+        # Company
+        cls.company = cls.env.ref("base.main_company")
+
+        # Company 2
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
+        return res
