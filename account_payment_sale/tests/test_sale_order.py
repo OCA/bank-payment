@@ -7,6 +7,20 @@ from .common import CommonTestCase
 
 
 class TestSaleOrder(CommonTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
+
     def create_sale_order(self, payment_mode=None):
         with Form(self.env["sale.order"]) as sale_form:
             sale_form.partner_id = self.base_partner
