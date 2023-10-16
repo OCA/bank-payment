@@ -7,22 +7,27 @@ from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 
 class TestMandate(TransactionCase):
-    def setUp(self):
-        super(TestMandate, self).setUp()
-        self.company = self.env.company
-        self.company_2 = self.env["res.company"].create({"name": "company 2"})
-        self.company_2.partner_id.company_id = self.company_2.id
-        self.bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
-        self.bank_account.partner_id.company_id = self.company.id
-        self.mandate = self.env["account.banking.mandate"].create(
+    @classmethod
+    def setUpClass(cls):
+        res = super(TestMandate, cls).setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+        cls.company = cls.env.ref("base.main_company")
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
+        cls.company_2.partner_id.company_id = cls.company_2.id
+        cls.bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
+        cls.bank_account.partner_id.company_id = cls.company.id
+        cls.mandate = cls.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": self.bank_account.id,
+                "partner_bank_id": cls.bank_account.id,
                 "signature_date": "2015-01-01",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
+        return res
 
     def test_mandate_01(self):
         self.assertEqual(self.mandate.state, "draft")
