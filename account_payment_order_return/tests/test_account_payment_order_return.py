@@ -14,6 +14,16 @@ class TestAccountPaymentOrderReturn(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
         cls.a_income = cls.env["account.account"].create(
             {
                 "code": "TIA",
