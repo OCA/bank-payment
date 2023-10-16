@@ -10,52 +10,64 @@ from odoo.addons.account.models.account_payment_method import AccountPaymentMeth
 
 
 class TestAccountPaymentOrder(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner = self.env["res.partner"].create({"name": "Test Partner"})
-        self.product = self.env["product.product"].create({"name": "Test product"})
-        self.partner_bank_core = self._create_res_partner_bank("N-CORE")
-        self.mandate_core = self._create_mandate(self.partner_bank_core, "CORE")
-        self.partner_bank_b2b = self._create_res_partner_bank("N-B2B")
-        self.mandate_b2b = self._create_mandate(self.partner_bank_b2b, "B2B")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
+        cls.product = cls.env["product.product"].create({"name": "Test product"})
+        cls.partner_bank_core = cls._create_res_partner_bank("N-CORE")
+        cls.mandate_core = cls._create_mandate(cls.partner_bank_core, "CORE")
+        cls.partner_bank_b2b = cls._create_res_partner_bank("N-B2B")
+        cls.mandate_b2b = cls._create_mandate(cls.partner_bank_b2b, "B2B")
         payment_method_vals = {
             "name": "SEPA",
             "code": "sepa_direct_debit",
             "payment_type": "inbound",
             "bank_account_required": True,
         }
-        self.method_sepa = self._create_multi_bank_payment_method(payment_method_vals)
-        self.journal_bank = self.env["account.journal"].create(
+        cls.method_sepa = cls._create_multi_bank_payment_method(payment_method_vals)
+        cls.journal_bank = cls.env["account.journal"].create(
             {"name": "BANK", "type": "bank", "code": "bank"}
         )
-        payment_form = Form(self.env["account.payment.mode"])
+        payment_form = Form(cls.env["account.payment.mode"])
         payment_form.name = "SEPA (CORE)"
-        payment_form.payment_method_id = self.method_sepa
+        payment_form.payment_method_id = cls.method_sepa
         payment_form.bank_account_link = "fixed"
-        payment_form.fixed_journal_id = self.journal_bank
+        payment_form.fixed_journal_id = cls.journal_bank
         payment_form.payment_order_ok = True
-        self.payment_core = payment_form.save()
-        self.payment_b2b = self.payment_core.copy({"name": "SEPA B2B"})
-        self.partner.customer_payment_mode_id = self.payment_core.id
-        self.env["account.journal"].create(
+        cls.payment_core = payment_form.save()
+        cls.payment_b2b = cls.payment_core.copy({"name": "SEPA B2B"})
+        cls.partner.customer_payment_mode_id = cls.payment_core.id
+        cls.env["account.journal"].create(
             {"name": "SALE", "type": "sale", "code": "sale"}
         )
-        self.invoice = self._create_invoice()
+        cls.invoice = cls._create_invoice()
         payment_order_form = Form(
-            self.env["account.payment.order"].with_context(
+            cls.env["account.payment.order"].with_context(
                 default_payment_type="inbound"
             )
         )
-        payment_order_form.payment_mode_id = self.payment_core
-        self.payment_order = payment_order_form.save()
+        payment_order_form.payment_mode_id = cls.payment_core
+        cls.payment_order = payment_order_form.save()
 
-    def _create_multi_bank_payment_method(self, payment_method_vals):
+    @classmethod
+    def _create_multi_bank_payment_method(cls, payment_method_vals):
         method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
 
-        def _get_payment_method_information(self):
-            res = method_get_payment_method_information(self)
+        def _get_payment_method_information(cls):
+            res = method_get_payment_method_information(cls)
             res[payment_method_vals["code"]] = {
                 "mode": "multi",
                 "domain": [("type", "=", "bank")],
@@ -67,30 +79,33 @@ class TestAccountPaymentOrder(TransactionCase):
             "_get_payment_method_information",
             _get_payment_method_information,
         ):
-            return self.env["account.payment.method"].create(payment_method_vals)
+            return cls.env["account.payment.method"].create(payment_method_vals)
 
-    def _create_res_partner_bank(self, acc_number):
-        res_partner_bank_form = Form(self.env["res.partner.bank"])
-        res_partner_bank_form.partner_id = self.partner
+    @classmethod
+    def _create_res_partner_bank(cls, acc_number):
+        res_partner_bank_form = Form(cls.env["res.partner.bank"])
+        res_partner_bank_form.partner_id = cls.partner
         res_partner_bank_form.acc_number = acc_number
         return res_partner_bank_form.save()
 
-    def _create_mandate(self, partner_bank, scheme):
-        mandate_form = Form(self.env["account.banking.mandate"])
+    @classmethod
+    def _create_mandate(cls, partner_bank, scheme):
+        mandate_form = Form(cls.env["account.banking.mandate"])
         mandate_form.partner_bank_id = partner_bank
         mandate_form.signature_date = fields.Date.from_string("2021-01-01")
         mandate = mandate_form.save()
         mandate.validate()
         return mandate
 
-    def _create_invoice(self):
+    @classmethod
+    def _create_invoice(cls):
         invoice_form = Form(
-            self.env["account.move"].with_context(default_move_type="out_invoice")
+            cls.env["account.move"].with_context(default_move_type="out_invoice")
         )
-        invoice_form.partner_id = self.partner
+        invoice_form.partner_id = cls.partner
         invoice_form.invoice_date = fields.Date.from_string("2021-01-01")
         with invoice_form.invoice_line_ids.new() as line_form:
-            line_form.product_id = self.product
+            line_form.product_id = cls.product
             line_form.quantity = 1
             line_form.price_unit = 30
             line_form.tax_ids.clear()
