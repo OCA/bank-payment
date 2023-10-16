@@ -16,6 +16,16 @@ class TestSCT(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
         cls.account_model = cls.env["account.account"]
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]
