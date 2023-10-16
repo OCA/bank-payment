@@ -3,13 +3,14 @@
 
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 
 class CommonTestCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.bank = cls.env["res.partner.bank"].create(
             {"acc_number": "test", "partner_id": cls.env.user.company_id.partner_id.id}
         )
