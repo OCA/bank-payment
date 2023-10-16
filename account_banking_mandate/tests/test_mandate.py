@@ -7,13 +7,16 @@ from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 
 class TestMandate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.company = cls.env.company
-        cls.company_2 = cls.env["res.company"].create({"name": "company 2"})
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+        cls.company = cls.env.ref("base.main_company")
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
         cls.company_2.partner_id.company_id = cls.company_2.id
         cls.bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
         cls.bank_account.partner_id.company_id = cls.company.id
