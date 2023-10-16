@@ -18,7 +18,6 @@ class TestPaymentMode(TransactionCase):
             AccountPaymentMethod._get_payment_method_information
         )
 
-        @classmethod
         def _get_payment_method_information(cls):
             res = Method_get_payment_method_information(cls)
             res["IN"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
