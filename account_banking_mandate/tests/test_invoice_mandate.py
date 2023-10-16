@@ -189,120 +189,122 @@ class TestInvoiceMandate(TransactionCase):
         with self.assertRaises(UserError):
             invoice.mandate_id = mandate_2
 
-    def _create_res_partner(self, name):
-        return self.env["res.partner"].create({"name": name})
+    @classmethod
+    def _create_res_partner(cls, name):
+        return cls.env["res.partner"].create({"name": name})
 
-    def _create_res_bank(self, name, bic, city, country):
-        return self.env["res.bank"].create(
+    @classmethod
+    def _create_res_bank(cls, name, bic, city, country):
+        return cls.env["res.bank"].create(
             {"name": name, "bic": bic, "city": city, "country": country.id}
         )
 
-    def setUp(self):
-        res = super(TestInvoiceMandate, self).setUp()
-        self.company = self.env.ref("base.main_company")
-
-        self.partner = self._create_res_partner("Peter with ACME Bank")
-        self.acme_bank = self._create_res_bank(
-            "ACME Bank", "GEBABEBB03B", "Charleroi", self.env.ref("base.be")
+    @classmethod
+    def setUpClass(cls):
+        res = super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
         )
-
-        bank_account = self.env["res.partner.bank"].create(
+        cls.company = cls.env.ref("base.main_company")
+        cls.partner = cls._create_res_partner("Peter with ACME Bank")
+        cls.acme_bank = cls._create_res_bank(
+            "ACME Bank", "GEBABEBB03B", "Charleroi", cls.env.ref("base.be")
+        )
+        bank_account = cls.env["res.partner.bank"].create(
             {
                 "acc_number": "0023032234211123",
-                "partner_id": self.partner.id,
-                "bank_id": self.acme_bank.id,
-                "company_id": self.company.id,
+                "partner_id": cls.partner.id,
+                "bank_id": cls.acme_bank.id,
+                "company_id": cls.company.id,
             }
         )
-
-        self.company_2 = self.env["res.company"].create({"name": "Company 2"})
-
-        self.mandate = self.env["account.banking.mandate"].create(
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
+        cls.mandate = cls.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": bank_account.id,
                 "signature_date": "2015-01-01",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
-
-        self.mandate.validate()
-
-        self.mode_inbound_acme = self.env["account.payment.mode"].create(
+        cls.mandate.validate()
+        cls.mode_inbound_acme = cls.env["account.payment.mode"].create(
             {
                 "name": "Inbound Credit ACME Bank",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
                 "bank_account_link": "variable",
-                "payment_method_id": self.env.ref(
+                "payment_method_id": cls.env.ref(
                     "account.account_payment_method_manual_in"
                 ).id,
             }
         )
-        bank_journal = self.env["account.journal"].search(
+        bank_journal = cls.env["account.journal"].search(
             [
                 ("type", "=", "bank"),
-                ("company_id", "=", self.company.id),
+                ("company_id", "=", cls.company.id),
             ],
             limit=1,
         )
-        self.mode_inbound_acme.variable_journal_ids = bank_journal
-        self.mode_inbound_acme.payment_method_id.mandate_required = True
-        self.mode_inbound_acme.payment_order_ok = True
-
-        self.partner.customer_payment_mode_id = self.mode_inbound_acme
-
-        self.invoice_account = self.env["account.account"].search(
+        cls.mode_inbound_acme.variable_journal_ids = bank_journal
+        cls.mode_inbound_acme.payment_method_id.mandate_required = True
+        cls.mode_inbound_acme.payment_order_ok = True
+        cls.partner.customer_payment_mode_id = cls.mode_inbound_acme
+        cls.invoice_account = cls.env["account.account"].search(
             [
                 (
                     "user_type_id",
                     "=",
-                    self.env.ref("account.data_account_type_receivable").id,
+                    cls.env.ref("account.data_account_type_receivable").id,
                 ),
-                ("company_id", "=", self.company.id),
+                ("company_id", "=", cls.company.id),
             ],
             limit=1,
         )
         invoice_line_account = (
-            self.env["account.account"]
+            cls.env["account.account"]
             .search(
                 [
                     (
                         "user_type_id",
                         "=",
-                        self.env.ref("account.data_account_type_expenses").id,
+                        cls.env.ref("account.data_account_type_expenses").id,
                     ),
-                    ("company_id", "=", self.company.id),
+                    ("company_id", "=", cls.company.id),
                 ],
                 limit=1,
             )
             .id
         )
-
         invoice_vals = [
             (
                 0,
                 0,
                 {
-                    "product_id": self.env.ref("product.product_product_4").id,
+                    "product_id": cls.env.ref("product.product_product_4").id,
                     "quantity": 1.0,
                     "account_id": invoice_line_account,
                     "price_unit": 200.00,
                 },
             )
         ]
-
-        self.invoice = self.env["account.move"].create(
+        cls.invoice = cls.env["account.move"].create(
             {
-                "partner_id": self.partner.id,
+                "partner_id": cls.partner.id,
                 "move_type": "out_invoice",
-                "company_id": self.company.id,
-                "journal_id": self.env["account.journal"]
+                "company_id": cls.company.id,
+                "journal_id": cls.env["account.journal"]
                 .search(
-                    [("type", "=", "sale"), ("company_id", "=", self.company.id)],
+                    [("type", "=", "sale"), ("company_id", "=", cls.company.id)],
                     limit=1,
                 )
                 .id,
                 "invoice_line_ids": invoice_vals,
             }
         )
-
         return res
