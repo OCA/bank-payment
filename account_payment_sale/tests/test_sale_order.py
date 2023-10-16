@@ -3,10 +3,17 @@
 
 from odoo.tests import Form
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 from .common import CommonTestCase
 
 
 class TestSaleOrder(CommonTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+
     def create_sale_order(self, payment_mode=None):
         with Form(self.env["sale.order"]) as sale_form:
             sale_form.partner_id = self.base_partner
