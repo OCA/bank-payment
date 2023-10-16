@@ -48,11 +48,22 @@ class TestMandate(TransactionCase):
         self.assertEqual(self.mandate.state, "draft")
         self.assertTrue(self.mandate.is_sent)
 
-    def setUp(self):
-        res = super().setUp()
-        self.partner = self.env.ref("base.res_partner_12")
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
-        self.mandate = self.env["account.banking.mandate"].create(
+    @classmethod
+    def setUpClass(cls):
+        res = super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
+        cls.partner = cls.env.ref("base.res_partner_12")
+        bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
+        cls.mandate = cls.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": bank_account.id,
                 "format": "sepa",
