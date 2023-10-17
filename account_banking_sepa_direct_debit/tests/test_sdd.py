@@ -15,6 +15,16 @@ class TestSDDBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                mail_create_nolog=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+                no_reset_password=True,
+                tracking_disable=True,
+            )
+        )
         cls.company_B = cls.env["res.company"].create({"name": "Company B"})
         user_type_payable = cls.env.ref("account.data_account_type_payable")
         cls.account_payable_company_B = cls.env["account.account"].create(
