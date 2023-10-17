@@ -21,20 +21,20 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 15.0.2.1.0 |  | Banking mandates
-[account_banking_mandate_contact](account_banking_mandate_contact/) | 15.0.1.0.0 |  | Assign specific banking mandates in contact level
+[account_banking_mandate](account_banking_mandate/) | 15.0.2.1.1 |  | Banking mandates
+[account_banking_mandate_contact](account_banking_mandate_contact/) | 15.0.1.0.1 |  | Assign specific banking mandates in contact level
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 15.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adds mandates on sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 15.0.2.0.2 |  | Base module for PAIN file generation
-[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 15.0.2.0.1 |  | Create SEPA XML files for Credit Transfers
-[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 15.0.2.1.0 |  | Create SEPA files for Direct Debit
-[account_payment_mode](account_payment_mode/) | 15.0.1.0.2 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 15.0.2.2.0 |  | Account Payment Order
+[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 15.0.2.0.2 |  | Create SEPA XML files for Credit Transfers
+[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 15.0.2.1.1 |  | Create SEPA files for Direct Debit
+[account_payment_mode](account_payment_mode/) | 15.0.1.0.3 |  | Account Payment Mode
+[account_payment_order](account_payment_order/) | 15.0.2.2.1 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 15.0.1.0.2 |  | Account Payment Order - Generate grouped moves
-[account_payment_order_return](account_payment_order_return/) | 15.0.1.0.0 |  | Account Payment Order Return
-[account_payment_partner](account_payment_partner/) | 15.0.1.3.1 |  | Adds payment mode on partners and invoices
+[account_payment_order_return](account_payment_order_return/) | 15.0.1.0.1 |  | Account Payment Order Return
+[account_payment_partner](account_payment_partner/) | 15.0.1.3.2 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 15.0.1.0.0 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 15.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
-[account_payment_sale](account_payment_sale/) | 15.0.1.0.0 |  | Adds payment mode on sale orders
+[account_payment_sale](account_payment_sale/) | 15.0.1.0.1 |  | Adds payment mode on sale orders
 
 [//]: # (end addons)
 
