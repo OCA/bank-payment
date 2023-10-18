@@ -5,7 +5,7 @@
     "name": "Account Payment Order Tier Validation",
     "summary": """Extends the functionality of Payment Orders
         to support a tier validation process.""",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "Escodoo,Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],

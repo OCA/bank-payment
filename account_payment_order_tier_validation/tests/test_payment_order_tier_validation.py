@@ -1,4 +1,5 @@
 # Copyright 2022 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# Copyright 2023, XCG Consulting
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo.exceptions import ValidationError
@@ -6,7 +7,7 @@ from odoo.tests import common, tagged
 
 
 @tagged("-at_install", "post_install")
-class TestPaymentOrderTierValidation(common.SavepointCase):
+class TestPaymentOrderTierValidation(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -17,7 +18,10 @@ class TestPaymentOrderTierValidation(common.SavepointCase):
         )
 
         # Create users
-        group_ids = cls.env.ref("base.group_system").ids
+        group_ids = (
+            cls.env.ref("base.group_system")
+            | cls.env.ref("account_payment_order.group_account_payment")
+        ).ids
         cls.test_user_1 = cls.env["res.users"].create(
             {
                 "name": "John",
@@ -97,6 +101,7 @@ class TestPaymentOrderTierValidation(common.SavepointCase):
         with self.assertRaises(ValidationError):
             po.draft2open()
         po.request_validation()
+        po.invalidate_recordset()
         po.with_user(self.test_user_1).validate_tier()
         po.draft2open()
         self.assertEqual(po.state, "open")
