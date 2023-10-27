@@ -147,7 +147,7 @@
         <field name="name">account.payment.order.tree</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <tree string="Payment Orders">
+            <tree>
                 <field name="name" decoration-bf="1" />
                 <field name="payment_mode_id" />
                 <field name="journal_id" />
