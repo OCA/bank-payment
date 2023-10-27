@@ -157,7 +157,6 @@ msgstr ""
 
 #. module: account_payment_order_notification
 #: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_error
-#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -285,11 +284,6 @@ msgstr ""
 #. module: account_payment_order_notification
 #: model:ir.actions.act_window,name:account_payment_order_notification.account_payment_order_notification_action
 msgid "Payment Order Notifications"
-msgstr ""
-
-#. module: account_payment_order_notification
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: account_payment_order_notification
