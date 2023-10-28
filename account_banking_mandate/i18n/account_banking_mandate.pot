@@ -93,7 +93,6 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
 msgstr ""
 
