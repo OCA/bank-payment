@@ -288,7 +288,6 @@ msgstr "Si es marca els missatges nous requeriran la vostra atenció."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si es marca, alguns missatges tenen un error de lliurament."
 
@@ -494,11 +493,6 @@ msgid "Responsible User"
 msgstr "Usuari responsable"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Error de lliurament de missatge SMS"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
 msgid "Scan of the Mandate"
 msgstr "Escanejat del mandat"
@@ -637,6 +631,9 @@ msgid ""
 msgstr ""
 "Només hauria de tornar un mandat a estat esborrany si va cancel·lar-lo per "
 "error. Desitja continuar?"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Error de lliurament de missatge SMS"
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Línies de pagament bancari"
