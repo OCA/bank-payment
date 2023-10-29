@@ -226,7 +226,6 @@ msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: account_payment_order_notification
 #: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_error
-#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur de livraison."
 
@@ -356,11 +355,6 @@ msgid "Payment Order Notifications"
 msgstr "Notifications d'ordres de paiement"
 
 #. module: account_payment_order_notification
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur d'envoi SMS"
-
-#. module: account_payment_order_notification
 #: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_form
 msgid "Send mails"
 msgstr "Envoyer des courriers électroniques"
@@ -408,6 +402,9 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} Ordre de paiement (Réf {{ object.order_id.name "
 "or 'n/a' }})"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur d'envoi SMS"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Nombre de messages nécessitant une action"
