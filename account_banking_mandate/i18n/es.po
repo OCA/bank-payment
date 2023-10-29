@@ -103,7 +103,6 @@ msgstr "Cuentas bancarias"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
 msgid "Banking Mandate"
 msgstr "Mandato bancario"
 
@@ -300,7 +299,6 @@ msgstr "Si se marca los mensajes nuevos requerirán su atención."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si se marca, algunos mensajes tienen un error de entrega."
 
@@ -513,12 +511,6 @@ msgid "Responsible User"
 msgstr "Usuario Responsable"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
-#, fuzzy
-msgid "SMS Delivery error"
-msgstr "Error de entrega de mensaje"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
 msgid "Scan of the Mandate"
 msgstr "Escaneado del mandato"
@@ -665,6 +657,10 @@ msgid ""
 msgstr ""
 "Debe establecer un mandato de vuelta a borrador sólo si lo cancelo por "
 "error. ¿Desea continuar?"
+
+#, fuzzy
+#~ msgid "SMS Delivery error"
+#~ msgstr "Error de entrega de mensaje"
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Líneas de pago bancario"
