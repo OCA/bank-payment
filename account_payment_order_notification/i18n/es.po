@@ -167,7 +167,6 @@ msgstr "Si está marcado, hay nuevos mensajes que requieren de su atención."
 
 #. module: account_payment_order_notification
 #: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_error
-#: model:ir.model.fields,help:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcado, hay mensajes que tienen error de entrega."
 
@@ -298,11 +297,6 @@ msgid "Payment Order Notifications"
 msgstr "Enviar notificaciones"
 
 #. module: account_payment_order_notification
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Error de entrega de SMS"
-
-#. module: account_payment_order_notification
 #: model_terms:ir.ui.view,arch_db:account_payment_order_notification.account_payment_order_form
 msgid "Send mails"
 msgstr "Enviar emails"
@@ -351,6 +345,9 @@ msgstr ""
 #: model:ir.model,name:account_payment_order_notification.model_wizard_account_payment_order_notification_line
 msgid "Wizard Account Payment Order Notification Line"
 msgstr ""
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Error de entrega de SMS"
 
 #~ msgid ""
 #~ "\n"
