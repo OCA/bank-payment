@@ -155,6 +155,11 @@ msgid "Allow Litigation Move Lines"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allow_past_date
+msgid "Allow date in the past"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allowed_journal_ids
 msgid "Allowed journals"
 msgstr ""
@@ -1204,6 +1209,13 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__allow_past_date
+msgid ""
+"When checked, the Payment Date won't fast-forward to today and will instead "
+"remain the scheduled date"
 msgstr ""
 
 #. module: account_payment_order

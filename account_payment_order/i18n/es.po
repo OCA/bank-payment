@@ -1260,7 +1260,8 @@ msgid ""
 "When checked, the Payment Date won't fast-forward to today and will instead "
 "remain the scheduled date"
 msgstr ""
-"Al marcar esta casilla, la fecha contable no se pondrá al día actual y permanecerá con la fecha de ejecución del pago"
+"Al marcar esta casilla, la fecha contable no se pondrá al día actual y "
+"permanecerá con la fecha de ejecución del pago"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
