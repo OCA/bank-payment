@@ -89,6 +89,13 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
     def test_constrains_date(self):
         with self.assertRaises(ValidationError):
             self.inbound_order.date_scheduled = date.today() - timedelta(days=1)
+        # No raise
+        self.inbound_order.write(
+            {
+                "allow_past_date": True,
+                "date_scheduled": date.today() - timedelta(days=2),
+            }
+        )
 
     def test_invoice_communication_01(self):
         self.assertEqual(

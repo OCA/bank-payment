@@ -164,6 +164,11 @@ msgid "Allow Litigation Move Lines"
 msgstr "Permitir apuntes en litigio"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allow_past_date
+msgid "Allow date in the past"
+msgstr "Permitir fecha en el pasado"
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allowed_journal_ids
 msgid "Allowed journals"
 msgstr "Diarios permitidos"
@@ -1248,6 +1253,14 @@ msgstr "Mensajes del sitio web"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__allow_past_date
+msgid ""
+"When checked, the Payment Date won't fast-forward to today and will instead "
+"remain the scheduled date"
+msgstr ""
+"Al marcar esta casilla, la fecha contable no se pondrá al día actual y permanecerá con la fecha de ejecución del pago"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create

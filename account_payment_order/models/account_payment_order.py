@@ -145,6 +145,15 @@ class AccountPaymentOrder(models.Model):
         compute="_compute_move_count", string="Number of Journal Entries"
     )
     description = fields.Char()
+    allow_past_date = fields.Boolean(
+        string="Allow date in the past",
+        help=(
+            "When checked, the Payment Date won't fast-forward to today "
+            "and will instead remain the scheduled date"
+        ),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
 
     @api.depends("payment_mode_id")
     def _compute_allowed_journal_ids(self):
@@ -187,7 +196,7 @@ class AccountPaymentOrder(models.Model):
         today = fields.Date.context_today(self)
         for order in self:
             if order.date_scheduled:
-                if order.date_scheduled < today:
+                if not order.allow_past_date and order.date_scheduled < today:
                     raise ValidationError(
                         _(
                             "On payment order %s, the Payment Execution Date "
@@ -304,8 +313,9 @@ class AccountPaymentOrder(models.Model):
                     requested_date = order.date_scheduled or today
                 else:
                     requested_date = today
-                # No payment date in the past
-                requested_date = max(today, requested_date)
+                # No payment date in the past unless allowed
+                if not order.allow_past_date:
+                    requested_date = max(today, requested_date)
                 # inbound: check option no_debit_before_maturity
                 if (
                     order.payment_type == "inbound"

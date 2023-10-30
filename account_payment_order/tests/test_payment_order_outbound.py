@@ -250,6 +250,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         )
         with self.assertRaises(ValidationError):
             outbound_order.date_scheduled = date.today() - timedelta(days=2)
+        # No raise
+        outbound_order.write(
+            {
+                "allow_past_date": True,
+                "date_scheduled": date.today() - timedelta(days=2),
+            }
+        )
 
     def test_invoice_communication_01(self):
         self.assertEqual("F1242", self.invoice._get_payment_order_communication())
