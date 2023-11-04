@@ -31,7 +31,7 @@ class AccountMoveLine(models.Model):
             if (
                 ml.move_id.move_type in ("in_invoice", "in_refund")
                 and not ml.reconciled
-                and ml.payment_mode_id.payment_order_ok
+                and (ml.payment_mode_id.payment_order_ok or not ml.payment_mode_id)
                 and ml.account_id.account_type
                 in ("asset_receivable", "liability_payable")
                 and not any(
