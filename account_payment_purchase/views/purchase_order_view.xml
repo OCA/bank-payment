@@ -9,11 +9,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <field name="payment_term_id" position="after">
-                <field
-                    name="payment_mode_id"
-                    domain="[('payment_type', '=', 'outbound')]"
-                    widget="selection"
-                />
+                <field name="payment_mode_id" />
                 <field name="supplier_partner_bank_id" />
             </field>
         </field>
