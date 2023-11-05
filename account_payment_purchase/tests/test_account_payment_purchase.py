@@ -2,7 +2,7 @@
 # Copyright 2017 Tecnativa - Vicent Cubells
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests import TransactionCase, tagged
 
 
@@ -50,7 +50,7 @@ class TestAccountPaymentPurchase(TransactionCase):
                 "name": "Test buy product",
                 "uom_id": cls.uom_id,
                 "uom_po_id": cls.uom_id,
-                "seller_ids": [(0, 0, {"partner_id": cls.partner.id})],
+                "seller_ids": [Command.create({"partner_id": cls.partner.id})],
             }
         )
         cls.purchase = cls.env["purchase.order"].create(
@@ -58,9 +58,7 @@ class TestAccountPaymentPurchase(TransactionCase):
                 "partner_id": cls.partner.id,
                 "payment_mode_id": cls.payment_mode.id,
                 "order_line": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "name": "Test line",
                             "product_qty": 1.0,
@@ -68,7 +66,7 @@ class TestAccountPaymentPurchase(TransactionCase):
                             "product_uom": cls.uom_id,
                             "date_planned": fields.Datetime.today(),
                             "price_unit": 1.0,
-                        },
+                        }
                     )
                 ],
             }
