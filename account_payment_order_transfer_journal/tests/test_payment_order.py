@@ -32,7 +32,7 @@ class TestPaymentOrderTranserJournal(AccountTestInvoicingCommon):
 
     def test_payment_order_transfer_journal(self):
         self.in_invoice._post()
-        self.bank_journal.transfer_journal_id = self.misc_journal
+        self.payment_mode.transfer_journal_id = self.misc_journal
         ap_aml = self.in_invoice.line_ids.filtered(
             lambda r: r.account_type == "liability_payable"
         )
