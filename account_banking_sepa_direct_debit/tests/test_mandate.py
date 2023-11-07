@@ -33,16 +33,29 @@ class TestMandate(TransactionCase):
         self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
         self.assertEqual(self.mandate.state, "expired")
 
-    def setUp(self):
-        res = super().setUp()
-        self.partner = self.env.ref("base.res_partner_12")
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
-        self.mandate = self.env["account.banking.mandate"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.company = cls.env.ref("base.main_company")
+        cls.partner = cls.env["res.partner"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "name": "Test Partner SDD",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.partner_bank = cls.env["res.partner.bank"].create(
+            {
+                "acc_number": "FR451111 9999 8888 5555 9999 421",
+                "partner_id": cls.partner.id,
+            }
+        )
+        cls.mandate = cls.env["account.banking.mandate"].create(
+            {
+                "partner_bank_id": cls.partner_bank.id,
                 "format": "sepa",
                 "type": "oneoff",
                 "signature_date": "2015-01-01",
+                "company_id": cls.company.id,
             }
         )
-        return res

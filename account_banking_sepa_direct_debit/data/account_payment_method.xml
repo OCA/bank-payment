@@ -4,6 +4,7 @@
         <field name="name">SEPA Direct Debit for customers</field>
         <field name="code">sepa_direct_debit</field>
         <field name="payment_type">inbound</field>
+        <field name="payment_order_ok" eval="True" />
         <field name="bank_account_required" eval="False" />
         <field name="mandate_required" eval="True" />
         <field name="pain_version">pain.008.001.02</field>
