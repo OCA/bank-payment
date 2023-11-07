@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-09 14:56+0000\n"
-"PO-Revision-Date: 2021-04-23 18:47+0000\n"
-"Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
+"PO-Revision-Date: 2023-11-07 12:38+0000\n"
+"Last-Translator: Thijs van Oers <thijsvanoers@yahoo.com>\n"
 "Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_mandate
 #: model_terms:ir.actions.act_window,help:account_banking_mandate.mandate_action
@@ -60,7 +60,7 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activiteiten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_exception_decoration
@@ -70,22 +70,22 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Activiteiten status"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Activiteiten type icoon"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
 msgid "Are you sure you want to cancel this mandate?"
-msgstr ""
+msgstr "Weet je zeker dat je dit mandaat wil annuleren?"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Aantal bijlages"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
@@ -265,7 +265,7 @@ msgstr "Groepeer op"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Heeft bericht"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__id
@@ -275,7 +275,7 @@ msgstr "ID"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icoon"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__activity_exception_icon
@@ -285,12 +285,12 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Als deze optie is ingeschakeld, vereisen nieuwe berichten uw aandacht."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Als deze optie is aangevinkt, hebben sommige berichten een afleverfout."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_is_follower
@@ -300,7 +300,7 @@ msgstr "volgt"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Boeking"
 
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_account_move_line
@@ -375,7 +375,7 @@ msgstr "Mandaten"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Fout bij aflevering bericht"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_ids
@@ -392,22 +392,22 @@ msgstr "Ontbrekende mandaat op betaalregel %s"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Deadline voor mijn activiteit"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Deadline voor volgende activiteit"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Samenvatting voor volgende activiteit"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Type volgende activiteit"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_needaction_counter
@@ -423,19 +423,18 @@ msgstr "Aantal mandaten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
-#, fuzzy
 msgid "Number of errors"
-msgstr "Aantal mandaten"
+msgstr "Aantal fouten"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Aantal fouten dat actie vereist"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Aantal berichten met fout in aflevering"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__state
@@ -494,7 +493,7 @@ msgstr "Gekoppelde betaalregels"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Verantwoordelijke"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
@@ -530,6 +529,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Status gebaseerd op activiteiten\n"
+"Achterstallig: De vervaldatum is al verstreken\n"
+"Vandaag: Activiteit datum is vandaag\n"
+"Gepland: Toekomstige activiteiten."
 
 #. module: account_banking_mandate
 #. odoo-python
@@ -557,6 +560,8 @@ msgid ""
 "The payment line number {line_number} a different company than that of the "
 "linked mandate {mandate})."
 msgstr ""
+"Het regelnummer van de betaling {line_number} is een ander bedrijf dan dat "
+"van het gekoppelde mandaat {mandate})."
 
 #. module: account_banking_mandate
 #. odoo-python
