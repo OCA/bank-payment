@@ -9,6 +9,10 @@ class AccountPaymentLine(models.Model):
 
     def _prepare_account_payment_vals(self):
         vals = super()._prepare_account_payment_vals()
-        if self.order_id.payment_mode_id.transfer_journal_id:
-            vals["journal_id"] = self.order_id.payment_mode_id.transfer_journal_id.id
+        transfer_journal = (
+            self.order_id.payment_mode_id.transfer_journal_id
+            or self.company_id.transfer_journal_id
+        )
+        if transfer_journal:
+            vals["journal_id"] = transfer_journal.id
         return vals
