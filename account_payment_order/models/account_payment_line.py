@@ -237,4 +237,11 @@ class AccountPaymentLine(models.Model):
                 vals[
                     "destination_account_id"
                 ] = self.partner_id.property_account_payable_id.id
+
+        transfer_journal = (
+            self.order_id.payment_mode_id.transfer_journal_id
+            or self.company_id.transfer_journal_id
+        )
+        if transfer_journal:
+            vals["journal_id"] = transfer_journal.id
         return vals

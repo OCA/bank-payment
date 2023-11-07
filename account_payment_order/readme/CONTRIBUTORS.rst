@@ -30,3 +30,4 @@
 
   * Ammar Officewala <aofficewala@opensourceintegrators.com>
 * Marçal Isern <marsal.isern@qubiq.es>
+* Luc De Meyer <luc.demeyer@noviat.com> (https://noviat.com)

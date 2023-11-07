@@ -71,6 +71,12 @@ class AccountPaymentMode(models.Model):
         "(other modules can set additional fields to restrict the "
         "grouping.)",
     )
+    transfer_journal_id = fields.Many2one(
+        comodel_name="account.journal",
+        string="Transfer journal on payment/debit orders",
+        domain="[('type', '=', 'general')]",
+        help="Journal to write payment entries when confirming payment/debit orders",
+    )
 
     @api.onchange("payment_method_id")
     def payment_method_id_change(self):
