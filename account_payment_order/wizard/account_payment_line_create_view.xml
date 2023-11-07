@@ -12,6 +12,7 @@
             <form string="Choose Move Lines Filter Options">
                 <group name="main">
                     <field name="order_id" invisible="1" />
+                    <field name="eligible_move_line_ids" invisible="1" />
                     <field name="date_type" />
                     <field
                         name="move_date"

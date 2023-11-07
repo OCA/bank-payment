@@ -24,24 +24,4 @@
     >
         <field name="payment_order_ok" eval="False" />
     </record>
-    <record
-        id="account_payment_mode.payment_mode_outbound_ct1"
-        model="account.payment.mode"
-    >
-        <!-- Credit Transfer to Suppliers -->
-        <field
-            name="default_journal_ids"
-            search="[('type', 'in', ('purchase', 'purchase_refund'))]"
-        />
-    </record>
-    <record
-        id="account_payment_mode.payment_mode_inbound_dd1"
-        model="account.payment.mode"
-    >
-        <!-- Direct Debit of customers -->
-        <field
-            name="default_journal_ids"
-            search="[('type', 'in', ('sale', 'sale_refund'))]"
-        />
-    </record>
 </odoo>

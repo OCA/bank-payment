@@ -24,13 +24,19 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
                 "name": "Test Partner",
             }
         )
+        cls.payment_method_in = cls.env["account.payment.method"].create(
+            {
+                "name": "test inbound payment order ok",
+                "code": "test_manual",
+                "payment_type": "inbound",
+                "payment_order_ok": True,
+            }
+        )
         cls.inbound_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test Direct Debit of customers",
                 "bank_account_link": "variable",
-                "payment_method_id": cls.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
+                "payment_method_id": cls.payment_method_in.id,
                 "company_id": cls.company.id,
             }
         )

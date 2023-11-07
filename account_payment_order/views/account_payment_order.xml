@@ -81,37 +81,44 @@
                     </div>
                     <group name="head" col="2">
                         <group name="head-left">
-                            <field
-                                name="payment_mode_id"
-                                domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
-                            />
+                            <field name="payment_mode_id" />
                             <field name="allowed_journal_ids" invisible="1" />
-                            <field
-                                name="journal_id"
-                                domain="[('id', 'in', allowed_journal_ids)]"
-                            />
+                            <field name="journal_id" />
                             <field name="bank_account_link" invisible="1" />
                             <field name="company_partner_bank_id" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
                             />
-                            <field name="payment_type" invisible="0" />
-                            <field
-                                name="payment_count"
-                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
-                            />
+                            <field name="payment_type" invisible="1" />
                         </group>
                         <group name="head-right">
                             <field name="date_prefered" />
+                            <!-- {'datepicker': {'warn_future': true}} works well... but there is
+                            no 'warn_past' option in v16 unfortunately.
+                            It would be useful for "date_scheduled" ! -->
                             <field
                                 name="date_scheduled"
                                 attrs="{'invisible': [('date_prefered', '!=', 'fixed')], 'required': [('date_prefered', '=', 'fixed')]}"
                             />
-                            <field name="date_generated" />
-                            <field name="generated_user_id" />
-                            <field name="date_uploaded" />
+                            <field
+                                name="payment_file_datas"
+                                filename="payment_file_name"
+                                states="generated,uploaded"
+                            />
+                            <field name="payment_file_name" invisible="1" />
+                            <field name="payment_file_id" invisible="1" />
+                            <field name="date_generated" states="generated,uploaded" />
+                            <field
+                                name="generated_user_id"
+                                states="generated,uploaded"
+                            />
+                            <field name="date_uploaded" states="uploaded" />
                             <field name="description" />
+                            <field
+                                name="payment_count"
+                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                            />
                         </group>
                     </group>
                     <notebook>
@@ -154,11 +161,7 @@
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="date_uploaded" />
                 <field name="description" optional="show" />
-                <field
-                    name="payment_count"
-                    optional="hide"
-                    string="Payment Transactions"
-                />
+                <field name="payment_count" optional="show" string="Transactions" />
                 <field name="total_company_currency" sum="Total Company Currency" />
                 <field name="company_currency_id" invisible="1" />
                 <field

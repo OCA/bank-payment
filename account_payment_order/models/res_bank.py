@@ -20,6 +20,3 @@ class ResBank(models.Model):
                         num=len(bank.bic),
                     )
                 )
-
-
-# starting from v9, on res.partner.bank bank_bic is a related of bank_id.bic

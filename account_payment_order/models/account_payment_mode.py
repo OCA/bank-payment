@@ -8,13 +8,21 @@ from odoo import api, fields, models
 
 
 class AccountPaymentMode(models.Model):
-    """This corresponds to the object payment.mode of v8 with some
-    important changes"""
-
     _inherit = "account.payment.mode"
 
     payment_order_ok = fields.Boolean(
-        string="Selectable in Payment Orders", default=True
+        string="Selectable in Payment Orders",
+        compute="_compute_payment_order_ok",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+    specific_sequence_id = fields.Many2one(
+        "ir.sequence",
+        check_company=True,
+        copy=False,
+        help="If left empty, the payment orders with this payment mode will use the "
+        "generic sequence for all payment orders.",
     )
     no_debit_before_maturity = fields.Boolean(
         string="Disallow Debit Before Maturity Date",
@@ -31,8 +39,13 @@ class AccountPaymentMode(models.Model):
     )
     default_journal_ids = fields.Many2many(
         comodel_name="account.journal",
+        compute="_compute_default_journal_ids",
+        store=True,
+        readonly=False,
+        precompute=True,
         string="Journals Filter",
         domain="[('company_id', '=', company_id)]",
+        check_company=True,
     )
     default_invoice = fields.Boolean(
         string="Linked to an Invoice or Refund", default=False
@@ -72,23 +85,33 @@ class AccountPaymentMode(models.Model):
         "grouping.)",
     )
 
-    @api.onchange("payment_method_id")
-    def payment_method_id_change(self):
-        if self.payment_method_id:
-            ajo = self.env["account.journal"]
-            aj_ids = []
-            if self.payment_method_id.payment_type == "outbound":
-                aj_ids = ajo.search(
-                    [
-                        ("type", "in", ("purchase_refund", "purchase")),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                ).ids
-            elif self.payment_method_id.payment_type == "inbound":
-                aj_ids = ajo.search(
-                    [
-                        ("type", "in", ("sale_refund", "sale")),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                ).ids
-            self.default_journal_ids = [(6, 0, aj_ids)]
+    @api.depends("payment_method_id")
+    def _compute_payment_order_ok(self):
+        for mode in self:
+            mode.payment_order_ok = mode.payment_method_id.payment_order_ok
+
+    @api.depends("payment_method_id", "company_id")
+    def _compute_default_journal_ids(self):
+        ptype_map = {
+            "outbound": "purchase",
+            "inbound": "sale",
+        }
+        for mode in self:
+            if (
+                mode.payment_method_id
+                and mode.payment_method_id.payment_type in ptype_map
+            ):
+                mode.default_journal_ids = (
+                    self.env["account.journal"]
+                    .search(
+                        [
+                            (
+                                "type",
+                                "=",
+                                ptype_map[mode.payment_method_id.payment_type],
+                            ),
+                            ("company_id", "=", mode.company_id.id),
+                        ]
+                    )
+                    .ids
+                )

@@ -23,7 +23,7 @@ class AccountPayment(models.Model):
                 pay.available_payment_method_line_ids = (
                     pay.journal_id._get_available_payment_method_lines(
                         pay.payment_type
-                    ).filtered(lambda x: not x.payment_method_id.payment_order_only)
+                    ).filtered(lambda x: not x.payment_method_id.payment_order_ok)
                 )
             to_exclude = pay._get_payment_method_codes_to_exclude()
             if to_exclude:
