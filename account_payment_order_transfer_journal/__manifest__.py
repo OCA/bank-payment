@@ -13,6 +13,7 @@
     "depends": ["account_payment_order"],
     "data": [
         "views/account_payment_mode_views.xml",
+        "wizards/res_config_settings.xml",
     ],
     "demo": [],
 }
