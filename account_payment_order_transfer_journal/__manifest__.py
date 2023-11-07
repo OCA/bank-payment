@@ -12,7 +12,7 @@
     "website": "https://github.com/OCA/bank-payment",
     "depends": ["account_payment_order"],
     "data": [
-        "views/account_journal_views.xml",
+        "views/account_payment_mode_views.xml",
     ],
     "demo": [],
 }
