@@ -31,7 +31,7 @@
         />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
-                <field name="pain_version" />
+                <field name="pain_version" optional="show" />
             </field>
         </field>
     </record>
