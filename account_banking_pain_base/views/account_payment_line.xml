@@ -12,12 +12,12 @@
             ref="account_payment_order.account_payment_line_form"
         />
         <field name="arch" type="xml">
-            <field name="communication_type" position="before">
+            <group name="right" position="inside">
                 <field name="priority" />
                 <field name="local_instrument" />
                 <field name="category_purpose" />
                 <field name="purpose" />
-            </field>
+            </group>
         </field>
     </record>
     <record id="account_payment_line_tree" model="ir.ui.view">

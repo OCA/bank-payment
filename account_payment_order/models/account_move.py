@@ -47,6 +47,12 @@ class AccountMove(models.Model):
                 )
             )
 
+    # Enable support for payment_state = "in_payment" on invoices
+    # _get_invoice_in_payment_state() is a method of the "account" module which returns "paid"
+    @api.model
+    def _get_invoice_in_payment_state(self):
+        return "in_payment"
+
     def _get_payment_order_communication_direct(self):
         """Retrieve the communication string for this direct item."""
         communication = self.payment_reference or self.ref or self.name or ""

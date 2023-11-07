@@ -14,13 +14,9 @@
                     <group>
                         <field name="show_bank_account" />
                         <field
-                            name="show_bank_account_from_journal"
-                            attrs="{'invisible': [('show_bank_account', '=', 'no')]}"
-                        />
-                        <field
                             name="show_bank_account_chars"
                             string="# of chars"
-                            attrs="{'invisible': [('show_bank_account', 'not in', ['first', 'last'])]}"
+                            attrs="{'invisible': [('show_bank_account', 'not in', ['first', 'last', 'first_last'])]}"
                         />
                     </group>
                 </group>

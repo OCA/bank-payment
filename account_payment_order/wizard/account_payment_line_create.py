@@ -26,7 +26,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
     )
-    allow_blocked = fields.Boolean(string="Allow Litigation Move Lines")
+    allow_blocked = fields.Boolean(string="Allow Litigation Journal Items")
     invoice = fields.Boolean(string="Linked to an Invoice or Refund")
     date_type = fields.Selection(
         selection=[("due", "Due Date"), ("move", "Move Date")],
@@ -38,13 +38,20 @@ class AccountPaymentLineCreate(models.TransientModel):
     payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
     )
+    eligible_move_line_ids = fields.Many2many(
+        comodel_name="account.move.line",
+        compute="_compute_eligible_move_line_ids",
+        string="Eligible Journal Items",
+    )
     move_line_ids = fields.Many2many(
-        comodel_name="account.move.line", string="Move Lines"
+        comodel_name="account.move.line",
+        string="Journal Items",
+        domain="[('id', 'in', eligible_move_line_ids)]",
     )
 
     @api.model
     def default_get(self, field_list):
-        res = super(AccountPaymentLineCreate, self).default_get(field_list)
+        res = super().default_get(field_list)
         context = self.env.context
         assert (
             context.get("active_model") == "account.payment.order"
@@ -163,7 +170,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         }
         return action
 
-    @api.onchange(
+    @api.depends(
         "date_type",
         "move_date",
         "due_date",
@@ -174,10 +181,11 @@ class AccountPaymentLineCreate(models.TransientModel):
         "payment_mode",
         "partner_ids",
     )
-    def move_line_filters_change(self):
-        domain = self._prepare_move_line_domain()
-        res = {"domain": {"move_line_ids": domain}}
-        return res
+    def _compute_eligible_move_line_ids(self):
+        for wiz in self:
+            domain = wiz._prepare_move_line_domain()
+            lines = self.env["account.move.line"].search(domain)
+            wiz.eligible_move_line_ids = lines.ids
 
     def create_payment_lines(self):
         if self.move_line_ids:

@@ -20,6 +20,10 @@
                     />
                     <field name="default_date_prefered" />
                     <field name="group_lines" />
+                    <field
+                        name="specific_sequence_id"
+                        context="{'default_padding': 5, 'default_name': name, 'default_company_id': company_id}"
+                    />
                 </group>
                 <group
                     name="payment_order_create_defaults"

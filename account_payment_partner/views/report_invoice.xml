@@ -17,19 +17,9 @@
                             t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"
                         />
                     </t>
-                    <t t-if="o.payment_mode_id.show_bank_account == 'full'">
-                        <span t-field="partner_bank.acc_number" />
-                    </t>
-                    <t t-elif="o.payment_mode_id.show_bank_account == 'first'">
-                        <span
-                            t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"
-                        />
-                    </t>
-                    <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
-                        <span
-                            t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"
-                        />
-                    </t>
+                    <span
+                        t-esc="partner_bank.get_acc_number(o.payment_mode_id.show_bank_account, o.payment_mode_id.show_bank_account_chars)"
+                    />
                 </p>
             </t>
         </xpath>

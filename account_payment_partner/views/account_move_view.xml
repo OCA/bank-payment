@@ -63,6 +63,13 @@
                     [('partner_id', '=', partner_bank_filter_type_domain),
                     '|',('company_id', '=', company_id),('company_id', '=', False)]
                 </attribute>
+                <!-- We hide partner_bank_id on customer invoices because the bank accounts to display
+                on the invoice are taken from the payment mode -->
+                <attribute
+                    name="attrs"
+                >{'invisible': [('move_type', '=', 'out_invoice')]}
+                </attribute>
+
             </xpath>
         </field>
     </record>

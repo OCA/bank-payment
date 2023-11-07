@@ -3,7 +3,7 @@
 
 from unittest.mock import patch
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
@@ -28,7 +28,6 @@ class TestInvoiceMandate(TransactionCase):
 
         payment_order = self.env["account.payment.order"].search([])
         self.assertEqual(len(payment_order.ids), 1)
-        payment_order.payment_mode_id_change()
         payment_order.draft2open()
         payment_order.open2generated()
         payment_order.generated2uploaded()
@@ -272,18 +271,12 @@ class TestInvoiceMandate(TransactionCase):
             .id
         )
 
-        invoice_vals = [
-            (
-                0,
-                0,
-                {
-                    "product_id": self.env.ref("product.product_product_4").id,
-                    "quantity": 1.0,
-                    "account_id": invoice_line_account,
-                    "price_unit": 200.00,
-                },
-            )
-        ]
+        line_vals = {
+            "product_id": self.env.ref("product.product_product_4").id,
+            "quantity": 1.0,
+            "account_id": invoice_line_account,
+            "price_unit": 200.00,
+        }
 
         self.invoice = self.env["account.move"].create(
             {
@@ -296,7 +289,7 @@ class TestInvoiceMandate(TransactionCase):
                     limit=1,
                 )
                 .id,
-                "invoice_line_ids": invoice_vals,
+                "invoice_line_ids": [Command.create(line_vals)],
             }
         )
 
