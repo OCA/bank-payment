@@ -8,6 +8,14 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="payment_reference" />
+                <field name="order_state" invisible="1" />
+                <button
+                    name="update_payment_reference"
+                    attrs="{'invisible': [('order_state', '!=', 'open')]}"
+                    title="Update Payment Reference"
+                    type="object"
+                    icon="fa-undo"
+                />
             </field>
         </field>
     </record>
