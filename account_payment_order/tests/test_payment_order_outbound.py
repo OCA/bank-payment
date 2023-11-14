@@ -80,6 +80,13 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
             ("company_id", "=", cls.env.user.company_id.id),
         ]
         cls.env["account.payment.order"].search(cls.domain).unlink()
+        cls.partner_bank = cls.env["res.partner.bank"].create(
+            {
+                "acc_number": "1234",
+                "partner_id": cls.partner.id,
+                "allow_out_payment": True,
+            }
+        )
 
     def _create_supplier_invoice(self, ref):
         invoice = self.env["account.move"].create(
