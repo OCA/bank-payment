@@ -46,6 +46,7 @@
                     attrs="{'invisible': [('payment_line_count', '=', 0)]}"
                     icon="fa-bars"
                     help="Payment Order Lines"
+                    groups="account_payment_order.group_account_payment"
                 >
                     <field
                         string="Payment Lines"
