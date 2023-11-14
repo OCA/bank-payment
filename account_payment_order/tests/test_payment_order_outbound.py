@@ -79,6 +79,13 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
             ("company_id", "=", cls.env.user.company_id.id),
         ]
         cls.env["account.payment.order"].search(cls.domain).unlink()
+        cls.partner_bank = cls.env["res.partner.bank"].create(
+            {
+                "acc_number": "1234",
+                "partner_id": cls.partner.id,
+                "allow_out_payment": True,
+            }
+        )
 
     def _create_supplier_invoice(self, ref):
         invoice = self.env["account.move"].create(
@@ -643,3 +650,18 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(invoice_action["res_id"], self.invoice.id)
         manual_line_action = order.payment_line_ids[1].action_open_business_doc()
         self.assertFalse(manual_line_action)
+    def test_check_allow_out_payment(self):
+        """Check that, in case option "Send Money" is not enabled on
+        the bank, out payments are not allowed.
+        """
+        # Open invoice
+        self.invoice.action_post()
+
+        # Do not allow out payments
+        self.partner_bank.allow_out_payment = False
+
+        # Add to payment order using the wizard: error raised
+        with self.assertRaises(UserError):
+            self.env["account.invoice.payment.line.multi"].with_context(
+                active_model="account.move", active_ids=self.invoice.ids
+            ).create({}).run()
