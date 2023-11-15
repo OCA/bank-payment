@@ -105,7 +105,7 @@ class AccountPaymentLine(models.Model):
         store=True,
         readonly=False,
         precompute=True,
-        selection=[("normal", "Free")],
+        selection=[("free", "Free"), ("structured", "Structured")],
         required=True,
     )
     payment_ids = fields.Many2many(
@@ -167,7 +167,7 @@ class AccountPaymentLine(models.Model):
         values.append(str(self.move_line_id.account_id or False))
         # Don't group the payment lines that use a structured communication
         # otherwise it would break the structured communication system !
-        if self.communication_type != "normal":
+        if self.communication_type != "free":
             values.append(str(self.id))
         return "-".join(values)
 
@@ -175,14 +175,17 @@ class AccountPaymentLine(models.Model):
     def _compute_payment_line(self):
         for line in self:
             communication = False
-            communication_type = "normal"
+            communication_type = "free"
             currency_id = line.company_id.currency_id.id
             amount_currency = 0.0
             move_line = line.move_line_id
             partner = line.partner_id
             partner_bank_id = False
             if move_line:
-                communication_type, communication = move_line._get_communication()
+                communication_type = move_line.move_id.reference_type
+                communication = (
+                    move_line.move_id._get_payment_order_communication_full()
+                )
                 currency_id = move_line.currency_id.id
                 amount_currency = move_line.amount_residual_currency
                 if line.order_id.payment_type == "outbound":
@@ -197,14 +200,6 @@ class AccountPaymentLine(models.Model):
             line.amount_currency = amount_currency
             line.partner_id = partner and partner.id or False
             line.partner_bank_id = partner_bank_id
-
-    def invoice_reference_type2communication_type(self):
-        """This method is designed to be inherited by
-        localization modules"""
-        # key = value of 'reference_type' field on account_invoice
-        # value = value of 'communication_type' field on account_payment_line
-        res = {"none": "normal", "structured": "structured"}
-        return res
 
     def draft2open_payment_line_check(self):
         self.ensure_one()

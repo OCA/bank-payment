@@ -15,21 +15,6 @@ class AccountMoveLine(models.Model):
         check_company=True,
     )
 
-    def _get_communication(self):
-        """
-        Retrieve the communication string for the payment order
-        """
-        aplo = self.env["account.payment.line"]
-        # default values for communication_type and communication
-        communication_type = "normal"
-        communication = self.move_id._get_payment_order_communication_full()
-        # change these default values if move line is linked to an invoice
-        if self.move_id.is_invoice():
-            if (self.move_id.reference_type or "none") != "none":
-                ref2comm_type = aplo.invoice_reference_type2communication_type()
-                communication_type = ref2comm_type[self.move_id.reference_type]
-        return communication_type, communication
-
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
         vals = {

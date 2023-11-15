@@ -17,6 +17,11 @@
                 <field name="local_instrument" />
                 <field name="category_purpose" />
                 <field name="purpose" />
+                <field
+                    name="regulatory_reporting_id"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                />
+                <field name="company_country_id" invisible="1" />
             </group>
         </field>
     </record>
@@ -30,6 +35,11 @@
         <field name="arch" type="xml">
             <field name="communication" position="after">
                 <field name="priority" optional="hide" />
+                <field name="local_instrument" optional="hide" />
+                <field name="category_purpose" optional="hide" />
+                <field name="purpose" optional="hide" />
+                <field name="regulatory_reporting_id" optional="hide" />
+                <field name="company_country_id" invisible="1" />
             </field>
         </field>
     </record>
