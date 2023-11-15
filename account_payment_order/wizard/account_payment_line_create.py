@@ -190,4 +190,3 @@ class AccountPaymentLineCreate(models.TransientModel):
     def create_payment_lines(self):
         if self.move_line_ids:
             self.move_line_ids.create_payment_line_from_move_line(self.order_id)
-        return True

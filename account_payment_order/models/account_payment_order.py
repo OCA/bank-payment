@@ -290,11 +290,9 @@ class AccountPaymentOrder(models.Model):
 
     def action_uploaded_cancel(self):
         self.action_cancel()
-        return True
 
     def cancel2draft(self):
         self.write({"state": "draft"})
-        return True
 
     def action_cancel(self):
         # Unreconcile and cancel payments
@@ -309,7 +307,6 @@ class AccountPaymentOrder(models.Model):
                 "generated_user_id": False,
             }
         )
-        return True
 
     def draft2open(self):
         """
@@ -422,7 +419,6 @@ class AccountPaymentOrder(models.Model):
                 payment_vals.append(paydict["paylines"]._prepare_account_payment_vals())
             self.env["account.payment"].create(payment_vals)
         self.write({"state": "open"})
-        return True
 
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
@@ -469,7 +465,6 @@ class AccountPaymentOrder(models.Model):
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
-        return True
 
     def action_move_journal_line(self):
         self.ensure_one()

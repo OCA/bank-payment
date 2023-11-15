@@ -31,7 +31,7 @@
         "views/account_payment_order.xml",
         "views/account_payment_line.xml",
         "views/account_move_line.xml",
-        "views/account_invoice_view.xml",
+        "views/account_move.xml",
         "data/payment_seq.xml",
         "report/print_account_payment_order.xml",
         "report/account_payment_order.xml",

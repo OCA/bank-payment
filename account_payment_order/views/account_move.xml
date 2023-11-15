@@ -58,12 +58,7 @@
                 <field name="payment_order_ok" invisible="1" />
             </field>
             <field name="payment_reference" position="before">
-                <field
-                    name="reference_type"
-                    attrs="{'readonly':[('state','!=','draft')],
-                            'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))],
-                            'required': [('move_type', 'in', ('out_invoice', 'out_refund'))]}"
-                />
+                <field name="reference_type" />
             </field>
         </field>
 </record>
