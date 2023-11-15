@@ -5,7 +5,10 @@
         <field name="company_id" ref="base.main_company" />
         <field name="bank_account_link">variable</field>
         <field name="payment_method_id" ref="sepa_direct_debit" />
-        <field name="default_journal_ids" search="[('type', '=', 'sale')]" />
+        <field
+            name="default_journal_ids"
+            search="[('type', '=', 'sale'), ('company_id', '=', ref('base.main_company'))]"
+        />
     </record>
     <record id="base.main_company" model="res.company">
         <field name="sepa_creditor_identifier">FR78ZZZ424242</field>
