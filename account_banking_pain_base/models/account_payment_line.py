@@ -3,6 +3,8 @@
 # Copyright 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
 from odoo import api, fields, models
 
 
@@ -163,18 +165,50 @@ class AccountPaymentLine(models.Model):
         help="If neither your bank nor your local regulations oblige you to "
         "set the category purpose, leave the field empty.",
     )
+    # Regulatory Reporting codes are provided by national central banks for the countries
+    # where this data is required in specific circumstances
+    regulatory_reporting_id = fields.Many2one(
+        "account.pain.regulatory.reporting",
+        ondelete="restrict",
+        domain="[('country_id', 'in', (False, company_country_id))]",
+    )
+    company_country_id = fields.Many2one(related="company_id.country_id")
     # PAIN allows 140 characters
     communication = fields.Char(size=140)
-    # The field struct_communication_type has been dropped in v9
-    # We now use communication_type ; you should add an option
-    # in communication_type with selection_add=[]
-    communication_type = fields.Selection(
-        selection_add=[("ISO", "ISO")], ondelete={"ISO": "cascade"}
-    )
 
     @api.model
     def _get_payment_line_grouping_fields(self):
         """Add specific PAIN fields to the grouping criteria."""
         res = super()._get_payment_line_grouping_fields()
-        res += ["priority", "local_instrument", "category_purpose", "purpose"]
+        res += [
+            "priority",
+            "local_instrument",
+            "category_purpose",
+            "purpose",
+            "regulatory_reporting_id",
+        ]
         return res
+
+    def generate_regulatory_reporting(self, parent_node, gen_args):
+        if self.regulatory_reporting_id:
+            regulatory_reporting = etree.SubElement(parent_node, "RgltryRptg")
+            regulatory_reporting_details = etree.SubElement(
+                regulatory_reporting, "Dtls"
+            )
+            regulatory_reporting_details_code = etree.SubElement(
+                regulatory_reporting_details, "Cd"
+            )
+            regulatory_reporting_details_code.text = self.env[
+                "account.payment.order"
+            ]._prepare_field(
+                "Regulatory Details Code",
+                "line.regulatory_reporting_id.code",
+                {"line": self},
+                10,
+                gen_args=gen_args,
+            )
+
+    def generate_purpose(self, parent_node):
+        if self.purpose:
+            purpose = etree.SubElement(parent_node, "Purp")
+            etree.SubElement(purpose, "Cd").text = self.purpose

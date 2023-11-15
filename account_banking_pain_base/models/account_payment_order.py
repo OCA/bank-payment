@@ -285,7 +285,6 @@ class AccountPaymentOrder(models.Model):
                 )
                 % str(e)
             ) from None
-        return True
 
     def finalize_sepa_file_creation(self, xml_root, gen_args):
         xml_string = etree.tostring(
@@ -461,7 +460,6 @@ class AccountPaymentOrder(models.Model):
                 )
                 % self.company_id.name
             )
-        return True
 
     @api.model
     def generate_party_agent(
@@ -495,7 +493,6 @@ class AccountPaymentOrder(models.Model):
             # for Credit Transfers, in the 'C' block, if BIC is not provided,
             # we should not put the 'Creditor Agent' block at all,
             # as per the guidelines of the EPC
-        return True
 
     @api.model
     def generate_party_id(self, parent_node, party_type, partner):
@@ -519,7 +516,9 @@ class AccountPaymentOrder(models.Model):
             party_account_other = etree.SubElement(party_account_id, "Othr")
             party_account_other_id = etree.SubElement(party_account_other, "Id")
             party_account_other_id.text = partner_bank.sanitized_acc_number
-        return True
+        if party_type == "Dbtr" and partner_bank.currency_id:
+            party_account_current = etree.SubElement(party_account, "Ccy")
+            party_account_current.text = partner_bank.currency_id.name
 
     @api.model
     def generate_address_block(self, parent_node, partner, gen_args):
@@ -567,7 +566,6 @@ class AccountPaymentOrder(models.Model):
                         gen_args=gen_args,
                     )
                 adrline2.text = val
-        return True
 
     @api.model
     def generate_party_block(
@@ -625,13 +623,12 @@ class AccountPaymentOrder(models.Model):
                 gen_args,
                 bank_line=bank_line,
             )
-        return True
 
     @api.model
     def generate_remittance_info_block(self, parent_node, line, gen_args):
         remittance_info = etree.SubElement(parent_node, "RmtInf")
         communication_type = line.payment_line_ids[:1].communication_type
-        if communication_type == "normal":
+        if communication_type == "free":
             remittance_info_unstructured = etree.SubElement(remittance_info, "Ustrd")
             remittance_info_unstructured.text = self._prepare_field(
                 "Remittance Unstructured Information",
@@ -640,7 +637,7 @@ class AccountPaymentOrder(models.Model):
                 140,
                 gen_args=gen_args,
             )
-        else:
+        elif communication_type == "structured":
             remittance_info_structured = etree.SubElement(remittance_info, "Strd")
             creditor_ref_information = etree.SubElement(
                 remittance_info_structured, "CdtrRefInf"
@@ -657,7 +654,7 @@ class AccountPaymentOrder(models.Model):
                 creditor_ref_info_type_issuer = etree.SubElement(
                     creditor_ref_info_type, "Issr"
                 )
-                creditor_ref_info_type_issuer.text = communication_type
+                creditor_ref_info_type_issuer.text = "ISO"
                 creditor_reference = etree.SubElement(
                     creditor_ref_information, "CdtrRef"
                 )
@@ -676,7 +673,7 @@ class AccountPaymentOrder(models.Model):
                     creditor_ref_info_type_issuer = etree.SubElement(
                         creditor_ref_info_type, "Issr"
                     )
-                    creditor_ref_info_type_issuer.text = communication_type
+                    creditor_ref_info_type_issuer.text = "ISO"
 
                 creditor_reference = etree.SubElement(creditor_ref_information, "Ref")
 
@@ -687,7 +684,6 @@ class AccountPaymentOrder(models.Model):
                 35,
                 gen_args=gen_args,
             )
-        return True
 
     @api.model
     def generate_creditor_scheme_identification(
@@ -709,4 +705,3 @@ class AccountPaymentOrder(models.Model):
         csi_scheme_name = etree.SubElement(csi_other, "SchmeNm")
         csi_scheme_name_proprietary = etree.SubElement(csi_scheme_name, "Prtry")
         csi_scheme_name_proprietary.text = scheme_name_proprietary
-        return True
