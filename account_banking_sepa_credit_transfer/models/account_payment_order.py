@@ -191,10 +191,11 @@ class AccountPaymentOrder(models.Model):
                     gen_args,
                     line,
                 )
-                line_purpose = line.payment_line_ids[:1].purpose
-                if line_purpose:
-                    purpose = etree.SubElement(credit_transfer_transaction_info, "Purp")
-                    etree.SubElement(purpose, "Cd").text = line_purpose
+                payment_line = line.payment_line_ids[0]
+                payment_line.generate_purpose(credit_transfer_transaction_info)
+                payment_line.generate_regulatory_reporting(
+                    credit_transfer_transaction_info, gen_args
+                )
                 self.generate_remittance_info_block(
                     credit_transfer_transaction_info, line, gen_args
                 )

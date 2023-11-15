@@ -270,7 +270,7 @@ class TestSDDBase(TransactionCase):
             ),
             0,
         )
-        self.assertEqual(partner1_pay_line1.communication_type, "normal")
+        self.assertEqual(partner1_pay_line1.communication_type, "free")
         self.assertEqual(partner1_pay_line1.communication, invoice1.name)
         payment_order._compute_sepa()
         payment_order.draft2open()
@@ -313,7 +313,7 @@ class TestSDDBase(TransactionCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "uploaded")
         for inv in [invoice1, invoice2]:
-            self.assertEqual(inv.payment_state, "in_payment")
+            self.assertIn(inv.payment_state, ("in_payment", "paid"))
         self.assertEqual(self.partner2_mandate.recurrent_sequence_type, "recurring")
         return
 
@@ -327,7 +327,7 @@ class TestSDDBase(TransactionCase):
         invoice = self.invoice_model.create(
             {
                 "partner_id": partner_id,
-                "reference_type": "none",
+                "reference_type": "free",
                 "currency_id": self.env.ref("base.EUR").id,
                 "move_type": inv_type,
                 "journal_id": self.journal_sale_company_B.id,

@@ -231,7 +231,7 @@ class TestSCT(TransactionCase):
             ),
             0,
         )
-        self.assertEqual(partner1_pay_line1.communication_type, "normal")
+        self.assertEqual(partner1_pay_line1.communication_type, "free")
         self.assertEqual(partner1_pay_line1.communication, "F1341")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
@@ -322,7 +322,7 @@ class TestSCT(TransactionCase):
             ),
             0,
         )
-        self.assertEqual(partner2_pay_line1.communication_type, "normal")
+        self.assertEqual(partner2_pay_line1.communication_type, "free")
         self.assertEqual(partner2_pay_line1.communication, "Inv9032")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
@@ -392,7 +392,7 @@ class TestSCT(TransactionCase):
         }
         data = {
             "partner_id": partner_id,
-            "reference_type": "none",
+            "reference_type": "free",
             "ref": reference,
             "currency_id": currency_id,
             "invoice_date": time.strftime("%Y-%m-%d"),
