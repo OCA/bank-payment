@@ -9,7 +9,6 @@ class AccountInvoiceReport(models.Model):
 
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
-        string="Payment mode",
         readonly=True,
     )
 

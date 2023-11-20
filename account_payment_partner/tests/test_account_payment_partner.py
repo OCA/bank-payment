@@ -2,8 +2,8 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, fields
-from odoo.exceptions import UserError, ValidationError
+from odoo import Command, fields
+from odoo.exceptions import UserError
 from odoo.fields import Date
 from odoo.tests.common import Form, TransactionCase
 
@@ -24,16 +24,8 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.company = cls.env.ref("base.main_company")
 
         cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
-        charts = cls.env["account.chart.template"].search([])
-        if charts:
-            cls.chart = charts[0]
-        else:
-            raise ValidationError(_("No Chart of Account Template has been defined !"))
-        old_company = cls.env.user.company_id
-        cls.env.user.company_id = cls.company_2.id
-        cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
-        cls.chart.try_loading()
-        cls.env.user.company_id = old_company.id
+        cls.chart = cls.env["account.chart.template"].search([], limit=1)
+        cls.chart._load(cls.company_2)
 
         # refs
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
@@ -83,10 +75,9 @@ class TestAccountPaymentPartner(TransactionCase):
                 "name": "Suppliers Bank 1",
                 "bank_account_link": "variable",
                 "payment_method_id": cls.manual_out.id,
-                "show_bank_account_from_journal": True,
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
-                "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
+                "variable_journal_ids": [Command.set([cls.journal_c1.id])],
             }
         )
 
@@ -97,7 +88,7 @@ class TestAccountPaymentPartner(TransactionCase):
                 "payment_method_id": cls.manual_out.id,
                 "company_id": cls.company_2.id,
                 "fixed_journal_id": cls.journal_c2.id,
-                "variable_journal_ids": [(6, 0, [cls.journal_c2.id])],
+                "variable_journal_ids": [Command.set([cls.journal_c2.id])],
             }
         )
 
@@ -109,7 +100,7 @@ class TestAccountPaymentPartner(TransactionCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "refund_payment_mode_id": cls.supplier_payment_mode.id,
-                "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
+                "variable_journal_ids": [Command.set([cls.journal_c1.id])],
             }
         )
         cls.supplier_payment_mode.write(
@@ -185,17 +176,22 @@ class TestAccountPaymentPartner(TransactionCase):
         )
 
     def _create_invoice(self, default_move_type, partner):
-        move_form = Form(
-            self.env["account.move"].with_context(default_move_type=default_move_type)
+        line_vals = {
+            "display_type": "product",
+            "product_id": self.env.ref("product.product_product_4").id,
+            "name": "product that cost 100",
+            "quantity": 1.0,
+            "price_unit": 100.0,
+        }
+        invoice = self.move_model.create(
+            {
+                "move_type": default_move_type,
+                "partner_id": partner.id,
+                "invoice_date": Date.today(),
+                "invoice_line_ids": [Command.create(line_vals)],
+            }
         )
-        move_form.partner_id = partner
-        move_form.invoice_date = Date.today()
-        with move_form.invoice_line_ids.new() as line_form:
-            line_form.product_id = self.env.ref("product.product_product_4")
-            line_form.name = "product that cost 100"
-            line_form.quantity = 1.0
-            line_form.price_unit = 100.0
-        return move_form.save()
+        return invoice
 
     def test_create_partner(self):
         customer = (
@@ -328,27 +324,23 @@ class TestAccountPaymentPartner(TransactionCase):
                 "ref": "reference",
                 "state": "draft",
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": self.invoice_account.id,
                             "credit": 1000,
                             "debit": 0,
                             "name": "Test",
                             "ref": "reference",
-                        },
+                        }
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": self.invoice_line_account.id,
                             "credit": 0,
                             "debit": 1000,
                             "name": "Test",
                             "ref": "reference",
-                        },
+                        }
                     ),
                 ],
             }
@@ -474,13 +466,12 @@ class TestAccountPaymentPartner(TransactionCase):
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
         # self.assertIn(self.supplier_bank.acc_number, res)
         payment_mode = self.supplier_payment_mode
-        payment_mode.show_bank_account_from_journal = True
         self.supplier_invoice.payment_mode_id = payment_mode.id
         self.supplier_invoice.partner_bank_id = False
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
         self.assertIn(self.journal_c1.bank_acc_number, res)
         payment_mode.bank_account_link = "variable"
-        payment_mode.variable_journal_ids = [(6, 0, self.journal.ids)]
+        payment_mode.variable_journal_ids = [Command.set(self.journal.ids)]
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
         self.assertIn(self.journal_bank.acc_number, res)
 
@@ -554,3 +545,41 @@ class TestAccountPaymentPartner(TransactionCase):
             )
         )
         self.assertEqual(move_form.payment_mode_id, payment_mode)
+
+    def test_get_acc_number(self):
+        partner = self.env["res.partner"].create({"name": "Odoo Community Association"})
+        pbank = self.partner_bank_model.create(
+            {
+                "acc_number": "FR65 9999 8888 7777 6666 5555 444",
+                "partner_id": partner.id,
+            }
+        )
+        acc_number = pbank.sanitized_acc_number
+        self.assertEqual(acc_number, "FR6599998888777766665555444")
+        self.assertEqual(
+            pbank.get_acc_number("full"), "FR65 9999 8888 7777 6666 5555 444"
+        )
+        self.assertEqual(
+            pbank.get_acc_number("first", 4), "FR65 **** **** **** **** **** ***"
+        )
+        self.assertEqual(
+            pbank.get_acc_number("first", 2), "FR** **** **** **** **** **** ***"
+        )
+        self.assertEqual(
+            pbank.get_acc_number("last", 4), "**** **** **** **** **** ***5 444"
+        )
+        self.assertEqual(
+            pbank.get_acc_number("first_last", 4), "FR65 **** **** **** **** ***5 444"
+        )
+        self.assertEqual(
+            pbank.get_acc_number("first_last", 5), "FR65 9*** **** **** **** **55 444"
+        )
+        self.assertEqual(
+            pbank.acc_number_scrambled, "FR65 **** **** **** **** ***5 444"
+        )
+        self.assertEqual(
+            pbank.with_context(
+                show_bank_account="last", show_bank_account_chars=6
+            ).acc_number_scrambled,
+            "**** **** **** **** **** *555 444",
+        )

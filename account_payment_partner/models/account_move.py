@@ -27,6 +27,8 @@ class AccountMove(models.Model):
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
     )
+    # partner_bank_id is defined in the 'account' module. It already has check_company=True
+    # we just convert it to a computed field and add ondelete="restrict"
     partner_bank_id = fields.Many2one(
         compute="_compute_partner_bank_id",
         store=True,
@@ -142,24 +144,20 @@ class AccountMove(models.Model):
 
     def partner_banks_to_show(self):
         self.ensure_one()
-        if self.partner_bank_id:
-            return self.partner_bank_id
-        if self.payment_mode_id.show_bank_account_from_journal:
+        if self.payment_mode_id:
+            if (
+                self.payment_mode_id.payment_method_id.code == "sepa_direct_debit"
+            ):  # pragma: no cover
+                return (
+                    self.mandate_id.partner_bank_id
+                    or self.partner_id.valid_mandate_id.partner_bank_id
+                )
             if self.payment_mode_id.bank_account_link == "fixed":
                 return self.payment_mode_id.fixed_journal_id.bank_account_id
             else:
-                return self.payment_mode_id.variable_journal_ids.mapped(
-                    "bank_account_id"
-                )
-        if (
-            self.payment_mode_id.payment_method_id.code == "sepa_direct_debit"
-        ):  # pragma: no cover
-            return (
-                self.mandate_id.partner_bank_id
-                or self.partner_id.valid_mandate_id.partner_bank_id
-            )
-        # Return this as empty recordset
-        return self.partner_bank_id
+                return self.payment_mode_id.variable_journal_ids.bank_account_id
+        else:
+            return self.company_id.partner_id.bank_ids
 
     @api.model_create_multi
     def create(self, vals_list):

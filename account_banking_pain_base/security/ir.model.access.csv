@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_pain_regulatory_reporting_read,Read access on account.pain.regulatory.reporting,model_account_pain_regulatory_reporting,base.group_user,1,0,0,0
+access_account_pain_regulatory_reporting_full,Full access on account.pain.regulatory.reporting,model_account_pain_regulatory_reporting,account.group_account_manager,1,1,1,1

@@ -5,7 +5,7 @@
 
 from datetime import date, datetime, timedelta
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
@@ -31,14 +31,20 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "account_type": "expense",
             }
         )
+        cls.payment_method_out = cls.env["account.payment.method"].create(
+            {
+                "name": "test outbound payment order ok",
+                "code": "test_manual",
+                "payment_type": "outbound",
+                "payment_order_ok": True,
+            }
+        )
         cls.mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Test Credit Transfer to Suppliers",
                 "company_id": cls.company.id,
                 "bank_account_link": "variable",
-                "payment_method_id": cls.env.ref(
-                    "account.account_payment_method_manual_out"
-                ).id,
+                "payment_method_id": cls.payment_method_out.id,
             }
         )
         cls.creation_mode = cls.env["account.payment.mode"].create(
@@ -46,14 +52,18 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "name": "Test Direct Debit of suppliers from Société Générale",
                 "company_id": cls.company.id,
                 "bank_account_link": "variable",
-                "payment_method_id": cls.env.ref(
-                    "account.account_payment_method_manual_out"
-                ).id,
+                "payment_method_id": cls.payment_method_out.id,
             }
         )
         cls.invoice = cls._create_supplier_invoice(cls, "F1242")
         cls.invoice_02 = cls._create_supplier_invoice(cls, "F1243")
         cls.bank_journal = cls.company_data["default_journal_bank"]
+        cls.env["account.payment.method.line"].create(
+            {
+                "journal_id": cls.bank_journal.id,
+                "payment_method_id": cls.payment_method_out.id,
+            }
+        )
         # Make sure no other payment orders are in the DB
         cls.domain = [
             ("state", "=", "draft"),
@@ -71,9 +81,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "payment_mode_id": self.mode.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        None,
+                    Command.create(
                         {
                             "product_id": self.env.ref("product.product_product_4").id,
                             "quantity": 1.0,
@@ -98,9 +106,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "payment_mode_id": self.mode.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        None,
+                    Command.create(
                         {
                             "product_id": self.env.ref("product.product_product_4").id,
                             "quantity": 1.0,
@@ -174,7 +180,6 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             order.draft2open()
 
         order.payment_mode_id = self.mode.id
-        order.payment_mode_id_change()
         self.assertEqual(order.journal_id.id, self.bank_journal.id)
 
         self.assertEqual(len(order.payment_line_ids), 0)
@@ -190,7 +195,6 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             )
         )
         line_create.payment_mode = "any"
-        line_create.move_line_filters_change()
         line_create.populate()
         line_create.create_payment_lines()
         line_created_due = (
@@ -273,7 +277,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
     def test_invoice_communication_02(self):
         self.invoice.payment_reference = "R1234"
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "R1234", self.invoice._get_payment_order_communication_direct()
         )
 
     def test_manual_line_and_manual_date(self):
@@ -379,7 +383,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.invoice.payment_reference = "F/1234"
         self.invoice.action_post()
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F/1234", self.invoice._get_payment_order_communication_direct()
         )
         self.refund = self._create_supplier_refund(self.invoice)
         with Form(self.refund) as refund_form:
@@ -389,7 +393,9 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
                 line_form.price_unit = 75.0
 
         self.refund.action_post()
-        self.assertEqual("R1234", self.refund._get_payment_order_communication_direct())
+        self.assertEqual(
+            "FR/1234", self.refund._get_payment_order_communication_direct()
+        )
 
         # The user add the outstanding payment to the invoice
         invoice_line = self.invoice.line_ids.filtered(
@@ -411,8 +417,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         self.assertEqual(len(payment_order.payment_line_ids), 1)
 
-        self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
-        self.assertNotIn("FR/1234", payment_order.payment_line_ids.communication)
+        self.assertEqual("F/1234 FR/1234", payment_order.payment_line_ids.communication)
 
     def test_supplier_manual_refund(self):
         """

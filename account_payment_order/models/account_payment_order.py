@@ -4,8 +4,6 @@
 # Copyright 2016-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-import base64
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -26,6 +24,7 @@ class AccountPaymentOrder(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         check_company=True,
+        domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]",
     )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
@@ -35,17 +34,18 @@ class AccountPaymentOrder(models.Model):
     payment_method_id = fields.Many2one(
         comodel_name="account.payment.method",
         related="payment_mode_id.payment_method_id",
-        readonly=True,
         store=True,
     )
     company_id = fields.Many2one(
-        related="payment_mode_id.company_id", store=True, readonly=True
+        related="payment_mode_id.company_id",
+        store=True,
     )
     company_currency_id = fields.Many2one(
-        related="payment_mode_id.company_id.currency_id", store=True, readonly=True
+        related="payment_mode_id.company_id.currency_id",
+        store=True,
     )
     bank_account_link = fields.Selection(
-        related="payment_mode_id.bank_account_link", readonly=True
+        related="payment_mode_id.bank_account_link",
     )
     allowed_journal_ids = fields.Many2many(
         comodel_name="account.journal",
@@ -54,19 +54,21 @@ class AccountPaymentOrder(models.Model):
     )
     journal_id = fields.Many2one(
         comodel_name="account.journal",
+        compute="_compute_journal_id",
+        store=True,
+        precompute=True,
         string="Bank Journal",
         ondelete="restrict",
-        readonly=True,
         states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
+        domain="[('id', 'in', allowed_journal_ids)]",
     )
     # The journal_id field is only required at confirm step, to
     # allow auto-creation of payment order from invoice
     company_partner_bank_id = fields.Many2one(
         related="journal_id.bank_account_id",
         string="Company Bank Account",
-        readonly=True,
     )
     state = fields.Selection(
         selection=[
@@ -88,11 +90,13 @@ class AccountPaymentOrder(models.Model):
             ("due", "Due Date"),
             ("fixed", "Fixed Date"),
         ],
+        compute="_compute_date_prefered",
+        store=True,
+        precompute=True,
         string="Payment Execution Date Type",
         required=True,
         default="due",
         tracking=True,
-        readonly=True,
         states={"draft": [("readonly", False)]},
     )
     date_scheduled = fields.Date(
@@ -128,6 +132,7 @@ class AccountPaymentOrder(models.Model):
     )
     payment_count = fields.Integer(
         compute="_compute_payment_count",
+        store=True,
         string="Number of Payment Transactions",
     )
     total_company_currency = fields.Monetary(
@@ -143,6 +148,21 @@ class AccountPaymentOrder(models.Model):
         compute="_compute_move_count", string="Number of Journal Entries"
     )
     description = fields.Char()
+    payment_file_id = fields.Many2one("ir.attachment", string="Payment File Attachment")
+    payment_file_datas = fields.Binary(
+        related="payment_file_id.datas", string="Payment File"
+    )
+    payment_file_name = fields.Char(
+        related="payment_file_id.name", string="Payment Filename"
+    )
+
+    _sql_constraints = [
+        (
+            "name_company_unique",
+            "unique(name, company_id)",
+            "A payment order with the same number already exists in this company.",
+        )
+    ]
 
     @api.depends("payment_mode_id")
     def _compute_allowed_journal_ids(self):
@@ -163,7 +183,9 @@ class AccountPaymentOrder(models.Model):
                         "cancel it in order to do so."
                     )
                 )
-        return super(AccountPaymentOrder, self).unlink()
+            if order.payment_file_id:
+                order.payment_file_id.unlink()
+        return super().unlink()
 
     @api.constrains("payment_type", "payment_mode_id")
     def payment_order_constraints(self):
@@ -205,8 +227,16 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends("payment_ids")
     def _compute_payment_count(self):
+        rg_res = self.env["account.payment"].read_group(
+            [("payment_order_id", "in", self.ids)],
+            ["payment_order_id"],
+            ["payment_order_id"],
+        )
+        mapped_data = {
+            x["payment_order_id"][0]: x["payment_order_id_count"] for x in rg_res
+        }
         for order in self:
-            order.payment_count = len(order.payment_ids)
+            order.payment_count = mapped_data.get(order.id, 0)
 
     @api.depends("move_ids")
     def _compute_move_count(self):
@@ -224,43 +254,59 @@ class AccountPaymentOrder(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get("name", "New") == "New":
-                vals["name"] = (
-                    self.env["ir.sequence"].next_by_code("account.payment.order")
-                    or "New"
-                )
+            payment_mode = False
             if vals.get("payment_mode_id"):
                 payment_mode = self.env["account.payment.mode"].browse(
                     vals["payment_mode_id"]
                 )
                 vals["payment_type"] = payment_mode.payment_type
-                if payment_mode.bank_account_link == "fixed":
-                    vals["journal_id"] = payment_mode.fixed_journal_id.id
-                if not vals.get("date_prefered") and payment_mode.default_date_prefered:
-                    vals["date_prefered"] = payment_mode.default_date_prefered
-        return super(AccountPaymentOrder, self).create(vals_list)
+            if vals.get("name", "New") == "New":
+                if payment_mode and payment_mode.specific_sequence_id:
+                    vals["name"] = payment_mode.specific_sequence_id.next_by_id()
+                else:
+                    vals["name"] = (
+                        self.env["ir.sequence"].next_by_code("account.payment.order")
+                        or "New"
+                    )
+        return super().create(vals_list)
 
-    @api.onchange("payment_mode_id")
-    def payment_mode_id_change(self):
-        if len(self.allowed_journal_ids) == 1:
-            self.journal_id = self.allowed_journal_ids
-        if self.payment_mode_id.default_date_prefered:
-            self.date_prefered = self.payment_mode_id.default_date_prefered
+    @api.depends("payment_mode_id")
+    def _compute_date_prefered(self):
+        for order in self:
+            if order.payment_mode_id.default_date_prefered:
+                order.date_prefered = order.payment_mode_id.default_date_prefered
+
+    @api.depends("payment_mode_id")
+    def _compute_journal_id(self):
+        for order in self:
+            payment_mode = order.payment_mode_id
+            if payment_mode.bank_account_link == "fixed":
+                order.journal_id = payment_mode.fixed_journal_id.id
+            elif (
+                payment_mode.bank_account_link == "variable"
+                and len(payment_mode.variable_journal_ids) == 1
+            ):
+                order.journal_id = payment_mode.variable_journal_ids.id
 
     def action_uploaded_cancel(self):
         self.action_cancel()
-        return True
 
     def cancel2draft(self):
         self.write({"state": "draft"})
-        return True
 
     def action_cancel(self):
         # Unreconcile and cancel payments
         self.payment_ids.action_draft()
         self.payment_ids.action_cancel()
-        self.write({"state": "cancel"})
-        return True
+        if self.payment_file_id:
+            self.payment_file_id.unlink()
+        self.write(
+            {
+                "state": "cancel",
+                "date_generated": False,
+                "generated_user_id": False,
+            }
+        )
 
     def draft2open(self):
         """
@@ -373,12 +419,11 @@ class AccountPaymentOrder(models.Model):
                 payment_vals.append(paydict["paylines"]._prepare_account_payment_vals())
             self.env["account.payment"].create(payment_vals)
         self.write({"state": "open"})
-        return True
 
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
-        if self.payment_method_id.code == "manual":
+        if self.payment_method_id.code in ("manual", "test_manual"):
             return (False, False)
         else:
             raise UserError(
@@ -390,37 +435,22 @@ class AccountPaymentOrder(models.Model):
 
     def open2generated(self):
         self.ensure_one()
-        payment_file_str, filename = self.generate_payment_file()
-        action = {}
-        if payment_file_str and filename:
+        payment_file_bytes, filename = self.generate_payment_file()
+        vals = {
+            "state": "generated",
+            "generated_user_id": self._uid,
+            "date_generated": fields.Date.context_today(self),
+        }
+        if payment_file_bytes and filename:
             attachment = self.env["ir.attachment"].create(
                 {
-                    "res_model": "account.payment.order",
-                    "res_id": self.id,
                     "name": filename,
-                    "datas": base64.b64encode(payment_file_str),
+                    "raw": payment_file_bytes,
                 }
             )
-            simplified_form_view = self.env.ref(
-                "account_payment_order.view_attachment_simplified_form"
-            )
-            action = {
-                "name": _("Payment File"),
-                "view_mode": "form",
-                "view_id": simplified_form_view.id,
-                "res_model": "ir.attachment",
-                "type": "ir.actions.act_window",
-                "target": "current",
-                "res_id": attachment.id,
-            }
-        self.write(
-            {
-                "date_generated": fields.Date.context_today(self),
-                "state": "generated",
-                "generated_user_id": self._uid,
-            }
-        )
-        return action
+            vals["payment_file_id"] = attachment.id
+        self.write(vals)
+        return
 
     def generated2uploaded(self):
         self.payment_ids.action_post()
@@ -435,7 +465,6 @@ class AccountPaymentOrder(models.Model):
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
-        return True
 
     def action_move_journal_line(self):
         self.ensure_one()

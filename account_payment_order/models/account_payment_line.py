@@ -1,7 +1,7 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -19,34 +19,45 @@ class AccountPaymentLine(models.Model):
         check_company=True,
     )
     company_id = fields.Many2one(
-        related="order_id.company_id", store=True, readonly=True
+        related="order_id.company_id",
+        store=True,
     )
     company_currency_id = fields.Many2one(
-        related="order_id.company_currency_id", store=True, readonly=True
+        related="order_id.company_currency_id",
+        store=True,
     )
     payment_type = fields.Selection(
-        related="order_id.payment_type", store=True, readonly=True
+        related="order_id.payment_type",
+        store=True,
     )
     bank_account_required = fields.Boolean(
-        related="order_id.payment_method_id.bank_account_required", readonly=True
+        related="order_id.payment_method_id.bank_account_required",
     )
-    state = fields.Selection(
-        related="order_id.state", string="State", readonly=True, store=True
-    )
+    state = fields.Selection(related="order_id.state", string="State", store=True)
     move_line_id = fields.Many2one(
         comodel_name="account.move.line",
         string="Journal Item",
         ondelete="restrict",
         check_company=True,
     )
-    ml_maturity_date = fields.Date(related="move_line_id.date_maturity", readonly=True)
+    ml_maturity_date = fields.Date(related="move_line_id.date_maturity")
     currency_id = fields.Many2one(
         comodel_name="res.currency",
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
         string="Currency of the Payment Transaction",
         required=True,
-        default=lambda self: self.env.user.company_id.currency_id,
     )
-    amount_currency = fields.Monetary(string="Amount", currency_field="currency_id")
+    amount_currency = fields.Monetary(
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
+        string="Amount",
+        currency_field="currency_id",
+    )
     amount_company_currency = fields.Monetary(
         compute="_compute_amount_company_currency",
         string="Amount in Company Currency",
@@ -54,13 +65,20 @@ class AccountPaymentLine(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
         required=True,
         domain=[("parent_id", "=", False)],
         check_company=True,
     )
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
         string="Partner Bank Account",
         required=False,
         ondelete="restrict",
@@ -75,10 +93,20 @@ class AccountPaymentLine(models.Model):
     # This field is required in the form view and there is an error message
     # when going from draft to confirm if the field is empty
     communication = fields.Char(
-        required=False, help="Label of the payment that will be seen by the destinee"
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
+        required=False,
+        help="Label of the payment that will be seen by the destinee",
     )
     communication_type = fields.Selection(
-        selection=[("normal", "Free")], required=True, default="normal"
+        compute="_compute_payment_line",
+        store=True,
+        readonly=False,
+        precompute=True,
+        selection=[("free", "Free"), ("structured", "Structured")],
+        required=True,
     )
     payment_ids = fields.Many2many(
         comodel_name="account.payment",
@@ -139,38 +167,39 @@ class AccountPaymentLine(models.Model):
         values.append(str(self.move_line_id.account_id or False))
         # Don't group the payment lines that use a structured communication
         # otherwise it would break the structured communication system !
-        if self.communication_type != "normal":
+        if self.communication_type != "free":
             values.append(str(self.id))
         return "-".join(values)
 
-    @api.onchange("partner_id")
-    def partner_id_change(self):
-        partner_bank = False
-        if self.partner_id.bank_ids:
-            partner_bank = self.partner_id.bank_ids[0]
-        self.partner_bank_id = partner_bank
-
-    @api.onchange("move_line_id")
-    def move_line_id_change(self):
-        if self.move_line_id:
-            vals = self.move_line_id._prepare_payment_line_vals(self.order_id)
-            vals.pop("order_id")
-            for field, value in vals.items():
-                self[field] = value
-        else:
-            self.partner_id = False
-            self.partner_bank_id = False
-            self.amount_currency = 0.0
-            self.currency_id = self.env.user.company_id.currency_id
-            self.communication = False
-
-    def invoice_reference_type2communication_type(self):
-        """This method is designed to be inherited by
-        localization modules"""
-        # key = value of 'reference_type' field on account_invoice
-        # value = value of 'communication_type' field on account_payment_line
-        res = {"none": "normal", "structured": "structured"}
-        return res
+    @api.depends("partner_id", "move_line_id")
+    def _compute_payment_line(self):
+        for line in self:
+            communication = False
+            communication_type = "free"
+            currency_id = line.company_id.currency_id.id
+            amount_currency = 0.0
+            move_line = line.move_line_id
+            partner = line.partner_id
+            partner_bank_id = False
+            if move_line:
+                communication_type = move_line.move_id.reference_type
+                communication = (
+                    move_line.move_id._get_payment_order_communication_full()
+                )
+                currency_id = move_line.currency_id.id
+                amount_currency = move_line.amount_residual_currency
+                if line.order_id.payment_type == "outbound":
+                    amount_currency *= -1
+                partner = move_line.partner_id
+                partner_bank_id = move_line.move_id.partner_bank_id.id
+            if partner and not partner_bank_id and partner.bank_ids:
+                partner_bank_id = partner.bank_ids[0]
+            line.communication = communication
+            line.communication_type = communication_type
+            line.currency_id = currency_id
+            line.amount_currency = amount_currency
+            line.partner_id = partner and partner.id or False
+            line.partner_bank_id = partner_bank_id
 
     def draft2open_payment_line_check(self):
         self.ensure_one()
@@ -202,7 +231,7 @@ class AccountPaymentLine(models.Model):
             "journal_id": journal.id,
             "partner_bank_id": self.partner_bank_id.id,
             "payment_order_id": self.order_id.id,
-            "payment_line_ids": [(6, 0, self.ids)],
+            "payment_line_ids": [Command.set(self.ids)],
         }
         # Determine payment method line according payment method and journal
         line = self.env["account.payment.method.line"].search(

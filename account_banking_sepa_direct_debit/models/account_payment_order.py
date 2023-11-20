@@ -252,11 +252,11 @@ class AccountPaymentOrder(models.Model):
                     gen_args,
                     line,
                 )
-                line_purpose = line.payment_line_ids[:1].purpose
-                if line_purpose:
-                    purpose = etree.SubElement(dd_transaction_info, "Purp")
-                    etree.SubElement(purpose, "Cd").text = line_purpose
-
+                payment_line = line.payment_line_ids[0]
+                payment_line.generate_purpose(dd_transaction_info)
+                payment_line.generate_regulatory_reporting(
+                    dd_transaction_info, gen_args
+                )
                 self.generate_remittance_info_block(dd_transaction_info, line, gen_args)
 
             nb_of_transactions_b.text = str(transactions_count_b)

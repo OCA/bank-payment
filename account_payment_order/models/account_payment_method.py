@@ -7,9 +7,7 @@ from odoo import fields, models
 class AccountPaymentMethod(models.Model):
     _inherit = "account.payment.method"
 
-    payment_order_only = fields.Boolean(
-        string="Only for payment orders",
-        help="This option helps enforcing the use of payment orders for "
-        "some payment methods.",
-        default=False,
+    payment_order_ok = fields.Boolean(
+        string="Payment Orders",
+        help="Check this option for payment methods designed to be used in payment orders.",
     )

@@ -13,8 +13,21 @@
         />
         <field name="arch" type="xml">
             <field name="active" position="before">
-                <field name="payment_order_only" />
+                <field name="payment_order_ok" />
             </field>
         </field>
     </record>
+    <record id="account_payment_method_tree" model="ir.ui.view">
+        <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_mode.account_payment_method_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="payment_order_ok" optional="show" />
+            </field>
+        </field>
+    </record>
+
 </odoo>

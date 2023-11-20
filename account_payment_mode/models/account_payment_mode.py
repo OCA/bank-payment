@@ -53,6 +53,7 @@ class AccountPaymentMode(models.Model):
         column2="journal_id",
         string="Allowed Bank Journals",
         domain="[('company_id', '=', company_id), ('type', 'in', ('bank', 'cash'))]",
+        check_company=True,
     )
     payment_method_id = fields.Many2one(
         "account.payment.method",
@@ -121,15 +122,3 @@ class AccountPaymentMode(models.Model):
                                 journal=mode.fixed_journal_id.name,
                             )
                         )
-
-    @api.constrains("company_id", "variable_journal_ids")
-    def company_id_variable_journal_ids_constrains(self):
-        for mode in self:
-            if any(mode.company_id != j.company_id for j in mode.variable_journal_ids):
-                raise ValidationError(
-                    _(
-                        "The company of the payment mode %(paymode)s, does not match "
-                        "with one of the Allowed Bank Journals.",
-                        paymode=mode.name,
-                    )
-                )

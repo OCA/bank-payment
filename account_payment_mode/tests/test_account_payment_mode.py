@@ -1,6 +1,7 @@
 # Copyright 2016-2020 ForgeFlow S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+from odoo import Command
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -11,7 +12,6 @@ class TestAccountPaymentMode(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
-        cls.res_users_model = cls.env["res.users"]
         cls.journal_model = cls.env["account.journal"]
         cls.payment_mode_model = cls.env["account.payment.mode"]
 
@@ -35,7 +35,7 @@ class TestAccountPaymentMode(TransactionCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "variable_journal_ids": [
-                    (6, 0, [cls.journal_c1.id, cls.journal_c3.id])
+                    Command.set([cls.journal_c1.id, cls.journal_c3.id])
                 ],
             }
         )
@@ -58,9 +58,7 @@ class TestAccountPaymentMode(TransactionCase):
             self.payment_mode_c1.write(
                 {
                     "variable_journal_ids": [
-                        (
-                            6,
-                            0,
+                        Command.set(
                             [
                                 self.journal_c1.id,
                                 self.journal_c2.id,
@@ -70,7 +68,7 @@ class TestAccountPaymentMode(TransactionCase):
                     ]
                 }
             )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UserError):
             self.journal_c1.write({"company_id": self.company_2.id})
 
     def test_payment_mode_company_consistency_create(self):
@@ -94,7 +92,7 @@ class TestAccountPaymentMode(TransactionCase):
                     "bank_account_link": "variable",
                     "payment_method_id": self.manual_out.id,
                     "company_id": self.company.id,
-                    "variable_journal_ids": [(6, 0, [self.journal_c2.id])],
+                    "variable_journal_ids": [Command.set([self.journal_c2.id])],
                 }
             )
 

@@ -3,7 +3,7 @@
 
 from datetime import timedelta
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -11,11 +11,21 @@ from odoo.tests.common import TransactionCase
 class TestMandate(TransactionCase):
     def setUp(self):
         super(TestMandate, self).setUp()
-        self.company = self.env.company
+        self.company = self.env.ref("base.main_company")
         self.company_2 = self.env["res.company"].create({"name": "company 2"})
         self.company_2.partner_id.company_id = self.company_2.id
-        self.bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
-        self.bank_account.partner_id.company_id = self.company.id
+        self.partner = self.env["res.partner"].create(
+            {
+                "name": "My little company Sprl",
+                "company_id": self.company.id,
+            }
+        )
+        self.bank_account = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "FR382222 3333 4444 5555 6666 999",
+                "partner_id": self.partner.id,
+            }
+        )
         self.mandate = self.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": self.bank_account.id,
@@ -49,7 +59,18 @@ class TestMandate(TransactionCase):
             self.mandate.cancel()
 
     def test_onchange_methods(self):
-        bank_account_2 = self.env.ref("account_payment_mode.res_partner_2_iban")
+        partner_2 = self.env["res.partner"].create(
+            {
+                "name": "Big company Sprl",
+                "company_id": self.company.id,
+            }
+        )
+        bank_account_2 = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "FR621111 9999 8888 5555 6666 777",
+                "partner_id": partner_2.id,
+            }
+        )
         self.mandate.partner_bank_id = bank_account_2
         self.mandate.mandate_partner_bank_change()
         self.assertEqual(self.mandate.partner_id, bank_account_2.partner_id)
@@ -89,7 +110,7 @@ class TestMandate(TransactionCase):
             }
         )
         with self.assertRaises(UserError):
-            bank_account.write({"mandate_ids": [(6, 0, mandate.ids)]})
+            bank_account.write({"mandate_ids": [Command.set(mandate.ids)]})
 
     def test_mandate_reference_01(self):
         """

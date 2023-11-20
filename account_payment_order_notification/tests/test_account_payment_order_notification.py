@@ -8,6 +8,7 @@ class TestAccountPaymentOrderNotification(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.payment_mode = cls.env.ref("account_payment_mode.payment_mode_inbound_dd1")
+        cls.payment_mode.payment_order_ok = True
         cls.partner_a = cls.env["res.partner"].create({"name": "Test partner A"})
         cls.partner_a_child = cls.env["res.partner"].create(
             {

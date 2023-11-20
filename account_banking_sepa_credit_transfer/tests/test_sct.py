@@ -8,6 +8,7 @@ import time
 
 from lxml import etree
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
@@ -16,18 +17,16 @@ class TestSCT(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.account_model = cls.env["account.account"]
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]
         cls.payment_order_model = cls.env["account.payment.order"]
         cls.payment_line_model = cls.env["account.payment.line"]
+        cls.partner_model = cls.env["res.partner"]
         cls.partner_bank_model = cls.env["res.partner.bank"]
-        cls.attachment_model = cls.env["ir.attachment"]
         cls.invoice_model = cls.env["account.move"]
         cls.invoice_line_model = cls.env["account.move.line"]
-        cls.partner_agrolait = cls.env.ref("base.res_partner_2")
-        cls.partner_asus = cls.env.ref("base.res_partner_1")
-        cls.partner_c2c = cls.env.ref("base.res_partner_12")
         cls.eur_currency = cls.env.ref("base.EUR")
         cls.eur_currency.active = True
         cls.usd_currency = cls.env.ref("base.USD")
@@ -35,13 +34,40 @@ class TestSCT(TransactionCase):
         cls.main_company = cls.env["res.company"].create(
             {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
         )
-        cls.partner_agrolait.company_id = cls.main_company.id
-        cls.partner_asus.company_id = cls.main_company.id
-        cls.partner_c2c.company_id = cls.main_company.id
-        cls.env.user.write(
+        cls.partner1 = cls.partner_model.create(
             {
-                "company_ids": [(6, 0, cls.main_company.ids)],
+                "name": "P1",
                 "company_id": cls.main_company.id,
+            }
+        )
+        cls.partner1_bank = cls.partner_bank_model.create(
+            {
+                "acc_number": "FR731111 9999 8888 5555 9999 111",
+                "partner_id": cls.partner1.id,
+            }
+        )
+        cls.partner2 = cls.partner_model.create(
+            {
+                "name": "P2",
+                "company_id": cls.main_company.id,
+            }
+        )
+        cls.partner2_bank = cls.partner_bank_model.create(
+            {
+                "acc_number": "FR831111 9999 8888 5555 9999 222",
+                "partner_id": cls.partner2.id,
+            }
+        )
+        cls.partner3 = cls.partner_model.create(
+            {
+                "name": "P3",
+                "company_id": cls.main_company.id,
+            }
+        )
+        cls.partner3_bank = cls.partner_bank_model.create(
+            {
+                "acc_number": "FR931111 9999 8888 5555 9999 333",
+                "partner_id": cls.partner3.id,
             }
         )
         cls.account_expense = cls.account_model.create(
@@ -60,7 +86,7 @@ class TestSCT(TransactionCase):
                 "code": "TP.1",
             }
         )
-        (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
+        (cls.partner1 + cls.partner2 + cls.partner3).with_company(
             cls.main_company.id
         ).write({"property_account_payable_id": cls.account_payable.id})
         cls.general_journal = cls.journal_model.create(
@@ -79,8 +105,10 @@ class TestSCT(TransactionCase):
                 "company_id": cls.main_company.id,
             }
         )
-        cls.partner_bank = cls.env.ref("account_payment_mode.main_company_iban").copy(
+
+        cls.partner_bank = cls.partner_bank_model.create(
             {
+                "acc_number": "FR0812221333144415551666777",
                 "company_id": cls.main_company.id,
                 "partner_id": cls.main_company.partner_id.id,
                 "bank_id": (
@@ -97,9 +125,7 @@ class TestSCT(TransactionCase):
                 "bank_id": cls.partner_bank.bank_id.id,
                 "company_id": cls.main_company.id,
                 "outbound_payment_method_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "payment_method_id": cls.env.ref(
                                 "account_banking_sepa_credit_transfer.sepa_credit_transfer"
@@ -112,14 +138,17 @@ class TestSCT(TransactionCase):
         )
 
         # update payment mode
-        cls.payment_mode = cls.env.ref(
-            "account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1"
-        ).copy({"company_id": cls.main_company.id})
-        cls.payment_mode.write(
-            {"bank_account_link": "fixed", "fixed_journal_id": cls.bank_journal.id}
+        cls.payment_mode = cls.env["account.payment.mode"].create(
+            {
+                "name": "SEPA credit transfer test",
+                "company_id": cls.main_company.id,
+                "payment_method_id": cls.env.ref(
+                    "account_banking_sepa_credit_transfer.sepa_credit_transfer"
+                ).id,
+                "bank_account_link": "fixed",
+                "fixed_journal_id": cls.bank_journal.id,
+            }
         )
-        # Trigger the recompute of account type on res.partner.bank
-        cls.partner_bank_model.search([])._compute_acc_type()
 
     def test_no_pain(self):
         self.payment_mode.payment_method_id.pain_version = False
@@ -144,21 +173,21 @@ class TestSCT(TransactionCase):
 
     def check_eur_currency_sct(self):
         invoice1 = self.create_invoice(
-            self.partner_agrolait.id,
+            self.partner1.id,
             "account_payment_mode.res_partner_2_iban",
             self.eur_currency.id,
             42.0,
             "F1341",
         )
         invoice2 = self.create_invoice(
-            self.partner_agrolait.id,
+            self.partner1.id,
             "account_payment_mode.res_partner_2_iban",
             self.eur_currency.id,
             12.0,
             "F1342",
         )
         invoice3 = self.create_invoice(
-            self.partner_agrolait.id,
+            self.partner1.id,
             "account_payment_mode.res_partner_2_iban",
             self.eur_currency.id,
             5.0,
@@ -166,14 +195,14 @@ class TestSCT(TransactionCase):
             "in_refund",
         )
         invoice4 = self.create_invoice(
-            self.partner_c2c.id,
+            self.partner3.id,
             "account_payment_mode.res_partner_12_iban",
             self.eur_currency.id,
             11.0,
             "I1642",
         )
         invoice5 = self.create_invoice(
-            self.partner_c2c.id,
+            self.partner3.id,
             "account_payment_mode.res_partner_12_iban",
             self.eur_currency.id,
             41.0,
@@ -188,22 +217,22 @@ class TestSCT(TransactionCase):
         self.assertEqual(self.payment_order.journal_id, self.bank_journal)
         pay_lines = self.payment_line_model.search(
             [
-                ("partner_id", "=", self.partner_agrolait.id),
+                ("partner_id", "=", self.partner1.id),
                 ("order_id", "=", self.payment_order.id),
             ]
         )
         self.assertEqual(len(pay_lines), 3)
-        agrolait_pay_line1 = pay_lines[0]
-        self.assertEqual(agrolait_pay_line1.currency_id, self.eur_currency)
-        self.assertEqual(agrolait_pay_line1.partner_bank_id, invoice1.partner_bank_id)
+        partner1_pay_line1 = pay_lines[0]
+        self.assertEqual(partner1_pay_line1.currency_id, self.eur_currency)
+        self.assertEqual(partner1_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            agrolait_pay_line1.currency_id.compare_amounts(
-                agrolait_pay_line1.amount_currency, 42
+            partner1_pay_line1.currency_id.compare_amounts(
+                partner1_pay_line1.amount_currency, 42
             ),
             0,
         )
-        self.assertEqual(agrolait_pay_line1.communication_type, "normal")
-        self.assertEqual(agrolait_pay_line1.communication, "F1341")
+        self.assertEqual(partner1_pay_line1.communication_type, "free")
+        self.assertEqual(partner1_pay_line1.communication, "F1341")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         if self.payment_mode.payment_method_id.pain_version:
@@ -211,21 +240,21 @@ class TestSCT(TransactionCase):
         else:
             self.assertFalse(self.payment_order.sepa)
         self.assertTrue(self.payment_order.payment_ids)
-        agrolait_bank_line = self.payment_order.payment_ids[0]
-        self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
+        partner1_bank_line = self.payment_order.payment_ids[0]
+        self.assertEqual(partner1_bank_line.currency_id, self.eur_currency)
         self.assertEqual(
-            agrolait_bank_line.currency_id.compare_amounts(
-                agrolait_bank_line.amount, 49.0
+            partner1_bank_line.currency_id.compare_amounts(
+                partner1_bank_line.amount, 49.0
             ),
             0,
         )
-        self.assertEqual(agrolait_bank_line.payment_reference, "F1341 - F1342 - A1301")
-        self.assertEqual(agrolait_bank_line.partner_bank_id, invoice1.partner_bank_id)
+        self.assertEqual(partner1_bank_line.payment_reference, "F1341 - F1342 - A1301")
+        self.assertEqual(partner1_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
-        action = self.payment_order.open2generated()
+        self.payment_order.open2generated()
         self.assertEqual(self.payment_order.state, "generated")
-        self.assertEqual(action["res_model"], "ir.attachment")
-        attachment = self.attachment_model.browse(action["res_id"])
+        attachment = self.payment_order.payment_file_id
+        self.assertTrue(attachment)
         self.assertEqual(attachment.name[-4:], ".xml")
         xml_file = base64.b64decode(attachment.datas)
         xml_root = etree.fromstring(xml_file)
@@ -257,14 +286,14 @@ class TestSCT(TransactionCase):
 
     def test_usd_currency_sct(self):
         invoice1 = self.create_invoice(
-            self.partner_asus.id,
+            self.partner2.id,
             "account_payment_mode.res_partner_2_iban",
             self.usd_currency.id,
             2042.0,
             "Inv9032",
         )
         invoice2 = self.create_invoice(
-            self.partner_asus.id,
+            self.partner2.id,
             "account_payment_mode.res_partner_2_iban",
             self.usd_currency.id,
             1012.0,
@@ -279,39 +308,41 @@ class TestSCT(TransactionCase):
         self.assertEqual(self.payment_order.journal_id, self.bank_journal)
         pay_lines = self.payment_line_model.search(
             [
-                ("partner_id", "=", self.partner_asus.id),
+                ("partner_id", "=", self.partner2.id),
                 ("order_id", "=", self.payment_order.id),
             ]
         )
         self.assertEqual(len(pay_lines), 2)
-        asus_pay_line1 = pay_lines[0]
-        self.assertEqual(asus_pay_line1.currency_id, self.usd_currency)
-        self.assertEqual(asus_pay_line1.partner_bank_id, invoice1.partner_bank_id)
+        partner2_pay_line1 = pay_lines[0]
+        self.assertEqual(partner2_pay_line1.currency_id, self.usd_currency)
+        self.assertEqual(partner2_pay_line1.partner_bank_id, invoice1.partner_bank_id)
         self.assertEqual(
-            asus_pay_line1.currency_id.compare_amounts(
-                asus_pay_line1.amount_currency, 2042
+            partner2_pay_line1.currency_id.compare_amounts(
+                partner2_pay_line1.amount_currency, 2042
             ),
             0,
         )
-        self.assertEqual(asus_pay_line1.communication_type, "normal")
-        self.assertEqual(asus_pay_line1.communication, "Inv9032")
+        self.assertEqual(partner2_pay_line1.communication_type, "free")
+        self.assertEqual(partner2_pay_line1.communication, "Inv9032")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, False)
         self.assertEqual(self.payment_order.payment_count, 1)
-        asus_bank_line = self.payment_order.payment_ids[0]
-        self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
+        partner2_bank_line = self.payment_order.payment_ids[0]
+        self.assertEqual(partner2_bank_line.currency_id, self.usd_currency)
         self.assertEqual(
-            asus_bank_line.currency_id.compare_amounts(asus_bank_line.amount, 3054.0),
+            partner2_bank_line.currency_id.compare_amounts(
+                partner2_bank_line.amount, 3054.0
+            ),
             0,
         )
-        self.assertEqual(asus_bank_line.payment_reference, "Inv9032 - Inv9033")
-        self.assertEqual(asus_bank_line.partner_bank_id, invoice1.partner_bank_id)
+        self.assertEqual(partner2_bank_line.payment_reference, "Inv9032 - Inv9033")
+        self.assertEqual(partner2_bank_line.partner_bank_id, invoice1.partner_bank_id)
 
-        action = self.payment_order.open2generated()
+        self.payment_order.open2generated()
         self.assertEqual(self.payment_order.state, "generated")
-        self.assertEqual(action["res_model"], "ir.attachment")
-        attachment = self.attachment_model.browse(action["res_id"])
+        attachment = self.payment_order.payment_file_id
+        self.assertTrue(attachment)
         self.assertEqual(attachment.name[-4:], ".xml")
         xml_file = base64.b64decode(attachment.datas)
         xml_root = etree.fromstring(xml_file)
@@ -353,9 +384,15 @@ class TestSCT(TransactionCase):
     ):
         partner_bank = cls.env.ref(partner_bank_xmlid)
         partner_bank.write({"company_id": False})
+        line_data = {
+            "name": "Great service",
+            "account_id": cls.account_expense.id,
+            "price_unit": price_unit,
+            "quantity": 1,
+        }
         data = {
             "partner_id": partner_id,
-            "reference_type": "none",
+            "reference_type": "free",
             "ref": reference,
             "currency_id": currency_id,
             "invoice_date": time.strftime("%Y-%m-%d"),
@@ -363,15 +400,8 @@ class TestSCT(TransactionCase):
             "payment_mode_id": cls.payment_mode.id,
             "partner_bank_id": partner_bank.id,
             "company_id": cls.main_company.id,
-            "invoice_line_ids": [],
+            "invoice_line_ids": [Command.create(line_data)],
         }
-        line_data = {
-            "name": "Great service",
-            "account_id": cls.account_expense.id,
-            "price_unit": price_unit,
-            "quantity": 1,
-        }
-        data["invoice_line_ids"].append((0, 0, line_data))
         inv = cls.env["account.move"].create(data)
         inv.action_post()
         return inv
