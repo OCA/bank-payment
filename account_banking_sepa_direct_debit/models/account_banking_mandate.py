@@ -45,6 +45,7 @@ class AccountBankingMandate(models.Model):
     )
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
     display_name = fields.Char(compute="_compute_display_name2", store=True)
+    is_sent = fields.Boolean()
 
     @api.constrains("type", "recurrent_sequence_type")
     def _check_recurring_type(self):
@@ -120,3 +121,29 @@ class AccountBankingMandate(models.Model):
         xmlid = "account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate"
         action = self.env.ref(xmlid).report_action(self)
         return action
+
+    def action_mandate_send(self):
+        """Opens a wizard to compose an email, with relevant mail template loaded by default"""
+        self.ensure_one()
+        template_id = self.env["ir.model.data"]._xmlid_to_res_id(
+            "account_banking_sepa_direct_debit.email_template_sepa_mandate",
+            raise_if_not_found=False,
+        )
+        ctx = {
+            "default_model": "account.banking.mandate",
+            "default_res_id": self.id,
+            "default_use_template": bool(template_id),
+            "default_template_id": template_id,
+            "default_composition_mode": "comment",
+            "is_sent": True,
+            "force_email": True,
+        }
+        return {
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "mail.compose.message",
+            "views": [(False, "form")],
+            "view_id": False,
+            "target": "new",
+            "context": ctx,
+        }
