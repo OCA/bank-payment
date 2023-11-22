@@ -10,7 +10,7 @@
                         name="web_ribbon"
                         title="Archived"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
+                        invisible="active"
                     />
                     <group name="main">
                         <field name="name" />
@@ -26,11 +26,13 @@
                         <field name="bank_account_link" />
                         <field
                             name="fixed_journal_id"
-                            attrs="{'invisible': [('bank_account_link', '!=', 'fixed')], 'required': [('bank_account_link', '=', 'fixed')]}"
+                            invisible="bank_account_link != 'fixed'"
+                            required="bank_account_link == 'fixed'"
                         />
                         <field
                             name="variable_journal_ids"
-                            attrs="{'invisible': [('bank_account_link', '!=', 'variable')], 'required': [('bank_account_link', '=', 'variable')]}"
+                            invisible="bank_account_link != 'variable'"
+                            required="bank_account_link == 'variable'"
                             widget="many2many_tags"
                         />
                     </group>
