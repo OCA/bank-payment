@@ -32,9 +32,7 @@ class AccountPaymentMethod(models.Model):
             result.append(
                 (
                     method.id,
-                    "[{}] {} ({})".format(
-                        method.code, method.name, method.payment_type
-                    ),
+                    f"[{method.code}] {method.name} ({method.payment_type})",
                 )
             )
         return result
