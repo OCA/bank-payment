@@ -158,11 +158,6 @@ msgid "Journal"
 msgstr "Dagboek"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
-msgid "Last Modified on"
-msgstr "Laatst bijgewerkt op"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
 msgid "Last Updated by"
 msgstr "Laatst bijgewerkt door"
@@ -325,6 +320,9 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variabel"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Laatst bijgewerkt op"
 
 #~ msgid "A payment method of the same type already exists with this code"
 #~ msgstr "Een betaalwijze met dezelfde naam bestaat al met deze code."

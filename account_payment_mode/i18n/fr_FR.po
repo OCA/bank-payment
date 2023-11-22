@@ -157,11 +157,6 @@ msgid "Journal"
 msgstr "Journal"
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
-msgid "Last Modified on"
-msgstr "Dernière modification le"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
 msgid "Last Updated by"
 msgstr "Dernière modification par"
@@ -323,6 +318,9 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variable"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Dernière modification le"
 
 #~ msgid "A payment method of the same type already exists with this code"
 #~ msgstr "Un mode de paiement du même type existe déjà avec ce code"
