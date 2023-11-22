@@ -113,6 +113,7 @@ Contributors
    -  Raf Ven <raf.ven@dynapps.be>
 
 -  Marçal Isern <marsal.isern@qubiq.es>
+-  Miquel Alzanillas <malzanillas@apsl.net>
 
 Maintainers
 -----------

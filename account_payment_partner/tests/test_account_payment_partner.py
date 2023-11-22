@@ -24,15 +24,17 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.company = cls.env.ref("base.main_company")
 
         cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
-        charts = cls.env["account.chart.template"].search([])
-        if charts:
-            cls.chart = charts[0]
-        else:
+        chart = cls.env["account.chart.template"]._guess_chart_template(
+            cls.company.country_id
+        )
+        if not chart:
             raise ValidationError(_("No Chart of Account Template has been defined !"))
         old_company = cls.env.user.company_id
         cls.env.user.company_id = cls.company_2.id
         cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
-        cls.chart.try_loading()
+        cls.env["account.chart.template"].try_loading(
+            "generic_coa", company=cls.company, install_demo=False
+        )
         cls.env.user.company_id = old_company.id
 
         # refs
@@ -375,7 +377,6 @@ class TestAccountPaymentPartner(TransactionCase):
             )
             .create(
                 {
-                    "refund_method": "refund",
                     "reason": "reason test create",
                     "journal_id": invoice.journal_id.id,
                 }
@@ -409,7 +410,6 @@ class TestAccountPaymentPartner(TransactionCase):
             )
             .create(
                 {
-                    "refund_method": "refund",
                     "reason": "reason test create",
                     "journal_id": invoice.journal_id.id,
                 }

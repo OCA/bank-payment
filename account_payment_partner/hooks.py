@@ -5,7 +5,7 @@ from odoo.tools import sql
 logger = logging.getLogger(__name__)
 
 
-def pre_init_hook(cr):
+def pre_init_hook(env):
     """Prepare new payment_mode fields.
 
     Add columns to avoid Memory error on an existing Odoo instance
@@ -16,7 +16,7 @@ def pre_init_hook(cr):
     customer_payment_mode_id on res.partner, so they can stay NULL, nothing
     to compute.
     """
-    if not sql.column_exists(cr, "account_move", "payment_mode_id"):
-        sql.create_column(cr, "account_move", "payment_mode_id", "int4")
-    if not sql.column_exists(cr, "account_move_line", "payment_mode_id"):
-        sql.create_column(cr, "account_move_line", "payment_mode_id", "int4")
+    if not sql.column_exists(env.cr, "account_move", "payment_mode_id"):
+        sql.create_column(env.cr, "account_move", "payment_mode_id", "int4")
+    if not sql.column_exists(env.cr, "account_move_line", "payment_mode_id"):
+        sql.create_column(env.cr, "account_move_line", "payment_mode_id", "int4")
