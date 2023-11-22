@@ -251,7 +251,7 @@ class TestAccountPaymentPartner(TransactionCase):
         )
         invoice.action_post()
         aml = invoice.line_ids.filtered(
-            lambda l: l.account_id.account_type == "liability_payable"
+            lambda x: x.account_id.account_type == "liability_payable"
         )
         self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
         # Test payment mode change on aml
@@ -269,7 +269,7 @@ class TestAccountPaymentPartner(TransactionCase):
         )
         invoice.action_post()
         aml = invoice.line_ids.filtered(
-            lambda l: l.account_id.account_type == "asset_receivable"
+            lambda x: x.account_id.account_type == "asset_receivable"
         )
         self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
 
