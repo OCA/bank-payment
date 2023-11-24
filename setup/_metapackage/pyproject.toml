@@ -1,0 +1,11 @@
+[project]
+name = "odoo-addons-oca-bank-payment"
+version = "17.0.20231124.0"
+dependencies = [
+    "odoo-addon-account_payment_mode>=17.0dev,<17.1dev",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 17.0",
+]
