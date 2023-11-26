@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Purchase Stock",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Integrate Account Payment Purchase with Stock",

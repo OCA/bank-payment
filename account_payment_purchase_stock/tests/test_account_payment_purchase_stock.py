@@ -15,7 +15,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
@@ -36,7 +35,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
@@ -51,7 +49,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.action_confirm()
-        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
         invoice.purchase_id = purchase2
         result = invoice._onchange_purchase_auto_complete()
@@ -69,7 +66,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         self.purchase.button_confirm()
         picking = self.purchase.picking_ids[0]
         picking.action_confirm()
-        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
 
         invoice = self.env["account.move"].create(
@@ -83,7 +79,6 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         purchase2.button_confirm()
         picking = purchase2.picking_ids[0]
         picking.action_confirm()
-        picking.move_ids.write({"quantity_done": 1.0})
         picking.button_validate()
         invoice.purchase_id = purchase2
         result = invoice._onchange_purchase_auto_complete()
