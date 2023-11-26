@@ -11,7 +11,7 @@ class TestSaleOrder(CommonTestCase):
         with Form(self.env["sale.order"]) as sale_form:
             sale_form.partner_id = self.base_partner
             sale_form.pricelist_id = self.env.ref("product.list0")
-            for (_, p) in self.products.items():
+            for _, p in self.products.items():
                 with sale_form.order_line.new() as order_line:
                     order_line.product_id = p
                     order_line.name = p.name
