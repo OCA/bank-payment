@@ -10,7 +10,6 @@ class AccountMove(models.Model):
 
     @api.onchange("purchase_vendor_bill_id", "purchase_id")
     def _onchange_purchase_auto_complete(self):
-
         new_mode = (
             self.purchase_vendor_bill_id.purchase_order_id.payment_mode_id.id
             or self.purchase_id.payment_mode_id.id
