@@ -34,7 +34,9 @@ class PurchaseOrder(models.Model):
             self.supplier_partner_bank_id = self._get_default_supplier_partner_bank(
                 self.partner_id
             )
-            self.payment_mode_id = self.partner_id.supplier_payment_mode_id
+            self.payment_mode_id = self.with_company(
+                self.company_id
+            ).partner_id.supplier_payment_mode_id
         else:
             self.supplier_partner_bank_id = False
             self.payment_mode_id = False
