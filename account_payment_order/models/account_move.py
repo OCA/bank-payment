@@ -49,7 +49,7 @@ class AccountMove(models.Model):
 
     def _get_payment_order_communication_direct(self):
         """Retrieve the communication string for this direct item."""
-        communication = self.payment_reference or self.ref or self.name or ""
+        communication = self.payment_reference or self.ref or self.name
         if self.is_invoice():
             if (self.reference_type or "none") != "none":
                 communication = self.ref
@@ -57,7 +57,7 @@ class AccountMove(models.Model):
                 communication = self.ref or self.payment_reference
             else:
                 communication = self.payment_reference or self.name
-        return communication
+        return communication or ""
 
     def _get_payment_order_communication_full(self):
         """Retrieve the full communication string for the payment order.
