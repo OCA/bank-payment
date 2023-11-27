@@ -10,6 +10,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 @tagged("-at_install", "post_install")
@@ -17,6 +18,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
         cls.partner = cls.env["res.partner"].create(
@@ -274,6 +276,28 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.invoice.payment_reference = "R1234"
         self.assertEqual(
             "F1242", self.invoice._get_payment_order_communication_direct()
+        )
+
+    def test_invoice_communication_03(self):
+        self.invoice.ref = False
+        self.invoice.action_post()
+        self.assertEqual("", self.invoice._get_payment_order_communication_direct())
+        reverse_wizard = Form(
+            self.env["account.move.reversal"].with_context(
+                active_ids=self.invoice.ids, active_model=self.invoice._name
+            )
+        )
+        reverse = reverse_wizard.save()
+        reverse_res = reverse.reverse_moves()
+        reverse_move = self.env[reverse_res["res_model"]].browse(reverse_res["res_id"])
+        self.assertEqual(
+            " %s" % reverse_move.ref,
+            self.invoice._get_payment_order_communication_full(),
+        )
+        self.invoice.ref = "ref"
+        self.assertEqual(
+            "ref %s" % reverse_move.ref,
+            self.invoice._get_payment_order_communication_full(),
         )
 
     def test_manual_line_and_manual_date(self):
