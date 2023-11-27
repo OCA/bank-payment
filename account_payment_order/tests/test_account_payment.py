@@ -7,6 +7,7 @@ from odoo.tests import tagged
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 @tagged("-at_install", "post_install")
@@ -14,7 +15,7 @@ class TestAccountPayment(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
-
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )

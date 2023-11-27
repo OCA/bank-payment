@@ -6,12 +6,14 @@ from unittest.mock import patch
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 class TestPaymentMode(TransactionCase):
-    def setUp(self):
-        super(TestPaymentMode, self).setUp()
-
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
@@ -24,24 +26,24 @@ class TestPaymentMode(TransactionCase):
             return res
 
         # Company
-        self.company = self.env.ref("base.main_company")
+        cls.company = cls.env.ref("base.main_company")
 
-        self.journal_c1 = self.env["account.journal"].create(
+        cls.journal_c1 = cls.env["account.journal"].create(
             {
                 "name": "Journal 1",
                 "code": "J1",
                 "type": "bank",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
 
-        self.account = self.env["account.account"].search(
-            [("reconcile", "=", True), ("company_id", "=", self.company.id)], limit=1
+        cls.account = cls.env["account.account"].search(
+            [("reconcile", "=", True), ("company_id", "=", cls.company.id)], limit=1
         )
 
-        self.manual_out = self.env.ref("account.account_payment_method_manual_out")
+        cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
 
-        self.manual_in = self.env.ref("account.account_payment_method_manual_in")
+        cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
 
         with patch.object(
             AccountPaymentMethod,
@@ -49,7 +51,7 @@ class TestPaymentMode(TransactionCase):
             _get_payment_method_information,
         ):
 
-            self.electronic_out = self.env["account.payment.method"].create(
+            cls.electronic_out = cls.env["account.payment.method"].create(
                 {
                     "name": "Electronic Out",
                     "code": "electronic_out",
@@ -57,14 +59,14 @@ class TestPaymentMode(TransactionCase):
                 }
             )
 
-        self.payment_mode_c1 = self.env["account.payment.mode"].create(
+        cls.payment_mode_c1 = cls.env["account.payment.mode"].create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
                 "bank_account_link": "variable",
-                "payment_method_id": self.manual_out.id,
-                "company_id": self.company.id,
-                "fixed_journal_id": self.journal_c1.id,
-                "variable_journal_ids": [(6, 0, [self.journal_c1.id])],
+                "payment_method_id": cls.manual_out.id,
+                "company_id": cls.company.id,
+                "fixed_journal_id": cls.journal_c1.id,
+                "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
             }
         )
 
