@@ -43,7 +43,7 @@ class TestAccountPaymentMode(TransactionCase):
                 ("journal_id", "=", cls.journal_c2.id),
             ]
         )
-        cls.payment_method_line_in_c1 = cls.payment_method_line_model.search(
+        cls.payment_method_line_in_c2 = cls.payment_method_line_model.search(
             [
                 ("name", "=", cls.manual_in.name),
                 ("payment_method_id", "=", cls.manual_in.id),
@@ -137,7 +137,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 5",
                     "bank_account_link": "fixed",
-                    "payment_method_line_id": self.payment_method_line_out_c1.id,
+                    "payment_method_line_id": self.payment_method_line_out_c2.id,
                     "company_id": self.company.id,
                     "fixed_journal_id": self.journal_c1.id,
                 }
@@ -148,7 +148,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 5",
                     "bank_account_link": "fixed",
-                    "payment_method_line_id": self.payment_method_line_in_c1.id,
+                    "payment_method_line_id": self.payment_method_line_in_c2.id,
                     "company_id": self.company.id,
                     "fixed_journal_id": self.journal_c1.id,
                 }
