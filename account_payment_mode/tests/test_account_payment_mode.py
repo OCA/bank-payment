@@ -14,9 +14,11 @@ class TestAccountPaymentMode(TransactionCase):
         cls.res_users_model = cls.env["res.users"]
         cls.journal_model = cls.env["account.journal"]
         cls.payment_mode_model = cls.env["account.payment.mode"]
+        cls.payment_method_line_model = cls.env["account.payment.method.line"]
 
         # refs
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
+        cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
         # Company
         cls.company = cls.env.ref("base.main_company")
 
@@ -27,11 +29,33 @@ class TestAccountPaymentMode(TransactionCase):
         cls.journal_c2 = cls._create_journal("J2", cls.company_2)
         cls.journal_c3 = cls._create_journal("J3", cls.company)
 
+        cls.payment_method_line_out_c1 = cls.payment_method_line_model.search(
+            [
+                ("name", "=", cls.manual_out.name),
+                ("payment_method_id", "=", cls.manual_out.id),
+                ("journal_id", "=", cls.journal_c1.id),
+            ]
+        )
+        cls.payment_method_line_out_c2 = cls.payment_method_line_model.search(
+            [
+                ("name", "=", cls.manual_out.name),
+                ("payment_method_id", "=", cls.manual_out.id),
+                ("journal_id", "=", cls.journal_c2.id),
+            ]
+        )
+        cls.payment_method_line_in_c1 = cls.payment_method_line_model.search(
+            [
+                ("name", "=", cls.manual_in.name),
+                ("payment_method_id", "=", cls.manual_in.id),
+                ("journal_id", "=", cls.journal_c2.id),
+            ]
+        )
+
         cls.payment_mode_c1 = cls.payment_mode_model.create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
                 "bank_account_link": "variable",
-                "payment_method_id": cls.manual_out.id,
+                "payment_method_line_id": cls.payment_method_line_out_c1.id,
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "variable_journal_ids": [
@@ -81,7 +105,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 2",
                     "bank_account_link": "variable",
-                    "payment_method_id": self.manual_out.id,
+                    "payment_method_line_id": self.payment_method_line_out_c2.id,
                     "company_id": self.company.id,
                     "fixed_journal_id": self.journal_c2.id,
                 }
@@ -92,7 +116,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 3",
                     "bank_account_link": "variable",
-                    "payment_method_id": self.manual_out.id,
+                    "payment_method_line_id": self.payment_method_line_out_c2.id,
                     "company_id": self.company.id,
                     "variable_journal_ids": [(6, 0, [self.journal_c2.id])],
                 }
@@ -103,7 +127,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 4",
                     "bank_account_link": "fixed",
-                    "payment_method_id": self.manual_out.id,
+                    "payment_method_line_id": self.payment_method_line_out_c1.id,
                     "company_id": self.company.id,
                 }
             )
@@ -113,7 +137,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 5",
                     "bank_account_link": "fixed",
-                    "payment_method_id": self.manual_out.id,
+                    "payment_method_line_id": self.payment_method_line_out_c1.id,
                     "company_id": self.company.id,
                     "fixed_journal_id": self.journal_c1.id,
                 }
@@ -124,9 +148,7 @@ class TestAccountPaymentMode(TransactionCase):
                 {
                     "name": "Direct Debit of suppliers from Bank 5",
                     "bank_account_link": "fixed",
-                    "payment_method_id": self.env.ref(
-                        "account.account_payment_method_manual_in"
-                    ).id,
+                    "payment_method_line_id": self.payment_method_line_in_c1.id,
                     "company_id": self.company.id,
                     "fixed_journal_id": self.journal_c1.id,
                 }
