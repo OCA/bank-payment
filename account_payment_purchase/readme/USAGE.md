@@ -5,6 +5,3 @@ This default value could be change in a draft purchase or draft invoice.
 When you create a payment order, only invoices related to chosen payment mode
 are displayed.
 Invoices without any payment mode are displayed too.
-
-
-This module doesn't add any feature, but it is used by several other modules.
