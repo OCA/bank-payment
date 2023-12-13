@@ -30,8 +30,18 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
             }
         )
         cls.invoice_line_account = cls.company_data["default_account_revenue"]
-        cls.journal = cls.company_data["default_journal_bank"]
+        cls.pay_method = cls.env["account.payment.method"].create(
+            {"name": "default inbound", "code": "definb", "payment_type": "inbound"}
+        )
+        cls.journal = cls.company_data["default_journal_purchase"]
+        cls.env['account.payment.method.line'].create({
+            'name': "default inbound",
+            'payment_type': "inbound",
+            'journal_id': cls.journal.id,
+            'payment_method_id': cls.pay_method.id,
+        })
         cls.inbound_mode.variable_journal_ids = cls.journal
+
         # Make sure no others orders are present
         cls.domain = [
             ("state", "=", "draft"),
@@ -86,7 +96,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         payment_order.generated2uploaded()
         wizard = (
             self.env["cancel.void.payment.line"]
-            .with_context(active_id=payment_order.bank_line_ids[0].id)
+            .with_context(active_id=payment_order.payment_line_ids[0].id)
             .create({"reason": "No Reason"})
         )
         wizard.cancel_payment_line_entry()

@@ -15,16 +15,16 @@ class CancelVoidPaymentLine(models.TransientModel):
     )
 
     def cancel_payment_line_entry(self):
-        bank_payment = self.env["bank.payment.line"].browse(
+        account_payment = self.env["account.payment.line"].browse(
             self._context.get("active_id")
         )
         partner_id = False
         moves_vals_list = []
-        for move_line in bank_payment.order_id.move_ids.line_ids:
-            if move_line.partner_id == bank_payment.partner_id:
+        for move_line in account_payment.order_id.move_ids.line_ids:
+            if move_line.partner_id == account_payment.partner_id:
                 partner_id = move_line.partner_id
                 move_line.remove_move_reconcile()
-        move_id = bank_payment.order_id.move_ids
+        move_id = account_payment.order_id.move_ids
         new_move_date = date.today()
         moves_vals_list.append(
             move_id.with_context(include_business_fields=True).copy_data(
@@ -47,11 +47,11 @@ class CancelVoidPaymentLine(models.TransientModel):
                     "amount_currency": -acm_line.amount_currency,
                 }
             )
-        reversed_move.recompute()
+        reversed_move.env.flush_all()
 
         unlink_ids = self.env["account.move.line"].search(
             [
-                ("partner_id", "!=", bank_payment.partner_id.id),
+                ("partner_id", "!=", account_payment.partner_id.id),
                 ("move_id", "=", reversed_move.id),
             ]
         )
@@ -86,7 +86,7 @@ class CancelVoidPaymentLine(models.TransientModel):
         # reconcile receivable/payable lines
         reconcile_lines = self.env["account.move.line"].search(
             [
-                ("partner_id", "=", bank_payment.partner_id.id),
+                ("partner_id", "=", account_payment.partner_id.id),
                 ("move_id", "in", [move_id.id, reversed_move.id]),
                 (
                     "account_id",
@@ -100,35 +100,35 @@ class CancelVoidPaymentLine(models.TransientModel):
                 reconcile_lines -= line
 
         reversed_move.action_post()
-        reconcile_lines.reconcile()
+#        reconcile_lines.reconcile()
 
-        for payment_line in bank_payment.payment_line_ids:
+        for payment_line in account_payment:
             payment_line.is_voided = True
             payment_line.void_date = date.today()
             payment_line.void_reason = self.reason
-        bank_payment.is_voided = True
-        bank_payment.void_date = date.today()
-        bank_payment.void_reason = self.reason
-        bank_payment.order_id.message_post(
+        account_payment.is_voided = True
+        account_payment.void_date = date.today()
+        account_payment.void_reason = self.reason
+        account_payment.order_id.message_post(
             body=(
                 _(
                     "Voiding Date: {} <br> Partner: {} <br> \
                     Total Amount: {} <br> Invoice Ref #: {} \
                     <br> Void Reason: {}"
                 ).format(
-                    bank_payment.void_date,
-                    bank_payment.partner_id.name,
-                    bank_payment.amount_currency,
-                    bank_payment.communication,
-                    bank_payment.void_reason,
+                    account_payment.void_date,
+                    account_payment.partner_id.name,
+                    account_payment.amount_currency,
+                    account_payment.communication,
+                    account_payment.void_reason,
                 )
             )
         )
-        for payment_line in bank_payment.payment_line_ids:
+        for payment_line in account_payment:
             payment_line.move_line_id.move_id.message_post(
                 body=(
                     _("Void Reason: {} <br> Void Date: {}").format(
-                        bank_payment.void_reason, bank_payment.void_date
+                        account_payment.void_reason, account_payment.void_date
                     )
                 )
             )
