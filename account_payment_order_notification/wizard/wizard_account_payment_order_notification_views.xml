@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wizard_account_payment_order_notification_form" model="ir.ui.view">
+        <field name="name">wizard.account.payment.order.notification.form</field>
+        <field name="model">wizard.account.payment.order.notification</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main_group">
+                    <group name="left_group">
+                        <field name="order_id" />
+                        <field name="mail_template_id" />
+                    </group>
+                </group>
+                <group name="secondary_group" col="4">
+                    <field name="line_ids" nolabel="1" colspan="4">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="partner_id" force_save="1" />
+                            <field name="email" />
+                            <field
+                                name="to_send"
+                                attrs="{'readonly':[('email','=',False)]}"
+                            />
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        type="object"
+                        name="action_process"
+                        string="Confirm"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record
+        id="wizard_account_payment_order_notification_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Send notifications</field>
+        <field name="res_model">wizard.account.payment.order.notification</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

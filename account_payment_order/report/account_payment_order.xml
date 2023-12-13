@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2017 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="print_account_payment_order_document">
+        <t
+            t-set="doc"
+            t-value="doc.with_context({'lang': doc.generated_user_id and doc.generated_user_id.lang or user.lang})"
+        />
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="oe_structure" />
+                <div class="row">
+                    <div class="col-4 offset-8">
+                        <div t-field="doc.journal_id.bank_id.name" />
+                        <div t-field="doc.journal_id.bank_id.street" />
+                        <div t-field="doc.journal_id.bank_id.street2" />
+                        <div t-field="doc.journal_id.bank_id.zip" />
+                        <div t-field="doc.journal_id.bank_id.city" />
+                        <div t-field="doc.journal_id.bank_id.state.name" />
+                        <div t-field="doc.journal_id.bank_id.country.name" />
+                    </div>
+                </div>
+                <t t-if="doc.payment_type == 'inbound'">
+                    <h2>Debit Order</h2>
+                </t>
+                <t t-else="">
+                    <h2>Payment Order</h2>
+                </t>
+                <div class="row mt32 mb32">
+                    <div t-if="doc.payment_mode_id.name" class="col-2">
+                        <strong>Payment Type:</strong>
+                        <p t-field="doc.payment_mode_id.name" />
+                    </div>
+                    <div t-if="doc.name" class="col-2">
+                        <strong>Reference</strong>
+                        <p t-field="doc.name" />
+                    </div>
+                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col-2">
+                        <strong>Used Account:</strong>
+                        <p>
+                            <span
+                                t-esc="get_bank_account_name(doc.company_partner_bank_id)"
+                            />
+                        </p>
+                    </div>
+                    <div t-if="doc.date_prefered" class="col-2">
+                        <strong>Execution:</strong>
+                        <p t-field="doc.date_prefered" />
+                    </div>
+                    <div t-if="doc.company_id.currency_id.name" class="col-2">
+                        <strong>Company Currency:</strong>
+                        <p t-field="doc.company_id.currency_id.name" />
+                    </div>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th class="text-center">Bank Account</th>
+                            <th class="text-center">Invoice Ref</th>
+                            <th class="text-center">Value Date</th>
+                            <th class="text-right">Amount</th>
+                            <th class="text-right">Currency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Total amount on lines
+                            see _get_amount_total v8
+                        -->
+                        <t t-set="total_amount" t-value="0" />
+                        <tr t-foreach="doc.payment_line_ids" t-as="line">
+                            <!-- compute total amount -->
+                            <t
+                                t-set="total_amount"
+                                t-value="total_amount+line.amount_currency"
+                            />
+                            <td>
+                                <span t-field="line.partner_id.name" />
+                            </td>
+                            <td class="text-center">
+                                <span
+                                    t-esc="get_bank_account_name(line.partner_bank_id)"
+                                />
+                            </td>
+                            <td class="text-center">
+                                <t
+                                    t-if="line.move_line_id.move_id and 'in_' in line.move_line_id.move_id.move_type"
+                                >
+                                    <span
+                                        t-esc="line.move_line_id.move_id.ref or line.move_line_id.move_id.payment_reference"
+                                    />
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="line.move_line_id.move_id.name" />
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="line.date" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.amount_currency" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.amount_company_currency" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row pull-right">
+                    <div class="col-4">
+                        <table class="table table-condensed">
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span
+                                        t-esc="formatLang(env, total_amount, currency_obj=doc.company_currency_id)"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total (Currency)</td>
+                                <td class="text-right">
+                                    <span t-field="doc.total_company_currency" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="oe_structure" />
+            </div>
+        </t>
+    </template>
+    <template id="print_account_payment_order_main">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t
+                    t-call="account_payment_order.print_account_payment_order_document"
+                    t-lang="doc.generated_user_id.lang"
+                />
+            </t>
+        </t>
+    </template>
+</odoo>

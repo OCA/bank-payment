@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_method_form" model="ir.ui.view">
+        <field name="name">pain_base.account_payment_method.form</field>
+        <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_mode.account_payment_method_form"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="pain_version" />
+
+                <field
+                    name="convert_to_ascii"
+                    attrs="{'invisible': [('pain_version', '=', False)]}"
+                />
+                <field
+                    name="warn_not_sepa"
+                    attrs="{'invisible': [('pain_version', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="account_payment_method_tree" model="ir.ui.view">
+        <field name="name">pain_base.account_payment_method.tree</field>
+        <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_mode.account_payment_method_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="pain_version" />
+            </field>
+        </field>
+    </record>
+</odoo>

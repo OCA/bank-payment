@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2013-2020 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_mandate_form" model="ir.ui.view">
+        <field name="name">view.mandate.form</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="arch" type="xml">
+            <form string="Banking Mandate">
+                <header>
+                    <button
+                        name="validate"
+                        type="object"
+                        string="Validate"
+                        states="draft"
+                        class="btn-primary"
+                        invisible="context.get('mandate_bank_partner_view')"
+                        groups="account_payment_order.group_account_payment"
+                    />
+                    <button
+                        name="cancel"
+                        type="object"
+                        string="Cancel"
+                        states="draft,valid"
+                        confirm="Are you sure you want to cancel this mandate?"
+                        invisible="context.get('mandate_bank_partner_view')"
+                        groups="account_payment_order.group_account_payment"
+                    />
+                    <button
+                        name="back2draft"
+                        type="object"
+                        string="Back to Draft"
+                        states="cancel"
+                        groups="account_payment_order.group_account_payment"
+                        confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
+                        invisible="context.get('mandate_bank_partner_view')"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,valid,expired"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                                name="unique_mandate_reference"
+                                class="oe_inline"
+                                attrs="{'readonly': [('id', '!=', False)]}"
+                            />
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="format" string="Format" />
+                        <field name="type" string="Type" />
+                        <field
+                            name="partner_bank_id"
+                            options="{'create_name_field': 'acc_number'}"
+                            invisible="context.get('mandate_bank_partner_view')"
+                        />
+                        <field
+                            name="partner_id"
+                            invisible="context.get('mandate_bank_partner_view')"
+                            readonly="True"
+                        />
+                        <field
+                            name="signature_date"
+                            options="{'datepicker': {'warn_future': true}}"
+                        />
+                        <field name="scan" />
+                        <field name="last_debit_date" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="views_mandate_form_buttons" model="ir.ui.view">
+        <field name="name">view.mandate.form.buttons</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="inherit_id" ref="account_banking_mandate.view_mandate_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="show_payment_lines"
+                    help="Payment lines"
+                    class="oe_stat_button"
+                    icon="fa-list"
+                    type="object"
+                    groups="account_payment_order.group_account_payment"
+                >
+                    <field
+                        name="payment_line_ids_count"
+                        widget="statinfo"
+                        string="Payment lines"
+                    />
+                </button>
+            </div>
+        </field>
+    </record>
+    <record id="view_mandate_tree" model="ir.ui.view">
+        <field name="name">view.mandate.tree</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" invisible="1" />
+                <field name="unique_mandate_reference" string="Reference" />
+                <field
+                    name="partner_id"
+                    invisible="context.get('mandate_bank_partner_view')"
+                />
+                <field
+                    name="format"
+                    string="Format"
+                    widget="badge"
+                    decoration-muted="format == 'basic'"
+                />
+                <field
+                    name="type"
+                    string="Type"
+                    widget="badge"
+                    decoration-muted="type == 'generic'"
+                />
+                <field name="signature_date" string="Signature Date" />
+                <field name="last_debit_date" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <button
+                    name="validate"
+                    type="object"
+                    icon="fa-check"
+                    string="Validate"
+                    groups="account_payment_order.group_account_payment"
+                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'draft')]}"
+                />
+                <!-- Removed cancel button in tree view. Too dangerous.
+                    'confirm' attribute doesn't work in tree view. -->
+                <button
+                    name="back2draft"
+                    type="object"
+                    icon="fa-undo"
+                    string="Draft"
+                    groups="account_payment_order.group_account_payment"
+                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"
+                />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'valid'"
+                    decoration-muted="state == 'cancel'"
+                    decoration-warning="state == 'expired'"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="view_mandate_search" model="ir.ui.view">
+        <field name="name">view.mandate.search</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="arch" type="xml">
+            <search string="Search Banking Mandates">
+                <field
+                    name="unique_mandate_reference"
+                    string="Reference or Partner"
+                    filter_domain="['|', ('unique_mandate_reference', 'ilike', self), ('partner_id', 'ilike', self)]"
+                />
+                <field name="partner_id" />
+                <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    name="valid"
+                    string="Valid"
+                    domain="[('state', '=', 'valid')]"
+                />
+                <filter
+                    name="expired"
+                    string="Expired"
+                    domain="[('state', '=', 'expired')]"
+                />
+                <filter
+                    name="cancel"
+                    string="Cancelled"
+                    domain="[('state', '=', 'cancel')]"
+                />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="state_groupby"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="signature_date_groupby"
+                        string="Signature Date"
+                        context="{'group_by': 'signature_date'}"
+                    />
+                    <filter
+                        name="partner_groupby"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="mandate_action" model="ir.actions.act_window">
+        <field name="name">Banking Mandates</field>
+        <field name="res_model">account.banking.mandate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+        Click to create a new Banking Mandate.
+        </p>
+            <p>
+        A Banking Mandate is a document signed by your customer that gives you the autorization to do one or several operations on his bank account.
+        </p>
+        </field>
+    </record>
+    <menuitem
+        id="mandate_menu"
+        parent="account.menu_finance_receivables"
+        action="mandate_action"
+        sequence="50"
+    />
+</odoo>

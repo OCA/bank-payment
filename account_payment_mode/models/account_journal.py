@@ -16,8 +16,17 @@ class AccountJournal(models.Model):
         return all_out
 
     def _default_inbound_payment_methods(self):
+        method_info = self.env[
+            "account.payment.method"
+        ]._get_payment_method_information()
+        unique_codes = tuple(
+            code for code, info in method_info.items() if info.get("mode") == "unique"
+        )
         all_in = self.env["account.payment.method"].search(
-            [("payment_type", "=", "inbound")]
+            [
+                ("payment_type", "=", "inbound"),
+                ("code", "not in", unique_codes),  # filter out unique codes
+            ]
         )
         return all_in
 

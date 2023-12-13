@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2013-2016 Akretion (https://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_line_create_form" model="ir.ui.view">
+        <field name="name">account_payment_line_create.form</field>
+        <field name="model">account.payment.line.create</field>
+        <field name="arch" type="xml">
+            <form string="Choose Move Lines Filter Options">
+                <group name="main">
+                    <field name="order_id" invisible="1" />
+                    <field name="date_type" />
+                    <field
+                        name="move_date"
+                        attrs="{'required': [('date_type', '=', 'move')], 'invisible': [('date_type', '!=', 'move')]}"
+                    />
+                    <field
+                        name="due_date"
+                        attrs="{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"
+                    />
+                    <field
+                        name="journal_ids"
+                        widget="many2many_tags"
+                        placeholder="Keep empty for using all journals"
+                    />
+                    <field
+                        name="partner_ids"
+                        widget="many2many_tags"
+                        placeholder="Keep empty to use all partners"
+                    />
+                    <field name="payment_mode" />
+                    <field name="target_move" widget="radio" />
+                    <field name="invoice" />
+                    <field name="allow_blocked" />
+                    <label
+                        for="populate"
+                        string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
+                        colspan="2"
+                    />
+                    <button
+                        name="populate"
+                        type="object"
+                        string="Add All Move Lines"
+                        colspan="2"
+                    />
+                </group>
+                <group
+                    name="move_lines"
+                    string="Selected Move Lines to Create Transactions"
+                >
+                    <field
+                        name="move_line_ids"
+                        nolabel="1"
+                        force_save="1"
+                        context="{'tree_view_ref': 'account_payment_order.view_move_line_tree', 'form_view_ref':'account_payment_order.view_move_line_form_no_edit'}"
+                        colspan="2"
+                    >
+                        <tree>
+                            <field name="date" />
+                            <field name="move_id" required="0" />
+                            <field name="journal_id" />
+                            <field name="partner_id" />
+                            <field name="account_id" />
+                            <field name="date_maturity" />
+                            <field name="debit" />
+                            <field name="credit" />
+                            <field name="amount_residual" sum="Total Residual" />
+                            <field name="amount_currency" />
+                            <field name="amount_residual_currency" />
+                            <field name="company_currency_id" invisible="1" />
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        name="create_payment_lines"
+                        type="object"
+                        string="Create Transactions"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" special="cancel" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="account_payment_line_create_action" model="ir.actions.act_window">
+        <field name="name">Create Transactions from Move Lines</field>
+        <field name="res_model">account.payment.line.create</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

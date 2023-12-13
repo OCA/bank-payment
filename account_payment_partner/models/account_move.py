@@ -22,6 +22,7 @@ class AccountMove(models.Model):
         ondelete="restrict",
         readonly=False,
         check_company=True,
+        tracking=True,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
@@ -31,6 +32,10 @@ class AccountMove(models.Model):
         store=True,
         ondelete="restrict",
         readonly=False,
+    )
+    has_reconciled_items = fields.Boolean(
+        help="Technical field for supporting the editability of the payment mode",
+        compute="_compute_has_reconciled_items",
     )
 
     @api.depends("move_type")
@@ -85,13 +90,42 @@ class AccountMove(models.Model):
     def _compute_partner_bank_id(self):
         res = super()._compute_partner_bank_id()
         for move in self:
-            # No bank account assignation is done for out_invoice as this is only
-            # needed for printing purposes and it can conflict with
-            # SEPA direct debit payments. Current report prints it.
-            if move.move_type != "in_invoice" or not move.payment_mode_id:
+            payment_mode = move.payment_mode_id
+            if payment_mode:
+                if (
+                    move.move_type == "in_invoice"
+                    and payment_mode.payment_type == "outbound"
+                    and not payment_mode.payment_method_id.bank_account_required
+                ):
+                    move.partner_bank_id = False
+                    continue
+                elif move.move_type == "out_invoice":
+                    if payment_mode.payment_method_id.bank_account_required:
+                        if (
+                            payment_mode.bank_account_link == "fixed"
+                            and payment_mode.fixed_journal_id.bank_account_id
+                        ):
+                            move.partner_bank_id = (
+                                payment_mode.fixed_journal_id.bank_account_id
+                            )
+                            continue
+                    else:
+                        move.partner_bank_id = False
+            else:
                 move.partner_bank_id = False
-                continue
         return res
+
+    @api.depends("line_ids.matched_credit_ids", "line_ids.matched_debit_ids")
+    def _compute_has_reconciled_items(self):
+        for record in self:
+            lines_to_consider = record.line_ids.filtered(
+                lambda x: x.account_id.account_type
+                in ("asset_receivable", "liability_payable")
+            )
+            record.has_reconciled_items = bool(
+                lines_to_consider.matched_credit_ids
+                + lines_to_consider.matched_debit_ids
+            )
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         if not default_values_list:

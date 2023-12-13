@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2013-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_line_form" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.line</field>
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_form"
+        />
+        <field name="arch" type="xml">
+            <field name="communication_type" position="before">
+                <field name="priority" />
+                <field name="local_instrument" />
+                <field name="category_purpose" />
+                <field name="purpose" />
+            </field>
+        </field>
+    </record>
+    <record id="account_payment_line_tree" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.tree</field>
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="communication" position="after">
+                <field name="priority" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

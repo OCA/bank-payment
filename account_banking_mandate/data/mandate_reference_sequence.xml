@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="dd_mandate_seq" model="ir.sequence">
+        <field name="name">DD Mandate Reference</field>
+        <field name="code">account.banking.mandate</field>
+        <field name="prefix">BM</field>
+        <field name="padding" eval="7" />
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>

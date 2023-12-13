@@ -35,7 +35,7 @@
                         />
                     </group>
                     <group string="Note" name="note">
-                        <field name="note" nolabel="1" />
+                        <field name="note" nolabel="1" colspan="2" />
                     </group>
                 </sheet>
             </form>
@@ -46,6 +46,7 @@
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="payment_method_id" />
                 <field name="payment_type" />

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+    <record id="email_account_payment_order_notification" model="mail.template">
+        <field name="name">Payment Order Notification: Send by email</field>
+        <field
+            name="model_id"
+            ref="account_payment_order_notification.model_account_payment_order_notification"
+        />
+        <field
+            name="email_from"
+        >{{ object.company_id.email_formatted or user.email_formatted }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field
+            name="subject"
+        >{{ object.company_id.name }} Payment Order (Ref {{ object.order_id.name or 'n/a' }})</field>
+        <field name="body_html" type="html">
+            <div
+                style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF;
+"
+            >
+                <p>Hello <t
+                        t-out="object.partner_id.name or ''"
+                    >Brandon Freeman</t>,</p>
+                <t t-if="object.order_id.payment_type == 'inbound'">
+                    <p
+                    >A debit order including at least one of your invoices has been processed and
+                        sent to the bank.</p>
+                </t>
+                <t t-else="">
+                    <p
+                    >A payment order including at least one of your invoices has been processed
+                        and sent to the bank.</p>
+                </t>
+                <p>It includes the following transactions:</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr
+                            style="height: 15px; background-color: #d8d8d8;font-size: 13px;font-weight:bold;"
+                            align="center"
+                            valign="middle"
+                        >
+                            <td>Number</td>
+                            <td>Date</td>
+                            <td>Amount</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="object.payment_line_ids" t-as="payment_line">
+                            <tr>
+                                <td>
+                                    <t
+                                        t-if="payment_line.move_line_id.move_id.move_type in ('in_invoice', 'in_refund') and payment_line.move_line_id.move_id.ref"
+                                    >
+                                        <t
+                                            t-out="payment_line.move_line_id.move_id.ref or ''"
+                                        >PY000</t>
+                                    </t>
+                                    <t t-else="">
+                                        <t
+                                            t-out="payment_line.communication or ''"
+                                        >Email</t>
+                                    </t>
+                                </td>
+                                <td>
+                                    <t t-out="format_date(payment_line.date)" />
+                                </td>
+                                <td>
+                                    <t
+                                        t-out="format_amount(payment_line.amount_currency, payment_line.currency_id) or ''"
+                                    >$
+                                        1000</t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <p>Do not hesitate to contact us if you have any questions.</p>
+            </div>
+        </field>
+        <field name="lang">{{object.partner_id.lang}}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+</data>
