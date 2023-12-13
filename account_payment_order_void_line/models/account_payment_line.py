@@ -10,3 +10,14 @@ class AccountPaymentLine(models.Model):
     is_voided = fields.Boolean(string="Voided", default=False)
     void_date = fields.Date()
     void_reason = fields.Text()
+
+    def call_payment_void_wizard(self):
+        return {
+            "name": ("Add a reason for cancel"),
+            "view_mode": "form",
+            "res_model": "cancel.void.payment.line",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+            "target": "new",
+            # "context": {"mode": "entry"},
+        }
