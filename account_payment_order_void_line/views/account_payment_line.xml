@@ -24,6 +24,12 @@
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
                 <field name="is_voided" />
+                <button
+                    name="call_payment_void_wizard"
+                    string="Void"
+                    type="object"
+
+                />
             </field>
         </field>
     </record>
