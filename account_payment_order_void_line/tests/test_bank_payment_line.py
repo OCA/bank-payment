@@ -34,12 +34,14 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
             {"name": "default inbound", "code": "definb", "payment_type": "inbound"}
         )
         cls.journal = cls.company_data["default_journal_purchase"]
-        cls.env['account.payment.method.line'].create({
-            'name': "default inbound",
-            'payment_type': "inbound",
-            'journal_id': cls.journal.id,
-            'payment_method_id': cls.pay_method.id,
-        })
+        cls.env["account.payment.method.line"].create(
+            {
+                "name": "default inbound",
+                "payment_type": "inbound",
+                "journal_id": cls.journal.id,
+                "payment_method_id": cls.pay_method.id,
+            }
+        )
         cls.inbound_mode.variable_journal_ids = cls.journal
 
         # Make sure no others orders are present
