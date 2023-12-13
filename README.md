@@ -23,6 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_payment_mode](account_payment_mode/) | 17.0.1.0.0 |  | Account Payment Mode
 [account_payment_partner](account_payment_partner/) | 17.0.1.0.0 |  | Adds payment mode on partners and invoices
+[account_payment_purchase](account_payment_purchase/) | 17.0.1.0.0 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_sale](account_payment_sale/) | 17.0.1.0.0 |  | Adds payment mode on sale orders
 
 [//]: # (end addons)
