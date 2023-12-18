@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-21 10:17+0000\n"
-"PO-Revision-Date: 2023-09-22 16:39+0000\n"
+"PO-Revision-Date: 2023-12-27 13:36+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -100,7 +100,7 @@ msgstr "Conto bancario"
 #. module: account_banking_mandate
 #: model:ir.model,name:account_banking_mandate.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Conti Bancari"
+msgstr "Conti bancari"
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_form
