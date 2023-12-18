@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2023-09-20 17:54+0000\n"
+"PO-Revision-Date: 2023-12-18 09:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -932,7 +932,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_payment_type
 msgid "Payment Type"
-msgstr "Tipo Pagamento"
+msgstr "Tipo pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:442
