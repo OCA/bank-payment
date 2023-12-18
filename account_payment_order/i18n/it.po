@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2023-11-27 19:34+0000\n"
+"PO-Revision-Date: 2023-12-18 09:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -603,7 +603,7 @@ msgstr "Immediatamente"
 #: selection:account.payment.order,payment_type:0
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_search
 msgid "Inbound"
-msgstr "Inbound"
+msgstr "In entrata"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice
@@ -981,7 +981,7 @@ msgstr "Riferimento pagamento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_bank_payment_line_payment_type
 msgid "Payment Type"
-msgstr "Tipo Pagamento"
+msgstr "Tipo pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:448
