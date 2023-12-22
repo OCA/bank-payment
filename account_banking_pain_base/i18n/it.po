@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-11-19 11:35+0000\n"
-"Last-Translator: Sergio Zanchetta <primes2h@gmail.com>\n"
+"PO-Revision-Date: 2023-12-22 19:35+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_pain_base
 #: sql_constraint:account.payment.method:0
@@ -31,7 +31,7 @@ msgstr "Gestione conto"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Advance Payment"
-msgstr "Pagamento in anticipo"
+msgstr "Pagamento anticipato"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
