@@ -15,6 +15,7 @@
                         name="mandate_ids"
                         context="{'mandate_bank_partner_view': True}"
                         nolabel="1"
+                        colspan="4"
                     />
                 </group>
             </xpath>
