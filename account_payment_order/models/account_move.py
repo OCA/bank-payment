@@ -84,9 +84,11 @@ class AccountMove(models.Model):
             invoice_partials,
             exchange_diff_moves,
         ) = self._get_reconciled_invoices_partials()
-        for (_x, _y, payment_move_line,) in (
-            invoice_partials + exchange_diff_moves
-        ):
+        for (
+            _x,
+            _y,
+            payment_move_line,
+        ) in invoice_partials + exchange_diff_moves:
             payment_move = payment_move_line.move_id
             if payment_move not in reference_moves:
                 references.append(
