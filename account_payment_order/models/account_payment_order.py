@@ -24,7 +24,6 @@ class AccountPaymentOrder(models.Model):
         ondelete="restrict",
         tracking=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         check_company=True,
     )
     payment_type = fields.Selection(
@@ -57,7 +56,6 @@ class AccountPaymentOrder(models.Model):
         string="Bank Journal",
         ondelete="restrict",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
     )
@@ -92,13 +90,10 @@ class AccountPaymentOrder(models.Model):
         required=True,
         default="due",
         tracking=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     date_scheduled = fields.Date(
         string="Payment Execution Date",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         help="Select a requested date of execution if you selected 'Due Date' "
         "as the Payment Execution Date Type.",
@@ -118,7 +113,6 @@ class AccountPaymentOrder(models.Model):
         inverse_name="order_id",
         string="Transactions",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     payment_ids = fields.One2many(
         comodel_name="account.payment",
@@ -163,7 +157,7 @@ class AccountPaymentOrder(models.Model):
                         "cancel it in order to do so."
                     )
                 )
-        return super(AccountPaymentOrder, self).unlink()
+        return super().unlink()
 
     @api.constrains("payment_type", "payment_mode_id")
     def payment_order_constraints(self):
@@ -238,7 +232,7 @@ class AccountPaymentOrder(models.Model):
                     vals["journal_id"] = payment_mode.fixed_journal_id.id
                 if not vals.get("date_prefered") and payment_mode.default_date_prefered:
                     vals["date_prefered"] = payment_mode.default_date_prefered
-        return super(AccountPaymentOrder, self).create(vals_list)
+        return super().create(vals_list)
 
     @api.onchange("payment_mode_id")
     def payment_mode_id_change(self):

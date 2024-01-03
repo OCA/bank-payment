@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="account_payment_order_form" model="ir.ui.view">
         <field name="name">account.payment.order.form</field>
@@ -10,46 +9,46 @@
                         name="%(account_payment_line_create_action)d"
                         type="action"
                         string="Create Payment Lines from Journal Items"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
                     <button
                         name="draft2open"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Confirm Payments"
                         class="oe_highlight"
                     />
                     <button
                         name="open2generated"
                         type="object"
-                        states="open"
+                        invisible="state != 'open'"
                         string="Generate Payment File"
                         class="oe_highlight"
                     />
                     <button
                         name="generated2uploaded"
                         type="object"
-                        states="generated"
+                        invisible="state != 'generated'"
                         string="File Successfully Uploaded"
                         class="oe_highlight"
                     />
                     <button
                         name="cancel2draft"
                         type="object"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         string="Back to Draft"
                     />
                     <button
                         name="action_cancel"
                         type="object"
-                        states="draft,open,generated"
+                        invisible="state not in ('draft', 'open', 'generated')"
                         string="Cancel Payments"
                     />
                     <button
                         name="action_uploaded_cancel"
                         type="object"
-                        states="uploaded"
+                        invisible="state != 'uploaded'"
                         string="Cancel Payments"
                     />
                     <field
@@ -84,11 +83,13 @@
                             <field
                                 name="payment_mode_id"
                                 domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
+                                readonly="state != 'draft'"
                             />
                             <field name="allowed_journal_ids" invisible="1" />
                             <field
                                 name="journal_id"
                                 domain="[('id', 'in', allowed_journal_ids)]"
+                                readonly="state != 'draft'"
                             />
                             <field name="bank_account_link" invisible="1" />
                             <field name="company_partner_bank_id" />
@@ -99,14 +100,16 @@
                             <field name="payment_type" invisible="0" />
                             <field
                                 name="payment_count"
-                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                                invisible="state in ('draft', 'cancel')"
                             />
                         </group>
                         <group name="head-right">
-                            <field name="date_prefered" />
+                            <field name="date_prefered" readonly="state != 'draft'" />
                             <field
                                 name="date_scheduled"
-                                attrs="{'invisible': [('date_prefered', '!=', 'fixed')], 'required': [('date_prefered', '=', 'fixed')]}"
+                                invisible="date_prefered != 'fixed'"
+                                readonly="state != 'draft'"
+                                required="date_prefered == 'fixed'"
                             />
                             <field name="date_generated" />
                             <field name="generated_user_id" />
@@ -119,12 +122,13 @@
                             <field
                                 name="payment_line_ids"
                                 context="{'default_payment_type': payment_type}"
+                                readonly="state != 'draft'"
                             />
                         </page>
                         <page
                             name="payment-lines"
                             string="Payment Transactions"
-                            attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                            invisible="state in ('draft', 'cancel')"
                         >
                             <field
                                 name="payment_ids"
@@ -149,8 +153,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" decoration-bf="1" />
-                <field name="payment_mode_id" />
-                <field name="journal_id" />
+                <field name="payment_mode_id" readonly="state != 'draft'" />
+                <field name="journal_id" readonly="state != 'draft'" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="date_uploaded" />
                 <field name="description" optional="show" />
@@ -160,7 +164,7 @@
                     string="Payment Transactions"
                 />
                 <field name="total_company_currency" sum="Total Company Currency" />
-                <field name="company_currency_id" invisible="1" />
+                <field name="company_currency_id" column_invisible="True" />
                 <field
                     name="state"
                     decoration-info="state == 'draft'"

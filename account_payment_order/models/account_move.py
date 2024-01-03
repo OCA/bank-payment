@@ -24,7 +24,6 @@ class AccountMove(models.Model):
     reference_type = fields.Selection(
         selection=[("none", "Free Reference"), ("structured", "Structured Reference")],
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default="none",
     )
     payment_line_count = fields.Integer(compute="_compute_payment_line_count")
@@ -142,7 +141,7 @@ class AccountMove(models.Model):
                     % move.name
                 )
             payment_lines = applicable_lines.payment_line_ids.filtered(
-                lambda l: l.state in ("draft", "open", "generated")
+                lambda line: line.state in ("draft", "open", "generated")
             )
             if payment_lines:
                 raise UserError(
@@ -168,9 +167,10 @@ class AccountMove(models.Model):
                 result_payorder_ids.add(payorder.id)
                 action_payment_type = payorder.payment_type
                 count = 0
-                for line in applicable_lines.filtered(
+                filtered_lines = applicable_lines.filtered(
                     lambda x: x.payment_mode_id == payment_mode
-                ):
+                )
+                for line in filtered_lines:
                     line.create_payment_line_from_move_line(payorder)
                     count += 1
                 if new_payorder:

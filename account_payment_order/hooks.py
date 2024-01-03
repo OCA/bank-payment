@@ -1,7 +1,11 @@
+import logging
+
 from odoo.tools import sql
 
+logger = logging.getLogger(__name__)
 
-def pre_init_hook(cr):
+
+def pre_init_hook(env):
     """Prepare new partner_bank_id computed field.
 
     Add column to avoid MemoryError on an existing Odoo instance
@@ -12,5 +16,5 @@ def pre_init_hook(cr):
     (see AccountMoveLine._compute_partner_bank_id() in models/account_move_line.py
     and AccountMove._compute_payment_order_ok() in models/account_move.py)
     """
-    if not sql.column_exists(cr, "account_move_line", "partner_bank_id"):
-        sql.create_column(cr, "account_move_line", "partner_bank_id", "int4")
+    if not sql.column_exists(env.cr, "account_move_line", "partner_bank_id"):
+        sql.create_column(env.cr, "account_move_line", "partner_bank_id", "int4")
