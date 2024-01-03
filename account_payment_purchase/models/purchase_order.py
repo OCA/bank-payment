@@ -45,6 +45,7 @@ class PurchaseOrder(models.Model):
     def _compute_payment_mode(self):
         for order in self:
             if order.partner_id:
+                order = order.with_company(order.company_id)
                 order.supplier_partner_bank_id = (
                     order._get_default_supplier_partner_bank(order.partner_id)
                 )
