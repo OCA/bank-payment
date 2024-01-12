@@ -53,6 +53,11 @@
                         <p t-field="doc.company_id.currency_id.name" />
                     </div>
                 </div>
+                <tr t-foreach="doc" t-as="rec">
+                <t t-set="recs" t-value="get_currency_total(rec)"/>
+                <tr t-foreach="recs" t-as="key">
+                <t t-set="total_amount" t-value="0"/>
+                <t t-set="total_amount_company" t-value="0"/>
                 <table class="table table-condensed">
                     <thead>
                         <tr>
@@ -68,13 +73,10 @@
                         <!-- Total amount on lines
                             see _get_amount_total v8
                         -->
-                        <t t-set="total_amount" t-value="0" />
-                        <tr t-foreach="doc.payment_line_ids" t-as="line">
+                        <tr t-foreach="recs[key]" t-as="line">
+                            <t t-set="total_amount" t-value="total_amount+line.amount_currency"/>
+                            <t t-set="total_amount_company" t-value="total_amount_company+line.amount_company_currency"/>
                             <!-- compute total amount -->
-                            <t
-                                t-set="total_amount"
-                                t-value="total_amount+line.amount_currency"
-                            />
                             <td>
                                 <span t-field="line.partner_id.name" />
                             </td>
@@ -99,10 +101,10 @@
                                 <span t-field="line.date" />
                             </td>
                             <td class="text-right">
-                                <span t-field="line.amount_currency" />
+                                <span t-esc="formatLang(env, line.amount_currency, currency_obj=line.currency_id)"/>
                             </td>
                             <td class="text-right">
-                                <span t-field="line.amount_company_currency" />
+                                <span t-esc="formatLang(env, line.amount_company_currency, currency_obj=line.company_currency_id)"/>
                             </td>
                         </tr>
                     </tbody>
@@ -115,20 +117,20 @@
                                     <strong>Total</strong>
                                 </td>
                                 <td class="text-right">
-                                    <span
-                                        t-esc="formatLang(env, total_amount, currency_obj=doc.company_currency_id)"
-                                    />
+                                    <span t-esc="formatLang(env, total_amount, currency_obj=recs[key].currency_id)"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Total (Currency)</td>
                                 <td class="text-right">
-                                    <span t-field="doc.total_company_currency" />
+                                    <span t-esc="formatLang(env, total_amount_company, currency_obj=recs[key].company_currency_id)"/>
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
+                </tr>
+                </tr>
                 <div class="oe_structure" />
             </div>
         </t>
