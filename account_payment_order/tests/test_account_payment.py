@@ -42,7 +42,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
             "_get_payment_method_information",
             _get_payment_method_information,
         ):
-
             cls.inbound_payment_method_01 = cls.payment_method_model.create(
                 {
                     "name": "inbound",
