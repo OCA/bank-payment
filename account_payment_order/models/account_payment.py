@@ -29,7 +29,7 @@ class AccountPayment(models.Model):
             if to_exclude:
                 pay.available_payment_method_line_ids = (
                     pay.available_payment_method_line_ids.filtered(
-                        lambda x: x.code not in to_exclude
+                        lambda x, y=to_exclude: x.code not in y
                     )
                 )
         return res

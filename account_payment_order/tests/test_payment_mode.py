@@ -50,7 +50,6 @@ class TestPaymentMode(TransactionCase):
             "_get_payment_method_information",
             _get_payment_method_information,
         ):
-
             cls.electronic_out = cls.env["account.payment.method"].create(
                 {
                     "name": "Electronic Out",

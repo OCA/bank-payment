@@ -84,9 +84,11 @@ class AccountMove(models.Model):
             invoice_partials,
             exchange_diff_moves,
         ) = self._get_reconciled_invoices_partials()
-        for (_x, _y, payment_move_line,) in (
-            invoice_partials + exchange_diff_moves
-        ):
+        for (
+            _x,
+            _y,
+            payment_move_line,
+        ) in invoice_partials + exchange_diff_moves:
             payment_move = payment_move_line.move_id
             if payment_move not in reference_moves:
                 references.append(
@@ -140,7 +142,7 @@ class AccountMove(models.Model):
                     % move.name
                 )
             payment_lines = applicable_lines.payment_line_ids.filtered(
-                lambda l: l.state in ("draft", "open", "generated")
+                lambda x: x.state in ("draft", "open", "generated")
             )
             if payment_lines:
                 raise UserError(
@@ -167,7 +169,7 @@ class AccountMove(models.Model):
                 action_payment_type = payorder.payment_type
                 count = 0
                 for line in applicable_lines.filtered(
-                    lambda x: x.payment_mode_id == payment_mode
+                    lambda x, mode=payment_mode: x.payment_mode_id == mode
                 ):
                     line.create_payment_line_from_move_line(payorder)
                     count += 1
