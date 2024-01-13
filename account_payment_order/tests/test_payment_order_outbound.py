@@ -120,8 +120,6 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
             .with_context(active_model="account.move", active_ids=move.ids)
             .create(
                 {
-                    "date_mode": "entry",
-                    "refund_method": "refund",
                     "journal_id": move.journal_id.id,
                 }
             )
@@ -414,15 +412,6 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         self.refund.action_post()
         self.assertEqual("R1234", self.refund._get_payment_order_communication_direct())
-
-        # The user add the outstanding payment to the invoice
-        invoice_line = self.invoice.line_ids.filtered(
-            lambda line: line.account_type == "liability_payable"
-        )
-        refund_line = self.refund.line_ids.filtered(
-            lambda line: line.account_type == "liability_payable"
-        )
-        (invoice_line | refund_line).reconcile()
 
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids

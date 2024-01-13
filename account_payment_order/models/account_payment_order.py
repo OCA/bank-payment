@@ -24,7 +24,6 @@ class AccountPaymentOrder(models.Model):
         ondelete="restrict",
         tracking=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         check_company=True,
     )
     payment_type = fields.Selection(
@@ -57,7 +56,6 @@ class AccountPaymentOrder(models.Model):
         string="Bank Journal",
         ondelete="restrict",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
     )
@@ -93,12 +91,10 @@ class AccountPaymentOrder(models.Model):
         default="due",
         tracking=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     date_scheduled = fields.Date(
         string="Payment Execution Date",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         help="Select a requested date of execution if you selected 'Due Date' "
         "as the Payment Execution Date Type.",
@@ -118,7 +114,6 @@ class AccountPaymentOrder(models.Model):
         inverse_name="order_id",
         string="Transactions",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     payment_ids = fields.One2many(
         comodel_name="account.payment",
@@ -327,13 +322,7 @@ class AccountPaymentOrder(models.Model):
                             pdate=requested_date,
                         )
                     )
-                # Write requested_date on 'date' field of payment line
-                # norecompute is for avoiding a chained recomputation
-                # payment_line_ids.date
-                # > payment_line_ids.amount_company_currency
-                # > total_company_currency
-                with self.env.norecompute():
-                    payline.date = requested_date
+                payline.date = requested_date
                 # Group options
                 hashcode = (
                     payline.payment_line_hashcode()
