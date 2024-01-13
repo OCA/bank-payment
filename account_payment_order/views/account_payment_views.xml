@@ -17,10 +17,7 @@
         <field name="inherit_id" ref="account.view_account_payment_form" />
         <field name="arch" type="xml">
             <field name="ref" position="after">
-                <field
-                    name="payment_reference"
-                    attrs="{'invisible': [('payment_reference', '=', False)]}"
-                />
+                <field name="payment_reference" invisible="not payment_reference" />
             </field>
         </field>
     </record>

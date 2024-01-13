@@ -28,7 +28,7 @@
                             name="partner_bank_id"
                             context="{'default_partner_id': partner_id}"
                             domain="[('partner_id', '=', partner_id)]"
-                            attrs="{'required': [('bank_account_required', '=', True)]}"
+                            required="bank_account_required"
                         />
                         <field name="bank_account_required" invisible="1" />
                         <field name="communication_type" />
