@@ -44,7 +44,7 @@ class AccountPaymentLineCreate(models.TransientModel):
 
     @api.model
     def default_get(self, field_list):
-        res = super(AccountPaymentLineCreate, self).default_get(field_list)
+        res = super().default_get(field_list)
         context = self.env.context
         assert (
             context.get("active_model") == "account.payment.order"

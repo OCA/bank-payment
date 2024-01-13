@@ -163,7 +163,7 @@ class AccountPaymentOrder(models.Model):
                         "cancel it in order to do so."
                     )
                 )
-        return super(AccountPaymentOrder, self).unlink()
+        return super().unlink()
 
     @api.constrains("payment_type", "payment_mode_id")
     def payment_order_constraints(self):
@@ -238,7 +238,7 @@ class AccountPaymentOrder(models.Model):
                     vals["journal_id"] = payment_mode.fixed_journal_id.id
                 if not vals.get("date_prefered") and payment_mode.default_date_prefered:
                     vals["date_prefered"] = payment_mode.default_date_prefered
-        return super(AccountPaymentOrder, self).create(vals_list)
+        return super().create(vals_list)
 
     @api.onchange("payment_mode_id")
     def payment_mode_id_change(self):
@@ -429,7 +429,7 @@ class AccountPaymentOrder(models.Model):
             (
                 payment.payment_line_ids.move_line_id
                 + payment.move_id.line_ids.filtered(
-                    lambda x: x.account_id == payment.destination_account_id
+                    lambda x, p=payment: x.account_id == p.destination_account_id
                 )
             ).reconcile()
         self.write(
