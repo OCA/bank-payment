@@ -21,29 +21,21 @@
                     type="object"
                     string="Add to Debit Order"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', '|',
-                                              ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'posted'),
-                                              ('move_type', 'not in', ('out_invoice', 'out_refund'))
-                                             ]}"
+                    invisible="not payment_order_ok or state != 'posted' or move_type not in ('out_invoice', 'out_refund')"
                 />
                 <button
                     name="create_account_payment_line"
                     type="object"
                     string="Add to Payment Order"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', '|',
-                                              ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'posted'),
-                                              ('move_type', 'not in', ('in_invoice', 'in_refund'))
-                                             ]}"
+                    invisible="not payment_order_ok or state != 'posted' or move_type not in ('in_invoice', 'in_refund')"
                 />
             </button>
             <div name="button_box" position="inside">
                 <button
                     name="action_payment_lines"
                     type="object"
-                    attrs="{'invisible': [('payment_line_count', '=', 0)]}"
+                    invisible="not payment_line_count"
                     icon="fa-bars"
                     help="Payment Order Lines"
                     groups="account_payment_order.group_account_payment"
@@ -61,9 +53,9 @@
             <field name="payment_reference" position="before">
                 <field
                     name="reference_type"
-                    attrs="{'readonly':[('state','!=','draft')],
-                            'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))],
-                            'required': [('move_type', 'in', ('out_invoice', 'out_refund'))]}"
+                    readonly="state != 'draft'"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
+                    required="move_type in ('out_invoice', 'out_refund')"
                 />
             </field>
         </field>
