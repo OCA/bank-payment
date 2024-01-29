@@ -4,7 +4,8 @@
 
 from odoo import api, fields, models
 
-OCA_PAYMENT_METHOD_CODES=['sepa_credit_transfer','sepa_direct_debit']
+OCA_PAYMENT_METHOD_CODES = ["sepa_credit_transfer", "sepa_direct_debit"]
+
 
 class AccountPayment(models.Model):
     _inherit = "account.payment"
@@ -35,15 +36,27 @@ class AccountPayment(models.Model):
                 )
         return res
 
-    @api.depends('partner_id', 'company_id', 'payment_type', 'destination_journal_id', 'is_internal_transfer')
+    @api.depends(
+        "partner_id",
+        "company_id",
+        "payment_type",
+        "destination_journal_id",
+        "is_internal_transfer",
+    )
     def _compute_available_partner_bank_ids(self):
-        original_payment_ids = self.filtered(lambda pay: pay.payment_method_code not in OCA_PAYMENT_METHOD_CODES )
-        super(AccountPayment, original_payment_ids)._compute_available_partner_bank_ids()
+        original_payment_ids = self.filtered(
+            lambda pay: pay.payment_method_code not in OCA_PAYMENT_METHOD_CODES
+        )
+        super(
+            AccountPayment, original_payment_ids
+        )._compute_available_partner_bank_ids()
         oca_payment_ids = self - original_payment_ids
         for pay in oca_payment_ids:
-            if pay.payment_method_code == 'sepa_direct_debit':
-                pay.available_partner_bank_ids = pay.partner_id.bank_ids\
-                        .filtered(lambda x: x.company_id.id in (False, pay.company_id.id))._origin
-            if pay.payment_method_code == 'sepa_credit_transfer':
-                pay.available_partner_bank_ids = pay.partner_id.bank_ids\
-                        .filtered(lambda x: x.company_id.id in (False, pay.company_id.id))._origin
+            if pay.payment_method_code == "sepa_direct_debit":
+                pay.available_partner_bank_ids = pay.partner_id.bank_ids.filtered(
+                    lambda x: x.company_id.id in (False, pay.company_id.id)
+                )._origin
+            if pay.payment_method_code == "sepa_credit_transfer":
+                pay.available_partner_bank_ids = pay.partner_id.bank_ids.filtered(
+                    lambda x: x.company_id.id in (False, pay.company_id.id)
+                )._origin
