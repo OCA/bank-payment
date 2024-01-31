@@ -26,6 +26,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
+                "bank_ids": [(0, 0, {"acc_number": "XX15001559627230"})],
             }
         )
         cls.inbound_mode = cls.env["account.payment.mode"].create(
@@ -208,3 +209,25 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
             payment_move.line_ids.mapped("date_maturity"),
             [date(2024, 6, 1), date(2024, 6, 1)],
         )
+
+    def test_payment_partner_bank_value(self):
+        payment_order = self.inbound_order
+        self.assertEqual(len(payment_order.ids), 1)
+        payment_order.write({"journal_id": self.journal.id})
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+        self.assertFalse(payment_order.payment_ids)
+        # Open payment order
+        payment_order.draft2open()
+        self.assertEqual(len(payment_order.payment_ids), 1)
+        payment = payment_order.payment_ids[0]
+        self.assertEqual(len(payment.payment_line_ids), 1)
+        payment_line = payment.payment_line_ids[0]
+        self.assertEqual(payment.partner_bank_id, payment_line.partner_bank_id)
+        # Force payment's available banks compute to check parner_bank_id
+        # fields value doesn't change
+        self.assertEqual(payment.state, "draft")
+        with Form(payment) as payment_form:
+            payment_form.is_internal_transfer = True
+            payment_form.is_internal_transfer = False
+        payment_form.save()
+        self.assertEqual(payment.partner_bank_id, payment_line.partner_bank_id)

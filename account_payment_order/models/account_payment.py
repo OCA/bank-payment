@@ -2,6 +2,7 @@
 # Copyright 2022 Tecnativa - Pedro M. Baeza
 # Copyright 2023 Noviat
 # Copyright 2024 Tecnativa - Víctor Martínez
+# Copyright 2024 FactorLibre - Aritz Olea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -87,3 +88,14 @@ class AccountPayment(models.Model):
         for vals in vals_list:
             vals["date_maturity"] = self.payment_line_ids[0].date
         return vals_list
+
+    def _compute_available_partner_bank_ids(self):
+        """Overrides available_partner_bank_ids compute method for payments which
+        belong to a payment order. Without this override, in case compute method is
+        triggered, these payments' bank value is replaced by an incorrect value."""
+        order_pays = self.filtered(lambda p: p.payment_order_id and p.payment_line_ids)
+        for pay in order_pays:
+            pay.available_partner_bank_ids = pay.payment_line_ids[0].partner_bank_id
+        return super(
+            AccountPayment, self - order_pays
+        )._compute_available_partner_bank_ids()

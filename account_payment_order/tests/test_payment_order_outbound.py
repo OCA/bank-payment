@@ -566,3 +566,31 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(invoice_action["res_id"], self.invoice.id)
         manual_line_action = order.payment_line_ids[1].action_open_business_doc()
         self.assertFalse(manual_line_action)
+
+    def test_payment_partner_bank_value(self):
+        # Open invoice
+        self.invoice.action_post()
+        # Add to payment order using the wizard
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order.ids), 1)
+        payment_order.write({"journal_id": self.bank_journal.id})
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+        self.assertFalse(payment_order.payment_ids)
+        # Open payment order
+        payment_order.draft2open()
+        self.assertEqual(len(payment_order.payment_ids), 1)
+        payment = payment_order.payment_ids[0]
+        self.assertEqual(len(payment.payment_line_ids), 1)
+        payment_line = payment.payment_line_ids[0]
+        self.assertEqual(payment.partner_bank_id, payment_line.partner_bank_id)
+        # Force payment's available banks compute to check parner_bank_id
+        # fields value doesn't change
+        self.assertEqual(payment.state, "draft")
+        with Form(payment) as payment_form:
+            payment_form.is_internal_transfer = True
+            payment_form.is_internal_transfer = False
+        payment_form.save()
+        self.assertEqual(payment.partner_bank_id, payment_line.partner_bank_id)
