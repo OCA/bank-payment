@@ -1,15 +1,16 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_banking_nl_multibank
+# 	* account_banking_nl_multibank
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-01-08 14:52:29+0000\n"
+"POT-Creation-Date: 2010-01-08 15:50:45+0000\n"
 "PO-Revision-Date: 2010-01-08 14:52:29+0000\n"
 "Last-Translator: <p.j.kersten@edusense.nl>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -18,17 +19,18 @@ msgstr ""
 #. module: account_banking_nl_multibank
 #: code:addons/account_banking_nl_multibank/multibank.py:0
 #, python-format
-msgid "''\\n"
-"The Dutch Banking Tools format is basicly a MS Excel CSV format.\n"
+msgid ""
+"''\\nThe Dutch Banking Tools format is basicly a MS Excel CSV format.\n"
 "There are two sub formats: MS Excel format and MS-Excel 2004 format.\n"
 "Both formats are covered with this parser. All transactions are tied\n"
 "to Bank Statements.\n"
 "''"
-msgstr "''\\n"
-"Het Nederlands MultiBank-formaat is in essentie een MS-Excel CSV-bestand.\n"
+msgstr ""
+"''\\nHet Nederlands MultiBank-formaat is in essentie een MS-Excel CSV-"
+"bestand.\n"
 "Er zijn twee varianten: MS-Excel en MS-Excel 2004. Beide formaten worden\n"
-"door deze parser herkend. Alle transacties zijn gebonden aan bankafschriften.\n"
-""
+"door deze parser herkend. Alle transacties zijn gebonden aan "
+"bankafschriften.\n"
 
 #. module: account_banking_nl_multibank
 #: model:ir.module.module,shortdesc:account_banking_nl_multibank.module_meta_information
@@ -37,15 +39,20 @@ msgstr "Account Banking"
 
 #. module: account_banking_nl_multibank
 #: model:ir.module.module,description:account_banking_nl_multibank.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "    Module to import Dutch Multibank format transation files.\n"
 "\n"
-"    This modules contains no logic, just an import filter for account_banking.\n"
+"    This modules contains no logic, just an import filter for "
+"account_banking.\n"
 "    "
-msgstr "\n"
-"    Module voor het importeren van Nederlandse MultiBank-formaat transatiebestanden.\n"
+msgstr ""
 "\n"
-"    Deze module bevat geen logica, maar slechts het importfilter voor account_banking.\n"
+"    Module voor het importeren van Nederlandse MultiBank-formaat "
+"transatiebestanden.\n"
+"\n"
+"    Deze module bevat geen logica, maar slechts het importfilter voor "
+"account_banking.\n"
 "    "
 
 #. module: account_banking_nl_multibank
@@ -53,4 +60,3 @@ msgstr "\n"
 #, python-format
 msgid "Dutch Banking Tools"
 msgstr "Nederlands MultiBank-formaat"
-
