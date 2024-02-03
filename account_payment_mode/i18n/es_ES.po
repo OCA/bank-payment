@@ -149,11 +149,6 @@ msgid "Journal"
 msgstr ""
 
 #. module: account_payment_mode
-#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
