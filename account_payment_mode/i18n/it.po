@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2023-07-12 15:09+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2024-02-04 20:36+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -84,12 +84,12 @@ msgstr "Addebito Diretto dei clienti"
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
 msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr ""
+msgstr "Addebito diretto del fornitore dalla Banca Postale"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
 msgid "Direct Debit of suppliers from Société Générale"
-msgstr ""
+msgstr "Addebito diretto del fornitore da Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
@@ -117,6 +117,14 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
+"Per le modalità di pagamento che sono sempre collegate allo stesso conto "
+"bancario della tua azienda (come bonifico bancario dai clienti o addebito "
+"diretto SEPA dai fornitori), seleziona \"Fisso\". Per le modalità di "
+"pagamento che non sono sempre collegate allo stesso conto bancario (ad "
+"esempio addebito diretto SEPA per clienti, bonifico a fornitori), è "
+"necessario selezionare \"Variabile\", il che significa che si selezionerà il "
+"conto bancario nell'ordine di pagamento. Se la tua azienda ha un solo conto "
+"bancario, dovresti sempre selezionare \"Fisso\"."
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -133,22 +141,22 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
-msgstr ""
+msgstr "In entrata"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
 msgid "Inbound Credit Trf La Banque Postale"
-msgstr ""
+msgstr "Credito Trf La Banque Postale in entrata"
 
 #. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
 msgid "Inbound Credit Trf Société Générale"
-msgstr ""
+msgstr "Credito Trf Société Générale in entrata"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Registro"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -163,7 +171,7 @@ msgstr "Ultimo aggiornamento il"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
 msgid "Link to Bank Account"
-msgstr ""
+msgstr "Collega a conto bancario"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
@@ -189,6 +197,8 @@ msgid ""
 "On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
 "bank journal is not set"
 msgstr ""
+"Nel metodo di pagamento %(name)s, il conto bancario collegato è 'Fisso' ma "
+"il registro banca fissa non è impostato"
 
 #. module: account_payment_mode
 #. odoo-python
@@ -199,6 +209,9 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
+"Nel modo di pagamento %(paymode)s, il metodo di pagamento è %(paymethod)s (è "
+"infatti un metodo di debito), ma questo metodo di debito non è parte dei "
+"metodi di debito del registro banca fisso %(journal)s"
 
 #. module: account_payment_mode
 #. odoo-python
@@ -209,6 +222,9 @@ msgid ""
 "this payment method is not part of the payment methods of the fixed bank "
 "journal %(journal)s"
 msgstr ""
+"Nel modo di pagamento %(paymode)s, il metodo di pagamento è %(paymethod)s, "
+"ma questo metodo di debito non è parte dei metodi di pagamento del registro "
+"banca fisso %(journal)s"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -266,7 +282,7 @@ msgstr "Cerca modi di pagamento"
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequenza"
 
 #. module: account_payment_mode
 #. odoo-python
@@ -277,6 +293,8 @@ msgid ""
 "the payment mode  %(paymode)s where it is being used in the Allowed Bank "
 "Journals."
 msgstr ""
+"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di "
+"pagamento %(paymode)s dove è usato nei registri banche consentite."
 
 #. module: account_payment_mode
 #. odoo-python
@@ -286,6 +304,8 @@ msgid ""
 "The company of the journal %(journal)s does not match with the company of "
 "the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
+"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di "
+"pagamento %(paymode)s dove è usato come registro banca fissa."
 
 #. module: account_payment_mode
 #. odoo-python
@@ -295,6 +315,8 @@ msgid ""
 "The company of the payment mode %(paymode)s, does not match with one of the "
 "Allowed Bank Journals."
 msgstr ""
+"L'azienda del modo di pagamento %(paymode)s, non corrisponde con uno dei "
+"registri banche consentite."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
@@ -304,11 +326,14 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
+"Questo codice è utilizzato nel modulo Odoo che gestisce questo metodo di "
+"pagamento. Pertanto, se viene modificato, la generazione del file pagamento "
+"può fallire."
 
 #. module: account_payment_mode
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
-msgstr ""
+msgstr "Variabile"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modifica il"
