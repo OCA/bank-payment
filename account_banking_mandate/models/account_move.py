@@ -22,9 +22,10 @@ class AccountMove(models.Model):
         related="payment_mode_id.payment_method_id.mandate_required", readonly=True
     )
 
-    @api.depends("payment_mode_id", "partner_id")
+    @api.depends("company_id", "payment_mode_id", "partner_id")
     def _compute_mandate_id(self):
         for move in self:
+            move = move.with_company(move.company_id)
             if move.payment_mode_id.payment_method_id.mandate_required:
                 move.mandate_id = move.partner_id.valid_mandate_id
             else:
