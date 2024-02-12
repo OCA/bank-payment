@@ -60,7 +60,9 @@ class AccountMoveLine(models.Model):
 
     def _prepare_payment_line_vals(self, payment_order):
         self.ensure_one()
-        communication_type, communication = self._get_communication()
+        communication_type, communication = self.with_context(
+            default_payment_order_id=payment_order.ids
+        )._get_communication()
         if self.currency_id:
             currency_id = self.currency_id.id
             amount_currency = self.amount_residual_currency

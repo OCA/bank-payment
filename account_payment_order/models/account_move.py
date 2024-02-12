@@ -55,6 +55,16 @@ class AccountMove(models.Model):
                 communication = self.payment_reference or self.ref
             else:
                 communication = self.payment_reference or self.name
+            default_payment_type = self._context.get("default_payment_type", False)
+            default_payment_order_id = self._context.get("default_payment_order_id", [])
+            if not default_payment_type and default_payment_order_id:
+                default_payment_type = (
+                    self.env["account.payment.order"]
+                    .browse(default_payment_order_id)
+                    .payment_type
+                )
+            if default_payment_type == "inbound":
+                communication = self.name
         return communication or ""
 
     def _get_payment_order_communication_full(self):
