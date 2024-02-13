@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-02-04 20:37+0000\n"
+"PO-Revision-Date: 2024-02-13 11:39+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -110,7 +110,7 @@ msgid ""
 "account number of your customer or supplier."
 msgstr ""
 "Attivare questa opzione se questo metodo di pagamento richiede di conoscere "
-"il numero di conto bancario del tuo cliente o fornitore."
+"il numero di conto bancario del cliente o del fornitore."
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -194,7 +194,7 @@ msgstr "Conto bancario"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_bank_account_required
 msgid "Bank Account Required"
-msgstr "Conto Bancario Richiesto"
+msgstr "Conto bancario necessario"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_journal_id
@@ -945,7 +945,7 @@ msgstr "Modalità di Pagamento sulla Fattura"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_mode
 msgid "Payment Modes"
-msgstr "Modalità di Pagamento"
+msgstr "Modi di pagamento"
 
 #. module: account_payment_order
 #: model:ir.actions.report.xml,name:account_payment_order.action_print_payment_order
