@@ -376,17 +376,13 @@ class AccountPaymentOrder(models.Model):
         return True
 
     def generate_payment_file(self):
-        """Returns (payment file as string, filename)"""
+        """Returns (payment file as string, filename).
+
+        By default, any method not specifically intercepted by extra modules will do
+        nothing, including the existing manual one.
+        """
         self.ensure_one()
-        if self.payment_method_id.code == "manual":
-            return (False, False)
-        else:
-            raise UserError(
-                _(
-                    "No handler for this payment method. Maybe you haven't "
-                    "installed the related Odoo module."
-                )
-            )
+        return (False, False)
 
     def open2generated(self):
         self.ensure_one()
