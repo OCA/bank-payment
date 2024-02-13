@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-08 15:11+0000\n"
+"PO-Revision-Date: 2024-02-13 09:35+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -42,8 +42,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Attiva quest'opzione se questo metodo di pagamento richiede di conoscere il "
-"numero di conto bancario del tuo cliente o fornitore."
+"Attivare questa opzione se questo metodo di pagamento richiede di conoscere "
+"il numero di conto bancario del cliente o del fornitore."
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice__partner_bank_id
@@ -80,7 +80,7 @@ msgstr "Contatto"
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
-msgstr "Modalità pagamento cliente"
+msgstr "Modo di pagamento cliente"
 
 #. module: account_payment_partner
 #: selection:account.payment.mode,show_bank_account:0
@@ -166,7 +166,7 @@ msgstr "Mostra il numero di conto interamente o parzialmente nelle fatture"
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
-msgstr "Modalità pagamento fornitore"
+msgstr "Modo di pagamento fornitore"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_invoice.py:118
@@ -194,5 +194,5 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
-"Non puoi cambiare l'Azienda. Esiste almeno un movimento contabile con questo "
-"modo di pagamento che è già assegnata ad un'altra azienda."
+"Non si può cambiare l'azienda. Esiste almeno un movimento contabile con "
+"questo modo di pagamento, che è già assegnata ad un'altra azienda."
