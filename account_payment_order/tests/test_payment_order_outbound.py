@@ -21,6 +21,15 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
+                "bank_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "acc_number": "TEST-NUMBER",
+                        },
+                    )
+                ],
             }
         )
         cls.invoice_line_account = cls.env["account.account"].create(
@@ -201,6 +210,11 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         line_created_due.populate()
         line_created_due.create_payment_lines()
         self.assertGreater(len(order.payment_line_ids), 0)
+        self.assertFalse(order.partner_banks_archive_msg)
+        order.payment_line_ids.partner_bank_id.action_archive()
+        self.assertTrue(order.partner_banks_archive_msg)
+        order.payment_line_ids.partner_bank_id.action_unarchive()
+        self.assertFalse(order.partner_banks_archive_msg)
         order.draft2open()
         order.open2generated()
         order.generated2uploaded()
