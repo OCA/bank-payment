@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-24 19:43+0000\n"
+"PO-Revision-Date: 2024-02-16 15:48+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -422,7 +422,7 @@ msgstr "Housing Loan Repayment"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hstx
 msgid "Housing Tax"
-msgstr "Tassa sulla casa"
+msgstr "Imposta sulla casa"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__communication_type__iso
