@@ -761,15 +761,6 @@ msgstr ""
 
 #. module: account_payment_order
 #. odoo-python
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid ""
-"No handler for this payment method. Maybe you haven't installed the related "
-"Odoo module."
-msgstr ""
-
-#. module: account_payment_order
-#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "No pending AR/AP lines to add on %s"

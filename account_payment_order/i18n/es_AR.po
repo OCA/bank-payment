@@ -783,17 +783,6 @@ msgstr "No hay modo de pago en la factura %s"
 
 #. module: account_payment_order
 #. odoo-python
-#: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
-msgid ""
-"No handler for this payment method. Maybe you haven't installed the related "
-"Odoo module."
-msgstr ""
-"Sin manejador para este método de pago. Tal vez no ha instalado el módulo de "
-"Odoo relacionado."
-
-#. module: account_payment_order
-#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "No pending AR/AP lines to add on %s"
@@ -1289,6 +1278,14 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#, python-format
+#~ msgid ""
+#~ "No handler for this payment method. Maybe you haven't installed the "
+#~ "related Odoo module."
+#~ msgstr ""
+#~ "Sin manejador para este método de pago. Tal vez no ha instalado el módulo "
+#~ "de Odoo relacionado."
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Error de entrega de SMS"
