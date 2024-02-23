@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-02-22 10:38+0000\n"
+"PO-Revision-Date: 2024-02-23 14:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -923,7 +923,7 @@ msgstr "Documento di Pagamento"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Payment Lines"
-msgstr "Righe Pagamento"
+msgstr "Righe di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_payment_method_id
@@ -955,7 +955,7 @@ msgstr "Modi di pagamento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_order_id
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Payment Order"
-msgstr "Ordine di Pagamento"
+msgstr "Ordine di pagamento"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -969,7 +969,7 @@ msgstr "Ordine di Pagamento / Ordine"
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Orders"
-msgstr "Ordini di Pagamento"
+msgstr "Ordini di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_name
@@ -992,14 +992,14 @@ msgstr "Dettaglio Pagamento %s"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
 msgid "Payment lines"
-msgstr "Righe Pagamento"
+msgstr "Righe di pagamento"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:375
 #: code:addons/account_payment_order/models/account_payment_order.py:398
 #, python-format
 msgid "Payment order %s"
-msgstr "Ordine di Pagamento %s"
+msgstr "Ordine di pagamento %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_order_ok
