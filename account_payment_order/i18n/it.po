@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2024-02-22 10:37+0000\n"
+"PO-Revision-Date: 2024-02-23 14:40+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -938,7 +938,7 @@ msgstr "Riga di pagamento"
 #: model:ir.model,name:account_payment_order.model_account_payment_line
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 msgid "Payment Lines"
-msgstr "Righe di Pagamento"
+msgstr "Righe di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_method_id
@@ -978,7 +978,7 @@ msgstr "Modi di pagamento"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order"
-msgstr "Ordine di Pagamento"
+msgstr "Ordine di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok
@@ -993,7 +993,7 @@ msgstr "Ordine di Pagamento OK"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 msgid "Payment Orders"
-msgstr "Ordini di Pagamento"
+msgstr "Ordini di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__name
@@ -1016,7 +1016,7 @@ msgstr "Tipo pagamento"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__payment_line_ids
 msgid "Payment lines"
-msgstr "Righe di Pagamento"
+msgstr "Righe di pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_ids
