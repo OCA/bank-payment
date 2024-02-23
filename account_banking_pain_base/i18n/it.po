@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-24 00:27+0000\n"
-"PO-Revision-Date: 2023-05-25 14:08+0000\n"
+"PO-Revision-Date: 2024-02-23 14:35+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -125,7 +125,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_line
 msgid "Payment Line"
-msgstr "Linea ordine pagamento"
+msgstr "Riga di pagamento"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_payment_mode
