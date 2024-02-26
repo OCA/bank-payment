@@ -54,11 +54,17 @@ class AccountPaymentMode(models.Model):
         string="Allowed Bank Journals",
         domain="[('company_id', '=', company_id), ('type', 'in', ('bank', 'cash'))]",
     )
-    payment_method_id = fields.Many2one(
-        "account.payment.method",
+    available_payment_method_line_ids = fields.Many2many(
+        comodel_name="account.payment.method.line",
+        compute="_compute_payment_method_line_fields",
+    )
+    payment_method_line_id = fields.Many2one(
+        comodel_name="account.payment.method.line",
         string="Payment Method",
-        required=True,
-        ondelete="restrict",
+        domain="[('id', 'in', available_payment_method_line_ids)]",
+    )
+    payment_method_id = fields.Many2one(
+        related="payment_method_line_id.payment_method_id", string="Method", store=True
     )
     payment_type = fields.Selection(
         related="payment_method_id.payment_type", readonly=True, store=True
@@ -69,6 +75,13 @@ class AccountPaymentMode(models.Model):
     active = fields.Boolean(default=True)
     note = fields.Text(translate=True)
     sequence = fields.Integer(default=10)
+
+    @api.depends("fixed_journal_id")
+    def _compute_payment_method_line_fields(self):
+        for mode in self:
+            mode.available_payment_method_line_ids = (
+                mode.fixed_journal_id._get_available_payment_method_lines("inbound")
+            )
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
