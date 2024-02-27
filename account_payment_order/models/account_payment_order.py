@@ -28,6 +28,9 @@ class AccountPaymentOrder(models.Model):
         states={"draft": [("readonly", False)]},
         check_company=True,
     )
+    partner_banks_archive_msg = fields.Html(
+        compute="_compute_partner_banks_archive_msg",
+    )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
         string="Payment Type",
@@ -154,6 +157,26 @@ class AccountPaymentOrder(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+
+    @api.depends(
+        "payment_line_ids.partner_bank_id", "payment_line_ids.partner_bank_id.active"
+    )
+    def _compute_partner_banks_archive_msg(self):
+        """Information message to show archived bank accounts and to be able
+        to act on them before confirmation."""
+        for item in self:
+            msg_lines = []
+            for line in item.payment_line_ids.filtered(
+                lambda x: x.partner_bank_id and not x.partner_bank_id.active
+            ):
+                msg_line = _("<b>Account Number</b>: %s - <b>Partner</b>: %s") % (
+                    line.partner_bank_id.acc_number,
+                    line.partner_bank_id.partner_id.display_name,
+                )
+                msg_lines.append(msg_line)
+            item.partner_banks_archive_msg = (
+                "<br/>".join(msg_lines) if len(msg_lines) > 0 else False
+            )
 
     @api.depends("payment_mode_id")
     def _compute_allowed_journal_ids(self):
