@@ -163,15 +163,15 @@ class AccountPaymentOrder(models.Model):
     )
     def _compute_partner_banks_archive_msg(self):
         """Information message to show archived bank accounts and to be able
-        to act on them before confirmation."""
+        to act on them before confirmation (avoid duplicates)."""
         for item in self:
             msg_lines = []
-            for line in item.payment_line_ids.filtered(
+            for partner_bank in item.payment_line_ids.filtered(
                 lambda x: x.partner_bank_id and not x.partner_bank_id.active
-            ):
+            ).mapped("partner_bank_id"):
                 msg_line = _("<b>Account Number</b>: %s - <b>Partner</b>: %s") % (
-                    line.partner_bank_id.acc_number,
-                    line.partner_bank_id.partner_id.display_name,
+                    partner_bank.acc_number,
+                    partner_bank.partner_id.display_name,
                 )
                 msg_lines.append(msg_line)
             item.partner_banks_archive_msg = (
