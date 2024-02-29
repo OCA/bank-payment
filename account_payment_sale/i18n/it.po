@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-04 20:36+0000\n"
+"PO-Revision-Date: 2024-02-29 15:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: account_payment_sale
 #: model_terms:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
 msgid "<strong>Payment Mode:</strong>"
-msgstr "<strong>Modo di Pagamento:</strong>"
+msgstr "<strong>Modo di pagamento:</strong>"
 
 #. module: account_payment_sale
 #: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
