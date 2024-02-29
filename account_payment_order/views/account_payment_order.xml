@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="name">account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <form string="Payment Order">
+                <header>
+                    <button
+                        name="%(account_payment_line_create_action)d"
+                        type="action"
+                        string="Create Payment Lines from Journal Items"
+                        invisible="state != 'draft'"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="draft2open"
+                        type="object"
+                        invisible="state != 'draft'"
+                        string="Confirm Payments"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="open2generated"
+                        type="object"
+                        invisible="state != 'open'"
+                        string="Generate Payment File"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="generated2uploaded"
+                        type="object"
+                        invisible="state != 'generated'"
+                        string="File Successfully Uploaded"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="cancel2draft"
+                        type="object"
+                        invisible="state != 'cancel'"
+                        string="Back to Draft"
+                    />
+                    <button
+                        name="action_cancel"
+                        type="object"
+                        invisible="state not in ['draft', 'open', 'generated']"
+                        string="Cancel Payments"
+                    />
+                    <button
+                        name="action_uploaded_cancel"
+                        type="object"
+                        invisible="state != 'uploaded'"
+                        string="Cancel Payments"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,open,generated,uploaded"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            class="oe_stat_button"
+                            name="action_move_journal_line"
+                            type="object"
+                            icon="fa-bars"
+                        >
+                                <field
+                                string="Journal Entries"
+                                name="move_count"
+                                widget="statinfo"
+                            />
+                </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group name="head" col="2">
+                        <group name="head-left">
+                            <field
+                                name="payment_mode_id"
+                                readonly="state != 'draft'"
+                                domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
+                            />
+                            <field name="allowed_journal_ids" invisible="1" />
+                            <field
+                                name="journal_id"
+                                readonly="state != 'draft'"
+                                domain="[('id', 'in', allowed_journal_ids)]"
+                            />
+                            <field name="bank_account_link" invisible="1" />
+                            <field name="company_partner_bank_id" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="payment_type" invisible="0" />
+                            <field
+                                name="payment_count"
+                                invisible="state in ('draft', 'cancel')"
+                            />
+                        </group>
+                        <group name="head-right">
+                            <field name="date_prefered" readonly="state != 'draft'" />
+                            <field
+                                name="date_scheduled"
+                                readonly="state != 'draft'"
+                                invisible="date_prefered != 'fixed'"
+                                required="date_prefered == 'fixed'"
+                            />
+                            <field name="date_generated" />
+                            <field name="generated_user_id" />
+                            <field name="date_uploaded" />
+                            <field name="description" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="payment-lines" string="Transactions">
+                            <field
+                                name="payment_line_ids"
+                                readonly="state != 'draft'"
+                                context="{'default_payment_type': payment_type}"
+                            />
+                        </page>
+                        <page
+                            name="payment-lines"
+                            string="Payment Transactions"
+                            invisible="state in ('draft', 'cancel')"
+                        >
+                            <field
+                                name="payment_ids"
+                                edit="0"
+                                create="0"
+                                context="{'tree_view_ref': 'account_payment_order.view_account_payment_tree_payment_order'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="account_payment_order_tree" model="ir.ui.view">
+        <field name="name">account.payment.order.tree</field>
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" decoration-bf="1" />
+                <field name="payment_mode_id" />
+                <field name="journal_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="date_uploaded" />
+                <field name="description" optional="show" />
+                <field
+                    name="payment_count"
+                    optional="hide"
+                    string="Payment Transactions"
+                />
+                <field name="total_company_currency" sum="Total Company Currency" />
+                <field name="company_currency_id" invisible="1" />
+                <field
+                    name="state"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'uploaded'"
+                    decoration-warning="state == 'open'"
+                    decoration-danger="state == 'generated'"
+                    decoration-muted="state == 'cancel'"
+                    widget="badge"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="account_payment_order_search" model="ir.ui.view">
+        <field name="name">account.payment.order.search</field>
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <search string="Search Payment Orders">
+                <field
+                    name="description"
+                    filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"
+                    string="Name or Description"
+                />
+                <field name="journal_id" />
+                <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    name="open"
+                    string="Confirmed"
+                    domain="[('state', '=', 'open')]"
+                />
+                <filter
+                    name="generated"
+                    string="File Generated"
+                    domain="[('state', '=', 'generated')]"
+                />
+                <filter
+                    name="uploaded"
+                    string="File Uploaded"
+                    domain="[('state', '=', 'uploaded')]"
+                />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="payment_mode_groupby"
+                        string="Payment Mode"
+                        context="{'group_by': 'payment_mode_id'}"
+                    />
+                    <filter
+                        name="journal_groupby"
+                        string="Bank Journal"
+                        context="{'group_by': 'journal_id'}"
+                    />
+                    <filter
+                        name="date_generated_groupby"
+                        string="File Generation Date"
+                        context="{'group_by': 'date_generated'}"
+                    />
+                    <filter
+                        name="date_uploaded_groupby"
+                        string="File Upload Date"
+                        context="{'group_by': 'date_uploaded'}"
+                    />
+                    <filter
+                        name="state_groupby"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="account_payment_order_graph" model="ir.ui.view">
+        <field name="name">account.payment.order.graph</field>
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <graph string="Payment Orders">
+                <field name="date_uploaded" type="row" interval="month" />
+                <field name="total_company_currency" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="account_payment_order_pivot" model="ir.ui.view">
+        <field name="name">account.payment.order.pivot</field>
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Payment Orders">
+                <field name="date_uploaded" type="row" interval="month" />
+                <field name="total_company_currency" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="account_payment_order_outbound_action" model="ir.actions.act_window">
+        <field name="name">Payment Orders</field>
+        <field name="res_model">account.payment.order</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="domain">[('payment_type', '=', 'outbound')]</field>
+        <field name="context">{'default_payment_type': 'outbound'}</field>
+    </record>
+    <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
+        <field name="name">Debit Orders</field>
+        <field name="res_model">account.payment.order</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="domain">[('payment_type', '=', 'inbound')]</field>
+        <field name="context">{'default_payment_type': 'inbound'}</field>
+    </record>
+    <menuitem
+        id="account_payment_order_outbound_menu"
+        action="account_payment_order_outbound_action"
+        parent="account.menu_finance_payables"
+        sequence="21"
+    />
+    <menuitem
+        id="account_payment_order_inbound_menu"
+        action="account_payment_order_inbound_action"
+        parent="account.menu_finance_receivables"
+        sequence="18"
+    />
+</odoo>
