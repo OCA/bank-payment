@@ -541,6 +541,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -638,14 +639,6 @@ msgid "Label of the payment that will be seen by the destinee"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create____last_update
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order____last_update
-msgid "Last Modified on"
-msgstr "Sist modifisert den"
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__write_uid
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__write_uid
@@ -671,12 +664,6 @@ msgstr "Lenke til bankkonto"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__default_invoice
 msgid "Linked to an Invoice or Refund"
 msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_main_attachment_id
-#, fuzzy
-msgid "Main Attachment"
-msgstr "Vedlegg"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error
@@ -1025,6 +1012,11 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__same
 msgid "Same"
@@ -1269,6 +1261,13 @@ msgstr "på"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "Sist modifisert den"
+
+#, fuzzy
+#~ msgid "Main Attachment"
+#~ msgstr "Vedlegg"
 
 #~ msgid "Order"
 #~ msgstr "Ordre"
