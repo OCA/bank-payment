@@ -58,6 +58,16 @@
                         statusbar_visible="draft,open,generated,uploaded"
                     />
                 </header>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('partner_banks_archive_msg', '=', False)]}"
+                >
+                    The following bank accounts are archived: <field
+                        name="partner_banks_archive_msg"
+                        readonly="1"
+                    />
+                </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
