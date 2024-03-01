@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-29 15:35+0000\n"
+"PO-Revision-Date: 2024-03-01 10:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -538,7 +538,7 @@ msgstr "Pagamento irrevocabile Carta di Debito"
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__communication
 msgid "Label of the payment that will be seen by the destinee"
-msgstr "Descrizione del pagamento che verrà letto dal destinatario"
+msgstr "Etichetta del pagamento che sarà vista dal destinatario"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__lbri
