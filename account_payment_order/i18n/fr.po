@@ -45,6 +45,13 @@ msgstr ""
 "%(order_id)d>%(name)s</a>, qui a été automatiquement créé."
 
 #. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_payment_order.py:0
+#, python-format
+msgid "<b>Account Number</b>: %(number)s - <b>Partner</b>: %(name)s"
+msgstr ""
+
+#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Company Currency:</strong>"
 msgstr "<strong>Total dans la devise de la société :</strong>"
@@ -881,6 +888,11 @@ msgid "Partner Bank Account"
 msgstr "Compte bancaire partenaire"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__partner_banks_archive_msg
+msgid "Partner Banks Archive Msg"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__partner_ids
 msgid "Partners"
 msgstr "Partenaires"
@@ -1139,6 +1151,11 @@ msgid ""
 msgstr ""
 "Le montant pour le partenaire '%(partner)s' est négatif ou nul "
 "(%(amount).2f) !"
+
+#. module: account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+msgid "The following bank accounts are archived:"
+msgstr ""
 
 #. module: account_payment_order
 #. odoo-python

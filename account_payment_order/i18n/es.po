@@ -44,10 +44,11 @@ msgstr ""
 "sido creada automáticamente."
 
 #. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "<b>Account Number</b>: %s - <b>Partner</b>: %s"
-msgstr "<b>Número de cuenta</b>: %s - <b>Empresa</b>: %s"
+msgid "<b>Account Number</b>: %(number)s - <b>Partner</b>: %(name)s"
+msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -1151,6 +1152,11 @@ msgstr ""
 "¡La cantidad para el partner '%(partner)s' es negativa o nula (%(amount).2f)!"
 
 #. module: account_payment_order
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
+msgid "The following bank accounts are archived:"
+msgstr "Las siguientes cuentas bancarias están archivadas:"
+
+#. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
@@ -1160,11 +1166,7 @@ msgstr ""
 "La factura %(move)s ya está agregada en la(s) orden(es) de pago %(order)s."
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
-msgid "The following bank accounts are archived:"
-msgstr "Las siguientes cuentas bancarias están archivadas:"
-
-#. module: account_payment_order
+#. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "The invoice %s is not in Posted state"
@@ -1321,6 +1323,10 @@ msgstr "el"
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "En caso contrario, se crearán nuevas órdenes (una por cada modo de pago)."
+
+#, python-format
+#~ msgid "<b>Account Number</b>: %s - <b>Partner</b>: %s"
+#~ msgstr "<b>Número de cuenta</b>: %s - <b>Empresa</b>: %s"
 
 #, python-format
 #~ msgid ""
