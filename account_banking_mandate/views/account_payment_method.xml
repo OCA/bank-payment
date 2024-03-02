@@ -9,10 +9,7 @@
         />
         <field name="arch" type="xml">
             <field name="bank_account_required" position="after">
-                <field
-                    name="mandate_required"
-                    attrs="{'invisible': [('payment_type', '!=', 'inbound')]}"
-                />
+                <field name="mandate_required" invisible="payment_type != 'inbound'" />
             </field>
         </field>
     </record>

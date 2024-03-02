@@ -17,7 +17,8 @@
                 <field
                     name="mandate_id"
                     domain="[('partner_bank_id', '=', partner_bank_id), ('state', '=', 'valid')]"
-                    attrs="{'invisible': [('payment_type', '!=', 'inbound')], 'required': [('mandate_required', '=', True)]}"
+                    required="mandate_required"
+                    invisible="payment_type != 'inbound'"
                     context="{'default_partner_bank_id': partner_bank_id}"
                 />
             </field>
