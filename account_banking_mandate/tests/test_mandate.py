@@ -9,18 +9,19 @@ from odoo.tests.common import TransactionCase
 
 
 class TestMandate(TransactionCase):
-    def setUp(self):
-        super(TestMandate, self).setUp()
-        self.company = self.env.company
-        self.company_2 = self.env["res.company"].create({"name": "company 2"})
-        self.company_2.partner_id.company_id = self.company_2.id
-        self.bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
-        self.bank_account.partner_id.company_id = self.company.id
-        self.mandate = self.env["account.banking.mandate"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.company
+        cls.company_2 = cls.env["res.company"].create({"name": "company 2"})
+        cls.company_2.partner_id.company_id = cls.company_2.id
+        cls.bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
+        cls.bank_account.partner_id.company_id = cls.company.id
+        cls.mandate = cls.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": self.bank_account.id,
+                "partner_bank_id": cls.bank_account.id,
                 "signature_date": "2015-01-01",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
 
