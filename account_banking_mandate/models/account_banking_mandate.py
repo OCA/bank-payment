@@ -101,7 +101,7 @@ class AccountBankingMandate(models.Model):
             name = mandate.unique_mandate_reference
             acc_number = mandate.partner_bank_id.acc_number
             if acc_number:
-                name = "{} [...{}]".format(name, acc_number[-4:])
+                name = f"{name} [...{acc_number[-4:]}]"
             result.append((mandate.id, name))
         return result
 

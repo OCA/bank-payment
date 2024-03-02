@@ -117,7 +117,6 @@ class TestInvoiceMandate(TransactionCase):
         self.assertEqual(invoice.mandate_id, mandate_2)
 
     def test_onchange_payment_mode(self):
-
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
