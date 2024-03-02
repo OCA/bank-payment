@@ -14,7 +14,6 @@ class AccountMove(models.Model):
         ondelete="restrict",
         readonly=False,
         check_company=True,
-        states={"draft": [("readonly", False)]},
         compute="_compute_mandate_id",
         store="True",
     )

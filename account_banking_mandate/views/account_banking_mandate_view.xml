@@ -14,28 +14,25 @@
                         name="validate"
                         type="object"
                         string="Validate"
-                        states="draft"
                         class="btn-primary"
-                        invisible="context.get('mandate_bank_partner_view')"
+                        invisible="context.get('mandate_bank_partner_view') or state != 'draft'"
                         groups="account_payment_order.group_account_payment"
                     />
                     <button
                         name="cancel"
                         type="object"
                         string="Cancel"
-                        states="draft,valid"
                         confirm="Are you sure you want to cancel this mandate?"
-                        invisible="context.get('mandate_bank_partner_view')"
+                        invisible="context.get('mandate_bank_partner_view') or state not in ('draft', 'valid')"
                         groups="account_payment_order.group_account_payment"
                     />
                     <button
                         name="back2draft"
                         type="object"
                         string="Back to Draft"
-                        states="cancel"
                         groups="account_payment_order.group_account_payment"
                         confirm="You should set a mandate back to draft only if you cancelled it by mistake. Do you want to continue?"
-                        invisible="context.get('mandate_bank_partner_view')"
+                        invisible="context.get('mandate_bank_partner_view') or state != 'cancel'"
                     />
                     <field
                         name="state"
@@ -50,12 +47,13 @@
                             <field
                                 name="unique_mandate_reference"
                                 class="oe_inline"
-                                attrs="{'readonly': [('id', '!=', False)]}"
+                                readonly="id"
                             />
                         </h1>
                     </div>
                     <group name="main">
                         <field name="company_id" groups="base.group_multi_company" />
+                        <field name="company_id" invisible="1" />
                         <field name="format" string="Format" />
                         <field name="type" string="Type" />
                         <field
@@ -139,7 +137,7 @@
                     icon="fa-check"
                     string="Validate"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'draft')]}"
+                    invisible="not id or state != 'draft'"
                 />
                 <!-- Removed cancel button in tree view. Too dangerous.
                     'confirm' attribute doesn't work in tree view. -->
@@ -149,7 +147,7 @@
                     icon="fa-undo"
                     string="Draft"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', ('id', '=', False), ('state', '!=', 'cancel')]}"
+                    invisible="not id or state != 'cancel'"
                 />
                 <field
                     name="state"
