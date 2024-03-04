@@ -38,8 +38,6 @@ class AccountPaymentOrder(models.Model):
             ("DEBT", "Borne by Debtor"),
         ],
         default="SLEV",
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="Following service level : transaction charges are to be "
         "applied following the rules agreed in the service level "
@@ -52,8 +50,6 @@ class AccountPaymentOrder(models.Model):
         "debtor.",
     )
     batch_booking = fields.Boolean(
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="If true, the bank statement will display only one debit "
         "line for all the wire transfers of the SEPA XML file ; if "
@@ -64,7 +60,7 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def _sepa_iban_prefix_list(self):
         # List of IBAN prefixes (not country codes !)
-        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2023-01/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v4.0_0.pdf  # noqa: B950
+        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2023-01/ EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v4.0_0.pdf  # noqa: E501
         # Some countries use IBAN but are not part of the SEPA zone
         # example: Turkey, Madagascar, Tunisia, etc.
         return [
@@ -230,7 +226,7 @@ class AccountPaymentOrder(models.Model):
         if not isinstance(value, str):
             raise UserError(
                 _(
-                    "The type of the field '%(field)s' is %(value)s. It should be a string "
+                    "The type of the field '%(field)s' is %(value)s. It should be a string "  # noqa: E501
                     "or unicode.",
                     field=field_name,
                     value=type(value),

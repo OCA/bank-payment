@@ -13,3 +13,5 @@
   - Carlos Roca
 - [Sygel](https://www.sygel.es):
   - Manuel Regidor
+- [Trobz](https://www.trobz.com):
+  - Tris Doan \<<tridm@trobz.com>\>

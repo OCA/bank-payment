@@ -11,14 +11,8 @@
             <field name="payment_type" position="after">
                 <field name="pain_version" />
 
-                <field
-                    name="convert_to_ascii"
-                    attrs="{'invisible': [('pain_version', '=', False)]}"
-                />
-                <field
-                    name="warn_not_sepa"
-                    attrs="{'invisible': [('pain_version', '=', False)]}"
-                />
+                <field name="convert_to_ascii" invisible="not pain_version" />
+                <field name="warn_not_sepa" invisible="not pain_version" />
             </field>
         </field>
     </record>
