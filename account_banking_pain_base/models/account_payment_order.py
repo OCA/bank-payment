@@ -38,8 +38,6 @@ class AccountPaymentOrder(models.Model):
             ("DEBT", "Borne by Debtor"),
         ],
         default="SLEV",
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="Following service level : transaction charges are to be "
         "applied following the rules agreed in the service level "
@@ -52,8 +50,6 @@ class AccountPaymentOrder(models.Model):
         "debtor.",
     )
     batch_booking = fields.Boolean(
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="If true, the bank statement will display only one debit "
         "line for all the wire transfers of the SEPA XML file ; if "
