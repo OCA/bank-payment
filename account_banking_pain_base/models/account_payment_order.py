@@ -298,15 +298,22 @@ class AccountPaymentOrder(models.Model):
         countries in which the initiating party is required'''
         return False
 
-    @api.model
-    def generate_initiating_party_block(self, parent_node, gen_args):
-        my_company_name = self._prepare_field(
+    def _get_initiating_party_name(self, gen_args):
+        """
+            Allow to override initiating party name
+        """
+        return self._prepare_field(
             'Company Name',
             'self.company_partner_bank_id.partner_id.name',
             {'self': self}, gen_args.get('name_maxsize'), gen_args=gen_args)
+
+    @api.model
+    def generate_initiating_party_block(self, parent_node, gen_args):
+        initiating_party_name_text = self._get_initiating_party_name(
+            gen_args=gen_args)
         initiating_party = etree.SubElement(parent_node, 'InitgPty')
         initiating_party_name = etree.SubElement(initiating_party, 'Nm')
-        initiating_party_name.text = my_company_name
+        initiating_party_name.text = initiating_party_name_text
         initiating_party_identifier = (
             self.payment_mode_id.initiating_party_identifier or
             self.payment_mode_id.company_id.initiating_party_identifier)
