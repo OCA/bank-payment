@@ -17,3 +17,4 @@
   - Manuel Regidor \<<manuel.regidor@sygel.es>\>
 - [Trobz](https://trobz.com):
   - Dung Tran \<<dungtd@trobz.com>\>
+  - Tris Doan \<<tridm@trobz.com>\>
