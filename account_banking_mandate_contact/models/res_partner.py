@@ -13,9 +13,9 @@ class ResPartner(models.Model):
     )
 
     def _compute_valid_mandate_id(self):
-        procesed_partners = self.browse()
-        for partner in self:
-            if partner.contact_mandate_id.state == "valid":
-                partner.valid_mandate_id = partner.contact_mandate_id
-                procesed_partners |= partner
-        return super(ResPartner, self - procesed_partners)._compute_valid_mandate_id()
+        partners_to_process = self.filtered(
+            lambda x: x.contact_mandate_id.state == "valid"
+        )
+        for partner in partners_to_process:
+            partner.valid_mandate_id = partner.contact_mandate_id
+        return super(ResPartner, self - partners_to_process)._compute_valid_mandate_id()

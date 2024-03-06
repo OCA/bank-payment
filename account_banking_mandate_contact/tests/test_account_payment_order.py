@@ -111,14 +111,13 @@ class TestAccountPaymentOrder(TransactionCase):
             line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice.action_post()
+
         return invoice
 
     def test_invoice_payment_mode(self):
         self.assertEqual(self.invoice.state, "posted")
         self.assertEqual(self.invoice.payment_mode_id, self.payment_core)
-        self.assertEqual(
-            self.invoice.invoice_date_due, fields.Date.from_string("2021-01-01")
-        )
+        self.assertEqual(self.invoice.invoice_date_due, fields.Date.today())
 
     def test_account_payment_order_core(self):
         line_create_form = Form(
@@ -127,7 +126,7 @@ class TestAccountPaymentOrder(TransactionCase):
             )
         )
         line_create_form.date_type = "due"
-        line_create_form.due_date = fields.Date.from_string("2021-01-01")
+        line_create_form.due_date = fields.Date.today()
         line_create = line_create_form.save()
         line_create.populate()
         line_create.create_payment_lines()
@@ -145,7 +144,7 @@ class TestAccountPaymentOrder(TransactionCase):
             )
         )
         line_create_form.date_type = "due"
-        line_create_form.due_date = fields.Date.from_string("2021-01-01")
+        line_create_form.due_date = fields.Date.today()
         line_create = line_create_form.save()
         line_create.populate()
         line_create.create_payment_lines()
@@ -153,4 +152,5 @@ class TestAccountPaymentOrder(TransactionCase):
         payment_line = self.payment_order.payment_line_ids.filtered(
             lambda x: x.partner_id == self.partner
         )
+        self.assertEqual(payment_line.mandate_id, self.mandate_b2b)
         self.assertEqual(payment_line.partner_bank_id, self.partner_bank_b2b)
