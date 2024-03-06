@@ -2,9 +2,11 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.exceptions import UserError, ValidationError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestAccountPaymentMode(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -21,7 +23,7 @@ class TestAccountPaymentMode(TransactionCase):
         cls.company = cls.env.ref("base.main_company")
 
         # Company 2
-        cls.company_2 = cls.env["res.company"].create({"name": "Company 2", "po_lead": 0.0})
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
 
         cls.journal_c1 = cls._create_journal("J1", cls.company)
         cls.journal_c2 = cls._create_journal("J2", cls.company_2)
