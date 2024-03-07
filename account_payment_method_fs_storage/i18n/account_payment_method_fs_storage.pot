@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_method_fs_storage
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model,name:account_payment_method_fs_storage.model_fs_storage
+msgid "FS Storage"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#. odoo-python
+#: code:addons/account_payment_method_fs_storage/models/account_payment_order.py:0
+#, python-format
+msgid "Generate and export"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model,name:account_payment_method_fs_storage.model_account_payment_method
+msgid "Payment Methods"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model,name:account_payment_method_fs_storage.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model.fields,field_description:account_payment_method_fs_storage.field_account_payment_method__storage
+msgid "Storage"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#. odoo-python
+#: code:addons/account_payment_method_fs_storage/models/fs_storage.py:0
+#, python-format
+msgid "Storage is already used on at least one payment method"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model.fields,help:account_payment_method_fs_storage.field_account_payment_method__storage
+msgid "Storage where to put the file after generation"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model.fields,help:account_payment_method_fs_storage.field_fs_storage__use_on_payment_method
+msgid "Tells if storage can be set on payment methods"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#. odoo-python
+#: code:addons/account_payment_method_fs_storage/models/account_payment_order.py:0
+#, python-format
+msgid "The file has been generated and dropped on the storage."
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#. odoo-python
+#: code:addons/account_payment_method_fs_storage/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Unknown issue to upload the file on the storage:\n"
+"{details}"
+msgstr ""
+
+#. module: account_payment_method_fs_storage
+#: model:ir.model.fields,field_description:account_payment_method_fs_storage.field_fs_storage__use_on_payment_method
+msgid "Use On Payment Method"
+msgstr ""
