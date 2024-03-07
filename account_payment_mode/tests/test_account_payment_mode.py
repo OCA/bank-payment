@@ -21,7 +21,7 @@ class TestAccountPaymentMode(TransactionCase):
         cls.company = cls.env.ref("base.main_company")
 
         # Company 2
-        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2", "po_lead": 0.0})
 
         cls.journal_c1 = cls._create_journal("J1", cls.company)
         cls.journal_c2 = cls._create_journal("J2", cls.company_2)
