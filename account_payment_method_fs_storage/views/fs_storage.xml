@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_storage_form_view">
+        <field name="model">fs.storage</field>
+        <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
+        <field name="arch" type="xml">
+            <field name="options" position="after">
+                <field name="use_on_payment_method" />
+            </field>
+        </field>
+    </record>
+
+
+
+</odoo>
