@@ -142,7 +142,11 @@ class AccountPaymentLine(models.Model):
     def partner_id_change(self):
         partner_bank = False
         if self.partner_id.bank_ids:
-            partner_bank = self.partner_id.bank_ids[0]
+            bank_ids = self.partner_id.bank_ids.filtered(
+                lambda bank: bank.company_id is False
+                or bank.company_id == self.company_id
+            )
+            partner_bank = bank_ids and bank_ids[0]
         self.partner_bank_id = partner_bank
 
     @api.onchange("move_line_id")
