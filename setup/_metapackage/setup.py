@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo-addon-account_banking_pain_base>=16.0dev,<16.1dev',
         'odoo-addon-account_banking_sepa_credit_transfer>=16.0dev,<16.1dev',
         'odoo-addon-account_banking_sepa_direct_debit>=16.0dev,<16.1dev',
+        'odoo-addon-account_payment_method_fs_storage>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_mode>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order_grouped_output>=16.0dev,<16.1dev',
