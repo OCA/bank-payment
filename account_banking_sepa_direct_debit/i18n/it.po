@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-05-05 00:02+0000\n"
-"Last-Translator: Marco Calcagni <mcalcagni@dinamicheaziendali.it>\n"
+"PO-Revision-Date: 2024-03-08 00:35+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
@@ -106,7 +106,7 @@ msgstr "<strong>Mandato Sepa Direct Debit</strong>"
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr "Un generico mandato bancario"
+msgstr "Un mandato bancario generico"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
