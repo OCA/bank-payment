@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-03-01 11:42+0000\n"
+"PO-Revision-Date: 2024-03-08 00:36+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -1020,7 +1020,7 @@ msgstr "Registrare i Movimenti"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
 msgid "Related Payment Lines"
-msgstr "Righe di Pagamento Correlate"
+msgstr "Righe di pagamento collegate"
 
 #. module: account_payment_order
 #: selection:account.payment.line.create,payment_mode:0
