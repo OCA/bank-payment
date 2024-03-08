@@ -32,7 +32,7 @@ def _insert_account_payments(env):
         JOIN account_payment_order apo ON apo.id = bpl.order_id
         JOIN account_payment_mode apm ON apm.id = apo.payment_mode_id
         LEFT JOIN account_move_line aml ON aml.bank_payment_line_id = bpl.id
-        WHERE apo.state not in ('uploaded', 'done') or aml.move_id is not null
+        WHERE apo.state not in ('uploaded', 'done', 'draft') or aml.move_id is not null
         """,
     )
     # As the information is asymmetric: N payment lines > 1 bank payment line, but there
