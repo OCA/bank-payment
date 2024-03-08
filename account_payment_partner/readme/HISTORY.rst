@@ -1,3 +1,10 @@
+14.0.2.0.0 (2024-02-16)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [BC] Breaking change 
+  if you use sepa_direct_debit: install
+  account_payment_partner_sepa_direct_debit 
+
 10.0.1.2.0 (2018-05-24)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

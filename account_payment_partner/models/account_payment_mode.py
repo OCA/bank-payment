@@ -76,3 +76,18 @@ class AccountPaymentMode(models.Model):
                         "already assigned to another Company."
                     )
                 )
+
+    def partner_banks_to_show(self):
+        """List available bank accounts.
+
+        Used for displaying bank accounts on external
+        documents like invoices.
+        """
+        self.ensure_one()
+        if not self.show_bank_account_from_journal:
+            return self.env["res.partner.bank"].browse(False)
+
+        if self.bank_account_link == "fixed":
+            return self.fixed_journal_id.bank_account_id
+        else:
+            return self.variable_journal_ids.mapped("bank_account_id")

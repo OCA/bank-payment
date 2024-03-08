@@ -14,3 +14,4 @@
 
   * Raf Ven <raf.ven@dynapps.be>
 * Marçal Isern <marsal.isern@qubiq.es>
+* Raphaël Reverdy <raphael.reverdy@akretion.com>
