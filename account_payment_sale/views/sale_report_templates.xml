@@ -6,6 +6,31 @@
                 <strong>Payment Mode:</strong>
                 <span t-field="doc.payment_mode_id.note" />
             </p>
+            <t
+                t-if="doc.payment_mode_id and doc.payment_mode_id.show_bank_account != 'no' and not is_pro_forma"
+            >
+                <p t-foreach="doc.sudo().partner_banks_to_show()" t-as="partner_bank">
+                    <strong>Bank Account:</strong>
+                    <t t-if="partner_bank.bank_id">
+                        <t
+                            t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"
+                        />
+                    </t>
+                    <t t-if="doc.payment_mode_id.show_bank_account == 'full'">
+                        <span t-field="partner_bank.acc_number" />
+                    </t>
+                    <t t-elif="doc.payment_mode_id.show_bank_account == 'first'">
+                        <span
+                            t-esc="partner_bank.acc_number[:doc.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - doc.payment_mode_id.show_bank_account_chars)"
+                        />
+                    </t>
+                    <t t-elif="doc.payment_mode_id.show_bank_account == 'last'">
+                        <span
+                            t-esc="'*' * (len(partner_bank.acc_number) - doc.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-doc.payment_mode_id.show_bank_account_chars:]"
+                        />
+                    </t>
+                </p>
+            </t>
         </xpath>
     </template>
 </odoo>
