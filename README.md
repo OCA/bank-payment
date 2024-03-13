@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_banking_mandate](account_banking_mandate/) | 16.0.1.2.1 |  | Banking mandates
+[account_banking_mandate_contact](account_banking_mandate_contact/) | 16.0.1.0.1 |  | Assign specific banking mandates in contact level
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 16.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adds mandates on sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 16.0.1.1.0 |  | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 16.0.1.1.1 |  | Create SEPA XML files for Credit Transfers

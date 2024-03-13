@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-account_banking_mandate>=16.0dev,<16.1dev',
+        'odoo-addon-account_banking_mandate_contact>=16.0dev,<16.1dev',
         'odoo-addon-account_banking_mandate_sale>=16.0dev,<16.1dev',
         'odoo-addon-account_banking_pain_base>=16.0dev,<16.1dev',
         'odoo-addon-account_banking_sepa_credit_transfer>=16.0dev,<16.1dev',
