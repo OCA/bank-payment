@@ -2,6 +2,7 @@
 # © 2011-2013 Therp BV (<https://therp.nl>)
 # © 2014-2015 ACSONE SA/NV (<https://acsone.eu>)
 # © 2015-2016 Akretion (<https://www.akretion.com>)
+# © 2023 Noviat (<https://www.noviat.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
@@ -39,8 +40,14 @@ class AccountPaymentLineCreate(models.TransientModel):
         selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
     )
     move_line_ids = fields.Many2many(
-        comodel_name="account.move.line", string="Move Lines"
+        comodel_name="account.move.line",
+        string="Move Lines",
     )
+    move_line_ids_domain = fields.Binary(
+        string="amls domain", compute="_compute_move_line_ids_domain"
+    )
+    has_open_items = fields.Boolean(compute="_compute_move_line_ids_domain")
+    date_selected = fields.Boolean(compute="_compute_date_selected")
 
     @api.model
     def default_get(self, field_list):
@@ -63,6 +70,28 @@ class AccountPaymentLineCreate(models.TransientModel):
             }
         )
         return res
+
+    @api.depends(
+        "date_type",
+        "move_date",
+        "due_date",
+        "journal_ids",
+        "invoice",
+        "target_move",
+        "allow_blocked",
+        "payment_mode",
+        "partner_ids",
+    )
+    def _compute_move_line_ids_domain(self):
+        domain = self._prepare_move_line_domain()
+        self.move_line_ids_domain = domain
+        self.has_open_items = len(self.env["account.move.line"]._search(domain))
+
+    @api.depends("date_type", "move_date", "due_date")
+    def _compute_date_selected(self):
+        self.date_selected = (self.date_type == "due" and self.due_date) or (
+            self.date_type == "move" and self.move_date
+        )
 
     def _prepare_move_line_domain(self):
         self.ensure_one()
@@ -162,22 +191,6 @@ class AccountPaymentLineCreate(models.TransientModel):
             "context": self._context,
         }
         return action
-
-    @api.onchange(
-        "date_type",
-        "move_date",
-        "due_date",
-        "journal_ids",
-        "invoice",
-        "target_move",
-        "allow_blocked",
-        "payment_mode",
-        "partner_ids",
-    )
-    def move_line_filters_change(self):
-        domain = self._prepare_move_line_domain()
-        res = {"domain": {"move_line_ids": domain}}
-        return res
 
     def create_payment_lines(self):
         if self.move_line_ids:

@@ -3,6 +3,7 @@
   © 2013-2016 Akretion (https://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+  © 2023 Noviat (https://www.noviat.com)
 -->
 <odoo>
     <record id="account_payment_line_create_form" model="ir.ui.view">
@@ -12,6 +13,9 @@
             <form string="Choose Move Lines Filter Options">
                 <group name="main">
                     <field name="order_id" invisible="1" />
+                    <field name="move_line_ids_domain" invisible="1" />
+                    <field name="has_open_items" invisible="1" />
+                    <field name="date_selected" invisible="1" />
                     <field name="date_type" />
                     <field
                         name="move_date"
@@ -35,53 +39,86 @@
                     <field name="target_move" widget="radio" />
                     <field name="invoice" />
                     <field name="allow_blocked" />
-                    <label
-                        for="populate"
-                        string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
-                        colspan="2"
-                    />
-                    <button
-                        name="populate"
-                        type="object"
-                        string="Add All Move Lines"
-                        colspan="2"
-                    />
                 </group>
-                <group
-                    name="move_lines"
-                    string="Selected Move Lines to Create Transactions"
+                <div
+                    id="no_date_selected"
+                    class="alert alert-info"
+                    role="alert"
+                    attrs="{'invisible': [('date_selected', '=', True)]}"
+                    colspan="2"
                 >
-                    <field
-                        name="move_line_ids"
-                        nolabel="1"
-                        force_save="1"
-                        context="{'tree_view_ref': 'account_payment_order.view_move_line_tree', 'form_view_ref':'account_payment_order.view_move_line_form_no_edit'}"
+                    <span>The date field has not been set</span>
+                </div>
+                <div
+                    id="no_transactions"
+                    class="alert alert-info"
+                    role="alert"
+                    attrs="{'invisible': ['|', ('date_selected', '=', False), ('has_open_items', '=', True)]}"
+                >
+                    <span
+                    >No outstanding transaction available for the selected options</span>
+                </div>
+                <group
+                    id="add_transactions"
+                    attrs="{'invisible': ['|', ('date_selected', '=', False), ('has_open_items', '=', False)]}"
+                >
+                    <group name="populate" string="Select All" colspan="2">
+                        <label
+                            for="populate"
+                            string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
+                            colspan="2"
+                        />
+                        <button
+                            name="populate"
+                            type="object"
+                            string="Add All Move Lines"
+                            colspan="2"
+                        />
+                    </group>
+                    <group
                         colspan="2"
+                        name="move_lines"
+                        string="Selected Move Lines to Create Transactions"
                     >
-                        <tree>
-                            <field name="date" />
-                            <field name="move_id" required="0" />
-                            <field name="journal_id" />
-                            <field name="partner_id" />
-                            <field name="account_id" />
-                            <field name="date_maturity" />
-                            <field name="debit" />
-                            <field name="credit" />
-                            <field name="amount_residual" sum="Total Residual" />
-                            <field name="amount_currency" />
-                            <field name="amount_residual_currency" />
-                            <field name="company_currency_id" invisible="1" />
-                        </tree>
-                    </field>
+                        <field
+                            name="move_line_ids"
+                            colspan="2"
+                            nolabel="1"
+                            domain="move_line_ids_domain"
+                            context="{'tree_view_ref': 'account_payment_order.view_move_line_tree'}"
+                        >
+                            <tree>
+                                <field name="date" />
+                                <field name="move_id" required="0" />
+                                <field name="journal_id" />
+                                <field name="partner_id" />
+                                <field name="account_id" />
+                                <field name="date_maturity" />
+                                <field name="debit" />
+                                <field name="credit" />
+                                <field name="amount_residual" sum="Total Residual" />
+                                <field name="amount_currency" />
+                                <field name="amount_residual_currency" />
+                                <field name="company_currency_id" invisible="1" />
+                            </tree>
+                        </field>
+                    </group>
                 </group>
                 <footer>
                     <button
+                        attrs="{'invisible': [('move_line_ids', '=', [])]}"
                         name="create_payment_lines"
                         type="object"
                         string="Create Transactions"
-                        class="oe_highlight"
+                        class="btn-primary"
+                        data-hotkey="q"
                     />
-                    <button string="Cancel" special="cancel" class="oe_link" />
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                        class="btn-secondary"
+                        data-hotkey="z"
+                    />
                 </footer>
             </form>
         </field>
