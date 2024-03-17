@@ -8,6 +8,7 @@ class AccountPaymentOrderNotification(models.Model):
     _name = "account.payment.order.notification"
     _description = "Payment Order Notification"
     _inherit = ["mail.thread"]
+    _rec_name = "display_name"
 
     order_id = fields.Many2one(
         comodel_name="account.payment.order",
