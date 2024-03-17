@@ -23,6 +23,7 @@ class AccountPaymentMode(models.Model):
         "that has a payment line with a payment date before the maturity "
         "date.",
     )
+    allow_blocked = fields.Boolean(string="Allow Litigation Journal Items")
     # Default options for the "payment.order.create" wizard
     default_payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or empty"), ("any", "Any")],
