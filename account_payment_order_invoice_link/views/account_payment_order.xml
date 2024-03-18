@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="model">account.payment.order</field>
+        <field name="arch" type="xml">
+            <button name="action_move_journal_line" position="before">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_in_invoice"
+                    type="object"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('in_invoice_count', '=', 0)]}"
+                >
+                        <field
+                        string="Supplier Bills"
+                        name="in_invoice_count"
+                        widget="statinfo"
+                    />
+                </button>
+                <button
+                    class="oe_stat_button"
+                    name="action_view_out_invoice"
+                    type="object"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('out_invoice_count', '=', 0)]}"
+                >
+                        <field
+                        string="Customer Invoices"
+                        name="out_invoice_count"
+                        widget="statinfo"
+                    />
+                </button>
+            </button>
+        </field>
+    </record>
+
+</odoo>
