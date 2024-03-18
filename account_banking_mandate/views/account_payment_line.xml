@@ -35,7 +35,7 @@
             <field name="partner_bank_id" position="after">
                 <field
                     name="mandate_id"
-                    invisible="context.get('default_payment_type') != 'inbound'"
+                    column_invisible="context.get('default_payment_type') != 'inbound'"
                 />
             </field>
         </field>

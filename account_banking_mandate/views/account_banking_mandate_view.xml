@@ -110,11 +110,11 @@
         <field name="model">account.banking.mandate</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="id" invisible="1" />
+                <field name="id" column_invisible="True" />
                 <field name="unique_mandate_reference" string="Reference" />
                 <field
                     name="partner_id"
-                    invisible="context.get('mandate_bank_partner_view')"
+                    column_invisible="context.get('mandate_bank_partner_view')"
                 />
                 <field
                     name="format"

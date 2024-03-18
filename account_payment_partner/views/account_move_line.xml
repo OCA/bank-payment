@@ -29,8 +29,8 @@
         <field name="inherit_id" ref="account.view_move_line_tree" />
         <field name="arch" type="xml">
             <field name="date_maturity" position="after">
-                <field name="account_type" invisible="1" />
-                <field name="reconciled" invisible="1" />
+                <field name="account_type" column_invisible="True" />
+                <field name="reconciled" column_invisible="True" />
                 <field
                     name="payment_mode_id"
                     optional="hide"

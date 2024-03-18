@@ -75,7 +75,7 @@
             <tree>
                 <field
                     name="order_id"
-                    invisible="not context.get('account_payment_line_main_view')"
+                    column_invisible="not context.get('account_payment_line_main_view')"
                 />
                 <field name="partner_id" />
                 <field name="communication" />
@@ -85,14 +85,14 @@
                 <field name="ml_maturity_date" optional="show" />
                 <field name="date" />
                 <field name="amount_currency" string="Amount" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="True" />
                 <field name="name" optional="show" />
                 <field
                     name="amount_company_currency"
                     sum="Total in Company Currency"
-                    invisible="1"
+                    column_invisible="True"
                 />
-                <field name="payment_type" invisible="1" />
+                <field name="payment_type" column_invisible="True" />
             </tree>
         </field>
     </record>

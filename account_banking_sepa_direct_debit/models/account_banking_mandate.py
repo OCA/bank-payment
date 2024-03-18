@@ -105,7 +105,8 @@ class AccountBankingMandate(models.Model):
             for mandate in expired_mandates:
                 mandate.message_post(
                     body=_(
-                        "Mandate automatically set to expired after %d months without use."
+                        "Mandate automatically set"
+                        " to expired after %d months without use."
                     )
                     % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
                 )
