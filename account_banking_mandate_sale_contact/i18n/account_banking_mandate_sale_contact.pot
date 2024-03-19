@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_mandate_sale_contact
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.settings_view_form_sale_warning
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
 msgid "<span class=\"o_form_label\">Default Mandates</span>"
 msgstr ""
 
@@ -83,7 +83,18 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_mandate_sale_contact
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.settings_view_form_sale_warning
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
+msgid ""
+"The contact of this company in which odoo will search for the mandate on sales\r"
+"- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company\r"
+"- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\r"
+"- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\r"
+"- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\r"
+"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+msgstr ""
+
+#. module: account_banking_mandate_sale_contact
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
 msgid "The partner of the sales in which odoo will search for the mandate"
 msgstr ""
 

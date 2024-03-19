@@ -1,3 +1,2 @@
-* `Sygel <https://www.sygel.es>`_:
-
-  * Alberto Martínez
+- [Sygel](https://www.sygel.es):
+  - Alberto Martínez \<<alberto.martinez@sygel.es>\>
