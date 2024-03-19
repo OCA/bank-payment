@@ -65,23 +65,32 @@ class AccountMove(models.Model):
                 move.payment_mode_id = False
             if move.partner_id:
                 partner = move.with_company(move.company_id.id).partner_id
-                if move.move_type == "in_invoice":
+                if move.move_type == "in_invoice" and partner.supplier_payment_mode_id:
                     move.payment_mode_id = partner.supplier_payment_mode_id
-                elif move.move_type == "out_invoice":
+                elif (
+                    move.move_type == "out_invoice" and partner.customer_payment_mode_id
+                ):
                     move.payment_mode_id = partner.customer_payment_mode_id
                 elif (
                     move.move_type in ["out_refund", "in_refund"]
                     and move.reversed_entry_id
+                    and move.reversed_entry_id.payment_mode_id.refund_payment_mode_id
                 ):
                     move.payment_mode_id = (
                         move.reversed_entry_id.payment_mode_id.refund_payment_mode_id
                     )
                 elif not move.reversed_entry_id:
-                    if move.move_type == "out_refund":
+                    if (
+                        move.move_type == "out_refund"
+                        and partner.customer_payment_mode_id.refund_payment_mode_id
+                    ):
                         move.payment_mode_id = (
                             partner.customer_payment_mode_id.refund_payment_mode_id
                         )
-                    elif move.move_type == "in_refund":
+                    elif (
+                        move.move_type == "in_refund"
+                        and partner.supplier_payment_mode_id.refund_payment_mode_id
+                    ):
                         move.payment_mode_id = (
                             partner.supplier_payment_mode_id.refund_payment_mode_id
                         )
