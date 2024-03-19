@@ -2,13 +2,20 @@
 <!-- Copyright 2024 Alberto Martínez <alberto.martinez@sygel.es>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="settings_view_form_sale_warning" model="ir.ui.view">
-        <field name="name">settings.view.form.sale.warning</field>
+    <record
+        id="res_config_settings_view_form_inherit_sale_default_mandates"
+        model="ir.ui.view"
+    >
+        <field name="name">settings.view.form.inherit.sale.default.mandates</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="sale.res_config_settings_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='invoicing_setting_container']" position="inside">
-                <div class="col-12 col-lg-6 o_setting_box" id="down_payments">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="sale_default_mandates"
+                    title="The contact of this company in which odoo will search for the mandate on sales&#013;- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company&#013;- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company&#013;- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address&#013;- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address&#013;- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+                >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
                         <span class="o_form_label">Default Mandates</span>
