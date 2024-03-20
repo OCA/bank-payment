@@ -1,0 +1,150 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_banking_mandate_sale_contact
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-03-20 15:49+0000\n"
+"Last-Translator: Alberto Martínez <alberto.martinez@sygel.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: account_banking_mandate_sale_contact
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
+msgid "<span class=\"o_form_label\">Default Mandates</span>"
+msgstr "<span class=\"o_form_label\">Mandatos por defecto</span>"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_company__sale_default_mandate_contact__commercial_partner_id
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_partner__sale_default_mandate_contact__commercial_partner_id
+msgid "Commercial Customer Mandate"
+msgstr "Mandato de la entidad comercial"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model,name:account_banking_mandate_sale_contact.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model,name:account_banking_mandate_sale_contact.model_res_config_settings
+msgid "Config Settings"
+msgstr "Opciones de configuración"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model,name:account_banking_mandate_sale_contact.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_company__sale_default_mandate_contact__partner_id
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_partner__sale_default_mandate_contact__partner_id
+msgid "Customer Mandate"
+msgstr "Mandato del cliente"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields,field_description:account_banking_mandate_sale_contact.field_res_company__sale_default_mandate_contact
+#: model:ir.model.fields,field_description:account_banking_mandate_sale_contact.field_res_config_settings__sale_default_mandate_contact
+#: model:ir.model.fields,field_description:account_banking_mandate_sale_contact.field_res_partner__sale_default_mandate_contact
+#: model:ir.model.fields,field_description:account_banking_mandate_sale_contact.field_res_users__sale_default_mandate_contact
+msgid "Default Sale Mandate Contact"
+msgstr "Mandado por defecto en ventas"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_company__sale_default_mandate_contact__partner_shipping_id
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_partner__sale_default_mandate_contact__partner_shipping_id
+msgid "Delivery Address Mandate"
+msgstr "Mandato de la dirección de entrega"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_company__sale_default_mandate_contact__partner_invoice_id
+#: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_partner__sale_default_mandate_contact__partner_invoice_id
+msgid "Invoice Address Mandate"
+msgstr "Mandato de la dirección de facturación"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model,name:account_banking_mandate_sale_contact.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields,help:account_banking_mandate_sale_contact.field_res_company__sale_default_mandate_contact
+#: model:ir.model.fields,help:account_banking_mandate_sale_contact.field_res_config_settings__sale_default_mandate_contact
+msgid ""
+"The contact of this company in which odoo will search for the mandate on sales\n"
+"- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company\n"
+"- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\n"
+"- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\n"
+"- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\n"
+"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+msgstr ""
+"El contacto de las ventas en el que Odoo buscará el mandato\n"
+"- Mandato del cliente: Odoo buscará el mandato en el cliente establecido, ya "
+"sea un individuo o la empresa\n"
+"- Mandato de la entidad comercial: Odoo buscará el mandato en la entidad "
+"comercial cliente\n"
+"- Mandato de la dirección de facturación: Odoo buscará el mandato en la "
+"dirección de facturación\n"
+"- Mandato de la dirección de entrega: Odoo buscará el mandato en la "
+"dirección de entrega\n"
+"- Falso: Odoo utilizará el primer mandato que encuentre para la compañía "
+"cliente. Odoo también utilizará esta opción si no se ha establecido un "
+"mandato por defecto en el contacto de las opciones anteriores"
+
+#. module: account_banking_mandate_sale_contact
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
+msgid ""
+"The contact of this company in which odoo will search for the mandate on sales\r"
+"- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company\r"
+"- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\r"
+"- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\r"
+"- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\r"
+"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+msgstr ""
+"El contacto de las ventas en el que Odoo buscará el mandato\n"
+"- Mandato del cliente: Odoo buscará el mandato en el cliente establecido, ya "
+"sea un individuo o la empresa\n"
+"- Mandato de la entidad comercial: Odoo buscará el mandato en la entidad "
+"comercial cliente\n"
+"- Mandato de la dirección de facturación: Odoo buscará el mandato en la "
+"dirección de facturación\n"
+"- Mandato de la dirección de entrega: Odoo buscará el mandato en la "
+"dirección de entrega\n"
+"- Falso: Odoo utilizará el primer mandato que encuentre para la compañía "
+"cliente. Odoo también utilizará esta opción si no se ha establecido un "
+"mandato por defecto en el contacto de las opciones anteriores"
+
+#. module: account_banking_mandate_sale_contact
+#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
+msgid "The partner of the sales in which odoo will search for the mandate"
+msgstr "El contacto de las ventas en el que Odoo buscará el mandato"
+
+#. module: account_banking_mandate_sale_contact
+#: model:ir.model.fields,help:account_banking_mandate_sale_contact.field_res_partner__sale_default_mandate_contact
+#: model:ir.model.fields,help:account_banking_mandate_sale_contact.field_res_users__sale_default_mandate_contact
+msgid ""
+"The partner of the sales in which odoo will search for the mandate\n"
+"- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company\n"
+"- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\n"
+"- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\n"
+"- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\n"
+"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+msgstr ""
+"El contacto de las ventas en el que Odoo buscará el mandato\n"
+"- Mandato del cliente: Odoo buscará el mandato en el cliente establecido, ya "
+"sea un individuo o la empresa\n"
+"- Mandato de la entidad comercial: Odoo buscará el mandato en la entidad "
+"comercial cliente\n"
+"- Mandato de la dirección de facturación: Odoo buscará el mandato en la "
+"dirección de facturación\n"
+"- Mandato de la dirección de entrega: Odoo buscará el mandato en la "
+"dirección de entrega\n"
+"- Falso: Odoo utilizará el primer mandato que encuentre para la compañía "
+"cliente. Odoo también utilizará esta opción si no se ha establecido un "
+"mandato por defecto en el contacto de las opciones anteriores"
