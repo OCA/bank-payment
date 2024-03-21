@@ -21,6 +21,7 @@ class AccountPaymentOrderReport(models.AbstractModel):
             "data": data,
             "env": self.env,
             "get_bank_account_name": self.get_bank_account_name,
+            "get_currency_total": self.get_currency_total,
             "formatLang": formatLang,
         }
 
@@ -44,3 +45,16 @@ class AccountPaymentOrderReport(models.AbstractModel):
             return name
         else:
             return False
+
+    @api.model
+    def get_currency_total(self, record):
+        vals = {}
+        currency_ids = record.payment_line_ids.currency_id
+        count = 0
+        for currency_id in currency_ids:
+            filtered_payment_lines_by_currency = record.payment_line_ids.filtered(
+                lambda line: line.currency_id.id == currency_id.id)
+            count += 1
+            new_key = 'payment_line_ids_{}'.format(count)
+            vals.update({new_key: filtered_payment_lines_by_currency})
+        return vals
