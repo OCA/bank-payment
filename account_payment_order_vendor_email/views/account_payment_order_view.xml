@@ -1,0 +1,21 @@
+<odoo>
+    <record id="account_payment_order_manual_email_form" model="ir.ui.view">
+        <field name="name">account_payment_order_manual_email_form</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <button name="action_uploaded_cancel" position="after">
+                <button
+                    name="send_vendor_email"
+                    string="Send Email"
+                    type="object"
+                    class="oe_highlight"
+                    states="uploaded"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>
