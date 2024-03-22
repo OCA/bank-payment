@@ -1,8 +1,9 @@
 [project]
 name = "odoo-addons-oca-bank-payment"
-version = "17.0.20240306.0"
+version = "17.0.20240322.0"
 dependencies = [
     "odoo-addon-account_banking_mandate>=17.0dev,<17.1dev",
+    "odoo-addon-account_banking_pain_base>=17.0dev,<17.1dev",
     "odoo-addon-account_payment_mode>=17.0dev,<17.1dev",
     "odoo-addon-account_payment_order>=17.0dev,<17.1dev",
     "odoo-addon-account_payment_partner>=17.0dev,<17.1dev",
