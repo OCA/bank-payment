@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_payment_mode_layout,Full access on account.payment.mode.layout to Payment Manager,model_account_payment_mode_layout,account_payment_order.group_account_payment,1,1,1,1
+access_account_payment_mode_layout_line,Full access on account.payment.mode.layout_line to Payment Manager,model_account_payment_mode_layout_line,account_payment_order.group_account_payment,1,1,1,1
