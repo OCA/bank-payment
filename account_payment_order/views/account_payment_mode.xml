@@ -8,6 +8,9 @@
             <field name="payment_type" position="after">
                 <field name="payment_order_ok" />
             </field>
+            <field name="variable_journal_ids" position="after">
+                <field name="transfer_journal_id" />
+            </field>
             <group name="main" position="after">
                 <group
                     name="payment_order_options"

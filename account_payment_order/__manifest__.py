@@ -36,6 +36,7 @@
         "data/payment_seq.xml",
         "report/print_account_payment_order.xml",
         "report/account_payment_order.xml",
+        "wizard/res_config_settings.xml",
     ],
     "demo": ["demo/payment_demo.xml"],
     "installable": True,
