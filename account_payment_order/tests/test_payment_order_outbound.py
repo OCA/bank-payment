@@ -279,17 +279,26 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
     def test_invoice_communication_01(self):
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F1242",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
         self.invoice.ref = "F1243"
         self.assertEqual(
-            "F1243", self.invoice._get_payment_order_communication_direct()
+            "F1243",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
 
     def test_invoice_communication_02(self):
         self.invoice.payment_reference = "R1234"
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F1242",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
 
     def test_invoice_communication_03(self):
@@ -380,7 +389,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         """
         self.invoice.action_post()
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F1242",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
         self.refund = self._create_supplier_refund(self.invoice)
         with Form(self.refund) as refund_form:
@@ -417,7 +429,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.invoice.payment_reference = "F/1234"
         self.invoice.action_post()
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F1242",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
         self.refund = self._create_supplier_refund(self.invoice)
         with Form(self.refund) as refund_form:
@@ -464,7 +479,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         """
         self.invoice.action_post()
         self.assertEqual(
-            "F1242", self.invoice._get_payment_order_communication_direct()
+            "F1242",
+            self.invoice.with_context(
+                default_payment_type="outbound"
+            )._get_payment_order_communication_direct(),
         )
         self.refund = self._create_supplier_refund(self.invoice, manual=True)
         with Form(self.refund) as refund_form:
