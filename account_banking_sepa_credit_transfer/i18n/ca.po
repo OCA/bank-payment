@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_banking_sepa_credit_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2022-05-30 18:05+0000\n"
+"Last-Translator: jabelchi <jabelchi@gmail.com>\n"
+"Language-Team: none\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: account_banking_sepa_credit_transfer
+#. odoo-python
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Bank account is missing on the bank payment line of partner "
+"'{partner}' (reference '{reference}')."
+msgstr ""
+"Falta el compte bancari a la línia del partner '{partner}' (referència "
+"'{reference}')."
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
+msgid "Instant Transfer"
+msgstr "Transferència immediata"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
+msgid "Local Instrument"
+msgstr "Instrument local"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
+msgid "PAIN Version"
+msgstr "Versió PAIN"
+
+#. module: account_banking_sepa_credit_transfer
+#. odoo-python
+#: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
+#, python-format
+msgid "PAIN version '%s' is not supported."
+msgstr "La versió PAIN '%s' no està suportada."
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Línies de pagament"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
+msgid "Payment Methods"
+msgstr "Mètodes de pagament"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordre de pagament"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
+#: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
+msgid "SEPA Credit Transfer to suppliers"
+msgstr "Transferència de crèdit SEPA a proveïdors"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_02
+msgid "pain.001.001.02"
+msgstr "pain.001.001.02"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_03
+msgid "pain.001.001.03 (recommended for credit transfer)"
+msgstr "pain.001.001.03 (recomanat per a transferències de crèdit)"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_04
+msgid "pain.001.001.04"
+msgstr "pain.001.001.04"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_05
+msgid "pain.001.001.05"
+msgstr "pain.001.001.05"
+
+#. module: account_banking_sepa_credit_transfer
+#: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
+msgid "pain.001.003.03"
+msgstr ""
+
+#~ msgid "pain.001.003.03 (credit transfer in Germany)"
+#~ msgstr "pain.001.003.03 (transferències de crèdit a Alemanya)"
