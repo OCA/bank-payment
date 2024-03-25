@@ -29,6 +29,43 @@ msgstr ""
 "object.partner_id.name.replace(' ', '_') or '')"
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,body_html:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        Your SEPA Mandate for <t t-out=\"object.company_id.name or ''\" contenteditable=\"false\" data-oe-t-inline=\"true\">YourCompany</t> is pending to sign.\n"
+"        <br/><br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <br/>\n"
+"\n"
+"    <t t-if=\"user.signature\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\">--<br/>Mitchell Admin</t>\n"
+"    </t>\n"
+"</p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hola,\n"
+"        <br/><br/>\n"
+"        El Mandato SEPA para <t t-out=\"object.company_id.name or ''\" contenteditable=\"false\" data-oe-t-inline=\"true\">YourCompany</t> está pendiente de firma.\n"
+"        <br/><br/>\n"
+"        No dude en contactarnos si tiene alguna pregunta.\n"
+"        <br/>\n"
+"\n"
+"    <t t-if=\"user.signature\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\">--<br/>Mitchell Admin</t>\n"
+"    </t>\n"
+"</p>\n"
+"</div>\n"
+"            "
+
+#. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
 msgstr "<em>Número de cuenta - IBAN:</em>"
@@ -293,6 +330,11 @@ msgid "Mandate update"
 msgstr "Actualizacion de mandato"
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__is_sent
+msgid "Mark Mandate As Sent"
+msgstr "Mandato enviado"
+
+#. module: account_banking_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 #, python-format
@@ -388,10 +430,27 @@ msgid "SEPA Mandate"
 msgstr "Mandato SEPA"
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,subject:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"Mandato SEPA {{ object.unique_mandate_reference or 'n/a' }} para {{ "
+"object.company_id.name }} está pendiente de firma"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid "SEPA Mandate: Send by email"
+msgstr "Mandato SEPA: Enviar por correo electrónico"
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__scheme
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Scheme"
 msgstr "Esquema"
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
+msgid "Send by Email"
+msgstr "Enviar por correo electrónico"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__format__sepa
@@ -542,6 +601,11 @@ msgstr ""
 "a la entidad para \n"
 "                       efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid "{{ (object.unique_mandate_reference or SEPA Mandate).replace('/','_') }}"
+msgstr "{{ (object.unique_mandate_reference or 'Mandato SEPA').replace('/','_') }}"
 
 #, python-format
 #~ msgid ""

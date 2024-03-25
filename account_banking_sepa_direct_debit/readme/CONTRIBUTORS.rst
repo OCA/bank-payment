@@ -10,4 +10,5 @@
   * Pedro M. Baeza
   * Sergio Teruel
   * Carlos Roca
+  * Carolina Fernandez
 * Manuel Regidor <manuel.regidor@sygel.es>

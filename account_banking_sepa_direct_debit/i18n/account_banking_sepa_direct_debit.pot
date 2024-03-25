@@ -21,6 +21,27 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,body_html:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br><br>\n"
+"        Your SEPA Mandate for <t t-out=\"object.company_id.name or ''\" contenteditable=\"false\" data-oe-t-inline=\"true\">YourCompany</t> is pending to sign.\n"
+"        <br><br>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <br>\n"
+"\n"
+"    <t t-if=\"user.signature\">\n"
+"        <br>\n"
+"        <t t-out=\"user.signature or ''\">--<br>Mitchell Admin</t>\n"
+"    </t>\n"
+"</p>\n"
+"</div>\n"
+"            "
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
 msgstr ""
@@ -237,6 +258,11 @@ msgid "Mandate update"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__is_sent
+msgid "Mark Mandate As Sent"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 #, python-format
@@ -322,6 +348,18 @@ msgid "SEPA Direct Debit of customers"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,subject:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"SEPA Mandate {{ object.unique_mandate_reference or 'n/a' }} for {{ "
+"object.company_id.name }} is pending to sign"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid "SEPA Mandate: Send by email"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
 msgid "SEPA Mandate"
 msgstr ""
@@ -330,6 +368,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__scheme
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Scheme"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
+msgid "Send by Email"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -451,6 +494,11 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_003_02
 msgid "pain.008.003.02 (direct debit in Germany)"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid "{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
