@@ -33,6 +33,23 @@ class TestMandate(TransactionCase):
         self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
         self.assertEqual(self.mandate.state, "expired")
 
+    def test_action_mandate_send(self):
+        email_ctx = self.mandate.action_mandate_send().get("context", {})
+        mail_template = (
+            self.env["mail.template"]
+            .browse(email_ctx.get("default_template_id"))
+            .copy({"auto_delete": False})
+        )
+        self.mandate.with_context(**email_ctx).message_post_with_template(
+            mail_template.id
+        )
+        mail_message = self.mandate.message_ids[0]
+        self.assertEqual(
+            self.mandate.partner_id, mail_message.sudo().mail_ids.recipient_ids
+        )
+        self.assertEqual(self.mandate.state, "draft")
+        self.assertTrue(self.mandate.is_sent)
+
     def setUp(self):
         res = super().setUp()
         self.partner = self.env.ref("base.res_partner_12")

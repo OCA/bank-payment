@@ -1,6 +1,7 @@
 # Copyright 2013-2020 Akretion (www.akretion.com)
 # Copyright 2016 Tecnativa - Antonio Espinosa
 # Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2024 Tecnativa - Carolina Fernandez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
@@ -26,6 +27,7 @@
         "data/report_paperformat.xml",
         "reports/sepa_direct_debit_mandate.xml",
         "views/report_sepa_direct_debit_mandate.xml",
+        "data/mail_template_data.xml",
     ],
     "demo": ["demo/sepa_direct_debit_demo.xml"],
     "installable": True,
