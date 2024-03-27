@@ -72,7 +72,7 @@
                             <field name="amount_residual" sum="Total Residual" />
                             <field name="amount_currency" />
                             <field name="amount_residual_currency" />
-                            <field name="company_currency_id" invisible="1" />
+                            <field name="company_currency_id" column_invisible="True" />
                         </tree>
                     </field>
                 </group>

@@ -165,7 +165,7 @@
                     string="Payment Transactions"
                 />
                 <field name="total_company_currency" sum="Total Company Currency" />
-                <field name="company_currency_id" invisible="1" />
+                <field name="company_currency_id" column_invisible="True" />
                 <field
                     name="state"
                     decoration-info="state == 'draft'"

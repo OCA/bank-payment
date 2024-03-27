@@ -29,7 +29,7 @@
                     domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
                     widget="selection"
                     readonly="has_reconciled_items"
-                    invisible="move_type not in ['out_invoice','out_refund','in_invoice','in_refund']"
+                    invisible="move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']"
                 />
                 <field name="has_reconciled_items" invisible="1" />
                 <field name="bank_account_required" invisible="1" />

@@ -56,7 +56,7 @@
                 <field
                     name="company_id"
                     groups="!base.group_multi_company"
-                    invisible="1"
+                    column_invisible="True"
                 />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
