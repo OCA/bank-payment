@@ -56,7 +56,10 @@ class PurchaseOrder(models.Model):
 
     def _prepare_invoice(self):
         """Leave the bank account empty so that account_payment_partner set the
-        correct value with compute."""
+        correct value with compute and propagate payment mode to invoice."""
         invoice_vals = super()._prepare_invoice()
         invoice_vals.pop("partner_bank_id")
+        assign_payment_mode = self._context.get("pay_mode_propagate", True)
+        if assign_payment_mode:
+            invoice_vals["payment_mode_id"] = self.payment_mode_id.id
         return invoice_vals

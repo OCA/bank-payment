@@ -123,6 +123,16 @@ class TestAccountPaymentPurchase(TestAccountPaymentPurchaseBase):
         self.assertEqual(
             result and result.get("warning", {}).get("title", False), "Warning"
         )
+        # Test payment mode in direct invoicing from purchase
+        purchase3 = self.purchase.copy()
+        payment_mode3 = self.payment_mode.copy()
+        purchase3.payment_mode_id = payment_mode3
+        purchase3.button_confirm()
+        purchase3.order_line.qty_received = 1
+        purchase3.action_create_invoice()
+        self.assertEqual(
+            purchase3.invoice_ids.payment_mode_id, purchase3.payment_mode_id
+        )
 
     def test_from_purchase_order_empty_mode_invoicing(self):
         self.purchase.payment_mode_id = False
