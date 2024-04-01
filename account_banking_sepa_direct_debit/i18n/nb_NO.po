@@ -27,6 +27,29 @@ msgid ""
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,body_html:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br><br>\n"
+"        Your SEPA Mandate for <t t-out=\"object.company_id.name or ''\" "
+"contenteditable=\"false\" data-oe-t-inline=\"true\">YourCompany</t> is "
+"pending to sign.\n"
+"        <br><br>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <br>\n"
+"\n"
+"    <t t-if=\"user.signature\">\n"
+"        <br>\n"
+"        <t t-out=\"user.signature or ''\">--<br>Mitchell Admin</t>\n"
+"    </t>\n"
+"</p>\n"
+"</div>\n"
+"            "
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
 msgstr ""
@@ -185,6 +208,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
 msgid ""
 "Enter the Creditor Identifier that has been attributed to your company to "
@@ -229,6 +257,11 @@ msgstr ""
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__is_sent
+msgid "Is Sent"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -342,9 +375,26 @@ msgid "SEPA Mandate"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:mail.template,subject:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"SEPA Mandate {{ object.unique_mandate_reference or 'n/a' }} for {{ object."
+"company_id.name }} is pending to sign"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid "SEPA Mandate: Send by email"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__scheme
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_search
 msgid "Scheme"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_mandate_form
+msgid "Send by Email"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -478,4 +528,10 @@ msgid ""
 "to\n"
 "                       debit your account in accordance with the "
 "instructions from"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}"
 msgstr ""
