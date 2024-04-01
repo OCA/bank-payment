@@ -195,6 +195,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model,name:account_banking_sepa_direct_debit.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
 msgid ""
 "Enter the Creditor Identifier that has been attributed to your company to make SEPA Direct Debits. If not defined, SEPA Creditor Identifier from company will be used.\n"
@@ -239,6 +244,11 @@ msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__is_sent
+msgid "Is Sent"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
 msgid "Mandate Format"
 msgstr ""
@@ -255,11 +265,6 @@ msgstr ""
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
 #, python-format
 msgid "Mandate update"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__is_sent
-msgid "Mark Mandate As Sent"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -348,6 +353,11 @@ msgid "SEPA Direct Debit of customers"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
+#: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
+msgid "SEPA Mandate"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
 #: model:mail.template,subject:account_banking_sepa_direct_debit.email_template_sepa_mandate
 msgid ""
 "SEPA Mandate {{ object.unique_mandate_reference or 'n/a' }} for {{ "
@@ -357,11 +367,6 @@ msgstr ""
 #. module: account_banking_sepa_direct_debit
 #: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
 msgid "SEPA Mandate: Send by email"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:ir.actions.report,name:account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate
-msgid "SEPA Mandate"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -497,13 +502,14 @@ msgid "pain.008.003.02 (direct debit in Germany)"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
-msgid "{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid ""
 "to send instructions to your bank to debit your account and (B) your bank to\n"
 "                       debit your account in accordance with the instructions from"
+msgstr ""
+
+#. module: account_banking_sepa_direct_debit
+#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
+msgid ""
+"{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}"
 msgstr ""
