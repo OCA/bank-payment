@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-13 11:39+0000\n"
+"PO-Revision-Date: 2024-04-02 11:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -703,7 +703,7 @@ msgstr "Ferrovia"
 #. module: account_banking_pain_base
 #: selection:account.payment.line,purpose:0
 msgid "Receipt Payment"
-msgstr "Ricevuta di pagamento"
+msgstr "Pagamento ricevuta"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.line,category_purpose:0
