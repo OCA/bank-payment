@@ -41,3 +41,14 @@ class SaleOrder(models.Model):
         vals = super()._prepare_invoice()
         self._get_payment_mode_vals(vals)
         return vals
+
+    @api.model
+    def _get_invoice_grouping_keys(self) -> list:
+        """
+        When several sale orders are generating invoices,
+        we want to add the payment mode in grouping criteria.
+        """
+        keys = super()._get_invoice_grouping_keys()
+        if "payment_mode_id" not in keys:
+            keys.append("payment_mode_id")
+        return keys
