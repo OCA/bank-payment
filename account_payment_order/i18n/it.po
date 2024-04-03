@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-03-08 00:36+0000\n"
+"PO-Revision-Date: 2024-04-03 14:37+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -745,7 +745,7 @@ msgstr "La riga registrazione '%s' del partner '%s' è stata già riconciliata"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Name or Description"
-msgstr "Numero o Descrizione"
+msgstr "Nome o descrizione"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:69
