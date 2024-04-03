@@ -368,18 +368,18 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:a433755fd2d5cc4c242b073380fd215deb68ea43af0cdef7207c68febe5f8c10
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/bank-payment/tree/16.0/account_banking_sepa_direct_debit"><img alt="OCA/bank-payment" src="https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/bank-payment-16-0/bank-payment-16-0-account_banking_sepa_direct_debit"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/bank-payment/tree/17.0/account_banking_sepa_direct_debit"><img alt="OCA/bank-payment" src="https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/bank-payment-17-0/bank-payment-17-0-account_banking_sepa_direct_debit"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Create SEPA files for Direct Debit</p>
 <p>Module to export direct debit payment orders in SEPA XML file format.</p>
 <p>SEPA PAIN (PAyment INitiation) is the new european standard for
-Customer-to-Bank payment instructions. This module implements SEPA Direct
-Debit (SDD), more specifically PAIN versions 008.001.02, 008.001.03 and
-008.001.04. It is part of the ISO 20022 standard, available on
-<a class="reference external" href="http://www.iso20022.org">http://www.iso20022.org</a>.</p>
-<p>The Implementation Guidelines for SEPA Direct Debit published by the European
-Payments Council (<a class="reference external" href="http://http://www.europeanpaymentscouncil.eu">http://http://www.europeanpaymentscouncil.eu</a>) use PAIN
-version 008.001.02. So if you don’t know which version your bank supports, you
-should try version 008.001.02 first.</p>
+Customer-to-Bank payment instructions. This module implements SEPA
+Direct Debit (SDD), more specifically PAIN versions 008.001.02,
+008.001.03 and 008.001.04. It is part of the ISO 20022 standard,
+available on <a class="reference external" href="http://www.iso20022.org">http://www.iso20022.org</a>.</p>
+<p>The Implementation Guidelines for SEPA Direct Debit published by the
+European Payments Council (<a class="reference external" href="http://http://www.europeanpaymentscouncil.eu">http://http://www.europeanpaymentscouncil.eu</a>)
+use PAIN version 008.001.02. So if you don’t know which version your
+bank supports, you should try version 008.001.02 first.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -409,43 +409,46 @@ should try version 008.001.02 first.</p>
 <p>For setting the SEPA creditor identifier:</p>
 <ol class="arabic simple">
 <li>Go to Invoicing/Accounting &gt; Configuration &gt; Settings.</li>
-<li>On the field “SEPA Creditor Identifier” in the section <em>SEPA/PAIN</em>, you can
-fill the corresponding identifier.</li>
+<li>On the field “SEPA Creditor Identifier” in the section <em>SEPA/PAIN</em>,
+you can fill the corresponding identifier.</li>
 </ol>
 <p>If your country requires several identifiers (like Spain), you must:</p>
 <ol class="arabic simple">
 <li>Go to <em>Invoicing/Accounting &gt; Configuration &gt; Settings</em>.</li>
 <li>On the section <em>SEPA/PAIN</em>, check the mark “Multiple identifiers”.</li>
-<li>Now go to <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt; Payment Modes</em>.</li>
+<li>Now go to <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt;
+Payment Modes</em>.</li>
 <li>Create a payment mode for your specific bank.</li>
 <li>Fill the specific identifier on the field “SEPA Creditor Identifier”.</li>
 </ol>
 <p>For defining a payment mode that uses SEPA direct debit:</p>
 <ol class="arabic simple">
-<li>Go to <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt; Payment Modes</em>.</li>
+<li>Go to <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt; Payment
+Modes</em>.</li>
 <li>Create a record.</li>
 <li>Select the Payment Method <em>SEPA Direct Debit for customers</em> (which is
 automatically created upon module installation).</li>
 <li>Check that this payment method uses the proper version of PAIN.</li>
-<li>If not, go <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt; Payment Methods</em>.</li>
+<li>If not, go <em>Invoicing/Accounting &gt; Configuration &gt; Management &gt;
+Payment Methods</em>.</li>
 <li>Locate the “SEPA Direct Debit for customers” record and open it.</li>
 <li>Change the “PAIN version” according your needs.</li>
-<li>If you need to handle several PAIN versions, just duplicate the payment
-method adjusting this field on each for having them.</li>
+<li>If you need to handle several PAIN versions, just duplicate the
+payment method adjusting this field on each for having them.</li>
 </ol>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
-<p>In the menu <em>Invoicing/Accounting &gt; Customers &gt; Debit Order</em>, create a new debit
-order and select the Payment Mode dedicated to SEPA Direct Debit that
-you created during the configuration step.</p>
+<p>In the menu <em>Invoicing/Accounting &gt; Customers &gt; Debit Order</em>, create a
+new debit order and select the Payment Mode dedicated to SEPA Direct
+Debit that you created during the configuration step.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/bank-payment/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_sepa_direct_debit%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_sepa_direct_debit%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -484,7 +487,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/bank-payment/tree/16.0/account_banking_sepa_direct_debit">OCA/bank-payment</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/bank-payment/tree/17.0/account_banking_sepa_direct_debit">OCA/bank-payment</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
