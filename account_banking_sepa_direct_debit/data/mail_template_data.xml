@@ -34,10 +34,10 @@
 </p>
 </div>
             </field>
-            <field name="report_template" ref="report_sepa_direct_debit_mandate" />
             <field
-            name="report_name"
-        >{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}</field>
+            name="report_template_ids"
+            eval="[(4, ref('account_banking_sepa_direct_debit.report_sepa_direct_debit_mandate'))]"
+        />
             <field name="lang">{{ object.partner_id.lang }}</field>
             <field name="auto_delete" eval="True" />
         </record>

@@ -17,7 +17,7 @@
                     name="action_mandate_send"
                     type="object"
                     string="Send by Email"
-                    states="draft"
+                    invisible="state != 'draft'"
                     class="btn-primary"
                 />
                 <button name="print_report" type="object" string="Print" />
@@ -25,19 +25,17 @@
             <field name="partner_id" position="after">
                 <field
                     name="scheme"
-                    attrs="{'invisible': [('format', '!=', 'sepa')],
-                                         'required': [('format', '=', 'sepa')]}"
+                    invisible="format != 'sepa'"
+                    required="format == 'sepa'"
                 />
                 <field
                     name="recurrent_sequence_type"
-                    attrs="{'invisible': ['|', ('type', '=', 'oneoff'), ('format', '!=', 'sepa')],
-                           'required': [('type', '=', 'recurrent')]}"
+                    invisible="type == 'oneoff' or format != 'sepa'"
+                    required="type == 'recurrent'"
                 />
             </field>
             <field name="type" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'required': [('format', '=', 'sepa')]}</attribute>
+                <attribute name="required">format == 'sepa'</attribute>
             </field>
 
         </field>
