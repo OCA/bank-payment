@@ -107,7 +107,8 @@ class AccountBankingMandate(models.Model):
             for mandate in expired_mandates:
                 mandate.message_post(
                     body=_(
-                        "Mandate automatically set to expired after %d months without use."
+                        "Mandate automatically set to"
+                        " expired after %d months without use."
                     )
                     % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
                 )
@@ -125,7 +126,8 @@ class AccountBankingMandate(models.Model):
         return action
 
     def action_mandate_send(self):
-        """Opens a wizard to compose an email, with relevant mail template loaded by default"""
+        """Opens a wizard to compose an email,
+        with relevant mail template loaded by default"""
         self.ensure_one()
         template_id = self.env["ir.model.data"]._xmlid_to_res_id(
             "account_banking_sepa_direct_debit.email_template_sepa_mandate",
@@ -133,7 +135,7 @@ class AccountBankingMandate(models.Model):
         )
         ctx = {
             "default_model": "account.banking.mandate",
-            "default_res_id": self.id,
+            "default_res_ids": self.ids,
             "default_use_template": bool(template_id),
             "default_template_id": template_id,
             "default_composition_mode": "comment",
