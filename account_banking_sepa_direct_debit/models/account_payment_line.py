@@ -11,7 +11,7 @@ class AccountPaymentLine(models.Model):
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
         sepa_dd_lines = self.filtered(
-            lambda l: l.order_id.payment_method_id.code == "sepa_direct_debit"
+            lambda line: line.order_id.payment_method_id.code == "sepa_direct_debit"
         )
         sepa_dd_lines._check_sepa_direct_debit_ready()
         return res

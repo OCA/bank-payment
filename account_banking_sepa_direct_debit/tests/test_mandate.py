@@ -40,9 +40,7 @@ class TestMandate(TransactionCase):
             .browse(email_ctx.get("default_template_id"))
             .copy({"auto_delete": False})
         )
-        self.mandate.with_context(**email_ctx).message_post_with_template(
-            mail_template.id
-        )
+        self.mandate.with_context(**email_ctx).message_post_with_source(mail_template)
         mail_message = self.mandate.message_ids[0]
         self.assertEqual(
             self.mandate.partner_id, mail_message.sudo().mail_ids.recipient_ids
