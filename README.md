@@ -36,7 +36,7 @@ addon | version | maintainers | summary
 [account_payment_partner](account_payment_partner/) | 16.0.1.2.2 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 16.0.2.0.1 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 16.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
-[account_payment_sale](account_payment_sale/) | 16.0.1.0.0 |  | Adds payment mode on sale orders
+[account_payment_sale](account_payment_sale/) | 16.0.1.0.1 |  | Adds payment mode on sale orders
 
 [//]: # (end addons)
 
