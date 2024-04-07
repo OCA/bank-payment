@@ -53,11 +53,13 @@
                     name="move_lines"
                     string="Selected Move Lines to Create Transactions"
                 >
+                    <field name="move_line_domain" invisible="1" />
                     <field
                         name="move_line_ids"
                         nolabel="1"
                         force_save="1"
                         context="{'tree_view_ref': 'account_payment_order.view_move_line_tree', 'form_view_ref':'account_payment_order.view_move_line_form_no_edit'}"
+                        domain="move_line_domain"
                         colspan="2"
                     >
                         <tree>
