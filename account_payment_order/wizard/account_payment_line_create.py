@@ -41,6 +41,7 @@ class AccountPaymentLineCreate(models.TransientModel):
     move_line_ids = fields.Many2many(
         comodel_name="account.move.line", string="Move Lines"
     )
+    move_line_domain = fields.Binary(compute="_compute_move_line_domain")
 
     @api.model
     def default_get(self, field_list):
@@ -66,7 +67,18 @@ class AccountPaymentLineCreate(models.TransientModel):
         )
         return res
 
-    def _prepare_move_line_domain(self):
+    @api.depends(
+        "date_type",
+        "move_date",
+        "due_date",
+        "journal_ids",
+        "invoice",
+        "target_move",
+        "allow_blocked",
+        "payment_mode",
+        "partner_ids",
+    )
+    def _compute_move_line_domain(self):
         self.ensure_one()
         domain = [
             ("reconciled", "=", False),
@@ -83,11 +95,11 @@ class AccountPaymentLineCreate(models.TransientModel):
         if self.date_type == "due":
             domain += [
                 "|",
-                ("date_maturity", "<=", self.due_date),
+                ("date_maturity", "<=", fields.Date.to_string(self.due_date)),
                 ("date_maturity", "=", False),
             ]
         elif self.date_type == "move":
-            domain.append(("date", "<=", self.move_date))
+            domain.append(("date", "<=", fields.Date.to_string(self.move_date)))
         if self.invoice:
             domain.append(
                 (
@@ -148,11 +160,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         if paylines:
             move_lines_ids = [payline.move_line_id.id for payline in paylines]
             domain += [("id", "not in", move_lines_ids)]
-        return domain
+        self.move_line_domain = domain
 
     def populate(self):
-        domain = self._prepare_move_line_domain()
-        lines = self.env["account.move.line"].search(domain)
+        lines = self.env["account.move.line"].search(self.move_line_domain)
         self.move_line_ids = lines
         action = {
             "name": _("Select Move Lines to Create Transactions"),
@@ -164,22 +175,6 @@ class AccountPaymentLineCreate(models.TransientModel):
             "context": self._context,
         }
         return action
-
-    @api.onchange(
-        "date_type",
-        "move_date",
-        "due_date",
-        "journal_ids",
-        "invoice",
-        "target_move",
-        "allow_blocked",
-        "payment_mode",
-        "partner_ids",
-    )
-    def move_line_filters_change(self):
-        domain = self._prepare_move_line_domain()
-        res = {"domain": {"move_line_ids": domain}}
-        return res
 
     def create_payment_lines(self):
         if self.move_line_ids:
