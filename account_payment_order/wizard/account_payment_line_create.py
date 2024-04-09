@@ -77,6 +77,8 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [("partner_id", "in", self.partner_ids.ids)]
         if self.target_move == "posted":
             domain += [("move_id.state", "=", "posted")]
+        else:
+            domain += [("move_id.state", "in", ("draft", "posted"))]
         if not self.allow_blocked:
             domain += [("blocked", "!=", True)]
         if self.date_type == "due":
