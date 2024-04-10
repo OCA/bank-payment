@@ -28,8 +28,8 @@ msgid ""
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 "%(count)d righe di pagamento aggiunte all'ordine di pagamento esistente in "
-"bozza <a href=# data-oe-model=account.payment.order data-oe-"
-"id=%(order_id)d>%(name)s</a>."
+"bozza <a href=# data-oe-model=account.payment.order data-oe-id=%(order_id)d>"
+"%(name)s</a>."
 
 #. module: account_payment_order
 #. odoo-python
@@ -41,8 +41,8 @@ msgid ""
 "has been automatically created."
 msgstr ""
 "%(count)d righe di pagamento aggiunte al nuovo ordine di pagamento in bozza "
-"<a href=# data-oe-model=account.payment.order data-oe-"
-"id=%(order_id)d>%(name)s</a> che è stato creato automaticamente."
+"<a href=# data-oe-model=account.payment.order data-oe-id=%(order_id)d>"
+"%(name)s</a> che è stato creato automaticamente."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -739,6 +739,11 @@ msgid "Move Date"
 msgstr "Data movimento"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_line_domain
+msgid "Move Line Domain"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_line_ids
 msgid "Move Lines"
 msgstr "Righe movimeno"
@@ -1291,7 +1296,8 @@ msgstr "Procedura guidata creazione righe di pagamento"
 msgid ""
 "You cannot delete an uploaded payment order. You can cancel it in order to "
 "do so."
-msgstr "Non si può eliminare un ordine pagamento caricato. Lo si può annullare."
+msgstr ""
+"Non si può eliminare un ordine pagamento caricato. Lo si può annullare."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
