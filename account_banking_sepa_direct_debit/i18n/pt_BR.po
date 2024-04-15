@@ -415,7 +415,6 @@ msgstr ""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.server,name:account_banking_sepa_direct_debit.sdd_mandate_expire_cron_ir_actions_server
-#: model:ir.cron,cron_name:account_banking_sepa_direct_debit.sdd_mandate_expire_cron
 msgid "Set SEPA Direct Debit Mandates to Expired"
 msgstr ""
 
@@ -497,11 +496,6 @@ msgid "Unique Mandate Reference"
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
-msgid "Write the ICS of your company"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_payment_method__pain_version__pain_008_001_02
 msgid "pain.008.001.02 (recommended for direct debit)"
 msgstr ""
@@ -528,12 +522,6 @@ msgid ""
 "to\n"
 "                       debit your account in accordance with the "
 "instructions from"
-msgstr ""
-
-#. module: account_banking_sepa_direct_debit
-#: model:mail.template,report_name:account_banking_sepa_direct_debit.email_template_sepa_mandate
-msgid ""
-"{{ (object.unique_mandate_reference or 'SEPA Mandate').replace('/','_') }}"
 msgstr ""
 
 #~ msgid "Bank Payment Lines"
