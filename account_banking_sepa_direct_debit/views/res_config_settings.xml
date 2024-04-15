@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_config_settings" model="ir.ui.view">
+        <field name="name">sepa_direct_debit.account_config_settings.form
+        </field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="account_banking_pain_base.view_account_config_settings"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pain']" position="inside">
+                <setting>
+                    <field name="sepa_creditor_identifier" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
