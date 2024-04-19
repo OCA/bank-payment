@@ -285,6 +285,11 @@ msgid "Communication is empty on payment line %s."
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__company_id
 msgid "Company"
@@ -294,6 +299,11 @@ msgstr "Firma"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__company_partner_bank_id
 msgid "Company Bank Account"
 msgstr "Firmabankkonto"
+
+#. module: account_payment_order
+#: model:ir.model,name:account_payment_order.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -622,6 +632,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__move_line_id
 msgid "Journal Item"
 msgstr "Journalgjenstand"
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_journal_id
+#: model:ir.model.fields,help:account_payment_order.field_res_company__transfer_journal_id
+#: model:ir.model.fields,help:account_payment_order.field_res_config_settings__transfer_journal_id
+msgid "Journal to write payment entries when confirming payment/debit orders"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__journal_ids
@@ -972,6 +989,7 @@ msgstr "Betalingsordre"
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_outbound_menu
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
+#: model_terms:ir.ui.view,arch_db:account_payment_order.res_config_settings_view_form
 msgid "Payment Orders"
 msgstr ""
 
@@ -1220,6 +1238,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transactions"
 msgstr "Transaksjoner"
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__transfer_journal_id
+#: model:ir.model.fields,field_description:account_payment_order.field_res_company__transfer_journal_id
+#: model:ir.model.fields,field_description:account_payment_order.field_res_config_settings__transfer_journal_id
+msgid "Transfer journal on payment/debit orders"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__date_type
