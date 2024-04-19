@@ -755,7 +755,7 @@ msgid "SEPA zone"
 msgstr ""
 
 #. module: account_banking_pain_base
-#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.res_config_settings_view_form
 msgid "SEPA/PAIN"
 msgstr ""
 
