@@ -17,7 +17,9 @@ class AccountPayment(models.Model):
         for pay in self:
             if pay.payment_order_id:
                 pay.available_payment_method_line_ids = (
-                    pay.journal_id._get_available_payment_method_lines(pay.payment_type)
+                    pay.payment_order_id.journal_id._get_available_payment_method_lines(
+                        pay.payment_type
+                    )
                 )
             else:
                 pay.available_payment_method_line_ids = (
@@ -33,3 +35,16 @@ class AccountPayment(models.Model):
                     )
                 )
         return res
+
+    @api.constrains("payment_method_line_id")
+    def _check_payment_method_line_id(self):
+        for pay in self:
+            transfer_journal = (
+                pay.payment_order_id.payment_mode_id.transfer_journal_id
+                or pay.company_id.transfer_journal_id
+            )
+            if pay.journal_id == transfer_journal:
+                continue
+            else:
+                super(AccountPayment, pay)._check_payment_method_line_id()
+        return
