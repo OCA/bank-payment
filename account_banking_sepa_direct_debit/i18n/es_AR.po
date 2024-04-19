@@ -545,7 +545,7 @@ msgid "Unique Mandate Reference"
 msgstr "Referencia Única de Mandato"
 
 #. module: account_banking_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.view_account_config_settings
+#: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.res_config_settings_view_form
 msgid "Write the ICS of your company"
 msgstr "Escriba el IAS de su compañía"
 
