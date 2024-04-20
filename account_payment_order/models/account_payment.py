@@ -1,8 +1,9 @@
 # Copyright 2019 ACSONE SA/NV
 # Copyright 2022 Tecnativa - Pedro M. Baeza
+# Copyright 2023 Noviat
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class AccountPayment(models.Model):
@@ -10,6 +11,9 @@ class AccountPayment(models.Model):
 
     payment_order_id = fields.Many2one(comodel_name="account.payment.order")
     payment_line_ids = fields.Many2many(comodel_name="account.payment.line")
+    order_state = fields.Selection(
+        related="payment_order_id.state", string="Payment Order State"
+    )
 
     @api.depends("payment_type", "journal_id")
     def _compute_payment_method_line_fields(self):
@@ -48,3 +52,18 @@ class AccountPayment(models.Model):
             else:
                 super(AccountPayment, pay)._check_payment_method_line_id()
         return
+
+    def update_payment_reference(self):
+        view = self.env.ref("account_payment_order.account_payment_update_view_form")
+        return {
+            "name": _("Update Payment Reference"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "account.payment.update",
+            "view_id": view.id,
+            "target": "new",
+            "type": "ir.actions.act_window",
+            "context": dict(
+                self.env.context, default_payment_reference=self.payment_reference
+            ),
+        }
