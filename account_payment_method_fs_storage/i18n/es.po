@@ -6,64 +6,66 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-04-23 00:03+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model,name:account_payment_method_fs_storage.model_fs_storage
 msgid "FS Storage"
-msgstr ""
+msgstr "Almacenamiento FS"
 
 #. module: account_payment_method_fs_storage
 #. odoo-python
 #: code:addons/account_payment_method_fs_storage/models/account_payment_order.py:0
 #, python-format
 msgid "Generate and export"
-msgstr ""
+msgstr "Generar y exportar"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model,name:account_payment_method_fs_storage.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Métodos de Pago"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model,name:account_payment_method_fs_storage.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Orden de Pago"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model.fields,field_description:account_payment_method_fs_storage.field_account_payment_method__storage
 msgid "Storage"
-msgstr ""
+msgstr "Almacenamiento"
 
 #. module: account_payment_method_fs_storage
 #. odoo-python
 #: code:addons/account_payment_method_fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Storage is already used on at least one payment method"
-msgstr ""
+msgstr "El almacenamiento ya se utiliza en al menos un método de pago"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model.fields,help:account_payment_method_fs_storage.field_account_payment_method__storage
 msgid "Storage where to put the file after generation"
-msgstr ""
+msgstr "Almacenamiento donde poner el archivo después de la generación"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model.fields,help:account_payment_method_fs_storage.field_fs_storage__use_on_payment_method
 msgid "Tells if storage can be set on payment methods"
-msgstr ""
+msgstr "Indica si el almacenamiento se puede establecer en los métodos de pago"
 
 #. module: account_payment_method_fs_storage
 #. odoo-python
 #: code:addons/account_payment_method_fs_storage/models/account_payment_order.py:0
 #, python-format
 msgid "The file has been generated and dropped on the storage."
-msgstr ""
+msgstr "El archivo ha sido generado y depositado en el almacén."
 
 #. module: account_payment_method_fs_storage
 #. odoo-python
@@ -73,8 +75,10 @@ msgid ""
 "Unknown issue to upload the file on the storage:\n"
 "{details}"
 msgstr ""
+"Problema desconocido para cargar el archivo en el almacenamiento:\n"
+"{detalles}"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model.fields,field_description:account_payment_method_fs_storage.field_fs_storage__use_on_payment_method
 msgid "Use On Payment Method"
-msgstr ""
+msgstr "Utilizar en Método de Pago"
