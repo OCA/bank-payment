@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-19 07:23+0000\n"
-"PO-Revision-Date: 2024-03-27 15:36+0000\n"
+"PO-Revision-Date: 2024-04-23 00:03+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -299,7 +299,7 @@ msgstr "La comunicación está vacía en la línea de pago %s."
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
@@ -315,7 +315,7 @@ msgstr "Cuenta bancaria de la compañía"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes Config"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -672,6 +672,7 @@ msgstr "Apunte contable"
 #: model:ir.model.fields,help:account_payment_order.field_res_config_settings__transfer_journal_id
 msgid "Journal to write payment entries when confirming payment/debit orders"
 msgstr ""
+"Diario para escribir asientos de pago al confirmar órdenes de pago/débito"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__journal_ids
@@ -1019,7 +1020,7 @@ msgstr "Orden de Pago correcta"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__order_state
 msgid "Payment Order State"
-msgstr ""
+msgstr "Estado de la Orden de Pago"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -1299,7 +1300,7 @@ msgstr "Transacciones"
 #: model:ir.model.fields,field_description:account_payment_order.field_res_company__transfer_journal_id
 #: model:ir.model.fields,field_description:account_payment_order.field_res_config_settings__transfer_journal_id
 msgid "Transfer journal on payment/debit orders"
-msgstr ""
+msgstr "Diario de transferencias en órdenes de pago/débito"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__date_type
@@ -1320,7 +1321,7 @@ msgstr "Tipo de actividad de excepción en el registro."
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
 #, python-format
 msgid "Update Payment Reference"
-msgstr ""
+msgstr "Actualizar Referencia de Pago"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
