@@ -76,7 +76,7 @@ msgid ""
 "{details}"
 msgstr ""
 "Problema desconocido para cargar el archivo en el almacenamiento:\n"
-"{detalles}"
+"{details}"
 
 #. module: account_payment_method_fs_storage
 #: model:ir.model.fields,field_description:account_payment_method_fs_storage.field_fs_storage__use_on_payment_method
