@@ -1212,6 +1212,16 @@ msgstr "No hay transacciones en la orden %s."
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
+msgid ""
+"There are several lines pointing to the same pending balance. This is "
+"probably caused by a manual line creation. Please remove this duplication "
+"for being able to save the order."
+msgstr ""
+
+#. module: account_payment_order
+#. odoo-python
+#: code:addons/account_payment_order/models/account_payment_order.py:0
+#, python-format
 msgid "There's at least one validation error:\n"
 msgstr ""
 
