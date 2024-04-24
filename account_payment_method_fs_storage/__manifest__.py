@@ -7,7 +7,7 @@
         Add the possibility to specify on the payment method,
         a storage where files generated will be pushed to upon payment
     """,
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.2",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
