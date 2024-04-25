@@ -95,15 +95,14 @@ class AccountBankingMandate(models.Model):
         )
     ]
 
-    def name_get(self):
-        result = []
+    @api.depends("unique_mandate_reference", "partner_bank_id.acc_number")
+    def _compute_display_name(self):
         for mandate in self:
             name = mandate.unique_mandate_reference
             acc_number = mandate.partner_bank_id.acc_number
             if acc_number:
                 name = f"{name} [...{acc_number[-4:]}]"
-            result.append((mandate.id, name))
-        return result
+            mandate.display_name = name
 
     @api.depends("payment_line_ids")
     def _compute_payment_line_ids_count(self):
