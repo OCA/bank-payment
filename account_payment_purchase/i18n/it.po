@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2023-06-22 08:10+0000\n"
+"PO-Revision-Date: 2024-05-03 14:40+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Registrazione contabile"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -41,25 +41,28 @@ msgid ""
 "the payment. This field is copied from the partner and will be copied to the "
 "supplier invoice."
 msgstr ""
+"Selezionare il conto bancario del fornitore sul quale la vostra azienda "
+"effettuerà il pagamento. Questo campo è copiato dal partner e verrà copiato "
+"nella fattura fornitore."
 
 #. module: account_payment_purchase
 #. odoo-python
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
-msgstr ""
+msgstr "L'ordine di acquisto selezionato ha un modo di pagamento differente."
 
 #. module: account_payment_purchase
 #. odoo-python
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "L'ordine di acquisto selezionato ha una banca fornitore differente."
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
 msgid "Supplier Bank Account"
-msgstr ""
+msgstr "Conto bancario fornitore"
 
 #. module: account_payment_purchase
 #. odoo-python
