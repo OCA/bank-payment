@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Account Payment Order Notification",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.0.1",
     "category": "Banking addons",
     "website": "https://github.com/OCA/bank-payment",
     "author": "Tecnativa, Odoo Community Association (OCA)",
