@@ -9,9 +9,6 @@ from odoo import api, fields, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    payment_mode_filter_type_domain = fields.Char(
-        compute="_compute_payment_mode_filter_type_domain"
-    )
     partner_bank_filter_type_domain = fields.Many2one(
         comodel_name="res.partner", compute="_compute_partner_bank_filter_type_domain"
     )
@@ -37,16 +34,6 @@ class AccountMove(models.Model):
         help="Technical field for supporting the editability of the payment mode",
         compute="_compute_has_reconciled_items",
     )
-
-    @api.depends("move_type")
-    def _compute_payment_mode_filter_type_domain(self):
-        for move in self:
-            if move.move_type in ("out_invoice", "in_refund"):
-                move.payment_mode_filter_type_domain = "inbound"
-            elif move.move_type in ("in_invoice", "out_refund"):
-                move.payment_mode_filter_type_domain = "outbound"
-            else:
-                move.payment_mode_filter_type_domain = False
 
     @api.depends("partner_id", "move_type")
     def _compute_partner_bank_filter_type_domain(self):

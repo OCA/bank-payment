@@ -14,3 +14,4 @@
 
   * Raf Ven <raf.ven@dynapps.be>
 * Marçal Isern <marsal.isern@qubiq.es>
+* Jacques-Etienne Baudoux (BCIM) <je@bcim.be>

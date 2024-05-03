@@ -1,5 +1,6 @@
 # Copyright 2017 ForgeFlow S.L.
 # Copyright 2021 Tecnativa - Víctor Martínez
+# Copyright 2024 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import _, fields
@@ -484,52 +485,27 @@ class TestAccountPaymentPartner(TransactionCase):
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
         self.assertIn(self.journal_bank.acc_number, res)
 
-    def test_filter_type_domain(self):
-        in_invoice = self.move_model.create(
-            {
-                "partner_id": self.supplier.id,
-                "move_type": "in_invoice",
-                "invoice_date": fields.Date.today(),
-                "journal_id": self.journal_purchase.id,
-            }
+    def test_payment_mode_valid_for_move_type(self):
+        modes = self.payment_mode_model.search(
+            [("is_valid_for_move_type", "=", "out_invoice")]
         )
-        self.assertEqual(in_invoice.payment_mode_filter_type_domain, "outbound")
-        self.assertEqual(
-            in_invoice.partner_bank_filter_type_domain, in_invoice.commercial_partner_id
+        self.assertIn(self.customer_payment_mode, modes)
+        self.assertNotIn(self.supplier_payment_mode, modes)
+        modes = self.payment_mode_model.search(
+            [("is_valid_for_move_type", "=", "in_invoice")]
         )
-        out_refund = self.move_model.create(
-            {
-                "partner_id": self.customer.id,
-                "move_type": "out_refund",
-                "journal_id": self.journal_sale.id,
-            }
+        self.assertNotIn(self.customer_payment_mode, modes)
+        self.assertIn(self.supplier_payment_mode, modes)
+        modes = self.payment_mode_model.search(
+            [("is_valid_for_move_type", "=", "out_refund")]
         )
-        self.assertEqual(out_refund.payment_mode_filter_type_domain, "outbound")
-        self.assertEqual(
-            out_refund.partner_bank_filter_type_domain, out_refund.commercial_partner_id
+        self.assertIn(self.customer_payment_mode, modes)
+        self.assertIn(self.supplier_payment_mode, modes)
+        modes = self.payment_mode_model.search(
+            [("is_valid_for_move_type", "=", "in_refund")]
         )
-        in_refund = self.move_model.create(
-            {
-                "partner_id": self.supplier.id,
-                "move_type": "in_refund",
-                "journal_id": self.journal_purchase.id,
-            }
-        )
-        self.assertEqual(in_refund.payment_mode_filter_type_domain, "inbound")
-        self.assertEqual(
-            in_refund.partner_bank_filter_type_domain, in_refund.bank_partner_id
-        )
-        out_invoice = self.move_model.create(
-            {
-                "partner_id": self.customer.id,
-                "move_type": "out_invoice",
-                "journal_id": self.journal_sale.id,
-            }
-        )
-        self.assertEqual(out_invoice.payment_mode_filter_type_domain, "inbound")
-        self.assertEqual(
-            out_invoice.partner_bank_filter_type_domain, out_invoice.bank_partner_id
-        )
+        self.assertIn(self.customer_payment_mode, modes)
+        self.assertIn(self.supplier_payment_mode, modes)
 
     def test_account_move_payment_mode_id_default(self):
         payment_mode = self.env.ref("account_payment_mode.payment_mode_inbound_dd1")

@@ -26,13 +26,12 @@
             <field name="partner_bank_id" position="before">
                 <field
                     name="payment_mode_id"
-                    domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
+                    domain="[('is_valid_for_move_type', '=', move_type), ('company_id', '=', company_id)]"
                     widget="selection"
                     attrs="{'readonly': [('has_reconciled_items', '=', True)], 'invisible': [('move_type', 'not in', ('out_invoice','out_refund','in_invoice','in_refund'))]}"
                 />
                 <field name="has_reconciled_items" invisible="1" />
                 <field name="bank_account_required" invisible="1" />
-                <field name="payment_mode_filter_type_domain" invisible="1" />
                 <field name="partner_bank_filter_type_domain" invisible="1" />
             </field>
             <xpath
