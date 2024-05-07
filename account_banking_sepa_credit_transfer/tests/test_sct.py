@@ -256,6 +256,9 @@ class TestSCT(TransactionCase):
         return
 
     def test_usd_currency_sct(self):
+        # Set a currency_exchange_journal on the company to avoid an exception
+        # due to the use of a foreign currency
+        self.main_company.write({"currency_exchange_journal_id": self.bank_journal.id})
         invoice1 = self.create_invoice(
             self.partner_asus.id,
             "account_payment_mode.res_partner_2_iban",
