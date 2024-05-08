@@ -1,12 +1,8 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl
 
-from unittest.mock import patch
-
 from odoo import fields
 from odoo.tests.common import Form, TransactionCase
-
-from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
 
 class TestAccountPaymentOrder(TransactionCase):
@@ -35,9 +31,13 @@ class TestAccountPaymentOrder(TransactionCase):
             "payment_type": "inbound",
             "bank_account_required": True,
         }
-        cls.method_sepa = cls._create_multi_bank_payment_method(payment_method_vals)
+        cls.method_sepa = cls.env["account.payment.method"].create(payment_method_vals)
         cls.journal_bank = cls.env["account.journal"].create(
-            {"name": "BANK", "type": "bank", "code": "bank"}
+            {
+                "name": "BANK",
+                "type": "bank",
+                "code": "bank",
+            }
         )
         payment_form = Form(cls.env["account.payment.mode"])
         payment_form.name = "SEPA (CORE)"
@@ -59,27 +59,6 @@ class TestAccountPaymentOrder(TransactionCase):
         )
         payment_order_form.payment_mode_id = cls.payment_core
         cls.payment_order = payment_order_form.save()
-
-    @classmethod
-    def _create_multi_bank_payment_method(cls, payment_method_vals):
-        method_get_payment_method_information = (
-            AccountPaymentMethod._get_payment_method_information
-        )
-
-        def _get_payment_method_information(cls):
-            res = method_get_payment_method_information(cls)
-            res[payment_method_vals["code"]] = {
-                "mode": "multi",
-                "domain": [("type", "=", "bank")],
-            }
-            return res
-
-        with patch.object(
-            AccountPaymentMethod,
-            "_get_payment_method_information",
-            _get_payment_method_information,
-        ):
-            return cls.env["account.payment.method"].create(payment_method_vals)
 
     @classmethod
     def _create_res_partner_bank(cls, acc_number):
