@@ -104,6 +104,10 @@ class TestSDDBase(TransactionCase):
                 ],
             }
         )
+        # Set a currency_exchange_journal on the company to avoid an exception
+        # due to the use of a foreign currency
+        cls.main_company.write({"currency_exchange_journal_id": cls.bank_journal.id})
+        cls.company_B.write({"currency_exchange_journal_id": cls.bank_journal.id})
         # update payment mode
         cls.payment_mode = cls.env.ref(
             "account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1"
