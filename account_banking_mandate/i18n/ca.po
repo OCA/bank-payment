@@ -307,11 +307,6 @@ msgid "Journal Item"
 msgstr "Apunt comptable"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-msgid "Last Modified on"
-msgstr "Última modificació el"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_uid
 msgid "Last Updated by"
 msgstr "Darrera actualització per"
@@ -320,11 +315,6 @@ msgstr "Darrera actualització per"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_date
 msgid "Last Updated on"
 msgstr "Darrera actualització el"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Adjunt principal"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -631,6 +621,12 @@ msgid ""
 msgstr ""
 "Només hauria de tornar un mandat a estat esborrany si va cancel·lar-lo per "
 "error. Desitja continuar?"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificació el"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Adjunt principal"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Error de lliurament de missatge SMS"
