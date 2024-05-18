@@ -9,15 +9,16 @@
         <field name="model">res.partner.bank</field>
         <field name="inherit_id" ref="base.view_partner_bank_form" />
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group" position="inside">
-                <group name="mandates" string="Direct Debit Mandates">
+            <xpath expr="//form/sheet/group" position="after">
+                <label for="mandate_ids" />
+                <div name="mandates" string="Direct Debit Mandates">
                     <field
                         name="mandate_ids"
                         context="{'mandate_bank_partner_view': True}"
                         nolabel="1"
                         colspan="4"
                     />
-                </group>
+                </div>
             </xpath>
         </field>
     </record>
