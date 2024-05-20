@@ -52,3 +52,17 @@ class SaleOrder(models.Model):
         if "payment_mode_id" not in keys:
             keys.append("payment_mode_id")
         return keys
+
+    def _create_invoices(self, grouped=False, final=False, date=None):
+        momentary_mode = self.env.ref("account_payment_sale.payment_mode_momentary")
+        for order in self:
+            if not order.payment_mode_id:
+                order.payment_mode_id = momentary_mode
+
+        res = super()._create_invoices(grouped=grouped, final=final, date=date)
+
+        for order in self:
+            if order.payment_mode_id == momentary_mode:
+                order.payment_mode_id = None
+
+        return res

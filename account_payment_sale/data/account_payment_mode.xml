@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_method_momentary" model="account.payment.method">
+        <field name="name">Momentary Payment Method</field>
+        <field name="code">0000</field>
+        <field name="payment_type">inbound</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="payment_mode_momentary" model="account.payment.mode">
+        <field name="name">Momentary Payment Mode</field>
+        <field name="payment_method_id" ref="payment_method_momentary" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field name="active" eval="False" />
+    </record>
+</odoo>
