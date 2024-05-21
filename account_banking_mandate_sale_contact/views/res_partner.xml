@@ -12,7 +12,7 @@
             <field name="contact_mandate_id" position="after">
                 <field
                     name="sale_default_mandate_contact"
-                    attrs="{'invisible': [('company_type', '=', 'person')]}"
+                    invisible="company_type == 'person'"
                 />
             </field>
         </field>

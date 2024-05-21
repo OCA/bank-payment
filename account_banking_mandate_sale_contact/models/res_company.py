@@ -16,7 +16,8 @@ class ResCompany(models.Model):
         ],
         string="Default Sale Mandate Contact",
         default="partner_id",
-        help="The contact of this company in which odoo will search for the mandate on sales\n"
+        help="The contact of this company in which odoo"
+        " will search for the mandate on sales\n"
         "- Customer Mandate: Odoo will look the mandate in the sale partner,"
         " whether is an individual or the company\n"
         "- Commercial Customer Mandate: Odoo will look the mandate in the"

@@ -3,7 +3,7 @@
 {
     "name": "Account Banking Mandate Sale Contact",
     "summary": "Add a specific contact mandate to sale orders",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.0",
     "development_status": "Beta",
     "category": "Banking addons",
     "website": "https://github.com/OCA/bank-payment",
