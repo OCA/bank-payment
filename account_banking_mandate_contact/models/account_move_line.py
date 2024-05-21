@@ -10,7 +10,7 @@ class AccountMoveLine(models.Model):
 
     # Extended to use partner_shipping_id mandate if it have set
     def _prepare_payment_line_vals(self, payment_order):
-        vals = super(AccountMoveLine, self)._prepare_payment_line_vals(payment_order)
+        vals = super()._prepare_payment_line_vals(payment_order)
         if payment_order.payment_type != "inbound" or self.move_id.mandate_id:
             return vals
         mandate = (
