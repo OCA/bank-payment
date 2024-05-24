@@ -17,7 +17,7 @@
                 <setting
                     id="sale_default_mandates"
                     help="The partner of the sales in which odoo will search for the mandate"
-                    title="The contact of this company in which odoo will search for the mandate on sales&#013;- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company&#013;- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company&#013;- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address&#013;- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address&#013;- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+                    title="The contact of this company in which odoo will search for the mandate on sales. &#013;-Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company. &#013;-Commercial Customer Mandate: Odoo will look the mandate in the sale partner company. &#013;-Invoice Address Mandate: Odoo will look the mandate in the sale invoice address. &#013;-Delivery Address Mandate: Odoo will look the mandate in the sale delivery address. &#013;-False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
                 >
                     <field name="sale_default_mandate_contact" />
                 </setting>

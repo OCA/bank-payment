@@ -29,8 +29,8 @@ Account Banking Mandate Sale Contact
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module combines the functionality of account_banking_mandate_sale
-with account_banking_mandate_contact and to allows you to add a specific
-contact mandate to sale orders.
+with account_banking_mandate_contact and allows you to set up a default
+contact mandate for sale orders.
 
 **Table of contents**
 
@@ -42,12 +42,15 @@ Configuration
 
 To configure this module, you need to:
 
-1. Go to Settings/Sales/Invoicing and select the Default Mandates
-   option. This allows you to choose if you want the mandate of the sale
-   partner, invoice address or delivery address.
-2. If you want to specifically change the default mandate for a
-   customer, you can go to the "Sales & Purchase" tab of his contact
-   form.
+1. Go to *Settings > Sales > Invoicing* and select the "Default Sale Mandate Contact"
+   option. This allows you to configure in which sale partner the
+   mandates will be searched for: customer, invoice address,
+   invoicing commercial entity, etc.
+
+2. If you want to specifically set that option for a specific partner,
+   you can go to the "Sales & Purchase" tab his contact form. And edit the 
+   "Default Sale Mandate Contact" field. This option is only available in
+   company contact types and it will affect all the childen contacts
 
 Usage
 =====
@@ -58,9 +61,11 @@ For selecting the mandate at contact level:
 2. Open or create one contact.
 3. On the "Sales & Purchase" page, fill *Contact Mandate*.
 
-Then, when you select a payment mode that requires mandate on a sale
-order, Odoo will choose the mandate selected at contact level. That
-mandate will be copied from the sale order to the invoice.
+For setting the mandate automatically at sale order level:
+
+1. Go to *Sales > Orders > Quotations* and create a sale order with a payment mode that requires mandate
+2. See how Odoo automatically fills the mandate with the one you selected at contact level. That
+   mandate will be copied from the sale order to the invoice.
 
 Bug Tracker
 ===========

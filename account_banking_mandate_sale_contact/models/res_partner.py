@@ -24,9 +24,7 @@ class ResPartner(models.Model):
         " sale invoice address\n"
         "- Delivery Address Mandate: Odoo will look the mandate in the"
         " sale delivery address\n"
-        "- False: Odoo will use the first mandate he founds for the partner company."
-        " Odoo will also use this option if no default mandate is found in the"
-        " partner of the above options",
+        "- False: Odoo will use the company configuration option",
     )
 
     @api.model
