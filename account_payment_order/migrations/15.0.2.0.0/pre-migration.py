@@ -5,4 +5,6 @@ from openupgradelib import openupgrade
 
 @openupgrade.migrate()
 def migrate(env, version):
+    if not openupgrade.table_exists(env.cr, "bank_payment_line"):
+        return  # if coming from 14.2.0.0
     openupgrade.remove_tables_fks(env.cr, ["bank_payment_line"])

@@ -162,9 +162,13 @@ def _insert_payment_line_payment_link(env):
 
 @openupgrade.migrate()
 def migrate(env, version):
-    if openupgrade.column_exists(env.cr, "account_payment", "old_bank_payment_line_id"):
-        # No execution if the column exists, as that means that this DB comes from v14
-        # with the refactoring already applied
+    if not openupgrade.table_exists(
+        env.cr, "bank_payment_line"
+    ) or openupgrade.column_exists(
+        env.cr, "account_payment", "old_bank_payment_line_id"
+    ):
+        # No execution, as that means that this DB comes from v14 with the refactoring
+        # already applied and possibly database cleaned up
         return
     openupgrade.logged_query(
         env.cr, "ALTER TABLE account_payment ALTER move_id DROP NOT NULL"
