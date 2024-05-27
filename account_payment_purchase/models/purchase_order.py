@@ -53,3 +53,9 @@ class PurchaseOrder(models.Model):
             else:
                 order.supplier_partner_bank_id = False
                 order.payment_mode_id = False
+
+    def _prepare_invoice(self):
+        """Propagate payment mode to invoice"""
+        invoice_vals = super()._prepare_invoice()
+        invoice_vals["payment_mode_id"] = self.payment_mode_id.id
+        return invoice_vals
