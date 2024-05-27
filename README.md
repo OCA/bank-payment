@@ -32,7 +32,7 @@ addon | version | maintainers | summary
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 15.0.1.0.2 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_return](account_payment_order_return/) | 15.0.1.0.1 |  | Account Payment Order Return
 [account_payment_partner](account_payment_partner/) | 15.0.1.3.2 |  | Adds payment mode on partners and invoices
-[account_payment_purchase](account_payment_purchase/) | 15.0.1.0.1 |  | Adds Bank Account and Payment Mode on Purchase Orders
+[account_payment_purchase](account_payment_purchase/) | 15.0.1.0.2 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 15.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
 [account_payment_sale](account_payment_sale/) | 15.0.1.0.1 |  | Adds payment mode on sale orders
 
