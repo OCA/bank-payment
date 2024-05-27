@@ -29,7 +29,7 @@ class PurchaseOrder(models.Model):
 
     @api.onchange("partner_id", "company_id")
     def onchange_partner_id(self):
-        res = super(PurchaseOrder, self).onchange_partner_id()
+        res = super().onchange_partner_id()
         if self.partner_id:
             self = self.with_company(self.company_id)
             self.supplier_partner_bank_id = self._get_default_supplier_partner_bank(
@@ -40,3 +40,10 @@ class PurchaseOrder(models.Model):
             self.supplier_partner_bank_id = False
             self.payment_mode_id = False
         return res
+
+    def _prepare_invoice(self):
+        """Leave the bank account empty so that account_payment_partner set the
+        correct value with compute."""
+        invoice_vals = super()._prepare_invoice()
+        invoice_vals.pop("partner_bank_id")
+        return invoice_vals
