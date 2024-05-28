@@ -233,3 +233,12 @@ class AccountMove(models.Model):
             }
         )
         return action
+
+    @api.model
+    def _get_invoice_in_payment_state(self):
+        """Called from _compute_payment_state method.
+        Consider in_payment all the moves that are included in a payment order.
+        """
+        if self.line_ids.payment_line_ids:
+            return "in_payment"
+        return super()._get_invoice_in_payment_state()

@@ -122,25 +122,20 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
     def test_creation(self):
         payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
-
         payment_order.write({"journal_id": self.journal.id})
-
         self.assertEqual(len(payment_order.payment_line_ids), 1)
         self.assertFalse(payment_order.payment_ids)
-
         # Open payment order
         payment_order.draft2open()
-
         self.assertEqual(payment_order.payment_count, 1)
-
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-
         self.assertEqual(payment_order.state, "uploaded")
+        self.assertEqual(self.invoice.payment_state, "in_payment")
         with self.assertRaises(UserError):
             payment_order.unlink()
-
+        # Cancel order
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
