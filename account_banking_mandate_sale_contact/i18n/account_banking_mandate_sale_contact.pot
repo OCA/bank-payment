@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,11 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: account_banking_mandate_sale_contact
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
-msgid "<span class=\"o_form_label\">Default Mandates</span>"
-msgstr ""
 
 #. module: account_banking_mandate_sale_contact
 #: model:ir.model.fields.selection,name:account_banking_mandate_sale_contact.selection__res_company__sale_default_mandate_contact__commercial_partner_id
@@ -85,12 +80,12 @@ msgstr ""
 #. module: account_banking_mandate_sale_contact
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
 msgid ""
-"The contact of this company in which odoo will search for the mandate on sales\r"
-"- Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company\r"
-"- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\r"
-"- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\r"
-"- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\r"
-"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+"The contact of this company in which odoo will search for the mandate on sales. \r"
+"-Customer Mandate: Odoo will look the mandate in the sale partner, whether is an individual or the company. \r"
+"-Commercial Customer Mandate: Odoo will look the mandate in the sale partner company. \r"
+"-Invoice Address Mandate: Odoo will look the mandate in the sale invoice address. \r"
+"-Delivery Address Mandate: Odoo will look the mandate in the sale delivery address. \r"
+"-False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
 msgstr ""
 
 #. module: account_banking_mandate_sale_contact
@@ -107,5 +102,5 @@ msgid ""
 "- Commercial Customer Mandate: Odoo will look the mandate in the sale partner company\n"
 "- Invoice Address Mandate: Odoo will look the mandate in the sale invoice address\n"
 "- Delivery Address Mandate: Odoo will look the mandate in the sale delivery address\n"
-"- False: Odoo will use the first mandate he founds for the partner company. Odoo will also use this option if no default mandate is found in the partner of the above options"
+"- False: Odoo will use the company configuration option"
 msgstr ""
