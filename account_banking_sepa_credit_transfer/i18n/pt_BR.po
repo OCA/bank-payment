@@ -9,15 +9,17 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2017-11-23 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
-"teams/23907/pt_BR/)\n"
+"PO-Revision-Date: 2024-05-29 19:36+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
+"23907/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_sepa_credit_transfer
 #. odoo-python
@@ -27,28 +29,30 @@ msgid ""
 "Bank account is missing on the bank payment line of partner "
 "'{partner}' (reference '{reference}')."
 msgstr ""
+"A conta bancária está faltando na linha de pagamento bancário do parceiro "
+"'{partner}' (referência '{reference}')."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_line__local_instrument__inst
 msgid "Instant Transfer"
-msgstr ""
+msgstr "Transferência Instantânea"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_line__local_instrument
 msgid "Local Instrument"
-msgstr ""
+msgstr "Instrumento Local"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields,field_description:account_banking_sepa_credit_transfer.field_account_payment_method__pain_version
 msgid "PAIN Version"
-msgstr ""
+msgstr "Versão PAIN"
 
 #. module: account_banking_sepa_credit_transfer
 #. odoo-python
 #: code:addons/account_banking_sepa_credit_transfer/models/account_payment_order.py:0
 #, python-format
 msgid "PAIN version '%s' is not supported."
-msgstr ""
+msgstr "A versão do PAIN '%s' não é suportada."
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_line
@@ -58,7 +62,7 @@ msgstr "Linhas do pagamento"
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Métodos de Pagamento"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model,name:account_banking_sepa_credit_transfer.model_account_payment_order
@@ -69,32 +73,32 @@ msgstr "Ordem de Pagamento"
 #: model:account.payment.method,name:account_banking_sepa_credit_transfer.sepa_credit_transfer
 #: model:account.payment.mode,name:account_banking_sepa_credit_transfer.payment_mode_outbound_sepa_ct1
 msgid "SEPA Credit Transfer to suppliers"
-msgstr ""
+msgstr "Transferência de crédito SEPA para fornecedores"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_02
 msgid "pain.001.001.02"
-msgstr ""
+msgstr "pain.001.001.02"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_03
 msgid "pain.001.001.03 (recommended for credit transfer)"
-msgstr ""
+msgstr "pain.001.001.03 (recomendado para transferência de crédito)"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_04
 msgid "pain.001.001.04"
-msgstr ""
+msgstr "pain.001.001.04"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_001_05
 msgid "pain.001.001.05"
-msgstr ""
+msgstr "pain.001.001.05"
 
 #. module: account_banking_sepa_credit_transfer
 #: model:ir.model.fields.selection,name:account_banking_sepa_credit_transfer.selection__account_payment_method__pain_version__pain_001_003_03
 msgid "pain.001.003.03"
-msgstr ""
+msgstr "pain.001.003.03"
 
 #, python-format
 #~ msgid ""
