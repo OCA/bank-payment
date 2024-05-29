@@ -132,6 +132,17 @@ class AccountBankingMandate(models.Model):
             "domain": [("mandate_id", "=", self.id)],
         }
 
+    @api.constrains("partner_bank_id", "partner_id")
+    def _check_partner_bank_id(self):
+        for rec in self:
+            if rec.partner_bank_id and rec.partner_id != rec.partner_bank_id.partner_id:
+                raise ValidationError(
+                    _(
+                        "The partner of the bank account must be the "
+                        "same as the partner of the mandate."
+                    )
+                )
+
     @api.constrains("signature_date", "last_debit_date")
     def _check_dates(self):
         today = fields.Date.context_today(self)
