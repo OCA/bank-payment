@@ -1,0 +1,1 @@
+- This module depends on account_payment_partner. If the payment mode of the invoice has a payment method that does not require a bank account, the default bank account will be empty.
