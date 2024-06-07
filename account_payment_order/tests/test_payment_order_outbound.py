@@ -281,6 +281,28 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.invoice.payment_reference = "R1234"
         self.assertEqual("F1242", self.invoice._get_payment_order_communication())
 
+    def test_invoice_communication_03(self):
+        self.invoice.ref = False
+        self.invoice.action_post()
+        self.assertEqual("", self.invoice._get_payment_order_communication())
+        reverse_wizard = Form(
+            self.env["account.move.reversal"].with_context(
+                active_ids=self.invoice.ids, active_model=self.invoice._name
+            )
+        )
+        reverse = reverse_wizard.save()
+        reverse_res = reverse.reverse_moves()
+        reverse_move = self.env[reverse_res["res_model"]].browse(reverse_res["res_id"])
+        self.assertEqual(
+            " %s" % reverse_move.ref,
+            self.invoice._get_payment_order_communication(),
+        )
+        self.invoice.ref = "ref"
+        self.assertEqual(
+            "ref %s" % reverse_move.ref,
+            self.invoice._get_payment_order_communication(),
+        )
+
     def test_manual_line_and_manual_date(self):
         # Create payment order
         outbound_order = self.env["account.payment.order"].create(

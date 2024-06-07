@@ -43,7 +43,7 @@ class AccountMove(models.Model):
         """
         Retrieve the communication string for the payment order
         """
-        communication = self.payment_reference or self.ref or self.name or ""
+        communication = self.payment_reference or self.ref or self.name
         if self.is_invoice():
             if (self.reference_type or "none") != "none":
                 communication = self.ref
@@ -62,7 +62,7 @@ class AccountMove(models.Model):
                 ]
             )
             communication += " " + " ".join(references)
-        return communication
+        return communication or ""
 
     def _prepare_new_payment_order(self, payment_mode=None):
         self.ensure_one()
