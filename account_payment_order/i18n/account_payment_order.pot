@@ -6,6 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-17 06:21+0000\n"
+"PO-Revision-Date: 2024-06-17 06:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -522,6 +524,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -744,6 +747,11 @@ msgid "No pending AR/AP lines to add on %s"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__transfer_date_option__now_date_maturity
+msgid "Now + Payment date as due date"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
 msgid "Number"
 msgstr ""
@@ -945,6 +953,11 @@ msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__transfer_date_option__payment_date
+msgid "Payment date"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__payment_line_ids
 msgid "Payment lines"
 msgstr ""
@@ -969,6 +982,11 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: account_payment_order
@@ -1155,6 +1173,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_line_ids
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transactions"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__transfer_date_option
+msgid "Transfer moves dates"
 msgstr ""
 
 #. module: account_payment_order

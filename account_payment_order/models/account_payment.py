@@ -1,5 +1,6 @@
 # Copyright 2019 ACSONE SA/NV
 # Copyright 2022 Tecnativa - Pedro M. Baeza
+# Copyright 2024 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -47,3 +48,16 @@ class AccountPayment(models.Model):
                     and pay.available_payment_method_line_ids.code == "manual"
                 )
         return res
+
+    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
+        """Overwrite date_maturity of the move_lines that are generated when related
+        to a payment order and a specific configuration.
+        """
+        vals_list = super()._prepare_move_line_default_vals(
+            write_off_line_vals=write_off_line_vals
+        )
+        payment_mode = self.payment_order_id.payment_mode_id
+        if payment_mode.transfer_date_option == "now_date_maturity":
+            for vals in vals_list:
+                vals["date_maturity"] = self.payment_line_ids[0].date
+        return vals_list
