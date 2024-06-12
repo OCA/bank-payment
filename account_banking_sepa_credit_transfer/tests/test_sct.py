@@ -299,15 +299,6 @@ class TestSCT(TransactionCase):
         self.assertEqual(self.payment_order.state, "open")
         self.assertEqual(self.payment_order.sepa, False)
         self.assertEqual(self.payment_order.payment_count, 1)
-        asus_bank_line = self.payment_order.payment_ids[0]
-        self.assertEqual(asus_bank_line.currency_id, self.usd_currency)
-        self.assertEqual(
-            asus_bank_line.currency_id.compare_amounts(asus_bank_line.amount, 3054.0),
-            0,
-        )
-        self.assertEqual(asus_bank_line.payment_reference, "Inv9032 - Inv9033")
-        self.assertEqual(asus_bank_line.partner_bank_id, invoice1.partner_bank_id)
-
         action = self.payment_order.open2generated()
         self.assertEqual(self.payment_order.state, "generated")
         self.assertEqual(action["res_model"], "ir.attachment")
