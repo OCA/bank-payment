@@ -26,8 +26,8 @@ addon | version | maintainers | summary
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 16.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adds mandates on sale orders
 [account_banking_mandate_sale_contact](account_banking_mandate_sale_contact/) | 16.0.1.0.1 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Add a specific contact mandate to sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 16.0.1.2.0 |  | Base module for PAIN file generation
-[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 16.0.1.1.1 |  | Create SEPA XML files for Credit Transfers
-[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 16.0.1.4.1 |  | Create SEPA files for Direct Debit
+[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 16.0.1.1.2 |  | Create SEPA XML files for Credit Transfers
+[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 16.0.1.4.2 |  | Create SEPA files for Direct Debit
 [account_payment_method_fs_storage](account_payment_method_fs_storage/) | 16.0.1.0.2 |  | Add the possibility to specify on the payment method, a storage where files generated will be pushed to upon payment
 [account_payment_mode](account_payment_mode/) | 16.0.1.2.0 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 16.0.1.10.0 |  | Account Payment Order
