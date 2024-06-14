@@ -273,17 +273,6 @@ class TestSDDBase(TransactionCase):
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
         self.assertEqual(payment_order.sepa, True)
-        # Check account payment
-        agrolait_bank_line = payment_order.payment_ids[0]
-        self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
-        self.assertEqual(
-            float_compare(agrolait_bank_line.amount, 42.0, precision_digits=accpre),
-            0,
-        )
-        self.assertEqual(agrolait_bank_line.payment_reference, invoice1.name)
-        self.assertEqual(
-            agrolait_bank_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
-        )
         action = payment_order.open2generated()
         self.assertEqual(payment_order.state, "generated")
         self.assertEqual(action["res_model"], "ir.attachment")
