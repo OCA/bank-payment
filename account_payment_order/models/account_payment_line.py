@@ -181,6 +181,7 @@ class AccountPaymentLine(models.Model):
         payment lines.
         """
         journal = self.order_id.journal_id
+        payment_mode = self.order_id.payment_mode_id
         vals = {
             "payment_type": self.order_id.payment_type,
             "partner_id": self.partner_id.id,
@@ -196,14 +197,13 @@ class AccountPaymentLine(models.Model):
             "payment_order_id": self.order_id.id,
             "payment_line_ids": [(6, 0, self.ids)],
         }
+        # Set today according to transfer_date_option
+        if payment_mode.transfer_date_option == "now_date_maturity":
+            vals["date"] = fields.Date.today()
         # Determine payment method line according payment method and journal
         line = self.env["account.payment.method.line"].search(
             [
-                (
-                    "payment_method_id",
-                    "=",
-                    self.order_id.payment_mode_id.payment_method_id.id,
-                ),
+                ("payment_method_id", "=", payment_mode.payment_method_id.id),
                 ("journal_id", "=", journal.id),
             ],
             limit=1,
