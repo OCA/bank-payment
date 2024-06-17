@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import Command, fields
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged("-at_install", "post_install")
@@ -111,6 +111,17 @@ class TestAccountPaymentPurchase(TransactionCase):
         self.assertEqual(
             result and result.get("warning", {}).get("title", False), "Warning"
         )
+
+    def test_from_purchase_order_empty_mode_invoicing(self):
+        self.purchase.payment_mode_id = False
+        self.purchase.button_confirm()
+        invoice_form = Form(
+            self.env["account.move"].with_context(default_move_type="in_invoice")
+        )
+        invoice_form.purchase_vendor_bill_id = self.env["purchase.bill.union"].browse(
+            -self.purchase.id
+        )
+        self.assertEqual(invoice_form.payment_mode_id, self.payment_mode)
 
     def test_from_purchase_order_invoicing_bank(self):
         # Test partner_bank
