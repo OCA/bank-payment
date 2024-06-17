@@ -19,7 +19,7 @@
                             domain="[('reconciled','=', False), ('account_id.reconcile', '=', True)] "
                         />
                         <!-- we removed the filter on amount_to_pay, because we want to be able to select refunds -->
-                        <field name="date" />
+                        <field name="date" readonly="1" force_save="1" />
                         <field name="ml_maturity_date" readonly="1" />
                         <field name="amount_currency" />
                         <field name="currency_id" />
