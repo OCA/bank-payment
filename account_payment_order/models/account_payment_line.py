@@ -58,6 +58,7 @@ class AccountPaymentLine(models.Model):
         required=True,
         domain=[("parent_id", "=", False)],
         check_company=True,
+        domain=[("allow_out_payment", "=", True)],
     )
     partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
@@ -146,7 +147,7 @@ class AccountPaymentLine(models.Model):
     @api.onchange("partner_id")
     def partner_id_change(self):
         partner_bank = False
-        if self.partner_id.bank_ids:
+        if self.partner_id.bank_ids.filtered("allow_out_payment"):
             partner_bank = self.partner_id.bank_ids[0]
         self.partner_bank_id = partner_bank
 
