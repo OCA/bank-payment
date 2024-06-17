@@ -19,7 +19,6 @@
                         attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"
                     />
                     <field name="default_date_prefered" />
-                    <field name="transfer_date_option" />
                     <field name="group_lines" />
                 </group>
                 <group
