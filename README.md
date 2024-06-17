@@ -28,7 +28,7 @@ addon | version | maintainers | summary
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 15.0.2.0.3 |  | Create SEPA XML files for Credit Transfers
 [account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 15.0.2.3.0 |  | Create SEPA files for Direct Debit
 [account_payment_mode](account_payment_mode/) | 15.0.1.0.3 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 15.0.2.3.0 |  | Account Payment Order
+[account_payment_order](account_payment_order/) | 15.0.2.4.0 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 15.0.1.0.2 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_return](account_payment_order_return/) | 15.0.1.0.1 |  | Account Payment Order Return
 [account_payment_partner](account_payment_partner/) | 15.0.1.3.2 |  | Adds payment mode on partners and invoices
