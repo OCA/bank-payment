@@ -45,10 +45,14 @@
                         />
                         <field name="amount_company_currency" />
                         <field name="company_currency_id" invisible="1" />
-                        <field name="payment_ids" />
                         <field name="payment_type" invisible="1" />
                     </group>
                 </group>
+                <notebook>
+                    <page name="payments" string="Payments">
+                        <field name="payment_ids" nolabel="1" />
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>
