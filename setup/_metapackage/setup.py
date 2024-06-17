@@ -20,6 +20,7 @@ setuptools.setup(
         'odoo-addon-account_payment_order>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order_grouped_output>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_order_notification>=16.0dev,<16.1dev',
+        'odoo-addon-account_payment_order_vendor_email>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_partner>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_purchase>=16.0dev,<16.1dev',
         'odoo-addon-account_payment_purchase_stock>=16.0dev,<16.1dev',
