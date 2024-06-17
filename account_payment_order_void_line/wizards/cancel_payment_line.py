@@ -33,7 +33,7 @@ class CancelVoidPaymentLine(models.TransientModel):
                     "invoice_date": new_move_date,
                     "journal_id": move_id.journal_id.id,
                     "ref": (_("Reversal of: %s")) % (move_id.name),
-                    "move_type": "in_refund",
+                    "move_type": "entry",
                     "partner_id": partner_id.id,
                 }
             )[0]
@@ -100,7 +100,7 @@ class CancelVoidPaymentLine(models.TransientModel):
                 reconcile_lines -= line
 
         reversed_move.action_post()
-#        reconcile_lines.reconcile()
+        #        reconcile_lines.reconcile()
 
         for payment_line in account_payment:
             payment_line.is_voided = True
@@ -110,25 +110,24 @@ class CancelVoidPaymentLine(models.TransientModel):
         account_payment.void_date = date.today()
         account_payment.void_reason = self.reason
         account_payment.order_id.message_post(
-            body=(
-                _(
-                    "Voiding Date: {} <br> Partner: {} <br> \
-                    Total Amount: {} <br> Invoice Ref #: {} \
-                    <br> Void Reason: {}"
-                ).format(
-                    account_payment.void_date,
-                    account_payment.partner_id.name,
-                    account_payment.amount_currency,
-                    account_payment.communication,
-                    account_payment.void_reason,
-                )
+            body=_(
+                "Voiding Date: %(void_date)s <br> Partner: %(partner_name)s <br> \
+                Total Amount: %(total_amount)s <br> Invoice Ref #: %(invoice_ref)s \
+                <br> Void Reason: %(void_reason)s"
             )
+            % {
+                "void_date": account_payment.void_date,
+                "partner_name": account_payment.partner_id.name,
+                "total_amount": account_payment.amount_currency,
+                "invoice_ref": account_payment.communication,
+                "void_reason": account_payment.void_reason,
+            }
         )
         for payment_line in account_payment:
             payment_line.move_line_id.move_id.message_post(
-                body=(
-                    _("Void Reason: {} <br> Void Date: {}").format(
-                        account_payment.void_reason, account_payment.void_date
-                    )
-                )
+                body=_("Void Reason: %(void_reason)s <br> Void Date: %(void_date)s")
+                % {
+                    "void_reason": account_payment.void_reason,
+                    "void_date": account_payment.void_date,
+                }
             )
