@@ -17,7 +17,12 @@
                             domain="[('reconciled','=', False), ('account_id.reconcile', '=', True)] "
                         />
                         <!-- we removed the filter on amount_to_pay, because we want to be able to select refunds -->
-                        <field name="date" />
+                        <field name="state" invisible="1" />
+                        <field
+                            name="date"
+                            attrs="{'readonly': [('state', '!=', 'confirmed')]}"
+                            force_save="1"
+                        />
                         <field name="ml_maturity_date" readonly="1" />
                         <field name="amount_currency" />
                         <field name="currency_id" />
@@ -40,10 +45,14 @@
                         />
                         <field name="amount_company_currency" />
                         <field name="company_currency_id" invisible="1" />
-                        <field name="payment_ids" />
                         <field name="payment_type" invisible="1" />
                     </group>
                 </group>
+                <notebook>
+                    <page name="payments" string="Payments">
+                        <field name="payment_ids" nolabel="1" />
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>
