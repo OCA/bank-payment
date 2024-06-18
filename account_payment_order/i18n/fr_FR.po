@@ -1000,6 +1000,7 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
+#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 msgid "Payments"
 msgstr "Paiements"
 
