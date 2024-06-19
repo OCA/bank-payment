@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-06 10:38+0000\n"
+"PO-Revision-Date: 2024-06-19 11:36+0000\n"
 "Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -24,6 +24,9 @@ msgid ""
 "%(count)d payment lines added to the existing draft payment order <a href=# "
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
+"%(count)d betalningsrader som läggs till i det befintliga utkastet till "
+"betalningsorder <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>."
 
 #. module: account_payment_order
 #. odoo-python
@@ -34,13 +37,16 @@ msgid ""
 "oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>, which "
 "has been automatically created."
 msgstr ""
+"%(count)d betalningsrader läggs till i det nya utkastet till betalningsorder "
+"<a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>, som har skapats automatiskt."
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "<b>Account Number</b>: %(number)s - <b>Partner</b>: %(name)s"
-msgstr ""
+msgstr "<b>Kontonummer</b>: %(number)s - <b>Partner</b>: %(name)s"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -50,7 +56,7 @@ msgstr "<strong>Bolagets valuta:</strong>"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "<strong>Execution:</strong>"
-msgstr ""
+msgstr "<strong>Utförande:</strong>"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -75,7 +81,7 @@ msgstr "<strong>Använt konto:</strong>"
 #. module: account_payment_order
 #: model:ir.model.constraint,message:account_payment_order.constraint_account_payment_line_name_company_unique
 msgid "A payment line already exists with this reference in the same company!"
-msgstr ""
+msgstr "En betalningslinje finns redan med denna referens i samma företag!"
 
 #. module: account_payment_order
 #. odoo-python
@@ -85,6 +91,8 @@ msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%(bic)s' contains %(num)d "
 "characters, so it is not valid."
 msgstr ""
+"En giltig BIC innehåller 8 eller 11 tecken. BIC-koden \"%(bic)s\" innehåller "
+"%(num)d tecken, så den är inte giltig."
 
 #. module: account_payment_order
 #: model:res.groups,name:account_payment_order.group_account_payment
@@ -113,22 +121,22 @@ msgstr "Aktiviteter"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Aktivitet Undantag Dekoration"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Aktivitet Stat"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Aktivitetstyp Ikon"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Add All Move Lines"
-msgstr ""
+msgstr "Lägg till alla flyttlinjer"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
@@ -161,7 +169,7 @@ msgstr "Alla bokförda poster"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__allow_blocked
 msgid "Allow Litigation Move Lines"
-msgstr ""
+msgstr "Tillåt processföring Flytta linjer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allowed_journal_ids
@@ -219,7 +227,7 @@ msgstr "Bankkonto krävs"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_bank_acc_type
 msgid "Bank Account Type"
-msgstr ""
+msgstr "Typ av bankkonto"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__journal_id
@@ -236,7 +244,7 @@ msgstr "Bankkonto som leverantören ska betalas på"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__partner_bank_acc_type
 msgid ""
 "Bank account type: Normal or IBAN. Inferred from the bank account number."
-msgstr ""
+msgstr "Typ av bankkonto: Normal eller IBAN. Härleds från bankkontonumret."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -254,7 +262,7 @@ msgstr "Avbryt betalningar"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr ""
+msgstr "Välj filteralternativ för Flytta linjer"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -263,6 +271,9 @@ msgid ""
 "criteria or click on Add an item to manually select the move lines filtered "
 "by the above criteria."
 msgstr ""
+"Klicka på Add All Move Lines för att automatiskt välja de flyttrader som "
+"matchar ovanstående kriterier eller klicka på Add an item för att manuellt "
+"välja de flyttrader som filtrerats enligt ovanstående kriterier."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__communication
@@ -279,12 +290,12 @@ msgstr "Kommunikationstyp"
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Communication is empty on payment line %s."
-msgstr ""
+msgstr "Meddelandet är tomt på betalningsraden %s."
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Företag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__company_id
@@ -300,7 +311,7 @@ msgstr "Bolagets bankkonto"
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Konfigureringsinställningar"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -321,12 +332,12 @@ msgstr "Skapa"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create Payment Lines"
-msgstr ""
+msgstr "Skapa betalningsrader"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Create Payment Lines from Journal Items"
-msgstr ""
+msgstr "Skapa betalningsrader från journalposter"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -336,12 +347,12 @@ msgstr "Skapa transaktioner"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_create_action
 msgid "Create Transactions from Move Lines"
-msgstr ""
+msgstr "Skapa transaktioner från flyttrader"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_invoice_payment_line_multi
 msgid "Create payment lines from invoice tree view"
-msgstr ""
+msgstr "Skapa betalningsrader från fakturans trädvy"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__create_uid
@@ -398,7 +409,7 @@ msgstr "Beskrivning"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__no_debit_before_maturity
 msgid "Disallow Debit Before Maturity Date"
-msgstr ""
+msgstr "Tillåt inte debitering före förfallodagen"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__display_name
@@ -418,7 +429,7 @@ msgstr "Utkast"
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_type__due
 msgid "Due"
-msgstr ""
+msgstr "Förfallodag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__ml_maturity_date
@@ -477,7 +488,7 @@ msgstr "Följare (Partners)"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Font awesome-ikon, t.ex. fa-tasks"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
@@ -490,6 +501,13 @@ msgid ""
 "will select the bank account on the payment order. If your company only has "
 "one bank account, you should always select 'Fixed'."
 msgstr ""
+"För betalningssätt som alltid är kopplade till samma bankkonto i ditt "
+"företag (t.ex. banköverföring från kunder eller SEPA-autogiro från "
+"leverantörer) ska du välja \"Fast\". För betalningssätt som inte alltid är "
+"kopplade till samma bankkonto (t.ex. SEPA-autogiro för kunder, "
+"banköverföring till leverantörer) ska du välja \"Variabel\", vilket innebär "
+"att du väljer bankkonto på betalningsordern. Om ditt företag bara har ett "
+"bankkonto ska du alltid välja \"Fast\"."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__normal
@@ -529,7 +547,7 @@ msgstr "Gruppera transaktioner i betalningsordrar"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Har meddelande"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_invoice_payment_line_multi__id
@@ -543,12 +561,12 @@ msgstr "ID"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Ikon"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Ikon för att indikera en undantagsaktivitet."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction
@@ -573,6 +591,15 @@ msgid ""
 "and if the 'Communication Type' is 'Free'\n"
 "(other modules can set additional fields to restrict the grouping.)"
 msgstr ""
+"Om denna markering är markerad kommer betalningsorderns transaktionsrader "
+"att grupperas vid bekräftelse av betalningsordern. Grupperingen kommer "
+"endast att göras om följande fält stämmer överens:\n"
+"* Partner\n"
+"* Valuta\n"
+"* Destinationens bankkonto\n"
+"* Betalningsdatum\n"
+"och om \"Kommunikationstyp\" är \"Gratis\n"
+"(andra moduler kan ställa in ytterligare fält för att begränsa grupperingen)"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__no_debit_before_maturity
@@ -581,6 +608,9 @@ msgid ""
 "error message when you confirm a debit order that has a payment line with a "
 "payment date before the maturity date."
 msgstr ""
+"Om du aktiverar detta alternativ för ett Inkommande betalningsläge kommer du "
+"att få ett felmeddelande när du bekräftar en debiteringsorder som har en "
+"betalningsrad med en betalningsdag före förfallodagen."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__now
@@ -606,7 +636,7 @@ msgstr "Fakturans referens"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Är följare"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_journal
@@ -628,7 +658,7 @@ msgstr "Verifikat"
 #: model:ir.model,name:account_payment_order.model_account_move_line
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__move_line_id
 msgid "Journal Item"
-msgstr ""
+msgstr "Tidskriftsartikel"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__transfer_journal_id
@@ -636,6 +666,8 @@ msgstr ""
 #: model:ir.model.fields,help:account_payment_order.field_res_config_settings__transfer_journal_id
 msgid "Journal to write payment entries when confirming payment/debit orders"
 msgstr ""
+"Journal för att skriva betalningsposter vid bekräftelse av betalnings-/"
+"debiteringsorder"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__journal_ids
@@ -723,7 +755,7 @@ msgstr "Bankjournal saknas på betalningsorder %s."
 #: code:addons/account_payment_order/models/account_payment_line.py:0
 #, python-format
 msgid "Missing Partner Bank Account on payment line %s"
-msgstr ""
+msgstr "Saknar partnerbankkonto på betalningsraden %s"
 
 #. module: account_payment_order
 #. odoo-python
@@ -735,23 +767,23 @@ msgstr "Bankkonto saknas på bankjournal '%s'."
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_type__move
 msgid "Move"
-msgstr ""
+msgstr "Flytta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_date
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__date_type__move
 msgid "Move Date"
-msgstr ""
+msgstr "Datum för flytt"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_line_ids
 msgid "Move Lines"
-msgstr ""
+msgstr "Flytta linjer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Min aktivitet Deadline"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
@@ -761,17 +793,17 @@ msgstr "Namn eller beskrivning"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Deadline för nästa aktivitet"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Nästa Aktivitet Sammanfattning"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Nästa aktivitetstyp"
 
 #. module: account_payment_order
 #. odoo-python
@@ -781,6 +813,8 @@ msgid ""
 "No Payment Line created for invoice %s because its payment mode is not "
 "intended for payment orders."
 msgstr ""
+"Ingen Betalningsrad skapad för fakturan %s eftersom dess betalningssätt inte "
+"är avsett för betalningsorder."
 
 #. module: account_payment_order
 #. odoo-python
@@ -794,12 +828,12 @@ msgstr "Inget betalningssätt på faktura %s"
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "No pending AR/AP lines to add on %s"
-msgstr ""
+msgstr "Inga pågående AR/AP-rader att lägga till på %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
 msgid "Number"
-msgstr ""
+msgstr "Antal"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_needaction_counter
@@ -814,7 +848,7 @@ msgstr "Antal verifikat"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_count
 msgid "Number of Payment Transactions"
-msgstr ""
+msgstr "Antal betalningstransaktioner"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_error_counter
@@ -824,7 +858,7 @@ msgstr "Antal fel"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error_counter
@@ -839,6 +873,8 @@ msgid ""
 "On payment order %(porder)s, the Payment Execution Date is in the past "
 "(%(exedate)s)."
 msgstr ""
+"För betalningsorder %(porder)s ligger Betalningens genomförandedag i det "
+"förflutna (%(exedate)s)."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
@@ -875,7 +911,7 @@ msgstr "Partners bankkonto"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__partner_banks_archive_msg
 msgid "Partner Banks Archive Msg"
-msgstr ""
+msgstr "Partner Banks arkivmeddelande"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__partner_ids
@@ -895,7 +931,7 @@ msgstr "Datum för genomförande av betalning"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__date_prefered
 msgid "Payment Execution Date Type"
-msgstr ""
+msgstr "Datum för genomförande av betalning Typ"
 
 #. module: account_payment_order
 #. odoo-python
@@ -907,14 +943,14 @@ msgstr "Betalfil"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_ids
 msgid "Payment Line"
-msgstr ""
+msgstr "Betalningslinje"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_line_count
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_line_count
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_count
 msgid "Payment Line Count"
-msgstr ""
+msgstr "Antal betalningsrader"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
@@ -967,7 +1003,7 @@ msgstr "Betalningsorder"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Payment Order Lines"
-msgstr ""
+msgstr "Betalningsorderrader"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok
@@ -979,7 +1015,7 @@ msgstr "Betalningsorder ok"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__order_state
 msgid "Payment Order State"
-msgstr ""
+msgstr "Betalningsorderstatus"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -999,14 +1035,14 @@ msgstr "Betalningsreferens"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 msgid "Payment Transaction"
-msgstr ""
+msgstr "Betalningstransaktion"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_ids
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Payment Transactions"
-msgstr ""
+msgstr "Betalningstransaktioner"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_type
@@ -1017,12 +1053,12 @@ msgstr "Betalningstyp"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line__payment_line_ids
 msgid "Payment lines"
-msgstr ""
+msgstr "Betalningslinjer"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_ids
 msgid "Payment transaction"
-msgstr ""
+msgstr "Betalningstransaktion"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment
@@ -1039,7 +1075,7 @@ msgstr "Referenstyp"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Ansvarig användare"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same
@@ -1067,12 +1103,12 @@ msgstr "Sök betalningsordrar"
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:0
 #, python-format
 msgid "Select Move Lines to Create Transactions"
-msgstr ""
+msgstr "Välj Flytta rader för att skapa transaktioner"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
 msgid "Select Move Lines to Pay - Default Values"
-msgstr ""
+msgstr "Välj Flytta rader till betalning - standardvärden"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__date_scheduled
@@ -1080,6 +1116,8 @@ msgid ""
 "Select a requested date of execution if you selected 'Due Date' as the "
 "Payment Execution Date Type."
 msgstr ""
+"Välj ett önskat datum för genomförande om du har valt \"Förfallodag\" som "
+"Typ av datum för genomförande av betalning."
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__payment_order_ok
@@ -1090,13 +1128,13 @@ msgstr "Valbar i betalningsordrar"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Selected Move Lines to Create Transactions"
-msgstr ""
+msgstr "Selected Flytta rader för att skapa transaktioner"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__state
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "State"
-msgstr ""
+msgstr "Stat"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__state
@@ -1111,6 +1149,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Status baserad på aktiviteter\n"
+"Försenad: Förfallodatumet har redan passerats\n"
+"Idag: Aktivitetsdatumet är idag\n"
+"Planerad: Framtida aktiviteter."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
@@ -1121,12 +1163,12 @@ msgstr "Strukturerad referens"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__target_move
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__default_target_move
 msgid "Target Moves"
-msgstr ""
+msgstr "Målrörelser"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
 msgid "Technical model for printing payment order"
-msgstr ""
+msgstr "Teknisk modell för utskrift av betalningsorder"
 
 #. module: account_payment_order
 #. odoo-python
@@ -1135,11 +1177,12 @@ msgstr ""
 msgid ""
 "The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
 msgstr ""
+"Beloppet för partnern \"%(partner)s\" är negativt eller noll (%(amount).2f) !"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "The following bank accounts are archived:"
-msgstr ""
+msgstr "Följande bankkonton är arkiverade:"
 
 #. module: account_payment_order
 #. odoo-python
@@ -1148,13 +1191,15 @@ msgstr ""
 msgid ""
 "The invoice %(move)s is already added in the payment order(s) %(order)s."
 msgstr ""
+"Fakturan %(move)s är redan tillagd i betalningsordern/betalningsordrarna "
+"%(order)s."
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
 #, python-format
 msgid "The invoice %s is not in Posted state"
-msgstr ""
+msgstr "Fakturan %s är inte i bokfört tillstånd"
 
 #. module: account_payment_order
 #. odoo-python
@@ -1165,6 +1210,9 @@ msgid ""
 "Date'. The payment line %(pline)s has a maturity date %(mdate)s which is "
 "after the computed payment date %(pdate)s."
 msgstr ""
+"Betalningssättet \"%(pmode)s\" har alternativet \"Avvisa debitering före "
+"förfallodagen\". Betalningsraden %(pline)s har en förfallodag %(mdate)s som "
+"ligger efter den beräknade betalningsdagen %(pdate)s."
 
 #. module: account_payment_order
 #. odoo-python
@@ -1174,13 +1222,15 @@ msgid ""
 "The payment type (%(ptype)s) is not the same as the payment type of the "
 "payment mode (%(pmode)s)"
 msgstr ""
+"Betalningstypen (%(ptype)s) är inte densamma som betalningstypen för "
+"betalningssättet (%(pmode)s)"
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There are no transactions on payment order %s."
-msgstr ""
+msgstr "Det finns inga transaktioner på betalningsorder %s."
 
 #. module: account_payment_order
 #. odoo-python
@@ -1191,13 +1241,16 @@ msgid ""
 "probably caused by a manual line creation. Please remove this duplication "
 "for being able to save the order."
 msgstr ""
+"Det finns flera rader som pekar på samma utestående saldo. Detta beror "
+"troligen på att en manuell rad har skapats. Vänligen ta bort denna "
+"duplicering för att kunna spara ordern."
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There's at least one validation error:\n"
-msgstr ""
+msgstr "Det finns minst ett valideringsfel:\n"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line__ml_maturity_date
@@ -1205,6 +1258,8 @@ msgid ""
 "This field is used for payable and receivable journal entries. You can put "
 "the limit date for the payment of this line."
 msgstr ""
+"Detta fält används för verifikat för skulder och fordringar. Du kan ange "
+"gränsdatum för betalning av denna rad."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_method__payment_order_only
@@ -1212,11 +1267,13 @@ msgid ""
 "This option helps enforcing the use of payment orders for some payment "
 "methods."
 msgstr ""
+"Detta alternativ hjälper till att genomdriva användningen av betalningsorder "
+"för vissa betalningsmetoder."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "This wizard will create payment lines for the selected invoices:"
-msgstr ""
+msgstr "Denna guide skapar betalningsrader för de valda fakturorna:"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -1227,17 +1284,17 @@ msgstr "Totalt (valuta)"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__total_company_currency
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_tree
 msgid "Total Company Currency"
-msgstr ""
+msgstr "Summa Företagets valuta"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Total Residual"
-msgstr ""
+msgstr "Totalt återstående"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Total in Company Currency"
-msgstr ""
+msgstr "Totalt i företagets valuta"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_line_ids
@@ -1250,7 +1307,7 @@ msgstr "Transaktioner"
 #: model:ir.model.fields,field_description:account_payment_order.field_res_company__transfer_journal_id
 #: model:ir.model.fields,field_description:account_payment_order.field_res_config_settings__transfer_journal_id
 msgid "Transfer journal on payment/debit orders"
-msgstr ""
+msgstr "Överföringsjournal på betalnings-/debiteringsorder"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__date_type
@@ -1261,7 +1318,7 @@ msgstr "Typ av datumfilter"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Typ av undantagsaktivitet som registreras."
 
 #. module: account_payment_order
 #. odoo-python
@@ -1271,27 +1328,27 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
 #, python-format
 msgid "Update Payment Reference"
-msgstr ""
+msgstr "Uppdatera betalningsreferens"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Value Date"
-msgstr ""
+msgstr "Datum för värde"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Webbplatsmeddelanden"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Webbplatsens kommunikationshistorik"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_line_create
 msgid "Wizard to create payment lines"
-msgstr ""
+msgstr "Guide för att skapa betalningsrader"
 
 #. module: account_payment_order
 #. odoo-python
@@ -1310,16 +1367,21 @@ msgid ""
 "if there are existing draft payment orders for the payment modes of the "
 "invoices, the payment lines will be added to those payment orders"
 msgstr ""
+"om det finns befintliga utkast till betalningsorder för fakturornas "
+"betalningssätt kommer betalningsraderna att läggas till i dessa "
+"betalningsorder"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_attachment_simplified_form
 msgid "on"
-msgstr ""
+msgstr "på"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
+"i annat fall kommer nya betalningsuppdrag att skapas (ett per "
+"betalningssätt)."
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Fel vid leverans av SMS"
