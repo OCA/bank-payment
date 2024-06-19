@@ -9,20 +9,20 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-17 02:46+0000\n"
-"PO-Revision-Date: 2021-11-17 13:36+0000\n"
-"Last-Translator: Simon S <simon.stromberg@vertel.se>\n"
+"PO-Revision-Date: 2024-06-19 11:37+0000\n"
+"Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
 "Language-Team: Swedish (https://www.transifex.com/oca/teams/23907/sv/)\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Verifikat"
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
@@ -41,20 +41,23 @@ msgid ""
 "the payment. This field is copied from the partner and will be copied to the "
 "supplier invoice."
 msgstr ""
+"Välj det bankkonto hos din leverantör som ditt företag ska skicka "
+"betalningen till. Detta fält kopieras från partnern och kommer att kopieras "
+"till leverantörsfakturan."
 
 #. module: account_payment_purchase
 #. odoo-python
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different payment mode."
-msgstr ""
+msgstr "Valda inköpsorder har olika betalningssätt."
 
 #. module: account_payment_purchase
 #. odoo-python
 #: code:addons/account_payment_purchase/models/account_move.py:0
 #, python-format
 msgid "Selected purchase order have different supplier bank."
-msgstr ""
+msgstr "Valda inköpsorder har olika leverantörsbank."
 
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__supplier_partner_bank_id
