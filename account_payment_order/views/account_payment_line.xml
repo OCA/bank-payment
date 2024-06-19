@@ -18,11 +18,7 @@
                         />
                         <!-- we removed the filter on amount_to_pay, because we want to be able to select refunds -->
                         <field name="state" invisible="1" />
-                        <field
-                            name="date"
-                            attrs="{'readonly': [('state', '!=', 'confirmed')]}"
-                            force_save="1"
-                        />
+                        <field name="date" readonly="1" force_save="1" />
                         <field name="ml_maturity_date" readonly="1" />
                         <field name="amount_currency" />
                         <field name="currency_id" />
