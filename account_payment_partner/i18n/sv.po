@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-11-17 10:36+0000\n"
-"Last-Translator: Simon S <simon.stromberg@vertel.se>\n"
+"PO-Revision-Date: 2024-06-19 11:36+0000\n"
+"Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -96,7 +96,7 @@ msgstr "Fullständig"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Has Reconciled Items"
-msgstr ""
+msgstr "Har avstämda poster"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_invoice_report
@@ -111,7 +111,7 @@ msgstr "Verifikat"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Verifikat"
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
@@ -121,7 +121,7 @@ msgstr "De sista n tecknen"
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__no
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #. module: account_payment_partner
 #. odoo-python
@@ -135,7 +135,7 @@ msgstr "Ingen mall för kontoplan har definierats!"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__partner_bank_filter_type_domain
 msgid "Partner Bank Filter Type Domain"
-msgstr ""
+msgstr "Partner Bank Filter Typ Domän"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_id
@@ -152,7 +152,7 @@ msgstr "Betalningssätt"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_filter_type_domain
 msgid "Payment Mode Filter Type Domain"
-msgstr ""
+msgstr "Betalningssätt Filtertyp Domän"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
@@ -195,7 +195,7 @@ msgstr "Välj standardbetalningssätt för den här leverantören."
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show Bank Account"
-msgstr ""
+msgstr "Visa bankkonto"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -218,7 +218,7 @@ msgstr "Leverantörens betalningssätt"
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Technical field for supporting the editability of the payment mode"
-msgstr ""
+msgstr "Tekniskt fält för att stödja redigerbarheten av betalningsläget"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
