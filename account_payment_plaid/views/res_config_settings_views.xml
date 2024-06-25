@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="///div[hasclass('settings')]" position="inside">
+                    <div
+                        class="app_settings_block"
+                        data-string="Plaid"
+                        string="Plaid"
+                        data-key="base_plaid_connector"
+                        groups="base.group_system"
+                    >
+                        <h2>Plaid settings</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 o_setting_box">
+                                <label for="plaid_client_id" />
+                                <field name="plaid_client_id" />
+                            </div>
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 o_setting_box">
+                                <label for="plaid_secret" />
+                                <field name="plaid_secret" />
+                            </div>
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 o_setting_box">
+                                <label for="plaid_host" />
+                                <field name="plaid_host" />
+                            </div>
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 o_setting_box">
+                                <label for="plaid_account_id" />
+                                <field name="plaid_account_id" />
+                            </div>
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 o_setting_box">
+                                <button
+                                    name="action_sync_with_plaid"
+                                    type="object"
+                                    class="btn btn-primary"
+                                    string="Sync with Plaid.com"
+                                    attrs="{'invisible': ['|', ('plaid_client_id', '=', False), ('plaid_secret', '=', False)]}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

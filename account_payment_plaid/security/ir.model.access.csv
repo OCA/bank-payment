@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_account_payment_plaid_wizard,account.payment.plaid.wizard,model_account_payment_plaid_wizard,base.group_user,1,1,1,1
+access_plaid_account_user,access.plaid.account.user,model_plaid_account,base.group_user,1,0,0,0
+access_plaid_account_system,access.plaid.account.system,model_plaid_account,base.group_system,1,1,1,1
+access_plaid_transfer_user,access.plaid.transfer.user,model_plaid_transfer,base.group_user,1,1,1,0
+access_plaid_transfer_system,access.plaid.transfer.system,model_plaid_transfer,base.group_system,1,1,1,1
+access_plaid_transfer_sandbox_simulate_wizard,access.plaid.transfer.sandbox.simulate.wizard,model_plaid_transfer_sandbox_simulation_wizard,base.group_user,1,1,1,1
