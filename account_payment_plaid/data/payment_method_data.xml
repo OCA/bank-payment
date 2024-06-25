@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="account_payment_method_plaid_out" model="account.payment.method">
+            <field name="name">Plaid</field>
+            <field name="code">plaid</field>
+            <field name="payment_type">outbound</field>
+        </record>
+    </data>
+</odoo>
