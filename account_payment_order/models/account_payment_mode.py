@@ -56,14 +56,6 @@ class AccountPaymentMode(models.Model):
         ],
         string="Default Payment Execution Date",
     )
-    transfer_date_option = fields.Selection(
-        selection=[
-            ("payment_date", "Payment date"),
-            ("now_date_maturity", "Now + Payment date as due date"),
-        ],
-        default="payment_date",
-        string="Transfer moves dates",
-    )
     group_lines = fields.Boolean(
         string="Group Transactions in Payment Orders",
         default=True,
