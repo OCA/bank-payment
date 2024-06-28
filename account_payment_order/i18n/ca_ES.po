@@ -747,11 +747,6 @@ msgid "No pending AR/AP lines to add on %s"
 msgstr ""
 
 #. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__transfer_date_option__now_date_maturity
-msgid "Now + Payment date as due date"
-msgstr ""
-
-#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__name
 msgid "Number"
 msgstr ""
@@ -950,11 +945,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__payment_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_type
 msgid "Payment Type"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__transfer_date_option__payment_date
-msgid "Payment date"
 msgstr ""
 
 #. module: account_payment_order
@@ -1169,11 +1159,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_line_ids
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Transactions"
-msgstr ""
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode__transfer_date_option
-msgid "Transfer moves dates"
 msgstr ""
 
 #. module: account_payment_order
