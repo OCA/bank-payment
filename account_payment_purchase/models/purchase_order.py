@@ -53,3 +53,10 @@ class PurchaseOrder(models.Model):
             else:
                 order.supplier_partner_bank_id = False
                 order.payment_mode_id = False
+
+    def _prepare_invoice(self):
+        """Leave the bank account empty so that account_payment_partner set the
+        correct value with compute."""
+        invoice_vals = super()._prepare_invoice()
+        invoice_vals.pop("partner_bank_id")
+        return invoice_vals

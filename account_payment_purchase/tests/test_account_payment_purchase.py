@@ -1,9 +1,11 @@
 # Copyright 2013-2015 Tecnativa - Pedro M. Baeza
 # Copyright 2017 Tecnativa - Vicent Cubells
+# Copyright 2024 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import Command, fields
+from odoo import Command
 from odoo.tests import Form, TransactionCase, tagged
+from odoo.tools import mute_logger
 
 
 @tagged("-at_install", "post_install")
@@ -53,33 +55,32 @@ class TestAccountPaymentPurchase(TransactionCase):
                 "seller_ids": [Command.create({"partner_id": cls.partner.id})],
             }
         )
-        cls.purchase = cls.env["purchase.order"].create(
-            {
-                "partner_id": cls.partner.id,
-                "payment_mode_id": cls.payment_mode.id,
-                "order_line": [
-                    Command.create(
-                        {
-                            "name": "Test line",
-                            "product_qty": 1.0,
-                            "product_id": cls.mto_product.id,
-                            "product_uom": cls.uom_id,
-                            "date_planned": fields.Datetime.today(),
-                            "price_unit": 1.0,
-                        }
-                    )
-                ],
-            }
-        )
+        order_form = Form(cls.env["purchase.order"])
+        order_form.partner_id = cls.partner
+        with order_form.order_line.new() as line_form:
+            line_form.product_id = cls.mto_product
+            line_form.product_qty = 1
+        cls.purchase = order_form.save()
 
     def test_onchange_partner_id_purchase_order(self):
-        self.purchase.onchange_partner_id()
         self.assertEqual(self.purchase.payment_mode_id, self.payment_mode)
 
-    def test_purchase_order_invoicing(self):
-        self.purchase.onchange_partner_id()
+    @mute_logger("odoo.models.unlink")
+    def test_purchase_order_create_invoice(self):
         self.purchase.button_confirm()
+        self.purchase.order_line.qty_received = 1
+        res = self.purchase.action_create_invoice()
+        invoice = self.env[res["res_model"]].browse(res["res_id"])
+        self.assertEqual(invoice.partner_bank_id, self.bank)
+        # Remove the invoice and try another use case
+        invoice.unlink()
+        self.payment_method_out.bank_account_required = False
+        res = self.purchase.action_create_invoice()
+        invoice2 = self.env[res["res_model"]].browse(res["res_id"])
+        self.assertFalse(invoice2.partner_bank_id)
 
+    def test_purchase_order_invoicing(self):
+        self.purchase.button_confirm()
         invoice = self.env["account.move"].create(
             {"partner_id": self.partner.id, "move_type": "in_invoice"}
         )
