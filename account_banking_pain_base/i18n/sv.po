@@ -114,7 +114,7 @@ msgstr "Avbokningsavgift"
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 #, python-format
 msgid "Cannot compute the field '{field_name}'."
-msgstr "Det går inte att beräkna fältet '{fältnamn}'."
+msgstr "Det går inte att beräkna fältet '{field_name}'."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__clpr
@@ -245,7 +245,7 @@ msgid ""
 msgstr ""
 "Data för utvärdering:\n"
 "\tsammanhang: {eval_ctx}\n"
-"\tfält sökväg: {fält_värde}"
+"\tfält sökväg: {field_value}"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dcrd
