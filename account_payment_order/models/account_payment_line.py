@@ -187,7 +187,7 @@ class AccountPaymentLine(models.Model):
             "destination_account_id": self.move_line_id.account_id.id,
             "company_id": self.order_id.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
-            "date": self[:1].date,
+            "date": fields.Date.today(),
             "currency_id": self.currency_id.id,
             "ref": self.order_id.name,
             "payment_reference": " - ".join([line.communication for line in self]),
