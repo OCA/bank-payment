@@ -1,9 +1,11 @@
 # Copyright 2017 Camptocamp SA
 # Copyright 2017 Creu Blanca
 # Copyright 2019-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2024 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
 from datetime import date, timedelta
+
+from freezegun import freeze_time
 
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
@@ -153,3 +155,25 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         with self.assertRaises(ValidationError):
             payment_line_2 = self._line_creation(inbound_order)
             inbound_order.payment_line_ids |= payment_line_2
+
+    @freeze_time("2024-04-01")
+    def test_creation_transfer_move_date(self):
+        self.inbound_order.date_prefered = "fixed"
+        self.inbound_order.date_scheduled = "2024-06-01"
+        self.inbound_order.draft2open()
+        payment_move = self.inbound_order.payment_ids.move_id
+        self.assertEqual(payment_move.date, date(2024, 4, 1))  # now
+        self.assertEqual(
+            payment_move.line_ids.mapped("date_maturity"),
+            [date(2024, 6, 1), date(2024, 6, 1)],
+        )
+        self.assertEqual(self.inbound_order.payment_count, 1)
+        self.inbound_order.open2generated()
+        self.inbound_order.generated2uploaded()
+        self.assertEqual(self.inbound_order.state, "uploaded")
+        payment_move = self.inbound_order.payment_ids.move_id
+        self.assertEqual(payment_move.date, date(2024, 4, 1))  # now
+        self.assertEqual(
+            payment_move.line_ids.mapped("date_maturity"),
+            [date(2024, 6, 1), date(2024, 6, 1)],
+        )
