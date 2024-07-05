@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="account_payment_mode_form_view">
+        <field
+            name="name"
+        >account.payment.mode.form (in account_payment_order_filename)</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+        <field name="priority" eval="90" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="filename_sequence_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
