@@ -11,6 +11,7 @@ class AccountPayment(models.Model):
 
     payment_order_id = fields.Many2one(comodel_name="account.payment.order")
     payment_line_ids = fields.Many2many(comodel_name="account.payment.line")
+    payment_line_date = fields.Date(compute="_compute_payment_line_date")
     # Compatibility with previous approach for returns - To be removed on v16
     old_bank_payment_line_name = fields.Char()
 
@@ -48,6 +49,11 @@ class AccountPayment(models.Model):
                     and pay.available_payment_method_line_ids.code == "manual"
                 )
         return res
+
+    @api.depends("payment_line_ids", "payment_line_ids.date")
+    def _compute_payment_line_date(self):
+        for item in self:
+            item.payment_line_date = item.payment_line_ids[:1].date
 
     def _prepare_move_line_default_vals(self, write_off_line_vals=None):
         """Overwrite date_maturity of the move_lines that are generated when related
