@@ -83,11 +83,8 @@ class AccountPaymentOrder(models.Model):
             priority = payment_line.priority
             local_instrument = payment_line.local_instrument
             categ_purpose = payment_line.category_purpose
-            # The field line.date is the requested payment date
-            # taking into account the 'date_prefered' setting
-            # cf account_banking_payment_export/models/account_payment.py
-            # in the inherit of action_open()
-            key = (line.date, priority, local_instrument, categ_purpose)
+            # The field line.payment_line_date is the requested payment date
+            key = (line.payment_line_date, priority, local_instrument, categ_purpose)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:
