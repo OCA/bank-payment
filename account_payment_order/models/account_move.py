@@ -51,9 +51,7 @@ class AccountMove(models.Model):
         """Retrieve the communication string for this direct item."""
         communication = self.payment_reference or self.ref or self.name
         if self.is_invoice():
-            if (self.reference_type or "none") != "none":
-                communication = self.ref
-            elif self.is_purchase_document():
+            if self.is_purchase_document():
                 communication = self.ref or self.payment_reference
             else:
                 communication = self.payment_reference or self.name
