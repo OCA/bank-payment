@@ -78,7 +78,9 @@ class AccountPaymentLine(models.Model):
         required=False, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
-        selection=[("normal", "Free")], required=True, default="normal"
+        selection=[("normal", "Free"), ("structured", "Structured")],
+        required=True,
+        default="normal",
     )
     payment_ids = fields.Many2many(
         comodel_name="account.payment",
