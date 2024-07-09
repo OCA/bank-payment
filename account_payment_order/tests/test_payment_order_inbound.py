@@ -77,6 +77,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
                 invoice_line_form.price_unit = 100.0
                 invoice_line_form.account_id = self.invoice_line_account
                 invoice_line_form.tax_ids.clear()
+        invoice_form.reference_type = "structured"
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
         invoice_form.payment_mode_id = self.inbound_mode
