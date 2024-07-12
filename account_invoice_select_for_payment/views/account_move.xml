@@ -7,7 +7,7 @@
             <field name="name" position="before">
                 <field
                     name="selected_for_payment"
-                    attrs="{'invisible': [('payment_state', '!=', 'not_paid') ]}"
+                    attrs="{'invisible': [('payment_state', 'not in', ['not_paid', 'partial']) ]}"
                     widget="toggle_button"
                 />
             </field>
