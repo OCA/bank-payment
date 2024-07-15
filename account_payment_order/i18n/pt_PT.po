@@ -1114,6 +1114,11 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__structured
+msgid "Structured"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
 msgid "Structured Reference"
 msgstr ""

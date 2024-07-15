@@ -28,8 +28,8 @@ msgid ""
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 "%(count)d lignes de paiement ajoutées à l'ordre de paiement brouillon "
-"existant <a href=# data-oe-model=account.payment.order data-oe-id="
-"%(order_id)d>%(name)s</a>."
+"existant <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>."
 
 #. module: account_payment_order
 #. odoo-python
@@ -41,8 +41,8 @@ msgid ""
 "has been automatically created."
 msgstr ""
 "%(count)d lignes de paiement ajoutées au nouvel ordre de paiement en "
-"brouillon<a href=# data-oe-model=account.payment.order data-oe-id="
-"%(order_id)d>%(name)s</a>, qui a été automatiquement créé."
+"brouillon<a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>, qui a été automatiquement créé."
 
 #. module: account_payment_order
 #. odoo-python
@@ -1157,6 +1157,11 @@ msgstr ""
 "En retard : la date d'échéance est déjà dépassée\n"
 "Aujourd'hui : la date d'activité est aujourd'hui\n"
 "Planifiée : activités futures."
+
+#. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__structured
+msgid "Structured"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
