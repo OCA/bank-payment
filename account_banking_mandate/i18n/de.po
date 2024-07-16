@@ -298,11 +298,6 @@ msgid "Journal Item"
 msgstr "Logbuch Eintrag"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-msgid "Last Modified on"
-msgstr "Zuletzt geändert am"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_uid
 msgid "Last Updated by"
 msgstr "Zuletzt aktualisiert von"
@@ -311,11 +306,6 @@ msgstr "Zuletzt aktualisiert von"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -613,6 +603,9 @@ msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
 msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "Zuletzt geändert am"
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Bankzahlungszeilen"

@@ -308,11 +308,6 @@ msgid "Journal Item"
 msgstr "Movimento contabile"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -321,11 +316,6 @@ msgstr "Ultimo aggiornamento di"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Allegato principale"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -637,6 +627,12 @@ msgid ""
 msgstr ""
 "Dovresti reimpostare un mandato a bozza solo se lo hai cancellato per "
 "errore. vuoi continuare?"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Allegato principale"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Errore consegna SMS"

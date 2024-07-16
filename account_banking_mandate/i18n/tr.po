@@ -298,11 +298,6 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_uid
 msgid "Last Updated by"
 msgstr "Son güncelleyen"
@@ -311,11 +306,6 @@ msgstr "Son güncelleyen"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_date
 msgid "Last Updated on"
 msgstr "Son güncelleme"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format

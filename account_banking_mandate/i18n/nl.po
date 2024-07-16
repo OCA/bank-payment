@@ -290,7 +290,8 @@ msgstr "Als deze optie is ingeschakeld, vereisen nieuwe berichten uw aandacht."
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Als deze optie is aangevinkt, hebben sommige berichten een afleverfout."
+msgstr ""
+"Als deze optie is aangevinkt, hebben sommige berichten een afleverfout."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_is_follower
@@ -308,11 +309,6 @@ msgid "Journal Item"
 msgstr "Boekingsregel"
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate____last_update
-msgid "Last Modified on"
-msgstr "Laatst bijgewerkt op"
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_uid
 msgid "Last Updated by"
 msgstr "Laatst bijgewerkt door"
@@ -321,11 +317,6 @@ msgstr "Laatst bijgewerkt door"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__write_date
 msgid "Last Updated on"
 msgstr "Laatst bijgewerkt op"
-
-#. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Hoofdbijlage"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
@@ -636,6 +627,12 @@ msgid ""
 msgstr ""
 "Een mandaat moet alleen teruggezet worden naar concept wanneer u deze per "
 "ongeluk heeft geannuleerd. Wilt u verdergaan? "
+
+#~ msgid "Last Modified on"
+#~ msgstr "Laatst bijgewerkt op"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Hoofdbijlage"
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Bank betaalregels"
