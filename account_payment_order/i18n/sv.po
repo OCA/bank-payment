@@ -25,8 +25,8 @@ msgid ""
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
 msgstr ""
 "%(count)d betalningsrader som läggs till i det befintliga utkastet till "
-"betalningsorder <a href=# data-oe-model=account.payment.order data-oe-id="
-"%(order_id)d>%(name)s</a>."
+"betalningsorder <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>."
 
 #. module: account_payment_order
 #. odoo-python
@@ -38,8 +38,8 @@ msgid ""
 "has been automatically created."
 msgstr ""
 "%(count)d betalningsrader läggs till i det nya utkastet till betalningsorder "
-"<a href=# data-oe-model=account.payment.order data-oe-id=%(order_id)d>"
-"%(name)s</a>, som har skapats automatiskt."
+"<a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(order_id)d>%(name)s</a>, som har skapats automatiskt."
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -558,7 +558,6 @@ msgstr "Om den är ikryssad behöver nya meddelanden din uppmärksamhet."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
-#: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Om den är ikryssad har vissa meddelanden ett leveransfel."
 
@@ -1049,11 +1048,6 @@ msgid "Responsible User"
 msgstr "Ansvarig användare"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Fel vid leverans av SMS"
-
-#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__payment_mode__same
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_payment_mode__same
 msgid "Same"
@@ -1333,6 +1327,9 @@ msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "i annat fall kommer nya betalningsuppdrag att skapas (ett per "
 "betalningssätt)."
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Fel vid leverans av SMS"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Senast modifierad den"
