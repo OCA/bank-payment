@@ -15,6 +15,7 @@ class AccountPayment(models.Model):
     order_state = fields.Selection(
         related="payment_order_id.state", string="Payment Order State"
     )
+    payment_line_date = fields.Date(compute="_compute_payment_line_date")
 
     @api.depends("payment_type", "journal_id")
     def _compute_payment_method_line_fields(self):
@@ -40,6 +41,11 @@ class AccountPayment(models.Model):
                     )
                 )
         return res
+
+    @api.depends("payment_line_ids", "payment_line_ids.date")
+    def _compute_payment_line_date(self):
+        for item in self:
+            item.payment_line_date = item.payment_line_ids[:1].date
 
     @api.constrains("payment_method_line_id")
     def _check_payment_method_line_id(self):
