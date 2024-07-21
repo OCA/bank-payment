@@ -12,7 +12,6 @@ class ResCompany(models.Model):
             ("sand", _("Sandbox")),
             ("prod", _("Production")),
         ],
-        default="sand",
     )
     plaid_access_token = fields.Char(string="Access Token")
 
