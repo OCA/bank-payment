@@ -71,6 +71,7 @@ class PlaidTransfer(models.Model):
             transfer_ids = self.search(
                 [("name", "in", events), ("state", "!=", "settled")]
             )
+
             if transfer_ids:
                 transfer_ids.write({"state": event_type})
             if event_type == "settled":

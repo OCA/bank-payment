@@ -17,21 +17,17 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         related="company_id.plaid_client_id",
         string="Client ID",
-        config_parameter="plaid_connector.plaid_client_id",
     )
 
     plaid_secret = fields.Char(
         string="Secret",
         readonly=False,
         related="company_id.plaid_secret",
-        config_parameter="plaid_connector.plaid_secret",
     )
     plaid_host = fields.Selection(
         string="Host",
         readonly=False,
-        default="sand",
         related="company_id.plaid_host",
-        config_parameter="plaid_connector.plaid_host",
     )
 
     plaid_access_token = fields.Char(
