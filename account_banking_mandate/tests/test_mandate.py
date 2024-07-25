@@ -170,3 +170,28 @@ class TestMandate(TransactionCase):
             }
         )
         self.assertTrue(mandate.unique_mandate_reference)
+
+    def test_mandate_reference_06(self):
+        """
+        Test case: create a mandate with False as reference (empty with UX)
+        Expected result: the reference of the created mandate is not False
+        """
+        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
+        mandate_1 = self.env["account.banking.mandate"].create(
+            {
+                "partner_bank_id": bank_account.id,
+                "signature_date": "2015-01-01",
+                "company_id": self.company.id,
+                "unique_mandate_reference": False,
+            }
+        )
+        self.assertTrue(mandate_1.unique_mandate_reference)
+        mandate_2 = self.env["account.banking.mandate"].create(
+            {
+                "partner_bank_id": bank_account.id,
+                "signature_date": "2015-01-01",
+                "company_id": self.company.id,
+                "unique_mandate_reference": "",
+            }
+        )
+        self.assertTrue(mandate_2.unique_mandate_reference)
