@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
         store=True,
         precompute=True,
         string="Supplier Bank Account",
-        domain="[('partner_id', '=', partner_id),"
+        domain="[('partner_id', 'parent_of', partner_id),"
         "('company_id', 'in', [False, company_id])]",
         check_company=True,
         help="Select the bank account of your supplier on which your company "
