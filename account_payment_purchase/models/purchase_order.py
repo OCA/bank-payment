@@ -10,7 +10,7 @@ class PurchaseOrder(models.Model):
 
     supplier_partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
-        compute="_compute_payment_mode",
+        compute="_compute_supplier_partner_bank",
         readonly=False,
         store=True,
         precompute=True,
@@ -47,17 +47,26 @@ class PurchaseOrder(models.Model):
         for order in self:
             if order.partner_id:
                 order = order.with_company(order.company_id)
+                order.payment_mode_id = order.partner_id.supplier_payment_mode_id
+
+    @api.depends("partner_id", "company_id", "payment_mode_id")
+    def _compute_supplier_partner_bank(self):
+        for order in self:
+            if (
+                order.payment_mode_id.payment_method_id.bank_account_required
+                and order.partner_id
+            ):
+                order = order.with_company(order.company_id)
                 order.supplier_partner_bank_id = (
                     order._get_default_supplier_partner_bank(order.partner_id)
                 )
-                order.payment_mode_id = order.partner_id.supplier_payment_mode_id
-            else:
+            elif not order.payment_mode_id.payment_method_id.bank_account_required:
                 order.supplier_partner_bank_id = False
-                order.payment_mode_id = False
 
     def _prepare_invoice(self):
-        """Leave the bank account empty so that account_payment_partner set the
-        correct value with compute."""
-        invoice_vals = super()._prepare_invoice()
-        invoice_vals.pop("partner_bank_id")
-        return invoice_vals
+        res = super()._prepare_invoice()
+        res["payment_mode_id"] = self.payment_mode_id.id
+        res.pop("partner_bank_id", False)
+        if self.payment_mode_id.payment_method_id.bank_account_required:
+            res["partner_bank_id"] = self.supplier_partner_bank_id.id
+        return res
