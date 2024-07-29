@@ -19,8 +19,13 @@ class AccountJournal(models.Model):
         method_info = self.env[
             "account.payment.method"
         ]._get_payment_method_information()
+        allowed_modes = ["unique"]
+        if "payment_provider_id" in self.env["account.payment.method.line"]._fields:
+            allowed_modes.append("electronic")
         unique_codes = tuple(
-            code for code, info in method_info.items() if info.get("mode") == "unique"
+            code
+            for code, info in method_info.items()
+            if info.get("mode") in allowed_modes
         )
         all_in = self.env["account.payment.method"].search(
             [
