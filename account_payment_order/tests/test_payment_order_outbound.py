@@ -344,13 +344,14 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         )
         self.assertEqual(len(outbound_order.payment_line_ids), 0)
         # Create a manual payment order line with custom date
+        payment_date = date.today() + timedelta(days=8)
         vals = {
             "order_id": outbound_order.id,
             "partner_id": self.partner.id,
             "communication": "manual line and manual date",
             "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
             "amount_currency": 192.38,
-            "date": date.today() + timedelta(days=8),
+            "date": payment_date,
         }
         self.env["account.payment.line"].create(vals)
         self.assertEqual(len(outbound_order.payment_line_ids), 1)
@@ -373,7 +374,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         outbound_order.draft2open()
         self.assertEqual(outbound_order.payment_count, 2)
         self.assertEqual(
-            outbound_order.payment_line_ids[0].payment_ids.date, fields.Date.today()
+            outbound_order.payment_line_ids[0].payment_ids.date, payment_date
         )
         self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
         self.assertEqual(

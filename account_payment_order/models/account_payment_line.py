@@ -189,13 +189,16 @@ class AccountPaymentLine(models.Model):
         """
         journal = self.order_id.journal_id
         payment_mode = self.order_id.payment_mode_id
+        date = fields.Date.today()
+        if self.filtered("date"):
+            date = min(self.filtered("date").mapped("date"))
         vals = {
             "payment_type": self.order_id.payment_type,
             "partner_id": self.partner_id.id,
             "destination_account_id": self.move_line_id.account_id.id,
             "company_id": self.order_id.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
-            "date": fields.Date.today(),
+            "date": date,
             "currency_id": self.currency_id.id,
             "ref": self.order_id.name,
             # Put the name as the wildcard for forcing a unique name. If not, Odoo gets

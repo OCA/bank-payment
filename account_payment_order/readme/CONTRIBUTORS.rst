@@ -12,6 +12,7 @@
 * Jose María Alzaga <jose.alzaga@aselcis.com>
 * Meyomesse Gilles <meyomesse.gilles@gmail.com>
 * Denis Roussel <denis.roussel@acsone.eu>
+* Souheil Bejaoui <souheil.bejaoui@acsone.eu>
 
 * `DynApps <https://www.dynapps.be>`_:
 
