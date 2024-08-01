@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-bank-payment"
-version = "17.0.20240722.0"
+version = "17.0.20240801.0"
 dependencies = [
     "odoo-addon-account_banking_mandate>=17.0dev,<17.1dev",
     "odoo-addon-account_banking_mandate_contact>=17.0dev,<17.1dev",
@@ -16,6 +16,7 @@ dependencies = [
     "odoo-addon-account_payment_purchase_stock>=17.0dev,<17.1dev",
     "odoo-addon-account_payment_sale>=17.0dev,<17.1dev",
     "odoo-addon-account_vendor_bank_account_default>=17.0dev,<17.1dev",
+    "odoo-addon-account_vendor_bank_account_default_purchase>=17.0dev,<17.1dev",
 ]
 classifiers=[
     "Programming Language :: Python",
