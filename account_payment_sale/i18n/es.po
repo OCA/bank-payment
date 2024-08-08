@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 03:43+0000\n"
-"PO-Revision-Date: 2023-09-02 18:08+0000\n"
-"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"PO-Revision-Date: 2024-08-08 06:53+0000\n"
+"Last-Translator: \"Pedro M. Baeza\" <pedro.baeza@gmail.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_payment_sale
 #: model_terms:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
@@ -38,7 +38,7 @@ msgstr "Informe de análisis de ventas"
 #. module: account_payment_sale
 #: model:ir.model,name:account_payment_sale.model_sale_order
 msgid "Sales Order"
-msgstr "Pedidos de Venta"
+msgstr "Pedido de venta"
 
 #~ msgid "Journal Entries"
 #~ msgstr "Asientos contables"
