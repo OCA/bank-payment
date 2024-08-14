@@ -23,7 +23,6 @@ class AccountMove(models.Model):
     # payment mode or company level
     reference_type = fields.Selection(
         selection=[("none", "Free Reference"), ("structured", "Structured Reference")],
-        readonly=True,
         states={"draft": [("readonly", False)]},
         default="none",
     )
