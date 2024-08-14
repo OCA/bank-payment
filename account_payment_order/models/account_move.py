@@ -25,6 +25,7 @@ class AccountMove(models.Model):
         selection=[("none", "Free Reference"), ("structured", "Structured Reference")],
         states={"draft": [("readonly", False)]},
         default="none",
+        string="Payment Reference Type",
     )
     payment_line_count = fields.Integer(compute="_compute_payment_line_count")
 
