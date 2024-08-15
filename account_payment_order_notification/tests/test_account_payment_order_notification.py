@@ -58,7 +58,7 @@ class TestAccountPaymentOrderNotification(TransactionCase):
         res = wizard.run()
         payment_order = self.env[res["res_model"]].browse(res["res_id"])
         old_messages = payment_order.message_ids
-        template_xml_id = "%s.%s" % (
+        template_xml_id = "{}.{}".format(
             "account_payment_order_notification",
             "email_account_payment_order_notification",
         )

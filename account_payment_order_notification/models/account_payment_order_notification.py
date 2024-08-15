@@ -29,9 +29,7 @@ class AccountPaymentOrderNotification(models.Model):
     @api.depends("order_id", "partner_id")
     def _compute_display_name(self):
         for item in self:
-            item.display_name = "[{}] {}".format(
-                item.order_id.name, item.partner_id.display_name
-            )
+            item.display_name = f"[{item.order_id.name}] {item.partner_id.display_name}"
 
     @api.model_create_multi
     def create(self, vals_list):

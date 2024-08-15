@@ -48,7 +48,7 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
                         },
                     )
                 ]
-            template_xml_id = "%s.%s" % (
+            template_xml_id = "{}.{}".format(
                 "account_payment_order_notification",
                 "email_account_payment_order_notification",
             )
@@ -65,7 +65,8 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
         notifications = []
         for item in self.line_ids.filtered("to_send"):
             payment_line_ids = self.order_id.payment_line_ids.filtered(
-                lambda x: x.partner_id == item.partner_id.commercial_partner_id
+                lambda x, item=item: x.partner_id
+                == item.partner_id.commercial_partner_id
             )
             data = {
                 "partner_id": item.partner_id.id,

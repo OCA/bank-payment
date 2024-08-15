@@ -26,7 +26,7 @@ class AccountPaymentOrder(models.Model):
 
     def action_view_notifications(self):
         self.ensure_one()
-        xml_id = "%s.%s" % (
+        xml_id = "{}.{}".format(
             "account_payment_order_notification",
             "account_payment_order_notification_action",
         )
