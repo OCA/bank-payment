@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2024-08-12 08:58+0000\n"
+"PO-Revision-Date: 2024-08-16 09:58+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -1141,7 +1141,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__structured
 msgid "Structured"
-msgstr ""
+msgstr "Strutturato"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
