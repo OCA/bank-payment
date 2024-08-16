@@ -237,3 +237,8 @@ class AccountPaymentLine(models.Model):
                     "destination_account_id"
                 ] = self.partner_id.property_account_payable_id.id
         return vals
+
+    def action_open_business_doc(self):
+        if not self.move_line_id:
+            return False
+        return self.move_line_id.action_open_business_doc()
