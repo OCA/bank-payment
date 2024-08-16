@@ -516,3 +516,25 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(len(payment_order.payment_line_ids), 1)
 
         self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
+
+    def test_action_open_business_document(self):
+        # Open invoice
+        self.invoice.action_post()
+        # Add to payment order using the wizard
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+        order = self.env["account.payment.order"].search(self.domain)
+        # Create payment line without move line
+        vals = {
+            "order_id": order.id,
+            "partner_id": self.partner.id,
+            "currency_id": order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200.38,
+        }
+        self.env["account.payment.line"].create(vals)
+        invoice_action = order.payment_line_ids[0].action_open_business_doc()
+        self.assertEqual(invoice_action["res_model"], "account.move")
+        self.assertEqual(invoice_action["res_id"], self.invoice.id)
+        manual_line_action = order.payment_line_ids[1].action_open_business_doc()
+        self.assertFalse(manual_line_action)

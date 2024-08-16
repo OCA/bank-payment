@@ -244,3 +244,8 @@ class AccountPaymentLine(models.Model):
         if transfer_journal:
             vals["journal_id"] = transfer_journal.id
         return vals
+
+    def action_open_business_doc(self):
+        if not self.move_line_id:
+            return False
+        return self.move_line_id.action_open_business_doc()
