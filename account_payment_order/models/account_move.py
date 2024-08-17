@@ -52,7 +52,7 @@ class AccountMove(models.Model):
         communication = self.payment_reference or self.ref or self.name
         if self.is_invoice():
             if self.is_purchase_document():
-                communication = self.ref or self.payment_reference
+                communication = self.payment_reference or self.ref
             else:
                 communication = self.payment_reference or self.name
         return communication or ""
