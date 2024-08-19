@@ -24,7 +24,7 @@ class TestAccountPaymentOrderNotification(TransactionCase):
         cls.product = cls.env["product.product"].create(
             {"name": "Test product", "list_price": 100}
         )
-        cls.mt_comment = cls.env.ref("mail.mt_comment")
+        cls.mt_note = cls.env.ref("mail.mt_note")
 
     def _create_invoice(self, partner, move_type="out_invoice"):
         invoice_form = Form(
@@ -40,7 +40,7 @@ class TestAccountPaymentOrderNotification(TransactionCase):
         notification = po.notification_ids.filtered(lambda x: x.partner_id == partner)
         self.assertEqual(len(notification.payment_line_ids), total)
         self.assertIn(partner, notification.mapped("message_follower_ids.partner_id"))
-        self.assertIn(self.mt_comment, notification.mapped("message_ids.subtype_id"))
+        self.assertIn(self.mt_note, notification.mapped("message_ids.subtype_id"))
 
     def test_wizard_account_payment_order_notification(self):
         self._create_invoice(self.partner_a_child)

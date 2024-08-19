@@ -14,7 +14,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-envelope"
-                    attrs="{'invisible': [('notification_count', '=', 0)]}"
+                    invisible="notification_count == 0"
                 >
                     <field
                         name="notification_count"
@@ -28,7 +28,7 @@
                     type="action"
                     name="%(wizard_account_payment_order_notification_action)d"
                     string="Send mails"
-                    attrs="{'invisible': ['|', ('state', 'not in', ('uploaded','done')), ('notification_count', '>', 0)]}"
+                    invisible="state not in ['uploaded','done'] or notification_count > 0"
                 />
             </button>
         </field>

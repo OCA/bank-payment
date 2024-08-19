@@ -11,7 +11,6 @@ class WizardAccountPaymentOrderNotification(models.TransientModel):
     order_id = fields.Many2one(
         comodel_name="account.payment.order",
         required=True,
-        readonly=True,
     )
     mail_template_id = fields.Many2one(
         comodel_name="mail.template",
@@ -88,7 +87,7 @@ class WizardAccountPaymentOrderNotificationLine(models.TransientModel):
         index=True,
     )
     partner_id = fields.Many2one(
-        comodel_name="res.partner", required=True, string="Partner", readonly=True
+        comodel_name="res.partner", required=True, string="Partner"
     )
     email = fields.Char()
     to_send = fields.Boolean(string="To send")

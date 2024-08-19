@@ -7,19 +7,16 @@
             <form>
                 <group name="main_group">
                     <group name="left_group">
-                        <field name="order_id" />
+                        <field name="order_id" readonly="1" />
                         <field name="mail_template_id" />
                     </group>
                 </group>
                 <group name="secondary_group" col="4">
                     <field name="line_ids" nolabel="1" colspan="4">
                         <tree editable="bottom" create="false" delete="false">
-                            <field name="partner_id" force_save="1" />
+                            <field name="partner_id" force_save="1" readonly="1" />
                             <field name="email" />
-                            <field
-                                name="to_send"
-                                attrs="{'readonly':[('email','=',False)]}"
-                            />
+                            <field name="to_send" readonly="not email" />
                         </tree>
                     </field>
                 </group>

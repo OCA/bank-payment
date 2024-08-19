@@ -36,7 +36,7 @@ class AccountPaymentOrder(models.Model):
 
     def _action_send_mail_notifications(self, template):
         for notification in self.notification_ids:
-            notification.message_post_with_template(template.id)
+            notification.message_post_with_source(template)
 
     def _action_create_note_from_notifications(self):
         body = _("Email has been sent to the following partners: %s") % (

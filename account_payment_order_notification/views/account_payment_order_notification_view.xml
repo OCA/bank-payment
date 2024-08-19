@@ -8,18 +8,18 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="order_id" />
+                            <field name="order_id" readonly="1" />
                         </h1>
                     </div>
                     <group name="head" col="2">
                         <group name="head-left">
-                            <field name="partner_id" />
+                            <field name="partner_id" readonly="1" />
                             <field name="create_date" />
                         </group>
                     </group>
                     <notebook>
                         <page name="payment-lines" string="Transactions">
-                            <field name="payment_line_ids" />
+                            <field name="payment_line_ids" readonly="1" />
                         </page>
                     </notebook>
                 </sheet>
