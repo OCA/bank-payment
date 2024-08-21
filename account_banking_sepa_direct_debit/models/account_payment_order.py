@@ -2,9 +2,9 @@
 # Copyright 2018-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from lxml import etree
+from lxml import objectify
 
-from odoo import _, exceptions, fields, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 
@@ -20,22 +20,12 @@ class AccountPaymentOrder(models.Model):
         # We use pain_flavor.startswith('pain.008.001.xx')
         # to support country-specific extensions such as
         # pain.008.001.02.ch.01 (cf l10n_ch_sepa)
-        if pain_flavor.startswith("pain.008.001.02"):
+        if pain_flavor.startswith(("pain.008.001.02", "pain.008.003.02")):
             bic_xml_tag = "BIC"
             name_maxsize = 70
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.003.02"):
-            bic_xml_tag = "BIC"
-            name_maxsize = 70
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.001.03"):
+        elif pain_flavor.startswith(("pain.008.001.03", "pain.008.001.04")):
             bic_xml_tag = "BICFI"
             name_maxsize = 140
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.001.04"):
-            bic_xml_tag = "BICFI"
-            name_maxsize = 140
-            root_xml_tag = "CstmrDrctDbtInitn"
         else:
             raise UserError(
                 _(
@@ -47,7 +37,7 @@ class AccountPaymentOrder(models.Model):
                 % pain_flavor
             )
         pay_method = self.payment_mode_id.payment_method_id
-        xsd_file = pay_method.get_xsd_file_path()
+        xsd_file = pay_method._get_xsd_file_path()
         gen_args = {
             "bic_xml_tag": bic_xml_tag,
             "name_maxsize": name_maxsize,
@@ -57,23 +47,18 @@ class AccountPaymentOrder(models.Model):
             "pain_flavor": pain_flavor,
             "pain_xsd_file": xsd_file,
         }
-        nsmap = self.generate_pain_nsmap()
-        attrib = self.generate_pain_attrib()
-        xml_root = etree.Element("Document", nsmap=nsmap, attrib=attrib)
-        pain_root = etree.SubElement(xml_root, root_xml_tag)
+        nsmap = self._generate_pain_nsmap()
+        attrib = self._generate_pain_attrib()
+        xml_root = objectify.Element("Document", nsmap=nsmap, attrib=attrib)
+        pain_root = objectify.SubElement(xml_root, "CstmrDrctDbtInitn")
         # A. Group header
-        (
-            group_header,
-            nb_of_transactions_a,
-            control_sum_a,
-        ) = self.generate_group_header_block(pain_root, gen_args)
+        group_header = self._generate_group_header_block(pain_root, gen_args)
         transactions_count_a = 0
         amount_control_sum_a = 0.0
         lines_per_group = {}
         # key = (requested_date, priority, sequence type)
         # value = list of lines as objects
         for line in self.payment_ids:
-            transactions_count_a += 1
             payment_line = line.payment_line_ids[:1]
             priority = payment_line.priority
             categ_purpose = payment_line.category_purpose
@@ -86,10 +71,10 @@ class AccountPaymentOrder(models.Model):
                 assert seq_type_label is not False
                 seq_type = seq_type_map[seq_type_label]
             else:
-                raise exceptions.UserError(
+                raise UserError(
                     _(
                         "Invalid mandate type in '%s'. Valid ones are 'Recurrent' "
-                        "or 'One-Off'"
+                        "or 'One-Off'."
                     )
                     % payment_line.mandate_id.unique_mandate_reference
                 )
@@ -107,144 +92,101 @@ class AccountPaymentOrder(models.Model):
             (requested_date, priority, categ_purpose, sequence_type, scheme),
             lines,
         ) in list(lines_per_group.items()):
-            requested_date = fields.Date.to_string(requested_date)
             # B. Payment info
-            (
-                payment_info,
-                nb_of_transactions_b,
-                control_sum_b,
-            ) = self.generate_start_payment_info_block(
+            payment_info = self._generate_start_payment_info_block(
                 pain_root,
-                "self.name + '-' + "
-                "sequence_type + '-' + requested_date.replace('-', '')  "
-                "+ '-' + priority + '-' + category_purpose",
+                f"{self.name}-{sequence_type}-{requested_date.strftime('%Y%m%d')}-"
+                f"{priority}-{categ_purpose or 'NOpu'}",
                 priority,
                 scheme,
                 categ_purpose,
                 sequence_type,
                 requested_date,
-                {
-                    "self": self,
-                    "sequence_type": sequence_type,
-                    "priority": priority,
-                    "category_purpose": categ_purpose or "NOcateg",
-                    "requested_date": requested_date,
-                },
                 gen_args,
             )
 
-            self.generate_party_block(
+            self._generate_party_block(
                 payment_info, "Cdtr", "B", self.company_partner_bank_id, gen_args
             )
-            charge_bearer = etree.SubElement(payment_info, "ChrgBr")
-            if self.sepa:
-                charge_bearer_text = "SLEV"
-            else:
-                charge_bearer_text = self.charge_bearer
-            charge_bearer.text = charge_bearer_text
-            creditor_scheme_identification = etree.SubElement(
-                payment_info, "CdtrSchmeId"
+            self._generate_charge_bearer(payment_info)
+            sepa_creditor_identifier = (
+                self.payment_mode_id.sepa_creditor_identifier
+                or self.company_id.sepa_creditor_identifier
             )
-            self.generate_creditor_scheme_identification(
-                creditor_scheme_identification,
-                "self.payment_mode_id.sepa_creditor_identifier or "
-                "self.company_id.sepa_creditor_identifier",
+            if not sepa_creditor_identifier:
+                raise UserError(
+                    _(
+                        "Missing SEPA Creditor Identifier on company %(company)s "
+                        "(or on payment mode %(payment_mode)s).",
+                        company=self.company_id.display_name,
+                        payment_mode=self.payment_mode_id.display_name,
+                    )
+                )
+            self._generate_creditor_scheme_identification(
+                payment_info,
+                sepa_creditor_identifier,
                 "SEPA Creditor Identifier",
-                {"self": self},
                 "SEPA",
                 gen_args,
             )
             transactions_count_b = 0
             amount_control_sum_b = 0.0
             for line in lines:
+                transactions_count_a += 1
                 transactions_count_b += 1
                 # C. Direct Debit Transaction Info
-                dd_transaction_info = etree.SubElement(payment_info, "DrctDbtTxInf")
-                payment_identification = etree.SubElement(dd_transaction_info, "PmtId")
-                instruction_identification = etree.SubElement(
-                    payment_identification, "InstrId"
+                dd_transaction_info = objectify.SubElement(payment_info, "DrctDbtTxInf")
+                payment_identification = objectify.SubElement(
+                    dd_transaction_info, "PmtId"
                 )
-                instruction_identification.text = self._prepare_field(
-                    "Instruction Identification",
-                    "str(line.move_id.id)",
-                    {"line": line},
-                    35,
-                    gen_args=gen_args,
+                payment_identification.InstrId = self._prepare_field(
+                    "Instruction Identification", str(line.move_id.id), 35, gen_args
                 )
-                end2end_identification = etree.SubElement(
-                    payment_identification, "EndToEndId"
+                payment_identification.EndToEndId = self._prepare_field(
+                    "End to End Identification", str(line.move_id.id), 35, gen_args
                 )
-                end2end_identification.text = self._prepare_field(
-                    "End to End Identification",
-                    "str(line.move_id.id)",
-                    {"line": line},
-                    35,
-                    gen_args=gen_args,
+                dd_transaction_info.InstdAmt = line.currency_id._pain_format(
+                    line.amount
                 )
-                currency_name = self._prepare_field(
-                    "Currency Code",
-                    "line.currency_id.name",
-                    {"line": line},
-                    3,
-                    gen_args=gen_args,
-                )
-                instructed_amount = etree.SubElement(
-                    dd_transaction_info, "InstdAmt", Ccy=currency_name
-                )
-                instructed_amount.text = "%.2f" % line.amount
+                dd_transaction_info.InstdAmt.set("Ccy", line.currency_id.name)
                 amount_control_sum_a += line.amount
                 amount_control_sum_b += line.amount
-                dd_transaction = etree.SubElement(dd_transaction_info, "DrctDbtTx")
-                mandate_related_info = etree.SubElement(dd_transaction, "MndtRltdInf")
-                mandate_identification = etree.SubElement(
-                    mandate_related_info, "MndtId"
+                dd_transaction = objectify.SubElement(dd_transaction_info, "DrctDbtTx")
+                mandate_related_info = objectify.SubElement(
+                    dd_transaction, "MndtRltdInf"
                 )
                 mandate = line.payment_line_ids[:1].mandate_id
-                mandate_identification.text = self._prepare_field(
+                mandate_related_info.MndtId = self._prepare_field(
                     "Unique Mandate Reference",
-                    "mandate.unique_mandate_reference",
-                    {"mandate": mandate},
+                    mandate.unique_mandate_reference,
                     35,
-                    gen_args=gen_args,
+                    gen_args,
+                    raise_if_oversized=True,
                 )
-                mandate_signature_date = etree.SubElement(
-                    mandate_related_info, "DtOfSgntr"
-                )
-                mandate_signature_date.text = self._prepare_field(
-                    "Mandate Signature Date",
-                    "signature_date",
-                    {
-                        "line": line,
-                        "signature_date": fields.Date.to_string(mandate.signature_date),
-                    },
-                    10,
-                    gen_args=gen_args,
+                mandate_related_info.DtOfSgntr = mandate.signature_date.strftime(
+                    "%Y-%m-%d"
                 )
                 if sequence_type == "FRST" and mandate.last_debit_date:
-                    amendment_indicator = etree.SubElement(
-                        mandate_related_info, "AmdmntInd"
-                    )
-                    amendment_indicator.text = "true"
-                    amendment_info_details = etree.SubElement(
+                    mandate_related_info.AmdmntInd = "true"
+                    amendment_info_details = objectify.SubElement(
                         mandate_related_info, "AmdmntInfDtls"
                     )
-                    ori_debtor_account = etree.SubElement(
+                    ori_debtor_account = objectify.SubElement(
                         amendment_info_details, "OrgnlDbtrAcct"
                     )
-                    ori_debtor_account_id = etree.SubElement(ori_debtor_account, "Id")
-                    ori_debtor_agent_other = etree.SubElement(
+                    ori_debtor_account_id = objectify.SubElement(
+                        ori_debtor_account, "Id"
+                    )
+                    ori_debtor_agent_other = objectify.SubElement(
                         ori_debtor_account_id, "Othr"
                     )
-                    ori_debtor_agent_other_id = etree.SubElement(
-                        ori_debtor_agent_other, "Id"
-                    )
-                    ori_debtor_agent_other_id.text = "SMNDA"
+                    ori_debtor_agent_other.Id = "SMNDA"
                     # Until 20/11/2016, SMNDA meant
                     # "Same Mandate New Debtor Agent"
                     # After 20/11/2016, SMNDA means
                     # "Same Mandate New Debtor Account"
 
-                self.generate_party_block(
+                self._generate_party_block(
                     dd_transaction_info,
                     "Dbtr",
                     "C",
@@ -253,18 +195,20 @@ class AccountPaymentOrder(models.Model):
                     line,
                 )
                 payment_line = line.payment_line_ids[0]
-                payment_line.generate_purpose(dd_transaction_info)
-                payment_line.generate_regulatory_reporting(
+                payment_line._generate_purpose(dd_transaction_info)
+                payment_line._generate_regulatory_reporting(
                     dd_transaction_info, gen_args
                 )
-                self.generate_remittance_info_block(dd_transaction_info, line, gen_args)
+                self._generate_remittance_info_block(
+                    dd_transaction_info, line, gen_args
+                )
 
-            nb_of_transactions_b.text = str(transactions_count_b)
-            control_sum_b.text = "%.2f" % amount_control_sum_b
-        nb_of_transactions_a.text = str(transactions_count_a)
-        control_sum_a.text = "%.2f" % amount_control_sum_a
+            payment_info.NbOfTxs = str(transactions_count_b)
+            payment_info.CtrlSum = self._format_control_sum(amount_control_sum_b)
+        group_header.NbOfTxs = str(transactions_count_a)
+        group_header.CtrlSum = self._format_control_sum(amount_control_sum_a)
 
-        return self.finalize_sepa_file_creation(xml_root, gen_args)
+        return self._finalize_sepa_file_creation(xml_root, gen_args)
 
     def generated2uploaded(self):
         """Write 'last debit date' on mandates

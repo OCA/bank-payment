@@ -22,7 +22,7 @@ class AccountPaymentMethod(models.Model):
         },
     )
 
-    def get_xsd_file_path(self):
+    def _get_xsd_file_path(self):
         self.ensure_one()
         if self.pain_version in [
             "pain.008.001.02",
@@ -32,7 +32,7 @@ class AccountPaymentMethod(models.Model):
         ]:
             path = "account_banking_sepa_direct_debit/data/%s.xsd" % self.pain_version
             return path
-        return super().get_xsd_file_path()
+        return super()._get_xsd_file_path()
 
     @api.model
     def _get_payment_method_information(self):
