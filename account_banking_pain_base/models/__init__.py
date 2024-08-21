@@ -3,6 +3,7 @@ from . import account_payment_order
 from . import account_payment_mode
 from . import account_pain_regulatory_reporting
 from . import res_company
+from . import res_currency
 from . import res_config_settings
 from . import account_payment_method
 from . import res_bank

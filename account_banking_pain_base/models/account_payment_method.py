@@ -18,7 +18,7 @@ class AccountPaymentMethod(models.Model):
     )
     warn_not_sepa = fields.Boolean(string="Warn If Not SEPA")
 
-    def get_xsd_file_path(self):
+    def _get_xsd_file_path(self):
         """This method is designed to be inherited in the SEPA modules"""
         self.ensure_one()
         raise UserError(_("No XSD file path found for payment method '%s'") % self.name)

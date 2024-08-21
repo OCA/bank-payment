@@ -22,7 +22,7 @@
                         <field name="company_id" groups="base.group_multi_company" />
                         <field name="active" invisible="1" />
                         <field name="payment_method_id" />
-                        <field name="payment_method_code" invisible="1"/>
+                        <field name="payment_method_code" invisible="1" />
                         <field name="payment_type" />
                         <field name="bank_account_link" />
                         <field
@@ -50,7 +50,7 @@
                 <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="payment_method_id" />
-                <field name="payment_method_code" invisible="1"/>
+                <field name="payment_method_code" invisible="1" />
                 <field name="payment_type" />
                 <field name="bank_account_link" />
                 <field
