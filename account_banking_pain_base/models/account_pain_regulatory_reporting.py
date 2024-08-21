@@ -9,6 +9,7 @@ class AccountPainRegulatoryReporting(models.Model):
     _name = "account.pain.regulatory.reporting"
     _description = "Regulatory Reporting Codes for ISO 20022/PAIN banking standard"
     _order = "code, country_id"
+    _rec_names_search = ["name", "code"]
 
     code = fields.Char(required=True, copy=False, size=10)
     name = fields.Char(required=True, translate=True, copy=False)
@@ -29,21 +30,3 @@ class AccountPainRegulatoryReporting(models.Model):
         for rec in self:
             res.append((rec.id, "[%s] %s" % (rec.code, rec.name)))
         return res
-
-    def _name_search(
-        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
-        if args is None:
-            args = []
-        ids = []
-        if name and operator == "ilike":
-            ids = list(self._search([("code", "=", name)] + args, limit=limit))
-            if ids:
-                return ids
-        return super()._name_search(
-            name=name,
-            args=args,
-            operator=operator,
-            limit=limit,
-            name_get_uid=name_get_uid,
-        )
