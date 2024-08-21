@@ -3,7 +3,7 @@
 # Copyright 2014-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from lxml import etree
+from lxml import objectify
 
 from odoo import api, fields, models
 
@@ -189,26 +189,20 @@ class AccountPaymentLine(models.Model):
         ]
         return res
 
-    def generate_regulatory_reporting(self, parent_node, gen_args):
+    def _generate_regulatory_reporting(self, parent_node, gen_args):
         if self.regulatory_reporting_id:
-            regulatory_reporting = etree.SubElement(parent_node, "RgltryRptg")
-            regulatory_reporting_details = etree.SubElement(
+            regulatory_reporting = objectify.SubElement(parent_node, "RgltryRptg")
+            regulatory_reporting_details = objectify.SubElement(
                 regulatory_reporting, "Dtls"
             )
-            regulatory_reporting_details_code = etree.SubElement(
-                regulatory_reporting_details, "Cd"
-            )
-            regulatory_reporting_details_code.text = self.env[
-                "account.payment.order"
-            ]._prepare_field(
+            regulatory_reporting_details.Cd = self.order_id._prepare_field(
                 "Regulatory Details Code",
-                "line.regulatory_reporting_id.code",
-                {"line": self},
+                self.regulatory_reporting_id.code,
                 10,
-                gen_args=gen_args,
+                gen_args,
             )
 
-    def generate_purpose(self, parent_node):
+    def _generate_purpose(self, parent_node):
         if self.purpose:
-            purpose = etree.SubElement(parent_node, "Purp")
-            etree.SubElement(purpose, "Cd").text = self.purpose
+            purpose = objectify.SubElement(parent_node, "Purp")
+            purpose.Cd = self.purpose
