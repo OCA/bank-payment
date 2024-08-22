@@ -9,7 +9,10 @@
         />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
-                <field name="pain_version" />
+                <field
+                    name="pain_version"
+                    attrs="{'invisible': [('code', 'not in', ('sepa_direct_debit', 'sepa_credit_transfer'))], 'required': [('code', 'in', ('sepa_direct_debit', 'sepa_credit_transfer'))]}"
+                />
 
                 <field
                     name="convert_to_ascii"
@@ -31,7 +34,11 @@
         />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
-                <field name="pain_version" optional="show" />
+                <field
+                    name="pain_version"
+                    optional="show"
+                    attrs="{'invisible': [('code', 'not in', ('sepa_direct_debit', 'sepa_credit_transfer'))]}"
+                />
             </field>
         </field>
     </record>
