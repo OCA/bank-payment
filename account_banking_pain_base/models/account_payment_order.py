@@ -338,7 +338,11 @@ class AccountPaymentOrder(models.Model):
         if gen_args["payment_method"] == "DD":
             payment_info.ReqdColltnDt = requested_date.strftime("%Y-%m-%d")
         else:
-            payment_info.ReqdExctnDt = requested_date.strftime("%Y-%m-%d")
+            if gen_args["pain_flavor"].startswith("pain.001.001.09"):
+                requested_exec_date = objectify.SubElement(payment_info, "ReqdExctnDt")
+                requested_exec_date.Dt = requested_date.strftime("%Y-%m-%d")
+            else:
+                payment_info.ReqdExctnDt = requested_date.strftime("%Y-%m-%d")
         return payment_info
 
     @api.model
