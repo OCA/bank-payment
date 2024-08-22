@@ -653,14 +653,14 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def generate_creditor_scheme_identification(
         self,
-        parent_node,
+        csi_root,
         identification,
         identification_label,
         eval_ctx,
         scheme_name_proprietary,
         gen_args,
     ):
-        csi_id = etree.SubElement(parent_node, "Id")
+        csi_id = etree.SubElement(csi_root, "Id")
         csi_privateid = etree.SubElement(csi_id, "PrvtId")
         csi_other = etree.SubElement(csi_privateid, "Othr")
         csi_other_id = etree.SubElement(csi_other, "Id")

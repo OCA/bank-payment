@@ -23,12 +23,7 @@ class AccountPaymentOrder(models.Model):
         if pain_flavor.startswith("pain.008.001.02"):
             bic_xml_tag = "BIC"
             name_maxsize = 70
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.003.02"):
-            bic_xml_tag = "BIC"
-            name_maxsize = 70
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.001.03"):
+        elif pain_flavor.startswith("pain.008.001.08"):
             bic_xml_tag = "BICFI"
             name_maxsize = 140
             root_xml_tag = "CstmrDrctDbtInitn"
@@ -60,6 +55,7 @@ class AccountPaymentOrder(models.Model):
         nsmap = self.generate_pain_nsmap()
         attrib = self.generate_pain_attrib()
         xml_root = etree.Element("Document", nsmap=nsmap, attrib=attrib)
+        root_xml_tag = "CstmrDrctDbtInitn"
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
         (

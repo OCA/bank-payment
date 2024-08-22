@@ -38,8 +38,7 @@ class AccountPaymentOrder(models.Model):
             # so we follow the "European Payment Council"
             # and we put 70 and not 140
             name_maxsize = 70
-            root_xml_tag = "CstmrCdtTrfInitn"
-        elif pain_flavor.startswith("pain.001.001.04"):
+        elif pain_flavor.startswith("pain.001.001.09"):
             bic_xml_tag = "BICFI"
             name_maxsize = 140
             root_xml_tag = "CstmrCdtTrfInitn"
