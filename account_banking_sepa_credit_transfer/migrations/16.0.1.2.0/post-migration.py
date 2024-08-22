@@ -8,4 +8,11 @@ from openupgradelib import openupgrade
 @openupgrade.migrate()
 def migrate(env, version):
     sct_method = env.ref("account_banking_sepa_credit_transfer.sepa_credit_transfer")
-    sct_method.write({"payment_order_ok": True})
+    vals = {"payment_order_ok": True}
+    if sct_method.pain_version in (
+        "pain.001.001.02",
+        "pain.001.001.04",
+        "pain.001.001.05",
+    ):
+        vals["pain_version"] = "pain.001.001.03"
+    sct_method.write(vals)

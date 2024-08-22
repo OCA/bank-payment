@@ -342,18 +342,14 @@ class TestSDDBase(TransactionCase):
 
 
 class TestSDD(TestSDDBase):
-    def test_pain_001_02(self):
+    def test_pain_008_001_02(self):
         self.payment_mode.payment_method_id.pain_version = "pain.008.001.02"
         self.check_sdd()
 
-    def test_pain_003_02(self):
+    def test_pain_0008_001_08(self):
+        self.payment_mode.payment_method_id.pain_version = "pain.008.001.08"
+        self.check_sdd()
+
+    def test_pain_008_003_02(self):
         self.payment_mode.payment_method_id.pain_version = "pain.008.003.02"
-        self.check_sdd()
-
-    def test_pain_001_03(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.03"
-        self.check_sdd()
-
-    def test_pain_001_04(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.04"
         self.check_sdd()

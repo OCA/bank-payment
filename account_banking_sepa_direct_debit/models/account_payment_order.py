@@ -23,7 +23,7 @@ class AccountPaymentOrder(models.Model):
         if pain_flavor.startswith(("pain.008.001.02", "pain.008.003.02")):
             bic_xml_tag = "BIC"
             name_maxsize = 70
-        elif pain_flavor.startswith(("pain.008.001.03", "pain.008.001.04")):
+        elif pain_flavor.startswith("pain.008.001.08"):
             bic_xml_tag = "BICFI"
             name_maxsize = 140
         else:

@@ -7,5 +7,8 @@ from openupgradelib import openupgrade
 
 @openupgrade.migrate()
 def migrate(env, version):
-    sct_method = env.ref("account_banking_sepa_direct_debit.sepa_direct_debit")
-    sct_method.write({"payment_order_ok": True})
+    sdd_method = env.ref("account_banking_sepa_direct_debit.sepa_direct_debit")
+    vals = {"payment_order_ok": True}
+    if sdd_method.pain_version in ("pain.008.001.03", "pain.008.001.04"):
+        vals["pain_version"] = "pain.008.001.02"
+    sdd_method.write(vals)
