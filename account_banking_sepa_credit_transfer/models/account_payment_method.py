@@ -9,15 +9,19 @@ class AccountPaymentMethod(models.Model):
 
     pain_version = fields.Selection(
         selection_add=[
-            ("pain.001.001.03", "pain.001.001.03 (recommended for credit transfer)"),
-            ("pain.001.001.04", "pain.001.001.04"),
-            ("pain.001.001.05", "pain.001.001.05"),
-            ("pain.001.003.03", "pain.001.003.03"),
+            (
+                "pain.001.001.03",
+                "pain.001.001.03 (credit transfer, old recommended version)",
+            ),
+            (
+                "pain.001.001.09",
+                "pain.001.001.09 (credit transfer, new recommended version)",
+            ),
+            ("pain.001.003.03", "pain.001.003.03 (credit transfer for Germany only)"),
         ],
         ondelete={
             "pain.001.001.03": "set null",
-            "pain.001.001.04": "set null",
-            "pain.001.001.05": "set null",
+            "pain.001.001.09": "set null",
             "pain.001.003.03": "set null",
         },
     )
@@ -26,8 +30,7 @@ class AccountPaymentMethod(models.Model):
         self.ensure_one()
         if self.pain_version in [
             "pain.001.001.03",
-            "pain.001.001.04",
-            "pain.001.001.05",
+            "pain.001.001.09",
             "pain.001.003.03",
         ]:
             path = (
