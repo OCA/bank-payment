@@ -7,3 +7,4 @@ from . import res_currency
 from . import res_config_settings
 from . import account_payment_method
 from . import res_bank
+from . import res_partner

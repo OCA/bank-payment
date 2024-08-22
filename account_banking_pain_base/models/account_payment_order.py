@@ -226,7 +226,7 @@ class AccountPaymentOrder(models.Model):
             official_pain_schema.assertValid(root_to_validate)
         except Exception as e:
             logger.warning("The XML file is invalid against the XML Schema Definition")
-            logger.warning(xml_bytes)
+            logger.warning(xml_bytes.decode("utf-8"))
             logger.warning(e)
             raise UserError(
                 _(
@@ -258,7 +258,7 @@ class AccountPaymentOrder(models.Model):
         logger.debug(
             "Generated SEPA XML file in format %s below" % gen_args["pain_flavor"]
         )
-        logger.debug(xml_bytes)
+        logger.debug(xml_string)
         self._validate_xml(xml_bytes, gen_args)
 
         filename = "{}{}.xml".format(gen_args["file_prefix"], self.name)
@@ -452,28 +452,6 @@ class AccountPaymentOrder(models.Model):
             party_account.Ccy = partner_bank.currency_id.name
 
     @api.model
-    def _generate_address_block(self, parent_node, partner, gen_args):
-        """Generate the piece of the XML corresponding to PstlAdr"""
-        if partner.country_id:
-            postal_address = objectify.SubElement(parent_node, "PstlAdr")
-            postal_address.Ctry = partner.country_id.code
-            if partner.street:
-                postal_address.AdrLine = self._prepare_field(
-                    "Address Line1", partner.street, 70, gen_args
-                )
-            if (
-                gen_args.get("pain_flavor").startswith("pain.001.001.")
-                or gen_args.get("pain_flavor").startswith("pain.008.001.")
-            ) and (partner.zip or partner.city):
-                if partner.zip:
-                    val = self._prepare_field("zip", partner.zip, 70, gen_args)
-                else:
-                    val = ""
-                if partner.city:
-                    val += " " + self._prepare_field("city", partner.city, 70, gen_args)
-                postal_address.AdrLine = val
-
-    @api.model
     def _generate_party_block(
         self, parent_node, party_type, order, partner_bank, gen_args, bank_line=None
     ):
@@ -506,7 +484,7 @@ class AccountPaymentOrder(models.Model):
         party.Nm = party_name
         partner = partner_bank.partner_id
 
-        self._generate_address_block(party, partner, gen_args)
+        partner._generate_address_block(party, gen_args)
 
         self._generate_party_id(party, party_type, partner)
 

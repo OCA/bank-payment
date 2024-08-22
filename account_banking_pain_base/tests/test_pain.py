@@ -64,3 +64,37 @@ class TestAccountBankingPainBase(TransactionCase):
             self.pay_obj._prepare_field(
                 "TEST", "1234567", 5, gen_args, raise_if_oversized=True
             )
+
+    def test_improved_street_split(self):
+        street2res = {
+            " 7 rue Henri Rolland ": ("rue Henri Rolland", "7"),
+            "27, rue Henri Rolland": ("rue Henri Rolland", "27"),
+            "27,rue Henri Rolland": ("rue Henri Rolland", "27"),
+            "55A rue du Tonkin": ("rue du Tonkin", "55A"),
+            "55 A rue du Tonkin": ("rue du Tonkin", "55 A"),
+            "55.A rue du Tonkin": ("rue du Tonkin", "55 A"),
+            "35bis, rue Montgolfier": ("rue Montgolfier", "35bis"),
+            "35 bis, rue Montgolfier": ("rue Montgolfier", "35 bis"),
+            "35BIS, rue Montgolfier": ("rue Montgolfier", "35BIS"),
+            "35 BIS rue Montgolfier": ("rue Montgolfier", "35 BIS"),
+            "27ter, rue René Coty": ("rue René Coty", "27ter"),
+            "27 Quarter rue René Coty": ("rue René Coty", "27 Quarter"),
+            "1242 chemin des Bauges": ("chemin des Bauges", "1242"),
+            "12242 RD 123": ("RD 123", "12242"),
+            "122 rue du Général de division Tartempion": (
+                "rue du Général de division Tartempion",
+                "122",
+            ),
+            "Kirchenstrasse 177": ("Kirchenstrasse", "177"),
+            "Place des Carmélites": ("Place des Carmélites", False),
+            "123 Bismark avenue": ("Bismark avenue", "123"),
+            "34 av Barthelemy Buyer": ("av Barthelemy Buyer", "34"),
+            "4 bd des Belges": ("bd des Belges", "4"),
+            "  ": (False, False),
+        }
+        for street, (exp_street_name, exp_street_number) in street2res.items():
+            street_name, street_number = self.env["res.partner"]._improved_street_split(
+                street
+            )
+            self.assertEqual(street_name, exp_street_name)
+            self.assertEqual(street_number, exp_street_number)
