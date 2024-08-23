@@ -10,33 +10,37 @@
         <field name="inherit_id" ref="account.res_config_settings_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//div[@id='analytic']" position="after">
-                <h2>SEPA/PAIN</h2>
+                <h2>SEPA</h2>
                 <div class="row mt16 o_settings_container" id="pain">
-                    <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div class="col-12 col-md-12 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="group_pain_multiple_identifier" />
+                        </div>
                         <div class="o_setting_right_pane">
-                            <div class="content-group">
-                                <div class="row mt16">
+                                <div class="row">
                                     <label
-                                        for="initiating_party_identifier"
-                                        class="col-md-3 o_light_label"
-                                    />
+                                    for="group_pain_multiple_identifier"
+                                    class="col-md-12"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 o_setting_box">
+                        <div class="o_setting_right_pane">
+                                <div class="row" id="initiating_party_identifier">
+                                    <label
+                                    for="initiating_party_identifier"
+                                    class="col-md-4"
+                                />
                                     <field name="initiating_party_identifier" />
                                 </div>
-                                <div class="row mt16">
+                                <div class="row" id="initiating_party_issuer">
                                     <label
-                                        for="initiating_party_issuer"
-                                        class="col-md-3 o_light_label"
-                                    />
+                                    for="initiating_party_issuer"
+                                    class="col-md-4"
+                                />
                                     <field name="initiating_party_issuer" />
                                 </div>
-                                <div class="row mt16">
-                                    <label
-                                        for="group_pain_multiple_identifier"
-                                        class="col-md-3 o_light_label"
-                                    />
-                                    <field name="group_pain_multiple_identifier" />
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
