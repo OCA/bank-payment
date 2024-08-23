@@ -12,6 +12,10 @@ class AccountPaymentLine(models.Model):
 
     mandate_id = fields.Many2one(
         comodel_name="account.banking.mandate",
+        compute="_compute_mandate_id",
+        store=True,
+        readonly=False,
+        precompute=True,
         string="Direct Debit Mandate",
         domain=[("state", "=", "valid")],
         check_company=True,
@@ -19,6 +23,31 @@ class AccountPaymentLine(models.Model):
     mandate_required = fields.Boolean(
         related="order_id.payment_method_id.mandate_required"
     )
+
+    @api.depends("partner_id", "move_line_id", "partner_bank_id")
+    def _compute_mandate_id(self):
+        for line in self:
+            mandate = False
+            move = line.move_line_id.move_id
+            payment_method = line.order_id.payment_mode_id.payment_method_id
+            if payment_method.mandate_required:
+                if move and move.mandate_id:
+                    mandate = move.mandate_id
+                elif line.partner_bank_id or line.partner_id:
+                    domain = [
+                        ("state", "=", "valid"),
+                        ("company_id", "=", line.company_id.id),
+                    ]
+                    if line.partner_bank_id:
+                        domain.append(("partner_bank_id", "=", line.partner_bank_id.id))
+                    elif line.partner_id:
+                        domain.append(("partner_id", "=", line.partner_id.id))
+                    mandate = self.env["account.banking.mandate"].search(
+                        domain, limit=1
+                    )
+            line.mandate_id = mandate and mandate.id or False
+            if mandate:
+                line.partner_bank_id = mandate.partner_bank_id.id
 
     @api.constrains("mandate_id", "partner_bank_id")
     def _check_mandate_bank_link(self):
