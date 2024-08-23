@@ -43,22 +43,6 @@ class AccountPaymentLine(models.Model):
                     )
                 )
 
-    @api.constrains("mandate_id", "company_id")
-    def _check_company_constrains(self):
-        for pline in self:
-            if (
-                pline.mandate_id.company_id
-                and pline.mandate_id.company_id != pline.company_id
-            ):
-                raise ValidationError(
-                    _(
-                        "The payment line number {line_number} a different "
-                        "company than that of the linked mandate {mandate})."
-                    ).format(
-                        line_number=pline.name, mandate=pline.mandate_id.display_name
-                    )
-                )
-
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
