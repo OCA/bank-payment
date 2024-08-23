@@ -190,8 +190,8 @@ class AccountPaymentLine(models.Model):
                 amount_currency = move_line.amount_residual_currency
                 if line.order_id.payment_type == "outbound":
                     amount_currency *= -1
+                    partner_bank_id = move_line.move_id.partner_bank_id.id
                 partner = move_line.partner_id
-                partner_bank_id = move_line.move_id.partner_bank_id.id
             if partner and not partner_bank_id and partner.bank_ids:
                 partner_bank_id = partner.bank_ids[0]
             line.communication = communication
