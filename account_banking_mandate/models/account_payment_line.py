@@ -64,3 +64,9 @@ class AccountPaymentLine(models.Model):
         if self.mandate_required and not self.mandate_id:
             raise UserError(_("Missing Mandate on payment line %s") % self.name)
         return res
+
+    @api.model
+    def _get_payment_line_grouping_fields(self):
+        res = super()._get_payment_line_grouping_fields()
+        res.append("mandate_id")
+        return res
