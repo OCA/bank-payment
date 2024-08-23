@@ -22,6 +22,7 @@
         "views/account_banking_mandate_view.xml",
         "views/account_payment_method.xml",
         "views/account_move_view.xml",
+        "views/account_payment_order.xml",
         "views/account_payment_line.xml",
         "views/res_partner_bank_view.xml",
         "views/res_partner.xml",
