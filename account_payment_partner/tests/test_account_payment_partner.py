@@ -5,9 +5,11 @@
 from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.fields import Date
+from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestAccountPaymentPartner(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -485,9 +487,7 @@ class TestAccountPaymentPartner(TransactionCase):
             }
         )
         self.assertEqual(in_invoice.payment_mode_filter_type_domain, "outbound")
-        self.assertEqual(
-            in_invoice.partner_bank_filter_type_domain, in_invoice.commercial_partner_id
-        )
+        self.assertEqual(in_invoice.bank_partner_id, in_invoice.commercial_partner_id)
         out_refund = self.move_model.create(
             {
                 "partner_id": self.customer.id,
@@ -496,9 +496,7 @@ class TestAccountPaymentPartner(TransactionCase):
             }
         )
         self.assertEqual(out_refund.payment_mode_filter_type_domain, "outbound")
-        self.assertEqual(
-            out_refund.partner_bank_filter_type_domain, out_refund.commercial_partner_id
-        )
+        self.assertEqual(out_refund.bank_partner_id, out_refund.commercial_partner_id)
         in_refund = self.move_model.create(
             {
                 "partner_id": self.supplier.id,
@@ -507,9 +505,7 @@ class TestAccountPaymentPartner(TransactionCase):
             }
         )
         self.assertEqual(in_refund.payment_mode_filter_type_domain, "inbound")
-        self.assertEqual(
-            in_refund.partner_bank_filter_type_domain, in_refund.bank_partner_id
-        )
+        self.assertEqual(in_refund.bank_partner_id, in_refund.bank_partner_id)
         out_invoice = self.move_model.create(
             {
                 "partner_id": self.customer.id,
@@ -518,9 +514,7 @@ class TestAccountPaymentPartner(TransactionCase):
             }
         )
         self.assertEqual(out_invoice.payment_mode_filter_type_domain, "inbound")
-        self.assertEqual(
-            out_invoice.partner_bank_filter_type_domain, out_invoice.bank_partner_id
-        )
+        self.assertEqual(out_invoice.bank_partner_id, out_invoice.bank_partner_id)
 
     def test_account_move_payment_mode_id_default(self):
         payment_mode = self.env.ref("account_payment_mode.payment_mode_inbound_dd1")

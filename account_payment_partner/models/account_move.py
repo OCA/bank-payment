@@ -12,9 +12,6 @@ class AccountMove(models.Model):
     payment_mode_filter_type_domain = fields.Char(
         compute="_compute_payment_mode_filter_type_domain"
     )
-    partner_bank_filter_type_domain = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_partner_bank_filter_type_domain"
-    )
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
         compute="_compute_payment_mode_id",
@@ -43,22 +40,12 @@ class AccountMove(models.Model):
     @api.depends("move_type")
     def _compute_payment_mode_filter_type_domain(self):
         for move in self:
-            if move.move_type in ("out_invoice", "in_refund"):
+            if move.is_inbound():  # out_invoice + in_refund
                 move.payment_mode_filter_type_domain = "inbound"
-            elif move.move_type in ("in_invoice", "out_refund"):
+            elif move.is_outbound():  # in_invoice + out_refund
                 move.payment_mode_filter_type_domain = "outbound"
             else:
                 move.payment_mode_filter_type_domain = False
-
-    @api.depends("partner_id", "move_type")
-    def _compute_partner_bank_filter_type_domain(self):
-        for move in self:
-            if move.move_type in ("out_invoice", "in_refund"):
-                move.partner_bank_filter_type_domain = move.bank_partner_id
-            elif move.move_type in ("in_invoice", "out_refund"):
-                move.partner_bank_filter_type_domain = move.commercial_partner_id
-            else:
-                move.partner_bank_filter_type_domain = False
 
     @api.depends("partner_id", "company_id")
     def _compute_payment_mode_id(self):
