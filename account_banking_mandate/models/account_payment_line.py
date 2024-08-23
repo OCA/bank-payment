@@ -17,7 +17,7 @@ class AccountPaymentLine(models.Model):
         check_company=True,
     )
     mandate_required = fields.Boolean(
-        related="order_id.payment_method_id.mandate_required", readonly=True
+        related="order_id.payment_method_id.mandate_required"
     )
 
     @api.constrains("mandate_id", "partner_bank_id")
