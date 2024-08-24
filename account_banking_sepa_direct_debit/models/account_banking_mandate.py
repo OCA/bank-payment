@@ -7,7 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY = 36
 
@@ -46,14 +46,27 @@ class AccountBankingMandate(models.Model):
     unique_mandate_reference = fields.Char(size=35)  # cf ISO 20022
     display_name = fields.Char(compute="_compute_display_name2", store=True)
 
-    @api.constrains("type", "recurrent_sequence_type")
-    def _check_recurring_type(self):
+    @api.constrains("format", "type", "recurrent_sequence_type", "partner_bank_id")
+    def _check_sepa_mandate(self):
         for mandate in self:
-            if mandate.type == "recurrent" and not mandate.recurrent_sequence_type:
-                raise UserError(
-                    _("The recurrent mandate '%s' must have a sequence type.")
-                    % mandate.unique_mandate_reference
-                )
+            if mandate.format == "sepa":
+                if mandate.type == "recurrent" and not mandate.recurrent_sequence_type:
+                    raise ValidationError(
+                        _("The recurrent SEPA mandate '%s' must have a sequence type.")
+                        % mandate.display_name
+                    )
+                if (
+                    mandate.partner_bank_id
+                    and mandate.partner_bank_id.acc_type != "iban"
+                ):
+                    raise ValidationError(
+                        _(
+                            "The SEPA mandate '%(mandate)s' is linked to bank account "
+                            "'%(bank_account)s' which is not an IBAN bank account.",
+                            mandate=mandate.display_name,
+                            bank_account=mandate.partner_bank_id.display_name,
+                        )
+                    )
 
     @api.depends("unique_mandate_reference", "recurrent_sequence_type")
     def _compute_display_name2(self):
