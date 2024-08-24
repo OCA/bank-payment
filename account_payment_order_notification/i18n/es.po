@@ -45,8 +45,8 @@ msgid ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <t t-foreach=\"object.payment_line_ids\" t-as="
-"\"payment_line\">\n"
+"                        <t t-foreach=\"object.payment_line_ids\" t-"
+"as=\"payment_line\">\n"
 "                            <tr>\n"
 "                                <td>\n"
 "                                    <t t-if=\"payment_line.move_line_id."
@@ -103,8 +103,8 @@ msgstr ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <t t-foreach=\"object.payment_line_ids\" t-as="
-"\"payment_line\">\n"
+"                        <t t-foreach=\"object.payment_line_ids\" t-"
+"as=\"payment_line\">\n"
 "                            <tr>\n"
 "                                <td>\n"
 "                                    <t t-if=\"payment_line.move_line_id."
@@ -237,13 +237,6 @@ msgid "Is Follower"
 msgstr "Es seguidor"
 
 #. module: account_payment_order_notification
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification____last_update
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification____last_update
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: account_payment_order_notification
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__write_uid
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__write_uid
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification_line__write_uid
@@ -266,11 +259,6 @@ msgstr "Líneas"
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_wizard_account_payment_order_notification__mail_template_id
 msgid "Mail Template"
 msgstr "Plantilla de email"
-
-#. module: account_payment_order_notification
-#: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Adjunto principal"
 
 #. module: account_payment_order_notification
 #: model:ir.model.fields,field_description:account_payment_order_notification.field_account_payment_order_notification__message_has_error
@@ -404,6 +392,12 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} Orden de Pago (Ref {{ object.order_id.name or "
 "'n/a' }})"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificación el"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Adjunto principal"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Error de entrega de SMS"
