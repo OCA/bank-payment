@@ -224,7 +224,9 @@ class AccountPaymentOrder(models.Model):
     @api.constrains("payment_line_ids")
     def _check_payment_lines(self):
         for order in self:
-            move_line_ids = [x.move_line_id.id for x in order.payment_line_ids]
+            move_line_ids = [
+                x.move_line_id.id for x in order.payment_line_ids if x.move_line_id
+            ]
             if len(move_line_ids) != len(set(move_line_ids)):
                 raise ValidationError(
                     _(

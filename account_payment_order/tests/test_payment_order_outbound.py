@@ -7,6 +7,7 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Command
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -478,6 +479,33 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(len(payment_order.payment_line_ids), 1)
 
         self.assertEqual("F/1234 FR/1234", payment_order.payment_line_ids.communication)
+
+    def test_multiple_lines_without_move_line(self):
+        """Test that a payment order with multiple lines without related
+        journal items can be created"""
+        self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+                "payment_line_ids": [
+                    Command.create(
+                        {
+                            "partner_id": self.partner.id,
+                            "amount_currency": 101.00,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "partner_id": self.partner.id,
+                            "amount_currency": 101.00,
+                        }
+                    ),
+                ],
+            }
+        )
 
     def test_supplier_manual_refund(self):
         """
