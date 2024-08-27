@@ -15,14 +15,16 @@
             <field name="company_partner_bank_id" position="after">
                 <field
                     name="sepa"
-                    attrs="{'invisible': [('sepa_payment_method', '=', False)]}"
+                    attrs="{'invisible': [('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
                 />
-                <field name="sepa_payment_method" invisible="1" />
                 <field name="show_warning_not_sepa" invisible="1" />
-                <field name="batch_booking" />
+                <field
+                    name="batch_booking"
+                    attrs="{'invisible': [('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
+                />
                 <field
                     name="charge_bearer"
-                    attrs="{'invisible': [('sepa', '=', True)]}"
+                    attrs="{'invisible': ['|', ('sepa', '=', True), ('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
                 />
             </field>
             <header position="after">

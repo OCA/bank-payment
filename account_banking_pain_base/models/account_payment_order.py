@@ -24,10 +24,6 @@ class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     sepa = fields.Boolean(compute="_compute_sepa", string="SEPA Payment")
-    sepa_payment_method = fields.Boolean(
-        compute="_compute_sepa",
-        string="SEPA Payment Method",
-    )
     show_warning_not_sepa = fields.Boolean(compute="_compute_sepa")
     charge_bearer = fields.Selection(
         [
@@ -118,12 +114,10 @@ class AccountPaymentOrder(models.Model):
         eur = self.env.ref("base.EUR")
         sepa_list = self._sepa_iban_prefix_list()
         for order in self:
-            sepa_payment_method = False
             sepa = False
             warn_not_sepa = False
             payment_method = order.payment_mode_id.payment_method_id
             if payment_method.pain_version:
-                sepa_payment_method = True
                 sepa = True
                 if (
                     order.company_partner_bank_id
@@ -157,7 +151,6 @@ class AccountPaymentOrder(models.Model):
                 if not sepa and payment_method.warn_not_sepa:
                     warn_not_sepa = True
             order.sepa = sepa
-            order.sepa_payment_method = sepa_payment_method
             order.show_warning_not_sepa = warn_not_sepa
 
     def _compute_sepa_final_hook(self, sepa):
