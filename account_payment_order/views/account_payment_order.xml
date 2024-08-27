@@ -82,6 +82,7 @@
                     <group name="head" col="2">
                         <group name="head-left">
                             <field name="payment_mode_id" />
+                            <field name="payment_method_code" invisible="1" />
                             <field name="allowed_journal_ids" invisible="1" />
                             <field name="journal_id" />
                             <field name="bank_account_link" invisible="1" />
@@ -164,6 +165,7 @@
                 <field name="payment_count" optional="show" string="Transactions" />
                 <field name="total_company_currency" sum="Total Company Currency" />
                 <field name="company_currency_id" invisible="1" />
+                <field name="payment_method_code" invisible="1" />
                 <field
                     name="state"
                     decoration-info="state == 'draft'"
