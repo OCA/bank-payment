@@ -435,6 +435,7 @@ class AccountPaymentOrder(models.Model):
 
     def open2generated(self):
         self.ensure_one()
+        action = {}
         payment_file_bytes, filename = self.generate_payment_file()
         vals = {
             "state": "generated",
@@ -449,8 +450,20 @@ class AccountPaymentOrder(models.Model):
                 }
             )
             vals["payment_file_id"] = attachment.id
+            action = {
+                "name": filename,
+                "type": "ir.actions.act_url",
+                "url": f"web/content/?model={self._name}&id={self.id}&"
+                f"filename_field=payment_file_name&field=payment_file_datas&"
+                f"download=true&filename={filename}",
+                "target": "new",
+                # target: "new" and NOT "self", otherwise you get the following bug:
+                # after this action, all UserError won't show a pop-up to the user
+                # but will only show a warning message in the logs until the web
+                # page is reloaded
+            }
         self.write(vals)
-        return
+        return action
 
     def generated2uploaded(self):
         self.payment_ids.action_post()
