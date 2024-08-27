@@ -121,7 +121,7 @@ class TestSDDBase(TransactionCase):
                 ],
             }
         )
-        # update payment mode
+        # create payment mode
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "SEPA direct debit test",

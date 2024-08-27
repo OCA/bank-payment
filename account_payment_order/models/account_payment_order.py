@@ -36,6 +36,9 @@ class AccountPaymentOrder(models.Model):
         related="payment_mode_id.payment_method_id",
         store=True,
     )
+    payment_method_code = fields.Char(
+        related="payment_mode_id.payment_method_id.code", store=True
+    )
     company_id = fields.Many2one(
         related="payment_mode_id.company_id",
         store=True,

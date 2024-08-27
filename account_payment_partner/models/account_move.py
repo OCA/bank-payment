@@ -16,10 +16,16 @@ class AccountMove(models.Model):
         comodel_name="account.payment.mode",
         compute="_compute_payment_mode_id",
         store=True,
+        precompute=True,
         ondelete="restrict",
         readonly=False,
+        domain="[('payment_type', '=', payment_mode_filter_type_domain), "
+        "('company_id', '=', company_id)]",
         check_company=True,
         tracking=True,
+    )
+    payment_method_code = fields.Char(
+        related="payment_mode_id.payment_method_id.code", store=True
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True

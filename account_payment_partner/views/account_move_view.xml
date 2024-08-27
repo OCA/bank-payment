@@ -26,11 +26,11 @@
             <field name="partner_bank_id" position="before">
                 <field
                     name="payment_mode_id"
-                    domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
                     widget="selection"
                     attrs="{'readonly': [('has_reconciled_items', '=', True)], 'invisible': [('move_type', 'not in', ('out_invoice','out_refund','in_invoice','in_refund'))]}"
                 />
                 <field name="has_reconciled_items" invisible="1" />
+                <field name="payment_method_code" invisible="1" />
                 <field name="bank_account_required" invisible="1" />
                 <field name="payment_mode_filter_type_domain" invisible="1" />
             </field>
@@ -71,6 +71,7 @@
         <field name="arch" type="xml">
             <field name="amount_residual_signed" position="after">
                 <field name="payment_mode_id" optional="hide" />
+                <field name="payment_method_code" invisible="1" />
             </field>
         </field>
     </record>
