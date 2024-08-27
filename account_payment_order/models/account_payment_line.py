@@ -192,7 +192,12 @@ class AccountPaymentLine(models.Model):
                     amount_currency *= -1
                     partner_bank_id = move_line.move_id.partner_bank_id.id
                 partner = move_line.partner_id
-            if partner and not partner_bank_id and partner.bank_ids:
+            if (
+                partner
+                and line.order_id.payment_method_id.bank_account_required
+                and not partner_bank_id
+                and partner.bank_ids
+            ):
                 partner_bank_id = partner.bank_ids[0]
             line.communication = communication
             line.communication_type = communication_type

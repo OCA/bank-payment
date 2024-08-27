@@ -12,14 +12,18 @@
             ref="account_payment_order.account_payment_line_form"
         />
         <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
+            <field name="partner_bank_id" position="before">
                 <field name="mandate_required" invisible="1" />
                 <field
                     name="mandate_id"
-                    domain="[('partner_bank_id', '=', partner_bank_id), ('state', '=', 'valid')]"
                     attrs="{'invisible': [('mandate_required', '=', False)], 'required': [('mandate_required', '=', True)]}"
                     context="{'default_partner_bank_id': partner_bank_id}"
                 />
+            </field>
+            <field name="partner_bank_id" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required': [('bank_account_required', '=', True)], 'readonly': [('mandate_required', '=', True)]}</attribute>
             </field>
         </field>
     </record>
@@ -31,7 +35,7 @@
             ref="account_payment_order.account_payment_line_tree"
         />
         <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
+            <field name="partner_bank_id" position="before">
                 <field
                     name="mandate_id"
                     attrs="{'column_invisible': [('parent.mandate_required', '=', False)]}"

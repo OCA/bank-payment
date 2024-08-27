@@ -17,14 +17,14 @@ class AccountPaymentLine(models.Model):
         readonly=False,
         precompute=True,
         string="Direct Debit Mandate",
-        domain=[("state", "=", "valid")],
+        domain="[('state', '=', 'valid'), ('partner_id', '=', partner_id)]",
         check_company=True,
     )
     mandate_required = fields.Boolean(
         related="order_id.payment_method_id.mandate_required"
     )
 
-    @api.depends("partner_id", "move_line_id", "partner_bank_id")
+    @api.depends("partner_id", "move_line_id")
     def _compute_mandate_id(self):
         for line in self:
             mandate = False
@@ -33,21 +33,27 @@ class AccountPaymentLine(models.Model):
             if payment_method.mandate_required:
                 if move and move.mandate_id:
                     mandate = move.mandate_id
-                elif line.partner_bank_id or line.partner_id:
+                elif line.partner_id:
                     domain = [
                         ("state", "=", "valid"),
                         ("company_id", "=", line.company_id.id),
+                        ("partner_id", "=", line.partner_id.id),
                     ]
-                    if line.partner_bank_id:
-                        domain.append(("partner_bank_id", "=", line.partner_bank_id.id))
-                    elif line.partner_id:
-                        domain.append(("partner_id", "=", line.partner_id.id))
                     mandate = self.env["account.banking.mandate"].search(
                         domain, limit=1
                     )
             line.mandate_id = mandate and mandate.id or False
-            if mandate:
-                line.partner_bank_id = mandate.partner_bank_id.id
+
+    @api.depends("mandate_id")
+    def _compute_payment_line(self):
+        res = super()._compute_payment_line()
+        for line in self:
+            if line.mandate_id and (
+                not line.partner_bank_id
+                or line.partner_bank_id != line.mandate_id.partner_bank_id
+            ):
+                line.partner_bank_id = line.mandate_id.partner_bank_id.id
+        return res
 
     @api.constrains("mandate_id", "partner_bank_id")
     def _check_mandate_bank_link(self):
