@@ -68,6 +68,10 @@ class AccountPaymentMode(models.Model):
             ("due", "Due Date"),
             ("fixed", "Fixed Date"),
         ],
+        compute="_compute_default_date_prefered",
+        store=True,
+        readonly=False,
+        precompute=True,
         string="Default Payment Execution Date",
     )
     group_lines = fields.Boolean(
@@ -90,6 +94,15 @@ class AccountPaymentMode(models.Model):
     def _compute_payment_order_ok(self):
         for mode in self:
             mode.payment_order_ok = mode.payment_method_id.payment_order_ok
+
+    @api.depends("payment_method_id")
+    def _compute_default_date_prefered(self):
+        for mode in self:
+            if (
+                mode.payment_method_id.payment_type == "inbound"
+                and mode.payment_method_id.payment_order_ok
+            ):
+                mode.default_date_prefered = "due"
 
     @api.depends("payment_method_id", "company_id")
     def _compute_default_journal_ids(self):
