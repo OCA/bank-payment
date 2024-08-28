@@ -26,6 +26,7 @@ class AccountPaymentMode(models.Model):
     )
     no_debit_before_maturity = fields.Boolean(
         string="Disallow Debit Before Maturity Date",
+        default=True,
         help="If you activate this option on an Inbound payment mode, "
         "you will have an error message when you confirm a debit order "
         "that has a payment line with a payment date before the maturity "
