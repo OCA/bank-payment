@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-02 01:12+0000\n"
-"PO-Revision-Date: 2024-04-19 12:35+0000\n"
+"PO-Revision-Date: 2024-08-31 12:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-8-0/"
 "language/it/)\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.actions.act_window,help:account_banking_sepa_direct_debit.mandate_action
@@ -107,12 +107,12 @@ msgstr "Addebito unico"
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "Borne by Creditor"
+msgstr "Sostenuto dal creditore"
 
 #. module: account_banking_sepa_direct_debit
 #: selection:banking.export.sdd.wizard,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "Borne by Debtor"
+msgstr "Sostenuto dal debitore"
 
 #. module: account_banking_sepa_direct_debit
 #: view:website:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -127,7 +127,7 @@ msgstr "Annulla"
 #. module: account_banking_sepa_direct_debit
 #: field:banking.export.sdd.wizard,charge_bearer:0
 msgid "Charge Bearer"
-msgstr "Charge Bearer"
+msgstr "Debitore"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_company
