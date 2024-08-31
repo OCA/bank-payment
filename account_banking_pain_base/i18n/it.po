@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 08:41+0000\n"
-"PO-Revision-Date: 2024-04-19 12:36+0000\n"
+"PO-Revision-Date: 2024-08-31 12:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_banking_pain_base
 #: sql_constraint:account.payment.method:0
@@ -41,12 +41,12 @@ msgstr "Addebito unico"
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Creditor"
-msgstr "Borne by Creditor"
+msgstr "Sostenuto dal creditore"
 
 #. module: account_banking_pain_base
 #: selection:account.payment.order,charge_bearer:0
 msgid "Borne by Debtor"
-msgstr "Borne by Debtor"
+msgstr "Sostenuto dal debitore"
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:106
@@ -63,7 +63,7 @@ msgstr ""
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order_charge_bearer
 msgid "Charge Bearer"
-msgstr "Charge Bearer"
+msgstr "Debitore"
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_res_company
