@@ -149,6 +149,8 @@ class AccountPaymentOrder(models.Model):
             ),
             "currency_id": payment.currency_id.id,
             "amount_currency": payment.amount * sign,
+            # Same logic as the individual payments
+            "date_maturity": payment.payment_line_ids[0].date,
         }
         return vals
 
@@ -181,6 +183,8 @@ class AccountPaymentOrder(models.Model):
             ),
             "currency_id": payments[0].currency_id.id,
             "amount_currency": amount_payment_currency * sign,
+            # All the lines should have the same date following _prepare_trf_moves
+            "date_maturity": payments.payment_line_ids[:1].date,
         }
         return vals
 
