@@ -31,7 +31,7 @@ addon | version | maintainers | summary
 [account_payment_method_fs_storage](account_payment_method_fs_storage/) | 16.0.1.0.2 |  | Add the possibility to specify on the payment method, a storage where files generated will be pushed to upon payment
 [account_payment_mode](account_payment_mode/) | 16.0.1.2.1 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 16.0.1.11.5 |  | Account Payment Order
-[account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.2 |  | Account Payment Order - Generate grouped moves
+[account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.3 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_notification](account_payment_order_notification/) | 16.0.1.0.1 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Account Payment Order Notification
 [account_payment_order_vendor_email](account_payment_order_vendor_email/) | 16.0.1.0.0 | [![ursais](https://github.com/ursais.png?size=30px)](https://github.com/ursais) | Account Payment Order Email
 [account_payment_partner](account_payment_partner/) | 16.0.1.2.3 |  | Adds payment mode on partners and invoices
