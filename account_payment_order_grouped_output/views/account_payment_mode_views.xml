@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="payment_order_create_defaults" position="after">
+                <group
+                    name="accounting-config"
+                    string="Grouped Accounting Entries Options"
+                    invisible="not payment_order_ok"
+                >
+                    <field name="generate_move" />
+                    <field name="post_move" invisible="not generate_move" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
