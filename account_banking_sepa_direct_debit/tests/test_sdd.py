@@ -119,6 +119,7 @@ class TestSDDBase(TransactionCase):
                 "acc_type": "iban",
             }
         )
+        bank1.allow_out_payment = True
         cls.mandate12 = cls.env.ref(
             "account_banking_sepa_direct_debit.res_partner_12_mandate"
         ).copy(
@@ -136,6 +137,7 @@ class TestSDDBase(TransactionCase):
                 "acc_type": "iban",
             }
         )
+        bank2.allow_out_payment = True
         cls.mandate2 = cls.env.ref(
             "account_banking_sepa_direct_debit.res_partner_2_mandate"
         ).copy(

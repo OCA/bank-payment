@@ -28,9 +28,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                     (
                         0,
                         0,
-                        {
-                            "acc_number": "TEST-NUMBER",
-                        },
+                        {"acc_number": "TEST-NUMBER", "allow_out_payment": True},
                     )
                 ],
             }
@@ -239,6 +237,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
             "amount_currency": 200.38,
             "move_line_id": self.invoice.invoice_line_ids[0].id,
+            "partner_bank_id": self.partner_bank.id,
         }
         return self.env["account.payment.line"].create(vals)
 
@@ -533,9 +532,34 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         # Do not allow out payments
         self.partner_bank.allow_out_payment = False
+        for line in self.invoice.line_ids:
+            for bank in line.partner_id.bank_ids:
+                bank.allow_out_payment = False
 
         # Add to payment order using the wizard: error raised
         with self.assertRaises(UserError):
             self.env["account.invoice.payment.line.multi"].with_context(
                 active_model="account.move", active_ids=self.invoice.ids
             ).create({}).run()
+
+    def test_check_allow_out_payment_from_payment_order(self):
+        """Check that, in case option "Send Money" is not enabled on
+        the bank, out payments are not allowed.
+        """
+        self.partner_bank.allow_out_payment = False
+        outbound_order = self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+            }
+        )
+        payment_line_1 = self._line_creation(outbound_order)
+
+        payment_line_1.partner_bank_id = self.partner_bank.id
+
+        # Add to payment order using the wizard: error raised
+        with self.assertRaises(UserError):
+            outbound_order.draft2open()

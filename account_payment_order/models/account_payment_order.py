@@ -336,8 +336,10 @@ class AccountPaymentOrder(models.Model):
             for payline in order.payment_line_ids:
                 try:
                     payline.draft2open_payment_line_check()
+                    payline.move_line_id._check_bank_allows_out_payments()
                 except UserError as e:
                     payline_err_text.append(e.args[0])
+
                 # Compute requested payment date
                 if order.date_prefered == "due":
                     requested_date = payline.ml_maturity_date or payline.date or today
