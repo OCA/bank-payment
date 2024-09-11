@@ -221,6 +221,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         order.payment_line_ids.partner_bank_id.action_unarchive()
         self.assertFalse(order.partner_banks_archive_msg)
         order.draft2open()
+        self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids)
         order.open2generated()
         order.generated2uploaded()
         self.assertEqual(order.move_ids[0].date, order.payment_ids[0].date)
