@@ -47,3 +47,5 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
                 for x in grouped_moves.line_ids
             )
         )
+        self.inbound_order.action_uploaded_cancel()
+        self.assertFalse(len(self.inbound_order.grouped_move_ids) > 0)
