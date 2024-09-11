@@ -80,7 +80,7 @@ class AccountPaymentOrder(models.Model):
         for payment in payments:
             journal = payment.journal_id
             lines_to_rec += payment.move_id.line_ids.filtered(
-                lambda x: x.account_id
+                lambda x, journal=journal: x.account_id
                 in (
                     journal._get_journal_inbound_outstanding_payment_accounts()
                     + journal._get_journal_outbound_outstanding_payment_accounts()
