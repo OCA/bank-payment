@@ -151,6 +151,11 @@ class AccountMove(models.Model):
                         "order": payment_lines.order_id.mapped("name"),
                     }
                 )
+
+            # Check that the bank allows out payments
+            applicable_lines.filtered(
+                lambda l: l.account_id.account_type == "liability_payable"
+            )._check_bank_allows_out_payments()
             for payment_mode in payment_modes:
                 payorder = apoo.search(
                     move.get_account_payment_domain(payment_mode), limit=1

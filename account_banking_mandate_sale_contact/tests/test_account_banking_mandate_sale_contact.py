@@ -82,6 +82,7 @@ class TestAccountBankingMandateSaleContact(TransactionCase):
         res_partner_bank_form = Form(cls.env["res.partner.bank"])
         res_partner_bank_form.partner_id = partner_id
         res_partner_bank_form.acc_number = acc_number
+        res_partner_bank_form.allow_out_payment = True
         return res_partner_bank_form.save()
 
     @classmethod

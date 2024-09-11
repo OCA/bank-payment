@@ -2,7 +2,8 @@
 # © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.fields import first
 
 
@@ -91,3 +92,18 @@ class AccountMoveLine(models.Model):
         for mline in self:
             vals_list.append(mline._prepare_payment_line_vals(payment_order))
         return self.env["account.payment.line"].create(vals_list)
+
+    def _check_bank_allows_out_payments(self):
+        for line in self:
+            bank = line.partner_bank_id or first(line.partner_id.bank_ids)
+            if bank and not bank.allow_out_payment:
+                raise UserError(
+                    _(
+                        'The option "Send Money" is not enabled on the bank '
+                        "account %(bank_account)s of partner %(partner)s."
+                    )
+                    % {
+                        "bank_account": bank.acc_number,
+                        "partner": line.partner_id.name,
+                    }
+                )
