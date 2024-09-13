@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
 "X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_pain_base
@@ -787,6 +787,16 @@ msgid "SEPA Payment"
 msgstr "SEPA plačilo"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__sepa_payment_method
+msgid "SEPA Payment Method"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid "SEPA zone"
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model_terms:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
 msgid "SEPA/PAIN"
 msgstr "SEPA/PAIN"
@@ -817,6 +827,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__shar
 msgid "Shared"
 msgstr "V souporabi"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__show_warning_not_sepa
+msgid "Show Warning Not Sepa"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__ssbe
@@ -890,6 +905,14 @@ msgstr "Tip polja '%s' je %s. Moral bi biti niz ali unicode."
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
 msgid ""
 "This field will be used as 'Instruction Priority' in the generated PAIN file."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid ""
+"This payment order is <b>not SEPA</b>. If it is not intented, check that all "
+"payment lines are in € and that all bank accounts are valid IBANs with a "
+"country prefix in the"
 msgstr ""
 
 #. module: account_banking_pain_base
@@ -1012,6 +1035,11 @@ msgstr "Plačilo DDV"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__view
 msgid "Vision Care"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__warn_not_sepa
+msgid "Warn If Not SEPA"
 msgstr ""
 
 #. module: account_banking_pain_base
