@@ -219,6 +219,11 @@ msgid "Bank Account Required"
 msgstr ""
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_bank_acc_type
+msgid "Bank Account Type"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__journal_id
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "Bank Journal"
@@ -227,6 +232,12 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_move_line__partner_bank_id
 msgid "Bank account on which we should pay the supplier"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_line__partner_bank_acc_type
+msgid ""
+"Bank account type: Normal or IBAN. Inferred from the bank account number."
 msgstr ""
 
 #. module: account_payment_order
