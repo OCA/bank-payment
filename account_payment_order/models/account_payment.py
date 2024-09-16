@@ -47,6 +47,15 @@ class AccountPayment(models.Model):
         for item in self:
             item.payment_line_date = item.payment_line_ids[:1].date
 
+    @api.depends("payment_line_ids")
+    def _compute_partner_bank_id(self):
+        # Force the payment line bank account. The grouping function has already
+        # assured that there's no more than one bank account in the group
+        order_pays = self.filtered("payment_line_ids")
+        for pay in order_pays:
+            pay.partner_bank_id = pay.payment_line_ids.partner_bank_id
+        return super(AccountPayment, self - order_pays)._compute_partner_bank_id()
+
     @api.constrains("payment_method_line_id")
     def _check_payment_method_line_id(self):
         for pay in self:
