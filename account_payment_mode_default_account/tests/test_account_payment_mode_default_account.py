@@ -1,9 +1,11 @@
 # Copyright 2022 Camptocamp SA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl)
-from odoo.tests import Form, SavepointCase
+
+from odoo.tests import Form
+from odoo.tests.common import TransactionCase
 
 
-class TestAccountPaymentModeDefaultAccount(SavepointCase):
+class TestAccountPaymentModeDefaultAccount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

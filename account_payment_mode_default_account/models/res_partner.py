@@ -29,7 +29,7 @@ class ResPartner(models.Model):
     property_stored_account_payable_id = fields.Many2one(
         "account.account",
         company_dependent=True,
-        string="Account payable",
+        string="Account Payable",
         domain="[('internal_type', '=', 'payable'), ('deprecated', '=', False), ('company_id', '=', current_company_id)]",  # noqa
     )
 
