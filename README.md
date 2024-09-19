@@ -35,7 +35,7 @@ addon | version | maintainers | summary
 [account_payment_partner](account_payment_partner/) | 17.0.1.0.1 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 17.0.1.2.1 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 17.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
-[account_payment_sale](account_payment_sale/) | 17.0.1.0.0 |  | Adds payment mode on sale orders
+[account_payment_sale](account_payment_sale/) | 17.0.1.0.1 |  | Adds payment mode on sale orders
 [account_vendor_bank_account_default](account_vendor_bank_account_default/) | 17.0.1.0.0 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Set a default bank account on partners for their vendor bills
 [account_vendor_bank_account_default_purchase](account_vendor_bank_account_default_purchase/) | 17.0.1.0.0 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Set a default bank account purchase orders
 
