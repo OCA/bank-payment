@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-05-29 09:35+0000\n"
+"PO-Revision-Date: 2024-09-19 18:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_banking_mandate_sale_contact
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
@@ -125,7 +125,7 @@ msgstr ""
 #. module: account_banking_mandate_sale_contact
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate_sale_contact.res_config_settings_view_form_inherit_sale_default_mandates
 msgid "The partner of the sales in which odoo will search for the mandate"
-msgstr "Il partner di vdendita in cui Odoo cercherà il mandato"
+msgstr "Il partner di vendita in cui Odoo cercherà il mandato"
 
 #. module: account_banking_mandate_sale_contact
 #: model:ir.model.fields,help:account_banking_mandate_sale_contact.field_res_partner__sale_default_mandate_contact
