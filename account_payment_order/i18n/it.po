@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-09-12 09:06+0000\n"
+"PO-Revision-Date: 2024-09-19 18:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -384,7 +384,7 @@ msgstr "Ordini di addebito"
 #: code:addons/account_payment_order/models/account_payment_order.py:450
 #, python-format
 msgid "Debit bank line %s"
-msgstr "Righe pagamento di debito %s"
+msgstr "Riga debito banca %s"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_payment_order.py:377
@@ -988,7 +988,7 @@ msgstr "Tipo pagamento"
 #: code:addons/account_payment_order/models/account_payment_order.py:448
 #, python-format
 msgid "Payment bank line %s"
-msgstr "Dettaglio Pagamento %s"
+msgstr "Riga banca pagamento %s"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move_line_payment_line_ids
@@ -1015,7 +1015,7 @@ msgstr "Pagamenti"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_mode_post_move
 msgid "Post Move"
-msgstr "Registrare i Movimenti"
+msgstr "Registra movimento"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.bank_payment_line_form
