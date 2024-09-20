@@ -1,9 +1,11 @@
 # Copyright 2022 Camptocamp SA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl)
-from odoo.tests import Form, SavepointCase
+
+from odoo.tests import Form
+from odoo.tests.common import TransactionCase
 
 
-class TestAccountPaymentModeDefaultAccount(SavepointCase):
+class TestAccountPaymentModeDefaultAccount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -13,7 +15,7 @@ class TestAccountPaymentModeDefaultAccount(SavepointCase):
         cls.receivable_account = cls.env["account.account"].search(
             [
                 ("company_id", "=", cls.env.company.id),
-                ("user_type_id.type", "=", "receivable"),
+                ("account_type", "=", "asset_receivable"),
                 ("code", "=like", receivable_code + "%"),
             ],
             limit=1,
@@ -21,7 +23,7 @@ class TestAccountPaymentModeDefaultAccount(SavepointCase):
         cls.payable_account = cls.env["account.account"].search(
             [
                 ("company_id", "=", cls.env.company.id),
-                ("user_type_id.type", "=", "payable"),
+                ("account_type", "=", "liability_payable"),
             ],
             limit=1,
         )
