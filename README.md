@@ -21,21 +21,21 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 17.0.1.0.2 |  | Banking mandates
-[account_banking_mandate_contact](account_banking_mandate_contact/) | 17.0.1.0.1 |  | Assign specific banking mandates in contact level
+[account_banking_mandate](account_banking_mandate/) | 17.0.1.0.3 |  | Banking mandates
+[account_banking_mandate_contact](account_banking_mandate_contact/) | 17.0.1.0.2 |  | Assign specific banking mandates in contact level
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 17.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adds mandates on sale orders
 [account_banking_mandate_sale_contact](account_banking_mandate_sale_contact/) | 17.0.1.0.0 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Add a specific contact mandate to sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 17.0.1.0.0 |  | Base module for PAIN file generation
-[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 17.0.1.0.2 |  | Create SEPA XML files for Credit Transfers
-[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 17.0.1.2.1 |  | Create SEPA files for Direct Debit
-[account_payment_mode](account_payment_mode/) | 17.0.1.0.1 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 17.0.1.4.3 |  | Account Payment Order
+[account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 17.0.1.0.3 |  | Create SEPA XML files for Credit Transfers
+[account_banking_sepa_direct_debit](account_banking_sepa_direct_debit/) | 17.0.1.2.2 |  | Create SEPA files for Direct Debit
+[account_payment_mode](account_payment_mode/) | 17.0.1.0.2 |  | Account Payment Mode
+[account_payment_order](account_payment_order/) | 17.0.1.4.4 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 17.0.1.0.0 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_notification](account_payment_order_notification/) | 17.0.1.0.0 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Account Payment Order Notification
-[account_payment_partner](account_payment_partner/) | 17.0.1.0.2 |  | Adds payment mode on partners and invoices
+[account_payment_partner](account_payment_partner/) | 17.0.1.0.3 |  | Adds payment mode on partners and invoices
 [account_payment_purchase](account_payment_purchase/) | 17.0.1.2.1 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 17.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
-[account_payment_sale](account_payment_sale/) | 17.0.1.0.1 |  | Adds payment mode on sale orders
+[account_payment_sale](account_payment_sale/) | 17.0.1.0.2 |  | Adds payment mode on sale orders
 [account_vendor_bank_account_default](account_vendor_bank_account_default/) | 17.0.1.0.0 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Set a default bank account on partners for their vendor bills
 [account_vendor_bank_account_default_purchase](account_vendor_bank_account_default_purchase/) | 17.0.1.0.0 | [![tisho99](https://github.com/tisho99.png?size=30px)](https://github.com/tisho99) | Set a default bank account purchase orders
 
