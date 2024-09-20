@@ -8,7 +8,7 @@ class AccountChartTemplate(models.Model):
     _inherit = "account.chart.template"
 
     def generate_properties(self, acc_template_ref, company):
-        super().generate_properties(acc_template_ref, company)
+        res = super().generate_properties(acc_template_ref, company)
         # Make sure a property with stored in its name is created as default for the company
         # so that _get_multi would fetch it if the partner does not have a property itself
         PropertyObj = self.env["ir.property"]
@@ -26,6 +26,7 @@ class AccountChartTemplate(models.Model):
         ]
         for chart_field, partner_field, model in todo_list:
             account = self[chart_field]
-            value = acc_template_ref[account.id] if account else False
+            value = acc_template_ref[account].id if account else False
             if value:
                 PropertyObj._set_default(partner_field, model, value, company=company)
+        return res
