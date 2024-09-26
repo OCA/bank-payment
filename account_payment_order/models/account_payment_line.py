@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.fields import first
 
 
 class AccountPaymentLine(models.Model):
@@ -244,3 +245,18 @@ class AccountPaymentLine(models.Model):
         if transfer_journal:
             vals["journal_id"] = transfer_journal.id
         return vals
+
+    def _check_bank_allows_out_payments(self):
+        for line in self:
+            bank = line.partner_bank_id or first(line.partner_id.bank_ids)
+            if bank and not bank.allow_out_payment:
+                raise UserError(
+                    _(
+                        'The option "Send Money" is not enabled on the bank '
+                        "account %(bank_account)s of partner %(partner)s."
+                    )
+                    % {
+                        "bank_account": bank.acc_number,
+                        "partner": line.partner_id.name,
+                    }
+                )

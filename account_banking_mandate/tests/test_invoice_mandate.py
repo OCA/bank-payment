@@ -215,6 +215,7 @@ class TestInvoiceMandate(TransactionCase):
                 "partner_id": self.partner.id,
                 "bank_id": self.acme_bank.id,
                 "company_id": self.company.id,
+                "allow_out_payment": True,
             }
         )
 

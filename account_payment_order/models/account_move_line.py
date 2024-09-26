@@ -71,10 +71,10 @@ class AccountMoveLine(models.Model):
             # in this case
         if payment_order.payment_type == "outbound":
             amount_currency *= -1
-        partner_bank_id = self.partner_bank_id.id or first(self.partner_id.bank_ids).id
+        partner_bank_id = self.partner_bank_id or first(self.partner_id.bank_ids)
         vals = {
             "order_id": payment_order.id,
-            "partner_bank_id": partner_bank_id,
+            "partner_bank_id": partner_bank_id.id,
             "partner_id": self.partner_id.id,
             "move_line_id": self.id,
             "communication": communication,
