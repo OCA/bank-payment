@@ -10,84 +10,85 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-10 02:10+0000\n"
-"PO-Revision-Date: 2018-02-10 02:10+0000\n"
-"Last-Translator: Nicolas JEUDY <njeudy@panda-chi.io>, 2018\n"
+"PO-Revision-Date: 2024-09-30 10:06+0000\n"
+"Last-Translator: EvaS595 <eva.saintier@horanet.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Account Number - IBAN:</em>"
-msgstr "<em>Numéro de compte - IBAN:</em>"
+msgstr "<em>Numéro de compte - IBAN :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address of the Debtor:</em>"
-msgstr "<em>Adresse du débiteur:</em>"
+msgstr "<em>Adresse du débiteur :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Address:</em>"
-msgstr "<em>Adresse:</em>"
+msgstr "<em>Adresse :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country of the debtor:</em>"
-msgstr "<em>Pays du débiteur:</em>"
+msgstr "<em>Pays du débiteur :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Country:</em>"
-msgstr "<em>Pays:</em>"
+msgstr "<em>Pays :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Creditor's Name:</em>"
-msgstr "<em>Nom du créancier:</em>"
+msgstr "<em>Nom du créancier :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Date - Location:</em>"
-msgstr "<em>Date - Lieu:</em>"
+msgstr "<em>Date - Lieu :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Debtor's Name:</em>"
-msgstr "<em>Nom du débiteur:</em>"
+msgstr "<em>Nom du débiteur :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Identifier:</em>"
-msgstr "<em>Identifiant:</em>"
+msgstr "<em>Identifiant :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Mandate Reference:</em>"
-msgstr "<em>Référence du mandat:</em>"
+msgstr "<em>Référence du mandat :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Postal Code - City - Town:</em>"
-msgstr "<em>Code postal - Ville:</em>"
+msgstr "<em>Code postal - Ville :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Signature of the debtor:</em>"
-msgstr "<em>Signature du débiteur:</em>"
+msgstr "<em>Signature du débiteur :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Swift BIC (up to 8 or 11 characteres):</em>"
-msgstr "<em>Swift BIC (jusqu' à 8 ou 11 caractères):</em>"
+msgstr "<em>Swift BIC (jusqu'à 8 ou 11 caractères) :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
 msgid "<em>Type of payment:</em>"
-msgstr "<em>Type de règlement:</em>"
+msgstr "<em>Type de règlement :</em>"
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -110,8 +111,8 @@ msgid ""
 "ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO "
 "CREDITOR FOR STORAGE."
 msgstr ""
-"TOUS LES CHAMPS SONT OBLIGATOIRES. UNE FOIS CE MANDAT SIGNÉ DOIT ÊTRE ENVOYÉ "
-"AU CRÉANCIER POUR CONSERVATION."
+"TOUS LES CHAMPS SONT OBLIGATOIRES. UNE FOIS CE MANDAT SIGNÉ IL DOIT ÊTRE "
+"ENVOYÉ AU CRÉANCIER POUR CONSERVATION."
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -125,10 +126,12 @@ msgid ""
 msgstr ""
 "TOUS LES CHAMPS SONT OBLIGATOIRES. UNE FOIS CE MANDAT SIGNÉ Il DOIT ÊTRE "
 "ENVOYÉ AU CRÉANCIER POUR ARCHIVAGE.\n"
-"NÉANMOINS, LA BANQUE DU DÉBITEUR EXIGE L'AUTORISATION DU DÉBITEUR AVANT DE "
-"POUVOIR DÉBITER UN PRÉLÈVEMENTS B2B SUR LE COMPTE.\n"
-"LE DÉBITEUR POURRA GÉRER L'AUTORISATION SUSMENTIONNÉE PAR LES MOYENS MIS À "
-"SA DISPOSITION PAR SA BANQUE."
+"                        NÉANMOINS, LA BANQUE DU DÉBITEUR EXIGE "
+"L'AUTORISATION DU DÉBITEUR AVANT DE POUVOIR DÉBITER UN PRÉLÈVEMENTS B2B SUR "
+"LE\n"
+"COMPTE.\n"
+"                        LE DÉBITEUR POURRA GÉRER L'AUTORISATION "
+"SUSMENTIONNÉE PAR LES MOYENS MIS À SA DISPOSITION PAR SA BANQUE."
 
 #. module: account_banking_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document
@@ -141,9 +144,12 @@ msgid ""
 "from the date on which your account was debited."
 msgstr ""
 "Dans le cadre de vos droits, vous avez la possibilité d'obtenir un "
-"remboursement de votre banque selon les termes et conditions de votre "
-"accord. Un remboursement doit être demandé dans les 8 semaines suivant la "
-"date à laquelle votre compte a été débité."
+"remboursement de\n"
+"                        votre banque selon les termes et conditions de "
+"l'accord vous liant\n"
+"                        à votre banque.\n"
+"                        Un remboursement doit être demandé dans les 8 "
+"semaines suivant la date à laquelle votre compte a été débité."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_banking_mandate.py:0
@@ -153,7 +159,7 @@ msgid ""
 "Type' has been set back to 'First'."
 msgstr ""
 "Etant donné que vous avez changé le compte bancaire associé à ce mandat, le "
-"'Type de séquence' a été remis à 'First'."
+"\"Type de séquence\" a été remis à \"First\"."
 
 #. module: account_banking_sepa_direct_debit
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_order.py:0
@@ -163,6 +169,9 @@ msgid ""
 "order <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</a> has "
 "been marked as uploaded."
 msgstr ""
+"Automatiquement passé de <b>First</b> à <b>Récurrent</b> quand l'ordre de "
+"prélèvement <a href=# data-oe-model=account.payment.order data-oe-id=%d>%s</"
+"a> a été marqué comme téléchargé."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_bank_payment_line
@@ -186,14 +195,13 @@ msgstr "Sociétés"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model,name:account_banking_sepa_direct_debit.model_res_config_settings
-#, fuzzy
 msgid "Config Settings"
-msgstr "res.config.settings"
+msgstr "Paramètres de configuration"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom à afficher"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_account_payment_mode__sepa_creditor_identifier
@@ -210,11 +218,11 @@ msgstr ""
 "Saisissez le code d'identification du créancier qui a été attribué à votre "
 "entreprise pour effectuer les prélèvements SEPA. S'il n'est pas défini, "
 "l'Identifiant SEPA du créancier de la société sera utilisé.\n"
-"Cet identifiant est composé de:\n"
+"Cet identifiant est composé de :\n"
 "- votre code ISO pays (2 lettres)\n"
-"- un checksum à 2 chiffres\n"
-"- un code d'affaires à 3 lettres\n"
-"- un identificateur propre au pays"
+"- une clé de contrôle à 2 chiffres\n"
+"- un code d'activité à 3 lettres\n"
+"- un identifiant national"
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,help:account_banking_sepa_direct_debit.field_res_company__sepa_creditor_identifier
@@ -230,7 +238,7 @@ msgstr ""
 "Entrez l'Identifiant créancier qui a été attribué à votre société pour "
 "réaliser des prélèvements SEPA. Cet identifiant est composé de :\n"
 "- du code ISO de votre pays (2 lettres)\n"
-"- un code de contrôle à 2 chiffres\n"
+"- une clé de contrôle à 2 chiffres\n"
 "- un code d'activité à 3 lettres\n"
 "- un identifiant national"
 
@@ -254,6 +262,8 @@ msgstr "First"
 #, python-format
 msgid "Invalid mandate type in '%s'. Valid ones are 'Recurrent' or 'One-Off'"
 msgstr ""
+"Type de mandat erroné pour \"%s\". Les types acceptés sont \"Récurrent\" ou "
+"\"One-Off\""
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_banking_sepa_direct_debit.field_account_banking_mandate__format
