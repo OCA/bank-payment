@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 11:14+0000\n"
-"PO-Revision-Date: 2024-09-30 13:06+0000\n"
+"PO-Revision-Date: 2024-09-30 16:06+0000\n"
 "Last-Translator: EvaS595 <eva.saintier@horanet.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
@@ -154,22 +154,22 @@ msgstr ""
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
 msgid "Payment Modes"
-msgstr "Mode de paiement"
+msgstr "Modes de paiement"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_invoice_report__payment_mode_id
 msgid "Payment mode"
-msgstr ""
+msgstr "Mode de paiement"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__refund_payment_mode_id
 msgid "Payment mode for refunds"
-msgstr ""
+msgstr "Mode de paiement pour les avoirs"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
-msgstr "Règlements"
+msgstr "Paiements"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
@@ -186,28 +186,28 @@ msgstr "Sélectionnez le mode de paiement par défaut pour ce fournisseur."
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show bank account"
-msgstr ""
+msgstr "Montrer le compte bancaire"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
 msgid "Show bank account in invoice report"
-msgstr ""
+msgstr "Montrer le compte bancaire sur la facture imprimée"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
 msgid "Show in invoices partial or full bank account number"
-msgstr ""
+msgstr "Montrer le numéro de compte bancaire partiellement ou entièrement"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
-msgstr "Mode de règlement fournisseur"
+msgstr "Mode de paiement fournisseur"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
 msgid "Technical field for supporting the editability of the payment mode"
-msgstr ""
+msgstr "Champ technique permettant l'édition des modes de paiement"
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_move.py:0
@@ -223,16 +223,18 @@ msgid ""
 "This payment mode will be used when doing refunds coming from the current "
 "payment mode."
 msgstr ""
+"Ce mode de paiement sera utilisé pour les avoirs provenant du mode de "
+"paiement actuel."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
-"Vous ne pouvez pas modifier la Société. Il existe au moins un poste "
-"journalier avec ce mode de paiement, déjà affecté à une autre société."
+"Vous ne pouvez pas modifier la société. Il existe au moins une pièce "
+"comptable avec ce mode de paiement, déjà affectée à une autre société."
 
 #. module: account_payment_partner
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
@@ -241,8 +243,8 @@ msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
-"Vous ne pouvez pas modifier la Société. Il existe au moins un poste "
-"journalier avec ce mode de paiement, déjà affecté à une autre société."
+"Vous ne pouvez pas modifier la société. Il existe au moins une pièce "
+"comptable avec ce mode de paiement, déjà affectée à une autre société."
 
 #~ msgid "Invoice"
 #~ msgstr "Facture"
