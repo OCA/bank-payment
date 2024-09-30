@@ -6,4 +6,4 @@ In the menu *Invoicing/Accounting \> Configuration \> Payment Modes*:
 
 - Check that this payment method uses the proper version of PAIN.
 
-- The suppliers for which transfers will be made should have an IBAN with a country prefix in the ![SEPA zone](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area). 
+- The suppliers for which transfers will be made should have an IBAN with a country prefix in the [SEPA zone](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area). 

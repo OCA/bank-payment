@@ -5,9 +5,4 @@ In the menu *Invoicing/Accounting \> Vendors \> Payment Orders* :
 
 ![Configure the Payment Order](../static/description/configure-payment-order.png)
 
-- set the due dates to filter the bills that are due
-- click on Add All Moves Lines to add all the bills. 
-
-![Add All Move lines](../static/description/add-all-move-lines.png)
-
-- click on Create Transactions
+See the [Payment Order module](../../account_payment_order) for more information. 
