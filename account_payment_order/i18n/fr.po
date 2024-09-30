@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2024-09-30 13:06+0000\n"
+"PO-Revision-Date: 2024-09-30 16:06+0000\n"
 "Last-Translator: EvaS595 <eva.saintier@horanet.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
@@ -445,9 +445,8 @@ msgstr "Terminé"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__date_done
-#, fuzzy
 msgid "Done Date"
-msgstr "Date d'échéance"
+msgstr "Date de fin de traitement"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__draft
@@ -541,14 +540,13 @@ msgid ""
 "one bank account, you should always select 'Fixed'."
 msgstr ""
 "Pour les modes de paiement qui sont toujours rattachés au même compte "
-"bancaire de votre société (par exemple, le transfert de clients ou le "
-"prélèvement SEPA auprès de fournisseurs), sélectionnez \"Fixe\". Pour les "
-"modes de paiement qui ne sont pas toujours rattachés au même compte bancaire "
-"(comme le prélèvement SEPA direct pour les clients, le transfert bancaire "
-"aux fournisseurs), vous devez choisir \"Variable\", ce qui signifie que vous "
-"sélectionnez le compte bancaire sur l'ordre de paiement. Si votre entreprise "
-"ne dispose que d'un compte bancaire, vous devez toujours sélectionner \"Fixe"
-"\"."
+"bancaire de votre société (par exemple, le virement venant de clients ou le "
+"prélèvement SEPA de fournisseurs), sélectionnez \"Fixe\". Pour les modes de "
+"paiement qui ne sont pas toujours rattachés au même compte bancaire (comme "
+"le prélèvement SEPA des clients, le virement aux fournisseurs), vous devez "
+"choisir \"Variable\", ce qui signifie que vous sélectionnerez le compte "
+"bancaire sur l'ordre de paiement. Si votre entreprise ne dispose que d'un "
+"compte bancaire, vous devriez toujours sélectionner \"Fixe\"."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__normal
@@ -600,19 +598,19 @@ msgstr "Grouper les opérations des ordres de paiement"
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_account_payment_order_main__id
 #: model:ir.model.fields,field_description:account_payment_order.field_report_account_payment_order_print_bank_payment_line_main__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Si coché, certains messages ont une erreur de livraison."
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_mode__group_lines
