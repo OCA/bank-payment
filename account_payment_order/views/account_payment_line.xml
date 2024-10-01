@@ -99,7 +99,7 @@
                     type="object"
                     string="View"
                     class="btn btn-secondary"
-                    attrs="{'invisible': [('move_line_id', '=', False)]}"
+                    invisible="not move_line_id"
                 />
             </tree>
         </field>
