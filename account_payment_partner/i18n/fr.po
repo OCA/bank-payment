@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 11:14+0000\n"
-"PO-Revision-Date: 2024-09-30 16:06+0000\n"
+"PO-Revision-Date: 2024-10-01 10:06+0000\n"
 "Last-Translator: EvaS595 <eva.saintier@horanet.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
@@ -136,7 +136,7 @@ msgstr "Aucun modèle de plan comptable n'a été défini !"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
 msgid "Partner Bank Filter Type Domain"
-msgstr ""
+msgstr "Partenaire selon le type de la pièce comptable"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_id
@@ -149,7 +149,7 @@ msgstr "Mode de paiement"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
 msgid "Payment Mode Filter Type Domain"
-msgstr ""
+msgstr "Mode de paiement selon le type de la pièce comptable"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_account_payment_mode
