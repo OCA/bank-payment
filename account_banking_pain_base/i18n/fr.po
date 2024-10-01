@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-10 02:10+0000\n"
-"PO-Revision-Date: 2024-09-30 16:06+0000\n"
+"PO-Revision-Date: 2024-10-01 10:06+0000\n"
 "Last-Translator: EvaS595 <eva.saintier@horanet.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
@@ -644,11 +644,9 @@ msgstr ""
 
 #. module: account_banking_pain_base
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, fuzzy, python-format
+#, python-format
 msgid "Payment Line has reference '%s'."
-msgstr ""
-"Impossible de calculer le '%s' de la ligne de paiement ayant la référence "
-"'%s'."
+msgstr "La ligne de paiement a la référence \"%s\"."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
