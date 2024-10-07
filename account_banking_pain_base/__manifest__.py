@@ -13,7 +13,7 @@
     "website": "https://github.com/OCA/bank-payment",
     "category": "Hidden",
     "depends": ["account_payment_order"],
-    "external_dependencies": {"python": ["unidecode", "lxml"]},
+    "external_dependencies": {"python": ["unidecode"]},
     "data": [
         "security/security.xml",
         "views/account_payment_line.xml",
