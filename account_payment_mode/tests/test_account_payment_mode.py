@@ -1,18 +1,16 @@
 # Copyright 2016-2020 ForgeFlow S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+from odoo import Command
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import TransactionCase
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestAccountPaymentMode(TransactionCase):
+class TestAccountPaymentMode(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
-
         cls.res_users_model = cls.env["res.users"]
         cls.journal_model = cls.env["account.journal"]
         cls.payment_mode_model = cls.env["account.payment.mode"]
@@ -60,9 +58,7 @@ class TestAccountPaymentMode(TransactionCase):
             self.payment_mode_c1.write(
                 {
                     "variable_journal_ids": [
-                        (
-                            6,
-                            0,
+                        Command.set(
                             [
                                 self.journal_c1.id,
                                 self.journal_c2.id,

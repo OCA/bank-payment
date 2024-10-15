@@ -4,7 +4,7 @@
         <field name="name">account.payment.mode.form</field>
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
-            <form string="Payment Mode">
+            <form>
                 <sheet>
                     <widget
                         name="web_ribbon"
@@ -16,11 +16,9 @@
                         <field name="name" />
                         <field
                             name="company_id"
-                            groups="!base.group_multi_company"
-                            invisible="1"
+                            groups="base.group_multi_company"
+                            options="{'no_create': True}"
                         />
-                        <field name="company_id" groups="base.group_multi_company" />
-                        <field name="active" invisible="1" />
                         <field name="payment_method_id" />
                         <field name="payment_type" />
                         <field name="bank_account_link" />
@@ -44,29 +42,24 @@
         </field>
     </record>
     <record id="account_payment_mode_tree" model="ir.ui.view">
-        <field name="name">account.payment.mode.tree</field>
+        <field name="name">account.payment.mode.list</field>
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="payment_method_id" />
                 <field name="payment_type" />
                 <field name="bank_account_link" />
-                <field
-                    name="company_id"
-                    groups="!base.group_multi_company"
-                    invisible="1"
-                />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_mode_search" model="ir.ui.view">
         <field name="name">account.payment.mode.search</field>
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
-            <search string="Search Payment Modes">
+            <search>
                 <field name="name" />
                 <filter
                     name="inbound"
@@ -91,7 +84,7 @@
     <record id="account_payment_mode_action" model="ir.actions.act_window">
         <field name="name">Payment Modes</field>
         <field name="res_model">account.payment.mode</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         id="account_payment_mode_menu"
