@@ -26,15 +26,15 @@ here. I hate the objects that don't have a view... -->
             </form>
         </field>
     </record>
-    <record id="account_payment_method_tree" model="ir.ui.view">
-        <field name="name">account_payment_method.tree</field>
+    <record id="account_payment_method_list" model="ir.ui.view">
+        <field name="name">account_payment_method.list</field>
         <field name="model">account.payment.method</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="code" />
                 <field name="payment_type" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_method_search" model="ir.ui.view">
@@ -70,7 +70,7 @@ here. I hate the objects that don't have a view... -->
     <record id="account_payment_method_action" model="ir.actions.act_window">
         <field name="name">Payment Methods</field>
         <field name="res_model">account.payment.method</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         id="account_payment_method_menu"

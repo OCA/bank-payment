@@ -43,11 +43,11 @@
             </form>
         </field>
     </record>
-    <record id="account_payment_mode_tree" model="ir.ui.view">
-        <field name="name">account.payment.mode.tree</field>
+    <record id="account_payment_mode_list" model="ir.ui.view">
+        <field name="name">account.payment.mode.list</field>
         <field name="model">account.payment.mode</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="payment_method_id" />
@@ -59,7 +59,7 @@
                     invisible="1"
                 />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_mode_search" model="ir.ui.view">
@@ -91,7 +91,7 @@
     <record id="account_payment_mode_action" model="ir.actions.act_window">
         <field name="name">Payment Modes</field>
         <field name="res_model">account.payment.mode</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         id="account_payment_mode_menu"
