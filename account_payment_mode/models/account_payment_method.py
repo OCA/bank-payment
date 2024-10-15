@@ -26,13 +26,8 @@ class AccountPaymentMethod(models.Model):
     )
 
     @api.depends("code", "name", "payment_type")
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for method in self:
-            result.append(
-                (
-                    method.id,
-                    f"[{method.code}] {method.name} ({method.payment_type})",
-                )
+            method.display_name = (
+                f"[{method.code}] {method.name} ({method.payment_type})"
             )
-        return result

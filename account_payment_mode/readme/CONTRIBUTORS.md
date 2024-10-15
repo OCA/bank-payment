@@ -3,3 +3,4 @@
 - Andrea Stirpe \<<a.stirpe@onestein.nl>\>
 - Marçal Isern \<<marsal.isern@qubiq.es>\>
 - Miquel Alzanillas \<<malzanillas@apsl.net>\>
+- Bert Van Groenendael \<<bert.vangroenendael@dynapps.eu>\>
