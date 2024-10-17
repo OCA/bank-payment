@@ -121,11 +121,7 @@ class AccountPaymentOrder(models.Model):
                 payment_info, "Dbtr", "B", self.company_partner_bank_id, gen_args
             )
             charge_bearer = etree.SubElement(payment_info, "ChrgBr")
-            if self.sepa:
-                charge_bearer_text = "SLEV"
-            else:
-                charge_bearer_text = self.charge_bearer
-            charge_bearer.text = charge_bearer_text
+            charge_bearer.text = self._get_charge_bearer_text()
             transactions_count_b = 0
             amount_control_sum_b = 0.0
             for line in lines:
@@ -205,3 +201,6 @@ class AccountPaymentOrder(models.Model):
             nb_of_transactions_a.text = str(transactions_count_a)
             control_sum_a.text = "%.2f" % amount_control_sum_a
         return self.finalize_sepa_file_creation(xml_root, gen_args)
+
+    def _get_charge_bearer_text(self):
+        return "SLEV" if self.sepa else self.charge_bearer
