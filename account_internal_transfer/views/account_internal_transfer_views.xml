@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Wesley Oliveira <wesley.oliveira@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.actions.act_window" id="account_internal_transfer_act_window">
+        <field name="name">Internal Transfers</field>
+        <field name="res_model">account.internal.transfer</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]" />
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Internal Transfer
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="account_internal_transfer_menu"
+        action="account_internal_transfer_act_window"
+        parent="account_menu.menu_accounting_bank_and_cash"
+        sequence="30"
+        groups="account.group_account_user"
+    />
+
+    <record model="ir.ui.view" id="account_internal_transfer_form_view">
+        <field name="name">account.internal.transfer.form</field>
+        <field name="model">account.internal.transfer</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]" />
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        class="oe_highlight"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('id', '=', False)]}"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        attrs="{'invisible' : ['|', ('state', '!=', 'draft'), ('id', '=', False)]}"
+                    />
+                    <button
+                        name="action_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        attrs="{'invisible' : ['|', ('state', '=', 'draft'), ('id', '=', False)]}"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,posted"
+                    />
+                </header>
+                <sheet>
+                    <field name="currency_id" invisible="1" />
+                    <div class="oe_title">
+                        <h1 attrs="{'invisible': [('name','=','/')]}">
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field
+                                name="transfer_journal_id"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                                domain="[('type', '=', 'general'), ('company_id', '=', company_id)]"
+                            />
+                            <field
+                                name="amount"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                            />
+                            <field
+                                name="date"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                            />
+                            <field
+                                name="date_maturity"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                            />
+                        </group>
+                        <group>
+                            <field
+                                name="outgoing_journal_id"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                                domain="[('type', '=', 'bank'), ('bank_account_id', '!=', False), ('company_id', '=', company_id), ('id', '!=', destination_journal_id)]"
+                            />
+                            <field
+                                name="outgoing_partner_bank_id"
+                                attrs="{'invisible': [('outgoing_journal_id','=',False)]}"
+                            />
+                            <field
+                                name="destination_journal_id"
+                                attrs="{'readonly': [('state','!=','draft')]}"
+                                domain="[('type', '=', 'bank'), ('bank_account_id', '!=', False), ('company_id', '=', company_id), ('id', '!=', outgoing_journal_id)]"
+                            />
+                            <field
+                                name="destination_partner_bank_id"
+                                attrs="{'invisible': [('destination_journal_id','=',False)]}"
+                            />
+                            <field
+                                name="move_id"
+                                attrs="{'invisible': [('move_id','=',False)]}"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_internal_transfer_tree_view">
+        <field name="name">account.internal.transfer.tree</field>
+        <field name="model">account.internal.transfer</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]" />
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="company_id" />
+                <field name="transfer_journal_id" />
+                <field name="outgoing_journal_id" />
+                <field name="outgoing_partner_bank_id" optional="hide" />
+                <field name="destination_journal_id" />
+                <field name="destination_partner_bank_id" optional="hide" />
+                <field name="amount" />
+                <field name="date" />
+                <field name="date_maturity" />
+                <field name="move_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

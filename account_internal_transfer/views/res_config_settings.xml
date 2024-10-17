@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Wesley Oliveira <wesley.oliveira@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field
+            name="name"
+        >res.config.settings.view.form.inherit.account (in account_internal_transfer)</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div id="bank_cash" position="inside">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="transfer_payable_account_id_setting"
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <label for="transfer_payable_account_id" />
+                        <div class="text-muted">
+                            Payable account when you transfer money between two bank accounts of your company.
+                        </div>
+                        <field name="transfer_payable_account_id" />
+                    </div>
+                </div>
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="transfer_receivable_account_id_setting"
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <label for="transfer_receivable_account_id" />
+                        <div class="text-muted">
+                            Receivable account when you transfer money between two bank accounts of your company.
+                        </div>
+                        <field name="transfer_receivable_account_id" />
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</odoo>
