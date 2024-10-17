@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
+     <record id="view_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <button name="button_draft" position="after">
+                <button
+                    name="button_selected_for_payment"
+                    string="To Pay"
+                    type="object"
+                    attrs="{'invisible' : ['|', '|', ('selected_for_payment', '=', True), ('payment_state', 'not in', ('not_paid', 'partial')), ('move_type', 'not in', ('in_invoice', 'out_refund'))]}"
+                    class="btn-primary"
+                    style="background-color:green"
+                />
+                <button
+                    name="button_not_selected_for_payment"
+                    string="Not To Pay"
+                    type="object"
+                    attrs="{'invisible' : ['|', '|', ('selected_for_payment', '=', False), ('payment_state', 'not in', ('not_paid', 'partial')), ('move_type', 'not in', ('in_invoice', 'out_refund'))]}"
+                    class="btn-primary"
+                    style="background-color:grey"
+                />
+            </button>
+            <xpath expr="//sheet/widget[5]" position="after">
+                 <widget
+                    name="web_ribbon"
+                    title="To Pay"
+                    bg_color="bg-info"
+                    attrs="{'invisible': ['|',('selected_for_payment', '=', False), ('move_type', 'not in', ('in_invoice', 'out_refund'))]}"
+                />
+            </xpath>
+            <field name="partner_bank_id" position="after">
+                <field name="selected_for_payment" invisible="1" />
+            </field>
+        </field>
+    </record>
     <record id="view_invoice_tree" model="ir.ui.view">
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
@@ -7,8 +43,9 @@
             <field name="name" position="before">
                 <field
                     name="selected_for_payment"
-                    attrs="{'invisible': [('payment_state', 'not in', ['not_paid', 'partial']) ]}"
+                    attrs="{'invisible': ['|',('payment_state', 'not in', ('not_paid', 'partial')), ('move_type', 'not in', ('in_invoice', 'out_refund'))]}"
                     widget="toggle_button"
+                    optional="hide"
                 />
             </field>
         </field>
