@@ -50,16 +50,3 @@ class AccountPayment(models.Model):
     def _compute_payment_line_date(self):
         for item in self:
             item.payment_line_date = item.payment_line_ids[:1].date
-
-    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
-        """Overwrite date_maturity of the move_lines that are generated when related
-        to a payment order.
-        """
-        vals_list = super()._prepare_move_line_default_vals(
-            write_off_line_vals=write_off_line_vals
-        )
-        if not self.payment_order_id:
-            return vals_list
-        for vals in vals_list:
-            vals["date_maturity"] = self.payment_line_ids[:1].date
-        return vals_list
