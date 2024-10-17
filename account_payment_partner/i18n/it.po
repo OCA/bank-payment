@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-29 15:37+0000\n"
+"PO-Revision-Date: 2024-10-17 15:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -227,7 +227,7 @@ msgstr "Mostra conto bancario"
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
 msgid "Show bank account in invoice report"
-msgstr "Mostra il conto bancario nella fattura"
+msgstr "Mostra il conto bancario nel resoconto fattura"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_payment_mode__show_bank_account
