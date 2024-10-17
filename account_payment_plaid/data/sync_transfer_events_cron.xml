@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="plaid_sync_transfer_cron" model="ir.cron">
+            <field name="name">Sync Transfer Events</field>
+            <field name="model_id" ref="model_plaid_transfer" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="state">code</field>
+            <field name="code">
+                model.cron_sync_transfer_events()
+            </field>
+        </record>
+    </data>
+</odoo>

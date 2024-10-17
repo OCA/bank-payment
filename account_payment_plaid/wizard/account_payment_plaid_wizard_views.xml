@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="account_payment_plaid_wizard_view_form" model="ir.ui.view">
+            <field name="name">account.payment.plaid.wizard.view.form</field>
+            <field name="model">account.payment.plaid.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <p
+                        >He is about to make a move with Plaid.com. Are you sure you want to proceed?</p>
+                        <group>
+                            <field
+                                name="partner_id"
+                                options="{'no_open' : True}"
+                                readonly="1"
+                            />
+                            <field name="currency_id" invisible="1" />
+                            <field name="amount" widget="monetary" readonly="1" />
+                        </group>
+                        <footer>
+                            <button
+                                name="action_confirm"
+                                string="Confirm"
+                                type="object"
+                                class="btn-primary"
+                            />
+                            <button
+                                name="action_cancel"
+                                string="Cancel"
+                                special="cancel"
+                                class="btn-secondary"
+                            />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

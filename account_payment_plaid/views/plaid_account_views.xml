@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="plaid_account_view_tree" model="ir.ui.view">
+            <field name="name">plaid.account.view.tree</field>
+            <field name="model">plaid.account</field>
+            <field name="arch" type="xml">
+                <tree string="Plaid Accounts">
+                    <field name="name" />
+                    <field name="account" />
+                    <field name="official_name" />
+                    <field name="type" />
+                    <field name="subtype" />
+                    <field name="mask" />
+                    <field name="currency_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="plaid_account_view_form" model="ir.ui.view">
+            <field name="name">plaid.account.view.form</field>
+            <field name="model">plaid.account</field>
+            <field name="arch" type="xml">
+                <form string="Plaid Account">
+                    <sheet>
+                        <label class="oe_edit_only" for='name' />
+                        <h2>
+                            <field name="name" />
+                        </h2>
+                        <label class="oe_edit_only" for="official_name" />
+                        <h5>
+                            <field name="official_name" />
+                        </h5>
+                        <group>
+                            <group>
+                                <field name="account" />
+                                <field name="currency_id" />
+                            </group>
+                            <group>
+                                <field name="type" />
+                                <field name="subtype" />
+                                <field name="mask" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="plaid_account_action" model="ir.actions.act_window">
+            <field name="name">Plaid accounts</field>
+            <field name="res_model">plaid.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': False, 'edit': False}</field>
+        </record>
+        <menuitem
+            id="technical_menu_category_plaid"
+            name="Plaid"
+            parent="base.menu_custom"
+            sequence="100"
+        />
+        <menuitem
+            id="plaid_account_menu_tech"
+            name="Accounts"
+            action="plaid_account_action"
+            parent="technical_menu_category_plaid"
+            sequence="10"
+        />
+    </data>
+</odoo>

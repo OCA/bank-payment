@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record
+            id="plaid_transfer_sandbox_simulation_wizard_view_form"
+            model="ir.ui.view"
+        >
+            <field
+                name="name"
+            >plaid.transfer.sandbox.simulation.wizard.view.form</field>
+            <field name="model">plaid.transfer.sandbox.simulation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group name="commands" string="Select Command">
+                            <field name="command" widget="radio" />
+                        </group>
+                        <group
+                            string="Simulate Transfer"
+                            name="s_tf"
+                            attrs="{'invisible': [('command', '!=' , 's_tf')]}"
+                        >
+                            <field
+                                name="transfer_id"
+                                readonly="1"
+                                options="{'no_open': True}"
+                            />
+                            <field name="event_type" widget="radio" require="1" />
+                            <field
+                                name="failure_reason"
+                                attrs="{'invisible': [('event_type', '!=', 'failed')]}"
+                            />
+                        </group>
+                        <footer>
+                            <button
+                                name="action_confirm"
+                                string="Confirm"
+                                type="object"
+                                class="btn-primary"
+                            />
+                            <button
+                                string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"
+                            />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
