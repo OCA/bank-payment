@@ -73,7 +73,7 @@ class PaymentOrder(models.Model):
                         )
                     partner_email_id = payment.partner_id.email
                     if partner_email_id:
-                        template.write({"email_to": partner_email_id})
+                        template.sudo().write({"email_to": partner_email_id})
                         context.update(
                             {
                                 "date": date_generated,
