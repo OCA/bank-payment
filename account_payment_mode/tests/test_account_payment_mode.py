@@ -133,3 +133,49 @@ class TestAccountPaymentMode(TransactionCase):
                     "fixed_journal_id": self.journal_c1.id,
                 }
             )
+
+    def test_electronic_payment_methods_proposed_once(self):
+        """Test that we cannot assign the same payment method when it's electronic
+        to two journals of the same company."""
+        method = (
+            self.env["account.payment.method"]
+            .sudo()
+            .create(
+                {
+                    "name": "Electornic method",
+                    "code": "electronic_method",
+                    "payment_type": "inbound",
+                }
+            )
+        )
+        # We call with context variable electronic_code because by default because
+        # we want to force that this payment method is considered electronic during testing,
+        # even when it's not. The electronic mode is defaulted in the account_payment
+        # module, but the restrictions for this mode live in the account module.
+        journal_model = self.journal_model.with_context(
+            electronic_code="electronic_method"
+        )
+        journal_c1_1 = journal_model.create(
+            {
+                "name": "J1_1",
+                "code": "J1_1",
+                "type": "bank",
+                "company_id": self.company.id,
+            }
+        )
+        self.assertIn(
+            method,
+            journal_c1_1.inbound_payment_method_line_ids.mapped("payment_method_id"),
+        )
+        journal_c1_2 = journal_model.create(
+            {
+                "name": "J1_2",
+                "code": "J1_2",
+                "type": "bank",
+                "company_id": self.company.id,
+            }
+        )
+        self.assertNotIn(
+            method,
+            journal_c1_2.inbound_payment_method_line_ids.mapped("payment_method_id"),
+        )
