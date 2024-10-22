@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bank-payment (10.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-01 13:13+0000\n"
-"PO-Revision-Date: 2024-09-25 09:06+0000\n"
+"PO-Revision-Date: 2024-10-22 10:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-bank-payment-10-0/"
 "language/it/)\n"
@@ -262,7 +262,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr "Scegli opzioni di filtro per righe movimenti"
+msgstr "Scegliere opzioni di filtro per righe movimenti"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -303,7 +303,7 @@ msgstr "Conto bancario aziendale"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Confirm Payments"
-msgstr "Conferma Pagamenti"
+msgstr "Conferma pagamenti"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
@@ -469,13 +469,13 @@ msgstr "Data caricamento file"
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Uploaded"
-msgstr "Documento Caricato"
+msgstr "File caricato"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
 #: selection:account.payment.order,date_prefered:0
 msgid "Fixed Date"
-msgstr "Data Fissa"
+msgstr "Data fissa"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/bank_payment_line.py:147
@@ -646,7 +646,7 @@ msgstr "Filtro registri"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Keep empty for using all journals"
-msgstr "Mantieni vuoto per l'utilizzo di tutti i registri"
+msgstr "Lasciare vuoto per l'utilizzo di tutti i registri"
 
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -1272,8 +1272,8 @@ msgstr "su"
 #: model:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
-"in caso contrario, verranno creati nuovi ordini di pagamento (uno per "
-"modalità di pagamento)."
+"altrimenti, nuovi ordini di pagamento verranno creati (uno per modalità di "
+"pagamento)."
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_report_account_payment_order_print_account_payment_order_main
