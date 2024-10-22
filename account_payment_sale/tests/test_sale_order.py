@@ -120,3 +120,22 @@ class TestSaleOrder(CommonTestCase):
         orders.action_confirm()
         invoices = orders._create_invoices()
         self.assertEqual(2, len(invoices))
+
+    def test_mixed_null_sale_to_invoice_payment_mode(self):
+        """
+        Data:
+            A partner with a specific payment_mode
+            A sale order created with the payment_mode of the partner
+            A sale order created with null payment_mode
+        Test case:
+            Create the invoice from the sale orders
+        Expected result:
+            Two invoices should be generated
+        """
+        order_1 = self.create_sale_order()
+        order_2 = self.create_sale_order()
+        order_2.payment_mode_id = False
+        orders = order_1 | order_2
+        orders.action_confirm()
+        invoices = orders._create_invoices()
+        self.assertEqual(2, len(invoices))
