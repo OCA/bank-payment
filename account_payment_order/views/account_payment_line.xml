@@ -28,7 +28,7 @@
                         <field
                             name="partner_bank_id"
                             context="{'default_partner_id': partner_id}"
-                            domain="[('partner_id', '=', partner_id)]"
+                            domain="[('partner_id', '=', partner_id), ('allow_out_payment', '=', True)]"
                             attrs="{'required': [('bank_account_required', '=', True)]}"
                         />
                         <field name="bank_account_required" invisible="1" />
