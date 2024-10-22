@@ -1,0 +1,134 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_mode_default_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-12-17 23:41+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model,name:account_payment_mode_default_account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Plantilla de Plan Contable"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__property_account_payable_id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_users__property_account_payable_id
+msgid "Account Payable"
+msgstr "Cuenta por Pagar"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__property_account_receivable_id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__property_stored_account_receivable_id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_users__property_account_receivable_id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_users__property_stored_account_receivable_id
+msgid "Account Receivable"
+msgstr "Cuentas por cobrar"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__property_stored_account_payable_id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_users__property_stored_account_payable_id
+msgid "Account payable"
+msgstr "Cuenta a pagar"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model,name:account_payment_mode_default_account.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_payment_mode__default_payable_account_id
+msgid "Default Payable Account"
+msgstr "Cuenta por defecto a pagar"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_payment_mode__default_receivable_account_id
+msgid "Default Receivable Account"
+msgstr "Cuenta por defecto a cobrar"
+
+#. module: account_payment_mode_default_account
+#: model_terms:ir.ui.view,arch_db:account_payment_mode_default_account.account_payment_mode_form
+msgid "Default accounts"
+msgstr "Cuentas predeterminadas"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_chart_template__id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_move__id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model,name:account_payment_mode_default_account.model_account_move
+msgid "Journal Entry"
+msgstr "Entrada en el Diario"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_chart_template____last_update
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_move____last_update
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_account_payment_mode____last_update
+#: model:ir.model.fields,field_description:account_payment_mode_default_account.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última Modificación el"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model,name:account_payment_mode_default_account.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modalidades de Pago"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_res_partner__property_account_payable_id
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_res_users__property_account_payable_id
+msgid ""
+"This account will be used instead of the default one as the payable account "
+"for the current partner"
+msgstr ""
+"Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta "
+"pendiente de pago del asociado actual"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_account_payment_mode__default_payable_account_id
+msgid ""
+"This account will be used instead of the default one as the payable account "
+"on invoices using this payment mode"
+msgstr ""
+"Esta cuenta se utilizará en lugar de la cuenta por defecto como cuenta a "
+"pagar en las facturas que utilicen este modo de pago"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_res_partner__property_account_receivable_id
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_res_users__property_account_receivable_id
+msgid ""
+"This account will be used instead of the default one as the receivable "
+"account for the current partner"
+msgstr ""
+"Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta a "
+"cobrar para la empresa actual"
+
+#. module: account_payment_mode_default_account
+#: model:ir.model.fields,help:account_payment_mode_default_account.field_account_payment_mode__default_receivable_account_id
+msgid ""
+"This account will be used instead of the default one as the receivable "
+"account on invoices using this payment mode"
+msgstr ""
+"Esta cuenta se utilizará en lugar de la cuenta por defecto como cuenta a "
+"cobrar en las facturas que utilicen este modo de pago"
