@@ -67,7 +67,7 @@ class AccountPaymentMode(models.Model):
         related="payment_method_id.code", readonly=True, store=True
     )
     active = fields.Boolean(default=True)
-    note = fields.Text(translate=True)
+    note = fields.Html(translate=True)
     sequence = fields.Integer(default=10)
 
     @api.onchange("company_id")
