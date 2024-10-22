@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+aaccess_cancel_void_payment_line,access_cancel_void_payment_line,model_cancel_void_payment_line,base.group_user,1,1,1,0
