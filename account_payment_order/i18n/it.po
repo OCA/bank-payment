@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2024-03-01 11:34+0000\n"
+"PO-Revision-Date: 2024-10-22 10:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: account_payment_order
 #: code:addons/account_payment_order/models/account_invoice.py:112
@@ -282,7 +282,7 @@ msgstr "Conto bancario aziendale"
 #. module: account_payment_order
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Confirm Payments"
-msgstr "Conferma Pagamenti"
+msgstr "Conferma pagamenti"
 
 #. module: account_payment_order
 #: selection:account.payment.order,state:0
@@ -435,7 +435,7 @@ msgstr "Scadenza"
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Generated"
-msgstr "File Generato"
+msgstr "File generato"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order_date_generated
@@ -458,7 +458,7 @@ msgstr "Data caricamento file"
 #: selection:account.payment.order,state:0
 #: model:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
 msgid "File Uploaded"
-msgstr "File Caricato"
+msgstr "File caricato"
 
 #. module: account_payment_order
 #: selection:account.payment.mode,default_date_prefered:0
