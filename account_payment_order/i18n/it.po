@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2024-10-03 09:06+0000\n"
+"PO-Revision-Date: 2024-10-22 10:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -260,7 +260,7 @@ msgstr "Annulla pagamenti"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Choose Move Lines Filter Options"
-msgstr "Scegli opzioni di filtro per righe movimenti"
+msgstr "Scegliere opzioni di filtro per righe movimenti"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -305,7 +305,7 @@ msgstr "Conto bancario aziendale"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 msgid "Confirm Payments"
-msgstr "Conferma Pagamenti"
+msgstr "Conferma pagamenti"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__open
@@ -661,7 +661,7 @@ msgstr "Filtro registri"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid "Keep empty for using all journals"
-msgstr "Mantieni vuoto per l'utilizzo di tutti i registri"
+msgstr "Lasciare vuoto per l'utilizzo di tutti i registri"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -787,7 +787,7 @@ msgid ""
 "No Payment Line created for invoice %s because its payment mode is not "
 "intended for payment orders."
 msgstr ""
-"Nessun riga di pagamento creata per la fattura %s perché il suo modo di "
+"Nessuna riga di pagamento creata per la fattura %s perché il suo modo di "
 "pagamento non è inteso per gli ordini di pagamento."
 
 #. module: account_payment_order
@@ -1166,7 +1166,7 @@ msgstr "Modello tecnico per la stampa dell'ordine di pagamento"
 msgid ""
 "The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
 msgstr ""
-"L'importo per il Partner '%(partner)s' è negativo o nullo (%(amount).2f) !"
+"L'importo per il partner '%(partner)s' è negativo o nullo (%(amount).2f) !"
 
 #. module: account_payment_order
 #. odoo-python
