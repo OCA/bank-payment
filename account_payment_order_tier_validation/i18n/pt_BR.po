@@ -22,27 +22,9 @@ msgid "Can Review"
 msgstr "Pode Revisar"
 
 #. module: account_payment_order_tier_validation
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_tier_definition__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: account_payment_order_tier_validation
 #: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__has_comment
 msgid "Has Comment"
 msgstr "Tem Comentário"
-
-#. module: account_payment_order_tier_validation
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__id
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_tier_definition__id
-msgid "ID"
-msgstr "ID"
-
-#. module: account_payment_order_tier_validation
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_tier_definition____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: account_payment_order_tier_validation
 #: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
@@ -111,6 +93,20 @@ msgid "Validated Message"
 msgstr "Mensagem da Validação"
 
 #. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__validation_status
+msgid "Validation Status"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
 #: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__review_ids
 msgid "Validations"
 msgstr "Validações"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
