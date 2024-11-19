@@ -31,14 +31,11 @@ class TestAccountPaymentPartner(TransactionCase):
         )
         if not chart:
             raise ValidationError(_("No Chart of Account Template has been defined !"))
-        old_company = cls.env.user.company_id
-        cls.env.user.company_id = cls.company_2.id
+        cls.env.user.company_ids = [(4, cls.company_2.id)]
         cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
         cls.env["account.chart.template"].try_loading(
-            "generic_coa", company=cls.company, install_demo=False
+            "generic_coa", company=cls.company_2, install_demo=False
         )
-        cls.env.user.company_id = old_company.id
-
         # refs
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
         cls.manual_out.bank_account_required = True
