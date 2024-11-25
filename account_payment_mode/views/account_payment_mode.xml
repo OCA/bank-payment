@@ -78,6 +78,12 @@
                     string="Outbound"
                     domain="[('payment_type', '=', 'outbound')]"
                 />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
                 <group string="Group By" name="groupby">
                     <filter
                         string="Payment Method"
