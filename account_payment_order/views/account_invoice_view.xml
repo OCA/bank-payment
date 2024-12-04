@@ -50,13 +50,21 @@
             <field name="payment_mode_id" position="after">
                 <field name="payment_order_ok" invisible="1" />
             </field>
+            <!-- First we place the rest of the elements for the new reference distribution -->
             <field name="payment_reference" position="before">
-                <field
-                    name="reference_type"
-                    readonly="state != 'draft'"
-                    invisible="move_type not in ('out_invoice', 'out_refund')"
-                    required="move_type in ('out_invoice', 'out_refund')"
-                />
+                <label for="payment_reference" />
+                <div name="payment_reference_div" class="d-flex">
+                    <field
+                        name="reference_type"
+                        readonly="state != 'draft'"
+                        invisible="move_type not in ('out_invoice', 'out_refund')"
+                        required="move_type in ('out_invoice', 'out_refund')"
+                    />
+                </div>
+            </field>
+            <!-- Then we move the std field, as this can only be on a first level -->
+            <field name="reference_type" position="after">
+                <field name="payment_reference" position="move" />
             </field>
         </field>
 </record>
