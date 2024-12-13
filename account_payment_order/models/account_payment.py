@@ -10,6 +10,10 @@ class AccountPayment(models.Model):
 
     payment_order_id = fields.Many2one(comodel_name="account.payment.order")
     payment_line_ids = fields.Many2many(comodel_name="account.payment.line")
+    order_state = fields.Selection(
+        related="payment_order_id.state", string="Payment Order State"
+    )
+    payment_line_date = fields.Date(compute="_compute_payment_line_date")
 
     @api.depends("payment_type", "journal_id")
     def _compute_payment_method_line_fields(self):
@@ -33,3 +37,8 @@ class AccountPayment(models.Model):
                     )
                 )
         return res
+
+    @api.depends("payment_line_ids", "payment_line_ids.date")
+    def _compute_payment_line_date(self):
+        for item in self:
+            item.payment_line_date = item.payment_line_ids[:1].date
