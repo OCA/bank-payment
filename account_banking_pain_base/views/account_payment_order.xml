@@ -34,13 +34,12 @@
                     attrs="{'invisible': [('show_warning_not_sepa', '=', False)]}"
                 >
                         This payment order is <b
-                    >not SEPA</b>. If it is not intented, check that all payment lines are in € and that all bank accounts are valid IBANs with a country prefix in the <a
-                        href="https://en.wikipedia.org/wiki/Single_Euro_Payments_Area"
-                        target="_blank"
-                    >SEPA zone</a>.
+                >not SEPA</b>. If it is not intented, check that all payment lines are in € and that all bank accounts are valid IBANs with a country prefix in the <a
+                    href="https://en.wikipedia.org/wiki/Single_Euro_Payments_Area"
+                    target="_blank"
+                >SEPA zone</a>.
                 </div>
             </header>
         </field>
-</record>
-
+    </record>
 </odoo>

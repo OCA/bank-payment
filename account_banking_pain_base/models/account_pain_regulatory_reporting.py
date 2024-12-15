@@ -28,5 +28,5 @@ class AccountPainRegulatoryReporting(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, "[%s] %s" % (rec.code, rec.name)))
+            res.append((rec.id, f"[{rec.code}] {rec.name}"))
         return res

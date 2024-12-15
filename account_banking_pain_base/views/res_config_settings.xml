@@ -17,8 +17,8 @@
                             <field name="group_pain_multiple_identifier" />
                         </div>
                         <div class="o_setting_right_pane">
-                                <div class="row">
-                                    <label
+                            <div class="row">
+                                <label
                                     for="group_pain_multiple_identifier"
                                     class="col-md-12"
                                 />
@@ -27,20 +27,17 @@
                     </div>
                     <div class="col-12 col-md-12 o_setting_box">
                         <div class="o_setting_right_pane">
-                                <div class="row" id="initiating_party_identifier">
-                                    <label
+                            <div class="row" id="initiating_party_identifier">
+                                <label
                                     for="initiating_party_identifier"
                                     class="col-md-4"
                                 />
-                                    <field name="initiating_party_identifier" />
-                                </div>
-                                <div class="row" id="initiating_party_issuer">
-                                    <label
-                                    for="initiating_party_issuer"
-                                    class="col-md-4"
-                                />
-                                    <field name="initiating_party_issuer" />
-                                </div>
+                                <field name="initiating_party_identifier" />
+                            </div>
+                            <div class="row" id="initiating_party_issuer">
+                                <label for="initiating_party_issuer" class="col-md-4" />
+                                <field name="initiating_party_issuer" />
+                            </div>
                         </div>
                     </div>
                 </div>

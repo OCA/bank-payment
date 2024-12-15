@@ -59,7 +59,9 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def _sepa_iban_prefix_list(self):
         # List of IBAN prefixes (not country codes !)
-        # Source: https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2023-01/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v4.0_0.pdf  # noqa: B950
+        # Source: https://www.europeanpaymentscouncil.eu/sites/default/
+        # files/kb/file/2023-01/
+        # EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v4.0_0.pdf
         # Some countries use IBAN but are not part of the SEPA zone
         # example: Turkey, Madagascar, Tunisia, etc.
         return [
@@ -197,8 +199,8 @@ class AccountPaymentOrder(models.Model):
                 raise UserError(
                     _(
                         "Error in the generation of the XML payment file: "
-                        "'%(field_name)s' with value '%(value)s' has %(count)s caracters, "
-                        "but the maximum is %(max_size)s caracters.",
+                        "'%(field_name)s' with value '%(value)s' has %(count)s "
+                        "caracters, but the maximum is %(max_size)s caracters.",
                         field_name=field_name,
                         value=value,
                         count=len(value),
@@ -249,7 +251,7 @@ class AccountPaymentOrder(models.Model):
         )
         xml_bytes = xml_string.encode("utf-8")
         logger.debug(
-            "Generated SEPA XML file in format %s below" % gen_args["pain_flavor"]
+            "Generated SEPA XML file in format %s below", gen_args["pain_flavor"]
         )
         logger.debug(xml_string)
         self._validate_xml(xml_bytes, gen_args)
@@ -262,7 +264,7 @@ class AccountPaymentOrder(models.Model):
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
         nsmap = {
             "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-            None: "urn:iso:std:iso:20022:tech:xsd:%s" % pain_flavor,
+            None: f"urn:iso:std:iso:20022:tech:xsd:{pain_flavor}",
         }
         return nsmap
 
@@ -413,7 +415,7 @@ class AccountPaymentOrder(models.Model):
             )
         else:
             if order == "B" or (order == "C" and gen_args["payment_method"] == "DD"):
-                party_agent = objectify.SubElement(parent_node, "%sAgt" % party_type)
+                party_agent = objectify.SubElement(parent_node, f"{party_type}Agt")
                 party_agent_institution = objectify.SubElement(
                     party_agent, "FinInstnId"
                 )

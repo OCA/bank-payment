@@ -47,8 +47,8 @@ class ResPartner(models.Model):
                     street_number = self.street_number
                     door = self.street_number2
                 else:
-                    # I don't use tools.street_split() because it doesn't work in many scenarios
-                    # for example, in France, street are usually written as:
+                    # I don't use tools.street_split() because it doesn't work in many
+                    # scenarios for example, in France, street are usually written as:
                     # 27, rue Henri Rolland
                     # but tools.street_split() only works when street number is written
                     # at the end, so I added a method _improved_street_split() below
@@ -82,8 +82,8 @@ class ResPartner(models.Model):
                 )
             if self.state_id:
                 # Better to write state name in the lang of the partner
-                # for example: for a US partner, we should write its state name in English
-                # and not in the user's lang
+                # for example: for a US partner, we should write its state name
+                # in English and not in the user's lang
                 postal_address.CtrySubDvsn = apoo._prepare_field(
                     "State",
                     self.with_context(

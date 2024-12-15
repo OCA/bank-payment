@@ -165,8 +165,8 @@ class AccountPaymentLine(models.Model):
         help="If neither your bank nor your local regulations oblige you to "
         "set the category purpose, leave the field empty.",
     )
-    # Regulatory Reporting codes are provided by national central banks for the countries
-    # where this data is required in specific circumstances
+    # Regulatory Reporting codes are provided by national central banks for the
+    # countries where this data is required in specific circumstances
     regulatory_reporting_id = fields.Many2one(
         "account.pain.regulatory.reporting",
         ondelete="restrict",
