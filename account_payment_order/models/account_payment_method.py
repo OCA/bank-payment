@@ -9,5 +9,6 @@ class AccountPaymentMethod(models.Model):
 
     payment_order_ok = fields.Boolean(
         string="Payment Orders",
-        help="Check this option for payment methods designed to be used in payment orders.",
+        help="Check this option for payment methods designed to be used "
+        "in payment orders.",
     )

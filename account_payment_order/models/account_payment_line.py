@@ -264,11 +264,11 @@ class AccountPaymentLine(models.Model):
         # Fill destination account if manual payment line with no linked journal item
         if not vals["destination_account_id"]:
             if vals["partner_type"] == "customer":
-                vals[
-                    "destination_account_id"
-                ] = self.partner_id.property_account_receivable_id.id
+                vals["destination_account_id"] = (
+                    self.partner_id.property_account_receivable_id.id
+                )
             else:
-                vals[
-                    "destination_account_id"
-                ] = self.partner_id.property_account_payable_id.id
+                vals["destination_account_id"] = (
+                    self.partner_id.property_account_payable_id.id
+                )
         return vals

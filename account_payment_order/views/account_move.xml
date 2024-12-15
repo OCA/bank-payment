@@ -63,7 +63,7 @@
                 <field name="reference_type" />
             </field>
         </field>
-</record>
+    </record>
     <record
         id="account_invoice_create_account_payment_line_action"
         model="ir.actions.act_window"
@@ -80,8 +80,8 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-                <button name="action_register_payment" position="after">
-                    <button
+            <button name="action_register_payment" position="after">
+                <button
                     name="%(account_invoice_create_account_payment_line_action)d"
                     type="action"
                     string="Add to Payment/Debit Order"
@@ -90,5 +90,5 @@
                 />
             </button>
         </field>
-</record>
+    </record>
 </odoo>

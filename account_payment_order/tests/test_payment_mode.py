@@ -11,7 +11,7 @@ from odoo.addons.account.models.account_payment_method import AccountPaymentMeth
 
 class TestPaymentMode(TransactionCase):
     def setUp(self):
-        super(TestPaymentMode, self).setUp()
+        super().setUp()
 
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
@@ -49,7 +49,6 @@ class TestPaymentMode(TransactionCase):
             "_get_payment_method_information",
             _get_payment_method_information,
         ):
-
             self.electronic_out = self.env["account.payment.method"].create(
                 {
                     "name": "Electronic Out",

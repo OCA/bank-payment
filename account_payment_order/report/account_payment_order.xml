@@ -9,7 +9,7 @@
         />
         <t t-call="web.external_layout">
             <div class="page">
-                <div class="oe_structure" />
+                <div class="oe_structure" id="oe_structure_pay_order_start" />
                 <div class="row">
                     <div class="col-4 offset-8">
                         <div t-field="doc.journal_id.bank_id.name" />
@@ -129,7 +129,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="oe_structure" />
+                <div class="oe_structure" id="oe_structure_pay_order_end" />
             </div>
         </t>
     </template>

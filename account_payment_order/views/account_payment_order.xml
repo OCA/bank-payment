@@ -66,12 +66,12 @@
                             type="object"
                             icon="fa-bars"
                         >
-                                <field
+                            <field
                                 string="Journal Entries"
                                 name="move_count"
                                 widget="statinfo"
                             />
-                </button>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" />

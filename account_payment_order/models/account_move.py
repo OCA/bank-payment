@@ -49,7 +49,8 @@ class AccountMove(models.Model):
             )
 
     # Enable support for payment_state = "in_payment" on invoices
-    # _get_invoice_in_payment_state() is a method of the "account" module which returns "paid"
+    # _get_invoice_in_payment_state() is a method of the "account" module
+    # which returns "paid"
     @api.model
     def _get_invoice_in_payment_state(self):
         return "in_payment"
@@ -142,7 +143,7 @@ class AccountMove(models.Model):
                     % move.name
                 )
             payment_lines = applicable_lines.payment_line_ids.filtered(
-                lambda l: l.state in ("draft", "open", "generated")
+                lambda line: line.state in ("draft", "open", "generated")
             )
             if payment_lines:
                 raise UserError(
@@ -198,8 +199,7 @@ class AccountMove(models.Model):
                         )
                     )
         action = self.env["ir.actions.act_window"]._for_xml_id(
-            "account_payment_order.account_payment_order_%s_action"
-            % action_payment_type,
+            f"account_payment_order.account_payment_order_{action_payment_type}_action"
         )
         if len(result_payorder_ids) == 1:
             action.update(
@@ -213,7 +213,7 @@ class AccountMove(models.Model):
             action.update(
                 {
                     "view_mode": "tree,form,pivot,graph",
-                    "domain": "[('id', 'in', %s)]" % list(result_payorder_ids),
+                    "domain": f"[('id', 'in', {list(result_payorder_ids)})]",
                     "views": False,
                 }
             )
