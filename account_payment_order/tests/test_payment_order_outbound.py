@@ -53,6 +53,12 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 ).id,
             }
         )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test product",
+                "type": "service",
+            }
+        )
         cls.invoice = cls._create_supplier_invoice(cls, "F1242")
         cls.invoice_02 = cls._create_supplier_invoice(cls, "F1243")
         cls.bank_journal = cls.company_data["default_journal_bank"]
@@ -77,7 +83,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                         0,
                         None,
                         {
-                            "product_id": self.env.ref("product.product_product_4").id,
+                            "product_id": self.product.id,
                             "quantity": 1.0,
                             "price_unit": 100.0,
                             "name": "product that cost 100",
@@ -104,7 +110,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                         0,
                         None,
                         {
-                            "product_id": self.env.ref("product.product_product_4").id,
+                            "product_id": self.product.id,
                             "quantity": 1.0,
                             "price_unit": 90.0,
                             "name": "refund of 90.0",

@@ -23,6 +23,12 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test product",
+                "type": "service",
+            }
+        )
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
@@ -71,7 +77,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         ) as invoice_form:
             invoice_form.partner_id = self.partner
             with invoice_form.invoice_line_ids.new() as invoice_line_form:
-                invoice_line_form.product_id = self.env.ref("product.product_product_4")
+                invoice_line_form.product_id = self.product
                 invoice_line_form.name = "product that cost 100"
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
