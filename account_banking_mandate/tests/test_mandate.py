@@ -18,8 +18,29 @@ class TestMandate(TransactionCase):
         cls.company = cls.env.ref("base.main_company")
         cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
         cls.company_2.partner_id.company_id = cls.company_2.id
-        cls.bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
-        cls.bank_account.partner_id.company_id = cls.company.id
+        cls.partner = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.bank = cls.env["res.bank"].create(
+            {
+                "name": "Fiducial Banque",
+                "bic": "FIDCFR21XXX",
+                "street": "38 rue Sergent Michel Berthet",
+                "zip": "69009",
+                "city": "Lyon",
+                "country": cls.env.ref("base.fr").id,
+            }
+        )
+        cls.bank_account = cls.env["res.partner.bank"].create(
+            {
+                "partner_id": cls.partner.id,
+                "bank_id": cls.bank.id,
+                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
+            }
+        )
         cls.mandate = cls.env["account.banking.mandate"].create(
             {
                 "partner_bank_id": cls.bank_account.id,
@@ -53,10 +74,22 @@ class TestMandate(TransactionCase):
             self.mandate.cancel()
 
     def test_onchange_methods(self):
-        bank_account_2 = self.env.ref("account_payment_mode.res_partner_2_iban")
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner 2",
+                "company_id": self.company.id,
+            }
+        )
+        bank_account_2 = self.env["res.partner.bank"].create(
+            {
+                "partner_id": partner.id,
+                "bank_id": self.bank.id,
+                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
+            }
+        )
         self.mandate.partner_bank_id = bank_account_2
         self.mandate.mandate_partner_bank_change()
-        self.assertEqual(self.mandate.partner_id, bank_account_2.partner_id)
+        self.assertEqual(self.mandate.partner_id, partner)
 
     def test_constrains_01(self):
         self.mandate.validate()
@@ -100,10 +133,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate with no reference
         Expected result: the reference of the created mandate is not empty
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
             }
@@ -115,10 +147,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate with "ref01" as reference
         Expected result: the reference of the created mandate is "ref01"
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
                 "unique_mandate_reference": "ref01",
@@ -131,10 +162,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate with "TEST" as reference
         Expected result: the reference of the created mandate is "TEST"
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
                 "unique_mandate_reference": "TEST",
@@ -148,10 +178,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate with "/" as reference
         Expected result: the reference of the created mandate is not "/"
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
                 "unique_mandate_reference": "/",
@@ -165,10 +194,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate without reference
         Expected result: the reference of the created mandate is not empty
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
             }
@@ -180,10 +208,9 @@ class TestMandate(TransactionCase):
         Test case: create a mandate with False as reference (empty with UX)
         Expected result: the reference of the created mandate is not False
         """
-        bank_account = self.env.ref("account_payment_mode.res_partner_12_iban")
         mandate_1 = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
                 "unique_mandate_reference": False,
@@ -192,7 +219,7 @@ class TestMandate(TransactionCase):
         self.assertTrue(mandate_1.unique_mandate_reference)
         mandate_2 = self.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": self.bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
                 "unique_mandate_reference": "",

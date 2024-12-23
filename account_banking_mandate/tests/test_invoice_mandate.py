@@ -274,13 +274,18 @@ class TestInvoiceMandate(TransactionCase):
             )
             .id
         )
-
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test product",
+                "type": "service",
+            }
+        )
         invoice_vals = [
             (
                 0,
                 0,
                 {
-                    "product_id": cls.env.ref("product.product_product_4").id,
+                    "product_id": cls.product.id,
                     "quantity": 1.0,
                     "account_id": invoice_line_account,
                     "price_unit": 200.00,
