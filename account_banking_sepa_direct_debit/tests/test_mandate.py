@@ -20,9 +20,7 @@ class TestMandate(TransactionCase):
             {"type": "recurrent", "recurrent_sequence_type": "recurring"}
         )
         self.mandate.validate()
-        self.mandate.partner_bank_id = self.env.ref(
-            "account_payment_mode.res_partner_2_iban"
-        )
+        self.mandate.partner_bank_id = self.bank_account_02
         self.mandate.mandate_partner_bank_change()
         self.assertEqual(self.mandate.recurrent_sequence_type, "first")
 
@@ -61,11 +59,43 @@ class TestMandate(TransactionCase):
                 tracking_disable=True,
             )
         )
-        cls.partner = cls.env.ref("base.res_partner_12")
-        bank_account = cls.env.ref("account_payment_mode.res_partner_12_iban")
+        cls.partner = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+            }
+        )
+        cls.partner_2 = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner 2",
+            }
+        )
+        cls.bank = cls.env["res.bank"].create(
+            {
+                "name": "Fiducial Banque",
+                "bic": "FIDCFR21XXX",
+                "street": "38 rue Sergent Michel Berthet",
+                "zip": "69009",
+                "city": "Lyon",
+                "country": cls.env.ref("base.fr").id,
+            }
+        )
+        cls.bank_account = cls.env["res.partner.bank"].create(
+            {
+                "partner_id": cls.partner.id,
+                "bank_id": cls.bank.id,
+                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
+            }
+        )
+        cls.bank_account_02 = cls.env["res.partner.bank"].create(
+            {
+                "partner_id": cls.partner_2.id,
+                "bank_id": cls.bank.id,
+                "acc_number": "FR20 1242 1242 1242 1242 1242 124",
+            }
+        )
         cls.mandate = cls.env["account.banking.mandate"].create(
             {
-                "partner_bank_id": bank_account.id,
+                "partner_bank_id": cls.bank_account.id,
                 "format": "sepa",
                 "type": "oneoff",
                 "signature_date": "2015-01-01",
