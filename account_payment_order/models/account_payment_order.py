@@ -98,7 +98,6 @@ class AccountPaymentOrder(models.Model):
         precompute=True,
         string="Payment Execution Date Type",
         required=True,
-        default="due",
         tracking=True,
         states={"draft": [("readonly", False)]},
     )
@@ -278,6 +277,8 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             if order.payment_mode_id.default_date_prefered:
                 order.date_prefered = order.payment_mode_id.default_date_prefered
+            else:
+                order.date_prefered = "due"
 
     @api.depends("payment_mode_id")
     def _compute_journal_id(self):
