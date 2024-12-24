@@ -7,7 +7,7 @@ here. I hate the objects that don't have a view... -->
         <field name="name">account_payment_method.form</field>
         <field name="model">account.payment.method</field>
         <field name="arch" type="xml">
-            <form string="Payment Method">
+            <form>
                 <sheet>
                     <widget
                         name="web_ribbon"
@@ -41,7 +41,7 @@ here. I hate the objects that don't have a view... -->
         <field name="name">account_payment_method.search</field>
         <field name="model">account.payment.method</field>
         <field name="arch" type="xml">
-            <search string="Search Payment Methods">
+            <search>
                 <field
                     name="name"
                     filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
