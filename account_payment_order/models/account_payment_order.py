@@ -219,7 +219,7 @@ class AccountPaymentOrder(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get("name", "New") == "New":
+            if vals.get("name") in ("New", None, False):
                 vals["name"] = (
                     self.env["ir.sequence"].next_by_code("account.payment.order")
                     or "New"
