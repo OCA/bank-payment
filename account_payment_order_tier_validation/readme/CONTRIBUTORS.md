@@ -1,0 +1,4 @@
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago
+- XCG Consulting, part of [Orbeet](https://orbeet.io/):
+  - Vincent Hatakeyama
