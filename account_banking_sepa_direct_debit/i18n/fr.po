@@ -198,8 +198,8 @@ msgstr ""
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
-"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}</a> has "
-"been marked as uploaded."
+"order <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(id)d>%(name)s</a> has been marked as uploaded."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
@@ -588,12 +588,12 @@ msgstr ""
 #, python-format
 #~ msgid ""
 #~ "Automatically switched from <b>First</b> to <b>Recurring</b> when the "
-#~ "debit order <a href=# data-oe-model=account.payment.order data-oe-id=%d>"
-#~ "%s</a> has been marked as uploaded."
+#~ "debit order <a href=# data-oe-model=account.payment.order data-oe-"
+#~ "id=%d>%s</a> has been marked as uploaded."
 #~ msgstr ""
 #~ "Remplacé automatiquement de <b>First</b> par <b>Récurrent</b> quand "
-#~ "l'ordre de débit <a href=# data-oe-model=account.payment.order data-oe-id="
-#~ "%d>%s</a> a été marqué comme téléchargé."
+#~ "l'ordre de débit <a href=# data-oe-model=account.payment.order data-oe-"
+#~ "id=%d>%s</a> a été marqué comme téléchargé."
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Lignes de paiement bancaire"
