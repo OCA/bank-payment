@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from lxml import etree
+from markupsafe import Markup
 
 from odoo import _, exceptions, fields, models
 from odoo.exceptions import UserError
@@ -296,11 +297,16 @@ class AccountPaymentOrder(models.Model):
             first_mandates.write({"recurrent_sequence_type": "recurring"})
             for first_mandate in first_mandates:
                 first_mandate.message_post(
-                    body=_(
-                        "Automatically switched from <b>First</b> to "
-                        "<b>Recurring</b> when the debit order "
-                        "<a href=# data-oe-model=account.payment.order "
-                        "data-oe-id=%d>{}</a> has been marked as uploaded."
-                    ).format(order.id, order.name)
+                    body=Markup(
+                        _(
+                            "Automatically switched from <b>First</b> to "
+                            "<b>Recurring</b> when the debit order "
+                            "<a href=# data-oe-model=account.payment.order "
+                            "data-oe-id=%(id)d>%(name)s</a> "
+                            "has been marked as uploaded.",
+                            id=order.id,
+                            name=order.name,
+                        )
+                    )
                 )
         return res
