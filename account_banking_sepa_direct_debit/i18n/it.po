@@ -172,9 +172,9 @@ msgid ""
 msgstr ""
 "TUTTI I CAMPI SONO OBBLIGATORI. UNA VOLTA CHE IL MANDATO è STATO FIRMATO "
 "DEVE ESSERE SPEDITO AL CREDITORE PER ARCHIVIAZIONE.\n"
-"                        TUTTAVIA, LA BANCA DEL DEBITORE RICHIEDE L’"
-"AUTORIZZAZIONE DEL DEBITORE PRIMA DI ADDEBITARE GLI ADDEBITI DIRETTI B2B SUL "
-"CONTO.\n"
+"                        TUTTAVIA, LA BANCA DEL DEBITORE RICHIEDE "
+"L’AUTORIZZAZIONE DEL DEBITORE PRIMA DI ADDEBITARE GLI ADDEBITI DIRETTI B2B "
+"SUL CONTO.\n"
 "                         IL DEBITORE POTRÀ GESTIRE LA MENZIONATA "
 "AUTORIZZAZIONE ATTRAVERSO I MEZZI FORNITI DALLA SUA BANCA."
 
@@ -212,12 +212,9 @@ msgstr ""
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
-"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}</a> has "
-"been marked as uploaded."
+"order <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(id)d>%(name)s</a> has been marked as uploaded."
 msgstr ""
-"Modificato automaticamente da <b>Primo</b> a <b>Ricorrente</b> quando "
-"l'ordine di addebito <a href=# data-oe-model=account.payment.order data-oe-"
-"id=%d>{}</a> è marcato come caricato."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
@@ -436,8 +433,8 @@ msgid ""
 "SEPA Mandate {{ object.unique_mandate_reference or 'n/a' }} for {{ object."
 "company_id.name }} is pending to sign"
 msgstr ""
-"Il mandato SEPA {{ object.unique_mandate_reference or 'n/a' }} per {{ "
-"object.company_id.name }} è in attesa di firma"
+"Il mandato SEPA {{ object.unique_mandate_reference or 'n/a' }} per {{ object."
+"company_id.name }} è in attesa di firma"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
@@ -599,3 +596,13 @@ msgstr ""
 "per inviare istruzioni alla propria banca per addebitare il vostro conto e "
 "(B) la vostra banca\n"
 "                        addebitare il vostro conto secondo le istruzioni di"
+
+#, python-format
+#~ msgid ""
+#~ "Automatically switched from <b>First</b> to <b>Recurring</b> when the "
+#~ "debit order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}"
+#~ "</a> has been marked as uploaded."
+#~ msgstr ""
+#~ "Modificato automaticamente da <b>Primo</b> a <b>Ricorrente</b> quando "
+#~ "l'ordine di addebito <a href=# data-oe-model=account.payment.order data-"
+#~ "oe-id=%d>{}</a> è marcato come caricato."

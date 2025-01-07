@@ -178,8 +178,8 @@ msgstr ""
 #, python-format
 msgid ""
 "Automatically switched from <b>First</b> to <b>Recurring</b> when the debit "
-"order <a href=# data-oe-model=account.payment.order data-oe-id=%d>{}</a> has "
-"been marked as uploaded."
+"order <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(id)d>%(name)s</a> has been marked as uploaded."
 msgstr ""
 
 #. module: account_banking_sepa_direct_debit
