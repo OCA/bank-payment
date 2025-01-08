@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-10-15 10:06+0000\n"
+"PO-Revision-Date: 2025-01-08 10:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -215,6 +215,9 @@ msgid ""
 "order <a href=# data-oe-model=account.payment.order data-oe-"
 "id=%(id)d>%(name)s</a> has been marked as uploaded."
 msgstr ""
+"Modificato automaticamente da <b>Primo</b> a <b>Ricorrente</b> quando "
+"l'ordine di addebito <a href=# data-oe-model=account.payment.order data-oe-"
+"id=%(id)d>%(name)s</a> è stato impostato a caricato."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__scheme__core
