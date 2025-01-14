@@ -64,7 +64,7 @@ class ResPartner(models.Model):
                     postal_address.BldgNb = apoo._prepare_field(
                         "Street Number", street_number, 16, gen_args
                     )
-                if door:
+                if door and gen_args["pain_flavor"].startswith("pain.001.001.09"):
                     postal_address.Room = apoo._prepare_field(
                         "Door", door, 70, gen_args
                     )
