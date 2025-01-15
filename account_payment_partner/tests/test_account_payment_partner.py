@@ -572,15 +572,17 @@ class TestAccountPaymentPartner(TransactionCase):
         move_form = Form(
             self.move_model.with_context(
                 default_name="Invoice test", default_move_type="out_invoice"
-            )
+            ).with_company(self.env.ref("base.main_company").id)
         )
         self.assertFalse(move_form.payment_mode_id)
-        self.env["ir.default"].create(
-            {"field_id": field.id, "json_value": payment_mode.id}
-        )
+        self.env["ir.default"].with_company(
+            self.env.ref("base.main_company").id
+        ).create({"field_id": field.id, "json_value": payment_mode.id})
         move_form = Form(
             self.move_model.with_context(
-                default_name="Invoice test", default_move_type="out_invoice"
-            )
+                default_name="Invoice test",
+                default_move_type="out_invoice",
+                default_company_id=self.env.ref("base.main_company").id,
+            ).with_company(self.env.ref("base.main_company").id)
         )
         self.assertEqual(move_form.payment_mode_id, payment_mode)
