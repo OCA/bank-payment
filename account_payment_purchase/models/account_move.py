@@ -29,13 +29,13 @@ class AccountMove(models.Model):
                 "message": _("Selected purchase order have different payment mode."),
             }
             return res
-        elif self.payment_mode_id.id != new_mode:
+        elif new_mode and self.payment_mode_id.id != new_mode:
             self.payment_mode_id = new_mode
         if old_bank and new_bank and old_bank != new_bank:
             res["warning"] = {
                 "title": _("Warning"),
                 "message": _("Selected purchase order have different supplier bank."),
             }
-        elif self.partner_bank_id.id != new_bank:
+        elif new_bank and self.partner_bank_id.id != new_bank:
             self.partner_bank_id = new_bank
         return res
