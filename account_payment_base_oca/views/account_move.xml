@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024-2025 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="id" position="after">
+                <field name="payment_method_code" invisible="1" />
+                <field name="bank_account_required" invisible="1" />
+            </field>
+            <xpath
+                expr="//group[@id='header_right_group']//field[@name='partner_bank_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="required"
+                >bank_account_required and move_type in ('in_invoice', 'in_refund')</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account_payment_partner.view_invoice_tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="status_in_payment" position="before">
+                <field name="preferred_payment_method_line_id" optional="hide" />
+                <field name="payment_method_code" column_invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>
