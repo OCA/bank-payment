@@ -17,26 +17,31 @@ Account Banking SEPA Direct Debit
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
-    :target: https://github.com/OCA/bank-payment/tree/16.0/account_banking_sepa_direct_debit
+    :target: https://github.com/OCA/bank-payment/tree/18.0/account_banking_sepa_direct_debit
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/bank-payment-16-0/bank-payment-16-0-account_banking_sepa_direct_debit
+    :target: https://translation.odoo-community.org/projects/bank-payment-18-0/bank-payment-18-0-account_banking_sepa_direct_debit
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 Module to export direct debit orders in SEPA XML file format.
 
-`ISO 20022 <https://www.iso20022.org/>`_ is the new international standard for
-bank XML files. This module implements SEPA Direct
-Debit (SDD), more specifically ISO 20022 PAIN (PAyment INitiation) versions 008.001.02 and 008.001.08.
-It follows the `SEPA direct debit implementation guidelines <https://www.europeanpaymentscouncil.eu/what-we-do/sepa-direct-debit>`_ of the `European Payments Council <https://www.europeanpaymentscouncil.eu>`_.
+`ISO 20022 <https://www.iso20022.org/>`__ is the new international
+standard for bank XML files. This module implements SEPA Direct Debit
+(SDD), more specifically ISO 20022 PAIN (PAyment INitiation) versions
+008.001.02 and 008.001.08. It follows the `SEPA direct debit
+implementation
+guidelines <https://www.europeanpaymentscouncil.eu/what-we-do/sepa-direct-debit>`__
+of the `European Payments
+Council <https://www.europeanpaymentscouncil.eu>`__.
 
-This module also supports PAIN version 008.003.02 which is used in Germany.
-You can read more about this in german on `ebics.de <https://www.ebics.de/>`_.
+This module also supports PAIN version 008.003.02 which is used in
+Germany. You can read more about this in german on
+`ebics.de <https://www.ebics.de/>`__.
 
 It supports both SEPA **Core** and SEPA **B2B** mandates.
 
@@ -50,8 +55,8 @@ Installation
 
 This module depends on :
 
-* account_banking_pain_base
-* account_banking_mandate
+-  account_banking_pain_base
+-  account_banking_mandate
 
 This module is part of the OCA/bank-payment suite.
 
@@ -60,37 +65,40 @@ Configuration
 
 For setting the SEPA creditor identifier:
 
-#. Go to Invoicing/Accounting > Configuration > Settings.
-#. On the field "SEPA Creditor Identifier" in the section *SEPA/PAIN*, you can
-   fill the corresponding identifier.
+1. Go to Invoicing/Accounting > Configuration > Settings.
+2. On the field "SEPA Creditor Identifier" in the section *SEPA/PAIN*,
+   you can fill the corresponding identifier.
 
 If your country requires several identifiers (like Spain), you must:
 
-#. Go to *Invoicing/Accounting > Configuration > Settings*.
-#. On the section *SEPA/PAIN*, check the mark "Multiple identifiers".
-#. Now go to *Invoicing/Accounting > Configuration > Management > Payment Modes*.
-#. Create a payment mode for your specific bank.
-#. Fill the specific identifier on the field "SEPA Creditor Identifier".
+1. Go to *Invoicing/Accounting > Configuration > Settings*.
+2. On the section *SEPA/PAIN*, check the mark "Multiple identifiers".
+3. Now go to *Invoicing/Accounting > Configuration > Management >
+   Payment Modes*.
+4. Create a payment mode for your specific bank.
+5. Fill the specific identifier on the field "SEPA Creditor Identifier".
 
 For defining a payment mode that uses SEPA direct debit:
 
-#. Go to *Invoicing/Accounting > Configuration > Management > Payment Modes*.
-#. Create a record.
-#. Select the Payment Method *SEPA Direct Debit for customers* (which is
+1. Go to *Invoicing/Accounting > Configuration > Management > Payment
+   Modes*.
+2. Create a record.
+3. Select the Payment Method *SEPA Direct Debit for customers* (which is
    automatically created upon module installation).
-#. Check that this payment method uses the proper version of PAIN.
-#. If not, go *Invoicing/Accounting > Configuration > Management > Payment Methods*.
-#. Locate the "SEPA Direct Debit for customers" record and open it.
-#. Change the "PAIN version" according your needs.
-#. If you need to handle several PAIN versions, just duplicate the payment
-   method adjusting this field on each for having them.
+4. Check that this payment method uses the proper version of PAIN.
+5. If not, go *Invoicing/Accounting > Configuration > Management >
+   Payment Methods*.
+6. Locate the "SEPA Direct Debit for customers" record and open it.
+7. Change the "PAIN version" according your needs.
+8. If you need to handle several PAIN versions, just duplicate the
+   payment method adjusting this field on each for having them.
 
 Usage
 =====
 
-In the menu *Invoicing/Accounting > Customers > Debit Order*, create a new debit
-order and select the Payment Mode dedicated to SEPA Direct Debit that
-you created during the configuration step.
+In the menu *Invoicing/Accounting > Customers > Debit Order*, create a
+new debit order and select the Payment Mode dedicated to SEPA Direct
+Debit that you created during the configuration step.
 
 Bug Tracker
 ===========
@@ -98,7 +106,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_sepa_direct_debit%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_sepa_direct_debit%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -106,30 +114,31 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 * Tecnativa
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Alexis de Lattre <alexis.delattre@akretion.com>
-* Stéphane Bidoul <stephane.bidoul@acsone.eu>
-* Alexandre Fayolle
-* Raphaël Valyi
-* Sandy Carter
-* Antonio Espinosa <antonioea@antiun.com>
-* Marçal Isern <marsal.isern@qubiq.es>
-* `Tecnativa <https://www.tecnativa.com>`__:
+-  Alexis de Lattre <alexis.delattre@akretion.com>
+-  Stéphane Bidoul <stephane.bidoul@acsone.eu>
+-  Alexandre Fayolle
+-  Raphaël Valyi
+-  Sandy Carter
+-  Antonio Espinosa <antonioea@antiun.com>
+-  Marçal Isern <marsal.isern@qubiq.es>
+-  `Tecnativa <https://www.tecnativa.com>`__:
 
-  * Pedro M. Baeza
-  * Sergio Teruel
-  * Carlos Roca
-* Manuel Regidor <manuel.regidor@sygel.es>
+   -  Pedro M. Baeza
+   -  Sergio Teruel
+   -  Carlos Roca
+
+-  Manuel Regidor <manuel.regidor@sygel.es>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -141,6 +150,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/16.0/account_banking_sepa_direct_debit>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/18.0/account_banking_sepa_direct_debit>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
