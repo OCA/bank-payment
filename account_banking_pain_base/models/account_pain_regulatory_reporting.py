@@ -25,8 +25,6 @@ class AccountPainRegulatoryReporting(models.Model):
     ]
 
     @api.depends("code", "name")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            res.append((rec.id, f"[{rec.code}] {rec.name}"))
-        return res
+            rec.display_name = f"[{rec.code}] {rec.name}"

@@ -13,7 +13,7 @@
                     name="web_ribbon"
                     title="Archived"
                     bg_color="bg-danger"
-                    attrs="{'invisible': [('active', '=', True)]}"
+                    invisible="active"
                 />
                 <group name="main">
                     <field name="code" />
@@ -28,11 +28,11 @@
     <record id="account_pain_regulatory_reporting_tree" model="ir.ui.view">
         <field name="model">account.pain.regulatory.reporting</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" decoration-bf="1" />
                 <field name="name" />
                 <field name="country_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -66,7 +66,7 @@
     <record id="account_pain_regulatory_reporting_action" model="ir.actions.act_window">
         <field name="name">PAIN Regulatory Reporting</field>
         <field name="res_model">account.pain.regulatory.reporting</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

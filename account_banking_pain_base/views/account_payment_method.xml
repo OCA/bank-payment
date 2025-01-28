@@ -5,39 +5,34 @@
         <field name="model">account.payment.method</field>
         <field
             name="inherit_id"
-            ref="account_payment_mode.account_payment_method_form"
+            ref="account_payment_base_oca.account_payment_method_form"
         />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
                 <field
                     name="pain_version"
-                    attrs="{'invisible': [('code', 'not in', ('sepa_direct_debit', 'sepa_credit_transfer'))], 'required': [('code', 'in', ('sepa_direct_debit', 'sepa_credit_transfer'))]}"
+                    invisible="code not in ('sepa_direct_debit', 'sepa_credit_transfer')"
+                    required="code in ('sepa_direct_debit', 'sepa_credit_transfer')"
                 />
 
-                <field
-                    name="convert_to_ascii"
-                    attrs="{'invisible': [('pain_version', '=', False)]}"
-                />
-                <field
-                    name="warn_not_sepa"
-                    attrs="{'invisible': [('pain_version', '=', False)]}"
-                />
+                <field name="convert_to_ascii" invisible="not pain_version" />
+                <field name="warn_not_sepa" invisible="not pain_version" />
             </field>
         </field>
     </record>
-    <record id="account_payment_method_tree" model="ir.ui.view">
-        <field name="name">pain_base.account_payment_method.tree</field>
+    <record id="account_payment_method_list" model="ir.ui.view">
+        <field name="name">pain_base.account_payment_method.list</field>
         <field name="model">account.payment.method</field>
         <field
             name="inherit_id"
-            ref="account_payment_mode.account_payment_method_tree"
+            ref="account_payment_base_oca.account_payment_method_list"
         />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
                 <field
                     name="pain_version"
                     optional="show"
-                    attrs="{'invisible': [('code', 'not in', ('sepa_direct_debit', 'sepa_credit_transfer'))]}"
+                    invisible="code not in ('sepa_direct_debit', 'sepa_credit_transfer')"
                 />
             </field>
         </field>

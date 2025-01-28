@@ -39,7 +39,7 @@
                 <field name="category_purpose" optional="hide" />
                 <field name="purpose" optional="hide" />
                 <field name="regulatory_reporting_id" optional="hide" />
-                <field name="company_country_id" invisible="1" />
+                <field name="company_country_id" column_invisible="1" />
             </field>
         </field>
     </record>

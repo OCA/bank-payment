@@ -15,23 +15,25 @@
             <field name="company_partner_bank_id" position="after">
                 <field
                     name="sepa"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
+                    invisible="payment_method_code not in ('sepa_credit_transfer', 'sepa_direct_debit')"
                 />
                 <field name="show_warning_not_sepa" invisible="1" />
                 <field
                     name="batch_booking"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
+                    invisible="payment_method_code not in ('sepa_credit_transfer', 'sepa_direct_debit')"
+                    readonly="state not in ('draft', 'open')"
                 />
                 <field
                     name="charge_bearer"
-                    attrs="{'invisible': ['|', ('sepa', '=', True), ('payment_method_code', 'not in', ('sepa_credit_transfer', 'sepa_direct_debit'))]}"
+                    invisible="sepa or payment_method_code not in ('sepa_credit_transfer', 'sepa_direct_debit')"
+                    readonly="state not in ('draft', 'open')"
                 />
             </field>
             <header position="after">
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('show_warning_not_sepa', '=', False)]}"
+                    invisible="not show_warning_not_sepa"
                 >
                         This payment order is <b
                 >not SEPA</b>. If it is not intented, check that all payment lines are in € and that all bank accounts are valid IBANs with a country prefix in the <a

@@ -6,8 +6,8 @@
 from odoo import fields, models
 
 
-class AccountPaymentMode(models.Model):
-    _inherit = "account.payment.mode"
+class AccountPaymentMethodLine(models.Model):
+    _inherit = "account.payment.method.line"
 
     initiating_party_issuer = fields.Char(
         size=35,

@@ -19,7 +19,7 @@
         "security/ir.model.access.csv",
         "views/account_payment_line.xml",
         "views/account_payment_order.xml",
-        "views/account_payment_mode.xml",
+        "views/account_payment_method_line.xml",
         "views/res_config_settings.xml",
         "views/account_payment_method.xml",
         "views/account_pain_regulatory_reporting.xml",

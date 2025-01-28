@@ -33,8 +33,6 @@ class AccountPaymentOrder(models.Model):
             ("DEBT", "Borne by Debtor"),
         ],
         default="SLEV",
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="Following service level : transaction charges are to be "
         "applied following the rules agreed in the service level "
@@ -47,8 +45,6 @@ class AccountPaymentOrder(models.Model):
         "debtor.",
     )
     batch_booking = fields.Boolean(
-        readonly=True,
-        states={"draft": [("readonly", False)], "open": [("readonly", False)]},
         tracking=True,
         help="If true, the bank statement will display only one debit "
         "line for all the wire transfers of the SEPA XML file ; if "
@@ -105,7 +101,7 @@ class AccountPaymentOrder(models.Model):
         ]
 
     @api.depends(
-        "payment_mode_id",
+        "payment_method_line_id",
         "company_partner_bank_id.acc_type",
         "company_partner_bank_id.sanitized_acc_number",
         "payment_line_ids.currency_id",
@@ -118,7 +114,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             sepa = False
             warn_not_sepa = False
-            payment_method = order.payment_mode_id.payment_method_id
+            payment_method = order.payment_method_line_id.payment_method_id
             if payment_method.pain_version:
                 sepa = True
                 if (
@@ -261,7 +257,7 @@ class AccountPaymentOrder(models.Model):
 
     def _generate_pain_nsmap(self):
         self.ensure_one()
-        pain_flavor = self.payment_mode_id.payment_method_id.pain_version
+        pain_flavor = self.payment_method_id.pain_version
         nsmap = {
             "xsi": "http://www.w3.org/2001/XMLSchema-instance",
             None: f"urn:iso:std:iso:20022:tech:xsd:{pain_flavor}",
@@ -357,16 +353,16 @@ class AccountPaymentOrder(models.Model):
         initiating_party = objectify.SubElement(parent_node, "InitgPty")
         initiating_party.Nm = my_company_name
         initiating_party_identifier = (
-            self.payment_mode_id.initiating_party_identifier
-            or self.payment_mode_id.company_id.initiating_party_identifier
+            self.payment_method_line_id.initiating_party_identifier
+            or self.company_id.initiating_party_identifier
         )
         initiating_party_issuer = (
-            self.payment_mode_id.initiating_party_issuer
-            or self.payment_mode_id.company_id.initiating_party_issuer
+            self.payment_method_line_id.initiating_party_issuer
+            or self.company_id.initiating_party_issuer
         )
         initiating_party_scheme = (
-            self.payment_mode_id.initiating_party_scheme
-            or self.payment_mode_id.company_id.initiating_party_scheme
+            self.payment_method_line_id.initiating_party_scheme
+            or self.company_id.initiating_party_scheme
         )
         # in pain.008.001.02.ch.01.xsd files they use
         # initiating_party_identifier but not initiating_party_issuer
