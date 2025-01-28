@@ -9,30 +9,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestMandate(TransactionCase):
-    def test_contrains(self):
-        with self.assertRaises(UserError):
-            self.mandate.recurrent_sequence_type = False
-            self.mandate.type = "recurrent"
-            self.mandate._check_recurring_type()
-
-    def test_onchange_bank(self):
-        self.mandate.write(
-            {"type": "recurrent", "recurrent_sequence_type": "recurring"}
-        )
-        self.mandate.validate()
-        self.mandate.partner_bank_id = self.env.ref(
-            "account_payment_mode.res_partner_2_iban"
-        )
-        self.mandate.mandate_partner_bank_change()
-        self.assertEqual(self.mandate.recurrent_sequence_type, "first")
-
-    def test_expire(self):
-        self.mandate.signature_date = fields.Date.today() + relativedelta(months=-50)
-        self.mandate.validate()
-        self.assertEqual(self.mandate.state, "valid")
-        self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
-        self.assertEqual(self.mandate.state, "expired")
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -59,3 +35,27 @@ class TestMandate(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
+
+    def test_contrains(self):
+        with self.assertRaises(UserError):
+            self.mandate.recurrent_sequence_type = False
+            self.mandate.type = "recurrent"
+            self.mandate._check_recurring_type()
+
+    def test_onchange_bank(self):
+        self.mandate.write(
+            {"type": "recurrent", "recurrent_sequence_type": "recurring"}
+        )
+        self.mandate.validate()
+        self.mandate.partner_bank_id = self.env.ref(
+            "account_payment_base_oca.res_partner_2_iban"
+        )
+        self.mandate.mandate_partner_bank_change()
+        self.assertEqual(self.mandate.recurrent_sequence_type, "first")
+
+    def test_expire(self):
+        self.mandate.signature_date = fields.Date.today() + relativedelta(months=-50)
+        self.mandate.validate()
+        self.assertEqual(self.mandate.state, "valid")
+        self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
+        self.assertEqual(self.mandate.state, "expired")

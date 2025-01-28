@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2025 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!-- I think it's good to display sepa_creditor_identifier on the company form view in addition to the accounting config page -->
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <field name="company_registry" position="after">
+                <field name="sepa_creditor_identifier" />
+            </field>
+        </field>
+    </record>
+</odoo>

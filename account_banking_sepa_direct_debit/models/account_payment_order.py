@@ -36,7 +36,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 % pain_flavor
             )
-        pay_method = self.payment_mode_id.payment_method_id
+        pay_method = self.payment_method_id
         xsd_file = pay_method._get_xsd_file_path()
         gen_args = {
             "bic_xml_tag": bic_xml_tag,
@@ -110,7 +110,7 @@ class AccountPaymentOrder(models.Model):
             )
             self._generate_charge_bearer(payment_info)
             sepa_creditor_identifier = (
-                self.payment_mode_id.sepa_creditor_identifier
+                self.payment_method_line_id.sepa_creditor_identifier
                 or self.company_id.sepa_creditor_identifier
             )
             if not sepa_creditor_identifier:
@@ -119,7 +119,7 @@ class AccountPaymentOrder(models.Model):
                         "Missing SEPA Creditor Identifier on company %(company)s "
                         "(or on payment mode %(payment_mode)s).",
                         company=self.company_id.display_name,
-                        payment_mode=self.payment_mode_id.display_name,
+                        payment_mode=self.payment_method_line_id.display_name,
                     )
                 )
             self._generate_creditor_scheme_identification(

@@ -7,8 +7,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class AccountPaymentMode(models.Model):
-    _inherit = "account.payment.mode"
+class AccountPaymentMethodLine(models.Model):
+    _inherit = "account.payment.method.line"
 
     sepa_creditor_identifier = fields.Char(
         string="SEPA Creditor Identifier",
@@ -25,8 +25,8 @@ class AccountPaymentMode(models.Model):
 
     @api.constrains("sepa_creditor_identifier")
     def _check_sepa_creditor_identifier(self):
-        for payment_mode in self:
-            ics = payment_mode.sepa_creditor_identifier
+        for pay_method_line in self:
+            ics = pay_method_line.sepa_creditor_identifier
             if ics and not is_valid(ics):
                 raise ValidationError(
                     _("The SEPA Creditor Identifier '%s' is invalid.") % ics

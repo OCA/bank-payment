@@ -6,39 +6,37 @@ import base64
 
 from lxml import etree
 
-from odoo import Command, fields
-from odoo.tests.common import TransactionCase
+from odoo import Command
+from odoo.tests import tagged
 from odoo.tools import float_compare
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-class TestSDDBase(TransactionCase):
+
+@tagged("post_install", "-at_install")
+class TestSDDBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.company_B = cls.env["res.company"].create({"name": "Company B"})
-        cls.main_company = cls.company_B
-        cls.account_payable_company_B = cls.env["account.account"].create(
+        cls.eur_currency = cls.env.ref("base.EUR")
+        cls.test_company_dict = cls.setup_other_company(
+            name="Test EUR company SEPA DD",
+            currency_id=cls.eur_currency.id,
+            sepa_creditor_identifier="FR78ZZZ424242",
+        )
+        cls.company = cls.test_company_dict["company"]
+        cls.env.user.write(
             {
-                "code": "NC1110",
-                "name": "Test Payable Account Company B",
-                "account_type": "liability_payable",
-                "reconcile": True,
-                "company_id": cls.company_B.id,
+                "groups_id": [
+                    Command.link(
+                        cls.env.ref("account_payment_order.group_account_payment").id
+                    )
+                ],
+                "company_ids": [Command.link(cls.company.id)],
             }
         )
-        cls.account_receivable_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1111",
-                "name": "Test Receivable Account Company B",
-                "account_type": "asset_receivable",
-                "reconcile": True,
-                "company_id": cls.company_B.id,
-            }
-        )
-        cls.company = cls.env["res.company"]
         cls.account_model = cls.env["account.account"]
-        cls.journal_model = cls.env["account.journal"]
         cls.payment_order_model = cls.env["account.payment.order"]
         cls.payment_line_model = cls.env["account.payment.line"]
         cls.mandate_model = cls.env["account.banking.mandate"]
@@ -49,7 +47,7 @@ class TestSDDBase(TransactionCase):
         cls.partner1 = cls.partner_model.create(
             {
                 "name": "P1",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
             }
         )
         cls.partner1_bank = cls.partner_bank_model.create(
@@ -61,7 +59,7 @@ class TestSDDBase(TransactionCase):
         cls.partner2 = cls.partner_model.create(
             {
                 "name": "P2",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
             }
         )
         cls.partner2_bank = cls.partner_bank_model.create(
@@ -70,73 +68,46 @@ class TestSDDBase(TransactionCase):
                 "partner_id": cls.partner2.id,
             }
         )
-        cls.eur_currency = cls.env.ref("base.EUR")
-        cls.setUpAdditionalAccounts()
-        cls.setUpAccountJournal()
-        cls.company_B.write(
+        cls.company_bank = cls.env["res.partner.bank"].create(
             {
-                "name": "Test EUR company",
-                "currency_id": cls.eur_currency.id,
-                "sepa_creditor_identifier": "FR78ZZZ424242",
-            }
-        )
-        (cls.partner1 + cls.partner2).write(
-            {
-                "company_id": cls.main_company.id,
-                "supplier_payment_mode_id": False,
-                "customer_payment_mode_id": False,
-                "property_account_payable_id": cls.account_payable_company_B.id,
-                "property_account_receivable_id": cls.account_receivable_company_B.id,
-            }
-        )
-        cls.company_bank = cls.env.ref("account_payment_mode.main_company_iban").copy(
-            {
-                "company_id": cls.main_company.id,
-                "partner_id": cls.main_company.partner_id.id,
+                "company_id": cls.company.id,
+                "partner_id": cls.company.partner_id.id,
                 "bank_id": (
-                    cls.env.ref("account_payment_mode.bank_la_banque_postale").id
+                    cls.env.ref("account_payment_base_oca.bank_la_banque_postale").id
                 ),
                 "acc_number": "ES52 0182 2782 5688 3882 1868",
             }
         )
         # create journal
-        cls.bank_journal = cls.journal_model.create(
+        cls.bank_journal = cls.test_company_dict["default_journal_bank"]
+        cls.bank_journal.write({"bank_account_id": cls.company_bank.id})
+        cls.payment_account = cls.env["account.account"].create(
             {
-                "company_id": cls.main_company.id,
-                "name": "Company Bank journal",
-                "type": "bank",
-                "code": "BNKFC",
-                "payment_sequence": False,
-                "bank_account_id": cls.company_bank.id,
-                "bank_id": cls.company_bank.bank_id.id,
-                "inbound_payment_method_line_ids": [
-                    Command.create(
-                        {
-                            "payment_method_id": cls.env.ref(
-                                "account_banking_sepa_direct_debit.sepa_direct_debit"
-                            ).id,
-                            "payment_account_id": cls.account_expense_company_B.id,
-                        },
-                    )
-                ],
+                "code": "SEPACTpay",
+                "name": "Test SEPA CT Account Company B",
+                "account_type": "liability_current",
+                "reconcile": True,
+                "company_ids": [Command.link(cls.company.id)],
             }
         )
+
         # create payment mode
-        cls.payment_mode = cls.env["account.payment.mode"].create(
+        cls.payment_method_line = cls.env["account.payment.method.line"].create(
             {
                 "name": "SEPA direct debit test",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
                 "payment_method_id": cls.env.ref(
                     "account_banking_sepa_direct_debit.sepa_direct_debit"
                 ).id,
                 "bank_account_link": "fixed",
-                "fixed_journal_id": cls.bank_journal.id,
+                "journal_id": cls.bank_journal.id,
+                "payment_account_id": cls.payment_account.id,
             }
         )
         cls.partner1_mandate = cls.mandate_model.create(
             {
                 "partner_bank_id": cls.partner1_bank.id,
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
                 "signature_date": "2023-11-05",
                 "state": "valid",
                 "unique_mandate_reference": "BMTESTP1",
@@ -145,94 +116,10 @@ class TestSDDBase(TransactionCase):
         cls.partner2_mandate = cls.mandate_model.create(
             {
                 "partner_bank_id": cls.partner2_bank.id,
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
                 "signature_date": "2023-10-05",
                 "state": "valid",
                 "unique_mandate_reference": "BMTESTP2",
-            }
-        )
-
-    @classmethod
-    def setUpAdditionalAccounts(cls):
-        """Set up some addionnal accounts: expenses, revenue, ..."""
-        cls.account_income = cls.env["account.account"].create(
-            {
-                "code": "NC1112",
-                "name": "Sale - Test Account",
-                "account_type": "asset_current",
-            }
-        )
-        cls.account_expense = cls.env["account.account"].create(
-            {
-                "code": "NC1113",
-                "name": "HR Expense - Test Purchase Account",
-                "account_type": "expense",
-            }
-        )
-        cls.account_revenue = cls.env["account.account"].create(
-            {
-                "code": "NC1114",
-                "name": "Sales - Test Sales Account",
-                "account_type": "expense_direct_cost",
-                "reconcile": True,
-            }
-        )
-        cls.account_income_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1112",
-                "name": "Sale - Test Account Company B",
-                "account_type": "expense_direct_cost",
-                "company_id": cls.company_B.id,
-            }
-        )
-        cls.account_expense_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1113",
-                "name": "HR Expense - Test Purchase Account Company B",
-                "account_type": "expense",
-                "company_id": cls.company_B.id,
-            }
-        )
-        cls.account_revenue_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1114",
-                "name": "Sales - Test Sales Account Company B",
-                "account_type": "expense_direct_cost",
-                "reconcile": True,
-                "company_id": cls.company_B.id,
-            }
-        )
-
-    @classmethod
-    def setUpAccountJournal(cls):
-        # Set up some journals
-        cls.journal_purchase_company_B = cls.env["account.journal"].create(
-            {
-                "name": "Purchase Journal Company B - Test",
-                "code": "AJ-PURC",
-                "type": "purchase",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
-                "default_account_id": cls.account_expense_company_B.id,
-            }
-        )
-        cls.journal_sale_company_B = cls.env["account.journal"].create(
-            {
-                "name": "Sale Journal Company B - Test",
-                "code": "AJ-SALE",
-                "type": "sale",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
-                "default_account_id": cls.account_income_company_B.id,
-            }
-        )
-        cls.journal_general_company_B = cls.env["account.journal"].create(
-            {
-                "name": "General Journal Company B - Test",
-                "code": "AJ-GENERAL",
-                "type": "general",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
             }
         )
 
@@ -241,13 +128,13 @@ class TestSDDBase(TransactionCase):
         invoice1 = self.create_invoice(self.partner1.id, self.partner2_mandate, 42.0)
         self.partner1_mandate.type = "oneoff"
         invoice2 = self.create_invoice(self.partner2.id, self.partner1_mandate, 11.0)
-        self.payment_mode.payment_method_id.mandate_required = True
+        self.payment_method_line.payment_method_id.mandate_required = True
         for inv in [invoice1, invoice2]:
             action = inv.create_account_payment_line()
         self.assertEqual(action["res_model"], "account.payment.order")
         payment_order = self.payment_order_model.browse(action["res_id"])
         self.assertEqual(payment_order.payment_type, "inbound")
-        self.assertEqual(payment_order.payment_mode_id, self.payment_mode)
+        self.assertEqual(payment_order.payment_method_line_id, self.payment_method_line)
         self.assertEqual(payment_order.journal_id, self.bank_journal)
         # Check payment line
         pay_lines = self.payment_line_model.search(
@@ -321,7 +208,7 @@ class TestSDDBase(TransactionCase):
         line_vals = {
             "name": "Great service",
             "quantity": 1,
-            "account_id": self.account_revenue_company_B.id,
+            "account_id": self.test_company_dict["default_account_revenue"].id,
             "price_unit": price_unit,
         }
         invoice = self.invoice_model.create(
@@ -330,9 +217,8 @@ class TestSDDBase(TransactionCase):
                 "reference_type": "free",
                 "currency_id": self.env.ref("base.EUR").id,
                 "move_type": inv_type,
-                "journal_id": self.journal_sale_company_B.id,
-                "date": fields.Date.today(),
-                "payment_mode_id": self.payment_mode.id,
+                "company_id": self.company.id,
+                "preferred_payment_method_line_id": self.payment_method_line.id,
                 "mandate_id": mandate.id,
                 "invoice_line_ids": [Command.create(line_vals)],
             }
@@ -343,13 +229,13 @@ class TestSDDBase(TransactionCase):
 
 class TestSDD(TestSDDBase):
     def test_pain_008_001_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.02"
+        self.payment_method_line.payment_method_id.pain_version = "pain.008.001.02"
         self.check_sdd()
 
     def test_pain_0008_001_08(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.08"
+        self.payment_method_line.payment_method_id.pain_version = "pain.008.001.08"
         self.check_sdd()
 
     def test_pain_008_003_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.003.02"
+        self.payment_method_line.payment_method_id.pain_version = "pain.008.003.02"
         self.check_sdd()
