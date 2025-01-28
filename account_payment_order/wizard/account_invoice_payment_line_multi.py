@@ -6,7 +6,7 @@ from odoo import models
 
 class AccountInvoicePaymentLineMulti(models.TransientModel):
     _name = "account.invoice.payment.line.multi"
-    _description = "Create payment lines from invoice tree view"
+    _description = "Create payment lines from invoice list view"
 
     def run(self):
         self.ensure_one()

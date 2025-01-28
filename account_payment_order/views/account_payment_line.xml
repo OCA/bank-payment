@@ -24,7 +24,7 @@
                             name="partner_bank_id"
                             context="{'default_partner_id': partner_id}"
                             domain="[('partner_id', '=', partner_id)]"
-                            attrs="{'required': [('bank_account_required', '=', True)]}"
+                            required="bank_account_required"
                         />
                         <field name="bank_account_required" invisible="1" />
                         <field name="date" />
@@ -49,7 +49,7 @@
                     col="12"
                     name="account_payment"
                     string="Payment Transaction"
-                    attrs="{'invisible': [('payment_ids', '=', [])]}"
+                    invisible="payment_ids == []"
                 >
                     <field name="payment_ids" colspan="12" nolabel="1" />
                 </group>
@@ -74,13 +74,13 @@
         </field>
     </record>
     <record id="account_payment_line_tree" model="ir.ui.view">
-        <field name="name">account.payment.line.tree</field>
+        <field name="name">account.payment.line.list</field>
         <field name="model">account.payment.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field
                     name="order_id"
-                    invisible="not context.get('account_payment_line_main_view')"
+                    column_invisible="not context.get('account_payment_line_main_view')"
                 />
                 <field name="partner_id" />
                 <field name="communication" />
@@ -90,21 +90,21 @@
                 <field name="ml_maturity_date" optional="show" />
                 <field name="date" />
                 <field name="amount_currency" string="Amount" />
-                <field name="currency_id" invisible="1" />
                 <field name="name" optional="show" />
                 <field
                     name="amount_company_currency"
                     sum="Total in Company Currency"
-                    invisible="1"
+                    column_invisible="1"
                 />
-                <field name="payment_type" invisible="1" />
-            </tree>
+                <field name="payment_type" column_invisible="1" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
         </field>
     </record>
     <record id="account_payment_line_action" model="ir.actions.act_window">
         <field name="name">Payment Lines</field>
         <field name="res_model">account.payment.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'account_payment_line_main_view': True}</field>
     </record>
 </odoo>

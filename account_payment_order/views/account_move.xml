@@ -7,7 +7,7 @@
     <record id="view_move_form" model="ir.ui.view">
         <field name="name">account_payment_order.view_move_form</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="account_payment_partner.view_move_form" />
+        <field name="inherit_id" ref="account_payment_base_oca.view_move_form" />
         <field name="arch" type="xml">
             <button id="account_invoice_payment_btn" position="after">
                 <!-- For customer refunds:
@@ -21,29 +21,21 @@
                     type="object"
                     string="Add to Debit Order"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', '|',
-                                              ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'posted'),
-                                              ('move_type', 'not in', ('out_invoice', 'out_refund'))
-                                             ]}"
+                    invisible="not payment_order_ok or state != 'posted' or move_type not in ('out_invoice', 'out_refund') or payment_state not in ('not_paid', 'partial')"
                 />
                 <button
                     name="create_account_payment_line"
                     type="object"
                     string="Add to Payment Order"
                     groups="account_payment_order.group_account_payment"
-                    attrs="{'invisible': ['|', '|',
-                                              ('payment_order_ok', '=', False),
-                                              ('state', '!=', 'posted'),
-                                              ('move_type', 'not in', ('in_invoice', 'in_refund'))
-                                             ]}"
+                    invisible="not payment_order_ok or state != 'posted' or move_type not in ('in_invoice', 'in_refund') or payment_state not in ('not_paid', 'partial')"
                 />
             </button>
             <div name="button_box" position="inside">
                 <button
                     name="action_payment_lines"
                     type="object"
-                    attrs="{'invisible': [('payment_line_count', '=', 0)]}"
+                    invisible="not payment_line_count"
                     icon="fa-bars"
                     help="Payment Order Lines"
                     groups="account_payment_order.group_account_payment"
@@ -56,11 +48,11 @@
                     />
                 </button>
             </div>
-            <field name="payment_mode_id" position="after">
+            <field name="show_name_warning" position="after">
                 <field name="payment_order_ok" invisible="1" />
             </field>
             <field name="payment_reference" position="before">
-                <field name="reference_type" />
+                <field name="reference_type" readonly="state != 'draft'" />
             </field>
         </field>
     </record>
@@ -80,7 +72,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-            <button name="action_register_payment" position="after">
+            <button name="action_force_register_payment" position="after">
                 <button
                     name="%(account_invoice_create_account_payment_line_action)d"
                     type="action"

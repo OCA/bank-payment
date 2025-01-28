@@ -3,53 +3,55 @@
 
 from unittest.mock import patch
 
-from odoo import Command
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 
 
+@tagged("post_install", "-at_install")
 class TestPaymentMode(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
 
         def _get_payment_method_information(self):
             res = Method_get_payment_method_information(self)
-            res["IN"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
-            res["IN2"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
-            res["electronic_out"] = {"mode": "multi", "domain": [("type", "=", "bank")]}
+            res["IN"] = {"mode": "multi", "type": ("bank",)}
+            res["IN2"] = {"mode": "multi", "type": ("bank",)}
+            res["electronic_out"] = {"mode": "multi", "type": ("bank",)}
             return res
 
         # Company
-        self.company = self.env.ref("base.main_company")
+        cls.company = cls.env.ref("base.main_company")
 
-        self.journal_c1 = self.env["account.journal"].create(
+        cls.journal_c1 = cls.env["account.journal"].create(
             {
                 "name": "Journal 1",
                 "code": "J1",
                 "type": "bank",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
 
-        self.account = self.env["account.account"].search(
-            [("reconcile", "=", True), ("company_id", "=", self.company.id)], limit=1
+        cls.account = cls.env["account.account"].search(
+            [("reconcile", "=", True), ("company_ids", "in", cls.company.id)], limit=1
         )
 
-        self.manual_out = self.env.ref("account.account_payment_method_manual_out")
+        cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
 
-        self.manual_in = self.env.ref("account.account_payment_method_manual_in")
+        cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
 
         with patch.object(
             AccountPaymentMethod,
             "_get_payment_method_information",
             _get_payment_method_information,
         ):
-            self.electronic_out = self.env["account.payment.method"].create(
+            cls.electronic_out = cls.env["account.payment.method"].create(
                 {
                     "name": "Electronic Out",
                     "code": "electronic_out",
@@ -57,33 +59,32 @@ class TestPaymentMode(TransactionCase):
                 }
             )
 
-        self.payment_mode_c1 = self.env["account.payment.mode"].create(
+        cls.payment_method_line_c1 = cls.env["account.payment.method.line"].create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
                 "bank_account_link": "variable",
-                "payment_method_id": self.manual_out.id,
-                "company_id": self.company.id,
-                "fixed_journal_id": self.journal_c1.id,
-                "variable_journal_ids": [Command.set([self.journal_c1.id])],
+                "payment_method_id": cls.manual_out.id,
+                "company_id": cls.company.id,
+                "journal_id": cls.journal_c1.id,
             }
         )
 
     def test_onchange_payment_type(self):
-        self.payment_mode_c1.payment_method_id = self.manual_in
+        self.payment_method_line_c1.payment_method_id = self.manual_in
         self.assertTrue(
             all(
                 [
                     journal.type == "sale"
-                    for journal in self.payment_mode_c1.default_journal_ids
+                    for journal in self.payment_method_line_c1.default_journal_ids
                 ]
             )
         )
-        self.payment_mode_c1.payment_method_id = self.manual_out
+        self.payment_method_line_c1.payment_method_id = self.manual_out
         self.assertTrue(
             all(
                 [
                     journal.type == "purchase"
-                    for journal in self.payment_mode_c1.default_journal_ids
+                    for journal in self.payment_method_line_c1.default_journal_ids
                 ]
             )
         )

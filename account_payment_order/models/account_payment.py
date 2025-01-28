@@ -31,11 +31,11 @@ class AccountPayment(models.Model):
                 )
             to_exclude = pay._get_payment_method_codes_to_exclude()
             if to_exclude:
-                pay.available_payment_method_line_ids = (
-                    pay.available_payment_method_line_ids.filtered(
-                        lambda x: x.code not in to_exclude
-                    )
-                )
+                pay.available_payment_method_line_ids = [
+                    line.id
+                    for line in pay.available_payment_method_line_ids
+                    if line.code not in to_exclude
+                ]
         return res
 
     @api.depends("payment_line_ids", "payment_line_ids.date")

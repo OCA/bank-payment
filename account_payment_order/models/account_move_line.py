@@ -11,7 +11,7 @@ class AccountMoveLine(models.Model):
     payment_line_ids = fields.One2many(
         comodel_name="account.payment.line",
         inverse_name="move_line_id",
-        string="Payment lines",
+        string="Payment Lines",
         check_company=True,
     )
 

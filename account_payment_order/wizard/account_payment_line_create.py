@@ -4,7 +4,7 @@
 # © 2015-2016 Akretion (<https://www.akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -26,7 +26,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
     )
-    allow_blocked = fields.Boolean(string="Allow Litigation Journal Items")
     invoice = fields.Boolean(string="Linked to an Invoice or Refund")
     date_type = fields.Selection(
         selection=[("due", "Due Date"), ("move", "Move Date")],
@@ -58,14 +57,14 @@ class AccountPaymentLineCreate(models.TransientModel):
         ), "active_model should be payment.order"
         assert context.get("active_id"), "Missing active_id in context !"
         order = self.env["account.payment.order"].browse(context["active_id"])
-        mode = order.payment_mode_id
+        method_line = order.payment_method_line_id
         res.update(
             {
-                "journal_ids": mode.default_journal_ids.ids or False,
-                "target_move": mode.default_target_move,
-                "invoice": mode.default_invoice,
-                "date_type": mode.default_date_type,
-                "payment_mode": mode.default_payment_mode,
+                "journal_ids": [Command.set(method_line.default_journal_ids.ids)],
+                "target_move": method_line.default_target_move,
+                "invoice": method_line.default_invoice,
+                "date_type": method_line.default_date_type,
+                "payment_mode": method_line.default_payment_mode,
                 "order_id": order.id,
             }
         )
@@ -76,6 +75,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         domain = [
             ("reconciled", "=", False),
             ("company_id", "=", self.order_id.company_id.id),
+            ("move_id.payment_state", "in", ("not_paid", "partial")),
         ]
         if self.journal_ids:
             domain += [("journal_id", "in", self.journal_ids.ids)]
@@ -85,8 +85,6 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [("move_id.state", "=", "posted")]
         else:
             domain += [("move_id.state", "in", ("draft", "posted"))]
-        if not self.allow_blocked:
-            domain += [("blocked", "!=", True)]
         if self.date_type == "due":
             domain += [
                 "|",
@@ -106,14 +104,20 @@ class AccountPaymentLineCreate(models.TransientModel):
         if self.payment_mode:
             if self.payment_mode == "same":
                 domain.append(
-                    ("payment_mode_id", "=", self.order_id.payment_mode_id.id)
+                    (
+                        "move_id.preferred_payment_method_line_id",
+                        "=",
+                        self.order_id.payment_method_line_id.id,
+                    )
                 )
             elif self.payment_mode == "same_or_null":
-                domain += [
-                    "|",
-                    ("payment_mode_id", "=", False),
-                    ("payment_mode_id", "=", self.order_id.payment_mode_id.id),
-                ]
+                domain.append(
+                    (
+                        "move_id.preferred_payment_method_line_id",
+                        "in",
+                        (False, self.order_id.payment_method_line_id.id),
+                    )
+                )
 
         if self.order_id.payment_type == "outbound":
             # For payables, propose all unreconciled credit lines,
@@ -153,8 +157,7 @@ class AccountPaymentLineCreate(models.TransientModel):
             ]
         )
         if paylines:
-            move_lines_ids = [payline.move_line_id.id for payline in paylines]
-            domain += [("id", "not in", move_lines_ids)]
+            domain += [("id", "not in", paylines.move_line_id.ids)]
         return domain
 
     def populate(self):
@@ -179,7 +182,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         "journal_ids",
         "invoice",
         "target_move",
-        "allow_blocked",
         "payment_mode",
         "partner_ids",
     )

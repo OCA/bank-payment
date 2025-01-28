@@ -10,46 +10,46 @@
                         name="%(account_payment_line_create_action)d"
                         type="action"
                         string="Create Payment Lines from Journal Items"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
                     <button
                         name="draft2open"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Confirm Payments"
                         class="oe_highlight"
                     />
                     <button
                         name="open2generated"
                         type="object"
-                        states="open"
+                        invisible="state != 'open'"
                         string="Generate Payment File"
                         class="oe_highlight"
                     />
                     <button
                         name="generated2uploaded"
                         type="object"
-                        states="generated"
+                        invisible="state != 'generated'"
                         string="File Successfully Uploaded"
                         class="oe_highlight"
                     />
                     <button
                         name="cancel2draft"
                         type="object"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         string="Back to Draft"
                     />
                     <button
                         name="action_cancel"
                         type="object"
-                        states="draft,open,generated"
+                        invisible="state not in ('draft', 'open', 'generated')"
                         string="Cancel Payments"
                     />
                     <button
                         name="action_uploaded_cancel"
                         type="object"
-                        states="uploaded"
+                        invisible="state != 'uploaded'"
                         string="Cancel Payments"
                     />
                     <field
@@ -81,10 +81,13 @@
                     </div>
                     <group name="head" col="2">
                         <group name="head-left">
-                            <field name="payment_mode_id" />
+                            <field
+                                name="payment_method_line_id"
+                                readonly="state != 'draft'"
+                            />
                             <field name="payment_method_code" invisible="1" />
                             <field name="allowed_journal_ids" invisible="1" />
-                            <field name="journal_id" />
+                            <field name="journal_id" readonly="state != 'draft'" />
                             <field name="bank_account_link" invisible="1" />
                             <field name="company_partner_bank_id" />
                             <field
@@ -94,31 +97,39 @@
                             <field name="payment_type" invisible="1" />
                         </group>
                         <group name="head-right">
-                            <field name="date_prefered" />
+                            <field name="date_prefered" readonly="state != 'draft'" />
                             <!-- {'datepicker': {'warn_future': true}} works well... but there is
                             no 'warn_past' option in v16 unfortunately.
                             It would be useful for "date_scheduled" ! -->
                             <field
                                 name="date_scheduled"
-                                attrs="{'invisible': [('date_prefered', '!=', 'fixed')], 'required': [('date_prefered', '=', 'fixed')]}"
+                                invisible="date_prefered != 'fixed'"
+                                required="date_prefered == 'fixed'"
+                                readonly="state != 'draft'"
                             />
                             <field
                                 name="payment_file_datas"
                                 filename="payment_file_name"
-                                states="generated,uploaded"
+                                invisible="state not in ('generated', 'uploaded')"
                             />
                             <field name="payment_file_name" invisible="1" />
                             <field name="payment_file_id" invisible="1" />
-                            <field name="date_generated" states="generated,uploaded" />
+                            <field
+                                name="date_generated"
+                                invisible="state not in ('generated', 'uploaded')"
+                            />
                             <field
                                 name="generated_user_id"
-                                states="generated,uploaded"
+                                invisible="state not in ('generated', 'uploaded')"
                             />
-                            <field name="date_uploaded" states="uploaded" />
+                            <field
+                                name="date_uploaded"
+                                invisible="state != 'uploaded'"
+                            />
                             <field name="description" />
                             <field
                                 name="payment_count"
-                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                                invisible="state in ('draft', 'cancel')"
                             />
                         </group>
                     </group>
@@ -126,38 +137,35 @@
                         <page name="payment-lines" string="Transactions">
                             <field
                                 name="payment_line_ids"
+                                readonly="state != 'draft'"
                                 context="{'default_payment_type': payment_type}"
                             />
                         </page>
                         <page
                             name="payment-lines"
                             string="Payment Transactions"
-                            attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"
+                            invisible="state in ('draft', 'cancel')"
                         >
                             <field
                                 name="payment_ids"
                                 edit="0"
                                 create="0"
-                                context="{'tree_view_ref': 'account_payment_order.view_account_payment_tree_payment_order'}"
+                                context="{'list_view_ref': 'account_payment_order.view_account_payment_tree_payment_order'}"
                             />
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
     <record id="account_payment_order_tree" model="ir.ui.view">
-        <field name="name">account.payment.order.tree</field>
+        <field name="name">account.payment.order.list</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" decoration-bf="1" />
-                <field name="payment_mode_id" />
+                <field name="payment_method_line_id" />
                 <field name="journal_id" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="date_uploaded" />
@@ -175,14 +183,14 @@
                     decoration-muted="state == 'cancel'"
                     widget="badge"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_order_search" model="ir.ui.view">
         <field name="name">account.payment.order.search</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <search string="Search Payment Orders">
+            <search>
                 <field
                     name="description"
                     filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"
@@ -211,9 +219,9 @@
                 />
                 <group string="Group By" name="groupby">
                     <filter
-                        name="payment_mode_groupby"
+                        name="payment_method_line_groupby"
                         string="Payment Mode"
-                        context="{'group_by': 'payment_mode_id'}"
+                        context="{'group_by': 'payment_method_line_id'}"
                     />
                     <filter
                         name="journal_groupby"
@@ -262,14 +270,14 @@
     <record id="account_payment_order_outbound_action" model="ir.actions.act_window">
         <field name="name">Payment Orders</field>
         <field name="res_model">account.payment.order</field>
-        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="view_mode">list,form,pivot,graph</field>
         <field name="domain">[('payment_type', '=', 'outbound')]</field>
         <field name="context">{'default_payment_type': 'outbound'}</field>
     </record>
     <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
         <field name="name">Debit Orders</field>
         <field name="res_model">account.payment.order</field>
-        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="view_mode">list,form,pivot,graph</field>
         <field name="domain">[('payment_type', '=', 'inbound')]</field>
         <field name="context">{'default_payment_type': 'inbound'}</field>
     </record>

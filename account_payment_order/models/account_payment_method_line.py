@@ -7,9 +7,12 @@
 from odoo import api, fields, models
 
 
-class AccountPaymentMode(models.Model):
-    _inherit = "account.payment.mode"
+class AccountPaymentMethodLine(models.Model):
+    _inherit = "account.payment.method.line"
 
+    # For payment_order_ok, we don't define it as a related field
+    # but as a computed field to allow to change the value on the
+    # account.payment.method.line (useful to enable the option on a manual method)
     payment_order_ok = fields.Boolean(
         string="Selectable in Payment Orders",
         compute="_compute_payment_order_ok",
@@ -97,12 +100,12 @@ class AccountPaymentMode(models.Model):
 
     @api.depends("payment_method_id")
     def _compute_default_date_prefered(self):
-        for mode in self:
+        for line in self:
             if (
-                mode.payment_method_id.payment_type == "inbound"
-                and mode.payment_method_id.payment_order_ok
+                line.payment_method_id.payment_type == "inbound"
+                and line.payment_method_id.payment_order_ok
             ):
-                mode.default_date_prefered = "due"
+                line.default_date_prefered = "due"
 
     @api.depends("payment_method_id", "company_id")
     def _compute_default_journal_ids(self):
@@ -110,21 +113,21 @@ class AccountPaymentMode(models.Model):
             "outbound": "purchase",
             "inbound": "sale",
         }
-        for mode in self:
+        for line in self:
             if (
-                mode.payment_method_id
-                and mode.payment_method_id.payment_type in ptype_map
+                line.payment_method_id
+                and line.payment_method_id.payment_type in ptype_map
             ):
-                mode.default_journal_ids = (
+                line.default_journal_ids = (
                     self.env["account.journal"]
                     .search(
                         [
                             (
                                 "type",
                                 "=",
-                                ptype_map[mode.payment_method_id.payment_type],
+                                ptype_map[line.payment_method_id.payment_type],
                             ),
-                            ("company_id", "=", mode.company_id.id),
+                            ("company_id", "=", line.company_id.id),
                         ]
                     )
                     .ids

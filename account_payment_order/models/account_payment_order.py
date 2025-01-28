@@ -15,16 +15,19 @@ class AccountPaymentOrder(models.Model):
     _order = "id desc"
     _check_company_auto = True
 
-    name = fields.Char(string="Number", readonly=True, copy=False)
-    payment_mode_id = fields.Many2one(
-        comodel_name="account.payment.mode",
+    name = fields.Char(
+        string="Reference", readonly=True, copy=False, default=lambda self: _("New")
+    )
+    payment_method_line_id = fields.Many2one(
+        comodel_name="account.payment.method.line",
         required=True,
         ondelete="restrict",
         tracking=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         check_company=True,
-        domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]",
+        index=True,
+        domain="[('payment_order_ok', '=', True), "
+        "('payment_type', '=', payment_type), ('company_id', '=', company_id)]",
+        string="Payment Mode",
     )
     payment_type = fields.Selection(
         selection=[("inbound", "Inbound"), ("outbound", "Outbound")],
@@ -33,22 +36,22 @@ class AccountPaymentOrder(models.Model):
     )
     payment_method_id = fields.Many2one(
         comodel_name="account.payment.method",
-        related="payment_mode_id.payment_method_id",
+        related="payment_method_line_id.payment_method_id",
         store=True,
     )
     payment_method_code = fields.Char(
-        related="payment_mode_id.payment_method_id.code", store=True
+        related="payment_method_line_id.payment_method_id.code", store=True
     )
     company_id = fields.Many2one(
-        related="payment_mode_id.company_id",
-        store=True,
+        "res.company",
+        ondelete="cascade",
+        required=True,
+        index=True,
+        default=lambda self: self.env.company,
     )
-    company_currency_id = fields.Many2one(
-        related="payment_mode_id.company_id.currency_id",
-        store=True,
-    )
+    company_currency_id = fields.Many2one(related="company_id.currency_id", store=True)
     bank_account_link = fields.Selection(
-        related="payment_mode_id.bank_account_link",
+        related="payment_method_line_id.bank_account_link",
     )
     allowed_journal_ids = fields.Many2many(
         comodel_name="account.journal",
@@ -62,7 +65,6 @@ class AccountPaymentOrder(models.Model):
         precompute=True,
         string="Bank Journal",
         ondelete="restrict",
-        states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
         domain="[('id', 'in', allowed_journal_ids)]",
@@ -86,6 +88,7 @@ class AccountPaymentOrder(models.Model):
         copy=False,
         default="draft",
         tracking=True,
+        index=True,
     )
     date_prefered = fields.Selection(
         selection=[
@@ -98,14 +101,10 @@ class AccountPaymentOrder(models.Model):
         precompute=True,
         string="Payment Execution Date Type",
         required=True,
-        default="due",
         tracking=True,
-        states={"draft": [("readonly", False)]},
     )
     date_scheduled = fields.Date(
         string="Payment Execution Date",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         help="Select a requested date of execution if you selected 'Due Date' "
         "as the Payment Execution Date Type.",
@@ -124,8 +123,6 @@ class AccountPaymentOrder(models.Model):
         comodel_name="account.payment.line",
         inverse_name="order_id",
         string="Transactions",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     payment_ids = fields.One2many(
         comodel_name="account.payment",
@@ -167,15 +164,20 @@ class AccountPaymentOrder(models.Model):
         )
     ]
 
-    @api.depends("payment_mode_id")
+    @api.depends("payment_method_line_id")
     def _compute_allowed_journal_ids(self):
         for record in self:
-            if record.payment_mode_id.bank_account_link == "fixed":
-                record.allowed_journal_ids = record.payment_mode_id.fixed_journal_id
-            elif record.payment_mode_id.bank_account_link == "variable":
-                record.allowed_journal_ids = record.payment_mode_id.variable_journal_ids
-            else:
-                record.allowed_journal_ids = False
+            allowed_journals = False
+            if record.payment_method_line_id:
+                allowed_journals = record.payment_method_line_id.journal_id
+                if (
+                    record.payment_method_line_id.bank_account_link == "variable"
+                    and record.payment_method_line_id.alternative_journal_ids
+                ):
+                    allowed_journals |= (
+                        record.payment_method_line_id.alternative_journal_ids
+                    )
+            record.allowed_journal_ids = allowed_journals
 
     def unlink(self):
         for order in self:
@@ -190,24 +192,31 @@ class AccountPaymentOrder(models.Model):
                 order.payment_file_id.unlink()
         return super().unlink()
 
-    @api.constrains("payment_type", "payment_mode_id")
-    def payment_order_constraints(self):
+    @api.constrains("payment_type", "payment_method_line_id")
+    def _payment_order_constraints(self):
         for order in self:
             if (
-                order.payment_mode_id.payment_type
-                and order.payment_mode_id.payment_type != order.payment_type
+                order.payment_method_line_id
+                and order.payment_method_line_id.payment_type != order.payment_type
             ):
+                payment_type2label = dict(
+                    self.env["account.payment.method"].fields_get(
+                        "payment_type", "selection"
+                    )["payment_type"]["selection"]
+                )
                 raise ValidationError(
                     _(
                         "The payment type (%(ptype)s) is not the same as the payment "
                         "type of the payment mode (%(pmode)s)",
-                        ptype=order.payment_type,
-                        pmode=order.payment_mode_id.payment_type,
+                        ptype=payment_type2label[order.payment_type],
+                        pmode=payment_type2label[
+                            order.payment_method_line_id.payment_type
+                        ],
                     )
                 )
 
     @api.constrains("date_scheduled")
-    def check_date_scheduled(self):
+    def _check_date_scheduled(self):
         today = fields.Date.context_today(self)
         for order in self:
             if order.date_scheduled:
@@ -223,6 +232,7 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends("payment_line_ids", "payment_line_ids.amount_company_currency")
     def _compute_total(self):
+        # TODO read_group ?
         for rec in self:
             rec.total_company_currency = sum(
                 rec.mapped("payment_line_ids.amount_company_currency") or [0.0]
@@ -230,66 +240,60 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends("payment_ids")
     def _compute_payment_count(self):
-        rg_res = self.env["account.payment"].read_group(
+        rg_res = self.env["account.payment"]._read_group(
             [("payment_order_id", "in", self.ids)],
-            ["payment_order_id"],
-            ["payment_order_id"],
+            groupby=["payment_order_id"],
+            aggregates=["__count"],
         )
-        mapped_data = {
-            x["payment_order_id"][0]: x["payment_order_id_count"] for x in rg_res
-        }
+        mapped_data = {order.id: pay_count for (order, pay_count) in rg_res}
         for order in self:
             order.payment_count = mapped_data.get(order.id, 0)
 
     @api.depends("move_ids")
     def _compute_move_count(self):
-        rg_res = self.env["account.move"].read_group(
+        rg_res = self.env["account.move"]._read_group(
             [("payment_order_id", "in", self.ids)],
-            ["payment_order_id"],
-            ["payment_order_id"],
+            groupby=["payment_order_id"],
+            aggregates=["__count"],
         )
-        mapped_data = {
-            x["payment_order_id"][0]: x["payment_order_id_count"] for x in rg_res
-        }
+        mapped_data = {order.id: move_count for (order, move_count) in rg_res}
         for order in self:
             order.move_count = mapped_data.get(order.id, 0)
 
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            payment_mode = False
-            if vals.get("payment_mode_id"):
-                payment_mode = self.env["account.payment.mode"].browse(
-                    vals["payment_mode_id"]
+            if "company_id" in vals:
+                self = self.with_company(vals["company_id"])
+            payment_method_line = False
+            if vals.get("payment_method_line_id"):
+                payment_method_line = self.env["account.payment.method.line"].browse(
+                    vals["payment_method_line_id"]
                 )
-                vals["payment_type"] = payment_mode.payment_type
-            if vals.get("name", "New") == "New":
-                if payment_mode and payment_mode.specific_sequence_id:
-                    vals["name"] = payment_mode.specific_sequence_id.next_by_id()
+            if vals.get("name", _("New")) == _("New"):
+                if payment_method_line and payment_method_line.specific_sequence_id:
+                    vals["name"] = payment_method_line.specific_sequence_id.next_by_id()
                 else:
-                    vals["name"] = (
-                        self.env["ir.sequence"].next_by_code("account.payment.order")
-                        or "New"
-                    )
+                    vals["name"] = self.env["ir.sequence"].next_by_code(
+                        "account.payment.order"
+                    ) or _("New")
         return super().create(vals_list)
 
-    @api.depends("payment_mode_id")
+    @api.depends("payment_method_line_id")
     def _compute_date_prefered(self):
         for order in self:
-            if order.payment_mode_id.default_date_prefered:
-                order.date_prefered = order.payment_mode_id.default_date_prefered
+            if order.payment_method_line_id.default_date_prefered:
+                order.date_prefered = order.payment_method_line_id.default_date_prefered
+            else:
+                order.date_prefered = "due"
 
-    @api.depends("payment_mode_id")
+    @api.depends("payment_method_line_id")
     def _compute_journal_id(self):
         for order in self:
-            payment_mode = order.payment_mode_id
-            if payment_mode.bank_account_link == "fixed":
-                order.journal_id = payment_mode.fixed_journal_id.id
-            elif (
-                payment_mode.bank_account_link == "variable"
-                and len(payment_mode.variable_journal_ids) == 1
-            ):
-                order.journal_id = payment_mode.variable_journal_ids.id
+            if order.payment_method_line_id.journal_id:
+                order.journal_id = order.payment_method_line_id.journal_id
+            else:
+                order.journal_id = False
 
     def action_uploaded_cancel(self):
         self.action_cancel()
@@ -360,7 +364,7 @@ class AccountPaymentOrder(models.Model):
                 # inbound: check option no_debit_before_maturity
                 if (
                     order.payment_type == "inbound"
-                    and order.payment_mode_id.no_debit_before_maturity
+                    and order.payment_method_line_id.no_debit_before_maturity
                     and payline.ml_maturity_date
                     and requested_date < payline.ml_maturity_date
                 ):
@@ -370,23 +374,17 @@ class AccountPaymentOrder(models.Model):
                             "'Disallow Debit Before Maturity Date'. The "
                             "payment line %(pline)s has a maturity date %(mdate)s "
                             "which is after the computed payment date %(pdate)s.",
-                            pmode=order.payment_mode_id.name,
+                            pmode=order.payment_method_line_id.display_name,
                             pline=payline.name,
                             mdate=payline.ml_maturity_date,
                             pdate=requested_date,
                         )
                     )
-                # Write requested_date on 'date' field of payment line
-                # norecompute is for avoiding a chained recomputation
-                # payment_line_ids.date
-                # > payment_line_ids.amount_company_currency
-                # > total_company_currency
-                with self.env.norecompute():
-                    payline.date = requested_date
+                payline.date = requested_date
                 # Group options
                 hashcode = (
                     payline.payment_line_hashcode()
-                    if order.payment_mode_id.group_lines
+                    if order.payment_method_line_id.group_lines
                     else payline.id
                 )
                 if hashcode in group_paylines:
@@ -472,23 +470,26 @@ class AccountPaymentOrder(models.Model):
         self.payment_ids.action_post()
         # Perform the reconciliation of payments and source journal items
         for payment in self.payment_ids:
-            (
-                payment.payment_line_ids.move_line_id
-                + payment.move_id.line_ids.filtered(
-                    lambda x: x.account_id == payment.destination_account_id
-                )
-            ).reconcile()
+            lines_to_rec = self.env["account.move.line"]
+            for line in (
+                payment.payment_line_ids.move_line_id + payment.move_id.line_ids
+            ):
+                if line.account_id.id == payment.destination_account_id.id:
+                    lines_to_rec |= line
+            lines_to_rec.reconcile()
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
 
     def action_move_journal_line(self):
         self.ensure_one()
-        action = self.env.ref("account.action_move_journal_line").sudo().read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "account.action_move_journal_line"
+        )
         if self.move_count == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,kanban",
+                    "view_mode": "form,list,kanban",
                     "views": False,
                     "view_id": False,
                     "res_id": self.move_ids[0].id,
@@ -496,7 +497,5 @@ class AccountPaymentOrder(models.Model):
             )
         else:
             action["domain"] = [("id", "in", self.move_ids.ids)]
-        ctx = self.env.context.copy()
-        ctx.update({"search_default_misc_filter": 0})
-        action["context"] = ctx
+        action["context"] = dict(self.env.context, search_default_misc_filter=0)
         return action

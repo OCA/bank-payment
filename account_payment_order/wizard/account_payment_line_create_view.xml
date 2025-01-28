@@ -9,18 +9,20 @@
         <field name="name">account_payment_line_create.form</field>
         <field name="model">account.payment.line.create</field>
         <field name="arch" type="xml">
-            <form string="Choose Move Lines Filter Options">
+            <form>
                 <group name="main">
                     <field name="order_id" invisible="1" />
                     <field name="eligible_move_line_ids" invisible="1" />
                     <field name="date_type" />
                     <field
                         name="move_date"
-                        attrs="{'required': [('date_type', '=', 'move')], 'invisible': [('date_type', '!=', 'move')]}"
+                        required="date_type == 'move'"
+                        invisible="date_type != 'move'"
                     />
                     <field
                         name="due_date"
-                        attrs="{'required': [('date_type', '=', 'due')], 'invisible': [('date_type', '!=', 'due')]}"
+                        required="date_type == 'due'"
+                        invisible="date_type != 'due'"
                     />
                     <field
                         name="journal_ids"
@@ -35,7 +37,6 @@
                     <field name="payment_mode" />
                     <field name="target_move" widget="radio" />
                     <field name="invoice" />
-                    <field name="allow_blocked" />
                     <label
                         for="populate"
                         string="Click on Add All Move Lines to auto-select the move lines matching the above criteria or click on Add an item to manually select the move lines filtered by the above criteria."
@@ -56,10 +57,10 @@
                         name="move_line_ids"
                         nolabel="1"
                         force_save="1"
-                        context="{'tree_view_ref': 'account_payment_order.view_move_line_tree', 'form_view_ref':'account_payment_order.view_move_line_form_no_edit'}"
+                        context="{'list_view_ref': 'account_payment_order.view_move_line_tree', 'form_view_ref':'account_payment_order.view_move_line_form_no_edit'}"
                         colspan="2"
                     >
-                        <tree>
+                        <list>
                             <field name="date" />
                             <field name="move_id" required="0" />
                             <field name="journal_id" />
@@ -71,8 +72,8 @@
                             <field name="amount_residual" sum="Total Residual" />
                             <field name="amount_currency" />
                             <field name="amount_residual_currency" />
-                            <field name="company_currency_id" invisible="1" />
-                        </tree>
+                            <field name="company_currency_id" column_invisible="1" />
+                        </list>
                     </field>
                 </group>
                 <footer>

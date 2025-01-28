@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="account_payment_mode_form" model="ir.ui.view">
-        <field name="name">account_payment_order.account.payment.mode.form</field>
-        <field name="model">account.payment.mode</field>
-        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+    <record id="account_payment_method_line_form" model="ir.ui.view">
+        <field name="model">account.payment.method.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_base_oca.account_payment_method_line_form"
+        />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
                 <field name="payment_order_ok" />
@@ -12,11 +14,11 @@
                 <group
                     name="payment_order_options"
                     string="Options for Payment Orders"
-                    attrs="{'invisible': [('payment_order_ok', '=', False)]}"
+                    invisible="not payment_order_ok"
                 >
                     <field
                         name="no_debit_before_maturity"
-                        attrs="{'invisible': ['|', ('payment_type', '!=', 'inbound'), ('payment_order_ok', '!=', True)]}"
+                        invisible="payment_type != 'inbound'"
                     />
                     <field name="default_date_prefered" />
                     <field name="group_lines" />
@@ -28,7 +30,7 @@
                 <group
                     name="payment_order_create_defaults"
                     string="Select Move Lines to Pay - Default Values"
-                    attrs="{'invisible': [('payment_order_ok', '=', False)]}"
+                    invisible="not payment_order_ok"
                 >
                     <field name="default_journal_ids" widget="many2many_tags" />
                     <field name="default_payment_mode" />
@@ -39,29 +41,36 @@
             </group>
         </field>
     </record>
-    <record id="account_payment_mode_tree" model="ir.ui.view">
-        <field name="name">account_payment_order.account.payment.mode.tree</field>
-        <field name="model">account.payment.mode</field>
-        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_tree" />
+    <record id="view_account_payment_method_line_tree" model="ir.ui.view">
+        <field name="model">account.payment.method.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_base_oca.view_account_payment_method_line_tree"
+        />
         <field name="arch" type="xml">
             <field name="payment_type" position="after">
-                <field name="payment_order_ok" />
+                <field name="payment_order_ok" optional="hide" />
             </field>
         </field>
     </record>
-    <record id="account_payment_mode_search" model="ir.ui.view">
-        <field name="name">account_payment_order.account.payment.mode.search</field>
-        <field name="model">account.payment.mode</field>
+    <record id="account_payment_method_line_search" model="ir.ui.view">
+        <field name="model">account.payment.method.line</field>
         <field
             name="inherit_id"
-            ref="account_payment_mode.account_payment_mode_search"
+            ref="account_payment_base_oca.account_payment_method_line_search"
         />
         <field name="arch" type="xml">
             <filter name="outbound" position="after">
+                <separator />
                 <filter
                     name="payment_order_ok"
                     string="Selectable in Payment Orders"
-                    domain="[('payment_order_ok', '=', 1)]"
+                    domain="[('payment_order_ok', '=', True)]"
+                />
+                <filter
+                    name="payment_order_ko"
+                    string="Not Selectable in Payment Orders"
+                    domain="[('payment_order_ok', '=', False)]"
                 />
             </filter>
         </field>

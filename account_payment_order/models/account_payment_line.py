@@ -219,39 +219,53 @@ class AccountPaymentLine(models.Model):
         """Prepare the dictionary to create an account payment record from a set of
         payment lines.
         """
-        journal = self.order_id.journal_id
+        order = self.order_id
+        journal = order.journal_id
+        if journal == order.payment_method_line_id.journal_id:
+            method_line_id = order.payment_method_line_id.id
+        else:
+            method_line = (
+                self.env["account.payment.method.line"]
+                .with_context(active_test=False)
+                .search(
+                    [
+                        ("company_id", "=", order.company_id.id),
+                        ("journal_id", "=", order.journal_id.id),
+                        ("payment_method_id", "=", order.payment_method_id.id),
+                    ],
+                    limit=1,
+                )
+            )
+            if not method_line:
+                raise UserError(
+                    _(
+                        "No payment mode linked to journal '%(journal)s' "
+                        "with payment method '%(payment_method)s'. You must create one "
+                        "(you can configure it as inactive).",
+                        journal=journal.display_name,
+                        payment_method=order.payment_method_id.display_name,
+                    )
+                )
+            method_line_id = method_line.id
         vals = {
-            "payment_type": self.order_id.payment_type,
+            "payment_type": order.payment_type,
             "partner_id": self.partner_id.id,
             "destination_account_id": self.move_line_id.account_id.id,
-            "company_id": self.order_id.company_id.id,
+            "company_id": order.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
             "date": self[:1].date,
             "currency_id": self.currency_id.id,
-            "ref": self.order_id.name,
+            "memo": order.name,
             # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
             # the sequence for all the payment at the same time
             "name": "/",
             "payment_reference": " - ".join([line.communication for line in self]),
             "journal_id": journal.id,
             "partner_bank_id": self.partner_bank_id.id,
-            "payment_order_id": self.order_id.id,
+            "payment_order_id": order.id,
             "payment_line_ids": [Command.set(self.ids)],
+            "payment_method_line_id": method_line_id,
         }
-        # Determine payment method line according payment method and journal
-        line = self.env["account.payment.method.line"].search(
-            [
-                (
-                    "payment_method_id",
-                    "=",
-                    self.order_id.payment_mode_id.payment_method_id.id,
-                ),
-                ("journal_id", "=", journal.id),
-            ],
-            limit=1,
-        )
-        if line:
-            vals["payment_method_line_id"] = line.id
         # Determine partner_type
         move_type = self[:1].move_line_id.move_id.move_type
         if move_type in {"out_invoice", "out_refund"}:
