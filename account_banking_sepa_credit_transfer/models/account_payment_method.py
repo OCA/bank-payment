@@ -42,6 +42,6 @@ class AccountPaymentMethod(models.Model):
         res = super()._get_payment_method_information()
         res["sepa_credit_transfer"] = {
             "mode": "multi",
-            "domain": [("type", "=", "bank")],
+            "type": ("bank",),
         }
         return res

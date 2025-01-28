@@ -14,6 +14,5 @@
     "conflicts": ["account_sepa"],
     "depends": ["account_banking_pain_base"],
     "data": ["data/account_payment_method.xml"],
-    "demo": ["demo/sepa_credit_transfer_demo.xml"],
     "installable": True,
 }

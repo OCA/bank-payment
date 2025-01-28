@@ -10,17 +10,18 @@ from lxml import etree
 
 from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestSCT(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestSCT(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.account_model = cls.env["account.account"]
         cls.move_model = cls.env["account.move"]
-        cls.journal_model = cls.env["account.journal"]
         cls.payment_order_model = cls.env["account.payment.order"]
         cls.payment_line_model = cls.env["account.payment.line"]
         cls.partner_model = cls.env["res.partner"]
@@ -31,13 +32,25 @@ class TestSCT(TransactionCase):
         cls.eur_currency.active = True
         cls.usd_currency = cls.env.ref("base.USD")
         cls.usd_currency.active = True
-        cls.main_company = cls.env["res.company"].create(
-            {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
+        cls.test_company_dict = cls.setup_other_company(
+            name="Test EUR company SEPA CT",
+            currency_id=cls.eur_currency.id,
+        )
+        cls.company = cls.test_company_dict["company"]
+        cls.env.user.write(
+            {
+                "groups_id": [
+                    Command.link(
+                        cls.env.ref("account_payment_order.group_account_payment").id
+                    )
+                ],
+                "company_ids": [Command.link(cls.company.id)],
+            }
         )
         cls.partner1 = cls.partner_model.create(
             {
                 "name": "P1",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
             }
         )
         cls.partner1_bank = cls.partner_bank_model.create(
@@ -49,7 +62,7 @@ class TestSCT(TransactionCase):
         cls.partner2 = cls.partner_model.create(
             {
                 "name": "P2",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
             }
         )
         cls.partner2_bank = cls.partner_bank_model.create(
@@ -61,7 +74,7 @@ class TestSCT(TransactionCase):
         cls.partner3 = cls.partner_model.create(
             {
                 "name": "P3",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
             }
         )
         cls.partner3_bank = cls.partner_bank_model.create(
@@ -70,121 +83,69 @@ class TestSCT(TransactionCase):
                 "partner_id": cls.partner3.id,
             }
         )
-        cls.account_expense = cls.account_model.create(
-            {
-                "account_type": "expense",
-                "company_id": cls.main_company.id,
-                "name": "Test expense",
-                "code": "TE.1",
-            }
-        )
-        cls.account_payable = cls.account_model.create(
-            {
-                "account_type": "liability_payable",
-                "company_id": cls.main_company.id,
-                "name": "Test payable",
-                "code": "TP.1",
-            }
-        )
-        (cls.partner1 + cls.partner2 + cls.partner3).with_company(
-            cls.main_company.id
-        ).write({"property_account_payable_id": cls.account_payable.id})
-        cls.general_journal = cls.journal_model.create(
-            {
-                "name": "General journal",
-                "type": "general",
-                "code": "GEN",
-                "company_id": cls.main_company.id,
-            }
-        )
-        cls.purchase_journal = cls.journal_model.create(
-            {
-                "name": "Purchase journal",
-                "type": "purchase",
-                "code": "PUR",
-                "company_id": cls.main_company.id,
-            }
-        )
-
         cls.partner_bank = cls.partner_bank_model.create(
             {
                 "acc_number": "FR0812221333144415551666777",
-                "company_id": cls.main_company.id,
-                "partner_id": cls.main_company.partner_id.id,
+                "company_id": cls.company.id,
+                "partner_id": cls.company.partner_id.id,
                 "bank_id": (
-                    cls.env.ref("account_payment_mode.bank_la_banque_postale").id
+                    cls.env.ref("account_payment_base_oca.bank_la_banque_postale").id
                 ),
             }
         )
-        cls.bank_journal = cls.journal_model.create(
-            {
-                "name": "Company Bank journal",
-                "type": "bank",
-                "code": "BNKFB",
-                "bank_account_id": cls.partner_bank.id,
-                "bank_id": cls.partner_bank.bank_id.id,
-                "company_id": cls.main_company.id,
-                "outbound_payment_method_line_ids": [
-                    Command.create(
-                        {
-                            "payment_method_id": cls.env.ref(
-                                "account_banking_sepa_credit_transfer.sepa_credit_transfer"
-                            ).id,
-                            "payment_account_id": cls.account_expense.id,
-                        },
-                    )
-                ],
-            }
-        )
-
+        cls.bank_journal = cls.test_company_dict["default_journal_bank"]
+        cls.bank_journal.write({"bank_account_id": cls.partner_bank.id})
         # update payment mode
-        cls.payment_mode = cls.env["account.payment.mode"].create(
+        cls.payment_method_line = cls.env["account.payment.method.line"].create(
             {
                 "name": "SEPA credit transfer test",
-                "company_id": cls.main_company.id,
+                "company_id": cls.company.id,
                 "payment_method_id": cls.env.ref(
                     "account_banking_sepa_credit_transfer.sepa_credit_transfer"
                 ).id,
                 "bank_account_link": "fixed",
-                "fixed_journal_id": cls.bank_journal.id,
+                "journal_id": cls.bank_journal.id,
+                "payment_account_id": cls.test_company_dict[
+                    "default_account_assets"
+                ].id,
             }
         )
 
     def test_no_pain(self):
-        self.payment_mode.payment_method_id.pain_version = False
+        self.payment_method_line.payment_method_id.pain_version = False
         with self.assertRaises(UserError):
             self.check_eur_currency_sct()
 
     def test_pain_001_001_03(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.001.001.03"
+        self.payment_method_line.payment_method_id.pain_version = "pain.001.001.03"
         self.check_eur_currency_sct()
 
     def test_pain_001_001_09(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.001.001.09"
+        self.payment_method_line.payment_method_id.pain_version = "pain.001.001.09"
         self.check_eur_currency_sct()
 
     def test_pain_001_003_03(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.001.003.03"
+        self.payment_method_line.payment_method_id.pain_version = "pain.001.003.03"
         self.check_eur_currency_sct()
 
     def check_eur_currency_sct(self):
         invoice1 = self.create_invoice(
             self.partner1.id,
-            "account_payment_mode.res_partner_2_iban",
+            "account_payment_base_oca.res_partner_2_iban",
             self.eur_currency.id,
             42.0,
             "F1341",
         )
         invoice2 = self.create_invoice(
             self.partner1.id,
-            "account_payment_mode.res_partner_2_iban",
+            "account_payment_base_oca.res_partner_2_iban",
             self.eur_currency.id,
             12.0,
             "F1342",
         )
         invoice3 = self.create_invoice(
             self.partner1.id,
-            "account_payment_mode.res_partner_2_iban",
+            "account_payment_base_oca.res_partner_2_iban",
             self.eur_currency.id,
             5.0,
             "A1301",
@@ -192,14 +153,14 @@ class TestSCT(TransactionCase):
         )
         invoice4 = self.create_invoice(
             self.partner3.id,
-            "account_payment_mode.res_partner_12_iban",
+            "account_payment_base_oca.res_partner_12_iban",
             self.eur_currency.id,
             11.0,
             "I1642",
         )
         invoice5 = self.create_invoice(
             self.partner3.id,
-            "account_payment_mode.res_partner_12_iban",
+            "account_payment_base_oca.res_partner_12_iban",
             self.eur_currency.id,
             41.0,
             "I1643",
@@ -209,7 +170,9 @@ class TestSCT(TransactionCase):
         self.assertEqual(action["res_model"], "account.payment.order")
         self.payment_order = self.payment_order_model.browse(action["res_id"])
         self.assertEqual(self.payment_order.payment_type, "outbound")
-        self.assertEqual(self.payment_order.payment_mode_id, self.payment_mode)
+        self.assertEqual(
+            self.payment_order.payment_method_line_id, self.payment_method_line
+        )
         self.assertEqual(self.payment_order.journal_id, self.bank_journal)
         pay_lines = self.payment_line_model.search(
             [
@@ -231,7 +194,7 @@ class TestSCT(TransactionCase):
         self.assertEqual(partner1_pay_line1.communication, "F1341")
         self.payment_order.draft2open()
         self.assertEqual(self.payment_order.state, "open")
-        if self.payment_mode.payment_method_id.pain_version:
+        if self.payment_method_line.payment_method_id.pain_version:
             self.assertTrue(self.payment_order.sepa)
         else:
             self.assertFalse(self.payment_order.sepa)
@@ -283,14 +246,14 @@ class TestSCT(TransactionCase):
     def test_usd_currency_sct(self):
         invoice1 = self.create_invoice(
             self.partner2.id,
-            "account_payment_mode.res_partner_2_iban",
+            "account_payment_base_oca.res_partner_2_iban",
             self.usd_currency.id,
             2042.0,
             "Inv9032",
         )
         invoice2 = self.create_invoice(
             self.partner2.id,
-            "account_payment_mode.res_partner_2_iban",
+            "account_payment_base_oca.res_partner_2_iban",
             self.usd_currency.id,
             1012.0,
             "Inv9033",
@@ -300,7 +263,9 @@ class TestSCT(TransactionCase):
         self.assertEqual(action["res_model"], "account.payment.order")
         self.payment_order = self.payment_order_model.browse(action["res_id"])
         self.assertEqual(self.payment_order.payment_type, "outbound")
-        self.assertEqual(self.payment_order.payment_mode_id, self.payment_mode)
+        self.assertEqual(
+            self.payment_order.payment_method_line_id, self.payment_method_line
+        )
         self.assertEqual(self.payment_order.journal_id, self.bank_journal)
         pay_lines = self.payment_line_model.search(
             [
@@ -382,7 +347,7 @@ class TestSCT(TransactionCase):
         partner_bank.write({"company_id": False})
         line_data = {
             "name": "Great service",
-            "account_id": cls.account_expense.id,
+            "account_id": cls.test_company_dict["default_account_expense"].id,
             "price_unit": price_unit,
             "quantity": 1,
         }
@@ -393,9 +358,9 @@ class TestSCT(TransactionCase):
             "currency_id": currency_id,
             "invoice_date": time.strftime("%Y-%m-%d"),
             "move_type": move_type,
-            "payment_mode_id": cls.payment_mode.id,
+            "preferred_payment_method_line_id": cls.payment_method_line.id,
             "partner_bank_id": partner_bank.id,
-            "company_id": cls.main_company.id,
+            "company_id": cls.company.id,
             "invoice_line_ids": [Command.create(line_data)],
         }
         inv = cls.env["account.move"].create(data)
