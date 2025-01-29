@@ -116,7 +116,6 @@ class TestInvoiceMandate(TransactionCase):
         self.assertEqual(invoice.mandate_id, mandate_2)
 
     def test_onchange_payment_mode(self):
-
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
@@ -200,7 +199,7 @@ class TestInvoiceMandate(TransactionCase):
         )
 
     def setUp(self):
-        res = super(TestInvoiceMandate, self).setUp()
+        super().setUp()
         self.company = self.env.ref("base.main_company")
 
         self.partner = self._create_res_partner("Peter with ACME Bank")
@@ -292,5 +291,3 @@ class TestInvoiceMandate(TransactionCase):
                 "invoice_line_ids": [Command.create(line_vals)],
             }
         )
-
-        return res

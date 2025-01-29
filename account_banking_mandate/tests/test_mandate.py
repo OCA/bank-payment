@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestMandate(TransactionCase):
     def setUp(self):
-        super(TestMandate, self).setUp()
+        super().setUp()
         self.company = self.env.ref("base.main_company")
         self.company_2 = self.env["res.company"].create({"name": "company 2"})
         self.company_2.partner_id.company_id = self.company_2.id
