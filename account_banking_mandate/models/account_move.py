@@ -12,20 +12,20 @@ class AccountMove(models.Model):
         "account.banking.mandate",
         string="Direct Debit Mandate",
         ondelete="restrict",
-        readonly=False,
         check_company=True,
-        states={"draft": [("readonly", False)]},
         compute="_compute_mandate_id",
-        store="True",
+        readonly=False,
+        store=True,
     )
     mandate_required = fields.Boolean(
-        related="payment_mode_id.payment_method_id.mandate_required", readonly=True
+        related="preferred_payment_method_line_id.payment_method_id.mandate_required"
     )
 
-    @api.depends("payment_mode_id", "partner_id")
+    @api.depends("preferred_payment_method_line_id", "company_id", "partner_id")
     def _compute_mandate_id(self):
         for move in self:
-            if move.payment_mode_id.payment_method_id.mandate_required:
+            if move.preferred_payment_method_line_id.payment_method_id.mandate_required:
+                move = move.with_company(move.company_id.id)
                 move.mandate_id = move.partner_id.valid_mandate_id
             else:
                 move.mandate_id = False

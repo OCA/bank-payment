@@ -12,9 +12,9 @@
             ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
-            <field name="payment_mode_id" position="after">
-                <!-- field used by payment line tree view, cf
-                attrs="{'column_invisible': [('parent.mandate_required', '=', False)]}" -->
+            <field name="payment_method_line_id" position="after">
+                <!-- field used by payment line list view, cf
+                column_invisible="not parent.mandate_required" -->
                 <field name="mandate_required" invisible="1" />
             </field>
         </field>

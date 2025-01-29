@@ -62,7 +62,7 @@ class AccountBankingMandate(models.Model):
     )
     unique_mandate_reference = fields.Char(tracking=10, copy=False)
     signature_date = fields.Date(
-        string="Date of Signature of the Mandate",
+        string="Date of Signature",
         tracking=50,
     )
     scan = fields.Binary(string="Scan of the Mandate")

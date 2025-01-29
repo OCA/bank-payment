@@ -7,7 +7,7 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "16.0.1.1.0",
+    "version": "18.0.1.0.0",
     "development_status": "Production/Stable",
     "license": "AGPL-3",
     "author": "Compassion CH, "
@@ -19,12 +19,12 @@
     "category": "Banking addons",
     "depends": ["account_payment_order"],
     "data": [
-        "views/account_banking_mandate_view.xml",
+        "views/account_banking_mandate.xml",
         "views/account_payment_method.xml",
-        "views/account_move_view.xml",
+        "views/account_move.xml",
         "views/account_payment_order.xml",
         "views/account_payment_line.xml",
-        "views/res_partner_bank_view.xml",
+        "views/res_partner_bank.xml",
         "views/res_partner.xml",
         "data/mandate_reference_sequence.xml",
         "security/mandate_security.xml",

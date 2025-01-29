@@ -29,7 +29,7 @@ class AccountPaymentLine(models.Model):
         for line in self:
             mandate = False
             move = line.move_line_id.move_id
-            payment_method = line.order_id.payment_mode_id.payment_method_id
+            payment_method = line.order_id.payment_method_id
             if payment_method.mandate_required:
                 if move and move.mandate_id:
                     mandate = move.mandate_id

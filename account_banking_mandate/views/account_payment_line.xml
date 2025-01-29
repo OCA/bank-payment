@@ -16,19 +16,18 @@
                 <field name="mandate_required" invisible="1" />
                 <field
                     name="mandate_id"
-                    attrs="{'invisible': [('mandate_required', '=', False)], 'required': [('mandate_required', '=', True)]}"
+                    invisible="not mandate_required"
+                    required="mandate_required"
                     context="{'default_partner_bank_id': partner_bank_id}"
                 />
             </field>
             <field name="partner_bank_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'required': [('bank_account_required', '=', True)], 'readonly': [('mandate_required', '=', True)]}</attribute>
+                <attribute name="readonly">mandate_required</attribute>
             </field>
         </field>
     </record>
     <record id="account_payment_line_tree" model="ir.ui.view">
-        <field name="name">account_banking_mandate.account.payment.line.tree</field>
+        <field name="name">account_banking_mandate.account.payment.line.list</field>
         <field name="model">account.payment.line</field>
         <field
             name="inherit_id"
@@ -38,7 +37,7 @@
             <field name="partner_bank_id" position="before">
                 <field
                     name="mandate_id"
-                    attrs="{'column_invisible': [('parent.mandate_required', '=', False)]}"
+                    column_invisible="context.get('default_payment_type') != 'inbound'"
                 />
             </field>
         </field>

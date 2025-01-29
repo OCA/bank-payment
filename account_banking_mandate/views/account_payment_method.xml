@@ -5,14 +5,11 @@
         <field name="model">account.payment.method</field>
         <field
             name="inherit_id"
-            ref="account_payment_mode.account_payment_method_form"
+            ref="account_payment_base_oca.account_payment_method_form"
         />
         <field name="arch" type="xml">
             <field name="bank_account_required" position="after">
-                <field
-                    name="mandate_required"
-                    attrs="{'invisible': [('payment_type', '!=', 'inbound')]}"
-                />
+                <field name="mandate_required" invisible="payment_type != 'inbound'" />
             </field>
         </field>
     </record>

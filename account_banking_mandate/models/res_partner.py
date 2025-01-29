@@ -2,7 +2,7 @@
 # Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
@@ -18,16 +18,18 @@ class ResPartner(models.Model):
     )
 
     def _compute_mandate_count(self):
-        mandate_data = self.env["account.banking.mandate"].read_group(
-            [("partner_id", "in", self.ids)], ["partner_id"], ["partner_id"]
+        mandate_data = self.env["account.banking.mandate"]._read_group(
+            [("partner_id", "in", self.ids)],
+            groupby=["partner_id"],
+            aggregates=["__count"],
         )
         mapped_data = {
-            mandate["partner_id"][0]: mandate["partner_id_count"]
-            for mandate in mandate_data
+            partner.id: mandate_count for (partner, mandate_count) in mandate_data
         }
         for partner in self:
             partner.mandate_count = mapped_data.get(partner.id, 0)
 
+    @api.depends_context("company")
     def _compute_valid_mandate_id(self):
         # Dict for reducing the duplicated searches on parent/child partners
         company_id = self.env.company.id
