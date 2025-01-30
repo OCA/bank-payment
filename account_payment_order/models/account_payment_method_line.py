@@ -4,7 +4,8 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AccountPaymentMethodLine(models.Model):
@@ -14,7 +15,7 @@ class AccountPaymentMethodLine(models.Model):
     # but as a computed field to allow to change the value on the
     # account.payment.method.line (useful to enable the option on a manual method)
     payment_order_ok = fields.Boolean(
-        string="Selectable in Payment Orders",
+        string="Selectable on Payment Orders",
         compute="_compute_payment_order_ok",
         store=True,
         readonly=False,
@@ -93,10 +94,13 @@ class AccountPaymentMethodLine(models.Model):
         "grouping.)",
     )
 
-    @api.depends("payment_method_id")
+    @api.depends("payment_method_id", "selectable")
     def _compute_payment_order_ok(self):
         for mode in self:
-            mode.payment_order_ok = mode.payment_method_id.payment_order_ok
+            payment_order_ok = mode.payment_method_id.payment_order_ok
+            if not mode.selectable:
+                payment_order_ok = False
+            mode.payment_order_ok = payment_order_ok
 
     @api.depends("payment_method_id")
     def _compute_default_date_prefered(self):
@@ -131,4 +135,16 @@ class AccountPaymentMethodLine(models.Model):
                         ]
                     )
                     .ids
+                )
+
+    @api.constrains("payment_order_ok", "selectable")
+    def _check_payment_order_ok(self):
+        for line in self:
+            if line.payment_order_ok and not line.selectable:
+                raise ValidationError(
+                    _(
+                        "Payment mode '%(mode)s' cannot be selectable on "
+                        "payment orders but not selectable on partners/invoices.",
+                        mode=line.display_name,
+                    )
                 )
