@@ -69,18 +69,8 @@ class AccountPaymentMethodLine(models.Model):
         readonly=False,
         precompute=True,
     )
-    # active is default=False on purpose !
-    # When an account.payment.method with mode='multi' is created, Odoo
-    # generates an account.payment.method.line for each bank journal and there is no
-    # prepare method to inherit the values of the generated method lines.
-    # With default=False, Odoo will auto-generate inactive account.payment.method.line
-    # and we will only enable the one we want to use. If a payment order has a method
-    # line with bank_account_link='variable' and an alternative journal is selected,
-    # Odoo will not use the method line of the payment order to generate
-    # the account.payment but it will select the (inactive) method line
-    # linked to the chosen journal
-    # TODO default=False causes problems in tests of the account module
-    active = fields.Boolean(default=False)
+    active = fields.Boolean(default=True)
+    selectable = fields.Boolean(string="Selectable on Partners/Invoices")
     report_description = fields.Html(translate=True)
     show_bank_account = fields.Selection(
         selection=[
