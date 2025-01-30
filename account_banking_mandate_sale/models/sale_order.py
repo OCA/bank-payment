@@ -20,12 +20,13 @@ class SaleOrder(models.Model):
         check_company=True,
         readonly=False,
         store=True,
+        tracking=True,
         domain="[('partner_id', '=', commercial_invoice_partner_id), "
         "('state', 'in', ('draft', 'valid')), "
         "('company_id', '=', company_id)]",
     )
     mandate_required = fields.Boolean(
-        related="payment_mode_id.payment_method_id.mandate_required",
+        related="payment_method_line_id.payment_method_id.mandate_required",
     )
 
     def _prepare_invoice(self):
@@ -35,28 +36,16 @@ class SaleOrder(models.Model):
             vals["mandate_id"] = self.mandate_id.id
         return vals
 
-    @api.depends("partner_invoice_id", "payment_mode_id")
+    @api.depends("partner_invoice_id", "payment_method_line_id")
     def _compute_mandate_id(self):
-        """Select by default the first valid mandate of the invoicing partner"""
-        abm_obj = self.env["account.banking.mandate"]
         for order in self:
             if (
                 order.partner_invoice_id
-                and order.payment_mode_id
-                and order.payment_mode_id.payment_method_id.mandate_required
+                and order.payment_method_line_id
+                and order.payment_method_line_id.payment_method_id.mandate_required
             ):
-                mandate = abm_obj.search(
-                    [
-                        ("state", "=", "valid"),
-                        (
-                            "partner_id",
-                            "=",
-                            order.partner_invoice_id.commercial_partner_id.id,
-                        ),
-                        ("company_id", "=", order.company_id.id),
-                    ],
-                    limit=1,
-                )
-                order.mandate_id = mandate or False
+                order.mandate_id = order.with_company(
+                    order.company_id.id
+                ).partner_invoice_id.valid_mandate_id
             else:
                 order.mandate_id = False
