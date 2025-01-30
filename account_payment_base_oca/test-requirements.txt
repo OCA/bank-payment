@@ -1,0 +1,5 @@
+odoo-addon-account_payment_order @ git+https://github.com/OCA/bank-payment.git@refs/pull/1403/head#subdirectory=account_payment_order
+odoo-addon-account_banking_pain_base @ git+https://github.com/OCA/bank-payment.git@refs/pull/1404/head#subdirectory=account_banking_pain_base
+odoo-addon-account_banking_sepa_credit_transfer @ git+https://github.com/OCA/bank-payment.git@refs/pull/1405/head#subdirectory=account_banking_sepa_credit_transfer
+odoo-addon-account_banking_sepa_direct_debit @ git+https://github.com/OCA/bank-payment.git@refs/pull/1406/head#subdirectory=account_banking_sepa_direct_debit
+odoo-addon-account_banking_mandate @ git+https://github.com/OCA/bank-payment.git@refs/pull/1407/head#subdirectory=account_banking_mandate
