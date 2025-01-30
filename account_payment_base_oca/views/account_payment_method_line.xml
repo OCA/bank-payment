@@ -37,9 +37,12 @@
                         <field name="code" invisible="1" />
                         <field name="payment_type" />
                         <field name="bank_account_link" />
-                        <field name="journal_id" />
                         <field
-                            name="alternative_journal_ids"
+                            name="journal_id"
+                            required="bank_account_link == 'fixed'"
+                        />
+                        <field
+                            name="variable_journal_ids"
                             invisible="bank_account_link != 'variable'"
                             required="bank_account_link == 'variable'"
                             widget="many2many_tags"

@@ -35,8 +35,8 @@ class AccountPaymentMethodLine(models.Model):
     # company_id is a related of journal_id.company_id
     # When bank_account_link = 'fixed' => we use journal_id
     # When bank_account_link = 'variable':
-    # - journal_id is considered as the default journal
-    # - alternative_journal_ids are additional journals that can be used
+    # - journal_id is empty
+    # - variable_journal_ids hsa the list of allowed journals on payment order
     filter_journal_ids = fields.Many2many(
         "account.journal", compute="_compute_filter_journal_ids"
     )
@@ -56,15 +56,15 @@ class AccountPaymentMethodLine(models.Model):
     )
     # I need to explicitly define the table name
     # because I have 2 M2M fields pointing to account.journal
-    alternative_journal_ids = fields.Many2many(
+    variable_journal_ids = fields.Many2many(
         comodel_name="account.journal",
-        relation="account_payment_method_line_alternative_journal_rel",
+        relation="account_payment_method_line_variable_journal_rel",
         column1="method_line_id",
         column2="journal_id",
-        string="Alternative Bank Journals",
-        domain="[('id', '!=', journal_id), ('id', 'in', filter_journal_ids)]",
+        string="Allowed Bank Journals",
+        domain="[('id', 'in', filter_journal_ids)]",
         check_company=True,
-        compute="_compute_alternative_journal_ids",
+        compute="_compute_variable_journal_ids",
         store=True,
         readonly=False,
         precompute=True,
@@ -109,32 +109,25 @@ class AccountPaymentMethodLine(models.Model):
     @api.constrains(
         "bank_account_link",
         "journal_id",
-        "alternative_journal_ids",
+        "variable_journal_ids",
         "payment_method_id",
     )
     def _check_payment_method_line(self):
         for line in self:
-            if not line.journal_id:
+            # I cannot check line.journal_id.bank_account_id when
+            # line.bank_account_link == "fixed" because method lines are
+            # auto-created on bank journal creation and the bank account
+            # but not be configured yet.
+            if line.bank_account_link == "fixed" and not line.journal_id:
                 raise ValidationError(
                     _(
-                        "On %(name)s, the bank journal is not set.",
+                        "On %(name)s, the journal is not set.",
                         name=line.display_name,
                     )
                 )
             if line.payment_method_id.bank_account_required:
-                # if line.journal_id and not line.journal_id.bank_account_id:
-                #    raise ValidationError(
-                #        _(
-                #            "On %(name)s, the Payment Method %(method)s is "
-                #            "configured with Bank Account Required but journal "
-                #            "%(journal)s is not linked to a bank account.",
-                #            name=line.display_name,
-                #            method=line.payment_method_id.display_name,
-                #            journal=line.journal_id.display_name,
-                #        )
-                #    )
                 if line.bank_account_link == "variable":
-                    for journal in line.alternative_journal_ids:
+                    for journal in line.variable_journal_ids:
                         if not journal.bank_account_id:
                             raise ValidationError(
                                 _(
@@ -147,17 +140,11 @@ class AccountPaymentMethodLine(models.Model):
                                 )
                             )
 
-    @api.depends("journal_id", "bank_account_link")
-    def _compute_alternative_journal_ids(self):
+    @api.depends("bank_account_link")
+    def _compute_variable_journal_ids(self):
         for line in self:
             if line.bank_account_link == "fixed":
-                line.alternative_journal_ids = [Command.clear()]
-            elif (
-                line.bank_account_link == "variable"
-                and line.journal_id
-                and line.journal_id.id in line.alternative_journal_ids.ids
-            ):
-                line.alternative_journal_ids = [Command.unlink(line.journal_id.id)]
+                line.variable_journal_ids = [Command.clear()]
 
     @api.depends("journal_id")
     def _compute_company_id(self):
@@ -180,6 +167,8 @@ class AccountPaymentMethodLine(models.Model):
                     domain.append(("type", "in", journal_types))
                 else:
                     domain.append(("type", "in", ("bank", "cash", "credit")))
+                if line.payment_method_id.bank_account_required:
+                    domain.append(("bank_account_id", "!=", False))
             else:
                 domain.append(("type", "in", ("bank", "cash", "credit")))
             line.filter_journal_ids = self.env["account.journal"].search(domain).ids
