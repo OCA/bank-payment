@@ -172,10 +172,10 @@ class AccountPaymentOrder(models.Model):
                 allowed_journals = record.payment_method_line_id.journal_id
                 if (
                     record.payment_method_line_id.bank_account_link == "variable"
-                    and record.payment_method_line_id.alternative_journal_ids
+                    and record.payment_method_line_id.variable_journal_ids
                 ):
                     allowed_journals |= (
-                        record.payment_method_line_id.alternative_journal_ids
+                        record.payment_method_line_id.variable_journal_ids
                     )
             record.allowed_journal_ids = allowed_journals
 

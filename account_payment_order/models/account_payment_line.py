@@ -224,24 +224,19 @@ class AccountPaymentLine(models.Model):
         if journal == order.payment_method_line_id.journal_id:
             method_line_id = order.payment_method_line_id.id
         else:
-            method_line = (
-                self.env["account.payment.method.line"]
-                .with_context(active_test=False)
-                .search(
-                    [
-                        ("company_id", "=", order.company_id.id),
-                        ("journal_id", "=", order.journal_id.id),
-                        ("payment_method_id", "=", order.payment_method_id.id),
-                    ],
-                    limit=1,
-                )
+            method_line = self.env["account.payment.method.line"].search(
+                [
+                    ("company_id", "=", order.company_id.id),
+                    ("journal_id", "=", order.journal_id.id),
+                    ("payment_method_id", "=", order.payment_method_id.id),
+                ],
+                limit=1,
             )
             if not method_line:
                 raise UserError(
                     _(
-                        "No payment mode linked to journal '%(journal)s' "
-                        "with payment method '%(payment_method)s'. You must create one "
-                        "(you can configure it as inactive).",
+                        "No payment mode linked to journal '%(journal)s' with payment "
+                        "method '%(payment_method)s'. You must create one.",
                         journal=journal.display_name,
                         payment_method=order.payment_method_id.display_name,
                     )
