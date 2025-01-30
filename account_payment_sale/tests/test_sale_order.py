@@ -135,3 +135,9 @@ class TestSaleOrder(CommonTestCase):
         orders.action_confirm()
         invoices = orders._create_invoices()
         self.assertEqual(2, len(invoices))
+
+    def test_change_sale_company(self):
+        order = self.create_sale_order()
+        other_company = self.env["res.company"].create({"name": "other company"})
+        order.company_id = other_company
+        self.assertFalse(order.payment_mode_id)
