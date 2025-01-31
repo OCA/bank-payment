@@ -5,16 +5,15 @@
 from odoo import _, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Date
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests.common import Form
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestAccountPaymentPartner(TransactionCase):
+class TestAccountPaymentPartner(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
 
         cls.res_users_model = cls.env["res.users"]
         cls.move_model = cls.env["account.move"]
@@ -221,15 +220,22 @@ class TestAccountPaymentPartner(TransactionCase):
     def test_partner_id_changes_compute_partner_bank(self):
         # Test _compute_partner_bank is executed when partner_id changes
         move_form = Form(
-            self.env["account.move"].with_context(default_move_type="out_invoice")
+            self.env["account.move"].with_context(
+                default_move_type="out_invoice", default_name="/"
+            )
         )
-        self.assertFalse(move_form.partner_bank_id)
+        self.assertFalse(move_form.payment_mode_id)
+        # Standard behavior should set the partner bank
+        self.assertTrue(move_form.partner_bank_id)
         move_form.partner_id = self.customer
         self.assertEqual(move_form.payment_mode_id, self.customer_payment_mode)
-        self.assertFalse(move_form.partner_bank_id)
+        # As partner has changed, the payment mode too and so, the partner bank has been set
+        self.assertTrue(move_form.partner_bank_id)
 
-    def test_out_invoice_onchange(self):
-        # Test the onchange methods in invoice
+    def test_out_invoice_change_company(self):
+        # Test the change of a company - programmatically
+        # The partner bank should change from company 1 bank
+        # to company 2 bank
         invoice = self.move_model.new(
             {
                 "partner_id": self.customer.id,
@@ -238,12 +244,16 @@ class TestAccountPaymentPartner(TransactionCase):
             }
         )
         self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
-
+        self.assertTrue(invoice.partner_bank_id)
+        self.assertEqual(self.company.partner_id.bank_ids[0], invoice.partner_bank_id)
         invoice.company_id = self.company_2
-        self.assertEqual(invoice.payment_mode_id, self.payment_mode_model)
+        # We should invalidate fields as 'bank_partner_id' field ... don't depend
+        # on company_id
+        # see: https://github.com/odoo/odoo/pull/195962
 
-        invoice.payment_mode_id = False
-        self.assertFalse(invoice.partner_bank_id)
+        invoice.invalidate_model(["bank_partner_id", "partner_bank_id"])
+        self.assertEqual(invoice.payment_mode_id, self.payment_mode_model)
+        self.assertEqual(self.company_2.partner_id.bank_ids[0], invoice.partner_bank_id)
 
     def test_invoice_create_in_invoice(self):
         invoice = self._create_invoice(
@@ -455,7 +465,10 @@ class TestAccountPaymentPartner(TransactionCase):
         self.assertFalse(invoice.partner_bank_id)
         vals = {"partner_id": False, "move_type": "in_refund"}
         invoice = self.move_model.new(vals)
-        self.assertFalse(invoice.partner_bank_id)
+        # We are in the case payment mode is not set - partner bank is set from account module
+        self.assertFalse(invoice.payment_mode_id)
+        self.assertTrue(invoice.partner_bank_id)
+        self.assertEqual(self.company.bank_ids[0], invoice.partner_bank_id)
 
     def test_onchange_payment_mode_id(self):
         mode = self.supplier_payment_mode
@@ -465,8 +478,9 @@ class TestAccountPaymentPartner(TransactionCase):
         self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
         mode.payment_method_id.bank_account_required = False
         self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
+        # We removed payment mode - the bank should be still the supplier one
         self.supplier_invoice.payment_mode_id = False
-        self.assertFalse(self.supplier_invoice.partner_bank_id)
+        self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
 
     def test_print_report(self):
         self.supplier_invoice.partner_bank_id = self.supplier_bank.id

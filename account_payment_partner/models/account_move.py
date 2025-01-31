@@ -95,33 +95,33 @@ class AccountMove(models.Model):
                             partner.supplier_payment_mode_id.refund_payment_mode_id
                         )
 
-    @api.depends("bank_partner_id", "payment_mode_id")
+    @api.depends("payment_mode_id")
     def _compute_partner_bank_id(self):
         res = super()._compute_partner_bank_id()
         for move in self:
             payment_mode = move.payment_mode_id
             if payment_mode:
-                if (
-                    move.move_type == "in_invoice"
-                    and payment_mode.payment_type == "outbound"
-                    and not payment_mode.payment_method_id.bank_account_required
-                ):
-                    move.partner_bank_id = False
-                    continue
-                elif move.move_type == "out_invoice":
-                    if payment_mode.payment_method_id.bank_account_required:
-                        if (
-                            payment_mode.bank_account_link == "fixed"
-                            and payment_mode.fixed_journal_id.bank_account_id
-                        ):
-                            move.partner_bank_id = (
-                                payment_mode.fixed_journal_id.bank_account_id
-                            )
-                            continue
-                    else:
+                if move.move_type == "out_invoice":
+                    # We have a payment mode but the bank account is not required.
+                    # We void it if filled in
+                    if (
+                        move.partner_bank_id
+                        and move.move_type == "in_invoice"
+                        and payment_mode.payment_type == "outbound"
+                        and not payment_mode.payment_method_id.bank_account_required
+                    ):
                         move.partner_bank_id = False
-            else:
-                move.partner_bank_id = False
+                        continue
+                    # If the bank account link is fix, we must fill in with that
+                    # fix bank account (and change the possible existing one)
+                    # not depending if it's required or not
+                    if (
+                        payment_mode.bank_account_link == "fixed"
+                        and payment_mode.fixed_journal_id.bank_account_id
+                    ):
+                        move.partner_bank_id = (
+                            payment_mode.fixed_journal_id.bank_account_id
+                        )
         return res
 
     @api.depends("line_ids.matched_credit_ids", "line_ids.matched_debit_ids")
