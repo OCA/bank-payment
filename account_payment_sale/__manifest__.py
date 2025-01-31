@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Sale",
-    "version": "17.0.1.0.2",
+    "version": "17.0.1.0.3",
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Adds payment mode on sale orders",
