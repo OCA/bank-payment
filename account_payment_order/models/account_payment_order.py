@@ -432,7 +432,7 @@ class AccountPaymentOrder(models.Model):
         if self.move_count == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,kanban",
+                    "view_mode": "form,list,kanban",
                     "views": False,
                     "view_id": False,
                     "res_id": self.move_ids[0].id,

@@ -11,7 +11,6 @@
         <field name="arch" type="xml">
             <form string="Choose Move Lines Filter Options">
                 <group name="main">
-                    <field name="order_id" invisible="1" />
                     <field name="date_type" />
                     <field
                         name="move_date"
@@ -53,7 +52,6 @@
                     name="move_lines"
                     string="Selected Move Lines to Create Transactions"
                 >
-                    <field name="move_line_domain" invisible="1" />
                     <field
                         name="move_line_ids"
                         nolabel="1"
@@ -62,7 +60,7 @@
                         domain="move_line_domain"
                         colspan="2"
                     >
-                        <tree>
+                        <list>
                             <field name="date" />
                             <field name="move_id" required="0" />
                             <field name="journal_id" />
@@ -74,8 +72,7 @@
                             <field name="amount_residual" sum="Total Residual" />
                             <field name="amount_currency" />
                             <field name="amount_residual_currency" />
-                            <field name="company_currency_id" invisible="1" />
-                        </tree>
+                        </list>
                     </field>
                 </group>
                 <footer>

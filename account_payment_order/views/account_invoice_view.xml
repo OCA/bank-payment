@@ -47,9 +47,7 @@
                     />
                 </button>
             </div>
-            <field name="payment_mode_id" position="after">
-                <field name="payment_order_ok" invisible="1" />
-            </field>
+            <field name="payment_mode_id" position="after" />
             <!-- First we place the rest of the elements for the new reference distribution -->
             <field name="payment_reference" position="before">
                 <label for="payment_reference" />

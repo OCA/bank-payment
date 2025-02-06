@@ -199,7 +199,7 @@ class AccountMove(models.Model):
         if len(result_payorder_ids) == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,pivot,graph",
+                    "view_mode": "form,list,pivot,graph",
                     "res_id": payorder.id,
                     "views": False,
                 }
@@ -207,7 +207,7 @@ class AccountMove(models.Model):
         else:
             action.update(
                 {
-                    "view_mode": "tree,form,pivot,graph",
+                    "view_mode": "list,form,pivot,graph",
                     "domain": _("[('id', 'in', %s)]") % list(result_payorder_ids),
                     "views": False,
                 }
