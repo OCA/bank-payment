@@ -1,7 +1,7 @@
 # © 2017 Acsone SA/NV (<https://www.acsone.eu>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import _, api, models
 from odoo.tools.misc import formatLang
 
 
@@ -34,11 +34,11 @@ class AccountPaymentOrderReport(models.AbstractModel):
         if partner_bank:
             name = ""
             if partner_bank.bank_name:
-                name = "%s: " % partner_bank.bank_id.name
+                name = _("%s: ") % partner_bank.bank_id.name
             if partner_bank.acc_number:
                 name = f"{name} {partner_bank.acc_number}"
                 if partner_bank.bank_bic:
-                    name = "%s - " % (name)
+                    name = _("%s - ") % (name)
             if partner_bank.bank_bic:
                 name = f"{name} BIC {partner_bank.bank_bic}"
             return name

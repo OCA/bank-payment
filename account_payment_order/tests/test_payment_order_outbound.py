@@ -5,7 +5,7 @@
 
 from datetime import date, datetime, timedelta
 
-from odoo import fields
+from odoo import _, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
@@ -295,12 +295,12 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         reverse_res = reverse.reverse_moves()
         reverse_move = self.env[reverse_res["res_model"]].browse(reverse_res["res_id"])
         self.assertEqual(
-            " %s" % reverse_move.ref,
+            _(" %s") % reverse_move.ref,
             self.invoice._get_payment_order_communication_full(),
         )
         self.invoice.ref = "ref"
         self.assertEqual(
-            "ref %s" % reverse_move.ref,
+            _("ref %s") % reverse_move.ref,
             self.invoice._get_payment_order_communication_full(),
         )
 

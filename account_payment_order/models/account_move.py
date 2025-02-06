@@ -193,7 +193,7 @@ class AccountMove(models.Model):
                         )
                     )
         action = self.env["ir.actions.act_window"]._for_xml_id(
-            "account_payment_order.account_payment_order_%s_action"
+            _("account_payment_order.account_payment_order_%s_action")
             % action_payment_type,
         )
         if len(result_payorder_ids) == 1:
@@ -208,7 +208,7 @@ class AccountMove(models.Model):
             action.update(
                 {
                     "view_mode": "tree,form,pivot,graph",
-                    "domain": "[('id', 'in', %s)]" % list(result_payorder_ids),
+                    "domain": _("[('id', 'in', %s)]") % list(result_payorder_ids),
                     "views": False,
                 }
             )
