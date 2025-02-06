@@ -9,7 +9,7 @@
         />
         <t t-call="web.external_layout">
             <div class="page">
-                <div class="oe_structure" />
+                <div class="oe_structure" id="oe_structure_1" />
                 <div class="row">
                     <div class="col-4 offset-8">
                         <div t-field="doc.journal_id.bank_id.name" />
@@ -27,16 +27,16 @@
                 <t t-else="">
                     <h2>Payment Order</h2>
                 </t>
-                <div class="row mt32 mb32">
-                    <div t-if="doc.payment_mode_id.name" class="col-2">
+                <div class="row mb-4" id="informations">
+                    <div t-if="doc.payment_mode_id.name" class="col">
                         <strong>Payment Type:</strong>
                         <p t-field="doc.payment_mode_id.name" />
                     </div>
-                    <div t-if="doc.name" class="col-2">
+                    <div t-if="doc.name" class="col">
                         <strong>Reference</strong>
                         <p t-field="doc.name" />
                     </div>
-                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col-2">
+                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col">
                         <strong>Used Account:</strong>
                         <p>
                             <span
@@ -44,24 +44,24 @@
                             />
                         </p>
                     </div>
-                    <div t-if="doc.date_prefered" class="col-2">
+                    <div t-if="doc.date_prefered" class="col">
                         <strong>Execution:</strong>
                         <p t-field="doc.date_prefered" />
                     </div>
-                    <div t-if="doc.company_id.currency_id.name" class="col-2">
+                    <div t-if="doc.company_id.currency_id.name" class="col">
                         <strong>Company Currency:</strong>
                         <p t-field="doc.company_id.currency_id.name" />
                     </div>
                 </div>
-                <table class="table table-condensed">
+                <table class="o_has_total_table table o_main_table table-borderless">
                     <thead>
                         <tr>
                             <th>Partner</th>
                             <th class="text-center">Bank Account</th>
                             <th class="text-center">Invoice Ref</th>
                             <th class="text-center">Value Date</th>
-                            <th class="text-right">Amount</th>
-                            <th class="text-right">Currency</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end">Currency</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,38 +98,42 @@
                             <td class="text-center">
                                 <span t-field="line.date" />
                             </td>
-                            <td class="text-right">
+                            <td class="text-end">
                                 <span t-field="line.amount_currency" />
                             </td>
-                            <td class="text-right">
+                            <td class="text-end">
                                 <span t-field="line.amount_company_currency" />
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row pull-right">
-                    <div class="col-4">
-                        <table class="table table-condensed">
-                            <tr class="border-black">
-                                <td>
-                                    <strong>Total</strong>
-                                </td>
-                                <td class="text-right">
-                                    <span
-                                        t-esc="formatLang(env, total_amount, currency_obj=doc.company_currency_id)"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Total (Currency)</td>
-                                <td class="text-right">
-                                    <span t-field="doc.total_company_currency" />
-                                </td>
-                            </tr>
-                        </table>
+                <div class="clearfix" name="so_total_summary">
+                    <div id="total" class="row mt-n3" name="total">
+                        <div
+                            t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto"
+                        >
+                            <table class="o_total_table table table-borderless">
+                                <tr class="o_total">
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td class="text-end">
+                                        <strong
+                                            t-esc="formatLang(env, total_amount, currency_obj=doc.company_currency_id)"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total (Currency)</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.total_company_currency" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="oe_structure" />
+                <div class="oe_structure" id="oe_structure_2" />
             </div>
         </t>
     </template>

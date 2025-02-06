@@ -1,5 +1,4 @@
 <odoo>
-
     <record id="account_payment_update_view_form" model="ir.ui.view">
         <field name="name">Update Payment Communication</field>
         <field name="model">account.payment.update</field>
@@ -26,5 +25,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

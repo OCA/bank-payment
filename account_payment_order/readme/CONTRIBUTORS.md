@@ -21,6 +21,7 @@
   - Pedro M. Baeza
   - Carlos Dauden
   - Carlos Roca
+  - Carlos Lopez
 - [Open Source Integrators](https://www.opensourceintegrators.com):
   - Ammar Officewala \<<aofficewala@opensourceintegrators.com>\>
 - Marçal Isern \<<marsal.isern@qubiq.es>\>

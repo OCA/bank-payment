@@ -4,7 +4,7 @@
 # Copyright 2024 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class AccountPayment(models.Model):
@@ -57,7 +57,7 @@ class AccountPayment(models.Model):
     def update_payment_reference(self):
         view = self.env.ref("account_payment_order.account_payment_update_view_form")
         return {
-            "name": _("Update Payment Reference"),
+            "name": self.env._("Update Payment Reference"),
             "view_type": "form",
             "view_mode": "form",
             "res_model": "account.payment.update",
@@ -83,3 +83,19 @@ class AccountPayment(models.Model):
         for vals in vals_list:
             vals["date_maturity"] = self.payment_line_ids[0].date
         return vals_list
+
+    def _generate_journal_entry(
+        self, write_off_line_vals=None, force_balance=None, line_ids=None
+    ):
+        res = super()._generate_journal_entry(
+            write_off_line_vals=write_off_line_vals,
+            force_balance=force_balance,
+            line_ids=line_ids,
+        )
+        # propagate the payment order to the generated move
+        # now account.payment does not inherit from account.move,
+        # so this step is necessary.
+        for payment in self:
+            if payment.payment_order_id and payment.move_id:
+                payment.move_id.payment_order_id = payment.payment_order_id
+        return res

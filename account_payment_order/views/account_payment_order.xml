@@ -4,7 +4,7 @@
         <field name="name">account.payment.order.form</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <form string="Payment Order">
+            <form>
                 <header>
                     <button
                         name="%(account_payment_line_create_action)d"
@@ -66,12 +66,12 @@
                             type="object"
                             icon="fa-bars"
                         >
-                                <field
+                            <field
                                 string="Journal Entries"
                                 name="move_count"
                                 widget="statinfo"
                             />
-                </button>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" />
@@ -86,13 +86,11 @@
                                 readonly="state != 'draft'"
                                 domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type)]"
                             />
-                            <field name="allowed_journal_ids" invisible="1" />
                             <field
                                 name="journal_id"
                                 readonly="state != 'draft'"
                                 domain="[('id', 'in', allowed_journal_ids)]"
                             />
-                            <field name="bank_account_link" invisible="1" />
                             <field name="company_partner_bank_id" />
                             <field
                                 name="company_id"
@@ -135,16 +133,12 @@
                                 name="payment_ids"
                                 edit="0"
                                 create="0"
-                                context="{'tree_view_ref': 'account_payment_order.view_account_payment_tree_payment_order'}"
+                                context="{'list_view_ref': 'account_payment_order.view_account_payment_tree_payment_order'}"
                             />
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -152,7 +146,7 @@
         <field name="name">account.payment.order.tree</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" decoration-bf="1" />
                 <field name="payment_mode_id" />
                 <field name="journal_id" />
@@ -165,7 +159,6 @@
                     string="Payment Transactions"
                 />
                 <field name="total_company_currency" sum="Total Company Currency" />
-                <field name="company_currency_id" invisible="1" />
                 <field
                     name="state"
                     decoration-info="state == 'draft'"
@@ -175,14 +168,14 @@
                     decoration-muted="state == 'cancel'"
                     widget="badge"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_order_search" model="ir.ui.view">
         <field name="name">account.payment.order.search</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <search string="Search Payment Orders">
+            <search>
                 <field
                     name="description"
                     filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"
@@ -243,7 +236,7 @@
         <field name="name">account.payment.order.graph</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <graph string="Payment Orders">
+            <graph>
                 <field name="date_uploaded" type="row" interval="month" />
                 <field name="total_company_currency" type="measure" />
             </graph>
@@ -253,7 +246,7 @@
         <field name="name">account.payment.order.pivot</field>
         <field name="model">account.payment.order</field>
         <field name="arch" type="xml">
-            <pivot string="Payment Orders">
+            <pivot>
                 <field name="date_uploaded" type="row" interval="month" />
                 <field name="total_company_currency" type="measure" />
             </pivot>
@@ -261,15 +254,17 @@
     </record>
     <record id="account_payment_order_outbound_action" model="ir.actions.act_window">
         <field name="name">Payment Orders</field>
+        <field name="path">payment-orders</field>
         <field name="res_model">account.payment.order</field>
-        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="view_mode">list,form,pivot,graph</field>
         <field name="domain">[('payment_type', '=', 'outbound')]</field>
         <field name="context">{'default_payment_type': 'outbound'}</field>
     </record>
     <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
         <field name="name">Debit Orders</field>
+        <field name="path">debit-orders</field>
         <field name="res_model">account.payment.order</field>
-        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="view_mode">list,form,pivot,graph</field>
         <field name="domain">[('payment_type', '=', 'inbound')]</field>
         <field name="context">{'default_payment_type': 'inbound'}</field>
     </record>

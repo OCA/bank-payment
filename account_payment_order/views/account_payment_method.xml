@@ -12,7 +12,7 @@
             ref="account_payment_mode.account_payment_method_form"
         />
         <field name="arch" type="xml">
-            <field name="active" position="before">
+            <field name="bank_account_required" position="after">
                 <field name="payment_order_only" />
             </field>
         </field>

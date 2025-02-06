@@ -1,7 +1,7 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -114,7 +114,7 @@ class AccountPaymentLine(models.Model):
                     line.amount_currency,
                     line.company_currency_id,
                     line.company_id,
-                    line.date or fields.Date.today(),
+                    line.date or fields.Date.context_today(self),
                 )
             else:
                 line.amount_company_currency = 0
@@ -178,10 +178,12 @@ class AccountPaymentLine(models.Model):
         self.ensure_one()
         if self.bank_account_required and not self.partner_bank_id:
             raise UserError(
-                _("Missing Partner Bank Account on payment line %s") % self.name
+                self.env._("Missing Partner Bank Account on payment line %s", self.name)
             )
         if not self.communication:
-            raise UserError(_("Communication is empty on payment line %s.") % self.name)
+            raise UserError(
+                self.env._("Communication is empty on payment line %s.", self.name)
+            )
 
     def _prepare_account_payment_vals(self):
         """Prepare the dictionary to create an account payment record from a set of
@@ -195,9 +197,9 @@ class AccountPaymentLine(models.Model):
             "destination_account_id": self.move_line_id.account_id.id,
             "company_id": self.order_id.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
-            "date": fields.Date.today(),
+            "date": fields.Date.context_today(self),
             "currency_id": self.currency_id.id,
-            "ref": self.order_id.name,
+            "memo": self.order_id.name,
             # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
             # the sequence for all the payment at the same time
             "name": "/",
@@ -229,13 +231,13 @@ class AccountPaymentLine(models.Model):
         # Fill destination account if manual payment line with no linked journal item
         if not vals["destination_account_id"]:
             if vals["partner_type"] == "customer":
-                vals[
-                    "destination_account_id"
-                ] = self.partner_id.property_account_receivable_id.id
+                vals["destination_account_id"] = (
+                    self.partner_id.property_account_receivable_id.id
+                )
             else:
-                vals[
-                    "destination_account_id"
-                ] = self.partner_id.property_account_payable_id.id
+                vals["destination_account_id"] = (
+                    self.partner_id.property_account_payable_id.id
+                )
         return vals
 
     def action_open_business_doc(self):
