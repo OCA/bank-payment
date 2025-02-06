@@ -3,17 +3,14 @@
 
 from unittest.mock import patch
 
-from odoo.tests.common import TransactionCase
-
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestPaymentMode(TransactionCase):
+class TestPaymentMode(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         Method_get_payment_method_information = (
             AccountPaymentMethod._get_payment_method_information
         )
@@ -38,7 +35,7 @@ class TestPaymentMode(TransactionCase):
         )
 
         cls.account = cls.env["account.account"].search(
-            [("reconcile", "=", True), ("company_id", "=", cls.company.id)], limit=1
+            [("reconcile", "=", True), ("company_ids", "in", cls.company.ids)], limit=1
         )
 
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")

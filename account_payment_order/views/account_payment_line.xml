@@ -4,11 +4,9 @@
         <field name="name">account.payment.line.form</field>
         <field name="model">account.payment.line</field>
         <field name="arch" type="xml">
-            <form string="Payment Lines">
+            <form>
                 <group name="main" col="2">
                     <group name="left">
-                        <field name="state" invisible="1" />
-                        <field name="company_id" invisible="1" />
                         <field
                             name="order_id"
                             invisible="not context.get('account_payment_line_main_view')"
@@ -31,19 +29,17 @@
                             domain="[('partner_id', '=', partner_id)]"
                             required="bank_account_required"
                         />
-                        <field name="bank_account_required" invisible="1" />
                         <field name="communication_type" />
                         <field name="communication" required="1" />
                     </group>
                     <group name="right">
                         <field
                             name="company_id"
-                            widget="selection"
+                            options="{'no_create': True, 'no_open': True}"
                             groups="base.group_multi_company"
                         />
                         <field name="amount_company_currency" />
                         <field name="company_currency_id" invisible="1" />
-                        <field name="payment_type" invisible="1" />
                     </group>
                 </group>
                 <group col="12" string="Payment Transaction">
@@ -73,10 +69,10 @@
         <field name="name">account.payment.line.tree</field>
         <field name="model">account.payment.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field
                     name="order_id"
-                    invisible="not context.get('account_payment_line_main_view')"
+                    column_invisible="not context.get('account_payment_line_main_view')"
                 />
                 <field name="partner_id" />
                 <field name="communication" />
@@ -85,16 +81,10 @@
                 <field name="move_line_id" optional="hide" />
                 <field name="ml_maturity_date" optional="show" />
                 <field name="date" />
-                <field name="amount_currency" string="Amount" />
-                <field name="currency_id" invisible="1" />
+                <field name="amount_currency" string="Amount" sum="Total amount" />
+                <field name="currency_id" column_invisible="1" />
                 <field name="name" optional="show" />
-                <field name="company_currency_id" invisible="1" />
-                <field
-                    name="amount_company_currency"
-                    sum="Total in Company Currency"
-                    invisible="1"
-                />
-                <field name="payment_type" invisible="1" />
+
                 <button
                     name="action_open_business_doc"
                     type="object"
@@ -102,13 +92,13 @@
                     class="btn btn-secondary"
                     invisible="not move_line_id"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="account_payment_line_action" model="ir.actions.act_window">
         <field name="name">Payment Lines</field>
         <field name="res_model">account.payment.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'account_payment_line_main_view': True}</field>
     </record>
 </odoo>

@@ -13,4 +13,3 @@ class AccountPaymentUpdate(models.TransientModel):
     def update_payment_reference(self):
         payment = self.env["account.payment"].browse(self.env.context.get("active_id"))
         payment.payment_reference = self.payment_reference
-        payment.ref = self.payment_reference

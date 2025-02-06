@@ -3,7 +3,9 @@
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from markupsafe import Markup
+
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -67,15 +69,15 @@ class AccountMove(models.Model):
         # Build a recordset to gather moves from which references have already
         # taken in order to avoid duplicates
         reference_moves = self.env["account.move"].browse()
-        # If we have credit note(s) - reversal_move_id is a one2many
-        if self.reversal_move_id:
+        # If we have credit note(s) - reversal_move_ids is a one2many
+        if self.reversal_move_ids:
             references.extend(
                 [
                     move._get_payment_order_communication_direct()
-                    for move in self.reversal_move_id
+                    for move in self.reversal_move_ids
                 ]
             )
-            reference_moves |= self.reversal_move_id
+            reference_moves |= self.reversal_move_ids
         # Retrieve partial payments - e.g.: manual credit notes
         (
             # List of triplets
@@ -112,7 +114,9 @@ class AccountMove(models.Model):
         action_payment_type = "debit"
         for move in self:
             if move.state != "posted":
-                raise UserError(_("The invoice %s is not in Posted state") % move.name)
+                raise UserError(
+                    self.env._("The invoice %s is not in Posted state", move.name)
+                )
             pre_applicable_lines = move.line_ids.filtered(
                 lambda x: (
                     not x.reconciled
@@ -121,34 +125,34 @@ class AccountMove(models.Model):
                 )
             )
             if not pre_applicable_lines:
-                raise UserError(_("No pending AR/AP lines to add on %s") % move.name)
+                raise UserError(
+                    self.env._("No pending AR/AP lines to add on %s", move.name)
+                )
             payment_modes = pre_applicable_lines.mapped("payment_mode_id")
             if not payment_modes:
-                raise UserError(_("No Payment Mode on invoice %s") % move.name)
+                raise UserError(self.env._("No Payment Mode on invoice %s", move.name))
             applicable_lines = pre_applicable_lines.filtered(
                 lambda x: x.payment_mode_id.payment_order_ok
             )
             if not applicable_lines:
                 raise UserError(
-                    _(
+                    self.env._(
                         "No Payment Line created for invoice %s because "
-                        "its payment mode is not intended for payment orders."
+                        "its payment mode is not intended for payment orders.",
+                        move.name,
                     )
-                    % move.name
                 )
             payment_lines = applicable_lines.payment_line_ids.filtered(
                 lambda x: x.state in ("draft", "open", "generated")
             )
             if payment_lines:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The invoice %(move)s is already added in the payment "
-                        "order(s) %(order)s."
+                        "order(s) %(order)s.",
+                        move=move.name,
+                        order=payment_lines.order_id.mapped("name"),
                     )
-                    % {
-                        "move": move.name,
-                        "order": payment_lines.order_id.mapped("name"),
-                    }
                 )
             for payment_mode in payment_modes:
                 payorder = apoo.search(
@@ -170,36 +174,41 @@ class AccountMove(models.Model):
                     count += 1
                 if new_payorder:
                     move.message_post(
-                        body=_(
-                            "%(count)d payment lines added to the new draft payment "
-                            "order <a href=# data-oe-model=account.payment.order "
-                            "data-oe-id=%(order_id)d>%(name)s</a>, which has been "
-                            "automatically created.",
-                            count=count,
-                            order_id=payorder.id,
-                            name=payorder.name,
+                        body=Markup(
+                            self.env._(
+                                "%(count)d payment lines added "
+                                "to the new draft payment "
+                                "order <a href=# data-oe-model=account.payment.order "
+                                "data-oe-id=%(order_id)d>%(name)s</a>, "
+                                "which has been automatically created.",
+                                count=count,
+                                order_id=payorder.id,
+                                name=payorder.name,
+                            )
                         )
                     )
                 else:
                     move.message_post(
-                        body=_(
-                            "%(count)d payment lines added to the existing draft "
-                            "payment order "
-                            "<a href=# data-oe-model=account.payment.order "
-                            "data-oe-id=%(order_id)d>%(name)s</a>.",
-                            count=count,
-                            order_id=payorder.id,
-                            name=payorder.name,
+                        body=Markup(
+                            self.env._(
+                                "%(count)d payment lines added to the existing draft "
+                                "payment order "
+                                "<a href=# data-oe-model=account.payment.order "
+                                "data-oe-id=%(order_id)d>%(name)s</a>.",
+                                count=count,
+                                order_id=payorder.id,
+                                name=payorder.name,
+                            )
                         )
                     )
-        action = self.env["ir.actions.act_window"]._for_xml_id(
-            "account_payment_order.account_payment_order_%s_action"
-            % action_payment_type,
+        action_xml_id = (
+            f"account_payment_order.account_payment_order_{action_payment_type}_action"
         )
+        action = self.env["ir.actions.act_window"]._for_xml_id(action_xml_id)
         if len(result_payorder_ids) == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,pivot,graph",
+                    "view_mode": "form,list,pivot,graph",
                     "res_id": payorder.id,
                     "views": False,
                 }
@@ -207,8 +216,8 @@ class AccountMove(models.Model):
         else:
             action.update(
                 {
-                    "view_mode": "tree,form,pivot,graph",
-                    "domain": "[('id', 'in', %s)]" % list(result_payorder_ids),
+                    "view_mode": "list,form,pivot,graph",
+                    "domain": f"[('id', 'in', {list(result_payorder_ids)})]",
                     "views": False,
                 }
             )

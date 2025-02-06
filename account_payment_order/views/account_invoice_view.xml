@@ -47,9 +47,7 @@
                     />
                 </button>
             </div>
-            <field name="payment_mode_id" position="after">
-                <field name="payment_order_ok" invisible="1" />
-            </field>
+            <field name="payment_mode_id" position="after" />
             <!-- First we place the rest of the elements for the new reference distribution -->
             <field name="payment_reference" position="before">
                 <label for="payment_reference" />
@@ -67,7 +65,7 @@
                 <field name="payment_reference" position="move" />
             </field>
         </field>
-</record>
+    </record>
     <record
         id="account_invoice_create_account_payment_line_action"
         model="ir.actions.act_window"
@@ -84,8 +82,8 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-                <button name="action_register_payment" position="after">
-                    <button
+            <button name="action_force_register_payment" position="after">
+                <button
                     name="%(account_invoice_create_account_payment_line_action)d"
                     type="action"
                     string="Add to Payment/Debit Order"
@@ -94,5 +92,5 @@
                 />
             </button>
         </field>
-</record>
+    </record>
 </odoo>

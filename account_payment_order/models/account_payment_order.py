@@ -6,7 +6,7 @@
 
 import base64
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -153,7 +153,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             if order.state == "uploaded":
                 raise UserError(
-                    _(
+                    self.env._(
                         "You cannot delete an uploaded payment order. You can "
                         "cancel it in order to do so."
                     )
@@ -168,7 +168,7 @@ class AccountPaymentOrder(models.Model):
                 and order.payment_mode_id.payment_type != order.payment_type
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The payment type (%(ptype)s) is not the same as the payment "
                         "type of the payment mode (%(pmode)s)",
                         ptype=order.payment_type,
@@ -183,7 +183,7 @@ class AccountPaymentOrder(models.Model):
             if order.date_scheduled:
                 if order.date_scheduled < today:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "On payment order %(porder)s, the Payment Execution Date "
                             "is in the past (%(exedate)s).",
                             porder=order.name,
@@ -200,21 +200,21 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends("payment_ids")
     def _compute_payment_count(self):
+        data = self.env["account.payment"]._read_group(
+            [("payment_order_id", "in", self.ids)], ["payment_order_id"], ["__count"]
+        )
+        count_data = {payment_order.id: count for payment_order, count in data}
         for order in self:
-            order.payment_count = len(order.payment_ids)
+            order.payment_count = count_data.get(order.id) or 0
 
     @api.depends("move_ids")
     def _compute_move_count(self):
-        rg_res = self.env["account.move"].read_group(
-            [("payment_order_id", "in", self.ids)],
-            ["payment_order_id"],
-            ["payment_order_id"],
+        data = self.env["account.move"]._read_group(
+            [("payment_order_id", "in", self.ids)], ["payment_order_id"], ["__count"]
         )
-        mapped_data = {
-            x["payment_order_id"][0]: x["payment_order_id_count"] for x in rg_res
-        }
+        count_data = {payment_order.id: count for payment_order, count in data}
         for order in self:
-            order.move_count = mapped_data.get(order.id, 0)
+            order.move_count = count_data.get(order.id) or 0
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -268,19 +268,23 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             if not order.journal_id:
                 raise UserError(
-                    _("Missing Bank Journal on payment order %s.") % order.name
+                    self.env._("Missing Bank Journal on payment order %s.", order.name)
                 )
             if (
                 order.payment_method_id.bank_account_required
                 and not order.journal_id.bank_account_id
             ):
                 raise UserError(
-                    _("Missing bank account on bank journal '%s'.")
-                    % order.journal_id.display_name
+                    self.env._(
+                        "Missing bank account on bank journal '%s'.",
+                        order.journal_id.display_name,
+                    )
                 )
             if not order.payment_line_ids:
                 raise UserError(
-                    _("There are no transactions on payment order %s.") % order.name
+                    self.env._(
+                        "There are no transactions on payment order %s.", order.name
+                    )
                 )
             # Unreconcile, cancel and delete existing account payments
             order.payment_ids.action_draft()
@@ -311,7 +315,7 @@ class AccountPaymentOrder(models.Model):
                     and requested_date < payline.ml_maturity_date
                 ):
                     payline_err_text.append(
-                        _(
+                        self.env._(
                             "The payment mode '%(pmode)s' has the option "
                             "'Disallow Debit Before Maturity Date'. The "
                             "payment line %(pline)s has a maturity date %(mdate)s "
@@ -340,7 +344,7 @@ class AccountPaymentOrder(models.Model):
             # Raise errors that happened on the validation process
             if payline_err_text:
                 raise UserError(
-                    _("There's at least one validation error:\n")
+                    self.env._("There's at least one validation error:\n")
                     + "\n".join(payline_err_text)
                 )
 
@@ -352,7 +356,7 @@ class AccountPaymentOrder(models.Model):
                 # Block if a bank payment line is <= 0
                 if paydict["total"] <= 0:
                     raise UserError(
-                        _(
+                        self.env._(
                             "The amount for Partner '%(partner)s' is negative "
                             "or null (%(amount).2f) !",
                             partner=paydict["paylines"][0].partner_id.name,
@@ -371,7 +375,7 @@ class AccountPaymentOrder(models.Model):
             return (False, False)
         else:
             raise UserError(
-                _(
+                self.env._(
                     "No handler for this payment method. Maybe you haven't "
                     "installed the related Odoo module."
                 )
@@ -394,7 +398,7 @@ class AccountPaymentOrder(models.Model):
                 "account_payment_order.view_attachment_simplified_form"
             )
             action = {
-                "name": _("Payment File"),
+                "name": self.env._("Payment File"),
                 "view_mode": "form",
                 "view_id": simplified_form_view.id,
                 "res_model": "ir.attachment",
@@ -432,7 +436,7 @@ class AccountPaymentOrder(models.Model):
         if self.move_count == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,kanban",
+                    "view_mode": "form,list,kanban",
                     "views": False,
                     "view_id": False,
                     "res_id": self.move_ids[0].id,

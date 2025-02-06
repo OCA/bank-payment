@@ -16,14 +16,14 @@
             <field name="model_id" ref="model_account_payment_order" />
             <field
                 name="domain_force"
-            >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            >[('company_id', 'in', company_ids + [False])]</field>
         </record>
         <record id="account_payment_line_company_rule" model="ir.rule">
             <field name="name">Payment line multi-company rule</field>
             <field name="model_id" ref="model_account_payment_line" />
             <field
                 name="domain_force"
-            >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            >[('company_id', 'in', company_ids + [False])]</field>
         </record>
     </data>
 </odoo>

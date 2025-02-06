@@ -14,7 +14,7 @@
                     invisible="order_state != 'open'"
                     title="Update Payment Reference"
                     type="object"
-                    icon="fa-undo"
+                    icon="fa-edit"
                 />
             </field>
         </field>
@@ -24,7 +24,7 @@
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_form" />
         <field name="arch" type="xml">
-            <field name="ref" position="after">
+            <field name="memo" position="after">
                 <field name="payment_reference" invisible="not payment_reference" />
             </field>
         </field>

@@ -8,7 +8,7 @@
         <field name="name">account_invoice_payment_line_multi.form</field>
         <field name="model">account.invoice.payment.line.multi</field>
         <field name="arch" type="xml">
-            <form string="Create Payment Lines">
+            <form>
                 <p>This wizard will create payment lines for the selected invoices:</p>
                 <ul>
                     <li

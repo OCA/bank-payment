@@ -5,27 +5,24 @@
 
 from datetime import date, datetime, timedelta
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 @tagged("-at_install", "post_install")
 class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+    def setUpClass(cls):
+        super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
-        cls.partner = cls.env["res.partner"].create(
-            {
-                "name": "Test Partner",
-            }
+        cls.env.user.groups_id |= cls.env.ref(
+            "account_payment_order.group_account_payment"
         )
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
         cls.invoice_line_account = cls.env["account.account"].create(
             {
                 "name": "Test account",
@@ -79,9 +76,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "payment_mode_id": self.mode.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        None,
+                    Command.create(
                         {
                             "product_id": self.product.id,
                             "quantity": 1.0,
@@ -106,9 +101,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                 "payment_mode_id": self.mode.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        None,
+                    Command.create(
                         {
                             "product_id": self.product.id,
                             "quantity": 1.0,
@@ -295,12 +288,12 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         reverse_res = reverse.reverse_moves()
         reverse_move = self.env[reverse_res["res_model"]].browse(reverse_res["res_id"])
         self.assertEqual(
-            " %s" % reverse_move.ref,
+            f" {reverse_move.ref}",
             self.invoice._get_payment_order_communication_full(),
         )
         self.invoice.ref = "ref"
         self.assertEqual(
-            "ref %s" % reverse_move.ref,
+            f"ref {reverse_move.ref}",
             self.invoice._get_payment_order_communication_full(),
         )
 

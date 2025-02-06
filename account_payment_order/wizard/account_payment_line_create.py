@@ -4,7 +4,7 @@
 # © 2015-2016 Akretion (<https://www.akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -26,7 +26,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         selection=[("posted", "All Posted Entries"), ("all", "All Entries")],
         string="Target Moves",
     )
-    allow_blocked = fields.Boolean(string="Allow Litigation Move Lines")
     invoice = fields.Boolean(string="Linked to an Invoice or Refund")
     date_type = fields.Selection(
         selection=[("due", "Due Date"), ("move", "Move Date")],
@@ -74,7 +73,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         "journal_ids",
         "invoice",
         "target_move",
-        "allow_blocked",
         "payment_mode",
         "partner_ids",
     )
@@ -92,8 +90,6 @@ class AccountPaymentLineCreate(models.TransientModel):
             domain += [("move_id.state", "=", "posted")]
         else:
             domain += [("move_id.state", "in", ("draft", "posted"))]
-        if not self.allow_blocked:
-            domain += [("blocked", "!=", True)]
         if self.date_type == "due":
             domain += [
                 "|",
@@ -168,7 +164,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         lines = self.env["account.move.line"].search(self.move_line_domain)
         self.move_line_ids = lines
         action = {
-            "name": _("Select Move Lines to Create Transactions"),
+            "name": self.env._("Select Move Lines to Create Transactions"),
             "type": "ir.actions.act_window",
             "res_model": "account.payment.line.create",
             "view_mode": "form",
