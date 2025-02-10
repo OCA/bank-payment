@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from datetime import date
 from unittest.mock import patch
 
+from odoo import _
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
@@ -70,6 +71,18 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
         ):
             yield
 
+    @contextmanager
+    def with_raise_error_while_exporting(self):
+        def dummy_raise():
+            raise UserError(_("Error"))
+
+        path = (
+            "odoo.addons.account_payment_method_or_mode_fs_storage.models"
+            ".account_payment_order.AccountPaymentOrder._export_to_storage"
+        )
+        with patch(path, new=dummy_raise, create=True):
+            yield
+
     def test_payment_method_fs_storage(self):
         self.env.user.company_id = self.company.id
         self.company.update(
@@ -104,6 +117,9 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
         with self.with_custom_method():
             action = order.open2generated()
 
+        # trigger postcommit without actually commiting transaction
+        self.env.cr.postcommit.run()
+
         self.assertDictEqual(
             action,
             {
@@ -112,7 +128,7 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
                 "params": {
                     "type": "success",
                     "title": "Generate and export",
-                    "message": "The file has been generated and dropped on the storage.",
+                    "message": "The file has been scheduled to be dropped on the storage.",
                     "sticky": True,
                     "next": {
                         "type": "ir.actions.client",
@@ -186,6 +202,9 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
         with self.with_custom_method():
             action = order.open2generated()
 
+        # trigger postcommit without actually commiting transaction
+        self.env.cr.postcommit.run()
+
         self.assertDictEqual(
             action,
             {
@@ -194,7 +213,7 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
                 "params": {
                     "type": "success",
                     "title": "Generate and export",
-                    "message": "The file has been generated and dropped on the storage.",
+                    "message": "The file has been scheduled to be dropped on the storage.",
                     "sticky": True,
                     "next": {
                         "type": "ir.actions.client",
@@ -244,6 +263,9 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
         with self.with_custom_method():
             action = order.open2generated()
 
+        # trigger postcommit without actually commiting transaction
+        self.env.cr.postcommit.run()
+
         self.assertDictEqual(
             action,
             {
@@ -252,7 +274,7 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
                 "params": {
                     "type": "success",
                     "title": "Generate and export",
-                    "message": "The file has been generated and dropped on the storage.",
+                    "message": "The file has been scheduled to be dropped on the storage.",
                     "sticky": True,
                     "next": {
                         "type": "ir.actions.client",
@@ -291,3 +313,45 @@ class TestAccountPaymentMethodOrModeFsStorage(AccountTestInvoicingCommon):
 
         self.creation_mode.write({"storage": False})
         mode_config.fs_storage_ids = False
+
+    def test_error_while_uploading(self):
+        self.env.user.company_id = self.company.id
+        self.company.update(
+            {
+                "fs_storage_source_payment": "mode",
+            }
+        )
+
+        self.env["ir.config_parameter"].sudo().set_param(
+            f"account_payment_method_or_mode_fs_storage.fs_storage_ids_{self.company.id}",
+            [self.fs_storage_mode.id],
+        )
+        self.creation_mode.storage = str(self.fs_storage_mode.id)
+
+        order_vals = {
+            "payment_type": "outbound",
+            "payment_mode_id": self.creation_mode.id,
+            "journal_id": self.bank_journal.id,
+        }
+
+        order = self.env["account.payment.order"].create(order_vals)
+
+        vals = {
+            "order_id": order.id,
+            "partner_id": self.partner.id,
+            "communication": "manual line and manual date",
+            "currency_id": order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200,
+            "date": date.today(),
+        }
+        self.env["account.payment.line"].create(vals)
+
+        order.draft2open()
+        with self.with_custom_method():
+            order.open2generated()
+
+        with self.with_raise_error_while_exporting():
+            # trigger postcommit without actually commiting transaction
+            self.env.cr.postcommit.run()
+
+        self.assertEqual(order.state, "cancel")

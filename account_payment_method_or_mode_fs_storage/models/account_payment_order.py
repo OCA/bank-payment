@@ -1,8 +1,9 @@
 # Copyright 2024 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import base64
 import logging
 
-from odoo import _, models
+from odoo import _, api, models, registry
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -41,20 +42,50 @@ class AccountPaymentOrder(models.Model):
             ) from e
         return True
 
-    def generate_payment_file(self):
+    def _get_payment_attachment_to_export(self):
         """
-        Inherit to catch file generation and put it on the storage (if necessary)
+        Return attachment linked to payment order that should be exported
         """
-        file_content, filename = super().generate_payment_file()
-        if self._must_be_exported_to_storage():
-            self._export_to_storage(file_content, filename)
-        return file_content, filename
+        self.ensure_one()
+
+        return self.env["ir.attachment"].search(
+            [("res_model", "=", "account.payment.order"), ("res_id", "=", self.id)],
+            limit=1,
+            order="create_date DESC",
+        )
 
     def open2generated(self):
         self.ensure_one()
         action = super().open2generated()
         if self._must_be_exported_to_storage():
             self.generated2uploaded()
+
+            # exporting to storage should be done as late as possible
+            # since it may be unreversible
+            @self.env.cr.postcommit.add
+            def export_attachment():
+                db_registry = registry(self.env.cr.dbname)
+                with db_registry.cursor() as cr:
+                    context = self.env.context
+                    uid = self.env.uid
+
+                    env = api.Environment(cr, uid, context)
+                    order = self.with_env(env)
+
+                    try:
+                        attachment = order._get_payment_attachment_to_export()
+                        if not attachment:
+                            raise UserError(_("Attachment to upload not found!"))
+                        content = base64.b64decode(attachment.datas)
+                        order._export_to_storage(content, attachment.name)
+                    except UserError:
+                        self.action_uploaded_cancel()
+                        self.message_post(
+                            body=_(
+                                "Order set to canceled due to Error while uploading file"
+                            )
+                        )
+
             action = {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
@@ -62,7 +93,7 @@ class AccountPaymentOrder(models.Model):
                     "type": "success",
                     "title": _("Generate and export"),
                     "message": _(
-                        "The file has been generated and dropped on the storage."
+                        "The file has been scheduled to be dropped on the storage."
                     ),
                     "sticky": True,
                     "next": {
