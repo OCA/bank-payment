@@ -209,6 +209,9 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.company_default_bank = cls.company.partner_id.bank_ids.filtered(
             lambda bank: not bank.company_id or bank.company_id == cls.company
         ).sorted(lambda bank: not bank.allow_out_payment)[:1]
+        cls.company_2_default_bank = cls.company_2.partner_id.bank_ids.filtered(
+            lambda bank: not bank.company_id or bank.company_id == cls.company_2
+        ).sorted(lambda bank: not bank.allow_out_payment)[:1]
 
     def _create_invoice(self, default_move_type, partner):
         move_form = Form(
@@ -264,10 +267,10 @@ class TestAccountPaymentPartner(TransactionCase):
         self.assertFalse(invoice_form.partner_bank_id)
         self.assertEqual(invoice_form.payment_mode_id, self.customer_payment_mode)
         invoice_form.company_id = self.company_2
-        self.assertEqual(invoice_form.partner_bank_id, self.company_default_bank)
+        self.assertEqual(invoice_form.partner_bank_id, self.company_2_default_bank)
         self.assertEqual(invoice_form.payment_mode_id, self.payment_mode_model)
         invoice_form.payment_mode_id = self.payment_mode_model.browse()
-        self.assertEqual(invoice_form.partner_bank_id, self.company_default_bank)
+        self.assertEqual(invoice_form.partner_bank_id, self.company_2_default_bank)
 
     def test_invoice_create_in_invoice(self):
         invoice = self._create_invoice(
