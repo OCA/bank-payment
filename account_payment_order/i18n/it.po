@@ -22,7 +22,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid ""
 "%(count)d payment lines added to the existing draft payment order <a href=# "
 "data-oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>."
@@ -34,7 +33,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid ""
 "%(count)d payment lines added to the new draft payment order <a href=# data-"
 "oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>, which "
@@ -83,7 +81,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/res_bank.py:0
-#, python-format
 msgid ""
 "A valid BIC contains 8 or 11 characters. The BIC '%(bic)s' contains %(num)d "
 "characters, so it is not valid."
@@ -162,11 +159,6 @@ msgstr "Tutte le registrazioni"
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_target_move__posted
 msgid "All Posted Entries"
 msgstr "Tutte le registrazioni confermate"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__allow_blocked
-msgid "Allow Litigation Move Lines"
-msgstr "Consenti righe movimento contenzioso"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__allowed_journal_ids
@@ -259,11 +251,6 @@ msgstr "Annulla pagamenti"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
-msgid "Choose Move Lines Filter Options"
-msgstr "Scegliere opzioni di filtro per righe movimenti"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
 msgid ""
 "Click on Add All Move Lines to auto-select the move lines matching the above "
 "criteria or click on Add an item to manually select the move lines filtered "
@@ -287,7 +274,6 @@ msgstr "Tipo comunicazione"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_line.py:0
-#, python-format
 msgid "Communication is empty on payment line %s."
 msgstr "La comunicazione è vuota sulla riga di pagamento %s."
 
@@ -317,11 +303,6 @@ msgstr "Confermato"
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 msgid "Create"
 msgstr "Crea"
-
-#. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
-msgid "Create Payment Lines"
-msgstr "Crea righe pagamento"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -616,11 +597,6 @@ msgid "Inbound"
 msgstr "In entrata"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__inbound_payment_order_only
-msgid "Inbound Payment Order Only"
-msgstr "Solo ordine di pagamento in entrata"
-
-#. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Invoice Ref"
 msgstr "Rif. fattura"
@@ -629,11 +605,6 @@ msgstr "Rif. fattura"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__message_is_follower
 msgid "Is Follower"
 msgstr "Segue"
-
-#. module: account_payment_order
-#: model:ir.model,name:account_payment_order.model_account_journal
-msgid "Journal"
-msgstr "Registro"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__move_ids
@@ -715,21 +686,18 @@ msgstr "Messaggi"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr "Registro banca mancante sull'ordine di pagamento %s."
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_line.py:0
-#, python-format
 msgid "Missing Partner Bank Account on payment line %s"
 msgstr "Conto bancario partner mancante nella riga di pagamento %s"
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "Missing bank account on bank journal '%s'."
 msgstr "Conto bancario mancante nel registro bancario '%s'."
 
@@ -782,7 +750,6 @@ msgstr "Tipo prossima attività"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid ""
 "No Payment Line created for invoice %s because its payment mode is not "
 "intended for payment orders."
@@ -793,14 +760,12 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid "No Payment Mode on invoice %s"
 msgstr "Nessun modo di pagamento nella fattura %s"
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
 "Odoo module."
@@ -811,7 +776,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid "No pending AR/AP lines to add on %s"
 msgstr "Nessuna riga AR/AP in sospeso da aggiungere in %s"
 
@@ -853,7 +817,6 @@ msgstr "Numero di messaggi con errore di consegna"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "On payment order %(porder)s, the Payment Execution Date is in the past "
 "(%(exedate)s)."
@@ -875,11 +838,6 @@ msgstr "Opzioni per ordini di pagamento"
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__payment_type__outbound
 msgid "Outbound"
 msgstr "In uscita"
-
-#. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_journal__outbound_payment_order_only
-msgid "Outbound Payment Order Only"
-msgstr "Solo ordini di pagamento in uscita"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_id
@@ -916,7 +874,6 @@ msgstr "Tipo data di esecuzione del pagamento"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "Payment File"
 msgstr "File di pagamento"
 
@@ -928,7 +885,6 @@ msgstr "Riga di pagamento"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_line_count
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_line_count
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_count
 msgid "Payment Line Count"
 msgstr "Conteggio righe pagamento"
 
@@ -940,7 +896,6 @@ msgstr "Data riga pagamento"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
 #: model:ir.model,name:account_payment_order.model_account_payment_line
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Payment Lines"
 msgstr "Righe di pagamento"
@@ -980,7 +935,6 @@ msgstr "Modi di pagamento"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_order_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__order_id
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__order_id
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
 msgid "Payment Order"
 msgstr "Ordine di pagamento"
@@ -993,7 +947,6 @@ msgstr "Righe ordine di pagamento"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_order_ok
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_order_ok
 msgid "Payment Order Ok"
 msgstr "Ordine di pagamento ok"
 
@@ -1005,8 +958,6 @@ msgstr "Stato ordine pgamento"
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
 #: model:ir.ui.menu,name:account_payment_order.account_payment_order_outbound_menu
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_graph
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_pivot
 msgid "Payment Orders"
 msgstr "Ordini di pagamento"
 
@@ -1052,7 +1003,6 @@ msgstr "Pagamenti"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment__reference_type
 msgid "Reference Type"
 msgstr "Tipo riferimento"
 
@@ -1078,14 +1028,8 @@ msgid "Same or empty"
 msgstr "Medesimo o vuoto"
 
 #. module: account_payment_order
-#: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_search
-msgid "Search Payment Orders"
-msgstr "Cerca ordini di pagamento"
-
-#. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/wizard/account_payment_line_create.py:0
-#, python-format
 msgid "Select Move Lines to Create Transactions"
 msgstr "Selezionare righe di movimento per creare transazioni"
 
@@ -1162,7 +1106,6 @@ msgstr "Modello tecnico per la stampa dell'ordine di pagamento"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The amount for Partner '%(partner)s' is negative or null (%(amount).2f) !"
 msgstr ""
@@ -1171,7 +1114,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid ""
 "The invoice %(move)s is already added in the payment order(s) %(order)s."
 msgstr ""
@@ -1180,14 +1122,12 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_move.py:0
-#, python-format
 msgid "The invoice %s is not in Posted state"
 msgstr "La fattura %s non è nello stato confermato"
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The payment mode '%(pmode)s' has the option 'Disallow Debit Before Maturity "
 "Date'. The payment line %(pline)s has a maturity date %(mdate)s which is "
@@ -1201,7 +1141,6 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The payment type (%(ptype)s) is not the same as the payment type of the "
 "payment mode (%(pmode)s)"
@@ -1212,14 +1151,12 @@ msgstr ""
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "There are no transactions on payment order %s."
 msgstr "Non ci sono transazioni nell'ordine di pagamento %s."
 
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "There's at least one validation error:\n"
 msgstr "C'è almeno un errore di validazione:\n"
 
@@ -1266,8 +1203,8 @@ msgstr "Totale residuo"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
-msgid "Total in Company Currency"
-msgstr "Totale in valuta aziendale"
+msgid "Total amount"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_line_ids
@@ -1292,7 +1229,6 @@ msgstr "Tipo di attività eccezione sul record."
 #: model:ir.model,name:account_payment_order.model_account_payment_update
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_update_view_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
-#, python-format
 msgid "Update Payment Reference"
 msgstr "Aggiorna riferimento pagamento"
 
@@ -1324,7 +1260,6 @@ msgstr "Procedura guidata creazione righe di pagamento"
 #. module: account_payment_order
 #. odoo-python
 #: code:addons/account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "You cannot delete an uploaded payment order. You can cancel it in order to "
 "do so."
@@ -1351,6 +1286,30 @@ msgid "otherwise, new payment orders will be created (one per payment mode)."
 msgstr ""
 "altrimenti, nuovi ordini di pagamento verranno creati (uno per modalità di "
 "pagamento)."
+
+#~ msgid "Allow Litigation Move Lines"
+#~ msgstr "Consenti righe movimento contenzioso"
+
+#~ msgid "Choose Move Lines Filter Options"
+#~ msgstr "Scegliere opzioni di filtro per righe movimenti"
+
+#~ msgid "Create Payment Lines"
+#~ msgstr "Crea righe pagamento"
+
+#~ msgid "Inbound Payment Order Only"
+#~ msgstr "Solo ordine di pagamento in entrata"
+
+#~ msgid "Journal"
+#~ msgstr "Registro"
+
+#~ msgid "Outbound Payment Order Only"
+#~ msgstr "Solo ordini di pagamento in uscita"
+
+#~ msgid "Search Payment Orders"
+#~ msgstr "Cerca ordini di pagamento"
+
+#~ msgid "Total in Company Currency"
+#~ msgstr "Totale in valuta aziendale"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Errore consegna SMS"
