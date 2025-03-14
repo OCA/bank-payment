@@ -95,4 +95,25 @@
             </button>
         </field>
 </record>
+    <record id="view_account_move_search_inherit" model="ir.ui.view">
+        <field name="name">view.account.move.search.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[@name='myinvoices']" position="before">
+                <filter
+                    string="Transmitted Invoices"
+                    name="transmitted_invoices"
+                    domain="[('state', '=', 'posted'), ('payment_order_id', '!=', False)]"
+                />
+                <filter
+                    string="Invoices Not Transmitted"
+                    name="invoices_not_transmitted"
+                    domain="[('state', '=', 'posted'), ('payment_order_id', '=', False)]"
+                />
+                <separator />
+            </xpath>
+        </field>
+    </record>
 </odoo>
