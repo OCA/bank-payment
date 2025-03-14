@@ -23,7 +23,7 @@ class SaleOrder(models.Model):
         for order in self:
             if order.partner_id and order.company_id:
                 order.payment_mode_id = order.with_company(
-                    order.company_id
+                    order.company_id.id
                 ).partner_id.customer_payment_mode_id
             else:
                 order.payment_mode_id = False
