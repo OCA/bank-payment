@@ -36,7 +36,7 @@ class AccountPaymentMethodLine(models.Model):
     # When bank_account_link = 'fixed' => we use journal_id
     # When bank_account_link = 'variable':
     # - journal_id is empty
-    # - variable_journal_ids hsa the list of allowed journals on payment order
+    # - variable_journal_ids has the list of allowed journals on payment order
     filter_journal_ids = fields.Many2many(
         "account.journal", compute="_compute_filter_journal_ids"
     )
