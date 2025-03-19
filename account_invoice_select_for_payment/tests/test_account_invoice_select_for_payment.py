@@ -1,3 +1,4 @@
+from odoo import fields
 from odoo.tests import TransactionCase
 
 
@@ -26,7 +27,8 @@ class TestAccountMoveAndPayment(TransactionCase):
     def _create_invoice(cls, partner_id, selected_for_payment):
         invoice = cls.env["account.move"].create(
             {
-                "move_type": "out_invoice",
+                "invoice_date": fields.Date.today(),
+                "move_type": "in_invoice",
                 "partner_id": partner_id,
                 "selected_for_payment": selected_for_payment,
             }
@@ -89,3 +91,28 @@ class TestAccountMoveAndPayment(TransactionCase):
         self.env.invalidate_all()
         self.assertFalse(self.invoice_1.selected_for_payment)
         self.assertTrue(self.invoice_2.selected_for_payment)
+
+    def test_to_pay_removal_when_paid(self):
+        """Test that selected_for_payment is removed when invoice is fully paid"""
+        # create and reconcile a payment without using the register payment wizard
+        journal = self.env["account.journal"].search(
+            [("type", "=", "bank"), ("company_id", "=", self.invoice_2.company_id.id)],
+            limit=1,
+        )
+        payment = self.env["account.payment"].create(
+            {
+                "journal_id": journal.id,
+                "amount": self.invoice_2.amount_total,
+                "payment_type": "outbound",
+                "partner_type": "supplier",
+                "partner_id": self.invoice_2.partner_id.id,
+            }
+        )
+        payment.action_post()
+        _liquidity_line, payable_line, _write_off_line = payment._seek_for_lines()
+        payable_invoice_line = self.invoice_2.line_ids.filtered(
+            lambda line: line.account_id.account_type == "liability_payable"
+        )
+        self.assertTrue(self.invoice_2.selected_for_payment)
+        (payable_line | payable_invoice_line).reconcile()
+        self.assertFalse(self.invoice_2.selected_for_payment)

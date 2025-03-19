@@ -31,7 +31,9 @@ Account Invoice Select for Payment
 This module allows to mark invoices as "selected for payment". This can
 be done in the list view of invoices using a button in the first column
 of the view which shows the selection status. This selection persists
-until a payment is registered.
+until a payment is registered. It's also possible to choose if the
+invoice is to pay or not directly in the form viex of the invoice. When
+it's to pay, a ribbon appears.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -48,7 +50,9 @@ Usage
 
 To mark an invoice as "selected for payment", click on the button before
 the Number column. This will change the state and change the way the
-button is displayed to a checked box.
+button is displayed to a checked box. It's also possible to choose if
+the invoice is to pay or not directly in the form viex of the invoice.
+When it's to pay, a ribbon appears.
 
 When done, use the search filter "Selected for payment", and select all
 the lines to give access to the Actions menu, in which you can select
@@ -81,6 +85,7 @@ Contributors
 - Alexandre Fayolle <alexandre.fayolle@camptocamp.com>
 - Hiep Nguyen Hoang <hiepnh@trobz.com>
 - Khoi (Kien Kim) <khoikk@trobz.com>
+- Florian da Costa <florian.dacosta@akretion.com>
 
 Other credits
 -------------

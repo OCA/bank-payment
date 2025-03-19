@@ -1,3 +1,4 @@
 - Alexandre Fayolle \<<alexandre.fayolle@camptocamp.com>\>
 - Hiep Nguyen Hoang \<<hiepnh@trobz.com>\>
 - Khoi (Kien Kim) \<<khoikk@trobz.com>\>
+- Florian da Costa \<<florian.dacosta@akretion.com>\>

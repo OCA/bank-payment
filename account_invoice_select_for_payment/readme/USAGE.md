@@ -1,6 +1,8 @@
 To mark an invoice as "selected for payment", click on the button before
 the Number column. This will change the state and change the way the
 button is displayed to a checked box.
+It's also possible to choose if the invoice is to pay or not directly in the form viex of the invoice.
+When it's to pay, a ribbon appears.
 
 When done, use the search filter "Selected for payment", and select all
 the lines to give access to the Actions menu, in which you can select
