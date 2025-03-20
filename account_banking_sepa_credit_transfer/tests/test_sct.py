@@ -108,6 +108,7 @@ class TestSCT(AccountTestInvoicingCommon):
                 "payment_account_id": cls.test_company_dict[
                     "default_account_assets"
                 ].id,
+                "selectable": True,
             }
         )
 
