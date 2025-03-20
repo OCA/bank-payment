@@ -48,6 +48,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
                 "journal_id": cls.company_data["default_journal_bank"].id,
                 "payment_method_id": cls.payment_method_in.id,
                 "company_id": cls.company.id,
+                "selectable": True,
             }
         )
         cls.journal = cls.company_data["default_journal_bank"]
