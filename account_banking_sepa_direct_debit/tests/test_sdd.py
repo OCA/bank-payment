@@ -102,6 +102,7 @@ class TestSDDBase(AccountTestInvoicingCommon):
                 "bank_account_link": "fixed",
                 "journal_id": cls.bank_journal.id,
                 "payment_account_id": cls.payment_account.id,
+                "selectable": True,
             }
         )
         cls.partner1_mandate = cls.mandate_model.create(
