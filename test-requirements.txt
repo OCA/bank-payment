@@ -1,0 +1,1 @@
+odoo-addon-account_payment_base_oca @ git+https://github.com/OCA/bank-payment.git@refs/pull/1401/head#subdirectory=account_payment_base_oca
