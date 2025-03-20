@@ -10,7 +10,7 @@
     "summary": "OCA extensions to native payment objects of Odoo",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "website": "https://github.com/OCA/bank-payment",
     "depends": ["account"],
     "data": [
