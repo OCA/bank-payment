@@ -78,6 +78,7 @@ class TestInvoiceMandate(AccountTestInvoicingCommon):
                 ).id,
                 "journal_id": cls.bank_journal.id,
                 "payment_order_ok": True,
+                "selectable": True,
             }
         )
         cls.mode_inbound_acme.payment_method_id.mandate_required = True

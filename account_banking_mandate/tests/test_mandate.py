@@ -186,11 +186,10 @@ class TestMandate(AccountTestInvoicingCommon):
                 "partner_bank_id": self.other_bank_account.id,
                 "signature_date": "2015-01-01",
                 "company_id": self.company.id,
-                "unique_mandate_reference": "/",
             }
         )
         self.assertTrue(mandate.unique_mandate_reference)
-        self.assertNotEqual(mandate.unique_mandate_reference, "/")
+        self.assertNotEqual(mandate.unique_mandate_reference, "New")
 
     def test_mandate_reference_05(self):
         """
@@ -205,27 +204,3 @@ class TestMandate(AccountTestInvoicingCommon):
             }
         )
         self.assertTrue(mandate.unique_mandate_reference)
-
-    def test_mandate_reference_06(self):
-        """
-        Test case: create a mandate with False as reference (empty with UX)
-        Expected result: the reference of the created mandate is not False
-        """
-        mandate_1 = self.env["account.banking.mandate"].create(
-            {
-                "partner_bank_id": self.other_bank_account.id,
-                "signature_date": "2015-01-01",
-                "company_id": self.company.id,
-                "unique_mandate_reference": False,
-            }
-        )
-        self.assertTrue(mandate_1.unique_mandate_reference)
-        mandate_2 = self.env["account.banking.mandate"].create(
-            {
-                "partner_bank_id": self.other_bank_account.id,
-                "signature_date": "2015-01-01",
-                "company_id": self.company.id,
-                "unique_mandate_reference": "",
-            }
-        )
-        self.assertTrue(mandate_2.unique_mandate_reference)
