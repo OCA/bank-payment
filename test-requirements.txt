@@ -3,3 +3,5 @@ odoo-addon-account_banking_pain_base @ git+https://github.com/OCA/bank-payment.g
 odoo-addon-account_banking_sepa_credit_transfer @ git+https://github.com/OCA/bank-payment.git@refs/pull/1405/head#subdirectory=account_banking_sepa_credit_transfer
 odoo-addon-account_banking_sepa_direct_debit @ git+https://github.com/OCA/bank-payment.git@refs/pull/1406/head#subdirectory=account_banking_sepa_direct_debit
 odoo-addon-account_banking_mandate @ git+https://github.com/OCA/bank-payment.git@refs/pull/1407/head#subdirectory=account_banking_mandate
+odoo-addon-account_banking_mandate_sale @ git+https://github.com/OCA/bank-payment.git@refs/pull/1411/head#subdirectory=account_banking_mandate_sale
+odoo-addon-account_payment_sale @ git+https://github.com/OCA/bank-payment.git@refs/pull/1386/head#subdirectory=account_payment_sale
