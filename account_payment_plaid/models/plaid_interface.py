@@ -34,7 +34,6 @@ try:
     from plaid.model.transfer_network import TransferNetwork
     from plaid.model.transfer_type import TransferType
 
-
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
@@ -137,6 +136,9 @@ class PlaidInterface(models.AbstractModel):
         try:
             response = client.transfer_event_sync(request)
             events.extend(response.to_dict()["transfer_events"])
+        request = TransferEventSyncRequest(after_id=4, count=25)
+        try:
+            response = client.transfer_event_sync(request)
         except plaid.ApiException as e:
             raise ValidationError(
                 _("Error syncing transfer events: %s") % e.body
@@ -154,6 +156,7 @@ class PlaidInterface(models.AbstractModel):
                 ) from e
             events.extend(response.to_dict()["transfer_events"])
         return events
+        return response.to_dict()["transfer_events"]
 
     ############################
     # Sandbox Transfer Methods #
