@@ -196,6 +196,7 @@
                     filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"
                     string="Name or Description"
                 />
+                <field name="search_partner_id" />
                 <field name="journal_id" />
                 <filter
                     name="draft"

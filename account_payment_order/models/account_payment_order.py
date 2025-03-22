@@ -155,6 +155,9 @@ class AccountPaymentOrder(models.Model):
     payment_file_name = fields.Char(
         related="payment_file_id.name", string="Payment Filename"
     )
+    search_partner_id = fields.Many2one(
+        related="payment_line_ids.partner_id", string="Partner"
+    )
 
     _sql_constraints = [
         (
