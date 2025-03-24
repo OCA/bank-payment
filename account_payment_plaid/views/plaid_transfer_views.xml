@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
         <record id="plaid_transfer_view_tree" model="ir.ui.view">
             <field name="name">plaid.transfer.view.tree</field>
             <field name="model">plaid.transfer</field>
@@ -23,12 +22,12 @@
                     <header>
                         <field name="host" invisible="1" />
                         <button
-                            name="action_sandbox_simulation"
-                            type="object"
-                            class="btn btn-secondary"
-                            attrs="{'invisible': [('host', '!=', 'sand')]}"
-                            string="Simulate transfer"
-                        />
+                        name="action_sandbox_simulation"
+                        type="object"
+                        class="btn btn-secondary"
+                        attrs="{'invisible': [('host', '!=', 'sand')]}"
+                        string="Simulate transfer"
+                    />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
@@ -57,11 +56,10 @@
             <field name="context">{'create': False, 'edit': False}</field>
         </record>
         <menuitem
-            id="plaid_transfer_menu_tech"
-            name="Transfer"
-            action="plaid_transfer_action"
-            parent="technical_menu_category_plaid"
-            sequence="10"
-        />
-    </data>
+        id="plaid_transfer_menu_tech"
+        name="Transfer"
+        action="plaid_transfer_action"
+        parent="technical_menu_category_plaid"
+        sequence="10"
+    />
 </odoo>

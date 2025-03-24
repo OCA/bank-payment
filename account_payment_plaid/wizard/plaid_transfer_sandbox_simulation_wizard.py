@@ -9,9 +9,7 @@ SANDBOX_COMMANDS = [
 class PlaidTransferSandboxSimulationWizard(models.TransientModel):
     _name = "plaid.transfer.sandbox.simulation.wizard"
 
-    command = fields.Selection(
-        selection=SANDBOX_COMMANDS, string="Command", required=True
-    )
+    command = fields.Selection(selection=SANDBOX_COMMANDS, required=True)
 
     transfer_id = fields.Many2one("plaid.transfer", string="Transfer")
     event_type = fields.Selection(
@@ -21,7 +19,7 @@ class PlaidTransferSandboxSimulationWizard(models.TransientModel):
             ("settled", _("Success")),
         ]
     )
-    failure_reason = fields.Char(string="Failure Reason", default=" ")
+    failure_reason = fields.Char(default=" ")
     company_id = fields.Many2one(
         "res.company", default=lambda self: self.env.user.company_id.id
     )

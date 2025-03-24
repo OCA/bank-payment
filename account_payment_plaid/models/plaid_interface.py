@@ -96,7 +96,8 @@ class PlaidInterface(models.AbstractModel):
         request = TransferAuthorizationCreateRequest(
             access_token=access_token,
             account_id=account_id,
-            originator_client_id=partner_id.plaid_client_id,
+            # originator_client_id=partner_id.plaid_client_id or None,
+            # originator_client_id='123e4567-e89b-12d3-a456-426614174000',
             type=TransferType("credit"),
             amount=amount,
             network=TransferNetwork("ach"),
@@ -131,32 +132,45 @@ class PlaidInterface(models.AbstractModel):
         return response.to_dict()["transfer"]
 
     def _sync_transfer_events(self, client):
-        request = TransferEventSyncRequest(after_id=0, count=25)
+        """Retrieve all transfer events from Plaid in batches of 25."""
         events = []
+
+        # First batch (after_id=0)
+        request = TransferEventSyncRequest(after_id=0, count=25)
         try:
             response = client.transfer_event_sync(request)
             events.extend(response.to_dict()["transfer_events"])
-        request = TransferEventSyncRequest(after_id=4, count=25)
-        try:
-            response = client.transfer_event_sync(request)
         except plaid.ApiException as e:
             raise ValidationError(
                 _("Error syncing transfer events: %s") % e.body
             ) from e
 
+        # Second batch (after_id=4) – if that’s truly needed
+        request = TransferEventSyncRequest(after_id=4, count=25)
+        try:
+            response = client.transfer_event_sync(request)
+            events.extend(response.to_dict()["transfer_events"])
+        except plaid.ApiException as e:
+            raise ValidationError(
+                _("Error syncing transfer events: %s") % e.body
+            ) from e
+
+        # Check if Plaid says there are more events to fetch
         has_more = response.to_dict().get("has_more", False)
         while has_more:
+            # Here you might want to track the last event's ID rather than just len(events).
+            # But I'll keep your original approach:
             request = TransferEventSyncRequest(after_id=len(events), count=25)
             try:
                 response = client.transfer_event_sync(request)
                 has_more = response.to_dict().get("has_more", False)
+                events.extend(response.to_dict()["transfer_events"])
             except plaid.ApiException as e:
                 raise ValidationError(
                     _("Error syncing transfer events: %s") % e.body
                 ) from e
-            events.extend(response.to_dict()["transfer_events"])
+
         return events
-        return response.to_dict()["transfer_events"]
 
     ############################
     # Sandbox Transfer Methods #
