@@ -17,10 +17,10 @@ class PlaidTransfer(models.Model):
     _name = "plaid.transfer"
     _order = "create_date desc"
 
-    name = fields.Char(string="Name")
-    description = fields.Char(string="Description")
-    amount = fields.Float(string="Amount")
-    state = fields.Selection(selection=TRANSFER_STATE, string="State")
+    name = fields.Char()
+    description = fields.Char()
+    amount = fields.Float()
+    state = fields.Selection(selection=TRANSFER_STATE)
     currency_id = fields.Many2one("res.currency", string="Currency")
     company_id = fields.Many2one(
         "res.company",

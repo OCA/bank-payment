@@ -31,7 +31,6 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         related="company_id.plaid_host",
         default="sand",
-        related="company_id.plaid_host",
         config_parameter="plaid_connector.plaid_host",
     )
 

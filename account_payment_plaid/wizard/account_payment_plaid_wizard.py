@@ -7,9 +7,9 @@ class AccountPaymentPlaidWizard(models.TransientModel):
 
     partner_id = fields.Many2one("res.partner", string="Vendor")
     account_move_id = fields.Many2one("account.move", string="Account Move")
-    amount = fields.Monetary(string="Amount")
+    amount = fields.Monetary()
     currency_id = fields.Many2one("res.currency", string="Currency")
-    description = fields.Char(string="Description")
+    description = fields.Char()
     company_id = fields.Many2one("res.company", string="Company")
 
     def _create_transfer(self, transfer):
@@ -28,13 +28,11 @@ class AccountPaymentPlaidWizard(models.TransientModel):
     def _verify_plaid_auth(self, decision):
         if decision["decision"] != "approved":
             raise ValidationError(
-                _(
-                    "%s: %s"
-                    % (
-                        decision["decision_rationale"]["code"],
-                        decision["decision_rationale"]["description"],
-                    )
-                )
+                _("%(code)s: %(description)s")
+                % {
+                    "code": decision["decision_rationale"]["code"],
+                    "description": decision["decision_rationale"]["description"],
+                }
             )
         return decision["authorization_id"]
 
