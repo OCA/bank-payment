@@ -6,10 +6,12 @@
 
 from datetime import timedelta
 
-from odoo import fields
-from odoo.tests.common import Form, tagged
+from odoo import Command, fields
+from odoo.tests import Form
+from odoo.tests.common import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 @tagged("post_install", "-at_install")
@@ -17,16 +19,10 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(
-            context=dict(
-                cls.env.context,
-                mail_create_nolog=True,
-                mail_create_nosubscribe=True,
-                mail_notrack=True,
-                no_reset_password=True,
-                tracking_disable=True,
-            )
+        cls.env.ref("account_payment_order.group_account_payment").write(
+            {"users": [(4, cls.env.user.id)]}
         )
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.bank_journal = cls.env["account.journal"].create(
             {"name": "Test Bank Journal", "type": "bank"}
         )
@@ -36,11 +32,10 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
                 "date": "2024-01-01",
                 "invoice_date": "2024-01-01",
                 "partner_id": cls.partner_a.id,
-                "currency_id": cls.currency_data["currency"].id,
+                "currency_id": cls.currency.id,
+                "payment_mode_id": False,
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": cls.product_a.id,
                             "price_unit": 1000.0,
@@ -86,9 +81,8 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
                     (4, self.invoice.journal_id.id),
                 ],
                 "partner_ids": [(4, self.partner_a.id)],
-                "allow_blocked": True,
                 "date_type": "move",
-                "move_date": fields.Date.today() + timedelta(days=1),
+                "filter_date": fields.Date.today() + timedelta(days=1),
                 "payment_mode": "any",
                 "invoice": True,
                 "include_returned": True,

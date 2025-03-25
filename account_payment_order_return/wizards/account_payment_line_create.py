@@ -10,10 +10,10 @@ class AccountPaymentLineCreate(models.TransientModel):
 
     include_returned = fields.Boolean(string="Include move lines from returns")
 
-    def _prepare_move_line_domain(self):
-        domain = super()._prepare_move_line_domain()
+    def _compute_move_line_domain(self):
+        res = super()._compute_move_line_domain()
         if not self.include_returned:
-            domain += [
+            self.move_line_domain += [
                 ("move_id.returned_payment", "=", False),
             ]
-        return domain
+        return res
