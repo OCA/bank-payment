@@ -2,30 +2,25 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, fields
+from odoo import Command, _, fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.fields import Date
-from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests import Form, tagged
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
 @tagged("-at_install", "post_install")
-class TestAccountPaymentPartner(TransactionCase):
+class TestAccountPaymentPartner(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
-
         cls.res_users_model = cls.env["res.users"]
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]
         cls.payment_mode_model = cls.env["account.payment.mode"]
         cls.partner_bank_model = cls.env["res.partner.bank"]
-
         # Refs
         cls.company = cls.env.ref("base.main_company")
-
         cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
         chart = cls.env["account.chart.template"]._guess_chart_template(
             cls.company.country_id
@@ -41,7 +36,6 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
         cls.manual_out.bank_account_required = True
         cls.manual_in = cls.env.ref("account.account_payment_method_manual_in")
-
         cls.journal_sale = cls.env["account.journal"].create(
             {
                 "name": "Test Sales Journal",
@@ -50,7 +44,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
-
         cls.journal_purchase = cls.env["account.journal"].create(
             {
                 "name": "Test Purchases Journal",
@@ -59,7 +52,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
-
         cls.journal_c1 = cls.journal_model.create(
             {
                 "name": "J1",
@@ -69,7 +61,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "bank_acc_number": "123456",
             }
         )
-
         cls.journal_c2 = cls.journal_model.create(
             {
                 "name": "J2",
@@ -79,7 +70,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "bank_acc_number": "552344",
             }
         )
-
         cls.supplier_payment_mode = cls.payment_mode_model.create(
             {
                 "name": "Suppliers Bank 1",
@@ -91,7 +81,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
             }
         )
-
         cls.supplier_payment_mode_c2 = cls.payment_mode_model.create(
             {
                 "name": "Suppliers Bank 2",
@@ -102,7 +91,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 "variable_journal_ids": [(6, 0, [cls.journal_c2.id])],
             }
         )
-
         cls.customer_payment_mode = cls.payment_mode_model.create(
             {
                 "name": "Customers to Bank 1",
@@ -117,7 +105,6 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.supplier_payment_mode.write(
             {"refund_payment_mode_id": cls.customer_payment_mode.id}
         )
-
         cls.customer = (
             cls.env["res.partner"]
             .with_company(cls.company.id)
@@ -128,7 +115,6 @@ class TestAccountPaymentPartner(TransactionCase):
                 }
             )
         )
-
         cls.supplier = (
             cls.env["res.partner"]
             .with_company(cls.company.id)
@@ -148,18 +134,17 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.supplier.with_company(
             cls.company_2.id
         ).supplier_payment_mode_id = cls.supplier_payment_mode_c2
-
         cls.invoice_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "liability_payable"),
-                ("company_id", "in", cls.company.id),
+                ("company_ids", "in", cls.company.ids),
             ],
             limit=1,
         )
         cls.invoice_line_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "expense"),
-                ("company_id", "in", cls.company.id),
+                ("company_ids", "in", cls.company.ids),
             ],
             limit=1,
         )
@@ -212,7 +197,7 @@ class TestAccountPaymentPartner(TransactionCase):
             self.env["account.move"].with_context(default_move_type=default_move_type)
         )
         move_form.partner_id = partner
-        move_form.invoice_date = Date.today()
+        move_form.invoice_date = fields.Date.today()
         with move_form.invoice_line_ids.new() as line_form:
             line_form.product_id = self.product
             line_form.name = "product that cost 100"
@@ -351,9 +336,7 @@ class TestAccountPaymentPartner(TransactionCase):
                 "ref": "reference",
                 "state": "draft",
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": self.invoice_account.id,
                             "credit": 1000,
@@ -362,9 +345,7 @@ class TestAccountPaymentPartner(TransactionCase):
                             "ref": "reference",
                         },
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": self.invoice_line_account.id,
                             "credit": 0,
