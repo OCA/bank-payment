@@ -10,10 +10,16 @@
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
             <field name="property_payment_term_id" position="after">
-                <field name="customer_payment_mode_id" widget="selection" />
+                <field
+                    name="customer_payment_mode_id"
+                    options="{'no_open': True, 'no_create': True}"
+                />
             </field>
             <field name="property_supplier_payment_term_id" position="after">
-                <field name="supplier_payment_mode_id" widget="selection" />
+                <field
+                    name="supplier_payment_mode_id"
+                    options="{'no_open': True, 'no_create': True}"
+                />
             </field>
         </field>
     </record>

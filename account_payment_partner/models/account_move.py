@@ -21,17 +21,12 @@ class AccountMove(models.Model):
         store=True,
         ondelete="restrict",
         readonly=False,
+        precompute=True,
         check_company=True,
         tracking=True,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
-    )
-    partner_bank_id = fields.Many2one(
-        compute="_compute_partner_bank_id",
-        store=True,
-        ondelete="restrict",
-        readonly=False,
     )
     has_reconciled_items = fields.Boolean(
         help="Technical field for supporting the editability of the payment mode",
@@ -160,6 +155,7 @@ class AccountMove(models.Model):
                 return self.payment_mode_id.variable_journal_ids.mapped(
                     "bank_account_id"
                 )
+        # TODO: move this code to the account_banking_mandate module
         if (
             self.payment_mode_id.payment_method_id.code == "sepa_direct_debit"
         ):  # pragma: no cover
