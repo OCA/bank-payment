@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="group_show_account_payment_method" model="res.groups">
+        <field name="name">Show the default payment method line in contacts</field>
+    </record>
+</odoo>
