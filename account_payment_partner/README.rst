@@ -30,12 +30,12 @@ Account Payment Partner
 
 This module adds several fields:
 
--  the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
--  the *Payment Mode* on Invoices.
--  the *Show bank account* on Payment Mode.
--  the *# of digits for customer bank account* on Payment Mode.
--  the *Bank account from journals* on Payment Mode.
--  the *Payment mode* on Invoices Analysis.
+- the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
+- the *Payment Mode* on Invoices.
+- the *Show bank account* on Payment Mode.
+- the *# of digits for customer bank account* on Payment Mode.
+- the *Bank account from journals* on Payment Mode.
+- the *Payment mode* on Invoices Analysis.
 
 On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices
 will be filtered per Payment Mode.
@@ -70,8 +70,8 @@ Changelog
 10.0.1.2.0 (2018-05-24)
 -----------------------
 
--  [IMP] Add options to show partner bank account in invoice report
-   (`#458 <https://github.com/OCA/bank-payment/issues/458>`__)
+- [IMP] Add options to show partner bank account in invoice report
+  (`#458 <https://github.com/OCA/bank-payment/issues/458>`__)
 
 Bug Tracker
 ===========
@@ -95,25 +95,25 @@ Authors
 Contributors
 ------------
 
--  Alexis de Lattre <alexis.delattre@akretion.com>
--  Raphaël Valyi
--  Stefan Rijnhart (Therp)
--  Alexandre Fayolle
--  Stéphane Bidoul <stephane.bidoul@acsone.eu>
--  Danimar Ribeiro
--  Angel Moya <angel.moya@domatix.com>
--  `Tecnativa <https://www.tecnativa.com>`__:
+- Alexis de Lattre <alexis.delattre@akretion.com>
+- Raphaël Valyi
+- Stefan Rijnhart (Therp)
+- Alexandre Fayolle
+- Stéphane Bidoul <stephane.bidoul@acsone.eu>
+- Danimar Ribeiro
+- Angel Moya <angel.moya@domatix.com>
+- `Tecnativa <https://www.tecnativa.com>`__:
 
-   -  Pedro M. Baeza
-   -  Carlos Dauden
-   -  Víctor Martínez
+  - Pedro M. Baeza
+  - Carlos Dauden
+  - Víctor Martínez
 
--  `DynApps <https://www.dynapps.be>`__:
+- `DynApps <https://www.dynapps.be>`__:
 
-   -  Raf Ven <raf.ven@dynapps.be>
+  - Raf Ven <raf.ven@dynapps.be>
 
--  Marçal Isern <marsal.isern@qubiq.es>
--  Miquel Alzanillas <malzanillas@apsl.net>
+- Marçal Isern <marsal.isern@qubiq.es>
+- Miquel Alzanillas <malzanillas@apsl.net>
 
 Maintainers
 -----------
