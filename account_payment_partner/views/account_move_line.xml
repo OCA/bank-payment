@@ -11,8 +11,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='analytic_distribution']/.." position="after">
                 <group name="payments" string="Payments">
-                    <field name="account_type" invisible="1" />
-                    <field name="reconciled" invisible="1" />
                     <field
                         name="payment_mode_id"
                         force_save="1"
@@ -29,8 +27,6 @@
         <field name="inherit_id" ref="account.view_move_line_tree" />
         <field name="arch" type="xml">
             <field name="date_maturity" position="after">
-                <field name="account_type" invisible="1" />
-                <field name="reconciled" invisible="1" />
                 <field
                     name="payment_mode_id"
                     optional="hide"

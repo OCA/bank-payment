@@ -5,7 +5,7 @@
 from odoo import _, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Date
-from odoo.tests.common import Form, TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
@@ -124,7 +124,7 @@ class TestAccountPaymentPartner(TransactionCase):
             .create(
                 {
                     "name": "Test customer",
-                    "customer_payment_mode_id": cls.customer_payment_mode,
+                    "customer_payment_mode_id": cls.customer_payment_mode.id,
                 }
             )
         )
@@ -135,7 +135,7 @@ class TestAccountPaymentPartner(TransactionCase):
             .create(
                 {
                     "name": "Test supplier",
-                    "supplier_payment_mode_id": cls.supplier_payment_mode,
+                    "supplier_payment_mode_id": cls.supplier_payment_mode.id,
                 }
             )
         )
@@ -152,14 +152,14 @@ class TestAccountPaymentPartner(TransactionCase):
         cls.invoice_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "liability_payable"),
-                ("company_id", "=", cls.company.id),
+                ("company_id", "in", cls.company.id),
             ],
             limit=1,
         )
         cls.invoice_line_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "expense"),
-                ("company_id", "=", cls.company.id),
+                ("company_id", "in", cls.company.id),
             ],
             limit=1,
         )
@@ -227,7 +227,7 @@ class TestAccountPaymentPartner(TransactionCase):
             .create(
                 {
                     "name": "Test customer",
-                    "customer_payment_mode_id": self.customer_payment_mode,
+                    "customer_payment_mode_id": self.customer_payment_mode.id,
                 }
             )
         )
