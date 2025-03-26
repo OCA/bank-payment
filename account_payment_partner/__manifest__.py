@@ -15,6 +15,7 @@
     "development_status": "Mature",
     "depends": ["account_payment_mode"],
     "data": [
+        "security/account_payment_partner_security.xml",
         "views/res_partner_view.xml",
         "views/account_move_view.xml",
         "views/account_move_line.xml",

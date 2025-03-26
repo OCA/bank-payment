@@ -21,6 +21,19 @@
                     options="{'no_open': True, 'no_create': True}"
                 />
             </field>
+            <field name="property_inbound_payment_method_line_id" position="attributes">
+                <attribute
+                    name="groups"
+                >account_payment_partner.group_show_account_payment_method</attribute>
+            </field>
+            <field
+                name="property_outbound_payment_method_line_id"
+                position="attributes"
+            >
+                <attribute
+                    name="groups"
+                >account_payment_partner.group_show_account_payment_method</attribute>
+            </field>
         </field>
     </record>
 </odoo>
