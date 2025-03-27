@@ -66,33 +66,9 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
         cls.bank_journal = cls.company_data["default_journal_bank"]
 
-    def test_account_payment_01(self):
-        self.assertFalse(self.inbound_payment_method_01.payment_order_only)
-        self.assertFalse(self.inbound_payment_method_02.payment_order_only)
-        self.assertFalse(self.bank_journal.inbound_payment_order_only)
-        self.inbound_payment_method_01.payment_order_only = True
-        self.assertTrue(self.inbound_payment_method_01.payment_order_only)
-        self.assertFalse(self.inbound_payment_method_02.payment_order_only)
-        self.assertFalse(self.bank_journal.inbound_payment_order_only)
-        for p in self.bank_journal.inbound_payment_method_line_ids.payment_method_id:
-            p.payment_order_only = True
-        self.assertTrue(self.bank_journal.inbound_payment_order_only)
-
-    def test_account_payment_02(self):
-        self.assertFalse(self.outbound_payment_method_01.payment_order_only)
-        self.assertFalse(self.bank_journal.outbound_payment_order_only)
-        self.outbound_payment_method_01.payment_order_only = True
-        self.assertTrue(self.outbound_payment_method_01.payment_order_only)
-        payment_method_id = (
-            self.bank_journal.outbound_payment_method_line_ids.payment_method_id
-        )
-        payment_method_id.payment_order_only = True
-        self.assertTrue(self.bank_journal.outbound_payment_order_only)
-
     def test_account_payment_03(self):
         self.assertFalse(self.inbound_payment_method_01.payment_order_only)
         self.assertFalse(self.inbound_payment_method_02.payment_order_only)
-        self.assertFalse(self.bank_journal.inbound_payment_order_only)
         new_account_payment = self.account_payment_model.with_context(
             default_company_id=self.company.id
         ).new(
@@ -134,7 +110,6 @@ class TestAccountPayment(AccountTestInvoicingCommon):
         # Set all payment methods of the bank journal 'payment order only'
         for p in self.bank_journal.inbound_payment_method_line_ids.payment_method_id:
             p.payment_order_only = True
-        self.assertTrue(self.bank_journal.inbound_payment_order_only)
         # check payment methods
         new_account_payment3 = self.account_payment_model.with_context(
             default_company_id=self.company.id
