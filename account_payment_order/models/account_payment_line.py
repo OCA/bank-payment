@@ -221,7 +221,7 @@ class AccountPaymentLine(models.Model):
         """
         order = self.order_id
         journal = order.journal_id
-        if journal == order.payment_method_line_id.journal_id:
+        if order.payment_method_line_id.bank_account_link == "fixed":
             method_line_id = order.payment_method_line_id.id
         else:
             method_line = self.env["account.payment.method.line"].search(
@@ -229,14 +229,16 @@ class AccountPaymentLine(models.Model):
                     ("company_id", "=", order.company_id.id),
                     ("journal_id", "=", order.journal_id.id),
                     ("payment_method_id", "=", order.payment_method_id.id),
+                    ("bank_account_link", "=", "fixed"),
                 ],
                 limit=1,
             )
             if not method_line:
                 raise UserError(
                     _(
-                        "No payment mode linked to journal '%(journal)s' with payment "
-                        "method '%(payment_method)s'. You must create one.",
+                        "No payment mode with a fixed link to journal '%(journal)s' "
+                        "with payment method '%(payment_method)s'. "
+                        "You must create one.",
                         journal=journal.display_name,
                         payment_method=order.payment_method_id.display_name,
                     )
@@ -245,21 +247,27 @@ class AccountPaymentLine(models.Model):
         vals = {
             "payment_type": order.payment_type,
             "partner_id": self.partner_id.id,
-            "destination_account_id": self.move_line_id.account_id.id,
+            "destination_account_id": self.move_line_id.account_id.id or False,
             "company_id": order.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
             "date": self[:1].date,
             "currency_id": self.currency_id.id,
             "memo": order.name,
-            # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
-            # the sequence for all the payment at the same time
-            "name": "/",
             "payment_reference": " - ".join([line.communication for line in self]),
             "journal_id": journal.id,
             "partner_bank_id": self.partner_bank_id.id,
             "payment_order_id": order.id,
             "payment_line_ids": [Command.set(self.ids)],
             "payment_method_line_id": method_line_id,
+            "invoice_ids": [
+                Command.set(
+                    [
+                        pline.move_line_id.move_id.id
+                        for pline in self
+                        if pline.move_line_id
+                    ]
+                )
+            ],
         }
         # Determine partner_type
         move_type = self[:1].move_line_id.move_id.move_type

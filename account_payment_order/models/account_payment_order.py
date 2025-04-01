@@ -472,14 +472,16 @@ class AccountPaymentOrder(models.Model):
     def generated2uploaded(self):
         self.payment_ids.action_post()
         # Perform the reconciliation of payments and source journal items
+        # Reminder : in v18, account.payment doesn't always have a move_id
         for payment in self.payment_ids:
-            lines_to_rec = self.env["account.move.line"]
-            for line in (
-                payment.payment_line_ids.move_line_id + payment.move_id.line_ids
-            ):
-                if line.account_id.id == payment.destination_account_id.id:
-                    lines_to_rec |= line
-            lines_to_rec.reconcile()
+            if payment.move_id:
+                lines_to_rec = self.env["account.move.line"]
+                for line in (
+                    payment.payment_line_ids.move_line_id + payment.move_id.line_ids
+                ):
+                    if line.account_id.id == payment.destination_account_id.id:
+                        lines_to_rec |= line
+                lines_to_rec.reconcile()
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
