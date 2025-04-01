@@ -11,8 +11,6 @@ from odoo.exceptions import ValidationError
 
 class AccountPaymentMethodLine(models.Model):
     _inherit = "account.payment.method.line"
-    # native order: sequence, id
-    _order = "active desc, sequence, id"
     _check_company_auto = True
 
     # START inherit of native fields
@@ -32,11 +30,12 @@ class AccountPaymentMethodLine(models.Model):
     # END inherit of native fields
     # Here is the strategy to support bank_account_link = variable
     # without breaking the native behavior
-    # company_id is a related of journal_id.company_id
+    # In the account module, company_id is a related of journal_id.company_id
+    # In this module, company_id becomes a computed field
     # When bank_account_link = 'fixed' => we use journal_id
     # When bank_account_link = 'variable':
-    # - journal_id is empty
     # - variable_journal_ids has the list of allowed journals on payment order
+    # - journal_id is optional ; it is a "default journal"
     filter_journal_ids = fields.Many2many(
         "account.journal", compute="_compute_filter_journal_ids"
     )
@@ -125,6 +124,19 @@ class AccountPaymentMethodLine(models.Model):
                         name=line.display_name,
                     )
                 )
+            if (
+                line.bank_account_link == "variable"
+                and line.journal_id
+                and line.journal_id not in line.variable_journal_ids
+            ):
+                raise ValidationError(
+                    _(
+                        "On %(name)s, the default journal '%(default_journal)s' is "
+                        "not part of the allowed bank journals.",
+                        name=line.display_name,
+                        default_journal=line.journal_id.display_name,
+                    )
+                )
             if line.payment_method_id.bank_account_required:
                 if line.bank_account_link == "variable":
                     for journal in line.variable_journal_ids:
@@ -172,3 +184,12 @@ class AccountPaymentMethodLine(models.Model):
             else:
                 domain.append(("type", "in", ("bank", "cash", "credit")))
             line.filter_journal_ids = self.env["account.journal"].search(domain).ids
+
+    def _compute_display_name(self):
+        if self.env.context.get("hide_payment_journal_id"):
+            return super()._compute_display_name()
+        for line in self:
+            if line.bank_account_link == "fixed" and line.journal_id:
+                line.display_name = f"{line.name} ({line.journal_id.name})"
+            else:
+                line.display_name = f"{line.name}"

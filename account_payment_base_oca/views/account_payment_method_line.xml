@@ -5,7 +5,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <!-- There is no form view of account.payment.method.line -->
+    <!-- There is no native form view of account.payment.method.line -->
     <record id="account_payment_method_line_form" model="ir.ui.view">
         <field name="name">account.payment.method.line.form</field>
         <field name="model">account.payment.method.line</field>
@@ -40,12 +40,18 @@
                         <field
                             name="journal_id"
                             required="bank_account_link == 'fixed'"
+                            invisible="bank_account_link != 'fixed'"
                         />
                         <field
                             name="variable_journal_ids"
                             invisible="bank_account_link != 'variable'"
                             required="bank_account_link == 'variable'"
                             widget="many2many_tags"
+                        />
+                        <field
+                            name="journal_id"
+                            invisible="bank_account_link != 'variable'"
+                            string="Default Journal"
                         />
                         <field name="refund_payment_method_line_id" />
                         <field name="payment_account_id" />
