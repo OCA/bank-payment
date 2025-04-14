@@ -67,5 +67,6 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
                 for x in grouped_moves.line_ids
             )
         )
+        self.assertEqual(self.order.grouped_move_count, 1)
         self.order.action_uploaded_cancel()
-        self.assertFalse(len(self.order.grouped_move_ids) > 0)
+        self.assertFalse(self.order.grouped_move_count)
