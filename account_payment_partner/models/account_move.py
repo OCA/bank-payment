@@ -155,14 +155,6 @@ class AccountMove(models.Model):
                 return self.payment_mode_id.variable_journal_ids.mapped(
                     "bank_account_id"
                 )
-        # TODO: move this code to the account_banking_mandate module
-        if (
-            self.payment_mode_id.payment_method_id.code == "sepa_direct_debit"
-        ):  # pragma: no cover
-            return (
-                self.mandate_id.partner_bank_id
-                or self.partner_id.valid_mandate_id.partner_bank_id
-            )
         # Return this as empty recordset
         return self.partner_bank_id
 
