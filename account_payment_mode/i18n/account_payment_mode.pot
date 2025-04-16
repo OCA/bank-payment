@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -176,7 +176,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
 " bank journal is not set"
@@ -185,7 +184,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
 "in fact a debit method), but this debit method is not part of the debit "
@@ -195,7 +193,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
 "this payment method is not part of the payment methods of the fixed bank "
@@ -210,7 +207,6 @@ msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Payment Method"
 msgstr ""
@@ -220,11 +216,6 @@ msgstr ""
 #: model:ir.model,name:account_payment_mode.model_account_payment_method
 #: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
 msgid "Payment Methods"
-msgstr ""
-
-#. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
-msgid "Payment Mode"
 msgstr ""
 
 #. module: account_payment_mode
@@ -246,16 +237,6 @@ msgid "Payment modes"
 msgstr ""
 
 #. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-msgid "Search Payment Methods"
-msgstr ""
-
-#. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
-msgid "Search Payment Modes"
-msgstr ""
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__sequence
 msgid "Sequence"
 msgstr ""
@@ -263,7 +244,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
-#, python-format
 msgid ""
 "The company of the journal  %(journal)s does not match with the company of "
 "the payment mode  %(paymode)s where it is being used in the Allowed Bank "
@@ -273,7 +253,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
-#, python-format
 msgid ""
 "The company of the journal %(journal)s does not match with the company of "
 "the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
@@ -282,7 +261,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "The company of the payment mode %(paymode)s, does not match with one of the "
 "Allowed Bank Journals."
