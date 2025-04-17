@@ -31,9 +31,9 @@ class SaleOrder(models.Model):
                 self.payment_mode_id.bank_account_link == "fixed"
                 and self.payment_mode_id.payment_method_id.code == "manual"
             ):
-                vals[
-                    "partner_bank_id"
-                ] = self.payment_mode_id.fixed_journal_id.bank_account_id.id
+                vals["partner_bank_id"] = (
+                    self.payment_mode_id.fixed_journal_id.bank_account_id.id
+                )
 
     def _prepare_invoice(self):
         """Copy bank partner from sale order to invoice"""

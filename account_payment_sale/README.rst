@@ -17,13 +17,13 @@ Account Payment Sale
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
-    :target: https://github.com/OCA/bank-payment/tree/17.0/account_payment_sale
+    :target: https://github.com/OCA/bank-payment/tree/18.0/account_payment_sale
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/bank-payment-17-0/bank-payment-17-0-account_payment_sale
+    :target: https://translation.odoo-community.org/projects/bank-payment-18-0/bank-payment-18-0-account_payment_sale
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -51,7 +51,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_sale%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_sale%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -67,14 +67,14 @@ Authors
 Contributors
 ------------
 
-- Pedro M. Baeza
-- Alexis de Lattre <alexis.delattre@akretion.com>
-- Alexandre Fayolle
-- Danimar Ribeiro
-- Raphaël Valyi
-- Raf Ven <raf.ven@dynapps.be>
-- Manuel Regidor <manuel.regidor@sygel.es>
-- Sodexis <dev@sodexis.com>
+-  Pedro M. Baeza
+-  Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexandre Fayolle
+-  Danimar Ribeiro
+-  Raphaël Valyi
+-  Raf Ven <raf.ven@dynapps.be>
+-  Manuel Regidor <manuel.regidor@sygel.es>
+-  Sodexis <dev@sodexis.com>
 
 Maintainers
 -----------
@@ -89,6 +89,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/17.0/account_payment_sale>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/18.0/account_payment_sale>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
