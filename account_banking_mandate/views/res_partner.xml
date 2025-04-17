@@ -13,6 +13,7 @@
                 <button
                     type="action"
                     class="btn-link"
+                    colspan="2"
                     name="%(account_banking_mandate.mandate_action)d"
                     context="{'search_default_partner_id': id, 'default_partner_id': id}"
                 >
