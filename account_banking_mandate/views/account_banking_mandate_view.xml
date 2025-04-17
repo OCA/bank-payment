@@ -207,7 +207,6 @@
                         string="Partner"
                         context="{'group_by': 'partner_id'}"
                     />
-
                 </group>
             </search>
         </field>
