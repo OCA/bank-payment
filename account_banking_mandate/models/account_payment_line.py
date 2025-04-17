@@ -62,5 +62,7 @@ class AccountPaymentLine(models.Model):
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
-            raise UserError(_("Missing Mandate on payment line %s") % self.name)
+            raise UserError(
+                self.env._("Missing Mandate on payment line %s") % self.name
+            )
         return res

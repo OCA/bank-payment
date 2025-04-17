@@ -5,13 +5,12 @@ from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestInvoiceMandate(TransactionCase):
+class TestInvoiceMandate(BaseCommon):
     def test_post_invoice_01(self):
         self.assertEqual(self.invoice.mandate_id, self.mandate)
 
@@ -204,7 +203,6 @@ class TestInvoiceMandate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.company = cls.env.ref("base.main_company")
 
         cls.partner = cls._create_res_partner("Peter with ACME Bank")
@@ -259,7 +257,7 @@ class TestInvoiceMandate(TransactionCase):
         cls.invoice_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "asset_receivable"),
-                ("company_id", "=", cls.company.id),
+                ("company_ids", "in", [cls.company.id]),
             ],
             limit=1,
         )
@@ -268,7 +266,7 @@ class TestInvoiceMandate(TransactionCase):
             .search(
                 [
                     ("account_type", "=", "expense"),
-                    ("company_id", "=", cls.company.id),
+                    ("company_ids", "in", [cls.company.id]),
                 ],
                 limit=1,
             )

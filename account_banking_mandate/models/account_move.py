@@ -29,3 +29,15 @@ class AccountMove(models.Model):
                 move.mandate_id = move.partner_id.valid_mandate_id
             else:
                 move.mandate_id = False
+
+    def partner_banks_to_show(self):
+        res = super().partner_banks_to_show()
+        if (
+            not res
+            and self.payment_mode_id.payment_method_id.code == "sepa_direct_debit"
+        ):  # pragma: no cover
+            return (
+                self.mandate_id.partner_bank_id
+                or self.partner_id.valid_mandate_id.partner_bank_id
+            )
+        return res
