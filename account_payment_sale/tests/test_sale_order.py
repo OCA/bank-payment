@@ -3,8 +3,6 @@
 
 from odoo.tests import Form
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
-
 from .common import CommonTestCase
 
 
@@ -12,7 +10,6 @@ class TestSaleOrder(CommonTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
 
     def create_sale_order(self, payment_mode=None):
         with Form(self.env["sale.order"]) as sale_form:
@@ -92,14 +89,6 @@ class TestSaleOrder(CommonTestCase):
             {
                 "advance_payment_method": "fixed",
                 "fixed_amount": 5,
-                "product_id": self.env["product.product"]
-                .create(
-                    {
-                        "name": "Deposit",
-                        "type": "service",
-                    }
-                )
-                .id,
                 "sale_order_ids": order,
             }
         )

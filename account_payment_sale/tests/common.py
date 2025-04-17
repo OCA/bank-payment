@@ -1,16 +1,13 @@
 # Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
-
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class CommonTestCase(TransactionCase):
+class CommonTestCase(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.bank = cls.env["res.partner.bank"].create(
             {"acc_number": "test", "partner_id": cls.env.user.company_id.partner_id.id}
         )
@@ -56,7 +53,7 @@ class CommonTestCase(TransactionCase):
             "prod_order": cls.env["product.product"].create(
                 {
                     "name": "Test product order",
-                    "detailed_type": "consu",
+                    "type": "consu",
                     "list_price": 280,
                     "standard_price": 235,
                 }
@@ -64,7 +61,7 @@ class CommonTestCase(TransactionCase):
             "prod_del": cls.env["product.product"].create(
                 {
                     "name": "Test product delivery",
-                    "detailed_type": "consu",
+                    "type": "consu",
                     "list_price": 70,
                     "standard_price": 55,
                 }
